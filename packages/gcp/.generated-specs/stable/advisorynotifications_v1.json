@@ -8,125 +8,6 @@
     "distilled.finalized": true
   },
   "shapes": {
-    "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1CsvCsvRow": {
-      "type": "structure",
-      "members": {
-        "entries": {
-          "target": "com.gcp.advisorynotifications_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "The data entries in a CSV file row, as a string array rather than a single comma-separated string."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A representation of a single data row in a CSV file."
-      }
-    },
-    "com.gcp.advisorynotifications_v1#StringList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      }
-    },
-    "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Message": {
-      "type": "structure",
-      "members": {
-        "body": {
-          "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1MessageBody",
-          "traits": {
-            "smithy.api#documentation": "The message content."
-          }
-        },
-        "localizationTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Time when Message was localized"
-          }
-        },
-        "createTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The Message creation timestamp."
-          }
-        },
-        "attachments": {
-          "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1AttachmentList",
-          "traits": {
-            "smithy.api#documentation": "The attachments to download."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A message which contains notification details."
-      }
-    },
-    "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1AttachmentList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Attachment"
-      }
-    },
-    "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Settings": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Identifier. The resource name of the settings to retrieve. Format: organizations/{organization}/locations/{location}/settings or projects/{projects}/locations/{location}/settings."
-          }
-        },
-        "etag": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. Fingerprint for optimistic concurrency returned in Get requests. Must be provided for Update requests. If the value provided does not match the value known to the server, ABORTED will be thrown, and the client should retry the read-modify-write cycle."
-          }
-        },
-        "notificationSettings": {
-          "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1NotificationSettingsMap",
-          "traits": {
-            "smithy.api#documentation": "Required. Map of each notification type and its settings to get/set all settings at once. The server will validate the value for each notification type."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Settings for Advisory Notifications."
-      }
-    },
-    "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1NotificationSettingsMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1NotificationSettings"
-      }
-    },
-    "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Csv": {
-      "type": "structure",
-      "members": {
-        "headers": {
-          "target": "com.gcp.advisorynotifications_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "The list of headers for data columns in a CSV file."
-          }
-        },
-        "dataRows": {
-          "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1CsvCsvRowList",
-          "traits": {
-            "smithy.api#documentation": "The list of data rows in a CSV file, as string arrays rather than as a single comma-separated string."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A representation of a CSV file attachment, as a list of column headers and a list of data rows."
-      }
-    },
-    "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1CsvCsvRowList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1CsvCsvRow"
-      }
-    },
     "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1ListNotificationsResponse": {
       "type": "structure",
       "members": {
@@ -136,16 +17,16 @@
             "smithy.api#documentation": "List of notifications under a given parent."
           }
         },
-        "totalSize": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Estimation of a total number of notifications."
-          }
-        },
         "nextPageToken": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages."
+          }
+        },
+        "totalSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Estimation of a total number of notifications."
           }
         }
       },
@@ -159,86 +40,31 @@
         "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Notification"
       }
     },
-    "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Text": {
-      "type": "structure",
-      "members": {
-        "localizedText": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The requested localized copy (if applicable)."
-          }
-        },
-        "localizationState": {
-          "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1TextLocalizationStateEnum",
-          "traits": {
-            "smithy.api#documentation": "Status of the localization."
-          }
-        },
-        "enText": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The English copy."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A text object containing the English text and its localized copies."
-      }
-    },
-    "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1TextLocalizationStateEnum": {
-      "type": "enum",
-      "members": {
-        "LOCALIZATION_STATE_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "LOCALIZATION_STATE_UNSPECIFIED"
-          }
-        },
-        "LOCALIZATION_STATE_NOT_APPLICABLE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "LOCALIZATION_STATE_NOT_APPLICABLE"
-          }
-        },
-        "LOCALIZATION_STATE_PENDING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "LOCALIZATION_STATE_PENDING"
-          }
-        },
-        "LOCALIZATION_STATE_COMPLETED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "LOCALIZATION_STATE_COMPLETED"
-          }
-        }
-      }
-    },
     "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Notification": {
       "type": "structure",
       "members": {
-        "subject": {
-          "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Subject",
-          "traits": {
-            "smithy.api#documentation": "The subject line of the notification."
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The resource name of the notification. Format: organizations/{organization}/locations/{location}/notifications/{notification} or projects/{project}/locations/{location}/notifications/{notification}."
-          }
-        },
         "messages": {
           "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1MessageList",
           "traits": {
             "smithy.api#documentation": "A list of messages in the notification."
           }
         },
+        "subject": {
+          "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Subject",
+          "traits": {
+            "smithy.api#documentation": "The subject line of the notification."
+          }
+        },
         "createTime": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Output only. Time the notification was created."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource name of the notification. Format: organizations/{organization}/locations/{location}/notifications/{notification} or projects/{project}/locations/{location}/notifications/{notification}."
           }
         },
         "notificationType": {
@@ -293,24 +119,39 @@
         }
       }
     },
-    "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Attachment": {
+    "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Settings": {
       "type": "structure",
       "members": {
-        "csv": {
-          "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Csv",
-          "traits": {
-            "smithy.api#documentation": "A CSV file attachment. Max size is 10 MB."
-          }
-        },
-        "displayName": {
+        "etag": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The title of the attachment."
+            "smithy.api#documentation": "Required. Fingerprint for optimistic concurrency returned in Get requests. Must be provided for Update requests. If the value provided does not match the value known to the server, ABORTED will be thrown, and the client should retry the read-modify-write cycle."
+          }
+        },
+        "notificationSettings": {
+          "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1NotificationSettingsMap",
+          "traits": {
+            "smithy.api#documentation": "Required. Map of each notification type and its settings to get/set all settings at once. The server will validate the value for each notification type."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier. The resource name of the settings to retrieve. Format: organizations/{organization}/locations/{location}/settings or projects/{projects}/locations/{location}/settings."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Attachment with specific information about the issue."
+        "smithy.api#documentation": "Settings for Advisory Notifications."
+      }
+    },
+    "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1NotificationSettingsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1NotificationSettings"
       }
     },
     "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1MessageBody": {
@@ -327,6 +168,99 @@
         "smithy.api#documentation": "A message body containing text."
       }
     },
+    "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Message": {
+      "type": "structure",
+      "members": {
+        "attachments": {
+          "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1AttachmentList",
+          "traits": {
+            "smithy.api#documentation": "The attachments to download."
+          }
+        },
+        "localizationTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when Message was localized"
+          }
+        },
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Message creation timestamp."
+          }
+        },
+        "body": {
+          "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1MessageBody",
+          "traits": {
+            "smithy.api#documentation": "The message content."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A message which contains notification details."
+      }
+    },
+    "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1AttachmentList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Attachment"
+      }
+    },
+    "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Text": {
+      "type": "structure",
+      "members": {
+        "localizationState": {
+          "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1TextLocalizationStateEnum",
+          "traits": {
+            "smithy.api#documentation": "Status of the localization."
+          }
+        },
+        "localizedText": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The requested localized copy (if applicable)."
+          }
+        },
+        "enText": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The English copy."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A text object containing the English text and its localized copies."
+      }
+    },
+    "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1TextLocalizationStateEnum": {
+      "type": "enum",
+      "members": {
+        "LOCALIZATION_STATE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LOCALIZATION_STATE_UNSPECIFIED"
+          }
+        },
+        "LOCALIZATION_STATE_NOT_APPLICABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LOCALIZATION_STATE_NOT_APPLICABLE"
+          }
+        },
+        "LOCALIZATION_STATE_PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LOCALIZATION_STATE_PENDING"
+          }
+        },
+        "LOCALIZATION_STATE_COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LOCALIZATION_STATE_COMPLETED"
+          }
+        }
+      }
+    },
     "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Subject": {
       "type": "structure",
       "members": {
@@ -339,6 +273,72 @@
       },
       "traits": {
         "smithy.api#documentation": "A subject line of a notification."
+      }
+    },
+    "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Attachment": {
+      "type": "structure",
+      "members": {
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The title of the attachment."
+          }
+        },
+        "csv": {
+          "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Csv",
+          "traits": {
+            "smithy.api#documentation": "A CSV file attachment. Max size is 10 MB."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Attachment with specific information about the issue."
+      }
+    },
+    "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1CsvCsvRow": {
+      "type": "structure",
+      "members": {
+        "entries": {
+          "target": "com.gcp.advisorynotifications_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "The data entries in a CSV file row, as a string array rather than a single comma-separated string."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A representation of a single data row in a CSV file."
+      }
+    },
+    "com.gcp.advisorynotifications_v1#StringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Csv": {
+      "type": "structure",
+      "members": {
+        "dataRows": {
+          "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1CsvCsvRowList",
+          "traits": {
+            "smithy.api#documentation": "The list of data rows in a CSV file, as string arrays rather than as a single comma-separated string."
+          }
+        },
+        "headers": {
+          "target": "com.gcp.advisorynotifications_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "The list of headers for data columns in a CSV file."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A representation of a CSV file attachment, as a list of column headers and a list of data rows."
+      }
+    },
+    "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1CsvCsvRowList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1CsvCsvRow"
       }
     },
     "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1NotificationSettings": {
@@ -355,22 +355,15 @@
         "smithy.api#documentation": "Settings for each NotificationType."
       }
     },
-    "com.gcp.advisorynotifications_v1#UpdateSettingsOrganizationsLocationsRequest": {
+    "com.gcp.advisorynotifications_v1#GetSettingsOrganizationsLocationsRequest": {
       "type": "structure",
       "members": {
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier. The resource name of the settings to retrieve. Format: organizations/{organization}/locations/{location}/settings or projects/{projects}/locations/{location}/settings.",
+            "smithy.api#documentation": "Required. The resource name of the settings to retrieve. Format: organizations/{organization}/locations/{location}/settings or projects/{projects}/locations/{location}/settings.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
-          }
-        },
-        "body": {
-          "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Settings",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
           }
         }
       }
@@ -399,6 +392,50 @@
             "status": 403
           }
         ]
+      }
+    },
+    "com.gcp.advisorynotifications_v1#GetSettingsOrganizationsLocations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.advisorynotifications_v1#GetSettingsOrganizationsLocationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Settings"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.advisorynotifications_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.advisorynotifications_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Get notification settings."
+      }
+    },
+    "com.gcp.advisorynotifications_v1#UpdateSettingsOrganizationsLocationsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier. The resource name of the settings to retrieve. Format: organizations/{organization}/locations/{location}/settings or projects/{projects}/locations/{location}/settings.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Settings",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
       }
     },
     "com.gcp.advisorynotifications_v1#BadRequest": {
@@ -457,26 +494,33 @@
         "smithy.api#documentation": "Update notification settings."
       }
     },
-    "com.gcp.advisorynotifications_v1#GetSettingsOrganizationsLocationsRequest": {
+    "com.gcp.advisorynotifications_v1#GetOrganizationsLocationsNotificationsRequest": {
       "type": "structure",
       "members": {
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Required. The resource name of the settings to retrieve. Format: organizations/{organization}/locations/{location}/settings or projects/{projects}/locations/{location}/settings.",
+            "smithy.api#documentation": "Required. A name of the notification to retrieve. Format: organizations/{organization}/locations/{location}/notifications/{notification} or projects/{projects}/locations/{location}/notifications/{notification}.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
+          }
+        },
+        "languageCode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO code for requested localization language. If unset, will be interpereted as \"en\". If the requested language is valid, but not supported for this notification, English will be returned with an \"Not applicable\" LocalizationState. If the ISO code is invalid (i.e. not a real language), this RPC will throw an error.",
+            "smithy.api#httpQuery": "languageCode"
           }
         }
       }
     },
-    "com.gcp.advisorynotifications_v1#GetSettingsOrganizationsLocations": {
+    "com.gcp.advisorynotifications_v1#GetOrganizationsLocationsNotifications": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.advisorynotifications_v1#GetSettingsOrganizationsLocationsRequest"
+        "target": "com.gcp.advisorynotifications_v1#GetOrganizationsLocationsNotificationsRequest"
       },
       "output": {
-        "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Settings"
+        "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Notification"
       },
       "errors": [
         {
@@ -491,7 +535,7 @@
           "method": "GET",
           "uri": "v1/{+name}"
         },
-        "smithy.api#documentation": "Get notification settings."
+        "smithy.api#documentation": "Gets a notification."
       }
     },
     "com.gcp.advisorynotifications_v1#ListOrganizationsLocationsNotificationsViewEnum": {
@@ -520,26 +564,19 @@
     "com.gcp.advisorynotifications_v1#ListOrganizationsLocationsNotificationsRequest": {
       "type": "structure",
       "members": {
-        "pageSize": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The maximum number of notifications to return. The service may return fewer than this value. If unspecified or equal to 0, at most 50 notifications will be returned. The maximum value is 50; values above 50 will be coerced to 50.",
-            "smithy.api#httpQuery": "pageSize"
-          }
-        },
-        "languageCode": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "ISO code for requested localization language. If unset, will be interpereted as \"en\". If the requested language is valid, but not supported for this notification, English will be returned with an \"Not applicable\" LocalizationState. If the ISO code is invalid (i.e. not a real language), this RPC will throw an error.",
-            "smithy.api#httpQuery": "languageCode"
-          }
-        },
         "parent": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Required. The parent, which owns this collection of notifications. Must be of the form \"organizations/{organization}/locations/{location}\" or \"projects/{project}/locations/{location}\".",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of notifications to return. The service may return fewer than this value. If unspecified or equal to 0, at most 50 notifications will be returned. The maximum value is 50; values above 50 will be coerced to 50.",
+            "smithy.api#httpQuery": "pageSize"
           }
         },
         "view": {
@@ -554,6 +591,13 @@
           "traits": {
             "smithy.api#documentation": "A page token returned from a previous request. When paginating, all other parameters provided in the request must match the call that returned the page token.",
             "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "languageCode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO code for requested localization language. If unset, will be interpereted as \"en\". If the requested language is valid, but not supported for this notification, English will be returned with an \"Not applicable\" LocalizationState. If the ISO code is invalid (i.e. not a real language), this RPC will throw an error.",
+            "smithy.api#httpQuery": "languageCode"
           }
         }
       }
@@ -586,33 +630,26 @@
         }
       }
     },
-    "com.gcp.advisorynotifications_v1#GetOrganizationsLocationsNotificationsRequest": {
+    "com.gcp.advisorynotifications_v1#GetSettingsProjectsLocationsRequest": {
       "type": "structure",
       "members": {
-        "languageCode": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "ISO code for requested localization language. If unset, will be interpereted as \"en\". If the requested language is valid, but not supported for this notification, English will be returned with an \"Not applicable\" LocalizationState. If the ISO code is invalid (i.e. not a real language), this RPC will throw an error.",
-            "smithy.api#httpQuery": "languageCode"
-          }
-        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Required. A name of the notification to retrieve. Format: organizations/{organization}/locations/{location}/notifications/{notification} or projects/{projects}/locations/{location}/notifications/{notification}.",
+            "smithy.api#documentation": "Required. The resource name of the settings to retrieve. Format: organizations/{organization}/locations/{location}/settings or projects/{projects}/locations/{location}/settings.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
         }
       }
     },
-    "com.gcp.advisorynotifications_v1#GetOrganizationsLocationsNotifications": {
+    "com.gcp.advisorynotifications_v1#GetSettingsProjectsLocations": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.advisorynotifications_v1#GetOrganizationsLocationsNotificationsRequest"
+        "target": "com.gcp.advisorynotifications_v1#GetSettingsProjectsLocationsRequest"
       },
       "output": {
-        "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Notification"
+        "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Settings"
       },
       "errors": [
         {
@@ -627,7 +664,7 @@
           "method": "GET",
           "uri": "v1/{+name}"
         },
-        "smithy.api#documentation": "Gets a notification."
+        "smithy.api#documentation": "Get notification settings."
       }
     },
     "com.gcp.advisorynotifications_v1#UpdateSettingsProjectsLocationsRequest": {
@@ -680,26 +717,33 @@
         "smithy.api#documentation": "Update notification settings."
       }
     },
-    "com.gcp.advisorynotifications_v1#GetSettingsProjectsLocationsRequest": {
+    "com.gcp.advisorynotifications_v1#GetProjectsLocationsNotificationsRequest": {
       "type": "structure",
       "members": {
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Required. The resource name of the settings to retrieve. Format: organizations/{organization}/locations/{location}/settings or projects/{projects}/locations/{location}/settings.",
+            "smithy.api#documentation": "Required. A name of the notification to retrieve. Format: organizations/{organization}/locations/{location}/notifications/{notification} or projects/{projects}/locations/{location}/notifications/{notification}.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
+          }
+        },
+        "languageCode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO code for requested localization language. If unset, will be interpereted as \"en\". If the requested language is valid, but not supported for this notification, English will be returned with an \"Not applicable\" LocalizationState. If the ISO code is invalid (i.e. not a real language), this RPC will throw an error.",
+            "smithy.api#httpQuery": "languageCode"
           }
         }
       }
     },
-    "com.gcp.advisorynotifications_v1#GetSettingsProjectsLocations": {
+    "com.gcp.advisorynotifications_v1#GetProjectsLocationsNotifications": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.advisorynotifications_v1#GetSettingsProjectsLocationsRequest"
+        "target": "com.gcp.advisorynotifications_v1#GetProjectsLocationsNotificationsRequest"
       },
       "output": {
-        "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Settings"
+        "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Notification"
       },
       "errors": [
         {
@@ -714,7 +758,7 @@
           "method": "GET",
           "uri": "v1/{+name}"
         },
-        "smithy.api#documentation": "Get notification settings."
+        "smithy.api#documentation": "Gets a notification."
       }
     },
     "com.gcp.advisorynotifications_v1#ListProjectsLocationsNotificationsViewEnum": {
@@ -743,11 +787,11 @@
     "com.gcp.advisorynotifications_v1#ListProjectsLocationsNotificationsRequest": {
       "type": "structure",
       "members": {
-        "pageSize": {
-          "target": "smithy.api#Integer",
+        "pageToken": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The maximum number of notifications to return. The service may return fewer than this value. If unspecified or equal to 0, at most 50 notifications will be returned. The maximum value is 50; values above 50 will be coerced to 50.",
-            "smithy.api#httpQuery": "pageSize"
+            "smithy.api#documentation": "A page token returned from a previous request. When paginating, all other parameters provided in the request must match the call that returned the page token.",
+            "smithy.api#httpQuery": "pageToken"
           }
         },
         "view": {
@@ -757,19 +801,11 @@
             "smithy.api#httpQuery": "view"
           }
         },
-        "parent": {
-          "target": "smithy.api#String",
+        "pageSize": {
+          "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Required. The parent, which owns this collection of notifications. Must be of the form \"organizations/{organization}/locations/{location}\" or \"projects/{project}/locations/{location}\".",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "pageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A page token returned from a previous request. When paginating, all other parameters provided in the request must match the call that returned the page token.",
-            "smithy.api#httpQuery": "pageToken"
+            "smithy.api#documentation": "The maximum number of notifications to return. The service may return fewer than this value. If unspecified or equal to 0, at most 50 notifications will be returned. The maximum value is 50; values above 50 will be coerced to 50.",
+            "smithy.api#httpQuery": "pageSize"
           }
         },
         "languageCode": {
@@ -777,6 +813,14 @@
           "traits": {
             "smithy.api#documentation": "ISO code for requested localization language. If unset, will be interpereted as \"en\". If the requested language is valid, but not supported for this notification, English will be returned with an \"Not applicable\" LocalizationState. If the ISO code is invalid (i.e. not a real language), this RPC will throw an error.",
             "smithy.api#httpQuery": "languageCode"
+          }
+        },
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The parent, which owns this collection of notifications. Must be of the form \"organizations/{organization}/locations/{location}\" or \"projects/{project}/locations/{location}\".",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
           }
         }
       }
@@ -807,50 +851,6 @@
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"
         }
-      }
-    },
-    "com.gcp.advisorynotifications_v1#GetProjectsLocationsNotificationsRequest": {
-      "type": "structure",
-      "members": {
-        "languageCode": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "ISO code for requested localization language. If unset, will be interpereted as \"en\". If the requested language is valid, but not supported for this notification, English will be returned with an \"Not applicable\" LocalizationState. If the ISO code is invalid (i.e. not a real language), this RPC will throw an error.",
-            "smithy.api#httpQuery": "languageCode"
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. A name of the notification to retrieve. Format: organizations/{organization}/locations/{location}/notifications/{notification} or projects/{projects}/locations/{location}/notifications/{notification}.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.gcp.advisorynotifications_v1#GetProjectsLocationsNotifications": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.advisorynotifications_v1#GetProjectsLocationsNotificationsRequest"
-      },
-      "output": {
-        "target": "com.gcp.advisorynotifications_v1#GoogleCloudAdvisorynotificationsV1Notification"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.advisorynotifications_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.advisorynotifications_v1#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v1/{+name}"
-        },
-        "smithy.api#documentation": "Gets a notification."
       }
     }
   }

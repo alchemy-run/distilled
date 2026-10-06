@@ -35,7 +35,7 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** * `anthropic` - Anthropic * `apns` - Apple Push * `aws-redshift` - Aws Redshift * `aws-s3` - Aws S3 * `azure-blob` - Azure Blob * `bing-ads` - Bing Ads * `clickup` - Clickup * `customerio-app` - Customerio App * `customerio-track` - Customerio Track * `customerio-webhook` - Customerio Webhook * `databricks` - Databricks * `email` - Email * `firebase` - Firebase * `github` - Github * `gitlab` - Gitlab * `google-ads` - Google Ads * `google-analytics` - Google Analytics * `google-calendar` - Google Calendar * `google-cloud-service-account` - Google Cloud Service Account * `google-cloud-storage` - Google Cloud Storage * `google-pubsub` - Google Pubsub * `google-search-console` - Google Search Console * `google-sheets` - Google Sheets * `hubspot` - Hubspot * `instagram` - Instagram * `intercom` - Intercom * `jira` - Jira * `linear` - Linear * `linkedin-ads` - Linkedin Ads * `meta-ads` - Meta Ads * `pardot` - Pardot * `pinterest-ads` - Pinterest Ads * `postgresql` - Postgresql * `posthog` - Posthog * `reddit-ads` - Reddit Ads * `resend` - Resend * `s3-compatible` - S3 Compatible * `salesforce` - Salesforce * `slack` - Slack * `slack-posthog-code` - Slack Posthog Code * `snapchat` - Snapchat * `snowflake` - Snowflake * `stripe` - Stripe * `tiktok-ads` - Tiktok Ads * `twilio` - Twilio * `vercel` - Vercel * `youtube-analytics` - Youtube Analytics */
+/** * `anthropic` - Anthropic * `apns` - Apple Push * `aws-redshift` - Aws Redshift * `aws-s3` - Aws S3 * `azure-blob` - Azure Blob * `bing-ads` - Bing Ads * `clickup` - Clickup * `customerio-app` - Customerio App * `customerio-track` - Customerio Track * `customerio-webhook` - Customerio Webhook * `databricks` - Databricks * `email` - Email * `firebase` - Firebase * `github` - Github * `gitlab` - Gitlab * `google-ads` - Google Ads * `google-analytics` - Google Analytics * `google-calendar` - Google Calendar * `google-cloud-service-account` - Google Cloud Service Account * `google-cloud-storage` - Google Cloud Storage * `google-pubsub` - Google Pubsub * `google-search-console` - Google Search Console * `google-sheets` - Google Sheets * `helpscout` - Helpscout * `hubspot` - Hubspot * `instagram` - Instagram * `intercom` - Intercom * `jira` - Jira * `linear` - Linear * `linkedin-ads` - Linkedin Ads * `meta-ads` - Meta Ads * `pardot` - Pardot * `pinterest-ads` - Pinterest Ads * `postgresql` - Postgresql * `posthog` - Posthog * `reddit-ads` - Reddit Ads * `twitter-ads` - Twitter Ads * `resend` - Resend * `s3-compatible` - S3 Compatible * `salesforce` - Salesforce * `slack` - Slack * `slack-posthog-code` - Slack Posthog Code * `snapchat` - Snapchat * `snowflake` - Snowflake * `stripe` - Stripe * `tiktok-ads` - Tiktok Ads * `twilio` - Twilio * `vercel` - Vercel * `youtube-analytics` - Youtube Analytics */
 export type IntegrationKindEnum =
   | "anthropic"
   | "apns"
@@ -60,6 +60,7 @@ export type IntegrationKindEnum =
   | "google-pubsub"
   | "google-search-console"
   | "google-sheets"
+  | "helpscout"
   | "hubspot"
   | "instagram"
   | "intercom"
@@ -72,6 +73,7 @@ export type IntegrationKindEnum =
   | "postgresql"
   | "posthog"
   | "reddit-ads"
+  | "twitter-ads"
   | "resend"
   | "s3-compatible"
   | "salesforce"
@@ -97,16 +99,8 @@ export const CreateIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     kind: S.optional(IntegrationKindEnum),
     config: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/integrations/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateIntegrationRequest",
-}) as any as S.Schema<CreateIntegrationRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/integrations/", code: 200 })),
+).annotate({ identifier: "CreateIntegrationRequest" }) as any as S.Schema<CreateIntegrationRequest>;
 
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 export const UserBasicHedgehogConfigMap = /*@__PURE__*/ S.Record(
@@ -192,23 +186,24 @@ export const IntegrationConfig = /*@__PURE__*/ S.suspend(() =>
     installation_shared: S.optional(S.NullOr(S.Boolean)),
     installation_status: S.optional(S.NullOr(InstallationStatusEnum)),
   }),
-).annotate({
-  identifier: "IntegrationConfig",
-}) as any as S.Schema<IntegrationConfig>;
+).annotate({ identifier: "IntegrationConfig" }) as any as S.Schema<IntegrationConfig>;
 
 export interface CreateIntegrationsGithubLinkExistingRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Discovery response ID for diagnostics only; grants no authority. */
+  discovery_id?: string | null;
   /** Sibling team in the same organization whose GitHub installation should be reused. */
   source_team_id?: number | null;
   /** GitHub installation ID to link; resolved within the organization when source_team_id is omitted. */
-  installation_id?: string;
+  installation_id?: string | null;
 }
 export const CreateIntegrationsGithubLinkExistingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
+    discovery_id: S.optional(S.NullOr(S.String)),
     source_team_id: S.optional(S.NullOr(S.Number)),
-    installation_id: S.optional(S.String),
+    installation_id: S.optional(S.NullOr(S.String)),
   }).pipe(
     T.Http({
       method: "POST",
@@ -254,7 +249,7 @@ export const CreateIntegrationsGithubPrepareCallbackResponse = /*@__PURE__*/ S.s
 export interface CreateIntegrationsRequestAccessRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** The kind of integration the member is requesting be connected (e.g. 'slack', 'github'). * `anthropic` - Anthropic * `apns` - Apple Push * `aws-redshift` - Aws Redshift * `aws-s3` - Aws S3 * `azure-blob` - Azure Blob * `bing-ads` - Bing Ads * `clickup` - Clickup * `customerio-app` - Customerio App * `customerio-track` - Customerio Track * `customerio-webhook` - Customerio Webhook * `databricks` - Databricks * `email` - Email * `firebase` - Firebase * `github` - Github * `gitlab` - Gitlab * `google-ads` - Google Ads * `google-analytics` - Google Analytics * `google-calendar` - Google Calendar * `google-cloud-service-account` - Google Cloud Service Account * `google-cloud-storage` - Google Cloud Storage * `google-pubsub` - Google Pubsub * `google-search-console` - Google Search Console * `google-sheets` - Google Sheets * `hubspot` - Hubspot * `instagram` - Instagram * `intercom` - Intercom * `jira` - Jira * `linear` - Linear * `linkedin-ads` - Linkedin Ads * `meta-ads` - Meta Ads * `pardot` - Pardot * `pinterest-ads` - Pinterest Ads * `postgresql` - Postgresql * `posthog` - Posthog * `reddit-ads` - Reddit Ads * `resend` - Resend * `s3-compatible` - S3 Compatible * `salesforce` - Salesforce * `slack` - Slack * `slack-posthog-code` - Slack Posthog Code * `snapchat` - Snapchat * `snowflake` - Snowflake * `stripe` - Stripe * `tiktok-ads` - Tiktok Ads * `twilio` - Twilio * `vercel` - Vercel * `youtube-analytics` - Youtube Analytics */
+  /** The kind of integration the member is requesting be connected (e.g. 'slack', 'github'). * `anthropic` - Anthropic * `apns` - Apple Push * `aws-redshift` - Aws Redshift * `aws-s3` - Aws S3 * `azure-blob` - Azure Blob * `bing-ads` - Bing Ads * `clickup` - Clickup * `customerio-app` - Customerio App * `customerio-track` - Customerio Track * `customerio-webhook` - Customerio Webhook * `databricks` - Databricks * `email` - Email * `firebase` - Firebase * `github` - Github * `gitlab` - Gitlab * `google-ads` - Google Ads * `google-analytics` - Google Analytics * `google-calendar` - Google Calendar * `google-cloud-service-account` - Google Cloud Service Account * `google-cloud-storage` - Google Cloud Storage * `google-pubsub` - Google Pubsub * `google-search-console` - Google Search Console * `google-sheets` - Google Sheets * `helpscout` - Helpscout * `hubspot` - Hubspot * `instagram` - Instagram * `intercom` - Intercom * `jira` - Jira * `linear` - Linear * `linkedin-ads` - Linkedin Ads * `meta-ads` - Meta Ads * `pardot` - Pardot * `pinterest-ads` - Pinterest Ads * `postgresql` - Postgresql * `posthog` - Posthog * `reddit-ads` - Reddit Ads * `twitter-ads` - Twitter Ads * `resend` - Resend * `s3-compatible` - S3 Compatible * `salesforce` - Salesforce * `slack` - Slack * `slack-posthog-code` - Slack Posthog Code * `snapchat` - Snapchat * `snowflake` - Snowflake * `stripe` - Stripe * `tiktok-ads` - Tiktok Ads * `twilio` - Twilio * `vercel` - Vercel * `youtube-analytics` - Youtube Analytics */
   kind: IntegrationKindEnum | (string & {});
   /** Explanation from the requester of why this integration is needed. Shown to admins in the notification email. */
   reason: string;
@@ -298,15 +293,9 @@ export const GetIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/integrations/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/integrations/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetIntegrationRequest",
-}) as any as S.Schema<GetIntegrationRequest>;
+).annotate({ identifier: "GetIntegrationRequest" }) as any as S.Schema<GetIntegrationRequest>;
 
 export interface GetIntegrationsAnthropicManagedAgentRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -467,9 +456,7 @@ export const SlackChannelsResponse = /*@__PURE__*/ S.suspend(() =>
     lastRefreshedAt: S.optional(S.NullOr(S.String)),
     has_more: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SlackChannelsResponse",
-}) as any as S.Schema<SlackChannelsResponse>;
+).annotate({ identifier: "SlackChannelsResponse" }) as any as S.Schema<SlackChannelsResponse>;
 
 export interface GetIntegrationsClickupListRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -573,6 +560,10 @@ export const GetIntegrationsGithubAvailableInstallationRequest = /*@__PURE__*/ S
   identifier: "GetIntegrationsGithubAvailableInstallationRequest",
 }) as any as S.Schema<GetIntegrationsGithubAvailableInstallationRequest>;
 
+/** * `ok` - Ok * `not_connected` - Not Connected * `unavailable` - Unavailable */
+export type GitHubPersonalDiscoveryStatusEnum = "ok" | "not_connected" | "unavailable";
+export const GitHubPersonalDiscoveryStatusEnum = S.String;
+
 export interface GitHubAvailableInstallation {
   /** GitHub installation ID to pass to github/link_existing when linking this installation. */
   installation_id: string;
@@ -582,6 +573,8 @@ export interface GitHubAvailableInstallation {
   account_type: string | null;
   /** A project in the organization that already has this installation linked. Null when the installation isn't linked to any project yet — it was found via the user's personal GitHub link and can be adopted by linking it here. */
   source_team_id: number | null;
+  /** Name of the project in source_team_id, so the picker can say where the installation comes from. Null for an installation no project has linked yet. */
+  source_team_name: string | null;
 }
 export const GitHubAvailableInstallation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -589,6 +582,7 @@ export const GitHubAvailableInstallation = /*@__PURE__*/ S.suspend(() =>
     account_name: S.NullOr(S.String),
     account_type: S.NullOr(S.String),
     source_team_id: S.NullOr(S.Number),
+    source_team_name: S.NullOr(S.String),
   }),
 ).annotate({
   identifier: "GitHubAvailableInstallation",
@@ -602,6 +596,14 @@ export const GitHubAvailableInstallationsResponseInstallationsList = /*@__PURE__
 ) as any as S.Schema<GitHubAvailableInstallationsResponseInstallationsList>;
 
 export interface GitHubAvailableInstallationsResponse {
+  /** Correlation ID for this discovery response. */
+  discovery_id: string;
+  /** Time this discovery completed. */
+  discovered_at: string;
+  /** GitHub identity of the credential used for personal discovery. */
+  personal_github_login: string | null;
+  /** Whether personal discovery succeeded, has no connection, or is unavailable. * `ok` - Ok * `not_connected` - Not Connected * `unavailable` - Unavailable */
+  personal_discovery_status: GitHubPersonalDiscoveryStatusEnum;
   /** GitHub installations available to link to this project: the organization's existing installations plus any the user's personal GitHub link can see but that aren't linked to any project yet. */
   installations: GitHubAvailableInstallationsResponseInstallationsList;
   /** Whether the requesting user has a personal GitHub account linked (via Linked Accounts). Used to prompt for that link when it would surface more installations to adopt. */
@@ -609,6 +611,10 @@ export interface GitHubAvailableInstallationsResponse {
 }
 export const GitHubAvailableInstallationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    discovery_id: S.String,
+    discovered_at: S.String,
+    personal_github_login: S.NullOr(S.String),
+    personal_discovery_status: GitHubPersonalDiscoveryStatusEnum,
     installations: GitHubAvailableInstallationsResponseInstallationsList,
     personal_github_connected: S.Boolean,
   }),
@@ -669,15 +675,15 @@ export const GitHubBranchesResponse = /*@__PURE__*/ S.suspend(() =>
     default_branch: S.optional(S.NullOr(S.String)),
     has_more: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GitHubBranchesResponse",
-}) as any as S.Schema<GitHubBranchesResponse>;
+).annotate({ identifier: "GitHubBranchesResponse" }) as any as S.Schema<GitHubBranchesResponse>;
 
 export interface GetIntegrationsGithubReposRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A unique integer value identifying this integration. */
   id: number;
+  /** When true, return only id, name, and full_name for each repository. Use it to list large rosters in fewer, smaller pages. */
+  compact?: boolean;
   /** Maximum number of repositories to return per request (max 500). */
   limit?: number;
   /** Number of repositories to skip before returning results. */
@@ -689,6 +695,7 @@ export const GetIntegrationsGithubReposRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
+    compact: S.optional(S.Boolean.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
@@ -746,6 +753,8 @@ export interface GitHubReposResponse {
   repositories?: GitHubReposResponseRepositoriesList;
   /** Whether more repositories are available beyond this page. */
   has_more?: boolean;
+  /** The offset to pass to get the next page, or null when this page is the last one. */
+  next_offset?: number | null;
   /** Total number of repositories matching the search query, across all pages. */
   total?: number;
 }
@@ -753,11 +762,10 @@ export const GitHubReposResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     repositories: S.optional(GitHubReposResponseRepositoriesList),
     has_more: S.optional(S.Boolean),
+    next_offset: S.optional(S.NullOr(S.Number)),
     total: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "GitHubReposResponse",
-}) as any as S.Schema<GitHubReposResponse>;
+).annotate({ identifier: "GitHubReposResponse" }) as any as S.Schema<GitHubReposResponse>;
 
 export interface GetIntegrationsGithubTeamRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -822,9 +830,7 @@ export const GitHubTeamsResponse = /*@__PURE__*/ S.suspend(() =>
     teams: GitHubTeamsResponseTeamsList,
     has_more: S.Boolean,
   }),
-).annotate({
-  identifier: "GitHubTeamsResponse",
-}) as any as S.Schema<GitHubTeamsResponse>;
+).annotate({ identifier: "GitHubTeamsResponse" }) as any as S.Schema<GitHubTeamsResponse>;
 
 export interface GetIntegrationsGoogleAccessibleAccountRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -933,9 +939,7 @@ export const JiraProjectsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projects: JiraProjectsResponseProjectsList,
   }),
-).annotate({
-  identifier: "JiraProjectsResponse",
-}) as any as S.Schema<JiraProjectsResponse>;
+).annotate({ identifier: "JiraProjectsResponse" }) as any as S.Schema<JiraProjectsResponse>;
 
 export interface GetIntegrationsLinearTeamRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -985,9 +989,7 @@ export const LinearTeamsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     teams: LinearTeamsResponseTeamsList,
   }),
-).annotate({
-  identifier: "LinearTeamsResponse",
-}) as any as S.Schema<LinearTeamsResponse>;
+).annotate({ identifier: "LinearTeamsResponse" }) as any as S.Schema<LinearTeamsResponse>;
 
 export interface GetIntegrationsLinkedinAdsAccountRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1145,9 +1147,7 @@ export const SlackUsersResponse = /*@__PURE__*/ S.suspend(() =>
     lastRefreshedAt: S.optional(S.NullOr(S.String)),
     has_more: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SlackUsersResponse",
-}) as any as S.Schema<SlackUsersResponse>;
+).annotate({ identifier: "SlackUsersResponse" }) as any as S.Schema<SlackUsersResponse>;
 
 export interface IntegrationsAuthorizeRetrieveRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1157,11 +1157,7 @@ export const IntegrationsAuthorizeRetrieveRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     project_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/integrations/authorize/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/integrations/authorize/", code: 200 }),
   ),
 ).annotate({
   identifier: "IntegrationsAuthorizeRetrieveRequest",
@@ -1185,11 +1181,7 @@ export const IntegrationsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/projects/{project_id}/integrations/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/integrations/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "IntegrationsDestroyRequest",
@@ -1395,6 +1387,7 @@ export type ListIntegrationsRequestKind =
   | "google-pubsub"
   | "google-search-console"
   | "google-sheets"
+  | "helpscout"
   | "hubspot"
   | "instagram"
   | "intercom"
@@ -1417,6 +1410,7 @@ export type ListIntegrationsRequestKind =
   | "stripe"
   | "tiktok-ads"
   | "twilio"
+  | "twitter-ads"
   | "vercel"
   | "youtube-analytics";
 export const ListIntegrationsRequestKind = S.String;
@@ -1424,7 +1418,7 @@ export const ListIntegrationsRequestKind = S.String;
 export interface ListIntegrationsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** * `anthropic` - Anthropic * `apns` - Apple Push * `aws-redshift` - Aws Redshift * `aws-s3` - Aws S3 * `azure-blob` - Azure Blob * `bing-ads` - Bing Ads * `clickup` - Clickup * `customerio-app` - Customerio App * `customerio-track` - Customerio Track * `customerio-webhook` - Customerio Webhook * `databricks` - Databricks * `email` - Email * `firebase` - Firebase * `github` - Github * `gitlab` - Gitlab * `google-ads` - Google Ads * `google-analytics` - Google Analytics * `google-calendar` - Google Calendar * `google-cloud-service-account` - Google Cloud Service Account * `google-cloud-storage` - Google Cloud Storage * `google-pubsub` - Google Pubsub * `google-search-console` - Google Search Console * `google-sheets` - Google Sheets * `hubspot` - Hubspot * `instagram` - Instagram * `intercom` - Intercom * `jira` - Jira * `linear` - Linear * `linkedin-ads` - Linkedin Ads * `meta-ads` - Meta Ads * `pardot` - Pardot * `pinterest-ads` - Pinterest Ads * `postgresql` - Postgresql * `posthog` - Posthog * `reddit-ads` - Reddit Ads * `resend` - Resend * `s3-compatible` - S3 Compatible * `salesforce` - Salesforce * `slack` - Slack * `slack-posthog-code` - Slack Posthog Code * `snapchat` - Snapchat * `snowflake` - Snowflake * `stripe` - Stripe * `tiktok-ads` - Tiktok Ads * `twilio` - Twilio * `vercel` - Vercel * `youtube-analytics` - Youtube Analytics */
+  /** * `anthropic` - Anthropic * `apns` - Apple Push * `aws-redshift` - Aws Redshift * `aws-s3` - Aws S3 * `azure-blob` - Azure Blob * `bing-ads` - Bing Ads * `clickup` - Clickup * `customerio-app` - Customerio App * `customerio-track` - Customerio Track * `customerio-webhook` - Customerio Webhook * `databricks` - Databricks * `email` - Email * `firebase` - Firebase * `github` - Github * `gitlab` - Gitlab * `google-ads` - Google Ads * `google-analytics` - Google Analytics * `google-calendar` - Google Calendar * `google-cloud-service-account` - Google Cloud Service Account * `google-cloud-storage` - Google Cloud Storage * `google-pubsub` - Google Pubsub * `google-search-console` - Google Search Console * `google-sheets` - Google Sheets * `helpscout` - Helpscout * `hubspot` - Hubspot * `instagram` - Instagram * `intercom` - Intercom * `jira` - Jira * `linear` - Linear * `linkedin-ads` - Linkedin Ads * `meta-ads` - Meta Ads * `pardot` - Pardot * `pinterest-ads` - Pinterest Ads * `postgresql` - Postgresql * `posthog` - Posthog * `reddit-ads` - Reddit Ads * `twitter-ads` - Twitter Ads * `resend` - Resend * `s3-compatible` - S3 Compatible * `salesforce` - Salesforce * `slack` - Slack * `slack-posthog-code` - Slack Posthog Code * `snapchat` - Snapchat * `snowflake` - Snowflake * `stripe` - Stripe * `tiktok-ads` - Tiktok Ads * `twilio` - Twilio * `vercel` - Vercel * `youtube-analytics` - Youtube Analytics */
   kind?: ListIntegrationsRequestKind | (string & {});
   /** Number of results to return per page. */
   limit?: number;
@@ -1437,16 +1431,8 @@ export const ListIntegrationsRequest = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(ListIntegrationsRequestKind.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/integrations/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListIntegrationsRequest",
-}) as any as S.Schema<ListIntegrationsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/integrations/", code: 200 })),
+).annotate({ identifier: "ListIntegrationsRequest" }) as any as S.Schema<ListIntegrationsRequest>;
 
 export type PaginatedIntegrationConfigListResultsList = Array<IntegrationConfig>;
 export const PaginatedIntegrationConfigListResultsList = /*@__PURE__*/ S.Array(

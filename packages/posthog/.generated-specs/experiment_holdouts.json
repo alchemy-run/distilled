@@ -995,7 +995,8 @@
           "method": "GET",
           "uri": "/api/projects/{project_id}/experiment_holdouts/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Create, read, update and delete experiment holdouts."
       }
     },
     "com.posthog.experiment_holdouts#CreateExperimentHoldoutRequestFiltersList": {
@@ -1066,7 +1067,8 @@
           "method": "POST",
           "uri": "/api/projects/{project_id}/experiment_holdouts/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Create, read, update and delete experiment holdouts."
       }
     },
     "com.posthog.experiment_holdouts#GetExperimentHoldoutRequest": {
@@ -1114,7 +1116,8 @@
           "method": "GET",
           "uri": "/api/projects/{project_id}/experiment_holdouts/{id}/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Create, read, update and delete experiment holdouts."
       }
     },
     "com.posthog.experiment_holdouts#UpdateExperimentHoldoutRequestFiltersList": {
@@ -1193,7 +1196,8 @@
           "method": "PUT",
           "uri": "/api/projects/{project_id}/experiment_holdouts/{id}/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Create, read, update and delete experiment holdouts."
       }
     },
     "com.posthog.experiment_holdouts#UpdateExperimentHoldoutsPartialRequestFiltersList": {
@@ -1272,7 +1276,8 @@
           "method": "PATCH",
           "uri": "/api/projects/{project_id}/experiment_holdouts/{id}/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Create, read, update and delete experiment holdouts."
       }
     },
     "com.posthog.experiment_holdouts#ExperimentHoldoutsDestroyRequest": {
@@ -1320,7 +1325,8 @@
           "method": "DELETE",
           "uri": "/api/projects/{project_id}/experiment_holdouts/{id}/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Create, read, update and delete experiment holdouts."
       }
     },
     "com.posthog.experiment_holdouts#BadRequest": {

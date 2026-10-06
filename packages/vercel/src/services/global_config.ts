@@ -53,9 +53,7 @@ export class PaymentRequired
     [{ status: 402 }],
   ) {}
 
-export type CreateEdgeConfigRequestItemsMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateEdgeConfigRequestItemsMap = { [key: string]: unknown | undefined };
 export const CreateEdgeConfigRequestItemsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -74,104 +72,34 @@ export const CreateEdgeConfigRequest = /*@__PURE__*/ S.suspend(() =>
     slug: S.optional(S.String.pipe(T.Query())),
     items: S.optional(CreateEdgeConfigRequestItemsMap),
   }).pipe(T.Http({ method: "POST", uri: "/v1/global-config", code: 200 })),
-).annotate({
-  identifier: "CreateEdgeConfigRequest",
-}) as any as S.Schema<CreateEdgeConfigRequest>;
-
-export type CreateEdgeConfigResponsePurposeCase0Type = "flags";
-export const CreateEdgeConfigResponsePurposeCase0Type = S.String;
-
-export interface CreateEdgeConfigResponsePurposeCase0 {
-  type: CreateEdgeConfigResponsePurposeCase0Type;
-  projectId: string;
-}
-export const CreateEdgeConfigResponsePurposeCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: CreateEdgeConfigResponsePurposeCase0Type,
-    projectId: S.String,
-  }),
-).annotate({
-  identifier: "CreateEdgeConfigResponsePurposeCase0",
-}) as any as S.Schema<CreateEdgeConfigResponsePurposeCase0>;
-
-export type CreateEdgeConfigResponsePurposeCase1Type = "experimentation";
-export const CreateEdgeConfigResponsePurposeCase1Type = S.String;
-
-export interface CreateEdgeConfigResponsePurposeCase1 {
-  type: CreateEdgeConfigResponsePurposeCase1Type;
-  resourceId: string;
-}
-export const CreateEdgeConfigResponsePurposeCase1 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: CreateEdgeConfigResponsePurposeCase1Type,
-    resourceId: S.String,
-  }),
-).annotate({
-  identifier: "CreateEdgeConfigResponsePurposeCase1",
-}) as any as S.Schema<CreateEdgeConfigResponsePurposeCase1>;
-
-export type CreateEdgeConfigResponsePurpose =
-  | CreateEdgeConfigResponsePurposeCase0
-  | CreateEdgeConfigResponsePurposeCase1;
-export const CreateEdgeConfigResponsePurpose =
-  S.Unknown as any as S.Schema<CreateEdgeConfigResponsePurpose>;
-
-/** Keeps track of the current state of the Global Config while it gets transferred. */
-export interface CreateEdgeConfigResponseTransfer {
-  fromAccountId: string;
-  startedAt: number;
-  doneAt: number | null;
-}
-export const CreateEdgeConfigResponseTransfer = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fromAccountId: S.String,
-    startedAt: S.Number,
-    doneAt: S.NullOr(S.Number),
-  }),
-).annotate({
-  identifier: "CreateEdgeConfigResponseTransfer",
-}) as any as S.Schema<CreateEdgeConfigResponseTransfer>;
+).annotate({ identifier: "CreateEdgeConfigRequest" }) as any as S.Schema<CreateEdgeConfigRequest>;
 
 export interface CreateEdgeConfigResponse {
-  id: string;
   createdAt: number;
   /** The ID of the user who created the Global Config, optional because it is not always set. */
   createdBy?: string;
+  digest: string;
+  id: string;
+  itemCount: number;
   ownerId: string;
+  sizeInBytes: number;
   /** Name for the Global Config Names are not unique. Must start with an alphabetic character and can contain only alphanumeric characters and underscores). */
   slug: string;
   updatedAt: number;
-  digest: string;
-  purpose?: CreateEdgeConfigResponsePurpose;
-  deletedAt?: number | null;
-  /** Keeps track of the current state of the Global Config while it gets transferred. */
-  transfer?: CreateEdgeConfigResponseTransfer;
-  schema?: unknown;
-  /** Timestamp of when the Global Config was synced to DynamoDB initially. It is only set when syncing the entire Global Config, not when updating. */
-  syncedToDynamoAt?: number;
-  sizeInBytes: number;
-  itemCount: number;
 }
 export const CreateEdgeConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
     createdAt: S.Number,
     createdBy: S.optional(S.String),
+    digest: S.String,
+    id: S.String,
+    itemCount: S.Number,
     ownerId: S.String,
+    sizeInBytes: S.Number,
     slug: S.String,
     updatedAt: S.Number,
-    digest: S.String,
-    purpose: S.optional(CreateEdgeConfigResponsePurpose),
-    deletedAt: S.optional(S.NullOr(S.Number)),
-    transfer: S.optional(CreateEdgeConfigResponseTransfer),
-    schema: S.optional(S.Unknown),
-    syncedToDynamoAt: S.optional(S.Number),
-    sizeInBytes: S.Number,
-    itemCount: S.Number,
   }),
-).annotate({
-  identifier: "CreateEdgeConfigResponse",
-}) as any as S.Schema<CreateEdgeConfigResponse>;
+).annotate({ identifier: "CreateEdgeConfigResponse" }) as any as S.Schema<CreateEdgeConfigResponse>;
 
 export interface CreateEdgeConfigTokenRequest {
   edgeConfigId: string;
@@ -187,25 +115,19 @@ export const CreateEdgeConfigTokenRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
     label: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/global-config/{edgeConfigId}/token",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/global-config/{edgeConfigId}/token", code: 200 })),
 ).annotate({
   identifier: "CreateEdgeConfigTokenRequest",
 }) as any as S.Schema<CreateEdgeConfigTokenRequest>;
 
 export interface CreateEdgeConfigTokenResponse {
-  token: string;
   id: string;
+  token: string;
 }
 export const CreateEdgeConfigTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    token: S.String,
     id: S.String,
+    token: S.String,
   }),
 ).annotate({
   identifier: "CreateEdgeConfigTokenResponse",
@@ -223,16 +145,8 @@ export const DeleteEdgeConfigRequest = /*@__PURE__*/ S.suspend(() =>
     edgeConfigId: S.String.pipe(T.Label()),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/global-config/{edgeConfigId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteEdgeConfigRequest",
-}) as any as S.Schema<DeleteEdgeConfigRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/global-config/{edgeConfigId}", code: 200 })),
+).annotate({ identifier: "DeleteEdgeConfigRequest" }) as any as S.Schema<DeleteEdgeConfigRequest>;
 
 export interface DeleteEdgeConfigResponse {}
 export const DeleteEdgeConfigResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -251,13 +165,7 @@ export const DeleteEdgeConfigSchemaRequest = /*@__PURE__*/ S.suspend(() =>
     edgeConfigId: S.String.pipe(T.Label()),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/global-config/{edgeConfigId}/schema",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/global-config/{edgeConfigId}/schema", code: 200 })),
 ).annotate({
   identifier: "DeleteEdgeConfigSchemaRequest",
 }) as any as S.Schema<DeleteEdgeConfigSchemaRequest>;
@@ -293,13 +201,7 @@ export const DeleteEdgeConfigTokensRequest = /*@__PURE__*/ S.suspend(() =>
     slug: S.optional(S.String.pipe(T.Query())),
     tokens: S.optional(DeleteEdgeConfigTokensRequestTokensList),
     ids: S.optional(DeleteEdgeConfigTokensRequestIdsList),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/global-config/{edgeConfigId}/tokens",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/global-config/{edgeConfigId}/tokens", code: 200 })),
 ).annotate({
   identifier: "DeleteEdgeConfigTokensRequest",
 }) as any as S.Schema<DeleteEdgeConfigTokensRequest>;
@@ -321,99 +223,35 @@ export const GetEdgeConfigRequest = /*@__PURE__*/ S.suspend(() =>
     edgeConfigId: S.String.pipe(T.Label()),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/global-config/{edgeConfigId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetEdgeConfigRequest",
-}) as any as S.Schema<GetEdgeConfigRequest>;
-
-export type GetEdgeConfigResponsePurposeCase0Type = "flags";
-export const GetEdgeConfigResponsePurposeCase0Type = S.String;
-
-export interface GetEdgeConfigResponsePurposeCase0 {
-  type: GetEdgeConfigResponsePurposeCase0Type;
-  projectId: string;
-}
-export const GetEdgeConfigResponsePurposeCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: GetEdgeConfigResponsePurposeCase0Type,
-    projectId: S.String,
-  }),
-).annotate({
-  identifier: "GetEdgeConfigResponsePurposeCase0",
-}) as any as S.Schema<GetEdgeConfigResponsePurposeCase0>;
-
-export type GetEdgeConfigResponsePurposeCase1Type = "experimentation";
-export const GetEdgeConfigResponsePurposeCase1Type = S.String;
-
-export interface GetEdgeConfigResponsePurposeCase1 {
-  type: GetEdgeConfigResponsePurposeCase1Type;
-  resourceId: string;
-}
-export const GetEdgeConfigResponsePurposeCase1 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: GetEdgeConfigResponsePurposeCase1Type,
-    resourceId: S.String,
-  }),
-).annotate({
-  identifier: "GetEdgeConfigResponsePurposeCase1",
-}) as any as S.Schema<GetEdgeConfigResponsePurposeCase1>;
-
-export type GetEdgeConfigResponsePurpose =
-  | GetEdgeConfigResponsePurposeCase0
-  | GetEdgeConfigResponsePurposeCase1;
-export const GetEdgeConfigResponsePurpose =
-  S.Unknown as any as S.Schema<GetEdgeConfigResponsePurpose>;
-
-/** Keeps track of the current state of the Global Config while it gets transferred. */
-export type GetEdgeConfigResponseTransfer = CreateEdgeConfigResponseTransfer;
-export const GetEdgeConfigResponseTransfer = CreateEdgeConfigResponseTransfer;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/global-config/{edgeConfigId}", code: 200 })),
+).annotate({ identifier: "GetEdgeConfigRequest" }) as any as S.Schema<GetEdgeConfigRequest>;
 
 export interface GetEdgeConfigResponse {
-  id: string;
   createdAt: number;
   /** The ID of the user who created the Global Config, optional because it is not always set. */
   createdBy?: string;
+  digest: string;
+  id: string;
+  itemCount: number;
   ownerId: string;
+  sizeInBytes: number;
   /** Name for the Global Config Names are not unique. Must start with an alphabetic character and can contain only alphanumeric characters and underscores). */
   slug: string;
   updatedAt: number;
-  digest: string;
-  purpose?: GetEdgeConfigResponsePurpose;
-  deletedAt?: number | null;
-  /** Keeps track of the current state of the Global Config while it gets transferred. */
-  transfer?: CreateEdgeConfigResponseTransfer;
-  schema?: unknown;
-  /** Timestamp of when the Global Config was synced to DynamoDB initially. It is only set when syncing the entire Global Config, not when updating. */
-  syncedToDynamoAt?: number;
-  sizeInBytes: number;
-  itemCount: number;
 }
 export const GetEdgeConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
     createdAt: S.Number,
     createdBy: S.optional(S.String),
+    digest: S.String,
+    id: S.String,
+    itemCount: S.Number,
     ownerId: S.String,
+    sizeInBytes: S.Number,
     slug: S.String,
     updatedAt: S.Number,
-    digest: S.String,
-    purpose: S.optional(GetEdgeConfigResponsePurpose),
-    deletedAt: S.optional(S.NullOr(S.Number)),
-    transfer: S.optional(CreateEdgeConfigResponseTransfer),
-    schema: S.optional(S.Unknown),
-    syncedToDynamoAt: S.optional(S.Number),
-    sizeInBytes: S.Number,
-    itemCount: S.Number,
   }),
-).annotate({
-  identifier: "GetEdgeConfigResponse",
-}) as any as S.Schema<GetEdgeConfigResponse>;
+).annotate({ identifier: "GetEdgeConfigResponse" }) as any as S.Schema<GetEdgeConfigResponse>;
 
 export interface GetEdgeConfigBackupRequest {
   edgeConfigId: string;
@@ -440,9 +278,7 @@ export const GetEdgeConfigBackupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetEdgeConfigBackupRequest",
 }) as any as S.Schema<GetEdgeConfigBackupRequest>;
 
-export type GlobalConfigItemValueCase2Map = {
-  [key: string]: GlobalConfigItemValue | undefined;
-};
+export type GlobalConfigItemValueCase2Map = { [key: string]: GlobalConfigItemValue | undefined };
 export const GlobalConfigItemValueCase2Map = /*@__PURE__*/ S.Record(
   S.String,
   S.suspend(() => GlobalConfigItemValue),
@@ -463,16 +299,16 @@ export const GlobalConfigItemValue = S.Unknown as any as S.Schema<GlobalConfigIt
 
 export interface GetEdgeConfigBackupResponseBodyCase0BackupItemsValue {
   createdAt: number;
+  description?: string;
   updatedAt: number;
   value: GlobalConfigItemValue | null;
-  description?: string;
 }
 export const GetEdgeConfigBackupResponseBodyCase0BackupItemsValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     createdAt: S.Number,
+    description: S.optional(S.String),
     updatedAt: S.Number,
     value: S.NullOr(GlobalConfigItemValue),
-    description: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GetEdgeConfigBackupResponseBodyCase0BackupItemsValue",
@@ -487,54 +323,54 @@ export const GetEdgeConfigBackupResponseBodyCase0BackupItemsMap = /*@__PURE__*/ 
 ) as any as S.Schema<GetEdgeConfigBackupResponseBodyCase0BackupItemsMap>;
 
 export interface GetEdgeConfigBackupResponseBodyCase0Backup {
+  digest: string;
+  items: GetEdgeConfigBackupResponseBodyCase0BackupItemsMap;
   /** Name for the Global Config Names are not unique. Must start with an alphabetic character and can contain only alphanumeric characters and underscores). */
   slug: string;
   updatedAt: number;
-  items: GetEdgeConfigBackupResponseBodyCase0BackupItemsMap;
-  digest: string;
 }
 export const GetEdgeConfigBackupResponseBodyCase0Backup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    digest: S.String,
+    items: GetEdgeConfigBackupResponseBodyCase0BackupItemsMap,
     slug: S.String,
     updatedAt: S.Number,
-    items: GetEdgeConfigBackupResponseBodyCase0BackupItemsMap,
-    digest: S.String,
   }),
 ).annotate({
   identifier: "GetEdgeConfigBackupResponseBodyCase0Backup",
 }) as any as S.Schema<GetEdgeConfigBackupResponseBodyCase0Backup>;
 
 export interface GetEdgeConfigBackupResponseBodyCase0Metadata {
+  itemsBytes?: number;
+  itemsCount?: number;
   updatedAt?: string;
   updatedBy?: string;
-  itemsCount?: number;
-  itemsBytes?: number;
 }
 export const GetEdgeConfigBackupResponseBodyCase0Metadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    itemsBytes: S.optional(S.Number),
+    itemsCount: S.optional(S.Number),
     updatedAt: S.optional(S.String),
     updatedBy: S.optional(S.String),
-    itemsCount: S.optional(S.Number),
-    itemsBytes: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "GetEdgeConfigBackupResponseBodyCase0Metadata",
 }) as any as S.Schema<GetEdgeConfigBackupResponseBodyCase0Metadata>;
 
 export interface GetEdgeConfigBackupResponseBodyCase0User {
-  id: string;
-  username: string;
-  email: string;
-  name?: string;
   avatar?: string;
+  email: string;
+  id: string;
+  name?: string;
+  username: string;
 }
 export const GetEdgeConfigBackupResponseBodyCase0User = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
-    username: S.String,
-    email: S.String,
-    name: S.optional(S.String),
     avatar: S.optional(S.String),
+    email: S.String,
+    id: S.String,
+    name: S.optional(S.String),
+    username: S.String,
   }),
 ).annotate({
   identifier: "GetEdgeConfigBackupResponseBodyCase0User",
@@ -542,26 +378,23 @@ export const GetEdgeConfigBackupResponseBodyCase0User = /*@__PURE__*/ S.suspend(
 
 /** The object the API responds with when requesting a Global Config backup */
 export interface GetEdgeConfigBackupResponseBodyCase0 {
+  backup: GetEdgeConfigBackupResponseBodyCase0Backup;
   id: string;
   lastModified: number;
-  backup: GetEdgeConfigBackupResponseBodyCase0Backup;
   metadata: GetEdgeConfigBackupResponseBodyCase0Metadata;
   user?: GetEdgeConfigBackupResponseBodyCase0User;
 }
 export const GetEdgeConfigBackupResponseBodyCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    backup: GetEdgeConfigBackupResponseBodyCase0Backup,
     id: S.String,
     lastModified: S.Number,
-    backup: GetEdgeConfigBackupResponseBodyCase0Backup,
     metadata: GetEdgeConfigBackupResponseBodyCase0Metadata,
     user: S.optional(GetEdgeConfigBackupResponseBodyCase0User),
   }),
 ).annotate({
   identifier: "GetEdgeConfigBackupResponseBodyCase0",
 }) as any as S.Schema<GetEdgeConfigBackupResponseBodyCase0>;
-
-export type GetEdgeConfigBackupResponseBodyCase1User = GetEdgeConfigBackupResponseBodyCase0User;
-export const GetEdgeConfigBackupResponseBodyCase1User = GetEdgeConfigBackupResponseBodyCase0User;
 
 export type GetEdgeConfigBackupResponseBodyCase1BackupItemsValue =
   GetEdgeConfigBackupResponseBodyCase0BackupItemsValue;
@@ -577,18 +410,18 @@ export const GetEdgeConfigBackupResponseBodyCase1BackupItemsMap = /*@__PURE__*/ 
 ) as any as S.Schema<GetEdgeConfigBackupResponseBodyCase1BackupItemsMap>;
 
 export interface GetEdgeConfigBackupResponseBodyCase1Backup {
+  digest: string;
+  items: GetEdgeConfigBackupResponseBodyCase1BackupItemsMap;
   /** Name for the Global Config Names are not unique. Must start with an alphabetic character and can contain only alphanumeric characters and underscores). */
   slug: string;
   updatedAt: number;
-  items: GetEdgeConfigBackupResponseBodyCase1BackupItemsMap;
-  digest: string;
 }
 export const GetEdgeConfigBackupResponseBodyCase1Backup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    digest: S.String,
+    items: GetEdgeConfigBackupResponseBodyCase1BackupItemsMap,
     slug: S.String,
     updatedAt: S.Number,
-    items: GetEdgeConfigBackupResponseBodyCase1BackupItemsMap,
-    digest: S.String,
   }),
 ).annotate({
   identifier: "GetEdgeConfigBackupResponseBodyCase1Backup",
@@ -599,20 +432,23 @@ export type GetEdgeConfigBackupResponseBodyCase1Metadata =
 export const GetEdgeConfigBackupResponseBodyCase1Metadata =
   GetEdgeConfigBackupResponseBodyCase0Metadata;
 
+export type GetEdgeConfigBackupResponseBodyCase1User = GetEdgeConfigBackupResponseBodyCase0User;
+export const GetEdgeConfigBackupResponseBodyCase1User = GetEdgeConfigBackupResponseBodyCase0User;
+
 export interface GetEdgeConfigBackupResponseBodyCase1 {
-  user: GetEdgeConfigBackupResponseBodyCase0User;
+  backup: GetEdgeConfigBackupResponseBodyCase1Backup;
   id: string;
   lastModified: number;
-  backup: GetEdgeConfigBackupResponseBodyCase1Backup;
   metadata: GetEdgeConfigBackupResponseBodyCase0Metadata;
+  user: GetEdgeConfigBackupResponseBodyCase0User;
 }
 export const GetEdgeConfigBackupResponseBodyCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    user: GetEdgeConfigBackupResponseBodyCase0User,
+    backup: GetEdgeConfigBackupResponseBodyCase1Backup,
     id: S.String,
     lastModified: S.Number,
-    backup: GetEdgeConfigBackupResponseBodyCase1Backup,
     metadata: GetEdgeConfigBackupResponseBodyCase0Metadata,
+    user: GetEdgeConfigBackupResponseBodyCase0User,
   }),
 ).annotate({
   identifier: "GetEdgeConfigBackupResponseBodyCase1",
@@ -649,13 +485,7 @@ export const GetEdgeConfigBackupsRequest = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(S.String.pipe(T.Query())),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/global-config/{edgeConfigId}/backups",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/global-config/{edgeConfigId}/backups", code: 200 })),
 ).annotate({
   identifier: "GetEdgeConfigBackupsRequest",
 }) as any as S.Schema<GetEdgeConfigBackupsRequest>;
@@ -733,31 +563,27 @@ export const GetEdgeConfigItemRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetEdgeConfigItemRequest",
-}) as any as S.Schema<GetEdgeConfigItemRequest>;
+).annotate({ identifier: "GetEdgeConfigItemRequest" }) as any as S.Schema<GetEdgeConfigItemRequest>;
 
 /** The Global Config. */
 export interface GlobalConfigItem {
-  key: string;
-  value: GlobalConfigItemValue | null;
+  createdAt: number;
   description?: string;
   edgeConfigId: string;
-  createdAt: number;
+  key: string;
   updatedAt: number;
+  value: GlobalConfigItemValue | null;
 }
 export const GlobalConfigItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    key: S.String,
-    value: S.NullOr(GlobalConfigItemValue),
+    createdAt: S.Number,
     description: S.optional(S.String),
     edgeConfigId: S.String,
-    createdAt: S.Number,
+    key: S.String,
     updatedAt: S.Number,
+    value: S.NullOr(GlobalConfigItemValue),
   }),
-).annotate({
-  identifier: "GlobalConfigItem",
-}) as any as S.Schema<GlobalConfigItem>;
+).annotate({ identifier: "GlobalConfigItem" }) as any as S.Schema<GlobalConfigItem>;
 
 export interface GetEdgeConfigItemsRequest {
   edgeConfigId: string;
@@ -771,13 +597,7 @@ export const GetEdgeConfigItemsRequest = /*@__PURE__*/ S.suspend(() =>
     edgeConfigId: S.String.pipe(T.Label()),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/global-config/{edgeConfigId}/items",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/global-config/{edgeConfigId}/items", code: 200 })),
 ).annotate({
   identifier: "GetEdgeConfigItemsRequest",
 }) as any as S.Schema<GetEdgeConfigItemsRequest>;
@@ -805,92 +625,47 @@ export const GetEdgeConfigsRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/global-config", code: 200 })),
-).annotate({
-  identifier: "GetEdgeConfigsRequest",
-}) as any as S.Schema<GetEdgeConfigsRequest>;
+).annotate({ identifier: "GetEdgeConfigsRequest" }) as any as S.Schema<GetEdgeConfigsRequest>;
 
-export type GetEdgeConfigsResponsePurposeCase0Type = "flags";
-export const GetEdgeConfigsResponsePurposeCase0Type = S.String;
-
-export interface GetEdgeConfigsResponsePurposeCase0 {
-  type: GetEdgeConfigsResponsePurposeCase0Type;
-  projectId: string;
-}
-export const GetEdgeConfigsResponsePurposeCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: GetEdgeConfigsResponsePurposeCase0Type,
-    projectId: S.String,
-  }),
-).annotate({
-  identifier: "GetEdgeConfigsResponsePurposeCase0",
-}) as any as S.Schema<GetEdgeConfigsResponsePurposeCase0>;
-
-export type GetEdgeConfigsResponsePurposeCase1Type = "experimentation";
-export const GetEdgeConfigsResponsePurposeCase1Type = S.String;
-
-export interface GetEdgeConfigsResponsePurposeCase1 {
-  type: GetEdgeConfigsResponsePurposeCase1Type;
-  resourceId: string;
-}
-export const GetEdgeConfigsResponsePurposeCase1 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: GetEdgeConfigsResponsePurposeCase1Type,
-    resourceId: S.String,
-  }),
-).annotate({
-  identifier: "GetEdgeConfigsResponsePurposeCase1",
-}) as any as S.Schema<GetEdgeConfigsResponsePurposeCase1>;
-
-export type GetEdgeConfigsResponsePurpose =
-  | GetEdgeConfigsResponsePurposeCase0
-  | GetEdgeConfigsResponsePurposeCase1;
-export const GetEdgeConfigsResponsePurpose =
-  S.Unknown as any as S.Schema<GetEdgeConfigsResponsePurpose>;
-
-/** Keeps track of the current state of the Global Config while it gets transferred. */
-export type GetEdgeConfigsResponseTransfer = CreateEdgeConfigResponseTransfer;
-export const GetEdgeConfigsResponseTransfer = CreateEdgeConfigResponseTransfer;
-
-export interface GetEdgeConfigsResponse {
-  id: string;
+/** A Global Config */
+export interface GetEdgeConfigsResponseBodyItem {
   createdAt: number;
   /** The ID of the user who created the Global Config, optional because it is not always set. */
   createdBy?: string;
+  digest: string;
+  id: string;
+  itemCount: number;
   ownerId: string;
+  sizeInBytes: number;
   /** Name for the Global Config Names are not unique. Must start with an alphabetic character and can contain only alphanumeric characters and underscores). */
   slug: string;
   updatedAt: number;
-  digest: string;
-  purpose?: GetEdgeConfigsResponsePurpose;
-  deletedAt?: number | null;
-  /** Keeps track of the current state of the Global Config while it gets transferred. */
-  transfer?: CreateEdgeConfigResponseTransfer;
-  schema?: unknown;
-  /** Timestamp of when the Global Config was synced to DynamoDB initially. It is only set when syncing the entire Global Config, not when updating. */
-  syncedToDynamoAt?: number;
-  sizeInBytes: number;
-  itemCount: number;
 }
-export const GetEdgeConfigsResponse = /*@__PURE__*/ S.suspend(() =>
+export const GetEdgeConfigsResponseBodyItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
     createdAt: S.Number,
     createdBy: S.optional(S.String),
+    digest: S.String,
+    id: S.String,
+    itemCount: S.Number,
     ownerId: S.String,
+    sizeInBytes: S.Number,
     slug: S.String,
     updatedAt: S.Number,
-    digest: S.String,
-    purpose: S.optional(GetEdgeConfigsResponsePurpose),
-    deletedAt: S.optional(S.NullOr(S.Number)),
-    transfer: S.optional(CreateEdgeConfigResponseTransfer),
-    schema: S.optional(S.Unknown),
-    syncedToDynamoAt: S.optional(S.Number),
-    sizeInBytes: S.Number,
-    itemCount: S.Number,
   }),
 ).annotate({
-  identifier: "GetEdgeConfigsResponse",
-}) as any as S.Schema<GetEdgeConfigsResponse>;
+  identifier: "GetEdgeConfigsResponseBodyItem",
+}) as any as S.Schema<GetEdgeConfigsResponseBodyItem>;
+
+export type GetEdgeConfigsResponseBodyList = Array<GetEdgeConfigsResponseBodyItem>;
+export const GetEdgeConfigsResponseBodyList = /*@__PURE__*/ S.Array(
+  GetEdgeConfigsResponseBodyItem,
+) as any as S.Schema<GetEdgeConfigsResponseBodyList>;
+
+export type GetEdgeConfigsResponse = GetEdgeConfigsResponseBodyList;
+export const GetEdgeConfigsResponse = /*@__PURE__*/ S.suspend(() =>
+  GetEdgeConfigsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({ identifier: "GetEdgeConfigsResponse" }) as any as S.Schema<GetEdgeConfigsResponse>;
 
 export interface GetEdgeConfigSchemaRequest {
   edgeConfigId: string;
@@ -904,13 +679,7 @@ export const GetEdgeConfigSchemaRequest = /*@__PURE__*/ S.suspend(() =>
     edgeConfigId: S.String.pipe(T.Label()),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/global-config/{edgeConfigId}/schema",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/global-config/{edgeConfigId}/schema", code: 200 })),
 ).annotate({
   identifier: "GetEdgeConfigSchemaRequest",
 }) as any as S.Schema<GetEdgeConfigSchemaRequest>;
@@ -937,11 +706,7 @@ export const GetEdgeConfigTokenRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/global-config/{edgeConfigId}/token/{token}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/global-config/{edgeConfigId}/token/{token}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetEdgeConfigTokenRequest",
@@ -949,28 +714,26 @@ export const GetEdgeConfigTokenRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The Global Config. */
 export interface GlobalConfigToken {
-  /** A partially-masked representation of the token, safe to display in UIs. The format is the first 3 characters of the token followed by a fixed 8-character `*` mask (e.g. `550e8400-e29b-41d4-a716-446655440000` → `550********`). The mask length is intentionally fixed (not proportional to the original token length) to avoid leaking the token length. Prefer this field for display/reference in UIs and logs. The full, plaintext token is only disclosed once at creation time via `POST /v1/edge-config/:edgeConfigId/token`; use `id` to reference a token in subsequent calls (e.g. when deleting). */
-  partialToken: string;
-  label: string;
+  createdAt: number;
+  edgeConfigId: string;
   /** This is not the token itself, but rather an id to identify the token by */
   id: string;
-  edgeConfigId: string;
-  createdAt: number;
+  label: string;
+  /** A partially-masked representation of the token, safe to display in UIs. The format is the first 3 characters of the token followed by a fixed 8-character `*` mask (e.g. `550e8400-e29b-41d4-a716-446655440000` → `550********`). The mask length is intentionally fixed (not proportional to the original token length) to avoid leaking the token length. Prefer this field for display/reference in UIs and logs. The full, plaintext token is only disclosed once at creation time via `POST /v1/edge-config/:edgeConfigId/token`; use `id` to reference a token in subsequent calls (e.g. when deleting). */
+  partialToken: string;
   /** Deprecated: the full, plaintext token. - Returned once by `POST /v1/edge-config/:edgeConfigId/token` (create). - Still returned by `GET /v1/edge-config/:edgeConfigId/token/:token` (detail) for backwards compatibility, but scheduled for removal. - **Not** returned by `GET /v1/edge-config/:edgeConfigId/tokens` (list); use `partialToken` for display and `id` to reference tokens. Do not rely on this field being present on read operations. Prefer `partialToken` for display and `id` for references. */
   token?: string;
 }
 export const GlobalConfigToken = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    partialToken: S.String,
-    label: S.String,
-    id: S.String,
-    edgeConfigId: S.String,
     createdAt: S.Number,
+    edgeConfigId: S.String,
+    id: S.String,
+    label: S.String,
+    partialToken: S.String,
     token: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GlobalConfigToken",
-}) as any as S.Schema<GlobalConfigToken>;
+).annotate({ identifier: "GlobalConfigToken" }) as any as S.Schema<GlobalConfigToken>;
 
 export interface GetEdgeConfigTokensRequest {
   edgeConfigId: string;
@@ -984,23 +747,32 @@ export const GetEdgeConfigTokensRequest = /*@__PURE__*/ S.suspend(() =>
     edgeConfigId: S.String.pipe(T.Label()),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/global-config/{edgeConfigId}/tokens",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/global-config/{edgeConfigId}/tokens", code: 200 })),
 ).annotate({
   identifier: "GetEdgeConfigTokensRequest",
 }) as any as S.Schema<GetEdgeConfigTokensRequest>;
 
+export type GetEdgeConfigTokensResponseBodyList = Array<GlobalConfigToken>;
+export const GetEdgeConfigTokensResponseBodyList = /*@__PURE__*/ S.Array(
+  GlobalConfigToken,
+) as any as S.Schema<GetEdgeConfigTokensResponseBodyList>;
+
+export type GetEdgeConfigTokensResponse = GetEdgeConfigTokensResponseBodyList;
+export const GetEdgeConfigTokensResponse = /*@__PURE__*/ S.suspend(() =>
+  GetEdgeConfigTokensResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetEdgeConfigTokensResponse",
+}) as any as S.Schema<GetEdgeConfigTokensResponse>;
+
+export type PatchEdgeConfigItemsRequestItemsItemCase0Operation = "create";
+export const PatchEdgeConfigItemsRequestItemsItemCase0Operation = S.String;
+
 export interface PatchEdgeConfigItemsRequestItemsItemCase0 {
-  operation: unknown;
+  operation: PatchEdgeConfigItemsRequestItemsItemCase0Operation;
 }
 export const PatchEdgeConfigItemsRequestItemsItemCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    operation: S.Unknown,
+    operation: PatchEdgeConfigItemsRequestItemsItemCase0Operation,
   }),
 ).annotate({
   identifier: "PatchEdgeConfigItemsRequestItemsItemCase0",
@@ -1034,14 +806,25 @@ export const PatchEdgeConfigItemsRequestItemsItemCase2 = /*@__PURE__*/ S.suspend
   identifier: "PatchEdgeConfigItemsRequestItemsItemCase2",
 }) as any as S.Schema<PatchEdgeConfigItemsRequestItemsItemCase2>;
 
-export type PatchEdgeConfigItemsRequestItemsItemCase3 = PatchEdgeConfigItemsRequestItemsItemCase0;
-export const PatchEdgeConfigItemsRequestItemsItemCase3 = PatchEdgeConfigItemsRequestItemsItemCase0;
+export type PatchEdgeConfigItemsRequestItemsItemCase3Operation = "delete";
+export const PatchEdgeConfigItemsRequestItemsItemCase3Operation = S.String;
+
+export interface PatchEdgeConfigItemsRequestItemsItemCase3 {
+  operation: PatchEdgeConfigItemsRequestItemsItemCase3Operation;
+}
+export const PatchEdgeConfigItemsRequestItemsItemCase3 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    operation: PatchEdgeConfigItemsRequestItemsItemCase3Operation,
+  }),
+).annotate({
+  identifier: "PatchEdgeConfigItemsRequestItemsItemCase3",
+}) as any as S.Schema<PatchEdgeConfigItemsRequestItemsItemCase3>;
 
 export type PatchEdgeConfigItemsRequestItemsItem =
   | PatchEdgeConfigItemsRequestItemsItemCase0
   | PatchEdgeConfigItemsRequestItemsItemCase1
   | PatchEdgeConfigItemsRequestItemsItemCase2
-  | PatchEdgeConfigItemsRequestItemsItemCase0;
+  | PatchEdgeConfigItemsRequestItemsItemCase3;
 export const PatchEdgeConfigItemsRequestItemsItem =
   S.Unknown as any as S.Schema<PatchEdgeConfigItemsRequestItemsItem>;
 
@@ -1064,13 +847,7 @@ export const PatchEdgeConfigItemsRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
     items: PatchEdgeConfigItemsRequestItemsList,
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/global-config/{edgeConfigId}/items",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/global-config/{edgeConfigId}/items", code: 200 })),
 ).annotate({
   identifier: "PatchEdgeConfigItemsRequest",
 }) as any as S.Schema<PatchEdgeConfigItemsRequest>;
@@ -1102,13 +879,7 @@ export const PatchEdgeConfigSchemaRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
     definition: S.Unknown,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/global-config/{edgeConfigId}/schema",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/global-config/{edgeConfigId}/schema", code: 200 })),
 ).annotate({
   identifier: "PatchEdgeConfigSchemaRequest",
 }) as any as S.Schema<PatchEdgeConfigSchemaRequest>;
@@ -1149,17 +920,17 @@ export type RestoreEdgeConfigBackupResponseStatus = "ok";
 export const RestoreEdgeConfigBackupResponseStatus = S.String;
 
 export interface RestoreEdgeConfigBackupResponse {
-  status: RestoreEdgeConfigBackupResponseStatus;
-  restoredFrom: string;
-  previousDigest: string;
   digest: string;
+  previousDigest: string;
+  restoredFrom: string;
+  status: RestoreEdgeConfigBackupResponseStatus;
 }
 export const RestoreEdgeConfigBackupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    status: RestoreEdgeConfigBackupResponseStatus,
-    restoredFrom: S.String,
-    previousDigest: S.String,
     digest: S.String,
+    previousDigest: S.String,
+    restoredFrom: S.String,
+    status: RestoreEdgeConfigBackupResponseStatus,
   }),
 ).annotate({
   identifier: "RestoreEdgeConfigBackupResponse",
@@ -1177,101 +948,42 @@ export const UpdateEdgeConfigRequest = /*@__PURE__*/ S.suspend(() =>
     edgeConfigId: S.String.pipe(T.Label()),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/global-config/{edgeConfigId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateEdgeConfigRequest",
-}) as any as S.Schema<UpdateEdgeConfigRequest>;
-
-export type UpdateEdgeConfigResponsePurposeCase0Type = "flags";
-export const UpdateEdgeConfigResponsePurposeCase0Type = S.String;
-
-export interface UpdateEdgeConfigResponsePurposeCase0 {
-  type: UpdateEdgeConfigResponsePurposeCase0Type;
-  projectId: string;
-}
-export const UpdateEdgeConfigResponsePurposeCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: UpdateEdgeConfigResponsePurposeCase0Type,
-    projectId: S.String,
-  }),
-).annotate({
-  identifier: "UpdateEdgeConfigResponsePurposeCase0",
-}) as any as S.Schema<UpdateEdgeConfigResponsePurposeCase0>;
-
-export type UpdateEdgeConfigResponsePurposeCase1Type = "experimentation";
-export const UpdateEdgeConfigResponsePurposeCase1Type = S.String;
-
-export interface UpdateEdgeConfigResponsePurposeCase1 {
-  type: UpdateEdgeConfigResponsePurposeCase1Type;
-  resourceId: string;
-}
-export const UpdateEdgeConfigResponsePurposeCase1 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: UpdateEdgeConfigResponsePurposeCase1Type,
-    resourceId: S.String,
-  }),
-).annotate({
-  identifier: "UpdateEdgeConfigResponsePurposeCase1",
-}) as any as S.Schema<UpdateEdgeConfigResponsePurposeCase1>;
-
-export type UpdateEdgeConfigResponsePurpose =
-  | UpdateEdgeConfigResponsePurposeCase0
-  | UpdateEdgeConfigResponsePurposeCase1;
-export const UpdateEdgeConfigResponsePurpose =
-  S.Unknown as any as S.Schema<UpdateEdgeConfigResponsePurpose>;
-
-/** Keeps track of the current state of the Global Config while it gets transferred. */
-export type UpdateEdgeConfigResponseTransfer = CreateEdgeConfigResponseTransfer;
-export const UpdateEdgeConfigResponseTransfer = CreateEdgeConfigResponseTransfer;
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/global-config/{edgeConfigId}", code: 200 })),
+).annotate({ identifier: "UpdateEdgeConfigRequest" }) as any as S.Schema<UpdateEdgeConfigRequest>;
 
 export interface UpdateEdgeConfigResponse {
-  id: string;
   createdAt: number;
   /** The ID of the user who created the Global Config, optional because it is not always set. */
   createdBy?: string;
+  digest: string;
+  id: string;
+  itemCount: number;
   ownerId: string;
+  sizeInBytes: number;
   /** Name for the Global Config Names are not unique. Must start with an alphabetic character and can contain only alphanumeric characters and underscores). */
   slug: string;
   updatedAt: number;
-  digest: string;
-  purpose?: UpdateEdgeConfigResponsePurpose;
-  deletedAt?: number | null;
-  /** Keeps track of the current state of the Global Config while it gets transferred. */
-  transfer?: CreateEdgeConfigResponseTransfer;
-  schema?: unknown;
-  /** Timestamp of when the Global Config was synced to DynamoDB initially. It is only set when syncing the entire Global Config, not when updating. */
-  syncedToDynamoAt?: number;
-  sizeInBytes: number;
-  itemCount: number;
 }
 export const UpdateEdgeConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
     createdAt: S.Number,
     createdBy: S.optional(S.String),
+    digest: S.String,
+    id: S.String,
+    itemCount: S.Number,
     ownerId: S.String,
+    sizeInBytes: S.Number,
     slug: S.String,
     updatedAt: S.Number,
-    digest: S.String,
-    purpose: S.optional(UpdateEdgeConfigResponsePurpose),
-    deletedAt: S.optional(S.NullOr(S.Number)),
-    transfer: S.optional(CreateEdgeConfigResponseTransfer),
-    schema: S.optional(S.Unknown),
-    syncedToDynamoAt: S.optional(S.Number),
-    sizeInBytes: S.Number,
-    itemCount: S.Number,
   }),
-).annotate({
-  identifier: "UpdateEdgeConfigResponse",
-}) as any as S.Schema<UpdateEdgeConfigResponse>;
+).annotate({ identifier: "UpdateEdgeConfigResponse" }) as any as S.Schema<UpdateEdgeConfigResponse>;
 
-export type CreateEdgeConfigError = BadRequest | PaymentRequired | Forbidden | VercelOpError;
+export type CreateEdgeConfigError =
+  | BadRequest
+  | PaymentRequired
+  | Forbidden
+  | NotFound
+  | VercelOpError;
 /** Create a Global Config Creates a Global Config. */
 export const createEdgeConfig: API.OperationMethod<
   CreateEdgeConfigRequest,
@@ -1281,7 +993,7 @@ export const createEdgeConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateEdgeConfigRequest,
   output: CreateEdgeConfigResponse,
-  errors: [BadRequest, PaymentRequired, Forbidden],
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
@@ -1439,7 +1151,7 @@ export const getEdgeConfigItems: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetEdgeConfigsError = BadRequest | Forbidden | VercelOpError;
+export type GetEdgeConfigsError = BadRequest | Forbidden | NotFound | VercelOpError;
 /** Get Global Configs Returns all Global Configs. */
 export const getEdgeConfigs: API.OperationMethod<
   GetEdgeConfigsRequest,
@@ -1449,7 +1161,7 @@ export const getEdgeConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetEdgeConfigsRequest,
   output: GetEdgeConfigsResponse,
-  errors: [BadRequest, Forbidden],
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
@@ -1488,12 +1200,12 @@ export type GetEdgeConfigTokensError = BadRequest | Forbidden | NotFound | Verce
 /** Get all tokens of a Global Config Returns all tokens of a Global Config. */
 export const getEdgeConfigTokens: API.OperationMethod<
   GetEdgeConfigTokensRequest,
-  GlobalConfigToken,
+  GetEdgeConfigTokensResponse,
   GetEdgeConfigTokensError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetEdgeConfigTokensRequest,
-  output: GlobalConfigToken,
+  output: GetEdgeConfigTokensResponse,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,

@@ -18,6 +18,155 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.vercel.domains_registrar#SearchDomainsRequestDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "an array of at most 200 item(s)"
+      }
+    },
+    "com.vercel.domains_registrar#SearchDomainsRequest": {
+      "type": "structure",
+      "members": {
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId"
+          }
+        },
+        "domains": {
+          "target": "com.vercel.domains_registrar#SearchDomainsRequestDomainsList",
+          "traits": {
+            "smithy.api#documentation": "an array of at most 200 item(s)",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.domains_registrar#SearchDomainsResponseResultsItemCase0": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "available": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "`false` means the domain is unavailable or its availability could not be confirmed.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.domains_registrar#SearchDomainsResponseResultsItemCase1": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "available": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "years": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "renewalPrice": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "premium": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.domains_registrar#SearchDomainsResponseResultsItem": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.domains_registrar#SearchDomainsResponseResultsItemCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.domains_registrar#SearchDomainsResponseResultsItemCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.domains_registrar#SearchDomainsResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.domains_registrar#SearchDomainsResponseResultsItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.domains_registrar#SearchDomainsResponse": {
+      "type": "structure",
+      "members": {
+        "results": {
+          "target": "com.vercel.domains_registrar#SearchDomainsResponseResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.domains_registrar#SearchDomains": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.domains_registrar#SearchDomainsRequest"
+      },
+      "output": {
+        "target": "com.vercel.domains_registrar#SearchDomainsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.domains_registrar#BadRequest"
+        },
+        {
+          "target": "com.vercel.domains_registrar#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/registrar/domains/search",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get Domain Availability and Pricing\n\nStart domain research here. Get registration availability and pricing for 1–200 exact domain names. Returns results in input order, with registration and renewal prices in USD for available domains. No authentication required."
+      }
+    },
     "com.vercel.domains_registrar#GetSupportedTldsRequest": {
       "type": "structure",
       "members": {
@@ -460,6 +609,160 @@
         "smithy.api#documentation": "Get price data for a domain\n\nGet price data for a specific domain"
       }
     },
+    "com.vercel.domains_registrar#GetBulkPriceRequestDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "an array of at most 50 item(s)"
+      }
+    },
+    "com.vercel.domains_registrar#GetBulkPriceRequest": {
+      "type": "structure",
+      "members": {
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId"
+          }
+        },
+        "domains": {
+          "target": "com.vercel.domains_registrar#GetBulkPriceRequestDomainsList",
+          "traits": {
+            "smithy.api#documentation": "an array of at most 50 item(s)",
+            "smithy.api#required": {}
+          }
+        },
+        "years": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The number of years to get the price for. If not provided, the minimum number of years for the TLD will be used."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.domains_registrar#GetBulkPriceResponseResultsItemPurchasePrice": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#Double"
+        },
+        "Case1": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.domains_registrar#GetBulkPriceResponseResultsItemRenewalPrice": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#Double"
+        },
+        "Case1": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.domains_registrar#GetBulkPriceResponseResultsItemTransferPrice": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#Double"
+        },
+        "Case1": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.domains_registrar#GetBulkPriceResponseResultsItem": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "years": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "purchasePrice": {
+          "target": "com.vercel.domains_registrar#GetBulkPriceResponseResultsItemPurchasePrice",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "renewalPrice": {
+          "target": "com.vercel.domains_registrar#GetBulkPriceResponseResultsItemRenewalPrice",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "transferPrice": {
+          "target": "com.vercel.domains_registrar#GetBulkPriceResponseResultsItemTransferPrice",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.domains_registrar#GetBulkPriceResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.domains_registrar#GetBulkPriceResponseResultsItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.domains_registrar#GetBulkPriceResponse": {
+      "type": "structure",
+      "members": {
+        "results": {
+          "target": "com.vercel.domains_registrar#GetBulkPriceResponseResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.domains_registrar#GetBulkPrice": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.domains_registrar#GetBulkPriceRequest"
+      },
+      "output": {
+        "target": "com.vercel.domains_registrar#GetBulkPriceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.domains_registrar#BadRequest"
+        },
+        {
+          "target": "com.vercel.domains_registrar#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/registrar/domains/price",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get price data for multiple domains\n\nGet price data for multiple domains in a single request."
+      }
+    },
     "com.vercel.domains_registrar#GetBulkAvailabilityRequestDomainsList": {
       "type": "list",
       "member": {
@@ -552,6 +855,67 @@
           "code": 200
         },
         "smithy.api#documentation": "Get availability for multiple domains\n\nGet availability for multiple domains. If the domains are available, they can be purchased using the [Buy a domain](https://vercel.com/docs/rest-api/reference/endpoints/domains-registrar/buy-a-domain) endpoint or the [Buy multiple domains](https://vercel.com/docs/rest-api/reference/endpoints/domains-registrar/buy-multiple-domains) endpoint."
+      }
+    },
+    "com.vercel.domains_registrar#GetContactInfoSchemaRequest": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.domains_registrar#GetContactInfoSchemaResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.domains_registrar#GetContactInfoSchema": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.domains_registrar#GetContactInfoSchemaRequest"
+      },
+      "output": {
+        "target": "com.vercel.domains_registrar#GetContactInfoSchemaResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.domains_registrar#BadRequest"
+        },
+        {
+          "target": "com.vercel.domains_registrar#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/registrar/domains/{domain}/contact-info/schema",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get contact info schema\n\nSome TLDs require additional contact information. Use this endpoint to get the schema for the tld-specific contact information for a domain."
       }
     },
     "com.vercel.domains_registrar#GetDomainAuthCodeRequest": {
@@ -1940,67 +2304,6 @@
           "code": 200
         },
         "smithy.api#documentation": "Get contact verification status for a domain\n\nGet the registrant contact verification status for a domain. Use this after purchasing a domain to determine whether the contact has been verified. Note that a bought_too_recently error will be returned if the domain was bought less than 30 minutes before the request."
-      }
-    },
-    "com.vercel.domains_registrar#GetContactInfoSchemaRequest": {
-      "type": "structure",
-      "members": {
-        "domain": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "teamId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "teamId"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.vercel.domains_registrar#GetContactInfoSchemaResponse": {
-      "type": "structure",
-      "members": {
-        "body": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "com.distilled.openapi#rawResponse": {},
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#output": {}
-      }
-    },
-    "com.vercel.domains_registrar#GetContactInfoSchema": {
-      "type": "operation",
-      "input": {
-        "target": "com.vercel.domains_registrar#GetContactInfoSchemaRequest"
-      },
-      "output": {
-        "target": "com.vercel.domains_registrar#GetContactInfoSchemaResponse"
-      },
-      "errors": [
-        {
-          "target": "com.vercel.domains_registrar#BadRequest"
-        },
-        {
-          "target": "com.vercel.domains_registrar#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/v1/registrar/domains/{domain}/contact-info/schema",
-          "code": 200
-        },
-        "smithy.api#documentation": "Get contact info schema\n\nSome TLDs require additional contact information. Use this endpoint to get the schema for the tld-specific contact information for a domain."
       }
     },
     "com.vercel.domains_registrar#GetOrderRequest": {
@@ -4106,6 +4409,9 @@
       "version": "0.0.1",
       "operations": [
         {
+          "target": "com.vercel.domains_registrar#SearchDomains"
+        },
+        {
           "target": "com.vercel.domains_registrar#GetSupportedTlds"
         },
         {
@@ -4121,7 +4427,13 @@
           "target": "com.vercel.domains_registrar#GetDomainPrice"
         },
         {
+          "target": "com.vercel.domains_registrar#GetBulkPrice"
+        },
+        {
           "target": "com.vercel.domains_registrar#GetBulkAvailability"
+        },
+        {
+          "target": "com.vercel.domains_registrar#GetContactInfoSchema"
         },
         {
           "target": "com.vercel.domains_registrar#GetDomainAuthCode"
@@ -4149,9 +4461,6 @@
         },
         {
           "target": "com.vercel.domains_registrar#GetDomainContactVerification"
-        },
-        {
-          "target": "com.vercel.domains_registrar#GetContactInfoSchema"
         },
         {
           "target": "com.vercel.domains_registrar#GetOrder"

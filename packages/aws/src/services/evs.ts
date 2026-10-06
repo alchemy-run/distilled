@@ -9,10 +9,7 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "evs",
-  serviceShapeName: "AmazonElasticVMwareService",
-});
+const svc = T.AwsApiService({ sdkId: "evs", serviceShapeName: "AmazonElasticVMwareService" });
 const auth = T.AwsAuthSigv4({ name: "evs" });
 const ver = T.ServiceVersion("2023-07-27");
 const proto = T.AwsProtocolsAwsJson1_0();
@@ -80,11 +77,7 @@ export class InternalServerException
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), resourceId: S.String, resourceType: S.String },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
@@ -239,9 +232,7 @@ export const CreateEntitlementRequest = /*@__PURE__*/ S.suspend(() =>
     entitlementType: EntitlementType,
     vmIds: VmIdList,
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateEntitlementRequest",
-}) as any as S.Schema<CreateEntitlementRequest>;
+).annotate({ identifier: "CreateEntitlementRequest" }) as any as S.Schema<CreateEntitlementRequest>;
 export type VmName = string;
 export type EntitlementStatus =
   | "CREATING"
@@ -320,9 +311,7 @@ export interface InitialVlanInfo {
   cidr: string;
 }
 export const InitialVlanInfo = /*@__PURE__*/ S.suspend(() => S.Struct({ cidr: S.String })).annotate(
-  {
-    identifier: "InitialVlanInfo",
-  },
+  { identifier: "InitialVlanInfo" },
 ) as any as S.Schema<InitialVlanInfo>;
 export interface InitialVlans {
   vmkManagement: InitialVlanInfo;
@@ -362,9 +351,7 @@ export interface ConnectivityInfo {
 }
 export const ConnectivityInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ privateRouteServerPeerings: RouteServerPeeringList }),
-).annotate({
-  identifier: "ConnectivityInfo",
-}) as any as S.Schema<ConnectivityInfo>;
+).annotate({ identifier: "ConnectivityInfo" }) as any as S.Schema<ConnectivityInfo>;
 export type SolutionKey = string | redacted.Redacted<string>;
 export type VSanLicenseKey = string | redacted.Redacted<string>;
 export interface LicenseInfo {
@@ -398,9 +385,7 @@ export const HostInfoForCreate = /*@__PURE__*/ S.suspend(() =>
     placementGroupId: S.optional(S.String),
     dedicatedHostId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HostInfoForCreate",
-}) as any as S.Schema<HostInfoForCreate>;
+).annotate({ identifier: "HostInfoForCreate" }) as any as S.Schema<HostInfoForCreate>;
 export type HostInfoForCreateList = HostInfoForCreate[];
 export const HostInfoForCreateList = /*@__PURE__*/ S.Array(HostInfoForCreate);
 export interface VcfHostnames {
@@ -462,9 +447,7 @@ export const CreateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     vcfHostnames: S.optional(VcfHostnames),
     siteId: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateEnvironmentRequest",
-}) as any as S.Schema<CreateEnvironmentRequest>;
+).annotate({ identifier: "CreateEnvironmentRequest" }) as any as S.Schema<CreateEnvironmentRequest>;
 export type EnvironmentState =
   | "CREATING"
   | "CREATED"
@@ -697,9 +680,7 @@ export const EnvironmentSummary = /*@__PURE__*/ S.suspend(() =>
     modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     environmentArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EnvironmentSummary",
-}) as any as S.Schema<EnvironmentSummary>;
+).annotate({ identifier: "EnvironmentSummary" }) as any as S.Schema<EnvironmentSummary>;
 export type HostState =
   | "CREATING"
   | "CREATED"
@@ -717,9 +698,7 @@ export interface NetworkInterface {
 }
 export const NetworkInterface = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ networkInterfaceId: S.optional(S.String) }),
-).annotate({
-  identifier: "NetworkInterface",
-}) as any as S.Schema<NetworkInterface>;
+).annotate({ identifier: "NetworkInterface" }) as any as S.Schema<NetworkInterface>;
 export type NetworkInterfaceList = NetworkInterface[];
 export const NetworkInterfaceList = /*@__PURE__*/ S.Array(NetworkInterface);
 export interface Host {
@@ -757,10 +736,7 @@ export interface CreateEnvironmentHostResponse {
   host?: Host;
 }
 export const CreateEnvironmentHostResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    environmentSummary: S.optional(EnvironmentSummary),
-    host: S.optional(Host),
-  }),
+  S.Struct({ environmentSummary: S.optional(EnvironmentSummary), host: S.optional(Host) }),
 ).annotate({
   identifier: "CreateEnvironmentHostResponse",
 }) as any as S.Schema<CreateEnvironmentHostResponse>;
@@ -779,9 +755,7 @@ export const DeleteEntitlementRequest = /*@__PURE__*/ S.suspend(() =>
     entitlementType: EntitlementType,
     vmIds: VmIdList,
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteEntitlementRequest",
-}) as any as S.Schema<DeleteEntitlementRequest>;
+).annotate({ identifier: "DeleteEntitlementRequest" }) as any as S.Schema<DeleteEntitlementRequest>;
 export interface DeleteEntitlementResponse {
   entitlements?: VmEntitlement[];
 }
@@ -799,9 +773,7 @@ export const DeleteEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     environmentId: S.String.pipe(T.HttpLabel("environmentId")),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteEnvironmentRequest",
-}) as any as S.Schema<DeleteEnvironmentRequest>;
+).annotate({ identifier: "DeleteEnvironmentRequest" }) as any as S.Schema<DeleteEnvironmentRequest>;
 export interface DeleteEnvironmentResponse {
   environment?: Environment;
 }
@@ -855,10 +827,7 @@ export interface DeleteEnvironmentHostResponse {
   host?: Host;
 }
 export const DeleteEnvironmentHostResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    environmentSummary: S.optional(EnvironmentSummary),
-    host: S.optional(Host),
-  }),
+  S.Struct({ environmentSummary: S.optional(EnvironmentSummary), host: S.optional(Host) }),
 ).annotate({
   identifier: "DeleteEnvironmentHostResponse",
 }) as any as S.Schema<DeleteEnvironmentHostResponse>;
@@ -886,6 +855,31 @@ export const DisassociateEipFromVlanResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DisassociateEipFromVlanResponse",
 }) as any as S.Schema<DisassociateEipFromVlanResponse>;
+export interface GetAccountSettingsRequest {}
+export const GetAccountSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "GetAccountSettingsRequest",
+}) as any as S.Schema<GetAccountSettingsRequest>;
+export type SettingName = string;
+export type SettingValue = string;
+export interface AccountSetting {
+  name: string;
+  value: string;
+}
+export const AccountSetting = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ name: S.String, value: S.String }),
+).annotate({ identifier: "AccountSetting" }) as any as S.Schema<AccountSetting>;
+export type AccountSettingList = AccountSetting[];
+export const AccountSettingList = /*@__PURE__*/ S.Array(AccountSetting);
+export interface GetAccountSettingsResponse {
+  settings?: AccountSetting[];
+}
+export const GetAccountSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ settings: S.optional(AccountSettingList) }),
+).annotate({
+  identifier: "GetAccountSettingsResponse",
+}) as any as S.Schema<GetAccountSettingsResponse>;
 export interface GetDepotUrlRequest {
   environmentId: string;
   rotate?: boolean;
@@ -895,18 +889,14 @@ export const GetDepotUrlRequest = /*@__PURE__*/ S.suspend(() =>
     environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     rotate: S.optional(S.Boolean),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetDepotUrlRequest",
-}) as any as S.Schema<GetDepotUrlRequest>;
+).annotate({ identifier: "GetDepotUrlRequest" }) as any as S.Schema<GetDepotUrlRequest>;
 export interface GetDepotUrlResponse {
   depotUrl: string;
   token: string;
 }
 export const GetDepotUrlResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ depotUrl: S.String, token: S.String }),
-).annotate({
-  identifier: "GetDepotUrlResponse",
-}) as any as S.Schema<GetDepotUrlResponse>;
+).annotate({ identifier: "GetDepotUrlResponse" }) as any as S.Schema<GetDepotUrlResponse>;
 export interface GetEnvironmentRequest {
   environmentId: string;
 }
@@ -914,23 +904,17 @@ export const GetEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ environmentId: S.String.pipe(T.HttpLabel("environmentId")) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetEnvironmentRequest",
-}) as any as S.Schema<GetEnvironmentRequest>;
+).annotate({ identifier: "GetEnvironmentRequest" }) as any as S.Schema<GetEnvironmentRequest>;
 export interface GetEnvironmentResponse {
   environment?: Environment;
 }
 export const GetEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ environment: S.optional(Environment) }),
-).annotate({
-  identifier: "GetEnvironmentResponse",
-}) as any as S.Schema<GetEnvironmentResponse>;
+).annotate({ identifier: "GetEnvironmentResponse" }) as any as S.Schema<GetEnvironmentResponse>;
 export interface GetVersionsRequest {}
 export const GetVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetVersionsRequest",
-}) as any as S.Schema<GetVersionsRequest>;
+).annotate({ identifier: "GetVersionsRequest" }) as any as S.Schema<GetVersionsRequest>;
 export type InstanceTypeList = InstanceType[];
 export const InstanceTypeList = /*@__PURE__*/ S.Array(InstanceType);
 export interface VcfVersionInfo {
@@ -967,13 +951,8 @@ export interface GetVersionsResponse {
   instanceTypeEsxVersions: InstanceTypeEsxVersionsInfo[];
 }
 export const GetVersionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vcfVersions: VcfVersionList,
-    instanceTypeEsxVersions: InstanceTypeEsxVersionsList,
-  }),
-).annotate({
-  identifier: "GetVersionsResponse",
-}) as any as S.Schema<GetVersionsResponse>;
+  S.Struct({ vcfVersions: VcfVersionList, instanceTypeEsxVersions: InstanceTypeEsxVersionsList }),
+).annotate({ identifier: "GetVersionsResponse" }) as any as S.Schema<GetVersionsResponse>;
 export type PaginationToken = string;
 export type MaxResults = number;
 export interface ListEnvironmentConnectorsRequest {
@@ -997,10 +976,7 @@ export interface ListEnvironmentConnectorsResponse {
   connectors?: Connector[];
 }
 export const ListEnvironmentConnectorsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    connectors: S.optional(ConnectorList),
-  }),
+  S.Struct({ nextToken: S.optional(S.String), connectors: S.optional(ConnectorList) }),
 ).annotate({
   identifier: "ListEnvironmentConnectorsResponse",
 }) as any as S.Schema<ListEnvironmentConnectorsResponse>;
@@ -1025,10 +1001,7 @@ export interface ListEnvironmentHostsResponse {
   environmentHosts?: Host[];
 }
 export const ListEnvironmentHostsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    environmentHosts: S.optional(HostList),
-  }),
+  S.Struct({ nextToken: S.optional(S.String), environmentHosts: S.optional(HostList) }),
 ).annotate({
   identifier: "ListEnvironmentHostsResponse",
 }) as any as S.Schema<ListEnvironmentHostsResponse>;
@@ -1045,9 +1018,7 @@ export const ListEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     state: S.optional(EnvironmentStateList).pipe(T.HttpQuery("state")),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListEnvironmentsRequest",
-}) as any as S.Schema<ListEnvironmentsRequest>;
+).annotate({ identifier: "ListEnvironmentsRequest" }) as any as S.Schema<ListEnvironmentsRequest>;
 export type EnvironmentSummaryList = EnvironmentSummary[];
 export const EnvironmentSummaryList = /*@__PURE__*/ S.Array(EnvironmentSummary);
 export interface ListEnvironmentsResponse {
@@ -1059,9 +1030,7 @@ export const ListEnvironmentsResponse = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String),
     environmentSummaries: S.optional(EnvironmentSummaryList),
   }),
-).annotate({
-  identifier: "ListEnvironmentsResponse",
-}) as any as S.Schema<ListEnvironmentsResponse>;
+).annotate({ identifier: "ListEnvironmentsResponse" }) as any as S.Schema<ListEnvironmentsResponse>;
 export interface ListEnvironmentVlansRequest {
   nextToken?: string;
   maxResults?: number;
@@ -1083,10 +1052,7 @@ export interface ListEnvironmentVlansResponse {
   environmentVlans?: Vlan[];
 }
 export const ListEnvironmentVlansResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    environmentVlans: S.optional(VlanList),
-  }),
+  S.Struct({ nextToken: S.optional(S.String), environmentVlans: S.optional(VlanList) }),
 ).annotate({
   identifier: "ListEnvironmentVlansResponse",
 }) as any as S.Schema<ListEnvironmentVlansResponse>;
@@ -1133,13 +1099,28 @@ export interface ListVmEntitlementsResponse {
   entitlements?: VmEntitlement[];
 }
 export const ListVmEntitlementsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    entitlements: S.optional(VmEntitlementList),
-  }),
+  S.Struct({ nextToken: S.optional(S.String), entitlements: S.optional(VmEntitlementList) }),
 ).annotate({
   identifier: "ListVmEntitlementsResponse",
 }) as any as S.Schema<ListVmEntitlementsResponse>;
+export interface PutAccountSettingsRequest {
+  settings: AccountSetting[];
+}
+export const PutAccountSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ settings: AccountSettingList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "PutAccountSettingsRequest",
+}) as any as S.Schema<PutAccountSettingsRequest>;
+export interface PutAccountSettingsResponse {
+  settings?: AccountSetting[];
+}
+export const PutAccountSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ settings: S.optional(AccountSettingList) }),
+).annotate({
+  identifier: "PutAccountSettingsResponse",
+}) as any as S.Schema<PutAccountSettingsResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
@@ -1148,9 +1129,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: RequestTagMap }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -1165,9 +1144,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeys }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -1212,9 +1189,7 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type AssociateEipToVlanError =
@@ -1454,6 +1429,28 @@ export const disassociateEipFromVlan: API.OperationMethod<
   operationName: "DisassociateEipFromVlan",
 }));
 
+export type GetAccountSettingsError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns the configured EVS settings for your Amazon Web Services account in the specified Amazon Web Services Region. If no settings have been set, an empty list is returned.
+ */
+export const getAccountSettings: API.OperationMethod<
+  GetAccountSettingsRequest,
+  GetAccountSettingsResponse,
+  GetAccountSettingsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAccountSettingsRequest,
+  output: GetAccountSettingsResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetAccountSettings",
+}));
+
 export type GetDepotUrlError =
   | ResourceNotFoundException
   | ThrottlingException
@@ -1668,6 +1665,30 @@ export const listVmEntitlements: API.PaginatedOperationMethod<
     pageSize: "maxResults",
   } as const,
 })) as any;
+
+export type PutAccountSettingsError =
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates or updates account-level EVS settings for your Amazon Web Services account in the specified Amazon Web Services Region.
+ *
+ * EVS settings included in the request are created or overwritten. Settings omitted from the request retain their current values.
+ */
+export const putAccountSettings: API.OperationMethod<
+  PutAccountSettingsRequest,
+  PutAccountSettingsResponse,
+  PutAccountSettingsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutAccountSettingsRequest,
+  output: PutAccountSettingsResponse,
+  errors: [InternalServerException, ThrottlingException, ValidationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "PutAccountSettings",
+}));
 
 export type TagResourceError =
   | ResourceNotFoundException

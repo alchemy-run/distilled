@@ -60,7 +60,7 @@
       "errors": ["RequestLimitExceeded", "ParseError"]
     },
     "deleteAlias": {
-      "errors": ["RequestLimitExceeded", "ResourceNotFoundException"]
+      "errors": ["RequestLimitExceeded"]
     },
     "publishLayerVersion": {
       "errors": ["RequestLimitExceeded", "ParseError"]

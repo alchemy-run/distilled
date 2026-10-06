@@ -115,9 +115,7 @@ export const BatchGetMetricsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ MetricQueries: S.optional(MetricQueryList) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/BatchGetMetrics" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "BatchGetMetricsRequest",
-}) as any as S.Schema<BatchGetMetricsRequest>;
+).annotate({ identifier: "BatchGetMetricsRequest" }) as any as S.Schema<BatchGetMetricsRequest>;
 export type MetricQueryResultStatus =
   | "Complete"
   | "Truncated"
@@ -144,9 +142,7 @@ export const MetricQueryResult = /*@__PURE__*/ S.suspend(() =>
     XAxisValues: S.optional(XAxisValues),
     MetricValues: S.optional(MetricValues),
   }),
-).annotate({
-  identifier: "MetricQueryResult",
-}) as any as S.Schema<MetricQueryResult>;
+).annotate({ identifier: "MetricQueryResult" }) as any as S.Schema<MetricQueryResult>;
 export type MetricQueryResultList = MetricQueryResult[];
 export const MetricQueryResultList = /*@__PURE__*/ S.Array(MetricQueryResult);
 export interface BatchGetMetricsResponse {
@@ -158,9 +154,7 @@ export interface BatchGetMetricsResponse {
 }
 export const BatchGetMetricsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ MetricQueryResults: S.optional(MetricQueryResultList) }),
-).annotate({
-  identifier: "BatchGetMetricsResponse",
-}) as any as S.Schema<BatchGetMetricsResponse>;
+).annotate({ identifier: "BatchGetMetricsResponse" }) as any as S.Schema<BatchGetMetricsResponse>;
 export type ExperimentEntityName = string;
 export type Step = number;
 export interface RawMetricData {
@@ -188,9 +182,7 @@ export const BatchPutMetricsRequest = /*@__PURE__*/ S.suspend(() =>
     TrialComponentName: S.optional(S.String),
     MetricData: S.optional(RawMetricDataList),
   }).pipe(T.all(T.Http({ method: "PUT", uri: "/BatchPutMetrics" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "BatchPutMetricsRequest",
-}) as any as S.Schema<BatchPutMetricsRequest>;
+).annotate({ identifier: "BatchPutMetricsRequest" }) as any as S.Schema<BatchPutMetricsRequest>;
 export type PutMetricsErrorCode =
   | "METRIC_LIMIT_EXCEEDED"
   | "INTERNAL_ERROR"
@@ -204,13 +196,8 @@ export interface BatchPutMetricsError_ {
   MetricIndex?: number;
 }
 export const BatchPutMetricsError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Code: S.optional(PutMetricsErrorCode),
-    MetricIndex: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "BatchPutMetricsError",
-}) as any as S.Schema<BatchPutMetricsError_>;
+  S.Struct({ Code: S.optional(PutMetricsErrorCode), MetricIndex: S.optional(S.Number) }),
+).annotate({ identifier: "BatchPutMetricsError" }) as any as S.Schema<BatchPutMetricsError_>;
 export type BatchPutMetricsErrorList = BatchPutMetricsError_[];
 export const BatchPutMetricsErrorList = /*@__PURE__*/ S.Array(BatchPutMetricsError_);
 export interface BatchPutMetricsResponse {
@@ -218,9 +205,7 @@ export interface BatchPutMetricsResponse {
 }
 export const BatchPutMetricsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Errors: S.optional(BatchPutMetricsErrorList) }),
-).annotate({
-  identifier: "BatchPutMetricsResponse",
-}) as any as S.Schema<BatchPutMetricsResponse>;
+).annotate({ identifier: "BatchPutMetricsResponse" }) as any as S.Schema<BatchPutMetricsResponse>;
 export type BatchGetMetricsError = CommonErrors;
 /**
  * Used to retrieve training metrics from SageMaker.

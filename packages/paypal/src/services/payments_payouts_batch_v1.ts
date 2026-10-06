@@ -44,15 +44,9 @@ export const CancelPayoutsItemRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     payout_item_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/payments/payouts-item/{payout_item_id}/cancel",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/payments/payouts-item/{payout_item_id}/cancel", code: 200 }),
   ),
-).annotate({
-  identifier: "CancelPayoutsItemRequest",
-}) as any as S.Schema<CancelPayoutsItemRequest>;
+).annotate({ identifier: "CancelPayoutsItemRequest" }) as any as S.Schema<CancelPayoutsItemRequest>;
 
 /** The item transaction status.<blockquote><strong>Note:</strong> For <code>POST/v1/payments/payouts-item/{payout_item_id}/cancel</code>, the only possible <code>transaction_status</code> value is <code>RETURNED</code>.</blockquote> */
 export type TransactionEnum =
@@ -160,9 +154,7 @@ export const PayoutItemDetail = /*@__PURE__*/ S.suspend(() =>
     recipient_wallet: S.optional(RecipientWalletEnum),
     purpose: S.optional(PurposeEnum),
   }),
-).annotate({
-  identifier: "PayoutItemDetail",
-}) as any as S.Schema<PayoutItemDetail>;
+).annotate({ identifier: "PayoutItemDetail" }) as any as S.Schema<PayoutItemDetail>;
 
 /** The currency conversion resource. */
 export interface PayoutCurrencyConversion {
@@ -179,9 +171,7 @@ export const PayoutCurrencyConversion = /*@__PURE__*/ S.suspend(() =>
     to_amount: S.optional(Currency),
     exchange_rate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PayoutCurrencyConversion",
-}) as any as S.Schema<PayoutCurrencyConversion>;
+).annotate({ identifier: "PayoutCurrencyConversion" }) as any as S.Schema<PayoutCurrencyConversion>;
 
 /** The error details. Required for client-side `4XX` errors. */
 export interface ErrorDetails2 {
@@ -239,9 +229,7 @@ export const LinkDescription = /*@__PURE__*/ S.suspend(() =>
     rel: S.String,
     method: S.optional(LinkDescriptionMethod),
   }),
-).annotate({
-  identifier: "LinkDescription",
-}) as any as S.Schema<LinkDescription>;
+).annotate({ identifier: "LinkDescription" }) as any as S.Schema<LinkDescription>;
 
 /** An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type LinkDescriptionList = Array<LinkDescription>;
@@ -341,9 +329,7 @@ export const GetPayoutRequest = /*@__PURE__*/ S.suspend(() =>
     page_size: S.optional(S.Number.pipe(T.Query())),
     total_required: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/payments/payouts/{id}", code: 200 })),
-).annotate({
-  identifier: "GetPayoutRequest",
-}) as any as S.Schema<GetPayoutRequest>;
+).annotate({ identifier: "GetPayoutRequest" }) as any as S.Schema<GetPayoutRequest>;
 
 /** The payouts status. */
 export type BatchEnum = "DENIED" | "PENDING" | "PROCESSING" | "SUCCESS" | "CANCELED";
@@ -366,9 +352,7 @@ export const PayoutSenderBatchHeader = /*@__PURE__*/ S.suspend(() =>
     email_subject: S.optional(S.String),
     email_message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PayoutSenderBatchHeader",
-}) as any as S.Schema<PayoutSenderBatchHeader>;
+).annotate({ identifier: "PayoutSenderBatchHeader" }) as any as S.Schema<PayoutSenderBatchHeader>;
 
 /** Identifies a funding source type. */
 export type FundingSource = "BALANCE";
@@ -407,9 +391,7 @@ export const PayoutBatchHeader = /*@__PURE__*/ S.suspend(() =>
     amount: S.optional(Currency),
     fees: S.optional(Currency),
   }),
-).annotate({
-  identifier: "PayoutBatchHeader",
-}) as any as S.Schema<PayoutBatchHeader>;
+).annotate({ identifier: "PayoutBatchHeader" }) as any as S.Schema<PayoutBatchHeader>;
 
 /** An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links). */
 export type PayoutBatchItemsDefinitionsLinkDescriptionList = Array<LinkDescription>;
@@ -453,9 +435,7 @@ export const PayoutBatchItems = /*@__PURE__*/ S.suspend(() =>
     errors: S.optional(Error),
     links: S.optional(PayoutBatchItemsDefinitionsLinkDescriptionList),
   }),
-).annotate({
-  identifier: "PayoutBatchItems",
-}) as any as S.Schema<PayoutBatchItems>;
+).annotate({ identifier: "PayoutBatchItems" }) as any as S.Schema<PayoutBatchItems>;
 
 /** An array of individual items. */
 export type PayoutBatchItemsList = Array<PayoutBatchItems>;
@@ -497,16 +477,8 @@ export interface GetPayoutsItemRequest {
 export const GetPayoutsItemRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     payout_item_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/payments/payouts-item/{payout_item_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetPayoutsItemRequest",
-}) as any as S.Schema<GetPayoutsItemRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/payments/payouts-item/{payout_item_id}", code: 200 })),
+).annotate({ identifier: "GetPayoutsItemRequest" }) as any as S.Schema<GetPayoutsItemRequest>;
 
 /** The sender-provided payout header for a payout request. */
 export interface SenderBatchHeader {
@@ -529,9 +501,7 @@ export const SenderBatchHeader = /*@__PURE__*/ S.suspend(() =>
     email_message: S.optional(S.String),
     note: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SenderBatchHeader",
-}) as any as S.Schema<SenderBatchHeader>;
+).annotate({ identifier: "SenderBatchHeader" }) as any as S.Schema<SenderBatchHeader>;
 
 /** The phone number in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). */
 export interface Phone {
@@ -578,9 +548,7 @@ export const ApplicationContext = /*@__PURE__*/ S.suspend(() =>
     holler_url: S.optional(S.String),
     logo_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationContext",
-}) as any as S.Schema<ApplicationContext>;
+).annotate({ identifier: "ApplicationContext" }) as any as S.Schema<ApplicationContext>;
 
 /** The sender-created payout to a recipient. */
 export interface PayoutItemRequest {
@@ -618,9 +586,7 @@ export const PayoutItemRequest = /*@__PURE__*/ S.suspend(() =>
     application_context: S.optional(ApplicationContext),
     purpose: S.optional(PurposeEnum),
   }),
-).annotate({
-  identifier: "PayoutItemRequest",
-}) as any as S.Schema<PayoutItemRequest>;
+).annotate({ identifier: "PayoutItemRequest" }) as any as S.Schema<PayoutItemRequest>;
 
 /** An array of individual payout items. */
 export type PayoutItemRequestList = Array<PayoutItemRequest>;
@@ -641,9 +607,7 @@ export const PostPayoutRequest = /*@__PURE__*/ S.suspend(() =>
     sender_batch_header: SenderBatchHeader,
     items: PayoutItemRequestList,
   }).pipe(T.Http({ method: "POST", uri: "/v1/payments/payouts", code: 200 })),
-).annotate({
-  identifier: "PostPayoutRequest",
-}) as any as S.Schema<PostPayoutRequest>;
+).annotate({ identifier: "PostPayoutRequest" }) as any as S.Schema<PostPayoutRequest>;
 
 /** The payout header that is returned in response to a payout header request. Shows details for an entire payout request. */
 export interface PayoutHeader {

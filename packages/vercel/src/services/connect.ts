@@ -145,6 +145,22 @@ export const ConnectConnectorCreateDataCase0ServerConfigGrantTypesSupportedList 
     S.String,
   ) as any as S.Schema<ConnectConnectorCreateDataCase0ServerConfigGrantTypesSupportedList>;
 
+/** Supported authorization grant profiles. urn:ietf:params:oauth:grant-profile:id-jag advertises XAA resource support. */
+export type ConnectConnectorCreateDataCase0ServerConfigAuthorizationGrantProfilesSupportedList =
+  Array<string>;
+export const ConnectConnectorCreateDataCase0ServerConfigAuthorizationGrantProfilesSupportedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ConnectConnectorCreateDataCase0ServerConfigAuthorizationGrantProfilesSupportedList>;
+
+/** Token types supported for identity chaining. urn:ietf:params:oauth:token-type:id-jag advertises XAA IdP support. */
+export type ConnectConnectorCreateDataCase0ServerConfigIdentityChainingRequestedTokenTypesSupportedList =
+  Array<string>;
+export const ConnectConnectorCreateDataCase0ServerConfigIdentityChainingRequestedTokenTypesSupportedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ConnectConnectorCreateDataCase0ServerConfigIdentityChainingRequestedTokenTypesSupportedList>;
+
 /** OAuth response modes supported by the server. */
 export type ConnectConnectorCreateDataCase0ServerConfigResponseModesSupportedList = Array<string>;
 export const ConnectConnectorCreateDataCase0ServerConfigResponseModesSupportedList =
@@ -253,6 +269,10 @@ export interface ConnectConnectorCreateDataCase0ServerConfig {
   scopes_supported?: ConnectConnectorCreateDataCase0ServerConfigScopesSupportedList;
   /** OAuth grant types supported by the server. */
   grant_types_supported?: ConnectConnectorCreateDataCase0ServerConfigGrantTypesSupportedList;
+  /** Supported authorization grant profiles. urn:ietf:params:oauth:grant-profile:id-jag advertises XAA resource support. */
+  authorization_grant_profiles_supported?: ConnectConnectorCreateDataCase0ServerConfigAuthorizationGrantProfilesSupportedList;
+  /** Token types supported for identity chaining. urn:ietf:params:oauth:token-type:id-jag advertises XAA IdP support. */
+  identity_chaining_requested_token_types_supported?: ConnectConnectorCreateDataCase0ServerConfigIdentityChainingRequestedTokenTypesSupportedList;
   /** OAuth response modes supported by the server. */
   response_modes_supported?: ConnectConnectorCreateDataCase0ServerConfigResponseModesSupportedList;
   /** OpenID Connect subject identifier types supported by the server. */
@@ -317,6 +337,12 @@ export const ConnectConnectorCreateDataCase0ServerConfig = /*@__PURE__*/ S.suspe
     scopes_supported: S.optional(ConnectConnectorCreateDataCase0ServerConfigScopesSupportedList),
     grant_types_supported: S.optional(
       ConnectConnectorCreateDataCase0ServerConfigGrantTypesSupportedList,
+    ),
+    authorization_grant_profiles_supported: S.optional(
+      ConnectConnectorCreateDataCase0ServerConfigAuthorizationGrantProfilesSupportedList,
+    ),
+    identity_chaining_requested_token_types_supported: S.optional(
+      ConnectConnectorCreateDataCase0ServerConfigIdentityChainingRequestedTokenTypesSupportedList,
     ),
     response_modes_supported: S.optional(
       ConnectConnectorCreateDataCase0ServerConfigResponseModesSupportedList,
@@ -551,6 +577,8 @@ export interface ConnectConnectorCreateDataCase0 {
   forwardedClaims?: ConnectConnectorCreateDataCase0ForwardedClaims;
   /** Default audience used when a token request omits one. An empty string clears the default. */
   defaultAudience?: string;
+  /** Default RFC 8707 resource sent on authorization and token requests when a token request omits one. An empty string clears the default. */
+  defaultResource?: string;
   /** Default token lifetime in seconds to use when the token response omits expires_in. */
   defaultTokenExpiresIn?: number;
   /** Extra query parameters added to authorization URLs. */
@@ -576,6 +604,7 @@ export const ConnectConnectorCreateDataCase0 = /*@__PURE__*/ S.suspend(() =>
     clientCredentials: S.optional(ConnectConnectorCreateDataCase0ClientCredentials),
     forwardedClaims: S.optional(ConnectConnectorCreateDataCase0ForwardedClaims),
     defaultAudience: S.optional(S.String),
+    defaultResource: S.optional(S.String),
     defaultTokenExpiresIn: S.optional(S.Number),
     authorizationUrlParams: S.optional(ConnectConnectorCreateDataCase0AuthorizationUrlParamsMap),
     jwtBearer: S.optional(ConnectConnectorCreateDataCase0JwtBearer),
@@ -627,12 +656,15 @@ export interface ConnectConnectorCreateDataCase1 {
   values?: ConnectConnectorCreateDataCase1ValuesList;
   /** The HTTPS resources the API key authenticates against. */
   serviceUrls?: ConnectConnectorCreateDataCase1ServiceUrlsList;
+  /** Markdown instructions shown to each user on the authorization screen, explaining how to obtain the key they should paste. */
+  instructions?: string;
 }
 export const ConnectConnectorCreateDataCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subjectType: S.optional(ConnectConnectorCreateDataCase1SubjectType),
     values: S.optional(ConnectConnectorCreateDataCase1ValuesList),
     serviceUrls: S.optional(ConnectConnectorCreateDataCase1ServiceUrlsList),
+    instructions: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ConnectConnectorCreateDataCase1",
@@ -669,9 +701,7 @@ export const ConnectConnectorCreateDataCase2Owner = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<ConnectConnectorCreateDataCase2Owner>;
 
 /** Additional provider metadata stored with the connector. */
-export type ConnectConnectorCreateDataCase2ExtrasMap = {
-  [key: string]: unknown | undefined;
-};
+export type ConnectConnectorCreateDataCase2ExtrasMap = { [key: string]: unknown | undefined };
 export const ConnectConnectorCreateDataCase2ExtrasMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -815,9 +845,7 @@ export const ConnectConnectorCreateDataCase3Application = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<ConnectConnectorCreateDataCase3Application>;
 
 /** Additional provider metadata stored with the connector. */
-export type ConnectConnectorCreateDataCase3ExtrasMap = {
-  [key: string]: unknown | undefined;
-};
+export type ConnectConnectorCreateDataCase3ExtrasMap = { [key: string]: unknown | undefined };
 export const ConnectConnectorCreateDataCase3ExtrasMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1015,9 +1043,7 @@ export const ConnectConnectorCreateDataCase7ShortcutsList = /*@__PURE__*/ S.Arra
 ) as any as S.Schema<ConnectConnectorCreateDataCase7ShortcutsList>;
 
 /** Additional provider metadata stored with the connector. */
-export type ConnectConnectorCreateDataCase7ExtrasMap = {
-  [key: string]: unknown | undefined;
-};
+export type ConnectConnectorCreateDataCase7ExtrasMap = { [key: string]: unknown | undefined };
 export const ConnectConnectorCreateDataCase7ExtrasMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1069,9 +1095,7 @@ export const ConnectConnectorCreateDataCase7 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ConnectConnectorCreateDataCase7>;
 
 /** Additional provider metadata stored with the connector. */
-export type ConnectConnectorCreateDataCase8ExtrasMap = {
-  [key: string]: unknown | undefined;
-};
+export type ConnectConnectorCreateDataCase8ExtrasMap = { [key: string]: unknown | undefined };
 export const ConnectConnectorCreateDataCase8ExtrasMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1099,9 +1123,7 @@ export const ConnectConnectorCreateDataCase8 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ConnectConnectorCreateDataCase8>;
 
 /** Additional provider metadata stored with the connector. */
-export type ConnectConnectorCreateDataCase9ExtrasMap = {
-  [key: string]: unknown | undefined;
-};
+export type ConnectConnectorCreateDataCase9ExtrasMap = { [key: string]: unknown | undefined };
 export const ConnectConnectorCreateDataCase9ExtrasMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1143,9 +1165,7 @@ export const ConnectConnectorCreateDataCase10 = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConnectConnectorCreateDataCase10",
 }) as any as S.Schema<ConnectConnectorCreateDataCase10>;
 
-export type ConnectConnectorCreateDataCase11Map = {
-  [key: string]: unknown | undefined;
-};
+export type ConnectConnectorCreateDataCase11Map = { [key: string]: unknown | undefined };
 export const ConnectConnectorCreateDataCase11Map = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1168,9 +1188,7 @@ export type ConnectConnectorCreateData =
 export const ConnectConnectorCreateData = S.Unknown as any as S.Schema<ConnectConnectorCreateData>;
 
 /** Values for the selected connection method's template fields. Requires connectionMethod. */
-export type CreateConnectorRequestParamsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateConnectorRequestParamsMap = { [key: string]: string | undefined };
 export const CreateConnectorRequestParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1191,6 +1209,13 @@ export type CreateConnectorRequestEnvironmentsList = Array<CreateConnectorReques
 export const CreateConnectorRequestEnvironmentsList = /*@__PURE__*/ S.Array(
   CreateConnectorRequestEnvironmentsItem,
 ) as any as S.Schema<CreateConnectorRequestEnvironmentsList>;
+
+/** Trigger configuration, validated and encrypted by the trigger driver. An empty object applies driver defaults. */
+export type CreateConnectorRequestTriggerDataMap = { [key: string]: unknown | undefined };
+export const CreateConnectorRequestTriggerDataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<CreateConnectorRequestTriggerDataMap>;
 
 export interface CreateConnectorRequestTriggerDestinationCase0 {
   /** Project that receives triggers. During connector creation, omit it to use the top-level projectId. */
@@ -1290,6 +1315,10 @@ export interface CreateConnectorRequest {
   environments?: CreateConnectorRequestEnvironmentsList;
   /** Whether the triggers are enabled for this connector. */
   triggers?: boolean;
+  /** Trigger driver type. Resolved automatically from the known service connection method when not provided. Only set when using the newly decoupled triggers resolution flow. */
+  triggerType?: string;
+  /** Trigger configuration, validated and encrypted by the trigger driver. An empty object applies driver defaults. */
+  triggerData?: CreateConnectorRequestTriggerDataMap;
   /** Initial trigger destination. Requires triggers to be enabled and a projectId here or at the top level. Connector responses expose the resulting set as triggerDestinations. Replace the complete set with PATCH /v1/connect/connectors/{connector}/trigger-destinations. */
   triggerDestination?: CreateConnectorRequestTriggerDestination;
   /** Default trigger events for this connector. */
@@ -1313,180 +1342,12 @@ export const CreateConnectorRequest = /*@__PURE__*/ S.suspend(() =>
     projectId: S.optional(S.String),
     environments: S.optional(CreateConnectorRequestEnvironmentsList),
     triggers: S.optional(S.Boolean),
+    triggerType: S.optional(S.String),
+    triggerData: S.optional(CreateConnectorRequestTriggerDataMap),
     triggerDestination: S.optional(CreateConnectorRequestTriggerDestination),
     events: S.optional(CreateConnectorRequestEventsList),
   }).pipe(T.Http({ method: "POST", uri: "/v1/connect/connectors", code: 200 })),
-).annotate({
-  identifier: "CreateConnectorRequest",
-}) as any as S.Schema<CreateConnectorRequest>;
-
-/** Principal kind. */
-export type ConnectConnectorCreateResultCreatedByCase0Type = "user";
-export const ConnectConnectorCreateResultCreatedByCase0Type = S.String;
-
-/** Principal that originally created the connector — either a Vercel user (interactive dashboard / CLI flow) or a Vercel deployment (OIDC-authenticated project, used by runtime auto-provisioning). See {@link ConnexPrincipal}. Optional: pre-existing rows from before this shape was introduced may carry no attribution at all. */
-export interface ConnectConnectorCreateResultCreatedByCase0 {
-  /** Principal kind. */
-  type: ConnectConnectorCreateResultCreatedByCase0Type;
-  /** Vercel user ID. */
-  id: string;
-}
-export const ConnectConnectorCreateResultCreatedByCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: ConnectConnectorCreateResultCreatedByCase0Type,
-    id: S.String,
-  }),
-).annotate({
-  identifier: "ConnectConnectorCreateResultCreatedByCase0",
-}) as any as S.Schema<ConnectConnectorCreateResultCreatedByCase0>;
-
-/** Principal kind. */
-export type ConnectConnectorCreateResultCreatedByCase1Type = "project";
-export const ConnectConnectorCreateResultCreatedByCase1Type = S.String;
-
-export type ConnectConnectorCreateResultCreatedByCase1EnvironmentCase1 =
-  | "development"
-  | "preview"
-  | "production";
-export const ConnectConnectorCreateResultCreatedByCase1EnvironmentCase1 = S.String;
-
-/** Deployment environment of the project principal. */
-export type ConnectConnectorCreateResultCreatedByCase1Environment =
-  | string
-  | ConnectConnectorCreateResultCreatedByCase1EnvironmentCase1;
-export const ConnectConnectorCreateResultCreatedByCase1Environment =
-  S.Unknown as any as S.Schema<ConnectConnectorCreateResultCreatedByCase1Environment>;
-
-/** Principal that originally created the connector — either a Vercel user (interactive dashboard / CLI flow) or a Vercel deployment (OIDC-authenticated project, used by runtime auto-provisioning). See {@link ConnexPrincipal}. Optional: pre-existing rows from before this shape was introduced may carry no attribution at all. */
-export interface ConnectConnectorCreateResultCreatedByCase1 {
-  /** Principal kind. */
-  type: ConnectConnectorCreateResultCreatedByCase1Type;
-  /** Vercel project ID. */
-  id: string;
-  /** Deployment environment of the project principal. */
-  environment: ConnectConnectorCreateResultCreatedByCase1Environment;
-}
-export const ConnectConnectorCreateResultCreatedByCase1 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: ConnectConnectorCreateResultCreatedByCase1Type,
-    id: S.String,
-    environment: ConnectConnectorCreateResultCreatedByCase1Environment,
-  }),
-).annotate({
-  identifier: "ConnectConnectorCreateResultCreatedByCase1",
-}) as any as S.Schema<ConnectConnectorCreateResultCreatedByCase1>;
-
-/** Principal that created the connector. */
-export type ConnectConnectorCreateResultCreatedBy =
-  | ConnectConnectorCreateResultCreatedByCase0
-  | ConnectConnectorCreateResultCreatedByCase1;
-export const ConnectConnectorCreateResultCreatedBy =
-  S.Unknown as any as S.Schema<ConnectConnectorCreateResultCreatedBy>;
-
-/** Principal kind. */
-export type ConnectConnectorCreateResultUpdatedByCase0Type = "user";
-export const ConnectConnectorCreateResultUpdatedByCase0Type = S.String;
-
-/** Principal that most recently mutated the connector. Same shape as {@link createdBy} but tracks the most recent updater, not the original creator. At create time the two fields point at the same principal; they diverge on the first subsequent update. */
-export interface ConnectConnectorCreateResultUpdatedByCase0 {
-  /** Principal kind. */
-  type: ConnectConnectorCreateResultUpdatedByCase0Type;
-  /** Vercel user ID. */
-  id: string;
-}
-export const ConnectConnectorCreateResultUpdatedByCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: ConnectConnectorCreateResultUpdatedByCase0Type,
-    id: S.String,
-  }),
-).annotate({
-  identifier: "ConnectConnectorCreateResultUpdatedByCase0",
-}) as any as S.Schema<ConnectConnectorCreateResultUpdatedByCase0>;
-
-/** Principal kind. */
-export type ConnectConnectorCreateResultUpdatedByCase1Type = "project";
-export const ConnectConnectorCreateResultUpdatedByCase1Type = S.String;
-
-export type ConnectConnectorCreateResultUpdatedByCase1EnvironmentCase1 =
-  | "development"
-  | "preview"
-  | "production";
-export const ConnectConnectorCreateResultUpdatedByCase1EnvironmentCase1 = S.String;
-
-/** Deployment environment of the project principal. */
-export type ConnectConnectorCreateResultUpdatedByCase1Environment =
-  | string
-  | ConnectConnectorCreateResultUpdatedByCase1EnvironmentCase1;
-export const ConnectConnectorCreateResultUpdatedByCase1Environment =
-  S.Unknown as any as S.Schema<ConnectConnectorCreateResultUpdatedByCase1Environment>;
-
-/** Principal that most recently mutated the connector. Same shape as {@link createdBy} but tracks the most recent updater, not the original creator. At create time the two fields point at the same principal; they diverge on the first subsequent update. */
-export interface ConnectConnectorCreateResultUpdatedByCase1 {
-  /** Principal kind. */
-  type: ConnectConnectorCreateResultUpdatedByCase1Type;
-  /** Vercel project ID. */
-  id: string;
-  /** Deployment environment of the project principal. */
-  environment: ConnectConnectorCreateResultUpdatedByCase1Environment;
-}
-export const ConnectConnectorCreateResultUpdatedByCase1 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: ConnectConnectorCreateResultUpdatedByCase1Type,
-    id: S.String,
-    environment: ConnectConnectorCreateResultUpdatedByCase1Environment,
-  }),
-).annotate({
-  identifier: "ConnectConnectorCreateResultUpdatedByCase1",
-}) as any as S.Schema<ConnectConnectorCreateResultUpdatedByCase1>;
-
-/** Principal that most recently updated the connector. */
-export type ConnectConnectorCreateResultUpdatedBy =
-  | ConnectConnectorCreateResultUpdatedByCase0
-  | ConnectConnectorCreateResultUpdatedByCase1;
-export const ConnectConnectorCreateResultUpdatedBy =
-  S.Unknown as any as S.Schema<ConnectConnectorCreateResultUpdatedBy>;
-
-/** How the connector row was originally created. New create paths stamp this explicitly; older rows may omit it. */
-export type ConnectConnectorCreateResultCreationMode = "managed" | "manual";
-export const ConnectConnectorCreateResultCreationMode = S.String;
-
-/** Managed connector metadata exposed without leaking the manager connector or installation identifiers. */
-export interface ConnectConnectorCreateResultManaged {
-  /** Whether Vercel synchronizes provider-side configuration. */
-  sync?: boolean;
-}
-export const ConnectConnectorCreateResultManaged = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sync: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "ConnectConnectorCreateResultManaged",
-}) as any as S.Schema<ConnectConnectorCreateResultManaged>;
-
-/** Connector implementation type. */
-export type ConnectConnectorCreateResultType =
-  | "api-key"
-  | "custom"
-  | "discord"
-  | "github"
-  | "linear"
-  | "linq"
-  | "microsoft-entra"
-  | "microsoft-teams"
-  | "oauth"
-  | "photon"
-  | "salesforce"
-  | "sendblue"
-  | "slack"
-  | "snowflake"
-  | "snowflake-wif";
-export const ConnectConnectorCreateResultType = S.String;
-
-/** Token subject types supported by the connector. */
-export type ConnectConnectorCreateResultSupportedSubjectTypesList = Array<string>;
-export const ConnectConnectorCreateResultSupportedSubjectTypesList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<ConnectConnectorCreateResultSupportedSubjectTypesList>;
+).annotate({ identifier: "CreateConnectorRequest" }) as any as S.Schema<CreateConnectorRequest>;
 
 /** Known allowed app-level scopes. For Slack this is the bot scope set configured on the app; for OAuth it is the connector's enabled `clientCredentials.scopes` configuration. */
 export type ConnectConnectorCreateResultAppTokensScopesList = Array<string>;
@@ -1505,31 +1366,250 @@ export const ConnectConnectorCreateResultAppTokensSupportedAuthorizationDetailsL
 export interface ConnectConnectorCreateResultAppTokens {
   /** Whether one app token can be used across installations. */
   crossInstallation: boolean;
-  /** Whether callers can narrow app-token grants per request. */
-  supportsRefinement: boolean;
+  /** Link to the page on the service where this connector's app-level permissions are declared and granted, when the service has one and it differs from `clientUrl`. */
+  permissionsUrl?: string;
   /** True when changing app token grants requires reinstalling the app, so tokens cannot be partitioned independently by requester environment. */
   requiresReinstallation?: boolean;
   /** Known allowed app-level scopes. For Slack this is the bot scope set configured on the app; for OAuth it is the connector's enabled `clientCredentials.scopes` configuration. */
   scopes?: ConnectConnectorCreateResultAppTokensScopesList;
   /** Supported OAuth authorization-detail type names. */
   supportedAuthorizationDetails?: ConnectConnectorCreateResultAppTokensSupportedAuthorizationDetailsList;
-  /** Link to the page on the service where this connector's app-level permissions are declared and granted, when the service has one and it differs from `clientUrl`. */
-  permissionsUrl?: string;
+  /** Whether callers can narrow app-token grants per request. */
+  supportsRefinement: boolean;
+  /** Whether callers can request resource-specific app tokens. */
+  supportsResources?: boolean;
 }
 export const ConnectConnectorCreateResultAppTokens = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     crossInstallation: S.Boolean,
-    supportsRefinement: S.Boolean,
+    permissionsUrl: S.optional(S.String),
     requiresReinstallation: S.optional(S.Boolean),
     scopes: S.optional(ConnectConnectorCreateResultAppTokensScopesList),
     supportedAuthorizationDetails: S.optional(
       ConnectConnectorCreateResultAppTokensSupportedAuthorizationDetailsList,
     ),
-    permissionsUrl: S.optional(S.String),
+    supportsRefinement: S.Boolean,
+    supportsResources: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "ConnectConnectorCreateResultAppTokens",
 }) as any as S.Schema<ConnectConnectorCreateResultAppTokens>;
+
+/** Principal kind. */
+export type ConnectConnectorCreateResultCreatedByCase0Type = "user";
+export const ConnectConnectorCreateResultCreatedByCase0Type = S.String;
+
+/** Principal that originally created the connector — either a Vercel user (interactive dashboard / CLI flow) or a Vercel deployment (OIDC-authenticated project, used by runtime auto-provisioning). See {@link ConnexPrincipal}. Optional: pre-existing rows from before this shape was introduced may carry no attribution at all. */
+export interface ConnectConnectorCreateResultCreatedByCase0 {
+  /** Vercel user ID. */
+  id: string;
+  /** Principal kind. */
+  type: ConnectConnectorCreateResultCreatedByCase0Type;
+}
+export const ConnectConnectorCreateResultCreatedByCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: ConnectConnectorCreateResultCreatedByCase0Type,
+  }),
+).annotate({
+  identifier: "ConnectConnectorCreateResultCreatedByCase0",
+}) as any as S.Schema<ConnectConnectorCreateResultCreatedByCase0>;
+
+export type ConnectConnectorCreateResultCreatedByCase1EnvironmentCase1 =
+  | "development"
+  | "preview"
+  | "production";
+export const ConnectConnectorCreateResultCreatedByCase1EnvironmentCase1 = S.String;
+
+/** Deployment environment of the project principal. */
+export type ConnectConnectorCreateResultCreatedByCase1Environment =
+  | string
+  | ConnectConnectorCreateResultCreatedByCase1EnvironmentCase1;
+export const ConnectConnectorCreateResultCreatedByCase1Environment =
+  S.Unknown as any as S.Schema<ConnectConnectorCreateResultCreatedByCase1Environment>;
+
+/** Principal kind. */
+export type ConnectConnectorCreateResultCreatedByCase1Type = "project";
+export const ConnectConnectorCreateResultCreatedByCase1Type = S.String;
+
+/** Principal that originally created the connector — either a Vercel user (interactive dashboard / CLI flow) or a Vercel deployment (OIDC-authenticated project, used by runtime auto-provisioning). See {@link ConnexPrincipal}. Optional: pre-existing rows from before this shape was introduced may carry no attribution at all. */
+export interface ConnectConnectorCreateResultCreatedByCase1 {
+  /** Deployment environment of the project principal. */
+  environment: ConnectConnectorCreateResultCreatedByCase1Environment;
+  /** Vercel project ID. */
+  id: string;
+  /** Principal kind. */
+  type: ConnectConnectorCreateResultCreatedByCase1Type;
+}
+export const ConnectConnectorCreateResultCreatedByCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    environment: ConnectConnectorCreateResultCreatedByCase1Environment,
+    id: S.String,
+    type: ConnectConnectorCreateResultCreatedByCase1Type,
+  }),
+).annotate({
+  identifier: "ConnectConnectorCreateResultCreatedByCase1",
+}) as any as S.Schema<ConnectConnectorCreateResultCreatedByCase1>;
+
+/** Principal that created the connector. */
+export type ConnectConnectorCreateResultCreatedBy =
+  | ConnectConnectorCreateResultCreatedByCase0
+  | ConnectConnectorCreateResultCreatedByCase1;
+export const ConnectConnectorCreateResultCreatedBy =
+  S.Unknown as any as S.Schema<ConnectConnectorCreateResultCreatedBy>;
+
+/** How the connector row was originally created. New create paths stamp this explicitly; older rows may omit it. */
+export type ConnectConnectorCreateResultCreationMode = "managed" | "manual";
+export const ConnectConnectorCreateResultCreationMode = S.String;
+
+/** Known events this connector subscribes to (e.g. Slack bot events, GitHub webhook events). Names are type-specific and validated by the managed-create flow when forwarded to the third-party service. */
+export type ConnectConnectorCreateResultEventsList = Array<string>;
+export const ConnectConnectorCreateResultEventsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ConnectConnectorCreateResultEventsList>;
+
+/** Managed connector metadata exposed without leaking the manager connector or installation identifiers. */
+export interface ConnectConnectorCreateResultManaged {
+  /** Whether Vercel synchronizes provider-side configuration. */
+  sync?: boolean;
+}
+export const ConnectConnectorCreateResultManaged = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sync: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "ConnectConnectorCreateResultManaged",
+}) as any as S.Schema<ConnectConnectorCreateResultManaged>;
+
+/** Token subject types supported by the connector. */
+export type ConnectConnectorCreateResultSupportedSubjectTypesList = Array<string>;
+export const ConnectConnectorCreateResultSupportedSubjectTypesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ConnectConnectorCreateResultSupportedSubjectTypesList>;
+
+/** Destinations that incoming triggers should be forwarded to. Limited to 3 entries. Set the initial destination with `triggerDestination` during creation. Replace the complete set with `PATCH /v1/connect/connectors/{connector}/trigger-destinations`. */
+export interface ConnectTriggerDestination {
+  /** Git branch used to select a preview deployment. */
+  branch?: string;
+  /** Stable custom-environment ID to route this destination to. Mutually exclusive with `branch`; omitted destinations keep the legacy production behavior. */
+  customEnvironmentId?: string;
+  /** Route path that receives the forwarded trigger request. */
+  path?: string;
+  /** Vercel project that receives matching trigger requests. */
+  projectId: string;
+}
+export const ConnectTriggerDestination = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    branch: S.optional(S.String),
+    customEnvironmentId: S.optional(S.String),
+    path: S.optional(S.String),
+    projectId: S.String,
+  }),
+).annotate({
+  identifier: "ConnectTriggerDestination",
+}) as any as S.Schema<ConnectTriggerDestination>;
+
+/** Destinations that incoming triggers should be forwarded to. Limited to 3 entries. Set the initial destination with `triggerDestination` during creation. Replace the complete set with `PATCH /v1/connect/connectors/{connector}/trigger-destinations`. */
+export type ConnectConnectorCreateResultTriggerDestinationsList = Array<ConnectTriggerDestination>;
+export const ConnectConnectorCreateResultTriggerDestinationsList = /*@__PURE__*/ S.Array(
+  ConnectTriggerDestination,
+) as any as S.Schema<ConnectConnectorCreateResultTriggerDestinationsList>;
+
+/** Incoming trigger configuration. Only present when enabled. */
+export interface ConnectTriggerConfiguration {
+  /** Whether incoming triggers are enabled for the connector. */
+  enabled: boolean;
+}
+export const ConnectTriggerConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.Boolean,
+  }),
+).annotate({
+  identifier: "ConnectTriggerConfiguration",
+}) as any as S.Schema<ConnectTriggerConfiguration>;
+
+/** Connector implementation type. */
+export type ConnectConnectorCreateResultType =
+  | "api-key"
+  | "aws-alpha"
+  | "custom"
+  | "discord"
+  | "github"
+  | "linear"
+  | "linq"
+  | "microsoft-entra"
+  | "microsoft-teams"
+  | "oauth"
+  | "photon"
+  | "salesforce"
+  | "sendblue"
+  | "slack"
+  | "snowflake"
+  | "snowflake-wif";
+export const ConnectConnectorCreateResultType = S.String;
+
+/** Principal kind. */
+export type ConnectConnectorCreateResultUpdatedByCase0Type = "user";
+export const ConnectConnectorCreateResultUpdatedByCase0Type = S.String;
+
+/** Principal that most recently mutated the connector. Same shape as {@link createdBy} but tracks the most recent updater, not the original creator. At create time the two fields point at the same principal; they diverge on the first subsequent update. */
+export interface ConnectConnectorCreateResultUpdatedByCase0 {
+  /** Vercel user ID. */
+  id: string;
+  /** Principal kind. */
+  type: ConnectConnectorCreateResultUpdatedByCase0Type;
+}
+export const ConnectConnectorCreateResultUpdatedByCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: ConnectConnectorCreateResultUpdatedByCase0Type,
+  }),
+).annotate({
+  identifier: "ConnectConnectorCreateResultUpdatedByCase0",
+}) as any as S.Schema<ConnectConnectorCreateResultUpdatedByCase0>;
+
+export type ConnectConnectorCreateResultUpdatedByCase1EnvironmentCase1 =
+  | "development"
+  | "preview"
+  | "production";
+export const ConnectConnectorCreateResultUpdatedByCase1EnvironmentCase1 = S.String;
+
+/** Deployment environment of the project principal. */
+export type ConnectConnectorCreateResultUpdatedByCase1Environment =
+  | string
+  | ConnectConnectorCreateResultUpdatedByCase1EnvironmentCase1;
+export const ConnectConnectorCreateResultUpdatedByCase1Environment =
+  S.Unknown as any as S.Schema<ConnectConnectorCreateResultUpdatedByCase1Environment>;
+
+/** Principal kind. */
+export type ConnectConnectorCreateResultUpdatedByCase1Type = "project";
+export const ConnectConnectorCreateResultUpdatedByCase1Type = S.String;
+
+/** Principal that most recently mutated the connector. Same shape as {@link createdBy} but tracks the most recent updater, not the original creator. At create time the two fields point at the same principal; they diverge on the first subsequent update. */
+export interface ConnectConnectorCreateResultUpdatedByCase1 {
+  /** Deployment environment of the project principal. */
+  environment: ConnectConnectorCreateResultUpdatedByCase1Environment;
+  /** Vercel project ID. */
+  id: string;
+  /** Principal kind. */
+  type: ConnectConnectorCreateResultUpdatedByCase1Type;
+}
+export const ConnectConnectorCreateResultUpdatedByCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    environment: ConnectConnectorCreateResultUpdatedByCase1Environment,
+    id: S.String,
+    type: ConnectConnectorCreateResultUpdatedByCase1Type,
+  }),
+).annotate({
+  identifier: "ConnectConnectorCreateResultUpdatedByCase1",
+}) as any as S.Schema<ConnectConnectorCreateResultUpdatedByCase1>;
+
+/** Principal that most recently updated the connector. */
+export type ConnectConnectorCreateResultUpdatedBy =
+  | ConnectConnectorCreateResultUpdatedByCase0
+  | ConnectConnectorCreateResultUpdatedByCase1;
+export const ConnectConnectorCreateResultUpdatedBy =
+  S.Unknown as any as S.Schema<ConnectConnectorCreateResultUpdatedBy>;
 
 /** Known allowed user-level scopes. For Slack this is the user scope set configured on the app; for OAuth it is the connector's enabled `userAuthorization.scopes` configuration. */
 export type ConnectConnectorCreateResultUserTokensScopesList = Array<string>;
@@ -1548,189 +1628,151 @@ export const ConnectConnectorCreateResultUserTokensSupportedAuthorizationDetails
 export interface ConnectConnectorCreateResultUserTokens {
   /** Whether one user token can be used across installations. */
   crossInstallation: boolean;
-  /** Whether callers can narrow user-token grants per request. */
-  supportsRefinement: boolean;
+  /** User authorization is completed by the Connect consent screen submitting a credential instead of an OAuth redirect. */
+  manualCredentialInput?: boolean;
   /** Known allowed user-level scopes. For Slack this is the user scope set configured on the app; for OAuth it is the connector's enabled `userAuthorization.scopes` configuration. */
   scopes?: ConnectConnectorCreateResultUserTokensScopesList;
   /** Supported OAuth authorization-detail type names. */
   supportedAuthorizationDetails?: ConnectConnectorCreateResultUserTokensSupportedAuthorizationDetailsList;
-  /** User authorization is completed by the Connect consent screen submitting a credential instead of an OAuth redirect. */
-  manualCredentialInput?: boolean;
+  /** Whether callers can narrow user-token grants per request. */
+  supportsRefinement: boolean;
+  /** Whether callers can request resource-specific user tokens. */
+  supportsResources?: boolean;
 }
 export const ConnectConnectorCreateResultUserTokens = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     crossInstallation: S.Boolean,
-    supportsRefinement: S.Boolean,
+    manualCredentialInput: S.optional(S.Boolean),
     scopes: S.optional(ConnectConnectorCreateResultUserTokensScopesList),
     supportedAuthorizationDetails: S.optional(
       ConnectConnectorCreateResultUserTokensSupportedAuthorizationDetailsList,
     ),
-    manualCredentialInput: S.optional(S.Boolean),
+    supportsRefinement: S.Boolean,
+    supportsResources: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "ConnectConnectorCreateResultUserTokens",
 }) as any as S.Schema<ConnectConnectorCreateResultUserTokens>;
 
-/** Incoming trigger configuration. Only present when enabled. */
-export interface ConnectTriggerConfiguration {
-  /** Whether incoming triggers are enabled for the connector. */
-  enabled: boolean;
-}
-export const ConnectTriggerConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enabled: S.Boolean,
-  }),
-).annotate({
-  identifier: "ConnectTriggerConfiguration",
-}) as any as S.Schema<ConnectTriggerConfiguration>;
-
-/** Known events this connector subscribes to (e.g. Slack bot events, GitHub webhook events). Names are type-specific and validated by the managed-create flow when forwarded to the third-party service. */
-export type ConnectConnectorCreateResultEventsList = Array<string>;
-export const ConnectConnectorCreateResultEventsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<ConnectConnectorCreateResultEventsList>;
-
-/** Destinations that incoming triggers should be forwarded to. Limited to 3 entries. Set the initial destination with `triggerDestination` during creation. Replace the complete set with `PATCH /v1/connect/connectors/{connector}/trigger-destinations`. */
-export interface ConnectTriggerDestination {
-  /** Vercel project that receives matching trigger requests. */
-  projectId: string;
-  /** Stable custom-environment ID to route this destination to. Mutually exclusive with `branch`; omitted destinations keep the legacy production behavior. */
-  customEnvironmentId?: string;
-  /** Git branch used to select a preview deployment. */
-  branch?: string;
-  /** Route path that receives the forwarded trigger request. */
-  path?: string;
-}
-export const ConnectTriggerDestination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectId: S.String,
-    customEnvironmentId: S.optional(S.String),
-    branch: S.optional(S.String),
-    path: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ConnectTriggerDestination",
-}) as any as S.Schema<ConnectTriggerDestination>;
-
-/** Destinations that incoming triggers should be forwarded to. Limited to 3 entries. Set the initial destination with `triggerDestination` during creation. Replace the complete set with `PATCH /v1/connect/connectors/{connector}/trigger-destinations`. */
-export type ConnectConnectorCreateResultTriggerDestinationsList = Array<ConnectTriggerDestination>;
-export const ConnectConnectorCreateResultTriggerDestinationsList = /*@__PURE__*/ S.Array(
-  ConnectTriggerDestination,
-) as any as S.Schema<ConnectConnectorCreateResultTriggerDestinationsList>;
-
 /** Connector created by the request. */
 export interface ConnectConnectorCreateResult {
-  /** Stable `scl_` connector ID. Use this value directly in `{connector}`. */
-  id: string;
-  /** Team-scoped UID. URL-encode this value before using it in `{connector}`. */
-  uid: string;
-  /** Installation used when a token request does not specify an installation. */
-  defaultInstallationId?: string;
-  /** Creation time in epoch milliseconds. */
-  createdAt: number;
-  /** Last update time in epoch milliseconds. */
-  updatedAt: number;
-  /** Time when this connector started requiring reinstallation because an installation-affecting app-token grant changed. */
-  reinstallAt?: number;
-  /** Principal that created the connector. */
-  createdBy?: ConnectConnectorCreateResultCreatedBy;
-  /** Principal that most recently updated the connector. */
-  updatedBy?: ConnectConnectorCreateResultUpdatedBy;
-  /** How the connector row was originally created. New create paths stamp this explicitly; older rows may omit it. */
-  creationMode?: ConnectConnectorCreateResultCreationMode;
-  /** Managed connector metadata exposed without leaking the manager connector or installation identifiers. */
-  managed?: ConnectConnectorCreateResultManaged;
-  /** Connector implementation type. */
-  type: ConnectConnectorCreateResultType;
-  /** Best-effort identifier of the third-party service this connector represents, independent of `type`. Examples: `'slack'`, `'mcp.linear.app'`, and `'auth.example.com'`. Always present in API responses. */
-  service: string;
-  /** The connection method this connector was created from, when the create request named one. */
-  connectionMethod?: string;
-  /** Which of the service's products/surfaces this connector points at. */
-  target?: string;
-  /** Connector name within the owning team. */
-  name: string;
-  /** Human-readable connector name. */
-  displayName: string;
-  /** Provider-side URL for viewing or managing the resource represented by the connector. The destination can be an app, account, phone line, or service instance, depending on the connector type. */
-  clientUrl?: string | null;
-  /** Redirect URI registered with the third-party service for this connector, if any. Used by `startAuthorization`/`startInstallation` to replay the exact URI back to the provider's token endpoint. Absent on connectors created before this field was introduced; those callers fall back to the `https://connect.vercel.com/callback` default. */
-  redirectUri?: string;
-  /** Human-readable name of the connector type. */
-  typeName: string;
-  /** Icon identifier supplied by the connector type. */
-  typeIcon?: string;
-  /** Public website for the connected service. */
-  website?: string;
-  /** Developer website for the connected service. */
-  devsite?: string;
-  /** Developer documentation for the connected service. */
-  docsite?: string;
-  /** Connector branding icon. SHA-1 hash that resolves to the uploaded icon through the Vercel avatar service. Consumers render this with `https://vercel.com/api/www/avatar/{icon}`. */
-  icon?: string;
-  /** Hex background color (e.g., `#000000`) for branding. */
-  backgroundColor?: string;
   /** Hex accent color (e.g., `#000000`) for branding. */
   accentColor?: string;
-  /** Token subject types supported by the connector. */
-  supportedSubjectTypes: ConnectConnectorCreateResultSupportedSubjectTypesList;
   /** App-token capabilities and known grants for the connector. */
   appTokens?: ConnectConnectorCreateResultAppTokens;
-  /** User-token capabilities and known grants for the connector. */
-  userTokens?: ConnectConnectorCreateResultUserTokens;
+  /** Hex background color (e.g., `#000000`) for branding. */
+  backgroundColor?: string;
+  /** Provider-side URL for viewing or managing the resource represented by the connector. The destination can be an app, account, phone line, or service instance, depending on the connector type. */
+  clientUrl?: string | null;
+  /** The connection method this connector was created from, when the create request named one. */
+  connectionMethod?: string;
+  /** Creation time in epoch milliseconds. */
+  createdAt: number;
+  /** Principal that created the connector. */
+  createdBy?: ConnectConnectorCreateResultCreatedBy;
+  /** How the connector row was originally created. New create paths stamp this explicitly; older rows may omit it. */
+  creationMode?: ConnectConnectorCreateResultCreationMode;
+  /** Installation used when a token request does not specify an installation. */
+  defaultInstallationId?: string;
+  /** Developer website for the connected service. */
+  devsite?: string;
+  /** Human-readable connector name. */
+  displayName: string;
+  /** Developer documentation for the connected service. */
+  docsite?: string;
+  /** Known events this connector subscribes to (e.g. Slack bot events, GitHub webhook events). Names are type-specific and validated by the managed-create flow when forwarded to the third-party service. */
+  events?: ConnectConnectorCreateResultEventsList;
+  /** Connector branding icon. SHA-1 hash that resolves to the uploaded icon through the Vercel avatar service. Consumers render this with `https://vercel.com/api/www/avatar/{icon}`. */
+  icon?: string;
+  /** Stable `scl_` connector ID. Use this value directly in `{connector}`. */
+  id: string;
+  /** Whether the connector is known to have been edited since the app package it publishes to the provider was last built, so that package no longer matches it. Absent when it was not computed, or when the connector type publishes no such package. Derived on every read rather than marked at edit time, so reverting an edit clears it. Only reported by connector types that publish a package a user has to re-publish by hand — Microsoft Teams today. */
+  knownStale?: boolean;
+  /** Managed connector metadata exposed without leaking the manager connector or installation identifiers. */
+  managed?: ConnectConnectorCreateResultManaged;
+  /** Connector name within the owning team. */
+  name: string;
+  /** Redirect URI registered with the third-party service for this connector, if any. Used by `startAuthorization`/`startInstallation` to replay the exact URI back to the provider's token endpoint. Absent on connectors created before this field was introduced; those callers fall back to the `https://connect.vercel.com/callback` default. */
+  redirectUri?: string;
+  /** Time when this connector started requiring reinstallation because an installation-affecting app-token grant changed. */
+  reinstallAt?: number;
+  /** Best-effort identifier of the third-party service this connector represents, independent of `type`. Examples: `'slack'`, `'mcp.linear.app'`, and `'auth.example.com'`. Always present in API responses. */
+  service: string;
+  /** Provider logo from the known-service registry, matched by `service`. Often an SVG data URL. Absent when the service is not in the registry. */
+  serviceIcon?: string;
+  /** Token subject types supported by the connector. */
+  supportedSubjectTypes: ConnectConnectorCreateResultSupportedSubjectTypesList;
+  /** Whether the connector icon can propagate to the provider. */
+  supportsIcon: unknown;
   /** Whether the connector supports an installation flow. */
   supportsInstallation: boolean;
   /** Whether Connect can revoke tokens for this connector. */
   supportsRevocation: boolean;
   /** Whether this connector type supports trigger webhooks. Derived from the type definition; indicates that `triggers` and `triggerDestinations` may be meaningful for this connector. */
   supportsTriggers: boolean;
-  /** Whether the connector icon can propagate to the provider. */
-  supportsIcon: unknown;
-  /** Incoming trigger configuration for the connector. */
-  triggers?: ConnectTriggerConfiguration;
-  /** Known events this connector subscribes to (e.g. Slack bot events, GitHub webhook events). Names are type-specific and validated by the managed-create flow when forwarded to the third-party service. */
-  events?: ConnectConnectorCreateResultEventsList;
+  /** Which of the service's products/surfaces this connector points at. */
+  target?: string;
   /** Destinations that incoming triggers should be forwarded to. Limited to 3 entries. Set the initial destination with `triggerDestination` during creation. Replace the complete set with `PATCH /v1/connect/connectors/{connector}/trigger-destinations`. */
   triggerDestinations?: ConnectConnectorCreateResultTriggerDestinationsList;
+  /** Incoming trigger configuration for the connector. */
+  triggers?: ConnectTriggerConfiguration;
+  /** Connector implementation type. */
+  type: ConnectConnectorCreateResultType;
+  /** Icon identifier supplied by the connector type. */
+  typeIcon?: string;
+  /** Human-readable name of the connector type. */
+  typeName: string;
+  /** Team-scoped UID. URL-encode this value before using it in `{connector}`. */
+  uid: string;
+  /** Last update time in epoch milliseconds. */
+  updatedAt: number;
+  /** Principal that most recently updated the connector. */
+  updatedBy?: ConnectConnectorCreateResultUpdatedBy;
+  /** User-token capabilities and known grants for the connector. */
+  userTokens?: ConnectConnectorCreateResultUserTokens;
+  /** Public website for the connected service. */
+  website?: string;
 }
 export const ConnectConnectorCreateResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
-    uid: S.String,
-    defaultInstallationId: S.optional(S.String),
-    createdAt: S.Number,
-    updatedAt: S.Number,
-    reinstallAt: S.optional(S.Number),
-    createdBy: S.optional(ConnectConnectorCreateResultCreatedBy),
-    updatedBy: S.optional(ConnectConnectorCreateResultUpdatedBy),
-    creationMode: S.optional(ConnectConnectorCreateResultCreationMode),
-    managed: S.optional(ConnectConnectorCreateResultManaged),
-    type: ConnectConnectorCreateResultType,
-    service: S.String,
-    connectionMethod: S.optional(S.String),
-    target: S.optional(S.String),
-    name: S.String,
-    displayName: S.String,
-    clientUrl: S.optional(S.NullOr(S.String)),
-    redirectUri: S.optional(S.String),
-    typeName: S.String,
-    typeIcon: S.optional(S.String),
-    website: S.optional(S.String),
-    devsite: S.optional(S.String),
-    docsite: S.optional(S.String),
-    icon: S.optional(S.String),
-    backgroundColor: S.optional(S.String),
     accentColor: S.optional(S.String),
-    supportedSubjectTypes: ConnectConnectorCreateResultSupportedSubjectTypesList,
     appTokens: S.optional(ConnectConnectorCreateResultAppTokens),
-    userTokens: S.optional(ConnectConnectorCreateResultUserTokens),
+    backgroundColor: S.optional(S.String),
+    clientUrl: S.optional(S.NullOr(S.String)),
+    connectionMethod: S.optional(S.String),
+    createdAt: S.Number,
+    createdBy: S.optional(ConnectConnectorCreateResultCreatedBy),
+    creationMode: S.optional(ConnectConnectorCreateResultCreationMode),
+    defaultInstallationId: S.optional(S.String),
+    devsite: S.optional(S.String),
+    displayName: S.String,
+    docsite: S.optional(S.String),
+    events: S.optional(ConnectConnectorCreateResultEventsList),
+    icon: S.optional(S.String),
+    id: S.String,
+    knownStale: S.optional(S.Boolean),
+    managed: S.optional(ConnectConnectorCreateResultManaged),
+    name: S.String,
+    redirectUri: S.optional(S.String),
+    reinstallAt: S.optional(S.Number),
+    service: S.String,
+    serviceIcon: S.optional(S.String),
+    supportedSubjectTypes: ConnectConnectorCreateResultSupportedSubjectTypesList,
+    supportsIcon: S.Unknown,
     supportsInstallation: S.Boolean,
     supportsRevocation: S.Boolean,
     supportsTriggers: S.Boolean,
-    supportsIcon: S.Unknown,
-    triggers: S.optional(ConnectTriggerConfiguration),
-    events: S.optional(ConnectConnectorCreateResultEventsList),
+    target: S.optional(S.String),
     triggerDestinations: S.optional(ConnectConnectorCreateResultTriggerDestinationsList),
+    triggers: S.optional(ConnectTriggerConfiguration),
+    type: ConnectConnectorCreateResultType,
+    typeIcon: S.optional(S.String),
+    typeName: S.String,
+    uid: S.String,
+    updatedAt: S.Number,
+    updatedBy: S.optional(ConnectConnectorCreateResultUpdatedBy),
+    userTokens: S.optional(ConnectConnectorCreateResultUserTokens),
+    website: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ConnectConnectorCreateResult",
@@ -1913,63 +1955,57 @@ export const CreateConnectorAuthorizationRequestRequest = /*@__PURE__*/ S.suspen
     deviceCode: S.optional(S.Boolean),
     expiresInMs: S.optional(S.Number),
     additionalParams: S.optional(CreateConnectorAuthorizationRequestRequestAdditionalParamsMap),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/connect/authorize/{connector}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/connect/authorize/{connector}", code: 200 })),
 ).annotate({
   identifier: "CreateConnectorAuthorizationRequestRequest",
 }) as any as S.Schema<CreateConnectorAuthorizationRequestRequest>;
 
 export interface CreateConnectorAuthorizationRequestResponseConnector {
+  /** Provider-facing display name when the connector type exposes one, falling back to the stored connector name. */
+  displayName: string;
   /** Client id (e.g. `scl_…`). */
   id: string;
-  /** Client uid (e.g. `salesforce/my-org`). */
-  uid: string;
-  /** Client type (e.g. `oauth`, `salesforce`). */
-  type: string;
+  /** The connector's own name: the operator-given client name, falling back to the client type's name for legacy rows without one. */
+  name: string;
   /** Resolved service id when known (e.g. `salesforce`), following the `stored.service ?? typeDef.service ?? stored.type` convention. */
   service?: string;
   /** Curated display name of the resolved service (e.g. "Salesforce"), present when the service is a known service. Suited for end-user surfaces like "Sign in with {serviceName}". */
   serviceName?: string;
-  /** Provider-facing display name when the connector type exposes one, falling back to the stored connector name. */
-  displayName: string;
-  /** The connector's own name: the operator-given client name, falling back to the client type's name for legacy rows without one. */
-  name: string;
+  /** Client type (e.g. `oauth`, `salesforce`). */
+  type: string;
+  /** Client uid (e.g. `salesforce/my-org`). */
+  uid: string;
 }
 export const CreateConnectorAuthorizationRequestResponseConnector = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    displayName: S.String,
     id: S.String,
-    uid: S.String,
-    type: S.String,
+    name: S.String,
     service: S.optional(S.String),
     serviceName: S.optional(S.String),
-    displayName: S.String,
-    name: S.String,
+    type: S.String,
+    uid: S.String,
   }),
 ).annotate({
   identifier: "CreateConnectorAuthorizationRequestResponseConnector",
 }) as any as S.Schema<CreateConnectorAuthorizationRequestResponseConnector>;
 
 export interface CreateConnectorAuthorizationRequestResponse {
-  url: string;
-  request: string;
-  verifier: string;
+  connector: CreateConnectorAuthorizationRequestResponseConnector;
   deviceCode?: string;
   expiresAt: number;
-  connector: CreateConnectorAuthorizationRequestResponseConnector;
+  request: string;
+  url: string;
+  verifier: string;
 }
 export const CreateConnectorAuthorizationRequestResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    url: S.String,
-    request: S.String,
-    verifier: S.String,
+    connector: CreateConnectorAuthorizationRequestResponseConnector,
     deviceCode: S.optional(S.String),
     expiresAt: S.Number,
-    connector: CreateConnectorAuthorizationRequestResponseConnector,
+    request: S.String,
+    url: S.String,
+    verifier: S.String,
   }),
 ).annotate({
   identifier: "CreateConnectorAuthorizationRequestResponse",
@@ -1988,16 +2024,8 @@ export const DeleteConnectorRequest = /*@__PURE__*/ S.suspend(() =>
     connector: S.String.pipe(T.Label()),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/connect/connectors/{connector}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteConnectorRequest",
-}) as any as S.Schema<DeleteConnectorRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/connect/connectors/{connector}", code: 200 })),
+).annotate({ identifier: "DeleteConnectorRequest" }) as any as S.Schema<DeleteConnectorRequest>;
 
 export interface DeleteConnectorResponse {}
 export const DeleteConnectorResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2051,173 +2079,8 @@ export const GetConnectorRequest = /*@__PURE__*/ S.suspend(() =>
     connector: S.String.pipe(T.Label()),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/connect/connectors/{connector}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetConnectorRequest",
-}) as any as S.Schema<GetConnectorRequest>;
-
-/** Principal kind. */
-export type ConnectConnectorCreatedByCase0Type = "user";
-export const ConnectConnectorCreatedByCase0Type = S.String;
-
-/** Principal that originally created the connector — either a Vercel user (interactive dashboard / CLI flow) or a Vercel deployment (OIDC-authenticated project, used by runtime auto-provisioning). See {@link ConnexPrincipal}. Optional: pre-existing rows from before this shape was introduced may carry no attribution at all. */
-export interface ConnectConnectorCreatedByCase0 {
-  /** Principal kind. */
-  type: ConnectConnectorCreatedByCase0Type;
-  /** Vercel user ID. */
-  id: string;
-}
-export const ConnectConnectorCreatedByCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: ConnectConnectorCreatedByCase0Type,
-    id: S.String,
-  }),
-).annotate({
-  identifier: "ConnectConnectorCreatedByCase0",
-}) as any as S.Schema<ConnectConnectorCreatedByCase0>;
-
-/** Principal kind. */
-export type ConnectConnectorCreatedByCase1Type = "project";
-export const ConnectConnectorCreatedByCase1Type = S.String;
-
-export type ConnectConnectorCreatedByCase1EnvironmentCase1 =
-  | "development"
-  | "preview"
-  | "production";
-export const ConnectConnectorCreatedByCase1EnvironmentCase1 = S.String;
-
-/** Deployment environment of the project principal. */
-export type ConnectConnectorCreatedByCase1Environment =
-  | string
-  | ConnectConnectorCreatedByCase1EnvironmentCase1;
-export const ConnectConnectorCreatedByCase1Environment =
-  S.Unknown as any as S.Schema<ConnectConnectorCreatedByCase1Environment>;
-
-/** Principal that originally created the connector — either a Vercel user (interactive dashboard / CLI flow) or a Vercel deployment (OIDC-authenticated project, used by runtime auto-provisioning). See {@link ConnexPrincipal}. Optional: pre-existing rows from before this shape was introduced may carry no attribution at all. */
-export interface ConnectConnectorCreatedByCase1 {
-  /** Principal kind. */
-  type: ConnectConnectorCreatedByCase1Type;
-  /** Vercel project ID. */
-  id: string;
-  /** Deployment environment of the project principal. */
-  environment: ConnectConnectorCreatedByCase1Environment;
-}
-export const ConnectConnectorCreatedByCase1 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: ConnectConnectorCreatedByCase1Type,
-    id: S.String,
-    environment: ConnectConnectorCreatedByCase1Environment,
-  }),
-).annotate({
-  identifier: "ConnectConnectorCreatedByCase1",
-}) as any as S.Schema<ConnectConnectorCreatedByCase1>;
-
-/** Principal that created the connector. */
-export type ConnectConnectorCreatedBy =
-  | ConnectConnectorCreatedByCase0
-  | ConnectConnectorCreatedByCase1;
-export const ConnectConnectorCreatedBy = S.Unknown as any as S.Schema<ConnectConnectorCreatedBy>;
-
-/** Principal kind. */
-export type ConnectConnectorUpdatedByCase0Type = "user";
-export const ConnectConnectorUpdatedByCase0Type = S.String;
-
-/** Principal that most recently mutated the connector. Same shape as {@link createdBy} but tracks the most recent updater, not the original creator. At create time the two fields point at the same principal; they diverge on the first subsequent update. */
-export interface ConnectConnectorUpdatedByCase0 {
-  /** Principal kind. */
-  type: ConnectConnectorUpdatedByCase0Type;
-  /** Vercel user ID. */
-  id: string;
-}
-export const ConnectConnectorUpdatedByCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: ConnectConnectorUpdatedByCase0Type,
-    id: S.String,
-  }),
-).annotate({
-  identifier: "ConnectConnectorUpdatedByCase0",
-}) as any as S.Schema<ConnectConnectorUpdatedByCase0>;
-
-/** Principal kind. */
-export type ConnectConnectorUpdatedByCase1Type = "project";
-export const ConnectConnectorUpdatedByCase1Type = S.String;
-
-export type ConnectConnectorUpdatedByCase1EnvironmentCase1 =
-  | "development"
-  | "preview"
-  | "production";
-export const ConnectConnectorUpdatedByCase1EnvironmentCase1 = S.String;
-
-/** Deployment environment of the project principal. */
-export type ConnectConnectorUpdatedByCase1Environment =
-  | string
-  | ConnectConnectorUpdatedByCase1EnvironmentCase1;
-export const ConnectConnectorUpdatedByCase1Environment =
-  S.Unknown as any as S.Schema<ConnectConnectorUpdatedByCase1Environment>;
-
-/** Principal that most recently mutated the connector. Same shape as {@link createdBy} but tracks the most recent updater, not the original creator. At create time the two fields point at the same principal; they diverge on the first subsequent update. */
-export interface ConnectConnectorUpdatedByCase1 {
-  /** Principal kind. */
-  type: ConnectConnectorUpdatedByCase1Type;
-  /** Vercel project ID. */
-  id: string;
-  /** Deployment environment of the project principal. */
-  environment: ConnectConnectorUpdatedByCase1Environment;
-}
-export const ConnectConnectorUpdatedByCase1 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: ConnectConnectorUpdatedByCase1Type,
-    id: S.String,
-    environment: ConnectConnectorUpdatedByCase1Environment,
-  }),
-).annotate({
-  identifier: "ConnectConnectorUpdatedByCase1",
-}) as any as S.Schema<ConnectConnectorUpdatedByCase1>;
-
-/** Principal that most recently updated the connector. */
-export type ConnectConnectorUpdatedBy =
-  | ConnectConnectorUpdatedByCase0
-  | ConnectConnectorUpdatedByCase1;
-export const ConnectConnectorUpdatedBy = S.Unknown as any as S.Schema<ConnectConnectorUpdatedBy>;
-
-/** How the connector row was originally created. New create paths stamp this explicitly; older rows may omit it. */
-export type ConnectConnectorCreationMode = "managed" | "manual";
-export const ConnectConnectorCreationMode = S.String;
-
-/** Managed connector metadata exposed without leaking the manager connector or installation identifiers. */
-export type ConnectConnectorManaged = ConnectConnectorCreateResultManaged;
-export const ConnectConnectorManaged = ConnectConnectorCreateResultManaged;
-
-/** Connector implementation type. */
-export type ConnectConnectorType =
-  | "api-key"
-  | "custom"
-  | "discord"
-  | "github"
-  | "linear"
-  | "linq"
-  | "microsoft-entra"
-  | "microsoft-teams"
-  | "oauth"
-  | "photon"
-  | "salesforce"
-  | "sendblue"
-  | "slack"
-  | "snowflake"
-  | "snowflake-wif";
-export const ConnectConnectorType = S.String;
-
-/** Token subject types supported by the connector. */
-export type ConnectConnectorSupportedSubjectTypesList = Array<string>;
-export const ConnectConnectorSupportedSubjectTypesList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<ConnectConnectorSupportedSubjectTypesList>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/connect/connectors/{connector}", code: 200 })),
+).annotate({ identifier: "GetConnectorRequest" }) as any as S.Schema<GetConnectorRequest>;
 
 /** Known allowed app-level scopes. For Slack this is the bot scope set configured on the app; for OAuth it is the connector's enabled `clientCredentials.scopes` configuration. */
 export type ConnectConnectorAppTokensScopesList = Array<string>;
@@ -2235,31 +2098,204 @@ export const ConnectConnectorAppTokensSupportedAuthorizationDetailsList = /*@__P
 export interface ConnectConnectorAppTokens {
   /** Whether one app token can be used across installations. */
   crossInstallation: boolean;
-  /** Whether callers can narrow app-token grants per request. */
-  supportsRefinement: boolean;
+  /** Link to the page on the service where this connector's app-level permissions are declared and granted, when the service has one and it differs from `clientUrl`. */
+  permissionsUrl?: string;
   /** True when changing app token grants requires reinstalling the app, so tokens cannot be partitioned independently by requester environment. */
   requiresReinstallation?: boolean;
   /** Known allowed app-level scopes. For Slack this is the bot scope set configured on the app; for OAuth it is the connector's enabled `clientCredentials.scopes` configuration. */
   scopes?: ConnectConnectorAppTokensScopesList;
   /** Supported OAuth authorization-detail type names. */
   supportedAuthorizationDetails?: ConnectConnectorAppTokensSupportedAuthorizationDetailsList;
-  /** Link to the page on the service where this connector's app-level permissions are declared and granted, when the service has one and it differs from `clientUrl`. */
-  permissionsUrl?: string;
+  /** Whether callers can narrow app-token grants per request. */
+  supportsRefinement: boolean;
+  /** Whether callers can request resource-specific app tokens. */
+  supportsResources?: boolean;
 }
 export const ConnectConnectorAppTokens = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     crossInstallation: S.Boolean,
-    supportsRefinement: S.Boolean,
+    permissionsUrl: S.optional(S.String),
     requiresReinstallation: S.optional(S.Boolean),
     scopes: S.optional(ConnectConnectorAppTokensScopesList),
     supportedAuthorizationDetails: S.optional(
       ConnectConnectorAppTokensSupportedAuthorizationDetailsList,
     ),
-    permissionsUrl: S.optional(S.String),
+    supportsRefinement: S.Boolean,
+    supportsResources: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "ConnectConnectorAppTokens",
 }) as any as S.Schema<ConnectConnectorAppTokens>;
+
+/** Principal kind. */
+export type ConnectConnectorCreatedByCase0Type = "user";
+export const ConnectConnectorCreatedByCase0Type = S.String;
+
+/** Principal that originally created the connector — either a Vercel user (interactive dashboard / CLI flow) or a Vercel deployment (OIDC-authenticated project, used by runtime auto-provisioning). See {@link ConnexPrincipal}. Optional: pre-existing rows from before this shape was introduced may carry no attribution at all. */
+export interface ConnectConnectorCreatedByCase0 {
+  /** Vercel user ID. */
+  id: string;
+  /** Principal kind. */
+  type: ConnectConnectorCreatedByCase0Type;
+}
+export const ConnectConnectorCreatedByCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: ConnectConnectorCreatedByCase0Type,
+  }),
+).annotate({
+  identifier: "ConnectConnectorCreatedByCase0",
+}) as any as S.Schema<ConnectConnectorCreatedByCase0>;
+
+export type ConnectConnectorCreatedByCase1EnvironmentCase1 =
+  | "development"
+  | "preview"
+  | "production";
+export const ConnectConnectorCreatedByCase1EnvironmentCase1 = S.String;
+
+/** Deployment environment of the project principal. */
+export type ConnectConnectorCreatedByCase1Environment =
+  | string
+  | ConnectConnectorCreatedByCase1EnvironmentCase1;
+export const ConnectConnectorCreatedByCase1Environment =
+  S.Unknown as any as S.Schema<ConnectConnectorCreatedByCase1Environment>;
+
+/** Principal kind. */
+export type ConnectConnectorCreatedByCase1Type = "project";
+export const ConnectConnectorCreatedByCase1Type = S.String;
+
+/** Principal that originally created the connector — either a Vercel user (interactive dashboard / CLI flow) or a Vercel deployment (OIDC-authenticated project, used by runtime auto-provisioning). See {@link ConnexPrincipal}. Optional: pre-existing rows from before this shape was introduced may carry no attribution at all. */
+export interface ConnectConnectorCreatedByCase1 {
+  /** Deployment environment of the project principal. */
+  environment: ConnectConnectorCreatedByCase1Environment;
+  /** Vercel project ID. */
+  id: string;
+  /** Principal kind. */
+  type: ConnectConnectorCreatedByCase1Type;
+}
+export const ConnectConnectorCreatedByCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    environment: ConnectConnectorCreatedByCase1Environment,
+    id: S.String,
+    type: ConnectConnectorCreatedByCase1Type,
+  }),
+).annotate({
+  identifier: "ConnectConnectorCreatedByCase1",
+}) as any as S.Schema<ConnectConnectorCreatedByCase1>;
+
+/** Principal that created the connector. */
+export type ConnectConnectorCreatedBy =
+  | ConnectConnectorCreatedByCase0
+  | ConnectConnectorCreatedByCase1;
+export const ConnectConnectorCreatedBy = S.Unknown as any as S.Schema<ConnectConnectorCreatedBy>;
+
+/** How the connector row was originally created. New create paths stamp this explicitly; older rows may omit it. */
+export type ConnectConnectorCreationMode = "managed" | "manual";
+export const ConnectConnectorCreationMode = S.String;
+
+/** Known events this connector subscribes to (e.g. Slack bot events, GitHub webhook events). Names are type-specific and validated by the managed-create flow when forwarded to the third-party service. */
+export type ConnectConnectorEventsList = Array<string>;
+export const ConnectConnectorEventsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ConnectConnectorEventsList>;
+
+/** Managed connector metadata exposed without leaking the manager connector or installation identifiers. */
+export type ConnectConnectorManaged = ConnectConnectorCreateResultManaged;
+export const ConnectConnectorManaged = ConnectConnectorCreateResultManaged;
+
+/** Token subject types supported by the connector. */
+export type ConnectConnectorSupportedSubjectTypesList = Array<string>;
+export const ConnectConnectorSupportedSubjectTypesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ConnectConnectorSupportedSubjectTypesList>;
+
+/** Destinations that incoming triggers should be forwarded to. Limited to 3 entries. Set the initial destination with `triggerDestination` during creation. Replace the complete set with `PATCH /v1/connect/connectors/{connector}/trigger-destinations`. */
+export type ConnectConnectorTriggerDestinationsList = Array<ConnectTriggerDestination>;
+export const ConnectConnectorTriggerDestinationsList = /*@__PURE__*/ S.Array(
+  ConnectTriggerDestination,
+) as any as S.Schema<ConnectConnectorTriggerDestinationsList>;
+
+/** Connector implementation type. */
+export type ConnectConnectorType =
+  | "api-key"
+  | "aws-alpha"
+  | "custom"
+  | "discord"
+  | "github"
+  | "linear"
+  | "linq"
+  | "microsoft-entra"
+  | "microsoft-teams"
+  | "oauth"
+  | "photon"
+  | "salesforce"
+  | "sendblue"
+  | "slack"
+  | "snowflake"
+  | "snowflake-wif";
+export const ConnectConnectorType = S.String;
+
+/** Principal kind. */
+export type ConnectConnectorUpdatedByCase0Type = "user";
+export const ConnectConnectorUpdatedByCase0Type = S.String;
+
+/** Principal that most recently mutated the connector. Same shape as {@link createdBy} but tracks the most recent updater, not the original creator. At create time the two fields point at the same principal; they diverge on the first subsequent update. */
+export interface ConnectConnectorUpdatedByCase0 {
+  /** Vercel user ID. */
+  id: string;
+  /** Principal kind. */
+  type: ConnectConnectorUpdatedByCase0Type;
+}
+export const ConnectConnectorUpdatedByCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: ConnectConnectorUpdatedByCase0Type,
+  }),
+).annotate({
+  identifier: "ConnectConnectorUpdatedByCase0",
+}) as any as S.Schema<ConnectConnectorUpdatedByCase0>;
+
+export type ConnectConnectorUpdatedByCase1EnvironmentCase1 =
+  | "development"
+  | "preview"
+  | "production";
+export const ConnectConnectorUpdatedByCase1EnvironmentCase1 = S.String;
+
+/** Deployment environment of the project principal. */
+export type ConnectConnectorUpdatedByCase1Environment =
+  | string
+  | ConnectConnectorUpdatedByCase1EnvironmentCase1;
+export const ConnectConnectorUpdatedByCase1Environment =
+  S.Unknown as any as S.Schema<ConnectConnectorUpdatedByCase1Environment>;
+
+/** Principal kind. */
+export type ConnectConnectorUpdatedByCase1Type = "project";
+export const ConnectConnectorUpdatedByCase1Type = S.String;
+
+/** Principal that most recently mutated the connector. Same shape as {@link createdBy} but tracks the most recent updater, not the original creator. At create time the two fields point at the same principal; they diverge on the first subsequent update. */
+export interface ConnectConnectorUpdatedByCase1 {
+  /** Deployment environment of the project principal. */
+  environment: ConnectConnectorUpdatedByCase1Environment;
+  /** Vercel project ID. */
+  id: string;
+  /** Principal kind. */
+  type: ConnectConnectorUpdatedByCase1Type;
+}
+export const ConnectConnectorUpdatedByCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    environment: ConnectConnectorUpdatedByCase1Environment,
+    id: S.String,
+    type: ConnectConnectorUpdatedByCase1Type,
+  }),
+).annotate({
+  identifier: "ConnectConnectorUpdatedByCase1",
+}) as any as S.Schema<ConnectConnectorUpdatedByCase1>;
+
+/** Principal that most recently updated the connector. */
+export type ConnectConnectorUpdatedBy =
+  | ConnectConnectorUpdatedByCase0
+  | ConnectConnectorUpdatedByCase1;
+export const ConnectConnectorUpdatedBy = S.Unknown as any as S.Schema<ConnectConnectorUpdatedBy>;
 
 /** Known allowed user-level scopes. For Slack this is the user scope set configured on the app; for OAuth it is the connector's enabled `userAuthorization.scopes` configuration. */
 export type ConnectConnectorUserTokensScopesList = Array<string>;
@@ -2277,158 +2313,153 @@ export const ConnectConnectorUserTokensSupportedAuthorizationDetailsList = /*@__
 export interface ConnectConnectorUserTokens {
   /** Whether one user token can be used across installations. */
   crossInstallation: boolean;
-  /** Whether callers can narrow user-token grants per request. */
-  supportsRefinement: boolean;
+  /** User authorization is completed by the Connect consent screen submitting a credential instead of an OAuth redirect. */
+  manualCredentialInput?: boolean;
   /** Known allowed user-level scopes. For Slack this is the user scope set configured on the app; for OAuth it is the connector's enabled `userAuthorization.scopes` configuration. */
   scopes?: ConnectConnectorUserTokensScopesList;
   /** Supported OAuth authorization-detail type names. */
   supportedAuthorizationDetails?: ConnectConnectorUserTokensSupportedAuthorizationDetailsList;
-  /** User authorization is completed by the Connect consent screen submitting a credential instead of an OAuth redirect. */
-  manualCredentialInput?: boolean;
+  /** Whether callers can narrow user-token grants per request. */
+  supportsRefinement: boolean;
+  /** Whether callers can request resource-specific user tokens. */
+  supportsResources?: boolean;
 }
 export const ConnectConnectorUserTokens = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     crossInstallation: S.Boolean,
-    supportsRefinement: S.Boolean,
+    manualCredentialInput: S.optional(S.Boolean),
     scopes: S.optional(ConnectConnectorUserTokensScopesList),
     supportedAuthorizationDetails: S.optional(
       ConnectConnectorUserTokensSupportedAuthorizationDetailsList,
     ),
-    manualCredentialInput: S.optional(S.Boolean),
+    supportsRefinement: S.Boolean,
+    supportsResources: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "ConnectConnectorUserTokens",
 }) as any as S.Schema<ConnectConnectorUserTokens>;
 
-/** Known events this connector subscribes to (e.g. Slack bot events, GitHub webhook events). Names are type-specific and validated by the managed-create flow when forwarded to the third-party service. */
-export type ConnectConnectorEventsList = Array<string>;
-export const ConnectConnectorEventsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<ConnectConnectorEventsList>;
-
-/** Destinations that incoming triggers should be forwarded to. Limited to 3 entries. Set the initial destination with `triggerDestination` during creation. Replace the complete set with `PATCH /v1/connect/connectors/{connector}/trigger-destinations`. */
-export type ConnectConnectorTriggerDestinationsList = Array<ConnectTriggerDestination>;
-export const ConnectConnectorTriggerDestinationsList = /*@__PURE__*/ S.Array(
-  ConnectTriggerDestination,
-) as any as S.Schema<ConnectConnectorTriggerDestinationsList>;
-
 /** A connector that defines how Vercel accesses an external service. */
 export interface ConnectConnector {
-  /** Stable `scl_` connector ID. Use this value directly in `{connector}`. */
-  id: string;
-  /** Team-scoped UID. URL-encode this value before using it in `{connector}`. */
-  uid: string;
-  /** Installation used when a token request does not specify an installation. */
-  defaultInstallationId?: string;
-  /** Creation time in epoch milliseconds. */
-  createdAt: number;
-  /** Last update time in epoch milliseconds. */
-  updatedAt: number;
-  /** Time when this connector started requiring reinstallation because an installation-affecting app-token grant changed. */
-  reinstallAt?: number;
-  /** Principal that created the connector. */
-  createdBy?: ConnectConnectorCreatedBy;
-  /** Principal that most recently updated the connector. */
-  updatedBy?: ConnectConnectorUpdatedBy;
-  /** How the connector row was originally created. New create paths stamp this explicitly; older rows may omit it. */
-  creationMode?: ConnectConnectorCreationMode;
-  /** Managed connector metadata exposed without leaking the manager connector or installation identifiers. */
-  managed?: ConnectConnectorCreateResultManaged;
-  /** Connector implementation type. */
-  type: ConnectConnectorType;
-  /** Best-effort identifier of the third-party service this connector represents, independent of `type`. Examples: `'slack'`, `'mcp.linear.app'`, and `'auth.example.com'`. Always present in API responses. */
-  service: string;
-  /** The connection method this connector was created from, when the create request named one. */
-  connectionMethod?: string;
-  /** Which of the service's products/surfaces this connector points at. */
-  target?: string;
-  /** Connector name within the owning team. */
-  name: string;
-  /** Human-readable connector name. */
-  displayName: string;
-  /** Provider-side URL for viewing or managing the resource represented by the connector. The destination can be an app, account, phone line, or service instance, depending on the connector type. */
-  clientUrl?: string | null;
-  /** Redirect URI registered with the third-party service for this connector, if any. Used by `startAuthorization`/`startInstallation` to replay the exact URI back to the provider's token endpoint. Absent on connectors created before this field was introduced; those callers fall back to the `https://connect.vercel.com/callback` default. */
-  redirectUri?: string;
-  /** Human-readable name of the connector type. */
-  typeName: string;
-  /** Icon identifier supplied by the connector type. */
-  typeIcon?: string;
-  /** Public website for the connected service. */
-  website?: string;
-  /** Developer website for the connected service. */
-  devsite?: string;
-  /** Developer documentation for the connected service. */
-  docsite?: string;
-  /** Connector branding icon. SHA-1 hash that resolves to the uploaded icon through the Vercel avatar service. Consumers render this with `https://vercel.com/api/www/avatar/{icon}`. */
-  icon?: string;
-  /** Hex background color (e.g., `#000000`) for branding. */
-  backgroundColor?: string;
   /** Hex accent color (e.g., `#000000`) for branding. */
   accentColor?: string;
-  /** Token subject types supported by the connector. */
-  supportedSubjectTypes: ConnectConnectorSupportedSubjectTypesList;
   /** App-token capabilities and known grants for the connector. */
   appTokens?: ConnectConnectorAppTokens;
-  /** User-token capabilities and known grants for the connector. */
-  userTokens?: ConnectConnectorUserTokens;
+  /** Hex background color (e.g., `#000000`) for branding. */
+  backgroundColor?: string;
+  /** Provider-side URL for viewing or managing the resource represented by the connector. The destination can be an app, account, phone line, or service instance, depending on the connector type. */
+  clientUrl?: string | null;
+  /** The connection method this connector was created from, when the create request named one. */
+  connectionMethod?: string;
+  /** Creation time in epoch milliseconds. */
+  createdAt: number;
+  /** Principal that created the connector. */
+  createdBy?: ConnectConnectorCreatedBy;
+  /** How the connector row was originally created. New create paths stamp this explicitly; older rows may omit it. */
+  creationMode?: ConnectConnectorCreationMode;
+  /** Installation used when a token request does not specify an installation. */
+  defaultInstallationId?: string;
+  /** Developer website for the connected service. */
+  devsite?: string;
+  /** Human-readable connector name. */
+  displayName: string;
+  /** Developer documentation for the connected service. */
+  docsite?: string;
+  /** Known events this connector subscribes to (e.g. Slack bot events, GitHub webhook events). Names are type-specific and validated by the managed-create flow when forwarded to the third-party service. */
+  events?: ConnectConnectorEventsList;
+  /** Connector branding icon. SHA-1 hash that resolves to the uploaded icon through the Vercel avatar service. Consumers render this with `https://vercel.com/api/www/avatar/{icon}`. */
+  icon?: string;
+  /** Stable `scl_` connector ID. Use this value directly in `{connector}`. */
+  id: string;
+  /** Whether the connector is known to have been edited since the app package it publishes to the provider was last built, so that package no longer matches it. Absent when it was not computed, or when the connector type publishes no such package. Derived on every read rather than marked at edit time, so reverting an edit clears it. Only reported by connector types that publish a package a user has to re-publish by hand — Microsoft Teams today. */
+  knownStale?: boolean;
+  /** Managed connector metadata exposed without leaking the manager connector or installation identifiers. */
+  managed?: ConnectConnectorCreateResultManaged;
+  /** Connector name within the owning team. */
+  name: string;
+  /** Redirect URI registered with the third-party service for this connector, if any. Used by `startAuthorization`/`startInstallation` to replay the exact URI back to the provider's token endpoint. Absent on connectors created before this field was introduced; those callers fall back to the `https://connect.vercel.com/callback` default. */
+  redirectUri?: string;
+  /** Time when this connector started requiring reinstallation because an installation-affecting app-token grant changed. */
+  reinstallAt?: number;
+  /** Best-effort identifier of the third-party service this connector represents, independent of `type`. Examples: `'slack'`, `'mcp.linear.app'`, and `'auth.example.com'`. Always present in API responses. */
+  service: string;
+  /** Provider logo from the known-service registry, matched by `service`. Often an SVG data URL. Absent when the service is not in the registry. */
+  serviceIcon?: string;
+  /** Token subject types supported by the connector. */
+  supportedSubjectTypes: ConnectConnectorSupportedSubjectTypesList;
+  /** Whether the connector icon can propagate to the provider. */
+  supportsIcon: unknown;
   /** Whether the connector supports an installation flow. */
   supportsInstallation: boolean;
   /** Whether Connect can revoke tokens for this connector. */
   supportsRevocation: boolean;
   /** Whether this connector type supports trigger webhooks. Derived from the type definition; indicates that `triggers` and `triggerDestinations` may be meaningful for this connector. */
   supportsTriggers: boolean;
-  /** Whether the connector icon can propagate to the provider. */
-  supportsIcon: unknown;
-  /** Incoming trigger configuration for the connector. */
-  triggers?: ConnectTriggerConfiguration;
-  /** Known events this connector subscribes to (e.g. Slack bot events, GitHub webhook events). Names are type-specific and validated by the managed-create flow when forwarded to the third-party service. */
-  events?: ConnectConnectorEventsList;
+  /** Which of the service's products/surfaces this connector points at. */
+  target?: string;
   /** Destinations that incoming triggers should be forwarded to. Limited to 3 entries. Set the initial destination with `triggerDestination` during creation. Replace the complete set with `PATCH /v1/connect/connectors/{connector}/trigger-destinations`. */
   triggerDestinations?: ConnectConnectorTriggerDestinationsList;
+  /** Incoming trigger configuration for the connector. */
+  triggers?: ConnectTriggerConfiguration;
+  /** Connector implementation type. */
+  type: ConnectConnectorType;
+  /** Icon identifier supplied by the connector type. */
+  typeIcon?: string;
+  /** Human-readable name of the connector type. */
+  typeName: string;
+  /** Team-scoped UID. URL-encode this value before using it in `{connector}`. */
+  uid: string;
+  /** Last update time in epoch milliseconds. */
+  updatedAt: number;
+  /** Principal that most recently updated the connector. */
+  updatedBy?: ConnectConnectorUpdatedBy;
+  /** User-token capabilities and known grants for the connector. */
+  userTokens?: ConnectConnectorUserTokens;
+  /** Public website for the connected service. */
+  website?: string;
 }
 export const ConnectConnector = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
-    uid: S.String,
-    defaultInstallationId: S.optional(S.String),
-    createdAt: S.Number,
-    updatedAt: S.Number,
-    reinstallAt: S.optional(S.Number),
-    createdBy: S.optional(ConnectConnectorCreatedBy),
-    updatedBy: S.optional(ConnectConnectorUpdatedBy),
-    creationMode: S.optional(ConnectConnectorCreationMode),
-    managed: S.optional(ConnectConnectorCreateResultManaged),
-    type: ConnectConnectorType,
-    service: S.String,
-    connectionMethod: S.optional(S.String),
-    target: S.optional(S.String),
-    name: S.String,
-    displayName: S.String,
-    clientUrl: S.optional(S.NullOr(S.String)),
-    redirectUri: S.optional(S.String),
-    typeName: S.String,
-    typeIcon: S.optional(S.String),
-    website: S.optional(S.String),
-    devsite: S.optional(S.String),
-    docsite: S.optional(S.String),
-    icon: S.optional(S.String),
-    backgroundColor: S.optional(S.String),
     accentColor: S.optional(S.String),
-    supportedSubjectTypes: ConnectConnectorSupportedSubjectTypesList,
     appTokens: S.optional(ConnectConnectorAppTokens),
-    userTokens: S.optional(ConnectConnectorUserTokens),
+    backgroundColor: S.optional(S.String),
+    clientUrl: S.optional(S.NullOr(S.String)),
+    connectionMethod: S.optional(S.String),
+    createdAt: S.Number,
+    createdBy: S.optional(ConnectConnectorCreatedBy),
+    creationMode: S.optional(ConnectConnectorCreationMode),
+    defaultInstallationId: S.optional(S.String),
+    devsite: S.optional(S.String),
+    displayName: S.String,
+    docsite: S.optional(S.String),
+    events: S.optional(ConnectConnectorEventsList),
+    icon: S.optional(S.String),
+    id: S.String,
+    knownStale: S.optional(S.Boolean),
+    managed: S.optional(ConnectConnectorCreateResultManaged),
+    name: S.String,
+    redirectUri: S.optional(S.String),
+    reinstallAt: S.optional(S.Number),
+    service: S.String,
+    serviceIcon: S.optional(S.String),
+    supportedSubjectTypes: ConnectConnectorSupportedSubjectTypesList,
+    supportsIcon: S.Unknown,
     supportsInstallation: S.Boolean,
     supportsRevocation: S.Boolean,
     supportsTriggers: S.Boolean,
-    supportsIcon: S.Unknown,
-    triggers: S.optional(ConnectTriggerConfiguration),
-    events: S.optional(ConnectConnectorEventsList),
+    target: S.optional(S.String),
     triggerDestinations: S.optional(ConnectConnectorTriggerDestinationsList),
+    triggers: S.optional(ConnectTriggerConfiguration),
+    type: ConnectConnectorType,
+    typeIcon: S.optional(S.String),
+    typeName: S.String,
+    uid: S.String,
+    updatedAt: S.Number,
+    updatedBy: S.optional(ConnectConnectorUpdatedBy),
+    userTokens: S.optional(ConnectConnectorUserTokens),
+    website: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConnectConnector",
-}) as any as S.Schema<ConnectConnector>;
+).annotate({ identifier: "ConnectConnector" }) as any as S.Schema<ConnectConnector>;
 
 export interface GetConnectorProjectConnectionRequest {
   /** Stable connector ID or URL-encoded team-scoped UID. Examples: `scl_abc123` or `slack%2Fmy-bot`. */
@@ -2457,6 +2488,25 @@ export const GetConnectorProjectConnectionRequest = /*@__PURE__*/ S.suspend(() =
   identifier: "GetConnectorProjectConnectionRequest",
 }) as any as S.Schema<GetConnectorProjectConnectionRequest>;
 
+export type ConnectProjectConnectionEnabledEnvironmentsItemCase1 =
+  | "development"
+  | "preview"
+  | "production";
+export const ConnectProjectConnectionEnabledEnvironmentsItemCase1 = S.String;
+
+export type ConnectProjectConnectionEnabledEnvironmentsItem =
+  | string
+  | ConnectProjectConnectionEnabledEnvironmentsItemCase1;
+export const ConnectProjectConnectionEnabledEnvironmentsItem =
+  S.Unknown as any as S.Schema<ConnectProjectConnectionEnabledEnvironmentsItem>;
+
+/** Environments where the connector is enabled for the project. */
+export type ConnectProjectConnectionEnabledEnvironmentsList =
+  Array<ConnectProjectConnectionEnabledEnvironmentsItem>;
+export const ConnectProjectConnectionEnabledEnvironmentsList = /*@__PURE__*/ S.Array(
+  ConnectProjectConnectionEnabledEnvironmentsItem,
+) as any as S.Schema<ConnectProjectConnectionEnabledEnvironmentsList>;
+
 /** Custom environments available on the project. This list can include environments where the connector is not enabled. */
 export interface ConnectProjectConnectionProjectCustomEnvironmentsItem {
   /** Stable custom environment ID. */
@@ -2482,66 +2532,45 @@ export const ConnectProjectConnectionProjectCustomEnvironmentsList = /*@__PURE__
 
 /** Vercel project connected to the connector. */
 export interface ConnectProjectConnectionProject {
+  /** Custom environments available on the project. This list can include environments where the connector is not enabled. */
+  customEnvironments?: ConnectProjectConnectionProjectCustomEnvironmentsList;
   /** Same Vercel project ID as the connection's top-level `projectId`. */
   id: string;
   /** Current Vercel project name. */
   name: string;
-  /** Custom environments available on the project. This list can include environments where the connector is not enabled. */
-  customEnvironments?: ConnectProjectConnectionProjectCustomEnvironmentsList;
 }
 export const ConnectProjectConnectionProject = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    customEnvironments: S.optional(ConnectProjectConnectionProjectCustomEnvironmentsList),
     id: S.String,
     name: S.String,
-    customEnvironments: S.optional(ConnectProjectConnectionProjectCustomEnvironmentsList),
   }),
 ).annotate({
   identifier: "ConnectProjectConnectionProject",
 }) as any as S.Schema<ConnectProjectConnectionProject>;
 
-export type ConnectProjectConnectionEnabledEnvironmentsItemCase1 =
-  | "development"
-  | "preview"
-  | "production";
-export const ConnectProjectConnectionEnabledEnvironmentsItemCase1 = S.String;
-
-export type ConnectProjectConnectionEnabledEnvironmentsItem =
-  | string
-  | ConnectProjectConnectionEnabledEnvironmentsItemCase1;
-export const ConnectProjectConnectionEnabledEnvironmentsItem =
-  S.Unknown as any as S.Schema<ConnectProjectConnectionEnabledEnvironmentsItem>;
-
-/** Environments where the connector is enabled for the project. */
-export type ConnectProjectConnectionEnabledEnvironmentsList =
-  Array<ConnectProjectConnectionEnabledEnvironmentsItem>;
-export const ConnectProjectConnectionEnabledEnvironmentsList = /*@__PURE__*/ S.Array(
-  ConnectProjectConnectionEnabledEnvironmentsItem,
-) as any as S.Schema<ConnectProjectConnectionEnabledEnvironmentsList>;
-
 /** A connection between a connector and a Vercel project, including the environments where the connector is enabled. */
 export interface ConnectProjectConnection {
   /** Stable `scl_` connector ID, even when the request used a UID. */
   connectorId: string;
-  /** Vercel project connected to the connector. */
-  project: ConnectProjectConnectionProject;
-  /** Environments where the connector is enabled for the project. */
-  enabledEnvironments: ConnectProjectConnectionEnabledEnvironmentsList;
   /** Time when the project connection was created, in epoch milliseconds. */
   createdAt: number;
+  /** Environments where the connector is enabled for the project. */
+  enabledEnvironments: ConnectProjectConnectionEnabledEnvironmentsList;
+  /** Vercel project connected to the connector. */
+  project: ConnectProjectConnectionProject;
   /** Time when the project connection was last updated, in epoch milliseconds. */
   updatedAt: number;
 }
 export const ConnectProjectConnection = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     connectorId: S.String,
-    project: ConnectProjectConnectionProject,
-    enabledEnvironments: ConnectProjectConnectionEnabledEnvironmentsList,
     createdAt: S.Number,
+    enabledEnvironments: ConnectProjectConnectionEnabledEnvironmentsList,
+    project: ConnectProjectConnectionProject,
     updatedAt: S.Number,
   }),
-).annotate({
-  identifier: "ConnectProjectConnection",
-}) as any as S.Schema<ConnectProjectConnection>;
+).annotate({ identifier: "ConnectProjectConnection" }) as any as S.Schema<ConnectProjectConnection>;
 
 export type GetConnectorTokenRequestSubjectCase0Type = "app";
 export const GetConnectorTokenRequestSubjectCase0Type = S.String;
@@ -2682,75 +2711,69 @@ export const GetConnectorTokenRequest = /*@__PURE__*/ S.suspend(() =>
     authorizationDetails: S.optional(GetConnectorTokenRequestAuthorizationDetailsList),
     validityBufferMs: S.optional(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/v1/connect/token/{connector}", code: 200 })),
-).annotate({
-  identifier: "GetConnectorTokenRequest",
-}) as any as S.Schema<GetConnectorTokenRequest>;
-
-export interface GetConnectorTokenResponseConnector {
-  id: string;
-  uid: string;
-  type: string;
-}
-export const GetConnectorTokenResponseConnector = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    uid: S.String,
-    type: S.String,
-  }),
-).annotate({
-  identifier: "GetConnectorTokenResponseConnector",
-}) as any as S.Schema<GetConnectorTokenResponseConnector>;
+).annotate({ identifier: "GetConnectorTokenRequest" }) as any as S.Schema<GetConnectorTokenRequest>;
 
 /** Claims extracted from the provider's tokens per the connector's `ForwardedClaims` allow-list. Currently sourced from the OIDC id_token only. */
-export type GetConnectorTokenResponseClaimsMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetConnectorTokenResponseClaimsMap = { [key: string]: unknown | undefined };
 export const GetConnectorTokenResponseClaimsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<GetConnectorTokenResponseClaimsMap>;
 
+export interface GetConnectorTokenResponseConnector {
+  id: string;
+  type: string;
+  uid: string;
+}
+export const GetConnectorTokenResponseConnector = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: S.String,
+    uid: S.String,
+  }),
+).annotate({
+  identifier: "GetConnectorTokenResponseConnector",
+}) as any as S.Schema<GetConnectorTokenResponseConnector>;
+
 /** Driver-specific metadata (e.g., botUserId for Slack). */
-export type GetConnectorTokenResponseMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetConnectorTokenResponseMetadataMap = { [key: string]: unknown | undefined };
 export const GetConnectorTokenResponseMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<GetConnectorTokenResponseMetadataMap>;
 
 export interface GetConnectorTokenResponse {
-  token: string;
-  tokenId: string;
-  expiresAt: number;
-  connector: GetConnectorTokenResponseConnector;
-  name?: string;
-  installationId?: string;
-  tenantId?: string;
-  externalSubject?: string;
   /** Stable id correlating all tokens (including refreshes) back to the original authorization. */
   authorizationId?: string;
-  /** Stable id that groups all tokens with the same parameters across refreshes. */
-  tokenGroupId?: string;
   /** Claims extracted from the provider's tokens per the connector's `ForwardedClaims` allow-list. Currently sourced from the OIDC id_token only. */
   claims?: GetConnectorTokenResponseClaimsMap;
+  connector: GetConnectorTokenResponseConnector;
+  expiresAt: number;
+  externalSubject?: string;
+  installationId?: string;
   /** Driver-specific metadata (e.g., botUserId for Slack). */
   metadata?: GetConnectorTokenResponseMetadataMap;
+  name?: string;
+  tenantId?: string;
+  token: string;
+  /** Stable id that groups all tokens with the same parameters across refreshes. */
+  tokenGroupId?: string;
+  tokenId: string;
 }
 export const GetConnectorTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    token: S.String,
-    tokenId: S.String,
-    expiresAt: S.Number,
-    connector: GetConnectorTokenResponseConnector,
-    name: S.optional(S.String),
-    installationId: S.optional(S.String),
-    tenantId: S.optional(S.String),
-    externalSubject: S.optional(S.String),
     authorizationId: S.optional(S.String),
-    tokenGroupId: S.optional(S.String),
     claims: S.optional(GetConnectorTokenResponseClaimsMap),
+    connector: GetConnectorTokenResponseConnector,
+    expiresAt: S.Number,
+    externalSubject: S.optional(S.String),
+    installationId: S.optional(S.String),
     metadata: S.optional(GetConnectorTokenResponseMetadataMap),
+    name: S.optional(S.String),
+    tenantId: S.optional(S.String),
+    token: S.String,
+    tokenGroupId: S.optional(S.String),
+    tokenId: S.String,
   }),
 ).annotate({
   identifier: "GetConnectorTokenResponse",
@@ -2775,22 +2798,10 @@ export const ListConnectorProjectConnectionsRequest = /*@__PURE__*/ S.suspend(()
     cursor: S.optional(S.String.pipe(T.Query())),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/connect/connectors/{connector}/projects",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/connect/connectors/{connector}/projects", code: 200 })),
 ).annotate({
   identifier: "ListConnectorProjectConnectionsRequest",
 }) as any as S.Schema<ListConnectorProjectConnectionsRequest>;
-
-/** Project connections in this page. */
-export type ConnectConnectorProjectConnectionListProjectsList = Array<ConnectProjectConnection>;
-export const ConnectConnectorProjectConnectionListProjectsList = /*@__PURE__*/ S.Array(
-  ConnectProjectConnection,
-) as any as S.Schema<ConnectConnectorProjectConnectionListProjectsList>;
 
 /** Cursor for the next page. */
 export interface ConnectPagination {
@@ -2801,21 +2812,25 @@ export const ConnectPagination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     next: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ConnectPagination",
-}) as any as S.Schema<ConnectPagination>;
+).annotate({ identifier: "ConnectPagination" }) as any as S.Schema<ConnectPagination>;
+
+/** Project connections in this page. */
+export type ConnectConnectorProjectConnectionListProjectsList = Array<ConnectProjectConnection>;
+export const ConnectConnectorProjectConnectionListProjectsList = /*@__PURE__*/ S.Array(
+  ConnectProjectConnection,
+) as any as S.Schema<ConnectConnectorProjectConnectionListProjectsList>;
 
 /** Page of projects connected to a connector. */
 export interface ConnectConnectorProjectConnectionList {
-  /** Project connections in this page. */
-  projects: ConnectConnectorProjectConnectionListProjectsList;
   /** Cursor for the next page. */
   pagination: ConnectPagination;
+  /** Project connections in this page. */
+  projects: ConnectConnectorProjectConnectionListProjectsList;
 }
 export const ConnectConnectorProjectConnectionList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    projects: ConnectConnectorProjectConnectionListProjectsList,
     pagination: ConnectPagination,
+    projects: ConnectConnectorProjectConnectionListProjectsList,
   }),
 ).annotate({
   identifier: "ConnectConnectorProjectConnectionList",
@@ -2857,9 +2872,7 @@ export const ListConnectorsRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/connect/connectors", code: 200 })),
-).annotate({
-  identifier: "ListConnectorsRequest",
-}) as any as S.Schema<ListConnectorsRequest>;
+).annotate({ identifier: "ListConnectorsRequest" }) as any as S.Schema<ListConnectorsRequest>;
 
 /** Connectors in this page. */
 export type ConnectConnectorListConnectorsList = Array<ConnectConnector>;
@@ -2879,9 +2892,7 @@ export const ConnectConnectorList = /*@__PURE__*/ S.suspend(() =>
     connectors: ConnectConnectorListConnectorsList,
     pagination: ConnectPagination,
   }),
-).annotate({
-  identifier: "ConnectConnectorList",
-}) as any as S.Schema<ConnectConnectorList>;
+).annotate({ identifier: "ConnectConnectorList" }) as any as S.Schema<ConnectConnectorList>;
 
 export interface ListProjectConnectorConnectionsRequest {
   /** Vercel project ID. */
@@ -2902,13 +2913,7 @@ export const ListProjectConnectorConnectionsRequest = /*@__PURE__*/ S.suspend(()
     cursor: S.optional(S.String.pipe(T.Query())),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/connect/projects/{projectId}/connectors",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/connect/projects/{projectId}/connectors", code: 200 })),
 ).annotate({
   identifier: "ListProjectConnectorConnectionsRequest",
 }) as any as S.Schema<ListProjectConnectorConnectionsRequest>;
@@ -3028,6 +3033,13 @@ export const ReplaceConnectorTriggerDestinationsRequest = /*@__PURE__*/ S.suspen
   identifier: "ReplaceConnectorTriggerDestinationsRequest",
 }) as any as S.Schema<ReplaceConnectorTriggerDestinationsRequest>;
 
+/** Trigger configuration, validated and encrypted by the trigger driver. An empty object applies driver defaults. */
+export type UpdateConnectorRequestTriggerDataMap = { [key: string]: unknown | undefined };
+export const UpdateConnectorRequestTriggerDataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<UpdateConnectorRequestTriggerDataMap>;
+
 /** Default trigger events for this connector. */
 export type UpdateConnectorRequestEventsList = Array<string>;
 export const UpdateConnectorRequestEventsList = /*@__PURE__*/ S.Array(
@@ -3124,6 +3136,22 @@ export const ConnectConnectorUpdateDataCase0ServerConfigGrantTypesSupportedList 
   /*@__PURE__*/ S.Array(
     S.String,
   ) as any as S.Schema<ConnectConnectorUpdateDataCase0ServerConfigGrantTypesSupportedList>;
+
+/** Supported authorization grant profiles. urn:ietf:params:oauth:grant-profile:id-jag advertises XAA resource support. */
+export type ConnectConnectorUpdateDataCase0ServerConfigAuthorizationGrantProfilesSupportedList =
+  Array<string>;
+export const ConnectConnectorUpdateDataCase0ServerConfigAuthorizationGrantProfilesSupportedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ConnectConnectorUpdateDataCase0ServerConfigAuthorizationGrantProfilesSupportedList>;
+
+/** Token types supported for identity chaining. urn:ietf:params:oauth:token-type:id-jag advertises XAA IdP support. */
+export type ConnectConnectorUpdateDataCase0ServerConfigIdentityChainingRequestedTokenTypesSupportedList =
+  Array<string>;
+export const ConnectConnectorUpdateDataCase0ServerConfigIdentityChainingRequestedTokenTypesSupportedList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ConnectConnectorUpdateDataCase0ServerConfigIdentityChainingRequestedTokenTypesSupportedList>;
 
 /** OAuth response modes supported by the server. */
 export type ConnectConnectorUpdateDataCase0ServerConfigResponseModesSupportedList = Array<string>;
@@ -3233,6 +3261,10 @@ export interface ConnectConnectorUpdateDataCase0ServerConfig {
   scopes_supported?: ConnectConnectorUpdateDataCase0ServerConfigScopesSupportedList;
   /** OAuth grant types supported by the server. */
   grant_types_supported?: ConnectConnectorUpdateDataCase0ServerConfigGrantTypesSupportedList;
+  /** Supported authorization grant profiles. urn:ietf:params:oauth:grant-profile:id-jag advertises XAA resource support. */
+  authorization_grant_profiles_supported?: ConnectConnectorUpdateDataCase0ServerConfigAuthorizationGrantProfilesSupportedList;
+  /** Token types supported for identity chaining. urn:ietf:params:oauth:token-type:id-jag advertises XAA IdP support. */
+  identity_chaining_requested_token_types_supported?: ConnectConnectorUpdateDataCase0ServerConfigIdentityChainingRequestedTokenTypesSupportedList;
   /** OAuth response modes supported by the server. */
   response_modes_supported?: ConnectConnectorUpdateDataCase0ServerConfigResponseModesSupportedList;
   /** OpenID Connect subject identifier types supported by the server. */
@@ -3297,6 +3329,12 @@ export const ConnectConnectorUpdateDataCase0ServerConfig = /*@__PURE__*/ S.suspe
     scopes_supported: S.optional(ConnectConnectorUpdateDataCase0ServerConfigScopesSupportedList),
     grant_types_supported: S.optional(
       ConnectConnectorUpdateDataCase0ServerConfigGrantTypesSupportedList,
+    ),
+    authorization_grant_profiles_supported: S.optional(
+      ConnectConnectorUpdateDataCase0ServerConfigAuthorizationGrantProfilesSupportedList,
+    ),
+    identity_chaining_requested_token_types_supported: S.optional(
+      ConnectConnectorUpdateDataCase0ServerConfigIdentityChainingRequestedTokenTypesSupportedList,
     ),
     response_modes_supported: S.optional(
       ConnectConnectorUpdateDataCase0ServerConfigResponseModesSupportedList,
@@ -3524,6 +3562,8 @@ export interface ConnectConnectorUpdateDataCase0 {
   forwardedClaims?: ConnectConnectorUpdateDataCase0ForwardedClaims;
   /** Default audience used when a token request omits one. An empty string clears the default. */
   defaultAudience?: string;
+  /** Default RFC 8707 resource sent on authorization and token requests when a token request omits one. An empty string clears the default. */
+  defaultResource?: string;
   /** Default token lifetime in seconds to use when the token response omits expires_in. */
   defaultTokenExpiresIn?: number;
   /** Extra query parameters added to authorization URLs. */
@@ -3549,6 +3589,7 @@ export const ConnectConnectorUpdateDataCase0 = /*@__PURE__*/ S.suspend(() =>
     clientCredentials: S.optional(ConnectConnectorUpdateDataCase0ClientCredentials),
     forwardedClaims: S.optional(ConnectConnectorUpdateDataCase0ForwardedClaims),
     defaultAudience: S.optional(S.String),
+    defaultResource: S.optional(S.String),
     defaultTokenExpiresIn: S.optional(S.Number),
     authorizationUrlParams: S.optional(ConnectConnectorUpdateDataCase0AuthorizationUrlParamsMap),
     jwtBearer: S.optional(ConnectConnectorUpdateDataCase0JwtBearer),
@@ -3614,12 +3655,15 @@ export interface ConnectConnectorUpdateDataCase1 {
   toAdd?: ConnectConnectorUpdateDataCase1ToAddList;
   /** Existing API key values to update. */
   toUpdate?: ConnectConnectorUpdateDataCase1ToUpdateList;
+  /** Markdown instructions shown to each user on the authorization screen, explaining how to obtain the key they should paste. */
+  instructions?: string;
 }
 export const ConnectConnectorUpdateDataCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     toDelete: S.optional(ConnectConnectorUpdateDataCase1ToDeleteList),
     toAdd: S.optional(ConnectConnectorUpdateDataCase1ToAddList),
     toUpdate: S.optional(ConnectConnectorUpdateDataCase1ToUpdateList),
+    instructions: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ConnectConnectorUpdateDataCase1",
@@ -3656,9 +3700,7 @@ export const ConnectConnectorUpdateDataCase2Owner = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<ConnectConnectorUpdateDataCase2Owner>;
 
 /** Additional provider metadata stored with the connector. */
-export type ConnectConnectorUpdateDataCase2ExtrasMap = {
-  [key: string]: unknown | undefined;
-};
+export type ConnectConnectorUpdateDataCase2ExtrasMap = { [key: string]: unknown | undefined };
 export const ConnectConnectorUpdateDataCase2ExtrasMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3786,9 +3828,7 @@ export const ConnectConnectorUpdateDataCase3Application = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<ConnectConnectorUpdateDataCase3Application>;
 
 /** Additional provider metadata stored with the connector. */
-export type ConnectConnectorUpdateDataCase3ExtrasMap = {
-  [key: string]: unknown | undefined;
-};
+export type ConnectConnectorUpdateDataCase3ExtrasMap = { [key: string]: unknown | undefined };
 export const ConnectConnectorUpdateDataCase3ExtrasMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3912,9 +3952,7 @@ export const ConnectConnectorUpdateDataCase5ShortcutsList = /*@__PURE__*/ S.Arra
 ) as any as S.Schema<ConnectConnectorUpdateDataCase5ShortcutsList>;
 
 /** Additional provider metadata stored with the connector. */
-export type ConnectConnectorUpdateDataCase5ExtrasMap = {
-  [key: string]: unknown | undefined;
-};
+export type ConnectConnectorUpdateDataCase5ExtrasMap = { [key: string]: unknown | undefined };
 export const ConnectConnectorUpdateDataCase5ExtrasMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -4053,9 +4091,7 @@ export const ConnectConnectorUpdateDataCase10 = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConnectConnectorUpdateDataCase10",
 }) as any as S.Schema<ConnectConnectorUpdateDataCase10>;
 
-export type ConnectConnectorUpdateDataCase11Map = {
-  [key: string]: unknown | undefined;
-};
+export type ConnectConnectorUpdateDataCase11Map = { [key: string]: unknown | undefined };
 export const ConnectConnectorUpdateDataCase11Map = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -4086,6 +4122,8 @@ export interface UpdateConnectorRequest {
   slug?: string;
   /** Whether the triggers are enabled for this connector. */
   triggers?: boolean;
+  /** Trigger configuration, validated and encrypted by the trigger driver. An empty object applies driver defaults. */
+  triggerData?: UpdateConnectorRequestTriggerDataMap;
   /** Default trigger events for this connector. */
   events?: UpdateConnectorRequestEventsList;
   /** Provider configuration fields to update. */
@@ -4105,6 +4143,7 @@ export const UpdateConnectorRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
     triggers: S.optional(S.Boolean),
+    triggerData: S.optional(UpdateConnectorRequestTriggerDataMap),
     events: S.optional(UpdateConnectorRequestEventsList),
     data: S.optional(ConnectConnectorUpdateData),
     icon: S.optional(S.String),
@@ -4112,16 +4151,8 @@ export const UpdateConnectorRequest = /*@__PURE__*/ S.suspend(() =>
     accentColor: S.optional(S.String),
     uid: S.optional(S.String),
     name: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v2/connect/connectors/{connector}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateConnectorRequest",
-}) as any as S.Schema<UpdateConnectorRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/v2/connect/connectors/{connector}", code: 200 })),
+).annotate({ identifier: "UpdateConnectorRequest" }) as any as S.Schema<UpdateConnectorRequest>;
 
 /** The affected authorization scope. user means each affected user must authorize again. */
 export type ConnectReconsentScope = "user";
@@ -4136,13 +4167,7 @@ export const ConnectReconsent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     scope: ConnectReconsentScope,
   }),
-).annotate({
-  identifier: "ConnectReconsent",
-}) as any as S.Schema<ConnectReconsent>;
-
-/** done means the external service was updated. required means the Vercel update was saved, but provider-side configuration still needs attention. */
-export type ConnectServiceSyncStatus = "done" | "required";
-export const ConnectServiceSyncStatus = S.String;
+).annotate({ identifier: "ConnectReconsent" }) as any as S.Schema<ConnectReconsent>;
 
 /** Connector fields that caused the synchronization error. */
 export type ConnectServiceSyncErrorFieldsList = Array<string>;
@@ -4151,9 +4176,7 @@ export const ConnectServiceSyncErrorFieldsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ConnectServiceSyncErrorFieldsList>;
 
 /** Provider-specific error details that are safe to expose. */
-export type ConnectServiceSyncErrorVendorMap = {
-  [key: string]: unknown | undefined;
-};
+export type ConnectServiceSyncErrorVendorMap = { [key: string]: unknown | undefined };
 export const ConnectServiceSyncErrorVendorMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -4161,22 +4184,20 @@ export const ConnectServiceSyncErrorVendorMap = /*@__PURE__*/ S.Record(
 
 /** Provider synchronization errors, when synchronization is required. */
 export interface ConnectServiceSyncError {
-  /** Human-readable provider synchronization error. */
-  message: string;
   /** Connector fields that caused the synchronization error. */
   fields?: ConnectServiceSyncErrorFieldsList;
+  /** Human-readable provider synchronization error. */
+  message: string;
   /** Provider-specific error details that are safe to expose. */
   vendor?: ConnectServiceSyncErrorVendorMap;
 }
 export const ConnectServiceSyncError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    message: S.String,
     fields: S.optional(ConnectServiceSyncErrorFieldsList),
+    message: S.String,
     vendor: S.optional(ConnectServiceSyncErrorVendorMap),
   }),
-).annotate({
-  identifier: "ConnectServiceSyncError",
-}) as any as S.Schema<ConnectServiceSyncError>;
+).annotate({ identifier: "ConnectServiceSyncError" }) as any as S.Schema<ConnectServiceSyncError>;
 
 /** Provider synchronization errors. Present when serviceSync.status is required. */
 export type ConnectServiceSyncErrorsList = Array<ConnectServiceSyncError>;
@@ -4184,38 +4205,40 @@ export const ConnectServiceSyncErrorsList = /*@__PURE__*/ S.Array(
   ConnectServiceSyncError,
 ) as any as S.Schema<ConnectServiceSyncErrorsList>;
 
+/** done means the external service was updated. required means the Vercel update was saved, but provider-side configuration still needs attention. */
+export type ConnectServiceSyncStatus = "done" | "required";
+export const ConnectServiceSyncStatus = S.String;
+
 /** Provider-side configuration synchronization result. */
 export interface ConnectServiceSync {
-  /** done means the external service was updated. required means the Vercel update was saved, but provider-side configuration still needs attention. */
-  status: ConnectServiceSyncStatus;
   /** Provider synchronization errors. Present when serviceSync.status is required. */
   errors?: ConnectServiceSyncErrorsList;
+  /** done means the external service was updated. required means the Vercel update was saved, but provider-side configuration still needs attention. */
+  status: ConnectServiceSyncStatus;
 }
 export const ConnectServiceSync = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    status: ConnectServiceSyncStatus,
     errors: S.optional(ConnectServiceSyncErrorsList),
+    status: ConnectServiceSyncStatus,
   }),
-).annotate({
-  identifier: "ConnectServiceSync",
-}) as any as S.Schema<ConnectServiceSync>;
+).annotate({ identifier: "ConnectServiceSync" }) as any as S.Schema<ConnectServiceSync>;
 
 /** Updated connector and any required provider follow-up actions. */
 export interface ConnectConnectorUpdateResult {
   /** Updated connector. */
   connector: ConnectConnector;
-  /** When true, prompt a team owner or administrator to reinstall the connector before relying on the change. */
-  reinstallNeeded?: boolean;
   /** Present when affected users must authorize the connector's new permissions. */
   reconsentNeeded?: ConnectReconsent;
+  /** When true, prompt a team owner or administrator to reinstall the connector before relying on the change. */
+  reinstallNeeded?: boolean;
   /** Result of synchronizing the change with the external service. */
   serviceSync?: ConnectServiceSync;
 }
 export const ConnectConnectorUpdateResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     connector: ConnectConnector,
-    reinstallNeeded: S.optional(S.Boolean),
     reconsentNeeded: S.optional(ConnectReconsent),
+    reinstallNeeded: S.optional(S.Boolean),
     serviceSync: S.optional(ConnectServiceSync),
   }),
 ).annotate({
@@ -4297,6 +4320,8 @@ export type CreateConnectorAuthorizationRequestError =
   | BadRequest
   | Forbidden
   | NotFound
+  | Conflict
+  | UnprocessableEntity
   | VercelOpError;
 /** Create a Connect authorization request Create an authorization request for a connector and return the URL and verifier details needed to complete the flow. */
 export const createConnectorAuthorizationRequest: API.OperationMethod<
@@ -4307,7 +4332,7 @@ export const createConnectorAuthorizationRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateConnectorAuthorizationRequestRequest,
   output: CreateConnectorAuthorizationRequestResponse,
-  errors: [BadRequest, Forbidden, NotFound],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
@@ -4337,6 +4362,7 @@ export type DeleteConnectorProjectConnectionError =
   | BadRequest
   | Forbidden
   | NotFound
+  | Conflict
   | VercelOpError;
 /** Disconnect a connector from a project Disconnect a connector from a project. */
 export const deleteConnectorProjectConnection: API.OperationMethod<
@@ -4347,7 +4373,7 @@ export const deleteConnectorProjectConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteConnectorProjectConnectionRequest,
   output: DeleteConnectorProjectConnectionResponse,
-  errors: [BadRequest, Forbidden, NotFound],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
@@ -4356,6 +4382,7 @@ export type GetConnectorError =
   | BadRequest
   | Forbidden
   | NotFound
+  | Conflict
   | UnprocessableEntity
   | VercelOpError;
 /** Get a connector Get the connector by ID. Accepts a dashboard/team requester or a deployment's project OIDC token; project requesters may only read connectors linked to their project and environment. */
@@ -4367,12 +4394,17 @@ export const getConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetConnectorRequest,
   output: ConnectConnector,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetConnectorProjectConnectionError = BadRequest | Forbidden | NotFound | VercelOpError;
+export type GetConnectorProjectConnectionError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | VercelOpError;
 /** Get a connector project connection Get the configuration that connects a connector to a project. */
 export const getConnectorProjectConnection: API.OperationMethod<
   GetConnectorProjectConnectionRequest,
@@ -4382,7 +4414,7 @@ export const getConnectorProjectConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetConnectorProjectConnectionRequest,
   output: ConnectProjectConnection,
-  errors: [BadRequest, Forbidden, NotFound],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
@@ -4391,6 +4423,7 @@ export type GetConnectorTokenError =
   | BadRequest
   | Forbidden
   | NotFound
+  | Conflict
   | UnprocessableEntity
   | VercelOpError;
 /** Get a Connect token Get an access token for a connector identified by the path parameter and scoped to the requester. */
@@ -4402,7 +4435,7 @@ export const getConnectorToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetConnectorTokenRequest,
   output: GetConnectorTokenResponse,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
@@ -4411,7 +4444,7 @@ export type ListConnectorProjectConnectionsError =
   | BadRequest
   | Forbidden
   | NotFound
-  | UnprocessableEntity
+  | Conflict
   | VercelOpError;
 /** List projects for a connector List the projects connected to a connector and the environments where each connection is available. */
 export const listConnectorProjectConnections: API.OperationMethod<
@@ -4422,12 +4455,18 @@ export const listConnectorProjectConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListConnectorProjectConnectionsRequest,
   output: ConnectConnectorProjectConnectionList,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListConnectorsError = BadRequest | Forbidden | UnprocessableEntity | VercelOpError;
+export type ListConnectorsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | VercelOpError;
 /** List connectors List connectors that belong to a team. */
 export const listConnectors: API.OperationMethod<
   ListConnectorsRequest,
@@ -4437,7 +4476,7 @@ export const listConnectors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListConnectorsRequest,
   output: ConnectConnectorList,
-  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
@@ -4465,6 +4504,7 @@ export type ReplaceConnectorTriggerDestinationsError =
   | BadRequest
   | Forbidden
   | NotFound
+  | Conflict
   | UnprocessableEntity
   | VercelOpError;
 /** Update connector trigger destinations Replace the full set of destinations that receive trigger requests for a connector. */
@@ -4476,7 +4516,7 @@ export const replaceConnectorTriggerDestinations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ReplaceConnectorTriggerDestinationsRequest,
   output: ConnectConnector,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
@@ -4506,6 +4546,7 @@ export type UpsertConnectorProjectConnectionError =
   | BadRequest
   | Forbidden
   | NotFound
+  | Conflict
   | VercelOpError;
 /** Create or update a connector project connection Connect a connector to a project, or replace the environments on an existing project connection. */
 export const upsertConnectorProjectConnection: API.OperationMethod<
@@ -4516,7 +4557,7 @@ export const upsertConnectorProjectConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpsertConnectorProjectConnectionRequest,
   output: ConnectProjectConnection,
-  errors: [BadRequest, Forbidden, NotFound],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));

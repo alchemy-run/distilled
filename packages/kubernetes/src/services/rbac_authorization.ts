@@ -322,9 +322,7 @@ export const IoK8sApiRbacV1PolicyRule = /*@__PURE__*/ S.suspend(() =>
     resources: S.optional(IoK8sApiRbacV1PolicyRuleResourcesList),
     verbs: IoK8sApiRbacV1PolicyRuleVerbsList,
   }),
-).annotate({
-  identifier: "IoK8sApiRbacV1PolicyRule",
-}) as any as S.Schema<IoK8sApiRbacV1PolicyRule>;
+).annotate({ identifier: "IoK8sApiRbacV1PolicyRule" }) as any as S.Schema<IoK8sApiRbacV1PolicyRule>;
 
 /** rules holds all the PolicyRules for this ClusterRole */
 export type CreateRbacAuthorizationV1ClusterRoleRequestRulesList = Array<IoK8sApiRbacV1PolicyRule>;
@@ -364,11 +362,7 @@ export const CreateRbacAuthorizationV1ClusterRoleRequest = /*@__PURE__*/ S.suspe
     metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
     rules: S.optional(CreateRbacAuthorizationV1ClusterRoleRequestRulesList),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/apis/rbac.authorization.k8s.io/v1/clusterroles",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/apis/rbac.authorization.k8s.io/v1/clusterroles", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateRbacAuthorizationV1ClusterRoleRequest",
@@ -420,9 +414,7 @@ export const IoK8sApiRbacV1RoleRef = /*@__PURE__*/ S.suspend(() =>
     kind: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "IoK8sApiRbacV1RoleRef",
-}) as any as S.Schema<IoK8sApiRbacV1RoleRef>;
+).annotate({ identifier: "IoK8sApiRbacV1RoleRef" }) as any as S.Schema<IoK8sApiRbacV1RoleRef>;
 
 /** Subject contains a reference to the object or user identities a role binding applies to. This can either hold a direct API object reference, or a value for non-objects such as user and group names. */
 export interface IoK8sApiRbacV1Subject {
@@ -442,9 +434,7 @@ export const IoK8sApiRbacV1Subject = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     namespace: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IoK8sApiRbacV1Subject",
-}) as any as S.Schema<IoK8sApiRbacV1Subject>;
+).annotate({ identifier: "IoK8sApiRbacV1Subject" }) as any as S.Schema<IoK8sApiRbacV1Subject>;
 
 /** subjects holds references to the objects the role applies to. */
 export type CreateRbacAuthorizationV1ClusterRoleBindingRequestSubjectsList =
@@ -599,9 +589,7 @@ export const IoK8sApiRbacV1Role = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
     rules: S.optional(IoK8sApiRbacV1RoleRulesList),
   }),
-).annotate({
-  identifier: "IoK8sApiRbacV1Role",
-}) as any as S.Schema<IoK8sApiRbacV1Role>;
+).annotate({ identifier: "IoK8sApiRbacV1Role" }) as any as S.Schema<IoK8sApiRbacV1Role>;
 
 /** subjects holds references to the objects the role applies to. */
 export type CreateRbacAuthorizationV1NamespacedRoleBindingRequestSubjectsList =
@@ -978,11 +966,7 @@ export const DeleteRbacAuthorizationV1CollectionClusterRoleRequest = /*@__PURE__
     kind: S.optional(S.String),
     preconditions: S.optional(IoK8sApimachineryPkgApisMetaV1Preconditions),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/apis/rbac.authorization.k8s.io/v1/clusterroles",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/apis/rbac.authorization.k8s.io/v1/clusterroles", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteRbacAuthorizationV1CollectionClusterRoleRequest",
@@ -1302,13 +1286,7 @@ export const DeleteRbacAuthorizationV1NamespacedRoleBindingRequest = /*@__PURE__
 
 export interface GetRbacAuthorizationAPIGroupRequest {}
 export const GetRbacAuthorizationAPIGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/rbac.authorization.k8s.io/",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/apis/rbac.authorization.k8s.io/", code: 200 })),
 ).annotate({
   identifier: "GetRbacAuthorizationAPIGroupRequest",
 }) as any as S.Schema<GetRbacAuthorizationAPIGroupRequest>;
@@ -1393,11 +1371,7 @@ export const IoK8sApimachineryPkgApisMetaV1APIGroup = /*@__PURE__*/ S.suspend(()
 export interface GetRbacAuthorizationV1APIResourcesRequest {}
 export const GetRbacAuthorizationV1APIResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/rbac.authorization.k8s.io/v1/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/rbac.authorization.k8s.io/v1/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetRbacAuthorizationV1APIResourcesRequest",
@@ -1531,11 +1505,7 @@ export const ListRbacAuthorizationV1ClusterRoleRequest = /*@__PURE__*/ S.suspend
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/rbac.authorization.k8s.io/v1/clusterroles",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/rbac.authorization.k8s.io/v1/clusterroles", code: 200 }),
   ),
 ).annotate({
   identifier: "ListRbacAuthorizationV1ClusterRoleRequest",
@@ -1726,9 +1696,7 @@ export const IoK8sApiRbacV1RoleList = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(S.String),
     metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ListMeta),
   }),
-).annotate({
-  identifier: "IoK8sApiRbacV1RoleList",
-}) as any as S.Schema<IoK8sApiRbacV1RoleList>;
+).annotate({ identifier: "IoK8sApiRbacV1RoleList" }) as any as S.Schema<IoK8sApiRbacV1RoleList>;
 
 export interface ListRbacAuthorizationV1NamespacedRoleBindingRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -1854,11 +1822,7 @@ export const ListRbacAuthorizationV1RoleBindingForAllNamespacesRequest = /*@__PU
       timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
       watch: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/apis/rbac.authorization.k8s.io/v1/rolebindings",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/apis/rbac.authorization.k8s.io/v1/rolebindings", code: 200 }),
     ),
 ).annotate({
   identifier: "ListRbacAuthorizationV1RoleBindingForAllNamespacesRequest",
@@ -1904,13 +1868,7 @@ export const ListRbacAuthorizationV1RoleForAllNamespacesRequest = /*@__PURE__*/ 
     shardSelector: S.optional(S.String.pipe(T.Query())),
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/rbac.authorization.k8s.io/v1/roles",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/rbac.authorization.k8s.io/v1/roles", code: 200 })),
 ).annotate({
   identifier: "ListRbacAuthorizationV1RoleForAllNamespacesRequest",
 }) as any as S.Schema<ListRbacAuthorizationV1RoleForAllNamespacesRequest>;
@@ -2896,11 +2854,7 @@ export const WatchRbacAuthorizationV1RoleListForAllNamespacesRequest = /*@__PURE
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/rbac.authorization.k8s.io/v1/watch/roles",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/rbac.authorization.k8s.io/v1/watch/roles", code: 200 }),
   ),
 ).annotate({
   identifier: "WatchRbacAuthorizationV1RoleListForAllNamespacesRequest",

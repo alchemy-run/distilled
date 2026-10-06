@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "m2",
-  serviceShapeName: "AwsSupernovaControlPlaneService",
-});
+const svc = T.AwsApiService({ sdkId: "m2", serviceShapeName: "AwsSupernovaControlPlaneService" });
 const auth = T.AwsAuthSigv4({ name: "m2" });
 const ver = T.ServiceVersion("2021-04-28");
 const proto = T.AwsProtocolsRestJson1();
@@ -183,9 +180,7 @@ export const CancelBatchJobExecutionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CancelBatchJobExecutionRequest>;
 export interface CancelBatchJobExecutionResponse {}
 export const CancelBatchJobExecutionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "CancelBatchJobExecutionResponse",
-  },
+  { identifier: "CancelBatchJobExecutionResponse" },
 ) as any as S.Schema<CancelBatchJobExecutionResponse>;
 export type EntityName = string;
 export type EntityDescription = string;
@@ -226,9 +221,7 @@ export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     kmsKeyId: S.optional(S.String),
     roleArn: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/applications" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateApplicationRequest",
-}) as any as S.Schema<CreateApplicationRequest>;
+).annotate({ identifier: "CreateApplicationRequest" }) as any as S.Schema<CreateApplicationRequest>;
 export type Version = number;
 export interface CreateApplicationResponse {
   applicationArn: string;
@@ -236,11 +229,7 @@ export interface CreateApplicationResponse {
   applicationVersion: number;
 }
 export const CreateApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicationArn: S.String,
-    applicationId: S.String,
-    applicationVersion: S.Number,
-  }),
+  S.Struct({ applicationArn: S.String, applicationId: S.String, applicationVersion: S.Number }),
 ).annotate({
   identifier: "CreateApplicationResponse",
 }) as any as S.Schema<CreateApplicationResponse>;
@@ -253,9 +242,7 @@ export interface DataSetExportItem {
 }
 export const DataSetExportItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ datasetName: S.String, externalLocation: ExternalLocation }),
-).annotate({
-  identifier: "DataSetExportItem",
-}) as any as S.Schema<DataSetExportItem>;
+).annotate({ identifier: "DataSetExportItem" }) as any as S.Schema<DataSetExportItem>;
 export type DataSetExportList = DataSetExportItem[];
 export const DataSetExportList = /*@__PURE__*/ S.Array(DataSetExportItem);
 export type DataSetExportConfig =
@@ -280,10 +267,7 @@ export const CreateDataSetExportTaskRequest = /*@__PURE__*/ S.suspend(() =>
     kmsKeyId: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/applications/{applicationId}/dataset-export-task",
-      }),
+      T.Http({ method: "POST", uri: "/applications/{applicationId}/dataset-export-task" }),
       svc,
       auth,
       proto,
@@ -347,10 +331,7 @@ export interface GdgAttributes {
   rollDisposition?: string;
 }
 export const GdgAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    limit: S.optional(S.Number),
-    rollDisposition: S.optional(S.String),
-  }),
+  S.Struct({ limit: S.optional(S.Number), rollDisposition: S.optional(S.String) }),
 ).annotate({ identifier: "GdgAttributes" }) as any as S.Schema<GdgAttributes>;
 export type String20 = string;
 export type String20List = string[];
@@ -414,9 +395,7 @@ export interface DataSetImportItem {
 }
 export const DataSetImportItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ dataSet: DataSet, externalLocation: ExternalLocation }),
-).annotate({
-  identifier: "DataSetImportItem",
-}) as any as S.Schema<DataSetImportItem>;
+).annotate({ identifier: "DataSetImportItem" }) as any as S.Schema<DataSetImportItem>;
 export type DataSetImportList = DataSetImportItem[];
 export const DataSetImportList = /*@__PURE__*/ S.Array(DataSetImportItem);
 export type DataSetImportConfig =
@@ -438,10 +417,7 @@ export const CreateDataSetImportTaskRequest = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/applications/{applicationId}/dataset-import-task",
-      }),
+      T.Http({ method: "POST", uri: "/applications/{applicationId}/dataset-import-task" }),
       svc,
       auth,
       proto,
@@ -474,10 +450,7 @@ export const CreateDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/applications/{applicationId}/deployments",
-      }),
+      T.Http({ method: "POST", uri: "/applications/{applicationId}/deployments" }),
       svc,
       auth,
       proto,
@@ -485,17 +458,13 @@ export const CreateDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateDeploymentRequest",
-}) as any as S.Schema<CreateDeploymentRequest>;
+).annotate({ identifier: "CreateDeploymentRequest" }) as any as S.Schema<CreateDeploymentRequest>;
 export interface CreateDeploymentResponse {
   deploymentId: string;
 }
 export const CreateDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ deploymentId: S.String }),
-).annotate({
-  identifier: "CreateDeploymentResponse",
-}) as any as S.Schema<CreateDeploymentResponse>;
+).annotate({ identifier: "CreateDeploymentResponse" }) as any as S.Schema<CreateDeploymentResponse>;
 export type EngineVersion = string;
 export type String50 = string;
 export type String50List = string[];
@@ -508,9 +477,7 @@ export const EfsStorageConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ fileSystemId: S.String, mountPoint: S.String }).pipe(
     S.encodeKeys({ fileSystemId: "file-system-id", mountPoint: "mount-point" }),
   ),
-).annotate({
-  identifier: "EfsStorageConfiguration",
-}) as any as S.Schema<EfsStorageConfiguration>;
+).annotate({ identifier: "EfsStorageConfiguration" }) as any as S.Schema<EfsStorageConfiguration>;
 export interface FsxStorageConfiguration {
   fileSystemId: string;
   mountPoint: string;
@@ -519,9 +486,7 @@ export const FsxStorageConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ fileSystemId: S.String, mountPoint: S.String }).pipe(
     S.encodeKeys({ fileSystemId: "file-system-id", mountPoint: "mount-point" }),
   ),
-).annotate({
-  identifier: "FsxStorageConfiguration",
-}) as any as S.Schema<FsxStorageConfiguration>;
+).annotate({ identifier: "FsxStorageConfiguration" }) as any as S.Schema<FsxStorageConfiguration>;
 export type StorageConfiguration =
   | { efs: EfsStorageConfiguration; fsx?: never }
   | { efs?: never; fsx: FsxStorageConfiguration };
@@ -537,9 +502,7 @@ export interface HighAvailabilityConfig {
 }
 export const HighAvailabilityConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ desiredCapacity: S.Number }),
-).annotate({
-  identifier: "HighAvailabilityConfig",
-}) as any as S.Schema<HighAvailabilityConfig>;
+).annotate({ identifier: "HighAvailabilityConfig" }) as any as S.Schema<HighAvailabilityConfig>;
 export type NetworkType = string;
 export interface CreateEnvironmentRequest {
   name: string;
@@ -576,9 +539,7 @@ export const CreateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     kmsKeyId: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/environments" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateEnvironmentRequest",
-}) as any as S.Schema<CreateEnvironmentRequest>;
+).annotate({ identifier: "CreateEnvironmentRequest" }) as any as S.Schema<CreateEnvironmentRequest>;
 export interface CreateEnvironmentResponse {
   environmentId: string;
 }
@@ -601,9 +562,7 @@ export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteApplicationRequest",
-}) as any as S.Schema<DeleteApplicationRequest>;
+).annotate({ identifier: "DeleteApplicationRequest" }) as any as S.Schema<DeleteApplicationRequest>;
 export interface DeleteApplicationResponse {}
 export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteApplicationResponse",
@@ -652,9 +611,7 @@ export const DeleteEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteEnvironmentRequest",
-}) as any as S.Schema<DeleteEnvironmentRequest>;
+).annotate({ identifier: "DeleteEnvironmentRequest" }) as any as S.Schema<DeleteEnvironmentRequest>;
 export interface DeleteEnvironmentResponse {}
 export const DeleteEnvironmentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteEnvironmentResponse",
@@ -673,9 +630,7 @@ export const GetApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetApplicationRequest",
-}) as any as S.Schema<GetApplicationRequest>;
+).annotate({ identifier: "GetApplicationRequest" }) as any as S.Schema<GetApplicationRequest>;
 export type ApplicationLifecycle = string;
 export type ApplicationVersionLifecycle = string;
 export interface ApplicationVersionSummary {
@@ -701,14 +656,8 @@ export interface DeployedVersionSummary {
   statusReason?: string;
 }
 export const DeployedVersionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicationVersion: S.Number,
-    status: S.String,
-    statusReason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DeployedVersionSummary",
-}) as any as S.Schema<DeployedVersionSummary>;
+  S.Struct({ applicationVersion: S.Number, status: S.String, statusReason: S.optional(S.String) }),
+).annotate({ identifier: "DeployedVersionSummary" }) as any as S.Schema<DeployedVersionSummary>;
 export type LogGroupIdentifier = string;
 export interface LogGroupSummary {
   logType: string;
@@ -716,9 +665,7 @@ export interface LogGroupSummary {
 }
 export const LogGroupSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ logType: S.String, logGroupName: S.String }),
-).annotate({
-  identifier: "LogGroupSummary",
-}) as any as S.Schema<LogGroupSummary>;
+).annotate({ identifier: "LogGroupSummary" }) as any as S.Schema<LogGroupSummary>;
 export type LogGroupSummaries = LogGroupSummary[];
 export const LogGroupSummaries = /*@__PURE__*/ S.Array(LogGroupSummary);
 export type ArnList = string[];
@@ -771,9 +718,7 @@ export const GetApplicationResponse = /*@__PURE__*/ S.suspend(() =>
     kmsKeyId: S.optional(S.String),
     roleArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetApplicationResponse",
-}) as any as S.Schema<GetApplicationResponse>;
+).annotate({ identifier: "GetApplicationResponse" }) as any as S.Schema<GetApplicationResponse>;
 export interface GetApplicationVersionRequest {
   applicationId: string;
   applicationVersion: number;
@@ -784,10 +729,7 @@ export const GetApplicationVersionRequest = /*@__PURE__*/ S.suspend(() =>
     applicationVersion: S.Number.pipe(T.HttpLabel("applicationVersion")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/applications/{applicationId}/versions/{applicationVersion}",
-      }),
+      T.Http({ method: "GET", uri: "/applications/{applicationId}/versions/{applicationVersion}" }),
       svc,
       auth,
       proto,
@@ -852,17 +794,13 @@ export interface FileBatchJobIdentifier {
 }
 export const FileBatchJobIdentifier = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ fileName: S.String, folderPath: S.optional(S.String) }),
-).annotate({
-  identifier: "FileBatchJobIdentifier",
-}) as any as S.Schema<FileBatchJobIdentifier>;
+).annotate({ identifier: "FileBatchJobIdentifier" }) as any as S.Schema<FileBatchJobIdentifier>;
 export interface ScriptBatchJobIdentifier {
   scriptName: string;
 }
 export const ScriptBatchJobIdentifier = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ scriptName: S.String }),
-).annotate({
-  identifier: "ScriptBatchJobIdentifier",
-}) as any as S.Schema<ScriptBatchJobIdentifier>;
+).annotate({ identifier: "ScriptBatchJobIdentifier" }) as any as S.Schema<ScriptBatchJobIdentifier>;
 export type JobIdentifier =
   | { fileName: string; scriptName?: never }
   | { fileName?: never; scriptName: string };
@@ -876,14 +814,8 @@ export interface S3BatchJobIdentifier {
   identifier: JobIdentifier;
 }
 export const S3BatchJobIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bucket: S.String,
-    keyPrefix: S.optional(S.String),
-    identifier: JobIdentifier,
-  }),
-).annotate({
-  identifier: "S3BatchJobIdentifier",
-}) as any as S.Schema<S3BatchJobIdentifier>;
+  S.Struct({ bucket: S.String, keyPrefix: S.optional(S.String), identifier: JobIdentifier }),
+).annotate({ identifier: "S3BatchJobIdentifier" }) as any as S.Schema<S3BatchJobIdentifier>;
 export interface JobStepRestartMarker {
   fromStep: string;
   fromProcStep?: string;
@@ -901,18 +833,13 @@ export const JobStepRestartMarker = /*@__PURE__*/ S.suspend(() =>
     stepCheckpoint: S.optional(S.Number),
     skip: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "JobStepRestartMarker",
-}) as any as S.Schema<JobStepRestartMarker>;
+).annotate({ identifier: "JobStepRestartMarker" }) as any as S.Schema<JobStepRestartMarker>;
 export interface RestartBatchJobIdentifier {
   executionId: string;
   jobStepRestartMarker: JobStepRestartMarker;
 }
 export const RestartBatchJobIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    executionId: S.String,
-    jobStepRestartMarker: JobStepRestartMarker,
-  }),
+  S.Struct({ executionId: S.String, jobStepRestartMarker: JobStepRestartMarker }),
 ).annotate({
   identifier: "RestartBatchJobIdentifier",
 }) as any as S.Schema<RestartBatchJobIdentifier>;
@@ -991,10 +918,7 @@ export const GetDataSetDetailsRequest = /*@__PURE__*/ S.suspend(() =>
     dataSetName: S.String.pipe(T.HttpLabel("dataSetName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/applications/{applicationId}/datasets/{dataSetName}",
-      }),
+      T.Http({ method: "GET", uri: "/applications/{applicationId}/datasets/{dataSetName}" }),
       svc,
       auth,
       proto,
@@ -1002,9 +926,7 @@ export const GetDataSetDetailsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetDataSetDetailsRequest",
-}) as any as S.Schema<GetDataSetDetailsRequest>;
+).annotate({ identifier: "GetDataSetDetailsRequest" }) as any as S.Schema<GetDataSetDetailsRequest>;
 export interface VsamDetailAttributes {
   encoding?: string;
   recordFormat?: string;
@@ -1022,39 +944,28 @@ export const VsamDetailAttributes = /*@__PURE__*/ S.suspend(() =>
     primaryKey: S.optional(PrimaryKey),
     alternateKeys: S.optional(AlternateKeyList),
   }),
-).annotate({
-  identifier: "VsamDetailAttributes",
-}) as any as S.Schema<VsamDetailAttributes>;
+).annotate({ identifier: "VsamDetailAttributes" }) as any as S.Schema<VsamDetailAttributes>;
 export interface GdgDetailAttributes {
   limit?: number;
   rollDisposition?: string;
 }
 export const GdgDetailAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    limit: S.optional(S.Number),
-    rollDisposition: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GdgDetailAttributes",
-}) as any as S.Schema<GdgDetailAttributes>;
+  S.Struct({ limit: S.optional(S.Number), rollDisposition: S.optional(S.String) }),
+).annotate({ identifier: "GdgDetailAttributes" }) as any as S.Schema<GdgDetailAttributes>;
 export interface PoDetailAttributes {
   format: string;
   encoding: string;
 }
 export const PoDetailAttributes = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ format: S.String, encoding: S.String }),
-).annotate({
-  identifier: "PoDetailAttributes",
-}) as any as S.Schema<PoDetailAttributes>;
+).annotate({ identifier: "PoDetailAttributes" }) as any as S.Schema<PoDetailAttributes>;
 export interface PsDetailAttributes {
   format: string;
   encoding: string;
 }
 export const PsDetailAttributes = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ format: S.String, encoding: S.String }),
-).annotate({
-  identifier: "PsDetailAttributes",
-}) as any as S.Schema<PsDetailAttributes>;
+).annotate({ identifier: "PsDetailAttributes" }) as any as S.Schema<PsDetailAttributes>;
 export type DatasetDetailOrgAttributes =
   | { vsam: VsamDetailAttributes; gdg?: never; po?: never; ps?: never }
   | { vsam?: never; gdg: GdgDetailAttributes; po?: never; ps?: never }
@@ -1102,10 +1013,7 @@ export const GetDataSetExportTaskRequest = /*@__PURE__*/ S.suspend(() =>
     taskId: S.String.pipe(T.HttpLabel("taskId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/applications/{applicationId}/dataset-export-tasks/{taskId}",
-      }),
+      T.Http({ method: "GET", uri: "/applications/{applicationId}/dataset-export-tasks/{taskId}" }),
       svc,
       auth,
       proto,
@@ -1132,9 +1040,7 @@ export const DataSetExportSummary = /*@__PURE__*/ S.suspend(() =>
     pending: S.Number,
     inProgress: S.Number,
   }),
-).annotate({
-  identifier: "DataSetExportSummary",
-}) as any as S.Schema<DataSetExportSummary>;
+).annotate({ identifier: "DataSetExportSummary" }) as any as S.Schema<DataSetExportSummary>;
 export interface GetDataSetExportTaskResponse {
   taskId: string;
   status: string;
@@ -1163,10 +1069,7 @@ export const GetDataSetImportTaskRequest = /*@__PURE__*/ S.suspend(() =>
     taskId: S.String.pipe(T.HttpLabel("taskId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/applications/{applicationId}/dataset-import-tasks/{taskId}",
-      }),
+      T.Http({ method: "GET", uri: "/applications/{applicationId}/dataset-import-tasks/{taskId}" }),
       svc,
       auth,
       proto,
@@ -1192,20 +1095,14 @@ export const DataSetImportSummary = /*@__PURE__*/ S.suspend(() =>
     pending: S.Number,
     inProgress: S.Number,
   }),
-).annotate({
-  identifier: "DataSetImportSummary",
-}) as any as S.Schema<DataSetImportSummary>;
+).annotate({ identifier: "DataSetImportSummary" }) as any as S.Schema<DataSetImportSummary>;
 export interface GetDataSetImportTaskResponse {
   taskId: string;
   status: string;
   summary?: DataSetImportSummary;
 }
 export const GetDataSetImportTaskResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    taskId: S.String,
-    status: S.String,
-    summary: S.optional(DataSetImportSummary),
-  }),
+  S.Struct({ taskId: S.String, status: S.String, summary: S.optional(DataSetImportSummary) }),
 ).annotate({
   identifier: "GetDataSetImportTaskResponse",
 }) as any as S.Schema<GetDataSetImportTaskResponse>;
@@ -1219,10 +1116,7 @@ export const GetDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/applications/{applicationId}/deployments/{deploymentId}",
-      }),
+      T.Http({ method: "GET", uri: "/applications/{applicationId}/deployments/{deploymentId}" }),
       svc,
       auth,
       proto,
@@ -1230,9 +1124,7 @@ export const GetDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetDeploymentRequest",
-}) as any as S.Schema<GetDeploymentRequest>;
+).annotate({ identifier: "GetDeploymentRequest" }) as any as S.Schema<GetDeploymentRequest>;
 export interface GetDeploymentResponse {
   deploymentId: string;
   applicationId: string;
@@ -1252,9 +1144,7 @@ export const GetDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
     creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     statusReason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetDeploymentResponse",
-}) as any as S.Schema<GetDeploymentResponse>;
+).annotate({ identifier: "GetDeploymentResponse" }) as any as S.Schema<GetDeploymentResponse>;
 export interface GetEnvironmentRequest {
   environmentId: string;
 }
@@ -1269,9 +1159,7 @@ export const GetEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetEnvironmentRequest",
-}) as any as S.Schema<GetEnvironmentRequest>;
+).annotate({ identifier: "GetEnvironmentRequest" }) as any as S.Schema<GetEnvironmentRequest>;
 export type EnvironmentLifecycle = string;
 export interface MaintenanceSchedule {
   startTime?: Date;
@@ -1282,21 +1170,14 @@ export const MaintenanceSchedule = /*@__PURE__*/ S.suspend(() =>
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "MaintenanceSchedule",
-}) as any as S.Schema<MaintenanceSchedule>;
+).annotate({ identifier: "MaintenanceSchedule" }) as any as S.Schema<MaintenanceSchedule>;
 export interface PendingMaintenance {
   schedule?: MaintenanceSchedule;
   engineVersion?: string;
 }
 export const PendingMaintenance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    schedule: S.optional(MaintenanceSchedule),
-    engineVersion: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PendingMaintenance",
-}) as any as S.Schema<PendingMaintenance>;
+  S.Struct({ schedule: S.optional(MaintenanceSchedule), engineVersion: S.optional(S.String) }),
+).annotate({ identifier: "PendingMaintenance" }) as any as S.Schema<PendingMaintenance>;
 export interface GetEnvironmentResponse {
   name: string;
   description?: string;
@@ -1348,9 +1229,7 @@ export const GetEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
     kmsKeyId: S.optional(S.String),
     networkType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetEnvironmentResponse",
-}) as any as S.Schema<GetEnvironmentResponse>;
+).annotate({ identifier: "GetEnvironmentResponse" }) as any as S.Schema<GetEnvironmentResponse>;
 export interface GetSignedBluinsightsUrlRequest {}
 export const GetSignedBluinsightsUrlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
@@ -1384,9 +1263,7 @@ export const ListApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
     names: S.optional(EntityNameList).pipe(T.HttpQuery("names")),
     environmentId: S.optional(S.String).pipe(T.HttpQuery("environmentId")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/applications" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListApplicationsRequest",
-}) as any as S.Schema<ListApplicationsRequest>;
+).annotate({ identifier: "ListApplicationsRequest" }) as any as S.Schema<ListApplicationsRequest>;
 export type ApplicationDeploymentLifecycle = string;
 export interface ApplicationSummary {
   name: string;
@@ -1419,9 +1296,7 @@ export const ApplicationSummary = /*@__PURE__*/ S.suspend(() =>
     deploymentStatus: S.optional(S.String),
     roleArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationSummary",
-}) as any as S.Schema<ApplicationSummary>;
+).annotate({ identifier: "ApplicationSummary" }) as any as S.Schema<ApplicationSummary>;
 export type ApplicationSummaryList = ApplicationSummary[];
 export const ApplicationSummaryList = /*@__PURE__*/ S.Array(ApplicationSummary);
 export interface ListApplicationsResponse {
@@ -1429,13 +1304,8 @@ export interface ListApplicationsResponse {
   nextToken?: string;
 }
 export const ListApplicationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applications: ApplicationSummaryList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListApplicationsResponse",
-}) as any as S.Schema<ListApplicationsResponse>;
+  S.Struct({ applications: ApplicationSummaryList, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListApplicationsResponse" }) as any as S.Schema<ListApplicationsResponse>;
 export interface ListApplicationVersionsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -1466,10 +1336,7 @@ export interface ListApplicationVersionsResponse {
   nextToken?: string;
 }
 export const ListApplicationVersionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicationVersions: ApplicationVersionSummaryList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ applicationVersions: ApplicationVersionSummaryList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListApplicationVersionsResponse",
 }) as any as S.Schema<ListApplicationVersionsResponse>;
@@ -1487,10 +1354,7 @@ export const ListBatchJobDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
     prefix: S.optional(S.String).pipe(T.HttpQuery("prefix")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/applications/{applicationId}/batch-job-definitions",
-      }),
+      T.Http({ method: "GET", uri: "/applications/{applicationId}/batch-job-definitions" }),
       svc,
       auth,
       proto,
@@ -1507,26 +1371,16 @@ export interface FileBatchJobDefinition {
 }
 export const FileBatchJobDefinition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ fileName: S.String, folderPath: S.optional(S.String) }),
-).annotate({
-  identifier: "FileBatchJobDefinition",
-}) as any as S.Schema<FileBatchJobDefinition>;
+).annotate({ identifier: "FileBatchJobDefinition" }) as any as S.Schema<FileBatchJobDefinition>;
 export interface ScriptBatchJobDefinition {
   scriptName: string;
 }
 export const ScriptBatchJobDefinition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ scriptName: S.String }),
-).annotate({
-  identifier: "ScriptBatchJobDefinition",
-}) as any as S.Schema<ScriptBatchJobDefinition>;
+).annotate({ identifier: "ScriptBatchJobDefinition" }) as any as S.Schema<ScriptBatchJobDefinition>;
 export type BatchJobDefinition =
-  | {
-      fileBatchJobDefinition: FileBatchJobDefinition;
-      scriptBatchJobDefinition?: never;
-    }
-  | {
-      fileBatchJobDefinition?: never;
-      scriptBatchJobDefinition: ScriptBatchJobDefinition;
-    };
+  | { fileBatchJobDefinition: FileBatchJobDefinition; scriptBatchJobDefinition?: never }
+  | { fileBatchJobDefinition?: never; scriptBatchJobDefinition: ScriptBatchJobDefinition };
 export const BatchJobDefinition = /*@__PURE__*/ S.Union([
   S.Struct({ fileBatchJobDefinition: FileBatchJobDefinition }),
   S.Struct({ scriptBatchJobDefinition: ScriptBatchJobDefinition }),
@@ -1538,10 +1392,7 @@ export interface ListBatchJobDefinitionsResponse {
   nextToken?: string;
 }
 export const ListBatchJobDefinitionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    batchJobDefinitions: BatchJobDefinitions,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ batchJobDefinitions: BatchJobDefinitions, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListBatchJobDefinitionsResponse",
 }) as any as S.Schema<ListBatchJobDefinitionsResponse>;
@@ -1573,10 +1424,7 @@ export const ListBatchJobExecutionsRequest = /*@__PURE__*/ S.suspend(() =>
     ),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/applications/{applicationId}/batch-job-executions",
-      }),
+      T.Http({ method: "GET", uri: "/applications/{applicationId}/batch-job-executions" }),
       svc,
       auth,
       proto,
@@ -1612,9 +1460,7 @@ export const BatchJobExecutionSummary = /*@__PURE__*/ S.suspend(() =>
     returnCode: S.optional(S.String),
     batchJobIdentifier: S.optional(BatchJobIdentifier),
   }),
-).annotate({
-  identifier: "BatchJobExecutionSummary",
-}) as any as S.Schema<BatchJobExecutionSummary>;
+).annotate({ identifier: "BatchJobExecutionSummary" }) as any as S.Schema<BatchJobExecutionSummary>;
 export type BatchJobExecutionSummaryList = BatchJobExecutionSummary[];
 export const BatchJobExecutionSummaryList = /*@__PURE__*/ S.Array(BatchJobExecutionSummary);
 export interface ListBatchJobExecutionsResponse {
@@ -1622,10 +1468,7 @@ export interface ListBatchJobExecutionsResponse {
   nextToken?: string;
 }
 export const ListBatchJobExecutionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    batchJobExecutions: BatchJobExecutionSummaryList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ batchJobExecutions: BatchJobExecutionSummaryList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListBatchJobExecutionsResponse",
 }) as any as S.Schema<ListBatchJobExecutionsResponse>;
@@ -1701,10 +1544,7 @@ export const ListDataSetExportHistoryRequest = /*@__PURE__*/ S.suspend(() =>
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/applications/{applicationId}/dataset-export-tasks",
-      }),
+      T.Http({ method: "GET", uri: "/applications/{applicationId}/dataset-export-tasks" }),
       svc,
       auth,
       proto,
@@ -1728,9 +1568,7 @@ export const DataSetExportTask = /*@__PURE__*/ S.suspend(() =>
     summary: DataSetExportSummary,
     statusReason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DataSetExportTask",
-}) as any as S.Schema<DataSetExportTask>;
+).annotate({ identifier: "DataSetExportTask" }) as any as S.Schema<DataSetExportTask>;
 export type DataSetExportTaskList = DataSetExportTask[];
 export const DataSetExportTaskList = /*@__PURE__*/ S.Array(DataSetExportTask);
 export interface ListDataSetExportHistoryResponse {
@@ -1738,10 +1576,7 @@ export interface ListDataSetExportHistoryResponse {
   nextToken?: string;
 }
 export const ListDataSetExportHistoryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dataSetExportTasks: DataSetExportTaskList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ dataSetExportTasks: DataSetExportTaskList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListDataSetExportHistoryResponse",
 }) as any as S.Schema<ListDataSetExportHistoryResponse>;
@@ -1757,10 +1592,7 @@ export const ListDataSetImportHistoryRequest = /*@__PURE__*/ S.suspend(() =>
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/applications/{applicationId}/dataset-import-tasks",
-      }),
+      T.Http({ method: "GET", uri: "/applications/{applicationId}/dataset-import-tasks" }),
       svc,
       auth,
       proto,
@@ -1784,9 +1616,7 @@ export const DataSetImportTask = /*@__PURE__*/ S.suspend(() =>
     summary: DataSetImportSummary,
     statusReason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DataSetImportTask",
-}) as any as S.Schema<DataSetImportTask>;
+).annotate({ identifier: "DataSetImportTask" }) as any as S.Schema<DataSetImportTask>;
 export type DataSetImportTaskList = DataSetImportTask[];
 export const DataSetImportTaskList = /*@__PURE__*/ S.Array(DataSetImportTask);
 export interface ListDataSetImportHistoryResponse {
@@ -1794,10 +1624,7 @@ export interface ListDataSetImportHistoryResponse {
   nextToken?: string;
 }
 export const ListDataSetImportHistoryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dataSetImportTasks: DataSetImportTaskList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ dataSetImportTasks: DataSetImportTaskList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListDataSetImportHistoryResponse",
 }) as any as S.Schema<ListDataSetImportHistoryResponse>;
@@ -1825,9 +1652,7 @@ export const ListDataSetsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListDataSetsRequest",
-}) as any as S.Schema<ListDataSetsRequest>;
+).annotate({ identifier: "ListDataSetsRequest" }) as any as S.Schema<ListDataSetsRequest>;
 export interface DataSetSummary {
   dataSetName: string;
   dataSetOrg?: string;
@@ -1854,9 +1679,7 @@ export interface ListDataSetsResponse {
 }
 export const ListDataSetsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ dataSets: DataSetsSummaryList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListDataSetsResponse",
-}) as any as S.Schema<ListDataSetsResponse>;
+).annotate({ identifier: "ListDataSetsResponse" }) as any as S.Schema<ListDataSetsResponse>;
 export interface ListDeploymentsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -1869,10 +1692,7 @@ export const ListDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/applications/{applicationId}/deployments",
-      }),
+      T.Http({ method: "GET", uri: "/applications/{applicationId}/deployments" }),
       svc,
       auth,
       proto,
@@ -1880,9 +1700,7 @@ export const ListDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListDeploymentsRequest",
-}) as any as S.Schema<ListDeploymentsRequest>;
+).annotate({ identifier: "ListDeploymentsRequest" }) as any as S.Schema<ListDeploymentsRequest>;
 export interface DeploymentSummary {
   deploymentId: string;
   applicationId: string;
@@ -1902,9 +1720,7 @@ export const DeploymentSummary = /*@__PURE__*/ S.suspend(() =>
     creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     statusReason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeploymentSummary",
-}) as any as S.Schema<DeploymentSummary>;
+).annotate({ identifier: "DeploymentSummary" }) as any as S.Schema<DeploymentSummary>;
 export type DeploymentList = DeploymentSummary[];
 export const DeploymentList = /*@__PURE__*/ S.Array(DeploymentSummary);
 export interface ListDeploymentsResponse {
@@ -1913,9 +1729,7 @@ export interface ListDeploymentsResponse {
 }
 export const ListDeploymentsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ deployments: DeploymentList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListDeploymentsResponse",
-}) as any as S.Schema<ListDeploymentsResponse>;
+).annotate({ identifier: "ListDeploymentsResponse" }) as any as S.Schema<ListDeploymentsResponse>;
 export interface ListEngineVersionsRequest {
   engineType?: string;
   nextToken?: string;
@@ -1936,9 +1750,7 @@ export interface EngineVersionsSummary {
 }
 export const EngineVersionsSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ engineType: S.String, engineVersion: S.String }),
-).annotate({
-  identifier: "EngineVersionsSummary",
-}) as any as S.Schema<EngineVersionsSummary>;
+).annotate({ identifier: "EngineVersionsSummary" }) as any as S.Schema<EngineVersionsSummary>;
 export type EngineVersionsSummaryList = EngineVersionsSummary[];
 export const EngineVersionsSummaryList = /*@__PURE__*/ S.Array(EngineVersionsSummary);
 export interface ListEngineVersionsResponse {
@@ -1946,10 +1758,7 @@ export interface ListEngineVersionsResponse {
   nextToken?: string;
 }
 export const ListEngineVersionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    engineVersions: EngineVersionsSummaryList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ engineVersions: EngineVersionsSummaryList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListEngineVersionsResponse",
 }) as any as S.Schema<ListEngineVersionsResponse>;
@@ -1966,9 +1775,7 @@ export const ListEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
     names: S.optional(EntityNameList).pipe(T.HttpQuery("names")),
     engineType: S.optional(S.String).pipe(T.HttpQuery("engineType")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/environments" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListEnvironmentsRequest",
-}) as any as S.Schema<ListEnvironmentsRequest>;
+).annotate({ identifier: "ListEnvironmentsRequest" }) as any as S.Schema<ListEnvironmentsRequest>;
 export interface EnvironmentSummary {
   name: string;
   environmentArn: string;
@@ -1992,9 +1799,7 @@ export const EnvironmentSummary = /*@__PURE__*/ S.suspend(() =>
     creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     networkType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EnvironmentSummary",
-}) as any as S.Schema<EnvironmentSummary>;
+).annotate({ identifier: "EnvironmentSummary" }) as any as S.Schema<EnvironmentSummary>;
 export type EnvironmentSummaryList = EnvironmentSummary[];
 export const EnvironmentSummaryList = /*@__PURE__*/ S.Array(EnvironmentSummary);
 export interface ListEnvironmentsResponse {
@@ -2002,13 +1807,8 @@ export interface ListEnvironmentsResponse {
   nextToken?: string;
 }
 export const ListEnvironmentsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    environments: EnvironmentSummaryList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListEnvironmentsResponse",
-}) as any as S.Schema<ListEnvironmentsResponse>;
+  S.Struct({ environments: EnvironmentSummaryList, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListEnvironmentsResponse" }) as any as S.Schema<ListEnvironmentsResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
@@ -2041,9 +1841,7 @@ export const StartApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "StartApplicationRequest",
-}) as any as S.Schema<StartApplicationRequest>;
+).annotate({ identifier: "StartApplicationRequest" }) as any as S.Schema<StartApplicationRequest>;
 export interface StartApplicationResponse {}
 export const StartApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StartApplicationResponse",
@@ -2066,10 +1864,7 @@ export const StartBatchJobRequest = /*@__PURE__*/ S.suspend(() =>
     authSecretsManagerArn: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/applications/{applicationId}/batch-job",
-      }),
+      T.Http({ method: "POST", uri: "/applications/{applicationId}/batch-job" }),
       svc,
       auth,
       proto,
@@ -2077,17 +1872,13 @@ export const StartBatchJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "StartBatchJobRequest",
-}) as any as S.Schema<StartBatchJobRequest>;
+).annotate({ identifier: "StartBatchJobRequest" }) as any as S.Schema<StartBatchJobRequest>;
 export interface StartBatchJobResponse {
   executionId: string;
 }
 export const StartBatchJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ executionId: S.String }),
-).annotate({
-  identifier: "StartBatchJobResponse",
-}) as any as S.Schema<StartBatchJobResponse>;
+).annotate({ identifier: "StartBatchJobResponse" }) as any as S.Schema<StartBatchJobResponse>;
 export interface StopApplicationRequest {
   applicationId: string;
   forceStop?: boolean;
@@ -2106,9 +1897,7 @@ export const StopApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "StopApplicationRequest",
-}) as any as S.Schema<StopApplicationRequest>;
+).annotate({ identifier: "StopApplicationRequest" }) as any as S.Schema<StopApplicationRequest>;
 export interface StopApplicationResponse {}
 export const StopApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StopApplicationResponse",
@@ -2118,15 +1907,10 @@ export interface TagResourceRequest {
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagMap,
-  }).pipe(
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -2144,9 +1928,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -2173,9 +1955,7 @@ export const UpdateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateApplicationRequest",
-}) as any as S.Schema<UpdateApplicationRequest>;
+).annotate({ identifier: "UpdateApplicationRequest" }) as any as S.Schema<UpdateApplicationRequest>;
 export interface UpdateApplicationResponse {
   applicationVersion: number;
 }
@@ -2212,9 +1992,7 @@ export const UpdateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateEnvironmentRequest",
-}) as any as S.Schema<UpdateEnvironmentRequest>;
+).annotate({ identifier: "UpdateEnvironmentRequest" }) as any as S.Schema<UpdateEnvironmentRequest>;
 export interface UpdateEnvironmentResponse {
   environmentId: string;
 }
@@ -2230,9 +2008,7 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type CancelBatchJobExecutionError =

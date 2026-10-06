@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "SSM GuiConnect",
-  serviceShapeName: "SSMGuiConnect",
-});
+const svc = T.AwsApiService({ sdkId: "SSM GuiConnect", serviceShapeName: "SSMGuiConnect" });
 const auth = T.AwsAuthSigv4({ name: "ssm-guiconnect" });
 const ver = T.ServiceVersion("2021-05-01");
 const proto = T.AwsProtocolsRestJson1();
@@ -120,14 +117,9 @@ export interface DeleteConnectionRecordingPreferencesRequest {
   ClientToken?: string;
 }
 export const DeleteConnectionRecordingPreferencesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
+  S.Struct({ ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()) }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/DeleteConnectionRecordingPreferences",
-      }),
+      T.Http({ method: "POST", uri: "/DeleteConnectionRecordingPreferences" }),
       svc,
       auth,
       proto,
@@ -177,18 +169,13 @@ export interface RecordingDestinations {
 }
 export const RecordingDestinations = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ S3Buckets: S3Buckets }),
-).annotate({
-  identifier: "RecordingDestinations",
-}) as any as S.Schema<RecordingDestinations>;
+).annotate({ identifier: "RecordingDestinations" }) as any as S.Schema<RecordingDestinations>;
 export interface ConnectionRecordingPreferences {
   RecordingDestinations: RecordingDestinations;
   KMSKeyArn: string;
 }
 export const ConnectionRecordingPreferences = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RecordingDestinations: RecordingDestinations,
-    KMSKeyArn: S.String,
-  }),
+  S.Struct({ RecordingDestinations: RecordingDestinations, KMSKeyArn: S.String }),
 ).annotate({
   identifier: "ConnectionRecordingPreferences",
 }) as any as S.Schema<ConnectionRecordingPreferences>;
@@ -214,10 +201,7 @@ export const UpdateConnectionRecordingPreferencesRequest = /*@__PURE__*/ S.suspe
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/UpdateConnectionRecordingPreferences",
-      }),
+      T.Http({ method: "POST", uri: "/UpdateConnectionRecordingPreferences" }),
       svc,
       auth,
       proto,

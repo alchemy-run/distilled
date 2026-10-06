@@ -26,11 +26,7 @@ export const SetUserGroupEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     userGroupId: S.optional(S.String),
     role: S.optional(EnvironmentRole),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/UserGroupEnvironmentSet",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/UserGroupEnvironmentSet", code: 200 }),
   ),
 ).annotate({
   identifier: "SetUserGroupEnvironmentRequest",
@@ -38,9 +34,7 @@ export const SetUserGroupEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface SetUserGroupEnvironmentResponse {}
 export const SetUserGroupEnvironmentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "SetUserGroupEnvironmentResponse",
-  },
+  { identifier: "SetUserGroupEnvironmentResponse" },
 ) as any as S.Schema<SetUserGroupEnvironmentResponse>;
 
 export type SetUserGroupEnvironmentError = ModalOpError;

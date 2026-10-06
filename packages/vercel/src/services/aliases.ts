@@ -74,30 +74,26 @@ export const AssignAliasRequest = /*@__PURE__*/ S.suspend(() =>
     alias: S.optional(S.String),
     redirect: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/v2/deployments/{id}/aliases", code: 200 })),
-).annotate({
-  identifier: "AssignAliasRequest",
-}) as any as S.Schema<AssignAliasRequest>;
+).annotate({ identifier: "AssignAliasRequest" }) as any as S.Schema<AssignAliasRequest>;
 
 export interface AssignAliasResponse {
-  /** The unique identifier of the alias */
-  uid: string;
   /** The assigned alias name */
   alias: string;
   /** The date when the alias was created */
   created: string;
   /** The unique identifier of the previously aliased deployment, only received when the alias was used before */
   oldDeploymentId?: string | null;
+  /** The unique identifier of the alias */
+  uid: string;
 }
 export const AssignAliasResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    uid: S.String,
     alias: S.String,
     created: S.String,
     oldDeploymentId: S.optional(S.NullOr(S.String)),
+    uid: S.String,
   }),
-).annotate({
-  identifier: "AssignAliasResponse",
-}) as any as S.Schema<AssignAliasResponse>;
+).annotate({ identifier: "AssignAliasResponse" }) as any as S.Schema<AssignAliasResponse>;
 
 export interface DeleteAliasRequest {
   /** The ID or alias that will be removed */
@@ -113,9 +109,7 @@ export const DeleteAliasRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/v2/aliases/{aliasId}", code: 200 })),
-).annotate({
-  identifier: "DeleteAliasRequest",
-}) as any as S.Schema<DeleteAliasRequest>;
+).annotate({ identifier: "DeleteAliasRequest" }) as any as S.Schema<DeleteAliasRequest>;
 
 export type DeleteAliasResponseStatus = "SUCCESS";
 export const DeleteAliasResponseStatus = S.String;
@@ -127,9 +121,7 @@ export const DeleteAliasResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: DeleteAliasResponseStatus,
   }),
-).annotate({
-  identifier: "DeleteAliasResponse",
-}) as any as S.Schema<DeleteAliasResponse>;
+).annotate({ identifier: "DeleteAliasResponse" }) as any as S.Schema<DeleteAliasResponse>;
 
 export interface GetAliasRequest {
   /** The alias or alias ID to be retrieved */
@@ -157,51 +149,158 @@ export const GetAliasRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v4/aliases/{idOrAlias}", code: 200 })),
-).annotate({
-  identifier: "GetAliasRequest",
-}) as any as S.Schema<GetAliasRequest>;
+).annotate({ identifier: "GetAliasRequest" }) as any as S.Schema<GetAliasRequest>;
 
 /** Information of the user who created the alias */
 export interface GetAliasResponseCreator {
-  /** ID of the user who created the alias */
-  uid: string;
   /** Email of the user who created the alias */
   email?: string;
+  /** ID of the user who created the alias */
+  uid: string;
   /** Username of the user who created the alias */
   username?: string;
 }
 export const GetAliasResponseCreator = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    uid: S.String,
     email: S.optional(S.String),
+    uid: S.String,
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetAliasResponseCreator",
-}) as any as S.Schema<GetAliasResponseCreator>;
+).annotate({ identifier: "GetAliasResponseCreator" }) as any as S.Schema<GetAliasResponseCreator>;
 
 /** A map with the deployment ID, URL and metadata */
 export interface GetAliasResponseDeployment {
   /** The deployment unique identifier */
   id: string;
-  /** The deployment unique URL */
-  url?: string;
   /** The deployment metadata */
   meta?: string;
+  /** The deployment unique URL */
+  url?: string;
 }
 export const GetAliasResponseDeployment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
-    url: S.optional(S.String),
     meta: S.optional(S.String),
+    url: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GetAliasResponseDeployment",
 }) as any as S.Schema<GetAliasResponseDeployment>;
 
-/** Status code to be used on redirect */
-export type GetAliasResponseRedirectStatusCode = 301 | 302 | 307 | 308;
-export const GetAliasResponseRedirectStatusCode = S.Number;
+/** A list of the deployment routing information for each project. */
+export interface GetAliasResponseMicrofrontendsApplicationsCase0Item {
+  /** This is always set. In production it is used as a pointer to each apps production deployment. For pre-production, it's used as the fallback if there is no deployment for the branch. */
+  fallbackHost: string;
+  /** The project ID of the microfrontends application. */
+  projectId: string;
+}
+export const GetAliasResponseMicrofrontendsApplicationsCase0Item = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fallbackHost: S.String,
+    projectId: S.String,
+  }),
+).annotate({
+  identifier: "GetAliasResponseMicrofrontendsApplicationsCase0Item",
+}) as any as S.Schema<GetAliasResponseMicrofrontendsApplicationsCase0Item>;
+
+/** A list of the deployment routing information for each project. */
+export type GetAliasResponseMicrofrontendsApplicationsCase0List =
+  Array<GetAliasResponseMicrofrontendsApplicationsCase0Item>;
+export const GetAliasResponseMicrofrontendsApplicationsCase0List = /*@__PURE__*/ S.Array(
+  GetAliasResponseMicrofrontendsApplicationsCase0Item,
+) as any as S.Schema<GetAliasResponseMicrofrontendsApplicationsCase0List>;
+
+/** A list of the deployment routing information for each project. */
+export interface GetAliasResponseMicrofrontendsApplicationsCase1Item {
+  /** Could point to a branch without a deployment if the project was never deployed. The proxy will fallback to the fallbackHost if there is no deployment. */
+  branchAlias: string;
+  /** This is always set. For branch aliases, it's used as the fallback if there is no deployment for the branch. */
+  fallbackHost: string;
+  /** The project ID of the microfrontends application. */
+  projectId: string;
+}
+export const GetAliasResponseMicrofrontendsApplicationsCase1Item = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    branchAlias: S.String,
+    fallbackHost: S.String,
+    projectId: S.String,
+  }),
+).annotate({
+  identifier: "GetAliasResponseMicrofrontendsApplicationsCase1Item",
+}) as any as S.Schema<GetAliasResponseMicrofrontendsApplicationsCase1Item>;
+
+/** A list of the deployment routing information for each project. */
+export type GetAliasResponseMicrofrontendsApplicationsCase1List =
+  Array<GetAliasResponseMicrofrontendsApplicationsCase1Item>;
+export const GetAliasResponseMicrofrontendsApplicationsCase1List = /*@__PURE__*/ S.Array(
+  GetAliasResponseMicrofrontendsApplicationsCase1Item,
+) as any as S.Schema<GetAliasResponseMicrofrontendsApplicationsCase1List>;
+
+/** A list of the deployment routing information for each project. */
+export interface GetAliasResponseMicrofrontendsApplicationsCase2Item {
+  branchAlias?: string;
+  /** This is the latest non-cancelled deployment of the branch alias at the time the commit alias was created. It is possible there is no deployment for the branch, or this was set before the deployment was canceled, in which case this will point to a cancelled deployment, in either case the proxy will fallback to the fallbackDeploymentId. */
+  branchDeploymentId?: string;
+  /** This is the deployment for the same commit, it could be a cancelled deployment. The proxy will fallback to the branchDeploymentId and then the fallbackDeploymentId. */
+  deploymentId?: string;
+  /** This is the deployment of the fallback host at the time the commit alias was created. It is possible for this to be a deleted deployment, in which case the proxy will show that the deployment is deleted. It will not use the fallbackHost, as a future deployment on the fallback host could be invalid for this deployment, and it could lead to confusion / incorrect behavior for the commit alias. */
+  fallbackDeploymentId?: string;
+  /** Temporary for backwards compatibility. Can remove when metadata change is released */
+  fallbackHost?: string;
+  /** The project ID of the microfrontends application. */
+  projectId: string;
+}
+export const GetAliasResponseMicrofrontendsApplicationsCase2Item = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    branchAlias: S.optional(S.String),
+    branchDeploymentId: S.optional(S.String),
+    deploymentId: S.optional(S.String),
+    fallbackDeploymentId: S.optional(S.String),
+    fallbackHost: S.optional(S.String),
+    projectId: S.String,
+  }),
+).annotate({
+  identifier: "GetAliasResponseMicrofrontendsApplicationsCase2Item",
+}) as any as S.Schema<GetAliasResponseMicrofrontendsApplicationsCase2Item>;
+
+/** A list of the deployment routing information for each project. */
+export type GetAliasResponseMicrofrontendsApplicationsCase2List =
+  Array<GetAliasResponseMicrofrontendsApplicationsCase2Item>;
+export const GetAliasResponseMicrofrontendsApplicationsCase2List = /*@__PURE__*/ S.Array(
+  GetAliasResponseMicrofrontendsApplicationsCase2Item,
+) as any as S.Schema<GetAliasResponseMicrofrontendsApplicationsCase2List>;
+
+export type GetAliasResponseMicrofrontendsApplications =
+  | GetAliasResponseMicrofrontendsApplicationsCase0List
+  | GetAliasResponseMicrofrontendsApplicationsCase1List
+  | GetAliasResponseMicrofrontendsApplicationsCase2List;
+export const GetAliasResponseMicrofrontendsApplications =
+  S.Unknown as any as S.Schema<GetAliasResponseMicrofrontendsApplications>;
+
+export interface GetAliasResponseMicrofrontendsDefaultApp {
+  projectId: string;
+}
+export const GetAliasResponseMicrofrontendsDefaultApp = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    projectId: S.String,
+  }),
+).annotate({
+  identifier: "GetAliasResponseMicrofrontendsDefaultApp",
+}) as any as S.Schema<GetAliasResponseMicrofrontendsDefaultApp>;
+
+/** The microfrontends for the alias including the routing configuration */
+export interface GetAliasResponseMicrofrontends {
+  applications: GetAliasResponseMicrofrontendsApplications;
+  defaultApp: GetAliasResponseMicrofrontendsDefaultApp;
+}
+export const GetAliasResponseMicrofrontends = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    applications: GetAliasResponseMicrofrontendsApplications,
+    defaultApp: GetAliasResponseMicrofrontendsDefaultApp,
+  }),
+).annotate({
+  identifier: "GetAliasResponseMicrofrontends",
+}) as any as S.Schema<GetAliasResponseMicrofrontends>;
 
 export type GetAliasResponseProtectionBypassValueCase0Scope = "shareable-link";
 export const GetAliasResponseProtectionBypassValueCase0Scope = S.String;
@@ -210,15 +309,15 @@ export const GetAliasResponseProtectionBypassValueCase0Scope = S.String;
 export interface GetAliasResponseProtectionBypassValueCase0 {
   createdAt: number;
   createdBy: string;
-  scope: GetAliasResponseProtectionBypassValueCase0Scope;
   expires?: number;
+  scope: GetAliasResponseProtectionBypassValueCase0Scope;
 }
 export const GetAliasResponseProtectionBypassValueCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     createdAt: S.Number,
     createdBy: S.String,
-    scope: GetAliasResponseProtectionBypassValueCase0Scope,
     expires: S.optional(S.Number),
+    scope: GetAliasResponseProtectionBypassValueCase0Scope,
   }),
 ).annotate({
   identifier: "GetAliasResponseProtectionBypassValueCase0",
@@ -232,18 +331,18 @@ export const GetAliasResponseProtectionBypassValueCase1Scope = S.String;
 
 /** The protection bypass for the alias */
 export interface GetAliasResponseProtectionBypassValueCase1 {
+  access: GetAliasResponseProtectionBypassValueCase1Access;
   createdAt: number;
   lastUpdatedAt: number;
   lastUpdatedBy: string;
-  access: GetAliasResponseProtectionBypassValueCase1Access;
   scope: GetAliasResponseProtectionBypassValueCase1Scope;
 }
 export const GetAliasResponseProtectionBypassValueCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    access: GetAliasResponseProtectionBypassValueCase1Access,
     createdAt: S.Number,
     lastUpdatedAt: S.Number,
     lastUpdatedBy: S.String,
-    access: GetAliasResponseProtectionBypassValueCase1Access,
     scope: GetAliasResponseProtectionBypassValueCase1Scope,
   }),
 ).annotate({
@@ -307,120 +406,9 @@ export const GetAliasResponseProtectionBypassMap = /*@__PURE__*/ S.Record(
   GetAliasResponseProtectionBypassValue,
 ) as any as S.Schema<GetAliasResponseProtectionBypassMap>;
 
-export interface GetAliasResponseMicrofrontendsDefaultApp {
-  projectId: string;
-}
-export const GetAliasResponseMicrofrontendsDefaultApp = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectId: S.String,
-  }),
-).annotate({
-  identifier: "GetAliasResponseMicrofrontendsDefaultApp",
-}) as any as S.Schema<GetAliasResponseMicrofrontendsDefaultApp>;
-
-/** A list of the deployment routing information for each project. */
-export interface GetAliasResponseMicrofrontendsApplicationsCase0Item {
-  /** This is always set. In production it is used as a pointer to each apps production deployment. For pre-production, it's used as the fallback if there is no deployment for the branch. */
-  fallbackHost: string;
-  /** The project ID of the microfrontends application. */
-  projectId: string;
-}
-export const GetAliasResponseMicrofrontendsApplicationsCase0Item = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fallbackHost: S.String,
-    projectId: S.String,
-  }),
-).annotate({
-  identifier: "GetAliasResponseMicrofrontendsApplicationsCase0Item",
-}) as any as S.Schema<GetAliasResponseMicrofrontendsApplicationsCase0Item>;
-
-/** A list of the deployment routing information for each project. */
-export type GetAliasResponseMicrofrontendsApplicationsCase0List =
-  Array<GetAliasResponseMicrofrontendsApplicationsCase0Item>;
-export const GetAliasResponseMicrofrontendsApplicationsCase0List = /*@__PURE__*/ S.Array(
-  GetAliasResponseMicrofrontendsApplicationsCase0Item,
-) as any as S.Schema<GetAliasResponseMicrofrontendsApplicationsCase0List>;
-
-/** A list of the deployment routing information for each project. */
-export interface GetAliasResponseMicrofrontendsApplicationsCase1Item {
-  /** This is always set. For branch aliases, it's used as the fallback if there is no deployment for the branch. */
-  fallbackHost: string;
-  /** Could point to a branch without a deployment if the project was never deployed. The proxy will fallback to the fallbackHost if there is no deployment. */
-  branchAlias: string;
-  /** The project ID of the microfrontends application. */
-  projectId: string;
-}
-export const GetAliasResponseMicrofrontendsApplicationsCase1Item = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fallbackHost: S.String,
-    branchAlias: S.String,
-    projectId: S.String,
-  }),
-).annotate({
-  identifier: "GetAliasResponseMicrofrontendsApplicationsCase1Item",
-}) as any as S.Schema<GetAliasResponseMicrofrontendsApplicationsCase1Item>;
-
-/** A list of the deployment routing information for each project. */
-export type GetAliasResponseMicrofrontendsApplicationsCase1List =
-  Array<GetAliasResponseMicrofrontendsApplicationsCase1Item>;
-export const GetAliasResponseMicrofrontendsApplicationsCase1List = /*@__PURE__*/ S.Array(
-  GetAliasResponseMicrofrontendsApplicationsCase1Item,
-) as any as S.Schema<GetAliasResponseMicrofrontendsApplicationsCase1List>;
-
-/** A list of the deployment routing information for each project. */
-export interface GetAliasResponseMicrofrontendsApplicationsCase2Item {
-  /** This is the deployment for the same commit, it could be a cancelled deployment. The proxy will fallback to the branchDeploymentId and then the fallbackDeploymentId. */
-  deploymentId?: string;
-  /** This is the latest non-cancelled deployment of the branch alias at the time the commit alias was created. It is possible there is no deployment for the branch, or this was set before the deployment was canceled, in which case this will point to a cancelled deployment, in either case the proxy will fallback to the fallbackDeploymentId. */
-  branchDeploymentId?: string;
-  /** This is the deployment of the fallback host at the time the commit alias was created. It is possible for this to be a deleted deployment, in which case the proxy will show that the deployment is deleted. It will not use the fallbackHost, as a future deployment on the fallback host could be invalid for this deployment, and it could lead to confusion / incorrect behavior for the commit alias. */
-  fallbackDeploymentId?: string;
-  /** Temporary for backwards compatibility. Can remove when metadata change is released */
-  fallbackHost?: string;
-  branchAlias?: string;
-  /** The project ID of the microfrontends application. */
-  projectId: string;
-}
-export const GetAliasResponseMicrofrontendsApplicationsCase2Item = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    deploymentId: S.optional(S.String),
-    branchDeploymentId: S.optional(S.String),
-    fallbackDeploymentId: S.optional(S.String),
-    fallbackHost: S.optional(S.String),
-    branchAlias: S.optional(S.String),
-    projectId: S.String,
-  }),
-).annotate({
-  identifier: "GetAliasResponseMicrofrontendsApplicationsCase2Item",
-}) as any as S.Schema<GetAliasResponseMicrofrontendsApplicationsCase2Item>;
-
-/** A list of the deployment routing information for each project. */
-export type GetAliasResponseMicrofrontendsApplicationsCase2List =
-  Array<GetAliasResponseMicrofrontendsApplicationsCase2Item>;
-export const GetAliasResponseMicrofrontendsApplicationsCase2List = /*@__PURE__*/ S.Array(
-  GetAliasResponseMicrofrontendsApplicationsCase2Item,
-) as any as S.Schema<GetAliasResponseMicrofrontendsApplicationsCase2List>;
-
-export type GetAliasResponseMicrofrontendsApplications =
-  | GetAliasResponseMicrofrontendsApplicationsCase0List
-  | GetAliasResponseMicrofrontendsApplicationsCase1List
-  | GetAliasResponseMicrofrontendsApplicationsCase2List;
-export const GetAliasResponseMicrofrontendsApplications =
-  S.Unknown as any as S.Schema<GetAliasResponseMicrofrontendsApplications>;
-
-/** The microfrontends for the alias including the routing configuration */
-export interface GetAliasResponseMicrofrontends {
-  defaultApp: GetAliasResponseMicrofrontendsDefaultApp;
-  applications: GetAliasResponseMicrofrontendsApplications;
-}
-export const GetAliasResponseMicrofrontends = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    defaultApp: GetAliasResponseMicrofrontendsDefaultApp,
-    applications: GetAliasResponseMicrofrontendsApplications,
-  }),
-).annotate({
-  identifier: "GetAliasResponseMicrofrontends",
-}) as any as S.Schema<GetAliasResponseMicrofrontends>;
+/** Status code to be used on redirect */
+export type GetAliasResponseRedirectStatusCode = 301 | 302 | 307 | 308;
+export const GetAliasResponseRedirectStatusCode = S.Number;
 
 export interface GetAliasResponse {
   /** The alias name, it could be a `.vercel.app` subdomain or a custom domain */
@@ -437,8 +425,12 @@ export interface GetAliasResponse {
   deployment?: GetAliasResponseDeployment;
   /** The deployment ID */
   deploymentId: string | null;
+  /** The microfrontends for the alias including the routing configuration */
+  microfrontends?: GetAliasResponseMicrofrontends;
   /** The unique identifier of the project */
   projectId: string | null;
+  /** The protection bypass for the alias */
+  protectionBypass?: GetAliasResponseProtectionBypassMap;
   /** Target destination domain for redirect when the alias is a redirect */
   redirect?: string | null;
   /** Status code to be used on redirect */
@@ -447,10 +439,6 @@ export interface GetAliasResponse {
   uid: string;
   /** The date when the alias was updated in milliseconds since the UNIX epoch */
   updatedAt?: number | null;
-  /** The protection bypass for the alias */
-  protectionBypass?: GetAliasResponseProtectionBypassMap;
-  /** The microfrontends for the alias including the routing configuration */
-  microfrontends?: GetAliasResponseMicrofrontends;
 }
 export const GetAliasResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -461,17 +449,15 @@ export const GetAliasResponse = /*@__PURE__*/ S.suspend(() =>
     deletedAt: S.optional(S.NullOr(S.Number)),
     deployment: S.optional(GetAliasResponseDeployment),
     deploymentId: S.NullOr(S.String),
+    microfrontends: S.optional(GetAliasResponseMicrofrontends),
     projectId: S.NullOr(S.String),
+    protectionBypass: S.optional(GetAliasResponseProtectionBypassMap),
     redirect: S.optional(S.NullOr(S.String)),
     redirectStatusCode: S.optional(S.NullOr(GetAliasResponseRedirectStatusCode)),
     uid: S.String,
     updatedAt: S.optional(S.NullOr(S.Number)),
-    protectionBypass: S.optional(GetAliasResponseProtectionBypassMap),
-    microfrontends: S.optional(GetAliasResponseMicrofrontends),
   }),
-).annotate({
-  identifier: "GetAliasResponse",
-}) as any as S.Schema<GetAliasResponse>;
+).annotate({ identifier: "GetAliasResponse" }) as any as S.Schema<GetAliasResponse>;
 
 export type ListAliasesRequestDomainCase0List = Array<string>;
 export const ListAliasesRequestDomainCase0List = /*@__PURE__*/ S.Array(
@@ -514,9 +500,7 @@ export const ListAliasesRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v4/aliases", code: 200 })),
-).annotate({
-  identifier: "ListAliasesRequest",
-}) as any as S.Schema<ListAliasesRequest>;
+).annotate({ identifier: "ListAliasesRequest" }) as any as S.Schema<ListAliasesRequest>;
 
 /** Information of the user who created the alias */
 export type ListAliasesResponseAliasesItemCreator = GetAliasResponseCreator;
@@ -526,9 +510,73 @@ export const ListAliasesResponseAliasesItemCreator = GetAliasResponseCreator;
 export type ListAliasesResponseAliasesItemDeployment = GetAliasResponseDeployment;
 export const ListAliasesResponseAliasesItemDeployment = GetAliasResponseDeployment;
 
-/** Status code to be used on redirect */
-export type ListAliasesResponseAliasesItemRedirectStatusCode = 301 | 302 | 307 | 308;
-export const ListAliasesResponseAliasesItemRedirectStatusCode = S.Number;
+/** A list of the deployment routing information for each project. */
+export type ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase0Item =
+  GetAliasResponseMicrofrontendsApplicationsCase0Item;
+export const ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase0Item =
+  GetAliasResponseMicrofrontendsApplicationsCase0Item;
+
+/** A list of the deployment routing information for each project. */
+export type ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase0List =
+  Array<GetAliasResponseMicrofrontendsApplicationsCase0Item>;
+export const ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase0List =
+  /*@__PURE__*/ S.Array(
+    GetAliasResponseMicrofrontendsApplicationsCase0Item,
+  ) as any as S.Schema<ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase0List>;
+
+/** A list of the deployment routing information for each project. */
+export type ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase1Item =
+  GetAliasResponseMicrofrontendsApplicationsCase1Item;
+export const ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase1Item =
+  GetAliasResponseMicrofrontendsApplicationsCase1Item;
+
+/** A list of the deployment routing information for each project. */
+export type ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase1List =
+  Array<GetAliasResponseMicrofrontendsApplicationsCase1Item>;
+export const ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase1List =
+  /*@__PURE__*/ S.Array(
+    GetAliasResponseMicrofrontendsApplicationsCase1Item,
+  ) as any as S.Schema<ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase1List>;
+
+/** A list of the deployment routing information for each project. */
+export type ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase2Item =
+  GetAliasResponseMicrofrontendsApplicationsCase2Item;
+export const ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase2Item =
+  GetAliasResponseMicrofrontendsApplicationsCase2Item;
+
+/** A list of the deployment routing information for each project. */
+export type ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase2List =
+  Array<GetAliasResponseMicrofrontendsApplicationsCase2Item>;
+export const ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase2List =
+  /*@__PURE__*/ S.Array(
+    GetAliasResponseMicrofrontendsApplicationsCase2Item,
+  ) as any as S.Schema<ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase2List>;
+
+export type ListAliasesResponseAliasesItemMicrofrontendsApplications =
+  | ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase0List
+  | ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase1List
+  | ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase2List;
+export const ListAliasesResponseAliasesItemMicrofrontendsApplications =
+  S.Unknown as any as S.Schema<ListAliasesResponseAliasesItemMicrofrontendsApplications>;
+
+export type ListAliasesResponseAliasesItemMicrofrontendsDefaultApp =
+  GetAliasResponseMicrofrontendsDefaultApp;
+export const ListAliasesResponseAliasesItemMicrofrontendsDefaultApp =
+  GetAliasResponseMicrofrontendsDefaultApp;
+
+/** The microfrontends for the alias including the routing configuration */
+export interface ListAliasesResponseAliasesItemMicrofrontends {
+  applications: ListAliasesResponseAliasesItemMicrofrontendsApplications;
+  defaultApp: GetAliasResponseMicrofrontendsDefaultApp;
+}
+export const ListAliasesResponseAliasesItemMicrofrontends = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    applications: ListAliasesResponseAliasesItemMicrofrontendsApplications,
+    defaultApp: GetAliasResponseMicrofrontendsDefaultApp,
+  }),
+).annotate({
+  identifier: "ListAliasesResponseAliasesItemMicrofrontends",
+}) as any as S.Schema<ListAliasesResponseAliasesItemMicrofrontends>;
 
 export type ListAliasesResponseAliasesItemProtectionBypassValueCase0Scope = "shareable-link";
 export const ListAliasesResponseAliasesItemProtectionBypassValueCase0Scope = S.String;
@@ -537,16 +585,16 @@ export const ListAliasesResponseAliasesItemProtectionBypassValueCase0Scope = S.S
 export interface ListAliasesResponseAliasesItemProtectionBypassValueCase0 {
   createdAt: number;
   createdBy: string;
-  scope: ListAliasesResponseAliasesItemProtectionBypassValueCase0Scope;
   expires?: number;
+  scope: ListAliasesResponseAliasesItemProtectionBypassValueCase0Scope;
 }
 export const ListAliasesResponseAliasesItemProtectionBypassValueCase0 = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       createdAt: S.Number,
       createdBy: S.String,
-      scope: ListAliasesResponseAliasesItemProtectionBypassValueCase0Scope,
       expires: S.optional(S.Number),
+      scope: ListAliasesResponseAliasesItemProtectionBypassValueCase0Scope,
     }),
 ).annotate({
   identifier: "ListAliasesResponseAliasesItemProtectionBypassValueCase0",
@@ -562,19 +610,19 @@ export const ListAliasesResponseAliasesItemProtectionBypassValueCase1Scope = S.S
 
 /** The protection bypass for the alias */
 export interface ListAliasesResponseAliasesItemProtectionBypassValueCase1 {
+  access: ListAliasesResponseAliasesItemProtectionBypassValueCase1Access;
   createdAt: number;
   lastUpdatedAt: number;
   lastUpdatedBy: string;
-  access: ListAliasesResponseAliasesItemProtectionBypassValueCase1Access;
   scope: ListAliasesResponseAliasesItemProtectionBypassValueCase1Scope;
 }
 export const ListAliasesResponseAliasesItemProtectionBypassValueCase1 = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      access: ListAliasesResponseAliasesItemProtectionBypassValueCase1Access,
       createdAt: S.Number,
       lastUpdatedAt: S.Number,
       lastUpdatedBy: S.String,
-      access: ListAliasesResponseAliasesItemProtectionBypassValueCase1Access,
       scope: ListAliasesResponseAliasesItemProtectionBypassValueCase1Scope,
     }),
 ).annotate({
@@ -641,73 +689,9 @@ export const ListAliasesResponseAliasesItemProtectionBypassMap = /*@__PURE__*/ S
   ListAliasesResponseAliasesItemProtectionBypassValue,
 ) as any as S.Schema<ListAliasesResponseAliasesItemProtectionBypassMap>;
 
-export type ListAliasesResponseAliasesItemMicrofrontendsDefaultApp =
-  GetAliasResponseMicrofrontendsDefaultApp;
-export const ListAliasesResponseAliasesItemMicrofrontendsDefaultApp =
-  GetAliasResponseMicrofrontendsDefaultApp;
-
-/** A list of the deployment routing information for each project. */
-export type ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase0Item =
-  GetAliasResponseMicrofrontendsApplicationsCase0Item;
-export const ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase0Item =
-  GetAliasResponseMicrofrontendsApplicationsCase0Item;
-
-/** A list of the deployment routing information for each project. */
-export type ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase0List =
-  Array<GetAliasResponseMicrofrontendsApplicationsCase0Item>;
-export const ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase0List =
-  /*@__PURE__*/ S.Array(
-    GetAliasResponseMicrofrontendsApplicationsCase0Item,
-  ) as any as S.Schema<ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase0List>;
-
-/** A list of the deployment routing information for each project. */
-export type ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase1Item =
-  GetAliasResponseMicrofrontendsApplicationsCase1Item;
-export const ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase1Item =
-  GetAliasResponseMicrofrontendsApplicationsCase1Item;
-
-/** A list of the deployment routing information for each project. */
-export type ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase1List =
-  Array<GetAliasResponseMicrofrontendsApplicationsCase1Item>;
-export const ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase1List =
-  /*@__PURE__*/ S.Array(
-    GetAliasResponseMicrofrontendsApplicationsCase1Item,
-  ) as any as S.Schema<ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase1List>;
-
-/** A list of the deployment routing information for each project. */
-export type ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase2Item =
-  GetAliasResponseMicrofrontendsApplicationsCase2Item;
-export const ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase2Item =
-  GetAliasResponseMicrofrontendsApplicationsCase2Item;
-
-/** A list of the deployment routing information for each project. */
-export type ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase2List =
-  Array<GetAliasResponseMicrofrontendsApplicationsCase2Item>;
-export const ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase2List =
-  /*@__PURE__*/ S.Array(
-    GetAliasResponseMicrofrontendsApplicationsCase2Item,
-  ) as any as S.Schema<ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase2List>;
-
-export type ListAliasesResponseAliasesItemMicrofrontendsApplications =
-  | ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase0List
-  | ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase1List
-  | ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase2List;
-export const ListAliasesResponseAliasesItemMicrofrontendsApplications =
-  S.Unknown as any as S.Schema<ListAliasesResponseAliasesItemMicrofrontendsApplications>;
-
-/** The microfrontends for the alias including the routing configuration */
-export interface ListAliasesResponseAliasesItemMicrofrontends {
-  defaultApp: GetAliasResponseMicrofrontendsDefaultApp;
-  applications: ListAliasesResponseAliasesItemMicrofrontendsApplications;
-}
-export const ListAliasesResponseAliasesItemMicrofrontends = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    defaultApp: GetAliasResponseMicrofrontendsDefaultApp,
-    applications: ListAliasesResponseAliasesItemMicrofrontendsApplications,
-  }),
-).annotate({
-  identifier: "ListAliasesResponseAliasesItemMicrofrontends",
-}) as any as S.Schema<ListAliasesResponseAliasesItemMicrofrontends>;
+/** Status code to be used on redirect */
+export type ListAliasesResponseAliasesItemRedirectStatusCode = 301 | 302 | 307 | 308;
+export const ListAliasesResponseAliasesItemRedirectStatusCode = S.Number;
 
 export interface ListAliasesResponseAliasesItem {
   /** The alias name, it could be a `.vercel.app` subdomain or a custom domain */
@@ -724,8 +708,12 @@ export interface ListAliasesResponseAliasesItem {
   deployment?: GetAliasResponseDeployment;
   /** The deployment ID */
   deploymentId: string | null;
+  /** The microfrontends for the alias including the routing configuration */
+  microfrontends?: ListAliasesResponseAliasesItemMicrofrontends;
   /** The unique identifier of the project */
   projectId: string | null;
+  /** The protection bypass for the alias */
+  protectionBypass?: ListAliasesResponseAliasesItemProtectionBypassMap;
   /** Target destination domain for redirect when the alias is a redirect */
   redirect?: string | null;
   /** Status code to be used on redirect */
@@ -734,10 +722,6 @@ export interface ListAliasesResponseAliasesItem {
   uid: string;
   /** The date when the alias was updated in milliseconds since the UNIX epoch */
   updatedAt?: number;
-  /** The protection bypass for the alias */
-  protectionBypass?: ListAliasesResponseAliasesItemProtectionBypassMap;
-  /** The microfrontends for the alias including the routing configuration */
-  microfrontends?: ListAliasesResponseAliasesItemMicrofrontends;
 }
 export const ListAliasesResponseAliasesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -748,13 +732,13 @@ export const ListAliasesResponseAliasesItem = /*@__PURE__*/ S.suspend(() =>
     deletedAt: S.optional(S.NullOr(S.Number)),
     deployment: S.optional(GetAliasResponseDeployment),
     deploymentId: S.NullOr(S.String),
+    microfrontends: S.optional(ListAliasesResponseAliasesItemMicrofrontends),
     projectId: S.NullOr(S.String),
+    protectionBypass: S.optional(ListAliasesResponseAliasesItemProtectionBypassMap),
     redirect: S.optional(S.NullOr(S.String)),
     redirectStatusCode: S.optional(S.NullOr(ListAliasesResponseAliasesItemRedirectStatusCode)),
     uid: S.String,
     updatedAt: S.optional(S.Number),
-    protectionBypass: S.optional(ListAliasesResponseAliasesItemProtectionBypassMap),
-    microfrontends: S.optional(ListAliasesResponseAliasesItemMicrofrontends),
   }),
 ).annotate({
   identifier: "ListAliasesResponseAliasesItem",
@@ -791,9 +775,7 @@ export const ListAliasesResponse = /*@__PURE__*/ S.suspend(() =>
     aliases: ListAliasesResponseAliasesList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListAliasesResponse",
-}) as any as S.Schema<ListAliasesResponse>;
+).annotate({ identifier: "ListAliasesResponse" }) as any as S.Schema<ListAliasesResponse>;
 
 export interface ListDeploymentAliasesRequest {
   /** The ID of the deployment the aliases should be listed for */
@@ -821,16 +803,16 @@ export const ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase0S
 export interface ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase0 {
   createdAt: number;
   createdBy: string;
-  scope: ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase0Scope;
   expires?: number;
+  scope: ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase0Scope;
 }
 export const ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       createdAt: S.Number,
       createdBy: S.String,
-      scope: ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase0Scope,
       expires: S.optional(S.Number),
+      scope: ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase0Scope,
     }),
   ).annotate({
     identifier: "ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase0",
@@ -846,19 +828,19 @@ export const ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase1S
 
 /** The protection bypass for the alias */
 export interface ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase1 {
+  access: ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase1Access;
   createdAt: number;
   lastUpdatedAt: number;
   lastUpdatedBy: string;
-  access: ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase1Access;
   scope: ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase1Scope;
 }
 export const ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase1 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      access: ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase1Access,
       createdAt: S.Number,
       lastUpdatedAt: S.Number,
       lastUpdatedBy: S.String,
-      access: ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase1Access,
       scope: ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase1Scope,
     }),
   ).annotate({
@@ -928,24 +910,24 @@ export const ListDeploymentAliasesResponseAliasesItemProtectionBypassMap = /*@__
 
 /** A list of the aliases assigned to the deployment */
 export interface ListDeploymentAliasesResponseAliasesItem {
-  /** The unique identifier of the alias */
-  uid: string;
   /** The alias name, it could be a `.vercel.app` subdomain or a custom domain */
   alias: string;
   /** The date when the alias was created */
   created: string;
-  /** Target destination domain for redirect when the alias is a redirect */
-  redirect?: string | null;
   /** The protection bypass for the alias */
   protectionBypass?: ListDeploymentAliasesResponseAliasesItemProtectionBypassMap;
+  /** Target destination domain for redirect when the alias is a redirect */
+  redirect?: string | null;
+  /** The unique identifier of the alias */
+  uid: string;
 }
 export const ListDeploymentAliasesResponseAliasesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    uid: S.String,
     alias: S.String,
     created: S.String,
-    redirect: S.optional(S.NullOr(S.String)),
     protectionBypass: S.optional(ListDeploymentAliasesResponseAliasesItemProtectionBypassMap),
+    redirect: S.optional(S.NullOr(S.String)),
+    uid: S.String,
   }),
 ).annotate({
   identifier: "ListDeploymentAliasesResponseAliasesItem",
@@ -1088,20 +1070,12 @@ export const PatchUrlProtectionBypassRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
     body: S.optional(PatchUrlProtectionBypassRequestBody.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/aliases/{id}/protection-bypass",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/aliases/{id}/protection-bypass", code: 200 })),
 ).annotate({
   identifier: "PatchUrlProtectionBypassRequest",
 }) as any as S.Schema<PatchUrlProtectionBypassRequest>;
 
-export type PatchUrlProtectionBypassResponseBodyMap = {
-  [key: string]: unknown | undefined;
-};
+export type PatchUrlProtectionBypassResponseBodyMap = { [key: string]: unknown | undefined };
 export const PatchUrlProtectionBypassResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,

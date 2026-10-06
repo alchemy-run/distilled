@@ -16,7 +16,7 @@ import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as ApacheSuperset from "@distilled.cloud/apache-superset";
 
 const program = Effect.gen(function* () {
-  const result = yield* ApacheSuperset.getApiV1Dashboard({});
+  const result = yield* ApacheSuperset.listDashboard({});
   return result;
 });
 

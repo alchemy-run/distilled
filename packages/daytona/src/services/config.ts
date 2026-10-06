@@ -33,6 +33,19 @@ export const PosthogConfig = /*@__PURE__*/ S.suspend(() =>
 export type OidcConfigProvider = "auth0" | "workos";
 export const OidcConfigProvider = S.String;
 
+export interface CliOidcConfig {
+  /** WorkOS issuer of the Daytona CLI application */
+  issuer: string;
+  /** WorkOS client ID of the Daytona CLI application */
+  clientId: string;
+}
+export const CliOidcConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    issuer: S.String,
+    clientId: S.String,
+  }),
+).annotate({ identifier: "CliOidcConfig" }) as any as S.Schema<CliOidcConfig>;
+
 export interface OidcConfig {
   /** OIDC issuer */
   issuer: string;
@@ -44,6 +57,8 @@ export interface OidcConfig {
   provider: OidcConfigProvider;
   /** WorkOS "Authentication API" custom domain the dashboard's client-side SDK should call instead of api.workos.com, so the refresh-token cookie is first-party. Present only when the provider is workos and a custom domain is configured (WorkOS production environments only); absent means the SDK runs in devMode and keeps the refresh token in localStorage. */
   authApiHostname?: string;
+  /** WorkOS application the Daytona CLI logs in through, configured apart from the dashboard's so CLI sessions can have their own lifetime. Present only when the provider is workos and a CLI application is configured; absent means the CLI uses the issuer and client ID above. */
+  cli?: CliOidcConfig;
 }
 export const OidcConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -52,6 +67,7 @@ export const OidcConfig = /*@__PURE__*/ S.suspend(() =>
     audience: S.String,
     provider: OidcConfigProvider,
     authApiHostname: S.optional(S.String),
+    cli: S.optional(CliOidcConfig),
   }),
 ).annotate({ identifier: "OidcConfig" }) as any as S.Schema<OidcConfig>;
 
@@ -88,9 +104,7 @@ export const Announcement = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Announcement" }) as any as S.Schema<Announcement>;
 
 /** System announcements */
-export type DaytonaConfigurationAnnouncementsMap = {
-  [key: string]: Announcement | undefined;
-};
+export type DaytonaConfigurationAnnouncementsMap = { [key: string]: Announcement | undefined };
 export const DaytonaConfigurationAnnouncementsMap = /*@__PURE__*/ S.Record(
   S.String,
   Announcement,
@@ -141,9 +155,7 @@ export const RateLimitConfig = /*@__PURE__*/ S.suspend(() =>
     sandboxLifecycle: S.optional(RateLimitEntry),
     sandboxList: S.optional(RateLimitEntry),
   }),
-).annotate({
-  identifier: "RateLimitConfig",
-}) as any as S.Schema<RateLimitConfig>;
+).annotate({ identifier: "RateLimitConfig" }) as any as S.Schema<RateLimitConfig>;
 
 export interface DaytonaConfiguration {
   /** Daytona version */
@@ -230,9 +242,7 @@ export const DaytonaConfiguration = /*@__PURE__*/ S.suspend(() =>
     ),
     rateLimit: S.optional(RateLimitConfig),
   }),
-).annotate({
-  identifier: "DaytonaConfiguration",
-}) as any as S.Schema<DaytonaConfiguration>;
+).annotate({ identifier: "DaytonaConfiguration" }) as any as S.Schema<DaytonaConfiguration>;
 
 export type GetConfigControllerConfigError = DaytonaOpError;
 /** Get config */

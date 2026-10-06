@@ -267,7 +267,36 @@
           "uri": "/api/projects/{project_id}/task_channels/",
           "code": 200
         },
-        "smithy.api#documentation": "List channels\n\nAll live public channels plus the requester's personal #me channel when it exists, sorted by name. Listing does not provision; call provision_defaults to create the default channels. Send `limit` (with `offset`) for one page and a `count`/`next` envelope; without `limit` the response is the full array of channels."
+        "smithy.api#documentation": "List channels\n\nList channels the requester can access, sorted by name and ID. Includes public channels, their personal #me channel, and private channels they belong to. Call provision_defaults to create missing default channels. Send limit and offset to get a page with count, next, previous, and results. Without limit, the response is an array of all accessible channels."
+      }
+    },
+    "com.posthog.task_channels#TaskChannelWriteTypeEnum": {
+      "type": "enum",
+      "members": {
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public"
+          }
+        },
+        "PRIVATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "private"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `public` - public\n* `private` - private"
+      }
+    },
+    "com.posthog.task_channels#CreateTaskChannelRequestMemberIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "User IDs to add to a private channel. The requester is always a member. The endpoint ignores this field for public channels and skips users without project access."
       }
     },
     "com.posthog.task_channels#CreateTaskChannelRequest": {
@@ -284,14 +313,26 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Channel name, rendered as #<name>. Normalized to lowercase-dashed.",
+            "smithy.api#documentation": "Channel name, shown as #<name>. Uses lowercase letters and hyphens.",
             "smithy.api#required": {}
+          }
+        },
+        "channel_type": {
+          "target": "com.posthog.task_channels#TaskChannelWriteTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Use 'public' for access by all project members. Use 'private' for access by channel members only. Defaults to 'public'. This endpoint cannot create personal #me spaces.\n\n* `public` - public\n* `private` - private"
+          }
+        },
+        "member_ids": {
+          "target": "com.posthog.task_channels#CreateTaskChannelRequestMemberIdsList",
+          "traits": {
+            "smithy.api#documentation": "User IDs to add to a private channel. The requester is always a member. The endpoint ignores this field for public channels and skips users without project access."
           }
         },
         "star": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Star the channel for the requester when this call creates it. Ignored when the channel already exists, which leaves existing stars untouched."
+            "smithy.api#documentation": "Star a new channel for the requester. This field does not change stars on an existing channel."
           }
         }
       },
@@ -313,7 +354,7 @@
           "uri": "/api/projects/{project_id}/task_channels/",
           "code": 200
         },
-        "smithy.api#documentation": "Resolve or create a public channel\n\nReturns the existing public channel with the (normalized) name, creating it if needed. A channel created here is starred for the requester unless star is false. The general name returns the team's general space; names that read as a private space (\"me\", \"personal\") are rejected."
+        "smithy.api#documentation": "Create a channel\n\nCreate a channel. Public channels use lowercase names with hyphens. If a public channel has that name, return it. The name general returns the project's general space. Private channels always get a new ID, even if another channel has the same name. The requester and users in member_ids with project access become members. New channels are starred for the requester unless star is false. The names \"me\" and \"personal\" are reserved."
       }
     },
     "com.posthog.task_channels#ListTaskChannelsFeedRequest": {
@@ -589,7 +630,7 @@
           "uri": "/api/projects/{project_id}/task_channels/{id}/",
           "code": 200
         },
-        "smithy.api#documentation": "Get a channel\n\nAPI for task channels — the shared feeds tasks are kicked off in. The\nprovision_defaults action get-or-creates the requester's personal \"#me\" channel and\nthe team's shared \"#general\" channel; creation is resolve-or-create by normalized\nname so clients can map channel-like surfaces onto backend channels."
+        "smithy.api#documentation": "Get a channel"
       }
     },
     "com.posthog.task_channels#UpdateTaskChannelsPartialRequestRepositoriesList": {
@@ -644,6 +685,12 @@
             "smithy.api#documentation": "Days of inactivity before tasks in this channel are archived. Accepts 1 through 365. Null disables automatic archiving.",
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "channel_type": {
+          "target": "com.posthog.task_channels#TaskChannelWriteTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Switch a shared space between 'public' and 'private'. Making a space private keeps only the creator and the requester as members. Making it public removes its member list. Personal #me spaces cannot change.\n\n* `public` - public\n* `private` - private"
+          }
         }
       },
       "traits": {
@@ -664,7 +711,7 @@
           "uri": "/api/projects/{project_id}/task_channels/{id}/",
           "code": 200
         },
-        "smithy.api#documentation": "Rename a public channel\n\nAPI for task channels — the shared feeds tasks are kicked off in. The\nprovision_defaults action get-or-creates the requester's personal \"#me\" channel and\nthe team's shared \"#general\" channel; creation is resolve-or-create by normalized\nname so clients can map channel-like surfaces onto backend channels."
+        "smithy.api#documentation": "Update a channel"
       }
     },
     "com.posthog.task_channels#TaskChannelsDestroyRequest": {
@@ -709,7 +756,7 @@
           "uri": "/api/projects/{project_id}/task_channels/{id}/",
           "code": 200
         },
-        "smithy.api#documentation": "Delete a public channel\n\nAPI for task channels — the shared feeds tasks are kicked off in. The\nprovision_defaults action get-or-creates the requester's personal \"#me\" channel and\nthe team's shared \"#general\" channel; creation is resolve-or-create by normalized\nname so clients can map channel-like surfaces onto backend channels."
+        "smithy.api#documentation": "Delete a channel"
       }
     },
     "com.posthog.task_channels#GetTaskChannelsContextGenerationRequest": {
@@ -764,7 +811,7 @@
           "uri": "/api/projects/{project_id}/task_channels/{id}/context_generation/",
           "code": 200
         },
-        "smithy.api#documentation": "Get the channel's CONTEXT.md generation task\n\nAPI for task channels — the shared feeds tasks are kicked off in. The\nprovision_defaults action get-or-creates the requester's personal \"#me\" channel and\nthe team's shared \"#general\" channel; creation is resolve-or-create by normalized\nname so clients can map channel-like surfaces onto backend channels."
+        "smithy.api#documentation": "Get the channel's CONTEXT.md generation task"
       }
     },
     "com.posthog.task_channels#UpdateTaskChannelsContextGenerationRequest": {
@@ -811,7 +858,7 @@
           "uri": "/api/projects/{project_id}/task_channels/{id}/context_generation/",
           "code": 200
         },
-        "smithy.api#documentation": "Set or clear the channel's CONTEXT.md generation task\n\nAPI for task channels — the shared feeds tasks are kicked off in. The\nprovision_defaults action get-or-creates the requester's personal \"#me\" channel and\nthe team's shared \"#general\" channel; creation is resolve-or-create by normalized\nname so clients can map channel-like surfaces onto backend channels."
+        "smithy.api#documentation": "Set or clear the channel's CONTEXT.md generation task"
       }
     },
     "com.posthog.task_channels#GetTaskChannelsInstructionRequest": {
@@ -1036,7 +1083,7 @@
           "uri": "/api/projects/{project_id}/task_channels/{id}/instructions/",
           "code": 200
         },
-        "smithy.api#documentation": "Delete channel instructions\n\nAPI for task channels — the shared feeds tasks are kicked off in. The\nprovision_defaults action get-or-creates the requester's personal \"#me\" channel and\nthe team's shared \"#general\" channel; creation is resolve-or-create by normalized\nname so clients can map channel-like surfaces onto backend channels."
+        "smithy.api#documentation": "Delete channel instructions"
       }
     },
     "com.posthog.task_channels#GetTaskChannelsInstructionsVersionRequest": {
@@ -1113,7 +1160,374 @@
           "uri": "/api/projects/{project_id}/task_channels/{id}/instructions/versions/",
           "code": 200
         },
-        "smithy.api#documentation": "List channel instruction versions\n\nAPI for task channels — the shared feeds tasks are kicked off in. The\nprovision_defaults action get-or-creates the requester's personal \"#me\" channel and\nthe team's shared \"#general\" channel; creation is resolve-or-create by normalized\nname so clients can map channel-like surfaces onto backend channels."
+        "smithy.api#documentation": "List channel instruction versions"
+      }
+    },
+    "com.posthog.task_channels#GetTaskChannelsMemberRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.task_channels#GetTaskChannelsMemberResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.task_channels#TaskUserBasicInfo"
+      },
+      "traits": {}
+    },
+    "com.posthog.task_channels#GetTaskChannelsMemberResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.task_channels#GetTaskChannelsMemberResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.task_channels#GetTaskChannelsMember": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.task_channels#GetTaskChannelsMemberRequest"
+      },
+      "output": {
+        "target": "com.posthog.task_channels#GetTaskChannelsMemberResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/task_channels/{id}/members/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List a channel's members\n\nList the members of a private channel. Return an empty list for public and personal channels. Return 404 if the requester cannot access the channel."
+      }
+    },
+    "com.posthog.task_channels#UpdateTaskChannelsMemberRequestUserIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Required list of member user IDs. This list replaces the current members. The creator remains a member. Send an empty list to remove all other members. Each submitted user must have project access."
+      }
+    },
+    "com.posthog.task_channels#UpdateTaskChannelsMemberRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "user_ids": {
+          "target": "com.posthog.task_channels#UpdateTaskChannelsMemberRequestUserIdsList",
+          "traits": {
+            "smithy.api#documentation": "Required list of member user IDs. This list replaces the current members. The creator remains a member. Send an empty list to remove all other members. Each submitted user must have project access.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.task_channels#UpdateTaskChannelsMemberResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.task_channels#TaskUserBasicInfo"
+      },
+      "traits": {}
+    },
+    "com.posthog.task_channels#UpdateTaskChannelsMemberResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.task_channels#UpdateTaskChannelsMemberResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.task_channels#UpdateTaskChannelsMember": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.task_channels#UpdateTaskChannelsMemberRequest"
+      },
+      "output": {
+        "target": "com.posthog.task_channels#UpdateTaskChannelsMemberResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/task_channels/{id}/members/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Replace a private channel's members\n\nReplace the members of a private channel. Any member can update this list. The creator remains a member. Return 400 for public and personal channels."
+      }
+    },
+    "com.posthog.task_channels#SpaceSetupKindEnum": {
+      "type": "enum",
+      "members": {
+        "GOAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "goal"
+          }
+        },
+        "FEATURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "feature"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `goal` - Goal\n* `feature` - Feature"
+      }
+    },
+    "com.posthog.task_channels#SpaceGoalWrite": {
+      "type": "structure",
+      "members": {
+        "statement": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The goal in one or two sentences, e.g. 'Increase the weekly activation rate'.",
+            "smithy.api#required": {}
+          }
+        },
+        "period": {
+          "target": "com.posthog.task_channels#CalendarUnitEnum",
+          "traits": {
+            "smithy.api#documentation": "How often the metric is measured.\n\n* `day` - Day\n* `week` - Week\n* `month` - Month"
+          }
+        },
+        "direction": {
+          "target": "com.posthog.task_channels#SpaceGoalDirectionEnum",
+          "traits": {
+            "smithy.api#documentation": "Whether the target is a floor ('at_least') or a ceiling ('at_most').\n\n* `at_least` - At least\n* `at_most` - At most"
+          }
+        },
+        "target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Target value as typed, e.g. '20%' or '1500'.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "deadline": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date the target should be reached.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "insight_short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short id of an existing insight that measures the goal, when there is one.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The metric a goal space should move."
+      }
+    },
+    "com.posthog.task_channels#CalendarUnitEnum": {
+      "type": "enum",
+      "members": {
+        "DAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "day"
+          }
+        },
+        "WEEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "week"
+          }
+        },
+        "MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "month"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `day` - Day\n* `week` - Week\n* `month` - Month"
+      }
+    },
+    "com.posthog.task_channels#SpaceGoalDirectionEnum": {
+      "type": "enum",
+      "members": {
+        "AT_LEAST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "at_least"
+          }
+        },
+        "AT_MOST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "at_most"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `at_least` - At least\n* `at_most` - At most"
+      }
+    },
+    "com.posthog.task_channels#SpaceFeatureWrite": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Feature name as people call it.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What the feature does, in a sentence."
+          }
+        },
+        "flag_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Key of the feature flag that gates it, if any.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The feature a feature space is set up around."
+      }
+    },
+    "com.posthog.task_channels#CreateTaskChannelsSetupRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "com.posthog.task_channels#SpaceSetupKindEnum",
+          "traits": {
+            "smithy.api#documentation": "What the space is set up for.\n\n* `goal` - Goal\n* `feature` - Feature",
+            "smithy.api#required": {}
+          }
+        },
+        "goal": {
+          "target": "com.posthog.task_channels#SpaceGoalWrite",
+          "traits": {
+            "smithy.api#documentation": "Required when kind is 'goal'."
+          }
+        },
+        "feature": {
+          "target": "com.posthog.task_channels#SpaceFeatureWrite",
+          "traits": {
+            "smithy.api#documentation": "Required when kind is 'feature'."
+          }
+        },
+        "repository": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository the loops work in, as 'owner/name'. Defaults to the channel's first repository.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.task_channels#SpaceSetupStartedDTO": {
+      "type": "structure",
+      "members": {
+        "task_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The setup task that was started for the channel."
+      }
+    },
+    "com.posthog.task_channels#CreateTaskChannelsSetup": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.task_channels#CreateTaskChannelsSetupRequest"
+      },
+      "output": {
+        "target": "com.posthog.task_channels#SpaceSetupStartedDTO"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.task_channels#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/task_channels/{id}/setup/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set a space up for a goal or a feature\n\nStarts one unattended task in the channel that resolves the metric, writes the context page and, for a goal, creates the tracking canvas and the loops. The task becomes the channel's context generation task."
       }
     },
     "com.posthog.task_channels#CreateTaskChannelsStarRequest": {
@@ -1159,7 +1573,93 @@
           "uri": "/api/projects/{project_id}/task_channels/{id}/star/",
           "code": 200
         },
-        "smithy.api#documentation": "Star or unstar a channel for the requesting user\n\nAPI for task channels — the shared feeds tasks are kicked off in. The\nprovision_defaults action get-or-creates the requester's personal \"#me\" channel and\nthe team's shared \"#general\" channel; creation is resolve-or-create by normalized\nname so clients can map channel-like surfaces onto backend channels."
+        "smithy.api#documentation": "Star or unstar a channel for the requesting user"
+      }
+    },
+    "com.posthog.task_channels#GetTaskChannelsContributorRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.task_channels#ChannelContributorsDTO": {
+      "type": "structure",
+      "members": {
+        "channel": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The channel these people worked in.",
+            "smithy.api#required": {}
+          }
+        },
+        "people": {
+          "target": "com.posthog.task_channels#ChannelContributorsDTOPeopleList",
+          "traits": {
+            "smithy.api#documentation": "Everyone who owns at least one task or canvas in the channel, most recently active first. Deleted tasks and canvases do not count.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The people who own at least one task or canvas in a channel."
+      }
+    },
+    "com.posthog.task_channels#ChannelContributorsDTOPeopleList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.task_channels#TaskUserBasicInfo"
+      },
+      "traits": {
+        "smithy.api#documentation": "Everyone who owns at least one task or canvas in the channel, most recently active first. Deleted tasks and canvases do not count."
+      }
+    },
+    "com.posthog.task_channels#GetTaskChannelsContributorResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.task_channels#ChannelContributorsDTO"
+      },
+      "traits": {}
+    },
+    "com.posthog.task_channels#GetTaskChannelsContributorResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.task_channels#GetTaskChannelsContributorResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.task_channels#GetTaskChannelsContributor": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.task_channels#GetTaskChannelsContributorRequest"
+      },
+      "output": {
+        "target": "com.posthog.task_channels#GetTaskChannelsContributorResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/task_channels/contributors/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List who worked in each channel\n\nFor each channel the requester can access, list the people who own at least one task or canvas in it, most recently active first. Channels with no owners are left out."
       }
     },
     "com.posthog.task_channels#CreateTaskChannelsOnboardingSessionRequest": {
@@ -1251,6 +1751,13 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
             "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional LLM model identifier for the test session. Omit to use the plan default.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "company_domain": {
@@ -1529,7 +2036,19 @@
           "target": "com.posthog.task_channels#GetTaskChannelsInstructionsVersion"
         },
         {
+          "target": "com.posthog.task_channels#GetTaskChannelsMember"
+        },
+        {
+          "target": "com.posthog.task_channels#UpdateTaskChannelsMember"
+        },
+        {
+          "target": "com.posthog.task_channels#CreateTaskChannelsSetup"
+        },
+        {
           "target": "com.posthog.task_channels#CreateTaskChannelsStar"
+        },
+        {
+          "target": "com.posthog.task_channels#GetTaskChannelsContributor"
         },
         {
           "target": "com.posthog.task_channels#CreateTaskChannelsOnboardingSession"

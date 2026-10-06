@@ -445,7 +445,10 @@
     "com.intercom.api#MacroListDataList": {
       "type": "list",
       "member": {
-        "target": "com.intercom.api#Macro"
+        "target": "com.intercom.api#Macro",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "The list of macro objects"
@@ -1882,7 +1885,10 @@
     "com.intercom.api#ActivityLogListActivityLogsList": {
       "type": "list",
       "member": {
-        "target": "com.intercom.api#ActivityLog"
+        "target": "com.intercom.api#ActivityLog",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "An array of activity logs"
@@ -2054,7 +2060,10 @@
     "com.intercom.api#AdminListAdminsList": {
       "type": "list",
       "member": {
-        "target": "com.intercom.api#Admin"
+        "target": "com.intercom.api#Admin",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "A list of admins associated with a given workspace."
@@ -9986,6 +9995,12 @@
             "smithy.api#documentation": "The ID of the conversation."
           }
         },
+        "intercom_conversation_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The internal Intercom conversation ID, useful for matching this Agent API session to the conversation in Intercom."
+          }
+        },
         "user_id": {
           "target": "smithy.api#String",
           "traits": {
@@ -10037,7 +10052,7 @@
           "uri": "/fin/start",
           "code": 200
         },
-        "smithy.api#documentation": "Start a conversation with Fin\n\nInitialize Fin by passing it the user's message along with conversation history and user details.\n\nThese additional pieces of context will be used by Fin to provide a better and more contextual answer to the user.\n\n{% admonition type=\"warning\" %}\nPlease reach out to your accounts team to discuss access.\n{% /admonition %}\n\nOnce Fin is initialized, it progresses through a series of statuses such as *thinking*, *replying*, *awaiting_user_reply*, or *resolved* before ending with a status of *complete*.\n\nDuring this workflow, the client should allow Fin to continue uninterrupted until a final *complete* status is returned via webhook, at which point control of the conversation passes back to the client."
+        "smithy.api#documentation": "Start a conversation with Fin\n\nInitialize Fin by passing it the user's message along with conversation history and user details.\n\nThese additional pieces of context will be used by Fin to provide a better and more contextual answer to the user.\n\n{% admonition type=\"warning\" %}\nTo request access to the Fin Agent API, please [fill out this form](https://forms.gle/osy4uyiqyomRCsL2A).\n{% /admonition %}\n\nOnce Fin is initialized, it progresses through a series of statuses such as *thinking*, *replying*, *awaiting_user_reply*, or *resolved* before ending with a status of *complete*.\n\nDuring this workflow, the client should allow Fin to continue uninterrupted until a final *complete* status is returned via webhook, at which point control of the conversation passes back to the client."
       }
     },
     "com.intercom.api#ReplyToFinRequestAttachmentsList": {
@@ -10135,6 +10150,12 @@
             "smithy.api#documentation": "The ID of the conversation."
           }
         },
+        "intercom_conversation_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The internal Intercom conversation ID, useful for matching this Agent API session to the conversation in Intercom."
+          }
+        },
         "user_id": {
           "target": "smithy.api#String",
           "traits": {
@@ -10186,7 +10207,7 @@
           "uri": "/fin/reply",
           "code": 200
         },
-        "smithy.api#documentation": "Reply to Fin\n\nOnce Fin has returned a response to a user's message, its status will be `awaiting_user_reply`.\n\nIf a user replies, use this endpoint to send this response to Fin.\n\n{% admonition type=\"warning\" %}\nPlease reach out to your accounts team to discuss access.\n{% /admonition %}"
+        "smithy.api#documentation": "Reply to Fin\n\nOnce Fin has returned a response to a user's message, its status will be `awaiting_user_reply`.\n\nIf a user replies, use this endpoint to send this response to Fin.\n\n{% admonition type=\"warning\" %}\nTo request access to the Fin Agent API, please [fill out this form](https://forms.gle/osy4uyiqyomRCsL2A).\n{% /admonition %}"
       }
     },
     "com.intercom.api#SubmitFinCsatRequestRating": {
@@ -10352,7 +10373,620 @@
           "uri": "/fin/csat",
           "code": 200
         },
-        "smithy.api#documentation": "Submit a CSAT rating\n\nRecord a customer's satisfaction rating for a conversation, with an optional free-text\nremark.\n\nFin decides *when* to ask for a rating — this reuses the CSAT settings on your Fin\nworkflow, not this API. When Fin asks, it fires a `csat_requested` event over webhooks or\nSSE carrying the rating options to show the user. Present those options, then submit the\nuser's choice here.\n\nSubmitting the same rating again, with no new remark, is a no-op and stays successful,\nso an at-least-once client can safely retry. Submitting a *different* rating updates the\nstored rating while the update window is still open, and a first remark can be added to\nan already-rated survey. Once a remark has been recorded the rating is locked and can no\nlonger be changed.\n\n{% admonition type=\"warning\" %}\nPlease reach out to your accounts team to discuss access.\n{% /admonition %}"
+        "smithy.api#documentation": "Submit a CSAT rating\n\nRecord a customer's satisfaction rating for a conversation, with an optional free-text\nremark.\n\nFin decides *when* to ask for a rating — this reuses the CSAT settings on your Fin\nworkflow, not this API. When Fin asks, it fires a `csat_requested` event over webhooks or\nSSE carrying the rating options to show the user. Present those options, then submit the\nuser's choice here.\n\nSubmitting the same rating again, with no new remark, is a no-op and stays successful,\nso an at-least-once client can safely retry. Submitting a *different* rating updates the\nstored rating while the update window is still open, and a first remark can be added to\nan already-rated survey. Once a remark has been recorded the rating is locked and can no\nlonger be changed.\n\n{% admonition type=\"warning\" %}\nTo request access to the Fin Agent API, please [fill out this form](https://forms.gle/osy4uyiqyomRCsL2A).\n{% /admonition %}"
+      }
+    },
+    "com.intercom.api#ListFinCapabilitiesRequestUserAttributesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "A hash of attributes associated with the user.\nAttributes can be used by Fin to target content and responses.\nLimit to 10 attributes.\n"
+      }
+    },
+    "com.intercom.api#ListFinCapabilitiesRequestUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the user. This value will be used to uniquely identify the user\nduring a conversation with Fin. Maps to the user_id field on the Intercom User object.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the user."
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email of the user."
+          }
+        },
+        "attributes": {
+          "target": "com.intercom.api#ListFinCapabilitiesRequestUserAttributesMap",
+          "traits": {
+            "smithy.api#documentation": "A hash of attributes associated with the user.\nAttributes can be used by Fin to target content and responses.\nLimit to 10 attributes.\n"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.intercom.api#ListFinCapabilitiesRequest": {
+      "type": "structure",
+      "members": {
+        "user": {
+          "target": "com.intercom.api#ListFinCapabilitiesRequestUser",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.intercom.api#ListFinCapabilitiesResponseCapabilitiesItem": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The kind of capability — `procedure` for a runnable procedure, or a static action such as `reply`, `ask`, or `escalate`."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The procedure ID. Present only when `type` is `procedure`."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The procedure name. Present only when `type` is `procedure`."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable description of the capability."
+          }
+        },
+        "endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The endpoint path to call to use this capability."
+          }
+        },
+        "method": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The HTTP method to use."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.intercom.api#ListFinCapabilitiesResponseCapabilitiesList": {
+      "type": "list",
+      "member": {
+        "target": "com.intercom.api#ListFinCapabilitiesResponseCapabilitiesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of capabilities available to this user."
+      }
+    },
+    "com.intercom.api#ListFinCapabilitiesResponse": {
+      "type": "structure",
+      "members": {
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The API version the capabilities document was generated for."
+          }
+        },
+        "capabilities": {
+          "target": "com.intercom.api#ListFinCapabilitiesResponseCapabilitiesList",
+          "traits": {
+            "smithy.api#documentation": "The list of capabilities available to this user."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.intercom.api#ListFinCapabilities": {
+      "type": "operation",
+      "input": {
+        "target": "com.intercom.api#ListFinCapabilitiesRequest"
+      },
+      "output": {
+        "target": "com.intercom.api#ListFinCapabilitiesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.intercom.api#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/fin/capabilities",
+          "code": 200
+        },
+        "smithy.api#documentation": "Discover Fin's capabilities\n\nReturn a machine-readable, per-user list of what Fin can do for a given end user, so an\norchestrating agent can decide which endpoint to call.\n\nThe response is audience-matched to the supplied user: each live, API-triggerable\nprocedure is checked against that user before being included, alongside the static\n`reply` and `ask` actions.\n\n{% admonition type=\"warning\" %}\nTo request access to the Fin Agent API, please [fill out this form](https://forms.gle/osy4uyiqyomRCsL2A).\n{% /admonition %}"
+      }
+    },
+    "com.intercom.api#AskFinRequestAttachmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.intercom.api#FinAgentAttachment"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of attachments to include with the message. Maximum of 10 attachments."
+      }
+    },
+    "com.intercom.api#AskFinRequest": {
+      "type": "structure",
+      "members": {
+        "conversation_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Your external conversation ID. Fin creates a conversation for this ID. If a conversation already exists for it, use `/fin/reply` instead.",
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "com.intercom.api#FinAgentMessage",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.intercom.api#FinAgentUser",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "conversation_metadata": {
+          "target": "com.intercom.api#FinAgentConversationMetadata"
+        },
+        "attachments": {
+          "target": "com.intercom.api#AskFinRequestAttachmentsList",
+          "traits": {
+            "smithy.api#documentation": "An array of attachments to include with the message. Maximum of 10 attachments."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.intercom.api#AskFinResponseStatus": {
+      "type": "enum",
+      "members": {
+        "THINKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "thinking"
+          }
+        },
+        "REPLYING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "replying"
+          }
+        },
+        "RESOLVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resolved"
+          }
+        },
+        "COMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "complete"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Fin's current status in the conversation workflow.\n"
+      }
+    },
+    "com.intercom.api#AskFinResponse": {
+      "type": "structure",
+      "members": {
+        "conversation_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The external ID of the conversation."
+          }
+        },
+        "intercom_conversation_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The internal Intercom conversation ID, useful for matching this Agent API session to the conversation in Intercom."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the user."
+          }
+        },
+        "status": {
+          "target": "com.intercom.api#AskFinResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "Fin's current status in the conversation workflow.\n"
+          }
+        },
+        "created_at_ms": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp the response was created at, with millisecond precision."
+          }
+        },
+        "errors": {
+          "target": "com.intercom.api#FinAgentAttributeErrors"
+        },
+        "sse_subscription_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A URL to subscribe to Server-Sent Events (SSE) for this conversation, if SSE is enabled. The access token is a JWT with a 3-minute TTL. The token is revoked when Fin sets the conversation to complete status. When CSAT is enabled and a survey will follow the resolution, `complete` revocation is deferred until the `csat_requested` event is delivered or the token expires.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.intercom.api#AskFin": {
+      "type": "operation",
+      "input": {
+        "target": "com.intercom.api#AskFinRequest"
+      },
+      "output": {
+        "target": "com.intercom.api#AskFinResponse"
+      },
+      "errors": [
+        {
+          "target": "com.intercom.api#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/fin/ask",
+          "code": 200
+        },
+        "smithy.api#documentation": "Ask Fin\n\nAsk Fin a single, self-contained question and receive one informational answer.\n\nUnlike a conversation, `/fin/ask` is non-conversational: Fin will not ask follow-up\nquestions, will not run procedures, and will not escalate to a human on its own. You can\nstill escalate one yourself with `POST /fin/escalate`; the ask conversation is already\nclosed after its one-shot answer, and escalation leaves it closed while routing the\nhandoff separately.\n\nFin's answer is delivered asynchronously via the `fin_replied` event. The conversation\nends with a `complete` status — there is no `awaiting_user_reply` cycle.\n\n{% admonition type=\"warning\" %}\nTo request access to the Fin Agent API, please [fill out this form](https://forms.gle/osy4uyiqyomRCsL2A).\n{% /admonition %}"
+      }
+    },
+    "com.intercom.api#RunFinProcedureRequestConversationMetadataAttributesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "A hash of conversation attributes. Limit to 10 attributes.\n"
+      }
+    },
+    "com.intercom.api#RunFinProcedureRequestConversationMetadata": {
+      "type": "structure",
+      "members": {
+        "attributes": {
+          "target": "com.intercom.api#RunFinProcedureRequestConversationMetadataAttributesMap",
+          "traits": {
+            "smithy.api#documentation": "A hash of conversation attributes. Limit to 10 attributes.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Metadata about the conversation. Only attributes are accepted (no history)."
+      }
+    },
+    "com.intercom.api#RunFinProcedureRequest": {
+      "type": "structure",
+      "members": {
+        "procedure_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the procedure to run."
+          }
+        },
+        "conversation_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Your external conversation ID. Fin creates a conversation for this ID. If a conversation already exists for it, use `/fin/reply` instead.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "com.intercom.api#FinAgentUser",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "com.intercom.api#FinAgentMessage"
+        },
+        "conversation_metadata": {
+          "target": "com.intercom.api#RunFinProcedureRequestConversationMetadata",
+          "traits": {
+            "smithy.api#documentation": "Metadata about the conversation. Only attributes are accepted (no history)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.intercom.api#RunFinProcedureResponseStatus": {
+      "type": "enum",
+      "members": {
+        "THINKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "thinking"
+          }
+        },
+        "REPLYING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "replying"
+          }
+        },
+        "AWAITING_USER_REPLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awaiting_user_reply"
+          }
+        },
+        "ESCALATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "escalated"
+          }
+        },
+        "RESOLVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "resolved"
+          }
+        },
+        "COMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "complete"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Fin's current status in the conversation workflow.\n"
+      }
+    },
+    "com.intercom.api#RunFinProcedureResponse": {
+      "type": "structure",
+      "members": {
+        "conversation_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the conversation."
+          }
+        },
+        "intercom_conversation_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The internal Intercom conversation ID, useful for matching this Agent API session to the conversation in Intercom."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the user."
+          }
+        },
+        "procedure_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the procedure that was run."
+          }
+        },
+        "status": {
+          "target": "com.intercom.api#RunFinProcedureResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "Fin's current status in the conversation workflow.\n"
+          }
+        },
+        "created_at_ms": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp the response was created at, with millisecond precision."
+          }
+        },
+        "errors": {
+          "target": "com.intercom.api#FinAgentAttributeErrors"
+        },
+        "sse_subscription_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A URL to subscribe to Server-Sent Events (SSE) for this conversation, if SSE is enabled. The access token is a JWT with a 3-minute TTL. The token is revoked when Fin sets the conversation to awaiting_user_reply or complete status. When CSAT is enabled and a survey will follow the resolution, `complete` revocation is deferred until the `csat_requested` event is delivered or the token expires.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.intercom.api#RunFinProcedure": {
+      "type": "operation",
+      "input": {
+        "target": "com.intercom.api#RunFinProcedureRequest"
+      },
+      "output": {
+        "target": "com.intercom.api#RunFinProcedureResponse"
+      },
+      "errors": [
+        {
+          "target": "com.intercom.api#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/fin/procedures/{procedure_id}/run",
+          "code": 200
+        },
+        "smithy.api#documentation": "Run a Fin procedure\n\nDeterministically run a specific procedure on a new conversation. Calling this endpoint\nguarantees that the named procedure runs — there is no non-deterministic routing.\n\nFin's progress is delivered asynchronously via events or Server-Sent Events. If the\nprocedure pauses for user input, the conversation status becomes `awaiting_user_reply` —\nsend the user's response with [`/fin/reply`](/docs/references/rest-api/api.intercom.io/fin-agent/replytofin).\n\n{% admonition type=\"warning\" %}\nTo request access to the Fin Agent API, please [fill out this form](https://forms.gle/osy4uyiqyomRCsL2A).\n{% /admonition %}"
+      }
+    },
+    "com.intercom.api#EscalateFinConversationRequestUserAttributesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "A hash of attributes associated with the user.\nAttributes can be used by Fin to target content and responses.\nLimit to 10 attributes.\n"
+      }
+    },
+    "com.intercom.api#EscalateFinConversationRequestUser": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the user. This value will be used to uniquely identify the user\nduring a conversation with Fin. Maps to the user_id field on the Intercom User object.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the user."
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email of the user."
+          }
+        },
+        "attributes": {
+          "target": "com.intercom.api#EscalateFinConversationRequestUserAttributesMap",
+          "traits": {
+            "smithy.api#documentation": "A hash of attributes associated with the user.\nAttributes can be used by Fin to target content and responses.\nLimit to 10 attributes.\n"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.intercom.api#EscalateFinConversationRequest": {
+      "type": "structure",
+      "members": {
+        "conversation_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The external ID of the conversation to escalate. Provide this or `user`. Required on Fin for Platforms, where `user` is not supported."
+          }
+        },
+        "user": {
+          "target": "com.intercom.api#EscalateFinConversationRequestUser"
+        },
+        "context": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional background for the receiving teammate, valid with either `conversation_id` or `user`. On the Intercom Helpdesk, it appears above the summary in the internal note of the new conversation the teammate picks up, and is never shown to the end user. Not surfaced on Fin for Platforms. Avoid including credentials or unnecessary personal data — it is visible to any teammate with access to the conversation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.intercom.api#EscalateFinConversationResponseStatus": {
+      "type": "enum",
+      "members": {
+        "ESCALATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "escalated"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The resulting status of the conversation."
+      }
+    },
+    "com.intercom.api#EscalateFinConversationResponse": {
+      "type": "structure",
+      "members": {
+        "conversation_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The external ID of the conversation. Returned when you escalate an existing conversation by `conversation_id` (echoed back). When you escalate a `user`, a new conversation is created and only `intercom_conversation_id` is returned."
+          }
+        },
+        "intercom_conversation_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The internal Intercom conversation ID. Returned when a new conversation was created for the escalation."
+          }
+        },
+        "sse_subscription_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A URL to subscribe to Server-Sent Events (SSE) for this conversation, if SSE is enabled. The access token is a JWT with a 3-minute TTL. The token is revoked when Fin sets the conversation to complete status. When CSAT is enabled and a survey will follow the resolution, `complete` revocation is deferred until the `csat_requested` event is delivered or the token expires. Includes a `rewind` window so a subscriber that connects after the escalation is processed can still receive the `escalated` and `complete` events.\n"
+          }
+        },
+        "status": {
+          "target": "com.intercom.api#EscalateFinConversationResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "The resulting status of the conversation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.intercom.api#EscalateFinConversation": {
+      "type": "operation",
+      "input": {
+        "target": "com.intercom.api#EscalateFinConversationRequest"
+      },
+      "output": {
+        "target": "com.intercom.api#EscalateFinConversationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.intercom.api#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/fin/escalate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Escalate to a human\n\nHand a conversation off to a human teammate. If you use the Intercom Helpdesk, the\nhandoff lands in your team inbox.\n\nProvide either `conversation_id` or `user`:\n\n- `conversation_id` — escalate an existing agent conversation, including one started\n  with `/fin/ask`. On the Intercom Helpdesk, Fin by default summarises the conversation\n  and opens a new Helpdesk conversation that carries the summary as an internal note.\n  Escalation does not change the original agent conversation's assignment or open/closed\n  state. Configure an escalation Operator Workflow to change this default.\n- `user` — escalate on behalf of a user with no prior agent conversation. On the Intercom\n  Helpdesk, a new Helpdesk conversation is created for the teammate. Not supported on Fin\n  for Platforms — see below.\n\nIn both cases, pass the optional `context` to give the receiving teammate background your\norchestrating agent has and Fin does not. On the Intercom Helpdesk, it appears above the\nsummary in the internal note of the new conversation the teammate picks up. It is never\nshown to the end user.\n\nEscalating an existing conversation also sets its AI Agent resolution state to\n`escalated`, readable as `ai_agent.resolution_state` on the Conversations API. This is a\nresolution state, not a billable resolution.\n\nOn Fin for Platforms, `conversation_id` is required — `user` is not supported and is\nrejected, because there is no Intercom Helpdesk in which to create a conversation. There\nis no Intercom inbox either, so an escalation that no workflow handles does not open a\nHelpdesk conversation for a teammate. `context` is not surfaced, and the conversation is\nleft open for your platform to hand off and continue driving.\n\nYou are notified over the existing webhook or SSE channel with an `escalated` status\nfollowed by `complete`. The `complete` status signals that Fin is done; it does not close\nthe conversation. On the Intercom Helpdesk, the new human conversation remains open; on\nFin for Platforms, the conversation remains open for whoever handles it on your platform.\n\n{% admonition type=\"warning\" %}\nTo request access to the Fin Agent API, please [fill out this form](https://forms.gle/osy4uyiqyomRCsL2A).\n{% /admonition %}"
       }
     },
     "com.intercom.api#ListHelpCenterRedirectsRequest": {
@@ -13777,7 +14411,7 @@
           "uri": "/companies/{company_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete a company\n\nDelete a single company.\n\nThis endpoint does not permanently remove the company. It archives the company record and detaches any contacts attached to it; the contacts themselves are not deleted. A `company.deleted` webhook is sent once archival completes.\n\nThe endpoint returns `200` with `\"deleted\": true` as soon as the request is accepted — archival is processed asynchronously.\n\n{% admonition type=\"warning\" %}\nThird-party integrations that sync companies into Intercom (for example, Salesforce or Chargebee) will recreate any company deleted through this endpoint on their next sync. To prevent recreation, remove or filter the company at the source integration before deleting it via the API.\n{% /admonition %}"
+        "smithy.api#documentation": "Delete a company\n\nDelete a single company.\n\nThe company record is kept in your workspace, but all contacts are detached. The contacts themselves are not deleted. Detaching contacts is permanent and can't be reversed. A `company.deleted` webhook is sent when the company is deleted. These changes may take some time to be reflected in your workspace.\n\n{% admonition type=\"warning\" %}\nThird-party integrations that sync companies into Intercom (for example, Salesforce or Chargebee) will recreate any company deleted through this endpoint on their next sync. To prevent recreation, remove or filter the company at the source integration before deleting it via the API.\n{% /admonition %}"
       }
     },
     "com.intercom.api#ListAttachedContactsRequest": {
@@ -14963,7 +15597,7 @@
           "uri": "/companies/scroll",
           "code": 200
         },
-        "smithy.api#documentation": "Scroll over all companies\n\nThe `list all companies` functionality does not work well for huge datasets, and can result in errors and performance problems when paging deeply. The Scroll API provides an efficient mechanism for iterating over all companies in a dataset.\n\n- Each app can only have 1 scroll open at a time. You'll get an error message if you try to have more than one open per app.\n- If the scroll isn't used for 1 minute, it expires and calls with that scroll param will fail\n- If the end of the scroll is reached, \"companies\" will be empty and the scroll parameter will expire\n\n{% admonition type=\"info\" name=\"Scroll Parameter\" %}\nYou can get the first page of companies by simply sending a GET request to the scroll endpoint.\nFor subsequent requests you will need to use the scroll parameter from the response.\n{% /admonition %}\n{% admonition type=\"danger\" name=\"Scroll network timeouts\" %}\nSince scroll is often used on large datasets network errors such as timeouts can be encountered. When this occurs you will see a HTTP 500 error with the following message:\n\"Request failed due to an internal network error. Please restart the scroll operation.\"\nIf this happens, you will need to restart your scroll query: It is not possible to continue from a specific point when using scroll.\n{% /admonition %}"
+        "smithy.api#documentation": "Scroll over all companies\n\nThe `list all companies` functionality does not work well for huge datasets, and can result in errors and performance problems when paging deeply. The Scroll API provides an efficient mechanism for iterating over all companies in a dataset.\n\n- Each app can only have 1 scroll open at a time. You'll get an error message if you try to have more than one open per app.\n- If the scroll isn't used for 1 minute, it expires and calls with that scroll param will fail\n- If the end of the scroll is reached, \"companies\" will be empty and the scroll parameter will expire\n\n{% admonition type=\"info\" name=\"Scroll Parameter\" %}\n  You can get the first page of companies by simply sending a GET request to the scroll endpoint.\n  For subsequent requests you will need to use the scroll parameter from the response.\n{% /admonition %}\n{% admonition type=\"danger\" name=\"Scroll network timeouts\" %}\n  Since scroll is often used on large datasets network errors such as timeouts can be encountered. When this occurs you will see a HTTP 500 error with the following message:\n  \"Request failed due to an internal network error. Please restart the scroll operation.\"\n  If this happens, you will need to restart your scroll query: It is not possible to continue from a specific point when using scroll.\n{% /admonition %}"
       }
     },
     "com.intercom.api#ListCompaniesForAContactRequest": {
@@ -16225,7 +16859,7 @@
         "email_verified": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether the contact's email address has been verified. Set to true to indicate you have verified the contact owns this email address, or false to mark it as unverified. Must be supplied together with an email in the same request; sending it without an email returns a 400.",
+            "smithy.api#documentation": "Whether the contact has proved they own this email address, for example through a confirmation link or one-time code you sent. Send it together with `email`. `email_verified` without `email` is rejected.\n\nChanging a contact's email resets it to not verified. Intercom reuses leads with a verified email when an inbound email, conversation or ticket matches the address.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -21482,7 +22116,10 @@
     "com.intercom.api#CustomObjectInstanceListInstancesList": {
       "type": "list",
       "member": {
-        "target": "com.intercom.api#CustomObjectInstance"
+        "target": "com.intercom.api#CustomObjectInstance",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "The list of associated custom object instances for a given reference attribute on the parent object."
@@ -21834,9 +22471,10 @@
           }
         },
         "category": {
-          "target": "smithy.api#Document",
+          "target": "com.intercom.api#LinkedObjectCategory",
           "traits": {
-            "smithy.api#documentation": "Category of the Linked Ticket Object."
+            "smithy.api#documentation": "Category of the Linked Ticket Object.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -21862,6 +22500,32 @@
       },
       "traits": {
         "smithy.api#documentation": "ticket or conversation"
+      }
+    },
+    "com.intercom.api#LinkedObjectCategory": {
+      "type": "enum",
+      "members": {
+        "CUSTOMER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Customer"
+          }
+        },
+        "BACK_OFFICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Back-office"
+          }
+        },
+        "TRACKER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Tracker"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Category of the Linked Ticket Object."
       }
     },
     "com.intercom.api#LinkedObjectListDataList": {
@@ -21898,9 +22562,10 @@
           }
         },
         "resolution_state": {
-          "target": "smithy.api#Document",
+          "target": "com.intercom.api#AiAgentResolutionState",
           "traits": {
-            "smithy.api#documentation": "The resolution state of AI Agent. If no AI or custom answer has been delivered then this will return `null`."
+            "smithy.api#documentation": "The resolution state of AI Agent. If no AI or custom answer has been delivered then this will return `null`.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "rating": {
@@ -21995,6 +22660,44 @@
       },
       "traits": {
         "smithy.api#documentation": "The type of the last answer delivered by AI Agent. If no answer was delivered then this will return `null`"
+      }
+    },
+    "com.intercom.api#AiAgentResolutionState": {
+      "type": "enum",
+      "members": {
+        "ASSUMED_RESOLUTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "assumed_resolution"
+          }
+        },
+        "CONFIRMED_RESOLUTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "confirmed_resolution"
+          }
+        },
+        "ESCALATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "escalated"
+          }
+        },
+        "NEGATIVE_FEEDBACK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "negative_feedback"
+          }
+        },
+        "PROCEDURE_HANDOFF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "procedure_handoff"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The resolution state of AI Agent. If no AI or custom answer has been delivered then this will return `null`."
       }
     },
     "com.intercom.api#ContentSourcesList": {
@@ -23172,6 +23875,13 @@
             "smithy.api#documentation": "The app package code if this part was created via API. null if the part was not created via API.",
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "translations": {
+          "target": "com.intercom.api#ConversationPartTranslations",
+          "traits": {
+            "smithy.api#documentation": "A map of the reply text keyed by locale code. Backs the `conversation.admin.replied.translated` webhook topic. `original` holds the locale code the reply was written in; every other key holds the reply translated into that locale.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
@@ -23641,6 +24351,21 @@
         }
       },
       "traits": {}
+    },
+    "com.intercom.api#ConversationPartTranslations": {
+      "type": "structure",
+      "members": {
+        "original": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The locale code identifying the language the reply was originally written in.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A map of the reply text keyed by locale code. Backs the `conversation.admin.replied.translated` webhook topic. `original` holds the locale code the reply was written in; every other key holds the reply translated into that locale."
+      }
     },
     "com.intercom.api#ConversationPartsConversationPartsList": {
       "type": "list",
@@ -24550,7 +25275,7 @@
           "uri": "/conversations/{conversation_id}/reply",
           "code": 200
         },
-        "smithy.api#documentation": "Reply to a conversation\n\nYou can reply to a conversation with a message from an admin or on behalf of a contact, or with a note for admins.\n\n{% admonition type=\"warning\" name=\"Bot replies to inbound email\" %}\nBy default, bot or Operator replies to an inbound email conversation aren't sent to your customer. The reply is stored as an unnotifiable bot comment, and no `seen` receipt is generated until an email is actually delivered.\n\nTo send these replies as outbound emails, reach out to your accounts team to enable the email-reply feature flag for your workspace.\n{% /admonition %}"
+        "smithy.api#documentation": "Reply to a conversation\n\nYou can reply to a conversation with a message from an admin or on behalf of a contact, or with a note for admins.\n\n{% admonition type=\"warning\" name=\"Bot replies to inbound email\" %}\nBy default, bot or Operator replies to an inbound email conversation aren't sent to your customer. The reply is stored as an unnotifiable bot comment, and no `seen` receipt is generated until an email is actually delivered.\n\nTo send these replies as outbound emails, reach out to your accounts team to enable the email-reply feature flag for your workspace.\n{% /admonition %}\n\n{% admonition type=\"info\" name=\"Managing a conversation\" %}\nTo close, open, snooze or assign a conversation, use [Manage a conversation](/docs/references/rest-api/api.intercom.io/conversations/manageconversation).\n{% /admonition %}"
       }
     },
     "com.intercom.api#CloseConversationRequest": {
@@ -24815,7 +25540,7 @@
           "uri": "/conversations/{conversation_id}/parts",
           "code": 200
         },
-        "smithy.api#documentation": "Manage a conversation\n\nFor managing conversations you can:\n- Close a conversation\n- Snooze a conversation to reopen on a future date\n- Open a conversation which is `snoozed` or `closed`\n- Assign a conversation to an admin and/or team."
+        "smithy.api#documentation": "Manage a conversation\n\nFor managing conversations you can:\n- Close a conversation\n- Snooze a conversation to reopen on a future date\n- Open a conversation which is `snoozed` or `closed`\n- Assign a conversation to an admin and/or team.\n\n{% admonition type=\"info\" name=\"Sending messages\" %}\nTo send a comment, note or quick reply, use [Reply to a conversation](/docs/references/rest-api/api.intercom.io/conversations/replyconversation).\n{% /admonition %}"
       }
     },
     "com.intercom.api#CustomerRequest": {
@@ -24969,13 +25694,57 @@
         "smithy.api#input": {}
       }
     },
+    "com.intercom.api#ConversationParticipantsResponse": {
+      "type": "structure",
+      "members": {
+        "customers": {
+          "target": "com.intercom.api#ConversationParticipantsResponseCustomersList",
+          "traits": {
+            "smithy.api#documentation": "The conversation participants after the change",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The participants of the conversation, returned after attaching or detaching a contact"
+      }
+    },
+    "com.intercom.api#ConversationParticipantsResponseCustomersItem": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The role of the participant. Can be \"user\" or \"lead\"",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the participant",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.intercom.api#ConversationParticipantsResponseCustomersList": {
+      "type": "list",
+      "member": {
+        "target": "com.intercom.api#ConversationParticipantsResponseCustomersItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The conversation participants after the change"
+      }
+    },
     "com.intercom.api#AttachContactToConversation": {
       "type": "operation",
       "input": {
         "target": "com.intercom.api#AttachContactToConversationRequest"
       },
       "output": {
-        "target": "com.intercom.api#Conversation"
+        "target": "com.intercom.api#ConversationParticipantsResponse"
       },
       "errors": [
         {
@@ -25031,7 +25800,7 @@
         "target": "com.intercom.api#DetachContactFromConversationRequest"
       },
       "output": {
-        "target": "com.intercom.api#Conversation"
+        "target": "com.intercom.api#ConversationParticipantsResponse"
       },
       "errors": [
         {
@@ -26206,7 +26975,10 @@
     "com.intercom.api#TicketTypeAttributeListTicketTypeAttributesList": {
       "type": "list",
       "member": {
-        "target": "com.intercom.api#TicketTypeAttribute"
+        "target": "com.intercom.api#TicketTypeAttribute",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "A list of ticket type attributes associated with a given ticket type."
@@ -26215,7 +26987,10 @@
     "com.intercom.api#TicketTypeTicketStatesDataList": {
       "type": "list",
       "member": {
-        "target": "com.intercom.api#TicketState"
+        "target": "com.intercom.api#TicketState",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "A list of ticket states associated with a given ticket type."
@@ -26403,6 +27178,13 @@
             "smithy.api#documentation": "The app package code if this part was created via API. Note this field won't show if the part was not created via API."
           }
         },
+        "translations": {
+          "target": "com.intercom.api#TicketPartTranslations",
+          "traits": {
+            "smithy.api#documentation": "A map of the reply text keyed by locale code. Backs the `ticket.admin.replied.translated` webhook topic. `original` holds the locale code the reply was written in; every other key holds the reply translated into that locale.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "updated_attribute_data": {
           "target": "com.intercom.api#TicketPartUpdatedAttributeData",
           "traits": {
@@ -26551,6 +27333,21 @@
       },
       "traits": {
         "smithy.api#documentation": "A list of attachments for the part."
+      }
+    },
+    "com.intercom.api#TicketPartTranslations": {
+      "type": "structure",
+      "members": {
+        "original": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The locale code identifying the language the reply was originally written in.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A map of the reply text keyed by locale code. Backs the `ticket.admin.replied.translated` webhook topic. `original` holds the locale code the reply was written in; every other key holds the reply translated into that locale."
       }
     },
     "com.intercom.api#TicketPartUpdatedAttributeDataAttributeType": {
@@ -29792,7 +30589,10 @@
     "com.intercom.api#CustomObjectInstancesPaginatedListDataList": {
       "type": "list",
       "member": {
-        "target": "com.intercom.api#CustomObjectInstance"
+        "target": "com.intercom.api#CustomObjectInstance",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "An array of Custom Object Instance objects."
@@ -33091,7 +33891,10 @@
     "com.intercom.api#DataEventSummaryEventsList": {
       "type": "list",
       "member": {
-        "target": "com.intercom.api#DataEventSummaryItem"
+        "target": "com.intercom.api#DataEventSummaryItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "A summary of data events"
@@ -34581,7 +35384,10 @@
     "com.intercom.api#NewsItemLabelsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Label names displayed to users to categorize the news item."
@@ -34590,7 +35396,10 @@
     "com.intercom.api#NewsItemReactionsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Ordered list of emoji reactions to the news item. When empty, reactions are disabled."
@@ -34718,7 +35527,10 @@
     "com.intercom.api#CreateNewsItemRequestReactionsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Ordered list of emoji reactions to the news item. When empty, reactions are disabled."
@@ -34878,7 +35690,10 @@
     "com.intercom.api#UpdateNewsItemRequestReactionsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Ordered list of emoji reactions to the news item. When empty, reactions are disabled."
@@ -36728,7 +37543,10 @@
     "com.intercom.api#TicketStateDetailedTicketTypesDataList": {
       "type": "list",
       "member": {
-        "target": "com.intercom.api#TicketType2"
+        "target": "com.intercom.api#TicketType2",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "A list of ticket type attributes associated with a given ticket type."
@@ -36757,7 +37575,10 @@
     "com.intercom.api#TicketStateListDataList": {
       "type": "list",
       "member": {
-        "target": "com.intercom.api#TicketStateDetailed"
+        "target": "com.intercom.api#TicketStateDetailed",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "A list of ticket states associated with a given ticket type."
@@ -37050,7 +37871,10 @@
     "com.intercom.api#TicketTypeListDataList": {
       "type": "list",
       "member": {
-        "target": "com.intercom.api#TicketType2"
+        "target": "com.intercom.api#TicketType2",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "A list of ticket_types associated with a given workspace."
@@ -37358,6 +38182,13 @@
           "traits": {
             "smithy.api#documentation": "Whether or not the ticket part has been redacted."
           }
+        },
+        "translations": {
+          "target": "com.intercom.api#TicketReplyTranslations",
+          "traits": {
+            "smithy.api#documentation": "A map of the reply text keyed by locale code. Backs the `ticket.admin.replied.translated` webhook topic. `original` holds the locale code the reply was written in; every other key holds the reply translated into that locale.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
@@ -37411,6 +38242,21 @@
       },
       "traits": {
         "smithy.api#documentation": "A list of attachments for the part."
+      }
+    },
+    "com.intercom.api#TicketReplyTranslations": {
+      "type": "structure",
+      "members": {
+        "original": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The locale code identifying the language the reply was originally written in.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A map of the reply text keyed by locale code. Backs the `ticket.admin.replied.translated` webhook topic. `original` holds the locale code the reply was written in; every other key holds the reply translated into that locale."
       }
     },
     "com.intercom.api#ReplyTicket": {
@@ -38296,7 +39142,10 @@
     "com.intercom.api#TicketListTicketsList": {
       "type": "list",
       "member": {
-        "target": "com.intercom.api#Ticket"
+        "target": "com.intercom.api#Ticket",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "The list of ticket objects"
@@ -40012,6 +40861,18 @@
         },
         {
           "target": "com.intercom.api#SubmitFinCsat"
+        },
+        {
+          "target": "com.intercom.api#ListFinCapabilities"
+        },
+        {
+          "target": "com.intercom.api#AskFin"
+        },
+        {
+          "target": "com.intercom.api#RunFinProcedure"
+        },
+        {
+          "target": "com.intercom.api#EscalateFinConversation"
         },
         {
           "target": "com.intercom.api#ListHelpCenterRedirects"

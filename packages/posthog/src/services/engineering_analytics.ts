@@ -26,6 +26,461 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export interface EngineeringAnalyticsAttentionPullRequestsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
+  repo?: string;
+  /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source when the team has more than one. */
+  source_id?: string;
+}
+export const EngineeringAnalyticsAttentionPullRequestsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    repo: S.optional(S.String.pipe(T.Query())),
+    source_id: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/engineering_analytics/attention_pull_requests/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "EngineeringAnalyticsAttentionPullRequestsRequest",
+}) as any as S.Schema<EngineeringAnalyticsAttentionPullRequestsRequest>;
+
+export interface Author {
+  /** Login handle of the pull request author. */
+  handle: string;
+  /** Human-readable name; equals the handle in v1. */
+  display_name: string;
+  /** URL of the author's avatar image. */
+  avatar_url: string;
+  /** True if the author is a bot (handle ends in [bot] or is a known bot). */
+  is_bot: boolean;
+}
+export const Author = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    handle: S.String,
+    display_name: S.String,
+    avatar_url: S.String,
+    is_bot: S.Boolean,
+  }),
+).annotate({ identifier: "Author" }) as any as S.Schema<Author>;
+
+export interface RepoRef {
+  /** Code host provider, e.g. 'github'. */
+  provider: string;
+  /** Repository owner or organization. */
+  owner: string;
+  /** Repository name. */
+  name: string;
+}
+export const RepoRef = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provider: S.String,
+    owner: S.String,
+    name: S.String,
+  }),
+).annotate({ identifier: "RepoRef" }) as any as S.Schema<RepoRef>;
+
+/** The workflow names behind `failing`, sorted - names what is failing instead of leaving a bare count. */
+export type CIStatusRollupFailingWorkflowsList = Array<string>;
+export const CIStatusRollupFailingWorkflowsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CIStatusRollupFailingWorkflowsList>;
+
+export interface CIStatusRollup {
+  /** Distinct workflows run on the PR's head SHA. */
+  runs: number;
+  /** Latest runs that completed with conclusion 'success'. */
+  passing: number;
+  /** Latest runs that ended in failure, timeout, startup failure, or staleness. */
+  failing: number;
+  /** Latest runs not yet completed (queued or in progress). */
+  pending: number;
+  /** Latest runs that completed without a pass-or-fail verdict: cancelled, skipped, neutral, or action required. Together with the three counts above this covers every run, so a PR whose CI was entirely cancelled is not readable as passing. */
+  inconclusive: number;
+  /** The workflow names behind `failing`, sorted - names what is failing instead of leaving a bare count. */
+  failing_workflows?: CIStatusRollupFailingWorkflowsList;
+}
+export const CIStatusRollup = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    runs: S.Number,
+    passing: S.Number,
+    failing: S.Number,
+    pending: S.Number,
+    inconclusive: S.Number,
+    failing_workflows: S.optional(CIStatusRollupFailingWorkflowsList),
+  }),
+).annotate({ identifier: "CIStatusRollup" }) as any as S.Schema<CIStatusRollup>;
+
+export interface PushCISample {
+  /** Head commit SHA of this push (CI round). */
+  head_sha: string;
+  /** Earliest workflow-run start on this push. */
+  started_at: string;
+  /** Wall-clock CI seconds for this push: earliest run start to latest completed run end. Null while nothing has completed. */
+  wall_seconds: number | null;
+  /** True when any latest-per-workflow run on this push ended in a decisive failure. */
+  failed: boolean;
+  /** True when any latest-per-workflow run on this push hasn't completed yet. */
+  pending: boolean;
+}
+export const PushCISample = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    head_sha: S.String,
+    started_at: S.String,
+    wall_seconds: S.NullOr(S.Number),
+    failed: S.Boolean,
+    pending: S.Boolean,
+  }),
+).annotate({ identifier: "PushCISample" }) as any as S.Schema<PushCISample>;
+
+/** This PR's CI rounds oldest-first, capped to the most recent pushes - one sample per push for the push-history sparkline. `pushes` stays the uncapped count. */
+export type PullRequestListItemPushHistoryList = Array<PushCISample>;
+export const PullRequestListItemPushHistoryList = /*@__PURE__*/ S.Array(
+  PushCISample,
+) as any as S.Schema<PullRequestListItemPushHistoryList>;
+
+/** * `open` - OPEN * `closed` - CLOSED * `merged` - MERGED */
+export type EngineeringAnalyticsPRStateEnum = "open" | "closed" | "merged";
+export const EngineeringAnalyticsPRStateEnum = S.String;
+
+/** GitHub label names on the pull request. */
+export type PullRequestListItemLabelsList = Array<string>;
+export const PullRequestListItemLabelsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PullRequestListItemLabelsList>;
+
+export interface PullRequestListItem {
+  /** The pull request author. */
+  author: Author;
+  /** Repository the pull request belongs to. */
+  repo: RepoRef;
+  /** CI status from the latest workflow runs on the head SHA. */
+  ci: CIStatusRollup;
+  /** This PR's CI rounds oldest-first, capped to the most recent pushes - one sample per push for the push-history sparkline. `pushes` stays the uncapped count. */
+  push_history: PullRequestListItemPushHistoryList;
+  /** Pull request number within the repository. */
+  number: number;
+  /** Pull request title. */
+  title: string;
+  /** Derived state: 'open', 'closed', or 'merged'. * `open` - OPEN * `closed` - CLOSED * `merged` - MERGED */
+  state: EngineeringAnalyticsPRStateEnum;
+  /** True if the pull request is a draft. */
+  is_draft: boolean;
+  /** When the pull request was opened. */
+  created_at: string;
+  /** When the pull request was merged, or null. */
+  merged_at: string | null;
+  /** Coarse open-to-merge time in seconds (merged_at - created_at; fuses draft and ready-for-review time). Null until merged. */
+  open_to_merge_seconds: number | null;
+  /** True ready-to-merge cycle time in seconds: merged_at minus the last observed ready_for_review transition (only the last draft/ready switch counts), or minus created_at for a merged PR verifiably never drafted. Null when unmerged or not observed (the PR's life isn't fully inside the synced issue-event window) - null never means zero. */
+  ready_to_merge_seconds: number | null;
+  /** GitHub label names on the pull request. */
+  labels: PullRequestListItemLabelsList;
+  /** CI triggers attributed to this PR: distinct head SHAs across its workflow runs. Fork-PR runs are unattributed. */
+  pushes: number;
+  /** Workflow runs attributed to this PR that were a 2nd+ attempt (a re-run). */
+  rerun_cycles: number;
+  /** Estimated CI cost in USD summed over this PR's jobs (billable runners only). Null when nothing was costable or the job-level source isn't synced. */
+  estimated_cost_usd?: number | null;
+  /** Billable (self-hosted) minutes summed over this PR's jobs. Null when the job source isn't synced. */
+  billable_minutes?: number | null;
+}
+export const PullRequestListItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    author: Author,
+    repo: RepoRef,
+    ci: CIStatusRollup,
+    push_history: PullRequestListItemPushHistoryList,
+    number: S.Number,
+    title: S.String,
+    state: EngineeringAnalyticsPRStateEnum,
+    is_draft: S.Boolean,
+    created_at: S.String,
+    merged_at: S.NullOr(S.String),
+    open_to_merge_seconds: S.NullOr(S.Number),
+    ready_to_merge_seconds: S.NullOr(S.Number),
+    labels: PullRequestListItemLabelsList,
+    pushes: S.Number,
+    rerun_cycles: S.Number,
+    estimated_cost_usd: S.optional(S.NullOr(S.Number)),
+    billable_minutes: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({ identifier: "PullRequestListItem" }) as any as S.Schema<PullRequestListItem>;
+
+/** Open pull requests needing attention, failing CI first, then newest, capped at `limit`. */
+export type AttentionPullRequestListItemsList = Array<PullRequestListItem>;
+export const AttentionPullRequestListItemsList = /*@__PURE__*/ S.Array(
+  PullRequestListItem,
+) as any as S.Schema<AttentionPullRequestListItemsList>;
+
+export interface AttentionPullRequestList {
+  /** Open pull requests needing attention, failing CI first, then newest, capped at `limit`. */
+  items: AttentionPullRequestListItemsList;
+  /** Number of open pull requests needing attention, including the ones past the cap. */
+  total: number;
+  /** Maximum number of pull requests returned in `items`. */
+  limit: number;
+}
+export const AttentionPullRequestList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    items: AttentionPullRequestListItemsList,
+    total: S.Number,
+    limit: S.Number,
+  }),
+).annotate({ identifier: "AttentionPullRequestList" }) as any as S.Schema<AttentionPullRequestList>;
+
+export interface EngineeringAnalyticsAuthorFrictionRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** GitHub team slug: list only the team's members, through the team membership table. Ranks stay repository-wide. */
+  github_team?: string;
+  /** 'owner/name' repository, when the selected source syncs several. */
+  repo?: string;
+  /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source when the team has more than one. */
+  source_id?: string;
+}
+export const EngineeringAnalyticsAuthorFrictionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    github_team: S.optional(S.String.pipe(T.Query())),
+    repo: S.optional(S.String.pipe(T.Query())),
+    source_id: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/engineering_analytics/author_friction/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "EngineeringAnalyticsAuthorFrictionRequest",
+}) as any as S.Schema<EngineeringAnalyticsAuthorFrictionRequest>;
+
+/** * `ci` - CI * `review` - REVIEW * `queue` - QUEUE * `rework` - REWORK */
+export type FrictionGroupEnum = "ci" | "review" | "queue" | "rework";
+export const FrictionGroupEnum = S.String;
+
+export interface FrictionGroupShare {
+  /** ci (red CI and CI waits), review (waiting for the first approval), queue (merge-queue time and kickouts), or rework (own failures and extra pushes). * `ci` - CI * `review` - REVIEW * `queue` - QUEUE * `rework` - REWORK */
+  group: FrictionGroupEnum;
+  /** This group's part of the score, in the same 'x typical' unit. The parts add up. */
+  score: number;
+}
+export const FrictionGroupShare = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    group: FrictionGroupEnum,
+    score: S.Number,
+  }),
+).annotate({ identifier: "FrictionGroupShare" }) as any as S.Schema<FrictionGroupShare>;
+
+/** The score split by the kind of friction. */
+export type AuthorFrictionGroupsList = Array<FrictionGroupShare>;
+export const AuthorFrictionGroupsList = /*@__PURE__*/ S.Array(
+  FrictionGroupShare,
+) as any as S.Schema<AuthorFrictionGroupsList>;
+
+/** The author's GitHub teams. Empty when the membership table isn't synced. */
+export type AuthorFrictionTeamsList = Array<string>;
+export const AuthorFrictionTeamsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AuthorFrictionTeamsList>;
+
+export interface AuthorFriction {
+  /** The score split by the kind of friction. */
+  groups: AuthorFrictionGroupsList;
+  /** GitHub login. */
+  author: string;
+  /** The author's GitHub avatar, or empty when the pull requests carry none. */
+  avatar_url: string;
+  /** Friction as a multiple of the typical author: 1.0 is typical, 2.0 is twice as much. Counts only what happened to the author, never how much or how fast they ship. */
+  score: number;
+  /** The author's merged pull requests in the window. */
+  pr_count: number;
+  /** Position by friction in the repository, 1 is the most. */
+  rank: number;
+  /** Low end of the rank band: the 10th percentile rank over resamples of the author's pull requests, and never above rank. */
+  rank_low: number;
+  /** High end of the rank band: the 90th percentile rank over the same resamples, and never below rank. */
+  rank_high: number;
+  /** The author's GitHub teams. Empty when the membership table isn't synced. */
+  teams?: AuthorFrictionTeamsList;
+}
+export const AuthorFriction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    groups: AuthorFrictionGroupsList,
+    author: S.String,
+    avatar_url: S.String,
+    score: S.Number,
+    pr_count: S.Number,
+    rank: S.Number,
+    rank_low: S.Number,
+    rank_high: S.Number,
+    teams: S.optional(AuthorFrictionTeamsList),
+  }),
+).annotate({ identifier: "AuthorFriction" }) as any as S.Schema<AuthorFriction>;
+
+/** Authors by friction, most first. */
+export type AuthorFrictionListItemsList = Array<AuthorFriction>;
+export const AuthorFrictionListItemsList = /*@__PURE__*/ S.Array(
+  AuthorFriction,
+) as any as S.Schema<AuthorFrictionListItemsList>;
+
+export interface TeamFriction {
+  /** GitHub team slug. */
+  github_team: string;
+  /** The median friction of the team's scored members, in 'x typical' units. */
+  median_score: number;
+  /** Members with enough merged pull requests to score. A team shows only above a floor, so one or two people never read as a team's figure. */
+  scored_author_count: number;
+}
+export const TeamFriction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    github_team: S.String,
+    median_score: S.Number,
+    scored_author_count: S.Number,
+  }),
+).annotate({ identifier: "TeamFriction" }) as any as S.Schema<TeamFriction>;
+
+/** Teams with at least 3 scored members, by median member friction, most first. */
+export type AuthorFrictionListTeamsList = Array<TeamFriction>;
+export const AuthorFrictionListTeamsList = /*@__PURE__*/ S.Array(
+  TeamFriction,
+) as any as S.Schema<AuthorFrictionListTeamsList>;
+
+export interface AuthorFrictionList {
+  /** Authors by friction, most first. */
+  items: AuthorFrictionListItemsList;
+  /** Teams with at least 3 scored members, by median member friction, most first. */
+  teams: AuthorFrictionListTeamsList;
+  /** False when the per-PR friction view does not exist yet: it needs a GitHub source with workflow runs, workflow jobs and pull requests synced. */
+  available: boolean;
+  /** Pull requests merged in this many days before the view last refreshed. */
+  window_days: number;
+  /** Authors with at least 3 merged pull requests, all ranked together. A team list keeps these repository-wide ranks. */
+  ranked_author_count: number;
+  /** The team the list is filtered to, or null for every author. */
+  github_team: string | null;
+  /** False when the team membership table isn't synced, so a team filter matches nobody. */
+  has_membership_data: boolean;
+}
+export const AuthorFrictionList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    items: AuthorFrictionListItemsList,
+    teams: AuthorFrictionListTeamsList,
+    available: S.Boolean,
+    window_days: S.Number,
+    ranked_author_count: S.Number,
+    github_team: S.NullOr(S.String),
+    has_membership_data: S.Boolean,
+  }),
+).annotate({ identifier: "AuthorFrictionList" }) as any as S.Schema<AuthorFrictionList>;
+
+export interface EngineeringAnalyticsAuthorFrictionDetailRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** GitHub login of the author to show. */
+  author: string;
+  /** 'owner/name' repository, when the selected source syncs several. */
+  repo?: string;
+  /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source when the team has more than one. */
+  source_id?: string;
+}
+export const EngineeringAnalyticsAuthorFrictionDetailRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    author: S.String.pipe(T.Query()),
+    repo: S.optional(S.String.pipe(T.Query())),
+    source_id: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/engineering_analytics/author_friction_detail/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "EngineeringAnalyticsAuthorFrictionDetailRequest",
+}) as any as S.Schema<EngineeringAnalyticsAuthorFrictionDetailRequest>;
+
+/** The author's teams without the author, each only with at least 2 other scored members. */
+export type AuthorFrictionDetailTeamsList = Array<TeamFriction>;
+export const AuthorFrictionDetailTeamsList = /*@__PURE__*/ S.Array(
+  TeamFriction,
+) as any as S.Schema<AuthorFrictionDetailTeamsList>;
+
+/** The pull request's friction split by kind. */
+export type PullRequestFrictionItemGroupsList = Array<FrictionGroupShare>;
+export const PullRequestFrictionItemGroupsList = /*@__PURE__*/ S.Array(
+  FrictionGroupShare,
+) as any as S.Schema<PullRequestFrictionItemGroupsList>;
+
+export interface PullRequestFrictionItem {
+  /** The pull request's friction split by kind. */
+  groups: PullRequestFrictionItemGroupsList;
+  /** Pull request number. */
+  number: number;
+  /** Repository owner. */
+  repo_owner: string;
+  /** Repository name. */
+  repo_name: string;
+  /** Pull request title, empty when the snapshot has none. */
+  title: string;
+  /** Friction as a multiple of the typical pull request in the repository. */
+  score: number;
+}
+export const PullRequestFrictionItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    groups: PullRequestFrictionItemGroupsList,
+    number: S.Number,
+    repo_owner: S.String,
+    repo_name: S.String,
+    title: S.String,
+    score: S.Number,
+  }),
+).annotate({ identifier: "PullRequestFrictionItem" }) as any as S.Schema<PullRequestFrictionItem>;
+
+/** The author's pull requests that added the most friction, most first. */
+export type AuthorFrictionDetailPullRequestsList = Array<PullRequestFrictionItem>;
+export const AuthorFrictionDetailPullRequestsList = /*@__PURE__*/ S.Array(
+  PullRequestFrictionItem,
+) as any as S.Schema<AuthorFrictionDetailPullRequestsList>;
+
+export interface AuthorFrictionDetail {
+  /** The author's score and rank. Null below 3 merged pull requests in the window. */
+  author: AuthorFriction | null;
+  /** The author's teams without the author, each only with at least 2 other scored members. */
+  teams: AuthorFrictionDetailTeamsList;
+  /** The author's pull requests that added the most friction, most first. */
+  pull_requests: AuthorFrictionDetailPullRequestsList;
+  /** False when the per-PR friction view does not exist yet: it needs a GitHub source with workflow runs, workflow jobs and pull requests synced. */
+  available: boolean;
+  /** Pull requests merged in this many days before the view last refreshed. */
+  window_days: number;
+  /** Authors ranked in the repository: the denominator of rank. */
+  ranked_author_count: number;
+  /** False when the team membership table isn't synced. */
+  has_membership_data: boolean;
+  /** The author's merged pull requests in the window. */
+  pr_count: number;
+}
+export const AuthorFrictionDetail = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    author: S.NullOr(AuthorFriction),
+    teams: AuthorFrictionDetailTeamsList,
+    pull_requests: AuthorFrictionDetailPullRequestsList,
+    available: S.Boolean,
+    window_days: S.Number,
+    ranked_author_count: S.Number,
+    has_membership_data: S.Boolean,
+    pr_count: S.Number,
+  }),
+).annotate({ identifier: "AuthorFrictionDetail" }) as any as S.Schema<AuthorFrictionDetail>;
+
 export interface EngineeringAnalyticsAuthorWorkflowCostsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -121,6 +576,10 @@ export const EngineeringAnalyticsBrokenTestsRequest = /*@__PURE__*/ S.suspend(()
   identifier: "EngineeringAnalyticsBrokenTestsRequest",
 }) as any as S.Schema<EngineeringAnalyticsBrokenTestsRequest>;
 
+/** * `github_actions` - GitHub Actions * `depot_ci` - Depot CI */
+export type CIEngineEnum = "github_actions" | "depot_ci";
+export const CIEngineEnum = S.String;
+
 /** * `breaking_master` - BREAKING_MASTER * `blocking_merge_queue` - BLOCKING_MERGE_QUEUE * `novel_burst` - NOVEL_BURST * `potentially_resolved` - POTENTIALLY_RESOLVED * `flaky` - FLAKY * `pr_only` - PR_ONLY */
 export type BrokenTestRowStateEnum =
   | "breaking_master"
@@ -138,9 +597,11 @@ export const BrokenTestRowTrend24hList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<BrokenTestRowTrend24hList>;
 
 export interface BrokenTestRow {
+  /** CI execution engine; null when unknown. * `github_actions` - GitHub Actions * `depot_ci` - Depot CI */
+  latest_ci_engine?: CIEngineEnum | null;
   /** Stable identity of this distinct failure: the failing test's node id plus a normalized error signature, so the same failure across runs groups into one row. */
   fingerprint: string;
-  /** The pytest node id from the CI 'FAILED <id>' line — the failing test. */
+  /** The pytest node id from the CI 'FAILED <id>' line: the failing test. */
   test_id: string;
   /** The trailing failure detail with volatile bits (numbers, hashes) normalized, shared across runs of the same failure. Empty when the FAILED line carried no detail. */
   error_signature: string;
@@ -148,19 +609,19 @@ export interface BrokenTestRow {
   job_name: string;
   /** 'owner/name' repository the failure belongs to. */
   repo: string;
-  /** The classifier's verdict on how this failure is behaving right now: 'breaking_master' (failing on trunk, latest trunk run still red), 'blocking_merge_queue' (stopped a merge on a commit that already passed the PR's own CI, trunk still green), 'novel_burst' (new within a day and spreading across branches, not on trunk yet), 'potentially_resolved' (hit trunk but trunk is green again), 'flaky' (sporadic across branches over more than a day), or 'pr_only' (confined to one branch — one PR's own problem). * `breaking_master` - BREAKING_MASTER * `blocking_merge_queue` - BLOCKING_MERGE_QUEUE * `novel_burst` - NOVEL_BURST * `potentially_resolved` - POTENTIALLY_RESOLVED * `flaky` - FLAKY * `pr_only` - PR_ONLY */
+  /** The classifier's verdict on how this failure is behaving right now: 'breaking_master' (failing on trunk, latest trunk run still red), 'blocking_merge_queue' (stopped a merge on a commit that already passed the PR's own CI, trunk still green), 'novel_burst' (new within a day and spreading across branches, not on trunk yet), 'potentially_resolved' (hit trunk but trunk is green again), 'flaky' (sporadic across branches over more than a day), or 'pr_only' (confined to one branch: one PR's own problem). * `breaking_master` - BREAKING_MASTER * `blocking_merge_queue` - BLOCKING_MERGE_QUEUE * `novel_burst` - NOVEL_BURST * `potentially_resolved` - POTENTIALLY_RESOLVED * `flaky` - FLAKY * `pr_only` - PR_ONLY */
   state: BrokenTestRowStateEnum;
   /** Earliest failure line for this fingerprint in the analysis window. */
   first_seen: string;
   /** Most recent failure line for this fingerprint in the analysis window. */
   last_seen: string;
-  /** Total failure lines for this fingerprint in the window. An absolute count, never a rate — passing runs aren't in this data. */
+  /** Total failure lines for this fingerprint in the window. An absolute count, never a rate: passing runs aren't in this data. */
   occurrences: number;
   /** Distinct branches the failure appeared on in the window. */
   branches: number;
   /** Failure lines on the default branch (master/main). 0 means it never reached trunk. */
   master_hits: number;
-  /** The most recent failing workflow run for this fingerprint — pass it to run_failure_logs to fetch the actual failing log lines. */
+  /** The most recent failing workflow run for this fingerprint: pass it to run_failure_logs to fetch the actual failing log lines. */
   latest_run_id: number;
   /** The branch of the most recent failing run. */
   latest_branch: string;
@@ -169,6 +630,7 @@ export interface BrokenTestRow {
 }
 export const BrokenTestRow = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    latest_ci_engine: S.optional(S.NullOr(CIEngineEnum)),
     fingerprint: S.String,
     test_id: S.String,
     error_signature: S.String,
@@ -186,22 +648,22 @@ export const BrokenTestRow = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "BrokenTestRow" }) as any as S.Schema<BrokenTestRow>;
 
-/** Classified failures ranked by triage urgency — breaking trunk first, single-PR failures last. */
+/** Classified failures ranked by triage urgency: breaking trunk first, single-PR failures last. */
 export type BrokenTestsResultRowsList = Array<BrokenTestRow>;
 export const BrokenTestsResultRowsList = /*@__PURE__*/ S.Array(
   BrokenTestRow,
 ) as any as S.Schema<BrokenTestsResultRowsList>;
 
-/** Default-branch job names whose latest completed run is failing — the 'what's on fire right now' summary. Empty when the job-level source isn't synced or trunk is green. */
+/** Default-branch job names whose latest completed run is failing: the 'what's on fire right now' summary. Empty when the job-level source isn't synced or trunk is green. */
 export type BrokenTestsResultBreakingMasterJobsList = Array<string>;
 export const BrokenTestsResultBreakingMasterJobsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<BrokenTestsResultBreakingMasterJobsList>;
 
 export interface BrokenTestsResult {
-  /** Classified failures ranked by triage urgency — breaking trunk first, single-PR failures last. */
+  /** Classified failures ranked by triage urgency: breaking trunk first, single-PR failures last. */
   rows: BrokenTestsResultRowsList;
-  /** Default-branch job names whose latest completed run is failing — the 'what's on fire right now' summary. Empty when the job-level source isn't synced or trunk is green. */
+  /** Default-branch job names whose latest completed run is failing: the 'what's on fire right now' summary. Empty when the job-level source isn't synced or trunk is green. */
   breaking_master_jobs: BrokenTestsResultBreakingMasterJobsList;
   /** Length in days of the analysis window the counts cover. */
   window_days: number;
@@ -218,9 +680,7 @@ export const BrokenTestsResult = /*@__PURE__*/ S.suspend(() =>
     truncated: S.Boolean,
     limit: S.Number,
   }),
-).annotate({
-  identifier: "BrokenTestsResult",
-}) as any as S.Schema<BrokenTestsResult>;
+).annotate({ identifier: "BrokenTestsResult" }) as any as S.Schema<BrokenTestsResult>;
 
 export interface EngineeringAnalyticsCiCardsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -292,22 +752,6 @@ export const EngineeringAnalyticsCiFailureLogsRequest = /*@__PURE__*/ S.suspend(
   identifier: "EngineeringAnalyticsCiFailureLogsRequest",
 }) as any as S.Schema<EngineeringAnalyticsCiFailureLogsRequest>;
 
-export interface RepoRef {
-  /** Code host provider, e.g. 'github'. */
-  provider: string;
-  /** Repository owner or organization. */
-  owner: string;
-  /** Repository name. */
-  name: string;
-}
-export const RepoRef = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    provider: S.String,
-    owner: S.String,
-    name: S.String,
-  }),
-).annotate({ identifier: "RepoRef" }) as any as S.Schema<RepoRef>;
-
 export interface CIFailureLogLine {
   /** 1-based line number in the full pre-thinning job log, or null for a '... N lines omitted ...' marker. The gap between consecutive values is how many lines were elided. */
   original_line: number | null;
@@ -319,9 +763,7 @@ export const CIFailureLogLine = /*@__PURE__*/ S.suspend(() =>
     original_line: S.NullOr(S.Number),
     text: S.String,
   }),
-).annotate({
-  identifier: "CIFailureLogLine",
-}) as any as S.Schema<CIFailureLogLine>;
+).annotate({ identifier: "CIFailureLogLine" }) as any as S.Schema<CIFailureLogLine>;
 
 /** The thinned failure-log lines in original order, with omission markers. */
 export type CIJobFailureLogLinesList = Array<CIFailureLogLine>;
@@ -330,9 +772,11 @@ export const CIJobFailureLogLinesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CIJobFailureLogLinesList>;
 
 export interface CIJobFailureLog {
+  /** CI execution engine; null when unknown. * `github_actions` - GitHub Actions * `depot_ci` - Depot CI */
+  ci_engine?: CIEngineEnum | null;
   /** The thinned failure-log lines in original order, with omission markers. */
   lines: CIJobFailureLogLinesList;
-  /** GitHub Actions job id of the failed job. */
+  /** Integer job id of the failed job; unique only together with ci_engine. */
   job_id: number;
   /** Workflow run id the job belongs to. */
   run_id: number;
@@ -349,6 +793,7 @@ export interface CIJobFailureLog {
 }
 export const CIJobFailureLog = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    ci_engine: S.optional(S.NullOr(CIEngineEnum)),
     lines: CIJobFailureLogLinesList,
     job_id: S.Number,
     run_id: S.Number,
@@ -358,9 +803,7 @@ export const CIJobFailureLog = /*@__PURE__*/ S.suspend(() =>
     line_count: S.Number,
     truncated: S.Boolean,
   }),
-).annotate({
-  identifier: "CIJobFailureLog",
-}) as any as S.Schema<CIJobFailureLog>;
+).annotate({ identifier: "CIJobFailureLog" }) as any as S.Schema<CIJobFailureLog>;
 
 /** Failed CI jobs with their thinned failure logs, grouped by job. */
 export type CIFailureLogsJobsList = Array<CIJobFailureLog>;
@@ -377,7 +820,7 @@ export interface CIFailureLogs {
   pr_number: number;
   /** Workflow runs attributed to the PR (across all its pushes) that were searched for logs. */
   runs_attributed: number;
-  /** False when no failure logs were found — CI hasn't failed, the logs aged out of the short Logs retention, or a fork PR carries no run association to resolve. */
+  /** False when no failure logs were found: CI hasn't failed, the logs aged out of the short Logs retention, or a fork PR carries no run association to resolve. */
   logs_available: boolean;
   /** True when the overall line cap across all jobs was hit. */
   truncated: boolean;
@@ -440,9 +883,362 @@ export const CurrentBranchHealth = /*@__PURE__*/ S.suspend(() =>
     failing_workflows: S.Number,
     failing_workflow_names: CurrentBranchHealthFailingWorkflowNamesList,
   }),
+).annotate({ identifier: "CurrentBranchHealth" }) as any as S.Schema<CurrentBranchHealth>;
+
+export interface EngineeringAnalyticsDeliveryComparisonRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** GitHub login of the author to compare with their team and the repository. */
+  author: string;
+  /** Window start: relative ('-30d', '-8w') or ISO8601. Defaults to -30d. */
+  date_from?: string;
+  /** Window end: relative or ISO8601. Defaults to now. */
+  date_to?: string;
+  /** A pull request by the author. Needs repo. A team of the author's that this pull request asked to review is the team to compare with, and the pull request stays out of the medians. */
+  pr_number?: number;
+  /** 'owner/name' repository. Required with pr_number; otherwise it picks the repository when the selected source syncs several. */
+  repo?: string;
+  /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source when the team has more than one. */
+  source_id?: string;
+}
+export const EngineeringAnalyticsDeliveryComparisonRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    author: S.String.pipe(T.Query()),
+    date_from: S.optional(S.String.pipe(T.Query())),
+    date_to: S.optional(S.String.pipe(T.Query())),
+    pr_number: S.optional(S.Number.pipe(T.Query())),
+    repo: S.optional(S.String.pipe(T.Query())),
+    source_id: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/engineering_analytics/delivery_comparison/",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "CurrentBranchHealth",
-}) as any as S.Schema<CurrentBranchHealth>;
+  identifier: "EngineeringAnalyticsDeliveryComparisonRequest",
+}) as any as S.Schema<EngineeringAnalyticsDeliveryComparisonRequest>;
+
+export interface ReadyToMergeMedians {
+  /** Pull requests merged in the window, bots and drafts excluded. */
+  merged_pr_count: number;
+  /** Median seconds from the last ready_for_review to merge. Null when nothing was measured. */
+  ready_to_merge_seconds: number | null;
+  /** 90th percentile of the ready-to-merge seconds. */
+  p90_ready_to_merge_seconds: number | null;
+  /** Median seconds from ready to the first approval, over the pull requests with an approval. Null when nothing was measured. */
+  ready_to_first_approval_seconds: number | null;
+  /** Median seconds from the first approval to merge. The two approval medians do not add up to the ready-to-merge median. */
+  first_approval_to_merge_seconds: number | null;
+  /** Share (0 to 1) of all ready-to-merge hours spent before the first approval, summed over the pull requests, so long pull requests weigh more. */
+  before_first_approval_share: number | null;
+}
+export const ReadyToMergeMedians = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    merged_pr_count: S.Number,
+    ready_to_merge_seconds: S.NullOr(S.Number),
+    p90_ready_to_merge_seconds: S.NullOr(S.Number),
+    ready_to_first_approval_seconds: S.NullOr(S.Number),
+    first_approval_to_merge_seconds: S.NullOr(S.Number),
+    before_first_approval_share: S.NullOr(S.Number),
+  }),
+).annotate({ identifier: "ReadyToMergeMedians" }) as any as S.Schema<ReadyToMergeMedians>;
+
+export interface TeamReadyToMergeMedians {
+  /** Over the pull requests by the team's members, the same population as a github_team scope, without the pr_number pull request. Null when fewer than three other authors contribute a ready time, because the author could read a teammate's value back from the median. The approval medians are null on the same terms for approvals. */
+  medians: ReadyToMergeMedians | null;
+  /** The GitHub team slug. */
+  github_team: string;
+}
+export const TeamReadyToMergeMedians = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    medians: S.NullOr(ReadyToMergeMedians),
+    github_team: S.String,
+  }),
+).annotate({ identifier: "TeamReadyToMergeMedians" }) as any as S.Schema<TeamReadyToMergeMedians>;
+
+/** The author's teams that team_basis picked, sorted by slug. Empty for no_team. */
+export type DeliveryComparisonTeamsList = Array<TeamReadyToMergeMedians>;
+export const DeliveryComparisonTeamsList = /*@__PURE__*/ S.Array(
+  TeamReadyToMergeMedians,
+) as any as S.Schema<DeliveryComparisonTeamsList>;
+
+export interface PullRequestReadyToMerge {
+  /** The pull request number. */
+  number: number;
+  /** Seconds from the last ready_for_review to merge. Null when not observed. */
+  ready_to_merge_seconds: number | null;
+  /** Seconds from ready to the first approval. Null without an approval or review data. */
+  ready_to_first_approval_seconds: number | null;
+  /** Seconds from the first approval to merge. Null without an approval or review data. */
+  first_approval_to_merge_seconds: number | null;
+  /** Share (0 to 1) of the ready-to-merge time spent before the first approval. */
+  before_first_approval_share: number | null;
+}
+export const PullRequestReadyToMerge = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    number: S.Number,
+    ready_to_merge_seconds: S.NullOr(S.Number),
+    ready_to_first_approval_seconds: S.NullOr(S.Number),
+    first_approval_to_merge_seconds: S.NullOr(S.Number),
+    before_first_approval_share: S.NullOr(S.Number),
+  }),
+).annotate({ identifier: "PullRequestReadyToMerge" }) as any as S.Schema<PullRequestReadyToMerge>;
+
+/** * `pull_request` - PULL_REQUEST * `review_requests` - REVIEW_REQUESTS * `only_team` - ONLY_TEAM * `all_teams` - ALL_TEAMS * `no_team` - NO_TEAM */
+export type TeamBasisEnum =
+  | "pull_request"
+  | "review_requests"
+  | "only_team"
+  | "all_teams"
+  | "no_team";
+export const TeamBasisEnum = S.String;
+
+export interface DeliveryComparison {
+  /** Over the author's pull requests, without the pr_number pull request. */
+  author_medians: ReadyToMergeMedians;
+  /** The author's teams that team_basis picked, sorted by slug. Empty for no_team. */
+  teams: DeliveryComparisonTeamsList;
+  /** Over every non-bot pull request in the repository, the author's included and the pr_number pull request left out. */
+  repo_medians: ReadyToMergeMedians;
+  /** The pr_number pull request measured the same way, when it merged in the window. Null otherwise. */
+  pull_request: PullRequestReadyToMerge | null;
+  /** The GitHub login the comparison is for. */
+  author: string;
+  /** True when the team membership table is synced. Without it, team_basis is no_team. */
+  has_membership_data: boolean;
+  /** False when reviews aren't synced: the approval medians are then null. */
+  review_data_available: boolean;
+  /** False when issue events aren't synced: the ready-to-merge medians are then null. */
+  ready_data_available: boolean;
+  /** How the teams were picked from the author's teams that own code: pull_request (the pr_number asked the team to review); review_requests (the team the author's pull requests asked to review most often in the window, with ties kept); only_team (the author is in one team); all_teams (no review request points at one team); no_team (no team, or no membership data). * `pull_request` - PULL_REQUEST * `review_requests` - REVIEW_REQUESTS * `only_team` - ONLY_TEAM * `all_teams` - ALL_TEAMS * `no_team` - NO_TEAM */
+  team_basis: TeamBasisEnum;
+}
+export const DeliveryComparison = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    author_medians: ReadyToMergeMedians,
+    teams: DeliveryComparisonTeamsList,
+    repo_medians: ReadyToMergeMedians,
+    pull_request: S.NullOr(PullRequestReadyToMerge),
+    author: S.String,
+    has_membership_data: S.Boolean,
+    review_data_available: S.Boolean,
+    ready_data_available: S.Boolean,
+    team_basis: TeamBasisEnum,
+  }),
+).annotate({ identifier: "DeliveryComparison" }) as any as S.Schema<DeliveryComparison>;
+
+export interface EngineeringAnalyticsDeliverySummaryRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** GitHub login: scope the read to this author's pull requests. Pass exactly one scope. */
+  author?: string;
+  /** Window start: relative ('-30d', '-8w') or ISO8601. Defaults to -30d. */
+  date_from?: string;
+  /** Window end: relative or ISO8601. Defaults to now. */
+  date_to?: string;
+  /** GitHub team slug: scope the read to pull requests authored by the team's members, through the team membership table. Pass exactly one scope. */
+  github_team?: string;
+  /** 'owner/name' repository. Required with pr_number; otherwise it picks the repository when the selected source syncs several. */
+  repo?: string;
+  /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source when the team has more than one. */
+  source_id?: string;
+}
+export const EngineeringAnalyticsDeliverySummaryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    author: S.optional(S.String.pipe(T.Query())),
+    date_from: S.optional(S.String.pipe(T.Query())),
+    date_to: S.optional(S.String.pipe(T.Query())),
+    github_team: S.optional(S.String.pipe(T.Query())),
+    repo: S.optional(S.String.pipe(T.Query())),
+    source_id: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/engineering_analytics/delivery_summary/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "EngineeringAnalyticsDeliverySummaryRequest",
+}) as any as S.Schema<EngineeringAnalyticsDeliverySummaryRequest>;
+
+export interface ScopeRepoFigure {
+  /** The figure over the pull requests in scope. Null when the scope has nothing to measure. */
+  scope: number | null;
+  /** The same figure over every non-bot pull request in the repository, the scope included. Null when the repository has nothing to measure. */
+  repo: number | null;
+}
+export const ScopeRepoFigure = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scope: S.NullOr(S.Number),
+    repo: S.NullOr(S.Number),
+  }),
+).annotate({ identifier: "ScopeRepoFigure" }) as any as S.Schema<ScopeRepoFigure>;
+
+export interface DurationDistribution {
+  /** Pull requests in the distribution. Every statistic is null when this is 0. */
+  pr_count: number;
+  /** Fastest duration, in seconds. */
+  min_seconds: number | null;
+  /** 5th percentile, in seconds: the lower whisker. */
+  p05_seconds: number | null;
+  /** 25th percentile, in seconds: the box's lower edge. */
+  p25_seconds: number | null;
+  /** Median, in seconds. */
+  p50_seconds: number | null;
+  /** Mean, in seconds. */
+  mean_seconds: number | null;
+  /** 75th percentile, in seconds: the box's upper edge. */
+  p75_seconds: number | null;
+  /** 95th percentile, in seconds: the upper whisker. */
+  p95_seconds: number | null;
+  /** Slowest duration, in seconds. */
+  max_seconds: number | null;
+}
+export const DurationDistribution = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pr_count: S.Number,
+    min_seconds: S.NullOr(S.Number),
+    p05_seconds: S.NullOr(S.Number),
+    p25_seconds: S.NullOr(S.Number),
+    p50_seconds: S.NullOr(S.Number),
+    mean_seconds: S.NullOr(S.Number),
+    p75_seconds: S.NullOr(S.Number),
+    p95_seconds: S.NullOr(S.Number),
+    max_seconds: S.NullOr(S.Number),
+  }),
+).annotate({ identifier: "DurationDistribution" }) as any as S.Schema<DurationDistribution>;
+
+export interface ScopeRepoDistribution {
+  /** The deployed pull requests in scope. */
+  scope: DurationDistribution;
+  /** Every deployed pull request in the repository. */
+  repo: DurationDistribution;
+}
+export const ScopeRepoDistribution = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scope: DurationDistribution,
+    repo: DurationDistribution,
+  }),
+).annotate({ identifier: "ScopeRepoDistribution" }) as any as S.Schema<ScopeRepoDistribution>;
+
+export interface DeliveryLeadTime {
+  /** Open to the first successful deploy containing the merge, over PRs deployed in the window. */
+  open_to_deploy: ScopeRepoDistribution;
+  /** Open to merge over the same deployed PRs, so it composes with merge_to_deploy. Includes draft time. */
+  open_to_merge: ScopeRepoDistribution;
+  /** Merge to deploy over the same deployed PRs. */
+  merge_to_deploy: ScopeRepoDistribution;
+  /** False when the deployments and deployment statuses tables aren't synced. The distributions are then empty. */
+  deploy_data_available: boolean;
+  /** The deploy environments lead time was scoped to: production by default. Empty when deploy data is not available. */
+  environment_scope: string;
+  /** PRs in scope merged in the window (bots and drafts excluded). */
+  merged_pr_count: number;
+  /** Of merged_pr_count, the PRs whose first successful in-scope deployment was observed by the window end. The rest are still waiting for a deploy or fall outside the scan. */
+  deployed_merged_pr_count: number;
+}
+export const DeliveryLeadTime = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    open_to_deploy: ScopeRepoDistribution,
+    open_to_merge: ScopeRepoDistribution,
+    merge_to_deploy: ScopeRepoDistribution,
+    deploy_data_available: S.Boolean,
+    environment_scope: S.String,
+    merged_pr_count: S.Number,
+    deployed_merged_pr_count: S.Number,
+  }),
+).annotate({ identifier: "DeliveryLeadTime" }) as any as S.Schema<DeliveryLeadTime>;
+
+/** * `author` - AUTHOR * `github_team` - GITHUB_TEAM * `pull_request` - PULL_REQUEST */
+export type DeliveryScopeKindEnum = "author" | "github_team" | "pull_request";
+export const DeliveryScopeKindEnum = S.String;
+
+export interface DeliverySummary {
+  /** Median estimated CI cost per merged PR, in USD, over every run linked to the PR (merge-queue gate runs included) that started up to 30 days before the window. Null when the jobs table isn't synced. */
+  cost_per_merged_pr_usd: ScopeRepoFigure;
+  /** Median billable runner minutes per merged PR, on the billed clock. Null when the jobs table isn't synced. */
+  billable_minutes_per_merged_pr: ScopeRepoFigure;
+  /** Total CI cost divided by total pushes over the merged PRs: the price of one iteration. A push is a distinct head commit that triggered CI. */
+  cost_per_push_usd: ScopeRepoFigure;
+  /** Median seconds from the last ready_for_review to merge. Null when issue events aren't synced. */
+  median_ready_to_merge_seconds: ScopeRepoFigure;
+  /** 90th percentile of the ready-to-merge seconds. */
+  p90_ready_to_merge_seconds: ScopeRepoFigure;
+  /** Median seconds from ready to the first approval. An approval given while the PR was a draft counts as 0. PRs merged without an approval are left out. Null when reviews aren't synced. */
+  median_ready_to_first_approval_seconds: ScopeRepoFigure;
+  /** Median seconds from the first approval to merge. This median and the one before it do not add up to the ready-to-merge median. */
+  median_first_approval_to_merge_seconds: ScopeRepoFigure;
+  /** Share (0 to 1) of all ready-to-merge hours spent before the first approval, summed over the PRs, so long PRs weigh more. The rest came after the approval. */
+  before_first_approval_share: ScopeRepoFigure;
+  /** Mean pushes after the first approval per merged PR, over PRs with an approval. */
+  pushes_after_approval_per_merged_pr: ScopeRepoFigure;
+  /** Mean merge-queue gate attempts per merged PR that went through the queue. A bisection probe folds into its attempt. */
+  merge_queue_attempts_per_merged_pr: ScopeRepoFigure;
+  /** Share (0 to 1) of queue-landed merged PRs with at least one failed gate attempt. A failure caused by another PR ahead in the queue also counts, because the queue history is not in the warehouse. */
+  failed_merge_queue_share: ScopeRepoFigure;
+  /** Lead time to deploy for the scope against the repository. */
+  lead_time: DeliveryLeadTime;
+  /** What the read covers: 'author' (one GitHub login), 'github_team' (the members of one GitHub team, through the team membership table), or 'pull_request' (one pull request). * `author` - AUTHOR * `github_team` - GITHUB_TEAM * `pull_request` - PULL_REQUEST */
+  scope_kind: DeliveryScopeKindEnum;
+  /** The GitHub login or GitHub team slug the summary is for. */
+  scope: string;
+  /** True when the team membership table is synced. A github_team scope without it matches no pull requests, so every scope figure is empty rather than the whole repository. */
+  has_membership_data: boolean;
+  /** True when the workflow jobs table is synced, which cost needs. */
+  jobs_available: boolean;
+  /** True when the reviews table is synced, which the approval split needs. */
+  review_data_available: boolean;
+  /** True when issue events are synced, which ready-to-merge time needs. */
+  ready_data_available: boolean;
+  /** PRs in scope opened in the window, drafts included, bots excluded. */
+  opened_pr_count: number;
+  /** PRs in scope merged in the window (bots and drafts excluded): the population of every per-merged-PR figure. */
+  merged_pr_count: number;
+  /** PRs in scope that are open and not drafts right now. Ignores the window. */
+  open_pr_count: number;
+  /** PRs in scope that are open drafts right now. Ignores the window. */
+  draft_pr_count: number;
+  /** Estimated CI cost summed over the merged PRs in scope. Null when nothing was costable. */
+  total_cost_usd: number | null;
+  /** Billable minutes summed over the merged PRs in scope. Null when the jobs table isn't synced. */
+  total_billable_minutes: number | null;
+  /** Pushes summed over the merged PRs in scope. */
+  push_count: number;
+}
+export const DeliverySummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cost_per_merged_pr_usd: ScopeRepoFigure,
+    billable_minutes_per_merged_pr: ScopeRepoFigure,
+    cost_per_push_usd: ScopeRepoFigure,
+    median_ready_to_merge_seconds: ScopeRepoFigure,
+    p90_ready_to_merge_seconds: ScopeRepoFigure,
+    median_ready_to_first_approval_seconds: ScopeRepoFigure,
+    median_first_approval_to_merge_seconds: ScopeRepoFigure,
+    before_first_approval_share: ScopeRepoFigure,
+    pushes_after_approval_per_merged_pr: ScopeRepoFigure,
+    merge_queue_attempts_per_merged_pr: ScopeRepoFigure,
+    failed_merge_queue_share: ScopeRepoFigure,
+    lead_time: DeliveryLeadTime,
+    scope_kind: DeliveryScopeKindEnum,
+    scope: S.String,
+    has_membership_data: S.Boolean,
+    jobs_available: S.Boolean,
+    review_data_available: S.Boolean,
+    ready_data_available: S.Boolean,
+    opened_pr_count: S.Number,
+    merged_pr_count: S.Number,
+    open_pr_count: S.Number,
+    draft_pr_count: S.Number,
+    total_cost_usd: S.NullOr(S.Number),
+    total_billable_minutes: S.NullOr(S.Number),
+    push_count: S.Number,
+  }),
+).annotate({ identifier: "DeliverySummary" }) as any as S.Schema<DeliverySummary>;
 
 export type EngineeringAnalyticsDoraRequestEnvironmentList = Array<string>;
 export const EngineeringAnalyticsDoraRequestEnvironmentList = /*@__PURE__*/ S.Array(
@@ -459,7 +1255,7 @@ export interface EngineeringAnalyticsDoraRequest {
   date_from?: string;
   /** Window end: relative or ISO8601. Defaults to now. */
   date_to?: string;
-  /** Deploy environment(s) to scope to, repeatable (from the response's `environments` list). Omit to scope to the busiest environment GitHub marks production, falling back to the busiest persistent (non-transient) environment when none are marked production. */
+  /** Deploy environment(s) to scope to, repeatable (from the response's `environments` list). Omit to include all persistent environments marked production or named prod/production (including regional suffixes), falling back to the busiest persistent environment when none match. Explicit names are trimmed, deduplicated, and validated against the source, including transient environments. Blank or unknown names are rejected with a 400 response. */
   environment?: EngineeringAnalyticsDoraRequestEnvironmentList;
   /** GitHub team slug (from the response's `github_teams` list) to narrow the PR-scoped merge-to-deploy figures to that team's authors. Deploy counts stay repo-wide. Needs the team-membership snapshot synced; without it the merge-to-deploy figures return empty rather than silently unfiltered. */
   github_team?: string;
@@ -519,7 +1315,7 @@ export interface LeadTimeBucket {
   deployed_pr_count: number;
   /** Fastest duration for this stage in this bucket, in seconds. Null when nothing deployed. */
   min_seconds: number | null;
-  /** 5th percentile of the stage's duration, in seconds — the lower whisker when outliers are excluded. Null when nothing deployed. */
+  /** 5th percentile of the stage's duration, in seconds: the lower whisker when outliers are excluded. Null when nothing deployed. */
   p05_seconds: number | null;
   /** 25th percentile of the stage's duration, in seconds. Null when nothing deployed. */
   p25_seconds: number | null;
@@ -529,7 +1325,7 @@ export interface LeadTimeBucket {
   mean_seconds: number | null;
   /** 75th percentile of the stage's duration, in seconds. Null when nothing deployed. */
   p75_seconds: number | null;
-  /** 95th percentile of the stage's duration, in seconds — the upper whisker when outliers are excluded. Null when nothing deployed. */
+  /** 95th percentile of the stage's duration, in seconds: the upper whisker when outliers are excluded. Null when nothing deployed. */
   p95_seconds: number | null;
   /** Slowest duration for this stage in this bucket, in seconds. Null when nothing deployed. */
   max_seconds: number | null;
@@ -549,7 +1345,7 @@ export const LeadTimeBucket = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "LeadTimeBucket" }) as any as S.Schema<LeadTimeBucket>;
 
-/** Merge-to-deploy distribution per bucket across the window, oldest first — the box-plot series (min/p5/p25/p50/mean/p75/p95/max seconds per bucket). Empty when the deploy tables aren't synced, or when github_team was passed without membership data synced. */
+/** Merge-to-deploy distribution per bucket across the window, oldest first: the box-plot series (min/p5/p25/p50/mean/p75/p95/max seconds per bucket). Empty when the deploy tables aren't synced, or when github_team was passed without membership data synced. */
 export type DoraOverviewMergeToDeploySeriesList = Array<LeadTimeBucket>;
 export const DoraOverviewMergeToDeploySeriesList = /*@__PURE__*/ S.Array(
   LeadTimeBucket,
@@ -567,13 +1363,19 @@ export const DoraOverviewOpenToDeploySeriesList = /*@__PURE__*/ S.Array(
   LeadTimeBucket,
 ) as any as S.Schema<DoraOverviewOpenToDeploySeriesList>;
 
-/** Distinct persistent environments deployed to in the scan window, most-deployed first — the environment picker's options. Transient environments are omitted but stay reachable by exact name. */
+/** Distinct persistent environments from the metric scan window or the 30 days before its end, whichever starts earlier, most-deployed first. Transient environments are omitted. */
 export type DoraOverviewEnvironmentsList = Array<string>;
 export const DoraOverviewEnvironmentsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<DoraOverviewEnvironmentsList>;
 
-/** Distinct GitHub team slugs from the membership snapshot, sorted — the team picker's options. Empty when membership isn't synced. */
+/** Exact environment names used for these metrics. Defaults to all persistent environments marked production or named prod/production (including regional suffixes), falling back to the busiest persistent environment. Explicit filters are trimmed and deduplicated. DRF rejects blank or unknown names; real transient names are allowed. */
+export type DoraOverviewSelectedEnvironmentsList = Array<string>;
+export const DoraOverviewSelectedEnvironmentsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<DoraOverviewSelectedEnvironmentsList>;
+
+/** Distinct GitHub team slugs from the membership snapshot, sorted: the team picker's options. Empty when membership isn't synced. */
 export type DoraOverviewGithubTeamsList = Array<string>;
 export const DoraOverviewGithubTeamsList = /*@__PURE__*/ S.Array(
   S.String,
@@ -582,7 +1384,7 @@ export const DoraOverviewGithubTeamsList = /*@__PURE__*/ S.Array(
 export interface DoraOverview {
   /** Successful deployments per bucket across the window, oldest first, zero-filled, bucketed by series_granularity. Empty when the deploy tables aren't synced. */
   deployment_frequency_series: DoraOverviewDeploymentFrequencySeriesList;
-  /** Merge-to-deploy distribution per bucket across the window, oldest first — the box-plot series (min/p5/p25/p50/mean/p75/p95/max seconds per bucket). Empty when the deploy tables aren't synced, or when github_team was passed without membership data synced. */
+  /** Merge-to-deploy distribution per bucket across the window, oldest first: the box-plot series (min/p5/p25/p50/mean/p75/p95/max seconds per bucket). Empty when the deploy tables aren't synced, or when github_team was passed without membership data synced. */
   merge_to_deploy_series: DoraOverviewMergeToDeploySeriesList;
   /** Open-to-merge distribution over the SAME deployed PRs and buckets as merge_to_deploy_series, so the two stages compare bucket by bucket. Not the all-merged-PRs cycle time. Empty in the same cases as merge_to_deploy_series. */
   open_to_merge_series: DoraOverviewOpenToMergeSeriesList;
@@ -590,13 +1392,15 @@ export interface DoraOverview {
   open_to_deploy_series: DoraOverviewOpenToDeploySeriesList;
   /** False when the deployments/deployment_statuses tables aren't synced for the selected repo; every other field is then empty or null, never a fake zero. */
   deploy_data_available: boolean;
-  /** What the environment filter resolved to: the exact environment name(s) it matches (the caller's picks, comma-joined when several; by default the busiest production-marked environment, falling back to the busiest persistent one), or 'persistent' (no persistent environment deployed in the window, so every non-transient one counts). Transient environments (ephemeral per-PR previews) never join a default scope. The scope resolves from deployments in the scan window, so two different windows can resolve different scopes and are not always comparable. */
+  /** Display label for the selected environments, comma-separated, 'persistent' when no persistent environments were discovered. Use selected_environments for exact names. */
   environment_scope: string;
-  /** Distinct persistent environments deployed to in the scan window, most-deployed first — the environment picker's options. Transient environments are omitted but stay reachable by exact name. */
+  /** Distinct persistent environments from the metric scan window or the 30 days before its end, whichever starts earlier, most-deployed first. Transient environments are omitted. */
   environments: DoraOverviewEnvironmentsList;
+  /** Exact environment names used for these metrics. Defaults to all persistent environments marked production or named prod/production (including regional suffixes), falling back to the busiest persistent environment. Explicit filters are trimmed and deduplicated. DRF rejects blank or unknown names; real transient names are allowed. */
+  selected_environments: DoraOverviewSelectedEnvironmentsList;
   /** True when the optional team-membership snapshot is synced. When false, a github_team filter cannot be honored and the merge-to-deploy figures go empty rather than silently unfiltered. */
   has_membership_data: boolean;
-  /** Distinct GitHub team slugs from the membership snapshot, sorted — the team picker's options. Empty when membership isn't synced. */
+  /** Distinct GitHub team slugs from the membership snapshot, sorted: the team picker's options. Empty when membership isn't synced. */
   github_teams: DoraOverviewGithubTeamsList;
   /** Deployments whose first success status landed in the window, within the environment scope. */
   deployment_count: number;
@@ -610,11 +1414,11 @@ export interface DoraOverview {
   median_merge_to_deploy_seconds: number | null;
   /** Previous-window twin of median_merge_to_deploy_seconds. */
   median_merge_to_deploy_seconds_prev: number | null;
-  /** Median seconds from a PR's open to the first successful deployment containing it — the full open-to-deploy lead time over the same deployed-PR population as median_merge_to_deploy_seconds. Null when nothing deployed in the window. */
+  /** Median seconds from a PR's open to the first successful deployment containing it: the full open-to-deploy lead time over the same deployed-PR population as median_merge_to_deploy_seconds. Null when nothing deployed in the window. */
   median_open_to_deploy_seconds: number | null;
   /** Previous-window twin of median_open_to_deploy_seconds. */
   median_open_to_deploy_seconds_prev: number | null;
-  /** PRs first deployed in the window — the population behind the merge-to-deploy median and box plot. */
+  /** PRs first deployed in the window: the population behind the merge-to-deploy median and box plot. */
   deployed_pr_count: number;
   /** Previous-window twin of deployed_pr_count. */
   deployed_pr_count_prev: number;
@@ -630,11 +1434,11 @@ export interface DoraOverview {
   median_failed_deploy_to_next_success_seconds: number | null;
   /** Previous-window twin of median_failed_deploy_to_next_success_seconds. */
   median_failed_deploy_to_next_success_seconds_prev: number | null;
-  /** PRs merged in the window (bots and drafts excluded; narrowed by github_team when given) — the denominator behind unattributed_merged_pr_share. */
+  /** PRs merged in the window (bots and drafts excluded; narrowed by github_team when given): the denominator behind unattributed_merged_pr_share. */
   merged_pr_count: number;
   /** Share of merged_pr_count no successful in-scope deployment attributed: recent merges still waiting for their deploy, plus merges whose deploy the scope or scan bounds miss. Null when nothing merged in the window. */
   unattributed_merged_pr_share: number | null;
-  /** The newest deployment status row synced, any environment — how fresh the deploy data is. Windows ending after this instant undercount. Null when the deploy tables are empty. */
+  /** The newest deployment status row synced, any environment: how fresh the deploy data is. Windows ending after this instant undercount. Null when the deploy tables are empty. */
   latest_deploy_status_at: string | null;
   /** Bucket width of every series: the granularity param when given, else chosen to fit the window: 'hour', 'day', or 'week'. */
   series_granularity: string;
@@ -648,6 +1452,7 @@ export const DoraOverview = /*@__PURE__*/ S.suspend(() =>
     deploy_data_available: S.Boolean,
     environment_scope: S.String,
     environments: DoraOverviewEnvironmentsList,
+    selected_environments: DoraOverviewSelectedEnvironmentsList,
     has_membership_data: S.Boolean,
     github_teams: DoraOverviewGithubTeamsList,
     deployment_count: S.Number,
@@ -763,14 +1568,14 @@ export const FlakyTestItem = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "FlakyTestItem" }) as any as S.Schema<FlakyTestItem>;
 
-/** Tests worth acting on now, ranked by blast radius: master failures, then PRs hit, then runs. */
+/** Tests worth acting on now, ranked by blast radius: master failures, then PRs hit, then runs. A CI setup break (a run attempt whose tests errored in 3 or more jobs or for 3 or more owning teams, or a job attempt with 100 or more distinct failed or errored tests) excludes every trial of that attempt, not only its failures. */
 export type FlakyTestListItemsList = Array<FlakyTestItem>;
 export const FlakyTestListItemsList = /*@__PURE__*/ S.Array(
   FlakyTestItem,
 ) as any as S.Schema<FlakyTestListItemsList>;
 
 export interface FlakyTestList {
-  /** Tests worth acting on now, ranked by blast radius: master failures, then PRs hit, then runs. */
+  /** Tests worth acting on now, ranked by blast radius: master failures, then PRs hit, then runs. A CI setup break (a run attempt whose tests errored in 3 or more jobs or for 3 or more owning teams, or a job attempt with 100 or more distinct failed or errored tests) excludes every trial of that attempt, not only its failures. */
   items: FlakyTestListItemsList;
   /** True when more tests qualified than the cap; `items` is the highest-ranked `limit` rows. */
   truncated: boolean;
@@ -785,6 +1590,13 @@ export const FlakyTestList = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "FlakyTestList" }) as any as S.Schema<FlakyTestList>;
 
+export type EngineeringAnalyticsJobAggregatesRequestRunScope =
+  | "all"
+  | "default_branch"
+  | "merge_queue"
+  | "pull_request";
+export const EngineeringAnalyticsJobAggregatesRequestRunScope = S.String;
+
 export interface EngineeringAnalyticsJobAggregatesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -796,6 +1608,8 @@ export interface EngineeringAnalyticsJobAggregatesRequest {
   date_to?: string;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
   repo?: string;
+  /** Which group of runs to report on: 'all' (default) is every run; 'default_branch' is runs on master or main; 'pull_request' is runs on PR branches, excluding default-branch and merge-queue runs; 'merge_queue' is the gate runs the merge queue fired before a merge landed. Fork PRs carry no PR attribution (a GitHub limitation), so they appear only under 'all'. Any other value is a 400. */
+  run_scope?: EngineeringAnalyticsJobAggregatesRequestRunScope | (string & {});
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source when the team has more than one. */
   source_id?: string;
   /** Workflow name to aggregate jobs for. */
@@ -808,6 +1622,7 @@ export const EngineeringAnalyticsJobAggregatesRequest = /*@__PURE__*/ S.suspend(
     date_from: S.optional(S.String.pipe(T.Query())),
     date_to: S.optional(S.String.pipe(T.Query())),
     repo: S.optional(S.String.pipe(T.Query())),
+    run_scope: S.optional(EngineeringAnalyticsJobAggregatesRequestRunScope.pipe(T.Query())),
     source_id: S.optional(S.String.pipe(T.Query())),
     workflow_name: S.String.pipe(T.Query()),
   }).pipe(
@@ -834,11 +1649,11 @@ export interface WorkflowJobAggregate {
   run_share: number | null;
   /** Median queue wait (created to started) in seconds - where runner-capacity problems hide. Null when nothing started. */
   queue_p50_seconds: number | null;
-  /** Median duration of successful job instances, in seconds — cancelled and failed instances end early and would bias the percentile. Null if none succeeded. */
+  /** Median duration of successful job instances, in seconds: cancelled and failed instances end early and would bias the percentile. Null if none succeeded. */
   p50_seconds: number | null;
-  /** 95th-percentile duration of successful job instances, in seconds — cancelled and failed instances end early and would bias the percentile. Null if none succeeded. */
+  /** 95th-percentile duration of successful job instances, in seconds: cancelled and failed instances end early and would bias the percentile. Null if none succeeded. */
   p95_seconds: number | null;
-  /** Decisive failures ('failure', 'timed_out') over completed instances (0-1). Null if none completed. */
+  /** Decisive failures over job instances with a pass-or-fail verdict (0-1). Skipped, cancelled, neutral, and action-required instances are excluded. Null if none reached a verdict. */
   failure_rate: number | null;
   /** Job instances that ran on a 2nd+ run attempt - retry pressure. */
   retry_job_count: number;
@@ -862,9 +1677,7 @@ export const WorkflowJobAggregate = /*@__PURE__*/ S.suspend(() =>
     billable_minutes: S.NullOr(S.Number),
     estimated_cost_usd: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "WorkflowJobAggregate",
-}) as any as S.Schema<WorkflowJobAggregate>;
+).annotate({ identifier: "WorkflowJobAggregate" }) as any as S.Schema<WorkflowJobAggregate>;
 
 export type EngineeringAnalyticsJobAggregatesResponseBodyList = Array<WorkflowJobAggregate>;
 export const EngineeringAnalyticsJobAggregatesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -913,11 +1726,13 @@ export const EngineeringAnalyticsMasterFailuresRequest = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<EngineeringAnalyticsMasterFailuresRequest>;
 
 export interface MasterFailureGroup {
+  /** CI execution engine; null when unknown. * `github_actions` - GitHub Actions * `depot_ci` - Depot CI */
+  latest_ci_engine?: CIEngineEnum | null;
   /** Repository the failures occurred in. */
   repo: RepoRef;
   /** GitHub Actions workflow name the failing runs belong to. */
   workflow_name: string;
-  /** De-sharded failing job name (matrix '(G/N)' suffix stripped) — the group's failure signature together with the workflow. '' when the job-level source isn't synced and the group degrades to workflow level. */
+  /** De-sharded failing job name (matrix '(G/N)' suffix stripped): the group's failure signature together with the workflow. '' when the job-level source isn't synced and the group degrades to workflow level. */
   failed_job: string;
   /** Distinct failing default-branch runs in this group within the window. */
   run_count: number;
@@ -925,11 +1740,12 @@ export interface MasterFailureGroup {
   first_seen: string;
   /** When the newest failing run in the group started. */
   last_seen: string;
-  /** Run id of the newest failing run — the drill-down anchor. */
+  /** Run id of the newest failing run: the drill-down anchor. */
   latest_run_id: number;
 }
 export const MasterFailureGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    latest_ci_engine: S.optional(S.NullOr(CIEngineEnum)),
     repo: RepoRef,
     workflow_name: S.String,
     failed_job: S.String,
@@ -938,9 +1754,7 @@ export const MasterFailureGroup = /*@__PURE__*/ S.suspend(() =>
     last_seen: S.String,
     latest_run_id: S.Number,
   }),
-).annotate({
-  identifier: "MasterFailureGroup",
-}) as any as S.Schema<MasterFailureGroup>;
+).annotate({ identifier: "MasterFailureGroup" }) as any as S.Schema<MasterFailureGroup>;
 
 export type EngineeringAnalyticsMasterFailuresResponseBodyList = Array<MasterFailureGroup>;
 export const EngineeringAnalyticsMasterFailuresResponseBodyList = /*@__PURE__*/ S.Array(
@@ -989,7 +1803,9 @@ export const PRCostSummaryByWorkflowList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<PRCostSummaryByWorkflowList>;
 
 export interface RunCost {
-  /** GitHub Actions run id this cost is for. */
+  /** CI execution engine; null when unknown. * `github_actions` - GitHub Actions * `depot_ci` - Depot CI */
+  ci_engine?: CIEngineEnum | null;
+  /** Integer run id this cost is for; unique only together with ci_engine. */
   run_id: number;
   /** Re-run attempt number; 1 for the first attempt. */
   run_attempt: number;
@@ -1000,6 +1816,7 @@ export interface RunCost {
 }
 export const RunCost = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    ci_engine: S.optional(S.NullOr(CIEngineEnum)),
     run_id: S.Number,
     run_attempt: S.Number,
     billable_minutes: S.Number,
@@ -1037,9 +1854,9 @@ export interface PRCostSummary {
   by_workflow: PRCostSummaryByWorkflowList;
   /** Same spend broken down per workflow run, keyed by (run_id, run_attempt). */
   by_run: PRCostSummaryByRunList;
-  /** Agent LLM token spend attributed to this PR by git branch ($ai_git_branch), or null when no generation matched — independent of the CI cost figures, so it can be present even when jobs_available is false. The UI hides the row when null. */
+  /** Agent LLM token spend attributed to this PR by git branch ($ai_git_branch), or null when no generation matched: independent of the CI cost figures, so it can be present even when jobs_available is false. The UI hides the row when null. */
   llm_spend?: PRLLMSpend | null;
-  /** False when the job-level source (github_workflow_jobs) isn't synced — every figure is then zero/null and the cost cards should be hidden. */
+  /** False when the job-level source (github_workflow_jobs) isn't synced: every figure is then zero/null and the cost cards should be hidden. */
   jobs_available: boolean;
   /** Billable CI minutes: each costed (self-hosted) job's elapsed time, summed. Parallel jobs add up, so this is compute time spent, not wall-clock run duration. */
   billable_minutes: number;
@@ -1047,9 +1864,9 @@ export interface PRCostSummary {
   estimated_cost_usd: number | null;
   /** Jobs counted in the estimate (billable Linux runner, finished). */
   costed_jobs: number;
-  /** Billable Linux jobs still queued/running (no elapsed) — excluded from the estimate. */
+  /** Billable Linux jobs still queued/running (no elapsed): excluded from the estimate. */
   unsettled_jobs: number;
-  /** Jobs on provider-hosted (GitHub-hosted, free) or non-Linux runners — outside the estimate. */
+  /** Jobs on provider-hosted (GitHub-hosted, free) or non-Linux runners: outside the estimate. */
   excluded_jobs: number;
 }
 export const PRCostSummary = /*@__PURE__*/ S.suspend(() =>
@@ -1092,29 +1909,6 @@ export const EngineeringAnalyticsPrLifecycleRequest = /*@__PURE__*/ S.suspend(()
 ).annotate({
   identifier: "EngineeringAnalyticsPrLifecycleRequest",
 }) as any as S.Schema<EngineeringAnalyticsPrLifecycleRequest>;
-
-export interface Author {
-  /** Login handle of the pull request author. */
-  handle: string;
-  /** Human-readable name; equals the handle in v1. */
-  display_name: string;
-  /** URL of the author's avatar image. */
-  avatar_url: string;
-  /** True if the author is a bot (handle ends in [bot] or is a known bot). */
-  is_bot: boolean;
-}
-export const Author = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    handle: S.String,
-    display_name: S.String,
-    avatar_url: S.String,
-    is_bot: S.Boolean,
-  }),
-).annotate({ identifier: "Author" }) as any as S.Schema<Author>;
-
-/** * `open` - OPEN * `closed` - CLOSED * `merged` - MERGED */
-export type EngineeringAnalyticsPRStateEnum = "open" | "closed" | "merged";
-export const EngineeringAnalyticsPRStateEnum = S.String;
 
 export interface PullRequest {
   /** The pull request author. */
@@ -1165,6 +1959,8 @@ export type PRLifecycleEventKindEnum =
 export const PRLifecycleEventKindEnum = S.String;
 
 export interface PRLifecycleEvent {
+  /** CI execution engine; null when unknown. * `github_actions` - GitHub Actions * `depot_ci` - Depot CI */
+  ci_engine?: CIEngineEnum | null;
   /** Event kind: opened, ready_for_review, converted_to_draft, ci_started, ci_finished, merged, or closed. * `opened` - OPENED * `ready_for_review` - READY_FOR_REVIEW * `converted_to_draft` - CONVERTED_TO_DRAFT * `ci_started` - CI_STARTED * `ci_finished` - CI_FINISHED * `merged` - MERGED * `closed` - CLOSED */
   kind: PRLifecycleEventKindEnum;
   /** When the event occurred. */
@@ -1176,14 +1972,13 @@ export interface PRLifecycleEvent {
 }
 export const PRLifecycleEvent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    ci_engine: S.optional(S.NullOr(CIEngineEnum)),
     kind: PRLifecycleEventKindEnum,
     at: S.String,
     detail: S.optional(S.NullOr(S.String)),
     run_id: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "PRLifecycleEvent",
-}) as any as S.Schema<PRLifecycleEvent>;
+).annotate({ identifier: "PRLifecycleEvent" }) as any as S.Schema<PRLifecycleEvent>;
 
 /** Lifecycle events ordered by time. */
 export type PRLifecycleEventsList = Array<PRLifecycleEvent>;
@@ -1200,7 +1995,7 @@ export interface PRLifecycle {
   pull_request: PullRequest;
   /** Lifecycle events ordered by time. */
   events: PRLifecycleEventsList;
-  /** Always 'partial' — CI events only; reviews and comments are not yet available. * `precise` - PRECISE * `coarse` - COARSE * `partial` - PARTIAL */
+  /** Always 'partial': CI events only; reviews and comments are not yet available. * `precise` - PRECISE * `coarse` - COARSE * `partial` - PARTIAL */
   metric_quality?: MetricQualityEnum;
 }
 export const PRLifecycle = /*@__PURE__*/ S.suspend(() =>
@@ -1239,11 +2034,13 @@ export const EngineeringAnalyticsPrRunsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<EngineeringAnalyticsPrRunsRequest>;
 
 export interface WorkflowRunDetail {
+  /** CI execution engine; null when unknown. * `github_actions` - GitHub Actions * `depot_ci` - Depot CI */
+  ci_engine?: CIEngineEnum | null;
   /** Repository the run belongs to. */
   repo: RepoRef;
-  /** GitHub Actions run id. */
+  /** Integer run id; unique only together with ci_engine. */
   id: number;
-  /** GitHub Actions workflow name. */
+  /** CI workflow name. */
   workflow_name: string;
   /** Commit SHA the run was triggered on. */
   head_sha: string;
@@ -1265,9 +2062,16 @@ export interface WorkflowRunDetail {
   pr_number: number;
   /** Pull request whose merge produced this run's head commit, resolved through the merged pull request's merge commit and falling back to the commit subject's '(#NNNN)' suffix. Null when neither resolves. The only PR attribution a default-branch push has: read pr_number first and fall back to this. */
   commit_pr_number: number | null;
+  /** True when a merge queue pushed this run to gate pr_number, rather than the author pushing it. Count it when measuring CI; drop it when counting what the author did. */
+  is_merge_queue: boolean;
+  /** Source-native run id; use with ci_engine for identity. */
+  native_run_id?: string | null;
+  /** Source-native workflow run id; use with ci_engine for identity. */
+  native_workflow_run_id?: string | null;
 }
 export const WorkflowRunDetail = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    ci_engine: S.optional(S.NullOr(CIEngineEnum)),
     repo: RepoRef,
     id: S.Number,
     workflow_name: S.String,
@@ -1281,10 +2085,11 @@ export const WorkflowRunDetail = /*@__PURE__*/ S.suspend(() =>
     run_attempt: S.Number,
     pr_number: S.Number,
     commit_pr_number: S.NullOr(S.Number),
+    is_merge_queue: S.Boolean,
+    native_run_id: S.optional(S.NullOr(S.String)),
+    native_workflow_run_id: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "WorkflowRunDetail",
-}) as any as S.Schema<WorkflowRunDetail>;
+).annotate({ identifier: "WorkflowRunDetail" }) as any as S.Schema<WorkflowRunDetail>;
 
 export type EngineeringAnalyticsPrRunsResponseBodyList = Array<WorkflowRunDetail>;
 export const EngineeringAnalyticsPrRunsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1298,6 +2103,114 @@ export const EngineeringAnalyticsPrRunsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "EngineeringAnalyticsPrRunsResponse",
 }) as any as S.Schema<EngineeringAnalyticsPrRunsResponse>;
 
+export interface EngineeringAnalyticsPullRequestFrictionRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Pull request number to show. */
+  pr_number: number;
+  /** 'owner/name' repository the pull request belongs to. */
+  repo: string;
+  /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source when the team has more than one. */
+  source_id?: string;
+}
+export const EngineeringAnalyticsPullRequestFrictionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    pr_number: S.Number.pipe(T.Query()),
+    repo: S.String.pipe(T.Query()),
+    source_id: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/engineering_analytics/pull_request_friction/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "EngineeringAnalyticsPullRequestFrictionRequest",
+}) as any as S.Schema<EngineeringAnalyticsPullRequestFrictionRequest>;
+
+/** The pull request's friction split by kind. */
+export type PullRequestFrictionBreakdownGroupsList = Array<FrictionGroupShare>;
+export const PullRequestFrictionBreakdownGroupsList = /*@__PURE__*/ S.Array(
+  FrictionGroupShare,
+) as any as S.Schema<PullRequestFrictionBreakdownGroupsList>;
+
+/** CI running time of each push, oldest first. */
+export type PullRequestFrictionBreakdownCiWaitSecondsList = Array<number>;
+export const PullRequestFrictionBreakdownCiWaitSecondsList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<PullRequestFrictionBreakdownCiWaitSecondsList>;
+
+export interface PullRequestFrictionBreakdown {
+  /** The pull request's friction split by kind. */
+  groups: PullRequestFrictionBreakdownGroupsList;
+  /** Friction as a multiple of the typical pull request in the repository. */
+  score: number;
+  /** Red stretches that a re-run of the same commit turned green. */
+  flake_red_count: number;
+  /** Red stretches where the same job failed on the default branch within 12 hours. */
+  master_red_count: number;
+  /** Red stretches with no provable cause. */
+  unknown_red_count: number;
+  /** Red stretches that a later push fixed. */
+  own_red_count: number;
+  /** Re-runs that failed again. */
+  futile_rerun_count: number;
+  /** Pushes that triggered CI. */
+  push_count: number;
+  /** CI running time of each push, oldest first. */
+  ci_wait_seconds: PullRequestFrictionBreakdownCiWaitSecondsList;
+  /** From ready for review to the first approval. Null when either is not observed. */
+  first_approval_wait_seconds: number | null;
+  /** Pushes after the first approval. Null without an approval. */
+  pushes_after_approval: number | null;
+  /** Time in the merge queue. Null when the pull request never entered it. */
+  queue_seconds: number | null;
+  /** Times the merge queue removed the pull request. Null without queue data. */
+  kickout_count: number | null;
+}
+export const PullRequestFrictionBreakdown = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    groups: PullRequestFrictionBreakdownGroupsList,
+    score: S.Number,
+    flake_red_count: S.Number,
+    master_red_count: S.Number,
+    unknown_red_count: S.Number,
+    own_red_count: S.Number,
+    futile_rerun_count: S.Number,
+    push_count: S.Number,
+    ci_wait_seconds: PullRequestFrictionBreakdownCiWaitSecondsList,
+    first_approval_wait_seconds: S.NullOr(S.Number),
+    pushes_after_approval: S.NullOr(S.Number),
+    queue_seconds: S.NullOr(S.Number),
+    kickout_count: S.NullOr(S.Number),
+  }),
+).annotate({
+  identifier: "PullRequestFrictionBreakdown",
+}) as any as S.Schema<PullRequestFrictionBreakdown>;
+
+export interface PullRequestFrictionDetail {
+  /** Null when the pull request did not merge in the window, or a bot authored it. */
+  pull_request: PullRequestFrictionBreakdown | null;
+  /** False when the per-PR friction view does not exist yet: it needs a GitHub source with workflow runs, workflow jobs and pull requests synced. */
+  available: boolean;
+  /** Pull requests merged in this many days before the view last refreshed. */
+  window_days: number;
+}
+export const PullRequestFrictionDetail = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pull_request: S.NullOr(PullRequestFrictionBreakdown),
+    available: S.Boolean,
+    window_days: S.Number,
+  }),
+).annotate({
+  identifier: "PullRequestFrictionDetail",
+}) as any as S.Schema<PullRequestFrictionDetail>;
+
+export type EngineeringAnalyticsPullRequestsRequestState = "closed" | "merged" | "open";
+export const EngineeringAnalyticsPullRequestsRequestState = S.String;
+
 export interface EngineeringAnalyticsPullRequestsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -1305,18 +2218,30 @@ export interface EngineeringAnalyticsPullRequestsRequest {
   author?: string;
   /** Window start: relative ('-30d', '-8w') or ISO8601. Defaults to -30d. */
   date_from?: string;
+  /** Optional exclusive upper bound for merged_at / closed_at: relative or ISO8601. Defaults to now. Set a fixed value when you page, so new merges do not move rows between pages. */
+  date_to?: string;
+  /** Page size, 1 to 1000. Defaults to 1000. */
+  limit?: number;
+  /** Number of rows to skip. Defaults to 0. While `truncated` is true, add `limit` to offset to read the next page. */
+  offset?: number;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
   repo?: string;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source when the team has more than one. */
   source_id?: string;
+  /** Optional state filter. 'merged' lists PRs merged in the window, newest merged_at first. 'closed' lists PRs closed without a merge in the window, newest closed_at first. 'open' lists all open PRs whatever their age, newest first. Omit it to get open PRs plus any merged or closed in the window. */
+  state?: EngineeringAnalyticsPullRequestsRequestState | (string & {});
 }
 export const EngineeringAnalyticsPullRequestsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     author: S.optional(S.String.pipe(T.Query())),
     date_from: S.optional(S.String.pipe(T.Query())),
+    date_to: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    offset: S.optional(S.Number.pipe(T.Query())),
     repo: S.optional(S.String.pipe(T.Query())),
     source_id: S.optional(S.String.pipe(T.Query())),
+    state: S.optional(EngineeringAnalyticsPullRequestsRequestState.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1328,138 +2253,16 @@ export const EngineeringAnalyticsPullRequestsRequest = /*@__PURE__*/ S.suspend((
   identifier: "EngineeringAnalyticsPullRequestsRequest",
 }) as any as S.Schema<EngineeringAnalyticsPullRequestsRequest>;
 
-/** The workflow names behind `failing`, sorted - names what is failing instead of leaving a bare count. */
-export type CIStatusRollupFailingWorkflowsList = Array<string>;
-export const CIStatusRollupFailingWorkflowsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<CIStatusRollupFailingWorkflowsList>;
-
-export interface CIStatusRollup {
-  /** Distinct workflows run on the PR's head SHA. */
-  runs: number;
-  /** Latest runs that completed with conclusion 'success'. */
-  passing: number;
-  /** Latest runs that ended in failure, timeout, startup failure, or staleness. */
-  failing: number;
-  /** Latest runs not yet completed (queued or in progress). */
-  pending: number;
-  /** The workflow names behind `failing`, sorted - names what is failing instead of leaving a bare count. */
-  failing_workflows?: CIStatusRollupFailingWorkflowsList;
-}
-export const CIStatusRollup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    runs: S.Number,
-    passing: S.Number,
-    failing: S.Number,
-    pending: S.Number,
-    failing_workflows: S.optional(CIStatusRollupFailingWorkflowsList),
-  }),
-).annotate({ identifier: "CIStatusRollup" }) as any as S.Schema<CIStatusRollup>;
-
-export interface PushCISample {
-  /** Head commit SHA of this push (CI round). */
-  head_sha: string;
-  /** Earliest workflow-run start on this push. */
-  started_at: string;
-  /** Wall-clock CI seconds for this push: earliest run start to latest completed run end. Null while nothing has completed. */
-  wall_seconds: number | null;
-  /** True when any latest-per-workflow run on this push ended in a decisive failure. */
-  failed: boolean;
-  /** True when any latest-per-workflow run on this push hasn't completed yet. */
-  pending: boolean;
-}
-export const PushCISample = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    head_sha: S.String,
-    started_at: S.String,
-    wall_seconds: S.NullOr(S.Number),
-    failed: S.Boolean,
-    pending: S.Boolean,
-  }),
-).annotate({ identifier: "PushCISample" }) as any as S.Schema<PushCISample>;
-
-/** This PR's CI rounds oldest-first, capped to the most recent pushes - one sample per push for the push-history sparkline. `pushes` stays the uncapped count. */
-export type PullRequestListItemPushHistoryList = Array<PushCISample>;
-export const PullRequestListItemPushHistoryList = /*@__PURE__*/ S.Array(
-  PushCISample,
-) as any as S.Schema<PullRequestListItemPushHistoryList>;
-
-/** GitHub label names on the pull request. */
-export type PullRequestListItemLabelsList = Array<string>;
-export const PullRequestListItemLabelsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<PullRequestListItemLabelsList>;
-
-export interface PullRequestListItem {
-  /** The pull request author. */
-  author: Author;
-  /** Repository the pull request belongs to. */
-  repo: RepoRef;
-  /** CI status from the latest workflow runs on the head SHA. */
-  ci: CIStatusRollup;
-  /** This PR's CI rounds oldest-first, capped to the most recent pushes - one sample per push for the push-history sparkline. `pushes` stays the uncapped count. */
-  push_history: PullRequestListItemPushHistoryList;
-  /** Pull request number within the repository. */
-  number: number;
-  /** Pull request title. */
-  title: string;
-  /** Derived state: 'open', 'closed', or 'merged'. * `open` - OPEN * `closed` - CLOSED * `merged` - MERGED */
-  state: EngineeringAnalyticsPRStateEnum;
-  /** True if the pull request is a draft. */
-  is_draft: boolean;
-  /** When the pull request was opened. */
-  created_at: string;
-  /** When the pull request was merged, or null. */
-  merged_at: string | null;
-  /** Coarse open-to-merge time in seconds (merged_at - created_at; fuses draft and ready-for-review time). Null until merged. */
-  open_to_merge_seconds: number | null;
-  /** True ready-to-merge cycle time in seconds: merged_at minus the last observed ready_for_review transition (only the last draft/ready switch counts), or minus created_at for a merged PR verifiably never drafted. Null when unmerged or not observed (the PR's life isn't fully inside the synced issue-event window) - null never means zero. */
-  ready_to_merge_seconds: number | null;
-  /** GitHub label names on the pull request. */
-  labels: PullRequestListItemLabelsList;
-  /** CI triggers attributed to this PR: distinct head SHAs across its workflow runs. Fork-PR runs are unattributed. */
-  pushes: number;
-  /** Workflow runs attributed to this PR that were a 2nd+ attempt (a re-run). */
-  rerun_cycles: number;
-  /** Estimated CI cost in USD summed over this PR's jobs (billable runners only). Null when nothing was costable or the job-level source isn't synced. */
-  estimated_cost_usd?: number | null;
-  /** Billable (self-hosted) minutes summed over this PR's jobs. Null when the job source isn't synced. */
-  billable_minutes?: number | null;
-}
-export const PullRequestListItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    author: Author,
-    repo: RepoRef,
-    ci: CIStatusRollup,
-    push_history: PullRequestListItemPushHistoryList,
-    number: S.Number,
-    title: S.String,
-    state: EngineeringAnalyticsPRStateEnum,
-    is_draft: S.Boolean,
-    created_at: S.String,
-    merged_at: S.NullOr(S.String),
-    open_to_merge_seconds: S.NullOr(S.Number),
-    ready_to_merge_seconds: S.NullOr(S.Number),
-    labels: PullRequestListItemLabelsList,
-    pushes: S.Number,
-    rerun_cycles: S.Number,
-    estimated_cost_usd: S.optional(S.NullOr(S.Number)),
-    billable_minutes: S.optional(S.NullOr(S.Number)),
-  }),
-).annotate({
-  identifier: "PullRequestListItem",
-}) as any as S.Schema<PullRequestListItem>;
-
-/** Pull requests, newest first, capped at `limit`. */
+/** This page of pull requests, newest first, capped at `limit`. */
 export type PullRequestListItemsList = Array<PullRequestListItem>;
 export const PullRequestListItemsList = /*@__PURE__*/ S.Array(
   PullRequestListItem,
 ) as any as S.Schema<PullRequestListItemsList>;
 
 export interface PullRequestList {
-  /** Pull requests, newest first, capped at `limit`. */
+  /** This page of pull requests, newest first, capped at `limit`. */
   items: PullRequestListItemsList;
-  /** True when more pull requests match than the cap; `items` is the newest `limit` rows and the aggregate counts in ci_cards can exceed it. */
+  /** True when more pull requests match after this page; call again with `offset` increased by `limit` to read them. The aggregate counts in ci_cards can exceed `items`. */
   truncated: boolean;
   /** Maximum number of pull requests returned in `items`. */
   limit: number;
@@ -1470,9 +2273,217 @@ export const PullRequestList = /*@__PURE__*/ S.suspend(() =>
     truncated: S.Boolean,
     limit: S.Number,
   }),
+).annotate({ identifier: "PullRequestList" }) as any as S.Schema<PullRequestList>;
+
+export interface EngineeringAnalyticsPullRequestTimelinesRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** GitHub login: scope the read to this author's pull requests. Pass exactly one scope. */
+  author?: string;
+  /** Window start: relative ('-30d', '-8w') or ISO8601. Defaults to -30d. */
+  date_from?: string;
+  /** Window end: relative or ISO8601. Defaults to now. */
+  date_to?: string;
+  /** GitHub team slug: scope the read to pull requests authored by the team's members, through the team membership table. Pass exactly one scope. */
+  github_team?: string;
+  /** Pull request number: scope the read to this one pull request. Needs repo. Pass exactly one scope. */
+  pr_number?: number;
+  /** 'owner/name' repository. Required with pr_number; otherwise it picks the repository when the selected source syncs several. */
+  repo?: string;
+  /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source when the team has more than one. */
+  source_id?: string;
+}
+export const EngineeringAnalyticsPullRequestTimelinesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    author: S.optional(S.String.pipe(T.Query())),
+    date_from: S.optional(S.String.pipe(T.Query())),
+    date_to: S.optional(S.String.pipe(T.Query())),
+    github_team: S.optional(S.String.pipe(T.Query())),
+    pr_number: S.optional(S.Number.pipe(T.Query())),
+    repo: S.optional(S.String.pipe(T.Query())),
+    source_id: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/engineering_analytics/pull_request_timelines/",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "PullRequestList",
-}) as any as S.Schema<PullRequestList>;
+  identifier: "EngineeringAnalyticsPullRequestTimelinesRequest",
+}) as any as S.Schema<EngineeringAnalyticsPullRequestTimelinesRequest>;
+
+export interface PRTimelinePush {
+  /** The pushed head commit. */
+  head_sha: string;
+  /** When the commit's first workflow run was created, which is when the commit arrived. */
+  pushed_at: string;
+}
+export const PRTimelinePush = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    head_sha: S.String,
+    pushed_at: S.String,
+  }),
+).annotate({ identifier: "PRTimelinePush" }) as any as S.Schema<PRTimelinePush>;
+
+/** Distinct head commits that triggered CI, oldest first, merge-queue gate runs excluded. A PR listed for an author or a team misses pushes from more than 30 days before the window. */
+export type PRTimelinePushesList = Array<PRTimelinePush>;
+export const PRTimelinePushesList = /*@__PURE__*/ S.Array(
+  PRTimelinePush,
+) as any as S.Schema<PRTimelinePushesList>;
+
+/** * `draft` - DRAFT * `waiting_for_review` - WAITING_FOR_REVIEW * `changes_requested` - CHANGES_REQUESTED * `approved_not_enqueued` - APPROVED_NOT_ENQUEUED * `review_state_unknown` - REVIEW_STATE_UNKNOWN * `ci_running` - CI_RUNNING * `red_passed_on_rerun` - RED_PASSED_ON_RERUN * `red_master_broken` - RED_MASTER_BROKEN * `red_fixed_by_push` - RED_FIXED_BY_PUSH * `red_not_provable` - RED_NOT_PROVABLE * `merge_queue` - MERGE_QUEUE * `out_of_merge_queue` - OUT_OF_MERGE_QUEUE */
+export type PRTimelineSegmentKindEnum =
+  | "draft"
+  | "waiting_for_review"
+  | "changes_requested"
+  | "approved_not_enqueued"
+  | "review_state_unknown"
+  | "ci_running"
+  | "red_passed_on_rerun"
+  | "red_master_broken"
+  | "red_fixed_by_push"
+  | "red_not_provable"
+  | "merge_queue"
+  | "out_of_merge_queue";
+export const PRTimelineSegmentKindEnum = S.String;
+
+export interface PRTimelineSegment {
+  /** What the PR waited on: draft; waiting_for_review (no approval yet, or re-review after a push); changes_requested (no push since); approved_not_enqueued (approved, with no failing or running check); review_state_unknown (reviews not synced); ci_running; red_passed_on_rerun (the failed workflows passed a re-run of the same commit); red_master_broken (the failed jobs also failed on the default branch within 12 hours); red_fixed_by_push (a later commit arrived); red_not_provable; merge_queue (every queue state collapsed); out_of_merge_queue (open PR, Trunk says failed or cancelled). * `draft` - DRAFT * `waiting_for_review` - WAITING_FOR_REVIEW * `changes_requested` - CHANGES_REQUESTED * `approved_not_enqueued` - APPROVED_NOT_ENQUEUED * `review_state_unknown` - REVIEW_STATE_UNKNOWN * `ci_running` - CI_RUNNING * `red_passed_on_rerun` - RED_PASSED_ON_RERUN * `red_master_broken` - RED_MASTER_BROKEN * `red_fixed_by_push` - RED_FIXED_BY_PUSH * `red_not_provable` - RED_NOT_PROVABLE * `merge_queue` - MERGE_QUEUE * `out_of_merge_queue` - OUT_OF_MERGE_QUEUE */
+  kind: PRTimelineSegmentKindEnum;
+  /** Segment start. */
+  started_at: string;
+  /** Segment end: the next segment's start, the merge or close, or now. */
+  ended_at: string;
+}
+export const PRTimelineSegment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: PRTimelineSegmentKindEnum,
+    started_at: S.String,
+    ended_at: S.String,
+  }),
+).annotate({ identifier: "PRTimelineSegment" }) as any as S.Schema<PRTimelineSegment>;
+
+/** Consecutive segments from started_at to the merge, the close, or now, with no gaps. */
+export type PRTimelineSegmentsList = Array<PRTimelineSegment>;
+export const PRTimelineSegmentsList = /*@__PURE__*/ S.Array(
+  PRTimelineSegment,
+) as any as S.Schema<PRTimelineSegmentsList>;
+
+export interface PRTimeline {
+  /** The repository the pull request belongs to. */
+  repo: RepoRef;
+  /** Distinct head commits that triggered CI, oldest first, merge-queue gate runs excluded. A PR listed for an author or a team misses pushes from more than 30 days before the window. */
+  pushes: PRTimelinePushesList;
+  /** Consecutive segments from started_at to the merge, the close, or now, with no gaps. */
+  segments: PRTimelineSegmentsList;
+  /** Pull request number. */
+  number: number;
+  /** Pull request title. */
+  title: string;
+  /** The pull request's author. */
+  author: Author;
+  /** open, merged, or closed. Author and team scopes list open and merged PRs only; a pull_request scope returns the PR whatever its state. * `open` - OPEN * `closed` - CLOSED * `merged` - MERGED */
+  state: EngineeringAnalyticsPRStateEnum;
+  /** True when the PR is a draft right now. */
+  is_draft: boolean;
+  /** When the PR was opened. */
+  created_at: string;
+  /** Where the timeline starts: the last ready_for_review before the end, else created_at. A PR listed for an author or a team starts no earlier than 30 days before the window, because older CI is not read. */
+  started_at: string;
+  /** Merge time; null when not merged. */
+  merged_at: string | null;
+  /** Estimated CI cost over the PR's runs, in USD. Null when nothing was costable. */
+  estimated_cost_usd: number | null;
+  /** Billable minutes over the PR's runs. Null when the jobs table isn't synced. */
+  billable_minutes: number | null;
+}
+export const PRTimeline = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    repo: RepoRef,
+    pushes: PRTimelinePushesList,
+    segments: PRTimelineSegmentsList,
+    number: S.Number,
+    title: S.String,
+    author: Author,
+    state: EngineeringAnalyticsPRStateEnum,
+    is_draft: S.Boolean,
+    created_at: S.String,
+    started_at: S.String,
+    merged_at: S.NullOr(S.String),
+    estimated_cost_usd: S.NullOr(S.Number),
+    billable_minutes: S.NullOr(S.Number),
+  }),
+).annotate({ identifier: "PRTimeline" }) as any as S.Schema<PRTimeline>;
+
+/** The pull requests in scope, newest first: open PRs plus PRs merged in the window, or the one pull request of a pull_request scope. */
+export type PullRequestTimelinesItemsList = Array<PRTimeline>;
+export const PullRequestTimelinesItemsList = /*@__PURE__*/ S.Array(
+  PRTimeline,
+) as any as S.Schema<PullRequestTimelinesItemsList>;
+
+export interface PRTimelineRedTime {
+  /** The red segment cause. * `draft` - DRAFT * `waiting_for_review` - WAITING_FOR_REVIEW * `changes_requested` - CHANGES_REQUESTED * `approved_not_enqueued` - APPROVED_NOT_ENQUEUED * `review_state_unknown` - REVIEW_STATE_UNKNOWN * `ci_running` - CI_RUNNING * `red_passed_on_rerun` - RED_PASSED_ON_RERUN * `red_master_broken` - RED_MASTER_BROKEN * `red_fixed_by_push` - RED_FIXED_BY_PUSH * `red_not_provable` - RED_NOT_PROVABLE * `merge_queue` - MERGE_QUEUE * `out_of_merge_queue` - OUT_OF_MERGE_QUEUE */
+  kind: PRTimelineSegmentKindEnum;
+  /** Average seconds per merged pull request attributed to this cause. */
+  seconds_per_merged_pr: number;
+}
+export const PRTimelineRedTime = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: PRTimelineSegmentKindEnum,
+    seconds_per_merged_pr: S.Number,
+  }),
+).annotate({ identifier: "PRTimelineRedTime" }) as any as S.Schema<PRTimelineRedTime>;
+
+/** Average red time per merged pull request, grouped by the evidence that classifies each red stretch. */
+export type PullRequestTimelinesRedSecondsPerMergedPrList = Array<PRTimelineRedTime>;
+export const PullRequestTimelinesRedSecondsPerMergedPrList = /*@__PURE__*/ S.Array(
+  PRTimelineRedTime,
+) as any as S.Schema<PullRequestTimelinesRedSecondsPerMergedPrList>;
+
+export interface PullRequestTimelines {
+  /** The pull requests in scope, newest first: open PRs plus PRs merged in the window, or the one pull request of a pull_request scope. */
+  items: PullRequestTimelinesItemsList;
+  /** Average red time per merged pull request, grouped by the evidence that classifies each red stretch. */
+  red_seconds_per_merged_pr: PullRequestTimelinesRedSecondsPerMergedPrList;
+  /** What the read covers: 'author' (one GitHub login), 'github_team' (the members of one GitHub team, through the team membership table), or 'pull_request' (one pull request). * `author` - AUTHOR * `github_team` - GITHUB_TEAM * `pull_request` - PULL_REQUEST */
+  scope_kind: DeliveryScopeKindEnum;
+  /** The GitHub login, GitHub team slug, or 'owner/name#number' the timelines are for. */
+  scope: string;
+  /** True when the team membership table is synced. A github_team scope without it lists no pull requests. */
+  has_membership_data: boolean;
+  /** False when reviews aren't synced: review stretches read review_state_unknown. */
+  review_data_available: boolean;
+  /** False when workflow jobs aren't synced: a check a re-run turned green is not visible, and no red stretch reads red_master_broken. */
+  jobs_available: boolean;
+  /** True when the Trunk merge-queue table is synced, so out_of_merge_queue can appear. */
+  merge_queue_state_available: boolean;
+  /** The now every open PR's timeline ends at. */
+  generated_at: string;
+  /** Every pull request merged in the selected scope and window. */
+  merged_pr_count: number;
+  /** True when more PRs matched than the limit. */
+  truncated: boolean;
+  /** The maximum number of PRs returned. */
+  limit: number;
+}
+export const PullRequestTimelines = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    items: PullRequestTimelinesItemsList,
+    red_seconds_per_merged_pr: PullRequestTimelinesRedSecondsPerMergedPrList,
+    scope_kind: DeliveryScopeKindEnum,
+    scope: S.String,
+    has_membership_data: S.Boolean,
+    review_data_available: S.Boolean,
+    jobs_available: S.Boolean,
+    merge_queue_state_available: S.Boolean,
+    generated_at: S.String,
+    merged_pr_count: S.Number,
+    truncated: S.Boolean,
+    limit: S.Number,
+  }),
+).annotate({ identifier: "PullRequestTimelines" }) as any as S.Schema<PullRequestTimelines>;
 
 export interface EngineeringAnalyticsQuarantineRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1548,9 +2559,7 @@ export const QuarantineEntry = /*@__PURE__*/ S.suspend(() =>
     days_until_expiry: S.Number,
     selector_kind: SelectorKindEnum,
   }),
-).annotate({
-  identifier: "QuarantineEntry",
-}) as any as S.Schema<QuarantineEntry>;
+).annotate({ identifier: "QuarantineEntry" }) as any as S.Schema<QuarantineEntry>;
 
 /** Quarantined selectors, most urgent first (overdue, in_grace, expiring_soon, active), then by soonest expiry. */
 export type QuarantineFileEntriesList = Array<QuarantineEntry>;
@@ -1599,8 +2608,8 @@ export const QuarantineFile = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "QuarantineFile" }) as any as S.Schema<QuarantineFile>;
 
 /** * `quarantine` - QUARANTINE * `extend` - EXTEND * `remove` - REMOVE */
-export type OperationEnum = "quarantine" | "extend" | "remove";
-export const OperationEnum = S.String;
+export type QuarantineRequestOperationEnum = "quarantine" | "extend" | "remove";
+export const QuarantineRequestOperationEnum = S.String;
 
 /** * `pytest` - PYTEST * `jest` - JEST * `playwright` - PLAYWRIGHT */
 export type QuarantineRequestRunnerEnum = "pytest" | "jest" | "playwright";
@@ -1610,7 +2619,7 @@ export interface EngineeringAnalyticsQuarantineRequestRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** What to do: 'quarantine' (add or replace an entry and file a tracking issue), 'extend' (re-stamp an existing entry's expiry, reusing its issue), or 'remove' (delete the entry). All three open a pull request. * `quarantine` - QUARANTINE * `extend` - EXTEND * `remove` - REMOVE */
-  operation: OperationEnum | (string & {});
+  operation: QuarantineRequestOperationEnum | (string & {});
   /** Test selector to act on: an exact test id, a file, a directory, a class prefix, or 'product:<dashed-name>'. */
   selector: string;
   /** Test runner the selector targets: 'pytest', 'jest', or 'playwright'. Existing entries and Jest file extensions are inferred for older clients that omit it; other selectors default to 'pytest'. * `pytest` - PYTEST * `jest` - JEST * `playwright` - PLAYWRIGHT */
@@ -1631,7 +2640,7 @@ export interface EngineeringAnalyticsQuarantineRequestRequest {
 export const EngineeringAnalyticsQuarantineRequestRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
-    operation: OperationEnum,
+    operation: QuarantineRequestOperationEnum,
     selector: S.String,
     runner: S.optional(S.NullOr(QuarantineRequestRunnerEnum)),
     repo: S.optional(S.NullOr(S.String)),
@@ -1665,9 +2674,7 @@ export const QuarantineRequestResult = /*@__PURE__*/ S.suspend(() =>
     issue_url: S.String,
     branch: S.String,
   }),
-).annotate({
-  identifier: "QuarantineRequestResult",
-}) as any as S.Schema<QuarantineRequestResult>;
+).annotate({ identifier: "QuarantineRequestResult" }) as any as S.Schema<QuarantineRequestResult>;
 
 export interface EngineeringAnalyticsRepoOverviewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1676,7 +2683,7 @@ export interface EngineeringAnalyticsRepoOverviewRequest {
   date_from?: string;
   /** Window end: relative or ISO8601. Defaults to now. */
   date_to?: string;
-  /** Set false to skip the chart series (cost_series, time_to_green_series, success_rate_series, open_to_merge_series return empty) and their query cost — for headline-only consumers like the weekly digest. Defaults to true. */
+  /** Set false to skip the chart series (cost_series, time_to_green_series, success_rate_series, open_to_merge_series return empty) and their query cost: for headline-only consumers like the weekly digest. Defaults to true. */
   include_series?: boolean;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
   repo?: string;
@@ -1719,9 +2726,7 @@ export const CostPerMergeBucket = /*@__PURE__*/ S.suspend(() =>
     merges: S.Number,
     cost_per_merge_usd: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "CostPerMergeBucket",
-}) as any as S.Schema<CostPerMergeBucket>;
+).annotate({ identifier: "CostPerMergeBucket" }) as any as S.Schema<CostPerMergeBucket>;
 
 /** CI cost per merged PR across the window, oldest first, zero-filled, bucketed by cost_series_granularity. Empty when the job-level source isn't synced or include_series=false. */
 export type RepoOverviewCostSeriesList = Array<CostPerMergeBucket>;
@@ -1740,9 +2745,7 @@ export const TimeToGreenBucket = /*@__PURE__*/ S.suspend(() =>
     bucket_start: S.String,
     p50_seconds: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "TimeToGreenBucket",
-}) as any as S.Schema<TimeToGreenBucket>;
+).annotate({ identifier: "TimeToGreenBucket" }) as any as S.Schema<TimeToGreenBucket>;
 
 /** Median time-to-green (p50 wall clock for a PR push round to settle fully green) per bucket across the window, oldest first, bucketed by time_to_green_series_granularity. Empty buckets carry null; the whole series is empty when include_series=false. */
 export type RepoOverviewTimeToGreenSeriesList = Array<TimeToGreenBucket>;
@@ -1780,9 +2783,7 @@ export const OpenToMergeBucket = /*@__PURE__*/ S.suspend(() =>
     bucket_start: S.String,
     p50_seconds: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "OpenToMergeBucket",
-}) as any as S.Schema<OpenToMergeBucket>;
+).annotate({ identifier: "OpenToMergeBucket" }) as any as S.Schema<OpenToMergeBucket>;
 
 /** Median time-to-merge (p50 open_to_merge_seconds, bots/drafts excluded) per bucket across the window, oldest first, bucketed by open_to_merge_series_granularity. Empty buckets carry null; the whole series is empty when include_series=false. */
 export type RepoOverviewOpenToMergeSeriesList = Array<OpenToMergeBucket>;
@@ -1811,9 +2812,7 @@ export const DeliveryStageTiming = /*@__PURE__*/ S.suspend(() =>
     p90_seconds: S.NullOr(S.Number),
     pr_count: S.Number,
   }),
-).annotate({
-  identifier: "DeliveryStageTiming",
-}) as any as S.Schema<DeliveryStageTiming>;
+).annotate({ identifier: "DeliveryStageTiming" }) as any as S.Schema<DeliveryStageTiming>;
 
 /** The legs, ordered open to merge. A leg with nothing observed still appears, with a zero pr_count and null timings. The leg medians do not sum to a cycle-time median: a median of sums is not a sum of medians. */
 export type DeliveryPipelineStagesList = Array<DeliveryStageTiming>;
@@ -1832,9 +2831,7 @@ export const DeliveryPipeline = /*@__PURE__*/ S.suspend(() =>
     stages: DeliveryPipelineStagesList,
     merged_pr_count: S.Number,
   }),
-).annotate({
-  identifier: "DeliveryPipeline",
-}) as any as S.Schema<DeliveryPipeline>;
+).annotate({ identifier: "DeliveryPipeline" }) as any as S.Schema<DeliveryPipeline>;
 
 export interface ReadyToMergeBucket {
   /** Bucket start, aligned to ready_to_merge_series_granularity (top of hour, midnight, or Monday). */
@@ -1847,9 +2844,7 @@ export const ReadyToMergeBucket = /*@__PURE__*/ S.suspend(() =>
     bucket_start: S.String,
     p50_seconds: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "ReadyToMergeBucket",
-}) as any as S.Schema<ReadyToMergeBucket>;
+).annotate({ identifier: "ReadyToMergeBucket" }) as any as S.Schema<ReadyToMergeBucket>;
 
 /** Median cycle time (p50 per-PR ready_to_merge_seconds, bots/drafts excluded) per bucket across the window, oldest first, bucketed by ready_to_merge_series_granularity. Empty buckets carry null; the whole series is empty when the issue-events table isn't synced or include_series=false, so fall back to open_to_merge_series. */
 export type RepoOverviewReadyToMergeSeriesList = Array<ReadyToMergeBucket>;
@@ -1872,7 +2867,7 @@ export interface RepoOverview {
   ready_to_merge_series: RepoOverviewReadyToMergeSeriesList;
   /** Workflow runs started in the window, all branches and workflows. */
   run_count: number;
-  /** Same count over the equal-length window immediately before date_from — the delta baseline. */
+  /** Same count over the equal-length window immediately before date_from: the delta baseline. */
   run_count_prev: number;
   /** Fraction of conclusive runs that succeeded (0-1) in the window. Skipped, cancelled, neutral, and action_required runs are excluded. Null if no run reached a verdict. */
   success_rate: number | null;
@@ -1882,7 +2877,7 @@ export interface RepoOverview {
   rerun_cycles: number;
   /** Re-run cycles over the previous window. */
   rerun_cycles_prev: number;
-  /** PRs merged in the window, all authors and bots included — the merge population that triggered the CI spend, so it divides cleanly into billable_minutes and estimated_cost_usd. */
+  /** PRs merged in the window, all authors and bots included. billable_minutes and estimated_cost_usd cover every run in the window, including default-branch and unmerged PR runs, so dividing them by this count spreads all CI spend over the merges. */
   merged_pr_count: number;
   /** Merged-PR count over the previous window. */
   merged_pr_count_prev: number;
@@ -1902,7 +2897,7 @@ export interface RepoOverview {
   estimated_cost_usd: number | null;
   /** Estimated cost over the previous window; null when the job-level source isn't synced. */
   estimated_cost_usd_prev: number | null;
-  /** estimated_cost_usd divided by merged_pr_count — the window's CI cost per merged PR. Null when the job-level source isn't synced or nothing merged. */
+  /** estimated_cost_usd divided by merged_pr_count: the window's CI cost per merged PR. Null when the job-level source isn't synced or nothing merged. */
   cost_per_merge_usd: number | null;
   /** The same ratio over the previous window. Null when the job-level source isn't synced or nothing merged. */
   cost_per_merge_usd_prev: number | null;
@@ -1910,7 +2905,7 @@ export interface RepoOverview {
   merge_queue_billable_minutes: number | null;
   /** Merge-queue billable minutes over the previous window; null when the job-level source isn't synced. */
   merge_queue_billable_minutes_prev: number | null;
-  /** PRs merged in the window with at least one corroborated merge-queue gate run — the population behind every merge_queue_* landing stat. All authors, bots included. */
+  /** PRs merged in the window with at least one corroborated merge-queue gate run: the population behind every merge_queue_* landing stat. All authors, bots included. */
   merge_queue_merged_pr_count: number;
   /** Queue-landed merges over the previous window. */
   merge_queue_merged_pr_count_prev: number;
@@ -1918,7 +2913,7 @@ export interface RepoOverview {
   merge_queue_median_first_gate_to_merge_seconds: number | null;
   /** The same median over the previous window. Null when no queue-landed merges. */
   merge_queue_median_first_gate_to_merge_seconds_prev: number | null;
-  /** p90 of the same first-gate-run-to-merge measure — the tail, where queue pain concentrates. Null when no queue-landed merges. */
+  /** p90 of the same first-gate-run-to-merge measure: the tail, where queue pain concentrates. Null when no queue-landed merges. */
   merge_queue_p90_first_gate_to_merge_seconds: number | null;
   /** The same p90 over the previous window. Null when no queue-landed merges. */
   merge_queue_p90_first_gate_to_merge_seconds_prev: number | null;
@@ -1952,7 +2947,7 @@ export interface RepoOverview {
   merge_queue_skip_the_line_count: number | null;
   /** Skip-the-line entries over the previous window. Null when the Trunk source isn't synced. */
   merge_queue_skip_the_line_count_prev: number | null;
-  /** Median wall clock for a PR push round to settle fully green over the window — the window-level twin of time_to_green_series, same population and exclusions. Null when no fully green rounds. */
+  /** Median wall clock for a PR push round to settle fully green over the window: the window-level twin of time_to_green_series, same population and exclusions. Null when no fully green rounds. */
   median_time_to_green_seconds: number | null;
   /** The same median over the previous window. Null when no fully green rounds. */
   median_time_to_green_seconds_prev: number | null;
@@ -2065,7 +3060,7 @@ export const EngineeringAnalyticsResolveBranchRequest = /*@__PURE__*/ S.suspend(
 export interface BranchPRMatch {
   /** Repository the pull request belongs to, as 'owner/name'. */
   repo: string;
-  /** Pull request number within the repository — pair with `repo` to link to it. */
+  /** Pull request number within the repository: pair with `repo` to link to it. */
   number: number;
   /** Pull request title, or null when the snapshot carries no title. */
   title: string | null;
@@ -2113,9 +3108,9 @@ export const EngineeringAnalyticsSourcesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<EngineeringAnalyticsSourcesRequest>;
 
 export interface GitHubSource {
-  /** Source id — pass back as `source_id` (with `repo`) to read this repository. */
+  /** Source id: pass back as `source_id` (with `repo`) to read this repository. */
   id: string;
-  /** Repository as 'owner/name' — pass back as `repo` to scope to it. One entry per repository a source syncs; '' if unknown. */
+  /** Repository as 'owner/name': pass back as `repo` to scope to it. One entry per repository a source syncs; '' if unknown. */
   repo: string;
   /** User-chosen warehouse table-name prefix for this source, or '' when none. */
   prefix: string;
@@ -2270,15 +3265,15 @@ export interface TeamCIHealthItem {
   regression_test_count: number;
   /** Same count over the prior window. */
   regression_test_count_prior: number;
-  /** CI runs (not spans) where an owned test's recorded outcome was failed or error. An absolute count, not a rate: fast passing runs are not emitted. */
+  /** Distinct CI runs where at least one owned test failed or errored. A run with many failing owned tests counts once. An absolute count, not a rate: fast passing runs are not emitted. */
   failed_run_count: number;
   /** Same count over the prior window. */
   failed_run_count_prior: number;
-  /** Runs where one commit both failed and passed an owned test: a re-run attempt went green, or an in-job retry recovered it. */
+  /** Distinct CI runs where one commit both failed and passed at least one owned test: a re-run attempt went green, or an in-job retry recovered it. */
   same_commit_recovery_run_count: number;
   /** Same count over the prior window. */
   same_commit_recovery_run_count_prior: number;
-  /** Runs where an owned test recorded a tolerated failure while quarantined: masked in CI, still failing. */
+  /** Distinct CI runs where at least one owned test recorded a tolerated failure while quarantined. */
   quarantined_failed_run_count: number;
   /** Same count over the prior window. */
   quarantined_failed_run_count_prior: number;
@@ -2312,18 +3307,16 @@ export const TeamCIHealthItem = /*@__PURE__*/ S.suspend(() =>
     merged_pr_count: S.optional(S.NullOr(S.Number)),
     merged_pr_count_prior: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "TeamCIHealthItem",
-}) as any as S.Schema<TeamCIHealthItem>;
+).annotate({ identifier: "TeamCIHealthItem" }) as any as S.Schema<TeamCIHealthItem>;
 
-/** Owning teams ranked by current flaky + failure signal, heaviest first, capped at `limit`. Teams are organizational owners of code surfaces; this never aggregates by author. */
+/** Owning teams ranked by current flaky + failure signal, heaviest first, capped at `limit`. Teams are organizational owners of code surfaces; this never aggregates by author. A CI setup break (a run attempt whose tests errored in 3 or more jobs or for 3 or more owning teams, or a job attempt with 100 or more distinct failed or errored tests) excludes every trial of that attempt, not only its failures. */
 export type TeamCIHealthListItemsList = Array<TeamCIHealthItem>;
 export const TeamCIHealthListItemsList = /*@__PURE__*/ S.Array(
   TeamCIHealthItem,
 ) as any as S.Schema<TeamCIHealthListItemsList>;
 
 export interface TeamCIHealthList {
-  /** Owning teams ranked by current flaky + failure signal, heaviest first, capped at `limit`. Teams are organizational owners of code surfaces; this never aggregates by author. */
+  /** Owning teams ranked by current flaky + failure signal, heaviest first, capped at `limit`. Teams are organizational owners of code surfaces; this never aggregates by author. A CI setup break (a run attempt whose tests errored in 3 or more jobs or for 3 or more owning teams, or a job attempt with 100 or more distinct failed or errored tests) excludes every trial of that attempt, not only its failures. */
   items: TeamCIHealthListItemsList;
   /** True when more teams had signal than the cap. */
   truncated: boolean;
@@ -2336,9 +3329,7 @@ export const TeamCIHealthList = /*@__PURE__*/ S.suspend(() =>
     truncated: S.Boolean,
     limit: S.Number,
   }),
-).annotate({
-  identifier: "TeamCIHealthList",
-}) as any as S.Schema<TeamCIHealthList>;
+).annotate({ identifier: "TeamCIHealthList" }) as any as S.Schema<TeamCIHealthList>;
 
 export interface EngineeringAnalyticsTrunkQuarantineRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2381,9 +3372,7 @@ export const TrunkQuarantineTeamDebt = /*@__PURE__*/ S.suspend(() =>
     overdue_count: S.Number,
     oldest_age_days: S.Number,
   }),
-).annotate({
-  identifier: "TrunkQuarantineTeamDebt",
-}) as any as S.Schema<TrunkQuarantineTeamDebt>;
+).annotate({ identifier: "TrunkQuarantineTeamDebt" }) as any as S.Schema<TrunkQuarantineTeamDebt>;
 
 /** Per-team rollup, most indebted first: overdue count, then test count, then oldest age. */
 export type TrunkQuarantineDebtTeamsList = Array<TrunkQuarantineTeamDebt>;
@@ -2426,9 +3415,7 @@ export const TrunkQuarantinedTest = /*@__PURE__*/ S.suspend(() =>
     overdue: S.Boolean,
     trunk_url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "TrunkQuarantinedTest",
-}) as any as S.Schema<TrunkQuarantinedTest>;
+).annotate({ identifier: "TrunkQuarantinedTest" }) as any as S.Schema<TrunkQuarantinedTest>;
 
 /** Every currently quarantined test, oldest first. */
 export type TrunkQuarantineDebtTestsList = Array<TrunkQuarantinedTest>;
@@ -2451,6 +3438,10 @@ export interface TrunkQuarantineDebt {
   repository: string;
   /** The Trunk app's flaky-tests page for this repository; null when the connected source has no organization slug. */
   trunk_url: string | null;
+  /** True when more tests are quarantined than limit. The per-team counts then cover only the returned tests, so treat them as lower bounds. */
+  truncated: boolean;
+  /** Maximum tests returned, oldest quarantine first. */
+  limit: number;
 }
 export const TrunkQuarantineDebt = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2461,12 +3452,16 @@ export const TrunkQuarantineDebt = /*@__PURE__*/ S.suspend(() =>
     ttl_days: S.Number,
     repository: S.String,
     trunk_url: S.NullOr(S.String),
+    truncated: S.Boolean,
+    limit: S.Number,
   }),
-).annotate({
-  identifier: "TrunkQuarantineDebt",
-}) as any as S.Schema<TrunkQuarantineDebt>;
+).annotate({ identifier: "TrunkQuarantineDebt" }) as any as S.Schema<TrunkQuarantineDebt>;
 
-export type EngineeringAnalyticsWorkflowHealthRequestRunScope = "all" | "pull_request";
+export type EngineeringAnalyticsWorkflowHealthRequestRunScope =
+  | "all"
+  | "default_branch"
+  | "merge_queue"
+  | "pull_request";
 export const EngineeringAnalyticsWorkflowHealthRequestRunScope = S.String;
 
 export interface EngineeringAnalyticsWorkflowHealthRequest {
@@ -2480,10 +3475,12 @@ export interface EngineeringAnalyticsWorkflowHealthRequest {
   date_to?: string;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
   repo?: string;
-  /** Run scope for workflow health: 'all' (default) includes every run; 'pull_request' includes runs attributed to pull requests, excluding default-branch (master/main) runs. Fork PRs carry no PR attribution (a GitHub limitation), so 'pull_request' covers same-repo PRs only. Any other value is a 400. */
+  /** Which group of runs to report on: 'all' (default) is every run; 'default_branch' is runs on master or main; 'pull_request' is runs on PR branches, excluding default-branch and merge-queue runs; 'merge_queue' is the gate runs the merge queue fired before a merge landed. Fork PRs carry no PR attribution (a GitHub limitation), so they appear only under 'all'. Any other value is a 400. */
   run_scope?: EngineeringAnalyticsWorkflowHealthRequestRunScope | (string & {});
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source when the team has more than one. */
   source_id?: string;
+  /** Optional exact workflow name to scope results to, e.g. 'Backend CI'. Omit to rank every workflow. Pass it when you want one workflow's figures over the whole window rather than the top slice. */
+  workflow_name?: string;
 }
 export const EngineeringAnalyticsWorkflowHealthRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2494,6 +3491,7 @@ export const EngineeringAnalyticsWorkflowHealthRequest = /*@__PURE__*/ S.suspend
     repo: S.optional(S.String.pipe(T.Query())),
     run_scope: S.optional(EngineeringAnalyticsWorkflowHealthRequestRunScope.pipe(T.Query())),
     source_id: S.optional(S.String.pipe(T.Query())),
+    workflow_name: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2525,9 +3523,7 @@ export const WorkflowHealthBucket = /*@__PURE__*/ S.suspend(() =>
     successes: S.Number,
     failures: S.Number,
   }),
-).annotate({
-  identifier: "WorkflowHealthBucket",
-}) as any as S.Schema<WorkflowHealthBucket>;
+).annotate({ identifier: "WorkflowHealthBucket" }) as any as S.Schema<WorkflowHealthBucket>;
 
 /** Run history across the whole window, oldest first, zero-filled, bucketed by granularity. */
 export type WorkflowHealthItemBucketsList = Array<WorkflowHealthBucket>;
@@ -2536,6 +3532,8 @@ export const WorkflowHealthItemBucketsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<WorkflowHealthItemBucketsList>;
 
 export interface WorkflowHealthItem {
+  /** CI execution engine; null when unknown. * `github_actions` - GitHub Actions * `depot_ci` - Depot CI */
+  latest_ci_engine?: CIEngineEnum | null;
   /** Repository the workflow runs in. */
   repo: RepoRef;
   /** Run history across the whole window, oldest first, zero-filled, bucketed by granularity. */
@@ -2550,9 +3548,9 @@ export interface WorkflowHealthItem {
   conclusive_run_count: number;
   /** Fraction of conclusive runs that succeeded (0-1). Failures include failure, timed_out, startup_failure, and stale. Skipped, cancelled, neutral, and action_required runs are excluded. Null if no run reached a verdict. */
   success_rate: number | null;
-  /** Median duration in seconds over successful runs only — cancelled (superseded) and failed runs end early and would bias the percentile. Null if no run succeeded in the window. */
+  /** Median duration in seconds over successful runs only: cancelled (superseded) and failed runs end early and would bias the percentile. Runs under 10 seconds that did no work are excluded when longer successful runs exist. An all-fast workflow uses every successful run. Null if no run succeeded in the window. */
   p50_seconds: number | null;
-  /** 95th-percentile duration in seconds over successful runs only — cancelled (superseded) and failed runs end early and would bias the percentile. Null if no run succeeded in the window. */
+  /** 95th-percentile duration in seconds over successful runs only: cancelled (superseded) and failed runs end early and would bias the percentile. Runs under 10 seconds that did no work are excluded when longer successful runs exist. An all-fast workflow uses every successful run. Null if no run succeeded in the window. */
   p95_seconds: number | null;
   /** When the most recent decisive failure started, or null. */
   last_failure_at: string | null;
@@ -2572,11 +3570,14 @@ export interface WorkflowHealthItem {
   rerun_cycles?: number;
   /** Conclusive-run success rate over the equal-length window before date_from - the delta baseline. Null when that window had no conclusive runs. */
   success_rate_prev?: number | null;
-  /** Successful runs that did real CI work. This is the p50/p95 sample count. */
+  /** Successful runs lasting at least 10 seconds. Zero when p50/p95 fall back to shorter successful runs. */
   percentile_run_count?: number;
+  /** Runs on merge-queue gate branches (trunk-merge/**) in the window, counted regardless of branch or run_scope. Non-zero marks a workflow the queue runs before a merge lands, the closest available proxy for a required check. */
+  merge_queue_run_count?: number;
 }
 export const WorkflowHealthItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    latest_ci_engine: S.optional(S.NullOr(CIEngineEnum)),
     repo: RepoRef,
     buckets: WorkflowHealthItemBucketsList,
     workflow_name: S.String,
@@ -2597,10 +3598,9 @@ export const WorkflowHealthItem = /*@__PURE__*/ S.suspend(() =>
     rerun_cycles: S.optional(S.Number),
     success_rate_prev: S.optional(S.NullOr(S.Number)),
     percentile_run_count: S.optional(S.Number),
+    merge_queue_run_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "WorkflowHealthItem",
-}) as any as S.Schema<WorkflowHealthItem>;
+).annotate({ identifier: "WorkflowHealthItem" }) as any as S.Schema<WorkflowHealthItem>;
 
 export type EngineeringAnalyticsWorkflowHealthResponseBodyList = Array<WorkflowHealthItem>;
 export const EngineeringAnalyticsWorkflowHealthResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2615,9 +3615,14 @@ export const EngineeringAnalyticsWorkflowHealthResponse = /*@__PURE__*/ S.suspen
   identifier: "EngineeringAnalyticsWorkflowHealthResponse",
 }) as any as S.Schema<EngineeringAnalyticsWorkflowHealthResponse>;
 
+export type EngineeringAnalyticsWorkflowJobsRequestCiEngine = "depot_ci" | "github_actions";
+export const EngineeringAnalyticsWorkflowJobsRequestCiEngine = S.String;
+
 export interface EngineeringAnalyticsWorkflowJobsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** CI engine. Required when run_id exists in both engines. */
+  ci_engine?: EngineeringAnalyticsWorkflowJobsRequestCiEngine | (string & {});
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
   repo?: string;
   /** Which re-run attempt to scope jobs to. Omit to use the run's latest attempt; pass an explicit attempt to avoid mixing jobs across a re-run's attempts. */
@@ -2630,6 +3635,7 @@ export interface EngineeringAnalyticsWorkflowJobsRequest {
 export const EngineeringAnalyticsWorkflowJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
+    ci_engine: S.optional(EngineeringAnalyticsWorkflowJobsRequestCiEngine.pipe(T.Query())),
     repo: S.optional(S.String.pipe(T.Query())),
     run_attempt: S.optional(S.Number.pipe(T.Query())),
     run_id: S.Number.pipe(T.Query()),
@@ -2646,7 +3652,9 @@ export const EngineeringAnalyticsWorkflowJobsRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<EngineeringAnalyticsWorkflowJobsRequest>;
 
 export interface WorkflowJob {
-  /** GitHub Actions job id. */
+  /** CI execution engine; null when unknown. * `github_actions` - GitHub Actions * `depot_ci` - Depot CI */
+  ci_engine?: CIEngineEnum | null;
+  /** Integer job id; unique only together with ci_engine. */
   id: number;
   /** The workflow run id this job belongs to. */
   run_id: number;
@@ -2668,9 +3676,18 @@ export interface WorkflowJob {
   runner_label: string;
   /** Estimated cost in USD from runner tier + elapsed time; null when the tier is unknown or the job hasn't finished. */
   estimated_cost_usd: number | null;
+  /** Source-native run id; use with ci_engine for identity. */
+  native_run_id?: string | null;
+  /** Source-native workflow run id; use with ci_engine for identity. */
+  native_workflow_run_id?: string | null;
+  /** Source-native job id; use with ci_engine for identity. */
+  native_job_id?: string | null;
+  /** Source-native attempt id; use with ci_engine for identity. */
+  native_attempt_id?: string | null;
 }
 export const WorkflowJob = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    ci_engine: S.optional(S.NullOr(CIEngineEnum)),
     id: S.Number,
     run_id: S.Number,
     name: S.String,
@@ -2682,6 +3699,10 @@ export const WorkflowJob = /*@__PURE__*/ S.suspend(() =>
     runner_provider: S.String,
     runner_label: S.String,
     estimated_cost_usd: S.NullOr(S.Number),
+    native_run_id: S.optional(S.NullOr(S.String)),
+    native_workflow_run_id: S.optional(S.NullOr(S.String)),
+    native_job_id: S.optional(S.NullOr(S.String)),
+    native_attempt_id: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({ identifier: "WorkflowJob" }) as any as S.Schema<WorkflowJob>;
 
@@ -2698,6 +3719,13 @@ export const EngineeringAnalyticsWorkflowJobsResponse = /*@__PURE__*/ S.suspend(
   identifier: "EngineeringAnalyticsWorkflowJobsResponse",
 }) as any as S.Schema<EngineeringAnalyticsWorkflowJobsResponse>;
 
+export type EngineeringAnalyticsWorkflowRunnerCostsRequestRunScope =
+  | "all"
+  | "default_branch"
+  | "merge_queue"
+  | "pull_request";
+export const EngineeringAnalyticsWorkflowRunnerCostsRequestRunScope = S.String;
+
 export interface EngineeringAnalyticsWorkflowRunnerCostsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -2709,6 +3737,8 @@ export interface EngineeringAnalyticsWorkflowRunnerCostsRequest {
   date_to?: string;
   /** 'owner/name' repository the workflow belongs to. */
   repo: string;
+  /** Which group of runs to report on: 'all' (default) is every run; 'default_branch' is runs on master or main; 'pull_request' is runs on PR branches, excluding default-branch and merge-queue runs; 'merge_queue' is the gate runs the merge queue fired before a merge landed. Fork PRs carry no PR attribution (a GitHub limitation), so they appear only under 'all'. Any other value is a 400. */
+  run_scope?: EngineeringAnalyticsWorkflowRunnerCostsRequestRunScope | (string & {});
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source when the team has more than one. */
   source_id?: string;
   /** Workflow name to break down cost for. */
@@ -2721,6 +3751,7 @@ export const EngineeringAnalyticsWorkflowRunnerCostsRequest = /*@__PURE__*/ S.su
     date_from: S.optional(S.String.pipe(T.Query())),
     date_to: S.optional(S.String.pipe(T.Query())),
     repo: S.String.pipe(T.Query()),
+    run_scope: S.optional(EngineeringAnalyticsWorkflowRunnerCostsRequestRunScope.pipe(T.Query())),
     source_id: S.optional(S.String.pipe(T.Query())),
     workflow_name: S.String.pipe(T.Query()),
   }).pipe(
@@ -2754,9 +3785,7 @@ export const WorkflowRunnerCost = /*@__PURE__*/ S.suspend(() =>
     billable_minutes: S.Number,
     estimated_cost_usd: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "WorkflowRunnerCost",
-}) as any as S.Schema<WorkflowRunnerCost>;
+).annotate({ identifier: "WorkflowRunnerCost" }) as any as S.Schema<WorkflowRunnerCost>;
 
 export type EngineeringAnalyticsWorkflowRunnerCostsResponseBodyList = Array<WorkflowRunnerCost>;
 export const EngineeringAnalyticsWorkflowRunnerCostsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2771,6 +3800,13 @@ export const EngineeringAnalyticsWorkflowRunnerCostsResponse = /*@__PURE__*/ S.s
   identifier: "EngineeringAnalyticsWorkflowRunnerCostsResponse",
 }) as any as S.Schema<EngineeringAnalyticsWorkflowRunnerCostsResponse>;
 
+export type EngineeringAnalyticsWorkflowRunsRequestRunScope =
+  | "all"
+  | "default_branch"
+  | "merge_queue"
+  | "pull_request";
+export const EngineeringAnalyticsWorkflowRunsRequestRunScope = S.String;
+
 export interface EngineeringAnalyticsWorkflowRunsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -2782,6 +3818,8 @@ export interface EngineeringAnalyticsWorkflowRunsRequest {
   date_to?: string;
   /** 'owner/name' repository the workflow belongs to. */
   repo: string;
+  /** Which group of runs to report on: 'all' (default) is every run; 'default_branch' is runs on master or main; 'pull_request' is runs on PR branches, excluding default-branch and merge-queue runs; 'merge_queue' is the gate runs the merge queue fired before a merge landed. Fork PRs carry no PR attribution (a GitHub limitation), so they appear only under 'all'. Any other value is a 400. */
+  run_scope?: EngineeringAnalyticsWorkflowRunsRequestRunScope | (string & {});
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source when the team has more than one. */
   source_id?: string;
   /** Workflow name to list runs for. */
@@ -2794,6 +3832,7 @@ export const EngineeringAnalyticsWorkflowRunsRequest = /*@__PURE__*/ S.suspend((
     date_from: S.optional(S.String.pipe(T.Query())),
     date_to: S.optional(S.String.pipe(T.Query())),
     repo: S.String.pipe(T.Query()),
+    run_scope: S.optional(EngineeringAnalyticsWorkflowRunsRequestRunScope.pipe(T.Query())),
     source_id: S.optional(S.String.pipe(T.Query())),
     workflow_name: S.String.pipe(T.Query()),
   }).pipe(
@@ -2856,9 +3895,7 @@ export const CISignalsConfig = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     sync_status: S.NullOr(SyncStatusEnum),
   }),
-).annotate({
-  identifier: "CISignalsConfig",
-}) as any as S.Schema<CISignalsConfig>;
+).annotate({ identifier: "CISignalsConfig" }) as any as S.Schema<CISignalsConfig>;
 
 export interface MergeEngineeringAnalyticsTeamTrendRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2907,9 +3944,7 @@ export const TeamMergeTrendPoint = /*@__PURE__*/ S.suspend(() =>
     average_seconds: S.NullOr(S.Number),
     merged_count: S.Number,
   }),
-).annotate({
-  identifier: "TeamMergeTrendPoint",
-}) as any as S.Schema<TeamMergeTrendPoint>;
+).annotate({ identifier: "TeamMergeTrendPoint" }) as any as S.Schema<TeamMergeTrendPoint>;
 
 /** Daily median and average open→merge over the PRs this team's members merged, ascending by day. Coarse timing (open→merge combines draft and review time); bots excluded. */
 export type TeamMergeTrendPointsList = Array<TeamMergeTrendPoint>;
@@ -2933,9 +3968,14 @@ export const TeamMergeTrend = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "TeamMergeTrend" }) as any as S.Schema<TeamMergeTrend>;
 
+export type RunEngineeringAnalyticsFailureLogsRequestCiEngine = "depot_ci" | "github_actions";
+export const RunEngineeringAnalyticsFailureLogsRequestCiEngine = S.String;
+
 export interface RunEngineeringAnalyticsFailureLogsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** CI engine. Required when run_id exists in both engines. */
+  ci_engine?: RunEngineeringAnalyticsFailureLogsRequestCiEngine | (string & {});
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
   repo?: string;
   /** Workflow run id whose failure logs to fetch. */
@@ -2946,6 +3986,7 @@ export interface RunEngineeringAnalyticsFailureLogsRequest {
 export const RunEngineeringAnalyticsFailureLogsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
+    ci_engine: S.optional(RunEngineeringAnalyticsFailureLogsRequestCiEngine.pipe(T.Query())),
     repo: S.optional(S.String.pipe(T.Query())),
     run_id: S.Number.pipe(T.Query()),
     source_id: S.optional(S.String.pipe(T.Query())),
@@ -2967,17 +4008,20 @@ export const RunFailureLogsJobsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<RunFailureLogsJobsList>;
 
 export interface RunFailureLogs {
+  /** CI execution engine; null when unknown. * `github_actions` - GitHub Actions * `depot_ci` - Depot CI */
+  ci_engine?: CIEngineEnum | null;
   /** Failed CI jobs of this run with their thinned failure logs, grouped by job. */
   jobs: RunFailureLogsJobsList;
   /** Workflow run id the failure logs are for. */
   run_id: number;
-  /** False when no failure logs were found — the run didn't fail, or its logs aged out of the short Logs retention. */
+  /** False when no failure logs were found: the run didn't fail, or its logs aged out of the short Logs retention. */
   logs_available: boolean;
   /** True when the overall line cap across all jobs was hit. */
   truncated: boolean;
 }
 export const RunFailureLogs = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    ci_engine: S.optional(S.NullOr(CIEngineEnum)),
     jobs: RunFailureLogsJobsList,
     run_id: S.Number,
     logs_available: S.Boolean,
@@ -3019,7 +4063,9 @@ export const RunEngineeringAnalyticsRepoActivityRequest = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<RunEngineeringAnalyticsRepoActivityRequest>;
 
 export interface WorkflowRunActivityPoint {
-  /** GitHub Actions run id. */
+  /** CI execution engine; null when unknown. * `github_actions` - GitHub Actions * `depot_ci` - Depot CI */
+  ci_engine?: CIEngineEnum | null;
+  /** Integer run id; unique only together with ci_engine. */
   run_id: number;
   /** Run conclusion ('success', 'failure', 'timed_out', 'cancelled', 'skipped', ...), or null while still in progress. */
   conclusion: string | null;
@@ -3036,6 +4082,7 @@ export interface WorkflowRunActivityPoint {
 }
 export const WorkflowRunActivityPoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    ci_engine: S.optional(S.NullOr(CIEngineEnum)),
     run_id: S.Number,
     conclusion: S.NullOr(S.String),
     run_started_at: S.String,
@@ -3044,9 +4091,7 @@ export const WorkflowRunActivityPoint = /*@__PURE__*/ S.suspend(() =>
     pr_number: S.Number,
     head_sha: S.String,
   }),
-).annotate({
-  identifier: "WorkflowRunActivityPoint",
-}) as any as S.Schema<WorkflowRunActivityPoint>;
+).annotate({ identifier: "WorkflowRunActivityPoint" }) as any as S.Schema<WorkflowRunActivityPoint>;
 
 /** Per-run chart points, newest first, capped at `limit`. */
 export type WorkflowRunActivityPointsList = Array<WorkflowRunActivityPoint>;
@@ -3068,16 +4113,19 @@ export const WorkflowRunActivity = /*@__PURE__*/ S.suspend(() =>
     truncated: S.Boolean,
     limit: S.Number,
   }),
-).annotate({
-  identifier: "WorkflowRunActivity",
-}) as any as S.Schema<WorkflowRunActivity>;
+).annotate({ identifier: "WorkflowRunActivity" }) as any as S.Schema<WorkflowRunActivity>;
+
+export type RunEngineeringAnalyticsWorkflowRequestCiEngine = "depot_ci" | "github_actions";
+export const RunEngineeringAnalyticsWorkflowRequestCiEngine = S.String;
 
 export interface RunEngineeringAnalyticsWorkflowRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** CI engine. Required when run_id exists in both engines. */
+  ci_engine?: RunEngineeringAnalyticsWorkflowRequestCiEngine | (string & {});
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
   repo?: string;
-  /** GitHub Actions run id to inspect. */
+  /** Integer run id to inspect; unique only together with ci_engine. */
   run_id: number;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source when the team has more than one. */
   source_id?: string;
@@ -3085,6 +4133,7 @@ export interface RunEngineeringAnalyticsWorkflowRequest {
 export const RunEngineeringAnalyticsWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
+    ci_engine: S.optional(RunEngineeringAnalyticsWorkflowRequestCiEngine.pipe(T.Query())),
     repo: S.optional(S.String.pipe(T.Query())),
     run_id: S.Number.pipe(T.Query()),
     source_id: S.optional(S.String.pipe(T.Query())),
@@ -3099,6 +4148,13 @@ export const RunEngineeringAnalyticsWorkflowRequest = /*@__PURE__*/ S.suspend(()
   identifier: "RunEngineeringAnalyticsWorkflowRequest",
 }) as any as S.Schema<RunEngineeringAnalyticsWorkflowRequest>;
 
+export type RunEngineeringAnalyticsWorkflowActivityRequestRunScope =
+  | "all"
+  | "default_branch"
+  | "merge_queue"
+  | "pull_request";
+export const RunEngineeringAnalyticsWorkflowActivityRequestRunScope = S.String;
+
 export interface RunEngineeringAnalyticsWorkflowActivityRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -3110,6 +4166,8 @@ export interface RunEngineeringAnalyticsWorkflowActivityRequest {
   date_to?: string;
   /** 'owner/name' repository the workflow belongs to. */
   repo: string;
+  /** Which group of runs to report on: 'all' (default) is every run; 'default_branch' is runs on master or main; 'pull_request' is runs on PR branches, excluding default-branch and merge-queue runs; 'merge_queue' is the gate runs the merge queue fired before a merge landed. Fork PRs carry no PR attribution (a GitHub limitation), so they appear only under 'all'. Any other value is a 400. */
+  run_scope?: RunEngineeringAnalyticsWorkflowActivityRequestRunScope | (string & {});
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source when the team has more than one. */
   source_id?: string;
   /** Workflow name to load run activity for. */
@@ -3122,6 +4180,7 @@ export const RunEngineeringAnalyticsWorkflowActivityRequest = /*@__PURE__*/ S.su
     date_from: S.optional(S.String.pipe(T.Query())),
     date_to: S.optional(S.String.pipe(T.Query())),
     repo: S.String.pipe(T.Query()),
+    run_scope: S.optional(RunEngineeringAnalyticsWorkflowActivityRequestRunScope.pipe(T.Query())),
     source_id: S.optional(S.String.pipe(T.Query())),
     workflow_name: S.String.pipe(T.Query()),
   }).pipe(
@@ -3156,6 +4215,51 @@ export const UpdateEngineeringAnalyticsCiSignalsConfigRequest = /*@__PURE__*/ S.
   identifier: "UpdateEngineeringAnalyticsCiSignalsConfigRequest",
 }) as any as S.Schema<UpdateEngineeringAnalyticsCiSignalsConfigRequest>;
 
+export type EngineeringAnalyticsAttentionPullRequestsError = BadRequest | PosthogOpError;
+/** Open pull requests that need attention: failing CI, or stuck (open, non-draft, non-bot, older than 7 days), by the same rules as the ci_cards counts. Failing first, then newest, capped; `total` counts every match in the whole open backlog, however old. Cost and billable minutes can lag new CI by up to 5 minutes. */
+export const engineeringAnalyticsAttentionPullRequests: API.OperationMethod<
+  EngineeringAnalyticsAttentionPullRequestsRequest,
+  AttentionPullRequestList,
+  EngineeringAnalyticsAttentionPullRequestsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: EngineeringAnalyticsAttentionPullRequestsRequest,
+  output: AttentionPullRequestList,
+  errors: [BadRequest],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type EngineeringAnalyticsAuthorFrictionError = BadRequest | PosthogOpError;
+/** Every author's friction over pull requests merged in the last 30 days, most first: red CI they did not cause, re-runs that failed again, CI waits, the wait for the first approval, merge-queue time and kickouts, and rework. The score is a multiple of the typical author and never counts how much or how fast someone ships. Bots are excluded, and authors need at least 3 merged pull requests. */
+export const engineeringAnalyticsAuthorFriction: API.OperationMethod<
+  EngineeringAnalyticsAuthorFrictionRequest,
+  AuthorFrictionList,
+  EngineeringAnalyticsAuthorFrictionError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: EngineeringAnalyticsAuthorFrictionRequest,
+  output: AuthorFrictionList,
+  errors: [BadRequest],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type EngineeringAnalyticsAuthorFrictionDetailError = BadRequest | PosthogOpError;
+/** One author's friction over pull requests merged in the last 30 days, next to the median of each of the author's teams, and the author's pull requests that added the most friction. Bots are excluded. */
+export const engineeringAnalyticsAuthorFrictionDetail: API.OperationMethod<
+  EngineeringAnalyticsAuthorFrictionDetailRequest,
+  AuthorFrictionDetail,
+  EngineeringAnalyticsAuthorFrictionDetailError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: EngineeringAnalyticsAuthorFrictionDetailRequest,
+  output: AuthorFrictionDetail,
+  errors: [BadRequest],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type EngineeringAnalyticsAuthorWorkflowCostsError = BadRequest | PosthogOpError;
 /** One author's estimated CI cost split by workflow over a window (date_from default -30d), highest spend first. Runs are attributed to the author through their pull requests (attribution is by PR number). Returns an empty list when the job-level source isn't synced. */
 export const engineeringAnalyticsAuthorWorkflowCosts: API.OperationMethod<
@@ -3172,7 +4276,7 @@ export const engineeringAnalyticsAuthorWorkflowCosts: API.OperationMethod<
 }));
 
 export type EngineeringAnalyticsBrokenTestsError = BadRequest | PosthogOpError;
-/** The broken-tests triage panel: live CI failures over the last 2 days grouped into distinct failures (by test id + normalized error signature) and classified by how each is behaving right now — breaking trunk, blocking the merge queue, a new failure spreading across branches, probably-resolved, flaky, or one PR's own problem — ranked with the most urgent first. A blocking_merge_queue row is a failure on a merge-queue gate branch that never hit trunk: the commit had already passed the PR's own CI, so it is the semantic conflict the queue exists to catch, and it is holding up landings. Also returns breaking_master_jobs, the default-branch jobs whose latest run is red. Reach for this to answer 'what CI failures should I care about right now'; expand a row's latest_run_id via run_failure_logs for the failing lines. Fingerprinting is pytest-only for now (jest/playwright/cargo failures aren't grouped yet), and the breaking/resolved distinction needs the job-level source synced — without it those failures fall through to flaky/pr_only rather than being misreported. */
+/** The broken-tests triage panel: live CI failures over the last 2 days grouped into distinct failures (by test id + normalized error signature) and classified by how each is behaving right now: breaking trunk, blocking the merge queue, a new failure spreading across branches, probably-resolved, flaky, or one PR's own problem: ranked with the most urgent first. A blocking_merge_queue row is a failure on a merge-queue gate branch that never hit trunk: the commit had already passed the PR's own CI, so it is the semantic conflict the queue exists to catch, and it is holding up landings. Also returns breaking_master_jobs, the default-branch jobs whose latest run is red. Reach for this to answer 'what CI failures should I care about right now'; expand a row's latest_run_id via run_failure_logs for the failing lines. Fingerprinting is pytest-only for now (jest/playwright/cargo failures aren't grouped yet), and the breaking/resolved distinction needs the job-level source synced: without it those failures fall through to flaky/pr_only rather than being misreported. */
 export const engineeringAnalyticsBrokenTests: API.OperationMethod<
   EngineeringAnalyticsBrokenTestsRequest,
   BrokenTestsResult,
@@ -3231,8 +4335,38 @@ export const engineeringAnalyticsCurrentBranchHealth: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type EngineeringAnalyticsDeliveryComparisonError = BadRequest | PosthogOpError;
+/** One author's median ready to merged time, split at the first approval, next to the same medians for the author's own team and for the whole repository, over pull requests merged in the window (date_from default -30d). The team is picked from the author's GitHub teams that own code: a team that pr_number asked to review, else the team the author's pull requests asked to review most often, else every team. Bots and drafts are excluded. */
+export const engineeringAnalyticsDeliveryComparison: API.OperationMethod<
+  EngineeringAnalyticsDeliveryComparisonRequest,
+  DeliveryComparison,
+  EngineeringAnalyticsDeliveryComparisonError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: EngineeringAnalyticsDeliveryComparisonRequest,
+  output: DeliveryComparison,
+  errors: [BadRequest],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type EngineeringAnalyticsDeliverySummaryError = BadRequest | PosthogOpError;
+/** Delivery and CI friction for one author or one GitHub team over a window (date_from default -30d), each figure next to the same figure over the whole repository: CI spend per merged PR, ready to merged split at the first approval, pushes after approval, merge-queue attempts, and lead time to deploy. Bots and drafts are excluded. Figures whose optional source isn't synced are null and flagged. */
+export const engineeringAnalyticsDeliverySummary: API.OperationMethod<
+  EngineeringAnalyticsDeliverySummaryRequest,
+  DeliverySummary,
+  EngineeringAnalyticsDeliverySummaryError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: EngineeringAnalyticsDeliverySummaryRequest,
+  output: DeliverySummary,
+  errors: [BadRequest],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type EngineeringAnalyticsDoraError = BadRequest | PosthogOpError;
-/** DORA-style deploy metrics over the GitHub deployments + deployment_statuses warehouse pair, each headline with its previous-window twin: deployment frequency, merge-to-deploy lead time (with a per-bucket box-plot series), and honest proxies for change failure rate and time to restore (deploy-status based — no incident data is linked). deploy_data_available is false when the deploy tables aren't synced. */
+/** DORA-style deploy metrics over the GitHub deployments + deployment_statuses warehouse pair, each headline with its previous-window twin: deployment frequency, merge-to-deploy lead time (with a per-bucket box-plot series), and honest proxies for change failure rate and time to restore (deploy-status based: no incident data is linked). deploy_data_available is false when the deploy tables aren't synced. */
 export const engineeringAnalyticsDora: API.OperationMethod<
   EngineeringAnalyticsDoraRequest,
   DoraOverview,
@@ -3262,7 +4396,7 @@ export const engineeringAnalyticsFlakyTests: API.OperationMethod<
 }));
 
 export type EngineeringAnalyticsJobAggregatesError = BadRequest | PosthogOpError;
-/** Per-job aggregates for one workflow over a window (default -30d), one row per de-sharded job name (matrix shards aggregate together), busiest first: queue p50, duration p50/p95, failure rate, retry pressure, run share (below 1.0 = conditional job), and billable cost. Jobs always need their run as context — this is the aggregate view; use workflow_jobs for one run's jobs. Empty when the job-level source isn't synced. */
+/** Per-job aggregates for one workflow over a window (default -30d), one row per de-sharded job name (matrix shards aggregate together), busiest first: queue p50, duration p50/p95, failure rate, retry pressure, run share (below 1.0 = conditional job), and billable cost. Optionally scope to a single git branch via `branch` or one run group via `run_scope`. Jobs always need their run as context: this is the aggregate view; use workflow_jobs for one run's jobs. Empty when the job-level source isn't synced. */
 export const engineeringAnalyticsJobAggregates: API.OperationMethod<
   EngineeringAnalyticsJobAggregatesRequest,
   EngineeringAnalyticsJobAggregatesResponse,
@@ -3277,7 +4411,7 @@ export const engineeringAnalyticsJobAggregates: API.OperationMethod<
 }));
 
 export type EngineeringAnalyticsMasterFailuresError = BadRequest | PosthogOpError;
-/** Default-branch failures over a window (default -24h), grouped error-tracking style by (workflow, de-sharded failing job) with a run count and first/last seen, newest group first. `branch` overrides the detected default branch. PR-branch failures are deliberately excluded — at monorepo volume a flat feed is a firehose; those surface per PR. Groups degrade to workflow level (failed_job '') when the job-level source isn't synced. */
+/** Default-branch failures over a window (default -24h), grouped error-tracking style by (workflow, de-sharded failing job) with a run count and first/last seen, newest group first. `branch` overrides the detected default branch. PR-branch failures are deliberately excluded: at monorepo volume a flat feed is a firehose; those surface per PR. Groups degrade to workflow level (failed_job '') when the job-level source isn't synced. */
 export const engineeringAnalyticsMasterFailures: API.OperationMethod<
   EngineeringAnalyticsMasterFailuresRequest,
   EngineeringAnalyticsMasterFailuresResponse,
@@ -3292,7 +4426,7 @@ export const engineeringAnalyticsMasterFailures: API.OperationMethod<
 }));
 
 export type EngineeringAnalyticsPrCostError = BadRequest | PosthogOpError;
-/** Estimated CI cost for a pull request, summed over the jobs of all its workflow runs. Billable self-hosted Linux runners only — provider-hosted (free GitHub-hosted) and non-Linux jobs are excluded. Every figure is zero/null with `jobs_available` false when the job-level source isn't synced yet. `llm_spend` carries the agent LLM token spend attributed to the PR by git branch, or null when no `$ai_generation` event matched. */
+/** Estimated CI cost for a pull request, summed over the jobs of all its workflow runs. Billable self-hosted Linux runners only: provider-hosted (free GitHub-hosted) and non-Linux jobs are excluded. Every figure is zero/null with `jobs_available` false when the job-level source isn't synced yet. `llm_spend` carries the agent LLM token spend attributed to the PR by git branch, or null when no `$ai_generation` event matched. */
 export const engineeringAnalyticsPrCost: API.OperationMethod<
   EngineeringAnalyticsPrCostRequest,
   PRCostSummary,
@@ -3336,8 +4470,23 @@ export const engineeringAnalyticsPrRuns: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type EngineeringAnalyticsPullRequestFrictionError = BadRequest | PosthogOpError;
+/** One merged pull request's friction as a multiple of the typical pull request, with the counts behind it: red CI by cause, re-runs that failed again, CI time per push, the wait for the first approval, merge-queue time and kickouts, and rework. Covers pull requests merged in the last 30 days. */
+export const engineeringAnalyticsPullRequestFriction: API.OperationMethod<
+  EngineeringAnalyticsPullRequestFrictionRequest,
+  PullRequestFrictionDetail,
+  EngineeringAnalyticsPullRequestFrictionError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: EngineeringAnalyticsPullRequestFrictionRequest,
+  output: PullRequestFrictionDetail,
+  errors: [BadRequest],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type EngineeringAnalyticsPullRequestsError = BadRequest | PosthogOpError;
-/** Open pull requests plus any merged or closed since date_from (default -30d), newest first, each with its head-SHA CI rollup. The list is capped; when more match, `truncated` is true and the ci_cards counts can exceed it. open_to_merge_seconds is coarse — it fuses draft and ready-for-review time; CI counts can lag until late completions settle. */
+/** Open pull requests plus any merged or closed since date_from (default -30d), newest first, each with its head-SHA CI rollup. Pass state to list one state only. The list is paged by limit and offset; when more match, `truncated` is true and the ci_cards counts can exceed it. open_to_merge_seconds is coarse: it fuses draft and ready-for-review time; CI counts can lag until late completions settle. Cost and billable minutes can lag new CI by up to 5 minutes. */
 export const engineeringAnalyticsPullRequests: API.OperationMethod<
   EngineeringAnalyticsPullRequestsRequest,
   PullRequestList,
@@ -3351,8 +4500,23 @@ export const engineeringAnalyticsPullRequests: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type EngineeringAnalyticsPullRequestTimelinesError = BadRequest | PosthogOpError;
+/** Pull requests as timelines of what each waited on from ready for review to merge or now: review, CI, red checks by what turned them green, and the merge queue. Scope to one author or one GitHub team (open PRs plus PRs merged in the window, date_from default -30d), or to one pull request with pr_number and repo. */
+export const engineeringAnalyticsPullRequestTimelines: API.OperationMethod<
+  EngineeringAnalyticsPullRequestTimelinesRequest,
+  PullRequestTimelines,
+  EngineeringAnalyticsPullRequestTimelinesError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: EngineeringAnalyticsPullRequestTimelinesRequest,
+  output: PullRequestTimelines,
+  errors: [BadRequest],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type EngineeringAnalyticsQuarantineError = BadRequest | PosthogOpError;
-/** Flaky-test quarantine file The repository's checked-in .test_quarantine.json: flaky tests temporarily quarantined with a hard expiry, classified by urgency (overdue, in grace, expiring soon, active). `available` is false when the repo has no quarantine file — that is not an error. Parsing is fail-open: malformed entries are reported in parse_errors while well-formed ones are kept. */
+/** Flaky-test quarantine file The repository's checked-in .test_quarantine.json: flaky tests temporarily quarantined with a hard expiry, classified by urgency (overdue, in grace, expiring soon, active). `available` is false when the repo has no quarantine file: that is not an error. Parsing is fail-open: malformed entries are reported in parse_errors while well-formed ones are kept. */
 export const engineeringAnalyticsQuarantine: API.OperationMethod<
   EngineeringAnalyticsQuarantineRequest,
   QuarantineFile,
@@ -3367,7 +4531,7 @@ export const engineeringAnalyticsQuarantine: API.OperationMethod<
 }));
 
 export type EngineeringAnalyticsQuarantineRequest2Error = BadRequest | PosthogOpError;
-/** Quarantine, extend, or unquarantine a flaky test Opens a pull request that edits the repository's checked-in .test_quarantine.json — and, for a new quarantine, a tracking issue the PR links but does not close. The file stays the source of truth that CI enforces; this never bypasses it. A quarantine only affects CI runs that start after the PR merges. */
+/** Quarantine, extend, or unquarantine a flaky test Opens a pull request that edits the repository's checked-in .test_quarantine.json and, for a new quarantine, opens a tracking issue that the PR links but does not close. The file stays the source of truth that CI enforces; this never bypasses it. A quarantine only affects CI runs that start after the PR merges. */
 export const engineeringAnalyticsQuarantineRequest2: API.OperationMethod<
   EngineeringAnalyticsQuarantineRequestRequest,
   QuarantineRequestResult,
@@ -3382,7 +4546,7 @@ export const engineeringAnalyticsQuarantineRequest2: API.OperationMethod<
 }));
 
 export type EngineeringAnalyticsRepoOverviewError = BadRequest | PosthogOpError;
-/** Repo-level headline aggregates over a window (default -30d): run count, conclusive-run success rate, re-run cycles, merged-PR count (bots included), median PR open-to-merge (bots and drafts excluded; coarse — draft and ready time fused), median time-to-green, billable minutes + estimated cost (with the merge-queue slice of billable minutes broken out), and merge-queue landing stats (queue-landed merges, first-gate-to-merge median and p90, gate attempts, failed-gate share) — each with its equal-length previous-window twin so a caller can render honest deltas. Also carries the detected default branch and its completed-run history series (skippable via include_series=false). Cost figures are null until the job-level source is synced. */
+/** Repo-level headline aggregates over a window (default -30d): run count, conclusive-run success rate, re-run cycles, merged-PR count (bots included), median PR open-to-merge (bots and drafts excluded; coarse: draft and ready time fused), median time-to-green, billable minutes + estimated cost (with the merge-queue slice of billable minutes broken out), and merge-queue landing stats (queue-landed merges, first-gate-to-merge median and p90, gate attempts, failed-gate share): each with its equal-length previous-window twin so a caller can render honest deltas. Also carries the detected default branch and its completed-run history series (skippable via include_series=false). Cost figures are null until the job-level source is synced. */
 export const engineeringAnalyticsRepoOverview: API.OperationMethod<
   EngineeringAnalyticsRepoOverviewRequest,
   RepoOverview,
@@ -3397,7 +4561,7 @@ export const engineeringAnalyticsRepoOverview: API.OperationMethod<
 }));
 
 export type EngineeringAnalyticsResolveBranchError = BadRequest | PosthogOpError;
-/** Resolve a git branch to the pull request(s) it belongs to — the cross-product link seam so another product (the LLM analytics UI) can turn a git branch into a PR detail link. Matches the PR's head ref, open PRs first then most recently updated. Pass `timestamp` (the trace's capture time) to prefer the PR that was active at that moment when a branch name has been reused across PRs. `branch` is required. Returns a possibly-empty, possibly-multi list — an empty list is a valid 200 (the caller renders a plain chip). */
+/** Resolve a git branch to the pull request(s) it belongs to: the cross-product link seam so another product (the LLM analytics UI) can turn a git branch into a PR detail link. Matches the PR's head ref, open PRs first then most recently updated. Pass `timestamp` (the trace's capture time) to prefer the PR that was active at that moment when a branch name has been reused across PRs. `branch` is required. Returns a possibly-empty, possibly-multi list: an empty list is a valid 200 (the caller renders a plain chip). */
 export const engineeringAnalyticsResolveBranch: API.OperationMethod<
   EngineeringAnalyticsResolveBranchRequest,
   EngineeringAnalyticsResolveBranchResponse,
@@ -3412,7 +4576,7 @@ export const engineeringAnalyticsResolveBranch: API.OperationMethod<
 }));
 
 export type EngineeringAnalyticsSourcesError = PosthogOpError;
-/** The team's selectable GitHub repositories, oldest source first — one entry per repository a source is configured to sync, so a source syncing several repositories appears once per repo. Populate a repo picker from this and pass a chosen entry's `id` back as `source_id` and its `repo` back as `repo` to the other endpoints. Includes repositories whose tables aren't fully synced yet. */
+/** The team's selectable GitHub repositories, oldest source first: one entry per repository a source is configured to sync, so a source syncing several repositories appears once per repo. Populate a repo picker from this and pass a chosen entry's `id` back as `source_id` and its `repo` back as `repo` to the other endpoints. Includes repositories whose tables aren't fully synced yet. */
 export const engineeringAnalyticsSources: API.OperationMethod<
   EngineeringAnalyticsSourcesRequest,
   EngineeringAnalyticsSourcesResponse,
@@ -3457,7 +4621,7 @@ export const engineeringAnalyticsTeamCiHealth: API.OperationMethod<
 }));
 
 export type EngineeringAnalyticsTrunkQuarantineError = BadRequest | PosthogOpError;
-/** Trunk quarantine debt by owning team The standing Trunk quarantine debt: every test Trunk currently quarantines (failures suppressed in CI), attributed to the team that owns its file in the repository, aged against a TTL, and rolled up per team with the most indebted first. A quarantine only masks a test; it never fixes it, so this is the work queue of tests someone still has to repair or delete. `available` is false when no TrunkIo source has the QuarantinedTests endpoint synced — that is not an error. */
+/** Trunk quarantine debt by owning team The standing Trunk quarantine debt: every test Trunk currently quarantines (failures suppressed in CI), attributed to the team that owns its file in the repository, aged against a TTL, and rolled up per team with the most indebted first. A quarantine only masks a test; it never fixes it, so this is the work queue of tests someone still has to repair or delete. `available` is false when no TrunkIo source has the QuarantinedTests endpoint synced: that is not an error. */
 export const engineeringAnalyticsTrunkQuarantine: API.OperationMethod<
   EngineeringAnalyticsTrunkQuarantineRequest,
   TrunkQuarantineDebt,
@@ -3472,7 +4636,7 @@ export const engineeringAnalyticsTrunkQuarantine: API.OperationMethod<
 }));
 
 export type EngineeringAnalyticsWorkflowHealthError = BadRequest | PosthogOpError;
-/** Per-workflow CI health over a window (default last 24 hours, maximum 366 days): run count, success rate, p50/p95 duration, last failure time, latest-run status, and a zero-filled run history bucketed by hour/day/week to fit the window. Success rate covers runs that succeeded or ended in a decisive failure. Skipped, cancelled, neutral, and action-required runs are excluded. p50/p95 are over successful runs only, so cancelled (superseded) and failed runs never bias the duration trend. Optionally scope to a single git branch via `branch`, or to attributed pull-request runs via `run_scope=pull_request`. Use this for 'is CI getting slower' and 'which workflow is the long pole'; compare two windows to get a trend. */
+/** Per-workflow CI health over a window (default last 24 hours, maximum 366 days): run count, success rate, p50/p95 duration, last failure time, latest-run status, and a zero-filled run history bucketed by hour/day/week to fit the window. Success rate covers runs that succeeded or ended in a decisive failure. Skipped, cancelled, neutral, and action-required runs are excluded. p50/p95 are over successful runs only, so cancelled (superseded) and failed runs never bias the duration trend. Runs under 10 seconds that did no work are excluded when longer successful runs exist. An all-fast workflow uses every successful run. Optionally scope to a single git branch via `branch`, to one workflow via `workflow_name`, or to one run group via `run_scope` (default_branch, pull_request, merge_queue). Use this for 'is CI getting slower' and 'which workflow is the long pole'; compare two windows to get a trend. */
 export const engineeringAnalyticsWorkflowHealth: API.OperationMethod<
   EngineeringAnalyticsWorkflowHealthRequest,
   EngineeringAnalyticsWorkflowHealthResponse,
@@ -3502,7 +4666,7 @@ export const engineeringAnalyticsWorkflowJobs: API.OperationMethod<
 }));
 
 export type EngineeringAnalyticsWorkflowRunnerCostsError = BadRequest | PosthogOpError;
-/** A workflow's estimated CI cost broken down by runner tier over a window (date_from default -30d), highest spend first. Optionally scope to a single git branch via `branch`. Returns an empty list when the job-level source isn't synced. */
+/** A workflow's estimated CI cost broken down by runner tier over a window (date_from default -30d), highest spend first. Optionally scope to a single git branch via `branch` or one run group via `run_scope`. Returns an empty list when the job-level source isn't synced. */
 export const engineeringAnalyticsWorkflowRunnerCosts: API.OperationMethod<
   EngineeringAnalyticsWorkflowRunnerCostsRequest,
   EngineeringAnalyticsWorkflowRunnerCostsResponse,
@@ -3517,7 +4681,7 @@ export const engineeringAnalyticsWorkflowRunnerCosts: API.OperationMethod<
 }));
 
 export type EngineeringAnalyticsWorkflowRunsError = BadRequest | PosthogOpError;
-/** Runs of a single workflow within a repo over a window (date_from default -30d), newest first. Optionally scope to a single git branch via `branch`. Each row is run-level — per-job and per-step detail are not tracked yet. Use this as the GitHub 'workflow' page between the workflow list and a single run. */
+/** Runs of a single workflow within a repo over a window (date_from default -30d), newest first. Optionally scope to a single git branch via `branch` or to one run group via `run_scope`. Each row is run-level: per-job and per-step detail are not tracked yet. Use this as the GitHub 'workflow' page between the workflow list and a single run. */
 export const engineeringAnalyticsWorkflowRuns: API.OperationMethod<
   EngineeringAnalyticsWorkflowRunsRequest,
   EngineeringAnalyticsWorkflowRunsResponse,
@@ -3562,7 +4726,7 @@ export const mergeEngineeringAnalyticsTeamTrend: API.OperationMethod<
 }));
 
 export type RunEngineeringAnalyticsFailureLogsError = BadRequest | PosthogOpError;
-/** The thinned CI failure logs of one workflow run, grouped by failed job — the run-scoped twin of ci_failure_logs for surfaces that aren't PR-scoped (default-branch failures, the run page). logs_available is false when the run didn't fail or its logs aged out of the short Logs retention. */
+/** The thinned CI failure logs of one workflow run, grouped by failed job: the run-scoped twin of ci_failure_logs for surfaces that aren't PR-scoped (default-branch failures, the run page). logs_available is false when the run didn't fail or its logs aged out of the short Logs retention. */
 export const runEngineeringAnalyticsFailureLogs: API.OperationMethod<
   RunEngineeringAnalyticsFailureLogsRequest,
   RunFailureLogs,
@@ -3592,7 +4756,7 @@ export const runEngineeringAnalyticsRepoActivity: API.OperationMethod<
 }));
 
 export type RunEngineeringAnalyticsWorkflowError = BadRequest | NotFound | PosthogOpError;
-/** A single workflow run: status, conclusion, duration, branch, attempt, and the attributed pull request. Run-level only — per-job and per-step detail are not tracked yet. */
+/** A single workflow run: status, conclusion, duration, branch, attempt, and the attributed pull request. Run-level only: per-job and per-step detail are not tracked yet. */
 export const runEngineeringAnalyticsWorkflow: API.OperationMethod<
   RunEngineeringAnalyticsWorkflowRequest,
   WorkflowRunDetail,
@@ -3607,7 +4771,7 @@ export const runEngineeringAnalyticsWorkflow: API.OperationMethod<
 }));
 
 export type RunEngineeringAnalyticsWorkflowActivityError = BadRequest | PosthogOpError;
-/** Compact per-run points for a single workflow over a window (date_from default -30d), newest first, for the run-activity chart: each run's start time, duration, conclusion, branch, and attributed PR. Optionally scope to a single git branch via `branch`, matching workflow_runs. Leaner and higher-capped than workflow_runs so the chart spans the full window even on busy workflows; `truncated` is true when the cap is hit, so the chart covers only the most recent runs. */
+/** Compact per-run points for a single workflow over a window (date_from default -30d), newest first, for the run-activity chart: each run's start time, duration, conclusion, branch, and attributed PR. Optionally scope to a single git branch via `branch` or one run group via `run_scope`, matching workflow_runs. Leaner and higher-capped than workflow_runs so the chart spans the full window even on busy workflows; `truncated` is true when the cap is hit, so the chart covers only the most recent runs. */
 export const runEngineeringAnalyticsWorkflowActivity: API.OperationMethod<
   RunEngineeringAnalyticsWorkflowActivityRequest,
   WorkflowRunActivity,

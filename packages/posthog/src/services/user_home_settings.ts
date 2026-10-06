@@ -41,13 +41,7 @@ export interface GetUserHomeSettingsRequest {
 export const GetUserHomeSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/user_home_settings/{uuid}/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/user_home_settings/{uuid}/", code: 200 })),
 ).annotate({
   identifier: "GetUserHomeSettingsRequest",
 }) as any as S.Schema<GetUserHomeSettingsRequest>;
@@ -109,9 +103,7 @@ export const PinnedSceneTabs = /*@__PURE__*/ S.suspend(() =>
     tabs: S.optional(PinnedSceneTabsTabsList),
     homepage: S.optional(S.NullOr(PinnedSceneTab)),
   }),
-).annotate({
-  identifier: "PinnedSceneTabs",
-}) as any as S.Schema<PinnedSceneTabs>;
+).annotate({ identifier: "PinnedSceneTabs" }) as any as S.Schema<PinnedSceneTabs>;
 
 /** Ordered list of pinned navigation tabs shown in the sidebar for the authenticated user within the current team. Send the full list to replace the existing pins; omit to leave them unchanged. */
 export type UpdateUserHomeSettingsPartialRequestTabsList = Array<PinnedSceneTab>;
@@ -131,13 +123,7 @@ export const UpdateUserHomeSettingsPartialRequest = /*@__PURE__*/ S.suspend(() =
     uuid: S.String.pipe(T.Label()),
     tabs: S.optional(UpdateUserHomeSettingsPartialRequestTabsList),
     homepage: S.optional(S.NullOr(PinnedSceneTab)),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/user_home_settings/{uuid}/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/user_home_settings/{uuid}/", code: 200 })),
 ).annotate({
   identifier: "UpdateUserHomeSettingsPartialRequest",
 }) as any as S.Schema<UpdateUserHomeSettingsPartialRequest>;

@@ -1816,6 +1816,9 @@
         "DistributionWidgetDefinition": {
           "target": "com.datadog.v1#DistributionWidgetDefinition"
         },
+        "EmbeddedAppWidgetDefinition": {
+          "target": "com.datadog.v1#EmbeddedAppWidgetDefinition"
+        },
         "EventStreamWidgetDefinition": {
           "target": "com.datadog.v1#EventStreamWidgetDefinition"
         },
@@ -7449,6 +7452,122 @@
         "smithy.api#documentation": "Y Axis controls for the distribution widget."
       }
     },
+    "com.datadog.v1#EmbeddedAppWidgetDefinition": {
+      "type": "structure",
+      "members": {
+        "app_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the App Builder app to embed."
+          }
+        },
+        "custom_links": {
+          "target": "com.datadog.v1#EmbeddedAppWidgetDefinitionCustomLinksList",
+          "traits": {
+            "smithy.api#documentation": "List of custom links."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the widget."
+          }
+        },
+        "inputs": {
+          "target": "com.datadog.v1#EmbeddedAppWidgetDefinitionInputsList",
+          "traits": {
+            "smithy.api#documentation": "Inputs passed to the embedded app."
+          }
+        },
+        "template_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the built-in app template to embed."
+          }
+        },
+        "time": {
+          "target": "com.datadog.v1#WidgetTime"
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Title of the widget."
+          }
+        },
+        "title_align": {
+          "target": "com.datadog.v1#WidgetTextAlign"
+        },
+        "title_size": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Size of the title."
+          }
+        },
+        "type": {
+          "target": "com.datadog.v1#EmbeddedAppWidgetDefinitionType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The embedded app widget displays an App Builder app on a dashboard. Exactly one of `app_id` or `template_id` must be provided; they cannot be provided together."
+      }
+    },
+    "com.datadog.v1#EmbeddedAppWidgetDefinitionCustomLinksList": {
+      "type": "list",
+      "member": {
+        "target": "com.datadog.v1#WidgetCustomLink"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of custom links."
+      }
+    },
+    "com.datadog.v1#EmbeddedAppWidgetInput": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the app input.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Value of the app input. The API accepts a string, number, boolean, object, or a non-empty homogeneous array of those types.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An input passed to the embedded app."
+      }
+    },
+    "com.datadog.v1#EmbeddedAppWidgetDefinitionInputsList": {
+      "type": "list",
+      "member": {
+        "target": "com.datadog.v1#EmbeddedAppWidgetInput"
+      },
+      "traits": {
+        "smithy.api#documentation": "Inputs passed to the embedded app."
+      }
+    },
+    "com.datadog.v1#EmbeddedAppWidgetDefinitionType": {
+      "type": "enum",
+      "members": {
+        "EMBEDDED_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "embedded_app"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of the embedded app widget."
+      }
+    },
     "com.datadog.v1#EventStreamWidgetDefinition": {
       "type": "structure",
       "members": {
@@ -8755,6 +8874,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "incidents_stream"
+          }
+        },
+        "CASE_STREAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "case_stream"
           }
         }
       },
@@ -16468,6 +16593,9 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "experience_type": {
+          "target": "com.datadog.v1#DashboardExperienceType"
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
@@ -16559,6 +16687,26 @@
       },
       "traits": {
         "smithy.api#documentation": "A dashboard is Datadog’s tool for visually tracking, analyzing, and displaying\nkey performance metrics, which enable you to monitor the health of your infrastructure."
+      }
+    },
+    "com.datadog.v1#DashboardExperienceType": {
+      "type": "enum",
+      "members": {
+        "DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default"
+          }
+        },
+        "PRODUCT_ANALYTICS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "product_analytics"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The experience type of the dashboard."
       }
     },
     "com.datadog.v1#DashboardNotifyListList": {
@@ -26451,7 +26599,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#Integer"
+        "target": "smithy.api#Integer",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Information about the downtime applied to the monitor. Only shows v1 downtimes."
@@ -27104,6 +27255,9 @@
             "smithy.api#documentation": "Columns to group results by."
           }
         },
+        "model_configuration": {
+          "target": "com.datadog.v1#MonitorFormulaAndFunctionDataQualityModelConfiguration"
+        },
         "model_type_override": {
           "target": "com.datadog.v1#MonitorFormulaAndFunctionDataQualityModelTypeOverride"
         },
@@ -27112,6 +27266,9 @@
           "traits": {
             "smithy.api#documentation": "Sensitivity of the anomaly detection model, expressed as a multiplier on the width\nof the predicted bounds. Higher values widen the bounds and produce fewer alerts;\nlower values tighten them and produce more alerts. Defaults to `3.0`."
           }
+        },
+        "source_to_target_config": {
+          "target": "com.datadog.v1#MonitorFormulaAndFunctionDataQualitySourceToTargetConfig"
         }
       },
       "traits": {
@@ -27125,6 +27282,84 @@
       },
       "traits": {
         "smithy.api#documentation": "Columns to group results by."
+      }
+    },
+    "com.datadog.v1#MonitorFormulaAndFunctionDataQualityModelConfiguration": {
+      "type": "structure",
+      "members": {
+        "auto_resolve_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of days after which an open alert is automatically resolved.\nWhen unset, alerts stay open until the measure returns within bounds."
+          }
+        },
+        "enable_flatline_detection": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to alert when the measure stops changing entirely.\nDefaults to `true`."
+          }
+        },
+        "function": {
+          "target": "com.datadog.v1#MonitorFormulaAndFunctionDataQualityDiffFunction"
+        },
+        "min_lower_bound_size": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Minimum distance between the predicted value and the lower bound. Widening the\nlower bound to at least this size suppresses alerts on small downward deviations.\nWhen unset, no minimum is enforced."
+          }
+        },
+        "min_upper_bound_size": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Minimum distance between the predicted value and the upper bound. Widening the\nupper bound to at least this size suppresses alerts on small upward deviations.\nWhen unset, no minimum is enforced."
+          }
+        },
+        "model_bounds_override": {
+          "target": "com.datadog.v1#MonitorFormulaAndFunctionDataQualityModelBoundsOverride"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Tuning options for the anomaly detection model used by the monitor."
+      }
+    },
+    "com.datadog.v1#MonitorFormulaAndFunctionDataQualityDiffFunction": {
+      "type": "enum",
+      "members": {
+        "DIFF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DIFF"
+          }
+        },
+        "DIFF_PERCENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DIFF_PERCENT"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Function applied to the measure before it is compared against the predicted bounds."
+      }
+    },
+    "com.datadog.v1#MonitorFormulaAndFunctionDataQualityModelBoundsOverride": {
+      "type": "enum",
+      "members": {
+        "UPPER_ONLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UPPER_ONLY"
+          }
+        },
+        "LOWER_ONLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LOWER_ONLY"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Restricts which predicted bound the monitor alerts on. `UPPER_ONLY` alerts only when\nthe measure rises above the upper bound, `LOWER_ONLY` only when it falls below the\nlower bound. When unset, the monitor alerts on both."
       }
     },
     "com.datadog.v1#MonitorFormulaAndFunctionDataQualityModelTypeOverride": {
@@ -27151,6 +27386,108 @@
       },
       "traits": {
         "smithy.api#documentation": "Override for the model type used in anomaly detection."
+      }
+    },
+    "com.datadog.v1#MonitorFormulaAndFunctionDataQualitySourceToTargetConfig": {
+      "type": "structure",
+      "members": {
+        "diff_type": {
+          "target": "com.datadog.v1#MonitorFormulaAndFunctionDataQualityDiffType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "entity_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of the data entities being compared.",
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.datadog.v1#MonitorFormulaAndFunctionDataQualityEntityMetricConfig",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "target": {
+          "target": "com.datadog.v1#MonitorFormulaAndFunctionDataQualityEntityMetricConfig",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configuration for a source to target monitor, which compares the same measure\nacross two data entities and alerts on the difference between them."
+      }
+    },
+    "com.datadog.v1#MonitorFormulaAndFunctionDataQualityDiffType": {
+      "type": "enum",
+      "members": {
+        "ABSOLUTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "absolute"
+          }
+        },
+        "DIFF_PERCENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "diff_percent"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the difference between the source and target measures is computed.\n`absolute` subtracts the two values, `diff_percent` expresses the difference\nas a percentage of the source value."
+      }
+    },
+    "com.datadog.v1#MonitorFormulaAndFunctionDataQualityEntityMetricConfig": {
+      "type": "structure",
+      "members": {
+        "custom_sql": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Custom SQL query used to compute the measure for this entity."
+          }
+        },
+        "custom_where": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Custom WHERE clause applied when computing the measure for this entity."
+          }
+        },
+        "entity_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the data entity to measure.",
+            "smithy.api#required": {}
+          }
+        },
+        "entity_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of the data entity to measure.",
+            "smithy.api#required": {}
+          }
+        },
+        "group_by_columns": {
+          "target": "com.datadog.v1#MonitorFormulaAndFunctionDataQualityEntityMetricConfigGroupByColumnsList",
+          "traits": {
+            "smithy.api#documentation": "Columns to group results by when computing the measure for this entity."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Measure configuration for one side of a source to target comparison."
+      }
+    },
+    "com.datadog.v1#MonitorFormulaAndFunctionDataQualityEntityMetricConfigGroupByColumnsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Columns to group results by when computing the measure for this entity."
       }
     },
     "com.datadog.v1#MonitorFormulaAndFunctionDataJobsQueryDefinition": {
@@ -28291,7 +28628,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#Integer"
+        "target": "smithy.api#Integer",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Information about the downtime applied to the monitor. Only shows v1 downtimes."
@@ -31965,7 +32305,10 @@
     "com.datadog.v1#Point": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Double"
+        "target": "smithy.api#Double",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Array of timeseries points."
@@ -32030,7 +32373,10 @@
     "com.datadog.v1#MetricsQueryMetadataUnitList": {
       "type": "list",
       "member": {
-        "target": "com.datadog.v1#MetricsQueryUnit"
+        "target": "com.datadog.v1#MetricsQueryUnit",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Detailed information about the metric unit.\nThe first element describes the \"primary unit\" (for example, `bytes` in `bytes per second`).\nThe second element describes the \"per unit\" (for example, `second` in `bytes per second`).\nIf the second element is not present, the API returns null."
@@ -35894,7 +36240,10 @@
     "com.datadog.v1#SLOHistoryMetricsSeriesMetadataUnitList": {
       "type": "list",
       "member": {
-        "target": "com.datadog.v1#SLOHistoryMetricsSeriesMetadataUnit"
+        "target": "com.datadog.v1#SLOHistoryMetricsSeriesMetadataUnit",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "An array of metric units that contains up to two unit objects.\nFor example, bytes represents one unit object and bytes per second represents two unit objects.\nIf a metric query only has one unit object, the second array element is null."
@@ -38946,6 +39295,12 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Allows loading insecure content for an HTTP request in an API test."
+          }
+        },
+        "bits_ai_auto_investigate": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Bits AI automatically investigates alerts from the test monitor."
           }
         },
         "blockedRequestPatterns": {
@@ -42427,6 +42782,12 @@
           "target": "com.datadog.v1#SyntheticsMobileTestOptionsBindingsList",
           "traits": {
             "smithy.api#documentation": "Array of bindings used for the mobile test."
+          }
+        },
+        "bits_ai_auto_investigate": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Bits AI automatically investigates alerts from the test monitor."
           }
         },
         "ci": {

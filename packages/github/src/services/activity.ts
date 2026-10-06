@@ -67,13 +67,7 @@ export const DeleteRepoSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/subscription",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/subscription", code: 200 })),
 ).annotate({
   identifier: "DeleteRepoSubscriptionRequest",
 }) as any as S.Schema<DeleteRepoSubscriptionRequest>;
@@ -91,11 +85,7 @@ export const DeleteThreadSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     thread_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/notifications/threads/{thread_id}/subscription",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/notifications/threads/{thread_id}/subscription", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteThreadSubscriptionRequest",
@@ -111,9 +101,7 @@ export const DeleteThreadSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetFeedsRequest {}
 export const GetFeedsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/feeds", code: 200 })),
-).annotate({
-  identifier: "GetFeedsRequest",
-}) as any as S.Schema<GetFeedsRequest>;
+).annotate({ identifier: "GetFeedsRequest" }) as any as S.Schema<GetFeedsRequest>;
 
 export type FeedCurrentUserOrganizationUrlsList = Array<string>;
 export const FeedCurrentUserOrganizationUrlsList = /*@__PURE__*/ S.Array(
@@ -206,13 +194,7 @@ export const GetRepoSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/subscription",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/subscription", code: 200 })),
 ).annotate({
   identifier: "GetRepoSubscriptionRequest",
 }) as any as S.Schema<GetRepoSubscriptionRequest>;
@@ -237,9 +219,7 @@ export const RepositorySubscription = /*@__PURE__*/ S.suspend(() =>
     url: S.String,
     repository_url: S.String,
   }),
-).annotate({
-  identifier: "RepositorySubscription",
-}) as any as S.Schema<RepositorySubscription>;
+).annotate({ identifier: "RepositorySubscription" }) as any as S.Schema<RepositorySubscription>;
 
 export interface GetStargazerCountForRepoRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -251,13 +231,7 @@ export const GetStargazerCountForRepoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/stargazers/count",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/stargazers/count", code: 200 })),
 ).annotate({
   identifier: "GetStargazerCountForRepoRequest",
 }) as any as S.Schema<GetStargazerCountForRepoRequest>;
@@ -289,13 +263,7 @@ export const GetStargazerHistoryForRepoRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/stargazers/history",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/stargazers/history", code: 200 })),
 ).annotate({
   identifier: "GetStargazerHistoryForRepoRequest",
 }) as any as S.Schema<GetStargazerHistoryForRepoRequest>;
@@ -321,9 +289,7 @@ export const StargazerHistory = /*@__PURE__*/ S.suspend(() =>
     total: S.Number,
     week: S.Number,
   }),
-).annotate({
-  identifier: "StargazerHistory",
-}) as any as S.Schema<StargazerHistory>;
+).annotate({ identifier: "StargazerHistory" }) as any as S.Schema<StargazerHistory>;
 
 export type GetStargazerHistoryForRepoResponseBodyList = Array<StargazerHistory>;
 export const GetStargazerHistoryForRepoResponseBodyList = /*@__PURE__*/ S.Array(
@@ -344,16 +310,8 @@ export interface GetThreadRequest {
 export const GetThreadRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     thread_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/notifications/threads/{thread_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetThreadRequest",
-}) as any as S.Schema<GetThreadRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/notifications/threads/{thread_id}", code: 200 })),
+).annotate({ identifier: "GetThreadRequest" }) as any as S.Schema<GetThreadRequest>;
 
 /** A GitHub user. */
 export interface SimpleUser {
@@ -468,9 +426,7 @@ export const MinimalRepositoryLicense = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.NullOr(S.String)),
     node_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MinimalRepositoryLicense",
-}) as any as S.Schema<MinimalRepositoryLicense>;
+).annotate({ identifier: "MinimalRepositoryLicense" }) as any as S.Schema<MinimalRepositoryLicense>;
 
 export type SecurityAndAnalysisAdvancedSecurityStatus = "enabled" | "disabled";
 export const SecurityAndAnalysisAdvancedSecurityStatus = S.String;
@@ -689,14 +645,10 @@ export const SecurityAndAnalysis = /*@__PURE__*/ S.suspend(() =>
       SecurityAndAnalysisSecretScanningDelegatedBypassOptions,
     ),
   }),
-).annotate({
-  identifier: "SecurityAndAnalysis",
-}) as any as S.Schema<SecurityAndAnalysis>;
+).annotate({ identifier: "SecurityAndAnalysis" }) as any as S.Schema<SecurityAndAnalysis>;
 
 /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
-export type MinimalRepositoryCustomPropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type MinimalRepositoryCustomPropertiesMap = { [key: string]: unknown | undefined };
 export const MinimalRepositoryCustomPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -891,9 +843,7 @@ export const MinimalRepository = /*@__PURE__*/ S.suspend(() =>
     security_and_analysis: S.optional(S.NullOr(SecurityAndAnalysis)),
     custom_properties: S.optional(MinimalRepositoryCustomPropertiesMap),
   }),
-).annotate({
-  identifier: "MinimalRepository",
-}) as any as S.Schema<MinimalRepository>;
+).annotate({ identifier: "MinimalRepository" }) as any as S.Schema<MinimalRepository>;
 
 export interface ThreadSubject {
   title: string;
@@ -944,11 +894,7 @@ export const GetThreadSubscriptionForAuthenticatedUserRequest = /*@__PURE__*/ S.
   S.Struct({
     thread_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/notifications/threads/{thread_id}/subscription",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/notifications/threads/{thread_id}/subscription", code: 200 }),
   ),
 ).annotate({
   identifier: "GetThreadSubscriptionForAuthenticatedUserRequest",
@@ -974,9 +920,7 @@ export const ThreadSubscription = /*@__PURE__*/ S.suspend(() =>
     thread_url: S.optional(S.String),
     repository_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ThreadSubscription",
-}) as any as S.Schema<ThreadSubscription>;
+).annotate({ identifier: "ThreadSubscription" }) as any as S.Schema<ThreadSubscription>;
 
 export interface ListEventsForAuthenticatedUserRequest {
   /** The handle for the GitHub user account. */
@@ -1115,9 +1059,7 @@ export const DiscussionAnswerChosenBy = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.String),
     user_view_type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DiscussionAnswerChosenBy",
-}) as any as S.Schema<DiscussionAnswerChosenBy>;
+).annotate({ identifier: "DiscussionAnswerChosenBy" }) as any as S.Schema<DiscussionAnswerChosenBy>;
 
 /** How the author is associated with the repository. */
 export type DiscussionAuthorAssociation =
@@ -1156,9 +1098,7 @@ export const DiscussionCategory = /*@__PURE__*/ S.suspend(() =>
     slug: S.String,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "DiscussionCategory",
-}) as any as S.Schema<DiscussionCategory>;
+).annotate({ identifier: "DiscussionCategory" }) as any as S.Schema<DiscussionCategory>;
 
 export interface DiscussionReactions {
   _1: number;
@@ -1185,9 +1125,7 @@ export const DiscussionReactions = /*@__PURE__*/ S.suspend(() =>
     total_count: S.Number,
     url: S.String,
   }),
-).annotate({
-  identifier: "DiscussionReactions",
-}) as any as S.Schema<DiscussionReactions>;
+).annotate({ identifier: "DiscussionReactions" }) as any as S.Schema<DiscussionReactions>;
 
 /** The current state of the discussion. `converting` means that the discussion is being converted from an issue. `transferring` means that the discussion is being transferred from another repository. */
 export type DiscussionState = "open" | "closed" | "locked" | "converting" | "transferring";
@@ -1266,6 +1204,10 @@ export interface Label {
   color: string;
   /** Whether this label comes by default in a new repository. */
   default: boolean;
+  /** Timestamp indicating when the label was archived, or `null` if it has not been archived. */
+  archived_at: string | null;
+  /** The user who archived the label, or `null` if it has not been archived. */
+  archived_by: SimpleUser | null;
 }
 export const Label = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1276,6 +1218,8 @@ export const Label = /*@__PURE__*/ S.suspend(() =>
     description: S.NullOr(S.String),
     color: S.String,
     default: S.Boolean,
+    archived_at: S.NullOr(S.String),
+    archived_by: S.NullOr(SimpleUser),
   }),
 ).annotate({ identifier: "Label" }) as any as S.Schema<Label>;
 
@@ -1350,9 +1294,7 @@ export const DiscussionEvent = /*@__PURE__*/ S.suspend(() =>
     action: S.String,
     discussion: Discussion,
   }),
-).annotate({
-  identifier: "DiscussionEvent",
-}) as any as S.Schema<DiscussionEvent>;
+).annotate({ identifier: "DiscussionEvent" }) as any as S.Schema<DiscussionEvent>;
 
 /** The reason for the current state */
 export type IssueStateReason = "completed" | "reopened" | "not_planned" | "duplicate";
@@ -1370,6 +1312,8 @@ export interface IssueLabelsItemCase1 {
   description?: string | null;
   color?: string | null;
   default?: boolean;
+  /** The user who archived the label, or `null` if it has not been archived. */
+  archived_by?: SimpleUser | null;
 }
 export const IssueLabelsItemCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1380,10 +1324,9 @@ export const IssueLabelsItemCase1 = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.NullOr(S.String)),
     color: S.optional(S.NullOr(S.String)),
     default: S.optional(S.Boolean),
+    archived_by: S.optional(S.NullOr(SimpleUser)),
   }),
-).annotate({
-  identifier: "IssueLabelsItemCase1",
-}) as any as S.Schema<IssueLabelsItemCase1>;
+).annotate({ identifier: "IssueLabelsItemCase1" }) as any as S.Schema<IssueLabelsItemCase1>;
 
 export type IssueLabelsItem = string | IssueLabelsItemCase1;
 export const IssueLabelsItem = S.Unknown as any as S.Schema<IssueLabelsItem>;
@@ -1444,9 +1387,7 @@ export const NullableMilestone = /*@__PURE__*/ S.suspend(() =>
     closed_at: S.NullOr(S.String),
     due_on: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "NullableMilestone",
-}) as any as S.Schema<NullableMilestone>;
+).annotate({ identifier: "NullableMilestone" }) as any as S.Schema<NullableMilestone>;
 
 export interface IssuePullRequest {
   merged_at?: string | null;
@@ -1463,9 +1404,7 @@ export const IssuePullRequest = /*@__PURE__*/ S.suspend(() =>
     patch_url: S.NullOr(S.String),
     url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "IssuePullRequest",
-}) as any as S.Schema<IssuePullRequest>;
+).annotate({ identifier: "IssuePullRequest" }) as any as S.Schema<IssuePullRequest>;
 
 /** The color of the issue type. */
 export type IssueTypeColor =
@@ -1529,9 +1468,7 @@ export const NullableLicenseSimple = /*@__PURE__*/ S.suspend(() =>
     node_id: S.String,
     html_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NullableLicenseSimple",
-}) as any as S.Schema<NullableLicenseSimple>;
+).annotate({ identifier: "NullableLicenseSimple" }) as any as S.Schema<NullableLicenseSimple>;
 
 export interface RepositoryPermissions {
   admin: boolean;
@@ -1548,9 +1485,7 @@ export const RepositoryPermissions = /*@__PURE__*/ S.suspend(() =>
     push: S.Boolean,
     maintain: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RepositoryPermissions",
-}) as any as S.Schema<RepositoryPermissions>;
+).annotate({ identifier: "RepositoryPermissions" }) as any as S.Schema<RepositoryPermissions>;
 
 export type RepositoryTopicsList = Array<string>;
 export const RepositoryTopicsList = /*@__PURE__*/ S.Array(
@@ -1928,9 +1863,7 @@ export const NullableIntegration = /*@__PURE__*/ S.suspend(() =>
     events: NullableIntegrationEventsList,
     installations_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NullableIntegration",
-}) as any as S.Schema<NullableIntegration>;
+).annotate({ identifier: "NullableIntegration" }) as any as S.Schema<NullableIntegration>;
 
 /** How the author is associated with the repository. */
 export type AuthorAssociation =
@@ -1982,9 +1915,7 @@ export const SubIssuesSummary = /*@__PURE__*/ S.suspend(() =>
     completed: S.Number,
     percent_completed: S.Number,
   }),
-).annotate({
-  identifier: "SubIssuesSummary",
-}) as any as S.Schema<SubIssuesSummary>;
+).annotate({ identifier: "SubIssuesSummary" }) as any as S.Schema<SubIssuesSummary>;
 
 /** Context around who pinned an issue comment and when it was pinned. */
 export interface NullablePinnedIssueComment {
@@ -2054,9 +1985,7 @@ export const NullableIssueComment = /*@__PURE__*/ S.suspend(() =>
     pin: S.optional(S.NullOr(NullablePinnedIssueComment)),
     minimized: S.optional(S.NullOr(NullableIssueCommentMinimized)),
   }),
-).annotate({
-  identifier: "NullableIssueComment",
-}) as any as S.Schema<NullableIssueComment>;
+).annotate({ identifier: "NullableIssueComment" }) as any as S.Schema<NullableIssueComment>;
 
 export interface IssueDependenciesSummary {
   blocked_by: number;
@@ -2071,9 +2000,7 @@ export const IssueDependenciesSummary = /*@__PURE__*/ S.suspend(() =>
     total_blocked_by: S.Number,
     total_blocking: S.Number,
   }),
-).annotate({
-  identifier: "IssueDependenciesSummary",
-}) as any as S.Schema<IssueDependenciesSummary>;
+).annotate({ identifier: "IssueDependenciesSummary" }) as any as S.Schema<IssueDependenciesSummary>;
 
 /** The data type of the issue field */
 export type IssueFieldValueDataType = "text" | "single_select" | "multi_select" | "number" | "date";
@@ -2137,9 +2064,7 @@ export const IssueFieldValue = /*@__PURE__*/ S.suspend(() =>
     single_select_option: S.optional(S.NullOr(IssueFieldValueSingleSelectOption)),
     multi_select_options: S.optional(S.NullOr(IssueFieldValueMultiSelectOptionsList)),
   }),
-).annotate({
-  identifier: "IssueFieldValue",
-}) as any as S.Schema<IssueFieldValue>;
+).annotate({ identifier: "IssueFieldValue" }) as any as S.Schema<IssueFieldValue>;
 
 export type IssueIssueFieldValuesList = Array<IssueFieldValue>;
 export const IssueIssueFieldValuesList = /*@__PURE__*/ S.Array(
@@ -2286,9 +2211,7 @@ export const IssueCommentEvent = /*@__PURE__*/ S.suspend(() =>
     issue: Issue,
     comment: NullableIssueComment,
   }),
-).annotate({
-  identifier: "IssueCommentEvent",
-}) as any as S.Schema<IssueCommentEvent>;
+).annotate({ identifier: "IssueCommentEvent" }) as any as S.Schema<IssueCommentEvent>;
 
 /** The policy controlling who can create pull requests: all or collaborators_only. */
 export type ForkEventForkeePullRequestCreationPolicy = "all" | "collaborators_only";
@@ -2469,9 +2392,7 @@ export const ForkEventForkee = /*@__PURE__*/ S.suspend(() =>
     default_branch: S.optional(S.String),
     public: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ForkEventForkee",
-}) as any as S.Schema<ForkEventForkee>;
+).annotate({ identifier: "ForkEventForkee" }) as any as S.Schema<ForkEventForkee>;
 
 export interface ForkEvent {
   action: string;
@@ -2501,9 +2422,7 @@ export const GollumEventPagesItem = /*@__PURE__*/ S.suspend(() =>
     sha: S.optional(S.String),
     html_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GollumEventPagesItem",
-}) as any as S.Schema<GollumEventPagesItem>;
+).annotate({ identifier: "GollumEventPagesItem" }) as any as S.Schema<GollumEventPagesItem>;
 
 export type GollumEventPagesList = Array<GollumEventPagesItem>;
 export const GollumEventPagesList = /*@__PURE__*/ S.Array(
@@ -2573,9 +2492,7 @@ export const PullRequestMinimalHead = /*@__PURE__*/ S.suspend(() =>
     sha: S.String,
     repo: PullRequestMinimalHeadRepo,
   }),
-).annotate({
-  identifier: "PullRequestMinimalHead",
-}) as any as S.Schema<PullRequestMinimalHead>;
+).annotate({ identifier: "PullRequestMinimalHead" }) as any as S.Schema<PullRequestMinimalHead>;
 
 export type PullRequestMinimalBaseRepo = PullRequestMinimalHeadRepo;
 export const PullRequestMinimalBaseRepo = PullRequestMinimalHeadRepo;
@@ -2598,9 +2515,7 @@ export const PullRequestMinimal = /*@__PURE__*/ S.suspend(() =>
     head: PullRequestMinimalHead,
     base: PullRequestMinimalHead,
   }),
-).annotate({
-  identifier: "PullRequestMinimal",
-}) as any as S.Schema<PullRequestMinimal>;
+).annotate({ identifier: "PullRequestMinimal" }) as any as S.Schema<PullRequestMinimal>;
 
 export type PullRequestEventAssigneesList = Array<SimpleUser>;
 export const PullRequestEventAssigneesList = /*@__PURE__*/ S.Array(
@@ -2631,9 +2546,7 @@ export const PullRequestEvent = /*@__PURE__*/ S.suspend(() =>
     label: S.optional(Label),
     labels: S.optional(PullRequestEventLabelsList),
   }),
-).annotate({
-  identifier: "PullRequestEvent",
-}) as any as S.Schema<PullRequestEvent>;
+).annotate({ identifier: "PullRequestEvent" }) as any as S.Schema<PullRequestEvent>;
 
 export type PullRequestReviewCommentEventCommentUserType = "Bot" | "User" | "Organization";
 export const PullRequestReviewCommentEventCommentUserType = S.String;
@@ -2883,9 +2796,7 @@ export const PullRequestReviewEvent = /*@__PURE__*/ S.suspend(() =>
     review: PullRequestReviewEventReview,
     pull_request: PullRequestMinimal,
   }),
-).annotate({
-  identifier: "PullRequestReviewEvent",
-}) as any as S.Schema<PullRequestReviewEvent>;
+).annotate({ identifier: "PullRequestReviewEvent" }) as any as S.Schema<PullRequestReviewEvent>;
 
 export interface CommitCommentEventComment {
   html_url?: string;
@@ -2931,9 +2842,7 @@ export const CommitCommentEvent = /*@__PURE__*/ S.suspend(() =>
     action: S.String,
     comment: CommitCommentEventComment,
   }),
-).annotate({
-  identifier: "CommitCommentEvent",
-}) as any as S.Schema<CommitCommentEvent>;
+).annotate({ identifier: "CommitCommentEvent" }) as any as S.Schema<CommitCommentEvent>;
 
 /** State of the release asset. */
 export type ReleaseAssetState = "uploaded" | "open";
@@ -3047,9 +2956,7 @@ export const ReleaseEventRelease = /*@__PURE__*/ S.suspend(() =>
     is_short_description_html_truncated: S.optional(S.Boolean),
     short_description_html: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReleaseEventRelease",
-}) as any as S.Schema<ReleaseEventRelease>;
+).annotate({ identifier: "ReleaseEventRelease" }) as any as S.Schema<ReleaseEventRelease>;
 
 export interface ReleaseEvent {
   action: string;
@@ -3182,13 +3089,7 @@ export const ListOrgEventsForAuthenticatedUserRequest = /*@__PURE__*/ S.suspend(
     org: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/users/{username}/events/orgs/{org}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/users/{username}/events/orgs/{org}", code: 200 })),
 ).annotate({
   identifier: "ListOrgEventsForAuthenticatedUserRequest",
 }) as any as S.Schema<ListOrgEventsForAuthenticatedUserRequest>;
@@ -3217,9 +3118,7 @@ export const ListPublicEventsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/events", code: 200 })),
-).annotate({
-  identifier: "ListPublicEventsRequest",
-}) as any as S.Schema<ListPublicEventsRequest>;
+).annotate({ identifier: "ListPublicEventsRequest" }) as any as S.Schema<ListPublicEventsRequest>;
 
 export type ListPublicEventsResponseBodyList = Array<Event>;
 export const ListPublicEventsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3229,9 +3128,7 @@ export const ListPublicEventsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListPublicEventsResponse = ListPublicEventsResponseBodyList;
 export const ListPublicEventsResponse = /*@__PURE__*/ S.suspend(() =>
   ListPublicEventsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListPublicEventsResponse",
-}) as any as S.Schema<ListPublicEventsResponse>;
+).annotate({ identifier: "ListPublicEventsResponse" }) as any as S.Schema<ListPublicEventsResponse>;
 
 export interface ListPublicEventsForRepoNetworkRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -3249,13 +3146,7 @@ export const ListPublicEventsForRepoNetworkRequest = /*@__PURE__*/ S.suspend(() 
     repo: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/networks/{owner}/{repo}/events",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/networks/{owner}/{repo}/events", code: 200 })),
 ).annotate({
   identifier: "ListPublicEventsForRepoNetworkRequest",
 }) as any as S.Schema<ListPublicEventsForRepoNetworkRequest>;
@@ -3285,13 +3176,7 @@ export const ListPublicEventsForUserRequest = /*@__PURE__*/ S.suspend(() =>
     username: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/users/{username}/events/public",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/users/{username}/events/public", code: 200 })),
 ).annotate({
   identifier: "ListPublicEventsForUserRequest",
 }) as any as S.Schema<ListPublicEventsForUserRequest>;
@@ -3351,13 +3236,7 @@ export const ListReceivedEventsForUserRequest = /*@__PURE__*/ S.suspend(() =>
     username: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/users/{username}/received_events",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/users/{username}/received_events", code: 200 })),
 ).annotate({
   identifier: "ListReceivedEventsForUserRequest",
 }) as any as S.Schema<ListReceivedEventsForUserRequest>;
@@ -3387,13 +3266,7 @@ export const ListReceivedPublicEventsForUserRequest = /*@__PURE__*/ S.suspend(()
     username: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/users/{username}/received_events/public",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/users/{username}/received_events/public", code: 200 })),
 ).annotate({
   identifier: "ListReceivedPublicEventsForUserRequest",
 }) as any as S.Schema<ListReceivedPublicEventsForUserRequest>;
@@ -3428,9 +3301,7 @@ export const ListRepoEventsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/events", code: 200 })),
-).annotate({
-  identifier: "ListRepoEventsRequest",
-}) as any as S.Schema<ListRepoEventsRequest>;
+).annotate({ identifier: "ListRepoEventsRequest" }) as any as S.Schema<ListRepoEventsRequest>;
 
 export type ListRepoEventsResponseBodyList = Array<Event>;
 export const ListRepoEventsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3440,9 +3311,7 @@ export const ListRepoEventsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListRepoEventsResponse = ListRepoEventsResponseBodyList;
 export const ListRepoEventsResponse = /*@__PURE__*/ S.suspend(() =>
   ListRepoEventsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListRepoEventsResponse",
-}) as any as S.Schema<ListRepoEventsResponse>;
+).annotate({ identifier: "ListRepoEventsResponse" }) as any as S.Schema<ListRepoEventsResponse>;
 
 export interface ListRepoNotificationsForAuthenticatedUserRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -3472,13 +3341,7 @@ export const ListRepoNotificationsForAuthenticatedUserRequest = /*@__PURE__*/ S.
     before: S.optional(S.String.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/notifications",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/notifications", code: 200 })),
 ).annotate({
   identifier: "ListRepoNotificationsForAuthenticatedUserRequest",
 }) as any as S.Schema<ListRepoNotificationsForAuthenticatedUserRequest>;
@@ -3576,9 +3439,7 @@ export const StarredRepository = /*@__PURE__*/ S.suspend(() =>
     starred_at: S.String,
     repo: Repository,
   }),
-).annotate({
-  identifier: "StarredRepository",
-}) as any as S.Schema<StarredRepository>;
+).annotate({ identifier: "StarredRepository" }) as any as S.Schema<StarredRepository>;
 
 export type ListReposStarredByUserResponseBodyCase0List = Array<StarredRepository>;
 export const ListReposStarredByUserResponseBodyCase0List = /*@__PURE__*/ S.Array(
@@ -3616,13 +3477,7 @@ export const ListReposWatchedByUserRequest = /*@__PURE__*/ S.suspend(() =>
     username: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/users/{username}/subscriptions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/users/{username}/subscriptions", code: 200 })),
 ).annotate({
   identifier: "ListReposWatchedByUserRequest",
 }) as any as S.Schema<ListReposWatchedByUserRequest>;
@@ -3655,13 +3510,7 @@ export const ListStargazersForRepoRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/stargazers",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/stargazers", code: 200 })),
 ).annotate({
   identifier: "ListStargazersForRepoRequest",
 }) as any as S.Schema<ListStargazersForRepoRequest>;
@@ -3745,13 +3594,7 @@ export const ListWatchersForRepoRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/subscribers",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/subscribers", code: 200 })),
 ).annotate({
   identifier: "ListWatchersForRepoRequest",
 }) as any as S.Schema<ListWatchersForRepoRequest>;
@@ -3775,16 +3618,8 @@ export interface MarkThreadAsDoneRequest {
 export const MarkThreadAsDoneRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     thread_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/notifications/threads/{thread_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "MarkThreadAsDoneRequest",
-}) as any as S.Schema<MarkThreadAsDoneRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/notifications/threads/{thread_id}", code: 200 })),
+).annotate({ identifier: "MarkThreadAsDoneRequest" }) as any as S.Schema<MarkThreadAsDoneRequest>;
 
 export interface MarkThreadAsDoneResponse {}
 export const MarkThreadAsDoneResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3808,9 +3643,7 @@ export const ReadMarkNotificationsAsRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface ReadMarkNotificationsAsResponse {}
 export const ReadMarkNotificationsAsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "ReadMarkNotificationsAsResponse",
-  },
+  { identifier: "ReadMarkNotificationsAsResponse" },
 ) as any as S.Schema<ReadMarkNotificationsAsResponse>;
 
 export interface ReadMarkRepoNotificationsAsRequest {
@@ -3826,13 +3659,7 @@ export const ReadMarkRepoNotificationsAsRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     last_read_at: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/repos/{owner}/{repo}/notifications",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/notifications", code: 200 })),
 ).annotate({
   identifier: "ReadMarkRepoNotificationsAsRequest",
 }) as any as S.Schema<ReadMarkRepoNotificationsAsRequest>;
@@ -3851,16 +3678,8 @@ export interface ReadMarkThreadAsRequest {
 export const ReadMarkThreadAsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     thread_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/notifications/threads/{thread_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReadMarkThreadAsRequest",
-}) as any as S.Schema<ReadMarkThreadAsRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/notifications/threads/{thread_id}", code: 200 })),
+).annotate({ identifier: "ReadMarkThreadAsRequest" }) as any as S.Schema<ReadMarkThreadAsRequest>;
 
 export interface ReadMarkThreadAsResponse {}
 export const ReadMarkThreadAsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3883,13 +3702,7 @@ export const SetRepoSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     subscribed: S.optional(S.Boolean),
     ignored: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/repos/{owner}/{repo}/subscription",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/subscription", code: 200 })),
 ).annotate({
   identifier: "SetRepoSubscriptionRequest",
 }) as any as S.Schema<SetRepoSubscriptionRequest>;
@@ -3905,11 +3718,7 @@ export const SetThreadSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
     thread_id: S.Number.pipe(T.Label()),
     ignored: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/notifications/threads/{thread_id}/subscription",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/notifications/threads/{thread_id}/subscription", code: 200 }),
   ),
 ).annotate({
   identifier: "SetThreadSubscriptionRequest",
@@ -3947,13 +3756,7 @@ export const UnstarRepoForAuthenticatedUserRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/user/starred/{owner}/{repo}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/user/starred/{owner}/{repo}", code: 200 })),
 ).annotate({
   identifier: "UnstarRepoForAuthenticatedUserRequest",
 }) as any as S.Schema<UnstarRepoForAuthenticatedUserRequest>;

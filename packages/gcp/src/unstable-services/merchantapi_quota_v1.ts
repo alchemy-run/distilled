@@ -49,9 +49,7 @@ export const GetAccountsLimitsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://merchantapi.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetAccountsLimitsRequest",
-}) as any as S.Schema<GetAccountsLimitsRequest>;
+).annotate({ identifier: "GetAccountsLimitsRequest" }) as any as S.Schema<GetAccountsLimitsRequest>;
 
 export type ProductLimitScopeEnum = "SCOPE_UNSPECIFIED" | "ADS_NON_EEA" | "ADS_EEA";
 export const ProductLimitScopeEnum = S.String;
@@ -133,17 +131,17 @@ export const ListAccountLimitsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListAccountLimitsResponse>;
 
 export interface ListAccountsQuotasRequest {
-  /** Required. The merchant account who owns the collection of method quotas Format: accounts/{account} */
-  parent: string;
   /** Optional. Token (if provided) to retrieve the subsequent page. All other parameters must match the original call that provided the page token. */
   pageToken?: string;
+  /** Required. The merchant account who owns the collection of method quotas Format: accounts/{account} */
+  parent: string;
   /** Optional. The maximum number of quotas to return in the response, used for paging. Defaults to 500; values above 1000 will be coerced to 1000. */
   pageSize?: number;
 }
 export const ListAccountsQuotasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -158,21 +156,21 @@ export const ListAccountsQuotasRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The method details per method in the Merchant API. */
 export interface MethodDetails {
+  /** Output only. The name of the method for example `products.list`. */
+  method?: string;
+  /** Output only. The sub-API that the method belongs to. */
+  subapi?: string;
   /** Output only. The path for the method such as `products/v1/productInputs.insert` */
   path?: string;
   /** Output only. The API version that the method belongs to. */
   version?: string;
-  /** Output only. The sub-API that the method belongs to. */
-  subapi?: string;
-  /** Output only. The name of the method for example `products.list`. */
-  method?: string;
 }
 export const MethodDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    method: S.optional(S.String),
+    subapi: S.optional(S.String),
     path: S.optional(S.String),
     version: S.optional(S.String),
-    subapi: S.optional(S.String),
-    method: S.optional(S.String),
   }),
 ).annotate({ identifier: "MethodDetails" }) as any as S.Schema<MethodDetails>;
 
@@ -183,24 +181,24 @@ export const MethodDetailsList = /*@__PURE__*/ S.Array(
 
 /** The group information for methods in the Merchant API. The quota is shared between all methods in the group. Even if none of the methods within the group have usage the information for the group is returned. */
 export interface QuotaGroup {
-  /** Identifier. The resource name of the quota group. Format: accounts/{account}/quotas/{group} Note: There is no guarantee on the format of {group} */
-  name?: string;
-  /** Output only. The maximum number of calls allowed per minute for the group. */
-  quotaMinuteLimit?: string;
   /** Output only. The maximum number of calls allowed per day for the group. */
   quotaLimit?: string;
   /** Output only. The current quota usage, meaning the number of calls already made on a given day to the methods in the group. The daily quota limits reset at 12:00 PM midday UTC. */
   quotaUsage?: string;
+  /** Identifier. The resource name of the quota group. Format: accounts/{account}/quotas/{group} Note: There is no guarantee on the format of {group} */
+  name?: string;
   /** Output only. List of all methods group quota applies to. */
   methodDetails?: MethodDetailsList;
+  /** Output only. The maximum number of calls allowed per minute for the group. */
+  quotaMinuteLimit?: string;
 }
 export const QuotaGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    quotaMinuteLimit: S.optional(S.String),
     quotaLimit: S.optional(S.String),
     quotaUsage: S.optional(S.String),
+    name: S.optional(S.String),
     methodDetails: S.optional(MethodDetailsList),
+    quotaMinuteLimit: S.optional(S.String),
   }),
 ).annotate({ identifier: "QuotaGroup" }) as any as S.Schema<QuotaGroup>;
 
@@ -209,19 +207,17 @@ export const QuotaGroupList = /*@__PURE__*/ S.Array(QuotaGroup) as any as S.Sche
 
 /** Response message for the ListMethodGroups method. */
 export interface ListQuotaGroupsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** The methods, current quota usage and limits per each group. The quota is shared between all methods in the group. The groups are sorted in descending order based on quota_usage. */
   quotaGroups?: QuotaGroupList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const ListQuotaGroupsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     quotaGroups: S.optional(QuotaGroupList),
+    nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListQuotaGroupsResponse",
-}) as any as S.Schema<ListQuotaGroupsResponse>;
+).annotate({ identifier: "ListQuotaGroupsResponse" }) as any as S.Schema<ListQuotaGroupsResponse>;
 
 export type GetAccountsLimitsError = NotFound | Forbidden | GcpOpError;
 /** Retrieves an account limit. */
@@ -252,10 +248,7 @@ export const listAccountsLimits: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListAccountsQuotasError = NotFound | Forbidden | GcpOpError;
@@ -272,8 +265,5 @@ export const listAccountsQuotas: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;

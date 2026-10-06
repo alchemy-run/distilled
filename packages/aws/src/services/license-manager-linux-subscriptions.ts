@@ -97,10 +97,7 @@ export interface DeregisterSubscriptionProviderRequest {
 export const DeregisterSubscriptionProviderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ SubscriptionProviderArn: S.String }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/subscription/DeregisterSubscriptionProvider",
-      }),
+      T.Http({ method: "POST", uri: "/subscription/DeregisterSubscriptionProvider" }),
       svc,
       auth,
       proto,
@@ -123,10 +120,7 @@ export interface GetRegisteredSubscriptionProviderRequest {
 export const GetRegisteredSubscriptionProviderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ SubscriptionProviderArn: S.String }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/subscription/GetRegisteredSubscriptionProvider",
-      }),
+      T.Http({ method: "POST", uri: "/subscription/GetRegisteredSubscriptionProvider" }),
       svc,
       auth,
       proto,
@@ -237,10 +231,7 @@ export const ListLinuxSubscriptionInstancesRequest = /*@__PURE__*/ S.suspend(() 
     NextToken: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/subscription/ListLinuxSubscriptionInstances",
-      }),
+      T.Http({ method: "POST", uri: "/subscription/ListLinuxSubscriptionInstances" }),
       svc,
       auth,
       proto,
@@ -296,10 +287,7 @@ export interface ListLinuxSubscriptionInstancesResponse {
   NextToken?: string;
 }
 export const ListLinuxSubscriptionInstancesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Instances: S.optional(InstanceList),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ Instances: S.optional(InstanceList), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListLinuxSubscriptionInstancesResponse",
 }) as any as S.Schema<ListLinuxSubscriptionInstancesResponse>;
@@ -346,10 +334,7 @@ export interface ListLinuxSubscriptionsResponse {
   NextToken?: string;
 }
 export const ListLinuxSubscriptionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Subscriptions: S.optional(SubscriptionList),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ Subscriptions: S.optional(SubscriptionList), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListLinuxSubscriptionsResponse",
 }) as any as S.Schema<ListLinuxSubscriptionsResponse>;
@@ -367,10 +352,7 @@ export const ListRegisteredSubscriptionProvidersRequest = /*@__PURE__*/ S.suspen
     NextToken: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/subscription/ListRegisteredSubscriptionProviders",
-      }),
+      T.Http({ method: "POST", uri: "/subscription/ListRegisteredSubscriptionProviders" }),
       svc,
       auth,
       proto,
@@ -449,10 +431,7 @@ export const RegisterSubscriptionProviderRequest = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(Tags),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/subscription/RegisterSubscriptionProvider",
-      }),
+      T.Http({ method: "POST", uri: "/subscription/RegisterSubscriptionProvider" }),
       svc,
       auth,
       proto,
@@ -482,15 +461,10 @@ export interface TagResourceRequest {
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: Tags,
-  }).pipe(
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: Tags }).pipe(
     T.all(T.Http({ method: "PUT", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -508,9 +482,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",

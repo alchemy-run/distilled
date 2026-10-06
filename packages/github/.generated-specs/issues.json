@@ -605,60 +605,6 @@
         "smithy.api#documentation": "A GitHub user."
       }
     },
-    "com.github.issues#IssueLabelsItemCase1": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#Integer"
-        },
-        "node_id": {
-          "target": "smithy.api#String"
-        },
-        "url": {
-          "target": "smithy.api#String"
-        },
-        "name": {
-          "target": "smithy.api#String"
-        },
-        "description": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "color": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "default": {
-          "target": "smithy.api#Boolean"
-        }
-      },
-      "traits": {}
-    },
-    "com.github.issues#IssueLabelsItem": {
-      "type": "union",
-      "members": {
-        "Case0": {
-          "target": "smithy.api#String"
-        },
-        "Case1": {
-          "target": "com.github.issues#IssueLabelsItemCase1"
-        }
-      },
-      "traits": {}
-    },
-    "com.github.issues#IssueLabelsList": {
-      "type": "list",
-      "member": {
-        "target": "com.github.issues#IssueLabelsItem"
-      },
-      "traits": {
-        "smithy.api#documentation": "Labels to associate with this issue; pass one or more label names to replace the set of labels on this issue; send an empty array to clear all labels from the issue; note that the labels are silently dropped for users without push access to the repository"
-      }
-    },
     "com.github.issues#SimpleUser": {
       "type": "structure",
       "members": {
@@ -792,6 +738,67 @@
       },
       "traits": {
         "smithy.api#documentation": "A GitHub user."
+      }
+    },
+    "com.github.issues#IssueLabelsItemCase1": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer"
+        },
+        "node_id": {
+          "target": "smithy.api#String"
+        },
+        "url": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "color": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "default": {
+          "target": "smithy.api#Boolean"
+        },
+        "archived_by": {
+          "target": "com.github.issues#SimpleUser",
+          "traits": {
+            "smithy.api#documentation": "The user who archived the label, or `null` if it has not been archived.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.issues#IssueLabelsItem": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.github.issues#IssueLabelsItemCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.github.issues#IssueLabelsList": {
+      "type": "list",
+      "member": {
+        "target": "com.github.issues#IssueLabelsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels to associate with this issue; pass one or more label names to replace the set of labels on this issue; send an empty array to clear all labels from the issue; note that the labels are silently dropped for users without push access to the repository"
       }
     },
     "com.github.issues#IssueAssigneesList": {
@@ -4502,6 +4509,13 @@
         },
         "default": {
           "target": "smithy.api#Boolean"
+        },
+        "archived_by": {
+          "target": "com.github.issues#SimpleUser",
+          "traits": {
+            "smithy.api#documentation": "The user who archived the label, or `null` if it has not been archived.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -6316,6 +6330,13 @@
         },
         "default": {
           "target": "smithy.api#Boolean"
+        },
+        "archived_by": {
+          "target": "com.github.issues#SimpleUser",
+          "traits": {
+            "smithy.api#documentation": "The user who archived the label, or `null` if it has not been archived.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -10861,6 +10882,22 @@
             "smithy.api#documentation": "Whether this label comes by default in a new repository.",
             "smithy.api#required": {}
           }
+        },
+        "archived_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp indicating when the label was archived, or `null` if it has not been archived.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "archived_by": {
+          "target": "com.github.issues#SimpleUser",
+          "traits": {
+            "smithy.api#documentation": "The user who archived the label, or `null` if it has not been archived.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
@@ -11717,6 +11754,240 @@
           "code": 200
         },
         "smithy.api#documentation": "Get parent issue\n\nYou can use the REST API to get the parent issue of a sub-issue.\n\nThis endpoint supports the following custom media types. For more information, see [Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\n\n- **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.\n- **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.\n- **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`."
+      }
+    },
+    "com.github.issues#ListRelatesToRequest": {
+      "type": "structure",
+      "members": {
+        "owner": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The account owner of the repository. The name is not case sensitive."
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the repository without the `.git` extension. The name is not case sensitive."
+          }
+        },
+        "issue_number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The number that identifies the issue."
+          }
+        },
+        "per_page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "per_page",
+            "smithy.api#documentation": "The number of results per page (max 100). For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\""
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "The page number of the results to fetch. For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\""
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.github.issues#ListRelatesToResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.github.issues#Issue"
+      },
+      "traits": {}
+    },
+    "com.github.issues#ListRelatesToResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.github.issues#ListRelatesToResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.github.issues#ListRelatesTo": {
+      "type": "operation",
+      "input": {
+        "target": "com.github.issues#ListRelatesToRequest"
+      },
+      "output": {
+        "target": "com.github.issues#ListRelatesToResponse"
+      },
+      "errors": [
+        {
+          "target": "com.github.issues#NotFound"
+        },
+        {
+          "target": "com.github.issues#Gone"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/repos/{owner}/{repo}/issues/{issue_number}/relates_to",
+          "code": 200
+        },
+        "smithy.api#documentation": "List issues related to an issue\n\nYou can use the REST API to list the issues that are related to an issue.\n\nThis endpoint supports the following custom media types. For more information, see [Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\n\n- **`application/vnd.github.raw+json`**: Returns the raw Markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github.text+json`**: Returns a text only representation of the Markdown body. Response will include `body_text`.\n- **`application/vnd.github.html+json`**: Returns HTML rendered from the body's Markdown. Response will include `body_html`.\n- **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`."
+      }
+    },
+    "com.github.issues#AddRelatesToRequest": {
+      "type": "structure",
+      "members": {
+        "owner": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The account owner of the repository. The name is not case sensitive."
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the repository without the `.git` extension. The name is not case sensitive."
+          }
+        },
+        "issue_number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The number that identifies the issue."
+          }
+        },
+        "issue_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The id of the issue to mark as related to the current issue",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.github.issues#AddRelatesTo": {
+      "type": "operation",
+      "input": {
+        "target": "com.github.issues#AddRelatesToRequest"
+      },
+      "output": {
+        "target": "com.github.issues#Issue"
+      },
+      "errors": [
+        {
+          "target": "com.github.issues#Forbidden"
+        },
+        {
+          "target": "com.github.issues#NotFound"
+        },
+        {
+          "target": "com.github.issues#Gone"
+        },
+        {
+          "target": "com.github.issues#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/repos/{owner}/{repo}/issues/{issue_number}/relates_to",
+          "code": 200
+        },
+        "smithy.api#documentation": "Add a related issue\n\nYou can use the REST API to mark an issue as related to another issue.\n\nCreating content too quickly using this endpoint may result in secondary rate limiting.\nFor more information, see [Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)\nand [Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api).\n\nThis endpoint supports the following custom media types. For more information, see [Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\n\n- **`application/vnd.github.raw+json`**: Returns the raw Markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github.text+json`**: Returns a text only representation of the Markdown body. Response will include `body_text`.\n- **`application/vnd.github.html+json`**: Returns HTML rendered from the body's Markdown. Response will include `body_html`.\n- **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`."
+      }
+    },
+    "com.github.issues#RemoveRelatesToRequest": {
+      "type": "structure",
+      "members": {
+        "owner": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The account owner of the repository. The name is not case sensitive."
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the repository without the `.git` extension. The name is not case sensitive."
+          }
+        },
+        "issue_number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The number that identifies the issue."
+          }
+        },
+        "issue_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The id of the related issue to remove"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.github.issues#RemoveRelatesTo": {
+      "type": "operation",
+      "input": {
+        "target": "com.github.issues#RemoveRelatesToRequest"
+      },
+      "output": {
+        "target": "com.github.issues#Issue"
+      },
+      "errors": [
+        {
+          "target": "com.github.issues#BadRequest"
+        },
+        {
+          "target": "com.github.issues#Forbidden"
+        },
+        {
+          "target": "com.github.issues#NotFound"
+        },
+        {
+          "target": "com.github.issues#Gone"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/repos/{owner}/{repo}/issues/{issue_number}/relates_to/{issue_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Remove a related issue\n\nYou can use the REST API to remove a 'relates to' relationship between two issues.\n\nRemoving content too quickly using this endpoint may result in secondary rate limiting.\nFor more information, see [Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)\nand [Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api).\n\nThis endpoint supports the following custom media types. For more information, see [Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\n\n- **`application/vnd.github.raw+json`**: Returns the raw Markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github.text+json`**: Returns a text only representation of the Markdown body. Response will include `body_text`.\n- **`application/vnd.github.html+json`**: Returns HTML rendered from the body's Markdown. Response will include `body_html`.\n- **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`."
       }
     },
     "com.github.issues#RemoveSubIssueRequest": {
@@ -15535,6 +15806,15 @@
         },
         {
           "target": "com.github.issues#GetParent"
+        },
+        {
+          "target": "com.github.issues#ListRelatesTo"
+        },
+        {
+          "target": "com.github.issues#AddRelatesTo"
+        },
+        {
+          "target": "com.github.issues#RemoveRelatesTo"
         },
         {
           "target": "com.github.issues#RemoveSubIssue"

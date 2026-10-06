@@ -73,16 +73,8 @@ export const CreateSavedRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(SavedHeatmapTypeEnum),
     deleted: S.optional(S.Boolean),
     block_consent_modals: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/saved/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateSavedRequest",
-}) as any as S.Schema<CreateSavedRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/saved/", code: 200 })),
+).annotate({ identifier: "CreateSavedRequest" }) as any as S.Schema<CreateSavedRequest>;
 
 /** Viewport widths (CSS pixels) the screenshot is rendered at. */
 export type HeatmapScreenshotResponseTargetWidthsList = Array<number>;
@@ -109,9 +101,7 @@ export const HeatmapSnapshotMetadata = /*@__PURE__*/ S.suspend(() =>
     width: S.Number,
     has_content: S.Boolean,
   }),
-).annotate({
-  identifier: "HeatmapSnapshotMetadata",
-}) as any as S.Schema<HeatmapSnapshotMetadata>;
+).annotate({ identifier: "HeatmapSnapshotMetadata" }) as any as S.Schema<HeatmapSnapshotMetadata>;
 
 /** Per-width render metadata. Fetch the actual image bytes for a width from the content endpoint. */
 export type HeatmapScreenshotResponseSnapshotsList = Array<HeatmapSnapshotMetadata>;
@@ -253,8 +243,10 @@ export interface CreateSavedCaptureRequest {
   images?: CreateSavedCaptureRequestImagesList;
   /** Viewport widths (CSS pixels) the 'images' were captured at, parallel to 'images'. */
   widths?: CreateSavedCaptureRequestWidthsList;
-  /** Exact page URL the screenshot was captured on. Wildcards are not allowed; this is stored as both the heatmap URL and its data URL, so the overlay reads aggregate data for this exact URL. */
+  /** Exact page URL the screenshot was captured on. Wildcards are not allowed. */
   url: string;
+  /** URL or wildcard pattern used to select the heatmap data overlaid on the screenshot. Defaults to the captured page URL when omitted or empty. */
+  data_url?: string;
   /** Human-readable label for the saved heatmap. Defaults to the URL when omitted. */
   name?: string;
 }
@@ -266,6 +258,7 @@ export const CreateSavedCaptureRequest = /*@__PURE__*/ S.suspend(() =>
     images: S.optional(CreateSavedCaptureRequestImagesList),
     widths: S.optional(CreateSavedCaptureRequestWidthsList),
     url: S.String,
+    data_url: S.optional(S.String),
     name: S.optional(S.String),
   }).pipe(
     T.Http({
@@ -290,11 +283,7 @@ export const CreateSavedPreflightRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     url: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/saved/preflight/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/saved/preflight/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateSavedPreflightRequest",
@@ -325,9 +314,7 @@ export const HeatmapPreflightResponse = /*@__PURE__*/ S.suspend(() =>
     http_status: S.NullOr(S.Number),
     body_excerpt: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "HeatmapPreflightResponse",
-}) as any as S.Schema<HeatmapPreflightResponse>;
+).annotate({ identifier: "HeatmapPreflightResponse" }) as any as S.Schema<HeatmapPreflightResponse>;
 
 export interface CreateSavedPrewarmRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -342,13 +329,7 @@ export const CreateSavedPrewarmRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     url: S.String,
     block_consent_modals: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/saved/prewarm/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/saved/prewarm/", code: 200 })),
 ).annotate({
   identifier: "CreateSavedPrewarmRequest",
 }) as any as S.Schema<CreateSavedPrewarmRequest>;
@@ -363,15 +344,9 @@ export const GetSavedRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     short_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/saved/{short_id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/saved/{short_id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetSavedRequest",
-}) as any as S.Schema<GetSavedRequest>;
+).annotate({ identifier: "GetSavedRequest" }) as any as S.Schema<GetSavedRequest>;
 
 export interface ListSavedRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -401,16 +376,8 @@ export const ListSavedRequest = /*@__PURE__*/ S.suspend(() =>
     search: S.optional(S.String.pipe(T.Query())),
     status: S.optional(S.String.pipe(T.Query())),
     type: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/saved/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListSavedRequest",
-}) as any as S.Schema<ListSavedRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/saved/", code: 200 })),
+).annotate({ identifier: "ListSavedRequest" }) as any as S.Schema<ListSavedRequest>;
 
 export type SavedHeatmapListResponseResultsList = Array<HeatmapScreenshotResponse>;
 export const SavedHeatmapListResponseResultsList = /*@__PURE__*/ S.Array(
@@ -427,9 +394,7 @@ export const SavedHeatmapListResponse = /*@__PURE__*/ S.suspend(() =>
     results: SavedHeatmapListResponseResultsList,
     count: S.Number,
   }),
-).annotate({
-  identifier: "SavedHeatmapListResponse",
-}) as any as S.Schema<SavedHeatmapListResponse>;
+).annotate({ identifier: "SavedHeatmapListResponse" }) as any as S.Schema<SavedHeatmapListResponse>;
 
 export type ListSavedResponseBodyList = Array<SavedHeatmapListResponse>;
 export const ListSavedResponseBodyList = /*@__PURE__*/ S.Array(
@@ -439,9 +404,7 @@ export const ListSavedResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListSavedResponse = ListSavedResponseBodyList;
 export const ListSavedResponse = /*@__PURE__*/ S.suspend(() =>
   ListSavedResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListSavedResponse",
-}) as any as S.Schema<ListSavedResponse>;
+).annotate({ identifier: "ListSavedResponse" }) as any as S.Schema<ListSavedResponse>;
 
 export interface SavedDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -453,15 +416,9 @@ export const SavedDestroyRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     short_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/projects/{project_id}/saved/{short_id}/",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/saved/{short_id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "SavedDestroyRequest",
-}) as any as S.Schema<SavedDestroyRequest>;
+).annotate({ identifier: "SavedDestroyRequest" }) as any as S.Schema<SavedDestroyRequest>;
 
 export interface SavedDestroyResponse {}
 export const SavedDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -525,11 +482,7 @@ export const UpdateSavedPartialRequest = /*@__PURE__*/ S.suspend(() =>
     deleted: S.optional(S.Boolean),
     block_consent_modals: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/saved/{short_id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/saved/{short_id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateSavedPartialRequest",
@@ -551,7 +504,7 @@ export const createSaved: API.OperationMethod<
 }));
 
 export type CreateSavedCaptureError = PosthogOpError;
-/** Persist screenshots captured client-side by the on-page toolbar as a completed screenshot heatmap. No headless render is enqueued: the toolbar runs in the user's authenticated browser, so this is the path for pages behind a login that Browserless cannot reach. Send one 'image'+'width', or 'images'+'widths' parallel arrays to store several viewport widths on one heatmap (the toolbar re-lays out the page at each width and captures it, matching the widths the server renders). The image bytes are stored and served only through the authenticated content endpoint. The heatmap's data URL is set to the captured URL. */
+/** Persist screenshots captured client-side by the on-page toolbar as a completed screenshot heatmap. No headless render is enqueued: the toolbar runs in the user's authenticated browser, so this is the path for pages behind a login that Browserless cannot reach. Send one 'image'+'width', or 'images'+'widths' parallel arrays to store several viewport widths on one heatmap (the toolbar re-lays out the page at each width and captures it, matching the widths the server renders). The image bytes are stored and served only through the authenticated content endpoint. The optional data URL selects which pages supply the overlay data and defaults to the captured URL. */
 export const createSavedCapture: API.OperationMethod<
   CreateSavedCaptureRequest,
   HeatmapScreenshotResponse,

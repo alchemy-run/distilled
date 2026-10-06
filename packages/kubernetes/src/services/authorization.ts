@@ -905,13 +905,7 @@ export const IoK8sApimachineryPkgApisMetaV1APIGroup = /*@__PURE__*/ S.suspend(()
 
 export interface GetAuthorizationV1APIResourcesRequest {}
 export const GetAuthorizationV1APIResourcesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/authorization.k8s.io/v1/",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/apis/authorization.k8s.io/v1/", code: 200 })),
 ).annotate({
   identifier: "GetAuthorizationV1APIResourcesRequest",
 }) as any as S.Schema<GetAuthorizationV1APIResourcesRequest>;

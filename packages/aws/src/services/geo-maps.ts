@@ -9,10 +9,7 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "Geo Maps",
-  serviceShapeName: "MapsService",
-});
+const svc = T.AwsApiService({ sdkId: "Geo Maps", serviceShapeName: "MapsService" });
 const auth = T.AwsAuthSigv4({ name: "geo-maps" });
 const ver = T.ServiceVersion("2020-11-19");
 const proto = T.AwsProtocolsRestJson1();
@@ -185,10 +182,7 @@ export const GetGlyphsRequest = /*@__PURE__*/ S.suspend(() =>
     FontUnicodeRange: S.String.pipe(T.HttpLabel("FontUnicodeRange")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v2/glyphs/{FontStack}/{FontUnicodeRange}",
-      }),
+      T.Http({ method: "GET", uri: "/v2/glyphs/{FontStack}/{FontUnicodeRange}" }),
       svc,
       auth,
       proto,
@@ -196,9 +190,7 @@ export const GetGlyphsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetGlyphsRequest",
-}) as any as S.Schema<GetGlyphsRequest>;
+).annotate({ identifier: "GetGlyphsRequest" }) as any as S.Schema<GetGlyphsRequest>;
 export interface GetGlyphsResponse {
   Blob?: Uint8Array;
   ContentType?: string;
@@ -212,9 +204,7 @@ export const GetGlyphsResponse = /*@__PURE__*/ S.suspend(() =>
     CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }),
-).annotate({
-  identifier: "GetGlyphsResponse",
-}) as any as S.Schema<GetGlyphsResponse>;
+).annotate({ identifier: "GetGlyphsResponse" }) as any as S.Schema<GetGlyphsResponse>;
 export type MapStyle = "Standard" | "Monochrome" | "Hybrid" | "Satellite" | (string & {});
 export const MapStyle = S.String;
 
@@ -249,9 +239,7 @@ export const GetSpritesRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetSpritesRequest",
-}) as any as S.Schema<GetSpritesRequest>;
+).annotate({ identifier: "GetSpritesRequest" }) as any as S.Schema<GetSpritesRequest>;
 export interface GetSpritesResponse {
   Blob?: Uint8Array;
   ContentType?: string;
@@ -265,9 +253,7 @@ export const GetSpritesResponse = /*@__PURE__*/ S.suspend(() =>
     CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }),
-).annotate({
-  identifier: "GetSpritesResponse",
-}) as any as S.Schema<GetSpritesResponse>;
+).annotate({ identifier: "GetSpritesResponse" }) as any as S.Schema<GetSpritesResponse>;
 export type PositionListString = string | redacted.Redacted<string>;
 export type PositionString = string | redacted.Redacted<string>;
 export type CompactOverlay = string | redacted.Redacted<string>;
@@ -342,9 +328,7 @@ export const GetStaticMapRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "GET", uri: "/v2/static/{FileName}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetStaticMapRequest",
-}) as any as S.Schema<GetStaticMapRequest>;
+).annotate({ identifier: "GetStaticMapRequest" }) as any as S.Schema<GetStaticMapRequest>;
 export interface GetStaticMapResponse {
   Blob?: Uint8Array;
   ContentType?: string;
@@ -360,9 +344,7 @@ export const GetStaticMapResponse = /*@__PURE__*/ S.suspend(() =>
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
     PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
   }),
-).annotate({
-  identifier: "GetStaticMapResponse",
-}) as any as S.Schema<GetStaticMapResponse>;
+).annotate({ identifier: "GetStaticMapResponse" }) as any as S.Schema<GetStaticMapResponse>;
 export type Terrain = "Hillshade" | "Terrain3D" | (string & {});
 export const Terrain = S.String;
 
@@ -516,9 +498,7 @@ export const GetTileResponse = /*@__PURE__*/ S.suspend(() =>
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
     PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
   }),
-).annotate({
-  identifier: "GetTileResponse",
-}) as any as S.Schema<GetTileResponse>;
+).annotate({ identifier: "GetTileResponse" }) as any as S.Schema<GetTileResponse>;
 export type ValidationExceptionReason =
   | "UnknownOperation"
   | "Missing"
@@ -537,9 +517,7 @@ export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String, Message: S.String }).pipe(
     S.encodeKeys({ Name: "name", Message: "message" }),
   ),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type GetGlyphsError = CommonErrors;

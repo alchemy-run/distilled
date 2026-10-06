@@ -95,10 +95,7 @@ export class EC2InstanceStateInvalidException
     "EC2InstanceStateInvalidException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "EC2InstanceStateInvalid",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "EC2InstanceStateInvalid", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -107,10 +104,7 @@ export class EC2InstanceTypeInvalidException
     "EC2InstanceTypeInvalidException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "EC2InstanceTypeInvalid",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "EC2InstanceTypeInvalid", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -119,10 +113,7 @@ export class EC2InstanceUnavailableException
     "EC2InstanceUnavailableException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "EC2InstanceUnavailable",
-        httpResponseCode: 503,
-      }),
+      T.AwsQueryError({ code: "EC2InstanceUnavailable", httpResponseCode: 503 }),
       T.HttpError(503),
     ),
   ).pipe(C.withServerError) {}
@@ -137,10 +128,7 @@ export class SerialConsoleAccessDisabledException
     "SerialConsoleAccessDisabledException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SerialConsoleAccessDisabled",
-        httpResponseCode: 403,
-      }),
+      T.AwsQueryError({ code: "SerialConsoleAccessDisabled", httpResponseCode: 403 }),
       T.HttpError(403),
     ),
   ).pipe(C.withAuthError) {}
@@ -149,10 +137,7 @@ export class SerialConsoleSessionLimitExceededException
     "SerialConsoleSessionLimitExceededException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SerialConsoleSessionLimitExceeded",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "SerialConsoleSessionLimitExceeded", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -161,10 +146,7 @@ export class SerialConsoleSessionUnavailableException
     "SerialConsoleSessionUnavailableException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SerialConsoleSessionUnavailable",
-        httpResponseCode: 500,
-      }),
+      T.AwsQueryError({ code: "SerialConsoleSessionUnavailable", httpResponseCode: 500 }),
       T.HttpError(500),
     ),
   ).pipe(C.withServerError) {}
@@ -173,10 +155,7 @@ export class SerialConsoleSessionUnsupportedException
     "SerialConsoleSessionUnsupportedException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SerialConsoleSessionUnsupported",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "SerialConsoleSessionUnsupported", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -204,11 +183,9 @@ export interface SendSerialConsoleSSHPublicKeyRequest {
   SSHPublicKey: string;
 }
 export const SendSerialConsoleSSHPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InstanceId: S.String,
-    SerialPort: S.optional(S.Number),
-    SSHPublicKey: S.String,
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ InstanceId: S.String, SerialPort: S.optional(S.Number), SSHPublicKey: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "SendSerialConsoleSSHPublicKeyRequest",
 }) as any as S.Schema<SendSerialConsoleSSHPublicKeyRequest>;
@@ -219,10 +196,7 @@ export interface SendSerialConsoleSSHPublicKeyResponse {
   Success?: boolean;
 }
 export const SendSerialConsoleSSHPublicKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RequestId: S.optional(S.String),
-    Success: S.optional(S.Boolean),
-  }),
+  S.Struct({ RequestId: S.optional(S.String), Success: S.optional(S.Boolean) }),
 ).annotate({
   identifier: "SendSerialConsoleSSHPublicKeyResponse",
 }) as any as S.Schema<SendSerialConsoleSSHPublicKeyResponse>;
@@ -241,18 +215,14 @@ export const SendSSHPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
     SSHPublicKey: S.String,
     AvailabilityZone: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "SendSSHPublicKeyRequest",
-}) as any as S.Schema<SendSSHPublicKeyRequest>;
+).annotate({ identifier: "SendSSHPublicKeyRequest" }) as any as S.Schema<SendSSHPublicKeyRequest>;
 export interface SendSSHPublicKeyResponse {
   RequestId?: string;
   Success?: boolean;
 }
 export const SendSSHPublicKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RequestId: S.optional(S.String), Success: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "SendSSHPublicKeyResponse",
-}) as any as S.Schema<SendSSHPublicKeyResponse>;
+).annotate({ identifier: "SendSSHPublicKeyResponse" }) as any as S.Schema<SendSSHPublicKeyResponse>;
 export type SendSerialConsoleSSHPublicKeyError =
   | AuthException
   | EC2InstanceNotFoundException

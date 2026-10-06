@@ -107,9 +107,7 @@ export const CreateCampaignRequest = /*@__PURE__*/ S.suspend(() =>
     code_scanning_alerts: S.optional(S.NullOr(CreateCampaignRequestCodeScanningAlertsList)),
     generate_issues: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/campaigns", code: 200 })),
-).annotate({
-  identifier: "CreateCampaignRequest",
-}) as any as S.Schema<CreateCampaignRequest>;
+).annotate({ identifier: "CreateCampaignRequest" }) as any as S.Schema<CreateCampaignRequest>;
 
 /** A GitHub user. */
 export interface SimpleUser {
@@ -184,9 +182,7 @@ export const TeamPermissions = /*@__PURE__*/ S.suspend(() =>
     maintain: S.Boolean,
     admin: S.Boolean,
   }),
-).annotate({
-  identifier: "TeamPermissions",
-}) as any as S.Schema<TeamPermissions>;
+).annotate({ identifier: "TeamPermissions" }) as any as S.Schema<TeamPermissions>;
 
 /** The ownership type of the team */
 export type TeamType = "enterprise" | "organization";
@@ -249,9 +245,7 @@ export const NullableTeamSimple = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.optional(S.Number),
     enterprise_id: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NullableTeamSimple",
-}) as any as S.Schema<NullableTeamSimple>;
+).annotate({ identifier: "NullableTeamSimple" }) as any as S.Schema<NullableTeamSimple>;
 
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface Team {
@@ -372,9 +366,7 @@ export const CampaignSummary = /*@__PURE__*/ S.suspend(() =>
     contact_link: S.NullOr(S.String),
     alert_stats: S.optional(CampaignSummaryAlertStats),
   }),
-).annotate({
-  identifier: "CampaignSummary",
-}) as any as S.Schema<CampaignSummary>;
+).annotate({ identifier: "CampaignSummary" }) as any as S.Schema<CampaignSummary>;
 
 export interface DeleteCampaignRequest {
   /** The organization name. The name is not case sensitive. */
@@ -386,16 +378,8 @@ export const DeleteCampaignRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     campaign_number: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/campaigns/{campaign_number}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteCampaignRequest",
-}) as any as S.Schema<DeleteCampaignRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/orgs/{org}/campaigns/{campaign_number}", code: 200 })),
+).annotate({ identifier: "DeleteCampaignRequest" }) as any as S.Schema<DeleteCampaignRequest>;
 
 export interface DeleteCampaignResponse {}
 export const DeleteCampaignResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -412,13 +396,7 @@ export const GetCampaignSummaryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     campaign_number: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/campaigns/{campaign_number}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/campaigns/{campaign_number}", code: 200 })),
 ).annotate({
   identifier: "GetCampaignSummaryRequest",
 }) as any as S.Schema<GetCampaignSummaryRequest>;
@@ -452,9 +430,7 @@ export const ListOrgCampaignsRequest = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(CampaignState.pipe(T.Query())),
     sort: S.optional(ListOrgCampaignsRequestSort.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/campaigns", code: 200 })),
-).annotate({
-  identifier: "ListOrgCampaignsRequest",
-}) as any as S.Schema<ListOrgCampaignsRequest>;
+).annotate({ identifier: "ListOrgCampaignsRequest" }) as any as S.Schema<ListOrgCampaignsRequest>;
 
 export type ListOrgCampaignsResponseBodyList = Array<CampaignSummary>;
 export const ListOrgCampaignsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -464,9 +440,7 @@ export const ListOrgCampaignsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListOrgCampaignsResponse = ListOrgCampaignsResponseBodyList;
 export const ListOrgCampaignsResponse = /*@__PURE__*/ S.suspend(() =>
   ListOrgCampaignsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListOrgCampaignsResponse",
-}) as any as S.Schema<ListOrgCampaignsResponse>;
+).annotate({ identifier: "ListOrgCampaignsResponse" }) as any as S.Schema<ListOrgCampaignsResponse>;
 
 /** The logins of the users to set as the campaign managers. At this time, only a single manager can be supplied. */
 export type UpdateCampaignRequestManagersList = Array<string>;
@@ -510,16 +484,8 @@ export const UpdateCampaignRequest = /*@__PURE__*/ S.suspend(() =>
     ends_at: S.optional(S.String),
     contact_link: S.optional(S.NullOr(S.String)),
     state: S.optional(CampaignState),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/orgs/{org}/campaigns/{campaign_number}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateCampaignRequest",
-}) as any as S.Schema<UpdateCampaignRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/orgs/{org}/campaigns/{campaign_number}", code: 200 })),
+).annotate({ identifier: "UpdateCampaignRequest" }) as any as S.Schema<UpdateCampaignRequest>;
 
 export type CreateCampaignError = BadRequest | NotFound | UnprocessableEntity | GithubOpError;
 /** Create a campaign for an organization Create a campaign for an organization. The authenticated user must be an owner or security manager for the organization to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint. Fine-grained tokens must have the "Code scanning alerts" repository permissions (read) on all repositories included in the campaign. */

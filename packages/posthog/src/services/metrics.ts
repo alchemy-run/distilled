@@ -91,9 +91,7 @@ export const MetricAnomalyBody = /*@__PURE__*/ S.suspend(() =>
     filters: S.optional(MetricAnomalyBodyFiltersList),
     candidateKeys: S.optional(MetricAnomalyBodyCandidateKeysList),
   }),
-).annotate({
-  identifier: "MetricAnomalyBody",
-}) as any as S.Schema<MetricAnomalyBody>;
+).annotate({ identifier: "MetricAnomalyBody" }) as any as S.Schema<MetricAnomalyBody>;
 
 export interface CreateMetricsCharacterizeRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -106,11 +104,7 @@ export const CreateMetricsCharacterizeRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     query: MetricAnomalyBody,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/metrics/characterize/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/metrics/characterize/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateMetricsCharacterizeRequest",
@@ -140,9 +134,7 @@ export const MetricAnomalyDimension = /*@__PURE__*/ S.suspend(() =>
     anomaly_value: S.Number,
     change_ratio: S.Number,
   }),
-).annotate({
-  identifier: "MetricAnomalyDimension",
-}) as any as S.Schema<MetricAnomalyDimension>;
+).annotate({ identifier: "MetricAnomalyDimension" }) as any as S.Schema<MetricAnomalyDimension>;
 
 /** Label values whose behavior changed the most between windows, largest change first. Empty when nothing moved or the metric has no labels. */
 export type MetricAnomalyReportTopMoversList = Array<MetricAnomalyDimension>;
@@ -168,9 +160,7 @@ export const MetricQueryPoint = /*@__PURE__*/ S.suspend(() =>
     time: S.String,
     value: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "MetricQueryPoint",
-}) as any as S.Schema<MetricQueryPoint>;
+).annotate({ identifier: "MetricQueryPoint" }) as any as S.Schema<MetricQueryPoint>;
 
 /** Time-bucketed points, ordered by time ascending. */
 export type MetricSeriesPointsList = Array<MetricQueryPoint>;
@@ -250,9 +240,7 @@ export const MetricAnomalyReport = /*@__PURE__*/ S.suspend(() =>
     top_movers: MetricAnomalyReportTopMoversList,
     series: MetricSeries,
   }),
-).annotate({
-  identifier: "MetricAnomalyReport",
-}) as any as S.Schema<MetricAnomalyReport>;
+).annotate({ identifier: "MetricAnomalyReport" }) as any as S.Schema<MetricAnomalyReport>;
 
 /** * `gauge` - gauge * `sum` - sum * `histogram` - histogram * `exponential_histogram` - exponential_histogram * `summary` - summary */
 export type OtelMetricTypeEnum =
@@ -307,9 +295,7 @@ export const MetricExplainBody = /*@__PURE__*/ S.suspend(() =>
     bucketStart: S.String,
     interval: MetricQueryIntervalEnum,
   }),
-).annotate({
-  identifier: "MetricExplainBody",
-}) as any as S.Schema<MetricExplainBody>;
+).annotate({ identifier: "MetricExplainBody" }) as any as S.Schema<MetricExplainBody>;
 
 export interface CreateMetricsExplainRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -322,11 +308,7 @@ export const CreateMetricsExplainRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     query: MetricExplainBody,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/metrics/explain/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/metrics/explain/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateMetricsExplainRequest",
@@ -347,18 +329,14 @@ export type SpatialReducerEnum = "sum" | "avg" | "min" | "max" | "quantile" | "c
 export const SpatialReducerEnum = S.String;
 
 /** Per-data-point attributes identifying the series. */
-export type MetricSeriesBreakdownLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type MetricSeriesBreakdownLabelsMap = { [key: string]: string | undefined };
 export const MetricSeriesBreakdownLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<MetricSeriesBreakdownLabelsMap>;
 
 /** Resource attributes identifying the scrape target. */
-export type MetricSeriesBreakdownResourceLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type MetricSeriesBreakdownResourceLabelsMap = { [key: string]: string | undefined };
 export const MetricSeriesBreakdownResourceLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -375,9 +353,7 @@ export const MetricSampleView = /*@__PURE__*/ S.suspend(() =>
     time: S.String,
     value: S.Number,
   }),
-).annotate({
-  identifier: "MetricSampleView",
-}) as any as S.Schema<MetricSampleView>;
+).annotate({ identifier: "MetricSampleView" }) as any as S.Schema<MetricSampleView>;
 
 /** The series' raw samples in this bucket, oldest first, trimmed for display. */
 export type MetricSeriesBreakdownSamplesList = Array<MetricSampleView>;
@@ -411,9 +387,7 @@ export const MetricSeriesBreakdown = /*@__PURE__*/ S.suspend(() =>
     samples_truncated: S.Boolean,
     value: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "MetricSeriesBreakdown",
-}) as any as S.Schema<MetricSeriesBreakdown>;
+).annotate({ identifier: "MetricSeriesBreakdown" }) as any as S.Schema<MetricSeriesBreakdown>;
 
 /** The series behind the point, largest contributors first, trimmed for display. */
 export type MetricBucketDecompositionSeriesList = Array<MetricSeriesBreakdown>;
@@ -486,9 +460,7 @@ export const MetricExplainResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     decomposition: MetricBucketDecomposition,
   }),
-).annotate({
-  identifier: "MetricExplainResponse",
-}) as any as S.Schema<MetricExplainResponse>;
+).annotate({ identifier: "MetricExplainResponse" }) as any as S.Schema<MetricExplainResponse>;
 
 /** Label predicates ANDed together. Rows must satisfy every filter. */
 export type MetricQueryBodyFiltersList = Array<MetricFilter>;
@@ -599,9 +571,7 @@ export const MetricQueryBody = /*@__PURE__*/ S.suspend(() =>
     dateFrom: S.String,
     dateTo: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetricQueryBody",
-}) as any as S.Schema<MetricQueryBody>;
+).annotate({ identifier: "MetricQueryBody" }) as any as S.Schema<MetricQueryBody>;
 
 export interface CreateMetricsQueryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -613,13 +583,7 @@ export const CreateMetricsQueryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     query: MetricQueryBody,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/metrics/query/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/metrics/query/", code: 200 })),
 ).annotate({
   identifier: "CreateMetricsQueryRequest",
 }) as any as S.Schema<CreateMetricsQueryRequest>;
@@ -638,9 +602,7 @@ export const MetricQueryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     results: MetricQueryResponseResultsList,
   }),
-).annotate({
-  identifier: "MetricQueryResponse",
-}) as any as S.Schema<MetricQueryResponse>;
+).annotate({ identifier: "MetricQueryResponse" }) as any as S.Schema<MetricQueryResponse>;
 
 /** Label predicates ANDed together, matched against each emission's series. Pass the same filters used for the chart so the emissions listed are the ones behind it. */
 export type MetricSamplesBodyFiltersList = Array<MetricFilter>;
@@ -677,9 +639,7 @@ export const MetricSamplesBody = /*@__PURE__*/ S.suspend(() =>
     filters: S.optional(MetricSamplesBodyFiltersList),
     limit: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MetricSamplesBody",
-}) as any as S.Schema<MetricSamplesBody>;
+).annotate({ identifier: "MetricSamplesBody" }) as any as S.Schema<MetricSamplesBody>;
 
 export interface CreateMetricsSampleRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -692,29 +652,21 @@ export const CreateMetricsSampleRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     query: MetricSamplesBody,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/metrics/samples/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/metrics/samples/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateMetricsSampleRequest",
 }) as any as S.Schema<CreateMetricsSampleRequest>;
 
 /** Per-emission attributes (high-cardinality labels on the data point). */
-export type MetricEventSampleAttributesMap = {
-  [key: string]: string | undefined;
-};
+export type MetricEventSampleAttributesMap = { [key: string]: string | undefined };
 export const MetricEventSampleAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<MetricEventSampleAttributesMap>;
 
 /** Attributes of the resource (host, pod, service version) that emitted the metric. */
-export type MetricEventSampleResourceAttributesMap = {
-  [key: string]: string | undefined;
-};
+export type MetricEventSampleResourceAttributesMap = { [key: string]: string | undefined };
 export const MetricEventSampleResourceAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -764,9 +716,7 @@ export const MetricEventSample = /*@__PURE__*/ S.suspend(() =>
     attributes: MetricEventSampleAttributesMap,
     resource_attributes: MetricEventSampleResourceAttributesMap,
   }),
-).annotate({
-  identifier: "MetricEventSample",
-}) as any as S.Schema<MetricEventSample>;
+).annotate({ identifier: "MetricEventSample" }) as any as S.Schema<MetricEventSample>;
 
 /** Raw emissions ordered by timestamp descending. */
 export type MetricSamplesResponseResultsList = Array<MetricEventSample>;
@@ -782,19 +732,93 @@ export const MetricSamplesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     results: MetricSamplesResponseResultsList,
   }),
+).annotate({ identifier: "MetricSamplesResponse" }) as any as S.Schema<MetricSamplesResponse>;
+
+/** Exact metric names to load as a batch. Overrides value and limit. */
+export type CreateMetricsValueRequestNamesList = Array<string>;
+export const CreateMetricsValueRequestNamesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateMetricsValueRequestNamesList>;
+
+export interface CreateMetricsValueRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Substring filter (case-insensitive) applied to metric names. */
+  value?: string;
+  /** Max number of names to return. Defaults to 100; maximum 1000. */
+  limit?: number;
+  /** Comma-separated services to narrow the list to, e.g. `service=web,worker`. Omit for every service. Send it empty to select only series whose sender did not set `service.name`. A service name containing a comma cannot be selected. */
+  service?: string;
+  /** Exact metric names to load as a batch. Overrides value and limit. */
+  names: CreateMetricsValueRequestNamesList;
+}
+export const CreateMetricsValueRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    value: S.optional(S.String),
+    limit: S.optional(S.Number),
+    service: S.optional(S.String),
+    names: CreateMetricsValueRequestNamesList,
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/metrics/values/", code: 200 })),
 ).annotate({
-  identifier: "MetricSamplesResponse",
-}) as any as S.Schema<MetricSamplesResponse>;
+  identifier: "CreateMetricsValueRequest",
+}) as any as S.Schema<CreateMetricsValueRequest>;
+
+/** A small downsampled series of the metric's recent shape, for a sparkline. */
+export type MetricNameSparklineList = Array<number>;
+export const MetricNameSparklineList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<MetricNameSparklineList>;
+
+export interface MetricName {
+  /** Metric name as it appears in the team's data. */
+  name: string;
+  /** OTel metric type (gauge, sum, histogram, summary, exponential_histogram). */
+  metric_type: string;
+  /** Unit of the metric value, if any (e.g. 'ms', 'By'). */
+  unit?: string;
+  /** When the newest datapoint for this metric arrived, ISO 8601. */
+  last_seen?: string | null;
+  /** A small downsampled series of the metric's recent shape, for a sparkline. */
+  sparkline?: MetricNameSparklineList;
+}
+export const MetricName = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    metric_type: S.String,
+    unit: S.optional(S.String),
+    last_seen: S.optional(S.NullOr(S.String)),
+    sparkline: S.optional(MetricNameSparklineList),
+  }),
+).annotate({ identifier: "MetricName" }) as any as S.Schema<MetricName>;
+
+/** Distinct metric names ordered by recent activity. */
+export type MetricNamesResponseResultsList = Array<MetricName>;
+export const MetricNamesResponseResultsList = /*@__PURE__*/ S.Array(
+  MetricName,
+) as any as S.Schema<MetricNamesResponseResultsList>;
+
+export interface MetricNamesResponse {
+  /** Distinct metric names ordered by recent activity. */
+  results: MetricNamesResponseResultsList;
+}
+export const MetricNamesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: MetricNamesResponseResultsList,
+  }),
+).annotate({ identifier: "MetricNamesResponse" }) as any as S.Schema<MetricNamesResponse>;
 
 export interface GetMetricsAttributeRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** Lower bound (inclusive) of the window keys are suggested from. ISO 8601. Defaults to 7 days ago. */
+  /** Lower bound (inclusive) of the window keys are suggested from. ISO 8601. Defaults to 24 hours ago. */
   dateFrom?: string;
   /** Upper bound (exclusive) of the window. ISO 8601. Defaults to now. */
   dateTo?: string;
   /** Max number of keys to return. Defaults to 100; maximum 1000. */
   limit?: number;
+  /** Exact metric name to limit attribute keys to. Omit to list keys across all metrics. */
+  metricName?: string;
   /** Substring filter (case-insensitive) applied to attribute keys. */
   search?: string;
 }
@@ -804,13 +828,10 @@ export const GetMetricsAttributeRequest = /*@__PURE__*/ S.suspend(() =>
     dateFrom: S.optional(S.String.pipe(T.Query())),
     dateTo: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
+    metricName: S.optional(S.String.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/metrics/attributes/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/metrics/attributes/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMetricsAttributeRequest",
@@ -819,23 +840,24 @@ export const GetMetricsAttributeRequest = /*@__PURE__*/ S.suspend(() =>
 export interface MetricAttributeKey {
   /** Attribute key as it appears on the team's metrics (e.g. 'env', 'k8s.pod.name'). */
   name: string;
+  /** Number of distinct values for this attribute in recent data. */
+  value_count: number;
 }
 export const MetricAttributeKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
+    value_count: S.Number,
   }),
-).annotate({
-  identifier: "MetricAttributeKey",
-}) as any as S.Schema<MetricAttributeKey>;
+).annotate({ identifier: "MetricAttributeKey" }) as any as S.Schema<MetricAttributeKey>;
 
-/** Distinct attribute keys (datapoint and resource attributes merged), most frequent first. */
+/** Distinct attribute keys (datapoint and resource attributes merged), ordered by distinct value count descending. */
 export type MetricAttributeKeysResponseResultsList = Array<MetricAttributeKey>;
 export const MetricAttributeKeysResponseResultsList = /*@__PURE__*/ S.Array(
   MetricAttributeKey,
 ) as any as S.Schema<MetricAttributeKeysResponseResultsList>;
 
 export interface MetricAttributeKeysResponse {
-  /** Distinct attribute keys (datapoint and resource attributes merged), most frequent first. */
+  /** Distinct attribute keys (datapoint and resource attributes merged), ordered by distinct value count descending. */
   results: MetricAttributeKeysResponseResultsList;
   /** Number of keys returned. */
   count: number;
@@ -852,7 +874,7 @@ export const MetricAttributeKeysResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetMetricsAttributeValueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** Lower bound (inclusive) of the window values are suggested from. ISO 8601. Defaults to 7 days ago. */
+  /** Lower bound (inclusive) of the window values are suggested from. ISO 8601. Defaults to 24 hours ago. */
   dateFrom?: string;
   /** Upper bound (exclusive) of the window. ISO 8601. Defaults to now. */
   dateTo?: string;
@@ -896,9 +918,7 @@ export const MetricAttributeValue = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     count: S.Number,
   }),
-).annotate({
-  identifier: "MetricAttributeValue",
-}) as any as S.Schema<MetricAttributeValue>;
+).annotate({ identifier: "MetricAttributeValue" }) as any as S.Schema<MetricAttributeValue>;
 
 /** Observed values for the requested key, most frequent first. */
 export type MetricAttributeValuesResponseResultsList = Array<MetricAttributeValue>;
@@ -932,11 +952,7 @@ export const GetMetricsErrorSpikeRequest = /*@__PURE__*/ S.suspend(() =>
     dateFrom: S.String.pipe(T.Query()),
     dateTo: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/metrics/error_spikes/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/metrics/error_spikes/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMetricsErrorSpikeRequest",
@@ -956,9 +972,7 @@ export const MetricErrorSpike = /*@__PURE__*/ S.suspend(() =>
     issue_id: S.String,
     issue_name: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "MetricErrorSpike",
-}) as any as S.Schema<MetricErrorSpike>;
+).annotate({ identifier: "MetricErrorSpike" }) as any as S.Schema<MetricErrorSpike>;
 
 /** Error Tracking issue spikes detected in the window, newest first. Team-wide: not yet scoped to a specific metric's service. */
 export type MetricErrorSpikesResponseResultsList = Array<MetricErrorSpike>;
@@ -986,11 +1000,7 @@ export const GetMetricsHasMetricsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/metrics/has_metrics/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/metrics/has_metrics/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMetricsHasMetricsRequest",
@@ -1004,9 +1014,57 @@ export const HasMetricsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     hasMetrics: S.Boolean,
   }),
+).annotate({ identifier: "HasMetricsResponse" }) as any as S.Schema<HasMetricsResponse>;
+
+export interface GetMetricsNameRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Max number of names to return. Defaults to 100; maximum 1000. */
+  limit?: number;
+  /** Comma-separated services to narrow the list to, e.g. `service=web,worker`. Omit for every service. Send it empty to select only series whose sender did not set `service.name`. A service name containing a comma cannot be selected. */
+  service?: string;
+  /** Substring filter (case-insensitive) applied to metric names. */
+  value?: string;
+}
+export const GetMetricsNameRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    service: S.optional(S.String.pipe(T.Query())),
+    value: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/metrics/names/", code: 200 })),
+).annotate({ identifier: "GetMetricsNameRequest" }) as any as S.Schema<GetMetricsNameRequest>;
+
+export interface MetricPickerName {
+  /** Metric name as it appears in the team's data. */
+  name: string;
+  /** OTel metric type (gauge, sum, histogram, summary, exponential_histogram). */
+  metric_type: string;
+}
+export const MetricPickerName = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    metric_type: S.String,
+  }),
+).annotate({ identifier: "MetricPickerName" }) as any as S.Schema<MetricPickerName>;
+
+/** Distinct metric names ordered by recent activity. */
+export type MetricPickerNamesResponseResultsList = Array<MetricPickerName>;
+export const MetricPickerNamesResponseResultsList = /*@__PURE__*/ S.Array(
+  MetricPickerName,
+) as any as S.Schema<MetricPickerNamesResponseResultsList>;
+
+export interface MetricPickerNamesResponse {
+  /** Distinct metric names ordered by recent activity. */
+  results: MetricPickerNamesResponseResultsList;
+}
+export const MetricPickerNamesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: MetricPickerNamesResponseResultsList,
+  }),
 ).annotate({
-  identifier: "HasMetricsResponse",
-}) as any as S.Schema<HasMetricsResponse>;
+  identifier: "MetricPickerNamesResponse",
+}) as any as S.Schema<MetricPickerNamesResponse>;
 
 export interface GetMetricsOverviewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1016,11 +1074,7 @@ export const GetMetricsOverviewRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/metrics/overview/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/metrics/overview/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMetricsOverviewRequest",
@@ -1043,9 +1097,7 @@ export const MetricsOverviewService = /*@__PURE__*/ S.suspend(() =>
     series: S.Number,
     last_seen: S.String,
   }),
-).annotate({
-  identifier: "MetricsOverviewService",
-}) as any as S.Schema<MetricsOverviewService>;
+).annotate({ identifier: "MetricsOverviewService" }) as any as S.Schema<MetricsOverviewService>;
 
 /** Per-service rollup for the window, largest series count first. Capped at the 500 largest. */
 export type MetricsOverviewResponseServicesList = Array<MetricsOverviewService>;
@@ -1073,9 +1125,7 @@ export const MetricsOverviewResponse = /*@__PURE__*/ S.suspend(() =>
     lookback_seconds: S.Number,
     services: MetricsOverviewResponseServicesList,
   }),
-).annotate({
-  identifier: "MetricsOverviewResponse",
-}) as any as S.Schema<MetricsOverviewResponse>;
+).annotate({ identifier: "MetricsOverviewResponse" }) as any as S.Schema<MetricsOverviewResponse>;
 
 export interface GetMetricsValueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1093,47 +1143,8 @@ export const GetMetricsValueRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     service: S.optional(S.String.pipe(T.Query())),
     value: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/metrics/values/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetMetricsValueRequest",
-}) as any as S.Schema<GetMetricsValueRequest>;
-
-export interface MetricName {
-  /** Metric name as it appears in the team's data. */
-  name: string;
-  /** OTel metric type (gauge, sum, histogram, summary, exponential_histogram). */
-  metric_type: string;
-}
-export const MetricName = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    metric_type: S.String,
-  }),
-).annotate({ identifier: "MetricName" }) as any as S.Schema<MetricName>;
-
-/** Distinct metric names ordered by recent activity. */
-export type MetricNamesResponseResultsList = Array<MetricName>;
-export const MetricNamesResponseResultsList = /*@__PURE__*/ S.Array(
-  MetricName,
-) as any as S.Schema<MetricNamesResponseResultsList>;
-
-export interface MetricNamesResponse {
-  /** Distinct metric names ordered by recent activity. */
-  results: MetricNamesResponseResultsList;
-}
-export const MetricNamesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    results: MetricNamesResponseResultsList,
-  }),
-).annotate({
-  identifier: "MetricNamesResponse",
-}) as any as S.Schema<MetricNamesResponse>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/metrics/values/", code: 200 })),
+).annotate({ identifier: "GetMetricsValueRequest" }) as any as S.Schema<GetMetricsValueRequest>;
 
 export type CreateMetricsCharacterizeError = PosthogOpError;
 /** Characterize a metric anomaly: compare an anomaly window against a baseline, find the onset, and rank which label values moved. */
@@ -1194,8 +1205,23 @@ export const createMetricsSample: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateMetricsValueError = PosthogOpError;
+/** Distinct metric names for the team. Backs the catalog UI. */
+export const createMetricsValue: API.OperationMethod<
+  CreateMetricsValueRequest,
+  MetricNamesResponse,
+  CreateMetricsValueError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateMetricsValueRequest,
+  output: MetricNamesResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetMetricsAttributeError = PosthogOpError;
-/** Distinct attribute keys seen on the team's metrics (datapoint and resource attributes merged), most frequent first. Backs the filter bar's key autocomplete. */
+/** Attribute keys ordered by distinct series count, from highest to lowest. `metricName` limits choices to one metric. */
 export const getMetricsAttribute: API.OperationMethod<
   GetMetricsAttributeRequest,
   MetricAttributeKeysResponse,
@@ -1253,6 +1279,21 @@ export const getMetricsHasMetrics: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetMetricsNameError = PosthogOpError;
+/** Distinct metric names for the viewer picker, without sparklines or caching. */
+export const getMetricsName: API.OperationMethod<
+  GetMetricsNameRequest,
+  MetricPickerNamesResponse,
+  GetMetricsNameError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetMetricsNameRequest,
+  output: MetricPickerNamesResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetMetricsOverviewError = PosthogOpError;
 /** Ingestion rollup for the overview page: freshness of the newest datapoint plus per-service metric/series counts over the last day. */
 export const getMetricsOverview: API.OperationMethod<
@@ -1269,7 +1310,7 @@ export const getMetricsOverview: API.OperationMethod<
 }));
 
 export type GetMetricsValueError = PosthogOpError;
-/** Distinct metric names for the team. Backs the picker UI. */
+/** Distinct metric names for the team. Backs the catalog UI. */
 export const getMetricsValue: API.OperationMethod<
   GetMetricsValueRequest,
   MetricNamesResponse,

@@ -58,8 +58,14 @@
     "com.vercel.certs#GetCertResponse": {
       "type": "structure",
       "members": {
-        "id": {
-          "target": "smithy.api#String",
+        "autoRenew": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cns": {
+          "target": "com.vercel.certs#GetCertResponseCnsList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -76,14 +82,8 @@
             "smithy.api#required": {}
           }
         },
-        "autoRenew": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "cns": {
-          "target": "com.vercel.certs#GetCertResponseCnsList",
+        "id": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -226,8 +226,14 @@
     "com.vercel.certs#GetCertsResponseCertsItem": {
       "type": "structure",
       "members": {
-        "id": {
-          "target": "smithy.api#String",
+        "autoRenew": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cns": {
+          "target": "com.vercel.certs#GetCertsResponseCertsItemCnsList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -244,14 +250,8 @@
             "smithy.api#required": {}
           }
         },
-        "autoRenew": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "cns": {
-          "target": "com.vercel.certs#GetCertsResponseCertsItemCnsList",
+        "id": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -389,8 +389,14 @@
     "com.vercel.certs#IssueCertResponse": {
       "type": "structure",
       "members": {
-        "id": {
-          "target": "smithy.api#String",
+        "autoRenew": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cns": {
+          "target": "com.vercel.certs#IssueCertResponseCnsList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -407,14 +413,8 @@
             "smithy.api#required": {}
           }
         },
-        "autoRenew": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "cns": {
-          "target": "com.vercel.certs#IssueCertResponseCnsList",
+        "id": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -514,8 +514,14 @@
     "com.vercel.certs#UploadCertResponse": {
       "type": "structure",
       "members": {
-        "id": {
-          "target": "smithy.api#String",
+        "autoRenew": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cns": {
+          "target": "com.vercel.certs#UploadCertResponseCnsList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -532,14 +538,8 @@
             "smithy.api#required": {}
           }
         },
-        "autoRenew": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "cns": {
-          "target": "com.vercel.certs#UploadCertResponseCnsList",
+        "id": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -566,6 +566,9 @@
         },
         {
           "target": "com.vercel.certs#Forbidden"
+        },
+        {
+          "target": "com.vercel.certs#NotFound"
         }
       ],
       "traits": {

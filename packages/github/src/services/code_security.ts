@@ -190,9 +190,7 @@ export const CodeScanningOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     allow_advanced: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "CodeScanningOptions",
-}) as any as S.Schema<CodeScanningOptions>;
+).annotate({ identifier: "CodeScanningOptions" }) as any as S.Schema<CodeScanningOptions>;
 
 /** The enablement status of code scanning default setup */
 export type CreateConfigurationRequestCodeScanningDefaultSetup = "enabled" | "disabled" | "not_set";
@@ -488,13 +486,7 @@ export const CreateConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       CreateConfigurationRequestPrivateVulnerabilityReporting,
     ),
     enforcement: S.optional(CreateConfigurationRequestEnforcement),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/code-security/configurations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/code-security/configurations", code: 200 })),
 ).annotate({
   identifier: "CreateConfigurationRequest",
 }) as any as S.Schema<CreateConfigurationRequest>;
@@ -708,7 +700,10 @@ export type CodeSecurityConfigurationPrivateVulnerabilityReporting =
 export const CodeSecurityConfigurationPrivateVulnerabilityReporting = S.String;
 
 /** The enforcement status for a security configuration */
-export type CodeSecurityConfigurationEnforcement = "enforced" | "unenforced";
+export type CodeSecurityConfigurationEnforcement =
+  | "enforced"
+  | "unenforced"
+  | "enterprise_enforced";
 export const CodeSecurityConfigurationEnforcement = S.String;
 
 /** A code security configuration */
@@ -965,7 +960,10 @@ export type CreateConfigurationForEnterpriseRequestPrivateVulnerabilityReporting
 export const CreateConfigurationForEnterpriseRequestPrivateVulnerabilityReporting = S.String;
 
 /** The enforcement status for a security configuration */
-export type CreateConfigurationForEnterpriseRequestEnforcement = "enforced" | "unenforced";
+export type CreateConfigurationForEnterpriseRequestEnforcement =
+  | "enforced"
+  | "unenforced"
+  | "enterprise_enforced";
 export const CreateConfigurationForEnterpriseRequestEnforcement = S.String;
 
 export interface CreateConfigurationForEnterpriseRequest {
@@ -1170,11 +1168,7 @@ export const DetachConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     selected_repository_ids: DetachConfigurationRequestSelectedRepositoryIdsList,
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/code-security/configurations/detach",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/orgs/{org}/code-security/configurations/detach", code: 200 }),
   ),
 ).annotate({
   identifier: "DetachConfigurationRequest",
@@ -1202,9 +1196,7 @@ export const GetConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetConfigurationRequest",
-}) as any as S.Schema<GetConfigurationRequest>;
+).annotate({ identifier: "GetConfigurationRequest" }) as any as S.Schema<GetConfigurationRequest>;
 
 export interface GetConfigurationForRepositoryRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1217,11 +1209,7 @@ export const GetConfigurationForRepositoryRequest = /*@__PURE__*/ S.suspend(() =
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/code-security-configuration",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/code-security-configuration", code: 200 }),
   ),
 ).annotate({
   identifier: "GetConfigurationForRepositoryRequest",
@@ -1236,7 +1224,8 @@ export type CodeSecurityConfigurationForRepositoryStatus =
   | "enforced"
   | "failed"
   | "updating"
-  | "removed_by_enterprise";
+  | "removed_by_enterprise"
+  | "enterprise_enforced";
 export const CodeSecurityConfigurationForRepositoryStatus = S.String;
 
 /** Code security configuration associated with a repository and attachment status */
@@ -1315,13 +1304,7 @@ export const GetConfigurationsForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
     after: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/code-security/configurations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/code-security/configurations", code: 200 })),
 ).annotate({
   identifier: "GetConfigurationsForOrgRequest",
 }) as any as S.Schema<GetConfigurationsForOrgRequest>;
@@ -1346,11 +1329,7 @@ export const GetDefaultConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/code-security/configurations/defaults",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/code-security/configurations/defaults", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDefaultConfigurationsRequest",
@@ -1426,7 +1405,7 @@ export interface GetRepositoriesForConfigurationRequest {
   before?: string;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
   after?: string;
-  /** A comma-separated list of statuses. If specified, only repositories with these attachment statuses will be returned. Can be: `all`, `attached`, `attaching`, `detached`, `removed`, `enforced`, `failed`, `updating`, `removed_by_enterprise` */
+  /** A comma-separated list of statuses. If specified, only repositories with these attachment statuses will be returned. Can be: `all`, `attached`, `attaching`, `detached`, `removed`, `enforced`, `failed`, `updating`, `removed_by_enterprise`, `enterprise_enforced` */
   status?: string;
 }
 export const GetRepositoriesForConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1457,7 +1436,8 @@ export type CodeSecurityConfigurationRepositoriesStatus =
   | "enforced"
   | "failed"
   | "updating"
-  | "removed_by_enterprise";
+  | "removed_by_enterprise"
+  | "enterprise_enforced";
 export const CodeSecurityConfigurationRepositoriesStatus = S.String;
 
 /** A GitHub user. */
@@ -1655,9 +1635,7 @@ export const SimpleRepository = /*@__PURE__*/ S.suspend(() =>
     trees_url: S.String,
     hooks_url: S.String,
   }),
-).annotate({
-  identifier: "SimpleRepository",
-}) as any as S.Schema<SimpleRepository>;
+).annotate({ identifier: "SimpleRepository" }) as any as S.Schema<SimpleRepository>;
 
 /** Repositories associated with a code security configuration and attachment status */
 export interface CodeSecurityConfigurationRepositories {
@@ -1699,7 +1677,7 @@ export interface GetRepositoriesForEnterpriseConfigurationRequest {
   before?: string;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
   after?: string;
-  /** A comma-separated list of statuses. If specified, only repositories with these attachment statuses will be returned. Can be: `all`, `attached`, `attaching`, `removed`, `enforced`, `failed`, `updating`, `removed_by_enterprise` */
+  /** A comma-separated list of statuses. If specified, only repositories with these attachment statuses will be returned. Can be: `all`, `attached`, `attaching`, `removed`, `enforced`, `failed`, `updating`, `removed_by_enterprise`, `enterprise_enforced` */
   status?: string;
 }
 export const GetRepositoriesForEnterpriseConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2326,7 +2304,10 @@ export type UpdateEnterpriseConfigurationRequestPrivateVulnerabilityReporting =
 export const UpdateEnterpriseConfigurationRequestPrivateVulnerabilityReporting = S.String;
 
 /** The enforcement status for a security configuration */
-export type UpdateEnterpriseConfigurationRequestEnforcement = "enforced" | "unenforced";
+export type UpdateEnterpriseConfigurationRequestEnforcement =
+  | "enforced"
+  | "unenforced"
+  | "enterprise_enforced";
 export const UpdateEnterpriseConfigurationRequestEnforcement = S.String;
 
 export interface UpdateEnterpriseConfigurationRequest {
@@ -2463,8 +2444,8 @@ export const UpdateEnterpriseConfigurationRequest = /*@__PURE__*/ S.suspend(() =
   identifier: "UpdateEnterpriseConfigurationRequest",
 }) as any as S.Schema<UpdateEnterpriseConfigurationRequest>;
 
-export type AttachConfigurationError = GithubOpError;
-/** Attach a configuration to repositories Attach a code security configuration to a set of repositories. If the repositories specified are already attached to a configuration, they will be re-attached to the provided configuration. If insufficient GHAS licenses are available to attach the configuration to a repository, only free features will be enabled. The authenticated user must be an administrator or security manager for the organization to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `write:org` scope to use this endpoint. */
+export type AttachConfigurationError = Forbidden | GithubOpError;
+/** Attach a configuration to repositories Attach a code security configuration to a set of repositories. If the repositories specified are already attached to a configuration, they will be re-attached to the provided configuration. If insufficient GHAS licenses are available to attach the configuration to a repository, only free features will be enabled. The authenticated user must be an administrator or security manager for the organization to use this endpoint. Directly applying an enterprise-enforced configuration also requires permission to manage the enterprise's code security settings. Without it, the request returns `403` and no repositories change. When applying a different configuration, repositories with active enterprise-enforced attachments are skipped unless the authenticated user can manage the enterprise's code security settings; the remaining repositories are updated. The request still returns `202` if every repository is skipped. OAuth app tokens and classic PATs require the `write:org` scope. Directly applying an enterprise-enforced configuration also requires `admin:enterprise` and is not supported by fine-grained PATs or GitHub App access tokens. */
 export const attachConfiguration: API.OperationMethod<
   AttachConfigurationRequest,
   AttachConfigurationResponse,
@@ -2473,7 +2454,7 @@ export const attachConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AttachConfigurationRequest,
   output: AttachConfigurationResponse,
-  errors: [],
+  errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));
@@ -2563,7 +2544,7 @@ export const deleteConfigurationForEnterprise: API.OperationMethod<
 }));
 
 export type DetachConfigurationError = BadRequest | Forbidden | NotFound | Conflict | GithubOpError;
-/** Detach configurations from repositories Detach code security configuration(s) from a set of repositories. Repositories will retain their settings but will no longer be associated with the configuration. The authenticated user must be an administrator or security manager for the organization to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `write:org` scope to use this endpoint. */
+/** Detach configurations from repositories Detach code security configuration(s) from a set of repositories. Repositories will retain their settings but will no longer be associated with the configuration. The authenticated user must be an administrator or security manager for the organization to use this endpoint. Repositories with active enterprise-enforced attachments are skipped unless the authenticated user can manage the enterprise's code security settings; the rest are detached. Inactive enterprise-enforced attachments, such as failed attachments, are detached. The request still returns `204` if every repository is skipped. OAuth app tokens and classic PATs require the `write:org` scope. Managing enterprise-enforced configurations also requires `admin:enterprise` and is not supported by fine-grained PATs or GitHub App access tokens. */
 export const detachConfiguration: API.OperationMethod<
   DetachConfigurationRequest,
   DetachConfigurationResponse,
@@ -2713,7 +2694,7 @@ export const getSingleConfigurationForEnterprise: API.OperationMethod<
 }));
 
 export type SetConfigurationAsDefaultError = Forbidden | NotFound | GithubOpError;
-/** Set a code security configuration as a default for an organization Sets a code security configuration as a default to be applied to new repositories in your organization. This configuration will be applied to the matching repository type (all, none, public, private and internal) by default when they are created. The authenticated user must be an administrator or security manager for the organization to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `write:org` scope to use this endpoint. */
+/** Set a code security configuration as a default for an organization Sets a code security configuration as a default to be applied to new repositories in your organization. This configuration will be applied to the matching repository type (all, none, public, private and internal) by default when they are created. The authenticated user must be an administrator or security manager for the organization to use this endpoint. Setting an enterprise-enforced configuration as the default also requires permission to manage the enterprise's code security settings. A default set with this endpoint is an organization default, even if the configuration is owned or enforced by the enterprise. An enterprise-enforced configuration set as an enterprise-level default for the same repository visibility takes precedence. OAuth app tokens and classic PATs require the `write:org` scope; setting an enterprise-enforced configuration as the default also requires `admin:enterprise`. Fine-grained PATs and GitHub App access tokens cannot perform that action. */
 export const setConfigurationAsDefault: API.OperationMethod<
   SetConfigurationAsDefaultRequest,
   SetConfigurationAsDefaultResponse,

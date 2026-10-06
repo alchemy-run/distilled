@@ -153,18 +153,18 @@ export const GetProjectsTraceSinksRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetProjectsTraceSinksRequest>;
 
 export interface ListProjectsTraceSinksRequest {
-  /** Optional. If present, then retrieve the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
-  pageToken?: string;
   /** Required. The parent resource whose sinks are to be listed (currently only project parent resources are supported): "projects/[PROJECT_ID]" */
   parent: string;
   /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of `next_page_token` in the response indicates that more results might be available. */
   pageSize?: number;
+  /** Optional. If present, then retrieve the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
+  pageToken?: string;
 }
 export const ListProjectsTraceSinksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -181,19 +181,17 @@ export const TraceSinkList = /*@__PURE__*/ S.Array(TraceSink) as any as S.Schema
 
 /** Result returned from `ListTraceSinks`. */
 export interface ListTraceSinksResponse {
-  /** A list of sinks. */
-  sinks?: TraceSinkList;
   /** A paginated response where more pages might be available has `next_page_token` set. To get the next set of results, call the same method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string;
+  /** A list of sinks. */
+  sinks?: TraceSinkList;
 }
 export const ListTraceSinksResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sinks: S.optional(TraceSinkList),
     nextPageToken: S.optional(S.String),
+    sinks: S.optional(TraceSinkList),
   }),
-).annotate({
-  identifier: "ListTraceSinksResponse",
-}) as any as S.Schema<ListTraceSinksResponse>;
+).annotate({ identifier: "ListTraceSinksResponse" }) as any as S.Schema<ListTraceSinksResponse>;
 
 export interface PatchProjectsTraceSinksRequest {
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_NUMBER]/traceSinks/[SINK_ID]" Example: `"projects/12345/traceSinks/my-sink-id"`. */
@@ -288,10 +286,7 @@ export const listProjectsTraceSinks: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type PatchProjectsTraceSinksError =

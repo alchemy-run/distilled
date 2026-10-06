@@ -88,6 +88,53 @@ export const CancelProjectsPatchJobsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CancelProjectsPatchJobsRequest",
 }) as any as S.Schema<CancelProjectsPatchJobsRequest>;
 
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+
+/** Represents a group of VMs that can be identified as having all these labels, for example "env=prod and app=web". */
+export interface PatchInstanceFilterGroupLabel {
+  /** Compute Engine instance labels that must be present for a VM instance to be targeted by this filter. */
+  labels?: StringMap;
+}
+export const PatchInstanceFilterGroupLabel = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    labels: S.optional(StringMap),
+  }),
+).annotate({
+  identifier: "PatchInstanceFilterGroupLabel",
+}) as any as S.Schema<PatchInstanceFilterGroupLabel>;
+
+export type PatchInstanceFilterGroupLabelList = Array<PatchInstanceFilterGroupLabel>;
+export const PatchInstanceFilterGroupLabelList = /*@__PURE__*/ S.Array(
+  PatchInstanceFilterGroupLabel,
+) as any as S.Schema<PatchInstanceFilterGroupLabelList>;
+
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
+
+/** A filter to target VM instances for patching. The targeted VMs must meet all criteria specified. So if both labels and zones are specified, the patch job targets only VMs with those labels and in those zones. */
+export interface PatchInstanceFilter {
+  /** Target all VM instances in the project. If true, no other criteria is permitted. */
+  all?: boolean;
+  /** Targets VM instances matching at least one of these label sets. This allows targeting of disparate groups, for example "env=prod or env=staging". */
+  groupLabels?: PatchInstanceFilterGroupLabelList;
+  /** Targets any of the VM instances specified. Instances are specified by their URI in the form `zones/[ZONE]/instances/[INSTANCE_NAME]`, `projects/[PROJECT_ID]/zones/[ZONE]/instances/[INSTANCE_NAME]`, or `https://www.googleapis.com/compute/v1/projects/[PROJECT_ID]/zones/[ZONE]/instances/[INSTANCE_NAME]` */
+  instances?: StringList;
+  /** Targets VM instances in ANY of these zones. Leave empty to target VM instances in any zone. */
+  zones?: StringList;
+  /** Targets VMs whose name starts with one of these prefixes. Similar to labels, this is another way to group VMs when targeting configs, for example prefix="prod-". */
+  instanceNamePrefixes?: StringList;
+}
+export const PatchInstanceFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    all: S.optional(S.Boolean),
+    groupLabels: S.optional(PatchInstanceFilterGroupLabelList),
+    instances: S.optional(StringList),
+    zones: S.optional(StringList),
+    instanceNamePrefixes: S.optional(StringList),
+  }),
+).annotate({ identifier: "PatchInstanceFilter" }) as any as S.Schema<PatchInstanceFilter>;
+
 export type PatchRolloutModeEnum = "MODE_UNSPECIFIED" | "ZONE_BY_ZONE" | "CONCURRENT_ZONES";
 export const PatchRolloutModeEnum = S.String;
 
@@ -119,66 +166,170 @@ export const PatchRollout = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "PatchRollout" }) as any as S.Schema<PatchRollout>;
 
-export type PatchJobStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "STARTED"
-  | "INSTANCE_LOOKUP"
-  | "PATCHING"
-  | "SUCCEEDED"
-  | "COMPLETED_WITH_INACTIVE_VMS"
-  | "COMPLETED_WITH_ERRORS"
-  | "CANCELED"
-  | "TIMED_OUT";
-export const PatchJobStateEnum = S.String;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
-
-/** Represents a group of VMs that can be identified as having all these labels, for example "env=prod and app=web". */
-export interface PatchInstanceFilterGroupLabel {
-  /** Compute Engine instance labels that must be present for a VM instance to be targeted by this filter. */
-  labels?: StringMap;
+/** A summary of the current patch state across all instances that this patch job affects. Contains counts of instances in different states. These states map to `InstancePatchState`. List patch job instance details to see the specific states of each instance. */
+export interface PatchJobInstanceDetailsSummary {
+  /** Number of instances notified about patch job. */
+  notifiedInstanceCount?: string;
+  /** Number of instances that have acked and will start shortly. */
+  ackedInstanceCount?: string;
+  /** Number of instances that are inactive. */
+  inactiveInstanceCount?: string;
+  /** Number of instances that do not appear to be running the agent. Check to ensure that the agent is installed, running, and able to communicate with the service. */
+  noAgentDetectedInstanceCount?: string;
+  /** Number of instances that were skipped during patching. */
+  skippedInstanceCount?: string;
+  /** Number of instances that failed. */
+  failedInstanceCount?: string;
+  /** Number of instances that have completed successfully. */
+  succeededInstanceCount?: string;
+  /** Number of instances that require reboot. */
+  succeededRebootRequiredInstanceCount?: string;
+  /** Number of instances rebooting. */
+  rebootingInstanceCount?: string;
+  /** Number of instances that are running the pre-patch step. */
+  prePatchStepInstanceCount?: string;
+  /** Number of instances that exceeded the time out while applying the patch. */
+  timedOutInstanceCount?: string;
+  /** Number of instances that are downloading patches. */
+  downloadingPatchesInstanceCount?: string;
+  /** Number of instances that are running the post-patch step. */
+  postPatchStepInstanceCount?: string;
+  /** Number of instances that are applying patches. */
+  applyingPatchesInstanceCount?: string;
+  /** Number of instances pending patch job. */
+  pendingInstanceCount?: string;
+  /** Number of instances that have started. */
+  startedInstanceCount?: string;
 }
-export const PatchInstanceFilterGroupLabel = /*@__PURE__*/ S.suspend(() =>
+export const PatchJobInstanceDetailsSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    labels: S.optional(StringMap),
+    notifiedInstanceCount: S.optional(S.String),
+    ackedInstanceCount: S.optional(S.String),
+    inactiveInstanceCount: S.optional(S.String),
+    noAgentDetectedInstanceCount: S.optional(S.String),
+    skippedInstanceCount: S.optional(S.String),
+    failedInstanceCount: S.optional(S.String),
+    succeededInstanceCount: S.optional(S.String),
+    succeededRebootRequiredInstanceCount: S.optional(S.String),
+    rebootingInstanceCount: S.optional(S.String),
+    prePatchStepInstanceCount: S.optional(S.String),
+    timedOutInstanceCount: S.optional(S.String),
+    downloadingPatchesInstanceCount: S.optional(S.String),
+    postPatchStepInstanceCount: S.optional(S.String),
+    applyingPatchesInstanceCount: S.optional(S.String),
+    pendingInstanceCount: S.optional(S.String),
+    startedInstanceCount: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "PatchInstanceFilterGroupLabel",
-}) as any as S.Schema<PatchInstanceFilterGroupLabel>;
+  identifier: "PatchJobInstanceDetailsSummary",
+}) as any as S.Schema<PatchJobInstanceDetailsSummary>;
 
-export type PatchInstanceFilterGroupLabelList = Array<PatchInstanceFilterGroupLabel>;
-export const PatchInstanceFilterGroupLabelList = /*@__PURE__*/ S.Array(
-  PatchInstanceFilterGroupLabel,
-) as any as S.Schema<PatchInstanceFilterGroupLabelList>;
-
-/** A filter to target VM instances for patching. The targeted VMs must meet all criteria specified. So if both labels and zones are specified, the patch job targets only VMs with those labels and in those zones. */
-export interface PatchInstanceFilter {
-  /** Targets VMs whose name starts with one of these prefixes. Similar to labels, this is another way to group VMs when targeting configs, for example prefix="prod-". */
-  instanceNamePrefixes?: StringList;
-  /** Targets any of the VM instances specified. Instances are specified by their URI in the form `zones/[ZONE]/instances/[INSTANCE_NAME]`, `projects/[PROJECT_ID]/zones/[ZONE]/instances/[INSTANCE_NAME]`, or `https://www.googleapis.com/compute/v1/projects/[PROJECT_ID]/zones/[ZONE]/instances/[INSTANCE_NAME]` */
-  instances?: StringList;
-  /** Target all VM instances in the project. If true, no other criteria is permitted. */
-  all?: boolean;
-  /** Targets VM instances matching at least one of these label sets. This allows targeting of disparate groups, for example "env=prod or env=staging". */
-  groupLabels?: PatchInstanceFilterGroupLabelList;
-  /** Targets VM instances in ANY of these zones. Leave empty to target VM instances in any zone. */
-  zones?: StringList;
+/** Yum patching is performed by executing `yum update`. Additional options can be set to control how this is executed. Note that not all settings are supported on all platforms. */
+export interface YumSettings {
+  /** List of packages to exclude from update. These packages are excluded by using the yum `--exclude` flag. */
+  excludes?: StringList;
+  /** An exclusive list of packages to be updated. These are the only packages that will be updated. If these packages are not installed, they will be ignored. This field must not be specified with any other patch configuration fields. */
+  exclusivePackages?: StringList;
+  /** Adds the `--security` flag to `yum update`. Not supported on all platforms. */
+  security?: boolean;
+  /** Will cause patch to run `yum update-minimal` instead. */
+  minimal?: boolean;
 }
-export const PatchInstanceFilter = /*@__PURE__*/ S.suspend(() =>
+export const YumSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    instanceNamePrefixes: S.optional(StringList),
-    instances: S.optional(StringList),
-    all: S.optional(S.Boolean),
-    groupLabels: S.optional(PatchInstanceFilterGroupLabelList),
-    zones: S.optional(StringList),
+    excludes: S.optional(StringList),
+    exclusivePackages: S.optional(StringList),
+    security: S.optional(S.Boolean),
+    minimal: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "PatchInstanceFilter",
-}) as any as S.Schema<PatchInstanceFilter>;
+).annotate({ identifier: "YumSettings" }) as any as S.Schema<YumSettings>;
+
+export type ExecStepConfigInterpreterEnum =
+  | "INTERPRETER_UNSPECIFIED"
+  | "NONE"
+  | "SHELL"
+  | "POWERSHELL";
+export const ExecStepConfigInterpreterEnum = S.String;
+
+export type IntegerList = Array<number>;
+export const IntegerList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<IntegerList>;
+
+/** Google Cloud Storage object representation. */
+export interface GcsObject {
+  /** Required. Generation number of the Google Cloud Storage object. This is used to ensure that the ExecStep specified by this PatchJob does not change. */
+  generationNumber?: string;
+  /** Required. Name of the Google Cloud Storage object. */
+  object?: string;
+  /** Required. Bucket of the Google Cloud Storage object. */
+  bucket?: string;
+}
+export const GcsObject = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    generationNumber: S.optional(S.String),
+    object: S.optional(S.String),
+    bucket: S.optional(S.String),
+  }),
+).annotate({ identifier: "GcsObject" }) as any as S.Schema<GcsObject>;
+
+/** Common configurations for an ExecStep. */
+export interface ExecStepConfig {
+  /** The script interpreter to use to run the script. If no interpreter is specified the script will be executed directly, which will likely only succeed for scripts with [shebang lines] (https://en.wikipedia.org/wiki/Shebang_\(Unix\)). */
+  interpreter?: ExecStepConfigInterpreterEnum | (string & {});
+  /** An absolute path to the executable on the VM. */
+  localPath?: string;
+  /** Defaults to [0]. A list of possible return values that the execution can return to indicate a success. */
+  allowedSuccessCodes?: IntegerList;
+  /** A Google Cloud Storage object containing the executable. */
+  gcsObject?: GcsObject;
+}
+export const ExecStepConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    interpreter: S.optional(ExecStepConfigInterpreterEnum),
+    localPath: S.optional(S.String),
+    allowedSuccessCodes: S.optional(IntegerList),
+    gcsObject: S.optional(GcsObject),
+  }),
+).annotate({ identifier: "ExecStepConfig" }) as any as S.Schema<ExecStepConfig>;
+
+/** A step that runs an executable for a PatchJob. */
+export interface ExecStep {
+  /** The ExecStepConfig for all Linux VMs targeted by the PatchJob. */
+  linuxExecStepConfig?: ExecStepConfig;
+  /** The ExecStepConfig for all Windows VMs targeted by the PatchJob. */
+  windowsExecStepConfig?: ExecStepConfig;
+}
+export const ExecStep = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    linuxExecStepConfig: S.optional(ExecStepConfig),
+    windowsExecStepConfig: S.optional(ExecStepConfig),
+  }),
+).annotate({ identifier: "ExecStep" }) as any as S.Schema<ExecStep>;
+
+/** Zypper patching is performed by running `zypper patch`. See also https://en.opensuse.org/SDB:Zypper_manual. */
+export interface ZypperSettings {
+  /** Install only patches with these severities. Common severities include critical, important, moderate, and low. */
+  severities?: StringList;
+  /** Adds the `--with-optional` flag to `zypper patch`. */
+  withOptional?: boolean;
+  /** An exclusive list of patches to be updated. These are the only patches that will be installed using 'zypper patch patch:' command. This field must not be used with any other patch configuration fields. */
+  exclusivePatches?: StringList;
+  /** Adds the `--with-update` flag, to `zypper patch`. */
+  withUpdate?: boolean;
+  /** List of patches to exclude from update. */
+  excludes?: StringList;
+  /** Install only patches with these categories. Common categories include security, recommended, and feature. */
+  categories?: StringList;
+}
+export const ZypperSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    severities: S.optional(StringList),
+    withOptional: S.optional(S.Boolean),
+    exclusivePatches: S.optional(StringList),
+    withUpdate: S.optional(S.Boolean),
+    excludes: S.optional(StringList),
+    categories: S.optional(StringList),
+  }),
+).annotate({ identifier: "ZypperSettings" }) as any as S.Schema<ZypperSettings>;
 
 export type WindowsUpdateSettingsClassificationsItemEnum =
   | "CLASSIFICATION_UNSPECIFIED"
@@ -202,153 +353,20 @@ export const WindowsUpdateSettingsClassificationsItemEnumList = /*@__PURE__*/ S.
 
 /** Windows patching is performed using the Windows Update Agent. */
 export interface WindowsUpdateSettings {
-  /** An exclusive list of kbs to be updated. These are the only patches that will be updated. This field must not be used with other patch configurations. */
-  exclusivePatches?: StringList;
   /** List of KBs to exclude from update. */
   excludes?: StringList;
+  /** An exclusive list of kbs to be updated. These are the only patches that will be updated. This field must not be used with other patch configurations. */
+  exclusivePatches?: StringList;
   /** Only apply updates of these windows update classifications. If empty, all updates are applied. */
   classifications?: WindowsUpdateSettingsClassificationsItemEnumList;
 }
 export const WindowsUpdateSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    exclusivePatches: S.optional(StringList),
     excludes: S.optional(StringList),
+    exclusivePatches: S.optional(StringList),
     classifications: S.optional(WindowsUpdateSettingsClassificationsItemEnumList),
   }),
-).annotate({
-  identifier: "WindowsUpdateSettings",
-}) as any as S.Schema<WindowsUpdateSettings>;
-
-export type AptSettingsTypeEnum = "TYPE_UNSPECIFIED" | "DIST" | "UPGRADE";
-export const AptSettingsTypeEnum = S.String;
-
-/** Apt patching is completed by executing `apt-get update && apt-get upgrade`. Additional options can be set to control how this is executed. */
-export interface AptSettings {
-  /** By changing the type to DIST, the patching is performed using `apt-get dist-upgrade` instead. */
-  type?: AptSettingsTypeEnum | (string & {});
-  /** An exclusive list of packages to be updated. These are the only packages that will be updated. If these packages are not installed, they will be ignored. This field cannot be specified with any other patch configuration fields. */
-  exclusivePackages?: StringList;
-  /** List of packages to exclude from update. These packages will be excluded */
-  excludes?: StringList;
-}
-export const AptSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(AptSettingsTypeEnum),
-    exclusivePackages: S.optional(StringList),
-    excludes: S.optional(StringList),
-  }),
-).annotate({ identifier: "AptSettings" }) as any as S.Schema<AptSettings>;
-
-export type ExecStepConfigInterpreterEnum =
-  | "INTERPRETER_UNSPECIFIED"
-  | "NONE"
-  | "SHELL"
-  | "POWERSHELL";
-export const ExecStepConfigInterpreterEnum = S.String;
-
-export type IntegerList = Array<number>;
-export const IntegerList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<IntegerList>;
-
-/** Google Cloud Storage object representation. */
-export interface GcsObject {
-  /** Required. Bucket of the Google Cloud Storage object. */
-  bucket?: string;
-  /** Required. Generation number of the Google Cloud Storage object. This is used to ensure that the ExecStep specified by this PatchJob does not change. */
-  generationNumber?: string;
-  /** Required. Name of the Google Cloud Storage object. */
-  object?: string;
-}
-export const GcsObject = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bucket: S.optional(S.String),
-    generationNumber: S.optional(S.String),
-    object: S.optional(S.String),
-  }),
-).annotate({ identifier: "GcsObject" }) as any as S.Schema<GcsObject>;
-
-/** Common configurations for an ExecStep. */
-export interface ExecStepConfig {
-  /** The script interpreter to use to run the script. If no interpreter is specified the script will be executed directly, which will likely only succeed for scripts with [shebang lines] (https://en.wikipedia.org/wiki/Shebang_\(Unix\)). */
-  interpreter?: ExecStepConfigInterpreterEnum | (string & {});
-  /** Defaults to [0]. A list of possible return values that the execution can return to indicate a success. */
-  allowedSuccessCodes?: IntegerList;
-  /** An absolute path to the executable on the VM. */
-  localPath?: string;
-  /** A Google Cloud Storage object containing the executable. */
-  gcsObject?: GcsObject;
-}
-export const ExecStepConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    interpreter: S.optional(ExecStepConfigInterpreterEnum),
-    allowedSuccessCodes: S.optional(IntegerList),
-    localPath: S.optional(S.String),
-    gcsObject: S.optional(GcsObject),
-  }),
-).annotate({ identifier: "ExecStepConfig" }) as any as S.Schema<ExecStepConfig>;
-
-/** A step that runs an executable for a PatchJob. */
-export interface ExecStep {
-  /** The ExecStepConfig for all Windows VMs targeted by the PatchJob. */
-  windowsExecStepConfig?: ExecStepConfig;
-  /** The ExecStepConfig for all Linux VMs targeted by the PatchJob. */
-  linuxExecStepConfig?: ExecStepConfig;
-}
-export const ExecStep = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    windowsExecStepConfig: S.optional(ExecStepConfig),
-    linuxExecStepConfig: S.optional(ExecStepConfig),
-  }),
-).annotate({ identifier: "ExecStep" }) as any as S.Schema<ExecStep>;
-
-/** Yum patching is performed by executing `yum update`. Additional options can be set to control how this is executed. Note that not all settings are supported on all platforms. */
-export interface YumSettings {
-  /** Adds the `--security` flag to `yum update`. Not supported on all platforms. */
-  security?: boolean;
-  /** An exclusive list of packages to be updated. These are the only packages that will be updated. If these packages are not installed, they will be ignored. This field must not be specified with any other patch configuration fields. */
-  exclusivePackages?: StringList;
-  /** Will cause patch to run `yum update-minimal` instead. */
-  minimal?: boolean;
-  /** List of packages to exclude from update. These packages are excluded by using the yum `--exclude` flag. */
-  excludes?: StringList;
-}
-export const YumSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    security: S.optional(S.Boolean),
-    exclusivePackages: S.optional(StringList),
-    minimal: S.optional(S.Boolean),
-    excludes: S.optional(StringList),
-  }),
-).annotate({ identifier: "YumSettings" }) as any as S.Schema<YumSettings>;
-
-/** Googet patching is performed by running `googet update`. */
-export type GooSettings = CancelPatchJobRequest;
-export const GooSettings = CancelPatchJobRequest;
-
-/** Zypper patching is performed by running `zypper patch`. See also https://en.opensuse.org/SDB:Zypper_manual. */
-export interface ZypperSettings {
-  /** Adds the `--with-update` flag, to `zypper patch`. */
-  withUpdate?: boolean;
-  /** Install only patches with these severities. Common severities include critical, important, moderate, and low. */
-  severities?: StringList;
-  /** An exclusive list of patches to be updated. These are the only patches that will be installed using 'zypper patch patch:' command. This field must not be used with any other patch configuration fields. */
-  exclusivePatches?: StringList;
-  /** List of patches to exclude from update. */
-  excludes?: StringList;
-  /** Adds the `--with-optional` flag to `zypper patch`. */
-  withOptional?: boolean;
-  /** Install only patches with these categories. Common categories include security, recommended, and feature. */
-  categories?: StringList;
-}
-export const ZypperSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    withUpdate: S.optional(S.Boolean),
-    severities: S.optional(StringList),
-    exclusivePatches: S.optional(StringList),
-    excludes: S.optional(StringList),
-    withOptional: S.optional(S.Boolean),
-    categories: S.optional(StringList),
-  }),
-).annotate({ identifier: "ZypperSettings" }) as any as S.Schema<ZypperSettings>;
+).annotate({ identifier: "WindowsUpdateSettings" }) as any as S.Schema<WindowsUpdateSettings>;
 
 export type PatchConfigRebootConfigEnum =
   | "REBOOT_CONFIG_UNSPECIFIED"
@@ -357,154 +375,162 @@ export type PatchConfigRebootConfigEnum =
   | "NEVER";
 export const PatchConfigRebootConfigEnum = S.String;
 
+export type AptSettingsTypeEnum = "TYPE_UNSPECIFIED" | "DIST" | "UPGRADE";
+export const AptSettingsTypeEnum = S.String;
+
+/** Apt patching is completed by executing `apt-get update && apt-get upgrade`. Additional options can be set to control how this is executed. */
+export interface AptSettings {
+  /** An exclusive list of packages to be updated. These are the only packages that will be updated. If these packages are not installed, they will be ignored. This field cannot be specified with any other patch configuration fields. */
+  exclusivePackages?: StringList;
+  /** By changing the type to DIST, the patching is performed using `apt-get dist-upgrade` instead. */
+  type?: AptSettingsTypeEnum | (string & {});
+  /** List of packages to exclude from update. These packages will be excluded */
+  excludes?: StringList;
+}
+export const AptSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    exclusivePackages: S.optional(StringList),
+    type: S.optional(AptSettingsTypeEnum),
+    excludes: S.optional(StringList),
+  }),
+).annotate({ identifier: "AptSettings" }) as any as S.Schema<AptSettings>;
+
+/** Googet patching is performed by running `googet update`. */
+export type GooSettings = CancelPatchJobRequest;
+export const GooSettings = CancelPatchJobRequest;
+
 /** Patch configuration specifications. Contains details on how to apply the patch(es) to a VM instance. */
 export interface PatchConfig {
-  /** Windows update settings. Use this override the default windows patch rules. */
-  windowsUpdate?: WindowsUpdateSettings;
-  /** Allows the patch job to run on Managed instance groups (MIGs). */
-  migInstancesAllowed?: boolean;
-  /** Optional. Enables enhanced reporting for the patch job: 1. The patch job skips instances that cannot be patched and reports them as `SKIPPED`. An instance cannot be patched for two reasons: 1. The instance runs Container-Optimized OS (COS), which cannot be patched. 2. The instance is part of a managed instance group (MIG), and patching MIG instances is disabled in the patch job's configuration (PatchConfig.migInstancesAllowed is `false`). 2. The patch job is reported as `SUCCEEDED` if it completes without errors, even if some instances are `SKIPPED`. 3. The patch job is reported as `COMPLETED_WITH_INACTIVE_VMS` if it completes without errors, but does not patch instances that are `INACTIVE`. */
-  skipUnpatchableVms?: boolean;
-  /** Apt update settings. Use this setting to override the default `apt` patch rules. */
-  apt?: AptSettings;
-  /** The `ExecStep` to run after the patch update. */
-  postStep?: ExecStep;
   /** Yum update settings. Use this setting to override the default `yum` patch rules. */
   yum?: YumSettings;
-  /** Goo update settings. Use this setting to override the default `goo` patch rules. */
-  goo?: CancelPatchJobRequest;
+  /** Optional. Enables enhanced reporting for the patch job: 1. The patch job skips instances that cannot be patched and reports them as `SKIPPED`. An instance cannot be patched for two reasons: 1. The instance runs Container-Optimized OS (COS), which cannot be patched. 2. The instance is part of a managed instance group (MIG), and patching MIG instances is disabled in the patch job's configuration (PatchConfig.migInstancesAllowed is `false`). 2. The patch job is reported as `SUCCEEDED` if it completes without errors, even if some instances are `SKIPPED`. 3. The patch job is reported as `COMPLETED_WITH_INACTIVE_VMS` if it completes without errors, but does not patch instances that are `INACTIVE`. */
+  skipUnpatchableVms?: boolean;
+  /** The `ExecStep` to run after the patch update. */
+  postStep?: ExecStep;
   /** Zypper update settings. Use this setting to override the default `zypper` patch rules. */
   zypper?: ZypperSettings;
-  /** Post-patch reboot settings. */
-  rebootConfig?: PatchConfigRebootConfigEnum | (string & {});
+  /** Allows the patch job to run on Managed instance groups (MIGs). */
+  migInstancesAllowed?: boolean;
+  /** Windows update settings. Use this override the default windows patch rules. */
+  windowsUpdate?: WindowsUpdateSettings;
   /** The `ExecStep` to run before the patch update. */
   preStep?: ExecStep;
+  /** Post-patch reboot settings. */
+  rebootConfig?: PatchConfigRebootConfigEnum | (string & {});
+  /** Apt update settings. Use this setting to override the default `apt` patch rules. */
+  apt?: AptSettings;
+  /** Goo update settings. Use this setting to override the default `goo` patch rules. */
+  goo?: CancelPatchJobRequest;
 }
 export const PatchConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    windowsUpdate: S.optional(WindowsUpdateSettings),
-    migInstancesAllowed: S.optional(S.Boolean),
-    skipUnpatchableVms: S.optional(S.Boolean),
-    apt: S.optional(AptSettings),
-    postStep: S.optional(ExecStep),
     yum: S.optional(YumSettings),
-    goo: S.optional(CancelPatchJobRequest),
+    skipUnpatchableVms: S.optional(S.Boolean),
+    postStep: S.optional(ExecStep),
     zypper: S.optional(ZypperSettings),
-    rebootConfig: S.optional(PatchConfigRebootConfigEnum),
+    migInstancesAllowed: S.optional(S.Boolean),
+    windowsUpdate: S.optional(WindowsUpdateSettings),
     preStep: S.optional(ExecStep),
+    rebootConfig: S.optional(PatchConfigRebootConfigEnum),
+    apt: S.optional(AptSettings),
+    goo: S.optional(CancelPatchJobRequest),
   }),
 ).annotate({ identifier: "PatchConfig" }) as any as S.Schema<PatchConfig>;
 
-/** A summary of the current patch state across all instances that this patch job affects. Contains counts of instances in different states. These states map to `InstancePatchState`. List patch job instance details to see the specific states of each instance. */
-export interface PatchJobInstanceDetailsSummary {
-  /** Number of instances that require reboot. */
-  succeededRebootRequiredInstanceCount?: string;
-  /** Number of instances that are applying patches. */
-  applyingPatchesInstanceCount?: string;
-  /** Number of instances that failed. */
-  failedInstanceCount?: string;
-  /** Number of instances notified about patch job. */
-  notifiedInstanceCount?: string;
-  /** Number of instances that have started. */
-  startedInstanceCount?: string;
-  /** Number of instances rebooting. */
-  rebootingInstanceCount?: string;
-  /** Number of instances pending patch job. */
-  pendingInstanceCount?: string;
-  /** Number of instances that do not appear to be running the agent. Check to ensure that the agent is installed, running, and able to communicate with the service. */
-  noAgentDetectedInstanceCount?: string;
-  /** Number of instances that were skipped during patching. */
-  skippedInstanceCount?: string;
-  /** Number of instances that are inactive. */
-  inactiveInstanceCount?: string;
-  /** Number of instances that have completed successfully. */
-  succeededInstanceCount?: string;
-  /** Number of instances that are running the pre-patch step. */
-  prePatchStepInstanceCount?: string;
-  /** Number of instances that are downloading patches. */
-  downloadingPatchesInstanceCount?: string;
-  /** Number of instances that are running the post-patch step. */
-  postPatchStepInstanceCount?: string;
-  /** Number of instances that have acked and will start shortly. */
-  ackedInstanceCount?: string;
-  /** Number of instances that exceeded the time out while applying the patch. */
-  timedOutInstanceCount?: string;
-}
-export const PatchJobInstanceDetailsSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    succeededRebootRequiredInstanceCount: S.optional(S.String),
-    applyingPatchesInstanceCount: S.optional(S.String),
-    failedInstanceCount: S.optional(S.String),
-    notifiedInstanceCount: S.optional(S.String),
-    startedInstanceCount: S.optional(S.String),
-    rebootingInstanceCount: S.optional(S.String),
-    pendingInstanceCount: S.optional(S.String),
-    noAgentDetectedInstanceCount: S.optional(S.String),
-    skippedInstanceCount: S.optional(S.String),
-    inactiveInstanceCount: S.optional(S.String),
-    succeededInstanceCount: S.optional(S.String),
-    prePatchStepInstanceCount: S.optional(S.String),
-    downloadingPatchesInstanceCount: S.optional(S.String),
-    postPatchStepInstanceCount: S.optional(S.String),
-    ackedInstanceCount: S.optional(S.String),
-    timedOutInstanceCount: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PatchJobInstanceDetailsSummary",
-}) as any as S.Schema<PatchJobInstanceDetailsSummary>;
+export type PatchJobStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "STARTED"
+  | "INSTANCE_LOOKUP"
+  | "PATCHING"
+  | "SUCCEEDED"
+  | "COMPLETED_WITH_INACTIVE_VMS"
+  | "COMPLETED_WITH_ERRORS"
+  | "CANCELED"
+  | "TIMED_OUT";
+export const PatchJobStateEnum = S.String;
 
 /** A high level representation of a patch job that is either in progress or has completed. Instance details are not included in the job. To paginate through instance details, use `ListPatchJobInstanceDetails`. For more information about patch jobs, see [Creating patch jobs](https://cloud.google.com/compute/docs/os-patch-management/create-patch-job). */
 export interface PatchJob {
-  /** Rollout strategy being applied. */
-  rollout?: PatchRollout;
-  /** Reflects the overall progress of the patch job in the range of 0.0 being no progress to 100.0 being complete. */
-  percentComplete?: number;
-  /** Time this patch job was created. */
-  createTime?: string;
-  /** Description of the patch job. Length of the description is limited to 1024 characters. */
-  description?: string;
-  /** Duration of the patch job. After the duration ends, the patch job times out. */
-  duration?: string;
   /** Output only. Name of the patch deployment that created this patch job. */
   patchDeployment?: string;
-  /** The current state of the PatchJob. */
-  state?: PatchJobStateEnum;
+  /** Description of the patch job. Length of the description is limited to 1024 characters. */
+  description?: string;
   /** Instances to patch. */
   instanceFilter?: PatchInstanceFilter;
-  /** Patch configuration being applied. */
-  patchConfig?: PatchConfig;
-  /** If this patch job is a dry run, the agent reports that it has finished without running any updates on the VM instance. */
-  dryRun?: boolean;
-  /** Display name for this patch job. This is not a unique identifier. */
-  displayName?: string;
-  /** If this patch job failed, this message provides information about the failure. */
-  errorMessage?: string;
+  /** Rollout strategy being applied. */
+  rollout?: PatchRollout;
+  /** Time this patch job was created. */
+  createTime?: string;
   /** Summary of instance details. */
   instanceDetailsSummary?: PatchJobInstanceDetailsSummary;
   /** Last time this patch job was updated. */
   updateTime?: string;
+  /** Display name for this patch job. This is not a unique identifier. */
+  displayName?: string;
   /** Unique identifier for this patch job in the form `projects/*\/patchJobs/*` */
   name?: string;
+  /** Reflects the overall progress of the patch job in the range of 0.0 being no progress to 100.0 being complete. */
+  percentComplete?: number;
+  /** Patch configuration being applied. */
+  patchConfig?: PatchConfig;
+  /** Duration of the patch job. After the duration ends, the patch job times out. */
+  duration?: string;
+  /** The current state of the PatchJob. */
+  state?: PatchJobStateEnum;
+  /** If this patch job is a dry run, the agent reports that it has finished without running any updates on the VM instance. */
+  dryRun?: boolean;
+  /** If this patch job failed, this message provides information about the failure. */
+  errorMessage?: string;
 }
 export const PatchJob = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    rollout: S.optional(PatchRollout),
-    percentComplete: S.optional(S.Number),
-    createTime: S.optional(S.String),
-    description: S.optional(S.String),
-    duration: S.optional(S.String),
     patchDeployment: S.optional(S.String),
-    state: S.optional(PatchJobStateEnum),
+    description: S.optional(S.String),
     instanceFilter: S.optional(PatchInstanceFilter),
-    patchConfig: S.optional(PatchConfig),
-    dryRun: S.optional(S.Boolean),
-    displayName: S.optional(S.String),
-    errorMessage: S.optional(S.String),
+    rollout: S.optional(PatchRollout),
+    createTime: S.optional(S.String),
     instanceDetailsSummary: S.optional(PatchJobInstanceDetailsSummary),
     updateTime: S.optional(S.String),
+    displayName: S.optional(S.String),
     name: S.optional(S.String),
+    percentComplete: S.optional(S.Number),
+    patchConfig: S.optional(PatchConfig),
+    duration: S.optional(S.String),
+    state: S.optional(PatchJobStateEnum),
+    dryRun: S.optional(S.Boolean),
+    errorMessage: S.optional(S.String),
   }),
 ).annotate({ identifier: "PatchJob" }) as any as S.Schema<PatchJob>;
+
+export type PackageManagerEnum = "MANAGER_UNSPECIFIED" | "ANY" | "APT" | "YUM" | "ZYPPER" | "GOO";
+export const PackageManagerEnum = S.String;
+
+export type PackageDesiredStateEnum =
+  | "DESIRED_STATE_UNSPECIFIED"
+  | "INSTALLED"
+  | "UPDATED"
+  | "REMOVED";
+export const PackageDesiredStateEnum = S.String;
+
+/** Package is a reference to the software package to be installed or removed. The agent on the VM instance uses the system package manager to apply the config. These are the commands that the agent uses to install or remove packages. Apt install: `apt-get update && apt-get -y install package1 package2 package3` remove: `apt-get -y remove package1 package2 package3` Yum install: `yum -y install package1 package2 package3` remove: `yum -y remove package1 package2 package3` Zypper install: `zypper install package1 package2 package3` remove: `zypper rm package1 package2` Googet install: `googet -noconfirm install package1 package2 package3` remove: `googet -noconfirm remove package1 package2 package3` */
+export interface Package {
+  /** Required. The name of the package. A package is uniquely identified for conflict validation by checking the package name and the manager(s) that the package targets. */
+  name?: string;
+  /** Type of package manager that can be used to install this package. If a system does not have the package manager, the package is not installed or removed no error message is returned. By default, or if you specify `ANY`, the agent attempts to install and remove this package using the default package manager. This is useful when creating a policy that applies to different types of systems. The default behavior is ANY. */
+  manager?: PackageManagerEnum | (string & {});
+  /** The desired_state the agent should maintain for this package. The default is to ensure the package is installed. */
+  desiredState?: PackageDesiredStateEnum | (string & {});
+}
+export const Package = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    manager: S.optional(PackageManagerEnum),
+    desiredState: S.optional(PackageDesiredStateEnum),
+  }),
+).annotate({ identifier: "Package" }) as any as S.Schema<Package>;
+
+export type PackageList = Array<Package>;
+export const PackageList = /*@__PURE__*/ S.Array(Package) as any as S.Schema<PackageList>;
 
 export type AptRepositoryArchiveTypeEnum = "ARCHIVE_TYPE_UNSPECIFIED" | "DEB" | "DEB_SRC";
 export const AptRepositoryArchiveTypeEnum = S.String;
@@ -515,20 +541,20 @@ export interface AptRepository {
   components?: StringList;
   /** Required. URI for this repository. */
   uri?: string;
-  /** URI of the key file for this repository. The agent maintains a keyring at `/etc/apt/trusted.gpg.d/osconfig_agent_managed.gpg` containing all the keys in any applied guest policy. */
-  gpgKey?: string;
   /** Type of archive files in this repository. The default behavior is DEB. */
   archiveType?: AptRepositoryArchiveTypeEnum | (string & {});
   /** Required. Distribution of this repository. */
   distribution?: string;
+  /** URI of the key file for this repository. The agent maintains a keyring at `/etc/apt/trusted.gpg.d/osconfig_agent_managed.gpg` containing all the keys in any applied guest policy. */
+  gpgKey?: string;
 }
 export const AptRepository = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     components: S.optional(StringList),
     uri: S.optional(S.String),
-    gpgKey: S.optional(S.String),
     archiveType: S.optional(AptRepositoryArchiveTypeEnum),
     distribution: S.optional(S.String),
+    gpgKey: S.optional(S.String),
   }),
 ).annotate({ identifier: "AptRepository" }) as any as S.Schema<AptRepository>;
 
@@ -536,55 +562,53 @@ export const AptRepository = /*@__PURE__*/ S.suspend(() =>
 export interface ZypperRepository {
   /** Required. The location of the repository directory. */
   baseUrl?: string;
+  /** URIs of GPG keys. */
+  gpgKeys?: StringList;
   /** Required. A one word, unique name for this repository. This is the `repo id` in the zypper config file and also the `display_name` if `display_name` is omitted. This id is also used as the unique identifier when checking for guest policy conflicts. */
   id?: string;
   /** The display name of the repository. */
   displayName?: string;
-  /** URIs of GPG keys. */
-  gpgKeys?: StringList;
 }
 export const ZypperRepository = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     baseUrl: S.optional(S.String),
+    gpgKeys: S.optional(StringList),
     id: S.optional(S.String),
     displayName: S.optional(S.String),
-    gpgKeys: S.optional(StringList),
   }),
-).annotate({
-  identifier: "ZypperRepository",
-}) as any as S.Schema<ZypperRepository>;
+).annotate({ identifier: "ZypperRepository" }) as any as S.Schema<ZypperRepository>;
 
 /** Represents a single Yum package repository. This repository is added to a repo file that is stored at `/etc/yum.repos.d/google_osconfig.repo`. */
 export interface YumRepository {
   /** The display name of the repository. */
   displayName?: string;
+  /** Required. The location of the repository directory. */
+  baseUrl?: string;
   /** URIs of GPG keys. */
   gpgKeys?: StringList;
   /** Required. A one word, unique name for this repository. This is the `repo id` in the Yum config file and also the `display_name` if `display_name` is omitted. This id is also used as the unique identifier when checking for guest policy conflicts. */
   id?: string;
-  /** Required. The location of the repository directory. */
-  baseUrl?: string;
 }
 export const YumRepository = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     displayName: S.optional(S.String),
+    baseUrl: S.optional(S.String),
     gpgKeys: S.optional(StringList),
     id: S.optional(S.String),
-    baseUrl: S.optional(S.String),
   }),
 ).annotate({ identifier: "YumRepository" }) as any as S.Schema<YumRepository>;
 
 /** Represents a Goo package repository. These is added to a repo file that is stored at C:/ProgramData/GooGet/repos/google_osconfig.repo. */
 export interface GooRepository {
-  /** Required. The url of the repository. */
-  url?: string;
   /** Required. The name of the repository. */
   name?: string;
+  /** Required. The url of the repository. */
+  url?: string;
 }
 export const GooRepository = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    url: S.optional(S.String),
     name: S.optional(S.String),
+    url: S.optional(S.String),
   }),
 ).annotate({ identifier: "GooRepository" }) as any as S.Schema<GooRepository>;
 
@@ -606,9 +630,7 @@ export const PackageRepository = /*@__PURE__*/ S.suspend(() =>
     yum: S.optional(YumRepository),
     goo: S.optional(GooRepository),
   }),
-).annotate({
-  identifier: "PackageRepository",
-}) as any as S.Schema<PackageRepository>;
+).annotate({ identifier: "PackageRepository" }) as any as S.Schema<PackageRepository>;
 
 export type PackageRepositoryList = Array<PackageRepository>;
 export const PackageRepositoryList = /*@__PURE__*/ S.Array(
@@ -617,22 +639,20 @@ export const PackageRepositoryList = /*@__PURE__*/ S.Array(
 
 /** Defines the criteria for selecting VM Instances by OS type. */
 export interface AssignmentOsType {
-  /** Targets VM instances with OS Inventory enabled and having the following following OS version. */
-  osVersion?: string;
   /** Targets VM instances with OS Inventory enabled and having the following OS short name, for example "debian" or "windows". */
   osShortName?: string;
   /** Targets VM instances with OS Inventory enabled and having the following OS architecture. */
   osArchitecture?: string;
+  /** Targets VM instances with OS Inventory enabled and having the following following OS version. */
+  osVersion?: string;
 }
 export const AssignmentOsType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    osVersion: S.optional(S.String),
     osShortName: S.optional(S.String),
     osArchitecture: S.optional(S.String),
+    osVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AssignmentOsType",
-}) as any as S.Schema<AssignmentOsType>;
+).annotate({ identifier: "AssignmentOsType" }) as any as S.Schema<AssignmentOsType>;
 
 export type AssignmentOsTypeList = Array<AssignmentOsType>;
 export const AssignmentOsTypeList = /*@__PURE__*/ S.Array(
@@ -648,9 +668,7 @@ export const AssignmentGroupLabel = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     labels: S.optional(StringMap),
   }),
-).annotate({
-  identifier: "AssignmentGroupLabel",
-}) as any as S.Schema<AssignmentGroupLabel>;
+).annotate({ identifier: "AssignmentGroupLabel" }) as any as S.Schema<AssignmentGroupLabel>;
 
 export type AssignmentGroupLabelList = Array<AssignmentGroupLabel>;
 export const AssignmentGroupLabelList = /*@__PURE__*/ S.Array(
@@ -661,167 +679,43 @@ export const AssignmentGroupLabelList = /*@__PURE__*/ S.Array(
 export interface Assignment {
   /** Targets any of the instances specified. Instances are specified by their URI in the form `zones/[ZONE]/instances/[INSTANCE_NAME]`. Instance targeting is uncommon and is supported to facilitate the management of changes by the instance or to target specific VM instances for development and testing. Only supported for project-level policies and must reference instances within this project. */
   instances?: StringList;
+  /** Targets VM instances whose name starts with one of these prefixes. Like labels, this is another way to group VM instances when targeting configs, for example prefix="prod-". Only supported for project-level policies. */
+  instanceNamePrefixes?: StringList;
   /** Targets VM instances matching at least one of the following OS types. VM instances must match all supplied criteria for a given OsType to be included. */
   osTypes?: AssignmentOsTypeList;
   /** Targets instances matching at least one of these label sets. This allows an assignment to target disparate groups, for example "env=prod or env=staging". */
   groupLabels?: AssignmentGroupLabelList;
   /** Targets instances in any of these zones. Leave empty to target instances in any zone. Zonal targeting is uncommon and is supported to facilitate the management of changes by zone. */
   zones?: StringList;
-  /** Targets VM instances whose name starts with one of these prefixes. Like labels, this is another way to group VM instances when targeting configs, for example prefix="prod-". Only supported for project-level policies. */
-  instanceNamePrefixes?: StringList;
 }
 export const Assignment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     instances: S.optional(StringList),
+    instanceNamePrefixes: S.optional(StringList),
     osTypes: S.optional(AssignmentOsTypeList),
     groupLabels: S.optional(AssignmentGroupLabelList),
     zones: S.optional(StringList),
-    instanceNamePrefixes: S.optional(StringList),
   }),
 ).annotate({ identifier: "Assignment" }) as any as S.Schema<Assignment>;
 
-export type PackageDesiredStateEnum =
-  | "DESIRED_STATE_UNSPECIFIED"
-  | "INSTALLED"
-  | "UPDATED"
-  | "REMOVED";
-export const PackageDesiredStateEnum = S.String;
-
-export type PackageManagerEnum = "MANAGER_UNSPECIFIED" | "ANY" | "APT" | "YUM" | "ZYPPER" | "GOO";
-export const PackageManagerEnum = S.String;
-
-/** Package is a reference to the software package to be installed or removed. The agent on the VM instance uses the system package manager to apply the config. These are the commands that the agent uses to install or remove packages. Apt install: `apt-get update && apt-get -y install package1 package2 package3` remove: `apt-get -y remove package1 package2 package3` Yum install: `yum -y install package1 package2 package3` remove: `yum -y remove package1 package2 package3` Zypper install: `zypper install package1 package2 package3` remove: `zypper rm package1 package2` Googet install: `googet -noconfirm install package1 package2 package3` remove: `googet -noconfirm remove package1 package2 package3` */
-export interface Package {
-  /** Required. The name of the package. A package is uniquely identified for conflict validation by checking the package name and the manager(s) that the package targets. */
-  name?: string;
-  /** The desired_state the agent should maintain for this package. The default is to ensure the package is installed. */
-  desiredState?: PackageDesiredStateEnum | (string & {});
-  /** Type of package manager that can be used to install this package. If a system does not have the package manager, the package is not installed or removed no error message is returned. By default, or if you specify `ANY`, the agent attempts to install and remove this package using the default package manager. This is useful when creating a policy that applies to different types of systems. The default behavior is ANY. */
-  manager?: PackageManagerEnum | (string & {});
-}
-export const Package = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    desiredState: S.optional(PackageDesiredStateEnum),
-    manager: S.optional(PackageManagerEnum),
-  }),
-).annotate({ identifier: "Package" }) as any as S.Schema<Package>;
-
-export type PackageList = Array<Package>;
-export const PackageList = /*@__PURE__*/ S.Array(Package) as any as S.Schema<PackageList>;
-
-/** Specifies an artifact available via some URI. */
-export interface SoftwareRecipeArtifactRemote {
-  /** URI from which to fetch the object. It should contain both the protocol and path following the format {protocol}://{location}. */
-  uri?: string;
-  /** Must be provided if `allow_insecure` is `false`. SHA256 checksum in hex format, to compare to the checksum of the artifact. If the checksum is not empty and it doesn't match the artifact then the recipe installation fails before running any of the steps. */
-  checksum?: string;
-}
-export const SoftwareRecipeArtifactRemote = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    uri: S.optional(S.String),
-    checksum: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SoftwareRecipeArtifactRemote",
-}) as any as S.Schema<SoftwareRecipeArtifactRemote>;
-
-/** Specifies an artifact available as a Google Cloud Storage object. */
-export interface SoftwareRecipeArtifactGcs {
-  /** Name of the Google Cloud Storage object. As specified [here] (https://cloud.google.com/storage/docs/naming#objectnames) Given an example URL: `https://storage.googleapis.com/my-bucket/foo/bar#1234567` this value would be `foo/bar`. */
-  object?: string;
-  /** Bucket of the Google Cloud Storage object. Given an example URL: `https://storage.googleapis.com/my-bucket/foo/bar#1234567` this value would be `my-bucket`. */
-  bucket?: string;
-  /** Must be provided if allow_insecure is false. Generation number of the Google Cloud Storage object. `https://storage.googleapis.com/my-bucket/foo/bar#1234567` this value would be `1234567`. */
-  generation?: string;
-}
-export const SoftwareRecipeArtifactGcs = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    object: S.optional(S.String),
-    bucket: S.optional(S.String),
-    generation: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SoftwareRecipeArtifactGcs",
-}) as any as S.Schema<SoftwareRecipeArtifactGcs>;
-
-/** Specifies a resource to be used in the recipe. */
-export interface SoftwareRecipeArtifact {
-  /** A generic remote artifact. */
-  remote?: SoftwareRecipeArtifactRemote;
-  /** A Google Cloud Storage artifact. */
-  gcs?: SoftwareRecipeArtifactGcs;
-  /** Defaults to false. When false, recipes are subject to validations based on the artifact type: Remote: A checksum must be specified, and only protocols with transport-layer security are permitted. GCS: An object generation number must be specified. */
-  allowInsecure?: boolean;
-  /** Required. Id of the artifact, which the installation and update steps of this recipe can reference. Artifacts in a recipe cannot have the same id. */
-  id?: string;
-}
-export const SoftwareRecipeArtifact = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    remote: S.optional(SoftwareRecipeArtifactRemote),
-    gcs: S.optional(SoftwareRecipeArtifactGcs),
-    allowInsecure: S.optional(S.Boolean),
-    id: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SoftwareRecipeArtifact",
-}) as any as S.Schema<SoftwareRecipeArtifact>;
-
-export type SoftwareRecipeArtifactList = Array<SoftwareRecipeArtifact>;
-export const SoftwareRecipeArtifactList = /*@__PURE__*/ S.Array(
-  SoftwareRecipeArtifact,
-) as any as S.Schema<SoftwareRecipeArtifactList>;
-
-export type SoftwareRecipeStepExtractArchiveTypeEnum =
-  | "ARCHIVE_TYPE_UNSPECIFIED"
-  | "TAR"
-  | "TAR_GZIP"
-  | "TAR_BZIP"
-  | "TAR_LZMA"
-  | "TAR_XZ"
-  | "ZIP";
-export const SoftwareRecipeStepExtractArchiveTypeEnum = S.String;
-
-/** Extracts an archive of the type specified in the specified directory. */
-export interface SoftwareRecipeStepExtractArchive {
-  /** Required. The id of the relevant artifact in the recipe. */
-  artifactId?: string;
-  /** Directory to extract archive to. Defaults to `/` on Linux or `C:\` on Windows. */
-  destination?: string;
-  /** Required. The type of the archive to extract. */
-  type?: SoftwareRecipeStepExtractArchiveTypeEnum | (string & {});
-}
-export const SoftwareRecipeStepExtractArchive = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    artifactId: S.optional(S.String),
-    destination: S.optional(S.String),
-    type: S.optional(SoftwareRecipeStepExtractArchiveTypeEnum),
-  }),
-).annotate({
-  identifier: "SoftwareRecipeStepExtractArchive",
-}) as any as S.Schema<SoftwareRecipeStepExtractArchive>;
-
-/** Copies the artifact to the specified path on the instance. */
-export interface SoftwareRecipeStepCopyFile {
-  /** Whether to allow this step to overwrite existing files. If this is false and the file already exists the file is not overwritten and the step is considered a success. Defaults to false. */
-  overwrite?: boolean;
-  /** Required. The absolute path on the instance to put the file. */
-  destination?: string;
-  /** Consists of three octal digits which represent, in order, the permissions of the owner, group, and other users for the file (similarly to the numeric mode used in the linux chmod utility). Each digit represents a three bit number with the 4 bit corresponding to the read permissions, the 2 bit corresponds to the write bit, and the one bit corresponds to the execute permission. Default behavior is 755. Below are some examples of permissions and their associated values: read, write, and execute: 7 read and execute: 5 read and write: 6 read only: 4 */
-  permissions?: string;
+/** Installs an MSI file. */
+export interface SoftwareRecipeStepInstallMsi {
+  /** Return codes that indicate that the software installed or updated successfully. Behaviour defaults to [0] */
+  allowedExitCodes?: IntegerList;
+  /** The flags to use when installing the MSI defaults to ["/i"] (i.e. the install flag). */
+  flags?: StringList;
   /** Required. The id of the relevant artifact in the recipe. */
   artifactId?: string;
 }
-export const SoftwareRecipeStepCopyFile = /*@__PURE__*/ S.suspend(() =>
+export const SoftwareRecipeStepInstallMsi = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    overwrite: S.optional(S.Boolean),
-    destination: S.optional(S.String),
-    permissions: S.optional(S.String),
+    allowedExitCodes: S.optional(IntegerList),
+    flags: S.optional(StringList),
     artifactId: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "SoftwareRecipeStepCopyFile",
-}) as any as S.Schema<SoftwareRecipeStepCopyFile>;
+  identifier: "SoftwareRecipeStepInstallMsi",
+}) as any as S.Schema<SoftwareRecipeStepInstallMsi>;
 
 /** Executes an artifact or local file. */
 export interface SoftwareRecipeStepExecFile {
@@ -845,41 +739,69 @@ export const SoftwareRecipeStepExecFile = /*@__PURE__*/ S.suspend(() =>
   identifier: "SoftwareRecipeStepExecFile",
 }) as any as S.Schema<SoftwareRecipeStepExecFile>;
 
-/** Installs an MSI file. */
-export interface SoftwareRecipeStepInstallMsi {
-  /** The flags to use when installing the MSI defaults to ["/i"] (i.e. the install flag). */
-  flags?: StringList;
-  /** Return codes that indicate that the software installed or updated successfully. Behaviour defaults to [0] */
-  allowedExitCodes?: IntegerList;
-  /** Required. The id of the relevant artifact in the recipe. */
-  artifactId?: string;
-}
-export const SoftwareRecipeStepInstallMsi = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    flags: S.optional(StringList),
-    allowedExitCodes: S.optional(IntegerList),
-    artifactId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SoftwareRecipeStepInstallMsi",
-}) as any as S.Schema<SoftwareRecipeStepInstallMsi>;
+export type SoftwareRecipeStepExtractArchiveTypeEnum =
+  | "ARCHIVE_TYPE_UNSPECIFIED"
+  | "TAR"
+  | "TAR_GZIP"
+  | "TAR_BZIP"
+  | "TAR_LZMA"
+  | "TAR_XZ"
+  | "ZIP";
+export const SoftwareRecipeStepExtractArchiveTypeEnum = S.String;
 
-/** Installs a deb via dpkg. */
-export interface SoftwareRecipeStepInstallDpkg {
+/** Extracts an archive of the type specified in the specified directory. */
+export interface SoftwareRecipeStepExtractArchive {
+  /** Directory to extract archive to. Defaults to `/` on Linux or `C:\` on Windows. */
+  destination?: string;
   /** Required. The id of the relevant artifact in the recipe. */
   artifactId?: string;
+  /** Required. The type of the archive to extract. */
+  type?: SoftwareRecipeStepExtractArchiveTypeEnum | (string & {});
 }
-export const SoftwareRecipeStepInstallDpkg = /*@__PURE__*/ S.suspend(() =>
+export const SoftwareRecipeStepExtractArchive = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    destination: S.optional(S.String),
     artifactId: S.optional(S.String),
+    type: S.optional(SoftwareRecipeStepExtractArchiveTypeEnum),
   }),
 ).annotate({
-  identifier: "SoftwareRecipeStepInstallDpkg",
-}) as any as S.Schema<SoftwareRecipeStepInstallDpkg>;
+  identifier: "SoftwareRecipeStepExtractArchive",
+}) as any as S.Schema<SoftwareRecipeStepExtractArchive>;
+
+/** Copies the artifact to the specified path on the instance. */
+export interface SoftwareRecipeStepCopyFile {
+  /** Required. The id of the relevant artifact in the recipe. */
+  artifactId?: string;
+  /** Consists of three octal digits which represent, in order, the permissions of the owner, group, and other users for the file (similarly to the numeric mode used in the linux chmod utility). Each digit represents a three bit number with the 4 bit corresponding to the read permissions, the 2 bit corresponds to the write bit, and the one bit corresponds to the execute permission. Default behavior is 755. Below are some examples of permissions and their associated values: read, write, and execute: 7 read and execute: 5 read and write: 6 read only: 4 */
+  permissions?: string;
+  /** Whether to allow this step to overwrite existing files. If this is false and the file already exists the file is not overwritten and the step is considered a success. Defaults to false. */
+  overwrite?: boolean;
+  /** Required. The absolute path on the instance to put the file. */
+  destination?: string;
+}
+export const SoftwareRecipeStepCopyFile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    artifactId: S.optional(S.String),
+    permissions: S.optional(S.String),
+    overwrite: S.optional(S.Boolean),
+    destination: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SoftwareRecipeStepCopyFile",
+}) as any as S.Schema<SoftwareRecipeStepCopyFile>;
 
 /** Installs an rpm file via the rpm utility. */
-export type SoftwareRecipeStepInstallRpm = SoftwareRecipeStepInstallDpkg;
-export const SoftwareRecipeStepInstallRpm = SoftwareRecipeStepInstallDpkg;
+export interface SoftwareRecipeStepInstallRpm {
+  /** Required. The id of the relevant artifact in the recipe. */
+  artifactId?: string;
+}
+export const SoftwareRecipeStepInstallRpm = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    artifactId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SoftwareRecipeStepInstallRpm",
+}) as any as S.Schema<SoftwareRecipeStepInstallRpm>;
 
 export type SoftwareRecipeStepRunScriptInterpreterEnum =
   | "INTERPRETER_UNSPECIFIED"
@@ -889,58 +811,120 @@ export const SoftwareRecipeStepRunScriptInterpreterEnum = S.String;
 
 /** Runs a script through an interpreter. */
 export interface SoftwareRecipeStepRunScript {
+  /** The script interpreter to use to run the script. If no interpreter is specified the script is executed directly, which likely only succeed for scripts with [shebang lines](https://en.wikipedia.org/wiki/Shebang_\(Unix\)). */
+  interpreter?: SoftwareRecipeStepRunScriptInterpreterEnum | (string & {});
   /** Return codes that indicate that the software installed or updated successfully. Behaviour defaults to [0] */
   allowedExitCodes?: IntegerList;
   /** Required. The shell script to be executed. */
   script?: string;
-  /** The script interpreter to use to run the script. If no interpreter is specified the script is executed directly, which likely only succeed for scripts with [shebang lines](https://en.wikipedia.org/wiki/Shebang_\(Unix\)). */
-  interpreter?: SoftwareRecipeStepRunScriptInterpreterEnum | (string & {});
 }
 export const SoftwareRecipeStepRunScript = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    interpreter: S.optional(SoftwareRecipeStepRunScriptInterpreterEnum),
     allowedExitCodes: S.optional(IntegerList),
     script: S.optional(S.String),
-    interpreter: S.optional(SoftwareRecipeStepRunScriptInterpreterEnum),
   }),
 ).annotate({
   identifier: "SoftwareRecipeStepRunScript",
 }) as any as S.Schema<SoftwareRecipeStepRunScript>;
 
+/** Installs a deb via dpkg. */
+export type SoftwareRecipeStepInstallDpkg = SoftwareRecipeStepInstallRpm;
+export const SoftwareRecipeStepInstallDpkg = SoftwareRecipeStepInstallRpm;
+
 /** An action that can be taken as part of installing or updating a recipe. */
 export interface SoftwareRecipeStep {
+  /** Installs an MSI file. */
+  msiInstallation?: SoftwareRecipeStepInstallMsi;
+  /** Executes an artifact or local file. */
+  fileExec?: SoftwareRecipeStepExecFile;
   /** Extracts an archive into the specified directory. */
   archiveExtraction?: SoftwareRecipeStepExtractArchive;
   /** Copies a file onto the instance. */
   fileCopy?: SoftwareRecipeStepCopyFile;
-  /** Executes an artifact or local file. */
-  fileExec?: SoftwareRecipeStepExecFile;
-  /** Installs an MSI file. */
-  msiInstallation?: SoftwareRecipeStepInstallMsi;
-  /** Installs a deb file via dpkg. */
-  dpkgInstallation?: SoftwareRecipeStepInstallDpkg;
   /** Installs an rpm file via the rpm utility. */
-  rpmInstallation?: SoftwareRecipeStepInstallDpkg;
+  rpmInstallation?: SoftwareRecipeStepInstallRpm;
   /** Runs commands in a shell. */
   scriptRun?: SoftwareRecipeStepRunScript;
+  /** Installs a deb file via dpkg. */
+  dpkgInstallation?: SoftwareRecipeStepInstallRpm;
 }
 export const SoftwareRecipeStep = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    msiInstallation: S.optional(SoftwareRecipeStepInstallMsi),
+    fileExec: S.optional(SoftwareRecipeStepExecFile),
     archiveExtraction: S.optional(SoftwareRecipeStepExtractArchive),
     fileCopy: S.optional(SoftwareRecipeStepCopyFile),
-    fileExec: S.optional(SoftwareRecipeStepExecFile),
-    msiInstallation: S.optional(SoftwareRecipeStepInstallMsi),
-    dpkgInstallation: S.optional(SoftwareRecipeStepInstallDpkg),
-    rpmInstallation: S.optional(SoftwareRecipeStepInstallDpkg),
+    rpmInstallation: S.optional(SoftwareRecipeStepInstallRpm),
     scriptRun: S.optional(SoftwareRecipeStepRunScript),
+    dpkgInstallation: S.optional(SoftwareRecipeStepInstallRpm),
   }),
-).annotate({
-  identifier: "SoftwareRecipeStep",
-}) as any as S.Schema<SoftwareRecipeStep>;
+).annotate({ identifier: "SoftwareRecipeStep" }) as any as S.Schema<SoftwareRecipeStep>;
 
 export type SoftwareRecipeStepList = Array<SoftwareRecipeStep>;
 export const SoftwareRecipeStepList = /*@__PURE__*/ S.Array(
   SoftwareRecipeStep,
 ) as any as S.Schema<SoftwareRecipeStepList>;
+
+/** Specifies an artifact available as a Google Cloud Storage object. */
+export interface SoftwareRecipeArtifactGcs {
+  /** Name of the Google Cloud Storage object. As specified [here] (https://cloud.google.com/storage/docs/naming#objectnames) Given an example URL: `https://storage.googleapis.com/my-bucket/foo/bar#1234567` this value would be `foo/bar`. */
+  object?: string;
+  /** Bucket of the Google Cloud Storage object. Given an example URL: `https://storage.googleapis.com/my-bucket/foo/bar#1234567` this value would be `my-bucket`. */
+  bucket?: string;
+  /** Must be provided if allow_insecure is false. Generation number of the Google Cloud Storage object. `https://storage.googleapis.com/my-bucket/foo/bar#1234567` this value would be `1234567`. */
+  generation?: string;
+}
+export const SoftwareRecipeArtifactGcs = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    object: S.optional(S.String),
+    bucket: S.optional(S.String),
+    generation: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SoftwareRecipeArtifactGcs",
+}) as any as S.Schema<SoftwareRecipeArtifactGcs>;
+
+/** Specifies an artifact available via some URI. */
+export interface SoftwareRecipeArtifactRemote {
+  /** URI from which to fetch the object. It should contain both the protocol and path following the format {protocol}://{location}. */
+  uri?: string;
+  /** Must be provided if `allow_insecure` is `false`. SHA256 checksum in hex format, to compare to the checksum of the artifact. If the checksum is not empty and it doesn't match the artifact then the recipe installation fails before running any of the steps. */
+  checksum?: string;
+}
+export const SoftwareRecipeArtifactRemote = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uri: S.optional(S.String),
+    checksum: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SoftwareRecipeArtifactRemote",
+}) as any as S.Schema<SoftwareRecipeArtifactRemote>;
+
+/** Specifies a resource to be used in the recipe. */
+export interface SoftwareRecipeArtifact {
+  /** Defaults to false. When false, recipes are subject to validations based on the artifact type: Remote: A checksum must be specified, and only protocols with transport-layer security are permitted. GCS: An object generation number must be specified. */
+  allowInsecure?: boolean;
+  /** A Google Cloud Storage artifact. */
+  gcs?: SoftwareRecipeArtifactGcs;
+  /** Required. Id of the artifact, which the installation and update steps of this recipe can reference. Artifacts in a recipe cannot have the same id. */
+  id?: string;
+  /** A generic remote artifact. */
+  remote?: SoftwareRecipeArtifactRemote;
+}
+export const SoftwareRecipeArtifact = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allowInsecure: S.optional(S.Boolean),
+    gcs: S.optional(SoftwareRecipeArtifactGcs),
+    id: S.optional(S.String),
+    remote: S.optional(SoftwareRecipeArtifactRemote),
+  }),
+).annotate({ identifier: "SoftwareRecipeArtifact" }) as any as S.Schema<SoftwareRecipeArtifact>;
+
+export type SoftwareRecipeArtifactList = Array<SoftwareRecipeArtifact>;
+export const SoftwareRecipeArtifactList = /*@__PURE__*/ S.Array(
+  SoftwareRecipeArtifact,
+) as any as S.Schema<SoftwareRecipeArtifactList>;
 
 export type SoftwareRecipeDesiredStateEnum =
   | "DESIRED_STATE_UNSPECIFIED"
@@ -951,27 +935,27 @@ export const SoftwareRecipeDesiredStateEnum = S.String;
 
 /** A software recipe is a set of instructions for installing and configuring a piece of software. It consists of a set of artifacts that are downloaded, and a set of steps that install, configure, and/or update the software. Recipes support installing and updating software from artifacts in the following formats: Zip archive, Tar archive, Windows MSI, Debian package, and RPM package. Additionally, recipes support executing a script (either defined in a file or directly in this api) in bash, sh, cmd, and powershell. Updating a software recipe If a recipe is assigned to an instance and there is a recipe with the same name but a lower version already installed and the assigned state of the recipe is `UPDATED`, then the recipe is updated to the new version. Script Working Directories Each script or execution step is run in its own temporary directory which is deleted after completing the step. */
 export interface SoftwareRecipe {
-  /** Resources available to be used in the steps in the recipe. */
-  artifacts?: SoftwareRecipeArtifactList;
+  /** Actions to be taken for updating this recipe. On failure it stops executing steps and does not attempt another update for this recipe. Any steps taken (including partially completed steps) are not rolled back. */
+  updateSteps?: SoftwareRecipeStepList;
   /** Required. Unique identifier for the recipe. Only one recipe with a given name is installed on an instance. Names are also used to identify resources which helps to determine whether guest policies have conflicts. This means that requests to create multiple recipes with the same name and version are rejected since they could potentially have conflicting assignments. */
   name?: string;
+  /** The version of this software recipe. Version can be up to 4 period separated numbers (e.g. 12.34.56.78). */
+  version?: string;
+  /** Resources available to be used in the steps in the recipe. */
+  artifacts?: SoftwareRecipeArtifactList;
   /** Actions to be taken for installing this recipe. On failure it stops executing steps and does not attempt another installation. Any steps taken (including partially completed steps) are not rolled back. */
   installSteps?: SoftwareRecipeStepList;
   /** Default is INSTALLED. The desired state the agent should maintain for this recipe. INSTALLED: The software recipe is installed on the instance but won't be updated to new versions. UPDATED: The software recipe is installed on the instance. The recipe is updated to a higher version, if a higher version of the recipe is assigned to this instance. REMOVE: Remove is unsupported for software recipes and attempts to create or update a recipe to the REMOVE state is rejected. */
   desiredState?: SoftwareRecipeDesiredStateEnum | (string & {});
-  /** Actions to be taken for updating this recipe. On failure it stops executing steps and does not attempt another update for this recipe. Any steps taken (including partially completed steps) are not rolled back. */
-  updateSteps?: SoftwareRecipeStepList;
-  /** The version of this software recipe. Version can be up to 4 period separated numbers (e.g. 12.34.56.78). */
-  version?: string;
 }
 export const SoftwareRecipe = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    artifacts: S.optional(SoftwareRecipeArtifactList),
+    updateSteps: S.optional(SoftwareRecipeStepList),
     name: S.optional(S.String),
+    version: S.optional(S.String),
+    artifacts: S.optional(SoftwareRecipeArtifactList),
     installSteps: S.optional(SoftwareRecipeStepList),
     desiredState: S.optional(SoftwareRecipeDesiredStateEnum),
-    updateSteps: S.optional(SoftwareRecipeStepList),
-    version: S.optional(S.String),
   }),
 ).annotate({ identifier: "SoftwareRecipe" }) as any as S.Schema<SoftwareRecipe>;
 
@@ -982,51 +966,51 @@ export const SoftwareRecipeList = /*@__PURE__*/ S.Array(
 
 /** An OS Config resource representing a guest configuration policy. These policies represent the desired state for VM instance guest environments including packages to install or remove, package repository configurations, and software to install. */
 export interface GuestPolicy {
+  /** The software packages to be managed by this policy. */
+  packages?: PackageList;
   /** A list of package repositories to configure on the VM instance. This is done before any other configs are applied so they can use these repos. Package repositories are only configured if the corresponding package manager(s) are available. */
   packageRepositories?: PackageRepositoryList;
   /** Required. Specifies the VM instances that are assigned to this policy. This allows you to target sets or groups of VM instances by different parameters such as labels, names, OS, or zones. If left empty, all VM instances underneath this policy are targeted. At the same level in the resource hierarchy (that is within a project), the service prevents the creation of multiple policies that conflict with each other. For more information, see how the service [handles assignment conflicts](/compute/docs/os-config-management/create-guest-policy#handle-conflicts). */
   assignment?: Assignment;
-  /** The software packages to be managed by this policy. */
-  packages?: PackageList;
-  /** Description of the guest policy. Length of the description is limited to 1024 characters. */
-  description?: string;
-  /** Output only. Time this guest policy was created. */
-  createTime?: string;
+  /** Output only. Last time this guest policy was updated. */
+  updateTime?: string;
   /** A list of Recipes to install on the VM instance. */
   recipes?: SoftwareRecipeList;
   /** The etag for this guest policy. If this is provided on update, it must match the server's etag. */
   etag?: string;
-  /** Output only. Last time this guest policy was updated. */
-  updateTime?: string;
+  /** Description of the guest policy. Length of the description is limited to 1024 characters. */
+  description?: string;
   /** Required. Unique name of the resource in this project using one of the following forms: `projects/{project_number}/guestPolicies/{guest_policy_id}`. */
   name?: string;
+  /** Output only. Time this guest policy was created. */
+  createTime?: string;
 }
 export const GuestPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    packages: S.optional(PackageList),
     packageRepositories: S.optional(PackageRepositoryList),
     assignment: S.optional(Assignment),
-    packages: S.optional(PackageList),
-    description: S.optional(S.String),
-    createTime: S.optional(S.String),
+    updateTime: S.optional(S.String),
     recipes: S.optional(SoftwareRecipeList),
     etag: S.optional(S.String),
-    updateTime: S.optional(S.String),
+    description: S.optional(S.String),
     name: S.optional(S.String),
+    createTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "GuestPolicy" }) as any as S.Schema<GuestPolicy>;
 
 export interface CreateProjectsGuestPoliciesRequest {
-  /** Required. The resource name of the parent using one of the following forms: `projects/{project_number}`. */
-  parent: string;
   /** Required. The logical name of the guest policy in the project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the project. */
   guestPolicyId?: string;
+  /** Required. The resource name of the parent using one of the following forms: `projects/{project_number}`. */
+  parent: string;
   /** Request body */
   body?: GuestPolicy;
 }
 export const CreateProjectsGuestPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     guestPolicyId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(GuestPolicy.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1039,39 +1023,8 @@ export const CreateProjectsGuestPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateProjectsGuestPoliciesRequest",
 }) as any as S.Schema<CreateProjectsGuestPoliciesRequest>;
 
-/** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
-export interface TimeZone {
-  /** IANA Time Zone Database time zone. For example "America/New_York". */
-  id?: string;
-  /** Optional. IANA Time Zone Database version number. For example "2019a". */
-  version?: string;
-}
-export const TimeZone = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    version: S.optional(S.String),
-  }),
-).annotate({ identifier: "TimeZone" }) as any as S.Schema<TimeZone>;
-
-/** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
-export interface TimeOfDay {
-  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
-  minutes?: number;
-  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number;
-  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number;
-  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
-  nanos?: number;
-}
-export const TimeOfDay = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    minutes: S.optional(S.Number),
-    seconds: S.optional(S.Number),
-    hours: S.optional(S.Number),
-    nanos: S.optional(S.Number),
-  }),
-).annotate({ identifier: "TimeOfDay" }) as any as S.Schema<TimeOfDay>;
+export type PatchDeploymentStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "PAUSED";
+export const PatchDeploymentStateEnum = S.String;
 
 export type RecurringScheduleFrequencyEnum =
   | "FREQUENCY_UNSPECIFIED"
@@ -1102,6 +1055,26 @@ export const WeeklySchedule = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "WeeklySchedule" }) as any as S.Schema<WeeklySchedule>;
 
+/** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
+export interface TimeOfDay {
+  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
+  hours?: number;
+  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
+  nanos?: number;
+  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
+  seconds?: number;
+  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
+  minutes?: number;
+}
+export const TimeOfDay = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    hours: S.optional(S.Number),
+    nanos: S.optional(S.Number),
+    seconds: S.optional(S.Number),
+    minutes: S.optional(S.Number),
+  }),
+).annotate({ identifier: "TimeOfDay" }) as any as S.Schema<TimeOfDay>;
+
 export type WeekDayOfMonthDayOfWeekEnum =
   | "DAY_OF_WEEK_UNSPECIFIED"
   | "MONDAY"
@@ -1115,18 +1088,18 @@ export const WeekDayOfMonthDayOfWeekEnum = S.String;
 
 /** Represents one week day in a month. An example is "the 4th Sunday". */
 export interface WeekDayOfMonth {
+  /** Optional. Represents the number of days before or after the given week day of month that the patch deployment is scheduled for. For example if `week_ordinal` and `day_of_week` values point to the second day of the month and this `day_offset` value is set to `3`, the patch deployment takes place three days after the second Tuesday of the month. If this value is negative, for example -5, the patches are deployed five days before before the second Tuesday of the month. Allowed values are in range [-30, 30]. */
+  dayOffset?: number;
   /** Required. Week number in a month. 1-4 indicates the 1st to 4th week of the month. -1 indicates the last week of the month. */
   weekOrdinal?: number;
   /** Required. A day of the week. */
   dayOfWeek?: WeekDayOfMonthDayOfWeekEnum | (string & {});
-  /** Optional. Represents the number of days before or after the given week day of month that the patch deployment is scheduled for. For example if `week_ordinal` and `day_of_week` values point to the second day of the month and this `day_offset` value is set to `3`, the patch deployment takes place three days after the second Tuesday of the month. If this value is negative, for example -5, the patches are deployed five days before before the second Tuesday of the month. Allowed values are in range [-30, 30]. */
-  dayOffset?: number;
 }
 export const WeekDayOfMonth = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    dayOffset: S.optional(S.Number),
     weekOrdinal: S.optional(S.Number),
     dayOfWeek: S.optional(WeekDayOfMonthDayOfWeekEnum),
-    dayOffset: S.optional(S.Number),
   }),
 ).annotate({ identifier: "WeekDayOfMonth" }) as any as S.Schema<WeekDayOfMonth>;
 
@@ -1142,46 +1115,56 @@ export const MonthlySchedule = /*@__PURE__*/ S.suspend(() =>
     monthDay: S.optional(S.Number),
     weekDayOfMonth: S.optional(WeekDayOfMonth),
   }),
-).annotate({
-  identifier: "MonthlySchedule",
-}) as any as S.Schema<MonthlySchedule>;
+).annotate({ identifier: "MonthlySchedule" }) as any as S.Schema<MonthlySchedule>;
+
+/** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
+export interface TimeZone {
+  /** IANA Time Zone Database time zone. For example "America/New_York". */
+  id?: string;
+  /** Optional. IANA Time Zone Database version number. For example "2019a". */
+  version?: string;
+}
+export const TimeZone = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    version: S.optional(S.String),
+  }),
+).annotate({ identifier: "TimeZone" }) as any as S.Schema<TimeZone>;
 
 /** Sets the time for recurring patch deployments. */
 export interface RecurringSchedule {
-  /** Required. Defines the time zone that `time_of_day` is relative to. The rules for daylight saving time are determined by the chosen time zone. */
-  timeZone?: TimeZone;
-  /** Required. Time of the day to run a recurring deployment. */
-  timeOfDay?: TimeOfDay;
-  /** Output only. The time the next patch job is scheduled to run. */
-  nextExecuteTime?: string;
-  /** Required. The frequency unit of this recurring schedule. */
-  frequency?: RecurringScheduleFrequencyEnum | (string & {});
-  /** Optional. The time that the recurring schedule becomes effective. Defaults to `create_time` of the patch deployment. */
-  startTime?: string;
   /** Output only. The time the last patch job ran successfully. */
   lastExecuteTime?: string;
+  /** Required. The frequency unit of this recurring schedule. */
+  frequency?: RecurringScheduleFrequencyEnum | (string & {});
   /** Required. Schedule with weekly executions. */
   weekly?: WeeklySchedule;
-  /** Required. Schedule with monthly executions. */
-  monthly?: MonthlySchedule;
   /** Optional. The end time at which a recurring patch deployment schedule is no longer active. */
   endTime?: string;
+  /** Output only. The time the next patch job is scheduled to run. */
+  nextExecuteTime?: string;
+  /** Required. Time of the day to run a recurring deployment. */
+  timeOfDay?: TimeOfDay;
+  /** Required. Schedule with monthly executions. */
+  monthly?: MonthlySchedule;
+  /** Required. Defines the time zone that `time_of_day` is relative to. The rules for daylight saving time are determined by the chosen time zone. */
+  timeZone?: TimeZone;
+  /** Optional. The time that the recurring schedule becomes effective. Defaults to `create_time` of the patch deployment. */
+  startTime?: string;
 }
 export const RecurringSchedule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    timeZone: S.optional(TimeZone),
-    timeOfDay: S.optional(TimeOfDay),
-    nextExecuteTime: S.optional(S.String),
-    frequency: S.optional(RecurringScheduleFrequencyEnum),
-    startTime: S.optional(S.String),
     lastExecuteTime: S.optional(S.String),
+    frequency: S.optional(RecurringScheduleFrequencyEnum),
     weekly: S.optional(WeeklySchedule),
-    monthly: S.optional(MonthlySchedule),
     endTime: S.optional(S.String),
+    nextExecuteTime: S.optional(S.String),
+    timeOfDay: S.optional(TimeOfDay),
+    monthly: S.optional(MonthlySchedule),
+    timeZone: S.optional(TimeZone),
+    startTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RecurringSchedule",
-}) as any as S.Schema<RecurringSchedule>;
+).annotate({ identifier: "RecurringSchedule" }) as any as S.Schema<RecurringSchedule>;
 
 /** Sets the time for a one time patch deployment. Timestamp is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
 export interface OneTimeSchedule {
@@ -1192,71 +1175,64 @@ export const OneTimeSchedule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     executeTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OneTimeSchedule",
-}) as any as S.Schema<OneTimeSchedule>;
-
-export type PatchDeploymentStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "PAUSED";
-export const PatchDeploymentStateEnum = S.String;
+).annotate({ identifier: "OneTimeSchedule" }) as any as S.Schema<OneTimeSchedule>;
 
 /** Patch deployments are configurations that individual patch jobs use to complete a patch. These configurations include instance filter, package repository settings, and a schedule. For more information about creating and managing patch deployments, see [Scheduling patch jobs](https://cloud.google.com/compute/docs/os-patch-management/schedule-patch-jobs). */
 export interface PatchDeployment {
-  /** Optional. Patch configuration that is applied. */
-  patchConfig?: PatchConfig;
+  /** Output only. Current state of the patch deployment. */
+  state?: PatchDeploymentStateEnum | (string & {});
+  /** Required. VM instances to patch. */
+  instanceFilter?: PatchInstanceFilter;
   /** Optional. Description of the patch deployment. Length of the description is limited to 1024 characters. */
   description?: string;
-  /** Output only. The last time a patch job was started by this deployment. Timestamp is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
-  lastExecuteTime?: string;
+  /** Unique name for the patch deployment resource in a project. The patch deployment name is in the form: `projects/{project_id}/patchDeployments/{patch_deployment_id}`. This field is ignored when you create a new patch deployment. */
+  name?: string;
+  /** Optional. Duration of the patch. After the duration ends, the patch times out. */
+  duration?: string;
+  /** Output only. Time the patch deployment was last updated. Timestamp is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
+  updateTime?: string;
+  /** Optional. Patch configuration that is applied. */
+  patchConfig?: PatchConfig;
   /** Required. Schedule recurring executions. */
   recurringSchedule?: RecurringSchedule;
   /** Required. Schedule a one-time execution. */
   oneTimeSchedule?: OneTimeSchedule;
   /** Output only. Time the patch deployment was created. Timestamp is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
   createTime?: string;
-  /** Output only. Current state of the patch deployment. */
-  state?: PatchDeploymentStateEnum | (string & {});
-  /** Optional. Duration of the patch. After the duration ends, the patch times out. */
-  duration?: string;
-  /** Output only. Time the patch deployment was last updated. Timestamp is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
-  updateTime?: string;
-  /** Required. VM instances to patch. */
-  instanceFilter?: PatchInstanceFilter;
+  /** Output only. The last time a patch job was started by this deployment. Timestamp is in [RFC3339](https://www.ietf.org/rfc/rfc3339.txt) text format. */
+  lastExecuteTime?: string;
   /** Optional. Rollout strategy of the patch job. */
   rollout?: PatchRollout;
-  /** Unique name for the patch deployment resource in a project. The patch deployment name is in the form: `projects/{project_id}/patchDeployments/{patch_deployment_id}`. This field is ignored when you create a new patch deployment. */
-  name?: string;
 }
 export const PatchDeployment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    patchConfig: S.optional(PatchConfig),
+    state: S.optional(PatchDeploymentStateEnum),
+    instanceFilter: S.optional(PatchInstanceFilter),
     description: S.optional(S.String),
-    lastExecuteTime: S.optional(S.String),
+    name: S.optional(S.String),
+    duration: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    patchConfig: S.optional(PatchConfig),
     recurringSchedule: S.optional(RecurringSchedule),
     oneTimeSchedule: S.optional(OneTimeSchedule),
     createTime: S.optional(S.String),
-    state: S.optional(PatchDeploymentStateEnum),
-    duration: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    instanceFilter: S.optional(PatchInstanceFilter),
+    lastExecuteTime: S.optional(S.String),
     rollout: S.optional(PatchRollout),
-    name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PatchDeployment",
-}) as any as S.Schema<PatchDeployment>;
+).annotate({ identifier: "PatchDeployment" }) as any as S.Schema<PatchDeployment>;
 
 export interface CreateProjectsPatchDeploymentsRequest {
-  /** Required. The project to apply this patch deployment to in the form `projects/*`. */
-  parent: string;
   /** Required. A name for the patch deployment in the project. When creating a name the following rules apply: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the project. */
   patchDeploymentId?: string;
+  /** Required. The project to apply this patch deployment to in the form `projects/*`. */
+  parent: string;
   /** Request body */
   body?: PatchDeployment;
 }
 export const CreateProjectsPatchDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     patchDeploymentId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(PatchDeployment.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1313,34 +1289,32 @@ export const DeleteProjectsPatchDeploymentsRequest = /*@__PURE__*/ S.suspend(() 
 
 /** A request message to initiate patching across Compute Engine instances. */
 export interface ExecutePatchJobRequest {
+  /** Display name for this patch job. This does not have to be unique. */
+  displayName?: string;
+  /** If this patch is a dry-run only, instances are contacted but will do nothing. */
+  dryRun?: boolean;
   /** Required. Instances to patch, either explicitly or filtered by some criteria such as zone or labels. */
   instanceFilter?: PatchInstanceFilter;
   /** Description of the patch job. Length of the description is limited to 1024 characters. */
   description?: string;
-  /** Rollout strategy of the patch job. */
-  rollout?: PatchRollout;
   /** Duration of the patch job. After the duration ends, the patch job times out. */
   duration?: string;
-  /** Display name for this patch job. This does not have to be unique. */
-  displayName?: string;
+  /** Rollout strategy of the patch job. */
+  rollout?: PatchRollout;
   /** Patch configuration being applied. If omitted, instances are patched using the default configurations. */
   patchConfig?: PatchConfig;
-  /** If this patch is a dry-run only, instances are contacted but will do nothing. */
-  dryRun?: boolean;
 }
 export const ExecutePatchJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    displayName: S.optional(S.String),
+    dryRun: S.optional(S.Boolean),
     instanceFilter: S.optional(PatchInstanceFilter),
     description: S.optional(S.String),
-    rollout: S.optional(PatchRollout),
     duration: S.optional(S.String),
-    displayName: S.optional(S.String),
+    rollout: S.optional(PatchRollout),
     patchConfig: S.optional(PatchConfig),
-    dryRun: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ExecutePatchJobRequest",
-}) as any as S.Schema<ExecutePatchJobRequest>;
+).annotate({ identifier: "ExecutePatchJobRequest" }) as any as S.Schema<ExecutePatchJobRequest>;
 
 export interface ExecuteProjectsPatchJobsRequest {
   /** Required. The project in which to run this patch in the form `projects/*` */
@@ -1371,11 +1345,7 @@ export const GetProjectsGuestPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1beta/{+name}",
-      baseUrl: "https://osconfig.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1beta/{+name}", baseUrl: "https://osconfig.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsGuestPoliciesRequest",
@@ -1389,11 +1359,7 @@ export const GetProjectsPatchDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1beta/{+name}",
-      baseUrl: "https://osconfig.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1beta/{+name}", baseUrl: "https://osconfig.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsPatchDeploymentsRequest",
@@ -1407,29 +1373,25 @@ export const GetProjectsPatchJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1beta/{+name}",
-      baseUrl: "https://osconfig.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1beta/{+name}", baseUrl: "https://osconfig.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsPatchJobsRequest",
 }) as any as S.Schema<GetProjectsPatchJobsRequest>;
 
 export interface ListProjectsGuestPoliciesRequest {
-  /** Required. The resource name of the parent using one of the following forms: `projects/{project_number}`. */
-  parent: string;
   /** A pagination token returned from a previous call to `ListGuestPolicies` that indicates where this listing should continue from. */
   pageToken?: string;
   /** The maximum number of guest policies to return. */
   pageSize?: number;
+  /** Required. The resource name of the parent using one of the following forms: `projects/{project_number}`. */
+  parent: string;
 }
 export const ListProjectsGuestPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1448,32 +1410,32 @@ export const GuestPolicyList = /*@__PURE__*/ S.Array(
 
 /** A response message for listing guest policies. */
 export interface ListGuestPoliciesResponse {
-  /** The list of GuestPolicies. */
-  guestPolicies?: GuestPolicyList;
   /** A pagination token that can be used to get the next page of guest policies. */
   nextPageToken?: string;
+  /** The list of GuestPolicies. */
+  guestPolicies?: GuestPolicyList;
 }
 export const ListGuestPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    guestPolicies: S.optional(GuestPolicyList),
     nextPageToken: S.optional(S.String),
+    guestPolicies: S.optional(GuestPolicyList),
   }),
 ).annotate({
   identifier: "ListGuestPoliciesResponse",
 }) as any as S.Schema<ListGuestPoliciesResponse>;
 
 export interface ListProjectsPatchDeploymentsRequest {
-  /** Optional. A pagination token returned from a previous call to ListPatchDeployments that indicates where this listing should continue from. */
-  pageToken?: string;
   /** Optional. The maximum number of patch deployments to return. Default is 100. */
   pageSize?: number;
+  /** Optional. A pagination token returned from a previous call to ListPatchDeployments that indicates where this listing should continue from. */
+  pageToken?: string;
   /** Required. The resource name of the parent in the form `projects/*`. */
   parent: string;
 }
 export const ListProjectsPatchDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
@@ -1508,20 +1470,20 @@ export const ListPatchDeploymentsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListPatchDeploymentsResponse>;
 
 export interface ListProjectsPatchJobsRequest {
-  /** Required. In the form of `projects/*` */
-  parent: string;
   /** A pagination token returned from a previous call that indicates where this listing should continue from. */
   pageToken?: string;
   /** The maximum number of instance status to return. */
   pageSize?: number;
+  /** Required. In the form of `projects/*` */
+  parent: string;
   /** If provided, this field specifies the criteria that must be met by patch jobs to be included in the response. Currently, filtering is only available on the patch_deployment field. */
   filter?: string;
 }
 export const ListProjectsPatchJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -1549,26 +1511,24 @@ export const ListPatchJobsResponse = /*@__PURE__*/ S.suspend(() =>
     patchJobs: S.optional(PatchJobList),
     nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListPatchJobsResponse",
-}) as any as S.Schema<ListPatchJobsResponse>;
+).annotate({ identifier: "ListPatchJobsResponse" }) as any as S.Schema<ListPatchJobsResponse>;
 
 export interface ListProjectsPatchJobsInstanceDetailsRequest {
-  /** Required. The parent for the instances are in the form of `projects/*\/patchJobs/*`. */
-  parent: string;
   /** A pagination token returned from a previous call that indicates where this listing should continue from. */
   pageToken?: string;
-  /** The maximum number of instance details records to return. Default is 100. */
-  pageSize?: number;
+  /** Required. The parent for the instances are in the form of `projects/*\/patchJobs/*`. */
+  parent: string;
   /** A filter expression that filters results listed in the response. This field supports filtering results by instance zone, name, state, or `failure_reason`. */
   filter?: string;
+  /** The maximum number of instance details records to return. Default is 100. */
+  pageSize?: number;
 }
 export const ListProjectsPatchJobsInstanceDetailsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1602,28 +1562,26 @@ export const PatchJobInstanceDetailsStateEnum = S.String;
 
 /** Patch details for a VM instance. For more information about reviewing VM instance details, see [Listing all VM instance details for a specific patch job](https://cloud.google.com/compute/docs/os-patch-management/manage-patch-jobs#list-instance-details). */
 export interface PatchJobInstanceDetails {
-  /** The number of times the agent that the agent attempts to apply the patch. */
-  attemptCount?: string;
   /** The instance name in the form `projects/*\/zones/*\/instances/*` */
   name?: string;
+  /** The unique identifier for the instance. This identifier is defined by the server. */
+  instanceSystemId?: string;
   /** If the patch fails, this field provides the reason. */
   failureReason?: string;
   /** Current state of instance patch. */
   state?: PatchJobInstanceDetailsStateEnum;
-  /** The unique identifier for the instance. This identifier is defined by the server. */
-  instanceSystemId?: string;
+  /** The number of times the agent that the agent attempts to apply the patch. */
+  attemptCount?: string;
 }
 export const PatchJobInstanceDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    attemptCount: S.optional(S.String),
     name: S.optional(S.String),
+    instanceSystemId: S.optional(S.String),
     failureReason: S.optional(S.String),
     state: S.optional(PatchJobInstanceDetailsStateEnum),
-    instanceSystemId: S.optional(S.String),
+    attemptCount: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PatchJobInstanceDetails",
-}) as any as S.Schema<PatchJobInstanceDetails>;
+).annotate({ identifier: "PatchJobInstanceDetails" }) as any as S.Schema<PatchJobInstanceDetails>;
 
 export type PatchJobInstanceDetailsList = Array<PatchJobInstanceDetails>;
 export const PatchJobInstanceDetailsList = /*@__PURE__*/ S.Array(
@@ -1648,18 +1606,18 @@ export const ListPatchJobInstanceDetailsResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** A request message for getting the effective guest policy assigned to the instance. */
 export interface LookupEffectiveGuestPolicyRequest {
+  /** Version of the OS running on the instance. The OS Config agent only provides this field for targeting if OS Inventory is enabled for that VM instance. */
+  osVersion?: string;
   /** Architecture of OS running on the instance. The OS Config agent only provides this field for targeting if OS Inventory is enabled for that instance. */
   osArchitecture?: string;
   /** Short name of the OS running on the instance. The OS Config agent only provides this field for targeting if OS Inventory is enabled for that instance. */
   osShortName?: string;
-  /** Version of the OS running on the instance. The OS Config agent only provides this field for targeting if OS Inventory is enabled for that VM instance. */
-  osVersion?: string;
 }
 export const LookupEffectiveGuestPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    osVersion: S.optional(S.String),
     osArchitecture: S.optional(S.String),
     osShortName: S.optional(S.String),
-    osVersion: S.optional(S.String),
   }),
 ).annotate({
   identifier: "LookupEffectiveGuestPolicyRequest",
@@ -1686,39 +1644,17 @@ export const LookupEffectiveGuestPolicyProjectsZonesInstancesRequest = /*@__PURE
   identifier: "LookupEffectiveGuestPolicyProjectsZonesInstancesRequest",
 }) as any as S.Schema<LookupEffectiveGuestPolicyProjectsZonesInstancesRequest>;
 
-/** A guest policy recipe including its source. */
-export interface EffectiveGuestPolicySourcedSoftwareRecipe {
-  /** Name of the guest policy providing this config. */
-  source?: string;
-  /** A software recipe to configure on the VM instance. */
-  softwareRecipe?: SoftwareRecipe;
-}
-export const EffectiveGuestPolicySourcedSoftwareRecipe = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    source: S.optional(S.String),
-    softwareRecipe: S.optional(SoftwareRecipe),
-  }),
-).annotate({
-  identifier: "EffectiveGuestPolicySourcedSoftwareRecipe",
-}) as any as S.Schema<EffectiveGuestPolicySourcedSoftwareRecipe>;
-
-export type EffectiveGuestPolicySourcedSoftwareRecipeList =
-  Array<EffectiveGuestPolicySourcedSoftwareRecipe>;
-export const EffectiveGuestPolicySourcedSoftwareRecipeList = /*@__PURE__*/ S.Array(
-  EffectiveGuestPolicySourcedSoftwareRecipe,
-) as any as S.Schema<EffectiveGuestPolicySourcedSoftwareRecipeList>;
-
 /** A guest policy package repository including its source. */
 export interface EffectiveGuestPolicySourcedPackageRepository {
-  /** A software package repository to configure on the VM instance. */
-  packageRepository?: PackageRepository;
   /** Name of the guest policy providing this config. */
   source?: string;
+  /** A software package repository to configure on the VM instance. */
+  packageRepository?: PackageRepository;
 }
 export const EffectiveGuestPolicySourcedPackageRepository = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    packageRepository: S.optional(PackageRepository),
     source: S.optional(S.String),
+    packageRepository: S.optional(PackageRepository),
   }),
 ).annotate({
   identifier: "EffectiveGuestPolicySourcedPackageRepository",
@@ -1729,6 +1665,28 @@ export type EffectiveGuestPolicySourcedPackageRepositoryList =
 export const EffectiveGuestPolicySourcedPackageRepositoryList = /*@__PURE__*/ S.Array(
   EffectiveGuestPolicySourcedPackageRepository,
 ) as any as S.Schema<EffectiveGuestPolicySourcedPackageRepositoryList>;
+
+/** A guest policy recipe including its source. */
+export interface EffectiveGuestPolicySourcedSoftwareRecipe {
+  /** A software recipe to configure on the VM instance. */
+  softwareRecipe?: SoftwareRecipe;
+  /** Name of the guest policy providing this config. */
+  source?: string;
+}
+export const EffectiveGuestPolicySourcedSoftwareRecipe = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    softwareRecipe: S.optional(SoftwareRecipe),
+    source: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "EffectiveGuestPolicySourcedSoftwareRecipe",
+}) as any as S.Schema<EffectiveGuestPolicySourcedSoftwareRecipe>;
+
+export type EffectiveGuestPolicySourcedSoftwareRecipeList =
+  Array<EffectiveGuestPolicySourcedSoftwareRecipe>;
+export const EffectiveGuestPolicySourcedSoftwareRecipeList = /*@__PURE__*/ S.Array(
+  EffectiveGuestPolicySourcedSoftwareRecipe,
+) as any as S.Schema<EffectiveGuestPolicySourcedSoftwareRecipeList>;
 
 /** A guest policy package including its source. */
 export interface EffectiveGuestPolicySourcedPackage {
@@ -1753,22 +1711,20 @@ export const EffectiveGuestPolicySourcedPackageList = /*@__PURE__*/ S.Array(
 
 /** The effective guest policy that applies to a VM instance. */
 export interface EffectiveGuestPolicy {
-  /** List of recipes assigned to the VM instance. */
-  softwareRecipes?: EffectiveGuestPolicySourcedSoftwareRecipeList;
   /** List of package repository configurations assigned to the VM instance. */
   packageRepositories?: EffectiveGuestPolicySourcedPackageRepositoryList;
+  /** List of recipes assigned to the VM instance. */
+  softwareRecipes?: EffectiveGuestPolicySourcedSoftwareRecipeList;
   /** List of package configurations assigned to the VM instance. */
   packages?: EffectiveGuestPolicySourcedPackageList;
 }
 export const EffectiveGuestPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    softwareRecipes: S.optional(EffectiveGuestPolicySourcedSoftwareRecipeList),
     packageRepositories: S.optional(EffectiveGuestPolicySourcedPackageRepositoryList),
+    softwareRecipes: S.optional(EffectiveGuestPolicySourcedSoftwareRecipeList),
     packages: S.optional(EffectiveGuestPolicySourcedPackageList),
   }),
-).annotate({
-  identifier: "EffectiveGuestPolicy",
-}) as any as S.Schema<EffectiveGuestPolicy>;
+).annotate({ identifier: "EffectiveGuestPolicy" }) as any as S.Schema<EffectiveGuestPolicy>;
 
 export interface PatchProjectsGuestPoliciesRequest {
   /** Required. Unique name of the resource in this project using one of the following forms: `projects/{project_number}/guestPolicies/{guest_policy_id}`. */
@@ -1784,11 +1740,7 @@ export const PatchProjectsGuestPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
     updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(GuestPolicy.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1beta/{+name}",
-      baseUrl: "https://osconfig.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1beta/{+name}", baseUrl: "https://osconfig.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsGuestPoliciesRequest",
@@ -1808,11 +1760,7 @@ export const PatchProjectsPatchDeploymentsRequest = /*@__PURE__*/ S.suspend(() =
     updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(PatchDeployment.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1beta/{+name}",
-      baseUrl: "https://osconfig.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1beta/{+name}", baseUrl: "https://osconfig.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsPatchDeploymentsRequest",
@@ -2047,10 +1995,7 @@ export const listProjectsGuestPolicies: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsPatchDeploymentsError = NotFound | Forbidden | GcpOpError;
@@ -2067,10 +2012,7 @@ export const listProjectsPatchDeployments: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsPatchJobsError = NotFound | Forbidden | GcpOpError;
@@ -2087,10 +2029,7 @@ export const listProjectsPatchJobs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsPatchJobsInstanceDetailsError = NotFound | Forbidden | GcpOpError;
@@ -2107,10 +2046,7 @@ export const listProjectsPatchJobsInstanceDetails: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type LookupEffectiveGuestPolicyProjectsZonesInstancesError =

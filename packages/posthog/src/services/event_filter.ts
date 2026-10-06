@@ -26,16 +26,8 @@ export const CreateEventFilterRequest = /*@__PURE__*/ S.suspend(() =>
     mode: S.optional(EventFilterModeEnum),
     filter_tree: S.optional(S.Unknown),
     test_cases: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/event_filter/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateEventFilterRequest",
-}) as any as S.Schema<CreateEventFilterRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/event_filter/", code: 200 })),
+).annotate({ identifier: "CreateEventFilterRequest" }) as any as S.Schema<CreateEventFilterRequest>;
 
 export interface EventFilterConfig {
   id?: string;
@@ -56,9 +48,7 @@ export const EventFilterConfig = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     updated_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EventFilterConfig",
-}) as any as S.Schema<EventFilterConfig>;
+).annotate({ identifier: "EventFilterConfig" }) as any as S.Schema<EventFilterConfig>;
 
 export interface GetEventFilterRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -67,16 +57,8 @@ export interface GetEventFilterRequest {
 export const GetEventFilterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/event_filter/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetEventFilterRequest",
-}) as any as S.Schema<GetEventFilterRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/event_filter/", code: 200 })),
+).annotate({ identifier: "GetEventFilterRequest" }) as any as S.Schema<GetEventFilterRequest>;
 
 export interface GetEventFilterMetricsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -86,11 +68,7 @@ export const GetEventFilterMetricsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/event_filter/metrics/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/event_filter/metrics/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetEventFilterMetricsRequest",
@@ -115,9 +93,7 @@ export const AppMetricSeries = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     values: S.optional(AppMetricSeriesValuesList),
   }),
-).annotate({
-  identifier: "AppMetricSeries",
-}) as any as S.Schema<AppMetricSeries>;
+).annotate({ identifier: "AppMetricSeries" }) as any as S.Schema<AppMetricSeries>;
 
 export type AppMetricsResponseSeriesList = Array<AppMetricSeries>;
 export const AppMetricsResponseSeriesList = /*@__PURE__*/ S.Array(
@@ -133,9 +109,7 @@ export const AppMetricsResponse = /*@__PURE__*/ S.suspend(() =>
     labels: S.optional(AppMetricsResponseLabelsList),
     series: S.optional(AppMetricsResponseSeriesList),
   }),
-).annotate({
-  identifier: "AppMetricsResponse",
-}) as any as S.Schema<AppMetricsResponse>;
+).annotate({ identifier: "AppMetricsResponse" }) as any as S.Schema<AppMetricsResponse>;
 
 export interface GetEventFilterMetricsTotalRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -155,9 +129,7 @@ export const GetEventFilterMetricsTotalRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetEventFilterMetricsTotalRequest",
 }) as any as S.Schema<GetEventFilterMetricsTotalRequest>;
 
-export type AppMetricsTotalsResponseTotalsMap = {
-  [key: string]: number | undefined;
-};
+export type AppMetricsTotalsResponseTotalsMap = { [key: string]: number | undefined };
 export const AppMetricsTotalsResponseTotalsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -170,9 +142,7 @@ export const AppMetricsTotalsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     totals: S.optional(AppMetricsTotalsResponseTotalsMap),
   }),
-).annotate({
-  identifier: "AppMetricsTotalsResponse",
-}) as any as S.Schema<AppMetricsTotalsResponse>;
+).annotate({ identifier: "AppMetricsTotalsResponse" }) as any as S.Schema<AppMetricsTotalsResponse>;
 
 export type CreateEventFilterError = PosthogOpError;
 /** Create or update the event filter config. */

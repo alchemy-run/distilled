@@ -147,9 +147,7 @@ export const GetForRepoRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     ref: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/license", code: 200 })),
-).annotate({
-  identifier: "GetForRepoRequest",
-}) as any as S.Schema<GetForRepoRequest>;
+).annotate({ identifier: "GetForRepoRequest" }) as any as S.Schema<GetForRepoRequest>;
 
 export interface LicenseContentLinks {
   git: string | null;
@@ -162,9 +160,7 @@ export const LicenseContentLinks = /*@__PURE__*/ S.suspend(() =>
     html: S.NullOr(S.String),
     self: S.String,
   }),
-).annotate({
-  identifier: "LicenseContentLinks",
-}) as any as S.Schema<LicenseContentLinks>;
+).annotate({ identifier: "LicenseContentLinks" }) as any as S.Schema<LicenseContentLinks>;
 
 /** License Simple */
 export type NullableLicenseSimple = LicenseSimple;

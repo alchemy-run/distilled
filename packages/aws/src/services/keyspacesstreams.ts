@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "KeyspacesStreams",
-  serviceShapeName: "KeyspacesStreams",
-});
+const svc = T.AwsApiService({ sdkId: "KeyspacesStreams", serviceShapeName: "KeyspacesStreams" });
 const auth = T.AwsAuthSigv4({ name: "cassandra" });
 const ver = T.ServiceVersion("2024-09-09");
 const proto = T.AwsProtocolsAwsJson1_0();
@@ -62,10 +59,7 @@ export class InternalServerException
     "InternalServerException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InternalServerException",
-        httpResponseCode: 500,
-      }),
+      T.AwsQueryError({ code: "InternalServerException", httpResponseCode: 500 }),
       T.HttpError(500),
     ),
   ).pipe(C.withServerError) {}
@@ -74,10 +68,7 @@ export class ResourceNotFoundException
     "ResourceNotFoundException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ResourceNotFoundException",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "ResourceNotFoundException", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -115,9 +106,7 @@ export const GetRecordsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ shardIterator: S.String, maxResults: S.optional(S.Number) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetRecordsInput",
-}) as any as S.Schema<GetRecordsInput>;
+).annotate({ identifier: "GetRecordsInput" }) as any as S.Schema<GetRecordsInput>;
 export type OriginType = "USER" | "REPLICATION" | "TTL" | (string & {});
 export const OriginType = S.String;
 
@@ -126,13 +115,8 @@ export interface KeyspacesMetadata {
   writeTime?: string;
 }
 export const KeyspacesMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    expirationTime: S.optional(S.String),
-    writeTime: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "KeyspacesMetadata",
-}) as any as S.Schema<KeyspacesMetadata>;
+  S.Struct({ expirationTime: S.optional(S.String), writeTime: S.optional(S.String) }),
+).annotate({ identifier: "KeyspacesMetadata" }) as any as S.Schema<KeyspacesMetadata>;
 export interface KeyspacesCell {
   value?: KeyspacesCellValue;
   metadata?: KeyspacesMetadata;
@@ -140,18 +124,14 @@ export interface KeyspacesCell {
 export const KeyspacesCell = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(
-      S.suspend(() => KeyspacesCellValue).annotate({
-        identifier: "KeyspacesCellValue",
-      }),
+      S.suspend(() => KeyspacesCellValue).annotate({ identifier: "KeyspacesCellValue" }),
     ),
     metadata: S.optional(KeyspacesMetadata),
   }),
 ).annotate({ identifier: "KeyspacesCell" }) as any as S.Schema<KeyspacesCell>;
 export type KeyspacesCellList = KeyspacesCell[];
 export const KeyspacesCellList = /*@__PURE__*/ S.Array(
-  S.suspend((): S.Schema<KeyspacesCell> => KeyspacesCell).annotate({
-    identifier: "KeyspacesCell",
-  }),
+  S.suspend((): S.Schema<KeyspacesCell> => KeyspacesCell).annotate({ identifier: "KeyspacesCell" }),
 ) as any as S.Schema<KeyspacesCellList>;
 export interface KeyspacesCellMapDefinition {
   key?: KeyspacesCellValue;
@@ -161,14 +141,10 @@ export interface KeyspacesCellMapDefinition {
 export const KeyspacesCellMapDefinition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     key: S.optional(
-      S.suspend(() => KeyspacesCellValue).annotate({
-        identifier: "KeyspacesCellValue",
-      }),
+      S.suspend(() => KeyspacesCellValue).annotate({ identifier: "KeyspacesCellValue" }),
     ),
     value: S.optional(
-      S.suspend(() => KeyspacesCellValue).annotate({
-        identifier: "KeyspacesCellValue",
-      }),
+      S.suspend(() => KeyspacesCellValue).annotate({ identifier: "KeyspacesCellValue" }),
     ),
     metadata: S.optional(KeyspacesMetadata),
   }),
@@ -931,19 +907,13 @@ export const KeyspacesCellValue = /*@__PURE__*/ S.Union([
   S.Struct({ inetT: S.String }),
   S.Struct({ intT: S.String }),
   S.Struct({
-    listT: S.suspend(() => KeyspacesCellList).annotate({
-      identifier: "KeyspacesCellList",
-    }),
+    listT: S.suspend(() => KeyspacesCellList).annotate({ identifier: "KeyspacesCellList" }),
   }),
   S.Struct({
-    mapT: S.suspend(() => KeyspacesCellMap).annotate({
-      identifier: "KeyspacesCellMap",
-    }),
+    mapT: S.suspend(() => KeyspacesCellMap).annotate({ identifier: "KeyspacesCellMap" }),
   }),
   S.Struct({
-    setT: S.suspend(() => KeyspacesCellList).annotate({
-      identifier: "KeyspacesCellList",
-    }),
+    setT: S.suspend(() => KeyspacesCellList).annotate({ identifier: "KeyspacesCellList" }),
   }),
   S.Struct({ smallintT: S.String }),
   S.Struct({ textT: S.String }),
@@ -952,22 +922,14 @@ export const KeyspacesCellValue = /*@__PURE__*/ S.Union([
   S.Struct({ timeuuidT: S.String }),
   S.Struct({ tinyintT: S.String }),
   S.Struct({
-    tupleT: S.suspend(() => KeyspacesCellList).annotate({
-      identifier: "KeyspacesCellList",
-    }),
+    tupleT: S.suspend(() => KeyspacesCellList).annotate({ identifier: "KeyspacesCellList" }),
   }),
   S.Struct({ uuidT: S.String }),
   S.Struct({ varcharT: S.String }),
   S.Struct({ varintT: S.String }),
-  S.Struct({
-    udtT: S.suspend(() => KeyspacesUdtMap).annotate({
-      identifier: "KeyspacesUdtMap",
-    }),
-  }),
+  S.Struct({ udtT: S.suspend(() => KeyspacesUdtMap).annotate({ identifier: "KeyspacesUdtMap" }) }),
 ]) as any as S.Schema<KeyspacesCellValue>;
-export type KeyspacesKeysMap = {
-  [key: string]: KeyspacesCellValue | undefined;
-};
+export type KeyspacesKeysMap = { [key: string]: KeyspacesCellValue | undefined };
 export const KeyspacesKeysMap = /*@__PURE__*/ S.Record(
   S.String,
   S.suspend(() => KeyspacesCellValue)
@@ -1026,9 +988,7 @@ export interface IteratorDescription {
 }
 export const IteratorDescription = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ iteratorPosition: S.optional(IteratorPosition) }),
-).annotate({
-  identifier: "IteratorDescription",
-}) as any as S.Schema<IteratorDescription>;
+).annotate({ identifier: "IteratorDescription" }) as any as S.Schema<IteratorDescription>;
 export interface GetRecordsOutput {
   changeRecords?: Record[];
   nextShardIterator?: string;
@@ -1040,9 +1000,7 @@ export const GetRecordsOutput = /*@__PURE__*/ S.suspend(() =>
     nextShardIterator: S.optional(S.String),
     iteratorDescription: S.optional(IteratorDescription),
   }),
-).annotate({
-  identifier: "GetRecordsOutput",
-}) as any as S.Schema<GetRecordsOutput>;
+).annotate({ identifier: "GetRecordsOutput" }) as any as S.Schema<GetRecordsOutput>;
 export type StreamArn = string;
 export type ShardId = string;
 export type ShardIteratorType =
@@ -1066,17 +1024,13 @@ export const GetShardIteratorInput = /*@__PURE__*/ S.suspend(() =>
     shardIteratorType: ShardIteratorType,
     sequenceNumber: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetShardIteratorInput",
-}) as any as S.Schema<GetShardIteratorInput>;
+).annotate({ identifier: "GetShardIteratorInput" }) as any as S.Schema<GetShardIteratorInput>;
 export interface GetShardIteratorOutput {
   shardIterator?: string;
 }
 export const GetShardIteratorOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ shardIterator: S.optional(S.String) }),
-).annotate({
-  identifier: "GetShardIteratorOutput",
-}) as any as S.Schema<GetShardIteratorOutput>;
+).annotate({ identifier: "GetShardIteratorOutput" }) as any as S.Schema<GetShardIteratorOutput>;
 export type ShardFilterType = "CHILD_SHARDS" | (string & {});
 export const ShardFilterType = S.String;
 
@@ -1085,10 +1039,7 @@ export interface ShardFilter {
   shardId?: string;
 }
 export const ShardFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(ShardFilterType),
-    shardId: S.optional(S.String),
-  }),
+  S.Struct({ type: S.optional(ShardFilterType), shardId: S.optional(S.String) }),
 ).annotate({ identifier: "ShardFilter" }) as any as S.Schema<ShardFilter>;
 export type ShardIdToken = string;
 export interface GetStreamInput {
@@ -1127,9 +1078,7 @@ export const SequenceNumberRange = /*@__PURE__*/ S.suspend(() =>
     startingSequenceNumber: S.optional(S.String),
     endingSequenceNumber: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SequenceNumberRange",
-}) as any as S.Schema<SequenceNumberRange>;
+).annotate({ identifier: "SequenceNumberRange" }) as any as S.Schema<SequenceNumberRange>;
 export type ShardIdList = string[];
 export const ShardIdList = /*@__PURE__*/ S.Array(S.String);
 export interface Shard {
@@ -1169,9 +1118,7 @@ export const GetStreamOutput = /*@__PURE__*/ S.suspend(() =>
     shards: S.optional(ShardDescriptionList),
     nextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetStreamOutput",
-}) as any as S.Schema<GetStreamOutput>;
+).annotate({ identifier: "GetStreamOutput" }) as any as S.Schema<GetStreamOutput>;
 export type StreamArnToken = string;
 export interface ListStreamsInput {
   keyspaceName?: string;
@@ -1186,9 +1133,7 @@ export const ListStreamsInput = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListStreamsInput",
-}) as any as S.Schema<ListStreamsInput>;
+).annotate({ identifier: "ListStreamsInput" }) as any as S.Schema<ListStreamsInput>;
 export interface Stream {
   streamArn: string;
   keyspaceName: string;
@@ -1210,13 +1155,8 @@ export interface ListStreamsOutput {
   nextToken?: string;
 }
 export const ListStreamsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    streams: S.optional(StreamList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListStreamsOutput",
-}) as any as S.Schema<ListStreamsOutput>;
+  S.Struct({ streams: S.optional(StreamList), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListStreamsOutput" }) as any as S.Schema<ListStreamsOutput>;
 export type ValidationExceptionType =
   | "InvalidFormat"
   | "TrimmedDataAccess"

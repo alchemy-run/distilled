@@ -208,6 +208,13 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "realtime": {
+          "target": "com.posthog.cohorts#CohortRealtimeReadiness",
+          "traits": {
+            "smithy.api#documentation": "Whether feature flags can target this cohort, and the progress of the build that gets it there. Null outside the realtime cohort flag targeting rollout, on projects the realtime pipeline does not cover, and for cohorts that match on neither events nor person properties, which nothing in the flag API decides on.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "experiment_set": {
           "target": "com.posthog.cohorts#CohortOutputExperimentSetList"
         },
@@ -892,6 +899,140 @@
         }
       },
       "traits": {}
+    },
+    "com.posthog.cohorts#CohortRealtimeReadiness": {
+      "type": "structure",
+      "members": {
+        "state": {
+          "target": "com.posthog.cohorts#CohortRealtimeStateEnum",
+          "traits": {
+            "smithy.api#documentation": "Whether feature flags can target this cohort now. `ready`: they can, and they see membership changes within about a minute. `building` / `rebuilding`: PostHog is preparing the cohort from past events, and flags cannot target it yet. `needs_attention`: the cohort qualifies but nothing is preparing it. `daily`: its criteria are not supported in realtime, so its membership only comes from the once-a-day calculation. `person_properties`: it matches on person properties, which flags read directly, so they can always target it. `static`: it is a fixed list of people.\n\n* `static` - Static\n* `person_properties` - Person properties\n* `daily` - Daily\n* `building` - Building\n* `rebuilding` - Rebuilding\n* `ready` - Ready\n* `needs_attention` - Needs attention",
+            "smithy.api#required": {}
+          }
+        },
+        "ready_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the cohort became targetable by feature flags. Null unless the state is `ready`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "build": {
+          "target": "com.posthog.cohorts#CohortHistoryBuild",
+          "traits": {
+            "smithy.api#documentation": "The build preparing the cohort. Null unless the state is `building` or `rebuilding`.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.cohorts#CohortRealtimeStateEnum": {
+      "type": "enum",
+      "members": {
+        "STATIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "static"
+          }
+        },
+        "PERSON_PROPERTIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "person_properties"
+          }
+        },
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "daily"
+          }
+        },
+        "BUILDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "building"
+          }
+        },
+        "REBUILDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rebuilding"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "NEEDS_ATTENTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "needs_attention"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `static` - Static\n* `person_properties` - Person properties\n* `daily` - Daily\n* `building` - Building\n* `rebuilding` - Rebuilding\n* `ready` - Ready\n* `needs_attention` - Needs attention"
+      }
+    },
+    "com.posthog.cohorts#CohortHistoryBuild": {
+      "type": "structure",
+      "members": {
+        "phase": {
+          "target": "com.posthog.cohorts#CohortHistoryBuildPhaseEnum",
+          "traits": {
+            "smithy.api#documentation": "What the build is doing now: `waiting` to start, `scanning` past events, or `checking` the membership it produced. A build that is queued but has not started reports `waiting` too.\n\n* `waiting` - Waiting\n* `scanning` - Scanning\n* `checking` - Checking",
+            "smithy.api#required": {}
+          }
+        },
+        "percent_complete": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How much of the event history has been scanned, 0 to 100. Null outside the `scanning` phase, and while the scan is still being planned.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When this build last made progress. Null while it is still queued.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.cohorts#CohortHistoryBuildPhaseEnum": {
+      "type": "enum",
+      "members": {
+        "WAITING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "waiting"
+          }
+        },
+        "SCANNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scanning"
+          }
+        },
+        "CHECKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checking"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `waiting` - Waiting\n* `scanning` - Scanning\n* `checking` - Checking"
+      }
     },
     "com.posthog.cohorts#CohortOutputExperimentSetList": {
       "type": "list",
@@ -1627,55 +1768,78 @@
       },
       "traits": {}
     },
-    "com.posthog.cohorts#CohortPersonResult": {
+    "com.posthog.cohorts#SerializedPersonActor": {
       "type": "structure",
       "members": {
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "uuid": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "type": {
-          "target": "com.posthog.cohorts#CohortPersonResultTypeEnum",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "distinct_ids": {
-          "target": "com.posthog.cohorts#CohortPersonResultDistinctIdsList",
-          "traits": {
+            "smithy.api#documentation": "The person's UUID, or the group's key.",
             "smithy.api#required": {}
           }
         },
         "properties": {
-          "target": "com.posthog.cohorts#CohortPersonResultPropertiesMap",
+          "target": "com.posthog.cohorts#SerializedPersonActorPropertiesMap",
           "traits": {
+            "smithy.api#documentation": "The actor's properties.",
             "smithy.api#required": {}
           }
         },
         "created_at": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "When the actor was first seen.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "matched_recordings": {
+          "target": "com.posthog.cohorts#SerializedPersonActorMatchedRecordingsList",
+          "traits": {
+            "smithy.api#documentation": "Recordings that matched the query. Empty unless the endpoint asks for them.",
+            "smithy.api#required": {}
+          }
+        },
+        "value_at_data_point": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The actor's value at the data point it was queried for. Null unless the query computes one.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Marks this actor as a person.",
+            "smithy.api#required": {}
+          }
+        },
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The person's UUID. Same value as `id`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name, resolved from the person's properties or distinct IDs.",
+            "smithy.api#required": {}
+          }
+        },
+        "distinct_ids": {
+          "target": "com.posthog.cohorts#SerializedPersonActorDistinctIdsList",
+          "traits": {
+            "smithy.api#documentation": "The person's distinct IDs, newest first.",
+            "smithy.api#required": {}
           }
         },
         "last_seen_at": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "When the person was last seen.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -1683,19 +1847,7 @@
         "is_identified": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "matched_recordings": {
-          "target": "com.posthog.cohorts#CohortPersonResultMatchedRecordingsList",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "value_at_data_point": {
-          "target": "smithy.api#Double",
-          "traits": {
+            "smithy.api#documentation": "Whether the person has been identified.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -1703,28 +1855,19 @@
       },
       "traits": {}
     },
-    "com.posthog.cohorts#CohortPersonResultTypeEnum": {
-      "type": "enum",
-      "members": {
-        "PERSON": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "person"
-          }
-        }
+    "com.posthog.cohorts#SerializedPersonActorPropertiesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
       },
       "traits": {
-        "smithy.api#documentation": "* `person` - person"
+        "smithy.api#documentation": "The actor's properties."
       }
     },
-    "com.posthog.cohorts#CohortPersonResultDistinctIdsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.posthog.cohorts#CohortPersonResultPropertiesMap": {
+    "com.posthog.cohorts#SerializedPersonActorMatchedRecordingsItemMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -1734,27 +1877,28 @@
       },
       "traits": {}
     },
-    "com.posthog.cohorts#CohortPersonResultMatchedRecordingsItemMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#Document"
-      },
-      "traits": {}
-    },
-    "com.posthog.cohorts#CohortPersonResultMatchedRecordingsList": {
+    "com.posthog.cohorts#SerializedPersonActorMatchedRecordingsList": {
       "type": "list",
       "member": {
-        "target": "com.posthog.cohorts#CohortPersonResultMatchedRecordingsItemMap"
+        "target": "com.posthog.cohorts#SerializedPersonActorMatchedRecordingsItemMap"
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Recordings that matched the query. Empty unless the endpoint asks for them."
+      }
+    },
+    "com.posthog.cohorts#SerializedPersonActorDistinctIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The person's distinct IDs, newest first."
+      }
     },
     "com.posthog.cohorts#CohortPersonsResponseResultsList": {
       "type": "list",
       "member": {
-        "target": "com.posthog.cohorts#CohortPersonResult"
+        "target": "com.posthog.cohorts#SerializedPersonActor"
       },
       "traits": {}
     },

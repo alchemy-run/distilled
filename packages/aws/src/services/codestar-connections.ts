@@ -212,9 +212,7 @@ export const CreateConnectionInput = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagList),
     HostArn: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateConnectionInput",
-}) as any as S.Schema<CreateConnectionInput>;
+).annotate({ identifier: "CreateConnectionInput" }) as any as S.Schema<CreateConnectionInput>;
 export type ConnectionArn = string;
 export interface CreateConnectionOutput {
   ConnectionArn: string;
@@ -222,9 +220,7 @@ export interface CreateConnectionOutput {
 }
 export const CreateConnectionOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ConnectionArn: S.String, Tags: S.optional(TagList) }),
-).annotate({
-  identifier: "CreateConnectionOutput",
-}) as any as S.Schema<CreateConnectionOutput>;
+).annotate({ identifier: "CreateConnectionOutput" }) as any as S.Schema<CreateConnectionOutput>;
 export type HostName = string;
 export type Url = string;
 export type VpcId = string;
@@ -248,9 +244,7 @@ export const VpcConfiguration = /*@__PURE__*/ S.suspend(() =>
     SecurityGroupIds: SecurityGroupIds,
     TlsCertificate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VpcConfiguration",
-}) as any as S.Schema<VpcConfiguration>;
+).annotate({ identifier: "VpcConfiguration" }) as any as S.Schema<VpcConfiguration>;
 export interface CreateHostInput {
   Name: string;
   ProviderType: ProviderType;
@@ -266,18 +260,14 @@ export const CreateHostInput = /*@__PURE__*/ S.suspend(() =>
     VpcConfiguration: S.optional(VpcConfiguration),
     Tags: S.optional(TagList),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateHostInput",
-}) as any as S.Schema<CreateHostInput>;
+).annotate({ identifier: "CreateHostInput" }) as any as S.Schema<CreateHostInput>;
 export interface CreateHostOutput {
   HostArn?: string;
   Tags?: Tag[];
 }
 export const CreateHostOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ HostArn: S.optional(S.String), Tags: S.optional(TagList) }),
-).annotate({
-  identifier: "CreateHostOutput",
-}) as any as S.Schema<CreateHostOutput>;
+).annotate({ identifier: "CreateHostOutput" }) as any as S.Schema<CreateHostOutput>;
 export type OwnerId = string;
 export type RepositoryName = string;
 export type KmsKeyArn = string;
@@ -320,9 +310,7 @@ export const RepositoryLinkInfo = /*@__PURE__*/ S.suspend(() =>
     RepositoryLinkId: S.String,
     RepositoryName: S.String,
   }),
-).annotate({
-  identifier: "RepositoryLinkInfo",
-}) as any as S.Schema<RepositoryLinkInfo>;
+).annotate({ identifier: "RepositoryLinkInfo" }) as any as S.Schema<RepositoryLinkInfo>;
 export interface CreateRepositoryLinkOutput {
   RepositoryLinkInfo: RepositoryLinkInfo;
 }
@@ -395,9 +383,7 @@ export const SyncConfiguration = /*@__PURE__*/ S.suspend(() =>
     PublishDeploymentStatus: S.optional(PublishDeploymentStatus),
     TriggerResourceUpdateOn: S.optional(TriggerResourceUpdateOn),
   }),
-).annotate({
-  identifier: "SyncConfiguration",
-}) as any as S.Schema<SyncConfiguration>;
+).annotate({ identifier: "SyncConfiguration" }) as any as S.Schema<SyncConfiguration>;
 export interface CreateSyncConfigurationOutput {
   SyncConfiguration: SyncConfiguration;
 }
@@ -413,9 +399,7 @@ export const DeleteConnectionInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ConnectionArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteConnectionInput",
-}) as any as S.Schema<DeleteConnectionInput>;
+).annotate({ identifier: "DeleteConnectionInput" }) as any as S.Schema<DeleteConnectionInput>;
 export interface DeleteConnectionOutput {}
 export const DeleteConnectionOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteConnectionOutput",
@@ -427,9 +411,7 @@ export const DeleteHostInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ HostArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteHostInput",
-}) as any as S.Schema<DeleteHostInput>;
+).annotate({ identifier: "DeleteHostInput" }) as any as S.Schema<DeleteHostInput>;
 export interface DeleteHostOutput {}
 export const DeleteHostOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteHostOutput",
@@ -470,9 +452,7 @@ export const GetConnectionInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ConnectionArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetConnectionInput",
-}) as any as S.Schema<GetConnectionInput>;
+).annotate({ identifier: "GetConnectionInput" }) as any as S.Schema<GetConnectionInput>;
 export type AccountId = string;
 export type ConnectionStatus = "PENDING" | "AVAILABLE" | "ERROR" | (string & {});
 export const ConnectionStatus = S.String;
@@ -500,9 +480,7 @@ export interface GetConnectionOutput {
 }
 export const GetConnectionOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Connection: S.optional(Connection) }),
-).annotate({
-  identifier: "GetConnectionOutput",
-}) as any as S.Schema<GetConnectionOutput>;
+).annotate({ identifier: "GetConnectionOutput" }) as any as S.Schema<GetConnectionOutput>;
 export interface GetHostInput {
   HostArn: string;
 }
@@ -535,28 +513,22 @@ export const GetRepositoryLinkInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RepositoryLinkId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetRepositoryLinkInput",
-}) as any as S.Schema<GetRepositoryLinkInput>;
+).annotate({ identifier: "GetRepositoryLinkInput" }) as any as S.Schema<GetRepositoryLinkInput>;
 export interface GetRepositoryLinkOutput {
   RepositoryLinkInfo: RepositoryLinkInfo;
 }
 export const GetRepositoryLinkOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RepositoryLinkInfo: RepositoryLinkInfo }),
-).annotate({
-  identifier: "GetRepositoryLinkOutput",
-}) as any as S.Schema<GetRepositoryLinkOutput>;
+).annotate({ identifier: "GetRepositoryLinkOutput" }) as any as S.Schema<GetRepositoryLinkOutput>;
 export interface GetRepositorySyncStatusInput {
   Branch: string;
   RepositoryLinkId: string;
   SyncType: SyncConfigurationType;
 }
 export const GetRepositorySyncStatusInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Branch: S.String,
-    RepositoryLinkId: S.String,
-    SyncType: SyncConfigurationType,
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ Branch: S.String, RepositoryLinkId: S.String, SyncType: SyncConfigurationType }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "GetRepositorySyncStatusInput",
 }) as any as S.Schema<GetRepositorySyncStatusInput>;
@@ -585,9 +557,7 @@ export const RepositorySyncEvent = /*@__PURE__*/ S.suspend(() =>
     Time: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     Type: S.String,
   }),
-).annotate({
-  identifier: "RepositorySyncEvent",
-}) as any as S.Schema<RepositorySyncEvent>;
+).annotate({ identifier: "RepositorySyncEvent" }) as any as S.Schema<RepositorySyncEvent>;
 export type RepositorySyncEventList = RepositorySyncEvent[];
 export const RepositorySyncEventList = /*@__PURE__*/ S.Array(RepositorySyncEvent);
 export interface RepositorySyncAttempt {
@@ -601,9 +571,7 @@ export const RepositorySyncAttempt = /*@__PURE__*/ S.suspend(() =>
     Status: RepositorySyncStatus,
     Events: RepositorySyncEventList,
   }),
-).annotate({
-  identifier: "RepositorySyncAttempt",
-}) as any as S.Schema<RepositorySyncAttempt>;
+).annotate({ identifier: "RepositorySyncAttempt" }) as any as S.Schema<RepositorySyncAttempt>;
 export interface GetRepositorySyncStatusOutput {
   LatestSync: RepositorySyncAttempt;
 }
@@ -656,9 +624,7 @@ export const ResourceSyncEvent = /*@__PURE__*/ S.suspend(() =>
     Time: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     Type: S.String,
   }),
-).annotate({
-  identifier: "ResourceSyncEvent",
-}) as any as S.Schema<ResourceSyncEvent>;
+).annotate({ identifier: "ResourceSyncEvent" }) as any as S.Schema<ResourceSyncEvent>;
 export type ResourceSyncEventList = ResourceSyncEvent[];
 export const ResourceSyncEventList = /*@__PURE__*/ S.Array(ResourceSyncEvent);
 export type ResourceSyncStatus =
@@ -687,9 +653,7 @@ export const ResourceSyncAttempt = /*@__PURE__*/ S.suspend(() =>
     TargetRevision: Revision,
     Target: S.String,
   }),
-).annotate({
-  identifier: "ResourceSyncAttempt",
-}) as any as S.Schema<ResourceSyncAttempt>;
+).annotate({ identifier: "ResourceSyncAttempt" }) as any as S.Schema<ResourceSyncAttempt>;
 export interface GetResourceSyncStatusOutput {
   DesiredState?: Revision;
   LatestSuccessfulSync?: ResourceSyncAttempt;
@@ -731,9 +695,7 @@ export interface SyncBlockerContext {
 }
 export const SyncBlockerContext = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Key: S.String, Value: S.String }),
-).annotate({
-  identifier: "SyncBlockerContext",
-}) as any as S.Schema<SyncBlockerContext>;
+).annotate({ identifier: "SyncBlockerContext" }) as any as S.Schema<SyncBlockerContext>;
 export type SyncBlockerContextList = SyncBlockerContext[];
 export const SyncBlockerContextList = /*@__PURE__*/ S.Array(SyncBlockerContext);
 export type ResolvedReason = string;
@@ -772,9 +734,7 @@ export const SyncBlockerSummary = /*@__PURE__*/ S.suspend(() =>
     ParentResourceName: S.optional(S.String),
     LatestBlockers: S.optional(LatestSyncBlockerList),
   }),
-).annotate({
-  identifier: "SyncBlockerSummary",
-}) as any as S.Schema<SyncBlockerSummary>;
+).annotate({ identifier: "SyncBlockerSummary" }) as any as S.Schema<SyncBlockerSummary>;
 export interface GetSyncBlockerSummaryOutput {
   SyncBlockerSummary: SyncBlockerSummary;
 }
@@ -817,9 +777,7 @@ export const ListConnectionsInput = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListConnectionsInput",
-}) as any as S.Schema<ListConnectionsInput>;
+).annotate({ identifier: "ListConnectionsInput" }) as any as S.Schema<ListConnectionsInput>;
 export type ConnectionList = Connection[];
 export const ConnectionList = /*@__PURE__*/ S.Array(Connection);
 export interface ListConnectionsOutput {
@@ -827,22 +785,16 @@ export interface ListConnectionsOutput {
   NextToken?: string;
 }
 export const ListConnectionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Connections: S.optional(ConnectionList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListConnectionsOutput",
-}) as any as S.Schema<ListConnectionsOutput>;
+  S.Struct({ Connections: S.optional(ConnectionList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListConnectionsOutput" }) as any as S.Schema<ListConnectionsOutput>;
 export interface ListHostsInput {
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListHostsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({ identifier: "ListHostsInput" }) as any as S.Schema<ListHostsInput>;
 export type HostStatusMessage = string;
 export interface Host {
@@ -873,22 +825,17 @@ export interface ListHostsOutput {
 }
 export const ListHostsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Hosts: S.optional(HostList), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListHostsOutput",
-}) as any as S.Schema<ListHostsOutput>;
+).annotate({ identifier: "ListHostsOutput" }) as any as S.Schema<ListHostsOutput>;
 export type SharpNextToken = string;
 export interface ListRepositoryLinksInput {
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListRepositoryLinksInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListRepositoryLinksInput",
-}) as any as S.Schema<ListRepositoryLinksInput>;
+  S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "ListRepositoryLinksInput" }) as any as S.Schema<ListRepositoryLinksInput>;
 export type RepositoryLinkList = RepositoryLinkInfo[];
 export const RepositoryLinkList = /*@__PURE__*/ S.Array(RepositoryLinkInfo);
 export interface ListRepositoryLinksOutput {
@@ -896,10 +843,7 @@ export interface ListRepositoryLinksOutput {
   NextToken?: string;
 }
 export const ListRepositoryLinksOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RepositoryLinks: RepositoryLinkList,
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ RepositoryLinks: RepositoryLinkList, NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListRepositoryLinksOutput",
 }) as any as S.Schema<ListRepositoryLinksOutput>;
@@ -908,10 +852,9 @@ export interface ListRepositorySyncDefinitionsInput {
   SyncType: SyncConfigurationType;
 }
 export const ListRepositorySyncDefinitionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RepositoryLinkId: S.String,
-    SyncType: SyncConfigurationType,
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ RepositoryLinkId: S.String, SyncType: SyncConfigurationType }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "ListRepositorySyncDefinitionsInput",
 }) as any as S.Schema<ListRepositorySyncDefinitionsInput>;
@@ -923,15 +866,8 @@ export interface RepositorySyncDefinition {
   Target: string;
 }
 export const RepositorySyncDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Branch: S.String,
-    Directory: S.String,
-    Parent: S.String,
-    Target: S.String,
-  }),
-).annotate({
-  identifier: "RepositorySyncDefinition",
-}) as any as S.Schema<RepositorySyncDefinition>;
+  S.Struct({ Branch: S.String, Directory: S.String, Parent: S.String, Target: S.String }),
+).annotate({ identifier: "RepositorySyncDefinition" }) as any as S.Schema<RepositorySyncDefinition>;
 export type RepositorySyncDefinitionList = RepositorySyncDefinition[];
 export const RepositorySyncDefinitionList = /*@__PURE__*/ S.Array(RepositorySyncDefinition);
 export interface ListRepositorySyncDefinitionsOutput {
@@ -969,10 +905,7 @@ export interface ListSyncConfigurationsOutput {
   NextToken?: string;
 }
 export const ListSyncConfigurationsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SyncConfigurations: SyncConfigurationList,
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ SyncConfigurations: SyncConfigurationList, NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListSyncConfigurationsOutput",
 }) as any as S.Schema<ListSyncConfigurationsOutput>;
@@ -984,9 +917,7 @@ export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
+).annotate({ identifier: "ListTagsForResourceInput" }) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceOutput {
   Tags?: Tag[];
 }
@@ -1003,9 +934,7 @@ export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
+).annotate({ identifier: "TagResourceInput" }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
 export const TagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceOutput",
@@ -1020,9 +949,7 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
+).annotate({ identifier: "UntagResourceInput" }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
 export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceOutput",
@@ -1038,9 +965,7 @@ export const UpdateHostInput = /*@__PURE__*/ S.suspend(() =>
     ProviderEndpoint: S.optional(S.String),
     VpcConfiguration: S.optional(VpcConfiguration),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateHostInput",
-}) as any as S.Schema<UpdateHostInput>;
+).annotate({ identifier: "UpdateHostInput" }) as any as S.Schema<UpdateHostInput>;
 export interface UpdateHostOutput {}
 export const UpdateHostOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateHostOutput",
@@ -1080,9 +1005,7 @@ export const UpdateSyncBlockerInput = /*@__PURE__*/ S.suspend(() =>
     ResourceName: S.String,
     ResolvedReason: S.String,
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateSyncBlockerInput",
-}) as any as S.Schema<UpdateSyncBlockerInput>;
+).annotate({ identifier: "UpdateSyncBlockerInput" }) as any as S.Schema<UpdateSyncBlockerInput>;
 export interface UpdateSyncBlockerOutput {
   ResourceName: string;
   ParentResourceName?: string;
@@ -1094,9 +1017,7 @@ export const UpdateSyncBlockerOutput = /*@__PURE__*/ S.suspend(() =>
     ParentResourceName: S.optional(S.String),
     SyncBlocker: SyncBlocker,
   }),
-).annotate({
-  identifier: "UpdateSyncBlockerOutput",
-}) as any as S.Schema<UpdateSyncBlockerOutput>;
+).annotate({ identifier: "UpdateSyncBlockerOutput" }) as any as S.Schema<UpdateSyncBlockerOutput>;
 export interface UpdateSyncConfigurationInput {
   Branch?: string;
   ConfigFile?: string;

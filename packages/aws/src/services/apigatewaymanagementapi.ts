@@ -111,9 +111,7 @@ export const DeleteConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteConnectionRequest",
-}) as any as S.Schema<DeleteConnectionRequest>;
+).annotate({ identifier: "DeleteConnectionRequest" }) as any as S.Schema<DeleteConnectionRequest>;
 export interface DeleteConnectionResponse {}
 export const DeleteConnectionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteConnectionResponse",
@@ -132,19 +130,16 @@ export const GetConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetConnectionRequest",
-}) as any as S.Schema<GetConnectionRequest>;
+).annotate({ identifier: "GetConnectionRequest" }) as any as S.Schema<GetConnectionRequest>;
 export type __timestampIso8601 = Date;
 export interface Identity {
   SourceIp?: string;
   UserAgent?: string;
 }
 export const Identity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceIp: S.optional(S.String),
-    UserAgent: S.optional(S.String),
-  }).pipe(S.encodeKeys({ SourceIp: "sourceIp", UserAgent: "userAgent" })),
+  S.Struct({ SourceIp: S.optional(S.String), UserAgent: S.optional(S.String) }).pipe(
+    S.encodeKeys({ SourceIp: "sourceIp", UserAgent: "userAgent" }),
+  ),
 ).annotate({ identifier: "Identity" }) as any as S.Schema<Identity>;
 export interface GetConnectionResponse {
   ConnectedAt?: Date;
@@ -163,9 +158,7 @@ export const GetConnectionResponse = /*@__PURE__*/ S.suspend(() =>
       LastActiveAt: "lastActiveAt",
     }),
   ),
-).annotate({
-  identifier: "GetConnectionResponse",
-}) as any as S.Schema<GetConnectionResponse>;
+).annotate({ identifier: "GetConnectionResponse" }) as any as S.Schema<GetConnectionResponse>;
 export interface PostToConnectionRequest {
   Data?: T.StreamingInputBody;
   ConnectionId: string;
@@ -184,9 +177,7 @@ export const PostToConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PostToConnectionRequest",
-}) as any as S.Schema<PostToConnectionRequest>;
+).annotate({ identifier: "PostToConnectionRequest" }) as any as S.Schema<PostToConnectionRequest>;
 export interface PostToConnectionResponse {}
 export const PostToConnectionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PostToConnectionResponse",

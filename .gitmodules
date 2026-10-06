@@ -408,3 +408,8 @@
 	url = https://github.com/distilled-mirror/spec-mirror-boat-dev.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/iceberg/specs/spec-mirror-iceberg"]
+	path = packages/iceberg/specs/spec-mirror-iceberg
+	url = https://github.com/distilled-mirror/spec-mirror-iceberg.git
+	ignore = dirty
+	shallow = true

@@ -165,6 +165,9 @@
         },
         {
           "target": "com.vercel.artifacts#Forbidden"
+        },
+        {
+          "target": "com.vercel.artifacts#NotFound"
         }
       ],
       "traits": {
@@ -296,6 +299,9 @@
         },
         {
           "target": "com.vercel.artifacts#Forbidden"
+        },
+        {
+          "target": "com.vercel.artifacts#NotFound"
         }
       ],
       "traits": {
@@ -518,6 +524,9 @@
         },
         {
           "target": "com.vercel.artifacts#Forbidden"
+        },
+        {
+          "target": "com.vercel.artifacts#NotFound"
         }
       ],
       "traits": {
@@ -631,13 +640,13 @@
     "com.vercel.artifacts#ArtifactQueryResponseBodyValueCase0": {
       "type": "structure",
       "members": {
-        "size": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#required": {}
-          }
+        "dirtyHash": {
+          "target": "smithy.api#String"
         },
-        "taskDurationMs": {
+        "sha": {
+          "target": "smithy.api#String"
+        },
+        "size": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {}
@@ -646,11 +655,11 @@
         "tag": {
           "target": "smithy.api#String"
         },
-        "sha": {
-          "target": "smithy.api#String"
-        },
-        "dirtyHash": {
-          "target": "smithy.api#String"
+        "taskDurationMs": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {}
@@ -736,6 +745,9 @@
         },
         {
           "target": "com.vercel.artifacts#Forbidden"
+        },
+        {
+          "target": "com.vercel.artifacts#NotFound"
         }
       ],
       "traits": {
@@ -797,6 +809,9 @@
         },
         {
           "target": "com.vercel.artifacts#Forbidden"
+        },
+        {
+          "target": "com.vercel.artifacts#NotFound"
         }
       ],
       "traits": {

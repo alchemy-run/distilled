@@ -29,20 +29,10 @@ export const CancelJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     jobId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/jobs/{namespace}/{jobId}/cancel",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CancelJobRequest",
-}) as any as S.Schema<CancelJobRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/jobs/{namespace}/{jobId}/cancel", code: 200 })),
+).annotate({ identifier: "CancelJobRequest" }) as any as S.Schema<CancelJobRequest>;
 
-export type CancelJobResponseEnvironmentMap = {
-  [key: string]: string | undefined;
-};
+export type CancelJobResponseEnvironmentMap = { [key: string]: string | undefined };
 export const CancelJobResponseEnvironmentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -169,14 +159,33 @@ export const CancelJobResponseExpose = /*@__PURE__*/ S.suspend(() =>
     ports: CancelJobResponseExposePortsList,
     portsPublic: S.optional(CancelJobResponseExposePortsPublicList),
   }),
-).annotate({
-  identifier: "CancelJobResponseExpose",
-}) as any as S.Schema<CancelJobResponseExpose>;
+).annotate({ identifier: "CancelJobResponseExpose" }) as any as S.Schema<CancelJobResponseExpose>;
+
+/** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+export type CancelJobResponseNetworkAliasesList = Array<string>;
+export const CancelJobResponseNetworkAliasesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CancelJobResponseNetworkAliasesList>;
+
+/** Network group the job belongs to. */
+export interface CancelJobResponseNetwork {
+  /** Group name, scoped to the job's owner and resource group. */
+  group: string;
+  /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+  aliases: CancelJobResponseNetworkAliasesList;
+}
+export const CancelJobResponseNetwork = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    group: S.String,
+    aliases: CancelJobResponseNetworkAliasesList,
+  }),
+).annotate({ identifier: "CancelJobResponseNetwork" }) as any as S.Schema<CancelJobResponseNetwork>;
 
 export type CancelJobResponseOwnerType = "user" | "org";
 export const CancelJobResponseOwnerType = S.String;
 
 export interface CancelJobResponseOwner {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   type: CancelJobResponseOwnerType;
@@ -189,11 +198,10 @@ export const CancelJobResponseOwner = /*@__PURE__*/ S.suspend(() =>
     type: CancelJobResponseOwnerType,
     avatarUrl: S.String,
   }),
-).annotate({
-  identifier: "CancelJobResponseOwner",
-}) as any as S.Schema<CancelJobResponseOwner>;
+).annotate({ identifier: "CancelJobResponseOwner" }) as any as S.Schema<CancelJobResponseOwner>;
 
 export interface CancelJobResponseResourceGroup {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   numUsers?: number;
@@ -212,6 +220,7 @@ export type CancelJobResponseInitiatorCase0Type = "user" | "org";
 export const CancelJobResponseInitiatorCase0Type = S.String;
 
 export interface CancelJobResponseInitiatorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   type: CancelJobResponseInitiatorCase0Type;
@@ -229,12 +238,12 @@ export const CancelJobResponseInitiatorCase0 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CancelJobResponseInitiatorCase0>;
 
 export interface CancelJobResponseInitiatorCase1 {
-  type: unknown;
+  type: string;
   id: string;
 }
 export const CancelJobResponseInitiatorCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.Unknown,
+    type: S.String,
     id: S.String,
   }),
 ).annotate({
@@ -266,7 +275,8 @@ export const CancelJobResponseStatusStage = S.String;
 export type CancelJobResponseStatusCancelReasonCase0 =
   | "NO_CREDITS"
   | "NO_SUBSCRIPTION"
-  | "RESOURCE_GROUP_LIMIT";
+  | "RESOURCE_GROUP_LIMIT"
+  | "SPEND_LIMIT";
 export const CancelJobResponseStatusCancelReasonCase0 = S.String;
 
 export type CancelJobResponseStatusCancelReason = CancelJobResponseStatusCancelReasonCase0 | string;
@@ -298,9 +308,7 @@ export const CancelJobResponseStatus = /*@__PURE__*/ S.suspend(() =>
     exposeUrls: S.optional(CancelJobResponseStatusExposeUrlsList),
     sshUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CancelJobResponseStatus",
-}) as any as S.Schema<CancelJobResponseStatus>;
+).annotate({ identifier: "CancelJobResponseStatus" }) as any as S.Schema<CancelJobResponseStatus>;
 
 export type CancelJobResponseSecretsList = Array<string>;
 export const CancelJobResponseSecretsList = /*@__PURE__*/ S.Array(
@@ -320,6 +328,7 @@ export interface CancelJobResponseHfToken {
   ownerName: string;
   orgName?: string;
   tokenRole?: CancelJobResponseHfTokenTokenRole;
+  /** A hex string of 24 characters representing an ObjectId. */
   tokenId?: string;
   settingsUrl?: string;
 }
@@ -331,9 +340,7 @@ export const CancelJobResponseHfToken = /*@__PURE__*/ S.suspend(() =>
     tokenId: S.optional(S.String),
     settingsUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CancelJobResponseHfToken",
-}) as any as S.Schema<CancelJobResponseHfToken>;
+).annotate({ identifier: "CancelJobResponseHfToken" }) as any as S.Schema<CancelJobResponseHfToken>;
 
 export interface CancelJobResponse {
   id: string;
@@ -355,7 +362,9 @@ export interface CancelJobResponse {
   volumes?: CancelJobResponseVolumesList;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
   expose?: CancelJobResponseExpose;
-  type: unknown;
+  /** Network group the job belongs to. */
+  network?: CancelJobResponseNetwork;
+  type: string;
   owner: CancelJobResponseOwner;
   resourceGroup?: CancelJobResponseResourceGroup;
   initiator?: CancelJobResponseInitiator;
@@ -384,7 +393,8 @@ export const CancelJobResponse = /*@__PURE__*/ S.suspend(() =>
     durations: S.optional(CancelJobResponseDurations),
     volumes: S.optional(CancelJobResponseVolumesList),
     expose: S.optional(CancelJobResponseExpose),
-    type: S.Unknown,
+    network: S.optional(CancelJobResponseNetwork),
+    type: S.String,
     owner: CancelJobResponseOwner,
     resourceGroup: S.optional(CancelJobResponseResourceGroup),
     initiator: S.optional(CancelJobResponseInitiator),
@@ -393,9 +403,7 @@ export const CancelJobResponse = /*@__PURE__*/ S.suspend(() =>
     labels: S.optional(CancelJobResponseLabelsMap),
     hfToken: S.optional(CancelJobResponseHfToken),
   }),
-).annotate({
-  identifier: "CancelJobResponse",
-}) as any as S.Schema<CancelJobResponse>;
+).annotate({ identifier: "CancelJobResponse" }) as any as S.Schema<CancelJobResponse>;
 
 export type CheckJobAccessRequestPerms = "read" | "write";
 export const CheckJobAccessRequestPerms = S.String;
@@ -411,15 +419,9 @@ export const CheckJobAccessRequest = /*@__PURE__*/ S.suspend(() =>
     jobId: S.String.pipe(T.Label()),
     perms: CheckJobAccessRequestPerms.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/jobs/{namespace}/{jobId}/auth-check/{perms}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/jobs/{namespace}/{jobId}/auth-check/{perms}", code: 200 }),
   ),
-).annotate({
-  identifier: "CheckJobAccessRequest",
-}) as any as S.Schema<CheckJobAccessRequest>;
+).annotate({ identifier: "CheckJobAccessRequest" }) as any as S.Schema<CheckJobAccessRequest>;
 
 export type CheckJobAccessResponseNamespace = CancelJobResponseCreatedBy;
 export const CheckJobAccessResponseNamespace = CancelJobResponseCreatedBy;
@@ -436,9 +438,7 @@ export const CheckJobAccessResponse = /*@__PURE__*/ S.suspend(() =>
     namespace: CancelJobResponseCreatedBy,
     user: CancelJobResponseCreatedBy,
   }),
-).annotate({
-  identifier: "CheckJobAccessResponse",
-}) as any as S.Schema<CheckJobAccessResponse>;
+).annotate({ identifier: "CheckJobAccessResponse" }) as any as S.Schema<CheckJobAccessResponse>;
 
 export type CheckNamespaceAccessRequestPerms = "read" | "write";
 export const CheckNamespaceAccessRequestPerms = S.String;
@@ -451,13 +451,7 @@ export const CheckNamespaceAccessRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     perms: CheckNamespaceAccessRequestPerms.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/jobs/{namespace}/auth-check/{perms}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/jobs/{namespace}/auth-check/{perms}", code: 200 })),
 ).annotate({
   identifier: "CheckNamespaceAccessRequest",
 }) as any as S.Schema<CheckNamespaceAccessRequest>;
@@ -516,9 +510,7 @@ export const CountJobsRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     stage: S.optional(CountJobsRequestStage.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/jobs/{namespace}/count", code: 200 })),
-).annotate({
-  identifier: "CountJobsRequest",
-}) as any as S.Schema<CountJobsRequest>;
+).annotate({ identifier: "CountJobsRequest" }) as any as S.Schema<CountJobsRequest>;
 
 export interface CountJobsResponse {
   count: number;
@@ -527,37 +519,33 @@ export const CountJobsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     count: S.Number,
   }),
-).annotate({
-  identifier: "CountJobsResponse",
-}) as any as S.Schema<CountJobsResponse>;
+).annotate({ identifier: "CountJobsResponse" }) as any as S.Schema<CountJobsResponse>;
 
-export type CreateScheduledJobRequestJobSpecArgumentsList = Array<string>;
-export const CreateScheduledJobRequestJobSpecArgumentsList = /*@__PURE__*/ S.Array(
+export type CreateScheduledJobRequestJobSpecCase0ArgumentsList = Array<string>;
+export const CreateScheduledJobRequestJobSpecCase0ArgumentsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<CreateScheduledJobRequestJobSpecArgumentsList>;
+) as any as S.Schema<CreateScheduledJobRequestJobSpecCase0ArgumentsList>;
 
-export type CreateScheduledJobRequestJobSpecCommandList = Array<string>;
-export const CreateScheduledJobRequestJobSpecCommandList = /*@__PURE__*/ S.Array(
+export type CreateScheduledJobRequestJobSpecCase0CommandList = Array<string>;
+export const CreateScheduledJobRequestJobSpecCase0CommandList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<CreateScheduledJobRequestJobSpecCommandList>;
+) as any as S.Schema<CreateScheduledJobRequestJobSpecCase0CommandList>;
 
-export type CreateScheduledJobRequestJobSpecEnvironmentMap = {
+export type CreateScheduledJobRequestJobSpecCase0EnvironmentMap = {
   [key: string]: string | undefined;
 };
-export const CreateScheduledJobRequestJobSpecEnvironmentMap = /*@__PURE__*/ S.Record(
+export const CreateScheduledJobRequestJobSpecCase0EnvironmentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
-) as any as S.Schema<CreateScheduledJobRequestJobSpecEnvironmentMap>;
+) as any as S.Schema<CreateScheduledJobRequestJobSpecCase0EnvironmentMap>;
 
-export type CreateScheduledJobRequestJobSpecSecretsMap = {
-  [key: string]: string | undefined;
-};
-export const CreateScheduledJobRequestJobSpecSecretsMap = /*@__PURE__*/ S.Record(
+export type CreateScheduledJobRequestJobSpecCase0SecretsMap = { [key: string]: string | undefined };
+export const CreateScheduledJobRequestJobSpecCase0SecretsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
-) as any as S.Schema<CreateScheduledJobRequestJobSpecSecretsMap>;
+) as any as S.Schema<CreateScheduledJobRequestJobSpecCase0SecretsMap>;
 
-export type CreateScheduledJobRequestJobSpecFlavor =
+export type CreateScheduledJobRequestJobSpecCase0Flavor =
   | "cpu-basic"
   | "cpu-upgrade"
   | "cpu-performance"
@@ -587,29 +575,27 @@ export type CreateScheduledJobRequestJobSpecFlavor =
   | "rtx-pro-6000x4"
   | "rtx-pro-6000x8"
   | "inf2x6";
-export const CreateScheduledJobRequestJobSpecFlavor = S.String;
+export const CreateScheduledJobRequestJobSpecCase0Flavor = S.String;
 
-export type CreateScheduledJobRequestJobSpecArch = "amd64" | "arm64";
-export const CreateScheduledJobRequestJobSpecArch = S.String;
+export type CreateScheduledJobRequestJobSpecCase0Arch = "amd64" | "arm64";
+export const CreateScheduledJobRequestJobSpecCase0Arch = S.String;
 
-/** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dots, dashes, and underscores. */
-export type CreateScheduledJobRequestJobSpecLabelsMap = {
-  [key: string]: string | undefined;
-};
-export const CreateScheduledJobRequestJobSpecLabelsMap = /*@__PURE__*/ S.Record(
+/** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
+export type CreateScheduledJobRequestJobSpecCase0LabelsMap = { [key: string]: string | undefined };
+export const CreateScheduledJobRequestJobSpecCase0LabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
-) as any as S.Schema<CreateScheduledJobRequestJobSpecLabelsMap>;
+) as any as S.Schema<CreateScheduledJobRequestJobSpecCase0LabelsMap>;
 
-export type CreateScheduledJobRequestJobSpecVolumesItemType =
+export type CreateScheduledJobRequestJobSpecCase0VolumesItemType =
   | "bucket"
   | "model"
   | "dataset"
   | "space";
-export const CreateScheduledJobRequestJobSpecVolumesItemType = S.String;
+export const CreateScheduledJobRequestJobSpecCase0VolumesItemType = S.String;
 
-export interface CreateScheduledJobRequestJobSpecVolumesItem {
-  type: CreateScheduledJobRequestJobSpecVolumesItemType | (string & {});
+export interface CreateScheduledJobRequestJobSpecCase0VolumesItem {
+  type: CreateScheduledJobRequestJobSpecCase0VolumesItemType | (string & {});
   /** Source identifier, e.g. 'username/my-bucket' or 'username/my-model' */
   source: string;
   /** Mount path inside the container, e.g. '/data' */
@@ -621,9 +607,9 @@ export interface CreateScheduledJobRequestJobSpecVolumesItem {
   /** Subfolder prefix inside the bucket/repo to mount, e.g. 'path/to/dir' */
   path?: string;
 }
-export const CreateScheduledJobRequestJobSpecVolumesItem = /*@__PURE__*/ S.suspend(() =>
+export const CreateScheduledJobRequestJobSpecCase0VolumesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: CreateScheduledJobRequestJobSpecVolumesItemType,
+    type: CreateScheduledJobRequestJobSpecCase0VolumesItemType,
     source: S.String,
     mountPath: S.String,
     revision: S.optional(S.String),
@@ -631,97 +617,333 @@ export const CreateScheduledJobRequestJobSpecVolumesItem = /*@__PURE__*/ S.suspe
     path: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "CreateScheduledJobRequestJobSpecVolumesItem",
-}) as any as S.Schema<CreateScheduledJobRequestJobSpecVolumesItem>;
+  identifier: "CreateScheduledJobRequestJobSpecCase0VolumesItem",
+}) as any as S.Schema<CreateScheduledJobRequestJobSpecCase0VolumesItem>;
 
 /** HuggingFace Buckets or Repos to mount as volumes in the job container. */
-export type CreateScheduledJobRequestJobSpecVolumesList =
-  Array<CreateScheduledJobRequestJobSpecVolumesItem>;
-export const CreateScheduledJobRequestJobSpecVolumesList = /*@__PURE__*/ S.Array(
-  CreateScheduledJobRequestJobSpecVolumesItem,
-) as any as S.Schema<CreateScheduledJobRequestJobSpecVolumesList>;
+export type CreateScheduledJobRequestJobSpecCase0VolumesList =
+  Array<CreateScheduledJobRequestJobSpecCase0VolumesItem>;
+export const CreateScheduledJobRequestJobSpecCase0VolumesList = /*@__PURE__*/ S.Array(
+  CreateScheduledJobRequestJobSpecCase0VolumesItem,
+) as any as S.Schema<CreateScheduledJobRequestJobSpecCase0VolumesList>;
 
-export type CreateScheduledJobRequestJobSpecExposePortsList = Array<number>;
-export const CreateScheduledJobRequestJobSpecExposePortsList = /*@__PURE__*/ S.Array(
+export type CreateScheduledJobRequestJobSpecCase0ExposePortsList = Array<number>;
+export const CreateScheduledJobRequestJobSpecCase0ExposePortsList = /*@__PURE__*/ S.Array(
   S.Number,
-) as any as S.Schema<CreateScheduledJobRequestJobSpecExposePortsList>;
+) as any as S.Schema<CreateScheduledJobRequestJobSpecCase0ExposePortsList>;
 
 /** Subset of `ports` reachable without any authentication. */
-export type CreateScheduledJobRequestJobSpecExposePortsPublicList = Array<number>;
-export const CreateScheduledJobRequestJobSpecExposePortsPublicList = /*@__PURE__*/ S.Array(
+export type CreateScheduledJobRequestJobSpecCase0ExposePortsPublicList = Array<number>;
+export const CreateScheduledJobRequestJobSpecCase0ExposePortsPublicList = /*@__PURE__*/ S.Array(
   S.Number,
-) as any as S.Schema<CreateScheduledJobRequestJobSpecExposePortsPublicList>;
+) as any as S.Schema<CreateScheduledJobRequestJobSpecCase0ExposePortsPublicList>;
 
 /** Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`. */
-export interface CreateScheduledJobRequestJobSpecExpose {
-  ports: CreateScheduledJobRequestJobSpecExposePortsList;
+export interface CreateScheduledJobRequestJobSpecCase0Expose {
+  ports: CreateScheduledJobRequestJobSpecCase0ExposePortsList;
   /** Subset of `ports` reachable without any authentication. */
-  portsPublic?: CreateScheduledJobRequestJobSpecExposePortsPublicList;
+  portsPublic?: CreateScheduledJobRequestJobSpecCase0ExposePortsPublicList;
 }
-export const CreateScheduledJobRequestJobSpecExpose = /*@__PURE__*/ S.suspend(() =>
+export const CreateScheduledJobRequestJobSpecCase0Expose = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ports: CreateScheduledJobRequestJobSpecExposePortsList,
-    portsPublic: S.optional(CreateScheduledJobRequestJobSpecExposePortsPublicList),
+    ports: CreateScheduledJobRequestJobSpecCase0ExposePortsList,
+    portsPublic: S.optional(CreateScheduledJobRequestJobSpecCase0ExposePortsPublicList),
   }),
 ).annotate({
-  identifier: "CreateScheduledJobRequestJobSpecExpose",
-}) as any as S.Schema<CreateScheduledJobRequestJobSpecExpose>;
+  identifier: "CreateScheduledJobRequestJobSpecCase0Expose",
+}) as any as S.Schema<CreateScheduledJobRequestJobSpecCase0Expose>;
 
 /** When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub. */
-export interface CreateScheduledJobRequestJobSpecSsh {
+export interface CreateScheduledJobRequestJobSpecCase0Ssh {
   enabled?: boolean;
 }
-export const CreateScheduledJobRequestJobSpecSsh = /*@__PURE__*/ S.suspend(() =>
+export const CreateScheduledJobRequestJobSpecCase0Ssh = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "CreateScheduledJobRequestJobSpecSsh",
-}) as any as S.Schema<CreateScheduledJobRequestJobSpecSsh>;
+  identifier: "CreateScheduledJobRequestJobSpecCase0Ssh",
+}) as any as S.Schema<CreateScheduledJobRequestJobSpecCase0Ssh>;
 
-export interface CreateScheduledJobRequestJobSpec {
-  spaceId?: string;
+/** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+export type CreateScheduledJobRequestJobSpecCase0NetworkAliasesList = Array<string>;
+export const CreateScheduledJobRequestJobSpecCase0NetworkAliasesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateScheduledJobRequestJobSpecCase0NetworkAliasesList>;
+
+/** Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname. */
+export interface CreateScheduledJobRequestJobSpecCase0Network {
+  /** Group name, scoped to the job's owner and resource group. */
+  group: string;
+  /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+  aliases?: CreateScheduledJobRequestJobSpecCase0NetworkAliasesList;
+}
+export const CreateScheduledJobRequestJobSpecCase0Network = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    group: S.String,
+    aliases: S.optional(CreateScheduledJobRequestJobSpecCase0NetworkAliasesList),
+  }),
+).annotate({
+  identifier: "CreateScheduledJobRequestJobSpecCase0Network",
+}) as any as S.Schema<CreateScheduledJobRequestJobSpecCase0Network>;
+
+export interface CreateScheduledJobRequestJobSpecCase0 {
+  spaceId: unknown;
   dockerImage?: string;
-  arguments?: CreateScheduledJobRequestJobSpecArgumentsList;
-  command?: CreateScheduledJobRequestJobSpecCommandList;
-  environment?: CreateScheduledJobRequestJobSpecEnvironmentMap;
-  secrets?: CreateScheduledJobRequestJobSpecSecretsMap;
-  flavor: CreateScheduledJobRequestJobSpecFlavor | (string & {});
-  arch?: CreateScheduledJobRequestJobSpecArch | (string & {});
+  arguments?: CreateScheduledJobRequestJobSpecCase0ArgumentsList;
+  command?: CreateScheduledJobRequestJobSpecCase0CommandList;
+  environment?: CreateScheduledJobRequestJobSpecCase0EnvironmentMap;
+  secrets?: CreateScheduledJobRequestJobSpecCase0SecretsMap;
+  flavor: CreateScheduledJobRequestJobSpecCase0Flavor | (string & {});
+  arch?: CreateScheduledJobRequestJobSpecCase0Arch | (string & {});
   timeoutSeconds?: number | null;
   /** Max number of attempts to make. For example, if you set this to 3, the job will be retried up to 2 times if it fails. */
   attempts?: number;
-  /** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dots, dashes, and underscores. */
-  labels?: CreateScheduledJobRequestJobSpecLabelsMap;
+  /** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
+  labels?: CreateScheduledJobRequestJobSpecCase0LabelsMap;
   /** HuggingFace Buckets or Repos to mount as volumes in the job container. */
-  volumes?: CreateScheduledJobRequestJobSpecVolumesList;
+  volumes?: CreateScheduledJobRequestJobSpecCase0VolumesList;
   /** Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`. */
-  expose?: CreateScheduledJobRequestJobSpecExpose;
+  expose?: CreateScheduledJobRequestJobSpecCase0Expose;
   /** When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub. */
-  ssh?: CreateScheduledJobRequestJobSpecSsh;
+  ssh?: CreateScheduledJobRequestJobSpecCase0Ssh;
+  /** Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname. */
+  network?: CreateScheduledJobRequestJobSpecCase0Network;
   resourceGroupId?: string;
 }
-export const CreateScheduledJobRequestJobSpec = /*@__PURE__*/ S.suspend(() =>
+export const CreateScheduledJobRequestJobSpecCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    spaceId: S.optional(S.String),
+    spaceId: S.Unknown,
     dockerImage: S.optional(S.String),
-    arguments: S.optional(CreateScheduledJobRequestJobSpecArgumentsList),
-    command: S.optional(CreateScheduledJobRequestJobSpecCommandList),
-    environment: S.optional(CreateScheduledJobRequestJobSpecEnvironmentMap),
-    secrets: S.optional(CreateScheduledJobRequestJobSpecSecretsMap),
-    flavor: CreateScheduledJobRequestJobSpecFlavor,
-    arch: S.optional(CreateScheduledJobRequestJobSpecArch),
+    arguments: S.optional(CreateScheduledJobRequestJobSpecCase0ArgumentsList),
+    command: S.optional(CreateScheduledJobRequestJobSpecCase0CommandList),
+    environment: S.optional(CreateScheduledJobRequestJobSpecCase0EnvironmentMap),
+    secrets: S.optional(CreateScheduledJobRequestJobSpecCase0SecretsMap),
+    flavor: CreateScheduledJobRequestJobSpecCase0Flavor,
+    arch: S.optional(CreateScheduledJobRequestJobSpecCase0Arch),
     timeoutSeconds: S.optional(S.NullOr(S.Number)),
     attempts: S.optional(S.Number),
-    labels: S.optional(CreateScheduledJobRequestJobSpecLabelsMap),
-    volumes: S.optional(CreateScheduledJobRequestJobSpecVolumesList),
-    expose: S.optional(CreateScheduledJobRequestJobSpecExpose),
-    ssh: S.optional(CreateScheduledJobRequestJobSpecSsh),
+    labels: S.optional(CreateScheduledJobRequestJobSpecCase0LabelsMap),
+    volumes: S.optional(CreateScheduledJobRequestJobSpecCase0VolumesList),
+    expose: S.optional(CreateScheduledJobRequestJobSpecCase0Expose),
+    ssh: S.optional(CreateScheduledJobRequestJobSpecCase0Ssh),
+    network: S.optional(CreateScheduledJobRequestJobSpecCase0Network),
     resourceGroupId: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "CreateScheduledJobRequestJobSpec",
-}) as any as S.Schema<CreateScheduledJobRequestJobSpec>;
+  identifier: "CreateScheduledJobRequestJobSpecCase0",
+}) as any as S.Schema<CreateScheduledJobRequestJobSpecCase0>;
+
+export type CreateScheduledJobRequestJobSpecCase1ArgumentsList = Array<string>;
+export const CreateScheduledJobRequestJobSpecCase1ArgumentsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateScheduledJobRequestJobSpecCase1ArgumentsList>;
+
+export type CreateScheduledJobRequestJobSpecCase1CommandList = Array<string>;
+export const CreateScheduledJobRequestJobSpecCase1CommandList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateScheduledJobRequestJobSpecCase1CommandList>;
+
+export type CreateScheduledJobRequestJobSpecCase1EnvironmentMap = {
+  [key: string]: string | undefined;
+};
+export const CreateScheduledJobRequestJobSpecCase1EnvironmentMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<CreateScheduledJobRequestJobSpecCase1EnvironmentMap>;
+
+export type CreateScheduledJobRequestJobSpecCase1SecretsMap = { [key: string]: string | undefined };
+export const CreateScheduledJobRequestJobSpecCase1SecretsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<CreateScheduledJobRequestJobSpecCase1SecretsMap>;
+
+export type CreateScheduledJobRequestJobSpecCase1Flavor =
+  | "cpu-basic"
+  | "cpu-upgrade"
+  | "cpu-performance"
+  | "cpu-xl"
+  | "sprx8"
+  | "zero-a10g"
+  | "t4-small"
+  | "t4-medium"
+  | "l4x1"
+  | "l4x4"
+  | "l40sx1"
+  | "l40sx4"
+  | "l40sx8"
+  | "a10g-small"
+  | "a10g-large"
+  | "a10g-largex2"
+  | "a10g-largex4"
+  | "a100-large"
+  | "a100x4"
+  | "a100x8"
+  | "h200"
+  | "h200x2"
+  | "h200x4"
+  | "h200x8"
+  | "rtx-pro-6000"
+  | "rtx-pro-6000x2"
+  | "rtx-pro-6000x4"
+  | "rtx-pro-6000x8"
+  | "inf2x6";
+export const CreateScheduledJobRequestJobSpecCase1Flavor = S.String;
+
+export type CreateScheduledJobRequestJobSpecCase1Arch = "amd64" | "arm64";
+export const CreateScheduledJobRequestJobSpecCase1Arch = S.String;
+
+/** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
+export type CreateScheduledJobRequestJobSpecCase1LabelsMap = { [key: string]: string | undefined };
+export const CreateScheduledJobRequestJobSpecCase1LabelsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<CreateScheduledJobRequestJobSpecCase1LabelsMap>;
+
+export type CreateScheduledJobRequestJobSpecCase1VolumesItemType =
+  | "bucket"
+  | "model"
+  | "dataset"
+  | "space";
+export const CreateScheduledJobRequestJobSpecCase1VolumesItemType = S.String;
+
+export interface CreateScheduledJobRequestJobSpecCase1VolumesItem {
+  type: CreateScheduledJobRequestJobSpecCase1VolumesItemType | (string & {});
+  /** Source identifier, e.g. 'username/my-bucket' or 'username/my-model' */
+  source: string;
+  /** Mount path inside the container, e.g. '/data' */
+  mountPath: string;
+  /** Git revision (only for repos, defaults to 'main') */
+  revision?: string;
+  /** Read-only mount (true for repos, false default for buckets) */
+  readOnly?: boolean;
+  /** Subfolder prefix inside the bucket/repo to mount, e.g. 'path/to/dir' */
+  path?: string;
+}
+export const CreateScheduledJobRequestJobSpecCase1VolumesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: CreateScheduledJobRequestJobSpecCase1VolumesItemType,
+    source: S.String,
+    mountPath: S.String,
+    revision: S.optional(S.String),
+    readOnly: S.optional(S.Boolean),
+    path: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreateScheduledJobRequestJobSpecCase1VolumesItem",
+}) as any as S.Schema<CreateScheduledJobRequestJobSpecCase1VolumesItem>;
+
+/** HuggingFace Buckets or Repos to mount as volumes in the job container. */
+export type CreateScheduledJobRequestJobSpecCase1VolumesList =
+  Array<CreateScheduledJobRequestJobSpecCase1VolumesItem>;
+export const CreateScheduledJobRequestJobSpecCase1VolumesList = /*@__PURE__*/ S.Array(
+  CreateScheduledJobRequestJobSpecCase1VolumesItem,
+) as any as S.Schema<CreateScheduledJobRequestJobSpecCase1VolumesList>;
+
+export type CreateScheduledJobRequestJobSpecCase1ExposePortsList = Array<number>;
+export const CreateScheduledJobRequestJobSpecCase1ExposePortsList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<CreateScheduledJobRequestJobSpecCase1ExposePortsList>;
+
+/** Subset of `ports` reachable without any authentication. */
+export type CreateScheduledJobRequestJobSpecCase1ExposePortsPublicList = Array<number>;
+export const CreateScheduledJobRequestJobSpecCase1ExposePortsPublicList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<CreateScheduledJobRequestJobSpecCase1ExposePortsPublicList>;
+
+/** Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`. */
+export interface CreateScheduledJobRequestJobSpecCase1Expose {
+  ports: CreateScheduledJobRequestJobSpecCase1ExposePortsList;
+  /** Subset of `ports` reachable without any authentication. */
+  portsPublic?: CreateScheduledJobRequestJobSpecCase1ExposePortsPublicList;
+}
+export const CreateScheduledJobRequestJobSpecCase1Expose = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ports: CreateScheduledJobRequestJobSpecCase1ExposePortsList,
+    portsPublic: S.optional(CreateScheduledJobRequestJobSpecCase1ExposePortsPublicList),
+  }),
+).annotate({
+  identifier: "CreateScheduledJobRequestJobSpecCase1Expose",
+}) as any as S.Schema<CreateScheduledJobRequestJobSpecCase1Expose>;
+
+/** When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub. */
+export type CreateScheduledJobRequestJobSpecCase1Ssh = CreateScheduledJobRequestJobSpecCase0Ssh;
+export const CreateScheduledJobRequestJobSpecCase1Ssh = CreateScheduledJobRequestJobSpecCase0Ssh;
+
+/** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+export type CreateScheduledJobRequestJobSpecCase1NetworkAliasesList = Array<string>;
+export const CreateScheduledJobRequestJobSpecCase1NetworkAliasesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateScheduledJobRequestJobSpecCase1NetworkAliasesList>;
+
+/** Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname. */
+export interface CreateScheduledJobRequestJobSpecCase1Network {
+  /** Group name, scoped to the job's owner and resource group. */
+  group: string;
+  /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+  aliases?: CreateScheduledJobRequestJobSpecCase1NetworkAliasesList;
+}
+export const CreateScheduledJobRequestJobSpecCase1Network = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    group: S.String,
+    aliases: S.optional(CreateScheduledJobRequestJobSpecCase1NetworkAliasesList),
+  }),
+).annotate({
+  identifier: "CreateScheduledJobRequestJobSpecCase1Network",
+}) as any as S.Schema<CreateScheduledJobRequestJobSpecCase1Network>;
+
+export interface CreateScheduledJobRequestJobSpecCase1 {
+  spaceId?: string;
+  dockerImage: unknown;
+  arguments?: CreateScheduledJobRequestJobSpecCase1ArgumentsList;
+  command?: CreateScheduledJobRequestJobSpecCase1CommandList;
+  environment?: CreateScheduledJobRequestJobSpecCase1EnvironmentMap;
+  secrets?: CreateScheduledJobRequestJobSpecCase1SecretsMap;
+  flavor: CreateScheduledJobRequestJobSpecCase1Flavor | (string & {});
+  arch?: CreateScheduledJobRequestJobSpecCase1Arch | (string & {});
+  timeoutSeconds?: number | null;
+  /** Max number of attempts to make. For example, if you set this to 3, the job will be retried up to 2 times if it fails. */
+  attempts?: number;
+  /** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
+  labels?: CreateScheduledJobRequestJobSpecCase1LabelsMap;
+  /** HuggingFace Buckets or Repos to mount as volumes in the job container. */
+  volumes?: CreateScheduledJobRequestJobSpecCase1VolumesList;
+  /** Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`. */
+  expose?: CreateScheduledJobRequestJobSpecCase1Expose;
+  /** When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub. */
+  ssh?: CreateScheduledJobRequestJobSpecCase0Ssh;
+  /** Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname. */
+  network?: CreateScheduledJobRequestJobSpecCase1Network;
+  resourceGroupId?: string;
+}
+export const CreateScheduledJobRequestJobSpecCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    spaceId: S.optional(S.String),
+    dockerImage: S.Unknown,
+    arguments: S.optional(CreateScheduledJobRequestJobSpecCase1ArgumentsList),
+    command: S.optional(CreateScheduledJobRequestJobSpecCase1CommandList),
+    environment: S.optional(CreateScheduledJobRequestJobSpecCase1EnvironmentMap),
+    secrets: S.optional(CreateScheduledJobRequestJobSpecCase1SecretsMap),
+    flavor: CreateScheduledJobRequestJobSpecCase1Flavor,
+    arch: S.optional(CreateScheduledJobRequestJobSpecCase1Arch),
+    timeoutSeconds: S.optional(S.NullOr(S.Number)),
+    attempts: S.optional(S.Number),
+    labels: S.optional(CreateScheduledJobRequestJobSpecCase1LabelsMap),
+    volumes: S.optional(CreateScheduledJobRequestJobSpecCase1VolumesList),
+    expose: S.optional(CreateScheduledJobRequestJobSpecCase1Expose),
+    ssh: S.optional(CreateScheduledJobRequestJobSpecCase0Ssh),
+    network: S.optional(CreateScheduledJobRequestJobSpecCase1Network),
+    resourceGroupId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreateScheduledJobRequestJobSpecCase1",
+}) as any as S.Schema<CreateScheduledJobRequestJobSpecCase1>;
+
+export type CreateScheduledJobRequestJobSpec =
+  | CreateScheduledJobRequestJobSpecCase0
+  | CreateScheduledJobRequestJobSpecCase1;
+export const CreateScheduledJobRequestJobSpec =
+  S.Unknown as any as S.Schema<CreateScheduledJobRequestJobSpec>;
 
 export interface CreateScheduledJobRequest {
   namespace: string;
@@ -740,13 +962,7 @@ export const CreateScheduledJobRequest = /*@__PURE__*/ S.suspend(() =>
     schedule: S.String,
     suspend: S.optional(S.Boolean),
     concurrency: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/scheduled-jobs/{namespace}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/scheduled-jobs/{namespace}", code: 200 })),
 ).annotate({
   identifier: "CreateScheduledJobRequest",
 }) as any as S.Schema<CreateScheduledJobRequest>;
@@ -781,6 +997,7 @@ export type CreateScheduledJobResponseOwnerType = "user" | "org";
 export const CreateScheduledJobResponseOwnerType = S.String;
 
 export interface CreateScheduledJobResponseOwner {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   avatarUrl: string;
@@ -801,6 +1018,7 @@ export type CreateScheduledJobResponseInitiatorType = "user" | "org";
 export const CreateScheduledJobResponseInitiatorType = S.String;
 
 export interface CreateScheduledJobResponseInitiator {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   avatarUrl: string;
@@ -817,9 +1035,7 @@ export const CreateScheduledJobResponseInitiator = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateScheduledJobResponseInitiator",
 }) as any as S.Schema<CreateScheduledJobResponseInitiator>;
 
-export type CreateScheduledJobResponseJobSpecEnvironmentMap = {
-  [key: string]: string | undefined;
-};
+export type CreateScheduledJobResponseJobSpecEnvironmentMap = { [key: string]: string | undefined };
 export const CreateScheduledJobResponseJobSpecEnvironmentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -907,6 +1123,28 @@ export const CreateScheduledJobResponseJobSpecExpose = /*@__PURE__*/ S.suspend((
   identifier: "CreateScheduledJobResponseJobSpecExpose",
 }) as any as S.Schema<CreateScheduledJobResponseJobSpecExpose>;
 
+/** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+export type CreateScheduledJobResponseJobSpecNetworkAliasesList = Array<string>;
+export const CreateScheduledJobResponseJobSpecNetworkAliasesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateScheduledJobResponseJobSpecNetworkAliasesList>;
+
+/** Network group the job belongs to. */
+export interface CreateScheduledJobResponseJobSpecNetwork {
+  /** Group name, scoped to the job's owner and resource group. */
+  group: string;
+  /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+  aliases: CreateScheduledJobResponseJobSpecNetworkAliasesList;
+}
+export const CreateScheduledJobResponseJobSpecNetwork = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    group: S.String,
+    aliases: CreateScheduledJobResponseJobSpecNetworkAliasesList,
+  }),
+).annotate({
+  identifier: "CreateScheduledJobResponseJobSpecNetwork",
+}) as any as S.Schema<CreateScheduledJobResponseJobSpecNetwork>;
+
 export type CreateScheduledJobResponseJobSpecResourceGroup = CancelJobResponseResourceGroup;
 export const CreateScheduledJobResponseJobSpecResourceGroup = CancelJobResponseResourceGroup;
 
@@ -915,9 +1153,7 @@ export const CreateScheduledJobResponseJobSpecSecretsList = /*@__PURE__*/ S.Arra
   S.String,
 ) as any as S.Schema<CreateScheduledJobResponseJobSpecSecretsList>;
 
-export type CreateScheduledJobResponseJobSpecLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateScheduledJobResponseJobSpecLabelsMap = { [key: string]: string | undefined };
 export const CreateScheduledJobResponseJobSpecLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -930,6 +1166,7 @@ export interface CreateScheduledJobResponseJobSpecHfToken {
   ownerName: string;
   orgName?: string;
   tokenRole?: CreateScheduledJobResponseJobSpecHfTokenTokenRole;
+  /** A hex string of 24 characters representing an ObjectId. */
   tokenId?: string;
   settingsUrl?: string;
 }
@@ -962,6 +1199,8 @@ export interface CreateScheduledJobResponseJobSpec {
   volumes?: CreateScheduledJobResponseJobSpecVolumesList;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
   expose?: CreateScheduledJobResponseJobSpecExpose;
+  /** Network group the job belongs to. */
+  network?: CreateScheduledJobResponseJobSpecNetwork;
   resourceGroup?: CancelJobResponseResourceGroup;
   secrets?: CreateScheduledJobResponseJobSpecSecretsList;
   labels?: CreateScheduledJobResponseJobSpecLabelsMap;
@@ -984,6 +1223,7 @@ export const CreateScheduledJobResponseJobSpec = /*@__PURE__*/ S.suspend(() =>
     durations: S.optional(CancelJobResponseDurations),
     volumes: S.optional(CreateScheduledJobResponseJobSpecVolumesList),
     expose: S.optional(CreateScheduledJobResponseJobSpecExpose),
+    network: S.optional(CreateScheduledJobResponseJobSpecNetwork),
     resourceGroup: S.optional(CancelJobResponseResourceGroup),
     secrets: S.optional(CreateScheduledJobResponseJobSpecSecretsList),
     labels: S.optional(CreateScheduledJobResponseJobSpecLabelsMap),
@@ -1001,7 +1241,7 @@ export interface CreateScheduledJobResponse {
   suspendReason?: string;
   concurrency: boolean;
   status: CreateScheduledJobResponseStatus;
-  type: unknown;
+  type: string;
   owner: CreateScheduledJobResponseOwner;
   initiator?: CreateScheduledJobResponseInitiator;
   jobSpec: CreateScheduledJobResponseJobSpec;
@@ -1015,7 +1255,7 @@ export const CreateScheduledJobResponse = /*@__PURE__*/ S.suspend(() =>
     suspendReason: S.optional(S.String),
     concurrency: S.Boolean,
     status: CreateScheduledJobResponseStatus,
-    type: S.Unknown,
+    type: S.String,
     owner: CreateScheduledJobResponseOwner,
     initiator: S.optional(CreateScheduledJobResponseInitiator),
     jobSpec: CreateScheduledJobResponseJobSpec,
@@ -1032,13 +1272,7 @@ export const DeleteScheduledJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     jobId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/scheduled-jobs/{namespace}/{jobId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/scheduled-jobs/{namespace}/{jobId}", code: 200 })),
 ).annotate({
   identifier: "DeleteScheduledJobRequest",
 }) as any as S.Schema<DeleteScheduledJobRequest>;
@@ -1056,20 +1290,10 @@ export const DuplicateJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     jobId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/jobs/{namespace}/{jobId}/duplicate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DuplicateJobRequest",
-}) as any as S.Schema<DuplicateJobRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/jobs/{namespace}/{jobId}/duplicate", code: 200 })),
+).annotate({ identifier: "DuplicateJobRequest" }) as any as S.Schema<DuplicateJobRequest>;
 
-export type DuplicateJobResponseEnvironmentMap = {
-  [key: string]: string | undefined;
-};
+export type DuplicateJobResponseEnvironmentMap = { [key: string]: string | undefined };
 export const DuplicateJobResponseEnvironmentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1160,10 +1384,33 @@ export const DuplicateJobResponseExpose = /*@__PURE__*/ S.suspend(() =>
   identifier: "DuplicateJobResponseExpose",
 }) as any as S.Schema<DuplicateJobResponseExpose>;
 
+/** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+export type DuplicateJobResponseNetworkAliasesList = Array<string>;
+export const DuplicateJobResponseNetworkAliasesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<DuplicateJobResponseNetworkAliasesList>;
+
+/** Network group the job belongs to. */
+export interface DuplicateJobResponseNetwork {
+  /** Group name, scoped to the job's owner and resource group. */
+  group: string;
+  /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+  aliases: DuplicateJobResponseNetworkAliasesList;
+}
+export const DuplicateJobResponseNetwork = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    group: S.String,
+    aliases: DuplicateJobResponseNetworkAliasesList,
+  }),
+).annotate({
+  identifier: "DuplicateJobResponseNetwork",
+}) as any as S.Schema<DuplicateJobResponseNetwork>;
+
 export type DuplicateJobResponseOwnerType = "user" | "org";
 export const DuplicateJobResponseOwnerType = S.String;
 
 export interface DuplicateJobResponseOwner {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   type: DuplicateJobResponseOwnerType;
@@ -1187,6 +1434,7 @@ export type DuplicateJobResponseInitiatorCase0Type = "user" | "org";
 export const DuplicateJobResponseInitiatorCase0Type = S.String;
 
 export interface DuplicateJobResponseInitiatorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   type: DuplicateJobResponseInitiatorCase0Type;
@@ -1232,7 +1480,8 @@ export const DuplicateJobResponseStatusStage = S.String;
 export type DuplicateJobResponseStatusCancelReasonCase0 =
   | "NO_CREDITS"
   | "NO_SUBSCRIPTION"
-  | "RESOURCE_GROUP_LIMIT";
+  | "RESOURCE_GROUP_LIMIT"
+  | "SPEND_LIMIT";
 export const DuplicateJobResponseStatusCancelReasonCase0 = S.String;
 
 export type DuplicateJobResponseStatusCancelReason =
@@ -1275,9 +1524,7 @@ export const DuplicateJobResponseSecretsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<DuplicateJobResponseSecretsList>;
 
-export type DuplicateJobResponseLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type DuplicateJobResponseLabelsMap = { [key: string]: string | undefined };
 export const DuplicateJobResponseLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1290,6 +1537,7 @@ export interface DuplicateJobResponseHfToken {
   ownerName: string;
   orgName?: string;
   tokenRole?: DuplicateJobResponseHfTokenTokenRole;
+  /** A hex string of 24 characters representing an ObjectId. */
   tokenId?: string;
   settingsUrl?: string;
 }
@@ -1325,7 +1573,9 @@ export interface DuplicateJobResponse {
   volumes?: DuplicateJobResponseVolumesList;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
   expose?: DuplicateJobResponseExpose;
-  type: unknown;
+  /** Network group the job belongs to. */
+  network?: DuplicateJobResponseNetwork;
+  type: string;
   owner: DuplicateJobResponseOwner;
   resourceGroup?: CancelJobResponseResourceGroup;
   initiator?: DuplicateJobResponseInitiator;
@@ -1354,7 +1604,8 @@ export const DuplicateJobResponse = /*@__PURE__*/ S.suspend(() =>
     durations: S.optional(CancelJobResponseDurations),
     volumes: S.optional(DuplicateJobResponseVolumesList),
     expose: S.optional(DuplicateJobResponseExpose),
-    type: S.Unknown,
+    network: S.optional(DuplicateJobResponseNetwork),
+    type: S.String,
     owner: DuplicateJobResponseOwner,
     resourceGroup: S.optional(CancelJobResponseResourceGroup),
     initiator: S.optional(DuplicateJobResponseInitiator),
@@ -1363,9 +1614,7 @@ export const DuplicateJobResponse = /*@__PURE__*/ S.suspend(() =>
     labels: S.optional(DuplicateJobResponseLabelsMap),
     hfToken: S.optional(DuplicateJobResponseHfToken),
   }),
-).annotate({
-  identifier: "DuplicateJobResponse",
-}) as any as S.Schema<DuplicateJobResponse>;
+).annotate({ identifier: "DuplicateJobResponse" }) as any as S.Schema<DuplicateJobResponse>;
 
 export interface GetJobRequest {
   namespace: string;
@@ -1378,9 +1627,7 @@ export const GetJobRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "GET", uri: "/api/jobs/{namespace}/{jobId}", code: 200 })),
 ).annotate({ identifier: "GetJobRequest" }) as any as S.Schema<GetJobRequest>;
 
-export type GetJobResponseEnvironmentMap = {
-  [key: string]: string | undefined;
-};
+export type GetJobResponseEnvironmentMap = { [key: string]: string | undefined };
 export const GetJobResponseEnvironmentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1467,14 +1714,33 @@ export const GetJobResponseExpose = /*@__PURE__*/ S.suspend(() =>
     ports: GetJobResponseExposePortsList,
     portsPublic: S.optional(GetJobResponseExposePortsPublicList),
   }),
-).annotate({
-  identifier: "GetJobResponseExpose",
-}) as any as S.Schema<GetJobResponseExpose>;
+).annotate({ identifier: "GetJobResponseExpose" }) as any as S.Schema<GetJobResponseExpose>;
+
+/** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+export type GetJobResponseNetworkAliasesList = Array<string>;
+export const GetJobResponseNetworkAliasesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetJobResponseNetworkAliasesList>;
+
+/** Network group the job belongs to. */
+export interface GetJobResponseNetwork {
+  /** Group name, scoped to the job's owner and resource group. */
+  group: string;
+  /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+  aliases: GetJobResponseNetworkAliasesList;
+}
+export const GetJobResponseNetwork = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    group: S.String,
+    aliases: GetJobResponseNetworkAliasesList,
+  }),
+).annotate({ identifier: "GetJobResponseNetwork" }) as any as S.Schema<GetJobResponseNetwork>;
 
 export type GetJobResponseOwnerType = "user" | "org";
 export const GetJobResponseOwnerType = S.String;
 
 export interface GetJobResponseOwner {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   type: GetJobResponseOwnerType;
@@ -1487,9 +1753,7 @@ export const GetJobResponseOwner = /*@__PURE__*/ S.suspend(() =>
     type: GetJobResponseOwnerType,
     avatarUrl: S.String,
   }),
-).annotate({
-  identifier: "GetJobResponseOwner",
-}) as any as S.Schema<GetJobResponseOwner>;
+).annotate({ identifier: "GetJobResponseOwner" }) as any as S.Schema<GetJobResponseOwner>;
 
 export type GetJobResponseResourceGroup = CancelJobResponseResourceGroup;
 export const GetJobResponseResourceGroup = CancelJobResponseResourceGroup;
@@ -1498,6 +1762,7 @@ export type GetJobResponseInitiatorCase0Type = "user" | "org";
 export const GetJobResponseInitiatorCase0Type = S.String;
 
 export interface GetJobResponseInitiatorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   type: GetJobResponseInitiatorCase0Type;
@@ -1542,7 +1807,8 @@ export const GetJobResponseStatusStage = S.String;
 export type GetJobResponseStatusCancelReasonCase0 =
   | "NO_CREDITS"
   | "NO_SUBSCRIPTION"
-  | "RESOURCE_GROUP_LIMIT";
+  | "RESOURCE_GROUP_LIMIT"
+  | "SPEND_LIMIT";
 export const GetJobResponseStatusCancelReasonCase0 = S.String;
 
 export type GetJobResponseStatusCancelReason = GetJobResponseStatusCancelReasonCase0 | string;
@@ -1574,9 +1840,7 @@ export const GetJobResponseStatus = /*@__PURE__*/ S.suspend(() =>
     exposeUrls: S.optional(GetJobResponseStatusExposeUrlsList),
     sshUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetJobResponseStatus",
-}) as any as S.Schema<GetJobResponseStatus>;
+).annotate({ identifier: "GetJobResponseStatus" }) as any as S.Schema<GetJobResponseStatus>;
 
 export type GetJobResponseSecretsList = Array<string>;
 export const GetJobResponseSecretsList = /*@__PURE__*/ S.Array(
@@ -1596,6 +1860,7 @@ export interface GetJobResponseHfToken {
   ownerName: string;
   orgName?: string;
   tokenRole?: GetJobResponseHfTokenTokenRole;
+  /** A hex string of 24 characters representing an ObjectId. */
   tokenId?: string;
   settingsUrl?: string;
 }
@@ -1607,9 +1872,7 @@ export const GetJobResponseHfToken = /*@__PURE__*/ S.suspend(() =>
     tokenId: S.optional(S.String),
     settingsUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetJobResponseHfToken",
-}) as any as S.Schema<GetJobResponseHfToken>;
+).annotate({ identifier: "GetJobResponseHfToken" }) as any as S.Schema<GetJobResponseHfToken>;
 
 export interface GetJobResponse {
   id: string;
@@ -1631,7 +1894,9 @@ export interface GetJobResponse {
   volumes?: GetJobResponseVolumesList;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
   expose?: GetJobResponseExpose;
-  type: unknown;
+  /** Network group the job belongs to. */
+  network?: GetJobResponseNetwork;
+  type: string;
   owner: GetJobResponseOwner;
   resourceGroup?: CancelJobResponseResourceGroup;
   initiator?: GetJobResponseInitiator;
@@ -1660,7 +1925,8 @@ export const GetJobResponse = /*@__PURE__*/ S.suspend(() =>
     durations: S.optional(CancelJobResponseDurations),
     volumes: S.optional(GetJobResponseVolumesList),
     expose: S.optional(GetJobResponseExpose),
-    type: S.Unknown,
+    network: S.optional(GetJobResponseNetwork),
+    type: S.String,
     owner: GetJobResponseOwner,
     resourceGroup: S.optional(CancelJobResponseResourceGroup),
     initiator: S.optional(GetJobResponseInitiator),
@@ -1674,9 +1940,7 @@ export const GetJobResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetJobHardwareRequest {}
 export const GetJobHardwareRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/jobs/hardware", code: 200 })),
-).annotate({
-  identifier: "GetJobHardwareRequest",
-}) as any as S.Schema<GetJobHardwareRequest>;
+).annotate({ identifier: "GetJobHardwareRequest" }) as any as S.Schema<GetJobHardwareRequest>;
 
 export type GetJobHardwareResponseBodyItemAcceleratorType = "gpu" | "neuron";
 export const GetJobHardwareResponseBodyItemAcceleratorType = S.String;
@@ -1738,9 +2002,7 @@ export const GetJobHardwareResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetJobHardwareResponse = GetJobHardwareResponseBodyList;
 export const GetJobHardwareResponse = /*@__PURE__*/ S.suspend(() =>
   GetJobHardwareResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetJobHardwareResponse",
-}) as any as S.Schema<GetJobHardwareResponse>;
+).annotate({ identifier: "GetJobHardwareResponse" }) as any as S.Schema<GetJobHardwareResponse>;
 
 export interface GetScheduledJobRequest {
   namespace: string;
@@ -1750,16 +2012,8 @@ export const GetScheduledJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     jobId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/scheduled-jobs/{namespace}/{jobId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetScheduledJobRequest",
-}) as any as S.Schema<GetScheduledJobRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/scheduled-jobs/{namespace}/{jobId}", code: 200 })),
+).annotate({ identifier: "GetScheduledJobRequest" }) as any as S.Schema<GetScheduledJobRequest>;
 
 export type GetScheduledJobResponseStatusLastJob = CreateScheduledJobResponseStatusLastJob;
 export const GetScheduledJobResponseStatusLastJob = CreateScheduledJobResponseStatusLastJob;
@@ -1771,6 +2025,7 @@ export type GetScheduledJobResponseOwnerType = "user" | "org";
 export const GetScheduledJobResponseOwnerType = S.String;
 
 export interface GetScheduledJobResponseOwner {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   avatarUrl: string;
@@ -1791,6 +2046,7 @@ export type GetScheduledJobResponseInitiatorType = "user" | "org";
 export const GetScheduledJobResponseInitiatorType = S.String;
 
 export interface GetScheduledJobResponseInitiator {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   avatarUrl: string;
@@ -1807,9 +2063,7 @@ export const GetScheduledJobResponseInitiator = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetScheduledJobResponseInitiator",
 }) as any as S.Schema<GetScheduledJobResponseInitiator>;
 
-export type GetScheduledJobResponseJobSpecEnvironmentMap = {
-  [key: string]: string | undefined;
-};
+export type GetScheduledJobResponseJobSpecEnvironmentMap = { [key: string]: string | undefined };
 export const GetScheduledJobResponseJobSpecEnvironmentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1897,6 +2151,28 @@ export const GetScheduledJobResponseJobSpecExpose = /*@__PURE__*/ S.suspend(() =
   identifier: "GetScheduledJobResponseJobSpecExpose",
 }) as any as S.Schema<GetScheduledJobResponseJobSpecExpose>;
 
+/** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+export type GetScheduledJobResponseJobSpecNetworkAliasesList = Array<string>;
+export const GetScheduledJobResponseJobSpecNetworkAliasesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetScheduledJobResponseJobSpecNetworkAliasesList>;
+
+/** Network group the job belongs to. */
+export interface GetScheduledJobResponseJobSpecNetwork {
+  /** Group name, scoped to the job's owner and resource group. */
+  group: string;
+  /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+  aliases: GetScheduledJobResponseJobSpecNetworkAliasesList;
+}
+export const GetScheduledJobResponseJobSpecNetwork = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    group: S.String,
+    aliases: GetScheduledJobResponseJobSpecNetworkAliasesList,
+  }),
+).annotate({
+  identifier: "GetScheduledJobResponseJobSpecNetwork",
+}) as any as S.Schema<GetScheduledJobResponseJobSpecNetwork>;
+
 export type GetScheduledJobResponseJobSpecResourceGroup = CancelJobResponseResourceGroup;
 export const GetScheduledJobResponseJobSpecResourceGroup = CancelJobResponseResourceGroup;
 
@@ -1905,9 +2181,7 @@ export const GetScheduledJobResponseJobSpecSecretsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<GetScheduledJobResponseJobSpecSecretsList>;
 
-export type GetScheduledJobResponseJobSpecLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type GetScheduledJobResponseJobSpecLabelsMap = { [key: string]: string | undefined };
 export const GetScheduledJobResponseJobSpecLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1920,6 +2194,7 @@ export interface GetScheduledJobResponseJobSpecHfToken {
   ownerName: string;
   orgName?: string;
   tokenRole?: GetScheduledJobResponseJobSpecHfTokenTokenRole;
+  /** A hex string of 24 characters representing an ObjectId. */
   tokenId?: string;
   settingsUrl?: string;
 }
@@ -1952,6 +2227,8 @@ export interface GetScheduledJobResponseJobSpec {
   volumes?: GetScheduledJobResponseJobSpecVolumesList;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
   expose?: GetScheduledJobResponseJobSpecExpose;
+  /** Network group the job belongs to. */
+  network?: GetScheduledJobResponseJobSpecNetwork;
   resourceGroup?: CancelJobResponseResourceGroup;
   secrets?: GetScheduledJobResponseJobSpecSecretsList;
   labels?: GetScheduledJobResponseJobSpecLabelsMap;
@@ -1974,6 +2251,7 @@ export const GetScheduledJobResponseJobSpec = /*@__PURE__*/ S.suspend(() =>
     durations: S.optional(CancelJobResponseDurations),
     volumes: S.optional(GetScheduledJobResponseJobSpecVolumesList),
     expose: S.optional(GetScheduledJobResponseJobSpecExpose),
+    network: S.optional(GetScheduledJobResponseJobSpecNetwork),
     resourceGroup: S.optional(CancelJobResponseResourceGroup),
     secrets: S.optional(GetScheduledJobResponseJobSpecSecretsList),
     labels: S.optional(GetScheduledJobResponseJobSpecLabelsMap),
@@ -1991,7 +2269,7 @@ export interface GetScheduledJobResponse {
   suspendReason?: string;
   concurrency: boolean;
   status: CreateScheduledJobResponseStatus;
-  type: unknown;
+  type: string;
   owner: GetScheduledJobResponseOwner;
   initiator?: GetScheduledJobResponseInitiator;
   jobSpec: GetScheduledJobResponseJobSpec;
@@ -2005,14 +2283,12 @@ export const GetScheduledJobResponse = /*@__PURE__*/ S.suspend(() =>
     suspendReason: S.optional(S.String),
     concurrency: S.Boolean,
     status: CreateScheduledJobResponseStatus,
-    type: S.Unknown,
+    type: S.String,
     owner: GetScheduledJobResponseOwner,
     initiator: S.optional(GetScheduledJobResponseInitiator),
     jobSpec: GetScheduledJobResponseJobSpec,
   }),
-).annotate({
-  identifier: "GetScheduledJobResponse",
-}) as any as S.Schema<GetScheduledJobResponse>;
+).annotate({ identifier: "GetScheduledJobResponse" }) as any as S.Schema<GetScheduledJobResponse>;
 
 export type ListJobsRequestLabelCase1List = Array<string>;
 export const ListJobsRequestLabelCase1List = /*@__PURE__*/ S.Array(
@@ -2063,13 +2339,9 @@ export const ListJobsRequest = /*@__PURE__*/ S.suspend(() =>
     stage: S.optional(ListJobsRequestStage.pipe(T.Query())),
     cursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/jobs/{namespace}", code: 200 })),
-).annotate({
-  identifier: "ListJobsRequest",
-}) as any as S.Schema<ListJobsRequest>;
+).annotate({ identifier: "ListJobsRequest" }) as any as S.Schema<ListJobsRequest>;
 
-export type ListJobsResponseBodyItemEnvironmentMap = {
-  [key: string]: string | undefined;
-};
+export type ListJobsResponseBodyItemEnvironmentMap = { [key: string]: string | undefined };
 export const ListJobsResponseBodyItemEnvironmentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2160,10 +2432,33 @@ export const ListJobsResponseBodyItemExpose = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListJobsResponseBodyItemExpose",
 }) as any as S.Schema<ListJobsResponseBodyItemExpose>;
 
+/** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+export type ListJobsResponseBodyItemNetworkAliasesList = Array<string>;
+export const ListJobsResponseBodyItemNetworkAliasesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListJobsResponseBodyItemNetworkAliasesList>;
+
+/** Network group the job belongs to. */
+export interface ListJobsResponseBodyItemNetwork {
+  /** Group name, scoped to the job's owner and resource group. */
+  group: string;
+  /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+  aliases: ListJobsResponseBodyItemNetworkAliasesList;
+}
+export const ListJobsResponseBodyItemNetwork = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    group: S.String,
+    aliases: ListJobsResponseBodyItemNetworkAliasesList,
+  }),
+).annotate({
+  identifier: "ListJobsResponseBodyItemNetwork",
+}) as any as S.Schema<ListJobsResponseBodyItemNetwork>;
+
 export type ListJobsResponseBodyItemOwnerType = "user" | "org";
 export const ListJobsResponseBodyItemOwnerType = S.String;
 
 export interface ListJobsResponseBodyItemOwner {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   type: ListJobsResponseBodyItemOwnerType;
@@ -2187,6 +2482,7 @@ export type ListJobsResponseBodyItemInitiatorCase0Type = "user" | "org";
 export const ListJobsResponseBodyItemInitiatorCase0Type = S.String;
 
 export interface ListJobsResponseBodyItemInitiatorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   type: ListJobsResponseBodyItemInitiatorCase0Type;
@@ -2232,7 +2528,8 @@ export const ListJobsResponseBodyItemStatusStage = S.String;
 export type ListJobsResponseBodyItemStatusCancelReasonCase0 =
   | "NO_CREDITS"
   | "NO_SUBSCRIPTION"
-  | "RESOURCE_GROUP_LIMIT";
+  | "RESOURCE_GROUP_LIMIT"
+  | "SPEND_LIMIT";
 export const ListJobsResponseBodyItemStatusCancelReasonCase0 = S.String;
 
 export type ListJobsResponseBodyItemStatusCancelReason =
@@ -2275,9 +2572,7 @@ export const ListJobsResponseBodyItemSecretsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<ListJobsResponseBodyItemSecretsList>;
 
-export type ListJobsResponseBodyItemLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type ListJobsResponseBodyItemLabelsMap = { [key: string]: string | undefined };
 export const ListJobsResponseBodyItemLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2290,6 +2585,7 @@ export interface ListJobsResponseBodyItemHfToken {
   ownerName: string;
   orgName?: string;
   tokenRole?: ListJobsResponseBodyItemHfTokenTokenRole;
+  /** A hex string of 24 characters representing an ObjectId. */
   tokenId?: string;
   settingsUrl?: string;
 }
@@ -2325,7 +2621,9 @@ export interface ListJobsResponseBodyItem {
   volumes?: ListJobsResponseBodyItemVolumesList;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
   expose?: ListJobsResponseBodyItemExpose;
-  type: unknown;
+  /** Network group the job belongs to. */
+  network?: ListJobsResponseBodyItemNetwork;
+  type: string;
   owner: ListJobsResponseBodyItemOwner;
   resourceGroup?: CancelJobResponseResourceGroup;
   initiator?: ListJobsResponseBodyItemInitiator;
@@ -2354,7 +2652,8 @@ export const ListJobsResponseBodyItem = /*@__PURE__*/ S.suspend(() =>
     durations: S.optional(CancelJobResponseDurations),
     volumes: S.optional(ListJobsResponseBodyItemVolumesList),
     expose: S.optional(ListJobsResponseBodyItemExpose),
-    type: S.Unknown,
+    network: S.optional(ListJobsResponseBodyItemNetwork),
+    type: S.String,
     owner: ListJobsResponseBodyItemOwner,
     resourceGroup: S.optional(CancelJobResponseResourceGroup),
     initiator: S.optional(ListJobsResponseBodyItemInitiator),
@@ -2363,9 +2662,7 @@ export const ListJobsResponseBodyItem = /*@__PURE__*/ S.suspend(() =>
     labels: S.optional(ListJobsResponseBodyItemLabelsMap),
     hfToken: S.optional(ListJobsResponseBodyItemHfToken),
   }),
-).annotate({
-  identifier: "ListJobsResponseBodyItem",
-}) as any as S.Schema<ListJobsResponseBodyItem>;
+).annotate({ identifier: "ListJobsResponseBodyItem" }) as any as S.Schema<ListJobsResponseBodyItem>;
 
 export type ListJobsResponseBodyList = Array<ListJobsResponseBodyItem>;
 export const ListJobsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2375,9 +2672,7 @@ export const ListJobsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListJobsResponse = ListJobsResponseBodyList;
 export const ListJobsResponse = /*@__PURE__*/ S.suspend(() =>
   ListJobsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListJobsResponse",
-}) as any as S.Schema<ListJobsResponse>;
+).annotate({ identifier: "ListJobsResponse" }) as any as S.Schema<ListJobsResponse>;
 
 export interface ListScheduledJobsRequest {
   namespace: string;
@@ -2387,16 +2682,8 @@ export const ListScheduledJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     label: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/scheduled-jobs/{namespace}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListScheduledJobsRequest",
-}) as any as S.Schema<ListScheduledJobsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/scheduled-jobs/{namespace}", code: 200 })),
+).annotate({ identifier: "ListScheduledJobsRequest" }) as any as S.Schema<ListScheduledJobsRequest>;
 
 export type ListScheduledJobsResponseBodyItemStatusLastJob =
   CreateScheduledJobResponseStatusLastJob;
@@ -2410,6 +2697,7 @@ export type ListScheduledJobsResponseBodyItemOwnerType = "user" | "org";
 export const ListScheduledJobsResponseBodyItemOwnerType = S.String;
 
 export interface ListScheduledJobsResponseBodyItemOwner {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   avatarUrl: string;
@@ -2430,6 +2718,7 @@ export type ListScheduledJobsResponseBodyItemInitiatorType = "user" | "org";
 export const ListScheduledJobsResponseBodyItemInitiatorType = S.String;
 
 export interface ListScheduledJobsResponseBodyItemInitiator {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   avatarUrl: string;
@@ -2537,6 +2826,28 @@ export const ListScheduledJobsResponseBodyItemJobSpecExpose = /*@__PURE__*/ S.su
   identifier: "ListScheduledJobsResponseBodyItemJobSpecExpose",
 }) as any as S.Schema<ListScheduledJobsResponseBodyItemJobSpecExpose>;
 
+/** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+export type ListScheduledJobsResponseBodyItemJobSpecNetworkAliasesList = Array<string>;
+export const ListScheduledJobsResponseBodyItemJobSpecNetworkAliasesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListScheduledJobsResponseBodyItemJobSpecNetworkAliasesList>;
+
+/** Network group the job belongs to. */
+export interface ListScheduledJobsResponseBodyItemJobSpecNetwork {
+  /** Group name, scoped to the job's owner and resource group. */
+  group: string;
+  /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+  aliases: ListScheduledJobsResponseBodyItemJobSpecNetworkAliasesList;
+}
+export const ListScheduledJobsResponseBodyItemJobSpecNetwork = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    group: S.String,
+    aliases: ListScheduledJobsResponseBodyItemJobSpecNetworkAliasesList,
+  }),
+).annotate({
+  identifier: "ListScheduledJobsResponseBodyItemJobSpecNetwork",
+}) as any as S.Schema<ListScheduledJobsResponseBodyItemJobSpecNetwork>;
+
 export type ListScheduledJobsResponseBodyItemJobSpecResourceGroup = CancelJobResponseResourceGroup;
 export const ListScheduledJobsResponseBodyItemJobSpecResourceGroup = CancelJobResponseResourceGroup;
 
@@ -2563,6 +2874,7 @@ export interface ListScheduledJobsResponseBodyItemJobSpecHfToken {
   ownerName: string;
   orgName?: string;
   tokenRole?: ListScheduledJobsResponseBodyItemJobSpecHfTokenTokenRole;
+  /** A hex string of 24 characters representing an ObjectId. */
   tokenId?: string;
   settingsUrl?: string;
 }
@@ -2595,6 +2907,8 @@ export interface ListScheduledJobsResponseBodyItemJobSpec {
   volumes?: ListScheduledJobsResponseBodyItemJobSpecVolumesList;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
   expose?: ListScheduledJobsResponseBodyItemJobSpecExpose;
+  /** Network group the job belongs to. */
+  network?: ListScheduledJobsResponseBodyItemJobSpecNetwork;
   resourceGroup?: CancelJobResponseResourceGroup;
   secrets?: ListScheduledJobsResponseBodyItemJobSpecSecretsList;
   labels?: ListScheduledJobsResponseBodyItemJobSpecLabelsMap;
@@ -2617,6 +2931,7 @@ export const ListScheduledJobsResponseBodyItemJobSpec = /*@__PURE__*/ S.suspend(
     durations: S.optional(CancelJobResponseDurations),
     volumes: S.optional(ListScheduledJobsResponseBodyItemJobSpecVolumesList),
     expose: S.optional(ListScheduledJobsResponseBodyItemJobSpecExpose),
+    network: S.optional(ListScheduledJobsResponseBodyItemJobSpecNetwork),
     resourceGroup: S.optional(CancelJobResponseResourceGroup),
     secrets: S.optional(ListScheduledJobsResponseBodyItemJobSpecSecretsList),
     labels: S.optional(ListScheduledJobsResponseBodyItemJobSpecLabelsMap),
@@ -2634,7 +2949,7 @@ export interface ListScheduledJobsResponseBodyItem {
   suspendReason?: string;
   concurrency: boolean;
   status: CreateScheduledJobResponseStatus;
-  type: unknown;
+  type: string;
   owner: ListScheduledJobsResponseBodyItemOwner;
   initiator?: ListScheduledJobsResponseBodyItemInitiator;
   jobSpec: ListScheduledJobsResponseBodyItemJobSpec;
@@ -2648,7 +2963,7 @@ export const ListScheduledJobsResponseBodyItem = /*@__PURE__*/ S.suspend(() =>
     suspendReason: S.optional(S.String),
     concurrency: S.Boolean,
     status: CreateScheduledJobResponseStatus,
-    type: S.Unknown,
+    type: S.String,
     owner: ListScheduledJobsResponseBodyItemOwner,
     initiator: S.optional(ListScheduledJobsResponseBodyItemInitiator),
     jobSpec: ListScheduledJobsResponseBodyItemJobSpec,
@@ -2678,11 +2993,7 @@ export const ResumeScheduledJobRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     jobId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/scheduled-jobs/{namespace}/{jobId}/resume",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/scheduled-jobs/{namespace}/{jobId}/resume", code: 200 }),
   ),
 ).annotate({
   identifier: "ResumeScheduledJobRequest",
@@ -2702,17 +3013,11 @@ export const RunJobRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     jobId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/scheduled-jobs/{namespace}/{jobId}/run",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/scheduled-jobs/{namespace}/{jobId}/run", code: 200 }),
   ),
 ).annotate({ identifier: "RunJobRequest" }) as any as S.Schema<RunJobRequest>;
 
-export type RunJobResponseEnvironmentMap = {
-  [key: string]: string | undefined;
-};
+export type RunJobResponseEnvironmentMap = { [key: string]: string | undefined };
 export const RunJobResponseEnvironmentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2799,14 +3104,33 @@ export const RunJobResponseExpose = /*@__PURE__*/ S.suspend(() =>
     ports: RunJobResponseExposePortsList,
     portsPublic: S.optional(RunJobResponseExposePortsPublicList),
   }),
-).annotate({
-  identifier: "RunJobResponseExpose",
-}) as any as S.Schema<RunJobResponseExpose>;
+).annotate({ identifier: "RunJobResponseExpose" }) as any as S.Schema<RunJobResponseExpose>;
+
+/** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+export type RunJobResponseNetworkAliasesList = Array<string>;
+export const RunJobResponseNetworkAliasesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<RunJobResponseNetworkAliasesList>;
+
+/** Network group the job belongs to. */
+export interface RunJobResponseNetwork {
+  /** Group name, scoped to the job's owner and resource group. */
+  group: string;
+  /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+  aliases: RunJobResponseNetworkAliasesList;
+}
+export const RunJobResponseNetwork = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    group: S.String,
+    aliases: RunJobResponseNetworkAliasesList,
+  }),
+).annotate({ identifier: "RunJobResponseNetwork" }) as any as S.Schema<RunJobResponseNetwork>;
 
 export type RunJobResponseOwnerType = "user" | "org";
 export const RunJobResponseOwnerType = S.String;
 
 export interface RunJobResponseOwner {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   type: RunJobResponseOwnerType;
@@ -2819,9 +3143,7 @@ export const RunJobResponseOwner = /*@__PURE__*/ S.suspend(() =>
     type: RunJobResponseOwnerType,
     avatarUrl: S.String,
   }),
-).annotate({
-  identifier: "RunJobResponseOwner",
-}) as any as S.Schema<RunJobResponseOwner>;
+).annotate({ identifier: "RunJobResponseOwner" }) as any as S.Schema<RunJobResponseOwner>;
 
 export type RunJobResponseResourceGroup = CancelJobResponseResourceGroup;
 export const RunJobResponseResourceGroup = CancelJobResponseResourceGroup;
@@ -2830,6 +3152,7 @@ export type RunJobResponseInitiatorCase0Type = "user" | "org";
 export const RunJobResponseInitiatorCase0Type = S.String;
 
 export interface RunJobResponseInitiatorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   type: RunJobResponseInitiatorCase0Type;
@@ -2874,7 +3197,8 @@ export const RunJobResponseStatusStage = S.String;
 export type RunJobResponseStatusCancelReasonCase0 =
   | "NO_CREDITS"
   | "NO_SUBSCRIPTION"
-  | "RESOURCE_GROUP_LIMIT";
+  | "RESOURCE_GROUP_LIMIT"
+  | "SPEND_LIMIT";
 export const RunJobResponseStatusCancelReasonCase0 = S.String;
 
 export type RunJobResponseStatusCancelReason = RunJobResponseStatusCancelReasonCase0 | string;
@@ -2906,9 +3230,7 @@ export const RunJobResponseStatus = /*@__PURE__*/ S.suspend(() =>
     exposeUrls: S.optional(RunJobResponseStatusExposeUrlsList),
     sshUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RunJobResponseStatus",
-}) as any as S.Schema<RunJobResponseStatus>;
+).annotate({ identifier: "RunJobResponseStatus" }) as any as S.Schema<RunJobResponseStatus>;
 
 export type RunJobResponseSecretsList = Array<string>;
 export const RunJobResponseSecretsList = /*@__PURE__*/ S.Array(
@@ -2928,6 +3250,7 @@ export interface RunJobResponseHfToken {
   ownerName: string;
   orgName?: string;
   tokenRole?: RunJobResponseHfTokenTokenRole;
+  /** A hex string of 24 characters representing an ObjectId. */
   tokenId?: string;
   settingsUrl?: string;
 }
@@ -2939,9 +3262,7 @@ export const RunJobResponseHfToken = /*@__PURE__*/ S.suspend(() =>
     tokenId: S.optional(S.String),
     settingsUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RunJobResponseHfToken",
-}) as any as S.Schema<RunJobResponseHfToken>;
+).annotate({ identifier: "RunJobResponseHfToken" }) as any as S.Schema<RunJobResponseHfToken>;
 
 export interface RunJobResponse {
   id: string;
@@ -2963,7 +3284,9 @@ export interface RunJobResponse {
   volumes?: RunJobResponseVolumesList;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
   expose?: RunJobResponseExpose;
-  type: unknown;
+  /** Network group the job belongs to. */
+  network?: RunJobResponseNetwork;
+  type: string;
   owner: RunJobResponseOwner;
   resourceGroup?: CancelJobResponseResourceGroup;
   initiator?: RunJobResponseInitiator;
@@ -2992,7 +3315,8 @@ export const RunJobResponse = /*@__PURE__*/ S.suspend(() =>
     durations: S.optional(CancelJobResponseDurations),
     volumes: S.optional(RunJobResponseVolumesList),
     expose: S.optional(RunJobResponseExpose),
-    type: S.Unknown,
+    network: S.optional(RunJobResponseNetwork),
+    type: S.String,
     owner: RunJobResponseOwner,
     resourceGroup: S.optional(CancelJobResponseResourceGroup),
     initiator: S.optional(RunJobResponseInitiator),
@@ -3003,31 +3327,29 @@ export const RunJobResponse = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "RunJobResponse" }) as any as S.Schema<RunJobResponse>;
 
-export type StartJobRequestArgumentsList = Array<string>;
-export const StartJobRequestArgumentsList = /*@__PURE__*/ S.Array(
+export type StartJobRequestBodyCase0ArgumentsList = Array<string>;
+export const StartJobRequestBodyCase0ArgumentsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<StartJobRequestArgumentsList>;
+) as any as S.Schema<StartJobRequestBodyCase0ArgumentsList>;
 
-export type StartJobRequestCommandList = Array<string>;
-export const StartJobRequestCommandList = /*@__PURE__*/ S.Array(
+export type StartJobRequestBodyCase0CommandList = Array<string>;
+export const StartJobRequestBodyCase0CommandList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<StartJobRequestCommandList>;
+) as any as S.Schema<StartJobRequestBodyCase0CommandList>;
 
-export type StartJobRequestEnvironmentMap = {
-  [key: string]: string | undefined;
-};
-export const StartJobRequestEnvironmentMap = /*@__PURE__*/ S.Record(
+export type StartJobRequestBodyCase0EnvironmentMap = { [key: string]: string | undefined };
+export const StartJobRequestBodyCase0EnvironmentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
-) as any as S.Schema<StartJobRequestEnvironmentMap>;
+) as any as S.Schema<StartJobRequestBodyCase0EnvironmentMap>;
 
-export type StartJobRequestSecretsMap = { [key: string]: string | undefined };
-export const StartJobRequestSecretsMap = /*@__PURE__*/ S.Record(
+export type StartJobRequestBodyCase0SecretsMap = { [key: string]: string | undefined };
+export const StartJobRequestBodyCase0SecretsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
-) as any as S.Schema<StartJobRequestSecretsMap>;
+) as any as S.Schema<StartJobRequestBodyCase0SecretsMap>;
 
-export type StartJobRequestFlavor =
+export type StartJobRequestBodyCase0Flavor =
   | "cpu-basic"
   | "cpu-upgrade"
   | "cpu-performance"
@@ -3057,23 +3379,23 @@ export type StartJobRequestFlavor =
   | "rtx-pro-6000x4"
   | "rtx-pro-6000x8"
   | "inf2x6";
-export const StartJobRequestFlavor = S.String;
+export const StartJobRequestBodyCase0Flavor = S.String;
 
-export type StartJobRequestArch = "amd64" | "arm64";
-export const StartJobRequestArch = S.String;
+export type StartJobRequestBodyCase0Arch = "amd64" | "arm64";
+export const StartJobRequestBodyCase0Arch = S.String;
 
-/** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dots, dashes, and underscores. */
-export type StartJobRequestLabelsMap = { [key: string]: string | undefined };
-export const StartJobRequestLabelsMap = /*@__PURE__*/ S.Record(
+/** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
+export type StartJobRequestBodyCase0LabelsMap = { [key: string]: string | undefined };
+export const StartJobRequestBodyCase0LabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
-) as any as S.Schema<StartJobRequestLabelsMap>;
+) as any as S.Schema<StartJobRequestBodyCase0LabelsMap>;
 
-export type StartJobRequestVolumesItemType = "bucket" | "model" | "dataset" | "space";
-export const StartJobRequestVolumesItemType = S.String;
+export type StartJobRequestBodyCase0VolumesItemType = "bucket" | "model" | "dataset" | "space";
+export const StartJobRequestBodyCase0VolumesItemType = S.String;
 
-export interface StartJobRequestVolumesItem {
-  type: StartJobRequestVolumesItemType | (string & {});
+export interface StartJobRequestBodyCase0VolumesItem {
+  type: StartJobRequestBodyCase0VolumesItemType | (string & {});
   /** Source identifier, e.g. 'username/my-bucket' or 'username/my-model' */
   source: string;
   /** Mount path inside the container, e.g. '/data' */
@@ -3085,9 +3407,9 @@ export interface StartJobRequestVolumesItem {
   /** Subfolder prefix inside the bucket/repo to mount, e.g. 'path/to/dir' */
   path?: string;
 }
-export const StartJobRequestVolumesItem = /*@__PURE__*/ S.suspend(() =>
+export const StartJobRequestBodyCase0VolumesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: StartJobRequestVolumesItemType,
+    type: StartJobRequestBodyCase0VolumesItemType,
     source: S.String,
     mountPath: S.String,
     revision: S.optional(S.String),
@@ -3095,94 +3417,323 @@ export const StartJobRequestVolumesItem = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "StartJobRequestVolumesItem",
-}) as any as S.Schema<StartJobRequestVolumesItem>;
+  identifier: "StartJobRequestBodyCase0VolumesItem",
+}) as any as S.Schema<StartJobRequestBodyCase0VolumesItem>;
 
 /** HuggingFace Buckets or Repos to mount as volumes in the job container. */
-export type StartJobRequestVolumesList = Array<StartJobRequestVolumesItem>;
-export const StartJobRequestVolumesList = /*@__PURE__*/ S.Array(
-  StartJobRequestVolumesItem,
-) as any as S.Schema<StartJobRequestVolumesList>;
+export type StartJobRequestBodyCase0VolumesList = Array<StartJobRequestBodyCase0VolumesItem>;
+export const StartJobRequestBodyCase0VolumesList = /*@__PURE__*/ S.Array(
+  StartJobRequestBodyCase0VolumesItem,
+) as any as S.Schema<StartJobRequestBodyCase0VolumesList>;
 
-export type StartJobRequestExposePortsList = Array<number>;
-export const StartJobRequestExposePortsList = /*@__PURE__*/ S.Array(
+export type StartJobRequestBodyCase0ExposePortsList = Array<number>;
+export const StartJobRequestBodyCase0ExposePortsList = /*@__PURE__*/ S.Array(
   S.Number,
-) as any as S.Schema<StartJobRequestExposePortsList>;
+) as any as S.Schema<StartJobRequestBodyCase0ExposePortsList>;
 
 /** Subset of `ports` reachable without any authentication. */
-export type StartJobRequestExposePortsPublicList = Array<number>;
-export const StartJobRequestExposePortsPublicList = /*@__PURE__*/ S.Array(
+export type StartJobRequestBodyCase0ExposePortsPublicList = Array<number>;
+export const StartJobRequestBodyCase0ExposePortsPublicList = /*@__PURE__*/ S.Array(
   S.Number,
-) as any as S.Schema<StartJobRequestExposePortsPublicList>;
+) as any as S.Schema<StartJobRequestBodyCase0ExposePortsPublicList>;
 
 /** Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`. */
-export interface StartJobRequestExpose {
-  ports: StartJobRequestExposePortsList;
+export interface StartJobRequestBodyCase0Expose {
+  ports: StartJobRequestBodyCase0ExposePortsList;
   /** Subset of `ports` reachable without any authentication. */
-  portsPublic?: StartJobRequestExposePortsPublicList;
+  portsPublic?: StartJobRequestBodyCase0ExposePortsPublicList;
 }
-export const StartJobRequestExpose = /*@__PURE__*/ S.suspend(() =>
+export const StartJobRequestBodyCase0Expose = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ports: StartJobRequestExposePortsList,
-    portsPublic: S.optional(StartJobRequestExposePortsPublicList),
+    ports: StartJobRequestBodyCase0ExposePortsList,
+    portsPublic: S.optional(StartJobRequestBodyCase0ExposePortsPublicList),
   }),
 ).annotate({
-  identifier: "StartJobRequestExpose",
-}) as any as S.Schema<StartJobRequestExpose>;
+  identifier: "StartJobRequestBodyCase0Expose",
+}) as any as S.Schema<StartJobRequestBodyCase0Expose>;
 
 /** When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub. */
-export type StartJobRequestSsh = CreateScheduledJobRequestJobSpecSsh;
-export const StartJobRequestSsh = CreateScheduledJobRequestJobSpecSsh;
+export type StartJobRequestBodyCase0Ssh = CreateScheduledJobRequestJobSpecCase0Ssh;
+export const StartJobRequestBodyCase0Ssh = CreateScheduledJobRequestJobSpecCase0Ssh;
 
-export interface StartJobRequest {
-  namespace: string;
-  spaceId?: string;
+/** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+export type StartJobRequestBodyCase0NetworkAliasesList = Array<string>;
+export const StartJobRequestBodyCase0NetworkAliasesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<StartJobRequestBodyCase0NetworkAliasesList>;
+
+/** Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname. */
+export interface StartJobRequestBodyCase0Network {
+  /** Group name, scoped to the job's owner and resource group. */
+  group: string;
+  /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+  aliases?: StartJobRequestBodyCase0NetworkAliasesList;
+}
+export const StartJobRequestBodyCase0Network = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    group: S.String,
+    aliases: S.optional(StartJobRequestBodyCase0NetworkAliasesList),
+  }),
+).annotate({
+  identifier: "StartJobRequestBodyCase0Network",
+}) as any as S.Schema<StartJobRequestBodyCase0Network>;
+
+export interface StartJobRequestBodyCase0 {
+  spaceId: unknown;
   dockerImage?: string;
-  arguments?: StartJobRequestArgumentsList;
-  command?: StartJobRequestCommandList;
-  environment?: StartJobRequestEnvironmentMap;
-  secrets?: StartJobRequestSecretsMap;
-  flavor: StartJobRequestFlavor | (string & {});
-  arch?: StartJobRequestArch | (string & {});
+  arguments?: StartJobRequestBodyCase0ArgumentsList;
+  command?: StartJobRequestBodyCase0CommandList;
+  environment?: StartJobRequestBodyCase0EnvironmentMap;
+  secrets?: StartJobRequestBodyCase0SecretsMap;
+  flavor: StartJobRequestBodyCase0Flavor | (string & {});
+  arch?: StartJobRequestBodyCase0Arch | (string & {});
   timeoutSeconds?: number | null;
   /** Max number of attempts to make. For example, if you set this to 3, the job will be retried up to 2 times if it fails. */
   attempts?: number;
-  /** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dots, dashes, and underscores. */
-  labels?: StartJobRequestLabelsMap;
+  /** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
+  labels?: StartJobRequestBodyCase0LabelsMap;
   /** HuggingFace Buckets or Repos to mount as volumes in the job container. */
-  volumes?: StartJobRequestVolumesList;
+  volumes?: StartJobRequestBodyCase0VolumesList;
   /** Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`. */
-  expose?: StartJobRequestExpose;
+  expose?: StartJobRequestBodyCase0Expose;
   /** When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub. */
-  ssh?: CreateScheduledJobRequestJobSpecSsh;
+  ssh?: CreateScheduledJobRequestJobSpecCase0Ssh;
+  /** Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname. */
+  network?: StartJobRequestBodyCase0Network;
   resourceGroupId?: string;
+}
+export const StartJobRequestBodyCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    spaceId: S.Unknown,
+    dockerImage: S.optional(S.String),
+    arguments: S.optional(StartJobRequestBodyCase0ArgumentsList),
+    command: S.optional(StartJobRequestBodyCase0CommandList),
+    environment: S.optional(StartJobRequestBodyCase0EnvironmentMap),
+    secrets: S.optional(StartJobRequestBodyCase0SecretsMap),
+    flavor: StartJobRequestBodyCase0Flavor,
+    arch: S.optional(StartJobRequestBodyCase0Arch),
+    timeoutSeconds: S.optional(S.NullOr(S.Number)),
+    attempts: S.optional(S.Number),
+    labels: S.optional(StartJobRequestBodyCase0LabelsMap),
+    volumes: S.optional(StartJobRequestBodyCase0VolumesList),
+    expose: S.optional(StartJobRequestBodyCase0Expose),
+    ssh: S.optional(CreateScheduledJobRequestJobSpecCase0Ssh),
+    network: S.optional(StartJobRequestBodyCase0Network),
+    resourceGroupId: S.optional(S.String),
+  }),
+).annotate({ identifier: "StartJobRequestBodyCase0" }) as any as S.Schema<StartJobRequestBodyCase0>;
+
+export type StartJobRequestBodyCase1ArgumentsList = Array<string>;
+export const StartJobRequestBodyCase1ArgumentsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<StartJobRequestBodyCase1ArgumentsList>;
+
+export type StartJobRequestBodyCase1CommandList = Array<string>;
+export const StartJobRequestBodyCase1CommandList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<StartJobRequestBodyCase1CommandList>;
+
+export type StartJobRequestBodyCase1EnvironmentMap = { [key: string]: string | undefined };
+export const StartJobRequestBodyCase1EnvironmentMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<StartJobRequestBodyCase1EnvironmentMap>;
+
+export type StartJobRequestBodyCase1SecretsMap = { [key: string]: string | undefined };
+export const StartJobRequestBodyCase1SecretsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<StartJobRequestBodyCase1SecretsMap>;
+
+export type StartJobRequestBodyCase1Flavor =
+  | "cpu-basic"
+  | "cpu-upgrade"
+  | "cpu-performance"
+  | "cpu-xl"
+  | "sprx8"
+  | "zero-a10g"
+  | "t4-small"
+  | "t4-medium"
+  | "l4x1"
+  | "l4x4"
+  | "l40sx1"
+  | "l40sx4"
+  | "l40sx8"
+  | "a10g-small"
+  | "a10g-large"
+  | "a10g-largex2"
+  | "a10g-largex4"
+  | "a100-large"
+  | "a100x4"
+  | "a100x8"
+  | "h200"
+  | "h200x2"
+  | "h200x4"
+  | "h200x8"
+  | "rtx-pro-6000"
+  | "rtx-pro-6000x2"
+  | "rtx-pro-6000x4"
+  | "rtx-pro-6000x8"
+  | "inf2x6";
+export const StartJobRequestBodyCase1Flavor = S.String;
+
+export type StartJobRequestBodyCase1Arch = "amd64" | "arm64";
+export const StartJobRequestBodyCase1Arch = S.String;
+
+/** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
+export type StartJobRequestBodyCase1LabelsMap = { [key: string]: string | undefined };
+export const StartJobRequestBodyCase1LabelsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<StartJobRequestBodyCase1LabelsMap>;
+
+export type StartJobRequestBodyCase1VolumesItemType = "bucket" | "model" | "dataset" | "space";
+export const StartJobRequestBodyCase1VolumesItemType = S.String;
+
+export interface StartJobRequestBodyCase1VolumesItem {
+  type: StartJobRequestBodyCase1VolumesItemType | (string & {});
+  /** Source identifier, e.g. 'username/my-bucket' or 'username/my-model' */
+  source: string;
+  /** Mount path inside the container, e.g. '/data' */
+  mountPath: string;
+  /** Git revision (only for repos, defaults to 'main') */
+  revision?: string;
+  /** Read-only mount (true for repos, false default for buckets) */
+  readOnly?: boolean;
+  /** Subfolder prefix inside the bucket/repo to mount, e.g. 'path/to/dir' */
+  path?: string;
+}
+export const StartJobRequestBodyCase1VolumesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: StartJobRequestBodyCase1VolumesItemType,
+    source: S.String,
+    mountPath: S.String,
+    revision: S.optional(S.String),
+    readOnly: S.optional(S.Boolean),
+    path: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "StartJobRequestBodyCase1VolumesItem",
+}) as any as S.Schema<StartJobRequestBodyCase1VolumesItem>;
+
+/** HuggingFace Buckets or Repos to mount as volumes in the job container. */
+export type StartJobRequestBodyCase1VolumesList = Array<StartJobRequestBodyCase1VolumesItem>;
+export const StartJobRequestBodyCase1VolumesList = /*@__PURE__*/ S.Array(
+  StartJobRequestBodyCase1VolumesItem,
+) as any as S.Schema<StartJobRequestBodyCase1VolumesList>;
+
+export type StartJobRequestBodyCase1ExposePortsList = Array<number>;
+export const StartJobRequestBodyCase1ExposePortsList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<StartJobRequestBodyCase1ExposePortsList>;
+
+/** Subset of `ports` reachable without any authentication. */
+export type StartJobRequestBodyCase1ExposePortsPublicList = Array<number>;
+export const StartJobRequestBodyCase1ExposePortsPublicList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<StartJobRequestBodyCase1ExposePortsPublicList>;
+
+/** Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`. */
+export interface StartJobRequestBodyCase1Expose {
+  ports: StartJobRequestBodyCase1ExposePortsList;
+  /** Subset of `ports` reachable without any authentication. */
+  portsPublic?: StartJobRequestBodyCase1ExposePortsPublicList;
+}
+export const StartJobRequestBodyCase1Expose = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ports: StartJobRequestBodyCase1ExposePortsList,
+    portsPublic: S.optional(StartJobRequestBodyCase1ExposePortsPublicList),
+  }),
+).annotate({
+  identifier: "StartJobRequestBodyCase1Expose",
+}) as any as S.Schema<StartJobRequestBodyCase1Expose>;
+
+/** When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub. */
+export type StartJobRequestBodyCase1Ssh = CreateScheduledJobRequestJobSpecCase0Ssh;
+export const StartJobRequestBodyCase1Ssh = CreateScheduledJobRequestJobSpecCase0Ssh;
+
+/** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+export type StartJobRequestBodyCase1NetworkAliasesList = Array<string>;
+export const StartJobRequestBodyCase1NetworkAliasesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<StartJobRequestBodyCase1NetworkAliasesList>;
+
+/** Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname. */
+export interface StartJobRequestBodyCase1Network {
+  /** Group name, scoped to the job's owner and resource group. */
+  group: string;
+  /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+  aliases?: StartJobRequestBodyCase1NetworkAliasesList;
+}
+export const StartJobRequestBodyCase1Network = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    group: S.String,
+    aliases: S.optional(StartJobRequestBodyCase1NetworkAliasesList),
+  }),
+).annotate({
+  identifier: "StartJobRequestBodyCase1Network",
+}) as any as S.Schema<StartJobRequestBodyCase1Network>;
+
+export interface StartJobRequestBodyCase1 {
+  spaceId?: string;
+  dockerImage: unknown;
+  arguments?: StartJobRequestBodyCase1ArgumentsList;
+  command?: StartJobRequestBodyCase1CommandList;
+  environment?: StartJobRequestBodyCase1EnvironmentMap;
+  secrets?: StartJobRequestBodyCase1SecretsMap;
+  flavor: StartJobRequestBodyCase1Flavor | (string & {});
+  arch?: StartJobRequestBodyCase1Arch | (string & {});
+  timeoutSeconds?: number | null;
+  /** Max number of attempts to make. For example, if you set this to 3, the job will be retried up to 2 times if it fails. */
+  attempts?: number;
+  /** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
+  labels?: StartJobRequestBodyCase1LabelsMap;
+  /** HuggingFace Buckets or Repos to mount as volumes in the job container. */
+  volumes?: StartJobRequestBodyCase1VolumesList;
+  /** Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`. */
+  expose?: StartJobRequestBodyCase1Expose;
+  /** When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub. */
+  ssh?: CreateScheduledJobRequestJobSpecCase0Ssh;
+  /** Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname. */
+  network?: StartJobRequestBodyCase1Network;
+  resourceGroupId?: string;
+}
+export const StartJobRequestBodyCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    spaceId: S.optional(S.String),
+    dockerImage: S.Unknown,
+    arguments: S.optional(StartJobRequestBodyCase1ArgumentsList),
+    command: S.optional(StartJobRequestBodyCase1CommandList),
+    environment: S.optional(StartJobRequestBodyCase1EnvironmentMap),
+    secrets: S.optional(StartJobRequestBodyCase1SecretsMap),
+    flavor: StartJobRequestBodyCase1Flavor,
+    arch: S.optional(StartJobRequestBodyCase1Arch),
+    timeoutSeconds: S.optional(S.NullOr(S.Number)),
+    attempts: S.optional(S.Number),
+    labels: S.optional(StartJobRequestBodyCase1LabelsMap),
+    volumes: S.optional(StartJobRequestBodyCase1VolumesList),
+    expose: S.optional(StartJobRequestBodyCase1Expose),
+    ssh: S.optional(CreateScheduledJobRequestJobSpecCase0Ssh),
+    network: S.optional(StartJobRequestBodyCase1Network),
+    resourceGroupId: S.optional(S.String),
+  }),
+).annotate({ identifier: "StartJobRequestBodyCase1" }) as any as S.Schema<StartJobRequestBodyCase1>;
+
+export type StartJobRequestBody = StartJobRequestBodyCase0 | StartJobRequestBodyCase1;
+export const StartJobRequestBody = S.Unknown as any as S.Schema<StartJobRequestBody>;
+
+export interface StartJobRequest {
+  namespace: string;
+  body?: StartJobRequestBody;
 }
 export const StartJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
-    spaceId: S.optional(S.String),
-    dockerImage: S.optional(S.String),
-    arguments: S.optional(StartJobRequestArgumentsList),
-    command: S.optional(StartJobRequestCommandList),
-    environment: S.optional(StartJobRequestEnvironmentMap),
-    secrets: S.optional(StartJobRequestSecretsMap),
-    flavor: StartJobRequestFlavor,
-    arch: S.optional(StartJobRequestArch),
-    timeoutSeconds: S.optional(S.NullOr(S.Number)),
-    attempts: S.optional(S.Number),
-    labels: S.optional(StartJobRequestLabelsMap),
-    volumes: S.optional(StartJobRequestVolumesList),
-    expose: S.optional(StartJobRequestExpose),
-    ssh: S.optional(CreateScheduledJobRequestJobSpecSsh),
-    resourceGroupId: S.optional(S.String),
+    body: S.optional(StartJobRequestBody.pipe(T.HttpBody())),
   }).pipe(T.Http({ method: "POST", uri: "/api/jobs/{namespace}", code: 200 })),
-).annotate({
-  identifier: "StartJobRequest",
-}) as any as S.Schema<StartJobRequest>;
+).annotate({ identifier: "StartJobRequest" }) as any as S.Schema<StartJobRequest>;
 
-export type StartJobResponseEnvironmentMap = {
-  [key: string]: string | undefined;
-};
+export type StartJobResponseEnvironmentMap = { [key: string]: string | undefined };
 export const StartJobResponseEnvironmentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3269,14 +3820,33 @@ export const StartJobResponseExpose = /*@__PURE__*/ S.suspend(() =>
     ports: StartJobResponseExposePortsList,
     portsPublic: S.optional(StartJobResponseExposePortsPublicList),
   }),
-).annotate({
-  identifier: "StartJobResponseExpose",
-}) as any as S.Schema<StartJobResponseExpose>;
+).annotate({ identifier: "StartJobResponseExpose" }) as any as S.Schema<StartJobResponseExpose>;
+
+/** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+export type StartJobResponseNetworkAliasesList = Array<string>;
+export const StartJobResponseNetworkAliasesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<StartJobResponseNetworkAliasesList>;
+
+/** Network group the job belongs to. */
+export interface StartJobResponseNetwork {
+  /** Group name, scoped to the job's owner and resource group. */
+  group: string;
+  /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+  aliases: StartJobResponseNetworkAliasesList;
+}
+export const StartJobResponseNetwork = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    group: S.String,
+    aliases: StartJobResponseNetworkAliasesList,
+  }),
+).annotate({ identifier: "StartJobResponseNetwork" }) as any as S.Schema<StartJobResponseNetwork>;
 
 export type StartJobResponseOwnerType = "user" | "org";
 export const StartJobResponseOwnerType = S.String;
 
 export interface StartJobResponseOwner {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   type: StartJobResponseOwnerType;
@@ -3289,9 +3859,7 @@ export const StartJobResponseOwner = /*@__PURE__*/ S.suspend(() =>
     type: StartJobResponseOwnerType,
     avatarUrl: S.String,
   }),
-).annotate({
-  identifier: "StartJobResponseOwner",
-}) as any as S.Schema<StartJobResponseOwner>;
+).annotate({ identifier: "StartJobResponseOwner" }) as any as S.Schema<StartJobResponseOwner>;
 
 export type StartJobResponseResourceGroup = CancelJobResponseResourceGroup;
 export const StartJobResponseResourceGroup = CancelJobResponseResourceGroup;
@@ -3300,6 +3868,7 @@ export type StartJobResponseInitiatorCase0Type = "user" | "org";
 export const StartJobResponseInitiatorCase0Type = S.String;
 
 export interface StartJobResponseInitiatorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   type: StartJobResponseInitiatorCase0Type;
@@ -3344,7 +3913,8 @@ export const StartJobResponseStatusStage = S.String;
 export type StartJobResponseStatusCancelReasonCase0 =
   | "NO_CREDITS"
   | "NO_SUBSCRIPTION"
-  | "RESOURCE_GROUP_LIMIT";
+  | "RESOURCE_GROUP_LIMIT"
+  | "SPEND_LIMIT";
 export const StartJobResponseStatusCancelReasonCase0 = S.String;
 
 export type StartJobResponseStatusCancelReason = StartJobResponseStatusCancelReasonCase0 | string;
@@ -3376,9 +3946,7 @@ export const StartJobResponseStatus = /*@__PURE__*/ S.suspend(() =>
     exposeUrls: S.optional(StartJobResponseStatusExposeUrlsList),
     sshUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StartJobResponseStatus",
-}) as any as S.Schema<StartJobResponseStatus>;
+).annotate({ identifier: "StartJobResponseStatus" }) as any as S.Schema<StartJobResponseStatus>;
 
 export type StartJobResponseSecretsList = Array<string>;
 export const StartJobResponseSecretsList = /*@__PURE__*/ S.Array(
@@ -3398,6 +3966,7 @@ export interface StartJobResponseHfToken {
   ownerName: string;
   orgName?: string;
   tokenRole?: StartJobResponseHfTokenTokenRole;
+  /** A hex string of 24 characters representing an ObjectId. */
   tokenId?: string;
   settingsUrl?: string;
 }
@@ -3409,9 +3978,7 @@ export const StartJobResponseHfToken = /*@__PURE__*/ S.suspend(() =>
     tokenId: S.optional(S.String),
     settingsUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StartJobResponseHfToken",
-}) as any as S.Schema<StartJobResponseHfToken>;
+).annotate({ identifier: "StartJobResponseHfToken" }) as any as S.Schema<StartJobResponseHfToken>;
 
 export interface StartJobResponse {
   id: string;
@@ -3433,7 +4000,9 @@ export interface StartJobResponse {
   volumes?: StartJobResponseVolumesList;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
   expose?: StartJobResponseExpose;
-  type: unknown;
+  /** Network group the job belongs to. */
+  network?: StartJobResponseNetwork;
+  type: string;
   owner: StartJobResponseOwner;
   resourceGroup?: CancelJobResponseResourceGroup;
   initiator?: StartJobResponseInitiator;
@@ -3462,7 +4031,8 @@ export const StartJobResponse = /*@__PURE__*/ S.suspend(() =>
     durations: S.optional(CancelJobResponseDurations),
     volumes: S.optional(StartJobResponseVolumesList),
     expose: S.optional(StartJobResponseExpose),
-    type: S.Unknown,
+    network: S.optional(StartJobResponseNetwork),
+    type: S.String,
     owner: StartJobResponseOwner,
     resourceGroup: S.optional(CancelJobResponseResourceGroup),
     initiator: S.optional(StartJobResponseInitiator),
@@ -3471,9 +4041,7 @@ export const StartJobResponse = /*@__PURE__*/ S.suspend(() =>
     labels: S.optional(StartJobResponseLabelsMap),
     hfToken: S.optional(StartJobResponseHfToken),
   }),
-).annotate({
-  identifier: "StartJobResponse",
-}) as any as S.Schema<StartJobResponse>;
+).annotate({ identifier: "StartJobResponse" }) as any as S.Schema<StartJobResponse>;
 
 export interface StreamJobEventsRequest {
   namespace: string;
@@ -3483,16 +4051,8 @@ export const StreamJobEventsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     jobId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/jobs/{namespace}/{jobId}/events",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "StreamJobEventsRequest",
-}) as any as S.Schema<StreamJobEventsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/jobs/{namespace}/{jobId}/events", code: 200 })),
+).annotate({ identifier: "StreamJobEventsRequest" }) as any as S.Schema<StreamJobEventsRequest>;
 
 export interface StreamJobEventsResponse {}
 export const StreamJobEventsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3509,16 +4069,8 @@ export const StreamJobLogsRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     jobId: S.String.pipe(T.Label()),
     tail: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/jobs/{namespace}/{jobId}/logs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "StreamJobLogsRequest",
-}) as any as S.Schema<StreamJobLogsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/jobs/{namespace}/{jobId}/logs", code: 200 })),
+).annotate({ identifier: "StreamJobLogsRequest" }) as any as S.Schema<StreamJobLogsRequest>;
 
 export interface StreamJobLogsResponse {}
 export const StreamJobLogsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3533,16 +4085,8 @@ export const StreamJobMetricsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     jobId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/jobs/{namespace}/{jobId}/metrics",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "StreamJobMetricsRequest",
-}) as any as S.Schema<StreamJobMetricsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/jobs/{namespace}/{jobId}/metrics", code: 200 })),
+).annotate({ identifier: "StreamJobMetricsRequest" }) as any as S.Schema<StreamJobMetricsRequest>;
 
 export interface StreamJobMetricsResponse {}
 export const StreamJobMetricsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3558,11 +4102,7 @@ export const SuspendScheduledJobRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     jobId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/scheduled-jobs/{namespace}/{jobId}/suspend",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/scheduled-jobs/{namespace}/{jobId}/suspend", code: 200 }),
   ),
 ).annotate({
   identifier: "SuspendScheduledJobRequest",
@@ -3597,20 +4137,12 @@ export const UpdateJobExposedPortsRequest = /*@__PURE__*/ S.suspend(() =>
     jobId: S.String.pipe(T.Label()),
     ports: UpdateJobExposedPortsRequestPortsList,
     portsPublic: S.optional(UpdateJobExposedPortsRequestPortsPublicList),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/jobs/{namespace}/{jobId}/expose",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/jobs/{namespace}/{jobId}/expose", code: 200 })),
 ).annotate({
   identifier: "UpdateJobExposedPortsRequest",
 }) as any as S.Schema<UpdateJobExposedPortsRequest>;
 
-export type UpdateJobExposedPortsResponseEnvironmentMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateJobExposedPortsResponseEnvironmentMap = { [key: string]: string | undefined };
 export const UpdateJobExposedPortsResponseEnvironmentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3701,10 +4233,33 @@ export const UpdateJobExposedPortsResponseExpose = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateJobExposedPortsResponseExpose",
 }) as any as S.Schema<UpdateJobExposedPortsResponseExpose>;
 
+/** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+export type UpdateJobExposedPortsResponseNetworkAliasesList = Array<string>;
+export const UpdateJobExposedPortsResponseNetworkAliasesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateJobExposedPortsResponseNetworkAliasesList>;
+
+/** Network group the job belongs to. */
+export interface UpdateJobExposedPortsResponseNetwork {
+  /** Group name, scoped to the job's owner and resource group. */
+  group: string;
+  /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+  aliases: UpdateJobExposedPortsResponseNetworkAliasesList;
+}
+export const UpdateJobExposedPortsResponseNetwork = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    group: S.String,
+    aliases: UpdateJobExposedPortsResponseNetworkAliasesList,
+  }),
+).annotate({
+  identifier: "UpdateJobExposedPortsResponseNetwork",
+}) as any as S.Schema<UpdateJobExposedPortsResponseNetwork>;
+
 export type UpdateJobExposedPortsResponseOwnerType = "user" | "org";
 export const UpdateJobExposedPortsResponseOwnerType = S.String;
 
 export interface UpdateJobExposedPortsResponseOwner {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   type: UpdateJobExposedPortsResponseOwnerType;
@@ -3728,6 +4283,7 @@ export type UpdateJobExposedPortsResponseInitiatorCase0Type = "user" | "org";
 export const UpdateJobExposedPortsResponseInitiatorCase0Type = S.String;
 
 export interface UpdateJobExposedPortsResponseInitiatorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   type: UpdateJobExposedPortsResponseInitiatorCase0Type;
@@ -3773,7 +4329,8 @@ export const UpdateJobExposedPortsResponseStatusStage = S.String;
 export type UpdateJobExposedPortsResponseStatusCancelReasonCase0 =
   | "NO_CREDITS"
   | "NO_SUBSCRIPTION"
-  | "RESOURCE_GROUP_LIMIT";
+  | "RESOURCE_GROUP_LIMIT"
+  | "SPEND_LIMIT";
 export const UpdateJobExposedPortsResponseStatusCancelReasonCase0 = S.String;
 
 export type UpdateJobExposedPortsResponseStatusCancelReason =
@@ -3816,9 +4373,7 @@ export const UpdateJobExposedPortsResponseSecretsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<UpdateJobExposedPortsResponseSecretsList>;
 
-export type UpdateJobExposedPortsResponseLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateJobExposedPortsResponseLabelsMap = { [key: string]: string | undefined };
 export const UpdateJobExposedPortsResponseLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3831,6 +4386,7 @@ export interface UpdateJobExposedPortsResponseHfToken {
   ownerName: string;
   orgName?: string;
   tokenRole?: UpdateJobExposedPortsResponseHfTokenTokenRole;
+  /** A hex string of 24 characters representing an ObjectId. */
   tokenId?: string;
   settingsUrl?: string;
 }
@@ -3866,7 +4422,9 @@ export interface UpdateJobExposedPortsResponse {
   volumes?: UpdateJobExposedPortsResponseVolumesList;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
   expose?: UpdateJobExposedPortsResponseExpose;
-  type: unknown;
+  /** Network group the job belongs to. */
+  network?: UpdateJobExposedPortsResponseNetwork;
+  type: string;
   owner: UpdateJobExposedPortsResponseOwner;
   resourceGroup?: CancelJobResponseResourceGroup;
   initiator?: UpdateJobExposedPortsResponseInitiator;
@@ -3895,7 +4453,8 @@ export const UpdateJobExposedPortsResponse = /*@__PURE__*/ S.suspend(() =>
     durations: S.optional(CancelJobResponseDurations),
     volumes: S.optional(UpdateJobExposedPortsResponseVolumesList),
     expose: S.optional(UpdateJobExposedPortsResponseExpose),
-    type: S.Unknown,
+    network: S.optional(UpdateJobExposedPortsResponseNetwork),
+    type: S.String,
     owner: UpdateJobExposedPortsResponseOwner,
     resourceGroup: S.optional(CancelJobResponseResourceGroup),
     initiator: S.optional(UpdateJobExposedPortsResponseInitiator),
@@ -3909,9 +4468,7 @@ export const UpdateJobExposedPortsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateJobExposedPortsResponse>;
 
 /** The new labels to set on the job. Replaces all existing labels. */
-export type UpdateJobLabelsRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateJobLabelsRequestLabelsMap = { [key: string]: string | undefined };
 export const UpdateJobLabelsRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3928,20 +4485,10 @@ export const UpdateJobLabelsRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     jobId: S.String.pipe(T.Label()),
     labels: UpdateJobLabelsRequestLabelsMap,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/jobs/{namespace}/{jobId}/labels",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateJobLabelsRequest",
-}) as any as S.Schema<UpdateJobLabelsRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/jobs/{namespace}/{jobId}/labels", code: 200 })),
+).annotate({ identifier: "UpdateJobLabelsRequest" }) as any as S.Schema<UpdateJobLabelsRequest>;
 
-export type UpdateJobLabelsResponseEnvironmentMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateJobLabelsResponseEnvironmentMap = { [key: string]: string | undefined };
 export const UpdateJobLabelsResponseEnvironmentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4032,10 +4579,33 @@ export const UpdateJobLabelsResponseExpose = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateJobLabelsResponseExpose",
 }) as any as S.Schema<UpdateJobLabelsResponseExpose>;
 
+/** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+export type UpdateJobLabelsResponseNetworkAliasesList = Array<string>;
+export const UpdateJobLabelsResponseNetworkAliasesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateJobLabelsResponseNetworkAliasesList>;
+
+/** Network group the job belongs to. */
+export interface UpdateJobLabelsResponseNetwork {
+  /** Group name, scoped to the job's owner and resource group. */
+  group: string;
+  /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+  aliases: UpdateJobLabelsResponseNetworkAliasesList;
+}
+export const UpdateJobLabelsResponseNetwork = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    group: S.String,
+    aliases: UpdateJobLabelsResponseNetworkAliasesList,
+  }),
+).annotate({
+  identifier: "UpdateJobLabelsResponseNetwork",
+}) as any as S.Schema<UpdateJobLabelsResponseNetwork>;
+
 export type UpdateJobLabelsResponseOwnerType = "user" | "org";
 export const UpdateJobLabelsResponseOwnerType = S.String;
 
 export interface UpdateJobLabelsResponseOwner {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   type: UpdateJobLabelsResponseOwnerType;
@@ -4059,6 +4629,7 @@ export type UpdateJobLabelsResponseInitiatorCase0Type = "user" | "org";
 export const UpdateJobLabelsResponseInitiatorCase0Type = S.String;
 
 export interface UpdateJobLabelsResponseInitiatorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   type: UpdateJobLabelsResponseInitiatorCase0Type;
@@ -4104,7 +4675,8 @@ export const UpdateJobLabelsResponseStatusStage = S.String;
 export type UpdateJobLabelsResponseStatusCancelReasonCase0 =
   | "NO_CREDITS"
   | "NO_SUBSCRIPTION"
-  | "RESOURCE_GROUP_LIMIT";
+  | "RESOURCE_GROUP_LIMIT"
+  | "SPEND_LIMIT";
 export const UpdateJobLabelsResponseStatusCancelReasonCase0 = S.String;
 
 export type UpdateJobLabelsResponseStatusCancelReason =
@@ -4147,9 +4719,7 @@ export const UpdateJobLabelsResponseSecretsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<UpdateJobLabelsResponseSecretsList>;
 
-export type UpdateJobLabelsResponseLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateJobLabelsResponseLabelsMap = { [key: string]: string | undefined };
 export const UpdateJobLabelsResponseLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4162,6 +4732,7 @@ export interface UpdateJobLabelsResponseHfToken {
   ownerName: string;
   orgName?: string;
   tokenRole?: UpdateJobLabelsResponseHfTokenTokenRole;
+  /** A hex string of 24 characters representing an ObjectId. */
   tokenId?: string;
   settingsUrl?: string;
 }
@@ -4197,7 +4768,9 @@ export interface UpdateJobLabelsResponse {
   volumes?: UpdateJobLabelsResponseVolumesList;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
   expose?: UpdateJobLabelsResponseExpose;
-  type: unknown;
+  /** Network group the job belongs to. */
+  network?: UpdateJobLabelsResponseNetwork;
+  type: string;
   owner: UpdateJobLabelsResponseOwner;
   resourceGroup?: CancelJobResponseResourceGroup;
   initiator?: UpdateJobLabelsResponseInitiator;
@@ -4226,7 +4799,8 @@ export const UpdateJobLabelsResponse = /*@__PURE__*/ S.suspend(() =>
     durations: S.optional(CancelJobResponseDurations),
     volumes: S.optional(UpdateJobLabelsResponseVolumesList),
     expose: S.optional(UpdateJobLabelsResponseExpose),
-    type: S.Unknown,
+    network: S.optional(UpdateJobLabelsResponseNetwork),
+    type: S.String,
     owner: UpdateJobLabelsResponseOwner,
     resourceGroup: S.optional(CancelJobResponseResourceGroup),
     initiator: S.optional(UpdateJobLabelsResponseInitiator),
@@ -4235,9 +4809,7 @@ export const UpdateJobLabelsResponse = /*@__PURE__*/ S.suspend(() =>
     labels: S.optional(UpdateJobLabelsResponseLabelsMap),
     hfToken: S.optional(UpdateJobLabelsResponseHfToken),
   }),
-).annotate({
-  identifier: "UpdateJobLabelsResponse",
-}) as any as S.Schema<UpdateJobLabelsResponse>;
+).annotate({ identifier: "UpdateJobLabelsResponse" }) as any as S.Schema<UpdateJobLabelsResponse>;
 
 export interface UpdateJobScheduleRequest {
   namespace: string;
@@ -4251,15 +4823,9 @@ export const UpdateJobScheduleRequest = /*@__PURE__*/ S.suspend(() =>
     jobId: S.String.pipe(T.Label()),
     schedule: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/scheduled-jobs/{namespace}/{jobId}/schedule",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/scheduled-jobs/{namespace}/{jobId}/schedule", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateJobScheduleRequest",
-}) as any as S.Schema<UpdateJobScheduleRequest>;
+).annotate({ identifier: "UpdateJobScheduleRequest" }) as any as S.Schema<UpdateJobScheduleRequest>;
 
 export type UpdateJobScheduleResponseStatusLastJob = CreateScheduledJobResponseStatusLastJob;
 export const UpdateJobScheduleResponseStatusLastJob = CreateScheduledJobResponseStatusLastJob;
@@ -4271,6 +4837,7 @@ export type UpdateJobScheduleResponseOwnerType = "user" | "org";
 export const UpdateJobScheduleResponseOwnerType = S.String;
 
 export interface UpdateJobScheduleResponseOwner {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   avatarUrl: string;
@@ -4291,6 +4858,7 @@ export type UpdateJobScheduleResponseInitiatorType = "user" | "org";
 export const UpdateJobScheduleResponseInitiatorType = S.String;
 
 export interface UpdateJobScheduleResponseInitiator {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   avatarUrl: string;
@@ -4307,9 +4875,7 @@ export const UpdateJobScheduleResponseInitiator = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateJobScheduleResponseInitiator",
 }) as any as S.Schema<UpdateJobScheduleResponseInitiator>;
 
-export type UpdateJobScheduleResponseJobSpecEnvironmentMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateJobScheduleResponseJobSpecEnvironmentMap = { [key: string]: string | undefined };
 export const UpdateJobScheduleResponseJobSpecEnvironmentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4397,6 +4963,28 @@ export const UpdateJobScheduleResponseJobSpecExpose = /*@__PURE__*/ S.suspend(()
   identifier: "UpdateJobScheduleResponseJobSpecExpose",
 }) as any as S.Schema<UpdateJobScheduleResponseJobSpecExpose>;
 
+/** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+export type UpdateJobScheduleResponseJobSpecNetworkAliasesList = Array<string>;
+export const UpdateJobScheduleResponseJobSpecNetworkAliasesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateJobScheduleResponseJobSpecNetworkAliasesList>;
+
+/** Network group the job belongs to. */
+export interface UpdateJobScheduleResponseJobSpecNetwork {
+  /** Group name, scoped to the job's owner and resource group. */
+  group: string;
+  /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+  aliases: UpdateJobScheduleResponseJobSpecNetworkAliasesList;
+}
+export const UpdateJobScheduleResponseJobSpecNetwork = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    group: S.String,
+    aliases: UpdateJobScheduleResponseJobSpecNetworkAliasesList,
+  }),
+).annotate({
+  identifier: "UpdateJobScheduleResponseJobSpecNetwork",
+}) as any as S.Schema<UpdateJobScheduleResponseJobSpecNetwork>;
+
 export type UpdateJobScheduleResponseJobSpecResourceGroup = CancelJobResponseResourceGroup;
 export const UpdateJobScheduleResponseJobSpecResourceGroup = CancelJobResponseResourceGroup;
 
@@ -4405,9 +4993,7 @@ export const UpdateJobScheduleResponseJobSpecSecretsList = /*@__PURE__*/ S.Array
   S.String,
 ) as any as S.Schema<UpdateJobScheduleResponseJobSpecSecretsList>;
 
-export type UpdateJobScheduleResponseJobSpecLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateJobScheduleResponseJobSpecLabelsMap = { [key: string]: string | undefined };
 export const UpdateJobScheduleResponseJobSpecLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4420,6 +5006,7 @@ export interface UpdateJobScheduleResponseJobSpecHfToken {
   ownerName: string;
   orgName?: string;
   tokenRole?: UpdateJobScheduleResponseJobSpecHfTokenTokenRole;
+  /** A hex string of 24 characters representing an ObjectId. */
   tokenId?: string;
   settingsUrl?: string;
 }
@@ -4452,6 +5039,8 @@ export interface UpdateJobScheduleResponseJobSpec {
   volumes?: UpdateJobScheduleResponseJobSpecVolumesList;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
   expose?: UpdateJobScheduleResponseJobSpecExpose;
+  /** Network group the job belongs to. */
+  network?: UpdateJobScheduleResponseJobSpecNetwork;
   resourceGroup?: CancelJobResponseResourceGroup;
   secrets?: UpdateJobScheduleResponseJobSpecSecretsList;
   labels?: UpdateJobScheduleResponseJobSpecLabelsMap;
@@ -4474,6 +5063,7 @@ export const UpdateJobScheduleResponseJobSpec = /*@__PURE__*/ S.suspend(() =>
     durations: S.optional(CancelJobResponseDurations),
     volumes: S.optional(UpdateJobScheduleResponseJobSpecVolumesList),
     expose: S.optional(UpdateJobScheduleResponseJobSpecExpose),
+    network: S.optional(UpdateJobScheduleResponseJobSpecNetwork),
     resourceGroup: S.optional(CancelJobResponseResourceGroup),
     secrets: S.optional(UpdateJobScheduleResponseJobSpecSecretsList),
     labels: S.optional(UpdateJobScheduleResponseJobSpecLabelsMap),
@@ -4491,7 +5081,7 @@ export interface UpdateJobScheduleResponse {
   suspendReason?: string;
   concurrency: boolean;
   status: CreateScheduledJobResponseStatus;
-  type: unknown;
+  type: string;
   owner: UpdateJobScheduleResponseOwner;
   initiator?: UpdateJobScheduleResponseInitiator;
   jobSpec: UpdateJobScheduleResponseJobSpec;
@@ -4505,7 +5095,7 @@ export const UpdateJobScheduleResponse = /*@__PURE__*/ S.suspend(() =>
     suspendReason: S.optional(S.String),
     concurrency: S.Boolean,
     status: CreateScheduledJobResponseStatus,
-    type: S.Unknown,
+    type: S.String,
     owner: UpdateJobScheduleResponseOwner,
     initiator: S.optional(UpdateJobScheduleResponseInitiator),
     jobSpec: UpdateJobScheduleResponseJobSpec,
@@ -4515,9 +5105,7 @@ export const UpdateJobScheduleResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateJobScheduleResponse>;
 
 /** The new labels to set on the job. Replaces all existing labels. */
-export type UpdateScheduledJobLabelsRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateScheduledJobLabelsRequestLabelsMap = { [key: string]: string | undefined };
 export const UpdateScheduledJobLabelsRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4535,11 +5123,7 @@ export const UpdateScheduledJobLabelsRequest = /*@__PURE__*/ S.suspend(() =>
     jobId: S.String.pipe(T.Label()),
     labels: UpdateScheduledJobLabelsRequestLabelsMap,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/scheduled-jobs/{namespace}/{jobId}/labels",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/scheduled-jobs/{namespace}/{jobId}/labels", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateScheduledJobLabelsRequest",
@@ -4556,6 +5140,7 @@ export type UpdateScheduledJobLabelsResponseOwnerType = "user" | "org";
 export const UpdateScheduledJobLabelsResponseOwnerType = S.String;
 
 export interface UpdateScheduledJobLabelsResponseOwner {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   avatarUrl: string;
@@ -4576,6 +5161,7 @@ export type UpdateScheduledJobLabelsResponseInitiatorType = "user" | "org";
 export const UpdateScheduledJobLabelsResponseInitiatorType = S.String;
 
 export interface UpdateScheduledJobLabelsResponseInitiator {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   avatarUrl: string;
@@ -4683,6 +5269,28 @@ export const UpdateScheduledJobLabelsResponseJobSpecExpose = /*@__PURE__*/ S.sus
   identifier: "UpdateScheduledJobLabelsResponseJobSpecExpose",
 }) as any as S.Schema<UpdateScheduledJobLabelsResponseJobSpecExpose>;
 
+/** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+export type UpdateScheduledJobLabelsResponseJobSpecNetworkAliasesList = Array<string>;
+export const UpdateScheduledJobLabelsResponseJobSpecNetworkAliasesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateScheduledJobLabelsResponseJobSpecNetworkAliasesList>;
+
+/** Network group the job belongs to. */
+export interface UpdateScheduledJobLabelsResponseJobSpecNetwork {
+  /** Group name, scoped to the job's owner and resource group. */
+  group: string;
+  /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
+  aliases: UpdateScheduledJobLabelsResponseJobSpecNetworkAliasesList;
+}
+export const UpdateScheduledJobLabelsResponseJobSpecNetwork = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    group: S.String,
+    aliases: UpdateScheduledJobLabelsResponseJobSpecNetworkAliasesList,
+  }),
+).annotate({
+  identifier: "UpdateScheduledJobLabelsResponseJobSpecNetwork",
+}) as any as S.Schema<UpdateScheduledJobLabelsResponseJobSpecNetwork>;
+
 export type UpdateScheduledJobLabelsResponseJobSpecResourceGroup = CancelJobResponseResourceGroup;
 export const UpdateScheduledJobLabelsResponseJobSpecResourceGroup = CancelJobResponseResourceGroup;
 
@@ -4709,6 +5317,7 @@ export interface UpdateScheduledJobLabelsResponseJobSpecHfToken {
   ownerName: string;
   orgName?: string;
   tokenRole?: UpdateScheduledJobLabelsResponseJobSpecHfTokenTokenRole;
+  /** A hex string of 24 characters representing an ObjectId. */
   tokenId?: string;
   settingsUrl?: string;
 }
@@ -4741,6 +5350,8 @@ export interface UpdateScheduledJobLabelsResponseJobSpec {
   volumes?: UpdateScheduledJobLabelsResponseJobSpecVolumesList;
   /** Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs). */
   expose?: UpdateScheduledJobLabelsResponseJobSpecExpose;
+  /** Network group the job belongs to. */
+  network?: UpdateScheduledJobLabelsResponseJobSpecNetwork;
   resourceGroup?: CancelJobResponseResourceGroup;
   secrets?: UpdateScheduledJobLabelsResponseJobSpecSecretsList;
   labels?: UpdateScheduledJobLabelsResponseJobSpecLabelsMap;
@@ -4763,6 +5374,7 @@ export const UpdateScheduledJobLabelsResponseJobSpec = /*@__PURE__*/ S.suspend((
     durations: S.optional(CancelJobResponseDurations),
     volumes: S.optional(UpdateScheduledJobLabelsResponseJobSpecVolumesList),
     expose: S.optional(UpdateScheduledJobLabelsResponseJobSpecExpose),
+    network: S.optional(UpdateScheduledJobLabelsResponseJobSpecNetwork),
     resourceGroup: S.optional(CancelJobResponseResourceGroup),
     secrets: S.optional(UpdateScheduledJobLabelsResponseJobSpecSecretsList),
     labels: S.optional(UpdateScheduledJobLabelsResponseJobSpecLabelsMap),
@@ -4780,7 +5392,7 @@ export interface UpdateScheduledJobLabelsResponse {
   suspendReason?: string;
   concurrency: boolean;
   status: CreateScheduledJobResponseStatus;
-  type: unknown;
+  type: string;
   owner: UpdateScheduledJobLabelsResponseOwner;
   initiator?: UpdateScheduledJobLabelsResponseInitiator;
   jobSpec: UpdateScheduledJobLabelsResponseJobSpec;
@@ -4794,7 +5406,7 @@ export const UpdateScheduledJobLabelsResponse = /*@__PURE__*/ S.suspend(() =>
     suspendReason: S.optional(S.String),
     concurrency: S.Boolean,
     status: CreateScheduledJobResponseStatus,
-    type: S.Unknown,
+    type: S.String,
     owner: UpdateScheduledJobLabelsResponseOwner,
     initiator: S.optional(UpdateScheduledJobLabelsResponseInitiator),
     jobSpec: UpdateScheduledJobLabelsResponseJobSpec,
@@ -4864,7 +5476,7 @@ export const countJobs: API.OperationMethod<
 }));
 
 export type CreateScheduledJobError = HuggingFaceOpError;
-/** Create a scheduled job */
+/** Create scheduled job */
 export const createScheduledJob: API.OperationMethod<
   CreateScheduledJobRequest,
   CreateScheduledJobResponse,
@@ -4879,7 +5491,7 @@ export const createScheduledJob: API.OperationMethod<
 }));
 
 export type DeleteScheduledJobError = HuggingFaceOpError;
-/** Delete a scheduled job */
+/** Delete scheduled job */
 export const deleteScheduledJob: API.OperationMethod<
   DeleteScheduledJobRequest,
   DeleteScheduledJobResponse,
@@ -4939,7 +5551,7 @@ export const getJobHardware: API.OperationMethod<
 }));
 
 export type GetScheduledJobError = HuggingFaceOpError;
-/** Get a scheduled job */
+/** Get scheduled job */
 export const getScheduledJob: API.OperationMethod<
   GetScheduledJobRequest,
   GetScheduledJobResponse,
@@ -4984,7 +5596,7 @@ export const listScheduledJobs: API.OperationMethod<
 }));
 
 export type ResumeScheduledJobError = HuggingFaceOpError;
-/** Resume a scheduled job */
+/** Resume scheduled job */
 export const resumeScheduledJob: API.OperationMethod<
   ResumeScheduledJobRequest,
   ResumeScheduledJobResponse,
@@ -5074,7 +5686,7 @@ export const streamJobMetrics: API.OperationMethod<
 }));
 
 export type SuspendScheduledJobError = HuggingFaceOpError;
-/** Suspend a scheduled job */
+/** Suspend scheduled job */
 export const suspendScheduledJob: API.OperationMethod<
   SuspendScheduledJobRequest,
   SuspendScheduledJobResponse,
@@ -5089,7 +5701,7 @@ export const suspendScheduledJob: API.OperationMethod<
 }));
 
 export type UpdateJobExposedPortsError = HuggingFaceOpError;
-/** Update job exposed ports Replace the exposed ports of a running job, applied live (no re-run). Ports listed in `portsPublic` are reachable without any authentication. */
+/** Job exposed ports Replace the exposed ports of a running job, applied live (no re-run). Ports listed in `portsPublic` are reachable without any authentication. */
 export const updateJobExposedPorts: API.OperationMethod<
   UpdateJobExposedPortsRequest,
   UpdateJobExposedPortsResponse,
@@ -5134,7 +5746,7 @@ export const updateJobSchedule: API.OperationMethod<
 }));
 
 export type UpdateScheduledJobLabelsError = HuggingFaceOpError;
-/** Update scheduled job labels Replace user-provided labels on a scheduled job */
+/** Scheduled job labels Replace user-provided labels on a scheduled job */
 export const updateScheduledJobLabels: API.OperationMethod<
   UpdateScheduledJobLabelsRequest,
   UpdateScheduledJobLabelsResponse,

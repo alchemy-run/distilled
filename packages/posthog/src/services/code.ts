@@ -34,9 +34,7 @@ export const ComputeRateCard = /*@__PURE__*/ S.suspend(() =>
     cpu_core_second_usd: S.String,
     memory_gib_second_usd: S.String,
   }),
-).annotate({
-  identifier: "ComputeRateCard",
-}) as any as S.Schema<ComputeRateCard>;
+).annotate({ identifier: "ComputeRateCard" }) as any as S.Schema<ComputeRateCard>;
 
 /** Expired sandbox compute rate cards, newest first. */
 export type SandboxComputePricingHistoryList = Array<ComputeRateCard>;
@@ -55,9 +53,7 @@ export const SandboxComputePricing = /*@__PURE__*/ S.suspend(() =>
     current: S.NullOr(ComputeRateCard),
     history: SandboxComputePricingHistoryList,
   }),
-).annotate({
-  identifier: "SandboxComputePricing",
-}) as any as S.Schema<SandboxComputePricing>;
+).annotate({ identifier: "SandboxComputePricing" }) as any as S.Schema<SandboxComputePricing>;
 
 export type ListCodeSandboxPricingError = PosthogOpError;
 /** Get sandbox compute pricing Get the current sandbox compute rate card and expired rate-card history. */

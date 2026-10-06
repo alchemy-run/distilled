@@ -263,13 +263,13 @@
         "output_type": {
           "target": "com.posthog.evaluations#OutputTypeEnum",
           "traits": {
-            "smithy.api#documentation": "Output format. Use 'boolean' for pass/fail evaluations and 'sentiment' for sentiment analysis.\n\n* `boolean` - Boolean (Pass/Fail)\n* `sentiment` - Sentiment"
+            "smithy.api#documentation": "Output format: 'boolean', 'numeric' for a finite score, 'categorical' for category keys, or 'sentiment' for sentiment analysis.\n\n* `boolean` - Boolean (Pass/Fail)\n* `numeric` - Numeric\n* `categorical` - Categorical\n* `sentiment` - Sentiment"
           }
         },
         "output_config": {
           "target": "com.posthog.evaluations#EvaluationOutputConfig",
           "traits": {
-            "smithy.api#documentation": "Output config. For 'boolean' output_type: {allows_na} to permit N/A results."
+            "smithy.api#documentation": "Output config. For 'boolean' output_type: {allows_na} to permit N/A results, and {true_is_failure} to declare that a true result means the evaluation found a problem. For 'numeric': only min/max/step, allows_na, and passing_rule {operator: 'gte'|'lte', threshold}. For 'categorical': options [{key, label}], selection_mode (single or multiple), allows_na, and optional passing_rule {categories: [key]}. Do not send true_is_failure for numeric or categorical output. For 'sentiment': {}."
           }
         },
         "conditions": {
@@ -405,6 +405,12 @@
             "smithy.api#enumValue": "model_not_found"
           }
         },
+        "MODEL_NOT_SUPPORTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "model_not_supported"
+          }
+        },
         "HOG_ERROR": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -413,7 +419,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `provider_key_required` - No provider API key configured\n* `provider_key_deleted` - Provider API key was deleted\n* `no_default_model` - No default model available for the selected provider\n* `provider_key_invalid` - Provider API key is invalid\n* `provider_key_permission_denied` - Provider API key lacks model access\n* `provider_key_quota_exceeded` - Provider API key quota exceeded\n* `provider_key_rate_limited` - Provider API key is rate limited\n* `model_not_found` - Model not found\n* `hog_error` - Hog evaluation code failed"
+        "smithy.api#documentation": "* `provider_key_required` - No provider API key configured\n* `provider_key_deleted` - Provider API key was deleted\n* `no_default_model` - No default model available for the selected provider\n* `provider_key_invalid` - Provider API key is invalid\n* `provider_key_permission_denied` - Provider API key lacks model access\n* `provider_key_quota_exceeded` - Provider API key quota exceeded\n* `provider_key_rate_limited` - Provider API key is rate limited\n* `model_not_found` - Model not found\n* `model_not_supported` - Model does not support chat completions\n* `hog_error` - Hog evaluation code failed"
       }
     },
     "com.posthog.evaluations#EvaluationTypeEnum": {
@@ -461,7 +467,7 @@
         "source": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Hog source code. Must return true (pass), false (fail), or null for N/A.",
+            "smithy.api#documentation": "Hog source code. Return a boolean, finite number, or category keys matching output_type. Categorical single selection accepts one key or a one-item list; multiple selection accepts a list, including []. Return null only for allowed N/A. Output settings determine which boolean counts as a failure.",
             "smithy.api#required": {}
           }
         }
@@ -520,6 +526,18 @@
             "smithy.api#enumValue": "boolean"
           }
         },
+        "NUMERIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "numeric"
+          }
+        },
+        "CATEGORICAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "categorical"
+          }
+        },
         "SENTIMENT": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -528,7 +546,132 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `boolean` - Boolean (Pass/Fail)\n* `sentiment` - Sentiment"
+        "smithy.api#documentation": "* `boolean` - Boolean (Pass/Fail)\n* `numeric` - Numeric\n* `categorical` - Categorical\n* `sentiment` - Sentiment"
+      }
+    },
+    "com.posthog.evaluations#EvaluationOutputConfigOptionsItem": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable category key.",
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Category display label.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.evaluations#EvaluationOutputConfigOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.evaluations#EvaluationOutputConfigOptionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Categorical output options. Keys identify stored results; labels are displayed to users."
+      }
+    },
+    "com.posthog.evaluations#EvaluationOutputConfigSelectionMode": {
+      "type": "enum",
+      "members": {
+        "SINGLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "single"
+          }
+        },
+        "MULTIPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multiple"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Select one category or multiple categories. Multiple selection allows an empty result. Defaults to single."
+      }
+    },
+    "com.posthog.evaluations#EvaluationOutputConfigPassingRuleCase0Operator": {
+      "type": "enum",
+      "members": {
+        "GTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gte"
+          }
+        },
+        "LTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lte"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Pass at or above (gte), or at or below (lte), the threshold."
+      }
+    },
+    "com.posthog.evaluations#EvaluationOutputConfigPassingRuleCase0": {
+      "type": "structure",
+      "members": {
+        "operator": {
+          "target": "com.posthog.evaluations#EvaluationOutputConfigPassingRuleCase0Operator",
+          "traits": {
+            "smithy.api#documentation": "Pass at or above (gte), or at or below (lte), the threshold.",
+            "smithy.api#required": {}
+          }
+        },
+        "threshold": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Finite passing threshold within any configured score bounds.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.evaluations#EvaluationOutputConfigPassingRuleCase1CategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Passing category keys. With keys selected, results must be non-empty and contain only these keys. If no passing keys are selected, only an empty result passes."
+      }
+    },
+    "com.posthog.evaluations#EvaluationOutputConfigPassingRuleCase1": {
+      "type": "structure",
+      "members": {
+        "categories": {
+          "target": "com.posthog.evaluations#EvaluationOutputConfigPassingRuleCase1CategoriesList",
+          "traits": {
+            "smithy.api#documentation": "Passing category keys. With keys selected, results must be non-empty and contain only these keys. If no passing keys are selected, only an empty result passes.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.evaluations#EvaluationOutputConfigPassingRule": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.posthog.evaluations#EvaluationOutputConfigPassingRuleCase0"
+        },
+        "Case1": {
+          "target": "com.posthog.evaluations#EvaluationOutputConfigPassingRuleCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional numeric or categorical passing rule. Null removes the rule; historical results use the current rule."
       }
     },
     "com.posthog.evaluations#EvaluationOutputConfig": {
@@ -539,10 +682,56 @@
           "traits": {
             "smithy.api#documentation": "Whether the evaluation can return N/A for non-applicable generations."
           }
+        },
+        "true_is_failure": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Boolean output only. Omit for numeric, categorical, and sentiment output. Whether a true result means the evaluation found a problem. False (the default) suits pass/fail evaluations, where a true result satisfied the criteria. Set it to true for detector-style evaluations, so a true result is counted and labeled as a fail."
+          }
+        },
+        "min": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Inclusive minimum numeric score. Omit for no lower bound. Required for System One numeric judges.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Inclusive maximum numeric score. Omit for no upper bound. Required for System One numeric judges and must exceed min.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "step": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Optional positive input increment. Does not round evaluation results.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "options": {
+          "target": "com.posthog.evaluations#EvaluationOutputConfigOptionsList",
+          "traits": {
+            "smithy.api#documentation": "Categorical output options. Keys identify stored results; labels are displayed to users."
+          }
+        },
+        "selection_mode": {
+          "target": "com.posthog.evaluations#EvaluationOutputConfigSelectionMode",
+          "traits": {
+            "smithy.api#documentation": "Select one category or multiple categories. Multiple selection allows an empty result. Defaults to single."
+          }
+        },
+        "passing_rule": {
+          "target": "com.posthog.evaluations#EvaluationOutputConfigPassingRule",
+          "traits": {
+            "smithy.api#documentation": "Optional numeric or categorical passing rule. Null removes the rule; historical results use the current rule.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Output config. For 'boolean' output_type: {allows_na} to permit N/A results."
+        "smithy.api#documentation": "Output config. For 'boolean' output_type: {allows_na} to permit N/A results, and {true_is_failure} to declare that a true result means the evaluation found a problem. For 'numeric': only min/max/step, allows_na, and passing_rule {operator: 'gte'|'lte', threshold}. For 'categorical': options [{key, label}], selection_mode (single or multiple), allows_na, and optional passing_rule {categories: [key]}. Do not send true_is_failure for numeric or categorical output. For 'sentiment': {}."
       }
     },
     "com.posthog.evaluations#EvaluationCondition": {
@@ -795,10 +984,22 @@
           "traits": {
             "smithy.api#enumValue": "zeabur"
           }
+        },
+        "SYSTEM_ONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system_one"
+          }
+        },
+        "OPENAI_COMPATIBLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openai_compatible"
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `openai` - Openai\n* `anthropic` - Anthropic\n* `gemini` - Gemini\n* `openrouter` - Openrouter\n* `fireworks` - Fireworks\n* `azure_openai` - Azure OpenAI\n* `together_ai` - Together AI\n* `minimax` - MiniMax\n* `zeabur` - Zeabur AI Hub"
+        "smithy.api#documentation": "* `openai` - Openai\n* `anthropic` - Anthropic\n* `gemini` - Gemini\n* `openrouter` - Openrouter\n* `fireworks` - Fireworks\n* `azure_openai` - Azure OpenAI\n* `together_ai` - Together AI\n* `minimax` - MiniMax\n* `zeabur` - Zeabur AI Hub\n* `system_one` - System One\n* `openai_compatible` - OpenAI-compatible"
       }
     },
     "com.posthog.evaluations#UserBasic": {
@@ -984,7 +1185,7 @@
         "source": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Hog source code. Must return true (pass), false (fail), or null for N/A.",
+            "smithy.api#documentation": "Hog source code. Return a boolean, finite number, or category keys matching output_type. Categorical single selection accepts one key or a one-item list; multiple selection accepts a list, including []. Return null only for allowed N/A. Output settings determine which boolean counts as a failure.",
             "smithy.api#required": {}
           }
         }
@@ -1034,6 +1235,131 @@
         "smithy.api#documentation": "Configuration dict. For 'llm_judge': {prompt}; for 'hog': {source}; for 'sentiment': {source: 'user_messages'}."
       }
     },
+    "com.posthog.evaluations#CreateEvaluationRequestOutputConfigOptionsItem": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable category key.",
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Category display label.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.evaluations#CreateEvaluationRequestOutputConfigOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.evaluations#CreateEvaluationRequestOutputConfigOptionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Categorical output options. Keys identify stored results; labels are displayed to users."
+      }
+    },
+    "com.posthog.evaluations#CreateEvaluationRequestOutputConfigSelectionMode": {
+      "type": "enum",
+      "members": {
+        "SINGLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "single"
+          }
+        },
+        "MULTIPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multiple"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Select one category or multiple categories. Multiple selection allows an empty result. Defaults to single."
+      }
+    },
+    "com.posthog.evaluations#CreateEvaluationRequestOutputConfigPassingRuleCase0Operator": {
+      "type": "enum",
+      "members": {
+        "GTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gte"
+          }
+        },
+        "LTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lte"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Pass at or above (gte), or at or below (lte), the threshold."
+      }
+    },
+    "com.posthog.evaluations#CreateEvaluationRequestOutputConfigPassingRuleCase0": {
+      "type": "structure",
+      "members": {
+        "operator": {
+          "target": "com.posthog.evaluations#CreateEvaluationRequestOutputConfigPassingRuleCase0Operator",
+          "traits": {
+            "smithy.api#documentation": "Pass at or above (gte), or at or below (lte), the threshold.",
+            "smithy.api#required": {}
+          }
+        },
+        "threshold": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Finite passing threshold within any configured score bounds.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.evaluations#CreateEvaluationRequestOutputConfigPassingRuleCase1CategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Passing category keys. With keys selected, results must be non-empty and contain only these keys. If no passing keys are selected, only an empty result passes."
+      }
+    },
+    "com.posthog.evaluations#CreateEvaluationRequestOutputConfigPassingRuleCase1": {
+      "type": "structure",
+      "members": {
+        "categories": {
+          "target": "com.posthog.evaluations#CreateEvaluationRequestOutputConfigPassingRuleCase1CategoriesList",
+          "traits": {
+            "smithy.api#documentation": "Passing category keys. With keys selected, results must be non-empty and contain only these keys. If no passing keys are selected, only an empty result passes.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.evaluations#CreateEvaluationRequestOutputConfigPassingRule": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.posthog.evaluations#CreateEvaluationRequestOutputConfigPassingRuleCase0"
+        },
+        "Case1": {
+          "target": "com.posthog.evaluations#CreateEvaluationRequestOutputConfigPassingRuleCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional numeric or categorical passing rule. Null removes the rule; historical results use the current rule."
+      }
+    },
     "com.posthog.evaluations#CreateEvaluationRequestOutputConfig": {
       "type": "structure",
       "members": {
@@ -1042,10 +1368,56 @@
           "traits": {
             "smithy.api#documentation": "Whether the evaluation can return N/A for non-applicable generations."
           }
+        },
+        "true_is_failure": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Boolean output only. Omit for numeric, categorical, and sentiment output. Whether a true result means the evaluation found a problem. False (the default) suits pass/fail evaluations, where a true result satisfied the criteria. Set it to true for detector-style evaluations, so a true result is counted and labeled as a fail."
+          }
+        },
+        "min": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Inclusive minimum numeric score. Omit for no lower bound. Required for System One numeric judges.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Inclusive maximum numeric score. Omit for no upper bound. Required for System One numeric judges and must exceed min.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "step": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Optional positive input increment. Does not round evaluation results.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "options": {
+          "target": "com.posthog.evaluations#CreateEvaluationRequestOutputConfigOptionsList",
+          "traits": {
+            "smithy.api#documentation": "Categorical output options. Keys identify stored results; labels are displayed to users."
+          }
+        },
+        "selection_mode": {
+          "target": "com.posthog.evaluations#CreateEvaluationRequestOutputConfigSelectionMode",
+          "traits": {
+            "smithy.api#documentation": "Select one category or multiple categories. Multiple selection allows an empty result. Defaults to single."
+          }
+        },
+        "passing_rule": {
+          "target": "com.posthog.evaluations#CreateEvaluationRequestOutputConfigPassingRule",
+          "traits": {
+            "smithy.api#documentation": "Optional numeric or categorical passing rule. Null removes the rule; historical results use the current rule.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Output config. For 'boolean' output_type: {allows_na} to permit N/A results."
+        "smithy.api#documentation": "Output config. For 'boolean' output_type: {allows_na} to permit N/A results, and {true_is_failure} to declare that a true result means the evaluation found a problem. For 'numeric': only min/max/step, allows_na, and passing_rule {operator: 'gte'|'lte', threshold}. For 'categorical': options [{key, label}], selection_mode (single or multiple), allows_na, and optional passing_rule {categories: [key]}. Do not send true_is_failure for numeric or categorical output. For 'sentiment': {}."
       }
     },
     "com.posthog.evaluations#CreateEvaluationRequestConditionsList": {
@@ -1215,13 +1587,13 @@
         "output_type": {
           "target": "com.posthog.evaluations#OutputTypeEnum",
           "traits": {
-            "smithy.api#documentation": "Output format. Use 'boolean' for pass/fail evaluations and 'sentiment' for sentiment analysis.\n\n* `boolean` - Boolean (Pass/Fail)\n* `sentiment` - Sentiment"
+            "smithy.api#documentation": "Output format: 'boolean', 'numeric' for a finite score, 'categorical' for category keys, or 'sentiment' for sentiment analysis.\n\n* `boolean` - Boolean (Pass/Fail)\n* `numeric` - Numeric\n* `categorical` - Categorical\n* `sentiment` - Sentiment"
           }
         },
         "output_config": {
           "target": "com.posthog.evaluations#CreateEvaluationRequestOutputConfig",
           "traits": {
-            "smithy.api#documentation": "Output config. For 'boolean' output_type: {allows_na} to permit N/A results."
+            "smithy.api#documentation": "Output config. For 'boolean' output_type: {allows_na} to permit N/A results, and {true_is_failure} to declare that a true result means the evaluation found a problem. For 'numeric': only min/max/step, allows_na, and passing_rule {operator: 'gte'|'lte', threshold}. For 'categorical': options [{key, label}], selection_mode (single or multiple), allows_na, and optional passing_rule {categories: [key]}. Do not send true_is_failure for numeric or categorical output. For 'sentiment': {}."
           }
         },
         "conditions": {
@@ -1274,6 +1646,572 @@
           "uri": "/api/projects/{project_id}/evaluations/",
           "code": 200
         }
+      }
+    },
+    "com.posthog.evaluations#ListEvaluationsBackfillsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "evaluation_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.evaluations#PaginatedEvaluationBackfillList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.evaluations#PaginatedEvaluationBackfillListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.evaluations#EvaluationBackfill": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Backfill identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.posthog.evaluations#EvaluationBackfillStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "running while the walk is dispatching, then completed or cancelled.\n\n* `running` - Running\n* `completed` - Completed\n* `cancelled` - Cancelled",
+            "smithy.api#required": {}
+          }
+        },
+        "target": {
+          "target": "com.posthog.evaluations#EvaluationTargetEnum",
+          "traits": {
+            "smithy.api#documentation": "What one unit is, frozen at creation: a generation, a trace, or a session.\n\n* `generation` - Generation\n* `trace` - Trace\n* `session` - Session",
+            "smithy.api#required": {}
+          }
+        },
+        "window_start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Inclusive start of the window, by unit timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "window_end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Exclusive end of the window.",
+            "smithy.api#required": {}
+          }
+        },
+        "conditions": {
+          "target": "com.posthog.evaluations#EvaluationBackfillConditionsList",
+          "traits": {
+            "smithy.api#documentation": "Condition sets frozen at creation, so an edit to the evaluation does not change this run.",
+            "smithy.api#required": {}
+          }
+        },
+        "rerun_existing": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether units with an existing result are evaluated again.",
+            "smithy.api#required": {}
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Units matched at creation. Units that land in the window later can take dispatched_count and skipped_count past it.",
+            "smithy.api#required": {}
+          }
+        },
+        "dispatched_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Units the backfill has started an evaluation for so far.",
+            "smithy.api#required": {}
+          }
+        },
+        "skipped_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Units the live path had already covered, so nothing was dispatched.",
+            "smithy.api#required": {}
+          }
+        },
+        "failed_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Units whose evaluation failed to start. They have no result and count toward remaining_count.",
+            "smithy.api#required": {}
+          }
+        },
+        "remaining_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Units still holding no result when the run finished, counted at that moment. Zero means the window is covered, whoever graded it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_by": {
+          "target": "com.posthog.evaluations#UserBasic",
+          "traits": {
+            "smithy.api#documentation": "User who started the backfill.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the backfill was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "finished_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the backfill reached a terminal status; null while it runs.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.evaluations#EvaluationBackfillStatusEnum": {
+      "type": "enum",
+      "members": {
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `running` - Running\n* `completed` - Completed\n* `cancelled` - Cancelled"
+      }
+    },
+    "com.posthog.evaluations#EvaluationBackfillCondition": {
+      "type": "structure",
+      "members": {
+        "properties": {
+          "target": "com.posthog.evaluations#EvaluationBackfillConditionPropertiesList",
+          "traits": {
+            "smithy.api#documentation": "Property filters (event or person) that scope which units match this condition set."
+          }
+        },
+        "rollout_percentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Percentage (0-100) of matching units sampled for this condition set."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One condition set as it was frozen onto the backfill: no id, no compiled bytecode."
+      }
+    },
+    "com.posthog.evaluations#EvaluationBackfillConditionPropertiesItemMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.evaluations#EvaluationBackfillConditionPropertiesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.evaluations#EvaluationBackfillConditionPropertiesItemMap"
+      },
+      "traits": {
+        "smithy.api#documentation": "Property filters (event or person) that scope which units match this condition set."
+      }
+    },
+    "com.posthog.evaluations#EvaluationBackfillConditionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.evaluations#EvaluationBackfillCondition"
+      },
+      "traits": {
+        "smithy.api#documentation": "Condition sets frozen at creation, so an edit to the evaluation does not change this run."
+      }
+    },
+    "com.posthog.evaluations#PaginatedEvaluationBackfillListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.evaluations#EvaluationBackfill"
+      },
+      "traits": {}
+    },
+    "com.posthog.evaluations#ListEvaluationsBackfills": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.evaluations#ListEvaluationsBackfillsRequest"
+      },
+      "output": {
+        "target": "com.posthog.evaluations#PaginatedEvaluationBackfillList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/evaluations/{evaluation_id}/backfills/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Historical runs of one evaluation over a closed time window (nested under an evaluation)."
+      }
+    },
+    "com.posthog.evaluations#CreateEvaluationsBackfillRequestConditionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.evaluations#EvaluationCondition"
+      },
+      "traits": {
+        "smithy.api#documentation": "Condition sets to match. Defaults to the evaluation's own condition sets."
+      }
+    },
+    "com.posthog.evaluations#CreateEvaluationsBackfillRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "evaluation_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "window_start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Inclusive start of the window, by unit timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "window_end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Exclusive end of the window. Values in the future are clamped to now.",
+            "smithy.api#required": {}
+          }
+        },
+        "conditions": {
+          "target": "com.posthog.evaluations#CreateEvaluationsBackfillRequestConditionsList",
+          "traits": {
+            "smithy.api#documentation": "Condition sets to match. Defaults to the evaluation's own condition sets."
+          }
+        },
+        "rerun_existing": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Evaluate units again even when this evaluation already has a result for them."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.evaluations#CreateEvaluationsBackfill": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.evaluations#CreateEvaluationsBackfillRequest"
+      },
+      "output": {
+        "target": "com.posthog.evaluations#EvaluationBackfill"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/evaluations/{evaluation_id}/backfills/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a backfill: freeze the conditions, count the units, start the walk."
+      }
+    },
+    "com.posthog.evaluations#GetEvaluationsBackfillRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "evaluation_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this evaluation backfill."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.evaluations#GetEvaluationsBackfill": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.evaluations#GetEvaluationsBackfillRequest"
+      },
+      "output": {
+        "target": "com.posthog.evaluations#EvaluationBackfill"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/evaluations/{evaluation_id}/backfills/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Historical runs of one evaluation over a closed time window (nested under an evaluation)."
+      }
+    },
+    "com.posthog.evaluations#EvaluationsBackfillsCancelCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "evaluation_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this evaluation backfill."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.evaluations#EvaluationsBackfillsCancelCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.evaluations#EvaluationsBackfillsCancelCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.evaluations#EvaluationBackfill"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/evaluations/{evaluation_id}/backfills/{id}/cancel/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Stop a running backfill. Evaluations already dispatched still finish."
+      }
+    },
+    "com.posthog.evaluations#CreateEvaluationsBackfillsEstimateRequestConditionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.evaluations#EvaluationCondition"
+      },
+      "traits": {
+        "smithy.api#documentation": "Condition sets to match. Defaults to the evaluation's own condition sets."
+      }
+    },
+    "com.posthog.evaluations#CreateEvaluationsBackfillsEstimateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "evaluation_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "window_start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Inclusive start of the window, by unit timestamp.",
+            "smithy.api#required": {}
+          }
+        },
+        "window_end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Exclusive end of the window. Values in the future are clamped to now.",
+            "smithy.api#required": {}
+          }
+        },
+        "conditions": {
+          "target": "com.posthog.evaluations#CreateEvaluationsBackfillsEstimateRequestConditionsList",
+          "traits": {
+            "smithy.api#documentation": "Condition sets to match. Defaults to the evaluation's own condition sets."
+          }
+        },
+        "rerun_existing": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Evaluate units again even when this evaluation already has a result for them."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.evaluations#EvaluationBackfillEstimate": {
+      "type": "structure",
+      "members": {
+        "total_units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Units that would be evaluated.",
+            "smithy.api#required": {}
+          }
+        },
+        "already_evaluated_units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Units in the range this evaluation has already judged. They are excluded from total_units unless rerun_existing is set.",
+            "smithy.api#required": {}
+          }
+        },
+        "unit": {
+          "target": "com.posthog.evaluations#EvaluationTargetEnum",
+          "traits": {
+            "smithy.api#documentation": "What one unit is: a generation, a trace, or a session.\n\n* `generation` - Generation\n* `trace` - Trace\n* `session` - Session",
+            "smithy.api#required": {}
+          }
+        },
+        "window_start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Window start after clamping.",
+            "smithy.api#required": {}
+          }
+        },
+        "window_end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Window end after clamping.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.evaluations#CreateEvaluationsBackfillsEstimate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.evaluations#CreateEvaluationsBackfillsEstimateRequest"
+      },
+      "output": {
+        "target": "com.posthog.evaluations#EvaluationBackfillEstimate"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/evaluations/{evaluation_id}/backfills/estimate/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Count what a backfill over the given window would evaluate, without creating one."
       }
     },
     "com.posthog.evaluations#GetEvaluationRequest": {
@@ -1335,7 +2273,7 @@
         "source": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Hog source code. Must return true (pass), false (fail), or null for N/A.",
+            "smithy.api#documentation": "Hog source code. Return a boolean, finite number, or category keys matching output_type. Categorical single selection accepts one key or a one-item list; multiple selection accepts a list, including []. Return null only for allowed N/A. Output settings determine which boolean counts as a failure.",
             "smithy.api#required": {}
           }
         }
@@ -1385,6 +2323,131 @@
         "smithy.api#documentation": "Configuration dict. For 'llm_judge': {prompt}; for 'hog': {source}; for 'sentiment': {source: 'user_messages'}."
       }
     },
+    "com.posthog.evaluations#UpdateEvaluationRequestOutputConfigOptionsItem": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable category key.",
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Category display label.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.evaluations#UpdateEvaluationRequestOutputConfigOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.evaluations#UpdateEvaluationRequestOutputConfigOptionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Categorical output options. Keys identify stored results; labels are displayed to users."
+      }
+    },
+    "com.posthog.evaluations#UpdateEvaluationRequestOutputConfigSelectionMode": {
+      "type": "enum",
+      "members": {
+        "SINGLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "single"
+          }
+        },
+        "MULTIPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multiple"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Select one category or multiple categories. Multiple selection allows an empty result. Defaults to single."
+      }
+    },
+    "com.posthog.evaluations#UpdateEvaluationRequestOutputConfigPassingRuleCase0Operator": {
+      "type": "enum",
+      "members": {
+        "GTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gte"
+          }
+        },
+        "LTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lte"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Pass at or above (gte), or at or below (lte), the threshold."
+      }
+    },
+    "com.posthog.evaluations#UpdateEvaluationRequestOutputConfigPassingRuleCase0": {
+      "type": "structure",
+      "members": {
+        "operator": {
+          "target": "com.posthog.evaluations#UpdateEvaluationRequestOutputConfigPassingRuleCase0Operator",
+          "traits": {
+            "smithy.api#documentation": "Pass at or above (gte), or at or below (lte), the threshold.",
+            "smithy.api#required": {}
+          }
+        },
+        "threshold": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Finite passing threshold within any configured score bounds.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.evaluations#UpdateEvaluationRequestOutputConfigPassingRuleCase1CategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Passing category keys. With keys selected, results must be non-empty and contain only these keys. If no passing keys are selected, only an empty result passes."
+      }
+    },
+    "com.posthog.evaluations#UpdateEvaluationRequestOutputConfigPassingRuleCase1": {
+      "type": "structure",
+      "members": {
+        "categories": {
+          "target": "com.posthog.evaluations#UpdateEvaluationRequestOutputConfigPassingRuleCase1CategoriesList",
+          "traits": {
+            "smithy.api#documentation": "Passing category keys. With keys selected, results must be non-empty and contain only these keys. If no passing keys are selected, only an empty result passes.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.evaluations#UpdateEvaluationRequestOutputConfigPassingRule": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.posthog.evaluations#UpdateEvaluationRequestOutputConfigPassingRuleCase0"
+        },
+        "Case1": {
+          "target": "com.posthog.evaluations#UpdateEvaluationRequestOutputConfigPassingRuleCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional numeric or categorical passing rule. Null removes the rule; historical results use the current rule."
+      }
+    },
     "com.posthog.evaluations#UpdateEvaluationRequestOutputConfig": {
       "type": "structure",
       "members": {
@@ -1393,10 +2456,56 @@
           "traits": {
             "smithy.api#documentation": "Whether the evaluation can return N/A for non-applicable generations."
           }
+        },
+        "true_is_failure": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Boolean output only. Omit for numeric, categorical, and sentiment output. Whether a true result means the evaluation found a problem. False (the default) suits pass/fail evaluations, where a true result satisfied the criteria. Set it to true for detector-style evaluations, so a true result is counted and labeled as a fail."
+          }
+        },
+        "min": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Inclusive minimum numeric score. Omit for no lower bound. Required for System One numeric judges.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Inclusive maximum numeric score. Omit for no upper bound. Required for System One numeric judges and must exceed min.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "step": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Optional positive input increment. Does not round evaluation results.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "options": {
+          "target": "com.posthog.evaluations#UpdateEvaluationRequestOutputConfigOptionsList",
+          "traits": {
+            "smithy.api#documentation": "Categorical output options. Keys identify stored results; labels are displayed to users."
+          }
+        },
+        "selection_mode": {
+          "target": "com.posthog.evaluations#UpdateEvaluationRequestOutputConfigSelectionMode",
+          "traits": {
+            "smithy.api#documentation": "Select one category or multiple categories. Multiple selection allows an empty result. Defaults to single."
+          }
+        },
+        "passing_rule": {
+          "target": "com.posthog.evaluations#UpdateEvaluationRequestOutputConfigPassingRule",
+          "traits": {
+            "smithy.api#documentation": "Optional numeric or categorical passing rule. Null removes the rule; historical results use the current rule.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Output config. For 'boolean' output_type: {allows_na} to permit N/A results."
+        "smithy.api#documentation": "Output config. For 'boolean' output_type: {allows_na} to permit N/A results, and {true_is_failure} to declare that a true result means the evaluation found a problem. For 'numeric': only min/max/step, allows_na, and passing_rule {operator: 'gte'|'lte', threshold}. For 'categorical': options [{key, label}], selection_mode (single or multiple), allows_na, and optional passing_rule {categories: [key]}. Do not send true_is_failure for numeric or categorical output. For 'sentiment': {}."
       }
     },
     "com.posthog.evaluations#UpdateEvaluationRequestConditionsList": {
@@ -1553,13 +2662,13 @@
         "output_type": {
           "target": "com.posthog.evaluations#OutputTypeEnum",
           "traits": {
-            "smithy.api#documentation": "Output format. Use 'boolean' for pass/fail evaluations and 'sentiment' for sentiment analysis.\n\n* `boolean` - Boolean (Pass/Fail)\n* `sentiment` - Sentiment"
+            "smithy.api#documentation": "Output format: 'boolean', 'numeric' for a finite score, 'categorical' for category keys, or 'sentiment' for sentiment analysis.\n\n* `boolean` - Boolean (Pass/Fail)\n* `numeric` - Numeric\n* `categorical` - Categorical\n* `sentiment` - Sentiment"
           }
         },
         "output_config": {
           "target": "com.posthog.evaluations#UpdateEvaluationRequestOutputConfig",
           "traits": {
-            "smithy.api#documentation": "Output config. For 'boolean' output_type: {allows_na} to permit N/A results."
+            "smithy.api#documentation": "Output config. For 'boolean' output_type: {allows_na} to permit N/A results, and {true_is_failure} to declare that a true result means the evaluation found a problem. For 'numeric': only min/max/step, allows_na, and passing_rule {operator: 'gte'|'lte', threshold}. For 'categorical': options [{key, label}], selection_mode (single or multiple), allows_na, and optional passing_rule {categories: [key]}. Do not send true_is_failure for numeric or categorical output. For 'sentiment': {}."
           }
         },
         "conditions": {
@@ -1633,7 +2742,7 @@
         "source": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Hog source code. Must return true (pass), false (fail), or null for N/A.",
+            "smithy.api#documentation": "Hog source code. Return a boolean, finite number, or category keys matching output_type. Categorical single selection accepts one key or a one-item list; multiple selection accepts a list, including []. Return null only for allowed N/A. Output settings determine which boolean counts as a failure.",
             "smithy.api#required": {}
           }
         }
@@ -1683,6 +2792,131 @@
         "smithy.api#documentation": "Configuration dict. For 'llm_judge': {prompt}; for 'hog': {source}; for 'sentiment': {source: 'user_messages'}."
       }
     },
+    "com.posthog.evaluations#UpdateEvaluationsPartialRequestOutputConfigOptionsItem": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable category key.",
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Category display label.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.evaluations#UpdateEvaluationsPartialRequestOutputConfigOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.evaluations#UpdateEvaluationsPartialRequestOutputConfigOptionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Categorical output options. Keys identify stored results; labels are displayed to users."
+      }
+    },
+    "com.posthog.evaluations#UpdateEvaluationsPartialRequestOutputConfigSelectionMode": {
+      "type": "enum",
+      "members": {
+        "SINGLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "single"
+          }
+        },
+        "MULTIPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multiple"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Select one category or multiple categories. Multiple selection allows an empty result. Defaults to single."
+      }
+    },
+    "com.posthog.evaluations#UpdateEvaluationsPartialRequestOutputConfigPassingRuleCase0Operator": {
+      "type": "enum",
+      "members": {
+        "GTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gte"
+          }
+        },
+        "LTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lte"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Pass at or above (gte), or at or below (lte), the threshold."
+      }
+    },
+    "com.posthog.evaluations#UpdateEvaluationsPartialRequestOutputConfigPassingRuleCase0": {
+      "type": "structure",
+      "members": {
+        "operator": {
+          "target": "com.posthog.evaluations#UpdateEvaluationsPartialRequestOutputConfigPassingRuleCase0Operator",
+          "traits": {
+            "smithy.api#documentation": "Pass at or above (gte), or at or below (lte), the threshold.",
+            "smithy.api#required": {}
+          }
+        },
+        "threshold": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Finite passing threshold within any configured score bounds.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.evaluations#UpdateEvaluationsPartialRequestOutputConfigPassingRuleCase1CategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Passing category keys. With keys selected, results must be non-empty and contain only these keys. If no passing keys are selected, only an empty result passes."
+      }
+    },
+    "com.posthog.evaluations#UpdateEvaluationsPartialRequestOutputConfigPassingRuleCase1": {
+      "type": "structure",
+      "members": {
+        "categories": {
+          "target": "com.posthog.evaluations#UpdateEvaluationsPartialRequestOutputConfigPassingRuleCase1CategoriesList",
+          "traits": {
+            "smithy.api#documentation": "Passing category keys. With keys selected, results must be non-empty and contain only these keys. If no passing keys are selected, only an empty result passes.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.evaluations#UpdateEvaluationsPartialRequestOutputConfigPassingRule": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.posthog.evaluations#UpdateEvaluationsPartialRequestOutputConfigPassingRuleCase0"
+        },
+        "Case1": {
+          "target": "com.posthog.evaluations#UpdateEvaluationsPartialRequestOutputConfigPassingRuleCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional numeric or categorical passing rule. Null removes the rule; historical results use the current rule."
+      }
+    },
     "com.posthog.evaluations#UpdateEvaluationsPartialRequestOutputConfig": {
       "type": "structure",
       "members": {
@@ -1691,10 +2925,56 @@
           "traits": {
             "smithy.api#documentation": "Whether the evaluation can return N/A for non-applicable generations."
           }
+        },
+        "true_is_failure": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Boolean output only. Omit for numeric, categorical, and sentiment output. Whether a true result means the evaluation found a problem. False (the default) suits pass/fail evaluations, where a true result satisfied the criteria. Set it to true for detector-style evaluations, so a true result is counted and labeled as a fail."
+          }
+        },
+        "min": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Inclusive minimum numeric score. Omit for no lower bound. Required for System One numeric judges.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Inclusive maximum numeric score. Omit for no upper bound. Required for System One numeric judges and must exceed min.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "step": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Optional positive input increment. Does not round evaluation results.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "options": {
+          "target": "com.posthog.evaluations#UpdateEvaluationsPartialRequestOutputConfigOptionsList",
+          "traits": {
+            "smithy.api#documentation": "Categorical output options. Keys identify stored results; labels are displayed to users."
+          }
+        },
+        "selection_mode": {
+          "target": "com.posthog.evaluations#UpdateEvaluationsPartialRequestOutputConfigSelectionMode",
+          "traits": {
+            "smithy.api#documentation": "Select one category or multiple categories. Multiple selection allows an empty result. Defaults to single."
+          }
+        },
+        "passing_rule": {
+          "target": "com.posthog.evaluations#UpdateEvaluationsPartialRequestOutputConfigPassingRule",
+          "traits": {
+            "smithy.api#documentation": "Optional numeric or categorical passing rule. Null removes the rule; historical results use the current rule.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Output config. For 'boolean' output_type: {allows_na} to permit N/A results."
+        "smithy.api#documentation": "Output config. For 'boolean' output_type: {allows_na} to permit N/A results, and {true_is_failure} to declare that a true result means the evaluation found a problem. For 'numeric': only min/max/step, allows_na, and passing_rule {operator: 'gte'|'lte', threshold}. For 'categorical': options [{key, label}], selection_mode (single or multiple), allows_na, and optional passing_rule {categories: [key]}. Do not send true_is_failure for numeric or categorical output. For 'sentiment': {}."
       }
     },
     "com.posthog.evaluations#UpdateEvaluationsPartialRequestConditionsList": {
@@ -1851,13 +3131,13 @@
         "output_type": {
           "target": "com.posthog.evaluations#OutputTypeEnum",
           "traits": {
-            "smithy.api#documentation": "Output format. Use 'boolean' for pass/fail evaluations and 'sentiment' for sentiment analysis.\n\n* `boolean` - Boolean (Pass/Fail)\n* `sentiment` - Sentiment"
+            "smithy.api#documentation": "Output format: 'boolean', 'numeric' for a finite score, 'categorical' for category keys, or 'sentiment' for sentiment analysis.\n\n* `boolean` - Boolean (Pass/Fail)\n* `numeric` - Numeric\n* `categorical` - Categorical\n* `sentiment` - Sentiment"
           }
         },
         "output_config": {
           "target": "com.posthog.evaluations#UpdateEvaluationsPartialRequestOutputConfig",
           "traits": {
-            "smithy.api#documentation": "Output config. For 'boolean' output_type: {allows_na} to permit N/A results."
+            "smithy.api#documentation": "Output config. For 'boolean' output_type: {allows_na} to permit N/A results, and {true_is_failure} to declare that a true result means the evaluation found a problem. For 'numeric': only min/max/step, allows_na, and passing_rule {operator: 'gte'|'lte', threshold}. For 'categorical': options [{key, label}], selection_mode (single or multiple), allows_na, and optional passing_rule {categories: [key]}. Do not send true_is_failure for numeric or categorical output. For 'sentiment': {}."
           }
         },
         "conditions": {
@@ -1953,6 +3233,217 @@
         "smithy.api#documentation": "Hard delete of this model is not allowed. Use a patch API call to set \"deleted\" to true"
       }
     },
+    "com.posthog.evaluations#HogEvaluationOutputTypeEnum": {
+      "type": "enum",
+      "members": {
+        "BOOLEAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "boolean"
+          }
+        },
+        "NUMERIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "numeric"
+          }
+        },
+        "CATEGORICAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "categorical"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `boolean` - Boolean (Pass/Fail)\n* `numeric` - Numeric\n* `categorical` - Categorical"
+      }
+    },
+    "com.posthog.evaluations#CreateEvaluationsTestHogRequestOutputConfigOptionsItem": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable category key.",
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Category display label.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.evaluations#CreateEvaluationsTestHogRequestOutputConfigOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.evaluations#CreateEvaluationsTestHogRequestOutputConfigOptionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Categorical output options. Keys identify stored results; labels are displayed to users."
+      }
+    },
+    "com.posthog.evaluations#CreateEvaluationsTestHogRequestOutputConfigSelectionMode": {
+      "type": "enum",
+      "members": {
+        "SINGLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "single"
+          }
+        },
+        "MULTIPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multiple"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Select one category or multiple categories. Multiple selection allows an empty result. Defaults to single."
+      }
+    },
+    "com.posthog.evaluations#CreateEvaluationsTestHogRequestOutputConfigPassingRuleCase0Operator": {
+      "type": "enum",
+      "members": {
+        "GTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gte"
+          }
+        },
+        "LTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lte"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Pass at or above (gte), or at or below (lte), the threshold."
+      }
+    },
+    "com.posthog.evaluations#CreateEvaluationsTestHogRequestOutputConfigPassingRuleCase0": {
+      "type": "structure",
+      "members": {
+        "operator": {
+          "target": "com.posthog.evaluations#CreateEvaluationsTestHogRequestOutputConfigPassingRuleCase0Operator",
+          "traits": {
+            "smithy.api#documentation": "Pass at or above (gte), or at or below (lte), the threshold.",
+            "smithy.api#required": {}
+          }
+        },
+        "threshold": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Finite passing threshold within any configured score bounds.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.evaluations#CreateEvaluationsTestHogRequestOutputConfigPassingRuleCase1CategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Passing category keys. With keys selected, results must be non-empty and contain only these keys. If no passing keys are selected, only an empty result passes."
+      }
+    },
+    "com.posthog.evaluations#CreateEvaluationsTestHogRequestOutputConfigPassingRuleCase1": {
+      "type": "structure",
+      "members": {
+        "categories": {
+          "target": "com.posthog.evaluations#CreateEvaluationsTestHogRequestOutputConfigPassingRuleCase1CategoriesList",
+          "traits": {
+            "smithy.api#documentation": "Passing category keys. With keys selected, results must be non-empty and contain only these keys. If no passing keys are selected, only an empty result passes.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.evaluations#CreateEvaluationsTestHogRequestOutputConfigPassingRule": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.posthog.evaluations#CreateEvaluationsTestHogRequestOutputConfigPassingRuleCase0"
+        },
+        "Case1": {
+          "target": "com.posthog.evaluations#CreateEvaluationsTestHogRequestOutputConfigPassingRuleCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional numeric or categorical passing rule. Null removes the rule; historical results use the current rule."
+      }
+    },
+    "com.posthog.evaluations#CreateEvaluationsTestHogRequestOutputConfig": {
+      "type": "structure",
+      "members": {
+        "allows_na": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the evaluation can return N/A for non-applicable generations."
+          }
+        },
+        "true_is_failure": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Boolean output only. Omit for numeric, categorical, and sentiment output. Whether a true result means the evaluation found a problem. False (the default) suits pass/fail evaluations, where a true result satisfied the criteria. Set it to true for detector-style evaluations, so a true result is counted and labeled as a fail."
+          }
+        },
+        "min": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Inclusive minimum numeric score. Omit for no lower bound. Required for System One numeric judges.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Inclusive maximum numeric score. Omit for no upper bound. Required for System One numeric judges and must exceed min.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "step": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Optional positive input increment. Does not round evaluation results.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "options": {
+          "target": "com.posthog.evaluations#CreateEvaluationsTestHogRequestOutputConfigOptionsList",
+          "traits": {
+            "smithy.api#documentation": "Categorical output options. Keys identify stored results; labels are displayed to users."
+          }
+        },
+        "selection_mode": {
+          "target": "com.posthog.evaluations#CreateEvaluationsTestHogRequestOutputConfigSelectionMode",
+          "traits": {
+            "smithy.api#documentation": "Select one category or multiple categories. Multiple selection allows an empty result. Defaults to single."
+          }
+        },
+        "passing_rule": {
+          "target": "com.posthog.evaluations#CreateEvaluationsTestHogRequestOutputConfigPassingRule",
+          "traits": {
+            "smithy.api#documentation": "Optional numeric or categorical passing rule. Null removes the rule; historical results use the current rule.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Output settings used to validate the preview, including bounds, categories, and allows_na."
+      }
+    },
     "com.posthog.evaluations#CreateEvaluationsTestHogRequestConditionsItemMap": {
       "type": "map",
       "key": {
@@ -2001,10 +3492,22 @@
             "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
           }
         },
+        "output_type": {
+          "target": "com.posthog.evaluations#HogEvaluationOutputTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Expected output: boolean, numeric, or categorical. Sentiment is not supported by Hog.\n\n* `boolean` - Boolean (Pass/Fail)\n* `numeric` - Numeric\n* `categorical` - Categorical"
+          }
+        },
+        "output_config": {
+          "target": "com.posthog.evaluations#CreateEvaluationsTestHogRequestOutputConfig",
+          "traits": {
+            "smithy.api#documentation": "Output settings used to validate the preview, including bounds, categories, and allows_na."
+          }
+        },
         "source": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Hog source code to test. Must return a boolean (true = pass, false = fail) or null for N/A."
+            "smithy.api#documentation": "Hog source code to test. Return a boolean, finite number, or category keys matching output_type. Categorical single selection accepts one key or a one-item list; multiple selection accepts a list, including []. Return null only for allowed N/A. Output settings determine which boolean counts as a failure."
           }
         },
         "sample_count": {
@@ -2060,6 +3563,20 @@
     "com.posthog.evaluations#TestHogResultItem": {
       "type": "structure",
       "members": {
+        "categories": {
+          "target": "com.posthog.evaluations#TestHogResultItemCategoriesList",
+          "traits": {
+            "smithy.api#documentation": "Selected category keys. An empty list is an applicable result; null means no categorical result was produced.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "score": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Raw numeric score, or null when no numeric score was produced.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "sample_id": {
           "target": "smithy.api#String",
           "traits": {
@@ -2101,7 +3618,7 @@
         "result": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "True = pass, False = fail, null = N/A or error.",
+            "smithy.api#documentation": "Raw boolean result, or null when the evaluation returns N/A or raises an error.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -2121,6 +3638,15 @@
         }
       },
       "traits": {}
+    },
+    "com.posthog.evaluations#TestHogResultItemCategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Selected category keys. An empty list is an applicable result; null means no categorical result was produced."
+      }
     },
     "com.posthog.evaluations#TestHogResponseResultsList": {
       "type": "list",
@@ -2155,6 +3681,21 @@
         },
         {
           "target": "com.posthog.evaluations#CreateEvaluation"
+        },
+        {
+          "target": "com.posthog.evaluations#ListEvaluationsBackfills"
+        },
+        {
+          "target": "com.posthog.evaluations#CreateEvaluationsBackfill"
+        },
+        {
+          "target": "com.posthog.evaluations#GetEvaluationsBackfill"
+        },
+        {
+          "target": "com.posthog.evaluations#EvaluationsBackfillsCancelCreate"
+        },
+        {
+          "target": "com.posthog.evaluations#CreateEvaluationsBackfillsEstimate"
         },
         {
           "target": "com.posthog.evaluations#GetEvaluation"

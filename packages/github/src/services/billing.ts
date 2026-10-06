@@ -125,11 +125,7 @@ export const CreateOrganizationBudgetRequest = /*@__PURE__*/ S.suspend(() =>
     user: S.optional(S.String),
     expires_at: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/organizations/{org}/settings/billing/budgets",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/organizations/{org}/settings/billing/budgets", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateOrganizationBudgetRequest",
@@ -211,9 +207,7 @@ export const CreateBudgetBudget = /*@__PURE__*/ S.suspend(() =>
     budget_alerting: S.optional(CreateBudgetBudgetBudgetAlerting),
     expires_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateBudgetBudget",
-}) as any as S.Schema<CreateBudgetBudget>;
+).annotate({ identifier: "CreateBudgetBudget" }) as any as S.Schema<CreateBudgetBudget>;
 
 export interface CreateBudget {
   /** A message indicating the result of the create operation */
@@ -244,9 +238,7 @@ export const DeleteBudgetOrgRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteBudgetOrgRequest",
-}) as any as S.Schema<DeleteBudgetOrgRequest>;
+).annotate({ identifier: "DeleteBudgetOrgRequest" }) as any as S.Schema<DeleteBudgetOrgRequest>;
 
 export interface DeleteBudget {
   /** A message indicating the result of the deletion operation */
@@ -290,15 +282,9 @@ export const GetAllBudgetsOrgRequest = /*@__PURE__*/ S.suspend(() =>
     scope: S.optional(GetAllBudgetsOrgRequestScope.pipe(T.Query())),
     user: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{org}/settings/billing/budgets",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/organizations/{org}/settings/billing/budgets", code: 200 }),
   ),
-).annotate({
-  identifier: "GetAllBudgetsOrgRequest",
-}) as any as S.Schema<GetAllBudgetsOrgRequest>;
+).annotate({ identifier: "GetAllBudgetsOrgRequest" }) as any as S.Schema<GetAllBudgetsOrgRequest>;
 
 export type BudgetBudgetTypeCase0 = "SkuPricing";
 export const BudgetBudgetTypeCase0 = S.String;
@@ -338,9 +324,7 @@ export const BudgetBudgetAlerting = /*@__PURE__*/ S.suspend(() =>
     will_alert: S.Boolean,
     alert_recipients: BudgetBudgetAlertingAlertRecipientsList,
   }),
-).annotate({
-  identifier: "BudgetBudgetAlerting",
-}) as any as S.Schema<BudgetBudgetAlerting>;
+).annotate({ identifier: "BudgetBudgetAlerting" }) as any as S.Schema<BudgetBudgetAlerting>;
 
 export interface Budget {
   /** The unique identifier for the budget */
@@ -413,7 +397,7 @@ export interface GetAllBudgets {
   user?: string;
   /** Effective user-level budget details returned when the response is scoped with the `user` query parameter. */
   effective_budget?: GetAllBudgetsEffectiveBudget;
-  /** Indicates if there are more pages of results available (maps to hasNextPage from billing platform) */
+  /** Indicates if there are more pages of results available */
   has_next_page?: boolean;
   /** Total number of budgets matching the query */
   total_count?: number;
@@ -445,9 +429,7 @@ export const GetBudgetOrgRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetBudgetOrgRequest",
-}) as any as S.Schema<GetBudgetOrgRequest>;
+).annotate({ identifier: "GetBudgetOrgRequest" }) as any as S.Schema<GetBudgetOrgRequest>;
 
 /** The type of scope for the budget */
 export type GetBudgetBudgetScope =
@@ -487,9 +469,7 @@ export const GetBudgetBudgetAlerting = /*@__PURE__*/ S.suspend(() =>
     will_alert: S.optional(S.Boolean),
     alert_recipients: S.optional(GetBudgetBudgetAlertingAlertRecipientsList),
   }),
-).annotate({
-  identifier: "GetBudgetBudgetAlerting",
-}) as any as S.Schema<GetBudgetBudgetAlerting>;
+).annotate({ identifier: "GetBudgetBudgetAlerting" }) as any as S.Schema<GetBudgetBudgetAlerting>;
 
 export interface GetBudget {
   /** ID of the budget. */
@@ -509,6 +489,8 @@ export interface GetBudget {
   /** The type of pricing for the budget */
   budget_type: GetBudgetBudgetType;
   budget_alerting: GetBudgetBudgetAlerting;
+  /** The current usage amount counted toward the budget. How usage is calculated may vary by budget type. */
+  consumed_amount?: number;
 }
 export const GetBudget = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -521,6 +503,7 @@ export const GetBudget = /*@__PURE__*/ S.suspend(() =>
     budget_product_sku: S.String,
     budget_type: GetBudgetBudgetType,
     budget_alerting: GetBudgetBudgetAlerting,
+    consumed_amount: S.optional(S.Number),
   }),
 ).annotate({ identifier: "GetBudget" }) as any as S.Schema<GetBudget>;
 
@@ -674,11 +657,7 @@ export const GetGithubBillingAiCreditUsageReportUserRequest = /*@__PURE__*/ S.su
     model: S.optional(S.String.pipe(T.Query())),
     product: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/users/{username}/settings/billing/ai_credit/usage",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/users/{username}/settings/billing/ai_credit/usage", code: 200 }),
   ),
 ).annotate({
   identifier: "GetGithubBillingAiCreditUsageReportUserRequest",
@@ -883,13 +862,7 @@ export const GetGithubBillingUsageReportOrgRequest = /*@__PURE__*/ S.suspend(() 
     year: S.optional(S.Number.pipe(T.Query())),
     month: S.optional(S.Number.pipe(T.Query())),
     day: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{org}/settings/billing/usage",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{org}/settings/billing/usage", code: 200 })),
 ).annotate({
   identifier: "GetGithubBillingUsageReportOrgRequest",
 }) as any as S.Schema<GetGithubBillingUsageReportOrgRequest>;
@@ -948,9 +921,7 @@ export const BillingUsageReport = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     usageItems: S.optional(BillingUsageReportUsageItemsList),
   }),
-).annotate({
-  identifier: "BillingUsageReport",
-}) as any as S.Schema<BillingUsageReport>;
+).annotate({ identifier: "BillingUsageReport" }) as any as S.Schema<BillingUsageReport>;
 
 export interface GetGithubBillingUsageReportUserRequest {
   /** The handle for the GitHub user account. */
@@ -968,13 +939,7 @@ export const GetGithubBillingUsageReportUserRequest = /*@__PURE__*/ S.suspend(()
     year: S.optional(S.Number.pipe(T.Query())),
     month: S.optional(S.Number.pipe(T.Query())),
     day: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/users/{username}/settings/billing/usage",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/users/{username}/settings/billing/usage", code: 200 })),
 ).annotate({
   identifier: "GetGithubBillingUsageReportUserRequest",
 }) as any as S.Schema<GetGithubBillingUsageReportUserRequest>;
@@ -1030,9 +995,7 @@ export const BillingUsageReportUser = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     usageItems: S.optional(BillingUsageReportUserUsageItemsList),
   }),
-).annotate({
-  identifier: "BillingUsageReportUser",
-}) as any as S.Schema<BillingUsageReportUser>;
+).annotate({ identifier: "BillingUsageReportUser" }) as any as S.Schema<BillingUsageReportUser>;
 
 export interface GetGithubBillingUsageSummaryReportOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -1169,11 +1132,7 @@ export const GetGithubBillingUsageSummaryReportUserRequest = /*@__PURE__*/ S.sus
     product: S.optional(S.String.pipe(T.Query())),
     sku: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/users/{username}/settings/billing/usage/summary",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/users/{username}/settings/billing/usage/summary", code: 200 }),
   ),
 ).annotate({
   identifier: "GetGithubBillingUsageSummaryReportUserRequest",
@@ -1239,37 +1198,10 @@ export const UpdateBudgetOrgRequestBudgetAlerting = /*@__PURE__*/ S.suspend(() =
   identifier: "UpdateBudgetOrgRequestBudgetAlerting",
 }) as any as S.Schema<UpdateBudgetOrgRequestBudgetAlerting>;
 
-/** The scope of the budget for this organization. - `organization`: Apply the budget to the organization. - `repository`: Apply the budget to a specific repository in the organization. - `multi_user_customer`: Apply a universal budget to all users in the organization. - `user`: Apply the budget to a single user in the organization. */
-export type UpdateBudgetOrgRequestBudgetScope =
-  | "enterprise"
-  | "organization"
-  | "repository"
-  | "cost_center"
-  | "multi_user_customer"
-  | "user";
-export const UpdateBudgetOrgRequestBudgetScope = S.String;
-
-export type UpdateBudgetOrgRequestBudgetTypeCase0 = "BundlePricing";
-export const UpdateBudgetOrgRequestBudgetTypeCase0 = S.String;
-
-export type UpdateBudgetOrgRequestBudgetTypeCase1 = "ProductPricing";
-export const UpdateBudgetOrgRequestBudgetTypeCase1 = S.String;
-
-export type UpdateBudgetOrgRequestBudgetTypeCase2 = "SkuPricing";
-export const UpdateBudgetOrgRequestBudgetTypeCase2 = S.String;
-
-/** The type of pricing model used by the budget. Determines how `budget_product_sku` is interpreted. - `BundlePricing`: Covers all AI credit SKUs. Set `budget_product_sku` to `ai_credits`. - `ProductPricing`: Covers all SKUs that belong to a product. Set `budget_product_sku` to a product such as `actions` or `packages`. - `SkuPricing`: Covers a single, specific SKU. Set `budget_product_sku` to a SKU such as `actions_linux`. */
-export type UpdateBudgetOrgRequestBudgetType =
-  | UpdateBudgetOrgRequestBudgetTypeCase0
-  | UpdateBudgetOrgRequestBudgetTypeCase1
-  | UpdateBudgetOrgRequestBudgetTypeCase2;
-export const UpdateBudgetOrgRequestBudgetType =
-  S.Unknown as any as S.Schema<UpdateBudgetOrgRequestBudgetType>;
-
 export type UpdateBudgetOrgRequestExpiresAtCase1 = 0;
 export const UpdateBudgetOrgRequestExpiresAtCase1 = S.Number;
 
-/** The date the budget will expire in `YYYY-MM-DD` format. Only dates in the future are accepted. If not set, the budget will not expire. Setting to `null` or `0` will remove the expiration date from a budget if set. Only supported for budgets with `budget_scope` of `user` */
+/** The date the budget will expire in `YYYY-MM-DD` format. Only dates in the future are accepted. If not set, the budget will not expire. Setting to `null` or `0` will remove the expiration date from a budget if set. Only supported for existing user-scoped budgets. */
 export type UpdateBudgetOrgRequestExpiresAt = string | UpdateBudgetOrgRequestExpiresAtCase1;
 export const UpdateBudgetOrgRequestExpiresAt =
   S.Unknown as any as S.Schema<UpdateBudgetOrgRequestExpiresAt>;
@@ -1284,17 +1216,7 @@ export interface UpdateBudgetOrgRequest {
   /** Whether to prevent additional spending once the budget is exceeded. For budgets with `user` or `multi_user_customer` scope, this must remain `true`. */
   prevent_further_usage?: boolean;
   budget_alerting?: UpdateBudgetOrgRequestBudgetAlerting;
-  /** The scope of the budget for this organization. - `organization`: Apply the budget to the organization. - `repository`: Apply the budget to a specific repository in the organization. - `multi_user_customer`: Apply a universal budget to all users in the organization. - `user`: Apply the budget to a single user in the organization. */
-  budget_scope?: UpdateBudgetOrgRequestBudgetScope | (string & {});
-  /** The name of the entity to apply the budget to */
-  budget_entity_name?: string;
-  /** The type of pricing model used by the budget. Determines how `budget_product_sku` is interpreted. - `BundlePricing`: Covers all AI credit SKUs. Set `budget_product_sku` to `ai_credits`. - `ProductPricing`: Covers all SKUs that belong to a product. Set `budget_product_sku` to a product such as `actions` or `packages`. - `SkuPricing`: Covers a single, specific SKU. Set `budget_product_sku` to a SKU such as `actions_linux`. */
-  budget_type?: UpdateBudgetOrgRequestBudgetType;
-  /** A single product or SKU that will be covered in the budget */
-  budget_product_sku?: string;
-  /** The username of the user for `user` scope budgets. */
-  user?: string;
-  /** The date the budget will expire in `YYYY-MM-DD` format. Only dates in the future are accepted. If not set, the budget will not expire. Setting to `null` or `0` will remove the expiration date from a budget if set. Only supported for budgets with `budget_scope` of `user` */
+  /** The date the budget will expire in `YYYY-MM-DD` format. Only dates in the future are accepted. If not set, the budget will not expire. Setting to `null` or `0` will remove the expiration date from a budget if set. Only supported for existing user-scoped budgets. */
   expires_at?: UpdateBudgetOrgRequestExpiresAt;
 }
 export const UpdateBudgetOrgRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1304,11 +1226,6 @@ export const UpdateBudgetOrgRequest = /*@__PURE__*/ S.suspend(() =>
     budget_amount: S.optional(S.Number),
     prevent_further_usage: S.optional(S.Boolean),
     budget_alerting: S.optional(UpdateBudgetOrgRequestBudgetAlerting),
-    budget_scope: S.optional(UpdateBudgetOrgRequestBudgetScope),
-    budget_entity_name: S.optional(S.String),
-    budget_type: S.optional(UpdateBudgetOrgRequestBudgetType),
-    budget_product_sku: S.optional(S.String),
-    user: S.optional(S.String),
     expires_at: S.optional(UpdateBudgetOrgRequestExpiresAt),
   }).pipe(
     T.Http({
@@ -1317,9 +1234,7 @@ export const UpdateBudgetOrgRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateBudgetOrgRequest",
-}) as any as S.Schema<UpdateBudgetOrgRequest>;
+).annotate({ identifier: "UpdateBudgetOrgRequest" }) as any as S.Schema<UpdateBudgetOrgRequest>;
 
 /** The type of scope for the budget */
 export type UpdateBudgetBudgetBudgetScope =
@@ -1403,9 +1318,7 @@ export const UpdateBudgetBudget = /*@__PURE__*/ S.suspend(() =>
     budget_alerting: S.optional(UpdateBudgetBudgetBudgetAlerting),
     expires_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateBudgetBudget",
-}) as any as S.Schema<UpdateBudgetBudget>;
+).annotate({ identifier: "UpdateBudgetBudget" }) as any as S.Schema<UpdateBudgetBudget>;
 
 export interface UpdateBudget {
   /** A message indicating the result of the update operation */

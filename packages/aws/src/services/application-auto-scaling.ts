@@ -83,10 +83,7 @@ export class ConcurrentUpdateException
     "ConcurrentUpdateException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ConcurrentUpdateException",
-        httpResponseCode: 500,
-      }),
+      T.AwsQueryError({ code: "ConcurrentUpdateException", httpResponseCode: 500 }),
       T.HttpError(500),
     ),
   ).pipe(C.withServerError) {}
@@ -95,10 +92,7 @@ export class FailedResourceAccessException
     "FailedResourceAccessException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "FailedResourceAccessException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "FailedResourceAccessException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -107,10 +101,7 @@ export class InternalServiceException
     "InternalServiceException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InternalServiceException",
-        httpResponseCode: 500,
-      }),
+      T.AwsQueryError({ code: "InternalServiceException", httpResponseCode: 500 }),
       T.HttpError(500),
     ),
   ).pipe(C.withServerError) {}
@@ -119,10 +110,7 @@ export class InvalidNextTokenException
     "InvalidNextTokenException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidNextTokenException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidNextTokenException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -131,10 +119,7 @@ export class LimitExceededException
     "LimitExceededException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "LimitExceededException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "LimitExceededException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -143,10 +128,7 @@ export class ObjectNotFoundException
     "ObjectNotFoundException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ObjectNotFoundException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ObjectNotFoundException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -162,19 +144,13 @@ export class PredictiveScalingForecastNotSupported
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ResourceName: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), ResourceName: S.optional(S.String) },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class TooManyTagsException
   extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
     "TooManyTagsException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ResourceName: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), ResourceName: S.optional(S.String) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ValidationException
@@ -363,10 +339,7 @@ export interface DescribeScalableTargetsResponse {
   NextToken?: string;
 }
 export const DescribeScalableTargetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ScalableTargets: S.optional(ScalableTargets),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ ScalableTargets: S.optional(ScalableTargets), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "DescribeScalableTargetsResponse",
 }) as any as S.Schema<DescribeScalableTargetsResponse>;
@@ -415,9 +388,7 @@ export const NotScaledReason = /*@__PURE__*/ S.suspend(() =>
     MinCapacity: S.optional(S.Number),
     CurrentCapacity: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NotScaledReason",
-}) as any as S.Schema<NotScaledReason>;
+).annotate({ identifier: "NotScaledReason" }) as any as S.Schema<NotScaledReason>;
 export type NotScaledReasons = NotScaledReason[];
 export const NotScaledReasons = /*@__PURE__*/ S.Array(NotScaledReason);
 export interface ScalingActivity {
@@ -449,9 +420,7 @@ export const ScalingActivity = /*@__PURE__*/ S.suspend(() =>
     Details: S.optional(S.String),
     NotScaledReasons: S.optional(NotScaledReasons),
   }),
-).annotate({
-  identifier: "ScalingActivity",
-}) as any as S.Schema<ScalingActivity>;
+).annotate({ identifier: "ScalingActivity" }) as any as S.Schema<ScalingActivity>;
 export type ScalingActivities = ScalingActivity[];
 export const ScalingActivities = /*@__PURE__*/ S.Array(ScalingActivity);
 export interface DescribeScalingActivitiesResponse {
@@ -459,10 +428,7 @@ export interface DescribeScalingActivitiesResponse {
   NextToken?: string;
 }
 export const DescribeScalingActivitiesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ScalingActivities: S.optional(ScalingActivities),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ ScalingActivities: S.optional(ScalingActivities), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "DescribeScalingActivitiesResponse",
 }) as any as S.Schema<DescribeScalingActivitiesResponse>;
@@ -581,10 +547,7 @@ export interface PredefinedMetricSpecification {
   ResourceLabel?: string;
 }
 export const PredefinedMetricSpecification = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PredefinedMetricType: MetricType,
-    ResourceLabel: S.optional(S.String),
-  }),
+  S.Struct({ PredefinedMetricType: MetricType, ResourceLabel: S.optional(S.String) }),
 ).annotate({
   identifier: "PredefinedMetricSpecification",
 }) as any as S.Schema<PredefinedMetricSpecification>;
@@ -598,9 +561,7 @@ export interface MetricDimension {
 }
 export const MetricDimension = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String, Value: S.String }),
-).annotate({
-  identifier: "MetricDimension",
-}) as any as S.Schema<MetricDimension>;
+).annotate({ identifier: "MetricDimension" }) as any as S.Schema<MetricDimension>;
 export type MetricDimensions = MetricDimension[];
 export const MetricDimensions = /*@__PURE__*/ S.Array(MetricDimension);
 export type MetricStatistic =
@@ -641,9 +602,7 @@ export const TargetTrackingMetric = /*@__PURE__*/ S.suspend(() =>
     MetricName: S.optional(S.String),
     Namespace: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TargetTrackingMetric",
-}) as any as S.Schema<TargetTrackingMetric>;
+).annotate({ identifier: "TargetTrackingMetric" }) as any as S.Schema<TargetTrackingMetric>;
 export type TargetTrackingMetricUnit = string;
 export interface TargetTrackingMetricStat {
   Metric: TargetTrackingMetric;
@@ -651,14 +610,8 @@ export interface TargetTrackingMetricStat {
   Unit?: string;
 }
 export const TargetTrackingMetricStat = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Metric: TargetTrackingMetric,
-    Stat: S.String,
-    Unit: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TargetTrackingMetricStat",
-}) as any as S.Schema<TargetTrackingMetricStat>;
+  S.Struct({ Metric: TargetTrackingMetric, Stat: S.String, Unit: S.optional(S.String) }),
+).annotate({ identifier: "TargetTrackingMetricStat" }) as any as S.Schema<TargetTrackingMetricStat>;
 export type ReturnData = boolean;
 export interface TargetTrackingMetricDataQuery {
   Expression?: string;
@@ -727,10 +680,7 @@ export interface PredictiveScalingPredefinedMetricPairSpecification {
   ResourceLabel?: string;
 }
 export const PredictiveScalingPredefinedMetricPairSpecification = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PredefinedMetricType: S.String,
-    ResourceLabel: S.optional(S.String),
-  }),
+  S.Struct({ PredefinedMetricType: S.String, ResourceLabel: S.optional(S.String) }),
 ).annotate({
   identifier: "PredictiveScalingPredefinedMetricPairSpecification",
 }) as any as S.Schema<PredictiveScalingPredefinedMetricPairSpecification>;
@@ -739,10 +689,7 @@ export interface PredictiveScalingPredefinedScalingMetricSpecification {
   ResourceLabel?: string;
 }
 export const PredictiveScalingPredefinedScalingMetricSpecification = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PredefinedMetricType: S.String,
-    ResourceLabel: S.optional(S.String),
-  }),
+  S.Struct({ PredefinedMetricType: S.String, ResourceLabel: S.optional(S.String) }),
 ).annotate({
   identifier: "PredictiveScalingPredefinedScalingMetricSpecification",
 }) as any as S.Schema<PredictiveScalingPredefinedScalingMetricSpecification>;
@@ -751,10 +698,7 @@ export interface PredictiveScalingPredefinedLoadMetricSpecification {
   ResourceLabel?: string;
 }
 export const PredictiveScalingPredefinedLoadMetricSpecification = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PredefinedMetricType: S.String,
-    ResourceLabel: S.optional(S.String),
-  }),
+  S.Struct({ PredefinedMetricType: S.String, ResourceLabel: S.optional(S.String) }),
 ).annotate({
   identifier: "PredictiveScalingPredefinedLoadMetricSpecification",
 }) as any as S.Schema<PredictiveScalingPredefinedLoadMetricSpecification>;
@@ -786,9 +730,7 @@ export const PredictiveScalingMetric = /*@__PURE__*/ S.suspend(() =>
     MetricName: S.optional(S.String),
     Namespace: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PredictiveScalingMetric",
-}) as any as S.Schema<PredictiveScalingMetric>;
+).annotate({ identifier: "PredictiveScalingMetric" }) as any as S.Schema<PredictiveScalingMetric>;
 export type PredictiveScalingMetricUnit = string;
 export interface PredictiveScalingMetricStat {
   Metric: PredictiveScalingMetric;
@@ -796,11 +738,7 @@ export interface PredictiveScalingMetricStat {
   Unit?: string;
 }
 export const PredictiveScalingMetricStat = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Metric: PredictiveScalingMetric,
-    Stat: S.String,
-    Unit: S.optional(S.String),
-  }),
+  S.Struct({ Metric: PredictiveScalingMetric, Stat: S.String, Unit: S.optional(S.String) }),
 ).annotate({
   identifier: "PredictiveScalingMetricStat",
 }) as any as S.Schema<PredictiveScalingMetricStat>;
@@ -943,10 +881,7 @@ export interface DescribeScalingPoliciesResponse {
   NextToken?: string;
 }
 export const DescribeScalingPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ScalingPolicies: S.optional(ScalingPolicies),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ ScalingPolicies: S.optional(ScalingPolicies), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "DescribeScalingPoliciesResponse",
 }) as any as S.Schema<DescribeScalingPoliciesResponse>;
@@ -976,13 +911,8 @@ export interface ScalableTargetAction {
   MaxCapacity?: number;
 }
 export const ScalableTargetAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MinCapacity: S.optional(S.Number),
-    MaxCapacity: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ScalableTargetAction",
-}) as any as S.Schema<ScalableTargetAction>;
+  S.Struct({ MinCapacity: S.optional(S.Number), MaxCapacity: S.optional(S.Number) }),
+).annotate({ identifier: "ScalableTargetAction" }) as any as S.Schema<ScalableTargetAction>;
 export interface ScheduledAction {
   ScheduledActionName: string;
   ScheduledActionARN: string;
@@ -1010,9 +940,7 @@ export const ScheduledAction = /*@__PURE__*/ S.suspend(() =>
     ScalableTargetAction: S.optional(ScalableTargetAction),
     CreationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotate({
-  identifier: "ScheduledAction",
-}) as any as S.Schema<ScheduledAction>;
+).annotate({ identifier: "ScheduledAction" }) as any as S.Schema<ScheduledAction>;
 export type ScheduledActions = ScheduledAction[];
 export const ScheduledActions = /*@__PURE__*/ S.Array(ScheduledAction);
 export interface DescribeScheduledActionsResponse {
@@ -1020,10 +948,7 @@ export interface DescribeScheduledActionsResponse {
   NextToken?: string;
 }
 export const DescribeScheduledActionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ScheduledActions: S.optional(ScheduledActions),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ ScheduledActions: S.optional(ScheduledActions), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "DescribeScheduledActionsResponse",
 }) as any as S.Schema<DescribeScheduledActionsResponse>;
@@ -1076,9 +1001,7 @@ export const CapacityForecast = /*@__PURE__*/ S.suspend(() =>
     Timestamps: PredictiveScalingForecastTimestamps,
     Values: PredictiveScalingForecastValues,
   }),
-).annotate({
-  identifier: "CapacityForecast",
-}) as any as S.Schema<CapacityForecast>;
+).annotate({ identifier: "CapacityForecast" }) as any as S.Schema<CapacityForecast>;
 export interface GetPredictiveScalingForecastResponse {
   LoadForecast?: LoadForecast[];
   CapacityForecast?: CapacityForecast;
@@ -1137,18 +1060,14 @@ export const PutScalingPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     TargetTrackingScalingPolicyConfiguration: S.optional(TargetTrackingScalingPolicyConfiguration),
     PredictiveScalingPolicyConfiguration: S.optional(PredictiveScalingPolicyConfiguration),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "PutScalingPolicyRequest",
-}) as any as S.Schema<PutScalingPolicyRequest>;
+).annotate({ identifier: "PutScalingPolicyRequest" }) as any as S.Schema<PutScalingPolicyRequest>;
 export interface PutScalingPolicyResponse {
   PolicyARN: string;
   Alarms?: Alarm[];
 }
 export const PutScalingPolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ PolicyARN: S.String, Alarms: S.optional(Alarms) }),
-).annotate({
-  identifier: "PutScalingPolicyResponse",
-}) as any as S.Schema<PutScalingPolicyResponse>;
+).annotate({ identifier: "PutScalingPolicyResponse" }) as any as S.Schema<PutScalingPolicyResponse>;
 export interface PutScheduledActionRequest {
   ServiceNamespace: ServiceNamespace;
   Schedule?: string;
@@ -1219,9 +1138,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagMap }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -1236,9 +1153,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",

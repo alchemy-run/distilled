@@ -71,6 +71,8 @@ export interface AccountRelationshipDefinition {
   description?: string | null;
   /** Whether only one user can hold this relationship per account at a time, e.g. a single CSM per account. */
   is_single_holder?: boolean;
+  /** Whether customer analytics can take control of this relationship per account. Rows under a controlled relationship can't be deleted. On an account where control has started, only a person can change the relationship and an empty relationship is a deliberate decision. Set by project operators, not through this API. */
+  is_controlled: boolean;
 }
 export const AccountRelationshipDefinition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -78,6 +80,7 @@ export const AccountRelationshipDefinition = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     description: S.optional(S.NullOr(S.String)),
     is_single_holder: S.optional(S.Boolean),
+    is_controlled: S.Boolean,
   }),
 ).annotate({
   identifier: "AccountRelationshipDefinition",

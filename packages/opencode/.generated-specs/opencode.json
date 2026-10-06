@@ -1327,7 +1327,21 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Timeout in milliseconds to wait for response headers. Provider integrations may set defaults. Set to false to disable timeout."
+        "smithy.api#documentation": "Timeout in milliseconds to wait for response headers (default: 300000). Set to false to disable timeout."
+      }
+    },
+    "com.opencode.api#ProviderConfigOptionsChunkTimeout": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#Integer"
+        },
+        "Case1": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Timeout in milliseconds between streamed SSE chunks for this provider (default: 300000). If no chunk arrives within this window, the request is aborted. Set to false to disable timeout."
       }
     },
     "com.opencode.api#ProviderConfigOptions": {
@@ -1357,11 +1371,14 @@
         "headerTimeout": {
           "target": "com.opencode.api#ProviderConfigOptionsHeaderTimeout",
           "traits": {
-            "smithy.api#documentation": "Timeout in milliseconds to wait for response headers. Provider integrations may set defaults. Set to false to disable timeout."
+            "smithy.api#documentation": "Timeout in milliseconds to wait for response headers (default: 300000). Set to false to disable timeout."
           }
         },
         "chunkTimeout": {
-          "target": "smithy.api#Integer"
+          "target": "com.opencode.api#ProviderConfigOptionsChunkTimeout",
+          "traits": {
+            "smithy.api#documentation": "Timeout in milliseconds between streamed SSE chunks for this provider (default: 300000). If no chunk arrives within this window, the request is aborted. Set to false to disable timeout."
+          }
         }
       },
       "traits": {}

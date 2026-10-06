@@ -14,16 +14,8 @@ export interface DeleteSecretRequest {
 export const DeleteSecretRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     secretId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/SecretDelete",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteSecretRequest",
-}) as any as S.Schema<DeleteSecretRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/SecretDelete", code: 200 })),
+).annotate({ identifier: "DeleteSecretRequest" }) as any as S.Schema<DeleteSecretRequest>;
 
 export interface DeleteSecretResponse {}
 export const DeleteSecretResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -49,16 +41,8 @@ export const ListSecretRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     environmentName: S.optional(S.String),
     pagination: S.optional(ListPagination),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/SecretList",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListSecretRequest",
-}) as any as S.Schema<ListSecretRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/SecretList", code: 200 })),
+).annotate({ identifier: "ListSecretRequest" }) as any as S.Schema<ListSecretRequest>;
 
 export interface CreationInfo {
   /** This message is used in metadata for resource objects like Dict, Queue, Volume, etc. */
@@ -73,14 +57,21 @@ export const CreationInfo = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "CreationInfo" }) as any as S.Schema<CreationInfo>;
 
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
+
 export interface SecretMetadata {
   name?: string;
   creationInfo?: CreationInfo;
+  keys?: StringList;
+  environmentName?: string;
 }
 export const SecretMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     creationInfo: S.optional(CreationInfo),
+    keys: S.optional(StringList),
+    environmentName: S.optional(S.String),
   }),
 ).annotate({ identifier: "SecretMetadata" }) as any as S.Schema<SecretMetadata>;
 
@@ -119,9 +110,25 @@ export const ListSecretResponse = /*@__PURE__*/ S.suspend(() =>
     items: S.optional(SecretListItemList),
     environmentName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListSecretResponse",
-}) as any as S.Schema<ListSecretResponse>;
+).annotate({ identifier: "ListSecretResponse" }) as any as S.Schema<ListSecretResponse>;
+
+export interface SecretGetInfoRequest {
+  secretId?: string;
+}
+export const SecretGetInfoRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    secretId: S.optional(S.String),
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/SecretGetInfo", code: 200 })),
+).annotate({ identifier: "SecretGetInfoRequest" }) as any as S.Schema<SecretGetInfoRequest>;
+
+export interface SecretGetInfoResponse {
+  metadata?: SecretMetadata;
+}
+export const SecretGetInfoResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    metadata: S.optional(SecretMetadata),
+  }),
+).annotate({ identifier: "SecretGetInfoResponse" }) as any as S.Schema<SecretGetInfoResponse>;
 
 export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_UNSPECIFIED"
@@ -134,9 +141,6 @@ export const ObjectCreationType = S.String;
 
 export type StringMap = { [key: string]: string | undefined };
 export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
 export interface SecretGetOrCreateRequest {
   deploymentName?: string;
@@ -158,15 +162,9 @@ export const SecretGetOrCreateRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.optional(S.String),
     requiredKeys: S.optional(StringList),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/SecretGetOrCreate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/SecretGetOrCreate", code: 200 }),
   ),
-).annotate({
-  identifier: "SecretGetOrCreateRequest",
-}) as any as S.Schema<SecretGetOrCreateRequest>;
+).annotate({ identifier: "SecretGetOrCreateRequest" }) as any as S.Schema<SecretGetOrCreateRequest>;
 
 export interface SecretGetOrCreateResponse {
   secretId?: string;
@@ -208,16 +206,8 @@ export const UpdateSecretRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     secretId: S.optional(S.String),
     updates: S.optional(UpdateSecretRequestUpdateList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/SecretUpdate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateSecretRequest",
-}) as any as S.Schema<UpdateSecretRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/SecretUpdate", code: 200 })),
+).annotate({ identifier: "UpdateSecretRequest" }) as any as S.Schema<UpdateSecretRequest>;
 
 export interface UpdateSecretResponse {}
 export const UpdateSecretResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -248,6 +238,20 @@ export const listSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListSecretRequest,
   output: ListSecretResponse,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SecretGetInfoError = ModalOpError;
+export const secretGetInfo: API.OperationMethod<
+  SecretGetInfoRequest,
+  SecretGetInfoResponse,
+  SecretGetInfoError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SecretGetInfoRequest,
+  output: SecretGetInfoResponse,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,

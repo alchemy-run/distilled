@@ -8,8 +8,9 @@
  *
  *   1. Read the full spec.
  *   2. Apply ALL `patches/*.patch.json` ONCE to the full spec (RFC-6902,
- *      sorted name order; stale targets warn+skip — the submodule tracks
- *      upstream and drifts — malformed patches fail the run). Patching
+ *      sorted name order, through core's `applyRfc6902Files` so
+ *      `DISTILLED_SKIP_PATCHES` — and with it `pnpm patches:audit` — works;
+ *      stale targets and malformed patches fail the run). Patching
  *      per-slice would hard-fail: a patch targeting one tag's paths doesn't
  *      resolve against another tag's slice.
  *   3. Bucket operations by PRIMARY (first) tag — a single path can
@@ -25,13 +26,12 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 import {
-  applyOperation,
-  isStaleTargetError,
-  type PatchFile,
-} from "@distilled.cloud/core/json-patch";
+  applyRfc6902Files,
+  finalizeConvert,
+  listRfc6902PatchFiles,
+} from "@distilled.cloud/core/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 
 const rootDir = path.resolve(import.meta.dirname, "..");
 const specPath = resolveSpecPath(rootDir, "specs/spec-mirror-posthog/specs/openapi.json");
@@ -58,36 +58,14 @@ const toPascal = (slug: string): string =>
 const fullSpec = JSON.parse(fs.readFileSync(specPath, "utf-8"));
 
 // ---- 2. Apply the patch chain ONCE to the full spec ------------------------
-let patchFiles = 0;
-let staleOps = 0;
-const badPatches: string[] = [];
-for (const pf of fs
-  .readdirSync(patchDir)
-  .filter((f) => f.endsWith(".patch.json"))
-  .sort((a, b) => a.localeCompare(b))) {
-  const parsed = JSON.parse(fs.readFileSync(path.join(patchDir, pf), "utf-8")) as PatchFile;
-  for (const patchOp of parsed.patches ?? []) {
-    try {
-      applyOperation(fullSpec, patchOp);
-    } catch (e) {
-      const msg = e instanceof Error ? e.message : String(e);
-      if (isStaleTargetError(msg)) {
-        staleOps++;
-        console.warn(`   ⚠️  stale: ${pf} [${patchOp.op} ${patchOp.path}]`);
-      } else {
-        badPatches.push(`${pf} [${patchOp.op} ${patchOp.path}]: ${msg}`);
-      }
-    }
-  }
-  patchFiles++;
+const patched = await applyRfc6902Files(fullSpec, await listRfc6902PatchFiles(patchDir));
+if (patched.errors.length) {
+  for (const b of patched.errors) console.error(`❌ bad patch: ${b}`);
+  throw new Error(
+    `${patched.errors.length} patch operation(s) failed — fix the pointers or delete the patch`,
+  );
 }
-if (badPatches.length) {
-  for (const b of badPatches) console.error(`❌ bad patch: ${b}`);
-  throw new Error(`${badPatches.length} malformed patch operation(s) — fix or remove them`);
-}
-console.log(
-  `🩹 ${patchFiles} patch files applied` + (staleOps ? ` (${staleOps} stale op(s) skipped)` : ""),
-);
+console.log(`🩹 ${patched.files} patch files applied`);
 
 // ---- 3. Bucket paths by primary tag ----------------------------------------
 const tagBuckets = new Map<string, Record<string, Record<string, unknown>>>();

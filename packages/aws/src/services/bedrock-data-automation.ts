@@ -175,13 +175,8 @@ export interface EncryptionConfiguration {
   kmsEncryptionContext?: { [key: string]: string | undefined };
 }
 export const EncryptionConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kmsKeyId: S.String,
-    kmsEncryptionContext: S.optional(KmsEncryptionContext),
-  }),
-).annotate({
-  identifier: "EncryptionConfiguration",
-}) as any as S.Schema<EncryptionConfiguration>;
+  S.Struct({ kmsKeyId: S.String, kmsEncryptionContext: S.optional(KmsEncryptionContext) }),
+).annotate({ identifier: "EncryptionConfiguration" }) as any as S.Schema<EncryptionConfiguration>;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
@@ -212,9 +207,7 @@ export const CreateBlueprintRequest = /*@__PURE__*/ S.suspend(() =>
     encryptionConfiguration: S.optional(EncryptionConfiguration),
     tags: S.optional(TagList),
   }).pipe(T.all(T.Http({ method: "PUT", uri: "/blueprints/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateBlueprintRequest",
-}) as any as S.Schema<CreateBlueprintRequest>;
+).annotate({ identifier: "CreateBlueprintRequest" }) as any as S.Schema<CreateBlueprintRequest>;
 export type BlueprintVersion = string;
 export type S3Uri = string;
 export type S3ObjectVersion = string;
@@ -271,9 +264,7 @@ export interface CreateBlueprintResponse {
 }
 export const CreateBlueprintResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ blueprint: Blueprint }),
-).annotate({
-  identifier: "CreateBlueprintResponse",
-}) as any as S.Schema<CreateBlueprintResponse>;
+).annotate({ identifier: "CreateBlueprintResponse" }) as any as S.Schema<CreateBlueprintResponse>;
 export interface CreateBlueprintVersionRequest {
   blueprintArn: string;
   clientToken?: string;
@@ -341,10 +332,7 @@ export interface CreateDataAutomationLibraryResponse {
   status?: DataAutomationLibraryStatus;
 }
 export const CreateDataAutomationLibraryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    libraryArn: S.optional(S.String),
-    status: S.optional(DataAutomationLibraryStatus),
-  }),
+  S.Struct({ libraryArn: S.optional(S.String), status: S.optional(DataAutomationLibraryStatus) }),
 ).annotate({
   identifier: "CreateDataAutomationLibraryResponse",
 }) as any as S.Schema<CreateDataAutomationLibraryResponse>;
@@ -385,18 +373,13 @@ export interface DocumentBoundingBox {
 }
 export const DocumentBoundingBox = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ state: State }),
-).annotate({
-  identifier: "DocumentBoundingBox",
-}) as any as S.Schema<DocumentBoundingBox>;
+).annotate({ identifier: "DocumentBoundingBox" }) as any as S.Schema<DocumentBoundingBox>;
 export interface DocumentStandardExtraction {
   granularity: DocumentExtractionGranularity;
   boundingBox: DocumentBoundingBox;
 }
 export const DocumentStandardExtraction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    granularity: DocumentExtractionGranularity,
-    boundingBox: DocumentBoundingBox,
-  }),
+  S.Struct({ granularity: DocumentExtractionGranularity, boundingBox: DocumentBoundingBox }),
 ).annotate({
   identifier: "DocumentStandardExtraction",
 }) as any as S.Schema<DocumentStandardExtraction>;
@@ -423,9 +406,7 @@ export interface DocumentOutputTextFormat {
 }
 export const DocumentOutputTextFormat = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ types: S.optional(DocumentOutputTextFormatTypes) }),
-).annotate({
-  identifier: "DocumentOutputTextFormat",
-}) as any as S.Schema<DocumentOutputTextFormat>;
+).annotate({ identifier: "DocumentOutputTextFormat" }) as any as S.Schema<DocumentOutputTextFormat>;
 export interface DocumentOutputAdditionalFileFormat {
   state: State;
 }
@@ -443,9 +424,7 @@ export const DocumentOutputFormat = /*@__PURE__*/ S.suspend(() =>
     textFormat: DocumentOutputTextFormat,
     additionalFileFormat: DocumentOutputAdditionalFileFormat,
   }),
-).annotate({
-  identifier: "DocumentOutputFormat",
-}) as any as S.Schema<DocumentOutputFormat>;
+).annotate({ identifier: "DocumentOutputFormat" }) as any as S.Schema<DocumentOutputFormat>;
 export interface DocumentStandardOutputConfiguration {
   extraction?: DocumentStandardExtraction;
   generativeField?: DocumentStandardGenerativeField;
@@ -475,9 +454,7 @@ export interface ImageExtractionCategory {
 }
 export const ImageExtractionCategory = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ state: State, types: S.optional(ImageExtractionCategoryTypes) }),
-).annotate({
-  identifier: "ImageExtractionCategory",
-}) as any as S.Schema<ImageExtractionCategory>;
+).annotate({ identifier: "ImageExtractionCategory" }) as any as S.Schema<ImageExtractionCategory>;
 export interface ImageBoundingBox {
   state: State;
 }
@@ -489,13 +466,8 @@ export interface ImageStandardExtraction {
   boundingBox: ImageBoundingBox;
 }
 export const ImageStandardExtraction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    category: ImageExtractionCategory,
-    boundingBox: ImageBoundingBox,
-  }),
-).annotate({
-  identifier: "ImageStandardExtraction",
-}) as any as S.Schema<ImageStandardExtraction>;
+  S.Struct({ category: ImageExtractionCategory, boundingBox: ImageBoundingBox }),
+).annotate({ identifier: "ImageStandardExtraction" }) as any as S.Schema<ImageStandardExtraction>;
 export type ImageStandardGenerativeFieldType = "IMAGE_SUMMARY" | "IAB" | (string & {});
 export const ImageStandardGenerativeFieldType = S.String;
 
@@ -508,10 +480,7 @@ export interface ImageStandardGenerativeField {
   types?: ImageStandardGenerativeFieldType[];
 }
 export const ImageStandardGenerativeField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    state: State,
-    types: S.optional(ImageStandardGenerativeFieldTypes),
-  }),
+  S.Struct({ state: State, types: S.optional(ImageStandardGenerativeFieldTypes) }),
 ).annotate({
   identifier: "ImageStandardGenerativeField",
 }) as any as S.Schema<ImageStandardGenerativeField>;
@@ -543,9 +512,7 @@ export interface VideoExtractionCategory {
 }
 export const VideoExtractionCategory = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ state: State, types: S.optional(VideoExtractionCategoryTypes) }),
-).annotate({
-  identifier: "VideoExtractionCategory",
-}) as any as S.Schema<VideoExtractionCategory>;
+).annotate({ identifier: "VideoExtractionCategory" }) as any as S.Schema<VideoExtractionCategory>;
 export interface VideoBoundingBox {
   state: State;
 }
@@ -557,13 +524,8 @@ export interface VideoStandardExtraction {
   boundingBox: VideoBoundingBox;
 }
 export const VideoStandardExtraction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    category: VideoExtractionCategory,
-    boundingBox: VideoBoundingBox,
-  }),
-).annotate({
-  identifier: "VideoStandardExtraction",
-}) as any as S.Schema<VideoStandardExtraction>;
+  S.Struct({ category: VideoExtractionCategory, boundingBox: VideoBoundingBox }),
+).annotate({ identifier: "VideoStandardExtraction" }) as any as S.Schema<VideoStandardExtraction>;
 export type VideoStandardGenerativeFieldType =
   | "VIDEO_SUMMARY"
   | "IAB"
@@ -580,10 +542,7 @@ export interface VideoStandardGenerativeField {
   types?: VideoStandardGenerativeFieldType[];
 }
 export const VideoStandardGenerativeField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    state: State,
-    types: S.optional(VideoStandardGenerativeFieldTypes),
-  }),
+  S.Struct({ state: State, types: S.optional(VideoStandardGenerativeFieldTypes) }),
 ).annotate({
   identifier: "VideoStandardGenerativeField",
 }) as any as S.Schema<VideoStandardGenerativeField>;
@@ -633,9 +592,7 @@ export const TranscriptConfiguration = /*@__PURE__*/ S.suspend(() =>
     speakerLabeling: S.optional(SpeakerLabelingConfiguration),
     channelLabeling: S.optional(ChannelLabelingConfiguration),
   }),
-).annotate({
-  identifier: "TranscriptConfiguration",
-}) as any as S.Schema<TranscriptConfiguration>;
+).annotate({ identifier: "TranscriptConfiguration" }) as any as S.Schema<TranscriptConfiguration>;
 export interface AudioExtractionCategoryTypeConfiguration {
   transcript?: TranscriptConfiguration;
 }
@@ -655,17 +612,13 @@ export const AudioExtractionCategory = /*@__PURE__*/ S.suspend(() =>
     types: S.optional(AudioExtractionCategoryTypes),
     typeConfiguration: S.optional(AudioExtractionCategoryTypeConfiguration),
   }),
-).annotate({
-  identifier: "AudioExtractionCategory",
-}) as any as S.Schema<AudioExtractionCategory>;
+).annotate({ identifier: "AudioExtractionCategory" }) as any as S.Schema<AudioExtractionCategory>;
 export interface AudioStandardExtraction {
   category: AudioExtractionCategory;
 }
 export const AudioStandardExtraction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ category: AudioExtractionCategory }),
-).annotate({
-  identifier: "AudioStandardExtraction",
-}) as any as S.Schema<AudioStandardExtraction>;
+).annotate({ identifier: "AudioStandardExtraction" }) as any as S.Schema<AudioStandardExtraction>;
 export type AudioStandardGenerativeFieldType =
   | "AUDIO_SUMMARY"
   | "IAB"
@@ -682,10 +635,7 @@ export interface AudioStandardGenerativeField {
   types?: AudioStandardGenerativeFieldType[];
 }
 export const AudioStandardGenerativeField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    state: State,
-    types: S.optional(AudioStandardGenerativeFieldTypes),
-  }),
+  S.Struct({ state: State, types: S.optional(AudioStandardGenerativeFieldTypes) }),
 ).annotate({
   identifier: "AudioStandardGenerativeField",
 }) as any as S.Schema<AudioStandardGenerativeField>;
@@ -758,9 +708,7 @@ export interface SplitterConfiguration {
 }
 export const SplitterConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ state: S.optional(State) }),
-).annotate({
-  identifier: "SplitterConfiguration",
-}) as any as S.Schema<SplitterConfiguration>;
+).annotate({ identifier: "SplitterConfiguration" }) as any as S.Schema<SplitterConfiguration>;
 export interface ModalityProcessingConfiguration {
   state?: State;
 }
@@ -827,9 +775,7 @@ export const PIIEntitiesConfiguration = /*@__PURE__*/ S.suspend(() =>
     piiEntityTypes: S.optional(PIIEntityTypes),
     redactionMaskMode: S.optional(PIIRedactionMaskMode),
   }),
-).annotate({
-  identifier: "PIIEntitiesConfiguration",
-}) as any as S.Schema<PIIEntitiesConfiguration>;
+).annotate({ identifier: "PIIEntitiesConfiguration" }) as any as S.Schema<PIIEntitiesConfiguration>;
 export interface SensitiveDataConfiguration {
   detectionMode: SensitiveDataDetectionMode;
   detectionScope?: SensitiveDataDetectionScopeType[];
@@ -964,9 +910,7 @@ export const OverrideConfiguration = /*@__PURE__*/ S.suspend(() =>
     audio: S.optional(AudioOverrideConfiguration),
     modalityRouting: S.optional(ModalityRoutingConfiguration),
   }),
-).annotate({
-  identifier: "OverrideConfiguration",
-}) as any as S.Schema<OverrideConfiguration>;
+).annotate({ identifier: "OverrideConfiguration" }) as any as S.Schema<OverrideConfiguration>;
 export interface DataAutomationLibraryItem {
   libraryArn: string;
 }
@@ -1060,9 +1004,7 @@ export const DeleteBlueprintRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteBlueprintRequest",
-}) as any as S.Schema<DeleteBlueprintRequest>;
+).annotate({ identifier: "DeleteBlueprintRequest" }) as any as S.Schema<DeleteBlueprintRequest>;
 export interface DeleteBlueprintResponse {}
 export const DeleteBlueprintResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteBlueprintResponse",
@@ -1073,10 +1015,7 @@ export interface DeleteDataAutomationLibraryRequest {
 export const DeleteDataAutomationLibraryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ libraryArn: S.String.pipe(T.HttpLabel("libraryArn")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/data-automation-libraries/{libraryArn}/",
-      }),
+      T.Http({ method: "DELETE", uri: "/data-automation-libraries/{libraryArn}/" }),
       svc,
       auth,
       proto,
@@ -1092,10 +1031,7 @@ export interface DeleteDataAutomationLibraryResponse {
   status?: DataAutomationLibraryStatus;
 }
 export const DeleteDataAutomationLibraryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    libraryArn: S.optional(S.String),
-    status: S.optional(DataAutomationLibraryStatus),
-  }),
+  S.Struct({ libraryArn: S.optional(S.String), status: S.optional(DataAutomationLibraryStatus) }),
 ).annotate({
   identifier: "DeleteDataAutomationLibraryResponse",
 }) as any as S.Schema<DeleteDataAutomationLibraryResponse>;
@@ -1105,10 +1041,7 @@ export interface DeleteDataAutomationProjectRequest {
 export const DeleteDataAutomationProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ projectArn: S.String.pipe(T.HttpLabel("projectArn")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/data-automation-projects/{projectArn}/",
-      }),
+      T.Http({ method: "DELETE", uri: "/data-automation-projects/{projectArn}/" }),
       svc,
       auth,
       proto,
@@ -1124,10 +1057,7 @@ export interface DeleteDataAutomationProjectResponse {
   status?: DataAutomationProjectStatus;
 }
 export const DeleteDataAutomationProjectResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectArn: S.String,
-    status: S.optional(DataAutomationProjectStatus),
-  }),
+  S.Struct({ projectArn: S.String, status: S.optional(DataAutomationProjectStatus) }),
 ).annotate({
   identifier: "DeleteDataAutomationProjectResponse",
 }) as any as S.Schema<DeleteDataAutomationProjectResponse>;
@@ -1151,30 +1081,21 @@ export const GetBlueprintRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetBlueprintRequest",
-}) as any as S.Schema<GetBlueprintRequest>;
+).annotate({ identifier: "GetBlueprintRequest" }) as any as S.Schema<GetBlueprintRequest>;
 export interface GetBlueprintResponse {
   blueprint: Blueprint;
 }
 export const GetBlueprintResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ blueprint: Blueprint }),
-).annotate({
-  identifier: "GetBlueprintResponse",
-}) as any as S.Schema<GetBlueprintResponse>;
+).annotate({ identifier: "GetBlueprintResponse" }) as any as S.Schema<GetBlueprintResponse>;
 export type BlueprintOptimizationInvocationArn = string;
 export interface GetBlueprintOptimizationStatusRequest {
   invocationArn: string;
 }
 export const GetBlueprintOptimizationStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    invocationArn: S.String.pipe(T.HttpLabel("invocationArn")),
-  }).pipe(
+  S.Struct({ invocationArn: S.String.pipe(T.HttpLabel("invocationArn")) }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/getBlueprintOptimizationStatus/{invocationArn}",
-      }),
+      T.Http({ method: "POST", uri: "/getBlueprintOptimizationStatus/{invocationArn}" }),
       svc,
       auth,
       proto,
@@ -1224,10 +1145,7 @@ export interface GetDataAutomationLibraryRequest {
 export const GetDataAutomationLibraryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ libraryArn: S.String.pipe(T.HttpLabel("libraryArn")) }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/data-automation-libraries/{libraryArn}/",
-      }),
+      T.Http({ method: "POST", uri: "/data-automation-libraries/{libraryArn}/" }),
       svc,
       auth,
       proto,
@@ -1272,9 +1190,7 @@ export const DataAutomationLibrary = /*@__PURE__*/ S.suspend(() =>
     kmsKeyId: S.optional(S.String),
     kmsEncryptionContext: S.optional(KmsEncryptionContext),
   }),
-).annotate({
-  identifier: "DataAutomationLibrary",
-}) as any as S.Schema<DataAutomationLibrary>;
+).annotate({ identifier: "DataAutomationLibrary" }) as any as S.Schema<DataAutomationLibrary>;
 export interface GetDataAutomationLibraryResponse {
   library?: DataAutomationLibrary;
 }
@@ -1318,10 +1234,7 @@ export interface Phrase {
   displayAsText?: string | redacted.Redacted<string>;
 }
 export const Phrase = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    text: SensitiveString,
-    displayAsText: S.optional(SensitiveString),
-  }),
+  S.Struct({ text: SensitiveString, displayAsText: S.optional(SensitiveString) }),
 ).annotate({ identifier: "Phrase" }) as any as S.Schema<Phrase>;
 export type PhraseList = Phrase[];
 export const PhraseList = /*@__PURE__*/ S.Array(Phrase);
@@ -1340,9 +1253,7 @@ export const VocabularyEntity = /*@__PURE__*/ S.suspend(() =>
     phrases: S.optional(PhraseList),
     lastModifiedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "VocabularyEntity",
-}) as any as S.Schema<VocabularyEntity>;
+).annotate({ identifier: "VocabularyEntity" }) as any as S.Schema<VocabularyEntity>;
 export type EntityDetails = { vocabulary: VocabularyEntity };
 export const EntityDetails = /*@__PURE__*/ S.Union([S.Struct({ vocabulary: VocabularyEntity })]);
 export interface GetDataAutomationLibraryEntityResponse {
@@ -1394,9 +1305,7 @@ export interface OutputConfiguration {
 }
 export const OutputConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ s3Uri: S.String }),
-).annotate({
-  identifier: "OutputConfiguration",
-}) as any as S.Schema<OutputConfiguration>;
+).annotate({ identifier: "OutputConfiguration" }) as any as S.Schema<OutputConfiguration>;
 export interface DataAutomationLibraryIngestionJob {
   jobArn: string;
   creationTime: Date;
@@ -1441,10 +1350,7 @@ export const GetDataAutomationProjectRequest = /*@__PURE__*/ S.suspend(() =>
     projectStage: S.optional(DataAutomationProjectStage),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/data-automation-projects/{projectArn}/",
-      }),
+      T.Http({ method: "POST", uri: "/data-automation-projects/{projectArn}/" }),
       svc,
       auth,
       proto,
@@ -1488,9 +1394,7 @@ export const DataAutomationProject = /*@__PURE__*/ S.suspend(() =>
     kmsKeyId: S.optional(S.String),
     kmsEncryptionContext: S.optional(KmsEncryptionContext),
   }),
-).annotate({
-  identifier: "DataAutomationProject",
-}) as any as S.Schema<DataAutomationProject>;
+).annotate({ identifier: "DataAutomationProject" }) as any as S.Schema<DataAutomationProject>;
 export interface GetDataAutomationProjectResponse {
   project: DataAutomationProject;
 }
@@ -1559,9 +1463,7 @@ export const VocabularyEntityInfo = /*@__PURE__*/ S.suspend(() =>
     language: Language,
     phrases: PhraseList,
   }),
-).annotate({
-  identifier: "VocabularyEntityInfo",
-}) as any as S.Schema<VocabularyEntityInfo>;
+).annotate({ identifier: "VocabularyEntityInfo" }) as any as S.Schema<VocabularyEntityInfo>;
 export type UpsertEntityInfo = { vocabulary: VocabularyEntityInfo };
 export const UpsertEntityInfo = /*@__PURE__*/ S.Union([
   S.Struct({ vocabulary: VocabularyEntityInfo }),
@@ -1575,9 +1477,7 @@ export interface DeleteEntitiesInfo {
 }
 export const DeleteEntitiesInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ entityIds: EntityIdList }),
-).annotate({
-  identifier: "DeleteEntitiesInfo",
-}) as any as S.Schema<DeleteEntitiesInfo>;
+).annotate({ identifier: "DeleteEntitiesInfo" }) as any as S.Schema<DeleteEntitiesInfo>;
 export type InlinePayload =
   | { upsertEntitiesInfo: UpsertEntityInfo[]; deleteEntitiesInfo?: never }
   | { upsertEntitiesInfo?: never; deleteEntitiesInfo: DeleteEntitiesInfo };
@@ -1590,21 +1490,14 @@ export interface InputConfiguration {
   inlinePayload?: InlinePayload;
 }
 export const InputConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    s3Object: S.optional(S3Object),
-    inlinePayload: S.optional(InlinePayload),
-  }),
-).annotate({
-  identifier: "InputConfiguration",
-}) as any as S.Schema<InputConfiguration>;
+  S.Struct({ s3Object: S.optional(S3Object), inlinePayload: S.optional(InlinePayload) }),
+).annotate({ identifier: "InputConfiguration" }) as any as S.Schema<InputConfiguration>;
 export interface EventBridgeConfiguration {
   eventBridgeEnabled: boolean;
 }
 export const EventBridgeConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ eventBridgeEnabled: S.Boolean }),
-).annotate({
-  identifier: "EventBridgeConfiguration",
-}) as any as S.Schema<EventBridgeConfiguration>;
+).annotate({ identifier: "EventBridgeConfiguration" }) as any as S.Schema<EventBridgeConfiguration>;
 export interface NotificationConfiguration {
   eventBridgeConfiguration: EventBridgeConfiguration;
 }
@@ -1670,10 +1563,7 @@ export interface DataAutomationProjectFilter {
   projectStage?: DataAutomationProjectStage;
 }
 export const DataAutomationProjectFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectArn: S.String,
-    projectStage: S.optional(DataAutomationProjectStage),
-  }),
+  S.Struct({ projectArn: S.String, projectStage: S.optional(DataAutomationProjectStage) }),
 ).annotate({
   identifier: "DataAutomationProjectFilter",
 }) as any as S.Schema<DataAutomationProjectFilter>;
@@ -1694,9 +1584,7 @@ export const ListBlueprintsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String),
     projectFilter: S.optional(DataAutomationProjectFilter),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/blueprints/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListBlueprintsRequest",
-}) as any as S.Schema<ListBlueprintsRequest>;
+).annotate({ identifier: "ListBlueprintsRequest" }) as any as S.Schema<ListBlueprintsRequest>;
 export interface BlueprintSummary {
   blueprintArn: string;
   blueprintVersion?: string;
@@ -1714,9 +1602,7 @@ export const BlueprintSummary = /*@__PURE__*/ S.suspend(() =>
     creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     lastModifiedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "BlueprintSummary",
-}) as any as S.Schema<BlueprintSummary>;
+).annotate({ identifier: "BlueprintSummary" }) as any as S.Schema<BlueprintSummary>;
 export type Blueprints = BlueprintSummary[];
 export const Blueprints = /*@__PURE__*/ S.Array(BlueprintSummary);
 export interface ListBlueprintsResponse {
@@ -1725,9 +1611,7 @@ export interface ListBlueprintsResponse {
 }
 export const ListBlueprintsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ blueprints: Blueprints, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListBlueprintsResponse",
-}) as any as S.Schema<ListBlueprintsResponse>;
+).annotate({ identifier: "ListBlueprintsResponse" }) as any as S.Schema<ListBlueprintsResponse>;
 export interface ListDataAutomationLibrariesRequest {
   maxResults?: number;
   nextToken?: string;
@@ -1822,12 +1706,8 @@ export const VocabularyEntitySummary = /*@__PURE__*/ S.suspend(() =>
     numOfPhrases: S.optional(S.Number),
     lastModifiedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "VocabularyEntitySummary",
-}) as any as S.Schema<VocabularyEntitySummary>;
-export type DataAutomationLibraryEntitySummary = {
-  vocabulary: VocabularyEntitySummary;
-};
+).annotate({ identifier: "VocabularyEntitySummary" }) as any as S.Schema<VocabularyEntitySummary>;
+export type DataAutomationLibraryEntitySummary = { vocabulary: VocabularyEntitySummary };
 export const DataAutomationLibraryEntitySummary = /*@__PURE__*/ S.Union([
   S.Struct({ vocabulary: VocabularyEntitySummary }),
 ]);
@@ -1923,9 +1803,7 @@ export const BlueprintFilter = /*@__PURE__*/ S.suspend(() =>
     blueprintVersion: S.optional(S.String),
     blueprintStage: S.optional(BlueprintStage),
   }),
-).annotate({
-  identifier: "BlueprintFilter",
-}) as any as S.Schema<BlueprintFilter>;
+).annotate({ identifier: "BlueprintFilter" }) as any as S.Schema<BlueprintFilter>;
 export interface DataAutomationLibraryFilter {
   libraryArn: string;
 }
@@ -1988,10 +1866,7 @@ export interface ListDataAutomationProjectsResponse {
   nextToken?: string;
 }
 export const ListDataAutomationProjectsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projects: DataAutomationProjectSummaries,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ projects: DataAutomationProjectSummaries, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListDataAutomationProjectsResponse",
 }) as any as S.Schema<ListDataAutomationProjectsResponse>;
@@ -2022,9 +1897,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceARN: S.String, tags: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tagResource" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -2039,9 +1912,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceARN: S.String, tagKeys: TagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/untagResource" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -2068,17 +1939,13 @@ export const UpdateBlueprintRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateBlueprintRequest",
-}) as any as S.Schema<UpdateBlueprintRequest>;
+).annotate({ identifier: "UpdateBlueprintRequest" }) as any as S.Schema<UpdateBlueprintRequest>;
 export interface UpdateBlueprintResponse {
   blueprint: Blueprint;
 }
 export const UpdateBlueprintResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ blueprint: Blueprint }),
-).annotate({
-  identifier: "UpdateBlueprintResponse",
-}) as any as S.Schema<UpdateBlueprintResponse>;
+).annotate({ identifier: "UpdateBlueprintResponse" }) as any as S.Schema<UpdateBlueprintResponse>;
 export interface UpdateDataAutomationLibraryRequest {
   libraryArn: string;
   libraryDescription?: string | redacted.Redacted<string>;
@@ -2091,10 +1958,7 @@ export const UpdateDataAutomationLibraryRequest = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/data-automation-libraries/{libraryArn}/",
-      }),
+      T.Http({ method: "PUT", uri: "/data-automation-libraries/{libraryArn}/" }),
       svc,
       auth,
       proto,
@@ -2110,10 +1974,7 @@ export interface UpdateDataAutomationLibraryResponse {
   status?: DataAutomationLibraryStatus;
 }
 export const UpdateDataAutomationLibraryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    libraryArn: S.optional(S.String),
-    status: S.optional(DataAutomationLibraryStatus),
-  }),
+  S.Struct({ libraryArn: S.optional(S.String), status: S.optional(DataAutomationLibraryStatus) }),
 ).annotate({
   identifier: "UpdateDataAutomationLibraryResponse",
 }) as any as S.Schema<UpdateDataAutomationLibraryResponse>;
@@ -2171,9 +2032,7 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type CopyBlueprintStageError =

@@ -62,7 +62,7 @@ export const AkriConnectorCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}/connectors/{connectorName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -446,7 +446,7 @@ export const AkriConnectorTemplateCreateOrUpdateRequest = /*@__PURE__*/ S.suspen
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -560,7 +560,7 @@ export const AkriServiceCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriServices/{akriServiceName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -824,7 +824,7 @@ export const BrokerAuthenticationCreateOrUpdateRequest = /*@__PURE__*/ S.suspend
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authentications/{authenticationName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -1093,7 +1093,7 @@ export const BrokerAuthorizationCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authorizations/{authorizationName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -1787,7 +1787,7 @@ export const BrokerCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -1896,7 +1896,7 @@ export const CertManagerIssuerKind = S.String;
 /** Cert-Manager issuerRef properties */
 export interface CertManagerIssuerRef {
   /** group of issuer. */
-  group: string;
+  group?: string;
   /** kind of issuer (Issuer or ClusterIssuer). */
   kind: CertManagerIssuerKind | (string & {});
   /** name of issuer. */
@@ -1904,7 +1904,7 @@ export interface CertManagerIssuerRef {
 }
 export const CertManagerIssuerRef = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    group: S.String,
+    group: S.optional(S.String),
     kind: CertManagerIssuerKind,
     name: S.String,
   }),
@@ -2066,7 +2066,7 @@ export const BrokerListenerCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/listeners/{listenerName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -2461,7 +2461,7 @@ export const DataflowCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflows/{dataflowName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -2648,7 +2648,7 @@ export interface DataflowEndpointDataExplorer {
   authentication: DataflowEndpointDataExplorerAuthentication;
   /** Database name. */
   database: string;
-  /** Host of the Azure Data Explorer in the form of <cluster>.<region>.kusto.windows.net . */
+  /** Host of the Azure Data Explorer in the form of <cluster>.<region>.kusto.windows.net (Azure Public) or <cluster>.<region>.kusto.usgovcloudapi.net (Azure US Government). This will be validated by the regex `.*\.*\.kusto\.(windows\.net|usgovcloudapi\.net)`. */
   host: string;
   /** Azure Data Explorer endpoint batching configuration. */
   batching?: BatchingConfiguration;
@@ -2714,7 +2714,7 @@ export const DataflowEndpointDataLakeStorageAuthentication = /*@__PURE__*/ S.sus
 export interface DataflowEndpointDataLakeStorage {
   /** Authentication configuration. NOTE - only authentication property is allowed per entry. */
   authentication: DataflowEndpointDataLakeStorageAuthentication;
-  /** Host of the Azure Data Lake in the form of <account>.blob.core.windows.net . */
+  /** Host of the Azure Data Lake in the form of <account>.blob.core.windows.net (Azure Public) or <account>.blob.core.usgovcloudapi.net (Azure US Government). This will be validated by the regex `.*\.blob\.core\.(windows\.net|usgovcloudapi\.net)`. */
   host: string;
   /** Azure Data Lake endpoint batching configuration. */
   batching?: BatchingConfiguration;
@@ -2763,7 +2763,7 @@ export interface DataflowEndpointFabricOneLake {
   names: DataflowEndpointFabricOneLakeNames;
   /** Type of location of the data in the workspace. Can be either tables or files. */
   oneLakePathType: DataflowEndpointFabricPathType | (string & {});
-  /** Host of the Microsoft Fabric in the form of https://<host>.fabric.microsoft.com. */
+  /** Host of the Microsoft Fabric in the form of https://<host>.fabric.microsoft.com (Azure Public) or https://<host>.fabric.microsoft.us (Azure US Government). This will be validated by the regex `.*\.fabric\.microsoft\.(com|us)`. */
   host: string;
   /** Batching configuration. */
   batching?: BatchingConfiguration;
@@ -3163,7 +3163,7 @@ export const DataflowEndpointCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowEndpoints/{dataflowEndpointName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -3412,7 +3412,7 @@ export const DataflowGraphCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflowGraphs/{dataflowGraphName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -3567,7 +3567,7 @@ export const DataflowProfileCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -3669,7 +3669,7 @@ export const DeleteAkriConnectorRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}/connectors/{connectorName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -3702,7 +3702,7 @@ export const DeleteAkriConnectorTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -3737,7 +3737,7 @@ export const DeleteAkriServiceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriServices/{akriServiceName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({ identifier: "DeleteAkriServiceRequest" }) as any as S.Schema<DeleteAkriServiceRequest>;
@@ -3768,7 +3768,7 @@ export const DeleteBrokerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({ identifier: "DeleteBrokerRequest" }) as any as S.Schema<DeleteBrokerRequest>;
@@ -3802,7 +3802,7 @@ export const DeleteBrokerAuthenticationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authentications/{authenticationName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -3840,7 +3840,7 @@ export const DeleteBrokerAuthorizationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authorizations/{authorizationName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -3878,7 +3878,7 @@ export const DeleteBrokerListenerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/listeners/{listenerName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -3914,7 +3914,7 @@ export const DeleteDataflowRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflows/{dataflowName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({ identifier: "DeleteDataflowRequest" }) as any as S.Schema<DeleteDataflowRequest>;
@@ -3945,7 +3945,7 @@ export const DeleteDataflowEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowEndpoints/{dataflowEndpointName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -3981,7 +3981,7 @@ export const DeleteDataflowGraphRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflowGraphs/{dataflowGraphName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -4014,7 +4014,7 @@ export const DeleteDataflowProfileRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -4044,7 +4044,7 @@ export const DeleteInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({ identifier: "DeleteInstanceRequest" }) as any as S.Schema<DeleteInstanceRequest>;
@@ -4075,7 +4075,7 @@ export const DeleteRegistryEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/registryEndpoints/{registryEndpointName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -4111,7 +4111,7 @@ export const GetAkriConnectorRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}/connectors/{connectorName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({ identifier: "GetAkriConnectorRequest" }) as any as S.Schema<GetAkriConnectorRequest>;
@@ -4162,7 +4162,7 @@ export const GetAkriConnectorTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -4217,7 +4217,7 @@ export const GetAkriServiceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriServices/{akriServiceName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({ identifier: "GetAkriServiceRequest" }) as any as S.Schema<GetAkriServiceRequest>;
@@ -4268,7 +4268,7 @@ export const GetBrokerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({ identifier: "GetBrokerRequest" }) as any as S.Schema<GetBrokerRequest>;
@@ -4322,7 +4322,7 @@ export const GetBrokerAuthenticationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authentications/{authenticationName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -4380,7 +4380,7 @@ export const GetBrokerAuthorizationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authorizations/{authorizationName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -4438,7 +4438,7 @@ export const GetBrokerListenerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/listeners/{listenerName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({ identifier: "GetBrokerListenerRequest" }) as any as S.Schema<GetBrokerListenerRequest>;
@@ -4494,7 +4494,7 @@ export const GetDataflowRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflows/{dataflowName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({ identifier: "GetDataflowRequest" }) as any as S.Schema<GetDataflowRequest>;
@@ -4545,7 +4545,7 @@ export const GetDataflowEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowEndpoints/{dataflowEndpointName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -4603,7 +4603,7 @@ export const GetDataflowGraphRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflowGraphs/{dataflowGraphName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({ identifier: "GetDataflowGraphRequest" }) as any as S.Schema<GetDataflowGraphRequest>;
@@ -4654,7 +4654,7 @@ export const GetDataflowProfileRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -4706,7 +4706,7 @@ export const GetInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({ identifier: "GetInstanceRequest" }) as any as S.Schema<GetInstanceRequest>;
@@ -4872,6 +4872,21 @@ export const GetInstanceResponseIdentity = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetInstanceResponseIdentity",
 }) as any as S.Schema<GetInstanceResponseIdentity>;
 
+/** The set of supported SKU names for an AIO Instance. */
+export type InstanceSkuName = "Essentials" | "Standard";
+export const InstanceSkuName = S.String;
+
+/** The billing SKU for an AIO Instance. */
+export interface InstanceSku {
+  /** The name of the SKU. Determines the billing meter applied to this instance. */
+  name: InstanceSkuName | (string & {});
+}
+export const InstanceSku = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: InstanceSkuName,
+  }),
+).annotate({ identifier: "InstanceSku" }) as any as S.Schema<InstanceSku>;
+
 export interface GetInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
@@ -4891,6 +4906,8 @@ export interface GetInstanceResponse {
   extendedLocation: ExtendedLocation;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: GetInstanceResponseIdentity;
+  /** The billing SKU for the AIO Instance. Defaults to Standard. */
+  sku?: InstanceSku;
 }
 export const GetInstanceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4903,6 +4920,7 @@ export const GetInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(InstanceProperties),
     extendedLocation: ExtendedLocation,
     identity: S.optional(GetInstanceResponseIdentity),
+    sku: S.optional(InstanceSku),
   }),
 ).annotate({ identifier: "GetInstanceResponse" }) as any as S.Schema<GetInstanceResponse>;
 
@@ -4927,7 +4945,7 @@ export const GetRegistryEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/registryEndpoints/{registryEndpointName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -5137,6 +5155,8 @@ export interface InstanceCreateOrUpdateRequest {
   extendedLocation: ExtendedLocation;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: InstanceCreateOrUpdateRequestIdentity;
+  /** The billing SKU for the AIO Instance. Defaults to Standard. */
+  sku?: InstanceSku;
 }
 export const InstanceCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5148,12 +5168,13 @@ export const InstanceCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(InstancePropertiesInput),
     extendedLocation: ExtendedLocation,
     identity: S.optional(InstanceCreateOrUpdateRequestIdentity),
+    sku: S.optional(InstanceSku),
   }).pipe(
     T.Http({
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -5190,6 +5211,8 @@ export interface InstanceCreateOrUpdateResponse {
   extendedLocation: ExtendedLocation;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: GetInstanceResponseIdentity;
+  /** The billing SKU for the AIO Instance. Defaults to Standard. */
+  sku?: InstanceSku;
 }
 export const InstanceCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5202,6 +5225,7 @@ export const InstanceCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(InstanceProperties),
     extendedLocation: ExtendedLocation,
     identity: S.optional(GetInstanceResponseIdentity),
+    sku: S.optional(InstanceSku),
   }),
 ).annotate({
   identifier: "InstanceCreateOrUpdateResponse",
@@ -5228,7 +5252,7 @@ export const ListAkriConnectorByTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}/connectors",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -5301,7 +5325,7 @@ export const ListAkriConnectorTemplateByInstanceResourceRequest = /*@__PURE__*/ 
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriConnectorTemplates",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -5376,7 +5400,7 @@ export const ListAkriServiceByInstanceResourceRequest = /*@__PURE__*/ S.suspend(
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriServices",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -5452,7 +5476,7 @@ export const ListBrokerAuthenticationByResourceGroupRequest = /*@__PURE__*/ S.su
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authentications",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -5530,7 +5554,7 @@ export const ListBrokerAuthorizationByResourceGroupRequest = /*@__PURE__*/ S.sus
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authorizations",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -5605,7 +5629,7 @@ export const ListBrokerByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -5679,7 +5703,7 @@ export const ListBrokerListenerByResourceGroupRequest = /*@__PURE__*/ S.suspend(
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/listeners",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -5755,7 +5779,7 @@ export const ListDataflowByProfileResourceRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflows",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -5828,7 +5852,7 @@ export const ListDataflowEndpointByResourceGroupRequest = /*@__PURE__*/ S.suspen
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowEndpoints",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -5904,7 +5928,7 @@ export const ListDataflowGraphByDataflowProfileRequest = /*@__PURE__*/ S.suspend
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflowGraphs",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -5977,7 +6001,7 @@ export const ListDataflowProfileByResourceGroupRequest = /*@__PURE__*/ S.suspend
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -6047,7 +6071,7 @@ export const ListInstanceByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -6085,6 +6109,8 @@ export interface InstanceResource {
   extendedLocation: ExtendedLocation;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: GetInstanceResponseIdentity;
+  /** The billing SKU for the AIO Instance. Defaults to Standard. */
+  sku?: InstanceSku;
 }
 export const InstanceResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6097,6 +6123,7 @@ export const InstanceResource = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(InstanceProperties),
     extendedLocation: ExtendedLocation,
     identity: S.optional(GetInstanceResponseIdentity),
+    sku: S.optional(InstanceSku),
   }),
 ).annotate({ identifier: "InstanceResource" }) as any as S.Schema<InstanceResource>;
 
@@ -6134,7 +6161,7 @@ export const ListInstanceBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.IoTOperations/instances",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -6148,7 +6175,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/providers/Microsoft.IoTOperations/operations",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
@@ -6241,7 +6268,7 @@ export const ListRegistryEndpointByInstanceResourceRequest = /*@__PURE__*/ S.sus
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/registryEndpoints",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -6349,7 +6376,7 @@ export const RegistryEndpointCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/registryEndpoints/{registryEndpointName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({
@@ -6418,7 +6445,7 @@ export const UpdateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-10-01",
     }),
   ),
 ).annotate({ identifier: "UpdateInstanceRequest" }) as any as S.Schema<UpdateInstanceRequest>;
@@ -6453,6 +6480,8 @@ export interface UpdateInstanceResponse {
   extendedLocation: ExtendedLocation;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: GetInstanceResponseIdentity;
+  /** The billing SKU for the AIO Instance. Defaults to Standard. */
+  sku?: InstanceSku;
 }
 export const UpdateInstanceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6465,6 +6494,7 @@ export const UpdateInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(InstanceProperties),
     extendedLocation: ExtendedLocation,
     identity: S.optional(GetInstanceResponseIdentity),
+    sku: S.optional(InstanceSku),
   }),
 ).annotate({ identifier: "UpdateInstanceResponse" }) as any as S.Schema<UpdateInstanceResponse>;
 

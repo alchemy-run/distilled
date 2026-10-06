@@ -7,6 +7,87 @@ import * as T from "../traits.ts";
 
 export type { PosthogOpError, PosthogOpContext };
 
+export interface CreateCalendarSyncBackfillRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Id of the Google account integration to backfill. */
+  integration_id: number;
+  /** First UTC date to include. Must be within the last 365 days. */
+  start_date: string;
+  /** Final UTC date to include. Cannot be after today. */
+  end_date: string;
+}
+export const CreateCalendarSyncBackfillRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    integration_id: S.Number,
+    start_date: S.String,
+    end_date: S.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/calendar_sync/backfill/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateCalendarSyncBackfillRequest",
+}) as any as S.Schema<CreateCalendarSyncBackfillRequest>;
+
+/** * `started` - started * `already_running` - already_running */
+export type CalendarSyncTriggerResponseStatusEnum = "started" | "already_running";
+export const CalendarSyncTriggerResponseStatusEnum = S.String;
+
+/** Response of the calendar sync-now trigger. */
+export interface CalendarSyncTriggerResponse {
+  /** 'started' (a sync run began) or 'already_running' (a sync for this calendar was already in flight, so this was a no-op). * `started` - started * `already_running` - already_running */
+  status: CalendarSyncTriggerResponseStatusEnum;
+}
+export const CalendarSyncTriggerResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: CalendarSyncTriggerResponseStatusEnum,
+  }),
+).annotate({
+  identifier: "CalendarSyncTriggerResponse",
+}) as any as S.Schema<CalendarSyncTriggerResponse>;
+
+export interface CreateCalendarSyncIntervalRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Id of the connected Google account. */
+  integration_id: number;
+  /** Minutes between scheduled syncs: 5, 15, 30, or 60. */
+  sync_interval_minutes: number;
+}
+export const CreateCalendarSyncIntervalRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    integration_id: S.Number,
+    sync_interval_minutes: S.Number,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/calendar_sync/interval/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateCalendarSyncIntervalRequest",
+}) as any as S.Schema<CreateCalendarSyncIntervalRequest>;
+
+export interface CalendarSyncInterval {
+  /** Id of the connected Google account. */
+  integration_id: number;
+  /** Minutes between scheduled syncs: 5, 15, 30, or 60. */
+  sync_interval_minutes: number;
+}
+export const CalendarSyncInterval = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    integration_id: S.Number,
+    sync_interval_minutes: S.Number,
+  }),
+).annotate({ identifier: "CalendarSyncInterval" }) as any as S.Schema<CalendarSyncInterval>;
+
 export interface CreateCalendarSyncSyncNowRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -28,23 +109,6 @@ export const CreateCalendarSyncSyncNowRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateCalendarSyncSyncNowRequest",
 }) as any as S.Schema<CreateCalendarSyncSyncNowRequest>;
 
-/** * `started` - started * `already_running` - already_running */
-export type CalendarSyncTriggerResponseStatusEnum = "started" | "already_running";
-export const CalendarSyncTriggerResponseStatusEnum = S.String;
-
-/** Response of the calendar sync-now trigger. */
-export interface CalendarSyncTriggerResponse {
-  /** 'started' (a sync run began) or 'already_running' (a sync for this calendar was already in flight, so this was a no-op). * `started` - started * `already_running` - already_running */
-  status: CalendarSyncTriggerResponseStatusEnum;
-}
-export const CalendarSyncTriggerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: CalendarSyncTriggerResponseStatusEnum,
-  }),
-).annotate({
-  identifier: "CalendarSyncTriggerResponse",
-}) as any as S.Schema<CalendarSyncTriggerResponse>;
-
 export interface ListCalendarSyncRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -52,16 +116,8 @@ export interface ListCalendarSyncRequest {
 export const ListCalendarSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/calendar_sync/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListCalendarSyncRequest",
-}) as any as S.Schema<ListCalendarSyncRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/calendar_sync/", code: 200 })),
+).annotate({ identifier: "ListCalendarSyncRequest" }) as any as S.Schema<ListCalendarSyncRequest>;
 
 /** Sync state of one connected calendar (read-only). */
 export interface CalendarSyncStatus {
@@ -71,16 +127,17 @@ export interface CalendarSyncStatus {
   last_synced_at: string | null;
   /** Whether a sync run is currently in flight. */
   is_syncing: boolean;
+  /** Minutes between scheduled syncs. */
+  sync_interval_minutes: number;
 }
 export const CalendarSyncStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     integration_id: S.Number,
     last_synced_at: S.NullOr(S.String),
     is_syncing: S.Boolean,
+    sync_interval_minutes: S.Number,
   }),
-).annotate({
-  identifier: "CalendarSyncStatus",
-}) as any as S.Schema<CalendarSyncStatus>;
+).annotate({ identifier: "CalendarSyncStatus" }) as any as S.Schema<CalendarSyncStatus>;
 
 export type ListCalendarSyncResponseBodyList = Array<CalendarSyncStatus>;
 export const ListCalendarSyncResponseBodyList = /*@__PURE__*/ S.Array(
@@ -90,9 +147,37 @@ export const ListCalendarSyncResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListCalendarSyncResponse = ListCalendarSyncResponseBodyList;
 export const ListCalendarSyncResponse = /*@__PURE__*/ S.suspend(() =>
   ListCalendarSyncResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListCalendarSyncResponse",
-}) as any as S.Schema<ListCalendarSyncResponse>;
+).annotate({ identifier: "ListCalendarSyncResponse" }) as any as S.Schema<ListCalendarSyncResponse>;
+
+export type CreateCalendarSyncBackfillError = PosthogOpError;
+/** Backfill a connected Google account Start an admin-only Gmail and Google Calendar backfill for an inclusive UTC date range. */
+export const createCalendarSyncBackfill: API.OperationMethod<
+  CreateCalendarSyncBackfillRequest,
+  CalendarSyncTriggerResponse,
+  CreateCalendarSyncBackfillError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCalendarSyncBackfillRequest,
+  output: CalendarSyncTriggerResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateCalendarSyncIntervalError = PosthogOpError;
+/** Set Google account sync interval Calendar-sync controls for Customer analytics settings. Sync runs on an hourly Temporal schedule; this surface only offers the manual "sync now" escape hatch. */
+export const createCalendarSyncInterval: API.OperationMethod<
+  CreateCalendarSyncIntervalRequest,
+  CalendarSyncInterval,
+  CreateCalendarSyncIntervalError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCalendarSyncIntervalRequest,
+  output: CalendarSyncInterval,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
 
 export type CreateCalendarSyncSyncNowError = PosthogOpError;
 /** Sync a connected calendar now Start a sync run for one connected Google Calendar immediately, outside the hourly schedule. */

@@ -63,19 +63,17 @@ export class NotFound
 
 /** Request message for DeveloperKnowledge.AnswerQuery. */
 export interface AnswerQueryRequest {
-  /** Optional. Applies a strict filter to the search results used to ground the answer. The expression supports a subset of the syntax described at https://google.aip.dev/160. Supported fields for filtering: * `content_length_bytes` (INTEGER): The length of the `Document.content` field in bytes. * `data_source` (STRING): The source of the document, e.g. `docs.cloud.google.com`. See https://developers.google.com/knowledge/reference/corpus-reference for the complete list of data sources in the corpus. * `update_time` (TIMESTAMP): The timestamp of when the document was last meaningfully updated. A meaningful update is one that changes document's markdown content or metadata. * `uri` (STRING): The document URI, e.g. `https://docs.cloud.google.com/bigquery/docs/tables`. INTEGER fields support `=`, `<`, `<=`, `>`, and `>=` operators. STRING fields support `=` (equals) and `!=` (not equals) operators for **exact match** on the whole string. Partial match, prefix match, and regexp match are not supported. TIMESTAMP fields support `=`, `<`, `<=`, `>`, and `>=` operators. Timestamps must be in RFC-3339 format, e.g., `"2025-01-01T00:00:00Z"`. You can combine expressions using `AND`, `OR`, and `NOT` (or `-`) logical operators. `OR` has higher precedence than `AND`. Use parentheses for explicit precedence grouping. Examples: * Filter by `Document.content_length_bytes`: `content_length_bytes < 50000` * `data_source = "docs.cloud.google.com" OR data_source = "firebase.google.com"` * `data_source != "firebase.google.com"` * `update_time < "2024-01-01T00:00:00Z"` * `update_time >= "2025-01-22T00:00:00Z" AND (data_source = "developer.chrome.com" OR data_source = "web.dev")` * `uri = "https://docs.cloud.google.com/release-notes"` The `filter` string must not exceed 500 characters; values longer than 500 characters will result in an `INVALID_ARGUMENT` error. */
-  filter?: string;
   /** Required. The query to answer. */
   query?: string;
+  /** Optional. Applies a strict filter to the search results used to ground the answer. The expression supports a subset of the syntax described at https://google.aip.dev/160. Supported fields for filtering: * `content_length_bytes` (INTEGER): The length of the `Document.content` field in bytes. * `data_source` (STRING): The source of the document, e.g. `docs.cloud.google.com`. See https://developers.google.com/knowledge/reference/corpus-reference for the complete list of data sources in the corpus. * `update_time` (TIMESTAMP): The timestamp of when the document was last meaningfully updated. A meaningful update is one that changes document's markdown content or metadata. * `uri` (STRING): The document URI, e.g. `https://docs.cloud.google.com/bigquery/docs/tables`. INTEGER fields support `=`, `<`, `<=`, `>`, and `>=` operators. STRING fields support `=` (equals) and `!=` (not equals) operators for **exact match** on the whole string. Partial match, prefix match, and regexp match are not supported. TIMESTAMP fields support `=`, `<`, `<=`, `>`, and `>=` operators. Timestamps must be in RFC-3339 format, e.g., `"2025-01-01T00:00:00Z"`. You can combine expressions using `AND`, `OR`, and `NOT` (or `-`) logical operators. `OR` has higher precedence than `AND`. Use parentheses for explicit precedence grouping. Examples: * Filter by `Document.content_length_bytes`: `content_length_bytes < 50000` * `data_source = "docs.cloud.google.com" OR data_source = "firebase.google.com"` * `data_source != "firebase.google.com"` * `update_time < "2024-01-01T00:00:00Z"` * `update_time >= "2025-01-22T00:00:00Z" AND (data_source = "developer.chrome.com" OR data_source = "web.dev")` * `uri = "https://docs.cloud.google.com/release-notes"` The `filter` string must not exceed 500 characters; values longer than 500 characters will result in an `INVALID_ARGUMENT` error. */
+  filter?: string;
 }
 export const AnswerQueryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String),
     query: S.optional(S.String),
+    filter: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AnswerQueryRequest",
-}) as any as S.Schema<AnswerQueryRequest>;
+).annotate({ identifier: "AnswerQueryRequest" }) as any as S.Schema<AnswerQueryRequest>;
 
 export interface AnswerQueryV1alphaRequest {
   /** Request body */
@@ -95,6 +93,98 @@ export const AnswerQueryV1alphaRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "AnswerQueryV1alphaRequest",
 }) as any as S.Schema<AnswerQueryV1alphaRequest>;
 
+export type DocumentViewEnum =
+  | "DOCUMENT_VIEW_UNSPECIFIED"
+  | "DOCUMENT_VIEW_BASIC"
+  | "DOCUMENT_VIEW_FULL"
+  | "DOCUMENT_VIEW_CONTENT";
+export const DocumentViewEnum = S.String;
+
+/** A Document represents a page of documentation in the Developer Knowledge corpus, like the page at https://docs.cloud.google.com/storage/docs/creating-buckets. */
+export interface Document {
+  /** Output only. The length of the `content` field in bytes. */
+  contentLengthBytes?: number;
+  /** Output only. Provides the URI of the content, such as `https://docs.cloud.google.com/storage/docs/creating-buckets`. */
+  uri?: string;
+  /** Output only. Contains the full content of the document in Markdown format. */
+  content?: string;
+  /** Output only. Provides a description of the document. */
+  description?: string;
+  /** Output only. Specifies the DocumentView of the document. */
+  view?: DocumentViewEnum;
+  /** Output only. Represents the timestamp when the content or metadata of the document was last updated. */
+  updateTime?: string;
+  /** Identifier. Contains the resource name of the document. Format: `documents/{uri_without_scheme}` Example: `documents/docs.cloud.google.com/storage/docs/creating-buckets` */
+  name?: string;
+  /** Output only. Provides the title of the document. */
+  title?: string;
+  /** Output only. Specifies the data source of the document. Example data source: `firebase.google.com` */
+  dataSource?: string;
+}
+export const Document = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contentLengthBytes: S.optional(S.Number),
+    uri: S.optional(S.String),
+    content: S.optional(S.String),
+    description: S.optional(S.String),
+    view: S.optional(DocumentViewEnum),
+    updateTime: S.optional(S.String),
+    name: S.optional(S.String),
+    title: S.optional(S.String),
+    dataSource: S.optional(S.String),
+  }),
+).annotate({ identifier: "Document" }) as any as S.Schema<Document>;
+
+/** A DocumentChunk represents a piece of content from a Document in the DeveloperKnowledge corpus. To fetch the entire document content, pass the `parent` to DeveloperKnowledge.GetDocument or DeveloperKnowledge.BatchGetDocuments. */
+export interface DocumentChunk {
+  /** Output only. Represents the relevance score of the chunk to the search query. Higher score indicates higher chunk relevance. The score is in range [0.0, 1.0]. */
+  relevanceScore?: number;
+  /** Output only. Specifies the ID of this chunk within the document. The chunk ID is unique within a document, but not globally unique across documents. The chunk ID is not stable and may change over time. */
+  id?: string;
+  /** Output only. Represents metadata about the Document this chunk is from. The DocumentView of this Document message will be set to `DOCUMENT_VIEW_BASIC`. It is included here for convenience so that clients do not need to call DeveloperKnowledge.GetDocument or DeveloperKnowledge.BatchGetDocuments if they only need the metadata fields. Otherwise, clients should use DeveloperKnowledge.GetDocument or DeveloperKnowledge.BatchGetDocuments to fetch the full document content. */
+  document?: Document;
+  /** Output only. Contains the content of the document chunk. */
+  content?: string;
+  /** Output only. Contains the resource name of the document this chunk is from. Format: `documents/{uri_without_scheme}` Example: `documents/docs.cloud.google.com/storage/docs/creating-buckets` */
+  parent?: string;
+}
+export const DocumentChunk = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    relevanceScore: S.optional(S.Number),
+    id: S.optional(S.String),
+    document: S.optional(Document),
+    content: S.optional(S.String),
+    parent: S.optional(S.String),
+  }),
+).annotate({ identifier: "DocumentChunk" }) as any as S.Schema<DocumentChunk>;
+
+/** Represents a reference to a document. */
+export interface DocumentReference {
+  /** Output only. Contains the document chunk. The `document_chunk.id` field is not set and will be empty. */
+  documentChunk?: DocumentChunk;
+}
+export const DocumentReference = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    documentChunk: S.optional(DocumentChunk),
+  }),
+).annotate({ identifier: "DocumentReference" }) as any as S.Schema<DocumentReference>;
+
+/** Represents a reference to a source. */
+export interface AnswerReference {
+  /** Output only. The reference document. */
+  documentReference?: DocumentReference;
+}
+export const AnswerReference = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    documentReference: S.optional(DocumentReference),
+  }),
+).annotate({ identifier: "AnswerReference" }) as any as S.Schema<AnswerReference>;
+
+export type AnswerReferenceList = Array<AnswerReference>;
+export const AnswerReferenceList = /*@__PURE__*/ S.Array(
+  AnswerReference,
+) as any as S.Schema<AnswerReferenceList>;
+
 /** Citation source. */
 export interface CitationSource {
   /** Output only. Contains the index of the Answer.AnswerReference in the `references` repeated field. */
@@ -113,18 +203,18 @@ export const CitationSourceList = /*@__PURE__*/ S.Array(
 
 /** Citation info for a segment. */
 export interface AnswerCitation {
-  /** Output only. Contains citation sources for the attributed segment. */
-  sources?: CitationSourceList;
   /** Output only. Indicates the end of the segment, measured in bytes (UTF-8 unicode), exclusive. If there are multi-byte characters, such as non-ASCII characters, the index measurement is longer than the string length. */
   endIndex?: number;
   /** Output only. Indicates the start of the segment, measured in bytes (UTF-8 unicode), inclusive. If there are multi-byte characters, such as non-ASCII characters, the index measurement is longer than the string length. */
   startIndex?: number;
+  /** Output only. Contains citation sources for the attributed segment. */
+  sources?: CitationSourceList;
 }
 export const AnswerCitation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sources: S.optional(CitationSourceList),
     endIndex: S.optional(S.Number),
     startIndex: S.optional(S.Number),
+    sources: S.optional(CitationSourceList),
   }),
 ).annotate({ identifier: "AnswerCitation" }) as any as S.Schema<AnswerCitation>;
 
@@ -133,116 +223,20 @@ export const AnswerCitationList = /*@__PURE__*/ S.Array(
   AnswerCitation,
 ) as any as S.Schema<AnswerCitationList>;
 
-export type DocumentViewEnum =
-  | "DOCUMENT_VIEW_UNSPECIFIED"
-  | "DOCUMENT_VIEW_BASIC"
-  | "DOCUMENT_VIEW_FULL"
-  | "DOCUMENT_VIEW_CONTENT";
-export const DocumentViewEnum = S.String;
-
-/** A Document represents a page of documentation in the Developer Knowledge corpus, like the page at https://docs.cloud.google.com/storage/docs/creating-buckets. */
-export interface Document {
-  /** Output only. Provides the title of the document. */
-  title?: string;
-  /** Output only. The length of the `content` field in bytes. */
-  contentLengthBytes?: number;
-  /** Output only. Specifies the data source of the document. Example data source: `firebase.google.com` */
-  dataSource?: string;
-  /** Output only. Represents the timestamp when the content or metadata of the document was last updated. */
-  updateTime?: string;
-  /** Output only. Provides the URI of the content, such as `docs.cloud.google.com/storage/docs/creating-buckets`. */
-  uri?: string;
-  /** Identifier. Contains the resource name of the document. Format: `documents/{uri_without_scheme}` Example: `documents/docs.cloud.google.com/storage/docs/creating-buckets` */
-  name?: string;
-  /** Output only. Contains the full content of the document in Markdown format. */
-  content?: string;
-  /** Output only. Provides a description of the document. */
-  description?: string;
-  /** Output only. Specifies the DocumentView of the document. */
-  view?: DocumentViewEnum;
-}
-export const Document = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    title: S.optional(S.String),
-    contentLengthBytes: S.optional(S.Number),
-    dataSource: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    uri: S.optional(S.String),
-    name: S.optional(S.String),
-    content: S.optional(S.String),
-    description: S.optional(S.String),
-    view: S.optional(DocumentViewEnum),
-  }),
-).annotate({ identifier: "Document" }) as any as S.Schema<Document>;
-
-/** A DocumentChunk represents a piece of content from a Document in the DeveloperKnowledge corpus. To fetch the entire document content, pass the `parent` to DeveloperKnowledge.GetDocument or DeveloperKnowledge.BatchGetDocuments. */
-export interface DocumentChunk {
-  /** Output only. Contains the resource name of the document this chunk is from. Format: `documents/{uri_without_scheme}` Example: `documents/docs.cloud.google.com/storage/docs/creating-buckets` */
-  parent?: string;
-  /** Output only. Represents the relevance score of the chunk to the search query. Higher score indicates higher chunk relevance. The score is in range [0.0, 1.0]. */
-  relevanceScore?: number;
-  /** Output only. Specifies the ID of this chunk within the document. The chunk ID is unique within a document, but not globally unique across documents. The chunk ID is not stable and may change over time. */
-  id?: string;
-  /** Output only. Contains the content of the document chunk. */
-  content?: string;
-  /** Output only. Represents metadata about the Document this chunk is from. The DocumentView of this Document message will be set to `DOCUMENT_VIEW_BASIC`. It is included here for convenience so that clients do not need to call DeveloperKnowledge.GetDocument or DeveloperKnowledge.BatchGetDocuments if they only need the metadata fields. Otherwise, clients should use DeveloperKnowledge.GetDocument or DeveloperKnowledge.BatchGetDocuments to fetch the full document content. */
-  document?: Document;
-}
-export const DocumentChunk = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    parent: S.optional(S.String),
-    relevanceScore: S.optional(S.Number),
-    id: S.optional(S.String),
-    content: S.optional(S.String),
-    document: S.optional(Document),
-  }),
-).annotate({ identifier: "DocumentChunk" }) as any as S.Schema<DocumentChunk>;
-
-/** Represents a reference to a document. */
-export interface DocumentReference {
-  /** Output only. Contains the document chunk. The `document_chunk.id` field is not set and will be empty. */
-  documentChunk?: DocumentChunk;
-}
-export const DocumentReference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    documentChunk: S.optional(DocumentChunk),
-  }),
-).annotate({
-  identifier: "DocumentReference",
-}) as any as S.Schema<DocumentReference>;
-
-/** Represents a reference to a source. */
-export interface AnswerReference {
-  /** Output only. The reference document. */
-  documentReference?: DocumentReference;
-}
-export const AnswerReference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    documentReference: S.optional(DocumentReference),
-  }),
-).annotate({
-  identifier: "AnswerReference",
-}) as any as S.Schema<AnswerReference>;
-
-export type AnswerReferenceList = Array<AnswerReference>;
-export const AnswerReferenceList = /*@__PURE__*/ S.Array(
-  AnswerReference,
-) as any as S.Schema<AnswerReferenceList>;
-
 /** An answer to a query. */
 export interface Answer {
   /** Contains the text of the answer. */
   answerText?: string;
-  /** Output only. Contains citations for the answer. */
-  citations?: AnswerCitationList;
   /** Output only. Contains references for the answer. */
   references?: AnswerReferenceList;
+  /** Output only. Contains citations for the answer. */
+  citations?: AnswerCitationList;
 }
 export const Answer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     answerText: S.optional(S.String),
-    citations: S.optional(AnswerCitationList),
     references: S.optional(AnswerReferenceList),
+    citations: S.optional(AnswerCitationList),
   }),
 ).annotate({ identifier: "Answer" }) as any as S.Schema<Answer>;
 
@@ -255,9 +249,7 @@ export const AnswerQueryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     answer: S.optional(Answer),
   }),
-).annotate({
-  identifier: "AnswerQueryResponse",
-}) as any as S.Schema<AnswerQueryResponse>;
+).annotate({ identifier: "AnswerQueryResponse" }) as any as S.Schema<AnswerQueryResponse>;
 
 export type BatchGetDocumentsViewEnum =
   | "DOCUMENT_VIEW_UNSPECIFIED"
@@ -286,9 +278,7 @@ export const BatchGetDocumentsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://developerknowledge.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "BatchGetDocumentsRequest",
-}) as any as S.Schema<BatchGetDocumentsRequest>;
+).annotate({ identifier: "BatchGetDocumentsRequest" }) as any as S.Schema<BatchGetDocumentsRequest>;
 
 export type DocumentList = Array<Document>;
 export const DocumentList = /*@__PURE__*/ S.Array(Document) as any as S.Schema<DocumentList>;
@@ -314,15 +304,15 @@ export type GetDocumentsViewEnum =
 export const GetDocumentsViewEnum = S.String;
 
 export interface GetDocumentsRequest {
-  /** Optional. Specifies the DocumentView of the document. If unspecified, DeveloperKnowledge.GetDocument defaults to `DOCUMENT_VIEW_CONTENT`. */
-  view?: GetDocumentsViewEnum | (string & {});
   /** Required. Specifies the name of the document to retrieve. Format: `documents/{uri_without_scheme}` Example: `documents/docs.cloud.google.com/storage/docs/creating-buckets` The name must not exceed 500 characters; values longer than 500 characters will result in an `INVALID_ARGUMENT` error. */
   name: string;
+  /** Optional. Specifies the DocumentView of the document. If unspecified, DeveloperKnowledge.GetDocument defaults to `DOCUMENT_VIEW_CONTENT`. */
+  view?: GetDocumentsViewEnum | (string & {});
 }
 export const GetDocumentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    view: S.optional(GetDocumentsViewEnum.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    view: S.optional(GetDocumentsViewEnum.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -330,26 +320,24 @@ export const GetDocumentsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://developerknowledge.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetDocumentsRequest",
-}) as any as S.Schema<GetDocumentsRequest>;
+).annotate({ identifier: "GetDocumentsRequest" }) as any as S.Schema<GetDocumentsRequest>;
 
 export interface SearchDocumentChunksDocumentsRequest {
-  /** Optional. Contains a page token, received from a previous `SearchDocumentChunks` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
-  /** Required. Provides the raw query string provided by the user, such as "How to create a Cloud Storage bucket?". The query must not exceed 500 characters; values longer than 500 characters will result in an `INVALID_ARGUMENT` error. */
-  query?: string;
   /** Optional. Applies a strict filter to the search results. The expression supports a subset of the syntax described at https://google.aip.dev/160. While `SearchDocumentChunks` returns DocumentChunks, the filter is applied to `DocumentChunk.document` fields. Supported fields for filtering: * `content_length_bytes` (INTEGER): The length of the `Document.content` field in bytes. * `data_source` (STRING): The source of the document, e.g. `docs.cloud.google.com`. See https://developers.google.com/knowledge/reference/corpus-reference for the complete list of data sources in the corpus. * `update_time` (TIMESTAMP): The timestamp of when the document was last meaningfully updated. A meaningful update is one that changes document's markdown content or metadata. * `uri` (STRING): The document URI, e.g. `https://docs.cloud.google.com/bigquery/docs/tables`. INTEGER fields support `=`, `<`, `<=`, `>`, and `>=` operators. STRING fields support `=` (equals) and `!=` (not equals) operators for **exact match** on the whole string. Partial match, prefix match, and regexp match are not supported. TIMESTAMP fields support `=`, `<`, `<=`, `>`, and `>=` operators. Timestamps must be in RFC-3339 format, e.g., `"2025-01-01T00:00:00Z"`. Note: Field names must be in `snake_case` (e.g., `data_source`). Values on the right-hand side of filtering expressions must be string literals enclosed in double quotes (e.g., `"docs.cloud.google.com"`). You can combine expressions using `AND`, `OR`, and `NOT` (or `-`) logical operators. `OR` has higher precedence than `AND`. Use parentheses for explicit precedence grouping. Examples: * Filter by `Document.content_length_bytes`: `content_length_bytes < 50000` * `data_source = "docs.cloud.google.com" OR data_source = "firebase.google.com"` * `data_source != "firebase.google.com"` * `update_time < "2024-01-01T00:00:00Z"` * `update_time >= "2025-01-22T00:00:00Z" AND (data_source = "developer.chrome.com" OR data_source = "web.dev")` * `uri = "https://docs.cloud.google.com/release-notes"` The `filter` string must not exceed 500 characters; values longer than 500 characters will result in an `INVALID_ARGUMENT` error. */
   filter?: string;
   /** Optional. Specifies the maximum number of results to return. The service may return fewer than this value. If unspecified, at most 5 results will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
   pageSize?: number;
+  /** Optional. Contains a page token, received from a previous `SearchDocumentChunks` call. Provide this to retrieve the subsequent page. */
+  pageToken?: string;
+  /** Required. Provides the raw query string provided by the user, such as "How to create a Cloud Storage bucket?". The query must not exceed 500 characters; values longer than 500 characters will result in an `INVALID_ARGUMENT` error. */
+  query?: string;
 }
 export const SearchDocumentChunksDocumentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    query: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    query: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -441,8 +429,5 @@ export const searchDocumentChunksDocuments: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;

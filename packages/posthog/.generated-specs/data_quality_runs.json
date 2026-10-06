@@ -18,6 +18,36 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.posthog.data_quality_runs#ListDataQualityRunsRequestSubjectType": {
+      "type": "enum",
+      "members": {
+        "METRIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "metric"
+          }
+        },
+        "POSTHOG_TABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "posthog_table"
+          }
+        },
+        "TABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "table"
+          }
+        },
+        "VIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "view"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.posthog.data_quality_runs#ListDataQualityRunsRequest": {
       "type": "structure",
       "members": {
@@ -41,6 +71,20 @@
           "traits": {
             "smithy.api#httpQuery": "offset",
             "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        },
+        "subject_type": {
+          "target": "com.posthog.data_quality_runs#ListDataQualityRunsRequestSubjectType",
+          "traits": {
+            "smithy.api#httpQuery": "subject_type",
+            "smithy.api#documentation": "Kind of object being checked: 'table', 'view', 'metric', or 'posthog_table'."
+          }
+        },
+        "subject_uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "subject_uuid",
+            "smithy.api#documentation": "Id of the table, view, metric, or PostHog table."
           }
         }
       },
@@ -90,7 +134,7 @@
         "trigger": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "manual, materialization, or source_sync.",
+            "smithy.api#documentation": "manual, materialization, source_sync, or scheduled.",
             "smithy.api#required": {}
           }
         },
@@ -104,7 +148,7 @@
         "subject_type": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "'table' or 'view' when the run targets exactly one subject, including a run of a single check on that subject; null for a run spanning several subjects.",
+            "smithy.api#documentation": "'table', 'view', 'metric', or 'posthog_table' when the run targets exactly one subject, including a run of a single check on that subject; null for a run spanning several subjects.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -198,7 +242,7 @@
           "uri": "/api/projects/{project_id}/data_quality_runs/",
           "code": 200
         },
-        "smithy.api#documentation": "Project-wide check runs: start one over a selection, and read every run the project has had.\n\nThe per-subject surfaces only serve runs scoped to their own subject, so this is where a sweep\nacross several subjects -- a manual project-wide run, a materialization, a source sync -- is\nreadable. Scoped to `warehouse_objects` because it spans tables and views at once."
+        "smithy.api#documentation": "Every check-suite run in the project, newest first. Narrow it to one subject with subject_type and subject_uuid."
       }
     },
     "com.posthog.data_quality_runs#CreateDataQualityRunRequestCheckIdsList": {
@@ -208,6 +252,38 @@
       },
       "traits": {
         "smithy.api#documentation": "Ids of the checks to run. Omit to run every enabled check in the project."
+      }
+    },
+    "com.posthog.data_quality_runs#SubjectTypeEnum": {
+      "type": "enum",
+      "members": {
+        "TABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "table"
+          }
+        },
+        "VIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "view"
+          }
+        },
+        "METRIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "metric"
+          }
+        },
+        "POSTHOG_TABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "posthog_table"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `table` - table\n* `view` - view\n* `metric` - metric\n* `posthog_table` - posthog_table"
       }
     },
     "com.posthog.data_quality_runs#CreateDataQualityRunRequest": {
@@ -225,6 +301,18 @@
           "target": "com.posthog.data_quality_runs#CreateDataQualityRunRequestCheckIdsList",
           "traits": {
             "smithy.api#documentation": "Ids of the checks to run. Omit to run every enabled check in the project."
+          }
+        },
+        "subject_type": {
+          "target": "com.posthog.data_quality_runs#SubjectTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Narrow the run to one subject. Pass subject_uuid with it. Ignored when check_ids is given.\n\n* `table` - table\n* `view` - view\n* `metric` - metric\n* `posthog_table` - posthog_table"
+          }
+        },
+        "subject_uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id of the subject to run every enabled check on. Pass subject_type with it."
           }
         }
       },
@@ -246,7 +334,7 @@
           "uri": "/api/projects/{project_id}/data_quality_runs/",
           "code": 200
         },
-        "smithy.api#documentation": "Run the named checks now, or every enabled check in the project when none are named. Returns the suite run to poll for the report."
+        "smithy.api#documentation": "Run checks now: the ones named by check_ids, every enabled check on the subject named by subject_type and subject_uuid, or every enabled check in the project when neither is given. Returns the suite run to poll for the report."
       }
     },
     "com.posthog.data_quality_runs#GetDataQualityRunRequest": {
@@ -287,7 +375,304 @@
           "uri": "/api/projects/{project_id}/data_quality_runs/{id}/",
           "code": 200
         },
-        "smithy.api#documentation": "Project-wide check runs: start one over a selection, and read every run the project has had.\n\nThe per-subject surfaces only serve runs scoped to their own subject, so this is where a sweep\nacross several subjects -- a manual project-wide run, a materialization, a source sync -- is\nreadable. Scoped to `warehouse_objects` because it spans tables and views at once."
+        "smithy.api#documentation": "Check-suite executions: start one over a selection, and read every run the project has had.\n\nA suite run may sweep several subjects at once -- a manual project-wide run, a materialization,\na source sync -- so it is reported here rather than under any one of them."
+      }
+    },
+    "com.posthog.data_quality_runs#ListDataQualityRunsCheckRunsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this data quality suite run."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_quality_runs#DataQualityCheckRun": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "quality_check": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The definition executed. Nulled rather than cascaded so history outlives hard deletes.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "check_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name the check carries now, so a run can be told from the others in its suite. Null when the check is unnamed, has been hard deleted, or is out of your reach today -- describe the run by check_type and column_name instead.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "suite_run": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "subject_type": {
+          "target": "com.posthog.data_quality_runs#SubjectTypeEnum",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "subject_uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "subject_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "check_type": {
+          "target": "com.posthog.data_quality_runs#CheckTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Which assertion this run made.\n\n* `not_null` - not_null\n* `unique` - unique\n* `accepted_values` - accepted_values\n* `relationships` - relationships\n* `row_count` - row_count\n* `freshness` - freshness\n* `custom_sql` - custom_sql",
+            "smithy.api#required": {}
+          }
+        },
+        "column_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "check_config": {
+          "target": "com.posthog.data_quality_runs#DataQualityCheckRunCheckConfigMap",
+          "traits": {
+            "smithy.api#documentation": "Config this run executed, snapshotted so an edit to the check cannot rewrite history. Null for runs recorded before snapshots existed -- unknown, not 'same as the check has now'.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "check_severity": {
+          "target": "com.posthog.data_quality_runs#DataQualityCheckSeverityEnum",
+          "traits": {
+            "smithy.api#documentation": "Severity this run was judged at. Null for runs recorded before snapshots existed.\n\n* `error` - error\n* `warn` - warn",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "passed, failed, errored, or skipped.",
+            "smithy.api#required": {}
+          }
+        },
+        "failed_row_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Rows violating the assertion. Null for bounds checks like row_count.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "observed_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The check's headline number, recorded on passes too.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "compiled_query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "HogQL selecting the failing rows. Re-run it to see them. For a run that audited a staged refresh it inlines the view's definition, so it reads the source tables rather than the published table. Empty when there is nothing to replay: retention cleared it, or a staged run could not build its replay query.",
+            "smithy.api#required": {}
+          }
+        },
+        "audited_staged_refresh": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the run audited a refresh that was staged but not yet published, under the materialization gate.",
+            "smithy.api#required": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Compilation or execution failure, when status is 'errored'.",
+            "smithy.api#required": {}
+          }
+        },
+        "duration_ms": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "finished_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_quality_runs#CheckTypeEnum": {
+      "type": "enum",
+      "members": {
+        "NOT_NULL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_null"
+          }
+        },
+        "UNIQUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unique"
+          }
+        },
+        "ACCEPTED_VALUES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accepted_values"
+          }
+        },
+        "RELATIONSHIPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "relationships"
+          }
+        },
+        "ROW_COUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "row_count"
+          }
+        },
+        "FRESHNESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "freshness"
+          }
+        },
+        "CUSTOM_SQL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom_sql"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `not_null` - not_null\n* `unique` - unique\n* `accepted_values` - accepted_values\n* `relationships` - relationships\n* `row_count` - row_count\n* `freshness` - freshness\n* `custom_sql` - custom_sql"
+      }
+    },
+    "com.posthog.data_quality_runs#DataQualityCheckRunCheckConfigMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Config this run executed, snapshotted so an edit to the check cannot rewrite history. Null for runs recorded before snapshots existed -- unknown, not 'same as the check has now'."
+      }
+    },
+    "com.posthog.data_quality_runs#DataQualityCheckSeverityEnum": {
+      "type": "enum",
+      "members": {
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "WARN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warn"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `error` - error\n* `warn` - warn"
+      }
+    },
+    "com.posthog.data_quality_runs#ListDataQualityRunsCheckRunsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.data_quality_runs#DataQualityCheckRun"
+      },
+      "traits": {}
+    },
+    "com.posthog.data_quality_runs#ListDataQualityRunsCheckRunsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.data_quality_runs#ListDataQualityRunsCheckRunsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.data_quality_runs#ListDataQualityRunsCheckRuns": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_quality_runs#ListDataQualityRunsCheckRunsRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_quality_runs#ListDataQualityRunsCheckRunsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/data_quality_runs/{id}/check_runs/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Every check execution in this suite run."
       }
     },
     "com.posthog.data_quality_runs#DataQualityRuns": {
@@ -302,6 +687,9 @@
         },
         {
           "target": "com.posthog.data_quality_runs#GetDataQualityRun"
+        },
+        {
+          "target": "com.posthog.data_quality_runs#ListDataQualityRunsCheckRuns"
         }
       ],
       "traits": {

@@ -18,6 +18,172 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.posthog.conversations#ListConversationsAiContextAccountPropertiesRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.conversations#AIContextAccountProperty": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Customer analytics account property definition id.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the account property.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.conversations#ListConversationsAiContextAccountPropertiesResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.conversations#AIContextAccountProperty"
+      },
+      "traits": {}
+    },
+    "com.posthog.conversations#ListConversationsAiContextAccountPropertiesResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.conversations#ListConversationsAiContextAccountPropertiesResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.conversations#ListConversationsAiContextAccountProperties": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.conversations#ListConversationsAiContextAccountPropertiesRequest"
+      },
+      "output": {
+        "target": "com.posthog.conversations#ListConversationsAiContextAccountPropertiesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/conversations/ai_context_account_properties/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Account-target Customer analytics properties that can be included in AI reply context. Capped at the first 500 properties by name."
+      }
+    },
+    "com.posthog.conversations#GetConversationsAiReplyPlaybookRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.conversations#AIReplyPlaybook": {
+      "type": "structure",
+      "members": {
+        "inherited_instructions": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repo default instructions, plus the PostHog overlay when docs_source is posthog.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_instructions": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Team addendum on top of the inherited playbook. Null means the team inherits the default instructions.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_customized": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when a non-empty custom addendum is saved for this team.",
+            "smithy.api#required": {}
+          }
+        },
+        "default_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Version of the generic default playbook layer currently in the repo.",
+            "smithy.api#required": {}
+          }
+        },
+        "posthog_overlay_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Version of the PostHog overlay when docs_source is posthog; null otherwise.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "docs_source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Documentation source for this team. 'posthog' enables PostHog docs-search and the PostHog overlay.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_chars": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum character length for ai_reply_custom_instructions.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.conversations#GetConversationsAiReplyPlaybook": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.conversations#GetConversationsAiReplyPlaybookRequest"
+      },
+      "output": {
+        "target": "com.posthog.conversations#AIReplyPlaybook"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/conversations/ai_reply_playbook/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Inherited support-reply playbook for this project, plus the team's custom addendum if any."
+      }
+    },
     "com.posthog.conversations#ListConversationsTicketsRequestChannelDetail": {
       "type": "enum",
       "members": {
@@ -201,7 +367,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "ai_triage_result",
-            "smithy.api#documentation": "Filter by AI triage outcome. Accepts a single value or a comma-separated list. Valid values: `persisted`, `escalated_with_best`, `escalated_no_reply`, `skipped_unactionable`, `blocked_unsafe`, `blocked_unsafe_reply`, `in_progress`."
+            "smithy.api#documentation": "Filter by AI triage outcome. Accepts a single value or a comma-separated list. Valid values: `persisted`, `suggested`, `escalated_with_findings`, `escalated_with_best`, `escalated_no_reply`, `skipped_unactionable`, `blocked_unsafe`, `blocked_unsafe_reply`, `clarified`, `suggested_clarification`, `in_progress`."
           }
         },
         "assignee": {
@@ -428,7 +594,7 @@
         "ai_triage": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "AI support pipeline triage and outcome (status, result, ticket_type, confidence, attempts, etc.)."
+            "smithy.api#documentation": "AI support pipeline triage and outcome (status, result, ticket_type, confidence, attempts, verdict, blocker, sources). Retrieve hydrates sources from citations."
           }
         },
         "created_at": {
@@ -465,7 +631,10 @@
           }
         },
         "session_context": {
-          "target": "smithy.api#Document"
+          "target": "com.posthog.conversations#TicketSessionContext",
+          "traits": {
+            "smithy.api#documentation": "Context captured with the ticket. Values are strings, numbers or booleans. Keys are whatever the widget sent, commonly current_url, replay_url, browser, os and sdk_version."
+          }
         },
         "sla_due_at": {
           "target": "smithy.api#String",
@@ -810,6 +979,26 @@
         "target": "smithy.api#String"
       },
       "traits": {}
+    },
+    "com.posthog.conversations#TicketSessionContext": {
+      "type": "structure",
+      "members": {
+        "current_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Page the reporter was on."
+          }
+        },
+        "replay_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Replay of the session the ticket came from."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Context captured with the ticket. Values are strings, numbers or booleans. Keys are whatever the widget sent, commonly current_url, replay_url, browser, os and sdk_version."
+      }
     },
     "com.posthog.conversations#TicketPerson": {
       "type": "structure",
@@ -1393,6 +1582,86 @@
         "smithy.api#documentation": "Record reviewer feedback on an AI reply, captured to the internal analytics project."
       }
     },
+    "com.posthog.conversations#AiDraftHumanOutcomeEnum": {
+      "type": "enum",
+      "members": {
+        "USED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "used"
+          }
+        },
+        "EDITED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "edited"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `used` - used\n* `edited` - edited"
+      }
+    },
+    "com.posthog.conversations#CreateConversationsTicketsAiHumanOutcomeRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ticket's UUID or its numeric ticket number."
+          }
+        },
+        "message_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the private AI draft being adopted.",
+            "smithy.api#required": {}
+          }
+        },
+        "outcome": {
+          "target": "com.posthog.conversations#AiDraftHumanOutcomeEnum",
+          "traits": {
+            "smithy.api#documentation": "used when the human inserts the draft as-is; edited after they change it in the composer.\n\n* `used` - used\n* `edited` - edited",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.conversations#CreateConversationsTicketsAiHumanOutcome": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.conversations#CreateConversationsTicketsAiHumanOutcomeRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.conversations#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/conversations/tickets/{id}/ai_human_outcome/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Record that a human used or edited the latest AI draft."
+      }
+    },
     "com.posthog.conversations#ListConversationsTicketsMessagesRequest": {
       "type": "structure",
       "members": {
@@ -1471,6 +1740,13 @@
             "smithy.api#required": {}
           }
         },
+        "message_type": {
+          "target": "com.posthog.conversations#TicketMessageTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "What the message is, and whether it was sent to the customer. customer_message: written by the customer. sent_reply: a reply sent to the customer by a teammate, a workflow or the AI. It does not confirm that the customer received it, because delivery can fail. internal_note: a note for the team only. It was never sent to the customer. ai_draft: a reply or question the AI wrote for a teammate to review. It was never sent to the customer.\n\n* `customer_message` - Customer message\n* `sent_reply` - Sent reply\n* `internal_note` - Internal note\n* `ai_draft` - AI draft",
+            "smithy.api#required": {}
+          }
+        },
         "content": {
           "target": "smithy.api#String",
           "traits": {
@@ -1537,6 +1813,38 @@
       },
       "traits": {
         "smithy.api#documentation": "A single message in a ticket thread (output-only)."
+      }
+    },
+    "com.posthog.conversations#TicketMessageTypeEnum": {
+      "type": "enum",
+      "members": {
+        "CUSTOMER_MESSAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "customer_message"
+          }
+        },
+        "SENT_REPLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sent_reply"
+          }
+        },
+        "INTERNAL_NOTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal_note"
+          }
+        },
+        "AI_DRAFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ai_draft"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `customer_message` - Customer message\n* `sent_reply` - Sent reply\n* `internal_note` - Internal note\n* `ai_draft` - AI draft"
       }
     },
     "com.posthog.conversations#PaginatedTicketMessageListResultsList": {
@@ -1628,6 +1936,68 @@
           "code": 200
         },
         "smithy.api#documentation": "Return the full inbound email body in Markdown."
+      }
+    },
+    "com.posthog.conversations#CreateConversationsTicketsNoteRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ticket's UUID or its numeric ticket number."
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Note content in markdown. The note is visible to your team only and is never sent to the customer.",
+            "smithy.api#required": {}
+          }
+        },
+        "rich_content": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Optional TipTap rich content JSON for the note. Omit it to show the markdown message."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.conversations#CreateConversationsTicketsNote": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.conversations#CreateConversationsTicketsNoteRequest"
+      },
+      "output": {
+        "target": "com.posthog.conversations#TicketMessage"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.conversations#BadRequest"
+        },
+        {
+          "target": "com.posthog.conversations#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/conversations/tickets/{id}/notes/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Add a private note to a ticket.\n\nThe note is visible to your team only. The request has no privacy field, so this\nendpoint never sends anything to the customer."
       }
     },
     "com.posthog.conversations#UpdateConversationsTicketsNotesPartialRequest": {
@@ -1924,10 +2294,10 @@
     "com.posthog.conversations#ConversationsTicketsBulkUpdateTagsCreateRequestIdsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Integer"
+        "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "List of object IDs to update tags on."
+        "smithy.api#documentation": "List of object UUIDs to update tags on."
       }
     },
     "com.posthog.conversations#BulkUpdateTagsActionEnum": {
@@ -1962,7 +2332,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Tag names to add, remove, or set."
+        "smithy.api#documentation": "Tag names to add, remove, or set (up to 100 per request, 255 characters each)."
       }
     },
     "com.posthog.conversations#ConversationsTicketsBulkUpdateTagsCreateRequest": {
@@ -1979,19 +2349,22 @@
         "ids": {
           "target": "com.posthog.conversations#ConversationsTicketsBulkUpdateTagsCreateRequestIdsList",
           "traits": {
-            "smithy.api#documentation": "List of object IDs to update tags on."
+            "smithy.api#documentation": "List of object UUIDs to update tags on.",
+            "smithy.api#required": {}
           }
         },
         "action": {
           "target": "com.posthog.conversations#BulkUpdateTagsActionEnum",
           "traits": {
-            "smithy.api#documentation": "'add' merges with existing tags, 'remove' deletes specific tags, 'set' replaces all tags.\n\n* `add` - add\n* `remove` - remove\n* `set` - set"
+            "smithy.api#documentation": "'add' merges with existing tags, 'remove' deletes specific tags, 'set' replaces all tags.\n\n* `add` - add\n* `remove` - remove\n* `set` - set",
+            "smithy.api#required": {}
           }
         },
         "tags": {
           "target": "com.posthog.conversations#ConversationsTicketsBulkUpdateTagsCreateRequestTagsList",
           "traits": {
-            "smithy.api#documentation": "Tag names to add, remove, or set."
+            "smithy.api#documentation": "Tag names to add, remove, or set (up to 100 per request, 255 characters each).",
+            "smithy.api#required": {}
           }
         }
       },
@@ -1999,62 +2372,92 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.conversations#BulkUpdateTagsResponse": {
+    "com.posthog.conversations#BulkUpdateTagsUUIDResponse": {
       "type": "structure",
       "members": {
         "updated": {
-          "target": "com.posthog.conversations#BulkUpdateTagsResponseUpdatedList"
+          "target": "com.posthog.conversations#BulkUpdateTagsUUIDResponseUpdatedList",
+          "traits": {
+            "smithy.api#documentation": "Objects whose tags were successfully updated.",
+            "smithy.api#required": {}
+          }
         },
         "skipped": {
-          "target": "com.posthog.conversations#BulkUpdateTagsResponseSkippedList"
+          "target": "com.posthog.conversations#BulkUpdateTagsUUIDResponseSkippedList",
+          "traits": {
+            "smithy.api#documentation": "Objects that were skipped, with a reason each.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {}
     },
-    "com.posthog.conversations#BulkUpdateTagsItem": {
+    "com.posthog.conversations#BulkUpdateTagsUUIDItem": {
       "type": "structure",
       "members": {
         "id": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the object whose tags were updated.",
+            "smithy.api#required": {}
+          }
         },
         "tags": {
-          "target": "com.posthog.conversations#BulkUpdateTagsItemTagsList"
+          "target": "com.posthog.conversations#BulkUpdateTagsUUIDItemTagsList",
+          "traits": {
+            "smithy.api#documentation": "The object's full tag list after the update.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {}
     },
-    "com.posthog.conversations#BulkUpdateTagsItemTagsList": {
+    "com.posthog.conversations#BulkUpdateTagsUUIDItemTagsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "The object's full tag list after the update."
+      }
     },
-    "com.posthog.conversations#BulkUpdateTagsResponseUpdatedList": {
+    "com.posthog.conversations#BulkUpdateTagsUUIDResponseUpdatedList": {
       "type": "list",
       "member": {
-        "target": "com.posthog.conversations#BulkUpdateTagsItem"
+        "target": "com.posthog.conversations#BulkUpdateTagsUUIDItem"
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Objects whose tags were successfully updated."
+      }
     },
-    "com.posthog.conversations#BulkUpdateTagsError": {
+    "com.posthog.conversations#BulkUpdateTagsUUIDError": {
       "type": "structure",
       "members": {
         "id": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the object that was skipped.",
+            "smithy.api#required": {}
+          }
         },
         "reason": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the object was skipped, e.g. 'Not found or no edit access'.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {}
     },
-    "com.posthog.conversations#BulkUpdateTagsResponseSkippedList": {
+    "com.posthog.conversations#BulkUpdateTagsUUIDResponseSkippedList": {
       "type": "list",
       "member": {
-        "target": "com.posthog.conversations#BulkUpdateTagsError"
+        "target": "com.posthog.conversations#BulkUpdateTagsUUIDError"
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Objects that were skipped, with a reason each."
+      }
     },
     "com.posthog.conversations#ConversationsTicketsBulkUpdateTagsCreate": {
       "type": "operation",
@@ -2062,7 +2465,7 @@
         "target": "com.posthog.conversations#ConversationsTicketsBulkUpdateTagsCreateRequest"
       },
       "output": {
-        "target": "com.posthog.conversations#BulkUpdateTagsResponse"
+        "target": "com.posthog.conversations#BulkUpdateTagsUUIDResponse"
       },
       "errors": [
         {
@@ -2185,6 +2588,9 @@
       "errors": [
         {
           "target": "com.posthog.conversations#BadRequest"
+        },
+        {
+          "target": "com.posthog.conversations#Conflict"
         }
       ],
       "traits": {
@@ -2193,7 +2599,7 @@
           "uri": "/api/projects/{project_id}/conversations/tickets/compose/",
           "code": 200
         },
-        "smithy.api#documentation": "Create a new outbound ticket and send the first message to the customer."
+        "smithy.api#documentation": "Create a new outbound ticket and send the first message to the customer.\n\nIdempotent within a short window: an identical compose retried while the first is still\nin flight returns 409, and one retried after it committed returns the same ticket with a\n200. Only a genuinely new request creates a ticket and emails the customer."
       }
     },
     "com.posthog.conversations#ListConversationsViewsRequest": {
@@ -2254,13 +2660,22 @@
       "type": "structure",
       "members": {
         "id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Internal UUID of the view."
+          }
         },
         "short_id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable short identifier for the view. Use it to address the view in this API, to open it at /support/tickets?view=<short_id>, and as the `view` parameter when listing tickets."
+          }
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the view, as it appears in the ticket views list."
+          }
         },
         "filters": {
           "target": "com.posthog.conversations#TicketViewFilters",
@@ -2269,11 +2684,15 @@
           }
         },
         "created_at": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the view was created."
+          }
         },
         "created_by": {
           "target": "com.posthog.conversations#UserBasic",
           "traits": {
+            "smithy.api#documentation": "The user who created this view.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -2316,13 +2735,13 @@
         "aiTriageResult": {
           "target": "com.posthog.conversations#TicketViewFiltersAiTriageResultList",
           "traits": {
-            "smithy.api#documentation": "AI triage outcomes to include. 'in_progress' matches tickets still being triaged."
+            "smithy.api#documentation": "AI triage outcomes to include. 'in_progress' matches tickets still being triaged. Valid values: persisted, suggested, escalated_with_findings, escalated_with_best, escalated_no_reply, skipped_unactionable, blocked_unsafe, blocked_unsafe_reply, clarified, suggested_clarification, in_progress."
           }
         },
         "assignee": {
           "target": "com.posthog.conversations#TicketViewFiltersAssigneeList",
           "traits": {
-            "smithy.api#documentation": "Assignees to match (any of): 'unassigned', 'me' (resolved to the requesting user), or an object with type ('user' or 'role') and id. The legacy single-value shape is accepted and normalized to a list."
+            "smithy.api#documentation": "Assignees to match (any of): 'unassigned', 'me' (resolved to the requesting user), or an object with type ('user' or 'role') and id. Send a list. Views saved earlier can hold a single value instead of a list, or the value 'all'. Wrap a single value in a list, and replace 'all' with an empty list to apply no assignee filter."
           }
         },
         "tags": {
@@ -2478,6 +2897,18 @@
             "smithy.api#enumValue": "persisted"
           }
         },
+        "SUGGESTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "suggested"
+          }
+        },
+        "ESCALATED_WITH_FINDINGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "escalated_with_findings"
+          }
+        },
         "ESCALATED_WITH_BEST": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -2508,6 +2939,18 @@
             "smithy.api#enumValue": "blocked_unsafe_reply"
           }
         },
+        "CLARIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clarified"
+          }
+        },
+        "SUGGESTED_CLARIFICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "suggested_clarification"
+          }
+        },
         "IN_PROGRESS": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -2516,7 +2959,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `persisted` - persisted\n* `escalated_with_best` - escalated_with_best\n* `escalated_no_reply` - escalated_no_reply\n* `skipped_unactionable` - skipped_unactionable\n* `blocked_unsafe` - blocked_unsafe\n* `blocked_unsafe_reply` - blocked_unsafe_reply\n* `in_progress` - in_progress"
+        "smithy.api#documentation": "* `persisted` - persisted\n* `suggested` - suggested\n* `escalated_with_findings` - escalated_with_findings\n* `escalated_with_best` - escalated_with_best\n* `escalated_no_reply` - escalated_no_reply\n* `skipped_unactionable` - skipped_unactionable\n* `blocked_unsafe` - blocked_unsafe\n* `blocked_unsafe_reply` - blocked_unsafe_reply\n* `clarified` - clarified\n* `suggested_clarification` - suggested_clarification\n* `in_progress` - in_progress"
       }
     },
     "com.posthog.conversations#TicketViewFiltersAiTriageResultList": {
@@ -2525,7 +2968,7 @@
         "target": "com.posthog.conversations#AiTriageResultEnum"
       },
       "traits": {
-        "smithy.api#documentation": "AI triage outcomes to include. 'in_progress' matches tickets still being triaged."
+        "smithy.api#documentation": "AI triage outcomes to include. 'in_progress' matches tickets still being triaged. Valid values: persisted, suggested, escalated_with_findings, escalated_with_best, escalated_no_reply, skipped_unactionable, blocked_unsafe, blocked_unsafe_reply, clarified, suggested_clarification, in_progress."
       }
     },
     "com.posthog.conversations#TicketViewFiltersAssigneeItemCase0": {
@@ -2612,7 +3055,7 @@
         "target": "com.posthog.conversations#TicketViewFiltersAssigneeItem"
       },
       "traits": {
-        "smithy.api#documentation": "Assignees to match (any of): 'unassigned', 'me' (resolved to the requesting user), or an object with type ('user' or 'role') and id. The legacy single-value shape is accepted and normalized to a list."
+        "smithy.api#documentation": "Assignees to match (any of): 'unassigned', 'me' (resolved to the requesting user), or an object with type ('user' or 'role') and id. Send a list. Views saved earlier can hold a single value instead of a list, or the value 'all'. Wrap a single value in a list, and replace 'all' with an empty list to apply no assignee filter."
       }
     },
     "com.posthog.conversations#TicketViewFiltersTagsList": {
@@ -2868,7 +3311,10 @@
           }
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the view, as it appears in the ticket views list."
+          }
         },
         "filters": {
           "target": "com.posthog.conversations#TicketViewFilters",
@@ -2980,7 +3426,10 @@
           }
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the view, as it appears in the ticket views list."
+          }
         },
         "filters": {
           "target": "com.posthog.conversations#TicketViewFilters",
@@ -3119,6 +3568,12 @@
       "version": "1.0.0",
       "operations": [
         {
+          "target": "com.posthog.conversations#ListConversationsAiContextAccountProperties"
+        },
+        {
+          "target": "com.posthog.conversations#GetConversationsAiReplyPlaybook"
+        },
+        {
           "target": "com.posthog.conversations#ListConversationsTickets"
         },
         {
@@ -3137,10 +3592,16 @@
           "target": "com.posthog.conversations#CreateConversationsTicketsAiFeedback"
         },
         {
+          "target": "com.posthog.conversations#CreateConversationsTicketsAiHumanOutcome"
+        },
+        {
           "target": "com.posthog.conversations#ListConversationsTicketsMessages"
         },
         {
           "target": "com.posthog.conversations#GetConversationsTicketsMessagesFullEmail"
+        },
+        {
+          "target": "com.posthog.conversations#CreateConversationsTicketsNote"
         },
         {
           "target": "com.posthog.conversations#UpdateConversationsTicketsNotesPartial"

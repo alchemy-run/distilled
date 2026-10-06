@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "Inspector Scan",
-  serviceShapeName: "InspectorScan",
-});
+const svc = T.AwsApiService({ sdkId: "Inspector Scan", serviceShapeName: "InspectorScan" });
 const auth = T.AwsAuthSigv4({ name: "inspector-scan" });
 const ver = T.ServiceVersion("2023-08-08");
 const proto = T.AwsProtocolsRestJson1();
@@ -128,17 +125,13 @@ export const ScanSbomRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ sbom: S.Any, outputFormat: S.optional(OutputFormat) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/scan/sbom" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ScanSbomRequest",
-}) as any as S.Schema<ScanSbomRequest>;
+).annotate({ identifier: "ScanSbomRequest" }) as any as S.Schema<ScanSbomRequest>;
 export interface ScanSbomResponse {
   sbom?: any;
 }
 export const ScanSbomResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ sbom: S.optional(S.Any) }),
-).annotate({
-  identifier: "ScanSbomResponse",
-}) as any as S.Schema<ScanSbomResponse>;
+).annotate({ identifier: "ScanSbomResponse" }) as any as S.Schema<ScanSbomResponse>;
 export type InternalServerExceptionReason = "FAILED_TO_GENERATE_SBOM" | "OTHER" | (string & {});
 export const InternalServerExceptionReason = S.String;
 
@@ -157,9 +150,7 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFields = ValidationExceptionField[];
 export const ValidationExceptionFields = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type ScanSbomError =

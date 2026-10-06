@@ -1764,6 +1764,7 @@
         "is_team_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
+            "smithy.api#documentation": "True when this server is enabled and available to the project.",
             "smithy.api#required": {}
           }
         },

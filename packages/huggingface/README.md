@@ -16,7 +16,7 @@ import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Huggingface from "@distilled.cloud/huggingface";
 
 const program = Effect.gen(function* () {
-  const result = yield* Huggingface.repos.createNewRepository({});
+  const result = yield* Huggingface.repos.createRepository({});
   return result;
 });
 

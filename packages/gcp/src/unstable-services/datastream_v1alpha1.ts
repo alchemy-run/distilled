@@ -94,9 +94,15 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "Empty",
 }) as any as S.Schema<Empty>;
 
-/** No connectivity settings. */
-export type NoConnectivitySettings = CancelOperationRequest;
-export const NoConnectivitySettings = CancelOperationRequest;
+/** Private Connectivity */
+export interface PrivateConnectivity {
+  privateConnectionName?: string;
+}
+export const PrivateConnectivity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    privateConnectionName: S.optional(S.String),
+  }),
+).annotate({ identifier: "PrivateConnectivity" }) as any as S.Schema<PrivateConnectivity>;
 
 /** Cloud Storage bucket profile. */
 export interface GcsProfile {
@@ -112,110 +118,40 @@ export const GcsProfile = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "GcsProfile" }) as any as S.Schema<GcsProfile>;
 
-/** Private Connectivity */
-export interface PrivateConnectivity {
-  privateConnectionName?: string;
-}
-export const PrivateConnectivity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    privateConnectionName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PrivateConnectivity",
-}) as any as S.Schema<PrivateConnectivity>;
-
-/** Forward SSH Tunnel connectivity. */
-export interface ForwardSshTunnelConnectivity {
-  /** Required. Hostname for the SSH tunnel. */
-  hostname?: string;
-  /** Input only. SSH password. */
-  password?: string;
-  /** Port for the SSH tunnel, default value is 22. */
-  port?: number;
-  /** Required. Username for the SSH tunnel. */
-  username?: string;
-  /** Input only. SSH private key. */
-  privateKey?: string;
-}
-export const ForwardSshTunnelConnectivity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    hostname: S.optional(S.String),
-    password: S.optional(S.String),
-    port: S.optional(S.Number),
-    username: S.optional(S.String),
-    privateKey: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ForwardSshTunnelConnectivity",
-}) as any as S.Schema<ForwardSshTunnelConnectivity>;
-
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
-
-/** Static IP address connectivity. */
-export type StaticServiceIpConnectivity = CancelOperationRequest;
-export const StaticServiceIpConnectivity = CancelOperationRequest;
-
-/** Oracle database profile. */
-export interface OracleProfile {
-  /** Required. Database for the Oracle connection. */
-  databaseService?: string;
-  /** Port for the Oracle connection, default value is 1521. */
-  port?: number;
-  /** Required. Username for the Oracle connection. */
-  username?: string;
-  /** Connection string attributes */
-  connectionAttributes?: StringMap;
-  /** Required. Hostname for the Oracle connection. */
-  hostname?: string;
-  /** Required. Password for the Oracle connection. */
-  password?: string;
-}
-export const OracleProfile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    databaseService: S.optional(S.String),
-    port: S.optional(S.Number),
-    username: S.optional(S.String),
-    connectionAttributes: S.optional(StringMap),
-    hostname: S.optional(S.String),
-    password: S.optional(S.String),
-  }),
-).annotate({ identifier: "OracleProfile" }) as any as S.Schema<OracleProfile>;
-
 /** MySQL SSL configuration information. */
 export interface MysqlSslConfig {
   /** Input only. PEM-encoded private key associated with the Client Certificate. If this field is used then the 'client_certificate' and the 'ca_certificate' fields are mandatory. */
   clientKey?: string;
-  /** Input only. PEM-encoded certificate that will be used by the replica to authenticate against the source database server. If this field is used then the 'client_key' and the 'ca_certificate' fields are mandatory. */
-  clientCertificate?: string;
   /** Output only. Indicates whether the client_certificate field is set. */
   clientCertificateSet?: boolean;
-  /** Output only. Indicates whether the client_key field is set. */
-  clientKeySet?: boolean;
   /** Input only. PEM-encoded certificate of the CA that signed the source database server's certificate. */
   caCertificate?: string;
+  /** Input only. PEM-encoded certificate that will be used by the replica to authenticate against the source database server. If this field is used then the 'client_key' and the 'ca_certificate' fields are mandatory. */
+  clientCertificate?: string;
+  /** Output only. Indicates whether the client_key field is set. */
+  clientKeySet?: boolean;
   /** Output only. Indicates whether the ca_certificate field is set. */
   caCertificateSet?: boolean;
 }
 export const MysqlSslConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clientKey: S.optional(S.String),
-    clientCertificate: S.optional(S.String),
     clientCertificateSet: S.optional(S.Boolean),
-    clientKeySet: S.optional(S.Boolean),
     caCertificate: S.optional(S.String),
+    clientCertificate: S.optional(S.String),
+    clientKeySet: S.optional(S.Boolean),
     caCertificateSet: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "MysqlSslConfig" }) as any as S.Schema<MysqlSslConfig>;
 
 /** MySQL database profile. */
 export interface MysqlProfile {
-  /** Port for the MySQL connection, default value is 3306. */
-  port?: number;
-  /** SSL configuration for the MySQL connection. */
-  sslConfig?: MysqlSslConfig;
   /** Required. Username for the MySQL connection. */
   username?: string;
+  /** SSL configuration for the MySQL connection. */
+  sslConfig?: MysqlSslConfig;
+  /** Port for the MySQL connection, default value is 3306. */
+  port?: number;
   /** Required. Hostname for the MySQL connection. */
   hostname?: string;
   /** Required. Input only. Password for the MySQL connection. */
@@ -223,74 +159,134 @@ export interface MysqlProfile {
 }
 export const MysqlProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    port: S.optional(S.Number),
-    sslConfig: S.optional(MysqlSslConfig),
     username: S.optional(S.String),
+    sslConfig: S.optional(MysqlSslConfig),
+    port: S.optional(S.Number),
     hostname: S.optional(S.String),
     password: S.optional(S.String),
   }),
 ).annotate({ identifier: "MysqlProfile" }) as any as S.Schema<MysqlProfile>;
 
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+
+/** Oracle database profile. */
+export interface OracleProfile {
+  /** Required. Hostname for the Oracle connection. */
+  hostname?: string;
+  /** Required. Password for the Oracle connection. */
+  password?: string;
+  /** Required. Username for the Oracle connection. */
+  username?: string;
+  /** Required. Database for the Oracle connection. */
+  databaseService?: string;
+  /** Connection string attributes */
+  connectionAttributes?: StringMap;
+  /** Port for the Oracle connection, default value is 1521. */
+  port?: number;
+}
+export const OracleProfile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    hostname: S.optional(S.String),
+    password: S.optional(S.String),
+    username: S.optional(S.String),
+    databaseService: S.optional(S.String),
+    connectionAttributes: S.optional(StringMap),
+    port: S.optional(S.Number),
+  }),
+).annotate({ identifier: "OracleProfile" }) as any as S.Schema<OracleProfile>;
+
+/** Static IP address connectivity. */
+export type StaticServiceIpConnectivity = CancelOperationRequest;
+export const StaticServiceIpConnectivity = CancelOperationRequest;
+
+/** No connectivity settings. */
+export type NoConnectivitySettings = CancelOperationRequest;
+export const NoConnectivitySettings = CancelOperationRequest;
+
+/** Forward SSH Tunnel connectivity. */
+export interface ForwardSshTunnelConnectivity {
+  /** Port for the SSH tunnel, default value is 22. */
+  port?: number;
+  /** Required. Hostname for the SSH tunnel. */
+  hostname?: string;
+  /** Input only. SSH password. */
+  password?: string;
+  /** Required. Username for the SSH tunnel. */
+  username?: string;
+  /** Input only. SSH private key. */
+  privateKey?: string;
+}
+export const ForwardSshTunnelConnectivity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    port: S.optional(S.Number),
+    hostname: S.optional(S.String),
+    password: S.optional(S.String),
+    username: S.optional(S.String),
+    privateKey: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ForwardSshTunnelConnectivity",
+}) as any as S.Schema<ForwardSshTunnelConnectivity>;
+
 export interface ConnectionProfile {
-  /** No connectivity option chosen. */
-  noConnectivity?: CancelOperationRequest;
-  /** Output only. The create time of the resource. */
-  createTime?: string;
-  /** Required. Display name. */
-  displayName?: string;
-  /** Cloud Storage ConnectionProfile configuration. */
-  gcsProfile?: GcsProfile;
   /** Private connectivity. */
   privateConnectivity?: PrivateConnectivity;
-  /** Output only. The update time of the resource. */
-  updateTime?: string;
-  /** Forward SSH tunnel connectivity. */
-  forwardSshConnectivity?: ForwardSshTunnelConnectivity;
+  /** Cloud Storage ConnectionProfile configuration. */
+  gcsProfile?: GcsProfile;
+  /** MySQL ConnectionProfile configuration. */
+  mysqlProfile?: MysqlProfile;
+  /** Oracle ConnectionProfile configuration. */
+  oracleProfile?: OracleProfile;
+  /** Output only. The resource's name. */
+  name?: string;
   /** Labels. */
   labels?: StringMap;
   /** Static Service IP connectivity. */
   staticServiceIpConnectivity?: CancelOperationRequest;
-  /** Oracle ConnectionProfile configuration. */
-  oracleProfile?: OracleProfile;
-  /** MySQL ConnectionProfile configuration. */
-  mysqlProfile?: MysqlProfile;
-  /** Output only. The resource's name. */
-  name?: string;
+  /** No connectivity option chosen. */
+  noConnectivity?: CancelOperationRequest;
+  /** Output only. The create time of the resource. */
+  createTime?: string;
+  /** Output only. The update time of the resource. */
+  updateTime?: string;
+  /** Required. Display name. */
+  displayName?: string;
+  /** Forward SSH tunnel connectivity. */
+  forwardSshConnectivity?: ForwardSshTunnelConnectivity;
 }
 export const ConnectionProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    noConnectivity: S.optional(CancelOperationRequest),
-    createTime: S.optional(S.String),
-    displayName: S.optional(S.String),
-    gcsProfile: S.optional(GcsProfile),
     privateConnectivity: S.optional(PrivateConnectivity),
-    updateTime: S.optional(S.String),
-    forwardSshConnectivity: S.optional(ForwardSshTunnelConnectivity),
+    gcsProfile: S.optional(GcsProfile),
+    mysqlProfile: S.optional(MysqlProfile),
+    oracleProfile: S.optional(OracleProfile),
+    name: S.optional(S.String),
     labels: S.optional(StringMap),
     staticServiceIpConnectivity: S.optional(CancelOperationRequest),
-    oracleProfile: S.optional(OracleProfile),
-    mysqlProfile: S.optional(MysqlProfile),
-    name: S.optional(S.String),
+    noConnectivity: S.optional(CancelOperationRequest),
+    createTime: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    displayName: S.optional(S.String),
+    forwardSshConnectivity: S.optional(ForwardSshTunnelConnectivity),
   }),
-).annotate({
-  identifier: "ConnectionProfile",
-}) as any as S.Schema<ConnectionProfile>;
+).annotate({ identifier: "ConnectionProfile" }) as any as S.Schema<ConnectionProfile>;
 
 export interface CreateProjectsLocationsConnectionProfilesRequest {
-  /** Required. The parent that owns the collection of ConnectionProfiles. */
-  parent: string;
   /** Required. The connection profile identifier. */
   connectionProfileId?: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. The parent that owns the collection of ConnectionProfiles. */
+  parent: string;
   /** Request body */
   body?: ConnectionProfile;
 }
 export const CreateProjectsLocationsConnectionProfilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     connectionProfileId: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(ConnectionProfile.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -318,16 +314,16 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     code: S.optional(S.Number),
-    message: S.optional(S.String),
     details: S.optional(DocumentMapList),
+    message: S.optional(S.String),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
@@ -335,24 +331,38 @@ export const Status = /*@__PURE__*/ S.suspend(() =>
 export interface Operation {
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     error: S.optional(Status),
+    response: S.optional(DocumentMap),
     done: S.optional(S.Boolean),
     metadata: S.optional(DocumentMap),
-    response: S.optional(DocumentMap),
     name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
+
+/** The VPC Peering configuration is used to create VPC peering between Datastream and the consumer's VPC. */
+export interface VpcPeeringConfig {
+  /** Required. A free subnet for peering. (CIDR of /29) */
+  subnet?: string;
+  /** Required. fully qualified name of the VPC Datastream will peer to. */
+  vpcName?: string;
+}
+export const VpcPeeringConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subnet: S.optional(S.String),
+    vpcName: S.optional(S.String),
+  }),
+).annotate({ identifier: "VpcPeeringConfig" }) as any as S.Schema<VpcPeeringConfig>;
 
 export type PrivateConnectionStateEnum =
   | "STATE_UNSPECIFIED"
@@ -363,26 +373,8 @@ export type PrivateConnectionStateEnum =
   | "FAILED_TO_DELETE";
 export const PrivateConnectionStateEnum = S.String;
 
-/** The VPC Peering configuration is used to create VPC peering between Datastream and the consumer's VPC. */
-export interface VpcPeeringConfig {
-  /** Required. fully qualified name of the VPC Datastream will peer to. */
-  vpcName?: string;
-  /** Required. A free subnet for peering. (CIDR of /29) */
-  subnet?: string;
-}
-export const VpcPeeringConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vpcName: S.optional(S.String),
-    subnet: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VpcPeeringConfig",
-}) as any as S.Schema<VpcPeeringConfig>;
-
 /** Represent a user-facing Error. */
 export interface Datastream_Error {
-  /** Additional information about the error. */
-  details?: StringMap;
   /** The time when the error occurred. */
   errorTime?: string;
   /** A message containing more information about the error that occurred. */
@@ -391,68 +383,66 @@ export interface Datastream_Error {
   errorUuid?: string;
   /** A title that explains the reason for the error. */
   reason?: string;
+  /** Additional information about the error. */
+  details?: StringMap;
 }
 export const Datastream_Error = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    details: S.optional(StringMap),
     errorTime: S.optional(S.String),
     message: S.optional(S.String),
     errorUuid: S.optional(S.String),
     reason: S.optional(S.String),
+    details: S.optional(StringMap),
   }),
-).annotate({
-  identifier: "Datastream_Error",
-}) as any as S.Schema<Datastream_Error>;
+).annotate({ identifier: "Datastream_Error" }) as any as S.Schema<Datastream_Error>;
 
 /** The PrivateConnection resource is used to establish private connectivity between Datastream and a customer's network. */
 export interface PrivateConnection {
-  /** Required. Display name. */
-  displayName?: string;
-  /** Output only. The resource's name. */
-  name?: string;
-  /** Output only. The update time of the resource. */
-  updateTime?: string;
-  /** Labels. */
-  labels?: StringMap;
-  /** Output only. The state of the Private Connection. */
-  state?: PrivateConnectionStateEnum | (string & {});
   /** VPC Peering Config */
   vpcPeeringConfig?: VpcPeeringConfig;
+  /** Output only. The state of the Private Connection. */
+  state?: PrivateConnectionStateEnum | (string & {});
+  /** Output only. The resource's name. */
+  name?: string;
   /** Output only. In case of error, the details of the error in a user-friendly format. */
   error?: Datastream_Error;
+  /** Labels. */
+  labels?: StringMap;
+  /** Required. Display name. */
+  displayName?: string;
   /** Output only. The create time of the resource. */
   createTime?: string;
+  /** Output only. The update time of the resource. */
+  updateTime?: string;
 }
 export const PrivateConnection = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    displayName: S.optional(S.String),
-    name: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    labels: S.optional(StringMap),
-    state: S.optional(PrivateConnectionStateEnum),
     vpcPeeringConfig: S.optional(VpcPeeringConfig),
+    state: S.optional(PrivateConnectionStateEnum),
+    name: S.optional(S.String),
     error: S.optional(Datastream_Error),
+    labels: S.optional(StringMap),
+    displayName: S.optional(S.String),
     createTime: S.optional(S.String),
+    updateTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateConnection",
-}) as any as S.Schema<PrivateConnection>;
+).annotate({ identifier: "PrivateConnection" }) as any as S.Schema<PrivateConnection>;
 
 export interface CreateProjectsLocationsPrivateConnectionsRequest {
-  /** Required. The private connectivity identifier. */
-  privateConnectionId?: string;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. The parent that owns the collection of PrivateConnections. */
   parent: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Required. The private connectivity identifier. */
+  privateConnectionId?: string;
   /** Request body */
   body?: PrivateConnection;
 }
 export const CreateProjectsLocationsPrivateConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    privateConnectionId: S.optional(S.String.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
+    privateConnectionId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(PrivateConnection.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -467,16 +457,16 @@ export const CreateProjectsLocationsPrivateConnectionsRequest = /*@__PURE__*/ S.
 
 /** The Route resource is the child of the PrivateConnection resource. It used to define a route for a PrivateConnection setup. */
 export interface Route {
+  /** Destination port for connection */
+  destinationPort?: number;
   /** Required. Destination address for connection */
   destinationAddress?: string;
-  /** Output only. The update time of the resource. */
-  updateTime?: string;
   /** Output only. The resource's name. */
   name?: string;
   /** Required. Display name. */
   displayName?: string;
-  /** Destination port for connection */
-  destinationPort?: number;
+  /** Output only. The update time of the resource. */
+  updateTime?: string;
   /** Labels. */
   labels?: StringMap;
   /** Output only. The create time of the resource. */
@@ -484,31 +474,31 @@ export interface Route {
 }
 export const Route = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    destinationPort: S.optional(S.Number),
     destinationAddress: S.optional(S.String),
-    updateTime: S.optional(S.String),
     name: S.optional(S.String),
     displayName: S.optional(S.String),
-    destinationPort: S.optional(S.Number),
+    updateTime: S.optional(S.String),
     labels: S.optional(StringMap),
     createTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Route" }) as any as S.Schema<Route>;
 
 export interface CreateProjectsLocationsPrivateConnectionsRoutesRequest {
-  /** Required. The Route identifier. */
-  routeId?: string;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. The parent that owns the collection of Routes. */
   parent: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Required. The Route identifier. */
+  routeId?: string;
   /** Request body */
   body?: Route;
 }
 export const CreateProjectsLocationsPrivateConnectionsRoutesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    routeId: S.optional(S.String.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
+    routeId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Route.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -525,120 +515,121 @@ export const CreateProjectsLocationsPrivateConnectionsRoutesRequest = /*@__PURE_
 export type BackfillNoneStrategy = CancelOperationRequest;
 export const BackfillNoneStrategy = CancelOperationRequest;
 
-/** Oracle Column. */
-export interface OracleColumn {
-  /** Whether or not the column represents a primary key. */
-  primaryKey?: boolean;
-  /** Column precision. */
-  precision?: number;
-  /** Column name. */
-  columnName?: string;
-  /** The Oracle data type. */
-  dataType?: string;
-  /** Whether or not the column can accept a null value. */
-  nullable?: boolean;
-  /** Column length. */
-  length?: number;
-  /** Column encoding. */
-  encoding?: string;
-  /** Column scale. */
-  scale?: number;
-  /** The ordinal position of the column in the table. */
-  ordinalPosition?: number;
+/** AVRO file format configuration. */
+export type AvroFileFormat = CancelOperationRequest;
+export const AvroFileFormat = CancelOperationRequest;
+
+export type JsonFileFormatCompressionEnum =
+  | "JSON_COMPRESSION_UNSPECIFIED"
+  | "NO_COMPRESSION"
+  | "GZIP";
+export const JsonFileFormatCompressionEnum = S.String;
+
+export type JsonFileFormatSchemaFileFormatEnum =
+  | "SCHEMA_FILE_FORMAT_UNSPECIFIED"
+  | "NO_SCHEMA_FILE"
+  | "AVRO_SCHEMA_FILE";
+export const JsonFileFormatSchemaFileFormatEnum = S.String;
+
+/** JSON file format configuration. */
+export interface JsonFileFormat {
+  /** Compression of the loaded JSON file. */
+  compression?: JsonFileFormatCompressionEnum | (string & {});
+  /** The schema file format along JSON data files. */
+  schemaFileFormat?: JsonFileFormatSchemaFileFormatEnum | (string & {});
 }
-export const OracleColumn = /*@__PURE__*/ S.suspend(() =>
+export const JsonFileFormat = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    primaryKey: S.optional(S.Boolean),
-    precision: S.optional(S.Number),
-    columnName: S.optional(S.String),
-    dataType: S.optional(S.String),
-    nullable: S.optional(S.Boolean),
-    length: S.optional(S.Number),
-    encoding: S.optional(S.String),
-    scale: S.optional(S.Number),
-    ordinalPosition: S.optional(S.Number),
+    compression: S.optional(JsonFileFormatCompressionEnum),
+    schemaFileFormat: S.optional(JsonFileFormatSchemaFileFormatEnum),
   }),
-).annotate({ identifier: "OracleColumn" }) as any as S.Schema<OracleColumn>;
+).annotate({ identifier: "JsonFileFormat" }) as any as S.Schema<JsonFileFormat>;
 
-export type OracleColumnList = Array<OracleColumn>;
-export const OracleColumnList = /*@__PURE__*/ S.Array(
-  OracleColumn,
-) as any as S.Schema<OracleColumnList>;
+export type GcsDestinationConfigGcsFileFormatEnum = "GCS_FILE_FORMAT_UNSPECIFIED" | "AVRO";
+export const GcsDestinationConfigGcsFileFormatEnum = S.String;
 
-/** Oracle table. */
-export interface OracleTable {
-  /** Table name. */
-  tableName?: string;
-  /** Oracle columns in the schema. When unspecified as part of inclue/exclude lists, includes/excludes everything. */
-  oracleColumns?: OracleColumnList;
+/** Google Cloud Storage destination configuration */
+export interface GcsDestinationConfig {
+  /** The maximum file size to be saved in the bucket. */
+  fileRotationMb?: number;
+  /** AVRO file format configuration. */
+  avroFileFormat?: CancelOperationRequest;
+  /** JSON file format configuration. */
+  jsonFileFormat?: JsonFileFormat;
+  /** Path inside the Cloud Storage bucket to write data to. */
+  path?: string;
+  /** File format that data should be written in. Deprecated field (b/169501737) - use file_format instead. */
+  gcsFileFormat?: GcsDestinationConfigGcsFileFormatEnum | (string & {});
+  /** The maximum duration for which new events are added before a file is closed and a new file is created. */
+  fileRotationInterval?: string;
 }
-export const OracleTable = /*@__PURE__*/ S.suspend(() =>
+export const GcsDestinationConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tableName: S.optional(S.String),
-    oracleColumns: S.optional(OracleColumnList),
+    fileRotationMb: S.optional(S.Number),
+    avroFileFormat: S.optional(CancelOperationRequest),
+    jsonFileFormat: S.optional(JsonFileFormat),
+    path: S.optional(S.String),
+    gcsFileFormat: S.optional(GcsDestinationConfigGcsFileFormatEnum),
+    fileRotationInterval: S.optional(S.String),
   }),
-).annotate({ identifier: "OracleTable" }) as any as S.Schema<OracleTable>;
+).annotate({ identifier: "GcsDestinationConfig" }) as any as S.Schema<GcsDestinationConfig>;
 
-export type OracleTableList = Array<OracleTable>;
-export const OracleTableList = /*@__PURE__*/ S.Array(
-  OracleTable,
-) as any as S.Schema<OracleTableList>;
-
-/** Oracle schema. */
-export interface OracleSchema {
-  /** Tables in the schema. */
-  oracleTables?: OracleTableList;
-  /** Schema name. */
-  schemaName?: string;
+/** The configuration of the stream destination. */
+export interface DestinationConfig {
+  /** Required. Destination connection profile identifier. */
+  destinationConnectionProfileName?: string;
+  /** GCS destination configuration. */
+  gcsDestinationConfig?: GcsDestinationConfig;
 }
-export const OracleSchema = /*@__PURE__*/ S.suspend(() =>
+export const DestinationConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    oracleTables: S.optional(OracleTableList),
-    schemaName: S.optional(S.String),
+    destinationConnectionProfileName: S.optional(S.String),
+    gcsDestinationConfig: S.optional(GcsDestinationConfig),
   }),
-).annotate({ identifier: "OracleSchema" }) as any as S.Schema<OracleSchema>;
+).annotate({ identifier: "DestinationConfig" }) as any as S.Schema<DestinationConfig>;
 
-export type OracleSchemaList = Array<OracleSchema>;
-export const OracleSchemaList = /*@__PURE__*/ S.Array(
-  OracleSchema,
-) as any as S.Schema<OracleSchemaList>;
+export type StreamStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "CREATED"
+  | "RUNNING"
+  | "PAUSED"
+  | "MAINTENANCE"
+  | "FAILED"
+  | "FAILED_PERMANENTLY"
+  | "STARTING"
+  | "DRAINING";
+export const StreamStateEnum = S.String;
 
-/** Oracle database structure. */
-export interface OracleRdbms {
-  /** Oracle schemas/databases in the database server. */
-  oracleSchemas?: OracleSchemaList;
-}
-export const OracleRdbms = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    oracleSchemas: S.optional(OracleSchemaList),
-  }),
-).annotate({ identifier: "OracleRdbms" }) as any as S.Schema<OracleRdbms>;
+export type Datastream_ErrorList = Array<Datastream_Error>;
+export const Datastream_ErrorList = /*@__PURE__*/ S.Array(
+  Datastream_Error,
+) as any as S.Schema<Datastream_ErrorList>;
 
 /** MySQL Column. */
 export interface MysqlColumn {
-  /** The MySQL data type. Full data types list can be found here: https://dev.mysql.com/doc/refman/8.0/en/data-types.html */
-  dataType?: string;
-  /** The ordinal position of the column in the table. */
-  ordinalPosition?: number;
-  /** Column collation. */
-  collation?: string;
-  /** Column length. */
-  length?: number;
-  /** Whether or not the column represents a primary key. */
-  primaryKey?: boolean;
   /** Column name. */
   columnName?: string;
+  /** Column length. */
+  length?: number;
+  /** The ordinal position of the column in the table. */
+  ordinalPosition?: number;
+  /** Whether or not the column represents a primary key. */
+  primaryKey?: boolean;
+  /** The MySQL data type. Full data types list can be found here: https://dev.mysql.com/doc/refman/8.0/en/data-types.html */
+  dataType?: string;
+  /** Column collation. */
+  collation?: string;
   /** Whether or not the column can accept a null value. */
   nullable?: boolean;
 }
 export const MysqlColumn = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dataType: S.optional(S.String),
-    ordinalPosition: S.optional(S.Number),
-    collation: S.optional(S.String),
-    length: S.optional(S.Number),
-    primaryKey: S.optional(S.Boolean),
     columnName: S.optional(S.String),
+    length: S.optional(S.Number),
+    ordinalPosition: S.optional(S.Number),
+    primaryKey: S.optional(S.Boolean),
+    dataType: S.optional(S.String),
+    collation: S.optional(S.String),
     nullable: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "MysqlColumn" }) as any as S.Schema<MysqlColumn>;
@@ -695,26 +686,108 @@ export const MysqlRdbms = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "MysqlRdbms" }) as any as S.Schema<MysqlRdbms>;
 
+/** Oracle Column. */
+export interface OracleColumn {
+  /** Column encoding. */
+  encoding?: string;
+  /** The ordinal position of the column in the table. */
+  ordinalPosition?: number;
+  /** Column scale. */
+  scale?: number;
+  /** The Oracle data type. */
+  dataType?: string;
+  /** Column name. */
+  columnName?: string;
+  /** Column length. */
+  length?: number;
+  /** Whether or not the column can accept a null value. */
+  nullable?: boolean;
+  /** Whether or not the column represents a primary key. */
+  primaryKey?: boolean;
+  /** Column precision. */
+  precision?: number;
+}
+export const OracleColumn = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    encoding: S.optional(S.String),
+    ordinalPosition: S.optional(S.Number),
+    scale: S.optional(S.Number),
+    dataType: S.optional(S.String),
+    columnName: S.optional(S.String),
+    length: S.optional(S.Number),
+    nullable: S.optional(S.Boolean),
+    primaryKey: S.optional(S.Boolean),
+    precision: S.optional(S.Number),
+  }),
+).annotate({ identifier: "OracleColumn" }) as any as S.Schema<OracleColumn>;
+
+export type OracleColumnList = Array<OracleColumn>;
+export const OracleColumnList = /*@__PURE__*/ S.Array(
+  OracleColumn,
+) as any as S.Schema<OracleColumnList>;
+
+/** Oracle table. */
+export interface OracleTable {
+  /** Table name. */
+  tableName?: string;
+  /** Oracle columns in the schema. When unspecified as part of inclue/exclude lists, includes/excludes everything. */
+  oracleColumns?: OracleColumnList;
+}
+export const OracleTable = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tableName: S.optional(S.String),
+    oracleColumns: S.optional(OracleColumnList),
+  }),
+).annotate({ identifier: "OracleTable" }) as any as S.Schema<OracleTable>;
+
+export type OracleTableList = Array<OracleTable>;
+export const OracleTableList = /*@__PURE__*/ S.Array(
+  OracleTable,
+) as any as S.Schema<OracleTableList>;
+
+/** Oracle schema. */
+export interface OracleSchema {
+  /** Schema name. */
+  schemaName?: string;
+  /** Tables in the schema. */
+  oracleTables?: OracleTableList;
+}
+export const OracleSchema = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    schemaName: S.optional(S.String),
+    oracleTables: S.optional(OracleTableList),
+  }),
+).annotate({ identifier: "OracleSchema" }) as any as S.Schema<OracleSchema>;
+
+export type OracleSchemaList = Array<OracleSchema>;
+export const OracleSchemaList = /*@__PURE__*/ S.Array(
+  OracleSchema,
+) as any as S.Schema<OracleSchemaList>;
+
+/** Oracle database structure. */
+export interface OracleRdbms {
+  /** Oracle schemas/databases in the database server. */
+  oracleSchemas?: OracleSchemaList;
+}
+export const OracleRdbms = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    oracleSchemas: S.optional(OracleSchemaList),
+  }),
+).annotate({ identifier: "OracleRdbms" }) as any as S.Schema<OracleRdbms>;
+
 /** Backfill strategy to automatically backfill the Stream's objects. Specific objects can be excluded. */
 export interface BackfillAllStrategy {
-  /** Oracle data source objects to avoid backfilling. */
-  oracleExcludedObjects?: OracleRdbms;
   /** MySQL data source objects to avoid backfilling. */
   mysqlExcludedObjects?: MysqlRdbms;
+  /** Oracle data source objects to avoid backfilling. */
+  oracleExcludedObjects?: OracleRdbms;
 }
 export const BackfillAllStrategy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    oracleExcludedObjects: S.optional(OracleRdbms),
     mysqlExcludedObjects: S.optional(MysqlRdbms),
+    oracleExcludedObjects: S.optional(OracleRdbms),
   }),
-).annotate({
-  identifier: "BackfillAllStrategy",
-}) as any as S.Schema<BackfillAllStrategy>;
-
-export type Datastream_ErrorList = Array<Datastream_Error>;
-export const Datastream_ErrorList = /*@__PURE__*/ S.Array(
-  Datastream_Error,
-) as any as S.Schema<Datastream_ErrorList>;
+).annotate({ identifier: "BackfillAllStrategy" }) as any as S.Schema<BackfillAllStrategy>;
 
 /** Configuration to drop large object values. */
 export type DropLargeObjects = CancelOperationRequest;
@@ -724,20 +797,18 @@ export const DropLargeObjects = CancelOperationRequest;
 export interface OracleSourceConfig {
   /** Oracle objects to exclude from the stream. */
   rejectlist?: OracleRdbms;
-  /** Oracle objects to include in the stream. */
-  allowlist?: OracleRdbms;
   /** Drop large object values. */
   dropLargeObjects?: CancelOperationRequest;
+  /** Oracle objects to include in the stream. */
+  allowlist?: OracleRdbms;
 }
 export const OracleSourceConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rejectlist: S.optional(OracleRdbms),
-    allowlist: S.optional(OracleRdbms),
     dropLargeObjects: S.optional(CancelOperationRequest),
+    allowlist: S.optional(OracleRdbms),
   }),
-).annotate({
-  identifier: "OracleSourceConfig",
-}) as any as S.Schema<OracleSourceConfig>;
+).annotate({ identifier: "OracleSourceConfig" }) as any as S.Schema<OracleSourceConfig>;
 
 /** MySQL source configuration */
 export interface MysqlSourceConfig {
@@ -751,180 +822,89 @@ export const MysqlSourceConfig = /*@__PURE__*/ S.suspend(() =>
     rejectlist: S.optional(MysqlRdbms),
     allowlist: S.optional(MysqlRdbms),
   }),
-).annotate({
-  identifier: "MysqlSourceConfig",
-}) as any as S.Schema<MysqlSourceConfig>;
+).annotate({ identifier: "MysqlSourceConfig" }) as any as S.Schema<MysqlSourceConfig>;
 
 /** The configuration of the stream source. */
 export interface SourceConfig {
   /** Oracle data source configuration */
   oracleSourceConfig?: OracleSourceConfig;
-  /** Required. Source connection profile identifier. */
-  sourceConnectionProfileName?: string;
   /** MySQL data source configuration */
   mysqlSourceConfig?: MysqlSourceConfig;
+  /** Required. Source connection profile identifier. */
+  sourceConnectionProfileName?: string;
 }
 export const SourceConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     oracleSourceConfig: S.optional(OracleSourceConfig),
-    sourceConnectionProfileName: S.optional(S.String),
     mysqlSourceConfig: S.optional(MysqlSourceConfig),
+    sourceConnectionProfileName: S.optional(S.String),
   }),
 ).annotate({ identifier: "SourceConfig" }) as any as S.Schema<SourceConfig>;
 
-export type JsonFileFormatCompressionEnum =
-  | "JSON_COMPRESSION_UNSPECIFIED"
-  | "NO_COMPRESSION"
-  | "GZIP";
-export const JsonFileFormatCompressionEnum = S.String;
-
-export type JsonFileFormatSchemaFileFormatEnum =
-  | "SCHEMA_FILE_FORMAT_UNSPECIFIED"
-  | "NO_SCHEMA_FILE"
-  | "AVRO_SCHEMA_FILE";
-export const JsonFileFormatSchemaFileFormatEnum = S.String;
-
-/** JSON file format configuration. */
-export interface JsonFileFormat {
-  /** Compression of the loaded JSON file. */
-  compression?: JsonFileFormatCompressionEnum | (string & {});
-  /** The schema file format along JSON data files. */
-  schemaFileFormat?: JsonFileFormatSchemaFileFormatEnum | (string & {});
-}
-export const JsonFileFormat = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    compression: S.optional(JsonFileFormatCompressionEnum),
-    schemaFileFormat: S.optional(JsonFileFormatSchemaFileFormatEnum),
-  }),
-).annotate({ identifier: "JsonFileFormat" }) as any as S.Schema<JsonFileFormat>;
-
-export type GcsDestinationConfigGcsFileFormatEnum = "GCS_FILE_FORMAT_UNSPECIFIED" | "AVRO";
-export const GcsDestinationConfigGcsFileFormatEnum = S.String;
-
-/** AVRO file format configuration. */
-export type AvroFileFormat = CancelOperationRequest;
-export const AvroFileFormat = CancelOperationRequest;
-
-/** Google Cloud Storage destination configuration */
-export interface GcsDestinationConfig {
-  /** The maximum file size to be saved in the bucket. */
-  fileRotationMb?: number;
-  /** JSON file format configuration. */
-  jsonFileFormat?: JsonFileFormat;
-  /** Path inside the Cloud Storage bucket to write data to. */
-  path?: string;
-  /** File format that data should be written in. Deprecated field (b/169501737) - use file_format instead. */
-  gcsFileFormat?: GcsDestinationConfigGcsFileFormatEnum | (string & {});
-  /** AVRO file format configuration. */
-  avroFileFormat?: CancelOperationRequest;
-  /** The maximum duration for which new events are added before a file is closed and a new file is created. */
-  fileRotationInterval?: string;
-}
-export const GcsDestinationConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fileRotationMb: S.optional(S.Number),
-    jsonFileFormat: S.optional(JsonFileFormat),
-    path: S.optional(S.String),
-    gcsFileFormat: S.optional(GcsDestinationConfigGcsFileFormatEnum),
-    avroFileFormat: S.optional(CancelOperationRequest),
-    fileRotationInterval: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GcsDestinationConfig",
-}) as any as S.Schema<GcsDestinationConfig>;
-
-/** The configuration of the stream destination. */
-export interface DestinationConfig {
-  /** Required. Destination connection profile identifier. */
-  destinationConnectionProfileName?: string;
-  /** GCS destination configuration. */
-  gcsDestinationConfig?: GcsDestinationConfig;
-}
-export const DestinationConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    destinationConnectionProfileName: S.optional(S.String),
-    gcsDestinationConfig: S.optional(GcsDestinationConfig),
-  }),
-).annotate({
-  identifier: "DestinationConfig",
-}) as any as S.Schema<DestinationConfig>;
-
-export type StreamStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "CREATED"
-  | "RUNNING"
-  | "PAUSED"
-  | "MAINTENANCE"
-  | "FAILED"
-  | "FAILED_PERMANENTLY"
-  | "STARTING"
-  | "DRAINING";
-export const StreamStateEnum = S.String;
-
 export interface Stream {
-  /** Immutable. A reference to a KMS encryption key. If provided, it will be used to encrypt the data. If left blank, data will be encrypted using an internal Stream-specific encryption key provisioned through KMS. */
-  customerManagedEncryptionKey?: string;
   /** Output only. The last update time of the stream. */
   updateTime?: string;
   /** Do not automatically backfill any objects. */
   backfillNone?: CancelOperationRequest;
-  /** Output only. The stream's name. */
-  name?: string;
-  /** Automatically backfill objects included in the stream source configuration. Specific objects can be excluded. */
-  backfillAll?: BackfillAllStrategy;
-  /** Output only. Errors on the Stream. */
-  errors?: Datastream_ErrorList;
-  /** Required. Display name. */
-  displayName?: string;
-  /** Required. Source connection profile configuration. */
-  sourceConfig?: SourceConfig;
-  /** Required. Destination connection profile configuration. */
-  destinationConfig?: DestinationConfig;
-  /** The state of the stream. */
-  state?: StreamStateEnum | (string & {});
-  /** Labels. */
-  labels?: StringMap;
   /** Output only. The creation time of the stream. */
   createTime?: string;
+  /** Required. Destination connection profile configuration. */
+  destinationConfig?: DestinationConfig;
+  /** Immutable. A reference to a KMS encryption key. If provided, it will be used to encrypt the data. If left blank, data will be encrypted using an internal Stream-specific encryption key provisioned through KMS. */
+  customerManagedEncryptionKey?: string;
+  /** Required. Display name. */
+  displayName?: string;
+  /** The state of the stream. */
+  state?: StreamStateEnum | (string & {});
+  /** Output only. Errors on the Stream. */
+  errors?: Datastream_ErrorList;
+  /** Automatically backfill objects included in the stream source configuration. Specific objects can be excluded. */
+  backfillAll?: BackfillAllStrategy;
+  /** Required. Source connection profile configuration. */
+  sourceConfig?: SourceConfig;
+  /** Labels. */
+  labels?: StringMap;
+  /** Output only. The stream's name. */
+  name?: string;
 }
 export const Stream = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customerManagedEncryptionKey: S.optional(S.String),
     updateTime: S.optional(S.String),
     backfillNone: S.optional(CancelOperationRequest),
-    name: S.optional(S.String),
-    backfillAll: S.optional(BackfillAllStrategy),
-    errors: S.optional(Datastream_ErrorList),
-    displayName: S.optional(S.String),
-    sourceConfig: S.optional(SourceConfig),
-    destinationConfig: S.optional(DestinationConfig),
-    state: S.optional(StreamStateEnum),
-    labels: S.optional(StringMap),
     createTime: S.optional(S.String),
+    destinationConfig: S.optional(DestinationConfig),
+    customerManagedEncryptionKey: S.optional(S.String),
+    displayName: S.optional(S.String),
+    state: S.optional(StreamStateEnum),
+    errors: S.optional(Datastream_ErrorList),
+    backfillAll: S.optional(BackfillAllStrategy),
+    sourceConfig: S.optional(SourceConfig),
+    labels: S.optional(StringMap),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Stream" }) as any as S.Schema<Stream>;
 
 export interface CreateProjectsLocationsStreamsRequest {
-  /** Required. The parent that owns the collection of streams. */
-  parent: string;
-  /** Optional. Create the stream without validating it. */
-  force?: boolean;
   /** Optional. Only validate the stream, but do not create any resources. The default is false. */
   validateOnly?: boolean;
   /** Required. The stream identifier. */
   streamId?: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. The parent that owns the collection of streams. */
+  parent: string;
+  /** Optional. Create the stream without validating it. */
+  force?: boolean;
   /** Request body */
   body?: Stream;
 }
 export const CreateProjectsLocationsStreamsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    force: S.optional(S.Boolean.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     streamId: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    force: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(Stream.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -938,15 +918,15 @@ export const CreateProjectsLocationsStreamsRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<CreateProjectsLocationsStreamsRequest>;
 
 export interface DeleteProjectsLocationsConnectionProfilesRequest {
-  /** Required. The name of the connection profile resource to delete. */
-  name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. The name of the connection profile resource to delete. */
+  name: string;
 }
 export const DeleteProjectsLocationsConnectionProfilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -977,18 +957,18 @@ export const DeleteProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>;
 
 export interface DeleteProjectsLocationsPrivateConnectionsRequest {
-  /** Optional. If set to true, any child routes that belong to this PrivateConnection will also be deleted. */
-  force?: boolean;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Required. The name of the private connectivity configuration to delete. */
   name: string;
+  /** Optional. If set to true, any child routes that belong to this PrivateConnection will also be deleted. */
+  force?: boolean;
 }
 export const DeleteProjectsLocationsPrivateConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    force: S.optional(S.Boolean.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    force: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1044,27 +1024,27 @@ export const DeleteProjectsLocationsStreamsRequest = /*@__PURE__*/ S.suspend(() 
 
 /** Request message for 'discover' ConnectionProfile request. */
 export interface DiscoverConnectionProfileRequest {
-  /** An ad-hoc ConnectionProfile configuration. */
-  connectionProfile?: ConnectionProfile;
-  /** MySQL RDBMS to enrich with child data objects and metadata. */
-  mysqlRdbms?: MysqlRdbms;
-  /** The number of hierarchy levels below the current level to be retrieved. */
-  recursionDepth?: number;
-  /** Whether to retrieve the full hierarchy of data objects (TRUE) or only the current level (FALSE). */
-  recursive?: boolean;
   /** A reference to an existing ConnectionProfile. */
   connectionProfileName?: string;
   /** Oracle RDBMS to enrich with child data objects and metadata. */
   oracleRdbms?: OracleRdbms;
+  /** The number of hierarchy levels below the current level to be retrieved. */
+  recursionDepth?: number;
+  /** Whether to retrieve the full hierarchy of data objects (TRUE) or only the current level (FALSE). */
+  recursive?: boolean;
+  /** MySQL RDBMS to enrich with child data objects and metadata. */
+  mysqlRdbms?: MysqlRdbms;
+  /** An ad-hoc ConnectionProfile configuration. */
+  connectionProfile?: ConnectionProfile;
 }
 export const DiscoverConnectionProfileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    connectionProfile: S.optional(ConnectionProfile),
-    mysqlRdbms: S.optional(MysqlRdbms),
-    recursionDepth: S.optional(S.Number),
-    recursive: S.optional(S.Boolean),
     connectionProfileName: S.optional(S.String),
     oracleRdbms: S.optional(OracleRdbms),
+    recursionDepth: S.optional(S.Number),
+    recursive: S.optional(S.Boolean),
+    mysqlRdbms: S.optional(MysqlRdbms),
+    connectionProfile: S.optional(ConnectionProfile),
   }),
 ).annotate({
   identifier: "DiscoverConnectionProfileRequest",
@@ -1092,15 +1072,15 @@ export const DiscoverProjectsLocationsConnectionProfilesRequest = /*@__PURE__*/ 
 }) as any as S.Schema<DiscoverProjectsLocationsConnectionProfilesRequest>;
 
 export interface DiscoverConnectionProfileResponse {
-  /** Enriched MySQL RDBMS object. */
-  mysqlRdbms?: MysqlRdbms;
   /** Enriched Oracle RDBMS object. */
   oracleRdbms?: OracleRdbms;
+  /** Enriched MySQL RDBMS object. */
+  mysqlRdbms?: MysqlRdbms;
 }
 export const DiscoverConnectionProfileResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mysqlRdbms: S.optional(MysqlRdbms),
     oracleRdbms: S.optional(OracleRdbms),
+    mysqlRdbms: S.optional(MysqlRdbms),
   }),
 ).annotate({
   identifier: "DiscoverConnectionProfileResponse",
@@ -1132,17 +1112,17 @@ export const FetchErrorsProjectsLocationsStreamsRequest = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<FetchErrorsProjectsLocationsStreamsRequest>;
 
 export interface FetchStaticIpsProjectsLocationsRequest {
-  /** A page token, received from a previous `ListStaticIps` call. will likely not be specified. */
-  pageToken?: string;
   /** Maximum number of Ips to return, will likely not be specified. */
   pageSize?: number;
+  /** A page token, received from a previous `ListStaticIps` call. will likely not be specified. */
+  pageToken?: string;
   /** Required. The name resource of the Response type. Must be in the format `projects/*\/locations/*`. */
   name: string;
 }
 export const FetchStaticIpsProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
@@ -1170,9 +1150,7 @@ export const FetchStaticIpsResponse = /*@__PURE__*/ S.suspend(() =>
     nextPageToken: S.optional(S.String),
     staticIps: S.optional(StringList),
   }),
-).annotate({
-  identifier: "FetchStaticIpsResponse",
-}) as any as S.Schema<FetchStaticIpsResponse>;
+).annotate({ identifier: "FetchStaticIpsResponse" }) as any as S.Schema<FetchStaticIpsResponse>;
 
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -1198,20 +1176,20 @@ export interface Location {
   locationId?: string;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     locationId: S.optional(S.String),
     name: S.optional(S.String),
-    displayName: S.optional(S.String),
-    metadata: S.optional(DocumentMap),
     labels: S.optional(StringMap),
+    metadata: S.optional(DocumentMap),
+    displayName: S.optional(S.String),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
@@ -1323,53 +1301,8 @@ export const GetProjectsLocationsStreamsObjectsRequest = /*@__PURE__*/ S.suspend
   identifier: "GetProjectsLocationsStreamsObjectsRequest",
 }) as any as S.Schema<GetProjectsLocationsStreamsObjectsRequest>;
 
-/** Oracle data source object identifier. */
-export interface OracleObjectIdentifier {
-  /** Required. The schema name. */
-  schema?: string;
-  /** Required. The table name. */
-  table?: string;
-}
-export const OracleObjectIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    schema: S.optional(S.String),
-    table: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "OracleObjectIdentifier",
-}) as any as S.Schema<OracleObjectIdentifier>;
-
-/** Mysql data source object identifier. */
-export interface MysqlObjectIdentifier {
-  /** Required. The table name. */
-  table?: string;
-  /** Required. The database name. */
-  database?: string;
-}
-export const MysqlObjectIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    table: S.optional(S.String),
-    database: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MysqlObjectIdentifier",
-}) as any as S.Schema<MysqlObjectIdentifier>;
-
-/** Represents an identifier of an object in the data source. */
-export interface SourceObjectIdentifier {
-  /** Oracle data source object identifier. */
-  oracleIdentifier?: OracleObjectIdentifier;
-  /** Mysql data source object identifier. */
-  mysqlIdentifier?: MysqlObjectIdentifier;
-}
-export const SourceObjectIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    oracleIdentifier: S.optional(OracleObjectIdentifier),
-    mysqlIdentifier: S.optional(MysqlObjectIdentifier),
-  }),
-).annotate({
-  identifier: "SourceObjectIdentifier",
-}) as any as S.Schema<SourceObjectIdentifier>;
+export type BackfillJobTriggerEnum = "TRIGGER_UNSPECIFIED" | "AUTOMATIC" | "MANUAL";
+export const BackfillJobTriggerEnum = S.String;
 
 export type BackfillJobStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1382,80 +1315,119 @@ export type BackfillJobStateEnum =
   | "UNSUPPORTED";
 export const BackfillJobStateEnum = S.String;
 
-export type BackfillJobTriggerEnum = "TRIGGER_UNSPECIFIED" | "AUTOMATIC" | "MANUAL";
-export const BackfillJobTriggerEnum = S.String;
-
 /** Represents a backfill job on a specific stream object. */
 export interface BackfillJob {
-  /** Output only. Errors which caused the backfill job to fail. */
-  errors?: Datastream_ErrorList;
-  /** Backfill job state. */
-  state?: BackfillJobStateEnum;
-  /** Backfill job's triggering reason. */
-  trigger?: BackfillJobTriggerEnum;
   /** Output only. Backfill job's start time. */
   lastStartTime?: string;
+  /** Backfill job's triggering reason. */
+  trigger?: BackfillJobTriggerEnum;
+  /** Backfill job state. */
+  state?: BackfillJobStateEnum;
+  /** Output only. Errors which caused the backfill job to fail. */
+  errors?: Datastream_ErrorList;
   /** Output only. Backfill job's end time. */
   lastEndTime?: string;
 }
 export const BackfillJob = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    errors: S.optional(Datastream_ErrorList),
-    state: S.optional(BackfillJobStateEnum),
-    trigger: S.optional(BackfillJobTriggerEnum),
     lastStartTime: S.optional(S.String),
+    trigger: S.optional(BackfillJobTriggerEnum),
+    state: S.optional(BackfillJobStateEnum),
+    errors: S.optional(Datastream_ErrorList),
     lastEndTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "BackfillJob" }) as any as S.Schema<BackfillJob>;
 
+/** Mysql data source object identifier. */
+export interface MysqlObjectIdentifier {
+  /** Required. The database name. */
+  database?: string;
+  /** Required. The table name. */
+  table?: string;
+}
+export const MysqlObjectIdentifier = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    database: S.optional(S.String),
+    table: S.optional(S.String),
+  }),
+).annotate({ identifier: "MysqlObjectIdentifier" }) as any as S.Schema<MysqlObjectIdentifier>;
+
+/** Oracle data source object identifier. */
+export interface OracleObjectIdentifier {
+  /** Required. The table name. */
+  table?: string;
+  /** Required. The schema name. */
+  schema?: string;
+}
+export const OracleObjectIdentifier = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    table: S.optional(S.String),
+    schema: S.optional(S.String),
+  }),
+).annotate({ identifier: "OracleObjectIdentifier" }) as any as S.Schema<OracleObjectIdentifier>;
+
+/** Represents an identifier of an object in the data source. */
+export interface SourceObjectIdentifier {
+  /** Mysql data source object identifier. */
+  mysqlIdentifier?: MysqlObjectIdentifier;
+  /** Oracle data source object identifier. */
+  oracleIdentifier?: OracleObjectIdentifier;
+}
+export const SourceObjectIdentifier = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mysqlIdentifier: S.optional(MysqlObjectIdentifier),
+    oracleIdentifier: S.optional(OracleObjectIdentifier),
+  }),
+).annotate({ identifier: "SourceObjectIdentifier" }) as any as S.Schema<SourceObjectIdentifier>;
+
 /** A specific stream object (e.g a specific DB table). */
 export interface StreamObject {
-  /** Output only. The creation time of the object. */
-  createTime?: string;
-  /** Output only. The object's name. */
-  name?: string;
-  /** Required. Display name. */
-  displayName?: string;
-  /** Output only. The last update time of the object. */
-  updateTime?: string;
-  /** The object identifier in the data source. */
-  sourceObject?: SourceObjectIdentifier;
-  /** Output only. Active errors on the object. */
-  errors?: Datastream_ErrorList;
   /** The latest backfill job that was initiated for the stream object. */
   backfillJob?: BackfillJob;
+  /** The object identifier in the data source. */
+  sourceObject?: SourceObjectIdentifier;
+  /** Output only. The last update time of the object. */
+  updateTime?: string;
+  /** Output only. Active errors on the object. */
+  errors?: Datastream_ErrorList;
+  /** Output only. The creation time of the object. */
+  createTime?: string;
+  /** Required. Display name. */
+  displayName?: string;
+  /** Output only. The object's name. */
+  name?: string;
 }
 export const StreamObject = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createTime: S.optional(S.String),
-    name: S.optional(S.String),
-    displayName: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    sourceObject: S.optional(SourceObjectIdentifier),
-    errors: S.optional(Datastream_ErrorList),
     backfillJob: S.optional(BackfillJob),
+    sourceObject: S.optional(SourceObjectIdentifier),
+    updateTime: S.optional(S.String),
+    errors: S.optional(Datastream_ErrorList),
+    createTime: S.optional(S.String),
+    displayName: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "StreamObject" }) as any as S.Schema<StreamObject>;
 
 export interface ListProjectsLocationsRequest {
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     extraLocationTypes: S.optional(StringList.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1472,39 +1444,37 @@ export const LocationList = /*@__PURE__*/ S.Array(Location) as any as S.Schema<L
 
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** A list of locations that matches the specified filter in the request. */
+  locations?: LocationList;
 }
 export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    locations: S.optional(LocationList),
     nextPageToken: S.optional(S.String),
+    locations: S.optional(LocationList),
   }),
-).annotate({
-  identifier: "ListLocationsResponse",
-}) as any as S.Schema<ListLocationsResponse>;
+).annotate({ identifier: "ListLocationsResponse" }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsConnectionProfilesRequest {
-  /** Filter request. */
-  filter?: string;
-  /** Page token received from a previous `ListConnectionProfiles` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListConnectionProfiles` must match the call that provided the page token. */
-  pageToken?: string;
-  /** Required. The parent that owns the collection of connection profiles. */
-  parent: string;
   /** Maximum number of connection profiles to return. If unspecified, at most 50 connection profiles will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
+  /** Required. The parent that owns the collection of connection profiles. */
+  parent: string;
   /** Order by fields for the result. */
   orderBy?: string;
+  /** Page token received from a previous `ListConnectionProfiles` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListConnectionProfiles` must match the call that provided the page token. */
+  pageToken?: string;
+  /** Filter request. */
+  filter?: string;
 }
 export const ListProjectsLocationsConnectionProfilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1524,40 +1494,40 @@ export const ConnectionProfileList = /*@__PURE__*/ S.Array(
 export interface ListConnectionProfilesResponse {
   /** List of connection profiles. */
   connectionProfiles?: ConnectionProfileList;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export const ListConnectionProfilesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     connectionProfiles: S.optional(ConnectionProfileList),
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ListConnectionProfilesResponse",
 }) as any as S.Schema<ListConnectionProfilesResponse>;
 
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list filter. */
-  filter?: string;
-  /** The standard list page token. */
-  pageToken?: string;
-  /** The standard list page size. */
-  pageSize?: number;
-  /** The name of the operation's parent resource. */
-  name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
+  /** The standard list page size. */
+  pageSize?: number;
+  /** The standard list filter. */
+  filter?: string;
+  /** The name of the operation's parent resource. */
+  name: string;
+  /** The standard list page token. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1574,42 +1544,40 @@ export const OperationList = /*@__PURE__*/ S.Array(Operation) as any as S.Schema
 
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    operations: S.optional(OperationList),
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
+    operations: S.optional(OperationList),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListProjectsLocationsPrivateConnectionsRequest {
-  /** Filter request. */
-  filter?: string;
   /** Required. The parent that owns the collection of private connectivity configurations. */
   parent: string;
+  /** Maximum number of private connectivity configurations to return. If unspecified, at most 50 private connectivity configurations that will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
   /** Order by fields for the result. */
   orderBy?: string;
   /** Page token received from a previous `ListPrivateConnections` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPrivateConnections` must match the call that provided the page token. */
   pageToken?: string;
-  /** Maximum number of private connectivity configurations to return. If unspecified, at most 50 private connectivity configurations that will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  /** Filter request. */
+  filter?: string;
 }
 export const ListProjectsLocationsPrivateConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1629,16 +1597,16 @@ export const PrivateConnectionList = /*@__PURE__*/ S.Array(
 export interface ListPrivateConnectionsResponse {
   /** Locations that could not be reached. */
   unreachable?: StringList;
-  /** List of private connectivity configurations. */
-  privateConnections?: PrivateConnectionList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** List of private connectivity configurations. */
+  privateConnections?: PrivateConnectionList;
 }
 export const ListPrivateConnectionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     unreachable: S.optional(StringList),
-    privateConnections: S.optional(PrivateConnectionList),
     nextPageToken: S.optional(S.String),
+    privateConnections: S.optional(PrivateConnectionList),
   }),
 ).annotate({
   identifier: "ListPrivateConnectionsResponse",
@@ -1651,18 +1619,18 @@ export interface ListProjectsLocationsPrivateConnectionsRoutesRequest {
   orderBy?: string;
   /** Filter request. */
   filter?: string;
-  /** Required. The parent that owns the collection of Routess. */
-  parent: string;
   /** Maximum number of Routes to return. The service may return fewer than this value. If unspecified, at most 50 Routes will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
+  /** Required. The parent that owns the collection of Routess. */
+  parent: string;
 }
 export const ListProjectsLocationsPrivateConnectionsRoutesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageToken: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1679,28 +1647,26 @@ export const RouteList = /*@__PURE__*/ S.Array(Route) as any as S.Schema<RouteLi
 
 /** route list response */
 export interface ListRoutesResponse {
-  /** List of Routes. */
-  routes?: RouteList;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
+  /** List of Routes. */
+  routes?: RouteList;
 }
 export const ListRoutesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    routes: S.optional(RouteList),
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
+    routes: S.optional(RouteList),
   }),
-).annotate({
-  identifier: "ListRoutesResponse",
-}) as any as S.Schema<ListRoutesResponse>;
+).annotate({ identifier: "ListRoutesResponse" }) as any as S.Schema<ListRoutesResponse>;
 
 export interface ListProjectsLocationsStreamsRequest {
-  /** Order by fields for the result. */
-  orderBy?: string;
   /** Maximum number of streams to return. If unspecified, at most 50 streams will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
+  /** Order by fields for the result. */
+  orderBy?: string;
   /** Filter request. */
   filter?: string;
   /** Required. The parent that owns the collection of streams. */
@@ -1710,8 +1676,8 @@ export interface ListProjectsLocationsStreamsRequest {
 }
 export const ListProjectsLocationsStreamsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orderBy: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
@@ -1730,35 +1696,33 @@ export type StreamList = Array<Stream>;
 export const StreamList = /*@__PURE__*/ S.Array(Stream) as any as S.Schema<StreamList>;
 
 export interface ListStreamsResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
   /** List of streams */
   streams?: StreamList;
 }
 export const ListStreamsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
     streams: S.optional(StreamList),
   }),
-).annotate({
-  identifier: "ListStreamsResponse",
-}) as any as S.Schema<ListStreamsResponse>;
+).annotate({ identifier: "ListStreamsResponse" }) as any as S.Schema<ListStreamsResponse>;
 
 export interface ListProjectsLocationsStreamsObjectsRequest {
-  /** Required. The parent stream that owns the collection of objects. */
-  parent: string;
   /** Page token received from a previous `ListStreamObjectsRequest` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListStreamObjectsRequest` must match the call that provided the page token. */
   pageToken?: string;
+  /** Required. The parent stream that owns the collection of objects. */
+  parent: string;
   /** Maximum number of objects to return. Default is 50. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
 }
 export const ListProjectsLocationsStreamsObjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -1778,38 +1742,38 @@ export const StreamObjectList = /*@__PURE__*/ S.Array(
 
 /** Response containing the objects for a stream. */
 export interface ListStreamObjectsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. */
-  nextPageToken?: string;
   /** List of stream objects. */
   streamObjects?: StreamObjectList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. */
+  nextPageToken?: string;
 }
 export const ListStreamObjectsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     streamObjects: S.optional(StreamObjectList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListStreamObjectsResponse",
 }) as any as S.Schema<ListStreamObjectsResponse>;
 
 export interface PatchProjectsLocationsConnectionProfilesRequest {
-  /** Optional. Only validate the connection profile, but do not update any resources. The default is false. */
-  validateOnly?: boolean;
-  /** Optional. Field mask is used to specify the fields to be overwritten in the ConnectionProfile resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
-  /** Output only. The resource's name. */
-  name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Optional. Only validate the connection profile, but do not update any resources. The default is false. */
+  validateOnly?: boolean;
+  /** Output only. The resource's name. */
+  name: string;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the ConnectionProfile resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string;
   /** Request body */
   body?: ConnectionProfile;
 }
 export const PatchProjectsLocationsConnectionProfilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    updateMask: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(ConnectionProfile.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1825,12 +1789,12 @@ export const PatchProjectsLocationsConnectionProfilesRequest = /*@__PURE__*/ S.s
 export interface PatchProjectsLocationsStreamsRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the stream resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
-  /** Optional. Only validate the stream with the changes, without actually updating it. The default is false. */
-  validateOnly?: boolean;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Optional. Execute the update without validating it. */
   force?: boolean;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Optional. Only validate the stream with the changes, without actually updating it. The default is false. */
+  validateOnly?: boolean;
   /** Output only. The stream's name. */
   name: string;
   /** Request body */
@@ -1839,9 +1803,9 @@ export interface PatchProjectsLocationsStreamsRequest {
 export const PatchProjectsLocationsStreamsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     updateMask: S.optional(S.String.pipe(T.Query())),
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
     force: S.optional(S.Boolean.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     body: S.optional(Stream.pipe(T.HttpBody())),
   }).pipe(
@@ -1882,9 +1846,7 @@ export const StartBackfillJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     object: S.optional(StreamObject),
   }),
-).annotate({
-  identifier: "StartBackfillJobResponse",
-}) as any as S.Schema<StartBackfillJobResponse>;
+).annotate({ identifier: "StartBackfillJobResponse" }) as any as S.Schema<StartBackfillJobResponse>;
 
 export interface StopBackfillJobProjectsLocationsStreamsObjectsRequest {
   /** Required. The name of the stream object resource to stop the backfill job for. */
@@ -1913,9 +1875,7 @@ export const StopBackfillJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     object: S.optional(StreamObject),
   }),
-).annotate({
-  identifier: "StopBackfillJobResponse",
-}) as any as S.Schema<StopBackfillJobResponse>;
+).annotate({ identifier: "StopBackfillJobResponse" }) as any as S.Schema<StopBackfillJobResponse>;
 
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -2171,10 +2131,7 @@ export const fetchStaticIpsProjectsLocations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2296,10 +2253,7 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsConnectionProfilesError = NotFound | Forbidden | GcpOpError;
@@ -2316,10 +2270,7 @@ export const listProjectsLocationsConnectionProfiles: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -2336,10 +2287,7 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsPrivateConnectionsError = NotFound | Forbidden | GcpOpError;
@@ -2356,10 +2304,7 @@ export const listProjectsLocationsPrivateConnections: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsPrivateConnectionsRoutesError = NotFound | Forbidden | GcpOpError;
@@ -2376,10 +2321,7 @@ export const listProjectsLocationsPrivateConnectionsRoutes: API.PaginatedOperati
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsStreamsError = NotFound | Forbidden | GcpOpError;
@@ -2396,10 +2338,7 @@ export const listProjectsLocationsStreams: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsStreamsObjectsError = NotFound | Forbidden | GcpOpError;
@@ -2416,10 +2355,7 @@ export const listProjectsLocationsStreamsObjects: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type PatchProjectsLocationsConnectionProfilesError =

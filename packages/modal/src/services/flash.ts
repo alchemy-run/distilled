@@ -66,11 +66,7 @@ export const ListFlashContainerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     functionId: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/FlashContainerList",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/FlashContainerList", code: 200 }),
   ),
 ).annotate({
   identifier: "ListFlashContainerRequest",
@@ -123,11 +119,7 @@ export const RegisterFlashContainerRequest = /*@__PURE__*/ S.suspend(() =>
     host: S.optional(S.String),
     port: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/FlashContainerRegister",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/FlashContainerRegister", code: 200 }),
   ),
 ).annotate({
   identifier: "RegisterFlashContainerRequest",

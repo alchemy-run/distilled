@@ -1015,6 +1015,20 @@
         "api_key_masked": {
           "target": "smithy.api#String"
         },
+        "base_url_display": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Configured provider base URL (read-only, for display)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "system_one_model_display": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Configured System One model ID.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "azure_endpoint_display": {
           "target": "smithy.api#String",
           "traits": {
@@ -1103,10 +1117,22 @@
           "traits": {
             "smithy.api#enumValue": "zeabur"
           }
+        },
+        "SYSTEM_ONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system_one"
+          }
+        },
+        "OPENAI_COMPATIBLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openai_compatible"
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `openai` - Openai\n* `anthropic` - Anthropic\n* `gemini` - Gemini\n* `openrouter` - Openrouter\n* `fireworks` - Fireworks\n* `azure_openai` - Azure OpenAI\n* `together_ai` - Together AI\n* `minimax` - MiniMax\n* `zeabur` - Zeabur AI Hub"
+        "smithy.api#documentation": "* `openai` - Openai\n* `anthropic` - Anthropic\n* `gemini` - Gemini\n* `openrouter` - Openrouter\n* `fireworks` - Fireworks\n* `azure_openai` - Azure OpenAI\n* `together_ai` - Together AI\n* `minimax` - MiniMax\n* `zeabur` - Zeabur AI Hub\n* `system_one` - System One\n* `openai_compatible` - OpenAI-compatible"
       }
     },
     "com.posthog.llm_analytics#LLMProviderKeyStateEnum": {
@@ -2395,10 +2421,16 @@
     "com.posthog.llm_analytics#EvaluationReportMetrics": {
       "type": "structure",
       "members": {
+        "output_config": {
+          "target": "com.posthog.llm_analytics#EvaluationReportMetricsOutputConfig",
+          "traits": {
+            "smithy.api#documentation": "Output configuration and passing rule used for both report periods."
+          }
+        },
         "output_type": {
           "target": "com.posthog.llm_analytics#OutputTypeEnum",
           "traits": {
-            "smithy.api#documentation": "Evaluation result type. Stored metrics without this field represent boolean evaluations.\n\n* `boolean` - Boolean (Pass/Fail)\n* `sentiment` - Sentiment"
+            "smithy.api#documentation": "Evaluation result type. Stored metrics without this field represent boolean evaluations.\n\n* `boolean` - Boolean (Pass/Fail)\n* `numeric` - Numeric\n* `categorical` - Categorical\n* `sentiment` - Sentiment"
           }
         },
         "total_runs": {
@@ -2455,18 +2487,204 @@
         "pass_rate": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Boolean pass percentage, excluding results marked not applicable."
+            "smithy.api#documentation": "Pass percentage excluding N/A. With no applicable results, numeric and categorical reports return null; boolean reports return 0.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "previous_pass_rate": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Boolean pass percentage for the previous period, or null when unavailable.",
+            "smithy.api#documentation": "Pass percentage for boolean, numeric, or categorical results in the previous period, or null when unavailable.",
             "com.distilled.openapi#nullable": {}
           }
         }
       },
       "traits": {}
+    },
+    "com.posthog.llm_analytics#EvaluationReportMetricsOutputConfigOptionsItem": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable category key.",
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Category display label.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.llm_analytics#EvaluationReportMetricsOutputConfigOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.llm_analytics#EvaluationReportMetricsOutputConfigOptionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Categorical output options. Keys identify stored results; labels are displayed to users."
+      }
+    },
+    "com.posthog.llm_analytics#EvaluationReportMetricsOutputConfigSelectionMode": {
+      "type": "enum",
+      "members": {
+        "SINGLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "single"
+          }
+        },
+        "MULTIPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multiple"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Select one category or multiple categories. Multiple selection allows an empty result. Defaults to single."
+      }
+    },
+    "com.posthog.llm_analytics#EvaluationReportMetricsOutputConfigPassingRuleCase0Operator": {
+      "type": "enum",
+      "members": {
+        "GTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gte"
+          }
+        },
+        "LTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lte"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Pass at or above (gte), or at or below (lte), the threshold."
+      }
+    },
+    "com.posthog.llm_analytics#EvaluationReportMetricsOutputConfigPassingRuleCase0": {
+      "type": "structure",
+      "members": {
+        "operator": {
+          "target": "com.posthog.llm_analytics#EvaluationReportMetricsOutputConfigPassingRuleCase0Operator",
+          "traits": {
+            "smithy.api#documentation": "Pass at or above (gte), or at or below (lte), the threshold.",
+            "smithy.api#required": {}
+          }
+        },
+        "threshold": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Finite passing threshold within any configured score bounds.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.llm_analytics#EvaluationReportMetricsOutputConfigPassingRuleCase1CategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Passing category keys. With keys selected, results must be non-empty and contain only these keys. If no passing keys are selected, only an empty result passes."
+      }
+    },
+    "com.posthog.llm_analytics#EvaluationReportMetricsOutputConfigPassingRuleCase1": {
+      "type": "structure",
+      "members": {
+        "categories": {
+          "target": "com.posthog.llm_analytics#EvaluationReportMetricsOutputConfigPassingRuleCase1CategoriesList",
+          "traits": {
+            "smithy.api#documentation": "Passing category keys. With keys selected, results must be non-empty and contain only these keys. If no passing keys are selected, only an empty result passes.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.llm_analytics#EvaluationReportMetricsOutputConfigPassingRule": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.posthog.llm_analytics#EvaluationReportMetricsOutputConfigPassingRuleCase0"
+        },
+        "Case1": {
+          "target": "com.posthog.llm_analytics#EvaluationReportMetricsOutputConfigPassingRuleCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional numeric or categorical passing rule. Null removes the rule; historical results use the current rule."
+      }
+    },
+    "com.posthog.llm_analytics#EvaluationReportMetricsOutputConfig": {
+      "type": "structure",
+      "members": {
+        "allows_na": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the evaluation can return N/A for non-applicable generations."
+          }
+        },
+        "true_is_failure": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Boolean output only. Omit for numeric, categorical, and sentiment output. Whether a true result means the evaluation found a problem. False (the default) suits pass/fail evaluations, where a true result satisfied the criteria. Set it to true for detector-style evaluations, so a true result is counted and labeled as a fail."
+          }
+        },
+        "min": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Inclusive minimum numeric score. Omit for no lower bound. Required for System One numeric judges.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Inclusive maximum numeric score. Omit for no upper bound. Required for System One numeric judges and must exceed min.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "step": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Optional positive input increment. Does not round evaluation results.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "options": {
+          "target": "com.posthog.llm_analytics#EvaluationReportMetricsOutputConfigOptionsList",
+          "traits": {
+            "smithy.api#documentation": "Categorical output options. Keys identify stored results; labels are displayed to users."
+          }
+        },
+        "selection_mode": {
+          "target": "com.posthog.llm_analytics#EvaluationReportMetricsOutputConfigSelectionMode",
+          "traits": {
+            "smithy.api#documentation": "Select one category or multiple categories. Multiple selection allows an empty result. Defaults to single."
+          }
+        },
+        "passing_rule": {
+          "target": "com.posthog.llm_analytics#EvaluationReportMetricsOutputConfigPassingRule",
+          "traits": {
+            "smithy.api#documentation": "Optional numeric or categorical passing rule. Null removes the rule; historical results use the current rule.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Output configuration and passing rule used for both report periods."
+      }
     },
     "com.posthog.llm_analytics#OutputTypeEnum": {
       "type": "enum",
@@ -2477,6 +2695,18 @@
             "smithy.api#enumValue": "boolean"
           }
         },
+        "NUMERIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "numeric"
+          }
+        },
+        "CATEGORICAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "categorical"
+          }
+        },
         "SENTIMENT": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -2485,7 +2715,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `boolean` - Boolean (Pass/Fail)\n* `sentiment` - Sentiment"
+        "smithy.api#documentation": "* `boolean` - Boolean (Pass/Fail)\n* `numeric` - Numeric\n* `categorical` - Categorical\n* `sentiment` - Sentiment"
       }
     },
     "com.posthog.llm_analytics#EvaluationReportMetricsResultCountsMap": {
@@ -2646,10 +2876,22 @@
             "smithy.api#enumValue": "openai"
           }
         },
+        "OPENAI_COMPATIBLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openai_compatible"
+          }
+        },
         "OPENROUTER": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "openrouter"
+          }
+        },
+        "SYSTEM_ONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system_one"
           }
         },
         "TOGETHER_AI": {
@@ -3265,6 +3507,18 @@
             "smithy.api#sensitive": {}
           }
         },
+        "base_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public HTTPS base URL of an OpenAI-compatible or System One API. For System One, end before /systemone."
+          }
+        },
+        "system_one_model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Model ID served by the System One endpoint."
+          }
+        },
         "azure_endpoint": {
           "target": "smithy.api#String",
           "traits": {
@@ -3372,6 +3626,18 @@
             "smithy.api#sensitive": {}
           }
         },
+        "base_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public HTTPS base URL of an OpenAI-compatible or System One API. For System One, end before /systemone."
+          }
+        },
+        "system_one_model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Model ID served by the System One endpoint."
+          }
+        },
         "azure_endpoint": {
           "target": "smithy.api#String",
           "traits": {
@@ -3437,6 +3703,18 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#sensitive": {}
+          }
+        },
+        "base_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public HTTPS base URL of an OpenAI-compatible or System One API. For System One, end before /systemone."
+          }
+        },
+        "system_one_model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Model ID served by the System One endpoint."
           }
         },
         "azure_endpoint": {
@@ -3585,6 +3863,18 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#sensitive": {}
+          }
+        },
+        "base_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public HTTPS base URL of an OpenAI-compatible or System One API. For System One, end before /systemone."
+          }
+        },
+        "system_one_model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Model ID served by the System One endpoint."
           }
         },
         "azure_endpoint": {
@@ -4462,6 +4752,13 @@
             "smithy.api#documentation": "Optional maximum number of options that can be selected when `selection_mode` is `multiple`.",
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "passing_rule": {
+          "target": "com.posthog.llm_analytics#CategoricalScorePassingRule",
+          "traits": {
+            "smithy.api#documentation": "Optional passing categories. Omit or set null for neutral scores. Each scorer version keeps its own rule.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -4513,6 +4810,28 @@
         "smithy.api#documentation": "* `single` - single\n* `multiple` - multiple"
       }
     },
+    "com.posthog.llm_analytics#CategoricalScorePassingRule": {
+      "type": "structure",
+      "members": {
+        "categories": {
+          "target": "com.posthog.llm_analytics#CategoricalScorePassingRuleCategoriesList",
+          "traits": {
+            "smithy.api#documentation": "Passing category keys. Every returned category must be included. An empty list makes all accepted offline results fail.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.llm_analytics#CategoricalScorePassingRuleCategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Passing category keys. Every returned category must be included. An empty list makes all accepted offline results fail."
+      }
+    },
     "com.posthog.llm_analytics#NumericScoreDefinitionConfig": {
       "type": "structure",
       "members": {
@@ -4536,13 +4855,67 @@
             "smithy.api#documentation": "Optional increment step for numeric input, for example 1 or 0.5.",
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "passing_rule": {
+          "target": "com.posthog.llm_analytics#NumericScorePassingRule",
+          "traits": {
+            "smithy.api#documentation": "Optional passing rule. Omit or set null for neutral scores. Each scorer version keeps its own rule.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
     },
+    "com.posthog.llm_analytics#NumericScorePassingRule": {
+      "type": "structure",
+      "members": {
+        "operator": {
+          "target": "com.posthog.llm_analytics#NumericScorePassingRuleSerializerOperatorEnum",
+          "traits": {
+            "smithy.api#documentation": "Pass at or above (gte), or at or below (lte), the threshold.\n\n* `gte` - At or above\n* `lte` - At or below",
+            "smithy.api#required": {}
+          }
+        },
+        "threshold": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Finite passing threshold within any configured score bounds.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.llm_analytics#NumericScorePassingRuleSerializerOperatorEnum": {
+      "type": "enum",
+      "members": {
+        "GTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gte"
+          }
+        },
+        "LTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lte"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `gte` - At or above\n* `lte` - At or below"
+      }
+    },
     "com.posthog.llm_analytics#BooleanScoreDefinitionConfig": {
       "type": "structure",
       "members": {
+        "true_is_failure": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether true means failure. False, omitted, or null means true passes in offline evaluations.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "true_label": {
           "target": "smithy.api#String",
           "traits": {
@@ -4762,6 +5135,19 @@
             "smithy.api#documentation": "A UUID string identifying this score definition."
           }
         },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Updated scorer name, saved with this version."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Updated scorer description, saved with this version.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "config": {
           "target": "com.posthog.llm_analytics#ScoreDefinitionConfig",
           "traits": {
@@ -4791,6 +5177,201 @@
         "smithy.api#http": {
           "method": "POST",
           "uri": "/api/projects/{project_id}/llm_analytics/score_definitions/{id}/new_version/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.llm_analytics#ListLlmAnalyticsScoreDefinitionsVersionsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this score definition."
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "Continuation cursor from the prior page."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum versions to return."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.llm_analytics#ScoreDefinitionVersionPage": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total immutable versions for this scorer.",
+            "smithy.api#required": {}
+          }
+        },
+        "next_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Continuation cursor, or null on the last page.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.llm_analytics#ScoreDefinitionVersionPageResultsList",
+          "traits": {
+            "smithy.api#documentation": "Versions on this page, newest first.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.llm_analytics#ScoreDefinitionVersion": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID identifying this exact immutable version.",
+            "smithy.api#required": {}
+          }
+        },
+        "definition_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scorer definition that owns this version.",
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Immutable version number within this scorer.",
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "com.posthog.llm_analytics#ScoreDefinitionKindEnum",
+          "traits": {
+            "smithy.api#documentation": "Scorer value kind.\n\n* `categorical` - categorical\n* `numeric` - numeric\n* `boolean` - boolean",
+            "smithy.api#required": {}
+          }
+        },
+        "config": {
+          "target": "com.posthog.llm_analytics#ScoreDefinitionConfig",
+          "traits": {
+            "smithy.api#documentation": "Immutable configuration for this exact version.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time this version was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_by": {
+          "target": "com.posthog.llm_analytics#UserBasic",
+          "traits": {
+            "smithy.api#documentation": "User who created this version.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.llm_analytics#ScoreDefinitionVersionPageResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.llm_analytics#ScoreDefinitionVersion"
+      },
+      "traits": {
+        "smithy.api#documentation": "Versions on this page, newest first."
+      }
+    },
+    "com.posthog.llm_analytics#ListLlmAnalyticsScoreDefinitionsVersions": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.llm_analytics#ListLlmAnalyticsScoreDefinitionsVersionsRequest"
+      },
+      "output": {
+        "target": "com.posthog.llm_analytics#ScoreDefinitionVersionPage"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/llm_analytics/score_definitions/{id}/versions/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.llm_analytics#GetLlmAnalyticsScoreDefinitionsVersionRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this score definition."
+          }
+        },
+        "version_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Immutable version UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.llm_analytics#GetLlmAnalyticsScoreDefinitionsVersion": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.llm_analytics#GetLlmAnalyticsScoreDefinitionsVersionRequest"
+      },
+      "output": {
+        "target": "com.posthog.llm_analytics#ScoreDefinitionVersion"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/llm_analytics/score_definitions/{id}/versions/{version_id}/",
           "code": 200
         }
       }
@@ -5561,6 +6142,12 @@
         },
         {
           "target": "com.posthog.llm_analytics#CreateLlmAnalyticsScoreDefinitionsNewVersion"
+        },
+        {
+          "target": "com.posthog.llm_analytics#ListLlmAnalyticsScoreDefinitionsVersions"
+        },
+        {
+          "target": "com.posthog.llm_analytics#GetLlmAnalyticsScoreDefinitionsVersion"
         },
         {
           "target": "com.posthog.llm_analytics#ListLlmAnalyticsTraceReviews"

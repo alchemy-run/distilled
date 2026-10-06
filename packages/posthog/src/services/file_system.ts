@@ -54,16 +54,8 @@ export const CreateFileSystemRequest = /*@__PURE__*/ S.suspend(() =>
     href: S.optional(S.NullOr(S.String)),
     meta: S.optional(S.Unknown),
     shortcut: S.optional(S.NullOr(S.Boolean)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/file_system/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateFileSystemRequest",
-}) as any as S.Schema<CreateFileSystemRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/file_system/", code: 200 })),
+).annotate({ identifier: "CreateFileSystemRequest" }) as any as S.Schema<CreateFileSystemRequest>;
 
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 export const UserBasicHedgehogConfigMap = /*@__PURE__*/ S.Record(
@@ -148,26 +140,54 @@ export const FileSystem2 = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "FileSystem2" }) as any as S.Schema<FileSystem2>;
 
+export interface CreateFileSystemHomeFolderRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export const CreateFileSystemHomeFolderRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/file_system/home_folder/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateFileSystemHomeFolderRequest",
+}) as any as S.Schema<CreateFileSystemHomeFolderRequest>;
+
+export interface FileSystemHomeFolder {
+  /** The user's home folder ID, or null if deleted. */
+  id: string | null;
+  /** The current path of the user's home folder. */
+  path: string | null;
+}
+export const FileSystemHomeFolder = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.NullOr(S.String),
+    path: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "FileSystemHomeFolder" }) as any as S.Schema<FileSystemHomeFolder>;
+
 export interface FileSystemDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this file system. */
   id: string;
+  /** Delete folder contents too (default: true). Set false to delete only empty folders. Nonempty folders return HTTP 409 with code directory_not_empty. */
+  recursive?: boolean;
 }
 export const FileSystemDestroyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
+    recursive: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/projects/{project_id}/file_system/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/file_system/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "FileSystemDestroyRequest",
-}) as any as S.Schema<FileSystemDestroyRequest>;
+).annotate({ identifier: "FileSystemDestroyRequest" }) as any as S.Schema<FileSystemDestroyRequest>;
 
 export interface FileSystemDestroyResponse {}
 export const FileSystemDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -222,19 +242,15 @@ export const GetFileSystemRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/file_system/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/file_system/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetFileSystemRequest",
-}) as any as S.Schema<GetFileSystemRequest>;
+).annotate({ identifier: "GetFileSystemRequest" }) as any as S.Schema<GetFileSystemRequest>;
 
 export interface ListFileSystemRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Include meta.content_type for notebooks and insights on this page, without their contents. */
+  include_content_type?: boolean;
   /** Number of results to return per page. */
   limit?: number;
   /** The initial index from which to return the results. */
@@ -245,19 +261,12 @@ export interface ListFileSystemRequest {
 export const ListFileSystemRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
+    include_content_type: S.optional(S.Boolean.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/file_system/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListFileSystemRequest",
-}) as any as S.Schema<ListFileSystemRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/file_system/", code: 200 })),
+).annotate({ identifier: "ListFileSystemRequest" }) as any as S.Schema<ListFileSystemRequest>;
 
 export type PaginatedFileSystemListResultsList = Array<FileSystem2>;
 export const PaginatedFileSystemListResultsList = /*@__PURE__*/ S.Array(
@@ -277,9 +286,7 @@ export const PaginatedFileSystemList = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.String)),
     results: S.optional(PaginatedFileSystemListResultsList),
   }),
-).annotate({
-  identifier: "PaginatedFileSystemList",
-}) as any as S.Schema<PaginatedFileSystemList>;
+).annotate({ identifier: "PaginatedFileSystemList" }) as any as S.Schema<PaginatedFileSystemList>;
 
 export interface UpdateFileSystemRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -304,15 +311,9 @@ export const UpdateFileSystemRequest = /*@__PURE__*/ S.suspend(() =>
     meta: S.optional(S.Unknown),
     shortcut: S.optional(S.NullOr(S.Boolean)),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/file_system/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/projects/{project_id}/file_system/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateFileSystemRequest",
-}) as any as S.Schema<UpdateFileSystemRequest>;
+).annotate({ identifier: "UpdateFileSystemRequest" }) as any as S.Schema<UpdateFileSystemRequest>;
 
 export interface UpdateFileSystemPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -337,11 +338,7 @@ export const UpdateFileSystemPartialRequest = /*@__PURE__*/ S.suspend(() =>
     meta: S.optional(S.Unknown),
     shortcut: S.optional(S.NullOr(S.Boolean)),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/file_system/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/file_system/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateFileSystemPartialRequest",
@@ -357,6 +354,20 @@ export const createFileSystem: API.OperationMethod<
   input: CreateFileSystemRequest,
   output: FileSystem2,
   errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateFileSystemHomeFolderError = PosthogOpError;
+export const createFileSystemHomeFolder: API.OperationMethod<
+  CreateFileSystemHomeFolderRequest,
+  FileSystemHomeFolder,
+  CreateFileSystemHomeFolderError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateFileSystemHomeFolderRequest,
+  output: FileSystemHomeFolder,
+  errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));

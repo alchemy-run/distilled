@@ -135,9 +135,7 @@ export const HogFunctionTemplate = /*@__PURE__*/ S.suspend(() =>
     masking: S.optional(S.Unknown),
     mapping_templates: S.optional(S.NullOr(HogFunctionTemplateMappingTemplatesList)),
   }),
-).annotate({
-  identifier: "HogFunctionTemplate",
-}) as any as S.Schema<HogFunctionTemplate>;
+).annotate({ identifier: "HogFunctionTemplate" }) as any as S.Schema<HogFunctionTemplate>;
 
 export interface ListHogFunctionTemplatesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -162,11 +160,7 @@ export const ListHogFunctionTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String.pipe(T.Query())),
     types: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/hog_function_templates/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/hog_function_templates/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListHogFunctionTemplatesRequest",
@@ -213,13 +207,7 @@ export const ListPublicHogFunctionTemplatesRequest = /*@__PURE__*/ S.suspend(() 
     template_id: S.optional(S.String.pipe(T.Query())),
     type: S.optional(S.String.pipe(T.Query())),
     types: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/public_hog_function_templates/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/public_hog_function_templates/", code: 200 })),
 ).annotate({
   identifier: "ListPublicHogFunctionTemplatesRequest",
 }) as any as S.Schema<ListPublicHogFunctionTemplatesRequest>;

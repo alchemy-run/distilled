@@ -106,9 +106,7 @@ export const ListJobsRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(JobStatus.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/jobs", code: 200 })),
-).annotate({
-  identifier: "ListJobsRequest",
-}) as any as S.Schema<ListJobsRequest>;
+).annotate({ identifier: "ListJobsRequest" }) as any as S.Schema<ListJobsRequest>;
 
 export type PaginatedJobsItemsList = Array<Job>;
 export const PaginatedJobsItemsList = /*@__PURE__*/ S.Array(
@@ -141,9 +139,7 @@ export const PollJobsRequest = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/jobs/poll", code: 200 })),
-).annotate({
-  identifier: "PollJobsRequest",
-}) as any as S.Schema<PollJobsRequest>;
+).annotate({ identifier: "PollJobsRequest" }) as any as S.Schema<PollJobsRequest>;
 
 /** List of jobs */
 export type PollJobsResponseJobsList = Array<Job>;
@@ -159,9 +155,7 @@ export const PollJobsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     jobs: PollJobsResponseJobsList,
   }),
-).annotate({
-  identifier: "PollJobsResponse",
-}) as any as S.Schema<PollJobsResponse>;
+).annotate({ identifier: "PollJobsResponse" }) as any as S.Schema<PollJobsResponse>;
 
 export interface UpdateJobStatusRequest {
   /** ID of the job */
@@ -180,9 +174,7 @@ export const UpdateJobStatusRequest = /*@__PURE__*/ S.suspend(() =>
     errorMessage: S.optional(S.String),
     resultMetadata: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/jobs/{jobId}/status", code: 200 })),
-).annotate({
-  identifier: "UpdateJobStatusRequest",
-}) as any as S.Schema<UpdateJobStatusRequest>;
+).annotate({ identifier: "UpdateJobStatusRequest" }) as any as S.Schema<UpdateJobStatusRequest>;
 
 export type GetJobError = DaytonaOpError;
 /** Get job details */

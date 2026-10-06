@@ -174,7 +174,7 @@
         "atmAmountCents": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": " Maximum ATM withdrawal allowed per interval, in cents. Null for virtual cards.",
+            "smithy.api#documentation": " Maximum ATM withdrawal allowed per interval, in cents. Null for virtual\n cards and credit cards.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -278,6 +278,26 @@
         "smithy.api#documentation": "Get cards for account\n\nRetrieve all debit and credit cards associated with a specific account."
       }
     },
+    "com.mercury.api#RequestSendMoneyRequestChargeType": {
+      "type": "enum",
+      "members": {
+        "OURS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ours"
+          }
+        },
+        "SHARED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shared"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Who pays intermediary bank fees on a USD international wire. Pass 'ours' so the recipient receives the full amount (Mercury charges a $15 fee), or 'shared' to split those fees. If omitted on a USD international wire, this defaults to 'ours'. Do not include this field for other payment methods or accounts that are not charged international-wire fees."
+      }
+    },
     "com.mercury.api#RequestSendMoneyPaymentMethod": {
       "type": "enum",
       "members": {
@@ -303,6 +323,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "internationalWire"
+          }
+        },
+        "REALTIMEPAYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "realTimePayment"
           }
         }
       },
@@ -442,6 +468,12 @@
           "traits": {
             "smithy.api#documentation": "Amount of USD you want to send, must be a positive number.",
             "smithy.api#required": {}
+          }
+        },
+        "chargeType": {
+          "target": "com.mercury.api#RequestSendMoneyRequestChargeType",
+          "traits": {
+            "smithy.api#documentation": "Who pays intermediary bank fees on a USD international wire. Pass 'ours' so the recipient receives the full amount (Mercury charges a $15 fee), or 'shared' to split those fees. If omitted on a USD international wire, this defaults to 'ours'. Do not include this field for other payment methods or accounts that are not charged international-wire fees."
           }
         },
         "externalMemo": {
@@ -1918,6 +1950,30 @@
           "traits": {
             "smithy.api#enumValue": "personalSavings"
           }
+        },
+        "BUSINESSGENERALLEDGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "businessGeneralLedger"
+          }
+        },
+        "PERSONALGENERALLEDGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "personalGeneralLedger"
+          }
+        },
+        "BUSINESSLOAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "businessLoan"
+          }
+        },
+        "PERSONALLOAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "personalLoan"
+          }
         }
       },
       "traits": {}
@@ -3299,6 +3355,12 @@
           "traits": {
             "smithy.api#enumValue": "domesticWire"
           }
+        },
+        "REALTIMEPAYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "realTimePayment"
+          }
         }
       },
       "traits": {}
@@ -3482,6 +3544,13 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "canSendRealTimePayments": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": " Whether this account's partner bank supports sending real-time payments.\n Sending one also requires the recipient's routing number to be RTP-eligible.",
+            "smithy.api#required": {}
           }
         },
         "createdAt": {
@@ -5625,7 +5694,7 @@
         "atmAmountCents": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": " Maximum ATM withdrawal allowed per interval, in cents. Null for virtual cards.",
+            "smithy.api#documentation": " Maximum ATM withdrawal allowed per interval, in cents. Null for virtual\n cards and credit cards.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -5825,7 +5894,7 @@
         "atmAmountCents": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": " Maximum ATM withdrawal allowed per interval, in cents. Null for virtual cards.",
+            "smithy.api#documentation": " Maximum ATM withdrawal allowed per interval, in cents. Null for virtual\n cards and credit cards.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -7687,6 +7756,76 @@
       },
       "traits": {}
     },
+    "com.mercury.api#RealTimePaymentRoutingInfoRaw": {
+      "type": "structure",
+      "members": {
+        "accountNumber": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": " The account number of the bank account to use for real-time payments.",
+            "smithy.api#required": {}
+          }
+        },
+        "address": {
+          "target": "com.mercury.api#RealTimePaymentRoutingInfoRawAddress",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "routingNumber": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": " The routing number of the bank account to use for real-time payments.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": " Routing information for real-time payments."
+      }
+    },
+    "com.mercury.api#RealTimePaymentRoutingInfoRawAddress": {
+      "type": "structure",
+      "members": {
+        "address1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "address2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "country": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "postalCode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.mercury.api#UpdateRecipientRequest": {
       "type": "structure",
       "members": {
@@ -7735,6 +7874,12 @@
         },
         "nickname": {
           "target": "smithy.api#String"
+        },
+        "realTimePaymentRoutingInfo": {
+          "target": "com.mercury.api#RealTimePaymentRoutingInfoRaw",
+          "traits": {
+            "smithy.api#documentation": "Information needed to send a real-time payment."
+          }
         }
       },
       "traits": {
@@ -8030,6 +8175,12 @@
         },
         "nickname": {
           "target": "smithy.api#String"
+        },
+        "realTimePaymentRoutingInfo": {
+          "target": "com.mercury.api#RealTimePaymentRoutingInfoRaw",
+          "traits": {
+            "smithy.api#documentation": "Information needed to send a real-time payment."
+          }
         }
       },
       "traits": {
@@ -8789,6 +8940,160 @@
           "code": 200
         },
         "smithy.api#documentation": "Get send money approval request by ID"
+      }
+    },
+    "com.mercury.api#RequestTransferMoneyRequest": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "destinationAccountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "idempotencyKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "note": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sourceAccountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.mercury.api#TransferMoneyApprovalRequestResponse": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "destinationAccountId": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "memo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": " Memo that appears on the resulting transaction.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "note": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": " Internal note recorded on the request. Not shown to any counterparty.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "numberOfApproversRequired": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": " Number of approvals required before the transfer is sent.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "requestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "requestedByUserId": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "requesterMayApprove": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": " Whether the requester may approve this request. Omitted whenever numberOfApproversRequired is omitted.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reviews": {
+          "target": "com.mercury.api#TransferMoneyApprovalRequestResponseReviewsList",
+          "traits": {
+            "smithy.api#documentation": " Approval decisions recorded on this request, oldest first.",
+            "smithy.api#required": {}
+          }
+        },
+        "sourceAccountId": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.mercury.api#ReviewRequestStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": " An approval request for a transfer between accounts."
+      }
+    },
+    "com.mercury.api#TransferMoneyApprovalRequestResponseReviewsList": {
+      "type": "list",
+      "member": {
+        "target": "com.mercury.api#PaymentApprovalReview"
+      },
+      "traits": {
+        "smithy.api#documentation": " Approval decisions recorded on this request, oldest first."
+      }
+    },
+    "com.mercury.api#RequestTransferMoney": {
+      "type": "operation",
+      "input": {
+        "target": "com.mercury.api#RequestTransferMoneyRequest"
+      },
+      "output": {
+        "target": "com.mercury.api#TransferMoneyApprovalRequestResponse"
+      },
+      "errors": [
+        {
+          "target": "com.mercury.api#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/request-transfer",
+          "code": 200
+        },
+        "smithy.api#documentation": "Request to transfer money\n\nCreate a transfer between two accounts in your organization that will require approval based on your organization's approval policies."
       }
     },
     "com.mercury.api#APISafeRequest": {
@@ -11754,6 +12059,9 @@
         },
         {
           "target": "com.mercury.api#GetSendMoneyApprovalRequest"
+        },
+        {
+          "target": "com.mercury.api#RequestTransferMoney"
         },
         {
           "target": "com.mercury.api#GetSafeRequests"

@@ -518,24 +518,25 @@ export const Dashboard = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Dashboard" }) as any as S.Schema<Dashboard>;
 
 /** The Dashboard items on this page */
-export type DashboardListResultValueList = Array<Dashboard>;
-export const DashboardListResultValueList = /*@__PURE__*/ S.Array(
+export type ListDashboardByResourceGroupResponseValueList = Array<Dashboard>;
+export const ListDashboardByResourceGroupResponseValueList = /*@__PURE__*/ S.Array(
   Dashboard,
-) as any as S.Schema<DashboardListResultValueList>;
+) as any as S.Schema<ListDashboardByResourceGroupResponseValueList>;
 
-/** The response of a Dashboard list operation. */
-export interface DashboardListResult {
+export interface ListDashboardByResourceGroupResponse {
   /** The Dashboard items on this page */
-  value: DashboardListResultValueList;
+  value: ListDashboardByResourceGroupResponseValueList;
   /** The link to the next page of items */
   nextLink?: string;
 }
-export const DashboardListResult = /*@__PURE__*/ S.suspend(() =>
+export const ListDashboardByResourceGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    value: DashboardListResultValueList,
+    value: ListDashboardByResourceGroupResponseValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({ identifier: "DashboardListResult" }) as any as S.Schema<DashboardListResult>;
+).annotate({
+  identifier: "ListDashboardByResourceGroupResponse",
+}) as any as S.Schema<ListDashboardByResourceGroupResponse>;
 
 export interface ListDashboardBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -555,6 +556,27 @@ export const ListDashboardBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListDashboardBySubscriptionRequest",
 }) as any as S.Schema<ListDashboardBySubscriptionRequest>;
+
+/** The Dashboard items on this page */
+export type ListDashboardBySubscriptionResponseValueList = Array<Dashboard>;
+export const ListDashboardBySubscriptionResponseValueList = /*@__PURE__*/ S.Array(
+  Dashboard,
+) as any as S.Schema<ListDashboardBySubscriptionResponseValueList>;
+
+export interface ListDashboardBySubscriptionResponse {
+  /** The Dashboard items on this page */
+  value: ListDashboardBySubscriptionResponseValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+export const ListDashboardBySubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: ListDashboardBySubscriptionResponseValueList,
+    nextLink: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListDashboardBySubscriptionResponse",
+}) as any as S.Schema<ListDashboardBySubscriptionResponse>;
 
 export interface ListListTenantConfigurationViolationsRequest {}
 export const ListListTenantConfigurationViolationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -588,24 +610,25 @@ export const Violation = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Violation" }) as any as S.Schema<Violation>;
 
 /** The Violation items on this page */
-export type ViolationsListValueList = Array<Violation>;
-export const ViolationsListValueList = /*@__PURE__*/ S.Array(
+export type ListListTenantConfigurationViolationsResponseValueList = Array<Violation>;
+export const ListListTenantConfigurationViolationsResponseValueList = /*@__PURE__*/ S.Array(
   Violation,
-) as any as S.Schema<ViolationsListValueList>;
+) as any as S.Schema<ListListTenantConfigurationViolationsResponseValueList>;
 
-/** List of list of items that violate tenant's configuration. */
-export interface ViolationsList {
+export interface ListListTenantConfigurationViolationsResponse {
   /** The Violation items on this page */
-  value: ViolationsListValueList;
+  value: ListListTenantConfigurationViolationsResponseValueList;
   /** The link to the next page of items */
   nextLink?: string;
 }
-export const ViolationsList = /*@__PURE__*/ S.suspend(() =>
+export const ListListTenantConfigurationViolationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    value: ViolationsListValueList,
+    value: ListListTenantConfigurationViolationsResponseValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({ identifier: "ViolationsList" }) as any as S.Schema<ViolationsList>;
+).annotate({
+  identifier: "ListListTenantConfigurationViolationsResponse",
+}) as any as S.Schema<ListListTenantConfigurationViolationsResponse>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -727,24 +750,25 @@ export const Configuration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Configuration" }) as any as S.Schema<Configuration>;
 
 /** The Configuration items on this page */
-export type ConfigurationListResultValueList = Array<Configuration>;
-export const ConfigurationListResultValueList = /*@__PURE__*/ S.Array(
+export type ListTenantConfigurationsResponseValueList = Array<Configuration>;
+export const ListTenantConfigurationsResponseValueList = /*@__PURE__*/ S.Array(
   Configuration,
-) as any as S.Schema<ConfigurationListResultValueList>;
+) as any as S.Schema<ListTenantConfigurationsResponseValueList>;
 
-/** The response of a Configuration list operation. */
-export interface ConfigurationListResult {
+export interface ListTenantConfigurationsResponse {
   /** The Configuration items on this page */
-  value: ConfigurationListResultValueList;
+  value: ListTenantConfigurationsResponseValueList;
   /** The link to the next page of items */
   nextLink?: string;
 }
-export const ConfigurationListResult = /*@__PURE__*/ S.suspend(() =>
+export const ListTenantConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    value: ConfigurationListResultValueList,
+    value: ListTenantConfigurationsResponseValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({ identifier: "ConfigurationListResult" }) as any as S.Schema<ConfigurationListResult>;
+).annotate({
+  identifier: "ListTenantConfigurationsResponse",
+}) as any as S.Schema<ListTenantConfigurationsResponse>;
 
 /** The dashboard lenses. */
 export type DashboardPropertiesLensesList = Array<DashboardLens>;
@@ -931,12 +955,12 @@ export type ListDashboardByResourceGroupError = AzureOpError;
 /** Gets all the Dashboards within a resource group. */
 export const ListDashboardByResourceGroup: API.OperationMethod<
   ListDashboardByResourceGroupRequest,
-  DashboardListResult,
+  ListDashboardByResourceGroupResponse,
   ListDashboardByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: ListDashboardByResourceGroupRequest,
-  output: DashboardListResult,
+  output: ListDashboardByResourceGroupResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -946,12 +970,12 @@ export type ListDashboardBySubscriptionError = AzureOpError;
 /** Gets all the dashboards within a subscription. */
 export const ListDashboardBySubscription: API.OperationMethod<
   ListDashboardBySubscriptionRequest,
-  DashboardListResult,
+  ListDashboardBySubscriptionResponse,
   ListDashboardBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: ListDashboardBySubscriptionRequest,
-  output: DashboardListResult,
+  output: ListDashboardBySubscriptionResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -961,12 +985,12 @@ export type ListListTenantConfigurationViolationsError = AzureOpError;
 /** Gets list of items that violate tenant's configuration. */
 export const ListListTenantConfigurationViolations: API.OperationMethod<
   ListListTenantConfigurationViolationsRequest,
-  ViolationsList,
+  ListListTenantConfigurationViolationsResponse,
   ListListTenantConfigurationViolationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: ListListTenantConfigurationViolationsRequest,
-  output: ViolationsList,
+  output: ListListTenantConfigurationViolationsResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -991,12 +1015,12 @@ export type ListTenantConfigurationsError = AzureOpError;
 /** Gets list of the tenant configurations. */
 export const ListTenantConfigurations: API.OperationMethod<
   ListTenantConfigurationsRequest,
-  ConfigurationListResult,
+  ListTenantConfigurationsResponse,
   ListTenantConfigurationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTenantConfigurationsRequest,
-  output: ConfigurationListResult,
+  output: ListTenantConfigurationsResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

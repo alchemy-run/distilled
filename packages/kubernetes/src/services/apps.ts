@@ -205,13 +205,13 @@ export interface CreateAppsV1NamespacedControllerRevisionRequest {
   fieldValidation?: string;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
   apiVersion?: string;
-  /** Data is the serialized representation of the state. */
+  /** data is the serialized representation of the state. */
   data: unknown;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Revision indicates the revision of the state represented by Data. */
+  /** revision indicates the revision of the state represented by Data. */
   revision?: number;
 }
 export const CreateAppsV1NamespacedControllerRevisionRequest = /*@__PURE__*/ S.suspend(() =>
@@ -241,13 +241,13 @@ export const CreateAppsV1NamespacedControllerRevisionRequest = /*@__PURE__*/ S.s
 export interface IoK8sApiAppsV1ControllerRevision {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
   apiVersion?: string;
-  /** Data is the serialized representation of the state. */
+  /** data is the serialized representation of the state. */
   data: unknown;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Revision indicates the revision of the state represented by Data. */
+  /** revision indicates the revision of the state represented by Data. */
   revision?: number;
 }
 export const IoK8sApiAppsV1ControllerRevision = /*@__PURE__*/ S.suspend(() =>
@@ -321,7 +321,7 @@ export const IoK8sApimachineryPkgApisMetaV1LabelSelector = /*@__PURE__*/ S.suspe
   identifier: "IoK8sApimachineryPkgApisMetaV1LabelSelector",
 }) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1LabelSelector>;
 
-/** An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch. */
+/** values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch. */
 export type IoK8sApiCoreV1NodeSelectorRequirementValuesList = Array<string>;
 export const IoK8sApiCoreV1NodeSelectorRequirementValuesList = /*@__PURE__*/ S.Array(
   S.String,
@@ -329,11 +329,11 @@ export const IoK8sApiCoreV1NodeSelectorRequirementValuesList = /*@__PURE__*/ S.A
 
 /** A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values. */
 export interface IoK8sApiCoreV1NodeSelectorRequirement {
-  /** The label key that the selector applies to. */
+  /** key is the label key that the selector applies to. */
   key: string;
-  /** Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt. */
+  /** operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt. */
   operator: string;
-  /** An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch. */
+  /** values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch. */
   values?: IoK8sApiCoreV1NodeSelectorRequirementValuesList;
 }
 export const IoK8sApiCoreV1NodeSelectorRequirement = /*@__PURE__*/ S.suspend(() =>
@@ -346,14 +346,14 @@ export const IoK8sApiCoreV1NodeSelectorRequirement = /*@__PURE__*/ S.suspend(() 
   identifier: "IoK8sApiCoreV1NodeSelectorRequirement",
 }) as any as S.Schema<IoK8sApiCoreV1NodeSelectorRequirement>;
 
-/** A list of node selector requirements by node's labels. */
+/** matchExpressions is a list of node selector requirements by node's labels. */
 export type IoK8sApiCoreV1NodeSelectorTermMatchExpressionsList =
   Array<IoK8sApiCoreV1NodeSelectorRequirement>;
 export const IoK8sApiCoreV1NodeSelectorTermMatchExpressionsList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1NodeSelectorRequirement,
 ) as any as S.Schema<IoK8sApiCoreV1NodeSelectorTermMatchExpressionsList>;
 
-/** A list of node selector requirements by node's fields. */
+/** matchFields is a list of node selector requirements by node's fields. */
 export type IoK8sApiCoreV1NodeSelectorTermMatchFieldsList =
   Array<IoK8sApiCoreV1NodeSelectorRequirement>;
 export const IoK8sApiCoreV1NodeSelectorTermMatchFieldsList = /*@__PURE__*/ S.Array(
@@ -362,9 +362,9 @@ export const IoK8sApiCoreV1NodeSelectorTermMatchFieldsList = /*@__PURE__*/ S.Arr
 
 /** A null or empty node selector term matches no objects. The requirements of them are ANDed. The TopologySelectorTerm type implements a subset of the NodeSelectorTerm. */
 export interface IoK8sApiCoreV1NodeSelectorTerm {
-  /** A list of node selector requirements by node's labels. */
+  /** matchExpressions is a list of node selector requirements by node's labels. */
   matchExpressions?: IoK8sApiCoreV1NodeSelectorTermMatchExpressionsList;
-  /** A list of node selector requirements by node's fields. */
+  /** matchFields is a list of node selector requirements by node's fields. */
   matchFields?: IoK8sApiCoreV1NodeSelectorTermMatchFieldsList;
 }
 export const IoK8sApiCoreV1NodeSelectorTerm = /*@__PURE__*/ S.suspend(() =>
@@ -378,9 +378,9 @@ export const IoK8sApiCoreV1NodeSelectorTerm = /*@__PURE__*/ S.suspend(() =>
 
 /** An empty preferred scheduling term matches all objects with implicit weight 0 (i.e. it's a no-op). A null preferred scheduling term matches no objects (i.e. is also a no-op). */
 export interface IoK8sApiCoreV1PreferredSchedulingTerm {
-  /** A node selector term, associated with the corresponding weight. */
+  /** preference is a node selector term, associated with the corresponding weight. */
   preference: IoK8sApiCoreV1NodeSelectorTerm;
-  /** Weight associated with matching the corresponding nodeSelectorTerm, in the range 1-100. */
+  /** weight is the weight associated with matching the corresponding nodeSelectorTerm, in the range 1-100. */
   weight: number;
 }
 export const IoK8sApiCoreV1PreferredSchedulingTerm = /*@__PURE__*/ S.suspend(() =>
@@ -392,7 +392,7 @@ export const IoK8sApiCoreV1PreferredSchedulingTerm = /*@__PURE__*/ S.suspend(() 
   identifier: "IoK8sApiCoreV1PreferredSchedulingTerm",
 }) as any as S.Schema<IoK8sApiCoreV1PreferredSchedulingTerm>;
 
-/** The scheduler will prefer to schedule pods to nodes that satisfy the affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding "weight" to the sum if the node matches the corresponding matchExpressions; the node(s) with the highest sum are the most preferred. */
+/** preferredDuringSchedulingIgnoredDuringExecution specifies that the scheduler will prefer to schedule pods to nodes that satisfy the affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding "weight" to the sum if the node matches the corresponding matchExpressions; the node(s) with the highest sum are the most preferred. */
 export type IoK8sApiCoreV1NodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionList =
   Array<IoK8sApiCoreV1PreferredSchedulingTerm>;
 export const IoK8sApiCoreV1NodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionList =
@@ -400,7 +400,7 @@ export const IoK8sApiCoreV1NodeAffinityPreferredDuringSchedulingIgnoredDuringExe
     IoK8sApiCoreV1PreferredSchedulingTerm,
   ) as any as S.Schema<IoK8sApiCoreV1NodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionList>;
 
-/** Required. A list of node selector terms. The terms are ORed. */
+/** nodeSelectorTerms is a list of node selector terms. The terms are ORed. Required. A list of node selector terms. The terms are ORed. */
 export type IoK8sApiCoreV1NodeSelectorNodeSelectorTermsList = Array<IoK8sApiCoreV1NodeSelectorTerm>;
 export const IoK8sApiCoreV1NodeSelectorNodeSelectorTermsList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1NodeSelectorTerm,
@@ -408,7 +408,7 @@ export const IoK8sApiCoreV1NodeSelectorNodeSelectorTermsList = /*@__PURE__*/ S.A
 
 /** A node selector represents the union of the results of one or more label queries over a set of nodes; that is, it represents the OR of the selectors represented by the node selector terms. */
 export interface IoK8sApiCoreV1NodeSelector {
-  /** Required. A list of node selector terms. The terms are ORed. */
+  /** nodeSelectorTerms is a list of node selector terms. The terms are ORed. Required. A list of node selector terms. The terms are ORed. */
   nodeSelectorTerms: IoK8sApiCoreV1NodeSelectorNodeSelectorTermsList;
 }
 export const IoK8sApiCoreV1NodeSelector = /*@__PURE__*/ S.suspend(() =>
@@ -421,9 +421,9 @@ export const IoK8sApiCoreV1NodeSelector = /*@__PURE__*/ S.suspend(() =>
 
 /** Node affinity is a group of node affinity scheduling rules. */
 export interface IoK8sApiCoreV1NodeAffinity {
-  /** The scheduler will prefer to schedule pods to nodes that satisfy the affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding "weight" to the sum if the node matches the corresponding matchExpressions; the node(s) with the highest sum are the most preferred. */
+  /** preferredDuringSchedulingIgnoredDuringExecution specifies that the scheduler will prefer to schedule pods to nodes that satisfy the affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding "weight" to the sum if the node matches the corresponding matchExpressions; the node(s) with the highest sum are the most preferred. */
   preferredDuringSchedulingIgnoredDuringExecution?: IoK8sApiCoreV1NodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionList;
-  /** If the affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to an update), the system may or may not try to eventually evict the pod from its node. */
+  /** requiredDuringSchedulingIgnoredDuringExecution specifies that if the affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to an update), the system may or may not try to eventually evict the pod from its node. */
   requiredDuringSchedulingIgnoredDuringExecution?: IoK8sApiCoreV1NodeSelector;
 }
 export const IoK8sApiCoreV1NodeAffinity = /*@__PURE__*/ S.suspend(() =>
@@ -437,13 +437,13 @@ export const IoK8sApiCoreV1NodeAffinity = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiCoreV1NodeAffinity",
 }) as any as S.Schema<IoK8sApiCoreV1NodeAffinity>;
 
-/** MatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both matchLabelKeys and labelSelector. Also, matchLabelKeys cannot be set when labelSelector isn't set. */
+/** matchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both matchLabelKeys and labelSelector. Also, matchLabelKeys cannot be set when labelSelector isn't set. */
 export type IoK8sApiCoreV1PodAffinityTermMatchLabelKeysList = Array<string>;
 export const IoK8sApiCoreV1PodAffinityTermMatchLabelKeysList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<IoK8sApiCoreV1PodAffinityTermMatchLabelKeysList>;
 
-/** MismatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both mismatchLabelKeys and labelSelector. Also, mismatchLabelKeys cannot be set when labelSelector isn't set. */
+/** mismatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both mismatchLabelKeys and labelSelector. Also, mismatchLabelKeys cannot be set when labelSelector isn't set. */
 export type IoK8sApiCoreV1PodAffinityTermMismatchLabelKeysList = Array<string>;
 export const IoK8sApiCoreV1PodAffinityTermMismatchLabelKeysList = /*@__PURE__*/ S.Array(
   S.String,
@@ -457,17 +457,17 @@ export const IoK8sApiCoreV1PodAffinityTermNamespacesList = /*@__PURE__*/ S.Array
 
 /** Defines a set of pods (namely those matching the labelSelector relative to the given namespace(s)) that this pod should be co-located (affinity) or not co-located (anti-affinity) with, where co-located is defined as running on a node whose value of the label with key <topologyKey> matches that of any node on which a pod of the set of pods is running */
 export interface IoK8sApiCoreV1PodAffinityTerm {
-  /** A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods. */
+  /** labelSelector is a label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods. */
   labelSelector?: IoK8sApimachineryPkgApisMetaV1LabelSelector;
-  /** MatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both matchLabelKeys and labelSelector. Also, matchLabelKeys cannot be set when labelSelector isn't set. */
+  /** matchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both matchLabelKeys and labelSelector. Also, matchLabelKeys cannot be set when labelSelector isn't set. */
   matchLabelKeys?: IoK8sApiCoreV1PodAffinityTermMatchLabelKeysList;
-  /** MismatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both mismatchLabelKeys and labelSelector. Also, mismatchLabelKeys cannot be set when labelSelector isn't set. */
+  /** mismatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both mismatchLabelKeys and labelSelector. Also, mismatchLabelKeys cannot be set when labelSelector isn't set. */
   mismatchLabelKeys?: IoK8sApiCoreV1PodAffinityTermMismatchLabelKeysList;
-  /** A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces. */
+  /** namespaceSelector is a label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces. */
   namespaceSelector?: IoK8sApimachineryPkgApisMetaV1LabelSelector;
   /** namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means "this pod's namespace". */
   namespaces?: IoK8sApiCoreV1PodAffinityTermNamespacesList;
-  /** This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching the labelSelector in the specified namespaces, where co-located is defined as running on a node whose value of the label with key topologyKey matches that of any node on which any of the selected pods is running. Empty topologyKey is not allowed. */
+  /** topologyKey is the key of the node label that the system uses to denote such a topology domain. This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching the labelSelector in the specified namespaces, where co-located is defined as running on a node whose value of the label with key topologyKey matches that of any node on which any of the selected pods is running. Empty topologyKey is not allowed. */
   topologyKey: string;
 }
 export const IoK8sApiCoreV1PodAffinityTerm = /*@__PURE__*/ S.suspend(() =>
@@ -485,7 +485,7 @@ export const IoK8sApiCoreV1PodAffinityTerm = /*@__PURE__*/ S.suspend(() =>
 
 /** The weights of all of the matched WeightedPodAffinityTerm fields are added per-node to find the most preferred node(s) */
 export interface IoK8sApiCoreV1WeightedPodAffinityTerm {
-  /** Required. A pod affinity term, associated with the corresponding weight. */
+  /** podAffinityTerm is a pod affinity term, associated with the corresponding weight. required. */
   podAffinityTerm: IoK8sApiCoreV1PodAffinityTerm;
   /** weight associated with matching the corresponding podAffinityTerm, in the range 1-100. */
   weight: number;
@@ -499,7 +499,7 @@ export const IoK8sApiCoreV1WeightedPodAffinityTerm = /*@__PURE__*/ S.suspend(() 
   identifier: "IoK8sApiCoreV1WeightedPodAffinityTerm",
 }) as any as S.Schema<IoK8sApiCoreV1WeightedPodAffinityTerm>;
 
-/** The scheduler will prefer to schedule pods to nodes that satisfy the affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the node(s) with the highest sum are the most preferred. */
+/** preferredDuringSchedulingIgnoredDuringExecution specifies that the scheduler will prefer to schedule pods to nodes that satisfy the affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the node(s) with the highest sum are the most preferred. */
 export type IoK8sApiCoreV1PodAffinityPreferredDuringSchedulingIgnoredDuringExecutionList =
   Array<IoK8sApiCoreV1WeightedPodAffinityTerm>;
 export const IoK8sApiCoreV1PodAffinityPreferredDuringSchedulingIgnoredDuringExecutionList =
@@ -507,7 +507,7 @@ export const IoK8sApiCoreV1PodAffinityPreferredDuringSchedulingIgnoredDuringExec
     IoK8sApiCoreV1WeightedPodAffinityTerm,
   ) as any as S.Schema<IoK8sApiCoreV1PodAffinityPreferredDuringSchedulingIgnoredDuringExecutionList>;
 
-/** If the affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system may or may not try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied. */
+/** requiredDuringSchedulingIgnoredDuringExecution specifies that if the affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system may or may not try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied. */
 export type IoK8sApiCoreV1PodAffinityRequiredDuringSchedulingIgnoredDuringExecutionList =
   Array<IoK8sApiCoreV1PodAffinityTerm>;
 export const IoK8sApiCoreV1PodAffinityRequiredDuringSchedulingIgnoredDuringExecutionList =
@@ -517,9 +517,9 @@ export const IoK8sApiCoreV1PodAffinityRequiredDuringSchedulingIgnoredDuringExecu
 
 /** Pod affinity is a group of inter pod affinity scheduling rules. */
 export interface IoK8sApiCoreV1PodAffinity {
-  /** The scheduler will prefer to schedule pods to nodes that satisfy the affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the node(s) with the highest sum are the most preferred. */
+  /** preferredDuringSchedulingIgnoredDuringExecution specifies that the scheduler will prefer to schedule pods to nodes that satisfy the affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the node(s) with the highest sum are the most preferred. */
   preferredDuringSchedulingIgnoredDuringExecution?: IoK8sApiCoreV1PodAffinityPreferredDuringSchedulingIgnoredDuringExecutionList;
-  /** If the affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system may or may not try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied. */
+  /** requiredDuringSchedulingIgnoredDuringExecution specifies that if the affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system may or may not try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied. */
   requiredDuringSchedulingIgnoredDuringExecution?: IoK8sApiCoreV1PodAffinityRequiredDuringSchedulingIgnoredDuringExecutionList;
 }
 export const IoK8sApiCoreV1PodAffinity = /*@__PURE__*/ S.suspend(() =>
@@ -535,7 +535,7 @@ export const IoK8sApiCoreV1PodAffinity = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiCoreV1PodAffinity",
 }) as any as S.Schema<IoK8sApiCoreV1PodAffinity>;
 
-/** The scheduler will prefer to schedule pods to nodes that satisfy the anti-affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling anti-affinity expressions, etc.), compute a sum by iterating through the elements of this field and subtracting "weight" from the sum if the node has pods which matches the corresponding podAffinityTerm; the node(s) with the highest sum are the most preferred. */
+/** preferredDuringSchedulingIgnoredDuringExecution specifies that the scheduler will prefer to schedule pods to nodes that satisfy the anti-affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling anti-affinity expressions, etc.), compute a sum by iterating through the elements of this field and subtracting "weight" from the sum if the node has pods which matches the corresponding podAffinityTerm; the node(s) with the highest sum are the most preferred. */
 export type IoK8sApiCoreV1PodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionList =
   Array<IoK8sApiCoreV1WeightedPodAffinityTerm>;
 export const IoK8sApiCoreV1PodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionList =
@@ -543,7 +543,7 @@ export const IoK8sApiCoreV1PodAntiAffinityPreferredDuringSchedulingIgnoredDuring
     IoK8sApiCoreV1WeightedPodAffinityTerm,
   ) as any as S.Schema<IoK8sApiCoreV1PodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionList>;
 
-/** If the anti-affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the anti-affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system may or may not try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied. */
+/** requiredDuringSchedulingIgnoredDuringExecution specifies that if the anti-affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the anti-affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system may or may not try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied. */
 export type IoK8sApiCoreV1PodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionList =
   Array<IoK8sApiCoreV1PodAffinityTerm>;
 export const IoK8sApiCoreV1PodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionList =
@@ -553,9 +553,9 @@ export const IoK8sApiCoreV1PodAntiAffinityRequiredDuringSchedulingIgnoredDuringE
 
 /** Pod anti affinity is a group of inter pod anti affinity scheduling rules. */
 export interface IoK8sApiCoreV1PodAntiAffinity {
-  /** The scheduler will prefer to schedule pods to nodes that satisfy the anti-affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling anti-affinity expressions, etc.), compute a sum by iterating through the elements of this field and subtracting "weight" from the sum if the node has pods which matches the corresponding podAffinityTerm; the node(s) with the highest sum are the most preferred. */
+  /** preferredDuringSchedulingIgnoredDuringExecution specifies that the scheduler will prefer to schedule pods to nodes that satisfy the anti-affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling anti-affinity expressions, etc.), compute a sum by iterating through the elements of this field and subtracting "weight" from the sum if the node has pods which matches the corresponding podAffinityTerm; the node(s) with the highest sum are the most preferred. */
   preferredDuringSchedulingIgnoredDuringExecution?: IoK8sApiCoreV1PodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionList;
-  /** If the anti-affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the anti-affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system may or may not try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied. */
+  /** requiredDuringSchedulingIgnoredDuringExecution specifies that if the anti-affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the anti-affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system may or may not try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied. */
   requiredDuringSchedulingIgnoredDuringExecution?: IoK8sApiCoreV1PodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionList;
 }
 export const IoK8sApiCoreV1PodAntiAffinity = /*@__PURE__*/ S.suspend(() =>
@@ -573,11 +573,11 @@ export const IoK8sApiCoreV1PodAntiAffinity = /*@__PURE__*/ S.suspend(() =>
 
 /** Affinity is a group of affinity scheduling rules. */
 export interface IoK8sApiCoreV1Affinity {
-  /** Describes node affinity scheduling rules for the pod. */
+  /** nodeAffinity describes node affinity scheduling rules for the pod. */
   nodeAffinity?: IoK8sApiCoreV1NodeAffinity;
-  /** Describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s)). */
+  /** podAffinity describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s)). */
   podAffinity?: IoK8sApiCoreV1PodAffinity;
-  /** Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)). */
+  /** podAntiAffinity describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)). */
   podAntiAffinity?: IoK8sApiCoreV1PodAntiAffinity;
 }
 export const IoK8sApiCoreV1Affinity = /*@__PURE__*/ S.suspend(() =>
@@ -586,17 +586,15 @@ export const IoK8sApiCoreV1Affinity = /*@__PURE__*/ S.suspend(() =>
     podAffinity: S.optional(IoK8sApiCoreV1PodAffinity),
     podAntiAffinity: S.optional(IoK8sApiCoreV1PodAntiAffinity),
   }),
-).annotate({
-  identifier: "IoK8sApiCoreV1Affinity",
-}) as any as S.Schema<IoK8sApiCoreV1Affinity>;
+).annotate({ identifier: "IoK8sApiCoreV1Affinity" }) as any as S.Schema<IoK8sApiCoreV1Affinity>;
 
-/** Arguments to the entrypoint. The container image's CMD is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell */
+/** args are the arguments to the entrypoint. The container image's CMD is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell */
 export type IoK8sApiCoreV1ContainerArgsList = Array<string>;
 export const IoK8sApiCoreV1ContainerArgsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<IoK8sApiCoreV1ContainerArgsList>;
 
-/** Entrypoint array. Not executed within a shell. The container image's ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell */
+/** command is the entrypoint array. Not executed within a shell. The container image's ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell */
 export type IoK8sApiCoreV1ContainerCommandList = Array<string>;
 export const IoK8sApiCoreV1ContainerCommandList = /*@__PURE__*/ S.Array(
   S.String,
@@ -604,11 +602,11 @@ export const IoK8sApiCoreV1ContainerCommandList = /*@__PURE__*/ S.Array(
 
 /** Selects a key from a ConfigMap. */
 export interface IoK8sApiCoreV1ConfigMapKeySelector {
-  /** The key to select from the ConfigMap's Data field. Keys in the BinaryData field are not currently propagated to container env vars. */
+  /** key is the key to select from the ConfigMap's Data field. Keys in the BinaryData field are not currently propagated to container env vars. */
   key: string;
-  /** Name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
+  /** name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
   name?: string;
-  /** Specify whether the ConfigMap or its key must be defined */
+  /** optional specifies whether the ConfigMap or its key must be defined */
   optional?: boolean;
 }
 export const IoK8sApiCoreV1ConfigMapKeySelector = /*@__PURE__*/ S.suspend(() =>
@@ -623,9 +621,9 @@ export const IoK8sApiCoreV1ConfigMapKeySelector = /*@__PURE__*/ S.suspend(() =>
 
 /** ObjectFieldSelector selects an APIVersioned field of an object. */
 export interface IoK8sApiCoreV1ObjectFieldSelector {
-  /** Version of the schema the FieldPath is written in terms of, defaults to "v1". */
+  /** apiVersion is the version of the schema the FieldPath is written in terms of, defaults to "v1". */
   apiVersion?: string;
-  /** Path of the field to select in the specified API version. */
+  /** fieldPath is the path of the field to select in the specified API version. */
   fieldPath: string;
 }
 export const IoK8sApiCoreV1ObjectFieldSelector = /*@__PURE__*/ S.suspend(() =>
@@ -639,13 +637,13 @@ export const IoK8sApiCoreV1ObjectFieldSelector = /*@__PURE__*/ S.suspend(() =>
 
 /** FileKeySelector selects a key of the env file. */
 export interface IoK8sApiCoreV1FileKeySelector {
-  /** The key within the env file. An invalid key will prevent the pod from starting. The keys defined within a source may consist of any printable ASCII characters except '='. During Alpha stage of the EnvFiles feature gate, the key size is limited to 128 characters. */
+  /** key is the key within the env file. An invalid key will prevent the pod from starting. The keys defined within a source may consist of any printable ASCII characters except '='. During Alpha stage of the EnvFiles feature gate, the key size is limited to 128 characters. */
   key: string;
-  /** Specify whether the file or its key must be defined. If the file or key does not exist, then the env var is not published. If optional is set to true and the specified key does not exist, the environment variable will not be set in the Pod's containers. If optional is set to false and the specified key does not exist, an error will be returned during Pod creation. */
+  /** optional specifies whether the file or its key must be defined. If the file or key does not exist, then the env var is not published. If optional is set to true and the specified key does not exist, the environment variable will not be set in the Pod's containers. If optional is set to false and the specified key does not exist, an error will be returned during Pod creation. */
   optional?: boolean;
-  /** The path within the volume from which to select the file. Must be relative and may not contain the '..' path or start with '..'. */
+  /** path is the path within the volume from which to select the file. Must be relative and may not contain the '..' path or start with '..'. */
   path: string;
-  /** The name of the volume mount containing the env file. */
+  /** volumeName is the name of the volume mount containing the env file. */
   volumeName: string;
 }
 export const IoK8sApiCoreV1FileKeySelector = /*@__PURE__*/ S.suspend(() =>
@@ -661,11 +659,11 @@ export const IoK8sApiCoreV1FileKeySelector = /*@__PURE__*/ S.suspend(() =>
 
 /** ResourceFieldSelector represents container resources (cpu, memory) and their output format */
 export interface IoK8sApiCoreV1ResourceFieldSelector {
-  /** Container name: required for volumes, optional for env vars */
+  /** containerName is the name of the container: required for volumes, optional for env vars */
   containerName?: string;
-  /** Specifies the output format of the exposed resources, defaults to "1" */
+  /** divisor optionally indicates how the resource from the container should be scaled. If unset or 0, the resource is not scaled (divisor is treated as 1). */
   divisor?: string;
-  /** Required: resource to select */
+  /** resource is the resource to select */
   resource: string;
 }
 export const IoK8sApiCoreV1ResourceFieldSelector = /*@__PURE__*/ S.suspend(() =>
@@ -680,11 +678,11 @@ export const IoK8sApiCoreV1ResourceFieldSelector = /*@__PURE__*/ S.suspend(() =>
 
 /** SecretKeySelector selects a key of a Secret. */
 export interface IoK8sApiCoreV1SecretKeySelector {
-  /** The key of the secret to select from. Must be a valid secret key. */
+  /** key is the key of the secret to select from. Must be a valid secret key. */
   key: string;
-  /** Name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
+  /** name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
   name?: string;
-  /** Specify whether the Secret or its key must be defined */
+  /** optional specifies whether the Secret or its key must be defined */
   optional?: boolean;
 }
 export const IoK8sApiCoreV1SecretKeySelector = /*@__PURE__*/ S.suspend(() =>
@@ -699,15 +697,15 @@ export const IoK8sApiCoreV1SecretKeySelector = /*@__PURE__*/ S.suspend(() =>
 
 /** EnvVarSource represents a source for the value of an EnvVar. */
 export interface IoK8sApiCoreV1EnvVarSource {
-  /** Selects a key of a ConfigMap. */
+  /** configMapKeyRef selects a key of a ConfigMap. */
   configMapKeyRef?: IoK8sApiCoreV1ConfigMapKeySelector;
-  /** Selects a field of the pod: supports metadata.name, metadata.namespace, `metadata.labels['<KEY>']`, `metadata.annotations['<KEY>']`, spec.nodeName, spec.serviceAccountName, status.hostIP, status.podIP, status.podIPs. */
+  /** fieldRef selects a field of the pod: supports metadata.name, metadata.namespace, `metadata.labels['<KEY>']`, `metadata.annotations['<KEY>']`, spec.nodeName, spec.serviceAccountName, status.hostIP, status.podIP, status.podIPs. */
   fieldRef?: IoK8sApiCoreV1ObjectFieldSelector;
-  /** FileKeyRef selects a key of the env file. Requires the EnvFiles feature gate to be enabled. */
+  /** fileKeyRef selects a key of the env file. Requires the EnvFiles feature gate to be enabled. */
   fileKeyRef?: IoK8sApiCoreV1FileKeySelector;
-  /** Selects a resource of the container: only resources limits and requests (limits.cpu, limits.memory, limits.ephemeral-storage, requests.cpu, requests.memory and requests.ephemeral-storage) are currently supported. */
+  /** resourceFieldRef selects a resource of the container: only resources limits and requests (limits.cpu, limits.memory, limits.ephemeral-storage, requests.cpu, requests.memory and requests.ephemeral-storage) are currently supported. */
   resourceFieldRef?: IoK8sApiCoreV1ResourceFieldSelector;
-  /** Selects a key of a secret in the pod's namespace */
+  /** secretKeyRef selects a key of a secret in the pod's namespace */
   secretKeyRef?: IoK8sApiCoreV1SecretKeySelector;
 }
 export const IoK8sApiCoreV1EnvVarSource = /*@__PURE__*/ S.suspend(() =>
@@ -724,11 +722,11 @@ export const IoK8sApiCoreV1EnvVarSource = /*@__PURE__*/ S.suspend(() =>
 
 /** EnvVar represents an environment variable present in a Container. */
 export interface IoK8sApiCoreV1EnvVar {
-  /** Name of the environment variable. May consist of any printable ASCII characters except '='. */
+  /** name is the name of the environment variable. May consist of any printable ASCII characters except '='. */
   name: string;
-  /** Variable references $(VAR_NAME) are expanded using the previously defined environment variables in the container and any service environment variables. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Defaults to "". */
+  /** value is the value of the environment variable. Variable references $(VAR_NAME) are expanded using the previously defined environment variables in the container and any service environment variables. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Defaults to "". */
   value?: string;
-  /** Source for the environment variable's value. Cannot be used if value is not empty. */
+  /** valueFrom is the source for the environment variable's value. Cannot be used if value is not empty. */
   valueFrom?: IoK8sApiCoreV1EnvVarSource;
 }
 export const IoK8sApiCoreV1EnvVar = /*@__PURE__*/ S.suspend(() =>
@@ -737,11 +735,9 @@ export const IoK8sApiCoreV1EnvVar = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.String),
     valueFrom: S.optional(IoK8sApiCoreV1EnvVarSource),
   }),
-).annotate({
-  identifier: "IoK8sApiCoreV1EnvVar",
-}) as any as S.Schema<IoK8sApiCoreV1EnvVar>;
+).annotate({ identifier: "IoK8sApiCoreV1EnvVar" }) as any as S.Schema<IoK8sApiCoreV1EnvVar>;
 
-/** List of environment variables to set in the container. Cannot be updated. */
+/** env is the list of environment variables to set in the container. Cannot be updated. */
 export type IoK8sApiCoreV1ContainerEnvList = Array<IoK8sApiCoreV1EnvVar>;
 export const IoK8sApiCoreV1ContainerEnvList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1EnvVar,
@@ -749,9 +745,9 @@ export const IoK8sApiCoreV1ContainerEnvList = /*@__PURE__*/ S.Array(
 
 /** ConfigMapEnvSource selects a ConfigMap to populate the environment variables with. The contents of the target ConfigMap's Data field will represent the key-value pairs as environment variables. Keys in the BinaryData field are not currently propagated to container env vars. */
 export interface IoK8sApiCoreV1ConfigMapEnvSource {
-  /** Name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
+  /** name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
   name?: string;
-  /** Specify whether the ConfigMap must be defined */
+  /** optional specifies whether the ConfigMap must be defined */
   optional?: boolean;
 }
 export const IoK8sApiCoreV1ConfigMapEnvSource = /*@__PURE__*/ S.suspend(() =>
@@ -765,9 +761,9 @@ export const IoK8sApiCoreV1ConfigMapEnvSource = /*@__PURE__*/ S.suspend(() =>
 
 /** SecretEnvSource selects a Secret to populate the environment variables with. The contents of the target Secret's Data field will represent the key-value pairs as environment variables. */
 export interface IoK8sApiCoreV1SecretEnvSource {
-  /** Name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
+  /** name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
   name?: string;
-  /** Specify whether the Secret must be defined */
+  /** optional specifies whether the Secret must be defined */
   optional?: boolean;
 }
 export const IoK8sApiCoreV1SecretEnvSource = /*@__PURE__*/ S.suspend(() =>
@@ -781,11 +777,11 @@ export const IoK8sApiCoreV1SecretEnvSource = /*@__PURE__*/ S.suspend(() =>
 
 /** EnvFromSource represents the source of a set of ConfigMaps or Secrets */
 export interface IoK8sApiCoreV1EnvFromSource {
-  /** The ConfigMap to select from */
+  /** configMapRef is the ConfigMap to select from */
   configMapRef?: IoK8sApiCoreV1ConfigMapEnvSource;
-  /** Optional text to prepend to the name of each environment variable. May consist of any printable ASCII characters except '='. */
+  /** prefix is the text to prepend to the name of each environment variable. May consist of any printable ASCII characters except '='. */
   prefix?: string;
-  /** The Secret to select from */
+  /** secretRef is the Secret to select from */
   secretRef?: IoK8sApiCoreV1SecretEnvSource;
 }
 export const IoK8sApiCoreV1EnvFromSource = /*@__PURE__*/ S.suspend(() =>
@@ -798,13 +794,13 @@ export const IoK8sApiCoreV1EnvFromSource = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiCoreV1EnvFromSource",
 }) as any as S.Schema<IoK8sApiCoreV1EnvFromSource>;
 
-/** List of sources to populate environment variables in the container. The keys defined within a source may consist of any printable ASCII characters except '='. When a key exists in multiple sources, the value associated with the last source will take precedence. Values defined by an Env with a duplicate key will take precedence. Cannot be updated. */
+/** envFrom is the list of sources to populate environment variables in the container. The keys defined within a source may consist of any printable ASCII characters except '='. When a key exists in multiple sources, the value associated with the last source will take precedence. Values defined by an Env with a duplicate key will take precedence. Cannot be updated. */
 export type IoK8sApiCoreV1ContainerEnvFromList = Array<IoK8sApiCoreV1EnvFromSource>;
 export const IoK8sApiCoreV1ContainerEnvFromList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1EnvFromSource,
 ) as any as S.Schema<IoK8sApiCoreV1ContainerEnvFromList>;
 
-/** Command is the command line to execute inside the container, the working directory for the command is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy. */
+/** command is the command line to execute inside the container, the working directory for the command is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy. */
 export type IoK8sApiCoreV1ExecActionCommandList = Array<string>;
 export const IoK8sApiCoreV1ExecActionCommandList = /*@__PURE__*/ S.Array(
   S.String,
@@ -812,22 +808,20 @@ export const IoK8sApiCoreV1ExecActionCommandList = /*@__PURE__*/ S.Array(
 
 /** ExecAction describes a "run in container" action. */
 export interface IoK8sApiCoreV1ExecAction {
-  /** Command is the command line to execute inside the container, the working directory for the command is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy. */
+  /** command is the command line to execute inside the container, the working directory for the command is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy. */
   command?: IoK8sApiCoreV1ExecActionCommandList;
 }
 export const IoK8sApiCoreV1ExecAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     command: S.optional(IoK8sApiCoreV1ExecActionCommandList),
   }),
-).annotate({
-  identifier: "IoK8sApiCoreV1ExecAction",
-}) as any as S.Schema<IoK8sApiCoreV1ExecAction>;
+).annotate({ identifier: "IoK8sApiCoreV1ExecAction" }) as any as S.Schema<IoK8sApiCoreV1ExecAction>;
 
 /** HTTPHeader describes a custom header to be used in HTTP probes */
 export interface IoK8sApiCoreV1HTTPHeader {
-  /** The header field name. This will be canonicalized upon output, so case-variant names will be understood as the same header. */
+  /** name is the header field name. This will be canonicalized upon output, so case-variant names will be understood as the same header. */
   name: string;
-  /** The header field value */
+  /** value is the header field value */
   value: string;
 }
 export const IoK8sApiCoreV1HTTPHeader = /*@__PURE__*/ S.suspend(() =>
@@ -835,11 +829,9 @@ export const IoK8sApiCoreV1HTTPHeader = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     value: S.String,
   }),
-).annotate({
-  identifier: "IoK8sApiCoreV1HTTPHeader",
-}) as any as S.Schema<IoK8sApiCoreV1HTTPHeader>;
+).annotate({ identifier: "IoK8sApiCoreV1HTTPHeader" }) as any as S.Schema<IoK8sApiCoreV1HTTPHeader>;
 
-/** Custom headers to set in the request. HTTP allows repeated headers. */
+/** httpHeaders are the custom headers to set in the request. HTTP allows repeated headers. */
 export type IoK8sApiCoreV1HTTPGetActionHttpHeadersList = Array<IoK8sApiCoreV1HTTPHeader>;
 export const IoK8sApiCoreV1HTTPGetActionHttpHeadersList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1HTTPHeader,
@@ -847,17 +839,17 @@ export const IoK8sApiCoreV1HTTPGetActionHttpHeadersList = /*@__PURE__*/ S.Array(
 
 /** HTTPGetAction describes an action based on HTTP Get requests. */
 export interface IoK8sApiCoreV1HTTPGetAction {
-  /** Host name to connect to, defaults to the pod IP. You probably want to set "Host" in httpHeaders instead. */
+  /** host is the host name to connect to, defaults to the pod IP. You probably want to set "Host" in httpHeaders instead. */
   host?: string;
-  /** Custom headers to set in the request. HTTP allows repeated headers. */
+  /** httpHeaders are the custom headers to set in the request. HTTP allows repeated headers. */
   httpHeaders?: IoK8sApiCoreV1HTTPGetActionHttpHeadersList;
-  /** Path to access on the HTTP server. */
+  /** path is the path to access on the HTTP server. */
   path?: string;
-  /** Name or number of the port to access on the container. Number must be in the range 1 to 65535. Name must be an IANA_SVC_NAME. */
+  /** port is the name or number of the port to access on the container. Number must be in the range 1 to 65535. Name must be an IANA_SVC_NAME. */
   port: string;
-  /** Protocol selects the wire protocol for the probe connection. Nil defaults to HTTP/1.1. */
+  /** protocol selects the wire protocol for the probe connection. Nil defaults to HTTP/1.1. */
   protocol?: string;
-  /** Scheme to use for connecting to the host. Defaults to HTTP. */
+  /** scheme is the scheme to use for connecting to the host. Defaults to HTTP. */
   scheme?: string;
 }
 export const IoK8sApiCoreV1HTTPGetAction = /*@__PURE__*/ S.suspend(() =>
@@ -875,7 +867,7 @@ export const IoK8sApiCoreV1HTTPGetAction = /*@__PURE__*/ S.suspend(() =>
 
 /** SleepAction describes a "sleep" action. */
 export interface IoK8sApiCoreV1SleepAction {
-  /** Seconds is the number of seconds to sleep. */
+  /** seconds is the number of seconds to sleep. */
   seconds: number;
 }
 export const IoK8sApiCoreV1SleepAction = /*@__PURE__*/ S.suspend(() =>
@@ -888,9 +880,9 @@ export const IoK8sApiCoreV1SleepAction = /*@__PURE__*/ S.suspend(() =>
 
 /** TCPSocketAction describes an action based on opening a socket */
 export interface IoK8sApiCoreV1TCPSocketAction {
-  /** Optional: Host name to connect to, defaults to the pod IP. */
+  /** host is the optional host name to connect to, defaults to the pod IP. */
   host?: string;
-  /** Number or name of the port to access on the container. Number must be in the range 1 to 65535. Name must be an IANA_SVC_NAME. */
+  /** port is the number or name of the port to access on the container. Number must be in the range 1 to 65535. Name must be an IANA_SVC_NAME. */
   port: string;
 }
 export const IoK8sApiCoreV1TCPSocketAction = /*@__PURE__*/ S.suspend(() =>
@@ -904,13 +896,13 @@ export const IoK8sApiCoreV1TCPSocketAction = /*@__PURE__*/ S.suspend(() =>
 
 /** LifecycleHandler defines a specific action that should be taken in a lifecycle hook. One and only one of the fields, except TCPSocket must be specified. */
 export interface IoK8sApiCoreV1LifecycleHandler {
-  /** Exec specifies a command to execute in the container. */
+  /** exec specifies a command to execute in the container. */
   exec?: IoK8sApiCoreV1ExecAction;
-  /** HTTPGet specifies an HTTP GET request to perform. */
+  /** httpGet specifies an HTTP GET request to perform. */
   httpGet?: IoK8sApiCoreV1HTTPGetAction;
-  /** Sleep represents a duration that the container should sleep. */
+  /** sleep represents a duration that the container should sleep. */
   sleep?: IoK8sApiCoreV1SleepAction;
-  /** Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept for backward compatibility. There is no validation of this field and lifecycle hooks will fail at runtime when it is specified. */
+  /** tcpSocket is NOT supported as a LifecycleHandler and kept for backward compatibility. There is no validation of this field and lifecycle hooks will fail at runtime when it is specified. Deprecated. */
   tcpSocket?: IoK8sApiCoreV1TCPSocketAction;
 }
 export const IoK8sApiCoreV1LifecycleHandler = /*@__PURE__*/ S.suspend(() =>
@@ -926,11 +918,11 @@ export const IoK8sApiCoreV1LifecycleHandler = /*@__PURE__*/ S.suspend(() =>
 
 /** Lifecycle describes actions that the management system should take in response to container lifecycle events. For the PostStart and PreStop lifecycle handlers, management of the container blocks until the action is complete, unless the container process fails, in which case the handler is aborted. */
 export interface IoK8sApiCoreV1Lifecycle {
-  /** PostStart is called immediately after a container is created. If the handler fails, the container is terminated and restarted according to its restart policy. Other management of the container blocks until the hook completes. More info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks */
+  /** postStart is called immediately after a container is created. If the handler fails, the container is terminated and restarted according to its restart policy. Other management of the container blocks until the hook completes. More info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks */
   postStart?: IoK8sApiCoreV1LifecycleHandler;
-  /** PreStop is called immediately before a container is terminated due to an API request or management event such as liveness/startup probe failure, preemption, resource contention, etc. The handler is not called if the container crashes or exits. The Pod's termination grace period countdown begins before the PreStop hook is executed. Regardless of the outcome of the handler, the container will eventually terminate within the Pod's termination grace period (unless delayed by finalizers). Other management of the container blocks until the hook completes or until the termination grace period is reached. More info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks */
+  /** preStop is called immediately before a container is terminated due to an API request or management event such as liveness/startup probe failure, preemption, resource contention, etc. The handler is not called if the container crashes or exits. The Pod's termination grace period countdown begins before the PreStop hook is executed. Regardless of the outcome of the handler, the container will eventually terminate within the Pod's termination grace period (unless delayed by finalizers). Other management of the container blocks until the hook completes or until the termination grace period is reached. More info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks */
   preStop?: IoK8sApiCoreV1LifecycleHandler;
-  /** StopSignal defines which signal will be sent to a container when it is being stopped. If not specified, the default is defined by the container runtime in use. StopSignal can only be set for Pods with a non-empty .spec.os.name */
+  /** stopSignal defines which signal will be sent to a container when it is being stopped. If not specified, the default is defined by the container runtime in use. StopSignal can only be set for Pods with a non-empty .spec.os.name */
   stopSignal?: string;
 }
 export const IoK8sApiCoreV1Lifecycle = /*@__PURE__*/ S.suspend(() =>
@@ -939,17 +931,15 @@ export const IoK8sApiCoreV1Lifecycle = /*@__PURE__*/ S.suspend(() =>
     preStop: S.optional(IoK8sApiCoreV1LifecycleHandler),
     stopSignal: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IoK8sApiCoreV1Lifecycle",
-}) as any as S.Schema<IoK8sApiCoreV1Lifecycle>;
+).annotate({ identifier: "IoK8sApiCoreV1Lifecycle" }) as any as S.Schema<IoK8sApiCoreV1Lifecycle>;
 
 /** GRPCAction specifies an action involving a GRPC service. */
 export interface IoK8sApiCoreV1GRPCAction {
   /** mode specifies the connection mode for the gRPC health probe. Set to "TLS" to use TLS without certificate verification. Set to "Plaintext" to use a plaintext (insecure) connection explicitly. If not specified, the probe uses a plaintext (insecure) connection. */
   mode?: string;
-  /** Port number of the gRPC service. Number must be in the range 1 to 65535. */
+  /** port is the number of the gRPC service. Number must be in the range 1 to 65535. */
   port: number;
-  /** Service is the name of the service to place in the gRPC HealthCheckRequest (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md). If this is not specified, the default behavior is defined by gRPC. */
+  /** service is the name of the service to place in the gRPC HealthCheckRequest (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md). If this is not specified, the default behavior is defined by gRPC. */
   service?: string;
 }
 export const IoK8sApiCoreV1GRPCAction = /*@__PURE__*/ S.suspend(() =>
@@ -958,31 +948,29 @@ export const IoK8sApiCoreV1GRPCAction = /*@__PURE__*/ S.suspend(() =>
     port: S.Number,
     service: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IoK8sApiCoreV1GRPCAction",
-}) as any as S.Schema<IoK8sApiCoreV1GRPCAction>;
+).annotate({ identifier: "IoK8sApiCoreV1GRPCAction" }) as any as S.Schema<IoK8sApiCoreV1GRPCAction>;
 
 /** Probe describes a health check to be performed against a container to determine whether it is alive or ready to receive traffic. */
 export interface IoK8sApiCoreV1Probe {
-  /** Exec specifies a command to execute in the container. */
+  /** exec specifies a command to execute in the container. */
   exec?: IoK8sApiCoreV1ExecAction;
-  /** Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1. */
+  /** failureThreshold is the minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1. */
   failureThreshold?: number;
-  /** GRPC specifies a GRPC HealthCheckRequest. */
+  /** grpc specifies a GRPC HealthCheckRequest. */
   grpc?: IoK8sApiCoreV1GRPCAction;
-  /** HTTPGet specifies an HTTP GET request to perform. */
+  /** httpGet specifies an HTTP GET request to perform. */
   httpGet?: IoK8sApiCoreV1HTTPGetAction;
-  /** Number of seconds after the container has started before liveness probes are initiated. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes */
+  /** initialDelaySeconds is the number of seconds after the container has started before liveness probes are initiated. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes */
   initialDelaySeconds?: number;
-  /** How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. */
+  /** periodSeconds is how often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. */
   periodSeconds?: number;
-  /** Minimum consecutive successes for the probe to be considered successful after having failed. Defaults to 1. Must be 1 for liveness and startup. Minimum value is 1. */
+  /** successThreshold is the minimum consecutive successes for the probe to be considered successful after having failed. Defaults to 1. Must be 1 for liveness and startup. Minimum value is 1. */
   successThreshold?: number;
-  /** TCPSocket specifies a connection to a TCP port. */
+  /** tcpSocket specifies a connection to a TCP port. */
   tcpSocket?: IoK8sApiCoreV1TCPSocketAction;
-  /** Optional duration in seconds the pod needs to terminate gracefully upon probe failure. The grace period is the duration in seconds after the processes running in the pod are sent a termination signal and the time when the processes are forcibly halted with a kill signal. Set this value longer than the expected cleanup time for your process. If this value is nil, the pod's terminationGracePeriodSeconds will be used. Otherwise, this value overrides the value provided by the pod spec. Value must be non-negative integer. The value zero indicates stop immediately via the kill signal (no opportunity to shut down). This is a beta field and requires enabling ProbeTerminationGracePeriod feature gate. Minimum value is 1. spec.terminationGracePeriodSeconds is used if unset. */
+  /** terminationGracePeriodSeconds is the optional duration in seconds the pod needs to terminate gracefully upon probe failure. The grace period is the duration in seconds after the processes running in the pod are sent a termination signal and the time when the processes are forcibly halted with a kill signal. Set this value longer than the expected cleanup time for your process. If this value is nil, the pod's terminationGracePeriodSeconds will be used. Otherwise, this value overrides the value provided by the pod spec. Value must be non-negative integer. The value zero indicates stop immediately via the kill signal (no opportunity to shut down). This is a beta field and requires enabling ProbeTerminationGracePeriod feature gate. Minimum value is 1. spec.terminationGracePeriodSeconds is used if unset. */
   terminationGracePeriodSeconds?: number;
-  /** Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes */
+  /** timeoutSeconds is the number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes */
   timeoutSeconds?: number;
 }
 export const IoK8sApiCoreV1Probe = /*@__PURE__*/ S.suspend(() =>
@@ -998,21 +986,19 @@ export const IoK8sApiCoreV1Probe = /*@__PURE__*/ S.suspend(() =>
     terminationGracePeriodSeconds: S.optional(S.Number),
     timeoutSeconds: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "IoK8sApiCoreV1Probe",
-}) as any as S.Schema<IoK8sApiCoreV1Probe>;
+).annotate({ identifier: "IoK8sApiCoreV1Probe" }) as any as S.Schema<IoK8sApiCoreV1Probe>;
 
 /** ContainerPort represents a network port in a single container. */
 export interface IoK8sApiCoreV1ContainerPort {
-  /** Number of port to expose on the pod's IP address. This must be a valid port number, 0 < x < 65536. */
+  /** containerPort is the number of port to expose on the pod's IP address. This must be a valid port number, 0 < x < 65536. */
   containerPort: number;
-  /** What host IP to bind the external port to. */
+  /** hostIP is the host IP to bind the external port to. */
   hostIP?: string;
-  /** Number of port to expose on the host. If specified, this must be a valid port number, 0 < x < 65536. If HostNetwork is specified, this must match ContainerPort. Most containers do not need this. */
+  /** hostPort is the number of port to expose on the host. If specified, this must be a valid port number, 0 < x < 65536. If HostNetwork is specified, this must match ContainerPort. Most containers do not need this. */
   hostPort?: number;
-  /** If specified, this must be an IANA_SVC_NAME and unique within the pod. Each named port in a pod must have a unique name. Name for the port that can be referred to by services. */
+  /** name is the name of the port. If specified, this must be an IANA_SVC_NAME and unique within the pod. Each named port in a pod must have a unique name. Name for the port that can be referred to by services. */
   name?: string;
-  /** Protocol for port. Must be UDP, TCP, or SCTP. Defaults to "TCP". */
+  /** protocol is the protocol for port. Must be UDP, TCP, or SCTP. Defaults to "TCP". */
   protocol?: string;
 }
 export const IoK8sApiCoreV1ContainerPort = /*@__PURE__*/ S.suspend(() =>
@@ -1027,7 +1013,7 @@ export const IoK8sApiCoreV1ContainerPort = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiCoreV1ContainerPort",
 }) as any as S.Schema<IoK8sApiCoreV1ContainerPort>;
 
-/** List of ports to expose from the container. Not specifying a port here DOES NOT prevent that port from being exposed. Any port which is listening on the default "0.0.0.0" address inside a container will be accessible from the network. Modifying this array with strategic merge patch may corrupt the data. For more information See https://github.com/kubernetes/kubernetes/issues/108255. Cannot be updated. */
+/** ports is the list of ports to expose from the container. Not specifying a port here DOES NOT prevent that port from being exposed. Any port which is listening on the default "0.0.0.0" address inside a container will be accessible from the network. Modifying this array with strategic merge patch may corrupt the data. For more information See https://github.com/kubernetes/kubernetes/issues/108255. Cannot be updated. */
 export type IoK8sApiCoreV1ContainerPortsList = Array<IoK8sApiCoreV1ContainerPort>;
 export const IoK8sApiCoreV1ContainerPortsList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1ContainerPort,
@@ -1035,9 +1021,9 @@ export const IoK8sApiCoreV1ContainerPortsList = /*@__PURE__*/ S.Array(
 
 /** ContainerResizePolicy represents resource resize policy for the container. */
 export interface IoK8sApiCoreV1ContainerResizePolicy {
-  /** Name of the resource to which this resource resize policy applies. Supported values: cpu, memory. */
+  /** resourceName is the name of the resource to which this resource resize policy applies. Supported values: cpu, memory. */
   resourceName: string;
-  /** Restart policy to apply when specified resource is resized. If not specified, it defaults to NotRequired. */
+  /** restartPolicy is the restart policy to apply when specified resource is resized. If not specified, it defaults to NotRequired. */
   restartPolicy: string;
 }
 export const IoK8sApiCoreV1ContainerResizePolicy = /*@__PURE__*/ S.suspend(() =>
@@ -1049,7 +1035,7 @@ export const IoK8sApiCoreV1ContainerResizePolicy = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiCoreV1ContainerResizePolicy",
 }) as any as S.Schema<IoK8sApiCoreV1ContainerResizePolicy>;
 
-/** Resources resize policy for the container. This field cannot be set on ephemeral containers. */
+/** resizePolicy is the resize policy for the container. This field cannot be set on ephemeral containers. */
 export type IoK8sApiCoreV1ContainerResizePolicyList = Array<IoK8sApiCoreV1ContainerResizePolicy>;
 export const IoK8sApiCoreV1ContainerResizePolicyList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1ContainerResizePolicy,
@@ -1057,9 +1043,9 @@ export const IoK8sApiCoreV1ContainerResizePolicyList = /*@__PURE__*/ S.Array(
 
 /** ResourceClaim references one entry in PodSpec.ResourceClaims. */
 export interface IoK8sApiCoreV1ResourceClaim {
-  /** Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container. */
+  /** name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container. */
   name: string;
-  /** Request is the name chosen for a request in the referenced claim. If empty, everything from the claim is made available, otherwise only the result of this request. */
+  /** request is the name chosen for a request in the referenced claim. If empty, everything from the claim is made available, otherwise only the result of this request. */
   request?: string;
 }
 export const IoK8sApiCoreV1ResourceClaim = /*@__PURE__*/ S.suspend(() =>
@@ -1071,25 +1057,21 @@ export const IoK8sApiCoreV1ResourceClaim = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiCoreV1ResourceClaim",
 }) as any as S.Schema<IoK8sApiCoreV1ResourceClaim>;
 
-/** Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. This field depends on the DynamicResourceAllocation feature gate. This field is immutable. It can only be set for containers. */
+/** claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. This field is immutable. It can only be set for containers. */
 export type IoK8sApiCoreV1ResourceRequirementsClaimsList = Array<IoK8sApiCoreV1ResourceClaim>;
 export const IoK8sApiCoreV1ResourceRequirementsClaimsList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1ResourceClaim,
 ) as any as S.Schema<IoK8sApiCoreV1ResourceRequirementsClaimsList>;
 
-/** Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
-export type IoK8sApiCoreV1ResourceRequirementsLimitsMap = {
-  [key: string]: string | undefined;
-};
+/** limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
+export type IoK8sApiCoreV1ResourceRequirementsLimitsMap = { [key: string]: string | undefined };
 export const IoK8sApiCoreV1ResourceRequirementsLimitsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<IoK8sApiCoreV1ResourceRequirementsLimitsMap>;
 
-/** Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
-export type IoK8sApiCoreV1ResourceRequirementsRequestsMap = {
-  [key: string]: string | undefined;
-};
+/** requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
+export type IoK8sApiCoreV1ResourceRequirementsRequestsMap = { [key: string]: string | undefined };
 export const IoK8sApiCoreV1ResourceRequirementsRequestsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1097,11 +1079,11 @@ export const IoK8sApiCoreV1ResourceRequirementsRequestsMap = /*@__PURE__*/ S.Rec
 
 /** ResourceRequirements describes the compute resource requirements. */
 export interface IoK8sApiCoreV1ResourceRequirements {
-  /** Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. This field depends on the DynamicResourceAllocation feature gate. This field is immutable. It can only be set for containers. */
+  /** claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. This field is immutable. It can only be set for containers. */
   claims?: IoK8sApiCoreV1ResourceRequirementsClaimsList;
-  /** Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
+  /** limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
   limits?: IoK8sApiCoreV1ResourceRequirementsLimitsMap;
-  /** Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
+  /** requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
   requests?: IoK8sApiCoreV1ResourceRequirementsRequestsMap;
 }
 export const IoK8sApiCoreV1ResourceRequirements = /*@__PURE__*/ S.suspend(() =>
@@ -1114,7 +1096,7 @@ export const IoK8sApiCoreV1ResourceRequirements = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiCoreV1ResourceRequirements",
 }) as any as S.Schema<IoK8sApiCoreV1ResourceRequirements>;
 
-/** Specifies the set of values to check for container exit codes. At most 255 elements are allowed. */
+/** values specifies the set of values to check for container exit codes. At most 255 elements are allowed. */
 export type IoK8sApiCoreV1ContainerRestartRuleOnExitCodesValuesList = Array<number>;
 export const IoK8sApiCoreV1ContainerRestartRuleOnExitCodesValuesList = /*@__PURE__*/ S.Array(
   S.Number,
@@ -1122,9 +1104,9 @@ export const IoK8sApiCoreV1ContainerRestartRuleOnExitCodesValuesList = /*@__PURE
 
 /** ContainerRestartRuleOnExitCodes describes the condition for handling an exited container based on its exit codes. */
 export interface IoK8sApiCoreV1ContainerRestartRuleOnExitCodes {
-  /** Represents the relationship between the container exit code(s) and the specified values. Possible values are: - In: the requirement is satisfied if the container exit code is in the set of specified values. - NotIn: the requirement is satisfied if the container exit code is not in the set of specified values. */
+  /** operator represents the relationship between the container exit code(s) and the specified values. Possible values are: - In: the requirement is satisfied if the container exit code is in the set of specified values. - NotIn: the requirement is satisfied if the container exit code is not in the set of specified values. */
   operator: string;
-  /** Specifies the set of values to check for container exit codes. At most 255 elements are allowed. */
+  /** values specifies the set of values to check for container exit codes. At most 255 elements are allowed. */
   values?: IoK8sApiCoreV1ContainerRestartRuleOnExitCodesValuesList;
 }
 export const IoK8sApiCoreV1ContainerRestartRuleOnExitCodes = /*@__PURE__*/ S.suspend(() =>
@@ -1138,9 +1120,9 @@ export const IoK8sApiCoreV1ContainerRestartRuleOnExitCodes = /*@__PURE__*/ S.sus
 
 /** ContainerRestartRule describes how a container exit is handled. */
 export interface IoK8sApiCoreV1ContainerRestartRule {
-  /** Specifies the action taken on a container exit if the requirements are satisfied. The only possible value is "Restart" to restart the container. */
+  /** action specifies the action taken on a container exit if the requirements are satisfied. The only possible value is "Restart" to restart the container. */
   action: string;
-  /** Represents the exit codes to check on container exits. */
+  /** exitCodes represents the exit codes to check on container exits. */
   exitCodes?: IoK8sApiCoreV1ContainerRestartRuleOnExitCodes;
 }
 export const IoK8sApiCoreV1ContainerRestartRule = /*@__PURE__*/ S.suspend(() =>
@@ -1152,7 +1134,7 @@ export const IoK8sApiCoreV1ContainerRestartRule = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiCoreV1ContainerRestartRule",
 }) as any as S.Schema<IoK8sApiCoreV1ContainerRestartRule>;
 
-/** Represents a list of rules to be checked to determine if the container should be restarted on exit. The rules are evaluated in order. Once a rule matches a container exit condition, the remaining rules are ignored. If no rule matches the container exit condition, the Container-level restart policy determines the whether the container is restarted or not. Constraints on the rules: - At most 20 rules are allowed. - Rules can have the same action. - Identical rules are not forbidden in validations. When rules are specified, container MUST set RestartPolicy explicitly even it if matches the Pod's RestartPolicy. */
+/** restartPolicyRules represents a list of rules to be checked to determine if the container should be restarted on exit. The rules are evaluated in order. Once a rule matches a container exit condition, the remaining rules are ignored. If no rule matches the container exit condition, the Container-level restart policy determines the whether the container is restarted or not. Constraints on the rules: - At most 20 rules are allowed. - Rules can have the same action. - Identical rules are not forbidden in validations. When rules are specified, container MUST set RestartPolicy explicitly even it if matches the Pod's RestartPolicy. */
 export type IoK8sApiCoreV1ContainerRestartPolicyRulesList =
   Array<IoK8sApiCoreV1ContainerRestartRule>;
 export const IoK8sApiCoreV1ContainerRestartPolicyRulesList = /*@__PURE__*/ S.Array(
@@ -1175,13 +1157,13 @@ export const IoK8sApiCoreV1AppArmorProfile = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiCoreV1AppArmorProfile",
 }) as any as S.Schema<IoK8sApiCoreV1AppArmorProfile>;
 
-/** Added capabilities */
+/** add lists the capabilities to add to the container. */
 export type IoK8sApiCoreV1CapabilitiesAddList = Array<string>;
 export const IoK8sApiCoreV1CapabilitiesAddList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<IoK8sApiCoreV1CapabilitiesAddList>;
 
-/** Removed capabilities */
+/** drop lists the capabilities to remove from the container. */
 export type IoK8sApiCoreV1CapabilitiesDropList = Array<string>;
 export const IoK8sApiCoreV1CapabilitiesDropList = /*@__PURE__*/ S.Array(
   S.String,
@@ -1189,9 +1171,9 @@ export const IoK8sApiCoreV1CapabilitiesDropList = /*@__PURE__*/ S.Array(
 
 /** Adds and removes POSIX capabilities from running containers. */
 export interface IoK8sApiCoreV1Capabilities {
-  /** Added capabilities */
+  /** add lists the capabilities to add to the container. */
   add?: IoK8sApiCoreV1CapabilitiesAddList;
-  /** Removed capabilities */
+  /** drop lists the capabilities to remove from the container. */
   drop?: IoK8sApiCoreV1CapabilitiesDropList;
 }
 export const IoK8sApiCoreV1Capabilities = /*@__PURE__*/ S.suspend(() =>
@@ -1205,13 +1187,13 @@ export const IoK8sApiCoreV1Capabilities = /*@__PURE__*/ S.suspend(() =>
 
 /** SELinuxOptions are the labels to be applied to the container */
 export interface IoK8sApiCoreV1SELinuxOptions {
-  /** Level is SELinux level label that applies to the container. */
+  /** level is SELinux level label that applies to the container. */
   level?: string;
-  /** Role is a SELinux role label that applies to the container. */
+  /** role is a SELinux role label that applies to the container. */
   role?: string;
-  /** Type is a SELinux type label that applies to the container. */
+  /** type is a SELinux type label that applies to the container. */
   type?: string;
-  /** User is a SELinux user label that applies to the container. */
+  /** user is a SELinux user label that applies to the container. */
   user?: string;
 }
 export const IoK8sApiCoreV1SELinuxOptions = /*@__PURE__*/ S.suspend(() =>
@@ -1243,13 +1225,13 @@ export const IoK8sApiCoreV1SeccompProfile = /*@__PURE__*/ S.suspend(() =>
 
 /** WindowsSecurityContextOptions contain Windows-specific options and credentials. */
 export interface IoK8sApiCoreV1WindowsSecurityContextOptions {
-  /** GMSACredentialSpec is where the GMSA admission webhook (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the GMSA credential spec named by the GMSACredentialSpecName field. */
+  /** gmsaCredentialSpec is where the GMSA admission webhook (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the GMSA credential spec named by the GMSACredentialSpecName field. */
   gmsaCredentialSpec?: string;
-  /** GMSACredentialSpecName is the name of the GMSA credential spec to use. */
+  /** gmsaCredentialSpecName is the name of the GMSA credential spec to use. */
   gmsaCredentialSpecName?: string;
-  /** HostProcess determines if a container should be run as a 'Host Process' container. All of a Pod's containers must have the same effective HostProcess value (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers). In addition, if HostProcess is true then HostNetwork must also be set to true. */
+  /** hostProcess determines if a container should be run as a 'Host Process' container. All of a Pod's containers must have the same effective HostProcess value (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers). In addition, if HostProcess is true then HostNetwork must also be set to true. */
   hostProcess?: boolean;
-  /** The UserName in Windows to run the entrypoint of the container process. Defaults to the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. */
+  /** runAsUserName is the UserName in Windows to run the entrypoint of the container process. Defaults to the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. */
   runAsUserName?: string;
 }
 export const IoK8sApiCoreV1WindowsSecurityContextOptions = /*@__PURE__*/ S.suspend(() =>
@@ -1265,29 +1247,29 @@ export const IoK8sApiCoreV1WindowsSecurityContextOptions = /*@__PURE__*/ S.suspe
 
 /** SecurityContext holds security configuration that will be applied to a container. Some fields are present in both SecurityContext and PodSecurityContext. When both are set, the values in SecurityContext take precedence. */
 export interface IoK8sApiCoreV1SecurityContext {
-  /** AllowPrivilegeEscalation controls whether a process can gain more privileges than its parent process. This bool directly controls if the no_new_privs flag will be set on the container process. AllowPrivilegeEscalation is true always when the container is: 1) run as Privileged 2) has CAP_SYS_ADMIN Note that this field cannot be set when spec.os.name is windows. */
+  /** allowPrivilegeEscalation controls whether a process can gain more privileges than its parent process. This bool directly controls if the no_new_privs flag will be set on the container process. AllowPrivilegeEscalation is true always when the container is: 1) run as Privileged 2) has CAP_SYS_ADMIN Note that this field cannot be set when spec.os.name is windows. */
   allowPrivilegeEscalation?: boolean;
   /** appArmorProfile is the AppArmor options to use by this container. If set, this profile overrides the pod's appArmorProfile. Note that this field cannot be set when spec.os.name is windows. */
   appArmorProfile?: IoK8sApiCoreV1AppArmorProfile;
-  /** The capabilities to add/drop when running containers. Defaults to the default set of capabilities granted by the container runtime. Note that this field cannot be set when spec.os.name is windows. */
+  /** capabilities is the capabilities to add/drop when running containers. Defaults to the default set of capabilities granted by the container runtime. Note that this field cannot be set when spec.os.name is windows. */
   capabilities?: IoK8sApiCoreV1Capabilities;
-  /** Run container in privileged mode. Processes in privileged containers are essentially equivalent to root on the host. Defaults to false. Note that this field cannot be set when spec.os.name is windows. */
+  /** privileged indicates whether to run container in privileged mode. Processes in privileged containers are essentially equivalent to root on the host. Defaults to false. Note that this field cannot be set when spec.os.name is windows. */
   privileged?: boolean;
   /** procMount denotes the type of proc mount to use for the containers. The default value is Default which uses the container runtime defaults for readonly paths and masked paths. Note that this field cannot be set when spec.os.name is windows. */
   procMount?: string;
-  /** Whether this container has a read-only root filesystem. Default is false. Note that this field cannot be set when spec.os.name is windows. */
+  /** readOnlyRootFilesystem indicates whether this container has a read-only root filesystem. Default is false. Note that this field cannot be set when spec.os.name is windows. */
   readOnlyRootFilesystem?: boolean;
-  /** The GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows. */
+  /** runAsGroup is the GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows. */
   runAsGroup?: number;
-  /** Indicates that the container must run as a non-root user. If true, the Kubelet will validate the image at runtime to ensure that it does not run as UID 0 (root) and fail to start the container if it does. If unset or false, no such validation will be performed. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. */
+  /** runAsNonRoot indicates that the container must run as a non-root user. If true, the Kubelet will validate the image at runtime to ensure that it does not run as UID 0 (root) and fail to start the container if it does. If unset or false, no such validation will be performed. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. */
   runAsNonRoot?: boolean;
-  /** The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows. */
+  /** runAsUser is the UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows. */
   runAsUser?: number;
-  /** The SELinux context to be applied to the container. If unspecified, the container runtime will allocate a random SELinux context for each container. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows. */
+  /** seLinuxOptions is the SELinux context to be applied to the container. If unspecified, the container runtime will allocate a random SELinux context for each container. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows. */
   seLinuxOptions?: IoK8sApiCoreV1SELinuxOptions;
-  /** The seccomp options to use by this container. If seccomp options are provided at both the pod & container level, the container options override the pod options. Note that this field cannot be set when spec.os.name is windows. */
+  /** seccompProfile is the seccomp options to use by this container. If seccomp options are provided at both the pod & container level, the container options override the pod options. Note that this field cannot be set when spec.os.name is windows. */
   seccompProfile?: IoK8sApiCoreV1SeccompProfile;
-  /** The Windows specific settings applied to all containers. If unspecified, the options from the PodSecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux. */
+  /** windowsOptions is the Windows specific settings applied to all containers. If unspecified, the options from the PodSecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux. */
   windowsOptions?: IoK8sApiCoreV1WindowsSecurityContextOptions;
 }
 export const IoK8sApiCoreV1SecurityContext = /*@__PURE__*/ S.suspend(() =>
@@ -1341,19 +1323,19 @@ export const IoK8sApiCoreV1VolumeMountBindMountOptionsList = /*@__PURE__*/ S.Arr
 export interface IoK8sApiCoreV1VolumeMount {
   /** bindMountOptions is the list of additional bind mount options to apply when mounting this volume into the container. Allowed values are noexec, nodev, and nosuid. These are Linux mount options and have no effect on Windows nodes. This field is not supported with image volumes. This is an alpha field and requires enabling the VolumeBindMountOptions feature gate. */
   bindMountOptions?: IoK8sApiCoreV1VolumeMountBindMountOptionsList;
-  /** Path within the container at which the volume should be mounted. */
+  /** mountPath is the path within the container at which the volume should be mounted. */
   mountPath: string;
   /** mountPropagation determines how mounts are propagated from the host to container and the other way around. When not set, MountPropagationNone is used. This field is beta in 1.10. When RecursiveReadOnly is set to IfPossible or to Enabled, MountPropagation must be None or unspecified (which defaults to None). */
   mountPropagation?: string;
-  /** This must match the Name of a Volume. */
+  /** name must match the Name of a Volume. */
   name: string;
-  /** Mounted read-only if true, read-write otherwise (false or unspecified). Defaults to false. */
+  /** readOnly mounted read-only if true, read-write otherwise (false or unspecified). Defaults to false. */
   readOnly?: boolean;
-  /** RecursiveReadOnly specifies whether read-only mounts should be handled recursively. If ReadOnly is false, this field has no meaning and must be unspecified. If ReadOnly is true, and this field is set to Disabled, the mount is not made recursively read-only. If this field is set to IfPossible, the mount is made recursively read-only, if it is supported by the container runtime. If this field is set to Enabled, the mount is made recursively read-only if it is supported by the container runtime, otherwise the pod will not be started and an error will be generated to indicate the reason. If this field is set to IfPossible or Enabled, MountPropagation must be set to None (or be unspecified, which defaults to None). If this field is not specified, it is treated as an equivalent of Disabled. */
+  /** recursiveReadOnly specifies whether read-only mounts should be handled recursively. If ReadOnly is false, this field has no meaning and must be unspecified. If ReadOnly is true, and this field is set to Disabled, the mount is not made recursively read-only. If this field is set to IfPossible, the mount is made recursively read-only, if it is supported by the container runtime. If this field is set to Enabled, the mount is made recursively read-only if it is supported by the container runtime, otherwise the pod will not be started and an error will be generated to indicate the reason. If this field is set to IfPossible or Enabled, MountPropagation must be set to None (or be unspecified, which defaults to None). If this field is not specified, it is treated as an equivalent of Disabled. */
   recursiveReadOnly?: string;
-  /** Path within the volume from which the container's volume should be mounted. Defaults to "" (volume's root). */
+  /** subPath is the path within the volume from which the container's volume should be mounted. Defaults to "" (volume's root). */
   subPath?: string;
-  /** Expanded path within the volume from which the container's volume should be mounted. Behaves similarly to SubPath but environment variable references $(VAR_NAME) are expanded using the container's environment. Defaults to "" (volume's root). SubPathExpr and SubPath are mutually exclusive. */
+  /** subPathExpr is the expanded path within the volume from which the container's volume should be mounted. Behaves similarly to SubPath but environment variable references $(VAR_NAME) are expanded using the container's environment. Defaults to "" (volume's root). SubPathExpr and SubPath are mutually exclusive. */
   subPathExpr?: string;
 }
 export const IoK8sApiCoreV1VolumeMount = /*@__PURE__*/ S.suspend(() =>
@@ -1371,7 +1353,7 @@ export const IoK8sApiCoreV1VolumeMount = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiCoreV1VolumeMount",
 }) as any as S.Schema<IoK8sApiCoreV1VolumeMount>;
 
-/** Pod volumes to mount into the container's filesystem. Cannot be updated. */
+/** volumeMounts are the pod volumes to mount into the container's filesystem. Cannot be updated. */
 export type IoK8sApiCoreV1ContainerVolumeMountsList = Array<IoK8sApiCoreV1VolumeMount>;
 export const IoK8sApiCoreV1ContainerVolumeMountsList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1VolumeMount,
@@ -1379,55 +1361,55 @@ export const IoK8sApiCoreV1ContainerVolumeMountsList = /*@__PURE__*/ S.Array(
 
 /** A single application container that you want to run within a pod. */
 export interface IoK8sApiCoreV1Container {
-  /** Arguments to the entrypoint. The container image's CMD is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell */
+  /** args are the arguments to the entrypoint. The container image's CMD is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell */
   args?: IoK8sApiCoreV1ContainerArgsList;
-  /** Entrypoint array. Not executed within a shell. The container image's ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell */
+  /** command is the entrypoint array. Not executed within a shell. The container image's ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell */
   command?: IoK8sApiCoreV1ContainerCommandList;
-  /** List of environment variables to set in the container. Cannot be updated. */
+  /** env is the list of environment variables to set in the container. Cannot be updated. */
   env?: IoK8sApiCoreV1ContainerEnvList;
-  /** List of sources to populate environment variables in the container. The keys defined within a source may consist of any printable ASCII characters except '='. When a key exists in multiple sources, the value associated with the last source will take precedence. Values defined by an Env with a duplicate key will take precedence. Cannot be updated. */
+  /** envFrom is the list of sources to populate environment variables in the container. The keys defined within a source may consist of any printable ASCII characters except '='. When a key exists in multiple sources, the value associated with the last source will take precedence. Values defined by an Env with a duplicate key will take precedence. Cannot be updated. */
   envFrom?: IoK8sApiCoreV1ContainerEnvFromList;
-  /** Container image name. More info: https://kubernetes.io/docs/concepts/containers/images This field is optional to allow higher level config management to default or override container images in workload controllers like Deployments and StatefulSets. */
+  /** image is the container image name. More info: https://kubernetes.io/docs/concepts/containers/images This field is optional to allow higher level config management to default or override container images in workload controllers like Deployments and StatefulSets. */
   image?: string;
-  /** Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. Cannot be updated. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images */
+  /** imagePullPolicy is the image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. Cannot be updated. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images */
   imagePullPolicy?: string;
-  /** Actions that the management system should take in response to container lifecycle events. Cannot be updated. */
+  /** lifecycle are the actions that the management system should take in response to container lifecycle events. Cannot be updated. */
   lifecycle?: IoK8sApiCoreV1Lifecycle;
-  /** Periodic probe of container liveness. Container will be restarted if the probe fails. Cannot be updated. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes */
+  /** livenessProbe is the periodic probe of container liveness. Container will be restarted if the probe fails. Cannot be updated. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes */
   livenessProbe?: IoK8sApiCoreV1Probe;
-  /** Name of the container specified as a DNS_LABEL. Each container in a pod must have a unique name (DNS_LABEL). Cannot be updated. */
+  /** name of the container specified as a DNS_LABEL. Each container in a pod must have a unique name (DNS_LABEL). Cannot be updated. */
   name: string;
-  /** List of ports to expose from the container. Not specifying a port here DOES NOT prevent that port from being exposed. Any port which is listening on the default "0.0.0.0" address inside a container will be accessible from the network. Modifying this array with strategic merge patch may corrupt the data. For more information See https://github.com/kubernetes/kubernetes/issues/108255. Cannot be updated. */
+  /** ports is the list of ports to expose from the container. Not specifying a port here DOES NOT prevent that port from being exposed. Any port which is listening on the default "0.0.0.0" address inside a container will be accessible from the network. Modifying this array with strategic merge patch may corrupt the data. For more information See https://github.com/kubernetes/kubernetes/issues/108255. Cannot be updated. */
   ports?: IoK8sApiCoreV1ContainerPortsList;
-  /** Periodic probe of container service readiness. Container will be removed from service endpoints if the probe fails. Cannot be updated. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes */
+  /** readinessProbe is the periodic probe of container service readiness. Container will be removed from service endpoints if the probe fails. Cannot be updated. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes */
   readinessProbe?: IoK8sApiCoreV1Probe;
-  /** Resources resize policy for the container. This field cannot be set on ephemeral containers. */
+  /** resizePolicy is the resize policy for the container. This field cannot be set on ephemeral containers. */
   resizePolicy?: IoK8sApiCoreV1ContainerResizePolicyList;
-  /** Compute Resources required by this container. Cannot be updated. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
+  /** resources is the compute Resources required by this container. Cannot be updated. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
   resources?: IoK8sApiCoreV1ResourceRequirements;
-  /** RestartPolicy defines the restart behavior of individual containers in a pod. This overrides the pod-level restart policy. When this field is not specified, the restart behavior is defined by the Pod's restart policy and the container type. Additionally, setting the RestartPolicy as "Always" for the init container will have the following effect: this init container will be continually restarted on exit until all regular containers have terminated. Once all regular containers have completed, all init containers with restartPolicy "Always" will be shut down. This lifecycle differs from normal init containers and is often referred to as a "sidecar" container. Although this init container still starts in the init container sequence, it does not wait for the container to complete before proceeding to the next init container. Instead, the next init container starts immediately after this init container is started, or after any startupProbe has successfully completed. */
+  /** restartPolicy defines the restart behavior of individual containers in a pod. This overrides the pod-level restart policy. When this field is not specified, the restart behavior is defined by the Pod's restart policy and the container type. Additionally, setting the RestartPolicy as "Always" for the init container will have the following effect: this init container will be continually restarted on exit until all regular containers have terminated. Once all regular containers have completed, all init containers with restartPolicy "Always" will be shut down. This lifecycle differs from normal init containers and is often referred to as a "sidecar" container. Although this init container still starts in the init container sequence, it does not wait for the container to complete before proceeding to the next init container. Instead, the next init container starts immediately after this init container is started, or after any startupProbe has successfully completed. */
   restartPolicy?: string;
-  /** Represents a list of rules to be checked to determine if the container should be restarted on exit. The rules are evaluated in order. Once a rule matches a container exit condition, the remaining rules are ignored. If no rule matches the container exit condition, the Container-level restart policy determines the whether the container is restarted or not. Constraints on the rules: - At most 20 rules are allowed. - Rules can have the same action. - Identical rules are not forbidden in validations. When rules are specified, container MUST set RestartPolicy explicitly even it if matches the Pod's RestartPolicy. */
+  /** restartPolicyRules represents a list of rules to be checked to determine if the container should be restarted on exit. The rules are evaluated in order. Once a rule matches a container exit condition, the remaining rules are ignored. If no rule matches the container exit condition, the Container-level restart policy determines the whether the container is restarted or not. Constraints on the rules: - At most 20 rules are allowed. - Rules can have the same action. - Identical rules are not forbidden in validations. When rules are specified, container MUST set RestartPolicy explicitly even it if matches the Pod's RestartPolicy. */
   restartPolicyRules?: IoK8sApiCoreV1ContainerRestartPolicyRulesList;
-  /** SecurityContext defines the security options the container should be run with. If set, the fields of SecurityContext override the equivalent fields of PodSecurityContext. More info: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/ */
+  /** securityContext defines the security options the container should be run with. If set, the fields of SecurityContext override the equivalent fields of PodSecurityContext. More info: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/ */
   securityContext?: IoK8sApiCoreV1SecurityContext;
-  /** StartupProbe indicates that the Pod has successfully initialized. If specified, no other probes are executed until this completes successfully. If this probe fails, the Pod will be restarted, just as if the livenessProbe failed. This can be used to provide different probe parameters at the beginning of a Pod's lifecycle, when it might take a long time to load data or warm a cache, than during steady-state operation. This cannot be updated. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes */
+  /** startupProbe indicates that the Pod has successfully initialized. If specified, no other probes are executed until this completes successfully. If this probe fails, the Pod will be restarted, just as if the livenessProbe failed. This can be used to provide different probe parameters at the beginning of a Pod's lifecycle, when it might take a long time to load data or warm a cache, than during steady-state operation. This cannot be updated. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes */
   startupProbe?: IoK8sApiCoreV1Probe;
-  /** Whether this container should allocate a buffer for stdin in the container runtime. If this is not set, reads from stdin in the container will always result in EOF. Default is false. */
+  /** stdin indicates whether this container should allocate a buffer for stdin in the container runtime. If this is not set, reads from stdin in the container will always result in EOF. Default is false. */
   stdin?: boolean;
-  /** Whether the container runtime should close the stdin channel after it has been opened by a single attach. When stdin is true the stdin stream will remain open across multiple attach sessions. If stdinOnce is set to true, stdin is opened on container start, is empty until the first client attaches to stdin, and then remains open and accepts data until the client disconnects, at which time stdin is closed and remains closed until the container is restarted. If this flag is false, a container processes that reads from stdin will never receive an EOF. Default is false */
+  /** stdinOnce indicates whether the container runtime should close the stdin channel after it has been opened by a single attach. When stdin is true the stdin stream will remain open across multiple attach sessions. If stdinOnce is set to true, stdin is opened on container start, is empty until the first client attaches to stdin, and then remains open and accepts data until the client disconnects, at which time stdin is closed and remains closed until the container is restarted. If this flag is false, a container processes that reads from stdin will never receive an EOF. Default is false */
   stdinOnce?: boolean;
-  /** Optional: Path at which the file to which the container's termination message will be written is mounted into the container's filesystem. Message written is intended to be brief final status, such as an assertion failure message. Will be truncated by the node if greater than 4096 bytes. The total message length across all containers will be limited to 12kb. Defaults to /dev/termination-log. Cannot be updated. */
+  /** terminationMessagePath is the optional path at which the file to which the container's termination message will be written is mounted into the container's filesystem. Message written is intended to be brief final status, such as an assertion failure message. Will be truncated by the node if greater than 4096 bytes. The total message length across all containers will be limited to 12kb. Defaults to /dev/termination-log. Cannot be updated. */
   terminationMessagePath?: string;
-  /** Indicate how the termination message should be populated. File will use the contents of terminationMessagePath to populate the container status message on both success and failure. FallbackToLogsOnError will use the last chunk of container log output if the termination message file is empty and the container exited with an error. The log output is limited to 2048 bytes or 80 lines, whichever is smaller. Defaults to File. Cannot be updated. */
+  /** terminationMessagePolicy indicates how the termination message should be populated. File will use the contents of terminationMessagePath to populate the container status message on both success and failure. FallbackToLogsOnError will use the last chunk of container log output if the termination message file is empty and the container exited with an error. The log output is limited to 2048 bytes or 80 lines, whichever is smaller. Defaults to File. Cannot be updated. */
   terminationMessagePolicy?: string;
-  /** Whether this container should allocate a TTY for itself, also requires 'stdin' to be true. Default is false. */
+  /** tty indicates whether this container should allocate a TTY for itself, also requires 'stdin' to be true. Default is false. */
   tty?: boolean;
   /** volumeDevices is the list of block devices to be used by the container. */
   volumeDevices?: IoK8sApiCoreV1ContainerVolumeDevicesList;
-  /** Pod volumes to mount into the container's filesystem. Cannot be updated. */
+  /** volumeMounts are the pod volumes to mount into the container's filesystem. Cannot be updated. */
   volumeMounts?: IoK8sApiCoreV1ContainerVolumeMountsList;
-  /** Container's working directory. If not specified, the container runtime's default will be used, which might be configured in the container image. Cannot be updated. */
+  /** workingDir is the Container's working directory. If not specified, the container runtime's default will be used, which might be configured in the container image. Cannot be updated. */
   workingDir?: string;
 }
 export const IoK8sApiCoreV1Container = /*@__PURE__*/ S.suspend(() =>
@@ -1458,17 +1440,15 @@ export const IoK8sApiCoreV1Container = /*@__PURE__*/ S.suspend(() =>
     volumeMounts: S.optional(IoK8sApiCoreV1ContainerVolumeMountsList),
     workingDir: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IoK8sApiCoreV1Container",
-}) as any as S.Schema<IoK8sApiCoreV1Container>;
+).annotate({ identifier: "IoK8sApiCoreV1Container" }) as any as S.Schema<IoK8sApiCoreV1Container>;
 
-/** List of containers belonging to the pod. Containers cannot currently be added or removed. There must be at least one container in a Pod. Cannot be updated. */
+/** containers is the list of containers belonging to the pod. Containers cannot currently be added or removed. There must be at least one container in a Pod. Cannot be updated. */
 export type IoK8sApiCoreV1PodSpecContainersList = Array<IoK8sApiCoreV1Container>;
 export const IoK8sApiCoreV1PodSpecContainersList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1Container,
 ) as any as S.Schema<IoK8sApiCoreV1PodSpecContainersList>;
 
-/** A list of DNS name server IP addresses. This will be appended to the base nameservers generated from DNSPolicy. Duplicated nameservers will be removed. */
+/** nameservers is a list of DNS name server IP addresses. This will be appended to the base nameservers generated from DNSPolicy. Duplicated nameservers will be removed. */
 export type IoK8sApiCoreV1PodDNSConfigNameserversList = Array<string>;
 export const IoK8sApiCoreV1PodDNSConfigNameserversList = /*@__PURE__*/ S.Array(
   S.String,
@@ -1476,9 +1456,9 @@ export const IoK8sApiCoreV1PodDNSConfigNameserversList = /*@__PURE__*/ S.Array(
 
 /** PodDNSConfigOption defines DNS resolver options of a pod. */
 export interface IoK8sApiCoreV1PodDNSConfigOption {
-  /** Name is this DNS resolver option's name. Required. */
+  /** name is this DNS resolver option's name. Required. */
   name?: string;
-  /** Value is this DNS resolver option's value. */
+  /** value is this DNS resolver option's value. */
   value?: string;
 }
 export const IoK8sApiCoreV1PodDNSConfigOption = /*@__PURE__*/ S.suspend(() =>
@@ -1490,13 +1470,13 @@ export const IoK8sApiCoreV1PodDNSConfigOption = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiCoreV1PodDNSConfigOption",
 }) as any as S.Schema<IoK8sApiCoreV1PodDNSConfigOption>;
 
-/** A list of DNS resolver options. This will be merged with the base options generated from DNSPolicy. Duplicated entries will be removed. Resolution options given in Options will override those that appear in the base DNSPolicy. */
+/** options is a list of DNS resolver options. This will be merged with the base options generated from DNSPolicy. Duplicated entries will be removed. Resolution options given in Options will override those that appear in the base DNSPolicy. */
 export type IoK8sApiCoreV1PodDNSConfigOptionsList = Array<IoK8sApiCoreV1PodDNSConfigOption>;
 export const IoK8sApiCoreV1PodDNSConfigOptionsList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1PodDNSConfigOption,
 ) as any as S.Schema<IoK8sApiCoreV1PodDNSConfigOptionsList>;
 
-/** A list of DNS search domains for host-name lookup. This will be appended to the base search paths generated from DNSPolicy. Duplicated search paths will be removed. */
+/** searches is a list of DNS search domains for host-name lookup. This will be appended to the base search paths generated from DNSPolicy. Duplicated search paths will be removed. */
 export type IoK8sApiCoreV1PodDNSConfigSearchesList = Array<string>;
 export const IoK8sApiCoreV1PodDNSConfigSearchesList = /*@__PURE__*/ S.Array(
   S.String,
@@ -1504,11 +1484,11 @@ export const IoK8sApiCoreV1PodDNSConfigSearchesList = /*@__PURE__*/ S.Array(
 
 /** PodDNSConfig defines the DNS parameters of a pod in addition to those generated from DNSPolicy. */
 export interface IoK8sApiCoreV1PodDNSConfig {
-  /** A list of DNS name server IP addresses. This will be appended to the base nameservers generated from DNSPolicy. Duplicated nameservers will be removed. */
+  /** nameservers is a list of DNS name server IP addresses. This will be appended to the base nameservers generated from DNSPolicy. Duplicated nameservers will be removed. */
   nameservers?: IoK8sApiCoreV1PodDNSConfigNameserversList;
-  /** A list of DNS resolver options. This will be merged with the base options generated from DNSPolicy. Duplicated entries will be removed. Resolution options given in Options will override those that appear in the base DNSPolicy. */
+  /** options is a list of DNS resolver options. This will be merged with the base options generated from DNSPolicy. Duplicated entries will be removed. Resolution options given in Options will override those that appear in the base DNSPolicy. */
   options?: IoK8sApiCoreV1PodDNSConfigOptionsList;
-  /** A list of DNS search domains for host-name lookup. This will be appended to the base search paths generated from DNSPolicy. Duplicated search paths will be removed. */
+  /** searches is a list of DNS search domains for host-name lookup. This will be appended to the base search paths generated from DNSPolicy. Duplicated search paths will be removed. */
   searches?: IoK8sApiCoreV1PodDNSConfigSearchesList;
 }
 export const IoK8sApiCoreV1PodDNSConfig = /*@__PURE__*/ S.suspend(() =>
@@ -1521,44 +1501,44 @@ export const IoK8sApiCoreV1PodDNSConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiCoreV1PodDNSConfig",
 }) as any as S.Schema<IoK8sApiCoreV1PodDNSConfig>;
 
-/** Arguments to the entrypoint. The image's CMD is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell */
+/** args are the arguments to the entrypoint. The image's CMD is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell */
 export type IoK8sApiCoreV1EphemeralContainerArgsList = Array<string>;
 export const IoK8sApiCoreV1EphemeralContainerArgsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<IoK8sApiCoreV1EphemeralContainerArgsList>;
 
-/** Entrypoint array. Not executed within a shell. The image's ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell */
+/** command is the entrypoint array. Not executed within a shell. The image's ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell */
 export type IoK8sApiCoreV1EphemeralContainerCommandList = Array<string>;
 export const IoK8sApiCoreV1EphemeralContainerCommandList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<IoK8sApiCoreV1EphemeralContainerCommandList>;
 
-/** List of environment variables to set in the container. Cannot be updated. */
+/** env is the list of environment variables to set in the container. Cannot be updated. */
 export type IoK8sApiCoreV1EphemeralContainerEnvList = Array<IoK8sApiCoreV1EnvVar>;
 export const IoK8sApiCoreV1EphemeralContainerEnvList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1EnvVar,
 ) as any as S.Schema<IoK8sApiCoreV1EphemeralContainerEnvList>;
 
-/** List of sources to populate environment variables in the container. The keys defined within a source may consist of any printable ASCII characters except '='. When a key exists in multiple sources, the value associated with the last source will take precedence. Values defined by an Env with a duplicate key will take precedence. Cannot be updated. */
+/** envFrom is the list of sources to populate environment variables in the container. The keys defined within a source may consist of any printable ASCII characters except '='. When a key exists in multiple sources, the value associated with the last source will take precedence. Values defined by an Env with a duplicate key will take precedence. Cannot be updated. */
 export type IoK8sApiCoreV1EphemeralContainerEnvFromList = Array<IoK8sApiCoreV1EnvFromSource>;
 export const IoK8sApiCoreV1EphemeralContainerEnvFromList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1EnvFromSource,
 ) as any as S.Schema<IoK8sApiCoreV1EphemeralContainerEnvFromList>;
 
-/** Ports are not allowed for ephemeral containers. */
+/** ports are not allowed for ephemeral containers. */
 export type IoK8sApiCoreV1EphemeralContainerPortsList = Array<IoK8sApiCoreV1ContainerPort>;
 export const IoK8sApiCoreV1EphemeralContainerPortsList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1ContainerPort,
 ) as any as S.Schema<IoK8sApiCoreV1EphemeralContainerPortsList>;
 
-/** Resources resize policy for the container. */
+/** resizePolicy is the resources resize policy for the container. */
 export type IoK8sApiCoreV1EphemeralContainerResizePolicyList =
   Array<IoK8sApiCoreV1ContainerResizePolicy>;
 export const IoK8sApiCoreV1EphemeralContainerResizePolicyList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1ContainerResizePolicy,
 ) as any as S.Schema<IoK8sApiCoreV1EphemeralContainerResizePolicyList>;
 
-/** Represents a list of rules to be checked to determine if the container should be restarted on exit. You cannot set this field on ephemeral containers. */
+/** restartPolicyRules represents a list of rules to be checked to determine if the container should be restarted on exit. You cannot set this field on ephemeral containers. */
 export type IoK8sApiCoreV1EphemeralContainerRestartPolicyRulesList =
   Array<IoK8sApiCoreV1ContainerRestartRule>;
 export const IoK8sApiCoreV1EphemeralContainerRestartPolicyRulesList = /*@__PURE__*/ S.Array(
@@ -1571,7 +1551,7 @@ export const IoK8sApiCoreV1EphemeralContainerVolumeDevicesList = /*@__PURE__*/ S
   IoK8sApiCoreV1VolumeDevice,
 ) as any as S.Schema<IoK8sApiCoreV1EphemeralContainerVolumeDevicesList>;
 
-/** Pod volumes to mount into the container's filesystem. Subpath mounts are not allowed for ephemeral containers. Cannot be updated. */
+/** volumeMounts are the pod volumes to mount into the container's filesystem. Subpath mounts are not allowed for ephemeral containers. Cannot be updated. */
 export type IoK8sApiCoreV1EphemeralContainerVolumeMountsList = Array<IoK8sApiCoreV1VolumeMount>;
 export const IoK8sApiCoreV1EphemeralContainerVolumeMountsList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1VolumeMount,
@@ -1579,57 +1559,57 @@ export const IoK8sApiCoreV1EphemeralContainerVolumeMountsList = /*@__PURE__*/ S.
 
 /** An EphemeralContainer is a temporary container that you may add to an existing Pod for user-initiated activities such as debugging. Ephemeral containers have no resource or scheduling guarantees, and they will not be restarted when they exit or when a Pod is removed or restarted. The kubelet may evict a Pod if an ephemeral container causes the Pod to exceed its resource allocation. To add an ephemeral container, use the ephemeralcontainers subresource of an existing Pod. Ephemeral containers may not be removed or restarted. */
 export interface IoK8sApiCoreV1EphemeralContainer {
-  /** Arguments to the entrypoint. The image's CMD is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell */
+  /** args are the arguments to the entrypoint. The image's CMD is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell */
   args?: IoK8sApiCoreV1EphemeralContainerArgsList;
-  /** Entrypoint array. Not executed within a shell. The image's ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell */
+  /** command is the entrypoint array. Not executed within a shell. The image's ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell */
   command?: IoK8sApiCoreV1EphemeralContainerCommandList;
-  /** List of environment variables to set in the container. Cannot be updated. */
+  /** env is the list of environment variables to set in the container. Cannot be updated. */
   env?: IoK8sApiCoreV1EphemeralContainerEnvList;
-  /** List of sources to populate environment variables in the container. The keys defined within a source may consist of any printable ASCII characters except '='. When a key exists in multiple sources, the value associated with the last source will take precedence. Values defined by an Env with a duplicate key will take precedence. Cannot be updated. */
+  /** envFrom is the list of sources to populate environment variables in the container. The keys defined within a source may consist of any printable ASCII characters except '='. When a key exists in multiple sources, the value associated with the last source will take precedence. Values defined by an Env with a duplicate key will take precedence. Cannot be updated. */
   envFrom?: IoK8sApiCoreV1EphemeralContainerEnvFromList;
-  /** Container image name. More info: https://kubernetes.io/docs/concepts/containers/images */
+  /** image is the container image name. More info: https://kubernetes.io/docs/concepts/containers/images */
   image?: string;
-  /** Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. Cannot be updated. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images */
+  /** imagePullPolicy is the image pull policy. One of Always, Never, IfNotPresent. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. Cannot be updated. More info: https://kubernetes.io/docs/concepts/containers/images#updating-images */
   imagePullPolicy?: string;
-  /** Lifecycle is not allowed for ephemeral containers. */
+  /** lifecycle is not allowed for ephemeral containers. */
   lifecycle?: IoK8sApiCoreV1Lifecycle;
-  /** Probes are not allowed for ephemeral containers. */
+  /** livenessProbe is not allowed for ephemeral containers. */
   livenessProbe?: IoK8sApiCoreV1Probe;
-  /** Name of the ephemeral container specified as a DNS_LABEL. This name must be unique among all containers, init containers and ephemeral containers. */
+  /** name of the ephemeral container specified as a DNS_LABEL. This name must be unique among all containers, init containers and ephemeral containers. */
   name: string;
-  /** Ports are not allowed for ephemeral containers. */
+  /** ports are not allowed for ephemeral containers. */
   ports?: IoK8sApiCoreV1EphemeralContainerPortsList;
-  /** Probes are not allowed for ephemeral containers. */
+  /** readinessProbe is not allowed for ephemeral containers. */
   readinessProbe?: IoK8sApiCoreV1Probe;
-  /** Resources resize policy for the container. */
+  /** resizePolicy is the resources resize policy for the container. */
   resizePolicy?: IoK8sApiCoreV1EphemeralContainerResizePolicyList;
-  /** Resources are not allowed for ephemeral containers. Ephemeral containers use spare resources already allocated to the pod. */
+  /** resources are not allowed for ephemeral containers. Ephemeral containers use spare resources already allocated to the pod. */
   resources?: IoK8sApiCoreV1ResourceRequirements;
-  /** Restart policy for the container to manage the restart behavior of each container within a pod. You cannot set this field on ephemeral containers. */
+  /** restartPolicy is the restart policy for the container to manage the restart behavior of each container within a pod. You cannot set this field on ephemeral containers. */
   restartPolicy?: string;
-  /** Represents a list of rules to be checked to determine if the container should be restarted on exit. You cannot set this field on ephemeral containers. */
+  /** restartPolicyRules represents a list of rules to be checked to determine if the container should be restarted on exit. You cannot set this field on ephemeral containers. */
   restartPolicyRules?: IoK8sApiCoreV1EphemeralContainerRestartPolicyRulesList;
-  /** Optional: SecurityContext defines the security options the ephemeral container should be run with. If set, the fields of SecurityContext override the equivalent fields of PodSecurityContext. */
+  /** securityContext is optional: SecurityContext defines the security options the ephemeral container should be run with. If set, the fields of SecurityContext override the equivalent fields of PodSecurityContext. */
   securityContext?: IoK8sApiCoreV1SecurityContext;
-  /** Probes are not allowed for ephemeral containers. */
+  /** startupProbe is not allowed for ephemeral containers. */
   startupProbe?: IoK8sApiCoreV1Probe;
-  /** Whether this container should allocate a buffer for stdin in the container runtime. If this is not set, reads from stdin in the container will always result in EOF. Default is false. */
+  /** stdin indicates whether this container should allocate a buffer for stdin in the container runtime. If this is not set, reads from stdin in the container will always result in EOF. Default is false. */
   stdin?: boolean;
-  /** Whether the container runtime should close the stdin channel after it has been opened by a single attach. When stdin is true the stdin stream will remain open across multiple attach sessions. If stdinOnce is set to true, stdin is opened on container start, is empty until the first client attaches to stdin, and then remains open and accepts data until the client disconnects, at which time stdin is closed and remains closed until the container is restarted. If this flag is false, a container processes that reads from stdin will never receive an EOF. Default is false */
+  /** stdinOnce indicates whether the container runtime should close the stdin channel after it has been opened by a single attach. When stdin is true the stdin stream will remain open across multiple attach sessions. If stdinOnce is set to true, stdin is opened on container start, is empty until the first client attaches to stdin, and then remains open and accepts data until the client disconnects, at which time stdin is closed and remains closed until the container is restarted. If this flag is false, a container processes that reads from stdin will never receive an EOF. Default is false */
   stdinOnce?: boolean;
-  /** If set, the name of the container from PodSpec that this ephemeral container targets. The ephemeral container will be run in the namespaces (IPC, PID, etc) of this container. If not set then the ephemeral container uses the namespaces configured in the Pod spec. The container runtime must implement support for this feature. If the runtime does not support namespace targeting then the result of setting this field is undefined. */
+  /** targetContainerName if set, the name of the container from PodSpec that this ephemeral container targets. The ephemeral container will be run in the namespaces (IPC, PID, etc) of this container. If not set then the ephemeral container uses the namespaces configured in the Pod spec. The container runtime must implement support for this feature. If the runtime does not support namespace targeting then the result of setting this field is undefined. */
   targetContainerName?: string;
-  /** Optional: Path at which the file to which the container's termination message will be written is mounted into the container's filesystem. Message written is intended to be brief final status, such as an assertion failure message. Will be truncated by the node if greater than 4096 bytes. The total message length across all containers will be limited to 12kb. Defaults to /dev/termination-log. Cannot be updated. */
+  /** terminationMessagePath is the optional path at which the file to which the container's termination message will be written is mounted into the container's filesystem. Message written is intended to be brief final status, such as an assertion failure message. Will be truncated by the node if greater than 4096 bytes. The total message length across all containers will be limited to 12kb. Defaults to /dev/termination-log. Cannot be updated. */
   terminationMessagePath?: string;
-  /** Indicate how the termination message should be populated. File will use the contents of terminationMessagePath to populate the container status message on both success and failure. FallbackToLogsOnError will use the last chunk of container log output if the termination message file is empty and the container exited with an error. The log output is limited to 2048 bytes or 80 lines, whichever is smaller. Defaults to File. Cannot be updated. */
+  /** terminationMessagePolicy indicates how the termination message should be populated. File will use the contents of terminationMessagePath to populate the container status message on both success and failure. FallbackToLogsOnError will use the last chunk of container log output if the termination message file is empty and the container exited with an error. The log output is limited to 2048 bytes or 80 lines, whichever is smaller. Defaults to File. Cannot be updated. */
   terminationMessagePolicy?: string;
-  /** Whether this container should allocate a TTY for itself, also requires 'stdin' to be true. Default is false. */
+  /** tty indicates whether this container should allocate a TTY for itself, also requires 'stdin' to be true. Default is false. */
   tty?: boolean;
   /** volumeDevices is the list of block devices to be used by the container. */
   volumeDevices?: IoK8sApiCoreV1EphemeralContainerVolumeDevicesList;
-  /** Pod volumes to mount into the container's filesystem. Subpath mounts are not allowed for ephemeral containers. Cannot be updated. */
+  /** volumeMounts are the pod volumes to mount into the container's filesystem. Subpath mounts are not allowed for ephemeral containers. Cannot be updated. */
   volumeMounts?: IoK8sApiCoreV1EphemeralContainerVolumeMountsList;
-  /** Container's working directory. If not specified, the container runtime's default will be used, which might be configured in the container image. Cannot be updated. */
+  /** workingDir is the container's working directory. If not specified, the container runtime's default will be used, which might be configured in the container image. Cannot be updated. */
   workingDir?: string;
 }
 export const IoK8sApiCoreV1EphemeralContainer = /*@__PURE__*/ S.suspend(() =>
@@ -1665,7 +1645,7 @@ export const IoK8sApiCoreV1EphemeralContainer = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiCoreV1EphemeralContainer",
 }) as any as S.Schema<IoK8sApiCoreV1EphemeralContainer>;
 
-/** List of ephemeral containers run in this pod. Ephemeral containers may be run in an existing pod to perform user-initiated actions such as debugging. This list cannot be specified when creating a pod, and it cannot be modified by updating the pod spec. In order to add an ephemeral container to an existing pod, use the pod's ephemeralcontainers subresource. */
+/** ephemeralContainers is the list of ephemeral containers run in this pod. Ephemeral containers may be run in an existing pod to perform user-initiated actions such as debugging. This list cannot be specified when creating a pod, and it cannot be modified by updating the pod spec. In order to add an ephemeral container to an existing pod, use the pod's ephemeralcontainers subresource. */
 export type IoK8sApiCoreV1PodSpecEphemeralContainersList = Array<IoK8sApiCoreV1EphemeralContainer>;
 export const IoK8sApiCoreV1PodSpecEphemeralContainersList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1EphemeralContainer,
@@ -1693,7 +1673,7 @@ export const IoK8sApiCoreV1PodSpecEvictionRespondersList = /*@__PURE__*/ S.Array
   IoK8sApiCoreV1EvictionResponder,
 ) as any as S.Schema<IoK8sApiCoreV1PodSpecEvictionRespondersList>;
 
-/** Hostnames for the above IP address. */
+/** hostnames for the above IP address. */
 export type IoK8sApiCoreV1HostAliasHostnamesList = Array<string>;
 export const IoK8sApiCoreV1HostAliasHostnamesList = /*@__PURE__*/ S.Array(
   S.String,
@@ -1701,9 +1681,9 @@ export const IoK8sApiCoreV1HostAliasHostnamesList = /*@__PURE__*/ S.Array(
 
 /** HostAlias holds the mapping between IP and hostnames that will be injected as an entry in the pod's hosts file. */
 export interface IoK8sApiCoreV1HostAlias {
-  /** Hostnames for the above IP address. */
+  /** hostnames for the above IP address. */
   hostnames?: IoK8sApiCoreV1HostAliasHostnamesList;
-  /** IP address of the host file entry. */
+  /** ip address of the host file entry. */
   ip: string;
 }
 export const IoK8sApiCoreV1HostAlias = /*@__PURE__*/ S.suspend(() =>
@@ -1711,11 +1691,9 @@ export const IoK8sApiCoreV1HostAlias = /*@__PURE__*/ S.suspend(() =>
     hostnames: S.optional(IoK8sApiCoreV1HostAliasHostnamesList),
     ip: S.String,
   }),
-).annotate({
-  identifier: "IoK8sApiCoreV1HostAlias",
-}) as any as S.Schema<IoK8sApiCoreV1HostAlias>;
+).annotate({ identifier: "IoK8sApiCoreV1HostAlias" }) as any as S.Schema<IoK8sApiCoreV1HostAlias>;
 
-/** HostAliases is an optional list of hosts and IPs that will be injected into the pod's hosts file if specified. */
+/** hostAliases is an optional list of hosts and IPs that will be injected into the pod's hosts file if specified. */
 export type IoK8sApiCoreV1PodSpecHostAliasesList = Array<IoK8sApiCoreV1HostAlias>;
 export const IoK8sApiCoreV1PodSpecHostAliasesList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1HostAlias,
@@ -1723,7 +1701,7 @@ export const IoK8sApiCoreV1PodSpecHostAliasesList = /*@__PURE__*/ S.Array(
 
 /** LocalObjectReference contains enough information to let you locate the referenced object inside the same namespace. */
 export interface IoK8sApiCoreV1LocalObjectReference {
-  /** Name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
+  /** name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
   name?: string;
 }
 export const IoK8sApiCoreV1LocalObjectReference = /*@__PURE__*/ S.suspend(() =>
@@ -1734,22 +1712,20 @@ export const IoK8sApiCoreV1LocalObjectReference = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiCoreV1LocalObjectReference",
 }) as any as S.Schema<IoK8sApiCoreV1LocalObjectReference>;
 
-/** ImagePullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images used by this PodSpec. If specified, these secrets will be passed to individual puller implementations for them to use. More info: https://kubernetes.io/docs/concepts/containers/images#specifying-imagepullsecrets-on-a-pod */
+/** imagePullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images used by this PodSpec. If specified, these secrets will be passed to individual puller implementations for them to use. More info: https://kubernetes.io/docs/concepts/containers/images#specifying-imagepullsecrets-on-a-pod */
 export type IoK8sApiCoreV1PodSpecImagePullSecretsList = Array<IoK8sApiCoreV1LocalObjectReference>;
 export const IoK8sApiCoreV1PodSpecImagePullSecretsList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1LocalObjectReference,
 ) as any as S.Schema<IoK8sApiCoreV1PodSpecImagePullSecretsList>;
 
-/** List of initialization containers belonging to the pod. Init containers are executed in order prior to containers being started. If any init container fails, the pod is considered to have failed and is handled according to its restartPolicy. The name for an init container or normal container must be unique among all containers. Init containers may not have Lifecycle actions, Readiness probes, Liveness probes, or Startup probes. The resourceRequirements of an init container are taken into account during scheduling by finding the highest request/limit for each resource type, and then using the max of that value or the sum of the normal containers. Limits are applied to init containers in a similar fashion. Init containers cannot currently be added or removed. Cannot be updated. More info: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/ */
+/** initContainers is the list of initialization containers belonging to the pod. Init containers are executed in order prior to containers being started. If any init container fails, the pod is considered to have failed and is handled according to its restartPolicy. The name for an init container or normal container must be unique among all containers. Init containers may not have Lifecycle actions, Readiness probes, Liveness probes, or Startup probes. The resourceRequirements of an init container are taken into account during scheduling by finding the highest request/limit for each resource type, and then using the max of that value or the sum of the normal containers. Limits are applied to init containers in a similar fashion. Init containers cannot currently be added or removed. Cannot be updated. More info: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/ */
 export type IoK8sApiCoreV1PodSpecInitContainersList = Array<IoK8sApiCoreV1Container>;
 export const IoK8sApiCoreV1PodSpecInitContainersList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1Container,
 ) as any as S.Schema<IoK8sApiCoreV1PodSpecInitContainersList>;
 
-/** NodeSelector is a selector which must be true for the pod to fit on a node. Selector which must match a node's labels for the pod to be scheduled on that node. More info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/ */
-export type IoK8sApiCoreV1PodSpecNodeSelectorMap = {
-  [key: string]: string | undefined;
-};
+/** nodeSelector is a selector which must be true for the pod to fit on a node. Selector which must match a node's labels for the pod to be scheduled on that node. More info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/ */
+export type IoK8sApiCoreV1PodSpecNodeSelectorMap = { [key: string]: string | undefined };
 export const IoK8sApiCoreV1PodSpecNodeSelectorMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1757,21 +1733,17 @@ export const IoK8sApiCoreV1PodSpecNodeSelectorMap = /*@__PURE__*/ S.Record(
 
 /** PodOS defines the OS parameters of a pod. */
 export interface IoK8sApiCoreV1PodOS {
-  /** Name is the name of the operating system. The currently supported values are linux and windows. Additional value may be defined in future and can be one of: https://github.com/opencontainers/runtime-spec/blob/master/config.md#platform-specific-configuration Clients should expect to handle additional values and treat unrecognized values in this field as os: null */
+  /** name is the name of the operating system. The currently supported values are linux and windows. Additional value may be defined in future and can be one of: https://github.com/opencontainers/runtime-spec/blob/master/config.md#platform-specific-configuration Clients should expect to handle additional values and treat unrecognized values in this field as os: null */
   name: string;
 }
 export const IoK8sApiCoreV1PodOS = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
   }),
-).annotate({
-  identifier: "IoK8sApiCoreV1PodOS",
-}) as any as S.Schema<IoK8sApiCoreV1PodOS>;
+).annotate({ identifier: "IoK8sApiCoreV1PodOS" }) as any as S.Schema<IoK8sApiCoreV1PodOS>;
 
-/** Overhead represents the resource overhead associated with running a pod for a given RuntimeClass. This field will be autopopulated at admission time by the RuntimeClass admission controller. If the RuntimeClass admission controller is enabled, overhead must not be set in Pod create requests. The RuntimeClass admission controller will reject Pod create requests which have the overhead already set. If RuntimeClass is configured and selected in the PodSpec, Overhead will be set to the value defined in the corresponding RuntimeClass, otherwise it will remain unset and treated as zero. More info: https://git.k8s.io/enhancements/keps/sig-node/688-pod-overhead/README.md */
-export type IoK8sApiCoreV1PodSpecOverheadMap = {
-  [key: string]: string | undefined;
-};
+/** overhead represents the resource overhead associated with running a pod for a given RuntimeClass. This field will be autopopulated at admission time by the RuntimeClass admission controller. If the RuntimeClass admission controller is enabled, overhead must not be set in Pod create requests. The RuntimeClass admission controller will reject Pod create requests which have the overhead already set. If RuntimeClass is configured and selected in the PodSpec, Overhead will be set to the value defined in the corresponding RuntimeClass, otherwise it will remain unset and treated as zero. More info: https://git.k8s.io/enhancements/keps/sig-node/688-pod-overhead/README.md */
+export type IoK8sApiCoreV1PodSpecOverheadMap = { [key: string]: string | undefined };
 export const IoK8sApiCoreV1PodSpecOverheadMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1779,7 +1751,7 @@ export const IoK8sApiCoreV1PodSpecOverheadMap = /*@__PURE__*/ S.Record(
 
 /** PodReadinessGate contains the reference to a pod condition */
 export interface IoK8sApiCoreV1PodReadinessGate {
-  /** ConditionType refers to a condition in the pod's condition list with matching type. */
+  /** conditionType refers to a condition in the pod's condition list with matching type. */
   conditionType: string;
 }
 export const IoK8sApiCoreV1PodReadinessGate = /*@__PURE__*/ S.suspend(() =>
@@ -1790,7 +1762,7 @@ export const IoK8sApiCoreV1PodReadinessGate = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiCoreV1PodReadinessGate",
 }) as any as S.Schema<IoK8sApiCoreV1PodReadinessGate>;
 
-/** If specified, all readiness gates will be evaluated for pod readiness. A pod is ready when all its containers are ready AND all conditions specified in the readiness gates have status equal to "True" More info: https://git.k8s.io/enhancements/keps/sig-network/580-pod-readiness-gates */
+/** readinessGates if specified, all readiness gates will be evaluated for pod readiness. A pod is ready when all its containers are ready AND all conditions specified in the readiness gates have status equal to "True" More info: https://git.k8s.io/enhancements/keps/sig-network/580-pod-readiness-gates */
 export type IoK8sApiCoreV1PodSpecReadinessGatesList = Array<IoK8sApiCoreV1PodReadinessGate>;
 export const IoK8sApiCoreV1PodSpecReadinessGatesList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1PodReadinessGate,
@@ -1798,11 +1770,11 @@ export const IoK8sApiCoreV1PodSpecReadinessGatesList = /*@__PURE__*/ S.Array(
 
 /** PodResourceClaim references exactly one ResourceClaim, either directly or by naming a ResourceClaimTemplate which is then turned into a ResourceClaim for the pod. It adds a name to it that uniquely identifies the ResourceClaim inside the Pod. Containers that need access to the ResourceClaim reference it with this name. When the DRAWorkloadResourceClaims feature gate is enabled and this Pod belongs to a PodGroup, a PodResourceClaim is matched to a PodGroupResourceClaim if all of their fields are equal (Name, ResourceClaimName, and ResourceClaimTemplateName). A matched claim references a single ResourceClaim shared across all Pods in the PodGroup, reserved for the PodGroup in ResourceClaimStatus.ReservedFor rather than for individual Pods. */
 export interface IoK8sApiCoreV1PodResourceClaim {
-  /** Name uniquely identifies this resource claim inside the pod. This must be a DNS_LABEL. */
+  /** name uniquely identifies this resource claim inside the pod. This must be a DNS_LABEL. */
   name: string;
-  /** ResourceClaimName is the name of a ResourceClaim object in the same namespace as this pod. Exactly one of ResourceClaimName and ResourceClaimTemplateName must be set. */
+  /** resourceClaimName is the name of a ResourceClaim object in the same namespace as this pod. Exactly one of ResourceClaimName and ResourceClaimTemplateName must be set. */
   resourceClaimName?: string;
-  /** ResourceClaimTemplateName is the name of a ResourceClaimTemplate object in the same namespace as this pod. The template will be used to create a new ResourceClaim, which will be bound to this pod. When this pod is deleted, the ResourceClaim will also be deleted. The pod name and resource name, along with a generated component, will be used to form a unique name for the ResourceClaim, which will be recorded in pod.status.resourceClaimStatuses. When the DRAWorkloadResourceClaims feature gate is enabled and the pod belongs to a PodGroup that defines a PodGroupResourceClaim with the same Name and ResourceClaimTemplateName, this PodResourceClaim resolves to the ResourceClaim generated for the PodGroup. All pods in the group that define an equivalent PodResourceClaim matching the PodGroupResourceClaim's Name and ResourceClaimTemplateName share the same generated ResourceClaim. ResourceClaims generated for a PodGroup are owned by the PodGroup and their lifecycles are tied to the PodGroup instead of any individual pod. This field is immutable and no changes will be made to the corresponding ResourceClaim by the control plane after creating the ResourceClaim. Exactly one of ResourceClaimName and ResourceClaimTemplateName must be set. */
+  /** resourceClaimTemplateName is the name of a ResourceClaimTemplate object in the same namespace as this pod. The template will be used to create a new ResourceClaim, which will be bound to this pod. When this pod is deleted, the ResourceClaim will also be deleted. The pod name and resource name, along with a generated component, will be used to form a unique name for the ResourceClaim, which will be recorded in pod.status.resourceClaimStatuses. When the DRAWorkloadResourceClaims feature gate is enabled and the pod belongs to a PodGroup that defines a PodGroupResourceClaim with the same Name and ResourceClaimTemplateName, this PodResourceClaim resolves to the ResourceClaim generated for the PodGroup. All pods in the group that define an equivalent PodResourceClaim matching the PodGroupResourceClaim's Name and ResourceClaimTemplateName share the same generated ResourceClaim. ResourceClaims generated for a PodGroup are owned by the PodGroup and their lifecycles are tied to the PodGroup instead of any individual pod. This field is immutable and no changes will be made to the corresponding ResourceClaim by the control plane after creating the ResourceClaim. Exactly one of ResourceClaimName and ResourceClaimTemplateName must be set. */
   resourceClaimTemplateName?: string;
 }
 export const IoK8sApiCoreV1PodResourceClaim = /*@__PURE__*/ S.suspend(() =>
@@ -1815,7 +1787,7 @@ export const IoK8sApiCoreV1PodResourceClaim = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiCoreV1PodResourceClaim",
 }) as any as S.Schema<IoK8sApiCoreV1PodResourceClaim>;
 
-/** ResourceClaims defines which ResourceClaims must be allocated and reserved before the Pod is allowed to start. The resources will be made available to those containers which consume them by name. This is a stable field but requires that the DynamicResourceAllocation feature gate is enabled. This field is immutable. */
+/** resourceClaims defines which ResourceClaims must be allocated and reserved before the Pod is allowed to start. The resources will be made available to those containers which consume them by name. This field is immutable. */
 export type IoK8sApiCoreV1PodSpecResourceClaimsList = Array<IoK8sApiCoreV1PodResourceClaim>;
 export const IoK8sApiCoreV1PodSpecResourceClaimsList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1PodResourceClaim,
@@ -1823,7 +1795,7 @@ export const IoK8sApiCoreV1PodSpecResourceClaimsList = /*@__PURE__*/ S.Array(
 
 /** PodSchedulingGate is associated to a Pod to guard its scheduling. */
 export interface IoK8sApiCoreV1PodSchedulingGate {
-  /** Name of the scheduling gate. Each scheduling gate must have a unique name field. */
+  /** name of the scheduling gate. Each scheduling gate must have a unique name field. */
   name: string;
 }
 export const IoK8sApiCoreV1PodSchedulingGate = /*@__PURE__*/ S.suspend(() =>
@@ -1834,7 +1806,7 @@ export const IoK8sApiCoreV1PodSchedulingGate = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiCoreV1PodSchedulingGate",
 }) as any as S.Schema<IoK8sApiCoreV1PodSchedulingGate>;
 
-/** SchedulingGates is an opaque list of values that if specified will block scheduling the pod. If schedulingGates is not empty, the pod will stay in the SchedulingGated state and the scheduler will not attempt to schedule the pod. SchedulingGates can only be set at pod creation time, and be removed only afterwards. */
+/** schedulingGates is an opaque list of values that if specified will block scheduling the pod. If schedulingGates is not empty, the pod will stay in the SchedulingGated state and the scheduler will not attempt to schedule the pod. SchedulingGates can only be set at pod creation time, and be removed only afterwards. */
 export type IoK8sApiCoreV1PodSpecSchedulingGatesList = Array<IoK8sApiCoreV1PodSchedulingGate>;
 export const IoK8sApiCoreV1PodSpecSchedulingGatesList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1PodSchedulingGate,
@@ -1842,7 +1814,7 @@ export const IoK8sApiCoreV1PodSpecSchedulingGatesList = /*@__PURE__*/ S.Array(
 
 /** PodSchedulingGroup identifies the runtime scheduling group instance that a Pod belongs to. The scheduler uses this information to apply workload-aware scheduling semantics. Exactly one field must be specified. */
 export interface IoK8sApiCoreV1PodSchedulingGroup {
-  /** PodGroupName specifies the name of the standalone PodGroup object that represents the runtime instance of this group. Must be a DNS subdomain. */
+  /** podGroupName specifies the name of the standalone PodGroup object that represents the runtime instance of this group. Must be a DNS subdomain. */
   podGroupName?: string;
 }
 export const IoK8sApiCoreV1PodSchedulingGroup = /*@__PURE__*/ S.suspend(() =>
@@ -1853,7 +1825,7 @@ export const IoK8sApiCoreV1PodSchedulingGroup = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiCoreV1PodSchedulingGroup",
 }) as any as S.Schema<IoK8sApiCoreV1PodSchedulingGroup>;
 
-/** A list of groups applied to the first process run in each container, in addition to the container's primary GID and fsGroup (if specified). If the SupplementalGroupsPolicy feature is enabled, the supplementalGroupsPolicy field determines whether these are in addition to or instead of any group memberships defined in the container image. If unspecified, no additional groups are added, though group memberships defined in the container image may still be used, depending on the supplementalGroupsPolicy field. Note that this field cannot be set when spec.os.name is windows. */
+/** supplementalGroups is a list of groups applied to the first process run in each container, in addition to the container's primary GID and fsGroup (if specified). If the SupplementalGroupsPolicy feature is enabled, the supplementalGroupsPolicy field determines whether these are in addition to or instead of any group memberships defined in the container image. If unspecified, no additional groups are added, though group memberships defined in the container image may still be used, depending on the supplementalGroupsPolicy field. Note that this field cannot be set when spec.os.name is windows. */
 export type IoK8sApiCoreV1PodSecurityContextSupplementalGroupsList = Array<number>;
 export const IoK8sApiCoreV1PodSecurityContextSupplementalGroupsList = /*@__PURE__*/ S.Array(
   S.Number,
@@ -1861,9 +1833,9 @@ export const IoK8sApiCoreV1PodSecurityContextSupplementalGroupsList = /*@__PURE_
 
 /** Sysctl defines a kernel parameter to be set */
 export interface IoK8sApiCoreV1Sysctl {
-  /** Name of a property to set */
+  /** name of a property to set */
   name: string;
-  /** Value of a property to set */
+  /** value of a property to set */
   value: string;
 }
 export const IoK8sApiCoreV1Sysctl = /*@__PURE__*/ S.suspend(() =>
@@ -1871,11 +1843,9 @@ export const IoK8sApiCoreV1Sysctl = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     value: S.String,
   }),
-).annotate({
-  identifier: "IoK8sApiCoreV1Sysctl",
-}) as any as S.Schema<IoK8sApiCoreV1Sysctl>;
+).annotate({ identifier: "IoK8sApiCoreV1Sysctl" }) as any as S.Schema<IoK8sApiCoreV1Sysctl>;
 
-/** Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported sysctls (by the container runtime) might fail to launch. Note that this field cannot be set when spec.os.name is windows. */
+/** sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported sysctls (by the container runtime) might fail to launch. Note that this field cannot be set when spec.os.name is windows. */
 export type IoK8sApiCoreV1PodSecurityContextSysctlsList = Array<IoK8sApiCoreV1Sysctl>;
 export const IoK8sApiCoreV1PodSecurityContextSysctlsList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1Sysctl,
@@ -1885,29 +1855,29 @@ export const IoK8sApiCoreV1PodSecurityContextSysctlsList = /*@__PURE__*/ S.Array
 export interface IoK8sApiCoreV1PodSecurityContext {
   /** appArmorProfile is the AppArmor options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows. */
   appArmorProfile?: IoK8sApiCoreV1AppArmorProfile;
-  /** A special supplemental group that applies to all containers in a pod. Some volume types allow the Kubelet to change the ownership of that volume to be owned by the pod: 1. The owning GID will be the FSGroup 2. The setgid bit is set (new files created in the volume will be owned by FSGroup) 3. The permission bits are OR'd with rw-rw---- If unset, the Kubelet will not modify the ownership and permissions of any volume. Note that this field cannot be set when spec.os.name is windows. */
+  /** fsGroup is a special supplemental group that applies to all containers in a pod. Some volume types allow the Kubelet to change the ownership of that volume to be owned by the pod: 1. The owning GID will be the FSGroup 2. The setgid bit is set (new files created in the volume will be owned by FSGroup) 3. The permission bits are OR'd with rw-rw---- If unset, the Kubelet will not modify the ownership and permissions of any volume. Note that this field cannot be set when spec.os.name is windows. */
   fsGroup?: number;
   /** fsGroupChangePolicy defines behavior of changing ownership and permission of the volume before being exposed inside Pod. This field will only apply to volume types which support fsGroup based ownership(and permissions). It will have no effect on ephemeral volume types such as: secret, configmaps and emptydir. Valid values are "OnRootMismatch" and "Always". If not specified, "Always" is used. Note that this field cannot be set when spec.os.name is windows. */
   fsGroupChangePolicy?: string;
-  /** The GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in SecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows. */
+  /** runAsGroup is the GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in SecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows. */
   runAsGroup?: number;
-  /** Indicates that the container must run as a non-root user. If true, the Kubelet will validate the image at runtime to ensure that it does not run as UID 0 (root) and fail to start the container if it does. If unset or false, no such validation will be performed. May also be set in SecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. */
+  /** runAsNonRoot indicates that the container must run as a non-root user. If true, the Kubelet will validate the image at runtime to ensure that it does not run as UID 0 (root) and fail to start the container if it does. If unset or false, no such validation will be performed. May also be set in SecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. */
   runAsNonRoot?: boolean;
-  /** The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in SecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows. */
+  /** runAsUser is the UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in SecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows. */
   runAsUser?: number;
   /** seLinuxChangePolicy defines how the container's SELinux label is applied to all volumes used by the Pod. It has no effect on nodes that do not support SELinux or to volumes does not support SELinux. Valid values are "MountOption" and "Recursive". "Recursive" means relabeling of all files on all Pod volumes by the container runtime. This may be slow for large volumes, but allows mixing privileged and unprivileged Pods sharing the same volume on the same node. "MountOption" mounts all eligible Pod volumes with `-o context` mount option. This requires all Pods that share the same volume to use the same SELinux label. It is not possible to share the same volume among privileged and unprivileged Pods. Eligible volumes are in-tree FibreChannel and iSCSI volumes, and all CSI volumes whose CSI driver announces SELinux support by setting spec.seLinuxMount: true in their CSIDriver instance. Other volumes are always re-labelled recursively. If not specified, "MountOption" is used. This field affects only Pods that have SELinux label set, either in PodSecurityContext or in SecurityContext of all containers. All Pods that use the same volume should use the same seLinuxChangePolicy, otherwise some pods can get stuck in ContainerCreating state. Note that this field cannot be set when spec.os.name is windows. */
   seLinuxChangePolicy?: string;
-  /** The SELinux context to be applied to all containers. If unspecified, the container runtime will allocate a random SELinux context for each container. May also be set in SecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows. */
+  /** seLinuxOptions is the SELinux context to be applied to all containers. If unspecified, the container runtime will allocate a random SELinux context for each container. May also be set in SecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows. */
   seLinuxOptions?: IoK8sApiCoreV1SELinuxOptions;
-  /** The seccomp options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows. */
+  /** seccompProfile is the seccomp options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows. */
   seccompProfile?: IoK8sApiCoreV1SeccompProfile;
-  /** A list of groups applied to the first process run in each container, in addition to the container's primary GID and fsGroup (if specified). If the SupplementalGroupsPolicy feature is enabled, the supplementalGroupsPolicy field determines whether these are in addition to or instead of any group memberships defined in the container image. If unspecified, no additional groups are added, though group memberships defined in the container image may still be used, depending on the supplementalGroupsPolicy field. Note that this field cannot be set when spec.os.name is windows. */
+  /** supplementalGroups is a list of groups applied to the first process run in each container, in addition to the container's primary GID and fsGroup (if specified). If the SupplementalGroupsPolicy feature is enabled, the supplementalGroupsPolicy field determines whether these are in addition to or instead of any group memberships defined in the container image. If unspecified, no additional groups are added, though group memberships defined in the container image may still be used, depending on the supplementalGroupsPolicy field. Note that this field cannot be set when spec.os.name is windows. */
   supplementalGroups?: IoK8sApiCoreV1PodSecurityContextSupplementalGroupsList;
-  /** Defines how supplemental groups of the first container processes are calculated. Valid values are "Merge" and "Strict". If not specified, "Merge" is used. (Alpha) Using the field requires the SupplementalGroupsPolicy feature gate to be enabled and the container runtime must implement support for this feature. Note that this field cannot be set when spec.os.name is windows. */
+  /** supplementalGroupsPolicy defines how supplemental groups of the first container processes are calculated. Valid values are "Merge" and "Strict". If not specified, "Merge" is used. (Alpha) Using the field requires the SupplementalGroupsPolicy feature gate to be enabled and the container runtime must implement support for this feature. Note that this field cannot be set when spec.os.name is windows. */
   supplementalGroupsPolicy?: string;
-  /** Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported sysctls (by the container runtime) might fail to launch. Note that this field cannot be set when spec.os.name is windows. */
+  /** sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported sysctls (by the container runtime) might fail to launch. Note that this field cannot be set when spec.os.name is windows. */
   sysctls?: IoK8sApiCoreV1PodSecurityContextSysctlsList;
-  /** The Windows specific settings applied to all containers. If unspecified, the options within a container's SecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux. */
+  /** windowsOptions is the Windows specific settings applied to all containers. If unspecified, the options within a container's SecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux. */
   windowsOptions?: IoK8sApiCoreV1WindowsSecurityContextOptions;
 }
 export const IoK8sApiCoreV1PodSecurityContext = /*@__PURE__*/ S.suspend(() =>
@@ -1932,15 +1902,15 @@ export const IoK8sApiCoreV1PodSecurityContext = /*@__PURE__*/ S.suspend(() =>
 
 /** The pod this Toleration is attached to tolerates any taint that matches the triple <key,value,effect> using the matching operator <operator>. */
 export interface IoK8sApiCoreV1Toleration {
-  /** Effect indicates the taint effect to match. Empty means match all taint effects. When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute. */
+  /** effect indicates the taint effect to match. Empty means match all taint effects. When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute. */
   effect?: string;
-  /** Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys. */
+  /** key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys. */
   key?: string;
-  /** Operator represents a key's relationship to the value. Valid operators are Exists, Equal, Lt, and Gt. Defaults to Equal. Exists is equivalent to wildcard for value, so that a pod can tolerate all taints of a particular category. Lt and Gt perform numeric comparisons (requires feature gate TaintTolerationComparisonOperators). */
+  /** operator represents a key's relationship to the value. Valid operators are Exists, Equal, Lt, and Gt. Defaults to Equal. Exists is equivalent to wildcard for value, so that a pod can tolerate all taints of a particular category. Lt and Gt perform numeric comparisons (requires feature gate TaintTolerationComparisonOperators). */
   operator?: string;
-  /** TolerationSeconds represents the period of time the toleration (which must be of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default, it is not set, which means tolerate the taint forever (do not evict). Zero and negative values will be treated as 0 (evict immediately) by the system. */
+  /** tolerationSeconds represents the period of time the toleration (which must be of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default, it is not set, which means tolerate the taint forever (do not evict). Zero and negative values will be treated as 0 (evict immediately) by the system. */
   tolerationSeconds?: number;
-  /** Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string. */
+  /** value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string. */
   value?: string;
 }
 export const IoK8sApiCoreV1Toleration = /*@__PURE__*/ S.suspend(() =>
@@ -1951,17 +1921,15 @@ export const IoK8sApiCoreV1Toleration = /*@__PURE__*/ S.suspend(() =>
     tolerationSeconds: S.optional(S.Number),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IoK8sApiCoreV1Toleration",
-}) as any as S.Schema<IoK8sApiCoreV1Toleration>;
+).annotate({ identifier: "IoK8sApiCoreV1Toleration" }) as any as S.Schema<IoK8sApiCoreV1Toleration>;
 
-/** If specified, the pod's tolerations. */
+/** tolerations specifies the pod's tolerations. */
 export type IoK8sApiCoreV1PodSpecTolerationsList = Array<IoK8sApiCoreV1Toleration>;
 export const IoK8sApiCoreV1PodSpecTolerationsList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1Toleration,
 ) as any as S.Schema<IoK8sApiCoreV1PodSpecTolerationsList>;
 
-/** MatchLabelKeys is a set of pod label keys to select the pods over which spreading will be calculated. The keys are used to lookup values from the incoming pod labels, those key-value labels are ANDed with labelSelector to select the group of existing pods over which spreading will be calculated for the incoming pod. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector. MatchLabelKeys cannot be set when LabelSelector isn't set. Keys that don't exist in the incoming pod labels will be ignored. A null or empty list means only match against labelSelector. This is a beta field and requires the MatchLabelKeysInPodTopologySpread feature gate to be enabled (enabled by default). */
+/** matchLabelKeys is a set of pod label keys to select the pods over which spreading will be calculated. The keys are used to lookup values from the incoming pod labels, those key-value labels are ANDed with labelSelector to select the group of existing pods over which spreading will be calculated for the incoming pod. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector. MatchLabelKeys cannot be set when LabelSelector isn't set. Keys that don't exist in the incoming pod labels will be ignored. A null or empty list means only match against labelSelector. This is a beta field and requires the MatchLabelKeysInPodTopologySpread feature gate to be enabled (enabled by default). */
 export type IoK8sApiCoreV1TopologySpreadConstraintMatchLabelKeysList = Array<string>;
 export const IoK8sApiCoreV1TopologySpreadConstraintMatchLabelKeysList = /*@__PURE__*/ S.Array(
   S.String,
@@ -1969,21 +1937,21 @@ export const IoK8sApiCoreV1TopologySpreadConstraintMatchLabelKeysList = /*@__PUR
 
 /** TopologySpreadConstraint specifies how to spread matching pods among the given topology. */
 export interface IoK8sApiCoreV1TopologySpreadConstraint {
-  /** LabelSelector is used to find matching pods. Pods that match this label selector are counted to determine the number of pods in their corresponding topology domain. */
+  /** labelSelector is used to find matching pods. Pods that match this label selector are counted to determine the number of pods in their corresponding topology domain. */
   labelSelector?: IoK8sApimachineryPkgApisMetaV1LabelSelector;
-  /** MatchLabelKeys is a set of pod label keys to select the pods over which spreading will be calculated. The keys are used to lookup values from the incoming pod labels, those key-value labels are ANDed with labelSelector to select the group of existing pods over which spreading will be calculated for the incoming pod. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector. MatchLabelKeys cannot be set when LabelSelector isn't set. Keys that don't exist in the incoming pod labels will be ignored. A null or empty list means only match against labelSelector. This is a beta field and requires the MatchLabelKeysInPodTopologySpread feature gate to be enabled (enabled by default). */
+  /** matchLabelKeys is a set of pod label keys to select the pods over which spreading will be calculated. The keys are used to lookup values from the incoming pod labels, those key-value labels are ANDed with labelSelector to select the group of existing pods over which spreading will be calculated for the incoming pod. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector. MatchLabelKeys cannot be set when LabelSelector isn't set. Keys that don't exist in the incoming pod labels will be ignored. A null or empty list means only match against labelSelector. This is a beta field and requires the MatchLabelKeysInPodTopologySpread feature gate to be enabled (enabled by default). */
   matchLabelKeys?: IoK8sApiCoreV1TopologySpreadConstraintMatchLabelKeysList;
-  /** MaxSkew describes the degree to which pods may be unevenly distributed. When `whenUnsatisfiable=DoNotSchedule`, it is the maximum permitted difference between the number of matching pods in the target topology and the global minimum. The global minimum is the minimum number of matching pods in an eligible domain or zero if the number of eligible domains is less than MinDomains. For example, in a 3-zone cluster, MaxSkew is set to 1, and pods with the same labelSelector spread as 2/2/1: In this case, the global minimum is 1. | zone1 | zone2 | zone3 | | P P | P P | P | - if MaxSkew is 1, incoming pod can only be scheduled to zone3 to become 2/2/2; scheduling it onto zone1(zone2) would make the ActualSkew(3-1) on zone1(zone2) violate MaxSkew(1). - if MaxSkew is 2, incoming pod can be scheduled onto any zone. When `whenUnsatisfiable=ScheduleAnyway`, it is used to give higher precedence to topologies that satisfy it. It's a required field. Default value is 1 and 0 is not allowed. */
+  /** maxSkew describes the degree to which pods may be unevenly distributed. When `whenUnsatisfiable=DoNotSchedule`, it is the maximum permitted difference between the number of matching pods in the target topology and the global minimum. The global minimum is the minimum number of matching pods in an eligible domain or zero if the number of eligible domains is less than MinDomains. For example, in a 3-zone cluster, MaxSkew is set to 1, and pods with the same labelSelector spread as 2/2/1: In this case, the global minimum is 1. | zone1 | zone2 | zone3 | | P P | P P | P | - if MaxSkew is 1, incoming pod can only be scheduled to zone3 to become 2/2/2; scheduling it onto zone1(zone2) would make the ActualSkew(3-1) on zone1(zone2) violate MaxSkew(1). - if MaxSkew is 2, incoming pod can be scheduled onto any zone. When `whenUnsatisfiable=ScheduleAnyway`, it is used to give higher precedence to topologies that satisfy it. It's a required field. Default value is 1 and 0 is not allowed. */
   maxSkew: number;
-  /** MinDomains indicates a minimum number of eligible domains. When the number of eligible domains with matching topology keys is less than minDomains, Pod Topology Spread treats "global minimum" as 0, and then the calculation of Skew is performed. And when the number of eligible domains with matching topology keys equals or greater than minDomains, this value has no effect on scheduling. As a result, when the number of eligible domains is less than minDomains, scheduler won't schedule more than maxSkew Pods to those domains. If value is nil, the constraint behaves as if MinDomains is equal to 1. Valid values are integers greater than 0. When value is not nil, WhenUnsatisfiable must be DoNotSchedule. For example, in a 3-zone cluster, MaxSkew is set to 2, MinDomains is set to 5 and pods with the same labelSelector spread as 2/2/2: | zone1 | zone2 | zone3 | | P P | P P | P P | The number of domains is less than 5(MinDomains), so "global minimum" is treated as 0. In this situation, new pod with the same labelSelector cannot be scheduled, because computed skew will be 3(3 - 0) if new Pod is scheduled to any of the three zones, it will violate MaxSkew. */
+  /** minDomains indicates a minimum number of eligible domains. When the number of eligible domains with matching topology keys is less than minDomains, Pod Topology Spread treats "global minimum" as 0, and then the calculation of Skew is performed. And when the number of eligible domains with matching topology keys equals or greater than minDomains, this value has no effect on scheduling. As a result, when the number of eligible domains is less than minDomains, scheduler won't schedule more than maxSkew Pods to those domains. If value is nil, the constraint behaves as if MinDomains is equal to 1. Valid values are integers greater than 0. When value is not nil, WhenUnsatisfiable must be DoNotSchedule. For example, in a 3-zone cluster, MaxSkew is set to 2, MinDomains is set to 5 and pods with the same labelSelector spread as 2/2/2: | zone1 | zone2 | zone3 | | P P | P P | P P | The number of domains is less than 5(MinDomains), so "global minimum" is treated as 0. In this situation, new pod with the same labelSelector cannot be scheduled, because computed skew will be 3(3 - 0) if new Pod is scheduled to any of the three zones, it will violate MaxSkew. */
   minDomains?: number;
-  /** NodeAffinityPolicy indicates how we will treat Pod's nodeAffinity/nodeSelector when calculating pod topology spread skew. Options are: - Honor: only nodes matching nodeAffinity/nodeSelector are included in the calculations. - Ignore: nodeAffinity/nodeSelector are ignored. All nodes are included in the calculations. If this value is nil, the behavior is equivalent to the Honor policy. */
+  /** nodeAffinityPolicy indicates how we will treat Pod's nodeAffinity/nodeSelector when calculating pod topology spread skew. Options are: - Honor: only nodes matching nodeAffinity/nodeSelector are included in the calculations. - Ignore: nodeAffinity/nodeSelector are ignored. All nodes are included in the calculations. If this value is nil, the behavior is equivalent to the Honor policy. */
   nodeAffinityPolicy?: string;
-  /** NodeTaintsPolicy indicates how we will treat node taints when calculating pod topology spread skew. Options are: - Honor: nodes without taints, along with tainted nodes for which the incoming pod has a toleration, are included. - Ignore: node taints are ignored. All nodes are included. If this value is nil, the behavior is equivalent to the Ignore policy. */
+  /** nodeTaintsPolicy indicates how we will treat node taints when calculating pod topology spread skew. Options are: - Honor: nodes without taints, along with tainted nodes for which the incoming pod has a toleration, are included. - Ignore: node taints are ignored. All nodes are included. If this value is nil, the behavior is equivalent to the Ignore policy. */
   nodeTaintsPolicy?: string;
-  /** TopologyKey is the key of node labels. Nodes that have a label with this key and identical values are considered to be in the same topology. We consider each <key, value> as a "bucket", and try to put balanced number of pods into each bucket. We define a domain as a particular instance of a topology. Also, we define an eligible domain as a domain whose nodes meet the requirements of nodeAffinityPolicy and nodeTaintsPolicy. e.g. If TopologyKey is "kubernetes.io/hostname", each Node is a domain of that topology. And, if TopologyKey is "topology.kubernetes.io/zone", each zone is a domain of that topology. It's a required field. */
+  /** topologyKey is the key of node labels. Nodes that have a label with this key and identical values are considered to be in the same topology. We consider each <key, value> as a "bucket", and try to put balanced number of pods into each bucket. We define a domain as a particular instance of a topology. Also, we define an eligible domain as a domain whose nodes meet the requirements of nodeAffinityPolicy and nodeTaintsPolicy. e.g. If TopologyKey is "kubernetes.io/hostname", each Node is a domain of that topology. And, if TopologyKey is "topology.kubernetes.io/zone", each zone is a domain of that topology. It's a required field. */
   topologyKey: string;
-  /** WhenUnsatisfiable indicates how to deal with a pod if it doesn't satisfy the spread constraint. - DoNotSchedule (default) tells the scheduler not to schedule it. - ScheduleAnyway tells the scheduler to schedule the pod in any location, but giving higher precedence to topologies that would help reduce the skew. A constraint is considered "Unsatisfiable" for an incoming pod if and only if every possible node assignment for that pod would violate "MaxSkew" on some topology. For example, in a 3-zone cluster, MaxSkew is set to 1, and pods with the same labelSelector spread as 3/1/1: | zone1 | zone2 | zone3 | | P P P | P | P | If WhenUnsatisfiable is set to DoNotSchedule, incoming pod can only be scheduled to zone2(zone3) to become 3/2/1(3/1/2) as ActualSkew(2-1) on zone2(zone3) satisfies MaxSkew(1). In other words, the cluster can still be imbalanced, but scheduler won't make it *more* imbalanced. It's a required field. */
+  /** whenUnsatisfiable indicates how to deal with a pod if it doesn't satisfy the spread constraint. - DoNotSchedule (default) tells the scheduler not to schedule it. - ScheduleAnyway tells the scheduler to schedule the pod in any location, but giving higher precedence to topologies that would help reduce the skew. A constraint is considered "Unsatisfiable" for an incoming pod if and only if every possible node assignment for that pod would violate "MaxSkew" on some topology. For example, in a 3-zone cluster, MaxSkew is set to 1, and pods with the same labelSelector spread as 3/1/1: | zone1 | zone2 | zone3 | | P P P | P | P | If WhenUnsatisfiable is set to DoNotSchedule, incoming pod can only be scheduled to zone2(zone3) to become 3/2/1(3/1/2) as ActualSkew(2-1) on zone2(zone3) satisfies MaxSkew(1). In other words, the cluster can still be imbalanced, but scheduler won't make it *more* imbalanced. It's a required field. */
   whenUnsatisfiable: string;
 }
 export const IoK8sApiCoreV1TopologySpreadConstraint = /*@__PURE__*/ S.suspend(() =>
@@ -2001,7 +1969,7 @@ export const IoK8sApiCoreV1TopologySpreadConstraint = /*@__PURE__*/ S.suspend(()
   identifier: "IoK8sApiCoreV1TopologySpreadConstraint",
 }) as any as S.Schema<IoK8sApiCoreV1TopologySpreadConstraint>;
 
-/** TopologySpreadConstraints describes how a group of pods ought to spread across topology domains. Scheduler will schedule pods in a way which abides by the constraints. All topologySpreadConstraints are ANDed. */
+/** topologySpreadConstraints describes how a group of pods ought to spread across topology domains. Scheduler will schedule pods in a way which abides by the constraints. All topologySpreadConstraints are ANDed. */
 export type IoK8sApiCoreV1PodSpecTopologySpreadConstraintsList =
   Array<IoK8sApiCoreV1TopologySpreadConstraint>;
 export const IoK8sApiCoreV1PodSpecTopologySpreadConstraintsList = /*@__PURE__*/ S.Array(
@@ -2151,9 +2119,7 @@ export const IoK8sApiCoreV1KeyToPath = /*@__PURE__*/ S.suspend(() =>
     path: S.String,
     user: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "IoK8sApiCoreV1KeyToPath",
-}) as any as S.Schema<IoK8sApiCoreV1KeyToPath>;
+).annotate({ identifier: "IoK8sApiCoreV1KeyToPath" }) as any as S.Schema<IoK8sApiCoreV1KeyToPath>;
 
 /** items if unspecified, each key-value pair in the Data field of the referenced ConfigMap will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the ConfigMap, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'. */
 export type IoK8sApiCoreV1ConfigMapVolumeSourceItemsList = Array<IoK8sApiCoreV1KeyToPath>;
@@ -2169,7 +2135,7 @@ export interface IoK8sApiCoreV1ConfigMapVolumeSource {
   defaultUser?: number;
   /** items if unspecified, each key-value pair in the Data field of the referenced ConfigMap will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the ConfigMap, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'. */
   items?: IoK8sApiCoreV1ConfigMapVolumeSourceItemsList;
-  /** Name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
+  /** name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
   name?: string;
   /** optional specify whether the ConfigMap or its keys must be defined */
   optional?: boolean;
@@ -2222,13 +2188,13 @@ export const IoK8sApiCoreV1CSIVolumeSource = /*@__PURE__*/ S.suspend(() =>
 
 /** DownwardAPIVolumeFile represents information to create the file containing the pod field */
 export interface IoK8sApiCoreV1DownwardAPIVolumeFile {
-  /** Required: Selects a field of the pod: only annotations, labels, name, namespace and uid are supported. */
+  /** fieldRef selects a field of the pod: only annotations, labels, name, namespace and uid are supported. Required. */
   fieldRef?: IoK8sApiCoreV1ObjectFieldSelector;
-  /** Optional: mode bits used to set permissions on this file, must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. If not specified, the volume defaultMode will be used. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
+  /** mode is optional: mode bits used to set permissions on this file, must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. If not specified, the volume defaultMode will be used. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
   mode?: number;
-  /** Required: Path is the relative path name of the file to be created. Must not be absolute or contain the '..' path. Must be utf-8 encoded. The first item of the relative path must not start with '..' */
+  /** path is the relative path name of the file to be created. Must not be absolute or contain the '..' path. Must be utf-8 encoded. The first item of the relative path must not start with '..' */
   path: string;
-  /** Selects a resource of the container: only resources limits and requests (limits.cpu, limits.memory, requests.cpu and requests.memory) are currently supported. */
+  /** resourceFieldRef selects a resource of the container: only resources limits and requests (limits.cpu, limits.memory, requests.cpu and requests.memory) are currently supported. */
   resourceFieldRef?: IoK8sApiCoreV1ResourceFieldSelector;
   /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
   user?: number;
@@ -2245,7 +2211,7 @@ export const IoK8sApiCoreV1DownwardAPIVolumeFile = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiCoreV1DownwardAPIVolumeFile",
 }) as any as S.Schema<IoK8sApiCoreV1DownwardAPIVolumeFile>;
 
-/** Items is a list of downward API volume file */
+/** items is a list of downward API volume file */
 export type IoK8sApiCoreV1DownwardAPIVolumeSourceItemsList =
   Array<IoK8sApiCoreV1DownwardAPIVolumeFile>;
 export const IoK8sApiCoreV1DownwardAPIVolumeSourceItemsList = /*@__PURE__*/ S.Array(
@@ -2254,11 +2220,11 @@ export const IoK8sApiCoreV1DownwardAPIVolumeSourceItemsList = /*@__PURE__*/ S.Ar
 
 /** DownwardAPIVolumeSource represents a volume containing downward API info. Downward API volumes support ownership management and SELinux relabeling. */
 export interface IoK8sApiCoreV1DownwardAPIVolumeSource {
-  /** Optional: mode bits to use on created files by default. Must be a Optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
+  /** defaultMode is mode bits to use on created files by default. Must be a Optional: mode bits used to set permissions on created files by default. Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511. YAML accepts both octal and decimal values, JSON requires decimal values for mode bits. Defaults to 0644. Directories within the path are not affected by this setting. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
   defaultMode?: number;
   /** defaultUser is Optional: The owner UID of the created files by default. The defaultUser field is only used as a fallback when the item-level user field is unset. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
   defaultUser?: number;
-  /** Items is a list of downward API volume file */
+  /** items is a list of downward API volume file */
   items?: IoK8sApiCoreV1DownwardAPIVolumeSourceItemsList;
 }
 export const IoK8sApiCoreV1DownwardAPIVolumeSource = /*@__PURE__*/ S.suspend(() =>
@@ -2298,11 +2264,11 @@ export const IoK8sApiCoreV1PersistentVolumeClaimSpecAccessModesList = /*@__PURE_
 
 /** TypedLocalObjectReference contains enough information to let you locate the typed referenced object inside the same namespace. */
 export interface IoK8sApiCoreV1TypedLocalObjectReference {
-  /** APIGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required. */
+  /** apiGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required. */
   apiGroup?: string;
-  /** Kind is the type of resource being referenced */
+  /** kind is the type of resource being referenced */
   kind: string;
-  /** Name is the name of resource being referenced */
+  /** name is the name of resource being referenced */
   name: string;
 }
 export const IoK8sApiCoreV1TypedLocalObjectReference = /*@__PURE__*/ S.suspend(() =>
@@ -2317,13 +2283,13 @@ export const IoK8sApiCoreV1TypedLocalObjectReference = /*@__PURE__*/ S.suspend((
 
 /** TypedObjectReference contains enough information to let you locate the typed referenced object */
 export interface IoK8sApiCoreV1TypedObjectReference {
-  /** APIGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required. */
+  /** apiGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required. */
   apiGroup?: string;
-  /** Kind is the type of resource being referenced */
+  /** kind is the type of resource being referenced */
   kind: string;
-  /** Name is the name of resource being referenced */
+  /** name is the name of resource being referenced */
   name: string;
-  /** Namespace is the namespace of resource being referenced Note that when a namespace is specified, a gateway.networking.k8s.io/ReferenceGrant object is required in the referent namespace to allow that namespace's owner to accept the reference. See the ReferenceGrant documentation for details. (Alpha) This field requires the CrossNamespaceVolumeDataSource feature gate to be enabled. */
+  /** namespace is the namespace of resource being referenced Note that when a namespace is specified, a gateway.networking.k8s.io/ReferenceGrant object is required in the referent namespace to allow that namespace's owner to accept the reference. See the ReferenceGrant documentation for details. (Alpha) This field requires the CrossNamespaceVolumeDataSource feature gate to be enabled. */
   namespace?: string;
 }
 export const IoK8sApiCoreV1TypedObjectReference = /*@__PURE__*/ S.suspend(() =>
@@ -2337,7 +2303,7 @@ export const IoK8sApiCoreV1TypedObjectReference = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiCoreV1TypedObjectReference",
 }) as any as S.Schema<IoK8sApiCoreV1TypedObjectReference>;
 
-/** Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
+/** limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
 export type IoK8sApiCoreV1VolumeResourceRequirementsLimitsMap = {
   [key: string]: string | undefined;
 };
@@ -2346,7 +2312,7 @@ export const IoK8sApiCoreV1VolumeResourceRequirementsLimitsMap = /*@__PURE__*/ S
   S.String,
 ) as any as S.Schema<IoK8sApiCoreV1VolumeResourceRequirementsLimitsMap>;
 
-/** Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
+/** requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
 export type IoK8sApiCoreV1VolumeResourceRequirementsRequestsMap = {
   [key: string]: string | undefined;
 };
@@ -2357,9 +2323,9 @@ export const IoK8sApiCoreV1VolumeResourceRequirementsRequestsMap = /*@__PURE__*/
 
 /** VolumeResourceRequirements describes the storage resource requirements for a volume. */
 export interface IoK8sApiCoreV1VolumeResourceRequirements {
-  /** Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
+  /** limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
   limits?: IoK8sApiCoreV1VolumeResourceRequirementsLimitsMap;
-  /** Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
+  /** requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
   requests?: IoK8sApiCoreV1VolumeResourceRequirementsRequestsMap;
 }
 export const IoK8sApiCoreV1VolumeResourceRequirements = /*@__PURE__*/ S.suspend(() =>
@@ -2410,9 +2376,9 @@ export const IoK8sApiCoreV1PersistentVolumeClaimSpec = /*@__PURE__*/ S.suspend((
 
 /** PersistentVolumeClaimTemplate is used to produce PersistentVolumeClaim objects as part of an EphemeralVolumeSource. */
 export interface IoK8sApiCoreV1PersistentVolumeClaimTemplate {
-  /** May contain labels and annotations that will be copied into the PVC when creating it. No other fields are allowed and will be rejected during validation. */
+  /** metadata may contain labels and annotations that will be copied into the PVC when creating it. No other fields are allowed and will be rejected during validation. */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** The specification for the PersistentVolumeClaim. The entire content is copied unchanged into the PVC that gets created from this template. The same fields as in a PersistentVolumeClaim are also valid here. */
+  /** spec is the specification for the PersistentVolumeClaim. The entire content is copied unchanged into the PVC that gets created from this template. The same fields as in a PersistentVolumeClaim are also valid here. */
   spec: IoK8sApiCoreV1PersistentVolumeClaimSpec;
 }
 export const IoK8sApiCoreV1PersistentVolumeClaimTemplate = /*@__PURE__*/ S.suspend(() =>
@@ -2426,12 +2392,12 @@ export const IoK8sApiCoreV1PersistentVolumeClaimTemplate = /*@__PURE__*/ S.suspe
 
 /** Represents an ephemeral volume that is handled by a normal storage driver. */
 export interface IoK8sApiCoreV1EphemeralVolumeSource {
-  /** Will be used to create a stand-alone PVC to provision the volume. The pod in which this EphemeralVolumeSource is embedded will be the owner of the PVC, i.e. the PVC will be deleted together with the pod. The name of the PVC will be `<pod name>-<volume name>` where `<volume name>` is the name from the `PodSpec.Volumes` array entry. Pod validation will reject the pod if the concatenated name is not valid for a PVC (for example, too long). An existing PVC with that name that is not owned by the pod will *not* be used for the pod to avoid using an unrelated volume by mistake. Starting the pod is then blocked until the unrelated PVC is removed. If such a pre-created PVC is meant to be used by the pod, the PVC has to updated with an owner reference to the pod once the pod exists. Normally this should not be necessary, but it may be useful when manually reconstructing a broken cluster. This field is read-only and no changes will be made by Kubernetes to the PVC after it has been created. Required, must not be nil. */
-  volumeClaimTemplate?: IoK8sApiCoreV1PersistentVolumeClaimTemplate;
+  /** volumeClaimTemplate will be used to create a stand-alone PVC to provision the volume. The pod in which this EphemeralVolumeSource is embedded will be the owner of the PVC, i.e. the PVC will be deleted together with the pod. The name of the PVC will be `<pod name>-<volume name>` where `<volume name>` is the name from the `PodSpec.Volumes` array entry. Pod validation will reject the pod if the concatenated name is not valid for a PVC (for example, too long). An existing PVC with that name that is not owned by the pod will *not* be used for the pod to avoid using an unrelated volume by mistake. Starting the pod is then blocked until the unrelated PVC is removed. If such a pre-created PVC is meant to be used by the pod, the PVC has to updated with an owner reference to the pod once the pod exists. Normally this should not be necessary, but it may be useful when manually reconstructing a broken cluster. This field is read-only and no changes will be made by Kubernetes to the PVC after it has been created. Required, must not be nil. */
+  volumeClaimTemplate: IoK8sApiCoreV1PersistentVolumeClaimTemplate;
 }
 export const IoK8sApiCoreV1EphemeralVolumeSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    volumeClaimTemplate: S.optional(IoK8sApiCoreV1PersistentVolumeClaimTemplate),
+    volumeClaimTemplate: IoK8sApiCoreV1PersistentVolumeClaimTemplate,
   }),
 ).annotate({
   identifier: "IoK8sApiCoreV1EphemeralVolumeSource",
@@ -2475,9 +2441,7 @@ export const IoK8sApiCoreV1FCVolumeSource = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<IoK8sApiCoreV1FCVolumeSource>;
 
 /** options is Optional: this field holds extra command options if any. */
-export type IoK8sApiCoreV1FlexVolumeSourceOptionsMap = {
-  [key: string]: string | undefined;
-};
+export type IoK8sApiCoreV1FlexVolumeSourceOptionsMap = { [key: string]: string | undefined };
 export const IoK8sApiCoreV1FlexVolumeSourceOptionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2602,9 +2566,9 @@ export const IoK8sApiCoreV1HostPathVolumeSource = /*@__PURE__*/ S.suspend(() =>
 
 /** ImageVolumeSource represents a image volume resource. */
 export interface IoK8sApiCoreV1ImageVolumeSource {
-  /** Policy for pulling OCI objects. Possible values are: Always: the kubelet always attempts to pull the reference. Container creation will fail If the pull fails. Never: the kubelet never pulls the reference and only uses a local image or artifact. Container creation will fail if the reference isn't present. IfNotPresent: the kubelet pulls if the reference isn't already present on disk. Container creation will fail if the reference isn't present and the pull fails. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. */
+  /** pullPolicy is the policy for pulling OCI objects. Possible values are: Always: the kubelet always attempts to pull the reference. Container creation will fail If the pull fails. Never: the kubelet never pulls the reference and only uses a local image or artifact. Container creation will fail if the reference isn't present. IfNotPresent: the kubelet pulls if the reference isn't already present on disk. Container creation will fail if the reference isn't present and the pull fails. Defaults to Always if :latest tag is specified, or IfNotPresent otherwise. */
   pullPolicy?: string;
-  /** Required: Image or artifact reference to be used. Behaves in the same way as pod.spec.containers[*].image. Pull secrets will be assembled in the same way as for the container image by looking up node credentials, SA image pull secrets, and pod spec image pull secrets. More info: https://kubernetes.io/docs/concepts/containers/images This field is optional to allow higher level config management to default or override container images in workload controllers like Deployments and StatefulSets. */
+  /** reference is required: Image or artifact reference to be used. Behaves in the same way as pod.spec.containers[*].image. Pull secrets will be assembled in the same way as for the container image by looking up node credentials, SA image pull secrets, and pod spec image pull secrets. More info: https://kubernetes.io/docs/concepts/containers/images This field is optional to allow higher level config management to default or override container images in workload controllers like Deployments and StatefulSets. */
   reference?: string;
 }
 export const IoK8sApiCoreV1ImageVolumeSource = /*@__PURE__*/ S.suspend(() =>
@@ -2637,7 +2601,7 @@ export interface IoK8sApiCoreV1ISCSIVolumeSource {
   /** iscsiInterface is the interface Name that uses an iSCSI transport. Defaults to 'default' (tcp). */
   iscsiInterface?: string;
   /** lun represents iSCSI Target Lun number. */
-  lun: number;
+  lun?: number;
   /** portals is the iSCSI Target Portal List. The portal is either an IP or ip_addr:port if the port is other than default (typically TCP ports 860 and 3260). */
   portals?: IoK8sApiCoreV1ISCSIVolumeSourcePortalsList;
   /** readOnly here will force the ReadOnly setting in VolumeMounts. Defaults to false. */
@@ -2655,7 +2619,7 @@ export const IoK8sApiCoreV1ISCSIVolumeSource = /*@__PURE__*/ S.suspend(() =>
     initiatorName: S.optional(S.String),
     iqn: S.String,
     iscsiInterface: S.optional(S.String),
-    lun: S.Number,
+    lun: S.optional(S.Number),
     portals: S.optional(IoK8sApiCoreV1ISCSIVolumeSourcePortalsList),
     readOnly: S.optional(S.Boolean),
     secretRef: S.optional(IoK8sApiCoreV1LocalObjectReference),
@@ -2718,7 +2682,7 @@ export const IoK8sApiCoreV1PhotonPersistentDiskVolumeSource = /*@__PURE__*/ S.su
 
 /** PortworxVolumeSource represents a Portworx volume resource. */
 export interface IoK8sApiCoreV1PortworxVolumeSource {
-  /** fSType represents the filesystem type to mount Must be a filesystem type supported by the host operating system. Ex. "ext4", "xfs". Implicitly inferred to be "ext4" if unspecified. */
+  /** fsType represents the filesystem type to mount Must be a filesystem type supported by the host operating system. Ex. "ext4", "xfs". Implicitly inferred to be "ext4" if unspecified. */
   fsType?: string;
   /** readOnly defaults to false (read/write). ReadOnly here will force the ReadOnly setting in VolumeMounts. */
   readOnly?: boolean;
@@ -2737,15 +2701,15 @@ export const IoK8sApiCoreV1PortworxVolumeSource = /*@__PURE__*/ S.suspend(() =>
 
 /** ClusterTrustBundleProjection describes how to select a set of ClusterTrustBundle objects and project their contents into the pod filesystem. */
 export interface IoK8sApiCoreV1ClusterTrustBundleProjection {
-  /** Select all ClusterTrustBundles that match this label selector. Only has effect if signerName is set. Mutually-exclusive with name. If unset, interpreted as "match nothing". If set but empty, interpreted as "match everything". */
+  /** labelSelector selects all ClusterTrustBundles that match this label selector. Only has effect if signerName is set. Mutually-exclusive with name. If unset, interpreted as "match nothing". If set but empty, interpreted as "match everything". */
   labelSelector?: IoK8sApimachineryPkgApisMetaV1LabelSelector;
-  /** Select a single ClusterTrustBundle by object name. Mutually-exclusive with signerName and labelSelector. */
+  /** name selects a single ClusterTrustBundle by object name. Mutually-exclusive with signerName and labelSelector. */
   name?: string;
-  /** If true, don't block pod startup if the referenced ClusterTrustBundle(s) aren't available. If using name, then the named ClusterTrustBundle is allowed not to exist. If using signerName, then the combination of signerName and labelSelector is allowed to match zero ClusterTrustBundles. */
+  /** optional indicates that if true, don't block pod startup if the referenced ClusterTrustBundle(s) aren't available. If using name, then the named ClusterTrustBundle is allowed not to exist. If using signerName, then the combination of signerName and labelSelector is allowed to match zero ClusterTrustBundles. */
   optional?: boolean;
-  /** Relative path from the volume root to write the bundle. */
+  /** path is the relative path from the volume root to write the bundle. */
   path: string;
-  /** Select all ClusterTrustBundles that match this signer name. Mutually-exclusive with name. The contents of all selected ClusterTrustBundles will be unified and deduplicated. */
+  /** signerName selects all ClusterTrustBundles that match this signer name. Mutually-exclusive with name. The contents of all selected ClusterTrustBundles will be unified and deduplicated. */
   signerName?: string;
   /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
   user?: number;
@@ -2773,7 +2737,7 @@ export const IoK8sApiCoreV1ConfigMapProjectionItemsList = /*@__PURE__*/ S.Array(
 export interface IoK8sApiCoreV1ConfigMapProjection {
   /** items if unspecified, each key-value pair in the Data field of the referenced ConfigMap will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the ConfigMap, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'. */
   items?: IoK8sApiCoreV1ConfigMapProjectionItemsList;
-  /** Name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
+  /** name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
   name?: string;
   /** optional specify whether the ConfigMap or its keys must be defined */
   optional?: boolean;
@@ -2788,7 +2752,7 @@ export const IoK8sApiCoreV1ConfigMapProjection = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiCoreV1ConfigMapProjection",
 }) as any as S.Schema<IoK8sApiCoreV1ConfigMapProjection>;
 
-/** Items is a list of DownwardAPIVolume file */
+/** items is a list of DownwardAPIVolume file */
 export type IoK8sApiCoreV1DownwardAPIProjectionItemsList =
   Array<IoK8sApiCoreV1DownwardAPIVolumeFile>;
 export const IoK8sApiCoreV1DownwardAPIProjectionItemsList = /*@__PURE__*/ S.Array(
@@ -2797,7 +2761,7 @@ export const IoK8sApiCoreV1DownwardAPIProjectionItemsList = /*@__PURE__*/ S.Arra
 
 /** Represents downward API info for projecting into a projected volume. Note that this is identical to a downwardAPI volume source without the default mode. */
 export interface IoK8sApiCoreV1DownwardAPIProjection {
-  /** Items is a list of DownwardAPIVolume file */
+  /** items is a list of DownwardAPIVolume file */
   items?: IoK8sApiCoreV1DownwardAPIProjectionItemsList;
 }
 export const IoK8sApiCoreV1DownwardAPIProjection = /*@__PURE__*/ S.suspend(() =>
@@ -2819,17 +2783,17 @@ export const IoK8sApiCoreV1PodCertificateProjectionUserAnnotationsMap = /*@__PUR
 
 /** PodCertificateProjection provides a private key and X.509 certificate in the pod filesystem. */
 export interface IoK8sApiCoreV1PodCertificateProjection {
-  /** Write the certificate chain at this path in the projected volume. Most applications should use credentialBundlePath. When using keyPath and certificateChainPath, your application needs to check that the key and leaf certificate are consistent, because it is possible to read the files mid-rotation. */
+  /** certificateChainPath is the path to write the certificate chain at this path in the projected volume. Most applications should use credentialBundlePath. When using keyPath and certificateChainPath, your application needs to check that the key and leaf certificate are consistent, because it is possible to read the files mid-rotation. */
   certificateChainPath?: string;
-  /** Write the credential bundle at this path in the projected volume. The credential bundle is a single file that contains multiple PEM blocks. The first PEM block is a PRIVATE KEY block, containing a PKCS#8 private key. The remaining blocks are CERTIFICATE blocks, containing the issued certificate chain from the signer (leaf and any intermediates). Using credentialBundlePath lets your Pod's application code make a single atomic read that retrieves a consistent key and certificate chain. If you project them to separate files, your application code will need to additionally check that the leaf certificate was issued to the key. */
+  /** credentialBundlePath is the path to write the credential bundle at in the projected volume. The credential bundle is a single file that contains multiple PEM blocks. The first PEM block is a PRIVATE KEY block, containing a PKCS#8 private key. The remaining blocks are CERTIFICATE blocks, containing the issued certificate chain from the signer (leaf and any intermediates). Using credentialBundlePath lets your Pod's application code make a single atomic read that retrieves a consistent key and certificate chain. If you project them to separate files, your application code will need to additionally check that the leaf certificate was issued to the key. */
   credentialBundlePath?: string;
-  /** Write the key at this path in the projected volume. Most applications should use credentialBundlePath. When using keyPath and certificateChainPath, your application needs to check that the key and leaf certificate are consistent, because it is possible to read the files mid-rotation. */
+  /** keyPath is the path to write the key at in the projected volume. Most applications should use credentialBundlePath. When using keyPath and certificateChainPath, your application needs to check that the key and leaf certificate are consistent, because it is possible to read the files mid-rotation. */
   keyPath?: string;
-  /** The type of keypair Kubelet will generate for the pod. Valid values are "RSA3072", "RSA4096", "ECDSAP256", "ECDSAP384", "ECDSAP521", and "ED25519". */
+  /** keyType is the type of keypair Kubelet will generate for the pod. Valid values are "RSA3072", "RSA4096", "ECDSAP256", "ECDSAP384", "ECDSAP521", "ED25519", "MLDSA44", "MLDSA65", and "MLDSA87". MLDSA key types are only allowed when the PodCertificateMLDSA feature gate is enabled. */
   keyType: string;
   /** maxExpirationSeconds is the maximum lifetime permitted for the certificate. Kubelet copies this value verbatim into the PodCertificateRequests it generates for this projection. If omitted, kube-apiserver will set it to 86400(24 hours). kube-apiserver will reject values shorter than 3600 (1 hour). The maximum allowable value is 7862400 (91 days). The signer implementation is then free to issue a certificate with any lifetime *shorter* than MaxExpirationSeconds, but no shorter than 3600 seconds (1 hour). This constraint is enforced by kube-apiserver. `kubernetes.io` signers will never issue certificates with a lifetime longer than 24 hours. */
   maxExpirationSeconds?: number;
-  /** Kubelet's generated CSRs will be addressed to this signer. */
+  /** signerName is the name of the signer. Kubelet's generated CSRs will be addressed to this signer. */
   signerName: string;
   /** user is Optional: The owner UID of the created file. If specified, the item-level user field takes precedence over defaultUser. (Alpha) This field requires the AtomicWriteVolumeUserFields feature gate to be enabled. */
   user?: number;
@@ -2861,7 +2825,7 @@ export const IoK8sApiCoreV1SecretProjectionItemsList = /*@__PURE__*/ S.Array(
 export interface IoK8sApiCoreV1SecretProjection {
   /** items if unspecified, each key-value pair in the Data field of the referenced Secret will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the Secret, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'. */
   items?: IoK8sApiCoreV1SecretProjectionItemsList;
-  /** Name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
+  /** name of the referent. This field is effectively required, but due to backwards compatibility is allowed to be empty. Instances of this type with an empty value here are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
   name?: string;
   /** optional field specify whether the Secret or its key must be defined */
   optional?: boolean;
@@ -2900,13 +2864,13 @@ export const IoK8sApiCoreV1ServiceAccountTokenProjection = /*@__PURE__*/ S.suspe
 
 /** Projection that may be projected along with other supported volume types. Exactly one of these fields must be set. */
 export interface IoK8sApiCoreV1VolumeProjection {
-  /** ClusterTrustBundle allows a pod to access the `.spec.trustBundle` field of ClusterTrustBundle objects in an auto-updating file. Alpha, gated by the ClusterTrustBundleProjection feature gate. ClusterTrustBundle objects can either be selected by name, or by the combination of signer name and a label selector. Kubelet performs aggressive normalization of the PEM contents written into the pod filesystem. Esoteric PEM features such as inter-block comments and block headers are stripped. Certificates are deduplicated. The ordering of certificates within the file is arbitrary, and Kubelet may change the order over time. */
+  /** clusterTrustBundle allows a pod to access the `.spec.trustBundle` field of ClusterTrustBundle objects in an auto-updating file. Alpha, gated by the ClusterTrustBundleProjection feature gate. ClusterTrustBundle objects can either be selected by name, or by the combination of signer name and a label selector. Kubelet performs aggressive normalization of the PEM contents written into the pod filesystem. Esoteric PEM features such as inter-block comments and block headers are stripped. Certificates are deduplicated. The ordering of certificates within the file is arbitrary, and Kubelet may change the order over time. */
   clusterTrustBundle?: IoK8sApiCoreV1ClusterTrustBundleProjection;
   /** configMap information about the configMap data to project */
   configMap?: IoK8sApiCoreV1ConfigMapProjection;
   /** downwardAPI information about the downwardAPI data to project */
   downwardAPI?: IoK8sApiCoreV1DownwardAPIProjection;
-  /** Projects an auto-rotating credential bundle (private key and certificate chain) that the pod can use either as a TLS client or server. Kubelet generates a private key and uses it to send a PodCertificateRequest to the named signer. Once the signer approves the request and issues a certificate chain, Kubelet writes the key and certificate chain to the pod filesystem. The pod does not start until certificates have been issued for each podCertificate projected volume source in its spec. Kubelet will begin trying to rotate the certificate at the time indicated by the signer using the PodCertificateRequest.Status.BeginRefreshAt timestamp. Kubelet can write a single file, indicated by the credentialBundlePath field, or separate files, indicated by the keyPath and certificateChainPath fields. The credential bundle is a single file in PEM format. The first PEM entry is the private key (in PKCS#8 format), and the remaining PEM entries are the certificate chain issued by the signer (typically, signers will return their certificate chain in leaf-to-root order). Prefer using the credential bundle format, since your application code can read it atomically. If you use keyPath and certificateChainPath, your application must make two separate file reads. If these coincide with a certificate rotation, it is possible that the private key and leaf certificate you read may not correspond to each other. Your application will need to check for this condition, and re-read until they are consistent. The named signer controls chooses the format of the certificate it issues; consult the signer implementation's documentation to learn how to use the certificates it issues. */
+  /** podCertificate projects an auto-rotating credential bundle (private key and certificate chain) that the pod can use either as a TLS client or server. Kubelet generates a private key and uses it to send a PodCertificateRequest to the named signer. Once the signer approves the request and issues a certificate chain, Kubelet writes the key and certificate chain to the pod filesystem. The pod does not start until certificates have been issued for each podCertificate projected volume source in its spec. Kubelet will begin trying to rotate the certificate at the time indicated by the signer using the PodCertificateRequest.Status.BeginRefreshAt timestamp. Kubelet can write a single file, indicated by the credentialBundlePath field, or separate files, indicated by the keyPath and certificateChainPath fields. The credential bundle is a single file in PEM format. The first PEM entry is the private key (in PKCS#8 format), and the remaining PEM entries are the certificate chain issued by the signer (typically, signers will return their certificate chain in leaf-to-root order). Prefer using the credential bundle format, since your application code can read it atomically. If you use keyPath and certificateChainPath, your application must make two separate file reads. If these coincide with a certificate rotation, it is possible that the private key and leaf certificate you read may not correspond to each other. Your application will need to check for this condition, and re-read until they are consistent. The named signer controls chooses the format of the certificate it issues; consult the signer implementation's documentation to learn how to use the certificates it issues. */
   podCertificate?: IoK8sApiCoreV1PodCertificateProjection;
   /** secret information about the secret data to project */
   secret?: IoK8sApiCoreV1SecretProjection;
@@ -3030,7 +2994,7 @@ export interface IoK8sApiCoreV1ScaleIOVolumeSource {
   /** readOnly Defaults to false (read/write). ReadOnly here will force the ReadOnly setting in VolumeMounts. */
   readOnly?: boolean;
   /** secretRef references to the secret for ScaleIO user and other sensitive information. If this is not provided, Login operation will fail. */
-  secretRef: IoK8sApiCoreV1LocalObjectReference;
+  secretRef?: IoK8sApiCoreV1LocalObjectReference;
   /** sslEnabled Flag enable/disable SSL communication with Gateway, default false */
   sslEnabled?: boolean;
   /** storageMode indicates whether the storage for a volume should be ThickProvisioned or ThinProvisioned. Default is ThinProvisioned. */
@@ -3040,7 +3004,7 @@ export interface IoK8sApiCoreV1ScaleIOVolumeSource {
   /** system is the name of the storage system as configured in ScaleIO. */
   system: string;
   /** volumeName is the name of a volume already created in the ScaleIO system that is associated with this volume source. */
-  volumeName?: string;
+  volumeName: string;
 }
 export const IoK8sApiCoreV1ScaleIOVolumeSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3048,12 +3012,12 @@ export const IoK8sApiCoreV1ScaleIOVolumeSource = /*@__PURE__*/ S.suspend(() =>
     gateway: S.String,
     protectionDomain: S.optional(S.String),
     readOnly: S.optional(S.Boolean),
-    secretRef: IoK8sApiCoreV1LocalObjectReference,
+    secretRef: S.optional(IoK8sApiCoreV1LocalObjectReference),
     sslEnabled: S.optional(S.Boolean),
     storageMode: S.optional(S.String),
     storagePool: S.optional(S.String),
     system: S.String,
-    volumeName: S.optional(S.String),
+    volumeName: S.String,
   }),
 ).annotate({
   identifier: "IoK8sApiCoreV1ScaleIOVolumeSource",
@@ -3099,7 +3063,7 @@ export interface IoK8sApiCoreV1StorageOSVolumeSource {
   /** secretRef specifies the secret to use for obtaining the StorageOS API credentials. If not specified, default values will be attempted. */
   secretRef?: IoK8sApiCoreV1LocalObjectReference;
   /** volumeName is the human-readable name of the StorageOS volume. Volume names are only unique within a namespace. */
-  volumeName?: string;
+  volumeName: string;
   /** volumeNamespace specifies the scope of the volume within StorageOS. If no namespace is specified then the Pod's namespace will be used. This allows the Kubernetes name scoping to be mirrored within StorageOS for tighter integration. Set VolumeName to any name to override the default behaviour. Set to "default" if you are not using namespaces within StorageOS. Namespaces that do not pre-exist within StorageOS will be created. */
   volumeNamespace?: string;
 }
@@ -3108,7 +3072,7 @@ export const IoK8sApiCoreV1StorageOSVolumeSource = /*@__PURE__*/ S.suspend(() =>
     fsType: S.optional(S.String),
     readOnly: S.optional(S.Boolean),
     secretRef: S.optional(IoK8sApiCoreV1LocalObjectReference),
-    volumeName: S.optional(S.String),
+    volumeName: S.String,
     volumeNamespace: S.optional(S.String),
   }),
 ).annotate({
@@ -3145,7 +3109,7 @@ export interface IoK8sApiCoreV1Volume {
   azureDisk?: IoK8sApiCoreV1AzureDiskVolumeSource;
   /** azureFile represents an Azure File Service mount on the host and bind mount to the pod. Deprecated: AzureFile is deprecated. All operations for the in-tree azureFile type are redirected to the file.csi.azure.com CSI driver. */
   azureFile?: IoK8sApiCoreV1AzureFileVolumeSource;
-  /** cephFS represents a Ceph FS mount on the host that shares a pod's lifetime. Deprecated: CephFS is deprecated and the in-tree cephfs type is no longer supported. */
+  /** cephfs represents a Ceph FS mount on the host that shares a pod's lifetime. Deprecated: CephFS is deprecated and the in-tree cephfs type is no longer supported. */
   cephfs?: IoK8sApiCoreV1CephFSVolumeSource;
   /** cinder represents a cinder volume attached and mounted on kubelets host machine. Deprecated: Cinder is deprecated. All operations for the in-tree cinder type are redirected to the cinder.csi.openstack.org CSI driver. More info: https://examples.k8s.io/mysql-cinder-pd/README.md */
   cinder?: IoK8sApiCoreV1CinderVolumeSource;
@@ -3181,7 +3145,7 @@ export interface IoK8sApiCoreV1Volume {
   name: string;
   /** nfs represents an NFS mount on the host that shares a pod's lifetime More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs */
   nfs?: IoK8sApiCoreV1NFSVolumeSource;
-  /** persistentVolumeClaimVolumeSource represents a reference to a PersistentVolumeClaim in the same namespace. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims */
+  /** persistentVolumeClaim represents a reference to a PersistentVolumeClaim in the same namespace. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims */
   persistentVolumeClaim?: IoK8sApiCoreV1PersistentVolumeClaimVolumeSource;
   /** photonPersistentDisk represents a PhotonController persistent disk attached and mounted on kubelets host machine. Deprecated: PhotonPersistentDisk is deprecated and the in-tree photonPersistentDisk type is no longer supported. */
   photonPersistentDisk?: IoK8sApiCoreV1PhotonPersistentDiskVolumeSource;
@@ -3197,7 +3161,7 @@ export interface IoK8sApiCoreV1Volume {
   scaleIO?: IoK8sApiCoreV1ScaleIOVolumeSource;
   /** secret represents a secret that should populate this volume. More info: https://kubernetes.io/docs/concepts/storage/volumes#secret */
   secret?: IoK8sApiCoreV1SecretVolumeSource;
-  /** storageOS represents a StorageOS volume attached and mounted on Kubernetes nodes. Deprecated: StorageOS is deprecated and the in-tree storageos type is no longer supported. */
+  /** storageos represents a StorageOS volume attached and mounted on Kubernetes nodes. Deprecated: StorageOS is deprecated and the in-tree storageos type is no longer supported. */
   storageos?: IoK8sApiCoreV1StorageOSVolumeSource;
   /** vsphereVolume represents a vSphere volume attached and mounted on kubelets host machine. Deprecated: VsphereVolume is deprecated. All operations for the in-tree vsphereVolume type are redirected to the csi.vsphere.vmware.com CSI driver. */
   vsphereVolume?: IoK8sApiCoreV1VsphereVirtualDiskVolumeSource;
@@ -3236,11 +3200,9 @@ export const IoK8sApiCoreV1Volume = /*@__PURE__*/ S.suspend(() =>
     storageos: S.optional(IoK8sApiCoreV1StorageOSVolumeSource),
     vsphereVolume: S.optional(IoK8sApiCoreV1VsphereVirtualDiskVolumeSource),
   }),
-).annotate({
-  identifier: "IoK8sApiCoreV1Volume",
-}) as any as S.Schema<IoK8sApiCoreV1Volume>;
+).annotate({ identifier: "IoK8sApiCoreV1Volume" }) as any as S.Schema<IoK8sApiCoreV1Volume>;
 
-/** List of volumes that can be mounted by containers belonging to the pod. More info: https://kubernetes.io/docs/concepts/storage/volumes */
+/** volumes is the list of volumes that can be mounted by containers belonging to the pod. More info: https://kubernetes.io/docs/concepts/storage/volumes */
 export type IoK8sApiCoreV1PodSpecVolumesList = Array<IoK8sApiCoreV1Volume>;
 export const IoK8sApiCoreV1PodSpecVolumesList = /*@__PURE__*/ S.Array(
   IoK8sApiCoreV1Volume,
@@ -3248,91 +3210,91 @@ export const IoK8sApiCoreV1PodSpecVolumesList = /*@__PURE__*/ S.Array(
 
 /** PodSpec is a description of a pod. */
 export interface IoK8sApiCoreV1PodSpec {
-  /** Optional duration in seconds the pod may be active on the node relative to StartTime before the system will actively try to mark it failed and kill associated containers. Value must be a positive integer. */
+  /** activeDeadlineSeconds is the optional duration in seconds the pod may be active on the node relative to StartTime before the system will actively try to mark it failed and kill associated containers. Value must be a positive integer. */
   activeDeadlineSeconds?: number;
-  /** If specified, the pod's scheduling constraints */
+  /** affinity specifies the pod's scheduling constraints */
   affinity?: IoK8sApiCoreV1Affinity;
-  /** AutomountServiceAccountToken indicates whether a service account token should be automatically mounted. */
+  /** automountServiceAccountToken indicates whether a service account token should be automatically mounted. */
   automountServiceAccountToken?: boolean;
-  /** List of containers belonging to the pod. Containers cannot currently be added or removed. There must be at least one container in a Pod. Cannot be updated. */
+  /** containers is the list of containers belonging to the pod. Containers cannot currently be added or removed. There must be at least one container in a Pod. Cannot be updated. */
   containers: IoK8sApiCoreV1PodSpecContainersList;
-  /** Specifies the DNS parameters of a pod. Parameters specified here will be merged to the generated DNS configuration based on DNSPolicy. */
+  /** dnsConfig specifies the DNS parameters of a pod. Parameters specified here will be merged to the generated DNS configuration based on DNSPolicy. */
   dnsConfig?: IoK8sApiCoreV1PodDNSConfig;
-  /** Set DNS policy for the pod. Defaults to "ClusterFirst". Valid values are 'ClusterFirstWithHostNet', 'ClusterFirst', 'Default' or 'None'. DNS parameters given in DNSConfig will be merged with the policy selected with DNSPolicy. To have DNS options set along with hostNetwork, you have to specify DNS policy explicitly to 'ClusterFirstWithHostNet'. */
+  /** dnsPolicy sets the DNS policy for the pod. Defaults to "ClusterFirst". Valid values are 'ClusterFirstWithHostNet', 'ClusterFirst', 'Default' or 'None'. DNS parameters given in DNSConfig will be merged with the policy selected with DNSPolicy. To have DNS options set along with hostNetwork, you have to specify DNS policy explicitly to 'ClusterFirstWithHostNet'. */
   dnsPolicy?: string;
-  /** EnableServiceLinks indicates whether information about services should be injected into pod's environment variables, matching the syntax of Docker links. Optional: Defaults to true. */
+  /** enableServiceLinks indicates whether information about services should be injected into pod's environment variables, matching the syntax of Docker links. Optional: Defaults to true. */
   enableServiceLinks?: boolean;
-  /** List of ephemeral containers run in this pod. Ephemeral containers may be run in an existing pod to perform user-initiated actions such as debugging. This list cannot be specified when creating a pod, and it cannot be modified by updating the pod spec. In order to add an ephemeral container to an existing pod, use the pod's ephemeralcontainers subresource. */
+  /** ephemeralContainers is the list of ephemeral containers run in this pod. Ephemeral containers may be run in an existing pod to perform user-initiated actions such as debugging. This list cannot be specified when creating a pod, and it cannot be modified by updating the pod spec. In order to add an ephemeral container to an existing pod, use the pod's ephemeralcontainers subresource. */
   ephemeralContainers?: IoK8sApiCoreV1PodSpecEphemeralContainersList;
   /** evictionResponders reference responders that react to Evictions based on EvictionRequests. Responders should observe and communicate through the Eviction Resource API to help with the graceful termination of a pod. The responders are selected sequentially, according to their specified priority. Responders should periodically report on an eviction progress by updating the .status.responders[].heartbeatTime field of the Eviction object. If this field is not updated within the heartbeat deadline defined by the Eviction API (currently 20 minutes), the eviction is passed over to the next responder with a lower priority. If there is no other responder, the last default imperative-eviction.k8s.io/evictor responder with a priority of 100 will evict the pod using the imperative Eviction API (pods/<name>/eviction subresource). The maximum length of the responders list is 10. Responders are not supported when the pod is part of a PodGroup (.spec.schedulingGroup is set). This field can only be set on creation and is immutable afterwards. */
   evictionResponders?: IoK8sApiCoreV1PodSpecEvictionRespondersList;
-  /** HostAliases is an optional list of hosts and IPs that will be injected into the pod's hosts file if specified. */
+  /** hostAliases is an optional list of hosts and IPs that will be injected into the pod's hosts file if specified. */
   hostAliases?: IoK8sApiCoreV1PodSpecHostAliasesList;
-  /** Use the host's ipc namespace. Optional: Default to false. */
+  /** hostIPC uses the host's ipc namespace. Optional: Default to false. */
   hostIPC?: boolean;
-  /** Host networking requested for this pod. Use the host's network namespace. When using HostNetwork you should specify ports so the scheduler is aware. When `hostNetwork` is true, specified `hostPort` fields in port definitions must match `containerPort`, and unspecified `hostPort` fields in port definitions are defaulted to match `containerPort`. Default to false. */
+  /** hostNetwork indicates that the pod should use the host's network namespace. When using hostNetwork you should specify ports so the scheduler is aware. When `hostNetwork` is true, specified `hostPort` fields in port definitions must match `containerPort`, and unspecified `hostPort` fields in port definitions are defaulted to match `containerPort`. Default to false. */
   hostNetwork?: boolean;
-  /** Use the host's pid namespace. Optional: Default to false. */
+  /** hostPID uses the host's pid namespace. Optional: Default to false. */
   hostPID?: boolean;
-  /** Use the host's user namespace. Optional: Default to true. If set to true or not present, the pod will be run in the host user namespace, useful for when the pod needs a feature only available to the host user namespace, such as loading a kernel module with CAP_SYS_MODULE. When set to false, a new userns is created for the pod. Setting false is useful for mitigating container breakout vulnerabilities even allowing users to run their containers as root without actually having root privileges on the host. */
+  /** hostUsers specifies whether to use the host's user namespace. Optional: Default to true. If set to true or not present, the pod will be run in the host user namespace, useful for when the pod needs a feature only available to the host user namespace, such as loading a kernel module with CAP_SYS_MODULE. When set to false, a new userns is created for the pod. Setting false is useful for mitigating container breakout vulnerabilities even allowing users to run their containers as root without actually having root privileges on the host. */
   hostUsers?: boolean;
-  /** Specifies the hostname of the Pod If not specified, the pod's hostname will be set to a system-defined value. */
+  /** hostname specifies the hostname of the Pod If not specified, the pod's hostname will be set to a system-defined value. */
   hostname?: string;
-  /** HostnameOverride specifies an explicit override for the pod's hostname as perceived by the pod. This field only specifies the pod's hostname and does not affect its DNS records. When this field is set to a non-empty string: - It takes precedence over the values set in `hostname` and `subdomain`. - The Pod's hostname will be set to this value. - `setHostnameAsFQDN` must be nil or set to false. - `hostNetwork` must be set to false. This field must be a valid DNS subdomain as defined in RFC 1123 and contain at most 64 characters. */
+  /** hostnameOverride specifies an explicit override for the pod's hostname as perceived by the pod. This field only specifies the pod's hostname and does not affect its DNS records. When this field is set to a non-empty string: - It takes precedence over the values set in `hostname` and `subdomain`. - The Pod's hostname will be set to this value. - `setHostnameAsFQDN` must be nil or set to false. - `hostNetwork` must be set to false. This field must be a valid DNS subdomain as defined in RFC 1123 and contain at most 64 characters. */
   hostnameOverride?: string;
-  /** ImagePullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images used by this PodSpec. If specified, these secrets will be passed to individual puller implementations for them to use. More info: https://kubernetes.io/docs/concepts/containers/images#specifying-imagepullsecrets-on-a-pod */
+  /** imagePullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images used by this PodSpec. If specified, these secrets will be passed to individual puller implementations for them to use. More info: https://kubernetes.io/docs/concepts/containers/images#specifying-imagepullsecrets-on-a-pod */
   imagePullSecrets?: IoK8sApiCoreV1PodSpecImagePullSecretsList;
-  /** List of initialization containers belonging to the pod. Init containers are executed in order prior to containers being started. If any init container fails, the pod is considered to have failed and is handled according to its restartPolicy. The name for an init container or normal container must be unique among all containers. Init containers may not have Lifecycle actions, Readiness probes, Liveness probes, or Startup probes. The resourceRequirements of an init container are taken into account during scheduling by finding the highest request/limit for each resource type, and then using the max of that value or the sum of the normal containers. Limits are applied to init containers in a similar fashion. Init containers cannot currently be added or removed. Cannot be updated. More info: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/ */
+  /** initContainers is the list of initialization containers belonging to the pod. Init containers are executed in order prior to containers being started. If any init container fails, the pod is considered to have failed and is handled according to its restartPolicy. The name for an init container or normal container must be unique among all containers. Init containers may not have Lifecycle actions, Readiness probes, Liveness probes, or Startup probes. The resourceRequirements of an init container are taken into account during scheduling by finding the highest request/limit for each resource type, and then using the max of that value or the sum of the normal containers. Limits are applied to init containers in a similar fashion. Init containers cannot currently be added or removed. Cannot be updated. More info: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/ */
   initContainers?: IoK8sApiCoreV1PodSpecInitContainersList;
-  /** NodeName indicates in which node this pod is scheduled. If empty, this pod is a candidate for scheduling by the scheduler defined in schedulerName. Once this field is set, the kubelet for this node becomes responsible for the lifecycle of this pod. This field should not be used to express a desire for the pod to be scheduled on a specific node. https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodename */
+  /** nodeName indicates in which node this pod is scheduled. If empty, this pod is a candidate for scheduling by the scheduler defined in schedulerName. Once this field is set, the kubelet for this node becomes responsible for the lifecycle of this pod. This field should not be used to express a desire for the pod to be scheduled on a specific node. https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodename */
   nodeName?: string;
-  /** NodeSelector is a selector which must be true for the pod to fit on a node. Selector which must match a node's labels for the pod to be scheduled on that node. More info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/ */
+  /** nodeSelector is a selector which must be true for the pod to fit on a node. Selector which must match a node's labels for the pod to be scheduled on that node. More info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/ */
   nodeSelector?: IoK8sApiCoreV1PodSpecNodeSelectorMap;
-  /** Specifies the OS of the containers in the pod. Some pod and container fields are restricted if this is set. If the OS field is set to linux, the following fields must be unset: -securityContext.windowsOptions If the OS field is set to windows, following fields must be unset: - spec.hostPID - spec.hostIPC - spec.hostUsers - spec.resources - spec.securityContext.appArmorProfile - spec.securityContext.seLinuxOptions - spec.securityContext.seccompProfile - spec.securityContext.fsGroup - spec.securityContext.fsGroupChangePolicy - spec.securityContext.sysctls - spec.shareProcessNamespace - spec.securityContext.runAsUser - spec.securityContext.runAsGroup - spec.securityContext.supplementalGroups - spec.securityContext.supplementalGroupsPolicy - spec.containers[*].securityContext.appArmorProfile - spec.containers[*].securityContext.seLinuxOptions - spec.containers[*].securityContext.seccompProfile - spec.containers[*].securityContext.capabilities - spec.containers[*].securityContext.readOnlyRootFilesystem - spec.containers[*].securityContext.privileged - spec.containers[*].securityContext.allowPrivilegeEscalation - spec.containers[*].securityContext.procMount - spec.containers[*].securityContext.runAsUser - spec.containers[*].securityContext.runAsGroup */
+  /** os specifies the OS of the containers in the pod. Some pod and container fields are restricted if this is set. If the OS field is set to linux, the following fields must be unset: -securityContext.windowsOptions If the OS field is set to windows, following fields must be unset: - spec.hostPID - spec.hostIPC - spec.hostUsers - spec.resources - spec.securityContext.appArmorProfile - spec.securityContext.seLinuxOptions - spec.securityContext.seccompProfile - spec.securityContext.fsGroup - spec.securityContext.fsGroupChangePolicy - spec.securityContext.sysctls - spec.shareProcessNamespace - spec.securityContext.runAsUser - spec.securityContext.runAsGroup - spec.securityContext.supplementalGroups - spec.securityContext.supplementalGroupsPolicy - spec.containers[*].securityContext.appArmorProfile - spec.containers[*].securityContext.seLinuxOptions - spec.containers[*].securityContext.seccompProfile - spec.containers[*].securityContext.capabilities - spec.containers[*].securityContext.readOnlyRootFilesystem - spec.containers[*].securityContext.privileged - spec.containers[*].securityContext.allowPrivilegeEscalation - spec.containers[*].securityContext.procMount - spec.containers[*].securityContext.runAsUser - spec.containers[*].securityContext.runAsGroup */
   os?: IoK8sApiCoreV1PodOS;
-  /** Overhead represents the resource overhead associated with running a pod for a given RuntimeClass. This field will be autopopulated at admission time by the RuntimeClass admission controller. If the RuntimeClass admission controller is enabled, overhead must not be set in Pod create requests. The RuntimeClass admission controller will reject Pod create requests which have the overhead already set. If RuntimeClass is configured and selected in the PodSpec, Overhead will be set to the value defined in the corresponding RuntimeClass, otherwise it will remain unset and treated as zero. More info: https://git.k8s.io/enhancements/keps/sig-node/688-pod-overhead/README.md */
+  /** overhead represents the resource overhead associated with running a pod for a given RuntimeClass. This field will be autopopulated at admission time by the RuntimeClass admission controller. If the RuntimeClass admission controller is enabled, overhead must not be set in Pod create requests. The RuntimeClass admission controller will reject Pod create requests which have the overhead already set. If RuntimeClass is configured and selected in the PodSpec, Overhead will be set to the value defined in the corresponding RuntimeClass, otherwise it will remain unset and treated as zero. More info: https://git.k8s.io/enhancements/keps/sig-node/688-pod-overhead/README.md */
   overhead?: IoK8sApiCoreV1PodSpecOverheadMap;
-  /** PreemptionPolicy is the Policy for preempting pods with lower priority. One of Never, PreemptLowerPriority. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. Defaults to PreemptLowerPriority if unset. */
+  /** preemptionPolicy is the Policy for preempting pods with lower priority. One of Never, PreemptLowerPriority. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. Defaults to PreemptLowerPriority if unset. */
   preemptionPolicy?: string;
-  /** The priority value. Various system components use this field to find the priority of the pod. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. */
+  /** priority specifies the priority value. Various system components use this field to find the priority of the pod. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority. */
   priority?: number;
-  /** If specified, indicates the pod's priority. "system-node-critical" and "system-cluster-critical" are two special keywords which indicate the highest priorities with the former being the highest priority. Any other name must be defined by creating a PriorityClass object with that name. If not specified, the pod priority will be default or zero if there is no default. */
+  /** priorityClassName if specified, indicates the pod's priority. "system-node-critical" and "system-cluster-critical" are two special keywords which indicate the highest priorities with the former being the highest priority. Any other name must be defined by creating a PriorityClass object with that name. If not specified, the pod priority will be default or zero if there is no default. */
   priorityClassName?: string;
-  /** If specified, all readiness gates will be evaluated for pod readiness. A pod is ready when all its containers are ready AND all conditions specified in the readiness gates have status equal to "True" More info: https://git.k8s.io/enhancements/keps/sig-network/580-pod-readiness-gates */
+  /** readinessGates if specified, all readiness gates will be evaluated for pod readiness. A pod is ready when all its containers are ready AND all conditions specified in the readiness gates have status equal to "True" More info: https://git.k8s.io/enhancements/keps/sig-network/580-pod-readiness-gates */
   readinessGates?: IoK8sApiCoreV1PodSpecReadinessGatesList;
-  /** ResourceClaims defines which ResourceClaims must be allocated and reserved before the Pod is allowed to start. The resources will be made available to those containers which consume them by name. This is a stable field but requires that the DynamicResourceAllocation feature gate is enabled. This field is immutable. */
+  /** resourceClaims defines which ResourceClaims must be allocated and reserved before the Pod is allowed to start. The resources will be made available to those containers which consume them by name. This field is immutable. */
   resourceClaims?: IoK8sApiCoreV1PodSpecResourceClaimsList;
-  /** Resources is the total amount of CPU and Memory resources required by all containers in the pod. It supports specifying Requests and Limits for "cpu", "memory" and "hugepages-" resource names only. ResourceClaims are not supported. This field enables fine-grained control over resource allocation for the entire pod, allowing resource sharing among containers in a pod. This is an alpha field and requires enabling the PodLevelResources feature gate. */
+  /** resources is the total amount of CPU and Memory resources required by all containers in the pod. It supports specifying Requests and Limits for "cpu", "memory" and "hugepages-" resource names only. ResourceClaims are not supported. This field enables fine-grained control over resource allocation for the entire pod, allowing resource sharing among containers in a pod. This is an alpha field and requires enabling the PodLevelResources feature gate. */
   resources?: IoK8sApiCoreV1ResourceRequirements;
-  /** Restart policy for all containers within the pod. One of Always, OnFailure, Never. In some contexts, only a subset of those values may be permitted. Default to Always. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy */
+  /** restartPolicy is the restart policy for all containers within the pod. One of Always, OnFailure, Never. In some contexts, only a subset of those values may be permitted. Default to Always. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy */
   restartPolicy?: string;
-  /** RuntimeClassName refers to a RuntimeClass object in the node.k8s.io group, which should be used to run this pod. If no RuntimeClass resource matches the named class, the pod will not be run. If unset or empty, the "legacy" RuntimeClass will be used, which is an implicit class with an empty definition that uses the default runtime handler. More info: https://git.k8s.io/enhancements/keps/sig-node/585-runtime-class */
+  /** runtimeClassName refers to a RuntimeClass object in the node.k8s.io group, which should be used to run this pod. If no RuntimeClass resource matches the named class, the pod will not be run. If unset or empty, the "legacy" RuntimeClass will be used, which is an implicit class with an empty definition that uses the default runtime handler. More info: https://git.k8s.io/enhancements/keps/sig-node/585-runtime-class */
   runtimeClassName?: string;
-  /** If specified, the pod will be dispatched by specified scheduler. If not specified, the pod will be dispatched by default scheduler. */
+  /** schedulerName specifies the scheduler to dispatch the pod. If not specified, the pod will be dispatched by default scheduler. */
   schedulerName?: string;
-  /** SchedulingGates is an opaque list of values that if specified will block scheduling the pod. If schedulingGates is not empty, the pod will stay in the SchedulingGated state and the scheduler will not attempt to schedule the pod. SchedulingGates can only be set at pod creation time, and be removed only afterwards. */
+  /** schedulingGates is an opaque list of values that if specified will block scheduling the pod. If schedulingGates is not empty, the pod will stay in the SchedulingGated state and the scheduler will not attempt to schedule the pod. SchedulingGates can only be set at pod creation time, and be removed only afterwards. */
   schedulingGates?: IoK8sApiCoreV1PodSpecSchedulingGatesList;
-  /** SchedulingGroup provides a reference to the immediate scheduling runtime grouping object that this Pod belongs to. This field is used by the scheduler to identify the group and apply the correct group scheduling policies. The association with a group also impacts other lifecycle aspects of a Pod that are relevant in a wider context of scheduling like preemption, resource attachment, etc. If not specified, the Pod is treated as a single unit in all of these aspects. The group object referenced by this field may not exist at the time the Pod is created. This field is immutable, but a group object with the same name may be recreated with different policies. Doing this during pod scheduling may result in the placement not conforming to the expected policies. */
+  /** schedulingGroup provides a reference to the immediate scheduling runtime grouping object that this Pod belongs to. This field is used by the scheduler to identify the group and apply the correct group scheduling policies. The association with a group also impacts other lifecycle aspects of a Pod that are relevant in a wider context of scheduling like preemption, resource attachment, etc. If not specified, the Pod is treated as a single unit in all of these aspects. The group object referenced by this field may not exist at the time the Pod is created. This field is immutable, but a group object with the same name may be recreated with different policies. Doing this during pod scheduling may result in the placement not conforming to the expected policies. */
   schedulingGroup?: IoK8sApiCoreV1PodSchedulingGroup;
-  /** SecurityContext holds pod-level security attributes and common container settings. Optional: Defaults to empty. See type description for default values of each field. */
+  /** securityContext holds pod-level security attributes and common container settings. Optional: Defaults to empty. See type description for default values of each field. */
   securityContext?: IoK8sApiCoreV1PodSecurityContext;
-  /** DeprecatedServiceAccount is a deprecated alias for ServiceAccountName. Deprecated: Use serviceAccountName instead. */
+  /** serviceAccount is a deprecated alias for ServiceAccountName. Deprecated: Use serviceAccountName instead. */
   serviceAccount?: string;
-  /** ServiceAccountName is the name of the ServiceAccount to use to run this pod. More info: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/ */
+  /** serviceAccountName is the name of the ServiceAccount to use to run this pod. More info: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/ */
   serviceAccountName?: string;
-  /** If true the pod's hostname will be configured as the pod's FQDN, rather than the leaf name (the default). In Linux containers, this means setting the FQDN in the hostname field of the kernel (the nodename field of struct utsname). In Windows containers, this means setting the registry value of hostname for the registry key HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters to FQDN. If a pod does not have FQDN, this has no effect. Default to false. */
+  /** setHostnameAsFQDN if true the pod's hostname will be configured as the pod's FQDN, rather than the leaf name (the default). In Linux containers, this means setting the FQDN in the hostname field of the kernel (the nodename field of struct utsname). In Windows containers, this means setting the registry value of hostname for the registry key HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters to FQDN. If a pod does not have FQDN, this has no effect. Default to false. */
   setHostnameAsFQDN?: boolean;
-  /** Share a single process namespace between all of the containers in a pod. When this is set containers will be able to view and signal processes from other containers in the same pod, and the first process in each container will not be assigned PID 1. HostPID and ShareProcessNamespace cannot both be set. Optional: Default to false. */
+  /** shareProcessNamespace indicates whether to share a single process namespace between all of the containers in a pod. When this is set containers will be able to view and signal processes from other containers in the same pod, and the first process in each container will not be assigned PID 1. HostPID and ShareProcessNamespace cannot both be set. Optional: Default to false. */
   shareProcessNamespace?: boolean;
-  /** If specified, the fully qualified Pod hostname will be "<hostname>.<subdomain>.<pod namespace>.svc.<cluster domain>". If not specified, the pod will not have a domainname at all. */
+  /** subdomain specifies the subdomain of the Pod. If specified, the fully qualified Pod hostname will be "<hostname>.<subdomain>.<pod namespace>.svc.<cluster domain>". If not specified, the pod will not have a domainname at all. */
   subdomain?: string;
-  /** Optional duration in seconds the pod needs to terminate gracefully. May be decreased in delete request. Value must be non-negative integer. The value zero indicates stop immediately via the kill signal (no opportunity to shut down). If this value is nil, the default grace period will be used instead. The grace period is the duration in seconds after the processes running in the pod are sent a termination signal and the time when the processes are forcibly halted with a kill signal. Set this value longer than the expected cleanup time for your process. Defaults to 30 seconds. */
+  /** terminationGracePeriodSeconds is the optional duration in seconds the pod needs to terminate gracefully. May be decreased in delete request. Value must be non-negative integer. The value zero indicates stop immediately via the kill signal (no opportunity to shut down). If this value is nil, the default grace period will be used instead. The grace period is the duration in seconds after the processes running in the pod are sent a termination signal and the time when the processes are forcibly halted with a kill signal. Set this value longer than the expected cleanup time for your process. Defaults to 30 seconds. */
   terminationGracePeriodSeconds?: number;
-  /** If specified, the pod's tolerations. */
+  /** tolerations specifies the pod's tolerations. */
   tolerations?: IoK8sApiCoreV1PodSpecTolerationsList;
-  /** TopologySpreadConstraints describes how a group of pods ought to spread across topology domains. Scheduler will schedule pods in a way which abides by the constraints. All topologySpreadConstraints are ANDed. */
+  /** topologySpreadConstraints describes how a group of pods ought to spread across topology domains. Scheduler will schedule pods in a way which abides by the constraints. All topologySpreadConstraints are ANDed. */
   topologySpreadConstraints?: IoK8sApiCoreV1PodSpecTopologySpreadConstraintsList;
-  /** List of volumes that can be mounted by containers belonging to the pod. More info: https://kubernetes.io/docs/concepts/storage/volumes */
+  /** volumes is the list of volumes that can be mounted by containers belonging to the pod. More info: https://kubernetes.io/docs/concepts/storage/volumes */
   volumes?: IoK8sApiCoreV1PodSpecVolumesList;
 }
 export const IoK8sApiCoreV1PodSpec = /*@__PURE__*/ S.suspend(() =>
@@ -3381,15 +3343,13 @@ export const IoK8sApiCoreV1PodSpec = /*@__PURE__*/ S.suspend(() =>
     topologySpreadConstraints: S.optional(IoK8sApiCoreV1PodSpecTopologySpreadConstraintsList),
     volumes: S.optional(IoK8sApiCoreV1PodSpecVolumesList),
   }),
-).annotate({
-  identifier: "IoK8sApiCoreV1PodSpec",
-}) as any as S.Schema<IoK8sApiCoreV1PodSpec>;
+).annotate({ identifier: "IoK8sApiCoreV1PodSpec" }) as any as S.Schema<IoK8sApiCoreV1PodSpec>;
 
 /** PodTemplateSpec describes the data a pod should have when created from a template */
 export interface IoK8sApiCoreV1PodTemplateSpec {
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Specification of the desired behavior of the pod. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** spec is the specification of the desired behavior of the pod. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   spec?: IoK8sApiCoreV1PodSpec;
 }
 export const IoK8sApiCoreV1PodTemplateSpec = /*@__PURE__*/ S.suspend(() =>
@@ -3403,9 +3363,9 @@ export const IoK8sApiCoreV1PodTemplateSpec = /*@__PURE__*/ S.suspend(() =>
 
 /** Spec to control the desired behavior of daemon set rolling update. */
 export interface IoK8sApiAppsV1RollingUpdateDaemonSet {
-  /** The maximum number of nodes with an existing available DaemonSet pod that can have an updated DaemonSet pod during during an update. Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%). This can not be 0 if MaxUnavailable is 0. Absolute number is calculated from percentage by rounding up to a minimum of 1. Default value is 0. Example: when this is set to 30%, at most 30% of the total number of nodes that should be running the daemon pod (i.e. status.desiredNumberScheduled) can have their a new pod created before the old pod is marked as deleted. The update starts by launching new pods on 30% of nodes. Once an updated pod is available (Ready for at least minReadySeconds) the old DaemonSet pod on that node is marked deleted. If the old pod becomes unavailable for any reason (Ready transitions to false, is evicted, or is drained) an updated pod is immediately created on that node without considering surge limits. Allowing surge implies the possibility that the resources consumed by the daemonset on any given node can double if the readiness check fails, and so resource intensive daemonsets should take into account that they may cause evictions during disruption. */
+  /** maxSurge is the maximum number of nodes with an existing available DaemonSet pod that can have an updated DaemonSet pod during an update. Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%). This can not be 0 if MaxUnavailable is 0. Absolute number is calculated from percentage by rounding up to a minimum of 1. Default value is 0. Example: when this is set to 30%, at most 30% of the total number of nodes that should be running the daemon pod (i.e. status.desiredNumberScheduled) can have their a new pod created before the old pod is marked as deleted. The update starts by launching new pods on 30% of nodes. Once an updated pod is available (Ready for at least minReadySeconds) the old DaemonSet pod on that node is marked deleted. If the old pod becomes unavailable for any reason (Ready transitions to false, is evicted, or is drained) an updated pod is immediately created on that node without considering surge limits. Allowing surge implies the possibility that the resources consumed by the daemonset on any given node can double if the readiness check fails, and so resource intensive daemonsets should take into account that they may cause evictions during disruption. */
   maxSurge?: string;
-  /** The maximum number of DaemonSet pods that can be unavailable during the update. Value can be an absolute number (ex: 5) or a percentage of total number of DaemonSet pods at the start of the update (ex: 10%). Absolute number is calculated from percentage by rounding up. This cannot be 0 if MaxSurge is 0 Default value is 1. Example: when this is set to 30%, at most 30% of the total number of nodes that should be running the daemon pod (i.e. status.desiredNumberScheduled) can have their pods stopped for an update at any given time. The update starts by stopping at most 30% of those DaemonSet pods and then brings up new DaemonSet pods in their place. Once the new pods are available, it then proceeds onto other DaemonSet pods, thus ensuring that at least 70% of original number of DaemonSet pods are available at all times during the update. */
+  /** maxUnavailable is the maximum number of DaemonSet pods that can be unavailable during the update. Value can be an absolute number (ex: 5) or a percentage of total number of DaemonSet pods at the start of the update (ex: 10%). Absolute number is calculated from percentage by rounding up. This cannot be 0 if MaxSurge is 0 Default value is 1. Example: when this is set to 30%, at most 30% of the total number of nodes that should be running the daemon pod (i.e. status.desiredNumberScheduled) can have their pods stopped for an update at any given time. The update starts by stopping at most 30% of those DaemonSet pods and then brings up new DaemonSet pods in their place. Once the new pods are available, it then proceeds onto other DaemonSet pods, thus ensuring that at least 70% of original number of DaemonSet pods are available at all times during the update. */
   maxUnavailable?: string;
 }
 export const IoK8sApiAppsV1RollingUpdateDaemonSet = /*@__PURE__*/ S.suspend(() =>
@@ -3419,9 +3379,9 @@ export const IoK8sApiAppsV1RollingUpdateDaemonSet = /*@__PURE__*/ S.suspend(() =
 
 /** DaemonSetUpdateStrategy is a struct used to control the update strategy for a DaemonSet. */
 export interface IoK8sApiAppsV1DaemonSetUpdateStrategy {
-  /** Rolling update config params. Present only if type = "RollingUpdate". */
+  /** rollingUpdate config params. Present only if type = "RollingUpdate". */
   rollingUpdate?: IoK8sApiAppsV1RollingUpdateDaemonSet;
-  /** Type of daemon set update. Can be "RollingUpdate" or "OnDelete". Default is RollingUpdate. */
+  /** type of daemon set update. Can be "RollingUpdate" or "OnDelete". Default is RollingUpdate. */
   type?: string;
 }
 export const IoK8sApiAppsV1DaemonSetUpdateStrategy = /*@__PURE__*/ S.suspend(() =>
@@ -3435,15 +3395,15 @@ export const IoK8sApiAppsV1DaemonSetUpdateStrategy = /*@__PURE__*/ S.suspend(() 
 
 /** DaemonSetSpec is the specification of a daemon set. */
 export interface IoK8sApiAppsV1DaemonSetSpec {
-  /** The minimum number of seconds for which a newly created DaemonSet pod should be ready without any of its container crashing, for it to be considered available. Defaults to 0 (pod will be considered available as soon as it is ready). */
+  /** minReadySeconds is the minimum number of seconds for which a newly created DaemonSet pod should be ready without any of its container crashing, for it to be considered available. Defaults to 0 (pod will be considered available as soon as it is ready). */
   minReadySeconds?: number;
-  /** The number of old history to retain to allow rollback. This is a pointer to distinguish between explicit zero and not specified. Defaults to 10. */
+  /** revisionHistoryLimit is the maximum number of old revisions to retain to allow rollback. This is a pointer to distinguish between explicit zero and not specified. Defaults to 10. */
   revisionHistoryLimit?: number;
-  /** A label query over pods that are managed by the daemon set. Must match in order to be controlled. It must match the pod template's labels. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors */
+  /** selector is the label query to identify pods that are managed by the daemon set. Must match in order to be controlled. It must match the pod template's labels. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors */
   selector: IoK8sApimachineryPkgApisMetaV1LabelSelector;
-  /** An object that describes the pod that will be created. The DaemonSet will create exactly one copy of this pod on every node that matches the template's node selector (or on every node if no node selector is specified). The only allowed template.spec.restartPolicy value is "Always". More info: https://kubernetes.io/docs/concepts/workloads/controllers/replicationcontroller#pod-template */
+  /** template describes the pod that will be created. The DaemonSet will create exactly one copy of this pod on every node that matches the template's node selector (or on every node if no node selector is specified). The only allowed template.spec.restartPolicy value is "Always". More info: https://kubernetes.io/docs/concepts/workloads/controllers/replicationcontroller#pod-template */
   template: IoK8sApiCoreV1PodTemplateSpec;
-  /** An update strategy to replace existing DaemonSet pods with new pods. */
+  /** updateStrategy to replace existing DaemonSet pods with new pods. */
   updateStrategy?: IoK8sApiAppsV1DaemonSetUpdateStrategy;
 }
 export const IoK8sApiAppsV1DaemonSetSpec = /*@__PURE__*/ S.suspend(() =>
@@ -3460,15 +3420,15 @@ export const IoK8sApiAppsV1DaemonSetSpec = /*@__PURE__*/ S.suspend(() =>
 
 /** DaemonSetCondition describes the state of a DaemonSet at a certain point. */
 export interface IoK8sApiAppsV1DaemonSetCondition {
-  /** Last time the condition transitioned from one status to another. */
+  /** lastTransitionTime is the last time the condition transitioned from one status to another. */
   lastTransitionTime?: string;
-  /** A human readable message indicating details about the transition. */
+  /** message is a human readable string indicating details about the transition. */
   message?: string;
-  /** The reason for the condition's last transition. */
+  /** reason for the condition's last transition. */
   reason?: string;
-  /** Status of the condition, one of True, False, Unknown. */
+  /** status of the condition, one of True, False, Unknown. */
   status?: string;
-  /** Type of DaemonSet condition. */
+  /** type of DaemonSet condition. */
   type?: string;
 }
 export const IoK8sApiAppsV1DaemonSetCondition = /*@__PURE__*/ S.suspend(() =>
@@ -3483,7 +3443,7 @@ export const IoK8sApiAppsV1DaemonSetCondition = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiAppsV1DaemonSetCondition",
 }) as any as S.Schema<IoK8sApiAppsV1DaemonSetCondition>;
 
-/** Represents the latest available observations of a DaemonSet's current state. */
+/** conditions lists the latest available observations of a DaemonSet's current state. */
 export type IoK8sApiAppsV1DaemonSetStatusConditionsList = Array<IoK8sApiAppsV1DaemonSetCondition>;
 export const IoK8sApiAppsV1DaemonSetStatusConditionsList = /*@__PURE__*/ S.Array(
   IoK8sApiAppsV1DaemonSetCondition,
@@ -3491,25 +3451,25 @@ export const IoK8sApiAppsV1DaemonSetStatusConditionsList = /*@__PURE__*/ S.Array
 
 /** DaemonSetStatus represents the current status of a daemon set. */
 export interface IoK8sApiAppsV1DaemonSetStatus {
-  /** Count of hash collisions for the DaemonSet. The DaemonSet controller uses this field as a collision avoidance mechanism when it needs to create the name for the newest ControllerRevision. */
+  /** collisionCount is the number of hash collisions for the DaemonSet. The DaemonSet controller uses this field as a collision avoidance mechanism when it needs to create the name for the newest ControllerRevision. */
   collisionCount?: number;
-  /** Represents the latest available observations of a DaemonSet's current state. */
+  /** conditions lists the latest available observations of a DaemonSet's current state. */
   conditions?: IoK8sApiAppsV1DaemonSetStatusConditionsList;
-  /** The number of nodes that are running at least 1 daemon pod and are supposed to run the daemon pod. More info: https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/ */
+  /** currentNumberScheduled is the number of nodes that are running at least 1 daemon pod and are supposed to run the daemon pod. More info: https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/ */
   currentNumberScheduled: number;
-  /** The total number of nodes that should be running the daemon pod (including nodes correctly running the daemon pod). More info: https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/ */
+  /** desiredNumberScheduled is the total number of nodes that should be running the daemon pod (including nodes correctly running the daemon pod). More info: https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/ */
   desiredNumberScheduled: number;
-  /** The number of nodes that should be running the daemon pod and have one or more of the daemon pod running and available (ready for at least spec.minReadySeconds) */
+  /** numberAvailable is the number of nodes that should be running the daemon pod and have one or more of the daemon pod running and available (ready for at least spec.minReadySeconds). */
   numberAvailable?: number;
-  /** The number of nodes that are running the daemon pod, but are not supposed to run the daemon pod. More info: https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/ */
+  /** numberMisscheduled is the number of nodes that are running the daemon pod, but are not supposed to run the daemon pod. More info: https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/ */
   numberMisscheduled: number;
   /** numberReady is the number of nodes that should be running the daemon pod and have one or more of the daemon pod running with a Ready Condition. */
   numberReady: number;
-  /** The number of nodes that should be running the daemon pod and have none of the daemon pod running and available (ready for at least spec.minReadySeconds) */
+  /** numberUnavailable is the number of nodes that should be running the daemon pod and have none of the daemon pod running and available (ready for at least spec.minReadySeconds). */
   numberUnavailable?: number;
-  /** The most recent generation observed by the daemon set controller. */
+  /** observedGeneration is the most recent generation observed by the daemon set controller. */
   observedGeneration?: number;
-  /** The total number of nodes that are running updated daemon pod */
+  /** updatedNumberScheduled is the total number of nodes that are running updated daemon pod. */
   updatedNumberScheduled?: number;
 }
 export const IoK8sApiAppsV1DaemonSetStatus = /*@__PURE__*/ S.suspend(() =>
@@ -3544,11 +3504,11 @@ export interface CreateAppsV1NamespacedDaemonSetRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** The desired behavior of this daemon set. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** spec defines the desired behavior of this daemon set. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   spec: IoK8sApiAppsV1DaemonSetSpec;
-  /** The current status of this daemon set. This data may be out of date by some window of time. Populated by the system. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** status is the current status of this daemon set. This data may be out of date by some window of time. Populated by the system. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   status?: IoK8sApiAppsV1DaemonSetStatus;
 }
 export const CreateAppsV1NamespacedDaemonSetRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3564,11 +3524,7 @@ export const CreateAppsV1NamespacedDaemonSetRequest = /*@__PURE__*/ S.suspend(()
     spec: IoK8sApiAppsV1DaemonSetSpec,
     status: S.optional(IoK8sApiAppsV1DaemonSetStatus),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/apis/apps/v1/namespaces/{namespace}/daemonsets",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/apis/apps/v1/namespaces/{namespace}/daemonsets", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateAppsV1NamespacedDaemonSetRequest",
@@ -3580,11 +3536,11 @@ export interface IoK8sApiAppsV1DaemonSet {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** The desired behavior of this daemon set. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** spec defines the desired behavior of this daemon set. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   spec: IoK8sApiAppsV1DaemonSetSpec;
-  /** The current status of this daemon set. This data may be out of date by some window of time. Populated by the system. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** status is the current status of this daemon set. This data may be out of date by some window of time. Populated by the system. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   status?: IoK8sApiAppsV1DaemonSetStatus;
 }
 export const IoK8sApiAppsV1DaemonSet = /*@__PURE__*/ S.suspend(() =>
@@ -3595,15 +3551,13 @@ export const IoK8sApiAppsV1DaemonSet = /*@__PURE__*/ S.suspend(() =>
     spec: IoK8sApiAppsV1DaemonSetSpec,
     status: S.optional(IoK8sApiAppsV1DaemonSetStatus),
   }),
-).annotate({
-  identifier: "IoK8sApiAppsV1DaemonSet",
-}) as any as S.Schema<IoK8sApiAppsV1DaemonSet>;
+).annotate({ identifier: "IoK8sApiAppsV1DaemonSet" }) as any as S.Schema<IoK8sApiAppsV1DaemonSet>;
 
 /** Spec to control the desired behavior of rolling update. */
 export interface IoK8sApiAppsV1RollingUpdateDeployment {
-  /** The maximum number of pods that can be scheduled above the desired number of pods. Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%). This can not be 0 if MaxUnavailable is 0. Absolute number is calculated from percentage by rounding up. Defaults to 25%. Example: when this is set to 30%, the new ReplicaSet can be scaled up immediately when the rolling update starts, such that the total number of old and new pods do not exceed 130% of desired pods. Once old pods have been killed, new ReplicaSet can be scaled up further, ensuring that total number of pods running at any time during the update is at most 130% of desired pods. */
+  /** maxSurge is the maximum number of pods that can be scheduled above the desired number of pods. Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%). This can not be 0 if MaxUnavailable is 0. Absolute number is calculated from percentage by rounding up. Defaults to 25%. Example: when this is set to 30%, the new ReplicaSet can be scaled up immediately when the rolling update starts, such that the total number of old and new pods do not exceed 130% of desired pods. Once old pods have been killed, new ReplicaSet can be scaled up further, ensuring that total number of pods running at any time during the update is at most 130% of desired pods. */
   maxSurge?: string;
-  /** The maximum number of pods that can be unavailable during the update. Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%). Absolute number is calculated from percentage by rounding down. This can not be 0 if MaxSurge is 0. Defaults to 25%. Example: when this is set to 30%, the old ReplicaSet can be scaled down to 70% of desired pods immediately when the rolling update starts. Once new pods are ready, old ReplicaSet can be scaled down further, followed by scaling up the new ReplicaSet, ensuring that the total number of pods available at all times during the update is at least 70% of desired pods. */
+  /** maxUnavailable is the maximum number of pods that can be unavailable during the update. Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%). Absolute number is calculated from percentage by rounding down. This can not be 0 if MaxSurge is 0. Defaults to 25%. Example: when this is set to 30%, the old ReplicaSet can be scaled down to 70% of desired pods immediately when the rolling update starts. Once new pods are ready, old ReplicaSet can be scaled down further, followed by scaling up the new ReplicaSet, ensuring that the total number of pods available at all times during the update is at least 70% of desired pods. */
   maxUnavailable?: string;
 }
 export const IoK8sApiAppsV1RollingUpdateDeployment = /*@__PURE__*/ S.suspend(() =>
@@ -3617,9 +3571,9 @@ export const IoK8sApiAppsV1RollingUpdateDeployment = /*@__PURE__*/ S.suspend(() 
 
 /** DeploymentStrategy describes how to replace existing pods with new ones. */
 export interface IoK8sApiAppsV1DeploymentStrategy {
-  /** Rolling update config params. Present only if DeploymentStrategyType = RollingUpdate. */
+  /** rollingUpdate config params. Present only if type = RollingUpdate. */
   rollingUpdate?: IoK8sApiAppsV1RollingUpdateDeployment;
-  /** Type of deployment. Can be "Recreate" or "RollingUpdate". Default is RollingUpdate. */
+  /** type of deployment. Can be "Recreate" or "RollingUpdate". Default is RollingUpdate. */
   type?: string;
 }
 export const IoK8sApiAppsV1DeploymentStrategy = /*@__PURE__*/ S.suspend(() =>
@@ -3633,21 +3587,21 @@ export const IoK8sApiAppsV1DeploymentStrategy = /*@__PURE__*/ S.suspend(() =>
 
 /** DeploymentSpec is the specification of the desired behavior of the Deployment. */
 export interface IoK8sApiAppsV1DeploymentSpec {
-  /** Minimum number of seconds for which a newly created pod should be ready without any of its container crashing, for it to be considered available. Defaults to 0 (pod will be considered available as soon as it is ready) */
+  /** minReadySeconds is the minimum number of seconds for which a newly created pod should be ready without any of its container crashing, for it to be considered available. Defaults to 0 (pod will be considered available as soon as it is ready). */
   minReadySeconds?: number;
-  /** Indicates that the deployment is paused. */
+  /** paused indicates that the deployment is paused. */
   paused?: boolean;
-  /** The maximum time in seconds for a deployment to make progress before it is considered to be failed. The deployment controller will continue to process failed deployments and a condition with a ProgressDeadlineExceeded reason will be surfaced in the deployment status. Note that progress will not be estimated during the time a deployment is paused. Defaults to 600s. */
+  /** progressDeadlineSeconds is the maximum time in seconds for a deployment to make progress before it is considered to be failed. The deployment controller will continue to process failed deployments and a condition with a ProgressDeadlineExceeded reason will be surfaced in the deployment status. Note that progress will not be estimated during the time a deployment is paused. Defaults to 600s. */
   progressDeadlineSeconds?: number;
-  /** Number of desired pods. This is a pointer to distinguish between explicit zero and not specified. Defaults to 1. */
+  /** replicas is the desired number of pods. This is a pointer to distinguish between explicit zero and not specified. Defaults to 1. */
   replicas?: number;
-  /** The number of old ReplicaSets to retain to allow rollback. This is a pointer to distinguish between explicit zero and not specified. Defaults to 10. */
+  /** revisionHistoryLimit is the maximum number of old ReplicaSets to retain to allow rollback. This is a pointer to distinguish between explicit zero and not specified. Defaults to 10. */
   revisionHistoryLimit?: number;
-  /** Label selector for pods. Existing ReplicaSets whose pods are selected by this will be the ones affected by this deployment. It must match the pod template's labels. */
+  /** selector is a label selector for pods. Existing ReplicaSets whose pods are selected by this will be the ones affected by this deployment. It must match the pod template's labels. */
   selector: IoK8sApimachineryPkgApisMetaV1LabelSelector;
-  /** The deployment strategy to use to replace existing pods with new ones. */
+  /** strategy to use to replace existing Deployment pods with new ones. */
   strategy?: IoK8sApiAppsV1DeploymentStrategy;
-  /** Template describes the pods that will be created. The only allowed template.spec.restartPolicy value is "Always". */
+  /** template describes the pods that will be created. The only allowed template.spec.restartPolicy value is "Always". */
   template: IoK8sApiCoreV1PodTemplateSpec;
 }
 export const IoK8sApiAppsV1DeploymentSpec = /*@__PURE__*/ S.suspend(() =>
@@ -3667,17 +3621,17 @@ export const IoK8sApiAppsV1DeploymentSpec = /*@__PURE__*/ S.suspend(() =>
 
 /** DeploymentCondition describes the state of a deployment at a certain point. */
 export interface IoK8sApiAppsV1DeploymentCondition {
-  /** Last time the condition transitioned from one status to another. */
+  /** lastTransitionTime is the last time the condition transitioned from one status to another. */
   lastTransitionTime?: string;
-  /** The last time this condition was updated. */
+  /** lastUpdateTime is the last time this condition was updated. */
   lastUpdateTime?: string;
-  /** A human readable message indicating details about the transition. */
+  /** message is a human readable string indicating details about the transition. */
   message?: string;
-  /** The reason for the condition's last transition. */
+  /** reason for the condition's last transition. */
   reason?: string;
-  /** Status of the condition, one of True, False, Unknown. */
+  /** status of the condition, one of True, False, Unknown. */
   status?: string;
-  /** Type of deployment condition. */
+  /** type of deployment condition. */
   type?: string;
 }
 export const IoK8sApiAppsV1DeploymentCondition = /*@__PURE__*/ S.suspend(() =>
@@ -3693,7 +3647,7 @@ export const IoK8sApiAppsV1DeploymentCondition = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiAppsV1DeploymentCondition",
 }) as any as S.Schema<IoK8sApiAppsV1DeploymentCondition>;
 
-/** Represents the latest available observations of a deployment's current state. */
+/** conditions lists the latest available observations of a deployment's current state. */
 export type IoK8sApiAppsV1DeploymentStatusConditionsList = Array<IoK8sApiAppsV1DeploymentCondition>;
 export const IoK8sApiAppsV1DeploymentStatusConditionsList = /*@__PURE__*/ S.Array(
   IoK8sApiAppsV1DeploymentCondition,
@@ -3701,23 +3655,23 @@ export const IoK8sApiAppsV1DeploymentStatusConditionsList = /*@__PURE__*/ S.Arra
 
 /** DeploymentStatus is the most recently observed status of the Deployment. */
 export interface IoK8sApiAppsV1DeploymentStatus {
-  /** Total number of available non-terminating pods (ready for at least minReadySeconds) targeted by this deployment. */
+  /** availableReplicas is the total number of available non-terminating pods (ready for at least minReadySeconds) targeted by this deployment. */
   availableReplicas?: number;
-  /** Count of hash collisions for the Deployment. The Deployment controller uses this field as a collision avoidance mechanism when it needs to create the name for the newest ReplicaSet. */
+  /** collisionCount is the number of hash collisions for the Deployment. The Deployment controller uses this field as a collision avoidance mechanism when it needs to create the name for the newest ReplicaSet. */
   collisionCount?: number;
-  /** Represents the latest available observations of a deployment's current state. */
+  /** conditions lists the latest available observations of a deployment's current state. */
   conditions?: IoK8sApiAppsV1DeploymentStatusConditionsList;
-  /** The generation observed by the deployment controller. */
+  /** observedGeneration is the generation observed by the deployment controller. */
   observedGeneration?: number;
-  /** Total number of non-terminating pods targeted by this Deployment with a Ready Condition. */
+  /** readyReplicas is the total number of non-terminating pods targeted by this Deployment with a Ready Condition. */
   readyReplicas?: number;
-  /** Total number of non-terminating pods targeted by this deployment (their labels match the selector). */
+  /** replicas is the total number of non-terminating pods targeted by this deployment (their labels match the selector). */
   replicas?: number;
-  /** Total number of terminating pods targeted by this deployment. Terminating pods have a non-null .metadata.deletionTimestamp and have not yet reached the Failed or Succeeded .status.phase. This is a beta field and requires enabling DeploymentReplicaSetTerminatingReplicas feature (enabled by default). */
+  /** terminatingReplicas is the number of terminating pods targeted by this deployment. Terminating pods have a non-null .metadata.deletionTimestamp and have not yet reached the Failed or Succeeded .status.phase. This is a beta field and requires enabling DeploymentReplicaSetTerminatingReplicas feature (enabled by default). */
   terminatingReplicas?: number;
-  /** Total number of unavailable pods targeted by this deployment. This is the total number of pods that are still required for the deployment to have 100% available capacity. They may either be pods that are running but not yet available or pods that still have not been created. */
+  /** unavailableReplicas is the total number of unavailable pods targeted by this deployment. This is the total number of pods that are still required for the deployment to have 100% available capacity. They may either be pods that are running but not yet available or pods that still have not been created. */
   unavailableReplicas?: number;
-  /** Total number of non-terminating pods targeted by this deployment that have the desired template spec. */
+  /** updatedReplicas is total number of non-terminating pods targeted by this deployment that have the desired template spec. */
   updatedReplicas?: number;
 }
 export const IoK8sApiAppsV1DeploymentStatus = /*@__PURE__*/ S.suspend(() =>
@@ -3751,11 +3705,11 @@ export interface CreateAppsV1NamespacedDeploymentRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Specification of the desired behavior of the Deployment. */
+  /** spec defines the desired behavior of the Deployment. */
   spec: IoK8sApiAppsV1DeploymentSpec;
-  /** Most recently observed status of the Deployment. */
+  /** status is the most recently observed status of the Deployment. */
   status?: IoK8sApiAppsV1DeploymentStatus;
 }
 export const CreateAppsV1NamespacedDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3771,11 +3725,7 @@ export const CreateAppsV1NamespacedDeploymentRequest = /*@__PURE__*/ S.suspend((
     spec: IoK8sApiAppsV1DeploymentSpec,
     status: S.optional(IoK8sApiAppsV1DeploymentStatus),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/apis/apps/v1/namespaces/{namespace}/deployments",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/apis/apps/v1/namespaces/{namespace}/deployments", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateAppsV1NamespacedDeploymentRequest",
@@ -3787,11 +3737,11 @@ export interface IoK8sApiAppsV1Deployment {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Specification of the desired behavior of the Deployment. */
+  /** spec defines the desired behavior of the Deployment. */
   spec: IoK8sApiAppsV1DeploymentSpec;
-  /** Most recently observed status of the Deployment. */
+  /** status is the most recently observed status of the Deployment. */
   status?: IoK8sApiAppsV1DeploymentStatus;
 }
 export const IoK8sApiAppsV1Deployment = /*@__PURE__*/ S.suspend(() =>
@@ -3802,19 +3752,17 @@ export const IoK8sApiAppsV1Deployment = /*@__PURE__*/ S.suspend(() =>
     spec: IoK8sApiAppsV1DeploymentSpec,
     status: S.optional(IoK8sApiAppsV1DeploymentStatus),
   }),
-).annotate({
-  identifier: "IoK8sApiAppsV1Deployment",
-}) as any as S.Schema<IoK8sApiAppsV1Deployment>;
+).annotate({ identifier: "IoK8sApiAppsV1Deployment" }) as any as S.Schema<IoK8sApiAppsV1Deployment>;
 
 /** ReplicaSetSpec is the specification of a ReplicaSet. */
 export interface IoK8sApiAppsV1ReplicaSetSpec {
-  /** Minimum number of seconds for which a newly created pod should be ready without any of its container crashing, for it to be considered available. Defaults to 0 (pod will be considered available as soon as it is ready) */
+  /** minReadySeconds is the minimum number of seconds for which a newly created pod should be ready without any of its container crashing, for it to be considered available. Defaults to 0 (pod will be considered available as soon as it is ready) */
   minReadySeconds?: number;
-  /** Replicas is the number of desired pods. This is a pointer to distinguish between explicit zero and unspecified. Defaults to 1. More info: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset */
+  /** replicas is the number of desired pods. This is a pointer to distinguish between explicit zero and unspecified. Defaults to 1. More info: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset */
   replicas?: number;
-  /** Selector is a label query over pods that should match the replica count. Label keys and values that must match in order to be controlled by this replica set. It must match the pod template's labels. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors */
+  /** selector is a label query over pods that should match the replica count. Label keys and values that must match in order to be controlled by this replica set. It must match the pod template's labels. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors */
   selector: IoK8sApimachineryPkgApisMetaV1LabelSelector;
-  /** Template is the object that describes the pod that will be created if insufficient replicas are detected. More info: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/#pod-template */
+  /** template is the object that describes the pod that will be created if insufficient replicas are detected. More info: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/#pod-template */
   template?: IoK8sApiCoreV1PodTemplateSpec;
 }
 export const IoK8sApiAppsV1ReplicaSetSpec = /*@__PURE__*/ S.suspend(() =>
@@ -3830,15 +3778,15 @@ export const IoK8sApiAppsV1ReplicaSetSpec = /*@__PURE__*/ S.suspend(() =>
 
 /** ReplicaSetCondition describes the state of a replica set at a certain point. */
 export interface IoK8sApiAppsV1ReplicaSetCondition {
-  /** The last time the condition transitioned from one status to another. */
+  /** lastTransitionTime is the last time the condition transitioned from one status to another. */
   lastTransitionTime?: string;
-  /** A human readable message indicating details about the transition. */
+  /** message is a human readable string indicating details about the transition. */
   message?: string;
-  /** The reason for the condition's last transition. */
+  /** reason for the condition's last transition. */
   reason?: string;
-  /** Status of the condition, one of True, False, Unknown. */
+  /** status of the condition, one of True, False, Unknown. */
   status?: string;
-  /** Type of replica set condition. */
+  /** type of replica set condition. */
   type?: string;
 }
 export const IoK8sApiAppsV1ReplicaSetCondition = /*@__PURE__*/ S.suspend(() =>
@@ -3853,7 +3801,7 @@ export const IoK8sApiAppsV1ReplicaSetCondition = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiAppsV1ReplicaSetCondition",
 }) as any as S.Schema<IoK8sApiAppsV1ReplicaSetCondition>;
 
-/** Represents the latest available observations of a replica set's current state. */
+/** conditions lists the latest available observations of a ReplicaSet's current state. */
 export type IoK8sApiAppsV1ReplicaSetStatusConditionsList = Array<IoK8sApiAppsV1ReplicaSetCondition>;
 export const IoK8sApiAppsV1ReplicaSetStatusConditionsList = /*@__PURE__*/ S.Array(
   IoK8sApiAppsV1ReplicaSetCondition,
@@ -3861,19 +3809,19 @@ export const IoK8sApiAppsV1ReplicaSetStatusConditionsList = /*@__PURE__*/ S.Arra
 
 /** ReplicaSetStatus represents the current status of a ReplicaSet. */
 export interface IoK8sApiAppsV1ReplicaSetStatus {
-  /** The number of available non-terminating pods (ready for at least minReadySeconds) for this replica set. */
+  /** availableReplicas is the number of available non-terminating pods (ready for at least minReadySeconds) for this ReplicaSet. */
   availableReplicas?: number;
-  /** Represents the latest available observations of a replica set's current state. */
+  /** conditions lists the latest available observations of a ReplicaSet's current state. */
   conditions?: IoK8sApiAppsV1ReplicaSetStatusConditionsList;
-  /** The number of non-terminating pods that have labels matching the labels of the pod template of the replicaset. */
+  /** fullyLabeledReplicas is the number of non-terminating pods that have labels matching the labels of the pod template of the ReplicaSet. */
   fullyLabeledReplicas?: number;
-  /** ObservedGeneration reflects the generation of the most recently observed ReplicaSet. */
+  /** observedGeneration reflects the generation of the most recently observed ReplicaSet. */
   observedGeneration?: number;
-  /** The number of non-terminating pods targeted by this ReplicaSet with a Ready Condition. */
+  /** readyReplicas is the number of non-terminating pods targeted by this ReplicaSet with a Ready Condition. */
   readyReplicas?: number;
-  /** Replicas is the most recently observed number of non-terminating pods. More info: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset */
+  /** replicas is the most recently observed number of non-terminating pods. More info: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset */
   replicas: number;
-  /** The number of terminating pods for this replica set. Terminating pods have a non-null .metadata.deletionTimestamp and have not yet reached the Failed or Succeeded .status.phase. This is a beta field and requires enabling DeploymentReplicaSetTerminatingReplicas feature (enabled by default). */
+  /** terminatingReplicas is the number of terminating pods for this ReplicaSet. Terminating pods have a non-null .metadata.deletionTimestamp and have not yet reached the Failed or Succeeded .status.phase. This is a beta field and requires enabling DeploymentReplicaSetTerminatingReplicas feature (enabled by default). */
   terminatingReplicas?: number;
 }
 export const IoK8sApiAppsV1ReplicaSetStatus = /*@__PURE__*/ S.suspend(() =>
@@ -3905,11 +3853,11 @@ export interface CreateAppsV1NamespacedReplicaSetRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** If the Labels of a ReplicaSet are empty, they are defaulted to be the same as the Pod(s) that the ReplicaSet manages. Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. If the Labels of a ReplicaSet are empty, they are defaulted to be the same as the Pod(s) that the ReplicaSet manages. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Spec defines the specification of the desired behavior of the ReplicaSet. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** spec defines the specification of the desired behavior of the ReplicaSet. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   spec: IoK8sApiAppsV1ReplicaSetSpec;
-  /** Status is the most recently observed status of the ReplicaSet. This data may be out of date by some window of time. Populated by the system. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** status is the most recently observed status of the ReplicaSet. This data may be out of date by some window of time. Populated by the system. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   status?: IoK8sApiAppsV1ReplicaSetStatus;
 }
 export const CreateAppsV1NamespacedReplicaSetRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3925,11 +3873,7 @@ export const CreateAppsV1NamespacedReplicaSetRequest = /*@__PURE__*/ S.suspend((
     spec: IoK8sApiAppsV1ReplicaSetSpec,
     status: S.optional(IoK8sApiAppsV1ReplicaSetStatus),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/apis/apps/v1/namespaces/{namespace}/replicasets",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/apis/apps/v1/namespaces/{namespace}/replicasets", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateAppsV1NamespacedReplicaSetRequest",
@@ -3941,11 +3885,11 @@ export interface IoK8sApiAppsV1ReplicaSet {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** If the Labels of a ReplicaSet are empty, they are defaulted to be the same as the Pod(s) that the ReplicaSet manages. Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. If the Labels of a ReplicaSet are empty, they are defaulted to be the same as the Pod(s) that the ReplicaSet manages. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Spec defines the specification of the desired behavior of the ReplicaSet. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** spec defines the specification of the desired behavior of the ReplicaSet. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   spec: IoK8sApiAppsV1ReplicaSetSpec;
-  /** Status is the most recently observed status of the ReplicaSet. This data may be out of date by some window of time. Populated by the system. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** status is the most recently observed status of the ReplicaSet. This data may be out of date by some window of time. Populated by the system. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   status?: IoK8sApiAppsV1ReplicaSetStatus;
 }
 export const IoK8sApiAppsV1ReplicaSet = /*@__PURE__*/ S.suspend(() =>
@@ -3956,9 +3900,7 @@ export const IoK8sApiAppsV1ReplicaSet = /*@__PURE__*/ S.suspend(() =>
     spec: IoK8sApiAppsV1ReplicaSetSpec,
     status: S.optional(IoK8sApiAppsV1ReplicaSetStatus),
   }),
-).annotate({
-  identifier: "IoK8sApiAppsV1ReplicaSet",
-}) as any as S.Schema<IoK8sApiAppsV1ReplicaSet>;
+).annotate({ identifier: "IoK8sApiAppsV1ReplicaSet" }) as any as S.Schema<IoK8sApiAppsV1ReplicaSet>;
 
 /** StatefulSetOrdinals describes the policy used for replica ordinal assignment in this StatefulSet. */
 export interface IoK8sApiAppsV1StatefulSetOrdinals {
@@ -3975,9 +3917,9 @@ export const IoK8sApiAppsV1StatefulSetOrdinals = /*@__PURE__*/ S.suspend(() =>
 
 /** StatefulSetPersistentVolumeClaimRetentionPolicy describes the policy used for PVCs created from the StatefulSet VolumeClaimTemplates. */
 export interface IoK8sApiAppsV1StatefulSetPersistentVolumeClaimRetentionPolicy {
-  /** WhenDeleted specifies what happens to PVCs created from StatefulSet VolumeClaimTemplates when the StatefulSet is deleted. The default policy of `Retain` causes PVCs to not be affected by StatefulSet deletion. The `Delete` policy causes those PVCs to be deleted. */
+  /** whenDeleted specifies what happens to PVCs created from StatefulSet VolumeClaimTemplates when the StatefulSet is deleted. The default policy of `Retain` causes PVCs to not be affected by StatefulSet deletion. The `Delete` policy causes those PVCs to be deleted. */
   whenDeleted?: string;
-  /** WhenScaled specifies what happens to PVCs created from StatefulSet VolumeClaimTemplates when the StatefulSet is scaled down. The default policy of `Retain` causes PVCs to not be affected by a scaledown. The `Delete` policy causes the associated PVCs for any excess pods above the replica count to be deleted. */
+  /** whenScaled specifies what happens to PVCs created from StatefulSet VolumeClaimTemplates when the StatefulSet is scaled down. The default policy of `Retain` causes PVCs to not be affected by a scaledown. The `Delete` policy causes the associated PVCs for any excess pods above the replica count to be deleted. */
   whenScaled?: string;
 }
 export const IoK8sApiAppsV1StatefulSetPersistentVolumeClaimRetentionPolicy =
@@ -3992,9 +3934,9 @@ export const IoK8sApiAppsV1StatefulSetPersistentVolumeClaimRetentionPolicy =
 
 /** RollingUpdateStatefulSetStrategy is used to communicate parameter for RollingUpdateStatefulSetStrategyType. */
 export interface IoK8sApiAppsV1RollingUpdateStatefulSetStrategy {
-  /** The maximum number of pods that can be unavailable during the update. Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%). Absolute number is calculated from percentage by rounding up. This can not be 0. Defaults to 1. This field is beta-level and is enabled by default. The field applies to all pods in the range 0 to Replicas-1. That means if there is any unavailable pod in the range 0 to Replicas-1, it will be counted towards MaxUnavailable. This setting might not be effective for the OrderedReady podManagementPolicy. That policy ensures pods are created and become ready one at a time. */
+  /** maxUnavailable is the maximum number of pods that can be unavailable during the update. Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%). Absolute number is calculated from percentage by rounding up. This can not be 0. Defaults to 1. This field is beta-level and is enabled by default. The field applies to all pods in the range 0 to Replicas-1. That means if there is any unavailable pod in the range 0 to Replicas-1, it will be counted towards MaxUnavailable. This setting might not be effective for the OrderedReady podManagementPolicy. That policy ensures pods are created and become ready one at a time. */
   maxUnavailable?: string;
-  /** Partition indicates the ordinal at which the StatefulSet should be partitioned for updates. During a rolling update, all pods from ordinal Replicas-1 to Partition are updated. All pods from ordinal Partition-1 to 0 remain untouched. This is helpful in being able to do a canary based deployment. The default value is 0. */
+  /** partition indicates the ordinal at which the StatefulSet should be partitioned for updates. During a rolling update, all pods from ordinal Replicas-1 to Partition are updated. All pods from ordinal Partition-1 to 0 remain untouched. This is helpful in being able to do a canary based deployment. The default value is 0. */
   partition?: number;
 }
 export const IoK8sApiAppsV1RollingUpdateStatefulSetStrategy = /*@__PURE__*/ S.suspend(() =>
@@ -4008,9 +3950,9 @@ export const IoK8sApiAppsV1RollingUpdateStatefulSetStrategy = /*@__PURE__*/ S.su
 
 /** StatefulSetUpdateStrategy indicates the strategy that the StatefulSet controller will use to perform updates. It includes any additional parameters necessary to perform the update for the indicated strategy. */
 export interface IoK8sApiAppsV1StatefulSetUpdateStrategy {
-  /** RollingUpdate is used to communicate parameters when Type is RollingUpdateStatefulSetStrategyType. */
+  /** rollingUpdate is used to communicate parameters when Type is RollingUpdateStatefulSetStrategyType. */
   rollingUpdate?: IoK8sApiAppsV1RollingUpdateStatefulSetStrategy;
-  /** Type indicates the type of the StatefulSetUpdateStrategy. Default is RollingUpdate. */
+  /** type indicates the type of the StatefulSetUpdateStrategy. Default is RollingUpdate. */
   type?: string;
 }
 export const IoK8sApiAppsV1StatefulSetUpdateStrategy = /*@__PURE__*/ S.suspend(() =>
@@ -4067,9 +4009,9 @@ export interface IoK8sApiCoreV1PersistentVolumeClaimCondition {
   message?: string;
   /** reason is a unique, this should be a short, machine understandable string that gives the reason for condition's last transition. If it reports "Resizing" that means the underlying persistent volume is being resized. */
   reason?: string;
-  /** Status is the status of the condition. Can be True, False, Unknown. More info: https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/persistent-volume-claim-v1/#:~:text=state%20of%20pvc-,conditions.status,-(string)%2C%20required */
+  /** status is the status of the condition. Can be True, False, Unknown. More info: https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/persistent-volume-claim-v1/#:~:text=state%20of%20pvc-,conditions.status,-(string)%2C%20required */
   status: string;
-  /** Type is the type of the condition. More info: https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/persistent-volume-claim-v1/#:~:text=set%20to%20%27ResizeStarted%27.-,PersistentVolumeClaimCondition,-contains%20details%20about */
+  /** type is the type of the condition. More info: https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/persistent-volume-claim-v1/#:~:text=set%20to%20%27ResizeStarted%27.-,PersistentVolumeClaimCondition,-contains%20details%20about */
   type: string;
 }
 export const IoK8sApiCoreV1PersistentVolumeClaimCondition = /*@__PURE__*/ S.suspend(() =>
@@ -4111,7 +4053,7 @@ export const IoK8sApiCoreV1VolumeHealthCondition = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiCoreV1VolumeHealthCondition",
 }) as any as S.Schema<IoK8sApiCoreV1VolumeHealthCondition>;
 
-/** conditions is the set of adverse conditions reported by the CSI controller plugin. An empty list means no adverse condition. At most 16 conditions may be reported. */
+/** healthConditions is the set of adverse conditions reported by the CSI controller plugin. An empty list means no adverse condition. At most 16 conditions may be reported. */
 export type IoK8sApiCoreV1VolumeHealthStatusHealthConditionsList =
   Array<IoK8sApiCoreV1VolumeHealthCondition>;
 export const IoK8sApiCoreV1VolumeHealthStatusHealthConditionsList = /*@__PURE__*/ S.Array(
@@ -4120,7 +4062,7 @@ export const IoK8sApiCoreV1VolumeHealthStatusHealthConditionsList = /*@__PURE__*
 
 /** VolumeHealthStatus contains health information for a volume reported by the CSI controller plugin. */
 export interface IoK8sApiCoreV1VolumeHealthStatus {
-  /** conditions is the set of adverse conditions reported by the CSI controller plugin. An empty list means no adverse condition. At most 16 conditions may be reported. */
+  /** healthConditions is the set of adverse conditions reported by the CSI controller plugin. An empty list means no adverse condition. At most 16 conditions may be reported. */
   healthConditions?: IoK8sApiCoreV1VolumeHealthStatusHealthConditionsList;
   /** lastTransitionTime is when the current set of conditions first appeared. */
   lastTransitionTime?: string;
@@ -4137,13 +4079,13 @@ export const IoK8sApiCoreV1VolumeHealthStatus = /*@__PURE__*/ S.suspend(() =>
 /** ModifyVolumeStatus represents the status object of ControllerModifyVolume operation */
 export interface IoK8sApiCoreV1ModifyVolumeStatus {
   /** status is the status of the ControllerModifyVolume operation. It can be in any of following states: - Pending Pending indicates that the PersistentVolumeClaim cannot be modified due to unmet requirements, such as the specified VolumeAttributesClass not existing. - InProgress InProgress indicates that the volume is being modified. - Infeasible Infeasible indicates that the request has been rejected as invalid by the CSI driver. To resolve the error, a valid VolumeAttributesClass needs to be specified. Note: New statuses can be added in the future. Consumers should check for unknown statuses and fail appropriately. */
-  status: string;
+  status?: string;
   /** targetVolumeAttributesClassName is the name of the VolumeAttributesClass the PVC currently being reconciled */
   targetVolumeAttributesClassName?: string;
 }
 export const IoK8sApiCoreV1ModifyVolumeStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    status: S.String,
+    status: S.optional(S.String),
     targetVolumeAttributesClassName: S.optional(S.String),
   }),
 ).annotate({
@@ -4195,7 +4137,7 @@ export interface IoK8sApiCoreV1PersistentVolumeClaim {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** spec defines the desired characteristics of a volume requested by a pod author. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims */
   spec?: IoK8sApiCoreV1PersistentVolumeClaimSpec;
@@ -4223,7 +4165,7 @@ export const IoK8sApiAppsV1StatefulSetSpecVolumeClaimTemplatesList = /*@__PURE__
 
 /** A StatefulSetSpec is the specification of a StatefulSet. */
 export interface IoK8sApiAppsV1StatefulSetSpec {
-  /** Minimum number of seconds for which a newly created pod should be ready without any of its container crashing for it to be considered available. Defaults to 0 (pod will be considered available as soon as it is ready) */
+  /** minReadySeconds is the minimum number of seconds for which a newly created pod should be ready without any of its container crashing for it to be considered available. Defaults to 0 (pod will be considered available as soon as it is ready) */
   minReadySeconds?: number;
   /** ordinals controls the numbering of replica indices in a StatefulSet. The default ordinals behavior assigns a "0" index to the first replica and increments the index by one for each additional replica requested. */
   ordinals?: IoK8sApiAppsV1StatefulSetOrdinals;
@@ -4268,15 +4210,15 @@ export const IoK8sApiAppsV1StatefulSetSpec = /*@__PURE__*/ S.suspend(() =>
 
 /** StatefulSetCondition describes the state of a statefulset at a certain point. */
 export interface IoK8sApiAppsV1StatefulSetCondition {
-  /** Last time the condition transitioned from one status to another. */
+  /** lastTransitionTime is the last time the condition transitioned from one status to another. */
   lastTransitionTime?: string;
-  /** A human readable message indicating details about the transition. */
+  /** message is a human readable string indicating details about the transition. */
   message?: string;
-  /** The reason for the condition's last transition. */
+  /** reason for the condition's last transition. */
   reason?: string;
-  /** Status of the condition, one of True, False, Unknown. */
+  /** status of the condition, one of True, False, Unknown. */
   status?: string;
-  /** Type of statefulset condition. */
+  /** type of statefulset condition. */
   type?: string;
 }
 export const IoK8sApiAppsV1StatefulSetCondition = /*@__PURE__*/ S.suspend(() =>
@@ -4291,7 +4233,7 @@ export const IoK8sApiAppsV1StatefulSetCondition = /*@__PURE__*/ S.suspend(() =>
   identifier: "IoK8sApiAppsV1StatefulSetCondition",
 }) as any as S.Schema<IoK8sApiAppsV1StatefulSetCondition>;
 
-/** Represents the latest available observations of a statefulset's current state. */
+/** conditions lists the latest available observations of a StatefulSet's current state. */
 export type IoK8sApiAppsV1StatefulSetStatusConditionsList =
   Array<IoK8sApiAppsV1StatefulSetCondition>;
 export const IoK8sApiAppsV1StatefulSetStatusConditionsList = /*@__PURE__*/ S.Array(
@@ -4300,11 +4242,11 @@ export const IoK8sApiAppsV1StatefulSetStatusConditionsList = /*@__PURE__*/ S.Arr
 
 /** StatefulSetStatus represents the current state of a StatefulSet. */
 export interface IoK8sApiAppsV1StatefulSetStatus {
-  /** Total number of available pods (ready for at least minReadySeconds) targeted by this statefulset. */
+  /** availableReplicas is the number of available non-terminating pods (ready for at least minReadySeconds) targeted by this StatefulSet. */
   availableReplicas?: number;
   /** collisionCount is the count of hash collisions for the StatefulSet. The StatefulSet controller uses this field as a collision avoidance mechanism when it needs to create the name for the newest ControllerRevision. */
   collisionCount?: number;
-  /** Represents the latest available observations of a statefulset's current state. */
+  /** conditions lists the latest available observations of a StatefulSet's current state. */
   conditions?: IoK8sApiAppsV1StatefulSetStatusConditionsList;
   /** currentReplicas is the number of Pods created by the StatefulSet controller from the StatefulSet version indicated by currentRevision. */
   currentReplicas?: number;
@@ -4316,7 +4258,7 @@ export interface IoK8sApiAppsV1StatefulSetStatus {
   readyReplicas?: number;
   /** replicas is the number of Pods created by the StatefulSet controller. */
   replicas: number;
-  /** updateRevision, if not empty, indicates the version of the StatefulSet used to generate Pods in the sequence [replicas-updatedReplicas,replicas) */
+  /** updateRevision indicates the version of the StatefulSet used to generate Pods in the sequence [replicas-updatedReplicas,replicas) */
   updateRevision?: string;
   /** updatedReplicas is the number of Pods created by the StatefulSet controller from the StatefulSet version indicated by updateRevision. */
   updatedReplicas?: number;
@@ -4353,11 +4295,11 @@ export interface CreateAppsV1NamespacedStatefulSetRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Spec defines the desired identities of pods in this set. */
+  /** spec defines the desired identities of pods in this set. */
   spec: IoK8sApiAppsV1StatefulSetSpec;
-  /** Status is the current status of Pods in this StatefulSet. This data may be out of date by some window of time. */
+  /** status is the current status of Pods in this StatefulSet. This data may be out of date by some window of time. */
   status?: IoK8sApiAppsV1StatefulSetStatus;
 }
 export const CreateAppsV1NamespacedStatefulSetRequest = /*@__PURE__*/ S.suspend(() =>
@@ -4373,11 +4315,7 @@ export const CreateAppsV1NamespacedStatefulSetRequest = /*@__PURE__*/ S.suspend(
     spec: IoK8sApiAppsV1StatefulSetSpec,
     status: S.optional(IoK8sApiAppsV1StatefulSetStatus),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/apis/apps/v1/namespaces/{namespace}/statefulsets",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/apis/apps/v1/namespaces/{namespace}/statefulsets", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateAppsV1NamespacedStatefulSetRequest",
@@ -4389,11 +4327,11 @@ export interface IoK8sApiAppsV1StatefulSet {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Spec defines the desired identities of pods in this set. */
+  /** spec defines the desired identities of pods in this set. */
   spec: IoK8sApiAppsV1StatefulSetSpec;
-  /** Status is the current status of Pods in this StatefulSet. This data may be out of date by some window of time. */
+  /** status is the current status of Pods in this StatefulSet. This data may be out of date by some window of time. */
   status?: IoK8sApiAppsV1StatefulSetStatus;
 }
 export const IoK8sApiAppsV1StatefulSet = /*@__PURE__*/ S.suspend(() =>
@@ -4685,11 +4623,7 @@ export const DeleteAppsV1CollectionNamespacedDaemonSetRequest = /*@__PURE__*/ S.
     kind: S.optional(S.String),
     preconditions: S.optional(IoK8sApimachineryPkgApisMetaV1Preconditions),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/apis/apps/v1/namespaces/{namespace}/daemonsets",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/apis/apps/v1/namespaces/{namespace}/daemonsets", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteAppsV1CollectionNamespacedDaemonSetRequest",
@@ -5154,9 +5088,7 @@ export const DeleteAppsV1NamespacedStatefulSetRequest = /*@__PURE__*/ S.suspend(
 export interface GetAppsAPIGroupRequest {}
 export const GetAppsAPIGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/apis/apps/", code: 200 })),
-).annotate({
-  identifier: "GetAppsAPIGroupRequest",
-}) as any as S.Schema<GetAppsAPIGroupRequest>;
+).annotate({ identifier: "GetAppsAPIGroupRequest" }) as any as S.Schema<GetAppsAPIGroupRequest>;
 
 /** GroupVersion contains the "group/version" and "version" string of a version. It is made a struct to keep extensibility. */
 export interface IoK8sApimachineryPkgApisMetaV1GroupVersionForDiscovery {
@@ -5369,13 +5301,7 @@ export const ListAppsV1ControllerRevisionForAllNamespacesRequest = /*@__PURE__*/
     shardSelector: S.optional(S.String.pipe(T.Query())),
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/apps/v1/controllerrevisions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/apps/v1/controllerrevisions", code: 200 })),
 ).annotate({
   identifier: "ListAppsV1ControllerRevisionForAllNamespacesRequest",
 }) as any as S.Schema<ListAppsV1ControllerRevisionForAllNamespacesRequest>;
@@ -5526,7 +5452,7 @@ export const ListAppsV1DeploymentForAllNamespacesRequest = /*@__PURE__*/ S.suspe
   identifier: "ListAppsV1DeploymentForAllNamespacesRequest",
 }) as any as S.Schema<ListAppsV1DeploymentForAllNamespacesRequest>;
 
-/** Items is the list of Deployments. */
+/** items is the list of Deployments. */
 export type IoK8sApiAppsV1DeploymentListItemsList = Array<IoK8sApiAppsV1Deployment>;
 export const IoK8sApiAppsV1DeploymentListItemsList = /*@__PURE__*/ S.Array(
   IoK8sApiAppsV1Deployment,
@@ -5536,11 +5462,11 @@ export const IoK8sApiAppsV1DeploymentListItemsList = /*@__PURE__*/ S.Array(
 export interface IoK8sApiAppsV1DeploymentList {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
   apiVersion?: string;
-  /** Items is the list of Deployments. */
+  /** items is the list of Deployments. */
   items: IoK8sApiAppsV1DeploymentListItemsList;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard list metadata. */
+  /** metadata is the standard list metadata. */
   metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta;
 }
 export const IoK8sApiAppsV1DeploymentList = /*@__PURE__*/ S.suspend(() =>
@@ -5652,11 +5578,7 @@ export const ListAppsV1NamespacedDaemonSetRequest = /*@__PURE__*/ S.suspend(() =
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/apps/v1/namespaces/{namespace}/daemonsets",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/apps/v1/namespaces/{namespace}/daemonsets", code: 200 }),
   ),
 ).annotate({
   identifier: "ListAppsV1NamespacedDaemonSetRequest",
@@ -5706,11 +5628,7 @@ export const ListAppsV1NamespacedDeploymentRequest = /*@__PURE__*/ S.suspend(() 
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/apps/v1/namespaces/{namespace}/deployments",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/apps/v1/namespaces/{namespace}/deployments", code: 200 }),
   ),
 ).annotate({
   identifier: "ListAppsV1NamespacedDeploymentRequest",
@@ -5760,11 +5678,7 @@ export const ListAppsV1NamespacedReplicaSetRequest = /*@__PURE__*/ S.suspend(() 
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/apps/v1/namespaces/{namespace}/replicasets",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/apps/v1/namespaces/{namespace}/replicasets", code: 200 }),
   ),
 ).annotate({
   identifier: "ListAppsV1NamespacedReplicaSetRequest",
@@ -5842,11 +5756,7 @@ export const ListAppsV1NamespacedStatefulSetRequest = /*@__PURE__*/ S.suspend(()
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/apps/v1/namespaces/{namespace}/statefulsets",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/apps/v1/namespaces/{namespace}/statefulsets", code: 200 }),
   ),
 ).annotate({
   identifier: "ListAppsV1NamespacedStatefulSetRequest",
@@ -6759,13 +6669,13 @@ export interface ReplaceAppsV1NamespacedControllerRevisionRequest {
   fieldValidation?: string;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
   apiVersion?: string;
-  /** Data is the serialized representation of the state. */
+  /** data is the serialized representation of the state. */
   data: unknown;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Revision indicates the revision of the state represented by Data. */
+  /** revision indicates the revision of the state represented by Data. */
   revision?: number;
 }
 export const ReplaceAppsV1NamespacedControllerRevisionRequest = /*@__PURE__*/ S.suspend(() =>
@@ -6809,11 +6719,11 @@ export interface ReplaceAppsV1NamespacedDaemonSetRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** The desired behavior of this daemon set. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** spec defines the desired behavior of this daemon set. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   spec: IoK8sApiAppsV1DaemonSetSpec;
-  /** The current status of this daemon set. This data may be out of date by some window of time. Populated by the system. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** status is the current status of this daemon set. This data may be out of date by some window of time. Populated by the system. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   status?: IoK8sApiAppsV1DaemonSetStatus;
 }
 export const ReplaceAppsV1NamespacedDaemonSetRequest = /*@__PURE__*/ S.suspend(() =>
@@ -6857,11 +6767,11 @@ export interface ReplaceAppsV1NamespacedDaemonSetStatusRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** The desired behavior of this daemon set. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** spec defines the desired behavior of this daemon set. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   spec: IoK8sApiAppsV1DaemonSetSpec;
-  /** The current status of this daemon set. This data may be out of date by some window of time. Populated by the system. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** status is the current status of this daemon set. This data may be out of date by some window of time. Populated by the system. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   status?: IoK8sApiAppsV1DaemonSetStatus;
 }
 export const ReplaceAppsV1NamespacedDaemonSetStatusRequest = /*@__PURE__*/ S.suspend(() =>
@@ -6905,11 +6815,11 @@ export interface ReplaceAppsV1NamespacedDeploymentRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Specification of the desired behavior of the Deployment. */
+  /** spec defines the desired behavior of the Deployment. */
   spec: IoK8sApiAppsV1DeploymentSpec;
-  /** Most recently observed status of the Deployment. */
+  /** status is the most recently observed status of the Deployment. */
   status?: IoK8sApiAppsV1DeploymentStatus;
 }
 export const ReplaceAppsV1NamespacedDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
@@ -7001,11 +6911,11 @@ export interface ReplaceAppsV1NamespacedDeploymentStatusRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Specification of the desired behavior of the Deployment. */
+  /** spec defines the desired behavior of the Deployment. */
   spec: IoK8sApiAppsV1DeploymentSpec;
-  /** Most recently observed status of the Deployment. */
+  /** status is the most recently observed status of the Deployment. */
   status?: IoK8sApiAppsV1DeploymentStatus;
 }
 export const ReplaceAppsV1NamespacedDeploymentStatusRequest = /*@__PURE__*/ S.suspend(() =>
@@ -7049,11 +6959,11 @@ export interface ReplaceAppsV1NamespacedReplicaSetRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** If the Labels of a ReplicaSet are empty, they are defaulted to be the same as the Pod(s) that the ReplicaSet manages. Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. If the Labels of a ReplicaSet are empty, they are defaulted to be the same as the Pod(s) that the ReplicaSet manages. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Spec defines the specification of the desired behavior of the ReplicaSet. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** spec defines the specification of the desired behavior of the ReplicaSet. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   spec: IoK8sApiAppsV1ReplicaSetSpec;
-  /** Status is the most recently observed status of the ReplicaSet. This data may be out of date by some window of time. Populated by the system. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** status is the most recently observed status of the ReplicaSet. This data may be out of date by some window of time. Populated by the system. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   status?: IoK8sApiAppsV1ReplicaSetStatus;
 }
 export const ReplaceAppsV1NamespacedReplicaSetRequest = /*@__PURE__*/ S.suspend(() =>
@@ -7145,11 +7055,11 @@ export interface ReplaceAppsV1NamespacedReplicaSetStatusRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** If the Labels of a ReplicaSet are empty, they are defaulted to be the same as the Pod(s) that the ReplicaSet manages. Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. If the Labels of a ReplicaSet are empty, they are defaulted to be the same as the Pod(s) that the ReplicaSet manages. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Spec defines the specification of the desired behavior of the ReplicaSet. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** spec defines the specification of the desired behavior of the ReplicaSet. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   spec: IoK8sApiAppsV1ReplicaSetSpec;
-  /** Status is the most recently observed status of the ReplicaSet. This data may be out of date by some window of time. Populated by the system. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
+  /** status is the most recently observed status of the ReplicaSet. This data may be out of date by some window of time. Populated by the system. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
   status?: IoK8sApiAppsV1ReplicaSetStatus;
 }
 export const ReplaceAppsV1NamespacedReplicaSetStatusRequest = /*@__PURE__*/ S.suspend(() =>
@@ -7193,11 +7103,11 @@ export interface ReplaceAppsV1NamespacedStatefulSetRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Spec defines the desired identities of pods in this set. */
+  /** spec defines the desired identities of pods in this set. */
   spec: IoK8sApiAppsV1StatefulSetSpec;
-  /** Status is the current status of Pods in this StatefulSet. This data may be out of date by some window of time. */
+  /** status is the current status of Pods in this StatefulSet. This data may be out of date by some window of time. */
   status?: IoK8sApiAppsV1StatefulSetStatus;
 }
 export const ReplaceAppsV1NamespacedStatefulSetRequest = /*@__PURE__*/ S.suspend(() =>
@@ -7289,11 +7199,11 @@ export interface ReplaceAppsV1NamespacedStatefulSetStatusRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Spec defines the desired identities of pods in this set. */
+  /** spec defines the desired identities of pods in this set. */
   spec: IoK8sApiAppsV1StatefulSetSpec;
-  /** Status is the current status of Pods in this StatefulSet. This data may be out of date by some window of time. */
+  /** status is the current status of Pods in this StatefulSet. This data may be out of date by some window of time. */
   status?: IoK8sApiAppsV1StatefulSetStatus;
 }
 export const ReplaceAppsV1NamespacedStatefulSetStatusRequest = /*@__PURE__*/ S.suspend(() =>
@@ -7361,13 +7271,7 @@ export const WatchAppsV1ControllerRevisionListForAllNamespacesRequest = /*@__PUR
       shardSelector: S.optional(S.String.pipe(T.Query())),
       timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
       watch: S.optional(S.Boolean.pipe(T.Query())),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/apis/apps/v1/watch/controllerrevisions",
-        code: 200,
-      }),
-    ),
+    }).pipe(T.Http({ method: "GET", uri: "/apis/apps/v1/watch/controllerrevisions", code: 200 })),
 ).annotate({
   identifier: "WatchAppsV1ControllerRevisionListForAllNamespacesRequest",
 }) as any as S.Schema<WatchAppsV1ControllerRevisionListForAllNamespacesRequest>;
@@ -7427,13 +7331,7 @@ export const WatchAppsV1DaemonSetListForAllNamespacesRequest = /*@__PURE__*/ S.s
     shardSelector: S.optional(S.String.pipe(T.Query())),
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/apps/v1/watch/daemonsets",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/apps/v1/watch/daemonsets", code: 200 })),
 ).annotate({
   identifier: "WatchAppsV1DaemonSetListForAllNamespacesRequest",
 }) as any as S.Schema<WatchAppsV1DaemonSetListForAllNamespacesRequest>;
@@ -7478,13 +7376,7 @@ export const WatchAppsV1DeploymentListForAllNamespacesRequest = /*@__PURE__*/ S.
     shardSelector: S.optional(S.String.pipe(T.Query())),
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/apps/v1/watch/deployments",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/apps/v1/watch/deployments", code: 200 })),
 ).annotate({
   identifier: "WatchAppsV1DeploymentListForAllNamespacesRequest",
 }) as any as S.Schema<WatchAppsV1DeploymentListForAllNamespacesRequest>;
@@ -8084,13 +7976,7 @@ export const WatchAppsV1ReplicaSetListForAllNamespacesRequest = /*@__PURE__*/ S.
     shardSelector: S.optional(S.String.pipe(T.Query())),
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/apps/v1/watch/replicasets",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/apps/v1/watch/replicasets", code: 200 })),
 ).annotate({
   identifier: "WatchAppsV1ReplicaSetListForAllNamespacesRequest",
 }) as any as S.Schema<WatchAppsV1ReplicaSetListForAllNamespacesRequest>;
@@ -8135,13 +8021,7 @@ export const WatchAppsV1StatefulSetListForAllNamespacesRequest = /*@__PURE__*/ S
     shardSelector: S.optional(S.String.pipe(T.Query())),
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/apps/v1/watch/statefulsets",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/apps/v1/watch/statefulsets", code: 200 })),
 ).annotate({
   identifier: "WatchAppsV1StatefulSetListForAllNamespacesRequest",
 }) as any as S.Schema<WatchAppsV1StatefulSetListForAllNamespacesRequest>;

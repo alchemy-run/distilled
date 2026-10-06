@@ -27,6 +27,15 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+export class NotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 404 }],
+  ) {}
+
 export type CreateWebhookRequestEventsItem =
   | "budget.reached"
   | "domain.created"
@@ -169,9 +178,7 @@ export const CreateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     events: CreateWebhookRequestEventsList,
     projectIds: S.optional(CreateWebhookRequestProjectIdsList),
   }).pipe(T.Http({ method: "POST", uri: "/v1/webhooks", code: 200 })),
-).annotate({
-  identifier: "CreateWebhookRequest",
-}) as any as S.Schema<CreateWebhookRequest>;
+).annotate({ identifier: "CreateWebhookRequest" }) as any as S.Schema<CreateWebhookRequest>;
 
 export type CreateWebhookResponseAlertRuleIdsList = Array<string>;
 export const CreateWebhookResponseAlertRuleIdsList = /*@__PURE__*/ S.Array(
@@ -307,39 +314,37 @@ export const CreateWebhookResponseProjectIdsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateWebhookResponseProjectIdsList>;
 
 export interface CreateWebhookResponse {
-  /** The webhook secret used to sign the payload */
-  secret: string | Redacted.Redacted<string>;
   alertRuleIds?: CreateWebhookResponseAlertRuleIdsList;
+  /** A number containing the date when the webhook was created in in milliseconds */
+  createdAt: number;
   /** The webhooks events */
   events: CreateWebhookResponseEventsList;
   /** The webhook id */
   id: string;
-  /** A string with the URL of the webhook */
-  url: string;
   /** The unique ID of the team the webhook belongs to */
   ownerId: string;
-  /** A number containing the date when the webhook was created in in milliseconds */
-  createdAt: number;
-  /** A number containing the date when the webhook was updated in in milliseconds */
-  updatedAt: number;
   /** The ID of the projects the webhook is associated with */
   projectIds?: CreateWebhookResponseProjectIdsList;
+  /** The webhook secret used to sign the payload */
+  secret: string | Redacted.Redacted<string>;
+  /** A number containing the date when the webhook was updated in in milliseconds */
+  updatedAt: number;
+  /** A string with the URL of the webhook */
+  url: string;
 }
 export const CreateWebhookResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    secret: S.String.pipe(T.SensitiveValue({})),
     alertRuleIds: S.optional(CreateWebhookResponseAlertRuleIdsList),
+    createdAt: S.Number,
     events: CreateWebhookResponseEventsList,
     id: S.String,
-    url: S.String,
     ownerId: S.String,
-    createdAt: S.Number,
-    updatedAt: S.Number,
     projectIds: S.optional(CreateWebhookResponseProjectIdsList),
+    secret: S.String.pipe(T.SensitiveValue({})),
+    updatedAt: S.Number,
+    url: S.String,
   }),
-).annotate({
-  identifier: "CreateWebhookResponse",
-}) as any as S.Schema<CreateWebhookResponse>;
+).annotate({ identifier: "CreateWebhookResponse" }) as any as S.Schema<CreateWebhookResponse>;
 
 export interface DeleteWebhookRequest {
   id: string;
@@ -354,9 +359,7 @@ export const DeleteWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/v1/webhooks/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteWebhookRequest",
-}) as any as S.Schema<DeleteWebhookRequest>;
+).annotate({ identifier: "DeleteWebhookRequest" }) as any as S.Schema<DeleteWebhookRequest>;
 
 export interface DeleteWebhookResponse {}
 export const DeleteWebhookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -376,9 +379,7 @@ export const GetWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/webhooks/{id}", code: 200 })),
-).annotate({
-  identifier: "GetWebhookRequest",
-}) as any as S.Schema<GetWebhookRequest>;
+).annotate({ identifier: "GetWebhookRequest" }) as any as S.Schema<GetWebhookRequest>;
 
 export type GetWebhookResponseAlertRuleIdsList = Array<string>;
 export const GetWebhookResponseAlertRuleIdsList = /*@__PURE__*/ S.Array(
@@ -515,35 +516,33 @@ export const GetWebhookResponseProjectIdsList = /*@__PURE__*/ S.Array(
 
 export interface GetWebhookResponse {
   alertRuleIds?: GetWebhookResponseAlertRuleIdsList;
+  /** A number containing the date when the webhook was created in in milliseconds */
+  createdAt: number;
   /** The webhooks events */
   events: GetWebhookResponseEventsList;
   /** The webhook id */
   id: string;
-  /** A string with the URL of the webhook */
-  url: string;
   /** The unique ID of the team the webhook belongs to */
   ownerId: string;
-  /** A number containing the date when the webhook was created in in milliseconds */
-  createdAt: number;
-  /** A number containing the date when the webhook was updated in in milliseconds */
-  updatedAt: number;
   /** The ID of the projects the webhook is associated with */
   projectIds?: GetWebhookResponseProjectIdsList;
+  /** A number containing the date when the webhook was updated in in milliseconds */
+  updatedAt: number;
+  /** A string with the URL of the webhook */
+  url: string;
 }
 export const GetWebhookResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     alertRuleIds: S.optional(GetWebhookResponseAlertRuleIdsList),
+    createdAt: S.Number,
     events: GetWebhookResponseEventsList,
     id: S.String,
-    url: S.String,
     ownerId: S.String,
-    createdAt: S.Number,
-    updatedAt: S.Number,
     projectIds: S.optional(GetWebhookResponseProjectIdsList),
+    updatedAt: S.Number,
+    url: S.String,
   }),
-).annotate({
-  identifier: "GetWebhookResponse",
-}) as any as S.Schema<GetWebhookResponse>;
+).annotate({ identifier: "GetWebhookResponse" }) as any as S.Schema<GetWebhookResponse>;
 
 export interface GetWebhooksRequest {
   projectId?: string;
@@ -558,109 +557,7 @@ export const GetWebhooksRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/webhooks", code: 200 })),
-).annotate({
-  identifier: "GetWebhooksRequest",
-}) as any as S.Schema<GetWebhooksRequest>;
-
-export type GetWebhooksResponseBodyCase0ItemProjectsMetadataItemFramework =
-  | "actix-web"
-  | "angular"
-  | "ash"
-  | "astro"
-  | "axum"
-  | "blitzjs"
-  | "brunch"
-  | "bun"
-  | "container"
-  | "create-react-app"
-  | "django"
-  | "docusaurus"
-  | "docusaurus-2"
-  | "dojo"
-  | "eleventy"
-  | "elysia"
-  | "ember"
-  | "eve"
-  | "express"
-  | "factory-eve"
-  | "fastapi"
-  | "fasthtml"
-  | "fastify"
-  | "flask"
-  | "gatsby"
-  | "go"
-  | "gridsome"
-  | "h3"
-  | "hexo"
-  | "hono"
-  | "hugo"
-  | "hydrogen"
-  | "ionic-angular"
-  | "ionic-react"
-  | "jekyll"
-  | "koa"
-  | "mastra"
-  | "middleman"
-  | "nestjs"
-  | "nextjs"
-  | "nitro"
-  | "node"
-  | "nuxtjs"
-  | "parcel"
-  | "polymer"
-  | "preact"
-  | "python"
-  | "react-router"
-  | "redwoodjs"
-  | "remix"
-  | "ruby"
-  | "rust"
-  | "saber"
-  | "sanity"
-  | "sanity-v2"
-  | "sapper"
-  | "scully"
-  | "services"
-  | "solidstart"
-  | "solidstart-1"
-  | "stencil"
-  | "storybook"
-  | "svelte"
-  | "sveltekit"
-  | "sveltekit-1"
-  | "tanstack-start"
-  | "tanstack-start-lovable"
-  | "umijs"
-  | "vite"
-  | "vitepress"
-  | "vue"
-  | "vuepress"
-  | "xmcp"
-  | "zola";
-export const GetWebhooksResponseBodyCase0ItemProjectsMetadataItemFramework = S.String;
-
-export interface GetWebhooksResponseBodyCase0ItemProjectsMetadataItem {
-  id: string;
-  name: string;
-  framework?: GetWebhooksResponseBodyCase0ItemProjectsMetadataItemFramework | null;
-  latestDeployment?: string;
-}
-export const GetWebhooksResponseBodyCase0ItemProjectsMetadataItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    name: S.String,
-    framework: S.optional(S.NullOr(GetWebhooksResponseBodyCase0ItemProjectsMetadataItemFramework)),
-    latestDeployment: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetWebhooksResponseBodyCase0ItemProjectsMetadataItem",
-}) as any as S.Schema<GetWebhooksResponseBodyCase0ItemProjectsMetadataItem>;
-
-export type GetWebhooksResponseBodyCase0ItemProjectsMetadataList =
-  Array<GetWebhooksResponseBodyCase0ItemProjectsMetadataItem>;
-export const GetWebhooksResponseBodyCase0ItemProjectsMetadataList = /*@__PURE__*/ S.Array(
-  GetWebhooksResponseBodyCase0ItemProjectsMetadataItem,
-) as any as S.Schema<GetWebhooksResponseBodyCase0ItemProjectsMetadataList>;
+).annotate({ identifier: "GetWebhooksRequest" }) as any as S.Schema<GetWebhooksRequest>;
 
 export type GetWebhooksResponseBodyCase0ItemAlertRuleIdsList = Array<string>;
 export const GetWebhooksResponseBodyCase0ItemAlertRuleIdsList = /*@__PURE__*/ S.Array(
@@ -796,35 +693,135 @@ export const GetWebhooksResponseBodyCase0ItemProjectIdsList = /*@__PURE__*/ S.Ar
   S.String,
 ) as any as S.Schema<GetWebhooksResponseBodyCase0ItemProjectIdsList>;
 
+export type GetWebhooksResponseBodyCase0ItemProjectsMetadataItemFramework =
+  | "actix-web"
+  | "angular"
+  | "ash"
+  | "astro"
+  | "axum"
+  | "blitzjs"
+  | "brunch"
+  | "bun"
+  | "container"
+  | "create-react-app"
+  | "django"
+  | "docusaurus"
+  | "docusaurus-2"
+  | "dojo"
+  | "eleventy"
+  | "elysia"
+  | "ember"
+  | "eve"
+  | "express"
+  | "factory-eve"
+  | "fastapi"
+  | "fasthtml"
+  | "fastify"
+  | "flask"
+  | "gatsby"
+  | "go"
+  | "gridsome"
+  | "h3"
+  | "hexo"
+  | "hono"
+  | "hugo"
+  | "hydrogen"
+  | "ionic-angular"
+  | "ionic-react"
+  | "jekyll"
+  | "koa"
+  | "mastra"
+  | "middleman"
+  | "nestjs"
+  | "nextjs"
+  | "nitro"
+  | "node"
+  | "nuxtjs"
+  | "parcel"
+  | "polymer"
+  | "preact"
+  | "python"
+  | "react-router"
+  | "redwoodjs"
+  | "remix"
+  | "ruby"
+  | "rust"
+  | "saber"
+  | "sanity"
+  | "sanity-v2"
+  | "sapper"
+  | "scully"
+  | "services"
+  | "solidstart"
+  | "solidstart-1"
+  | "stencil"
+  | "storybook"
+  | "svelte"
+  | "sveltekit"
+  | "sveltekit-1"
+  | "tanstack-start"
+  | "tanstack-start-lovable"
+  | "umijs"
+  | "vite"
+  | "vitepress"
+  | "vue"
+  | "vuepress"
+  | "xmcp"
+  | "zola";
+export const GetWebhooksResponseBodyCase0ItemProjectsMetadataItemFramework = S.String;
+
+export interface GetWebhooksResponseBodyCase0ItemProjectsMetadataItem {
+  framework?: GetWebhooksResponseBodyCase0ItemProjectsMetadataItemFramework | null;
+  id: string;
+  latestDeployment?: string;
+  name: string;
+}
+export const GetWebhooksResponseBodyCase0ItemProjectsMetadataItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    framework: S.optional(S.NullOr(GetWebhooksResponseBodyCase0ItemProjectsMetadataItemFramework)),
+    id: S.String,
+    latestDeployment: S.optional(S.String),
+    name: S.String,
+  }),
+).annotate({
+  identifier: "GetWebhooksResponseBodyCase0ItemProjectsMetadataItem",
+}) as any as S.Schema<GetWebhooksResponseBodyCase0ItemProjectsMetadataItem>;
+
+export type GetWebhooksResponseBodyCase0ItemProjectsMetadataList =
+  Array<GetWebhooksResponseBodyCase0ItemProjectsMetadataItem>;
+export const GetWebhooksResponseBodyCase0ItemProjectsMetadataList = /*@__PURE__*/ S.Array(
+  GetWebhooksResponseBodyCase0ItemProjectsMetadataItem,
+) as any as S.Schema<GetWebhooksResponseBodyCase0ItemProjectsMetadataList>;
+
 export interface GetWebhooksResponseBodyCase0Item {
-  projectsMetadata: GetWebhooksResponseBodyCase0ItemProjectsMetadataList | null;
   alertRuleIds?: GetWebhooksResponseBodyCase0ItemAlertRuleIdsList;
+  /** A number containing the date when the webhook was created in in milliseconds */
+  createdAt: number;
   /** The webhooks events */
   events: GetWebhooksResponseBodyCase0ItemEventsList;
   /** The webhook id */
   id: string;
-  /** A string with the URL of the webhook */
-  url: string;
   /** The unique ID of the team the webhook belongs to */
   ownerId: string;
-  /** A number containing the date when the webhook was created in in milliseconds */
-  createdAt: number;
-  /** A number containing the date when the webhook was updated in in milliseconds */
-  updatedAt: number;
   /** The ID of the projects the webhook is associated with */
   projectIds?: GetWebhooksResponseBodyCase0ItemProjectIdsList;
+  projectsMetadata: GetWebhooksResponseBodyCase0ItemProjectsMetadataList | null;
+  /** A number containing the date when the webhook was updated in in milliseconds */
+  updatedAt: number;
+  /** A string with the URL of the webhook */
+  url: string;
 }
 export const GetWebhooksResponseBodyCase0Item = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    projectsMetadata: S.NullOr(GetWebhooksResponseBodyCase0ItemProjectsMetadataList),
     alertRuleIds: S.optional(GetWebhooksResponseBodyCase0ItemAlertRuleIdsList),
+    createdAt: S.Number,
     events: GetWebhooksResponseBodyCase0ItemEventsList,
     id: S.String,
-    url: S.String,
     ownerId: S.String,
-    createdAt: S.Number,
-    updatedAt: S.Number,
     projectIds: S.optional(GetWebhooksResponseBodyCase0ItemProjectIdsList),
+    projectsMetadata: S.NullOr(GetWebhooksResponseBodyCase0ItemProjectsMetadataList),
+    updatedAt: S.Number,
+    url: S.String,
   }),
 ).annotate({
   identifier: "GetWebhooksResponseBodyCase0Item",
@@ -971,31 +968,31 @@ export const GetWebhooksResponseBodyCase1ItemProjectIdsList = /*@__PURE__*/ S.Ar
 
 export interface GetWebhooksResponseBodyCase1Item {
   alertRuleIds?: GetWebhooksResponseBodyCase1ItemAlertRuleIdsList;
+  /** A number containing the date when the webhook was created in in milliseconds */
+  createdAt: number;
   /** The webhooks events */
   events: GetWebhooksResponseBodyCase1ItemEventsList;
   /** The webhook id */
   id: string;
-  /** A string with the URL of the webhook */
-  url: string;
   /** The unique ID of the team the webhook belongs to */
   ownerId: string;
-  /** A number containing the date when the webhook was created in in milliseconds */
-  createdAt: number;
-  /** A number containing the date when the webhook was updated in in milliseconds */
-  updatedAt: number;
   /** The ID of the projects the webhook is associated with */
   projectIds?: GetWebhooksResponseBodyCase1ItemProjectIdsList;
+  /** A number containing the date when the webhook was updated in in milliseconds */
+  updatedAt: number;
+  /** A string with the URL of the webhook */
+  url: string;
 }
 export const GetWebhooksResponseBodyCase1Item = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     alertRuleIds: S.optional(GetWebhooksResponseBodyCase1ItemAlertRuleIdsList),
+    createdAt: S.Number,
     events: GetWebhooksResponseBodyCase1ItemEventsList,
     id: S.String,
-    url: S.String,
     ownerId: S.String,
-    createdAt: S.Number,
-    updatedAt: S.Number,
     projectIds: S.optional(GetWebhooksResponseBodyCase1ItemProjectIdsList),
+    updatedAt: S.Number,
+    url: S.String,
   }),
 ).annotate({
   identifier: "GetWebhooksResponseBodyCase1Item",
@@ -1014,11 +1011,9 @@ export const GetWebhooksResponseBody = S.Unknown as any as S.Schema<GetWebhooksR
 export type GetWebhooksResponse = GetWebhooksResponseBody;
 export const GetWebhooksResponse = /*@__PURE__*/ S.suspend(() =>
   GetWebhooksResponseBody.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetWebhooksResponse",
-}) as any as S.Schema<GetWebhooksResponse>;
+).annotate({ identifier: "GetWebhooksResponse" }) as any as S.Schema<GetWebhooksResponse>;
 
-export type CreateWebhookError = BadRequest | Forbidden | VercelOpError;
+export type CreateWebhookError = BadRequest | Forbidden | NotFound | VercelOpError;
 /** Creates a webhook Creates a webhook */
 export const createWebhook: API.OperationMethod<
   CreateWebhookRequest,
@@ -1028,12 +1023,12 @@ export const createWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateWebhookRequest,
   output: CreateWebhookResponse,
-  errors: [BadRequest, Forbidden],
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeleteWebhookError = BadRequest | Forbidden | VercelOpError;
+export type DeleteWebhookError = BadRequest | Forbidden | NotFound | VercelOpError;
 /** Deletes a webhook Deletes a webhook */
 export const deleteWebhook: API.OperationMethod<
   DeleteWebhookRequest,
@@ -1043,12 +1038,12 @@ export const deleteWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteWebhookRequest,
   output: DeleteWebhookResponse,
-  errors: [BadRequest, Forbidden],
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetWebhookError = BadRequest | Forbidden | VercelOpError;
+export type GetWebhookError = BadRequest | Forbidden | NotFound | VercelOpError;
 /** Get a webhook Get a webhook */
 export const getWebhook: API.OperationMethod<
   GetWebhookRequest,
@@ -1058,12 +1053,12 @@ export const getWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetWebhookRequest,
   output: GetWebhookResponse,
-  errors: [BadRequest, Forbidden],
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetWebhooksError = BadRequest | Forbidden | VercelOpError;
+export type GetWebhooksError = BadRequest | Forbidden | NotFound | VercelOpError;
 /** Get a list of webhooks Get a list of webhooks */
 export const getWebhooks: API.OperationMethod<
   GetWebhooksRequest,
@@ -1073,7 +1068,7 @@ export const getWebhooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetWebhooksRequest,
   output: GetWebhooksResponse,
-  errors: [BadRequest, Forbidden],
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));

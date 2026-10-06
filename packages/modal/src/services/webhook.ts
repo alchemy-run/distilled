@@ -37,16 +37,14 @@ export const AddWebhookTokenEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface CreateWebhookTokenRequest {
   scoped?: boolean;
+  name?: string;
 }
 export const CreateWebhookTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     scoped: S.optional(S.Boolean),
+    name: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/WebhookTokenCreate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/WebhookTokenCreate", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateWebhookTokenRequest",
@@ -72,11 +70,7 @@ export const DeleteWebhookTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tokenId: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/WebhookTokenDelete",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/WebhookTokenDelete", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteWebhookTokenRequest",
@@ -90,27 +84,36 @@ export const DeleteWebhookTokenResponse = /*@__PURE__*/ S.suspend(() => S.Struct
 export interface ListWebhookTokenRequest {}
 export const ListWebhookTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/WebhookTokenList",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/WebhookTokenList", code: 200 }),
   ),
-).annotate({
-  identifier: "ListWebhookTokenRequest",
-}) as any as S.Schema<ListWebhookTokenRequest>;
+).annotate({ identifier: "ListWebhookTokenRequest" }) as any as S.Schema<ListWebhookTokenRequest>;
+
+export interface UserIdentity {
+  userId?: string;
+  username?: string;
+}
+export const UserIdentity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    userId: S.optional(S.String),
+    username: S.optional(S.String),
+  }),
+).annotate({ identifier: "UserIdentity" }) as any as S.Schema<UserIdentity>;
 
 /** Additional URL suffix added for ephemeral Apps */
 export interface WebhookToken {
   tokenId?: string;
   createdAt?: number;
   scoped?: boolean;
+  name?: string;
+  createdBy?: UserIdentity;
 }
 export const WebhookToken = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tokenId: S.optional(S.String),
     createdAt: S.optional(S.Number),
     scoped: S.optional(S.Boolean),
+    name: S.optional(S.String),
+    createdBy: S.optional(UserIdentity),
   }),
 ).annotate({ identifier: "WebhookToken" }) as any as S.Schema<WebhookToken>;
 
@@ -126,9 +129,7 @@ export const ListWebhookTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tokens: S.optional(WebhookTokenList2),
   }),
-).annotate({
-  identifier: "ListWebhookTokenResponse",
-}) as any as S.Schema<ListWebhookTokenResponse>;
+).annotate({ identifier: "ListWebhookTokenResponse" }) as any as S.Schema<ListWebhookTokenResponse>;
 
 export interface ListWebhookTokenEnvironmentRequest {
   tokenId?: string;
@@ -186,6 +187,40 @@ export const RemoveWebhookTokenEnvironmentResponse = /*@__PURE__*/ S.suspend(() 
 ).annotate({
   identifier: "RemoveWebhookTokenEnvironmentResponse",
 }) as any as S.Schema<RemoveWebhookTokenEnvironmentResponse>;
+
+export interface UpdateWebhookTokenRequest {
+  tokenId?: string;
+  name?: string;
+}
+export const UpdateWebhookTokenRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tokenId: S.optional(S.String),
+    name: S.optional(S.String),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/WebhookTokenUpdate", code: 200 }),
+  ),
+).annotate({
+  identifier: "UpdateWebhookTokenRequest",
+}) as any as S.Schema<UpdateWebhookTokenRequest>;
+
+export interface UpdateWebhookTokenResponse {
+  tokenId?: string;
+  createdAt?: number;
+  scoped?: boolean;
+  name?: string;
+  createdBy?: UserIdentity;
+}
+export const UpdateWebhookTokenResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tokenId: S.optional(S.String),
+    createdAt: S.optional(S.Number),
+    scoped: S.optional(S.Boolean),
+    name: S.optional(S.String),
+    createdBy: S.optional(UserIdentity),
+  }),
+).annotate({
+  identifier: "UpdateWebhookTokenResponse",
+}) as any as S.Schema<UpdateWebhookTokenResponse>;
 
 export interface WebhookTokenListForEnvironmentRequest {
   environmentName?: string;
@@ -295,6 +330,20 @@ export const removeWebhookTokenEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RemoveWebhookTokenEnvironmentRequest,
   output: RemoveWebhookTokenEnvironmentResponse,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateWebhookTokenError = ModalOpError;
+export const updateWebhookToken: API.OperationMethod<
+  UpdateWebhookTokenRequest,
+  UpdateWebhookTokenResponse,
+  UpdateWebhookTokenError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateWebhookTokenRequest,
+  output: UpdateWebhookTokenResponse,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,

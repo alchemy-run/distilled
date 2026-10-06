@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "RDS Data",
-  serviceShapeName: "RdsDataService",
-});
+const svc = T.AwsApiService({ sdkId: "RDS Data", serviceShapeName: "RdsDataService" });
 const auth = T.AwsAuthSigv4({ name: "rds-data" });
 const ver = T.ServiceVersion("2018-08-01");
 const proto = T.AwsProtocolsRestJson1();
@@ -158,10 +155,7 @@ export class ServiceUnavailableError
 export class StatementTimeoutException
   extends /*@__PURE__*/ S.TaggedError<StatementTimeoutException>()(
     "StatementTimeoutException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      dbConnectionId: S.optional(S.Number),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), dbConnectionId: S.optional(S.Number) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class TransactionNotFoundException
@@ -236,11 +230,7 @@ export const ArrayValue = /*@__PURE__*/ S.Union([
   S.Struct({ longValues: LongArray }),
   S.Struct({ doubleValues: DoubleArray }),
   S.Struct({ stringValues: StringArray }),
-  S.Struct({
-    arrayValues: S.suspend(() => ArrayOfArray).annotate({
-      identifier: "ArrayOfArray",
-    }),
-  }),
+  S.Struct({ arrayValues: S.suspend(() => ArrayOfArray).annotate({ identifier: "ArrayOfArray" }) }),
 ]) as any as S.Schema<ArrayValue>;
 export type Field =
   | {
@@ -390,33 +380,23 @@ export const BeginTransactionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/BeginTransaction" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "BeginTransactionRequest",
-}) as any as S.Schema<BeginTransactionRequest>;
+).annotate({ identifier: "BeginTransactionRequest" }) as any as S.Schema<BeginTransactionRequest>;
 export interface BeginTransactionResponse {
   transactionId?: string;
 }
 export const BeginTransactionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ transactionId: S.optional(S.String) }),
-).annotate({
-  identifier: "BeginTransactionResponse",
-}) as any as S.Schema<BeginTransactionResponse>;
+).annotate({ identifier: "BeginTransactionResponse" }) as any as S.Schema<BeginTransactionResponse>;
 export interface CommitTransactionRequest {
   resourceArn: string;
   secretArn: string;
   transactionId: string;
 }
 export const CommitTransactionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String,
-    secretArn: S.String,
-    transactionId: S.String,
-  }).pipe(
+  S.Struct({ resourceArn: S.String, secretArn: S.String, transactionId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/CommitTransaction" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CommitTransactionRequest",
-}) as any as S.Schema<CommitTransactionRequest>;
+).annotate({ identifier: "CommitTransactionRequest" }) as any as S.Schema<CommitTransactionRequest>;
 export type TransactionStatus = string;
 export interface CommitTransactionResponse {
   transactionStatus?: string;
@@ -441,9 +421,7 @@ export const ExecuteSqlRequest = /*@__PURE__*/ S.suspend(() =>
     database: S.optional(S.String),
     schema: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/ExecuteSql" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ExecuteSqlRequest",
-}) as any as S.Schema<ExecuteSqlRequest>;
+).annotate({ identifier: "ExecuteSqlRequest" }) as any as S.Schema<ExecuteSqlRequest>;
 export interface ColumnMetadata {
   name?: string;
   type?: number;
@@ -485,13 +463,8 @@ export interface ResultSetMetadata {
   columnMetadata?: ColumnMetadata[];
 }
 export const ResultSetMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    columnCount: S.optional(S.Number),
-    columnMetadata: S.optional(Metadata),
-  }),
-).annotate({
-  identifier: "ResultSetMetadata",
-}) as any as S.Schema<ResultSetMetadata>;
+  S.Struct({ columnCount: S.optional(S.Number), columnMetadata: S.optional(Metadata) }),
+).annotate({ identifier: "ResultSetMetadata" }) as any as S.Schema<ResultSetMetadata>;
 export type BoxedInteger = number;
 export type BoxedFloat = number;
 export type ArrayValueList = Value[];
@@ -504,9 +477,7 @@ export interface StructValue {
 export const StructValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     attributes: S.optional(
-      S.suspend(() => ArrayValueList).annotate({
-        identifier: "ArrayValueList",
-      }),
+      S.suspend(() => ArrayValueList).annotate({ identifier: "ArrayValueList" }),
     ),
   }),
 ).annotate({ identifier: "StructValue" }) as any as S.Schema<StructValue>;
@@ -641,9 +612,7 @@ export const Value = /*@__PURE__*/ S.Union([
   S.Struct({ stringValue: S.String }),
   S.Struct({ blobValue: T.Blob }),
   S.Struct({
-    arrayValues: S.suspend(() => ArrayValueList).annotate({
-      identifier: "ArrayValueList",
-    }),
+    arrayValues: S.suspend(() => ArrayValueList).annotate({ identifier: "ArrayValueList" }),
   }),
   S.Struct({
     structValue: S.suspend((): S.Schema<StructValue> => StructValue).annotate({
@@ -666,10 +635,7 @@ export interface ResultFrame {
   records?: Record[];
 }
 export const ResultFrame = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resultSetMetadata: S.optional(ResultSetMetadata),
-    records: S.optional(Records),
-  }),
+  S.Struct({ resultSetMetadata: S.optional(ResultSetMetadata), records: S.optional(Records) }),
 ).annotate({ identifier: "ResultFrame" }) as any as S.Schema<ResultFrame>;
 export type RecordsUpdated = number;
 export interface SqlStatementResult {
@@ -677,13 +643,8 @@ export interface SqlStatementResult {
   numberOfRecordsUpdated?: number;
 }
 export const SqlStatementResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resultFrame: S.optional(ResultFrame),
-    numberOfRecordsUpdated: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "SqlStatementResult",
-}) as any as S.Schema<SqlStatementResult>;
+  S.Struct({ resultFrame: S.optional(ResultFrame), numberOfRecordsUpdated: S.optional(S.Number) }),
+).annotate({ identifier: "SqlStatementResult" }) as any as S.Schema<SqlStatementResult>;
 export type SqlStatementResults = SqlStatementResult[];
 export const SqlStatementResults = /*@__PURE__*/ S.Array(SqlStatementResult);
 export interface ExecuteSqlResponse {
@@ -691,9 +652,7 @@ export interface ExecuteSqlResponse {
 }
 export const ExecuteSqlResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ sqlStatementResults: S.optional(SqlStatementResults) }),
-).annotate({
-  identifier: "ExecuteSqlResponse",
-}) as any as S.Schema<ExecuteSqlResponse>;
+).annotate({ identifier: "ExecuteSqlResponse" }) as any as S.Schema<ExecuteSqlResponse>;
 export type DecimalReturnType = "STRING" | "DOUBLE_OR_LONG" | (string & {});
 export const DecimalReturnType = S.String;
 
@@ -709,9 +668,7 @@ export const ResultSetOptions = /*@__PURE__*/ S.suspend(() =>
     decimalReturnType: S.optional(DecimalReturnType),
     longReturnType: S.optional(LongReturnType),
   }),
-).annotate({
-  identifier: "ResultSetOptions",
-}) as any as S.Schema<ResultSetOptions>;
+).annotate({ identifier: "ResultSetOptions" }) as any as S.Schema<ResultSetOptions>;
 export type RecordsFormatType = "NONE" | "JSON" | (string & {});
 export const RecordsFormatType = S.String;
 
@@ -742,9 +699,7 @@ export const ExecuteStatementRequest = /*@__PURE__*/ S.suspend(() =>
     resultSetOptions: S.optional(ResultSetOptions),
     formatRecordsAs: S.optional(RecordsFormatType),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/Execute" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ExecuteStatementRequest",
-}) as any as S.Schema<ExecuteStatementRequest>;
+).annotate({ identifier: "ExecuteStatementRequest" }) as any as S.Schema<ExecuteStatementRequest>;
 export type SqlRecords = Field[][];
 export const SqlRecords = /*@__PURE__*/ S.Array(FieldList);
 export type FormattedSqlRecords = string;
@@ -763,20 +718,14 @@ export const ExecuteStatementResponse = /*@__PURE__*/ S.suspend(() =>
     generatedFields: S.optional(FieldList),
     formattedRecords: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExecuteStatementResponse",
-}) as any as S.Schema<ExecuteStatementResponse>;
+).annotate({ identifier: "ExecuteStatementResponse" }) as any as S.Schema<ExecuteStatementResponse>;
 export interface RollbackTransactionRequest {
   resourceArn: string;
   secretArn: string;
   transactionId: string;
 }
 export const RollbackTransactionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String,
-    secretArn: S.String,
-    transactionId: S.String,
-  }).pipe(
+  S.Struct({ resourceArn: S.String, secretArn: S.String, transactionId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/RollbackTransaction" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({

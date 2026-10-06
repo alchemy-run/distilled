@@ -17,9 +17,7 @@ export const AcceptMeAgreementRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/me/agreements/{id}/accept", code: 200 })),
-).annotate({
-  identifier: "AcceptMeAgreementRequest",
-}) as any as S.Schema<AcceptMeAgreementRequest>;
+).annotate({ identifier: "AcceptMeAgreementRequest" }) as any as S.Schema<AcceptMeAgreementRequest>;
 
 export type AcceptMeAgreementResponse = string;
 export const AcceptMeAgreementResponse = /*@__PURE__*/ S.suspend(() =>
@@ -84,13 +82,7 @@ export const AcceptMeTaskContactChangeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
     token: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/task/contactChange/{id}/accept",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/task/contactChange/{id}/accept", code: 200 })),
 ).annotate({
   identifier: "AcceptMeTaskContactChangeRequest",
 }) as any as S.Schema<AcceptMeTaskContactChangeRequest>;
@@ -111,22 +103,14 @@ export const AcceptMeTaskEmailChangeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
     token: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/task/emailChange/{id}/accept",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/task/emailChange/{id}/accept", code: 200 })),
 ).annotate({
   identifier: "AcceptMeTaskEmailChangeRequest",
 }) as any as S.Schema<AcceptMeTaskEmailChangeRequest>;
 
 export interface AcceptMeTaskEmailChangeResponse {}
 export const AcceptMeTaskEmailChangeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "AcceptMeTaskEmailChangeResponse",
-  },
+  { identifier: "AcceptMeTaskEmailChangeResponse" },
 ) as any as S.Schema<AcceptMeTaskEmailChangeResponse>;
 
 export interface ApplyMeSlaRequest {
@@ -137,9 +121,7 @@ export const ApplyMeSlaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/me/sla/{id}/apply", code: 200 })),
-).annotate({
-  identifier: "ApplyMeSlaRequest",
-}) as any as S.Schema<ApplyMeSlaRequest>;
+).annotate({ identifier: "ApplyMeSlaRequest" }) as any as S.Schema<ApplyMeSlaRequest>;
 
 export interface ApplyMeSlaResponse {}
 export const ApplyMeSlaResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -154,9 +136,7 @@ export const CancelMeTaskDnsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/me/task/dns/{id}/cancel", code: 200 })),
-).annotate({
-  identifier: "CancelMeTaskDnsRequest",
-}) as any as S.Schema<CancelMeTaskDnsRequest>;
+).annotate({ identifier: "CancelMeTaskDnsRequest" }) as any as S.Schema<CancelMeTaskDnsRequest>;
 
 export interface CancelMeTaskDnsResponse {}
 export const CancelMeTaskDnsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -201,19 +181,11 @@ export const NichandleVoucherStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     validity: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "NichandleVoucherStatus",
-}) as any as S.Schema<NichandleVoucherStatus>;
+).annotate({ identifier: "NichandleVoucherStatus" }) as any as S.Schema<NichandleVoucherStatus>;
 
 export interface CreateMeAccessRestrictionBackupCodeRequest {}
 export const CreateMeAccessRestrictionBackupCodeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/accessRestriction/backupCode",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "POST", uri: "/me/accessRestriction/backupCode", code: 200 })),
 ).annotate({
   identifier: "CreateMeAccessRestrictionBackupCodeRequest",
 }) as any as S.Schema<CreateMeAccessRestrictionBackupCodeRequest>;
@@ -728,9 +700,7 @@ export const CreateMeAccountRequest = /*@__PURE__*/ S.suspend(() =>
     vat: S.optional(S.NullOr(S.String)),
     zip: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/me/account", code: 200 })),
-).annotate({
-  identifier: "CreateMeAccountRequest",
-}) as any as S.Schema<CreateMeAccountRequest>;
+).annotate({ identifier: "CreateMeAccountRequest" }) as any as S.Schema<CreateMeAccountRequest>;
 
 /** Customer currency */
 export interface NichandleCurrency {
@@ -744,9 +714,7 @@ export const NichandleCurrency = /*@__PURE__*/ S.suspend(() =>
     code: S.optional(S.String),
     symbol: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NichandleCurrency",
-}) as any as S.Schema<NichandleCurrency>;
+).annotate({ identifier: "NichandleCurrency" }) as any as S.Schema<NichandleCurrency>;
 
 /** OVH companies */
 export type NichandleOvhCompanyEnum = "kimsufi" | "ovh" | "soyoustart";
@@ -883,9 +851,7 @@ export const NichandleNichandle = /*@__PURE__*/ S.suspend(() =>
     vat: S.optional(S.NullOr(S.String)),
     zip: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "NichandleNichandle",
-}) as any as S.Schema<NichandleNichandle>;
+).annotate({ identifier: "NichandleNichandle" }) as any as S.Schema<NichandleNichandle>;
 
 export interface CreateMeAutorenewRequest {
   /** Day of autorenew */
@@ -895,9 +861,7 @@ export const CreateMeAutorenewRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     renewDay: S.Number,
   }).pipe(T.Http({ method: "POST", uri: "/me/autorenew", code: 200 })),
-).annotate({
-  identifier: "CreateMeAutorenewRequest",
-}) as any as S.Schema<CreateMeAutorenewRequest>;
+).annotate({ identifier: "CreateMeAutorenewRequest" }) as any as S.Schema<CreateMeAutorenewRequest>;
 
 export interface CreateMeAutorenewResponse {}
 export const CreateMeAutorenewResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1045,13 +1009,7 @@ export const CreateMeBillingGroupServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     groupId: S.Number.pipe(T.Label()),
     serviceId: S.Number,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/billing/group/{groupId}/service",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/billing/group/{groupId}/service", code: 200 })),
 ).annotate({
   identifier: "CreateMeBillingGroupServiceRequest",
 }) as any as S.Schema<CreateMeBillingGroupServiceRequest>;
@@ -1068,9 +1026,7 @@ export const MeBillingGroupService = /*@__PURE__*/ S.suspend(() =>
     groupId: S.optional(S.Number),
     serviceId: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MeBillingGroupService",
-}) as any as S.Schema<MeBillingGroupService>;
+).annotate({ identifier: "MeBillingGroupService" }) as any as S.Schema<MeBillingGroupService>;
 
 export interface CreateMeBillingInvoicesByPostalMailRequest {
   /** Send invoices through postal mail */
@@ -1079,13 +1035,7 @@ export interface CreateMeBillingInvoicesByPostalMailRequest {
 export const CreateMeBillingInvoicesByPostalMailRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enable: S.Boolean,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/billing/invoicesByPostalMail",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/billing/invoicesByPostalMail", code: 200 })),
 ).annotate({
   identifier: "CreateMeBillingInvoicesByPostalMailRequest",
 }) as any as S.Schema<CreateMeBillingInvoicesByPostalMailRequest>;
@@ -1188,13 +1138,7 @@ export const CreateMeBillingReportConsumptionRequest = /*@__PURE__*/ S.suspend((
   S.Struct({
     periodEnd: S.String,
     periodStart: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/billing/report/consumption",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/billing/report/consumption", code: 200 })),
 ).annotate({
   identifier: "CreateMeBillingReportConsumptionRequest",
 }) as any as S.Schema<CreateMeBillingReportConsumptionRequest>;
@@ -1273,9 +1217,7 @@ export const NichandleEmailChangeTask = /*@__PURE__*/ S.suspend(() =>
     newEmail: S.optional(S.String),
     state: S.optional(NichandleChangeEmailTaskStateEnum),
   }),
-).annotate({
-  identifier: "NichandleEmailChangeTask",
-}) as any as S.Schema<NichandleEmailChangeTask>;
+).annotate({ identifier: "NichandleEmailChangeTask" }) as any as S.Schema<NichandleEmailChangeTask>;
 
 export interface CreateMeChangePasswordRequest {}
 export const CreateMeChangePasswordRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1319,9 +1261,7 @@ export const MeContactAddress = /*@__PURE__*/ S.suspend(() =>
     province: S.optional(S.NullOr(S.String)),
     zip: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "MeContactAddress",
-}) as any as S.Schema<MeContactAddress>;
+).annotate({ identifier: "MeContactAddress" }) as any as S.Schema<MeContactAddress>;
 
 export interface CreateMeContactRequest {
   /** Address for this contact */
@@ -1391,9 +1331,7 @@ export const CreateMeContactRequest = /*@__PURE__*/ S.suspend(() =>
     spareEmail: S.optional(S.NullOr(S.String)),
     vat: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/me/contact", code: 200 })),
-).annotate({
-  identifier: "CreateMeContactRequest",
-}) as any as S.Schema<CreateMeContactRequest>;
+).annotate({ identifier: "CreateMeContactRequest" }) as any as S.Schema<CreateMeContactRequest>;
 
 /** Contact definition */
 export interface MeContactContact {
@@ -1467,9 +1405,7 @@ export const MeContactContact = /*@__PURE__*/ S.suspend(() =>
     spareEmail: S.optional(S.NullOr(S.String)),
     vat: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "MeContactContact",
-}) as any as S.Schema<MeContactContact>;
+).annotate({ identifier: "MeContactContact" }) as any as S.Schema<MeContactContact>;
 
 export interface CreateMeCorrectiveInvoiceDebtPayRequest {
   correctiveInvoiceId: string;
@@ -1570,9 +1506,7 @@ export const MeCreditBalanceMovement = /*@__PURE__*/ S.suspend(() =>
     sourceObject: S.optional(MeCreditBalanceMovementSubObject),
     type: S.optional(MeCreditBalanceMovementTypeEnum),
   }),
-).annotate({
-  identifier: "MeCreditBalanceMovement",
-}) as any as S.Schema<MeCreditBalanceMovement>;
+).annotate({ identifier: "MeCreditBalanceMovement" }) as any as S.Schema<MeCreditBalanceMovement>;
 
 export interface CreateMeDebtAccountDebtPayRequest {
   debtId: number;
@@ -1580,13 +1514,7 @@ export interface CreateMeDebtAccountDebtPayRequest {
 export const CreateMeDebtAccountDebtPayRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     debtId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/debtAccount/debt/{debtId}/pay",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/debtAccount/debt/{debtId}/pay", code: 200 })),
 ).annotate({
   identifier: "CreateMeDebtAccountDebtPayRequest",
 }) as any as S.Schema<CreateMeDebtAccountDebtPayRequest>;
@@ -1646,9 +1574,7 @@ export const CreateMeDocumentRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     tags: S.optional(CreateMeDocumentRequestTagsList),
   }).pipe(T.Http({ method: "POST", uri: "/me/document", code: 200 })),
-).annotate({
-  identifier: "CreateMeDocumentRequest",
-}) as any as S.Schema<CreateMeDocumentRequest>;
+).annotate({ identifier: "CreateMeDocumentRequest" }) as any as S.Schema<CreateMeDocumentRequest>;
 
 /** Key and value, with proper key strings */
 export interface ComplexTypeSafeKeyValueString {
@@ -1779,9 +1705,7 @@ export const CreateMeFeedbackRequest = /*@__PURE__*/ S.suspend(() =>
     body: S.String,
     subject: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/me/feedback", code: 200 })),
-).annotate({
-  identifier: "CreateMeFeedbackRequest",
-}) as any as S.Schema<CreateMeFeedbackRequest>;
+).annotate({ identifier: "CreateMeFeedbackRequest" }) as any as S.Schema<CreateMeFeedbackRequest>;
 
 export interface CreateMeFeedbackResponse {}
 export const CreateMeFeedbackResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1795,13 +1719,7 @@ export interface CreateMeFidelityAccountCreditOrderRequest {
 export const CreateMeFidelityAccountCreditOrderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     amount: S.Number,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/fidelityAccount/creditOrder",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/fidelityAccount/creditOrder", code: 200 })),
 ).annotate({
   identifier: "CreateMeFidelityAccountCreditOrderRequest",
 }) as any as S.Schema<CreateMeFidelityAccountCreditOrderRequest>;
@@ -2168,13 +2086,7 @@ export const CreateMeIdentityGroupUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     group: S.String.pipe(T.Label()),
     user: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/identity/group/{group}/user",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/identity/group/{group}/user", code: 200 })),
 ).annotate({
   identifier: "CreateMeIdentityGroupUserRequest",
 }) as any as S.Schema<CreateMeIdentityGroupUserRequest>;
@@ -2229,9 +2141,7 @@ export const AuthProviderExtensions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     requestedAttributes: S.optional(S.NullOr(AuthProviderExtensionsRequestedAttributesList)),
   }),
-).annotate({
-  identifier: "AuthProviderExtensions",
-}) as any as S.Schema<AuthProviderExtensions>;
+).annotate({ identifier: "AuthProviderExtensions" }) as any as S.Schema<AuthProviderExtensions>;
 
 export interface CreateMeIdentityProviderRequest {
   /** Whether account users should still be usable as a login method or not */
@@ -2272,9 +2182,7 @@ export const AuthCertificate = /*@__PURE__*/ S.suspend(() =>
     expiration: S.optional(S.String),
     subject: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AuthCertificate",
-}) as any as S.Schema<AuthCertificate>;
+).annotate({ identifier: "AuthCertificate" }) as any as S.Schema<AuthCertificate>;
 
 /** IdP's signing certificate */
 export type AuthProviderIdpSigningCertificatesList = Array<AuthCertificate>;
@@ -2372,13 +2280,7 @@ export const CreateMeIdentityUserTokenRequest = /*@__PURE__*/ S.suspend(() =>
     expiresAt: S.optional(S.String),
     expiresIn: S.optional(S.Number),
     name: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/identity/user/{user}/token",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/identity/user/{user}/token", code: 200 })),
 ).annotate({
   identifier: "CreateMeIdentityUserTokenRequest",
 }) as any as S.Schema<CreateMeIdentityUserTokenRequest>;
@@ -2459,13 +2361,7 @@ export const CreateMeLogAuditLogSubscriptionRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     kind: S.String,
     streamId: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/logs/audit/log/subscription",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/logs/audit/log/subscription", code: 200 })),
 ).annotate({
   identifier: "CreateMeLogAuditLogSubscriptionRequest",
 }) as any as S.Schema<CreateMeLogAuditLogSubscriptionRequest>;
@@ -2537,9 +2433,7 @@ export const CreateMeLogUrlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     kind: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/me/api/log/url", code: 200 })),
-).annotate({
-  identifier: "CreateMeLogUrlRequest",
-}) as any as S.Schema<CreateMeLogUrlRequest>;
+).annotate({ identifier: "CreateMeLogUrlRequest" }) as any as S.Schema<CreateMeLogUrlRequest>;
 
 export interface CreateMeManualDomainPaymentRequest {}
 export const CreateMeManualDomainPaymentRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2598,9 +2492,7 @@ export const Oauth2ClientSecret = /*@__PURE__*/ S.suspend(() =>
     clientId: S.optional(S.String),
     clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "Oauth2ClientSecret",
-}) as any as S.Schema<Oauth2ClientSecret>;
+).annotate({ identifier: "Oauth2ClientSecret" }) as any as S.Schema<Oauth2ClientSecret>;
 
 export interface CreateMeOrderBalanceRequest {
   orderId: number;
@@ -2628,9 +2520,7 @@ export const BillingCreditBalance = /*@__PURE__*/ S.suspend(() =>
     amount: S.optional(OrderPrice),
     balanceName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BillingCreditBalance",
-}) as any as S.Schema<BillingCreditBalance>;
+).annotate({ identifier: "BillingCreditBalance" }) as any as S.Schema<BillingCreditBalance>;
 
 export interface CreateMeOrderDebtPayRequest {
   orderId: number;
@@ -2666,9 +2556,7 @@ export const CreateMeOrderPayRequest = /*@__PURE__*/ S.suspend(() =>
     orderId: S.Number.pipe(T.Label()),
     paymentMethod: BillingOrderPayWithPaymentMethod,
   }).pipe(T.Http({ method: "POST", uri: "/me/order/{orderId}/pay", code: 200 })),
-).annotate({
-  identifier: "CreateMeOrderPayRequest",
-}) as any as S.Schema<CreateMeOrderPayRequest>;
+).annotate({ identifier: "CreateMeOrderPayRequest" }) as any as S.Schema<CreateMeOrderPayRequest>;
 
 export interface CreateMeOrderPayResponse {}
 export const CreateMeOrderPayResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2707,11 +2595,7 @@ export const CreateMeOrderPayWithRegisteredPaymentMeanRequest = /*@__PURE__*/ S.
     paymentMean: BillingReusablePaymentMeanEnum,
     paymentMeanId: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/order/{orderId}/payWithRegisteredPaymentMean",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/me/order/{orderId}/payWithRegisteredPaymentMean", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateMeOrderPayWithRegisteredPaymentMeanRequest",
@@ -2747,22 +2631,14 @@ export const CreateMeOrderRetractionRequest = /*@__PURE__*/ S.suspend(() =>
     orderId: S.Number.pipe(T.Label()),
     comment: S.optional(S.String),
     reason: BillingOrderRetractionReasonEnum,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/order/{orderId}/retraction",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/order/{orderId}/retraction", code: 200 })),
 ).annotate({
   identifier: "CreateMeOrderRetractionRequest",
 }) as any as S.Schema<CreateMeOrderRetractionRequest>;
 
 export interface CreateMeOrderRetractionResponse {}
 export const CreateMeOrderRetractionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "CreateMeOrderRetractionResponse",
-  },
+  { identifier: "CreateMeOrderRetractionResponse" },
 ) as any as S.Schema<CreateMeOrderRetractionResponse>;
 
 export interface CreateMeOrderWaiveRetractionRequest {
@@ -2771,13 +2647,7 @@ export interface CreateMeOrderWaiveRetractionRequest {
 export const CreateMeOrderWaiveRetractionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     orderId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/order/{orderId}/waiveRetraction",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/order/{orderId}/waiveRetraction", code: 200 })),
 ).annotate({
   identifier: "CreateMeOrderWaiveRetractionRequest",
 }) as any as S.Schema<CreateMeOrderWaiveRetractionRequest>;
@@ -2798,13 +2668,7 @@ export const CreateMeOvhAccountCreditOrderRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     ovhAccountId: S.String.pipe(T.Label()),
     amount: S.Number,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/ovhAccount/{ovhAccountId}/creditOrder",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/ovhAccount/{ovhAccountId}/creditOrder", code: 200 })),
 ).annotate({
   identifier: "CreateMeOvhAccountCreditOrderRequest",
 }) as any as S.Schema<CreateMeOvhAccountCreditOrderRequest>;
@@ -2855,9 +2719,7 @@ export const CreateMePasswordRecoverRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface CreateMePasswordRecoverResponse {}
 export const CreateMePasswordRecoverResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "CreateMePasswordRecoverResponse",
-  },
+  { identifier: "CreateMePasswordRecoverResponse" },
 ) as any as S.Schema<CreateMePasswordRecoverResponse>;
 
 export interface CreateMePaymentMeanDeferredPaymentAccountChooseAsDefaultPaymentMeanRequest {
@@ -3003,11 +2865,7 @@ export const CreateMePaymentMethodChallengeRequest = /*@__PURE__*/ S.suspend(() 
     paymentMethodId: S.Number.pipe(T.Label()),
     challenge: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/payment/method/{paymentMethodId}/challenge",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/me/payment/method/{paymentMethodId}/challenge", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateMePaymentMethodChallengeRequest",
@@ -3034,11 +2892,7 @@ export const CreateMePaymentMethodDetailRequest = /*@__PURE__*/ S.suspend(() =>
     details: S.optional(S.String),
     transactionId: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/payment/method/{paymentMethodId}/details",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/me/payment/method/{paymentMethodId}/details", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateMePaymentMethodDetailRequest",
@@ -3077,9 +2931,7 @@ export const CreateMeSshKeyRequest = /*@__PURE__*/ S.suspend(() =>
     key: S.String,
     keyName: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/me/sshKey", code: 200 })),
-).annotate({
-  identifier: "CreateMeSshKeyRequest",
-}) as any as S.Schema<CreateMeSshKeyRequest>;
+).annotate({ identifier: "CreateMeSshKeyRequest" }) as any as S.Schema<CreateMeSshKeyRequest>;
 
 export interface CreateMeSshKeyResponse {}
 export const CreateMeSshKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3112,13 +2964,7 @@ export interface CreateMeSubAccountConsumerKeyRequest {
 export const CreateMeSubAccountConsumerKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/subAccount/{id}/createConsumerKey",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/subAccount/{id}/createConsumerKey", code: 200 })),
 ).annotate({
   identifier: "CreateMeSubAccountConsumerKeyRequest",
 }) as any as S.Schema<CreateMeSubAccountConsumerKeyRequest>;
@@ -3147,9 +2993,7 @@ export const CreateMeTagRequest = /*@__PURE__*/ S.suspend(() =>
     reason: S.optional(S.NullOr(S.String)),
     tagName: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/me/tag", code: 200 })),
-).annotate({
-  identifier: "CreateMeTagRequest",
-}) as any as S.Schema<CreateMeTagRequest>;
+).annotate({ identifier: "CreateMeTagRequest" }) as any as S.Schema<CreateMeTagRequest>;
 
 /** Tag Extra */
 export interface MeTagTagExtra {
@@ -3215,13 +3059,7 @@ export const CreateMeTaskContactChangeRefuseRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     id: S.Number.pipe(T.Label()),
     token: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/task/contactChange/{id}/refuse",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/task/contactChange/{id}/refuse", code: 200 })),
 ).annotate({
   identifier: "CreateMeTaskContactChangeRefuseRequest",
 }) as any as S.Schema<CreateMeTaskContactChangeRefuseRequest>;
@@ -3266,9 +3104,7 @@ export const CreateMeTaskDnsRelaunchRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface CreateMeTaskDnsRelaunchResponse {}
 export const CreateMeTaskDnsRelaunchResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "CreateMeTaskDnsRelaunchResponse",
-  },
+  { identifier: "CreateMeTaskDnsRelaunchResponse" },
 ) as any as S.Schema<CreateMeTaskDnsRelaunchResponse>;
 
 export interface CreateMeTaskDomainAccelerateRequest {
@@ -3278,13 +3114,7 @@ export interface CreateMeTaskDomainAccelerateRequest {
 export const CreateMeTaskDomainAccelerateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/task/domain/{id}/accelerate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/task/domain/{id}/accelerate", code: 200 })),
 ).annotate({
   identifier: "CreateMeTaskDomainAccelerateRequest",
 }) as any as S.Schema<CreateMeTaskDomainAccelerateRequest>;
@@ -3324,13 +3154,7 @@ export const CreateMeTaskEmailChangeRefuseRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     id: S.Number.pipe(T.Label()),
     token: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/task/emailChange/{id}/refuse",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/task/emailChange/{id}/refuse", code: 200 })),
 ).annotate({
   identifier: "CreateMeTaskEmailChangeRefuseRequest",
 }) as any as S.Schema<CreateMeTaskEmailChangeRefuseRequest>;
@@ -3356,13 +3180,7 @@ export const CreateMeTelephonyDefaultIpRestrictionRequest = /*@__PURE__*/ S.susp
   S.Struct({
     subnet: S.String,
     type: TelephonyProtocolEnum,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/telephony/defaultIpRestriction",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/telephony/defaultIpRestriction", code: 200 })),
 ).annotate({
   identifier: "CreateMeTelephonyDefaultIpRestrictionRequest",
 }) as any as S.Schema<CreateMeTelephonyDefaultIpRestrictionRequest>;
@@ -3394,9 +3212,7 @@ export const TelephonyBillingSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     renewByBillingContact: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "TelephonyBillingSettings",
-}) as any as S.Schema<TelephonyBillingSettings>;
+).annotate({ identifier: "TelephonyBillingSettings" }) as any as S.Schema<TelephonyBillingSettings>;
 
 /** Line description policies settings */
 export interface TelephonyLineDescriptionSettings {
@@ -3426,9 +3242,7 @@ export const TelephonySettings = /*@__PURE__*/ S.suspend(() =>
     billingPolicies: S.optional(TelephonyBillingSettings),
     lineDescriptionPolicies: S.optional(TelephonyLineDescriptionSettings),
   }),
-).annotate({
-  identifier: "TelephonySettings",
-}) as any as S.Schema<TelephonySettings>;
+).annotate({ identifier: "TelephonySettings" }) as any as S.Schema<TelephonySettings>;
 
 export interface CreateMeTelephonySettingsRequest {
   /** Settings to be changed */
@@ -3472,11 +3286,7 @@ export const CreateMeXdslSettingResponse = /*@__PURE__*/ S.suspend(() => S.Struc
 export interface DeleteMeAccessRestrictionBackupCodeRequest {}
 export const DeleteMeAccessRestrictionBackupCodeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/me/accessRestriction/backupCode",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/me/accessRestriction/backupCode", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteMeAccessRestrictionBackupCodeRequest",
@@ -3496,13 +3306,7 @@ export interface DeleteMeAccessRestrictionIpRequest {
 export const DeleteMeAccessRestrictionIpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/me/accessRestriction/ip/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/me/accessRestriction/ip/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteMeAccessRestrictionIpRequest",
 }) as any as S.Schema<DeleteMeAccessRestrictionIpRequest>;
@@ -3521,13 +3325,7 @@ export interface DeleteMeAccessRestrictionSmsRequest {
 export const DeleteMeAccessRestrictionSmsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/me/accessRestriction/sms/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/me/accessRestriction/sms/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteMeAccessRestrictionSmsRequest",
 }) as any as S.Schema<DeleteMeAccessRestrictionSmsRequest>;
@@ -3546,13 +3344,7 @@ export interface DeleteMeAccessRestrictionTotpRequest {
 export const DeleteMeAccessRestrictionTotpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/me/accessRestriction/totp/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/me/accessRestriction/totp/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteMeAccessRestrictionTotpRequest",
 }) as any as S.Schema<DeleteMeAccessRestrictionTotpRequest>;
@@ -3571,13 +3363,7 @@ export interface DeleteMeAccessRestrictionU2fRequest {
 export const DeleteMeAccessRestrictionU2fRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/me/accessRestriction/u2f/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/me/accessRestriction/u2f/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteMeAccessRestrictionU2fRequest",
 }) as any as S.Schema<DeleteMeAccessRestrictionU2fRequest>;
@@ -3596,13 +3382,7 @@ export interface DeleteMeApplicationRequest {
 export const DeleteMeApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applicationId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/me/api/application/{applicationId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/me/api/application/{applicationId}", code: 200 })),
 ).annotate({
   identifier: "DeleteMeApplicationRequest",
 }) as any as S.Schema<DeleteMeApplicationRequest>;
@@ -3640,11 +3420,7 @@ export const DeleteMeBillingGroupServiceRequest = /*@__PURE__*/ S.suspend(() =>
     groupId: S.Number.pipe(T.Label()),
     serviceId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/me/billing/group/{groupId}/service/{serviceId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/me/billing/group/{groupId}/service/{serviceId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteMeBillingGroupServiceRequest",
@@ -3664,13 +3440,7 @@ export interface DeleteMeBillingPurchaseOrderRequest {
 export const DeleteMeBillingPurchaseOrderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/me/billing/purchaseOrder/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/me/billing/purchaseOrder/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteMeBillingPurchaseOrderRequest",
 }) as any as S.Schema<DeleteMeBillingPurchaseOrderRequest>;
@@ -3689,13 +3459,7 @@ export interface DeleteMeCredentialRequest {
 export const DeleteMeCredentialRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     credentialId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/me/api/credential/{credentialId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/me/api/credential/{credentialId}", code: 200 })),
 ).annotate({
   identifier: "DeleteMeCredentialRequest",
 }) as any as S.Schema<DeleteMeCredentialRequest>;
@@ -3713,9 +3477,7 @@ export const DeleteMeDocumentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/me/document/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteMeDocumentRequest",
-}) as any as S.Schema<DeleteMeDocumentRequest>;
+).annotate({ identifier: "DeleteMeDocumentRequest" }) as any as S.Schema<DeleteMeDocumentRequest>;
 
 export interface DeleteMeDocumentResponse {}
 export const DeleteMeDocumentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3735,9 +3497,7 @@ export const DeleteMeFaxCustomDomainRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteMeFaxCustomDomainResponse {}
 export const DeleteMeFaxCustomDomainResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteMeFaxCustomDomainResponse",
-  },
+  { identifier: "DeleteMeFaxCustomDomainResponse" },
 ) as any as S.Schema<DeleteMeFaxCustomDomainResponse>;
 
 export interface DeleteMeIdentityGroupRequest {
@@ -3767,13 +3527,7 @@ export const DeleteMeIdentityGroupUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     group: S.String.pipe(T.Label()),
     user: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/me/identity/group/{group}/user/{user}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/me/identity/group/{group}/user/{user}", code: 200 })),
 ).annotate({
   identifier: "DeleteMeIdentityGroupUserRequest",
 }) as any as S.Schema<DeleteMeIdentityGroupUserRequest>;
@@ -3826,13 +3580,7 @@ export const DeleteMeIdentityUserTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     user: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/me/identity/user/{user}/token/{name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/me/identity/user/{user}/token/{name}", code: 200 })),
 ).annotate({
   identifier: "DeleteMeIdentityUserTokenRequest",
 }) as any as S.Schema<DeleteMeIdentityUserTokenRequest>;
@@ -3850,13 +3598,7 @@ export interface DeleteMeIpOrganisationRequest {
 export const DeleteMeIpOrganisationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organisationId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/me/ipOrganisation/{organisationId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/me/ipOrganisation/{organisationId}", code: 200 })),
 ).annotate({
   identifier: "DeleteMeIpOrganisationRequest",
 }) as any as S.Schema<DeleteMeIpOrganisationRequest>;
@@ -3892,11 +3634,7 @@ export const DeleteMeLogSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/me/api/log/subscription/{subscriptionId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/me/api/log/subscription/{subscriptionId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteMeLogSubscriptionRequest",
@@ -3909,13 +3647,7 @@ export interface DeleteMeOauth2ClientRequest {
 export const DeleteMeOauth2ClientRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clientId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/me/api/oauth2/client/{clientId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/me/api/oauth2/client/{clientId}", code: 200 })),
 ).annotate({
   identifier: "DeleteMeOauth2ClientRequest",
 }) as any as S.Schema<DeleteMeOauth2ClientRequest>;
@@ -3952,11 +3684,7 @@ export const DeleteMeOrderBalanceRequest = /*@__PURE__*/ S.suspend(() =>
     orderId: S.Number.pipe(T.Label()),
     balanceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/me/order/{orderId}/balance/{balanceName}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/me/order/{orderId}/balance/{balanceName}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteMeOrderBalanceRequest",
@@ -3974,13 +3702,7 @@ export interface DeleteMePaymentMethodRequest {
 export const DeleteMePaymentMethodRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     paymentMethodId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/me/payment/method/{paymentMethodId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/me/payment/method/{paymentMethodId}", code: 200 })),
 ).annotate({
   identifier: "DeleteMePaymentMethodRequest",
 }) as any as S.Schema<DeleteMePaymentMethodRequest>;
@@ -4096,9 +3818,7 @@ export const MePaymentPaymentMethod = /*@__PURE__*/ S.suspend(() =>
     paymentType: S.optional(S.String),
     status: S.optional(MePaymentMethodStatusEnum),
   }),
-).annotate({
-  identifier: "MePaymentPaymentMethod",
-}) as any as S.Schema<MePaymentPaymentMethod>;
+).annotate({ identifier: "MePaymentPaymentMethod" }) as any as S.Schema<MePaymentPaymentMethod>;
 
 export interface DeleteMePreferenceManagerRequest {
   /** This preference key */
@@ -4107,13 +3827,7 @@ export interface DeleteMePreferenceManagerRequest {
 export const DeleteMePreferenceManagerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     key: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/me/preferences/manager/{key}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/me/preferences/manager/{key}", code: 200 })),
 ).annotate({
   identifier: "DeleteMePreferenceManagerRequest",
 }) as any as S.Schema<DeleteMePreferenceManagerRequest>;
@@ -4133,9 +3847,7 @@ export const DeleteMeSshKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     keyName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/me/sshKey/{keyName}", code: 200 })),
-).annotate({
-  identifier: "DeleteMeSshKeyRequest",
-}) as any as S.Schema<DeleteMeSshKeyRequest>;
+).annotate({ identifier: "DeleteMeSshKeyRequest" }) as any as S.Schema<DeleteMeSshKeyRequest>;
 
 export interface DeleteMeSshKeyResponse {}
 export const DeleteMeSshKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4150,9 +3862,7 @@ export const DeleteMeTagRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tag: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/me/tag/{tag}", code: 200 })),
-).annotate({
-  identifier: "DeleteMeTagRequest",
-}) as any as S.Schema<DeleteMeTagRequest>;
+).annotate({ identifier: "DeleteMeTagRequest" }) as any as S.Schema<DeleteMeTagRequest>;
 
 export interface DeleteMeTelephonyDefaultIpRestrictionRequest {
   id: number;
@@ -4160,13 +3870,7 @@ export interface DeleteMeTelephonyDefaultIpRestrictionRequest {
 export const DeleteMeTelephonyDefaultIpRestrictionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/me/telephony/defaultIpRestriction/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/me/telephony/defaultIpRestriction/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteMeTelephonyDefaultIpRestrictionRequest",
 }) as any as S.Schema<DeleteMeTelephonyDefaultIpRestrictionRequest>;
@@ -4185,13 +3889,7 @@ export interface DisableMeAccessRestrictionBackupCodeRequest {
 export const DisableMeAccessRestrictionBackupCodeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     code: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/accessRestriction/backupCode/disable",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/accessRestriction/backupCode/disable", code: 200 })),
 ).annotate({
   identifier: "DisableMeAccessRestrictionBackupCodeRequest",
 }) as any as S.Schema<DisableMeAccessRestrictionBackupCodeRequest>;
@@ -4213,13 +3911,7 @@ export const DisableMeAccessRestrictionSmsRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     id: S.Number.pipe(T.Label()),
     code: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/accessRestriction/sms/{id}/disable",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/accessRestriction/sms/{id}/disable", code: 200 })),
 ).annotate({
   identifier: "DisableMeAccessRestrictionSmsRequest",
 }) as any as S.Schema<DisableMeAccessRestrictionSmsRequest>;
@@ -4241,13 +3933,7 @@ export const DisableMeAccessRestrictionTotpRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     id: S.Number.pipe(T.Label()),
     code: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/accessRestriction/totp/{id}/disable",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/accessRestriction/totp/{id}/disable", code: 200 })),
 ).annotate({
   identifier: "DisableMeAccessRestrictionTotpRequest",
 }) as any as S.Schema<DisableMeAccessRestrictionTotpRequest>;
@@ -4266,13 +3952,7 @@ export interface DisableMeAccessRestrictionU2fRequest {
 export const DisableMeAccessRestrictionU2fRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/accessRestriction/u2f/{id}/disable",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/accessRestriction/u2f/{id}/disable", code: 200 })),
 ).annotate({
   identifier: "DisableMeAccessRestrictionU2fRequest",
 }) as any as S.Schema<DisableMeAccessRestrictionU2fRequest>;
@@ -4291,13 +3971,7 @@ export interface DisableMeIdentityUserRequest {
 export const DisableMeIdentityUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     user: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/identity/user/{user}/disable",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/identity/user/{user}/disable", code: 200 })),
 ).annotate({
   identifier: "DisableMeIdentityUserRequest",
 }) as any as S.Schema<DisableMeIdentityUserRequest>;
@@ -4405,13 +4079,7 @@ export interface EnableMeAccessRestrictionBackupCodeRequest {
 export const EnableMeAccessRestrictionBackupCodeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     code: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/accessRestriction/backupCode/enable",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/accessRestriction/backupCode/enable", code: 200 })),
 ).annotate({
   identifier: "EnableMeAccessRestrictionBackupCodeRequest",
 }) as any as S.Schema<EnableMeAccessRestrictionBackupCodeRequest>;
@@ -4433,13 +4101,7 @@ export const EnableMeAccessRestrictionSmsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
     code: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/accessRestriction/sms/{id}/enable",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/accessRestriction/sms/{id}/enable", code: 200 })),
 ).annotate({
   identifier: "EnableMeAccessRestrictionSmsRequest",
 }) as any as S.Schema<EnableMeAccessRestrictionSmsRequest>;
@@ -4461,13 +4123,7 @@ export const EnableMeAccessRestrictionTotpRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     id: S.Number.pipe(T.Label()),
     code: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/accessRestriction/totp/{id}/enable",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/accessRestriction/totp/{id}/enable", code: 200 })),
 ).annotate({
   identifier: "EnableMeAccessRestrictionTotpRequest",
 }) as any as S.Schema<EnableMeAccessRestrictionTotpRequest>;
@@ -4486,13 +4142,7 @@ export interface EnableMeAccessRestrictionU2fRequest {
 export const EnableMeAccessRestrictionU2fRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/accessRestriction/u2f/{id}/enable",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/accessRestriction/u2f/{id}/enable", code: 200 })),
 ).annotate({
   identifier: "EnableMeAccessRestrictionU2fRequest",
 }) as any as S.Schema<EnableMeAccessRestrictionU2fRequest>;
@@ -4511,13 +4161,7 @@ export interface EnableMeIdentityUserRequest {
 export const EnableMeIdentityUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     user: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/identity/user/{user}/enable",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/identity/user/{user}/enable", code: 200 })),
 ).annotate({
   identifier: "EnableMeIdentityUserRequest",
 }) as any as S.Schema<EnableMeIdentityUserRequest>;
@@ -4554,9 +4198,7 @@ export const ExportMeBillRequest = /*@__PURE__*/ S.suspend(() =>
     ids: S.optional(ExportMeBillRequestIdsList),
     startDate: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/me/bill/export", code: 200 })),
-).annotate({
-  identifier: "ExportMeBillRequest",
-}) as any as S.Schema<ExportMeBillRequest>;
+).annotate({ identifier: "ExportMeBillRequest" }) as any as S.Schema<ExportMeBillRequest>;
 
 export interface ExportMeBillResponse {}
 export const ExportMeBillResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4586,9 +4228,7 @@ export const ExportMeRefundRequest = /*@__PURE__*/ S.suspend(() =>
     ids: S.optional(ExportMeRefundRequestIdsList),
     startDate: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/me/refund/export", code: 200 })),
-).annotate({
-  identifier: "ExportMeRefundRequest",
-}) as any as S.Schema<ExportMeRefundRequest>;
+).annotate({ identifier: "ExportMeRefundRequest" }) as any as S.Schema<ExportMeRefundRequest>;
 
 export interface ExportMeRefundResponse {}
 export const ExportMeRefundResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4615,11 +4255,7 @@ export const FinalizeMePaymentMethodRequest = /*@__PURE__*/ S.suspend(() =>
     formSessionId: S.optional(S.NullOr(S.String)),
     registrationId: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/payment/method/{paymentMethodId}/finalize",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/me/payment/method/{paymentMethodId}/finalize", code: 200 }),
   ),
 ).annotate({
   identifier: "FinalizeMePaymentMethodRequest",
@@ -4628,9 +4264,7 @@ export const FinalizeMePaymentMethodRequest = /*@__PURE__*/ S.suspend(() =>
 export interface GetAccountDetailsRequest {}
 export const GetAccountDetailsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me", code: 200 })),
-).annotate({
-  identifier: "GetAccountDetailsRequest",
-}) as any as S.Schema<GetAccountDetailsRequest>;
+).annotate({ identifier: "GetAccountDetailsRequest" }) as any as S.Schema<GetAccountDetailsRequest>;
 
 export interface GetCertificatesRequest {
   /** Certificate definition name */
@@ -4640,9 +4274,7 @@ export const GetCertificatesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/me/certificates", code: 200 })),
-).annotate({
-  identifier: "GetCertificatesRequest",
-}) as any as S.Schema<GetCertificatesRequest>;
+).annotate({ identifier: "GetCertificatesRequest" }) as any as S.Schema<GetCertificatesRequest>;
 
 export type GetCertificatesResponseBodyList = Array<string>;
 export const GetCertificatesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4652,9 +4284,7 @@ export const GetCertificatesResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetCertificatesResponse = GetCertificatesResponseBodyList;
 export const GetCertificatesResponse = /*@__PURE__*/ S.suspend(() =>
   GetCertificatesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetCertificatesResponse",
-}) as any as S.Schema<GetCertificatesResponse>;
+).annotate({ identifier: "GetCertificatesResponse" }) as any as S.Schema<GetCertificatesResponse>;
 
 export interface GetMeAbuseRequest {
   /** Id */
@@ -4664,9 +4294,7 @@ export const GetMeAbuseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/abuse/{id}", code: 200 })),
-).annotate({
-  identifier: "GetMeAbuseRequest",
-}) as any as S.Schema<GetMeAbuseRequest>;
+).annotate({ identifier: "GetMeAbuseRequest" }) as any as S.Schema<GetMeAbuseRequest>;
 
 /** The abuse categories */
 export type MeAbuseAbuseCategoryEnum =
@@ -4719,13 +4347,7 @@ export const MeAbuseAbuse = /*@__PURE__*/ S.suspend(() =>
 
 export interface GetMeAccessRestrictionBackupCodeRequest {}
 export const GetMeAccessRestrictionBackupCodeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/accessRestriction/backupCode",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/accessRestriction/backupCode", code: 200 })),
 ).annotate({
   identifier: "GetMeAccessRestrictionBackupCodeRequest",
 }) as any as S.Schema<GetMeAccessRestrictionBackupCodeRequest>;
@@ -4763,11 +4385,7 @@ export const NichandleAccessRestrictionSOTPAccount = /*@__PURE__*/ S.suspend(() 
 export interface GetMeAccessRestrictionDeveloperModeRequest {}
 export const GetMeAccessRestrictionDeveloperModeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/accessRestriction/developerMode",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/me/accessRestriction/developerMode", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMeAccessRestrictionDeveloperModeRequest",
@@ -4816,18 +4434,12 @@ export const NichandleIpRestriction = /*@__PURE__*/ S.suspend(() =>
     rule: S.optional(NichandleAccessRestrictionIpRestrictionRuleEnum),
     warning: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "NichandleIpRestriction",
-}) as any as S.Schema<NichandleIpRestriction>;
+).annotate({ identifier: "NichandleIpRestriction" }) as any as S.Schema<NichandleIpRestriction>;
 
 export interface GetMeAccessRestrictionIpDefaultRuleRequest {}
 export const GetMeAccessRestrictionIpDefaultRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/accessRestriction/ipDefaultRule",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/me/accessRestriction/ipDefaultRule", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMeAccessRestrictionIpDefaultRuleRequest",
@@ -4904,13 +4516,7 @@ export interface GetMeAccessRestrictionTotpRequest {
 export const GetMeAccessRestrictionTotpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/accessRestriction/totp/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/accessRestriction/totp/{id}", code: 200 })),
 ).annotate({
   identifier: "GetMeAccessRestrictionTotpRequest",
 }) as any as S.Schema<GetMeAccessRestrictionTotpRequest>;
@@ -4997,9 +4603,7 @@ export const GetMeAgreementRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/agreements/{id}", code: 200 })),
-).annotate({
-  identifier: "GetMeAgreementRequest",
-}) as any as S.Schema<GetMeAgreementRequest>;
+).annotate({ identifier: "GetMeAgreementRequest" }) as any as S.Schema<GetMeAgreementRequest>;
 
 /** The current state of a contract agreement */
 export type AgreementsAgreementStateEnum = "ko" | "obsolete" | "ok" | "todo";
@@ -5060,9 +4664,7 @@ export const AgreementsContract = /*@__PURE__*/ S.suspend(() =>
     pdf: S.optional(S.String),
     text: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AgreementsContract",
-}) as any as S.Schema<AgreementsContract>;
+).annotate({ identifier: "AgreementsContract" }) as any as S.Schema<AgreementsContract>;
 
 export interface GetMeApplicationRequest {
   /** Application ID */
@@ -5071,16 +4673,8 @@ export interface GetMeApplicationRequest {
 export const GetMeApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applicationId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/api/application/{applicationId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetMeApplicationRequest",
-}) as any as S.Schema<GetMeApplicationRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/me/api/application/{applicationId}", code: 200 })),
+).annotate({ identifier: "GetMeApplicationRequest" }) as any as S.Schema<GetMeApplicationRequest>;
 
 /** All states an API Application can be in */
 export type AuthApplicationStatusEnum = "active" | "blocked" | "inactive" | "trusted";
@@ -5107,16 +4701,12 @@ export const AuthApiApplication = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     status: S.optional(AuthApplicationStatusEnum),
   }),
-).annotate({
-  identifier: "AuthApiApplication",
-}) as any as S.Schema<AuthApiApplication>;
+).annotate({ identifier: "AuthApiApplication" }) as any as S.Schema<AuthApiApplication>;
 
 export interface GetMeAutorenewRequest {}
 export const GetMeAutorenewRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/autorenew", code: 200 })),
-).annotate({
-  identifier: "GetMeAutorenewRequest",
-}) as any as S.Schema<GetMeAutorenewRequest>;
+).annotate({ identifier: "GetMeAutorenewRequest" }) as any as S.Schema<GetMeAutorenewRequest>;
 
 /** Auto renewal information */
 export interface NichandleNicAutorenewInfos {
@@ -5140,11 +4730,7 @@ export const NichandleNicAutorenewInfos = /*@__PURE__*/ S.suspend(() =>
 export interface GetMeAvailableAutomaticPaymentMeansRequest {}
 export const GetMeAvailableAutomaticPaymentMeansRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/availableAutomaticPaymentMeans",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/me/availableAutomaticPaymentMeans", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMeAvailableAutomaticPaymentMeansRequest",
@@ -5179,9 +4765,7 @@ export const GetMeBillRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/bill/{billId}", code: 200 })),
-).annotate({
-  identifier: "GetMeBillRequest",
-}) as any as S.Schema<GetMeBillRequest>;
+).annotate({ identifier: "GetMeBillRequest" }) as any as S.Schema<GetMeBillRequest>;
 
 /** Types of plans */
 export type BillingCategoryEnum =
@@ -5247,9 +4831,7 @@ export const GetMeBillDebtRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/bill/{billId}/debt", code: 200 })),
-).annotate({
-  identifier: "GetMeBillDebtRequest",
-}) as any as S.Schema<GetMeBillDebtRequest>;
+).annotate({ identifier: "GetMeBillDebtRequest" }) as any as S.Schema<GetMeBillDebtRequest>;
 
 /** All status a debt HistoryOrder entry can be in */
 export type DebtEntryStatusDebtOrderEnum =
@@ -5307,11 +4889,7 @@ export const GetMeBillDebtOperationRequest = /*@__PURE__*/ S.suspend(() =>
     billId: S.String.pipe(T.Label()),
     operationId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/bill/{billId}/debt/operation/{operationId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/me/bill/{billId}/debt/operation/{operationId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMeBillDebtOperationRequest",
@@ -5527,16 +5105,8 @@ export const GetMeBillDetailRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billId: S.String.pipe(T.Label()),
     billDetailId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/bill/{billId}/details/{billDetailId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetMeBillDetailRequest",
-}) as any as S.Schema<GetMeBillDetailRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/me/bill/{billId}/details/{billDetailId}", code: 200 })),
+).annotate({ identifier: "GetMeBillDetailRequest" }) as any as S.Schema<GetMeBillDetailRequest>;
 
 /** LongPrice with all digits and its currency and a textual representation */
 export interface OrderLongPrice {
@@ -5574,9 +5144,7 @@ export const BillingBillDetail = /*@__PURE__*/ S.suspend(() =>
     totalPrice: S.optional(OrderPrice),
     unitPrice: S.optional(OrderLongPrice),
   }),
-).annotate({
-  identifier: "BillingBillDetail",
-}) as any as S.Schema<BillingBillDetail>;
+).annotate({ identifier: "BillingBillDetail" }) as any as S.Schema<BillingBillDetail>;
 
 export interface GetMeBillingCapacitiesRequest {}
 export const GetMeBillingCapacitiesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -5619,9 +5187,7 @@ export const GetMeBillingGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     groupId: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/billing/group/{groupId}", code: 200 })),
-).annotate({
-  identifier: "GetMeBillingGroupRequest",
-}) as any as S.Schema<GetMeBillingGroupRequest>;
+).annotate({ identifier: "GetMeBillingGroupRequest" }) as any as S.Schema<GetMeBillingGroupRequest>;
 
 export interface GetMeBillingGroupServiceRequest {
   /** Group ID */
@@ -5634,11 +5200,7 @@ export const GetMeBillingGroupServiceRequest = /*@__PURE__*/ S.suspend(() =>
     groupId: S.Number.pipe(T.Label()),
     serviceId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/billing/group/{groupId}/service/{serviceId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/me/billing/group/{groupId}/service/{serviceId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMeBillingGroupServiceRequest",
@@ -5646,13 +5208,7 @@ export const GetMeBillingGroupServiceRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface GetMeBillingInvoicesByPostalMailRequest {}
 export const GetMeBillingInvoicesByPostalMailRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/billing/invoicesByPostalMail",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/billing/invoicesByPostalMail", code: 200 })),
 ).annotate({
   identifier: "GetMeBillingInvoicesByPostalMailRequest",
 }) as any as S.Schema<GetMeBillingInvoicesByPostalMailRequest>;
@@ -5683,13 +5239,7 @@ export interface GetMeBillingReportConsumptionRequest {
 export const GetMeBillingReportConsumptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     taskId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/billing/report/consumption/{taskId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/billing/report/consumption/{taskId}", code: 200 })),
 ).annotate({
   identifier: "GetMeBillingReportConsumptionRequest",
 }) as any as S.Schema<GetMeBillingReportConsumptionRequest>;
@@ -5731,9 +5281,7 @@ export const GetMeBillingTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/billing/task/{id}", code: 200 })),
-).annotate({
-  identifier: "GetMeBillingTaskRequest",
-}) as any as S.Schema<GetMeBillingTaskRequest>;
+).annotate({ identifier: "GetMeBillingTaskRequest" }) as any as S.Schema<GetMeBillingTaskRequest>;
 
 /** Metadatum linked to a Task */
 export interface MeBillingTasksTaskMetadatum {
@@ -5793,9 +5341,7 @@ export const MeBillingTasksTask = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(MeBillingTasksTaskStatusEnum),
     step: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MeBillingTasksTask",
-}) as any as S.Schema<MeBillingTasksTask>;
+).annotate({ identifier: "MeBillingTasksTask" }) as any as S.Schema<MeBillingTasksTask>;
 
 export interface GetMeBillPaymentRequest {
   billId: string;
@@ -5804,9 +5350,7 @@ export const GetMeBillPaymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/bill/{billId}/payment", code: 200 })),
-).annotate({
-  identifier: "GetMeBillPaymentRequest",
-}) as any as S.Schema<GetMeBillPaymentRequest>;
+).annotate({ identifier: "GetMeBillPaymentRequest" }) as any as S.Schema<GetMeBillPaymentRequest>;
 
 /** Details about a payment */
 export interface BillingPayment {
@@ -5867,13 +5411,7 @@ export interface GetMeCarbonCalculatorHasInvoiceRequest {
 export const GetMeCarbonCalculatorHasInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     date: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/carbonCalculator/hasInvoice",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/carbonCalculator/hasInvoice", code: 200 })),
 ).annotate({
   identifier: "GetMeCarbonCalculatorHasInvoiceRequest",
 }) as any as S.Schema<GetMeCarbonCalculatorHasInvoiceRequest>;
@@ -5898,13 +5436,7 @@ export interface GetMeCarbonCalculatorTaskRequest {
 export const GetMeCarbonCalculatorTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     taskID: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/carbonCalculator/task/{taskID}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/carbonCalculator/task/{taskID}", code: 200 })),
 ).annotate({
   identifier: "GetMeCarbonCalculatorTaskRequest",
 }) as any as S.Schema<GetMeCarbonCalculatorTaskRequest>;
@@ -5928,9 +5460,7 @@ export const CarbonCalculatorTask = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(CarbonCalculatorTaskTaskStatusEnum),
     taskID: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CarbonCalculatorTask",
-}) as any as S.Schema<CarbonCalculatorTask>;
+).annotate({ identifier: "CarbonCalculatorTask" }) as any as S.Schema<CarbonCalculatorTask>;
 
 export interface GetMeConsentRequest {
   /** Campaign name */
@@ -5940,9 +5470,7 @@ export const GetMeConsentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     campaignName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/consent/{campaignName}", code: 200 })),
-).annotate({
-  identifier: "GetMeConsentRequest",
-}) as any as S.Schema<GetMeConsentRequest>;
+).annotate({ identifier: "GetMeConsentRequest" }) as any as S.Schema<GetMeConsentRequest>;
 
 /** Campaign type */
 export type MeConsentCampaignTypeEnum = "OPTIN" | "OPTOUT";
@@ -5963,9 +5491,7 @@ export const MeConsentCampaign = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(MeConsentCampaignTypeEnum),
   }),
-).annotate({
-  identifier: "MeConsentCampaign",
-}) as any as S.Schema<MeConsentCampaign>;
+).annotate({ identifier: "MeConsentCampaign" }) as any as S.Schema<MeConsentCampaign>;
 
 export interface GetMeContactRequest {
   /** Contact ID */
@@ -5975,9 +5501,7 @@ export const GetMeContactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contactId: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/contact/{contactId}", code: 200 })),
-).annotate({
-  identifier: "GetMeContactRequest",
-}) as any as S.Schema<GetMeContactRequest>;
+).annotate({ identifier: "GetMeContactRequest" }) as any as S.Schema<GetMeContactRequest>;
 
 export interface GetMeCorrectiveInvoiceRequest {
   correctiveInvoiceId: string;
@@ -5985,13 +5509,7 @@ export interface GetMeCorrectiveInvoiceRequest {
 export const GetMeCorrectiveInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     correctiveInvoiceId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/correctiveInvoice/{correctiveInvoiceId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/correctiveInvoice/{correctiveInvoiceId}", code: 200 })),
 ).annotate({
   identifier: "GetMeCorrectiveInvoiceRequest",
 }) as any as S.Schema<GetMeCorrectiveInvoiceRequest>;
@@ -6028,9 +5546,7 @@ export const BillingCorrectiveInvoice = /*@__PURE__*/ S.suspend(() =>
     tax: S.optional(OrderPrice),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BillingCorrectiveInvoice",
-}) as any as S.Schema<BillingCorrectiveInvoice>;
+).annotate({ identifier: "BillingCorrectiveInvoice" }) as any as S.Schema<BillingCorrectiveInvoice>;
 
 export interface GetMeCorrectiveInvoiceDebtRequest {
   correctiveInvoiceId: string;
@@ -6039,11 +5555,7 @@ export const GetMeCorrectiveInvoiceDebtRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     correctiveInvoiceId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/correctiveInvoice/{correctiveInvoiceId}/debt",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/me/correctiveInvoice/{correctiveInvoiceId}/debt", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMeCorrectiveInvoiceDebtRequest",
@@ -6157,16 +5669,8 @@ export interface GetMeCredentialRequest {
 export const GetMeCredentialRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     credentialId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/api/credential/{credentialId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetMeCredentialRequest",
-}) as any as S.Schema<GetMeCredentialRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/me/api/credential/{credentialId}", code: 200 })),
+).annotate({ identifier: "GetMeCredentialRequest" }) as any as S.Schema<GetMeCredentialRequest>;
 
 /** If defined, list of ip blocks which are allowed to call API with this credential */
 export type AuthApiCredentialAllowedIPsList = Array<string>;
@@ -6235,9 +5739,7 @@ export const AuthApiCredential = /*@__PURE__*/ S.suspend(() =>
     rules: S.optional(AuthApiCredentialRulesList),
     status: S.optional(AuthCredentialStateEnum),
   }),
-).annotate({
-  identifier: "AuthApiCredential",
-}) as any as S.Schema<AuthApiCredential>;
+).annotate({ identifier: "AuthApiCredential" }) as any as S.Schema<AuthApiCredential>;
 
 export interface GetMeCredentialApplicationRequest {
   /** Credential ID */
@@ -6247,11 +5749,7 @@ export const GetMeCredentialApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     credentialId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/api/credential/{credentialId}/application",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/me/api/credential/{credentialId}/application", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMeCredentialApplicationRequest",
@@ -6264,13 +5762,7 @@ export interface GetMeCreditBalanceRequest {
 export const GetMeCreditBalanceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     balanceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/credit/balance/{balanceName}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/credit/balance/{balanceName}", code: 200 })),
 ).annotate({
   identifier: "GetMeCreditBalanceRequest",
 }) as any as S.Schema<GetMeCreditBalanceRequest>;
@@ -6399,9 +5891,7 @@ export const MeCreditBalance = /*@__PURE__*/ S.suspend(() =>
     lastUpdate: S.optional(S.String),
     type: S.optional(MeCreditBalanceTypeEnum),
   }),
-).annotate({
-  identifier: "MeCreditBalance",
-}) as any as S.Schema<MeCreditBalance>;
+).annotate({ identifier: "MeCreditBalance" }) as any as S.Schema<MeCreditBalance>;
 
 export interface GetMeCreditBalanceMovementRequest {
   /** Balance name */
@@ -6427,9 +5917,7 @@ export const GetMeCreditBalanceMovementRequest = /*@__PURE__*/ S.suspend(() =>
 export interface GetMeDebtAccountRequest {}
 export const GetMeDebtAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/debtAccount", code: 200 })),
-).annotate({
-  identifier: "GetMeDebtAccountRequest",
-}) as any as S.Schema<GetMeDebtAccountRequest>;
+).annotate({ identifier: "GetMeDebtAccountRequest" }) as any as S.Schema<GetMeDebtAccountRequest>;
 
 /** Debt balance of the account */
 export interface DebtBalance {
@@ -6509,9 +5997,7 @@ export const GetMeDepositRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     depositId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/deposit/{depositId}", code: 200 })),
-).annotate({
-  identifier: "GetMeDepositRequest",
-}) as any as S.Schema<GetMeDepositRequest>;
+).annotate({ identifier: "GetMeDepositRequest" }) as any as S.Schema<GetMeDepositRequest>;
 
 /** Details about a deposit */
 export interface BillingDeposit {
@@ -6546,11 +6032,7 @@ export const GetMeDepositDetailRequest = /*@__PURE__*/ S.suspend(() =>
     depositId: S.String.pipe(T.Label()),
     depositDetailId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/deposit/{depositId}/details/{depositDetailId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/me/deposit/{depositId}/details/{depositDetailId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMeDepositDetailRequest",
@@ -6574,9 +6056,7 @@ export const BillingDepositDetail = /*@__PURE__*/ S.suspend(() =>
     totalPrice: S.optional(OrderPrice),
     unitPrice: S.optional(OrderPrice),
   }),
-).annotate({
-  identifier: "BillingDepositDetail",
-}) as any as S.Schema<BillingDepositDetail>;
+).annotate({ identifier: "BillingDepositDetail" }) as any as S.Schema<BillingDepositDetail>;
 
 export interface GetMeDepositPaidBillRequest {
   depositId: string;
@@ -6586,13 +6066,7 @@ export const GetMeDepositPaidBillRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     depositId: S.String.pipe(T.Label()),
     billId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/deposit/{depositId}/paidBills/{billId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/deposit/{depositId}/paidBills/{billId}", code: 200 })),
 ).annotate({
   identifier: "GetMeDepositPaidBillRequest",
 }) as any as S.Schema<GetMeDepositPaidBillRequest>;
@@ -6606,11 +6080,7 @@ export const GetMeDepositPaidBillDebtRequest = /*@__PURE__*/ S.suspend(() =>
     depositId: S.String.pipe(T.Label()),
     billId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/deposit/{depositId}/paidBills/{billId}/debt",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/me/deposit/{depositId}/paidBills/{billId}/debt", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMeDepositPaidBillDebtRequest",
@@ -6689,11 +6159,7 @@ export const GetMeDepositPaidBillPaymentRequest = /*@__PURE__*/ S.suspend(() =>
     depositId: S.String.pipe(T.Label()),
     billId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/deposit/{depositId}/paidBills/{billId}/payment",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/me/deposit/{depositId}/paidBills/{billId}/payment", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMeDepositPaidBillPaymentRequest",
@@ -6705,13 +6171,7 @@ export interface GetMeDepositPaymentRequest {
 export const GetMeDepositPaymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     depositId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/deposit/{depositId}/payment",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/deposit/{depositId}/payment", code: 200 })),
 ).annotate({
   identifier: "GetMeDepositPaymentRequest",
 }) as any as S.Schema<GetMeDepositPaymentRequest>;
@@ -6724,9 +6184,7 @@ export const GetMeDocumentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/document/{id}", code: 200 })),
-).annotate({
-  identifier: "GetMeDocumentRequest",
-}) as any as S.Schema<GetMeDocumentRequest>;
+).annotate({ identifier: "GetMeDocumentRequest" }) as any as S.Schema<GetMeDocumentRequest>;
 
 export interface GetMeDownPaymentInvoiceRequest {
   downPaymentInvoiceId: string;
@@ -6735,11 +6193,7 @@ export const GetMeDownPaymentInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     downPaymentInvoiceId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/downPaymentInvoice/{downPaymentInvoiceId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/me/downPaymentInvoice/{downPaymentInvoiceId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMeDownPaymentInvoiceRequest",
@@ -6786,11 +6240,7 @@ export const GetMeDownPaymentInvoiceDebtRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     downPaymentInvoiceId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/downPaymentInvoice/{downPaymentInvoiceId}/debt",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/me/downPaymentInvoice/{downPaymentInvoiceId}/debt", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMeDownPaymentInvoiceDebtRequest",
@@ -6931,9 +6381,7 @@ export const BillingFidelityAccount = /*@__PURE__*/ S.suspend(() =>
     lastUpdate: S.optional(S.String),
     openDate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BillingFidelityAccount",
-}) as any as S.Schema<BillingFidelityAccount>;
+).annotate({ identifier: "BillingFidelityAccount" }) as any as S.Schema<BillingFidelityAccount>;
 
 export interface GetMeFidelityAccountMovementRequest {
   movementId: number;
@@ -6941,13 +6389,7 @@ export interface GetMeFidelityAccountMovementRequest {
 export const GetMeFidelityAccountMovementRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     movementId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/fidelityAccount/movements/{movementId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/fidelityAccount/movements/{movementId}", code: 200 })),
 ).annotate({
   identifier: "GetMeFidelityAccountMovementRequest",
 }) as any as S.Schema<GetMeFidelityAccountMovementRequest>;
@@ -6987,9 +6429,7 @@ export const BillingFidelityMovement = /*@__PURE__*/ S.suspend(() =>
     order: S.optional(S.Number),
     previousBalance: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "BillingFidelityMovement",
-}) as any as S.Schema<BillingFidelityMovement>;
+).annotate({ identifier: "BillingFidelityMovement" }) as any as S.Schema<BillingFidelityMovement>;
 
 export interface GetMeIdentityGroupRequest {
   /** Group */
@@ -7013,11 +6453,7 @@ export const GetMeIdentityProviderRequest = /*@__PURE__*/ S.suspend(() =>
 export interface GetMeIdentityProviderSamlServiceProviderInfoRequest {}
 export const GetMeIdentityProviderSamlServiceProviderInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/identity/provider/samlServiceProviderInfo",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/me/identity/provider/samlServiceProviderInfo", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMeIdentityProviderSamlServiceProviderInfoRequest",
@@ -7041,9 +6477,7 @@ export const AuthServiceProviderInfo = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(S.String),
     metadataUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AuthServiceProviderInfo",
-}) as any as S.Schema<AuthServiceProviderInfo>;
+).annotate({ identifier: "AuthServiceProviderInfo" }) as any as S.Schema<AuthServiceProviderInfo>;
 
 export interface GetMeIdentityUserRequest {
   /** User */
@@ -7053,9 +6487,7 @@ export const GetMeIdentityUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     user: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/identity/user/{user}", code: 200 })),
-).annotate({
-  identifier: "GetMeIdentityUserRequest",
-}) as any as S.Schema<GetMeIdentityUserRequest>;
+).annotate({ identifier: "GetMeIdentityUserRequest" }) as any as S.Schema<GetMeIdentityUserRequest>;
 
 /** User's groups */
 export type AuthUserGroupsList = Array<string>;
@@ -7118,13 +6550,7 @@ export const GetMeIdentityUserTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     user: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/identity/user/{user}/token/{name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/identity/user/{user}/token/{name}", code: 200 })),
 ).annotate({
   identifier: "GetMeIdentityUserTokenRequest",
 }) as any as S.Schema<GetMeIdentityUserTokenRequest>;
@@ -7150,16 +6576,12 @@ export const AuthPersonalAccessToken = /*@__PURE__*/ S.suspend(() =>
     lastUsed: S.optional(S.NullOr(S.String)),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AuthPersonalAccessToken",
-}) as any as S.Schema<AuthPersonalAccessToken>;
+).annotate({ identifier: "AuthPersonalAccessToken" }) as any as S.Schema<AuthPersonalAccessToken>;
 
 export interface GetMeInsightRequest {}
 export const GetMeInsightRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/insight", code: 200 })),
-).annotate({
-  identifier: "GetMeInsightRequest",
-}) as any as S.Schema<GetMeInsightRequest>;
+).annotate({ identifier: "GetMeInsightRequest" }) as any as S.Schema<GetMeInsightRequest>;
 
 /** Insight access token */
 export interface MeInsightAccess {
@@ -7176,9 +6598,7 @@ export const MeInsightAccess = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(S.String),
     expireAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MeInsightAccess",
-}) as any as S.Schema<MeInsightAccess>;
+).annotate({ identifier: "MeInsightAccess" }) as any as S.Schema<MeInsightAccess>;
 
 export interface GetMeIpOrganisationRequest {
   organisationId: string;
@@ -7186,13 +6606,7 @@ export interface GetMeIpOrganisationRequest {
 export const GetMeIpOrganisationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organisationId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/ipOrganisation/{organisationId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/ipOrganisation/{organisationId}", code: 200 })),
 ).annotate({
   identifier: "GetMeIpOrganisationRequest",
 }) as any as S.Schema<GetMeIpOrganisationRequest>;
@@ -7225,9 +6639,7 @@ export const NichandleIpv4Org = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(S.NullOr(S.String)),
     zip: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "NichandleIpv4Org",
-}) as any as S.Schema<NichandleIpv4Org>;
+).annotate({ identifier: "NichandleIpv4Org" }) as any as S.Schema<NichandleIpv4Org>;
 
 export interface GetMeLogAuditLogKindRequest {
   /** Name */
@@ -7271,9 +6683,7 @@ export const DbaasLogsLogKind = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     updatedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DbaasLogsLogKind",
-}) as any as S.Schema<DbaasLogsLogKind>;
+).annotate({ identifier: "DbaasLogsLogKind" }) as any as S.Schema<DbaasLogsLogKind>;
 
 export interface GetMeLogAuditLogSubscriptionRequest {
   /** Subscription ID */
@@ -7283,11 +6693,7 @@ export const GetMeLogAuditLogSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/logs/audit/log/subscription/{subscriptionId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/me/logs/audit/log/subscription/{subscriptionId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMeLogAuditLogSubscriptionRequest",
@@ -7336,9 +6742,7 @@ export const DbaasLogsLogSubscription = /*@__PURE__*/ S.suspend(() =>
     subscriptionId: S.optional(S.String),
     updatedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DbaasLogsLogSubscription",
-}) as any as S.Schema<DbaasLogsLogSubscription>;
+).annotate({ identifier: "DbaasLogsLogSubscription" }) as any as S.Schema<DbaasLogsLogSubscription>;
 
 export interface GetMeLogKindRequest {
   /** Name */
@@ -7348,9 +6752,7 @@ export const GetMeLogKindRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/api/log/kind/{name}", code: 200 })),
-).annotate({
-  identifier: "GetMeLogKindRequest",
-}) as any as S.Schema<GetMeLogKindRequest>;
+).annotate({ identifier: "GetMeLogKindRequest" }) as any as S.Schema<GetMeLogKindRequest>;
 
 export interface GetMeLogSelfRequest {
   logId: number;
@@ -7359,9 +6761,7 @@ export const GetMeLogSelfRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     logId: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/api/logs/self/{logId}", code: 200 })),
-).annotate({
-  identifier: "GetMeLogSelfRequest",
-}) as any as S.Schema<GetMeLogSelfRequest>;
+).annotate({ identifier: "GetMeLogSelfRequest" }) as any as S.Schema<GetMeLogSelfRequest>;
 
 /** All HTTP methods available */
 export type HttpMethodEnum = "DELETE" | "GET" | "POST" | "PUT";
@@ -7402,9 +6802,7 @@ export const GetMeLogServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     logId: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/api/logs/services/{logId}", code: 200 })),
-).annotate({
-  identifier: "GetMeLogServiceRequest",
-}) as any as S.Schema<GetMeLogServiceRequest>;
+).annotate({ identifier: "GetMeLogServiceRequest" }) as any as S.Schema<GetMeLogServiceRequest>;
 
 export interface GetMeLogSubscriptionRequest {
   /** Subscription ID */
@@ -7413,13 +6811,7 @@ export interface GetMeLogSubscriptionRequest {
 export const GetMeLogSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/api/log/subscription/{subscriptionId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/api/log/subscription/{subscriptionId}", code: 200 })),
 ).annotate({
   identifier: "GetMeLogSubscriptionRequest",
 }) as any as S.Schema<GetMeLogSubscriptionRequest>;
@@ -7463,9 +6855,7 @@ export const BillingManualDomainPaymentStatus = /*@__PURE__*/ S.suspend(() =>
 export interface GetMeMarketingRequest {}
 export const GetMeMarketingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/marketing", code: 200 })),
-).annotate({
-  identifier: "GetMeMarketingRequest",
-}) as any as S.Schema<GetMeMarketingRequest>;
+).annotate({ identifier: "GetMeMarketingRequest" }) as any as S.Schema<GetMeMarketingRequest>;
 
 /** User consent details for a marketing communication mean */
 export interface MeMarketingConsentDetails {
@@ -7510,9 +6900,7 @@ export const MeMarketingConsent = /*@__PURE__*/ S.suspend(() =>
     email: S.optional(MeMarketingConsentDetails),
     sms: S.optional(MeMarketingConsentDetails),
   }),
-).annotate({
-  identifier: "MeMarketingConsent",
-}) as any as S.Schema<MeMarketingConsent>;
+).annotate({ identifier: "MeMarketingConsent" }) as any as S.Schema<MeMarketingConsent>;
 
 export interface GetMeMigrationRequest {
   /** Migration ID */
@@ -7522,9 +6910,7 @@ export const GetMeMigrationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     migrationId: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/migration/{migrationId}", code: 200 })),
-).annotate({
-  identifier: "GetMeMigrationRequest",
-}) as any as S.Schema<GetMeMigrationRequest>;
+).annotate({ identifier: "GetMeMigrationRequest" }) as any as S.Schema<GetMeMigrationRequest>;
 
 /** Status of the migration */
 export type MeMigrationStatusEnum =
@@ -7551,9 +6937,7 @@ export const MeMigrationStepContracts = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     agreements: S.optional(MeMigrationStepContractsAgreementsList),
   }),
-).annotate({
-  identifier: "MeMigrationStepContracts",
-}) as any as S.Schema<MeMigrationStepContracts>;
+).annotate({ identifier: "MeMigrationStepContracts" }) as any as S.Schema<MeMigrationStepContracts>;
 
 /** Country Migration step debt data */
 export interface MeMigrationStepDebt {
@@ -7567,9 +6951,7 @@ export const MeMigrationStepDebt = /*@__PURE__*/ S.suspend(() =>
     balanceAmount: S.optional(S.NullOr(OrderPrice)),
     ovhAccountAmount: S.optional(S.NullOr(OrderPrice)),
   }),
-).annotate({
-  identifier: "MeMigrationStepDebt",
-}) as any as S.Schema<MeMigrationStepDebt>;
+).annotate({ identifier: "MeMigrationStepDebt" }) as any as S.Schema<MeMigrationStepDebt>;
 
 /** Name of the migration step */
 export type MeMigrationStepNameEnum = "CONTRACTS" | "DEBT" | "NIC" | "ORDERS";
@@ -7590,9 +6972,7 @@ export const MeMigrationStepOrders = /*@__PURE__*/ S.suspend(() =>
     pendingPromotions: S.optional(S.Boolean),
     pendingSubscriptions: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MeMigrationStepOrders",
-}) as any as S.Schema<MeMigrationStepOrders>;
+).annotate({ identifier: "MeMigrationStepOrders" }) as any as S.Schema<MeMigrationStepOrders>;
 
 /** Status of the migration step */
 export type MeMigrationStepStatusEnum = "OK" | "PENDING";
@@ -7619,9 +6999,7 @@ export const MeMigrationStep = /*@__PURE__*/ S.suspend(() =>
     orders: S.optional(S.NullOr(MeMigrationStepOrders)),
     status: S.optional(MeMigrationStepStatusEnum),
   }),
-).annotate({
-  identifier: "MeMigrationStep",
-}) as any as S.Schema<MeMigrationStep>;
+).annotate({ identifier: "MeMigrationStep" }) as any as S.Schema<MeMigrationStep>;
 
 /** Migration steps */
 export type MeMigrationStepsList = Array<MeMigrationStep>;
@@ -7663,11 +7041,7 @@ export const GetMeMigrationContractRequest = /*@__PURE__*/ S.suspend(() =>
     migrationId: S.Number.pipe(T.Label()),
     contractId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/migration/{migrationId}/contract/{contractId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/me/migration/{migrationId}/contract/{contractId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMeMigrationContractRequest",
@@ -7697,9 +7071,7 @@ export const MeMigrationContract = /*@__PURE__*/ S.suspend(() =>
     pdf: S.optional(S.String),
     text: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MeMigrationContract",
-}) as any as S.Schema<MeMigrationContract>;
+).annotate({ identifier: "MeMigrationContract" }) as any as S.Schema<MeMigrationContract>;
 
 export interface GetMeMigrationContractAgreementRequest {
   /** Migration ID */
@@ -7729,13 +7101,7 @@ export interface GetMeNotificationEmailHistoryRequest {
 export const GetMeNotificationEmailHistoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/notification/email/history/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/notification/email/history/{id}", code: 200 })),
 ).annotate({
   identifier: "GetMeNotificationEmailHistoryRequest",
 }) as any as S.Schema<GetMeNotificationEmailHistoryRequest>;
@@ -7769,16 +7135,8 @@ export interface GetMeOauth2ClientRequest {
 export const GetMeOauth2ClientRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clientId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/api/oauth2/client/{clientId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetMeOauth2ClientRequest",
-}) as any as S.Schema<GetMeOauth2ClientRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/me/api/oauth2/client/{clientId}", code: 200 })),
+).annotate({ identifier: "GetMeOauth2ClientRequest" }) as any as S.Schema<GetMeOauth2ClientRequest>;
 
 /** allowed callback urls */
 export type Oauth2ClientCallbackUrlsList = Array<string>;
@@ -7823,9 +7181,7 @@ export const GetMeOauth2TokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/api/oauth2/token/{id}", code: 200 })),
-).annotate({
-  identifier: "GetMeOauth2TokenRequest",
-}) as any as S.Schema<GetMeOauth2TokenRequest>;
+).annotate({ identifier: "GetMeOauth2TokenRequest" }) as any as S.Schema<GetMeOauth2TokenRequest>;
 
 /** list of scopes the token has */
 export type Oauth2AccessTokenScopesList = Array<string>;
@@ -7851,9 +7207,7 @@ export const Oauth2AccessToken = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     scopes: S.optional(Oauth2AccessTokenScopesList),
   }),
-).annotate({
-  identifier: "Oauth2AccessToken",
-}) as any as S.Schema<Oauth2AccessToken>;
+).annotate({ identifier: "Oauth2AccessToken" }) as any as S.Schema<Oauth2AccessToken>;
 
 /** list of access tokens derived from the refresh token */
 export type Oauth2TokenAccessTokensList = Array<Oauth2AccessToken>;
@@ -7918,9 +7272,7 @@ export const GetMeOrderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     orderId: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/order/{orderId}", code: 200 })),
-).annotate({
-  identifier: "GetMeOrderRequest",
-}) as any as S.Schema<GetMeOrderRequest>;
+).annotate({ identifier: "GetMeOrderRequest" }) as any as S.Schema<GetMeOrderRequest>;
 
 export interface GetMeOrderAssociatedObjectRequest {
   orderId: number;
@@ -7928,13 +7280,7 @@ export interface GetMeOrderAssociatedObjectRequest {
 export const GetMeOrderAssociatedObjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     orderId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/order/{orderId}/associatedObject",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/order/{orderId}/associatedObject", code: 200 })),
 ).annotate({
   identifier: "GetMeOrderAssociatedObjectRequest",
 }) as any as S.Schema<GetMeOrderAssociatedObjectRequest>;
@@ -7971,16 +7317,8 @@ export const GetMeOrderBalanceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     orderId: S.Number.pipe(T.Label()),
     balanceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/order/{orderId}/balance/{balanceName}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetMeOrderBalanceRequest",
-}) as any as S.Schema<GetMeOrderBalanceRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/me/order/{orderId}/balance/{balanceName}", code: 200 })),
+).annotate({ identifier: "GetMeOrderBalanceRequest" }) as any as S.Schema<GetMeOrderBalanceRequest>;
 
 /** Export file format */
 export type ConsumptionConsumptionExportFormatsEnum = "csv";
@@ -7995,13 +7333,7 @@ export const GetMeOrderConsumptionDetailsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     orderId: S.Number.pipe(T.Label()),
     fileFormat: ConsumptionConsumptionExportFormatsEnum.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/order/{orderId}/consumption/details",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/order/{orderId}/consumption/details", code: 200 })),
 ).annotate({
   identifier: "GetMeOrderConsumptionDetailsRequest",
 }) as any as S.Schema<GetMeOrderConsumptionDetailsRequest>;
@@ -8042,9 +7374,7 @@ export const GetMeOrderDebtRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     orderId: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/order/{orderId}/debt", code: 200 })),
-).annotate({
-  identifier: "GetMeOrderDebtRequest",
-}) as any as S.Schema<GetMeOrderDebtRequest>;
+).annotate({ identifier: "GetMeOrderDebtRequest" }) as any as S.Schema<GetMeOrderDebtRequest>;
 
 export interface GetMeOrderDebtOperationRequest {
   orderId: number;
@@ -8055,11 +7385,7 @@ export const GetMeOrderDebtOperationRequest = /*@__PURE__*/ S.suspend(() =>
     orderId: S.Number.pipe(T.Label()),
     operationId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/order/{orderId}/debt/operation/{operationId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/me/order/{orderId}/debt/operation/{operationId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMeOrderDebtOperationRequest",
@@ -8092,16 +7418,8 @@ export const GetMeOrderDetailRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     orderId: S.Number.pipe(T.Label()),
     orderDetailId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/order/{orderId}/details/{orderDetailId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetMeOrderDetailRequest",
-}) as any as S.Schema<GetMeOrderDetailRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/me/order/{orderId}/details/{orderDetailId}", code: 200 })),
+).annotate({ identifier: "GetMeOrderDetailRequest" }) as any as S.Schema<GetMeOrderDetailRequest>;
 
 /** Product type of item in order */
 export type OrderOrderDetailTypeEnum =
@@ -8149,9 +7467,7 @@ export const BillingOrderDetail = /*@__PURE__*/ S.suspend(() =>
     totalPrice: S.optional(OrderPrice),
     unitPrice: S.optional(OrderPrice),
   }),
-).annotate({
-  identifier: "BillingOrderDetail",
-}) as any as S.Schema<BillingOrderDetail>;
+).annotate({ identifier: "BillingOrderDetail" }) as any as S.Schema<BillingOrderDetail>;
 
 export interface GetMeOrderDetailExtensionRequest {
   orderId: number;
@@ -8264,9 +7580,7 @@ export const BillingItemDetailOrder = /*@__PURE__*/ S.suspend(() =>
     plan: S.optional(BillingItemDetailOrderPlan),
     type: S.optional(S.NullOr(BillingItemDetailOrderDetailTypeEnum)),
   }),
-).annotate({
-  identifier: "BillingItemDetailOrder",
-}) as any as S.Schema<BillingItemDetailOrder>;
+).annotate({ identifier: "BillingItemDetailOrder" }) as any as S.Schema<BillingItemDetailOrder>;
 
 /** Extensions of a detail */
 export interface BillingItemDetail {
@@ -8276,9 +7590,7 @@ export const BillingItemDetail = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     order: S.optional(BillingItemDetailOrder),
   }),
-).annotate({
-  identifier: "BillingItemDetail",
-}) as any as S.Schema<BillingItemDetail>;
+).annotate({ identifier: "BillingItemDetail" }) as any as S.Schema<BillingItemDetail>;
 
 export interface GetMeOrderPaymentRequest {
   orderId: number;
@@ -8287,9 +7599,7 @@ export const GetMeOrderPaymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     orderId: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/order/{orderId}/payment", code: 200 })),
-).annotate({
-  identifier: "GetMeOrderPaymentRequest",
-}) as any as S.Schema<GetMeOrderPaymentRequest>;
+).annotate({ identifier: "GetMeOrderPaymentRequest" }) as any as S.Schema<GetMeOrderPaymentRequest>;
 
 export interface GetMeOrderStatusRequest {
   orderId: number;
@@ -8298,9 +7608,7 @@ export const GetMeOrderStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     orderId: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/order/{orderId}/status", code: 200 })),
-).annotate({
-  identifier: "GetMeOrderStatusRequest",
-}) as any as S.Schema<GetMeOrderStatusRequest>;
+).annotate({ identifier: "GetMeOrderStatusRequest" }) as any as S.Schema<GetMeOrderStatusRequest>;
 
 /** All possible order status */
 export type BillingOrderOrderStatusEnum =
@@ -8317,9 +7625,7 @@ export const BillingOrderOrderStatusEnum = S.String;
 export type GetMeOrderStatusResponse = BillingOrderOrderStatusEnum;
 export const GetMeOrderStatusResponse = /*@__PURE__*/ S.suspend(() =>
   BillingOrderOrderStatusEnum.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetMeOrderStatusResponse",
-}) as any as S.Schema<GetMeOrderStatusResponse>;
+).annotate({ identifier: "GetMeOrderStatusResponse" }) as any as S.Schema<GetMeOrderStatusResponse>;
 
 export interface GetMeOvhAccountRequest {
   ovhAccountId: string;
@@ -8328,9 +7634,7 @@ export const GetMeOvhAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ovhAccountId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/ovhAccount/{ovhAccountId}", code: 200 })),
-).annotate({
-  identifier: "GetMeOvhAccountRequest",
-}) as any as S.Schema<GetMeOvhAccountRequest>;
+).annotate({ identifier: "GetMeOvhAccountRequest" }) as any as S.Schema<GetMeOvhAccountRequest>;
 
 /** Details about an OVH account */
 export interface BillingOvhAccount {
@@ -8356,9 +7660,7 @@ export const BillingOvhAccount = /*@__PURE__*/ S.suspend(() =>
     ovhAccountId: S.optional(S.String),
     retrievableAmount: S.optional(OrderPrice),
   }),
-).annotate({
-  identifier: "BillingOvhAccount",
-}) as any as S.Schema<BillingOvhAccount>;
+).annotate({ identifier: "BillingOvhAccount" }) as any as S.Schema<BillingOvhAccount>;
 
 export interface GetMeOvhAccountMoneyRequest {
   ovhAccountId: string;
@@ -8373,11 +7675,7 @@ export const GetMeOvhAccountMoneyRequest = /*@__PURE__*/ S.suspend(() =>
     amount: S.Number,
     bankAccountId: S.Number,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/ovhAccount/{ovhAccountId}/retrieveMoney",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/me/ovhAccount/{ovhAccountId}/retrieveMoney", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMeOvhAccountMoneyRequest",
@@ -8437,16 +7735,12 @@ export const BillingMovement = /*@__PURE__*/ S.suspend(() =>
     previousBalance: S.optional(OrderPrice),
     retrievableAmount: S.optional(OrderPrice),
   }),
-).annotate({
-  identifier: "BillingMovement",
-}) as any as S.Schema<BillingMovement>;
+).annotate({ identifier: "BillingMovement" }) as any as S.Schema<BillingMovement>;
 
 export interface GetMePartnerLevelRequest {}
 export const GetMePartnerLevelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/partnerLevel", code: 200 })),
-).annotate({
-  identifier: "GetMePartnerLevelRequest",
-}) as any as S.Schema<GetMePartnerLevelRequest>;
+).annotate({ identifier: "GetMePartnerLevelRequest" }) as any as S.Schema<GetMePartnerLevelRequest>;
 
 /** Type of level */
 export type MePartnerLevelLevelTypeEnum = "advanced" | "none" | "standard" | "strategic";
@@ -8471,9 +7765,7 @@ export const MePartnerLevelLevel = /*@__PURE__*/ S.suspend(() =>
     msa: S.optional(S.Boolean),
     requirement: S.optional(MePartnerLevelRequirementLoSEnum),
   }),
-).annotate({
-  identifier: "MePartnerLevelLevel",
-}) as any as S.Schema<MePartnerLevelLevel>;
+).annotate({ identifier: "MePartnerLevelLevel" }) as any as S.Schema<MePartnerLevelLevel>;
 
 export interface GetMePaymentMeanDeferredPaymentAccountRequest {
   /** Id */
@@ -8482,13 +7774,7 @@ export interface GetMePaymentMeanDeferredPaymentAccountRequest {
 export const GetMePaymentMeanDeferredPaymentAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/paymentMean/deferredPaymentAccount/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/paymentMean/deferredPaymentAccount/{id}", code: 200 })),
 ).annotate({
   identifier: "GetMePaymentMeanDeferredPaymentAccountRequest",
 }) as any as S.Schema<GetMePaymentMeanDeferredPaymentAccountRequest>;
@@ -8508,9 +7794,7 @@ export const MePaymentMeanIconData = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     url: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "MePaymentMeanIconData",
-}) as any as S.Schema<MePaymentMeanIconData>;
+).annotate({ identifier: "MePaymentMeanIconData" }) as any as S.Schema<MePaymentMeanIconData>;
 
 /** State of you deferred account */
 export type MePaymentMeanDeferredStateEnum = "failed" | "valid";
@@ -8542,9 +7826,7 @@ export const MePaymentMeanDeferred = /*@__PURE__*/ S.suspend(() =>
     label: S.optional(S.NullOr(S.String)),
     state: S.optional(MePaymentMeanDeferredStateEnum),
   }),
-).annotate({
-  identifier: "MePaymentMeanDeferred",
-}) as any as S.Schema<MePaymentMeanDeferred>;
+).annotate({ identifier: "MePaymentMeanDeferred" }) as any as S.Schema<MePaymentMeanDeferred>;
 
 export interface GetMePaymentMethodRequest {
   /** Payment method ID */
@@ -8553,13 +7835,7 @@ export interface GetMePaymentMethodRequest {
 export const GetMePaymentMethodRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     paymentMethodId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/payment/method/{paymentMethodId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/payment/method/{paymentMethodId}", code: 200 })),
 ).annotate({
   identifier: "GetMePaymentMethodRequest",
 }) as any as S.Schema<GetMePaymentMethodRequest>;
@@ -8571,13 +7847,7 @@ export interface GetMePaymentTransactionRequest {
 export const GetMePaymentTransactionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     transactionId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/payment/transaction/{transactionId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/payment/transaction/{transactionId}", code: 200 })),
 ).annotate({
   identifier: "GetMePaymentTransactionRequest",
 }) as any as S.Schema<GetMePaymentTransactionRequest>;
@@ -8625,9 +7895,7 @@ export const MePaymentTransaction = /*@__PURE__*/ S.suspend(() =>
     transactionId: S.optional(S.Number),
     type: S.optional(MePaymentTransactionTypeEnum),
   }),
-).annotate({
-  identifier: "MePaymentTransaction",
-}) as any as S.Schema<MePaymentTransaction>;
+).annotate({ identifier: "MePaymentTransaction" }) as any as S.Schema<MePaymentTransaction>;
 
 export interface GetMePreferenceManagerRequest {
   /** This preference key */
@@ -8664,9 +7932,7 @@ export const GetMeRefundRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     refundId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/refund/{refundId}", code: 200 })),
-).annotate({
-  identifier: "GetMeRefundRequest",
-}) as any as S.Schema<GetMeRefundRequest>;
+).annotate({ identifier: "GetMeRefundRequest" }) as any as S.Schema<GetMeRefundRequest>;
 
 /** Details about a Refund */
 export interface BillingRefund {
@@ -8705,15 +7971,9 @@ export const GetMeRefundDetailRequest = /*@__PURE__*/ S.suspend(() =>
     refundId: S.String.pipe(T.Label()),
     refundDetailId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/refund/{refundId}/details/{refundDetailId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/me/refund/{refundId}/details/{refundDetailId}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetMeRefundDetailRequest",
-}) as any as S.Schema<GetMeRefundDetailRequest>;
+).annotate({ identifier: "GetMeRefundDetailRequest" }) as any as S.Schema<GetMeRefundDetailRequest>;
 
 /** Information about a Bill entry */
 export interface BillingRefundDetail {
@@ -8737,9 +7997,7 @@ export const BillingRefundDetail = /*@__PURE__*/ S.suspend(() =>
     totalPrice: S.optional(OrderPrice),
     unitPrice: S.optional(OrderPrice),
   }),
-).annotate({
-  identifier: "BillingRefundDetail",
-}) as any as S.Schema<BillingRefundDetail>;
+).annotate({ identifier: "BillingRefundDetail" }) as any as S.Schema<BillingRefundDetail>;
 
 export interface GetMeRefundPaymentRequest {
   refundId: string;
@@ -8758,16 +8016,8 @@ export interface GetMeReverseBillRequest {
 export const GetMeReverseBillRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reverseBillId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/reverseBill/{reverseBillId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetMeReverseBillRequest",
-}) as any as S.Schema<GetMeReverseBillRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/me/reverseBill/{reverseBillId}", code: 200 })),
+).annotate({ identifier: "GetMeReverseBillRequest" }) as any as S.Schema<GetMeReverseBillRequest>;
 
 /** Details about a bill from customer */
 export interface BillingReverseBill {
@@ -8793,9 +8043,7 @@ export const BillingReverseBill = /*@__PURE__*/ S.suspend(() =>
     tax: S.optional(OrderPrice),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BillingReverseBill",
-}) as any as S.Schema<BillingReverseBill>;
+).annotate({ identifier: "BillingReverseBill" }) as any as S.Schema<BillingReverseBill>;
 
 export interface GetMeReverseBillDetailRequest {
   reverseBillId: string;
@@ -8848,13 +8096,7 @@ export interface GetMeReverseBillPaymentRequest {
 export const GetMeReverseBillPaymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reverseBillId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/reverseBill/{reverseBillId}/payment",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/reverseBill/{reverseBillId}/payment", code: 200 })),
 ).annotate({
   identifier: "GetMeReverseBillPaymentRequest",
 }) as any as S.Schema<GetMeReverseBillPaymentRequest>;
@@ -8867,9 +8109,7 @@ export const GetMeSlaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/sla/{id}", code: 200 })),
-).annotate({
-  identifier: "GetMeSlaRequest",
-}) as any as S.Schema<GetMeSlaRequest>;
+).annotate({ identifier: "GetMeSlaRequest" }) as any as S.Schema<GetMeSlaRequest>;
 
 /** SLA properties */
 export interface BillingSlaOperation {
@@ -8895,9 +8135,7 @@ export const BillingSlaOperation = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     startDate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BillingSlaOperation",
-}) as any as S.Schema<BillingSlaOperation>;
+).annotate({ identifier: "BillingSlaOperation" }) as any as S.Schema<BillingSlaOperation>;
 
 export interface GetMeSlaCanBeAppliedRequest {
   /** Id of the object */
@@ -8926,16 +8164,12 @@ export const GetMeSlaStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/sla/{id}/status", code: 200 })),
-).annotate({
-  identifier: "GetMeSlaStatusRequest",
-}) as any as S.Schema<GetMeSlaStatusRequest>;
+).annotate({ identifier: "GetMeSlaStatusRequest" }) as any as S.Schema<GetMeSlaStatusRequest>;
 
 export type GetMeSlaStatusResponse = string;
 export const GetMeSlaStatusResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetMeSlaStatusResponse",
-}) as any as S.Schema<GetMeSlaStatusResponse>;
+).annotate({ identifier: "GetMeSlaStatusResponse" }) as any as S.Schema<GetMeSlaStatusResponse>;
 
 export interface GetMeSshKeyRequest {
   /** Name of this public SSH key */
@@ -8945,9 +8179,7 @@ export const GetMeSshKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     keyName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/sshKey/{keyName}", code: 200 })),
-).annotate({
-  identifier: "GetMeSshKeyRequest",
-}) as any as S.Schema<GetMeSshKeyRequest>;
+).annotate({ identifier: "GetMeSshKeyRequest" }) as any as S.Schema<GetMeSshKeyRequest>;
 
 /** Customer public SSH key, can be used for rescue netboot or server access after reinstallation */
 export interface NichandleSshKey {
@@ -8961,9 +8193,7 @@ export const NichandleSshKey = /*@__PURE__*/ S.suspend(() =>
     key: S.optional(S.String),
     keyName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NichandleSshKey",
-}) as any as S.Schema<NichandleSshKey>;
+).annotate({ identifier: "NichandleSshKey" }) as any as S.Schema<NichandleSshKey>;
 
 export interface GetMeSubAccountRequest {
   /** Id of the object */
@@ -8973,9 +8203,7 @@ export const GetMeSubAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/subAccount/{id}", code: 200 })),
-).annotate({
-  identifier: "GetMeSubAccountRequest",
-}) as any as S.Schema<GetMeSubAccountRequest>;
+).annotate({ identifier: "GetMeSubAccountRequest" }) as any as S.Schema<GetMeSubAccountRequest>;
 
 /** Sub Account */
 export interface NichandleSubAccount {
@@ -8992,16 +8220,12 @@ export const NichandleSubAccount = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.NullOr(S.String)),
     id: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NichandleSubAccount",
-}) as any as S.Schema<NichandleSubAccount>;
+).annotate({ identifier: "NichandleSubAccount" }) as any as S.Schema<NichandleSubAccount>;
 
 export interface GetMeSupportLevelRequest {}
 export const GetMeSupportLevelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/supportLevel", code: 200 })),
-).annotate({
-  identifier: "GetMeSupportLevelRequest",
-}) as any as S.Schema<GetMeSupportLevelRequest>;
+).annotate({ identifier: "GetMeSupportLevelRequest" }) as any as S.Schema<GetMeSupportLevelRequest>;
 
 /** Type of level */
 export type MeSupportLevelLevelTypeEnum =
@@ -9021,9 +8245,7 @@ export const MeSupportLevelLevel = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     level: S.optional(MeSupportLevelLevelTypeEnum),
   }),
-).annotate({
-  identifier: "MeSupportLevelLevel",
-}) as any as S.Schema<MeSupportLevelLevel>;
+).annotate({ identifier: "MeSupportLevelLevel" }) as any as S.Schema<MeSupportLevelLevel>;
 
 export interface GetMeTagRequest {
   /** Tag */
@@ -9033,9 +8255,7 @@ export const GetMeTagRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tag: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/tag/{tag}", code: 200 })),
-).annotate({
-  identifier: "GetMeTagRequest",
-}) as any as S.Schema<GetMeTagRequest>;
+).annotate({ identifier: "GetMeTagRequest" }) as any as S.Schema<GetMeTagRequest>;
 
 export interface GetMeTaskContactChangeRequest {
   id: number;
@@ -9119,9 +8339,7 @@ export const GetMeTaskDnsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/task/dns/{id}", code: 200 })),
-).annotate({
-  identifier: "GetMeTaskDnsRequest",
-}) as any as S.Schema<GetMeTaskDnsRequest>;
+).annotate({ identifier: "GetMeTaskDnsRequest" }) as any as S.Schema<GetMeTaskDnsRequest>;
 
 /** All functions from a dns task */
 export type DomainTaskFunctionEnum =
@@ -9197,9 +8415,7 @@ export const GetMeTaskDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/task/domain/{id}", code: 200 })),
-).annotate({
-  identifier: "GetMeTaskDomainRequest",
-}) as any as S.Schema<GetMeTaskDomainRequest>;
+).annotate({ identifier: "GetMeTaskDomainRequest" }) as any as S.Schema<GetMeTaskDomainRequest>;
 
 /** Operation status */
 export type DomainOperationStatusEnum =
@@ -9272,13 +8488,7 @@ export const GetMeTaskDomainArgumentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
     key: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/task/domain/{id}/argument/{key}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/task/domain/{id}/argument/{key}", code: 200 })),
 ).annotate({
   identifier: "GetMeTaskDomainArgumentRequest",
 }) as any as S.Schema<GetMeTaskDomainArgumentRequest>;
@@ -9387,13 +8597,7 @@ export interface GetMeTaskDomainProgressbarRequest {
 export const GetMeTaskDomainProgressbarRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/task/domain/{id}/progressbar",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/task/domain/{id}/progressbar", code: 200 })),
 ).annotate({
   identifier: "GetMeTaskDomainProgressbarRequest",
 }) as any as S.Schema<GetMeTaskDomainProgressbarRequest>;
@@ -9413,9 +8617,7 @@ export const DomainOperationStep = /*@__PURE__*/ S.suspend(() =>
     executionDuration: S.optional(S.Number),
     step: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DomainOperationStep",
-}) as any as S.Schema<DomainOperationStep>;
+).annotate({ identifier: "DomainOperationStep" }) as any as S.Schema<DomainOperationStep>;
 
 /** All the steps of the operation */
 export type NichandleDomainTaskProgressBarFollowUpStepsList = Array<DomainOperationStep>;
@@ -9481,13 +8683,7 @@ export interface GetMeTelephonyDefaultIpRestrictionRequest {
 export const GetMeTelephonyDefaultIpRestrictionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/telephony/defaultIpRestriction/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/telephony/defaultIpRestriction/{id}", code: 200 })),
 ).annotate({
   identifier: "GetMeTelephonyDefaultIpRestrictionRequest",
 }) as any as S.Schema<GetMeTelephonyDefaultIpRestrictionRequest>;
@@ -9502,9 +8698,7 @@ export const GetMeTelephonySettingsRequest = /*@__PURE__*/ S.suspend(() =>
 export interface GetMeVipStatusRequest {}
 export const GetMeVipStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/vipStatus", code: 200 })),
-).annotate({
-  identifier: "GetMeVipStatusRequest",
-}) as any as S.Schema<GetMeVipStatusRequest>;
+).annotate({ identifier: "GetMeVipStatusRequest" }) as any as S.Schema<GetMeVipStatusRequest>;
 
 /** VIP Status by Universe */
 export interface NichandleVipStatus {
@@ -9524,9 +8718,7 @@ export const NichandleVipStatus = /*@__PURE__*/ S.suspend(() =>
     telecom: S.optional(S.Boolean),
     web: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "NichandleVipStatus",
-}) as any as S.Schema<NichandleVipStatus>;
+).annotate({ identifier: "NichandleVipStatus" }) as any as S.Schema<NichandleVipStatus>;
 
 export interface GetMeVoucherAccountRequest {
   voucherAccountId: string;
@@ -9534,13 +8726,7 @@ export interface GetMeVoucherAccountRequest {
 export const GetMeVoucherAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     voucherAccountId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/voucherAccount/{voucherAccountId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/voucherAccount/{voucherAccountId}", code: 200 })),
 ).annotate({
   identifier: "GetMeVoucherAccountRequest",
 }) as any as S.Schema<GetMeVoucherAccountRequest>;
@@ -9559,9 +8745,7 @@ export const BillingVoucherAccount = /*@__PURE__*/ S.suspend(() =>
     openDate: S.optional(S.String),
     voucherAccountId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BillingVoucherAccount",
-}) as any as S.Schema<BillingVoucherAccount>;
+).annotate({ identifier: "BillingVoucherAccount" }) as any as S.Schema<BillingVoucherAccount>;
 
 export interface GetMeVoucherAccountMovementRequest {
   voucherAccountId: string;
@@ -9615,9 +8799,7 @@ export const BillingVoucherMovement = /*@__PURE__*/ S.suspend(() =>
     order: S.optional(S.Number),
     previousBalance: S.optional(OrderPrice),
   }),
-).annotate({
-  identifier: "BillingVoucherMovement",
-}) as any as S.Schema<BillingVoucherMovement>;
+).annotate({ identifier: "BillingVoucherMovement" }) as any as S.Schema<BillingVoucherMovement>;
 
 export interface GetMeWithdrawalRequest {
   withdrawalId: string;
@@ -9626,9 +8808,7 @@ export const GetMeWithdrawalRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     withdrawalId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/withdrawal/{withdrawalId}", code: 200 })),
-).annotate({
-  identifier: "GetMeWithdrawalRequest",
-}) as any as S.Schema<GetMeWithdrawalRequest>;
+).annotate({ identifier: "GetMeWithdrawalRequest" }) as any as S.Schema<GetMeWithdrawalRequest>;
 
 /** Details about a withdrawal */
 export interface BillingWithdrawal {
@@ -9652,9 +8832,7 @@ export const BillingWithdrawal = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.String),
     withdrawalId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BillingWithdrawal",
-}) as any as S.Schema<BillingWithdrawal>;
+).annotate({ identifier: "BillingWithdrawal" }) as any as S.Schema<BillingWithdrawal>;
 
 export interface GetMeWithdrawalDetailRequest {
   withdrawalId: string;
@@ -9693,9 +8871,7 @@ export const BillingWithdrawalDetail = /*@__PURE__*/ S.suspend(() =>
     unitPrice: S.optional(OrderPrice),
     withdrawalDetailId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BillingWithdrawalDetail",
-}) as any as S.Schema<BillingWithdrawalDetail>;
+).annotate({ identifier: "BillingWithdrawalDetail" }) as any as S.Schema<BillingWithdrawalDetail>;
 
 export interface GetMeWithdrawalPaymentRequest {
   withdrawalId: string;
@@ -9703,13 +8879,7 @@ export interface GetMeWithdrawalPaymentRequest {
 export const GetMeWithdrawalPaymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     withdrawalId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/withdrawal/{withdrawalId}/payment",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/withdrawal/{withdrawalId}/payment", code: 200 })),
 ).annotate({
   identifier: "GetMeWithdrawalPaymentRequest",
 }) as any as S.Schema<GetMeWithdrawalPaymentRequest>;
@@ -9717,9 +8887,7 @@ export const GetMeWithdrawalPaymentRequest = /*@__PURE__*/ S.suspend(() =>
 export interface GetMeXdslSettingRequest {}
 export const GetMeXdslSettingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/xdsl/setting", code: 200 })),
-).annotate({
-  identifier: "GetMeXdslSettingRequest",
-}) as any as S.Schema<GetMeXdslSettingRequest>;
+).annotate({ identifier: "GetMeXdslSettingRequest" }) as any as S.Schema<GetMeXdslSettingRequest>;
 
 /** Xdsl Settings */
 export interface XdslSetting {
@@ -9741,9 +8909,7 @@ export const XdslSetting = /*@__PURE__*/ S.suspend(() =>
 export interface ListMeAbuseRequest {}
 export const ListMeAbuseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/abuse", code: 200 })),
-).annotate({
-  identifier: "ListMeAbuseRequest",
-}) as any as S.Schema<ListMeAbuseRequest>;
+).annotate({ identifier: "ListMeAbuseRequest" }) as any as S.Schema<ListMeAbuseRequest>;
 
 export type ListMeAbuseResponseBodyList = Array<string>;
 export const ListMeAbuseResponseBodyList = /*@__PURE__*/ S.Array(
@@ -9753,9 +8919,7 @@ export const ListMeAbuseResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMeAbuseResponse = ListMeAbuseResponseBodyList;
 export const ListMeAbuseResponse = /*@__PURE__*/ S.suspend(() =>
   ListMeAbuseResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMeAbuseResponse",
-}) as any as S.Schema<ListMeAbuseResponse>;
+).annotate({ identifier: "ListMeAbuseResponse" }) as any as S.Schema<ListMeAbuseResponse>;
 
 export interface ListMeAccessRestrictionIpRequest {}
 export const ListMeAccessRestrictionIpRequest = /*@__PURE__*/ S.suspend(() =>
@@ -9844,9 +9008,7 @@ export const ListMeAgreementsRequest = /*@__PURE__*/ S.suspend(() =>
     agreed: S.optional(AgreementsAgreementStateEnum.pipe(T.Query())),
     contractId: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/me/agreements", code: 200 })),
-).annotate({
-  identifier: "ListMeAgreementsRequest",
-}) as any as S.Schema<ListMeAgreementsRequest>;
+).annotate({ identifier: "ListMeAgreementsRequest" }) as any as S.Schema<ListMeAgreementsRequest>;
 
 export type ListMeAgreementsResponseBodyList = Array<number>;
 export const ListMeAgreementsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -9856,16 +9018,12 @@ export const ListMeAgreementsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMeAgreementsResponse = ListMeAgreementsResponseBodyList;
 export const ListMeAgreementsResponse = /*@__PURE__*/ S.suspend(() =>
   ListMeAgreementsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMeAgreementsResponse",
-}) as any as S.Schema<ListMeAgreementsResponse>;
+).annotate({ identifier: "ListMeAgreementsResponse" }) as any as S.Schema<ListMeAgreementsResponse>;
 
 export interface ListMeApplicationRequest {}
 export const ListMeApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/api/application", code: 200 })),
-).annotate({
-  identifier: "ListMeApplicationRequest",
-}) as any as S.Schema<ListMeApplicationRequest>;
+).annotate({ identifier: "ListMeApplicationRequest" }) as any as S.Schema<ListMeApplicationRequest>;
 
 export type ListMeApplicationResponseBodyList = Array<number>;
 export const ListMeApplicationResponseBodyList = /*@__PURE__*/ S.Array(
@@ -9896,9 +9054,7 @@ export const ListMeBillRequest = /*@__PURE__*/ S.suspend(() =>
     date_to: S.optional(S.String.pipe(T.Query("date.to"))),
     orderId: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/me/bill", code: 200 })),
-).annotate({
-  identifier: "ListMeBillRequest",
-}) as any as S.Schema<ListMeBillRequest>;
+).annotate({ identifier: "ListMeBillRequest" }) as any as S.Schema<ListMeBillRequest>;
 
 export type ListMeBillResponseBodyList = Array<string>;
 export const ListMeBillResponseBodyList = /*@__PURE__*/ S.Array(
@@ -9908,9 +9064,7 @@ export const ListMeBillResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMeBillResponse = ListMeBillResponseBodyList;
 export const ListMeBillResponse = /*@__PURE__*/ S.suspend(() =>
   ListMeBillResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMeBillResponse",
-}) as any as S.Schema<ListMeBillResponse>;
+).annotate({ identifier: "ListMeBillResponse" }) as any as S.Schema<ListMeBillResponse>;
 
 export interface ListMeBillDebtOperationRequest {
   billId: string;
@@ -9921,13 +9075,7 @@ export const ListMeBillDebtOperationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billId: S.String.pipe(T.Label()),
     depositOrderId: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/bill/{billId}/debt/operation",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/bill/{billId}/debt/operation", code: 200 })),
 ).annotate({
   identifier: "ListMeBillDebtOperationRequest",
 }) as any as S.Schema<ListMeBillDebtOperationRequest>;
@@ -9951,9 +9099,7 @@ export const ListMeBillDetailsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/bill/{billId}/details", code: 200 })),
-).annotate({
-  identifier: "ListMeBillDetailsRequest",
-}) as any as S.Schema<ListMeBillDetailsRequest>;
+).annotate({ identifier: "ListMeBillDetailsRequest" }) as any as S.Schema<ListMeBillDetailsRequest>;
 
 export type ListMeBillDetailsResponseBodyList = Array<string>;
 export const ListMeBillDetailsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -10001,13 +9147,7 @@ export interface ListMeBillingGroupServiceRequest {
 export const ListMeBillingGroupServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     groupId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/billing/group/{groupId}/service",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/billing/group/{groupId}/service", code: 200 })),
 ).annotate({
   identifier: "ListMeBillingGroupServiceRequest",
 }) as any as S.Schema<ListMeBillingGroupServiceRequest>;
@@ -10050,13 +9190,7 @@ export const ListMeBillingPurchaseOrderResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface ListMeBillingReportConsumptionRequest {}
 export const ListMeBillingReportConsumptionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/billing/report/consumption",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/billing/report/consumption", code: 200 })),
 ).annotate({
   identifier: "ListMeBillingReportConsumptionRequest",
 }) as any as S.Schema<ListMeBillingReportConsumptionRequest>;
@@ -10084,9 +9218,7 @@ export const ListMeBillingTaskRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(MeBillingTasksTaskNameEnum.pipe(T.Query())),
     status: S.optional(MeBillingTasksTaskStatusEnum.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/me/billing/task", code: 200 })),
-).annotate({
-  identifier: "ListMeBillingTaskRequest",
-}) as any as S.Schema<ListMeBillingTaskRequest>;
+).annotate({ identifier: "ListMeBillingTaskRequest" }) as any as S.Schema<ListMeBillingTaskRequest>;
 
 export type ListMeBillingTaskResponseBodyList = Array<number>;
 export const ListMeBillingTaskResponseBodyList = /*@__PURE__*/ S.Array(
@@ -10122,9 +9254,7 @@ export const ListMeCarbonCalculatorTaskResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListMeConsentRequest {}
 export const ListMeConsentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/consent", code: 200 })),
-).annotate({
-  identifier: "ListMeConsentRequest",
-}) as any as S.Schema<ListMeConsentRequest>;
+).annotate({ identifier: "ListMeConsentRequest" }) as any as S.Schema<ListMeConsentRequest>;
 
 export type ListMeConsentResponseBodyList = Array<MeConsentCampaign>;
 export const ListMeConsentResponseBodyList = /*@__PURE__*/ S.Array(
@@ -10134,9 +9264,7 @@ export const ListMeConsentResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMeConsentResponse = ListMeConsentResponseBodyList;
 export const ListMeConsentResponse = /*@__PURE__*/ S.suspend(() =>
   ListMeConsentResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMeConsentResponse",
-}) as any as S.Schema<ListMeConsentResponse>;
+).annotate({ identifier: "ListMeConsentResponse" }) as any as S.Schema<ListMeConsentResponse>;
 
 export interface ListMeConsentDecisionRequest {
   /** Campaign name */
@@ -10145,13 +9273,7 @@ export interface ListMeConsentDecisionRequest {
 export const ListMeConsentDecisionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     campaignName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/consent/{campaignName}/decision",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/consent/{campaignName}/decision", code: 200 })),
 ).annotate({
   identifier: "ListMeConsentDecisionRequest",
 }) as any as S.Schema<ListMeConsentDecisionRequest>;
@@ -10168,9 +9290,7 @@ export const MeConsentDecision = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.optional(S.String),
     value: S.Boolean,
   }),
-).annotate({
-  identifier: "MeConsentDecision",
-}) as any as S.Schema<MeConsentDecision>;
+).annotate({ identifier: "MeConsentDecision" }) as any as S.Schema<MeConsentDecision>;
 
 /** Consent decisions history for this campaign */
 export type MeConsentConsentHistoryList = Array<MeConsentDecision>;
@@ -10196,19 +9316,11 @@ export const MeConsentConsent = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(MeConsentCampaignTypeEnum),
     value: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MeConsentConsent",
-}) as any as S.Schema<MeConsentConsent>;
+).annotate({ identifier: "MeConsentConsent" }) as any as S.Schema<MeConsentConsent>;
 
 export interface ListMeConsumptionUsageCurrentRequest {}
 export const ListMeConsumptionUsageCurrentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/consumption/usage/current",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/consumption/usage/current", code: 200 })),
 ).annotate({
   identifier: "ListMeConsumptionUsageCurrentRequest",
 }) as any as S.Schema<ListMeConsumptionUsageCurrentRequest>;
@@ -10227,9 +9339,7 @@ export const MeConsumptionPrice = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.Number),
     valueInUcents: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MeConsumptionPrice",
-}) as any as S.Schema<MeConsumptionPrice>;
+).annotate({ identifier: "MeConsumptionPrice" }) as any as S.Schema<MeConsumptionPrice>;
 
 /** Element of consumption for resource */
 export interface MeConsumptionTransactionElementDetail {
@@ -10318,9 +9428,7 @@ export const MeConsumptionTransaction = /*@__PURE__*/ S.suspend(() =>
     price: S.optional(MeConsumptionPrice),
     serviceId: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MeConsumptionTransaction",
-}) as any as S.Schema<MeConsumptionTransaction>;
+).annotate({ identifier: "MeConsumptionTransaction" }) as any as S.Schema<MeConsumptionTransaction>;
 
 export type ListMeConsumptionUsageCurrentResponseBodyList = Array<MeConsumptionTransaction>;
 export const ListMeConsumptionUsageCurrentResponseBodyList = /*@__PURE__*/ S.Array(
@@ -10336,13 +9444,7 @@ export const ListMeConsumptionUsageCurrentResponse = /*@__PURE__*/ S.suspend(() 
 
 export interface ListMeConsumptionUsageForecastRequest {}
 export const ListMeConsumptionUsageForecastRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/consumption/usage/forecast",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/consumption/usage/forecast", code: 200 })),
 ).annotate({
   identifier: "ListMeConsumptionUsageForecastRequest",
 }) as any as S.Schema<ListMeConsumptionUsageForecastRequest>;
@@ -10369,13 +9471,7 @@ export const ListMeConsumptionUsageHistoryRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     beginDate: S.String.pipe(T.Query()),
     endDate: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/consumption/usage/history",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/consumption/usage/history", code: 200 })),
 ).annotate({
   identifier: "ListMeConsumptionUsageHistoryRequest",
 }) as any as S.Schema<ListMeConsumptionUsageHistoryRequest>;
@@ -10395,9 +9491,7 @@ export const ListMeConsumptionUsageHistoryResponse = /*@__PURE__*/ S.suspend(() 
 export interface ListMeContactRequest {}
 export const ListMeContactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/contact", code: 200 })),
-).annotate({
-  identifier: "ListMeContactRequest",
-}) as any as S.Schema<ListMeContactRequest>;
+).annotate({ identifier: "ListMeContactRequest" }) as any as S.Schema<ListMeContactRequest>;
 
 export type ListMeContactResponseBodyList = Array<number>;
 export const ListMeContactResponseBodyList = /*@__PURE__*/ S.Array(
@@ -10407,9 +9501,7 @@ export const ListMeContactResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMeContactResponse = ListMeContactResponseBodyList;
 export const ListMeContactResponse = /*@__PURE__*/ S.suspend(() =>
   ListMeContactResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMeContactResponse",
-}) as any as S.Schema<ListMeContactResponse>;
+).annotate({ identifier: "ListMeContactResponse" }) as any as S.Schema<ListMeContactResponse>;
 
 export interface ListMeContactFieldsRequest {
   /** Contact ID */
@@ -10560,9 +9652,7 @@ export const ListMeCredentialRequest = /*@__PURE__*/ S.suspend(() =>
     applicationId: S.optional(S.Number.pipe(T.Query())),
     status: S.optional(AuthCredentialStateEnum.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/me/api/credential", code: 200 })),
-).annotate({
-  identifier: "ListMeCredentialRequest",
-}) as any as S.Schema<ListMeCredentialRequest>;
+).annotate({ identifier: "ListMeCredentialRequest" }) as any as S.Schema<ListMeCredentialRequest>;
 
 export type ListMeCredentialResponseBodyList = Array<number>;
 export const ListMeCredentialResponseBodyList = /*@__PURE__*/ S.Array(
@@ -10572,9 +9662,7 @@ export const ListMeCredentialResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMeCredentialResponse = ListMeCredentialResponseBodyList;
 export const ListMeCredentialResponse = /*@__PURE__*/ S.suspend(() =>
   ListMeCredentialResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMeCredentialResponse",
-}) as any as S.Schema<ListMeCredentialResponse>;
+).annotate({ identifier: "ListMeCredentialResponse" }) as any as S.Schema<ListMeCredentialResponse>;
 
 export interface ListMeCreditBalanceRequest {
   /** Filter by balance type */
@@ -10607,13 +9695,7 @@ export interface ListMeCreditBalanceMovementRequest {
 export const ListMeCreditBalanceMovementRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     balanceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/credit/balance/{balanceName}/movement",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/credit/balance/{balanceName}/movement", code: 200 })),
 ).annotate({
   identifier: "ListMeCreditBalanceMovementRequest",
 }) as any as S.Schema<ListMeCreditBalanceMovementRequest>;
@@ -10658,13 +9740,7 @@ export const ListMeDebtAccountDebtOperationRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     debtId: S.Number.pipe(T.Label()),
     depositOrderId: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/debtAccount/debt/{debtId}/operation",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/debtAccount/debt/{debtId}/operation", code: 200 })),
 ).annotate({
   identifier: "ListMeDebtAccountDebtOperationRequest",
 }) as any as S.Schema<ListMeDebtAccountDebtOperationRequest>;
@@ -10695,9 +9771,7 @@ export const ListMeDepositRequest = /*@__PURE__*/ S.suspend(() =>
     date_to: S.optional(S.String.pipe(T.Query("date.to"))),
     orderId: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/me/deposit", code: 200 })),
-).annotate({
-  identifier: "ListMeDepositRequest",
-}) as any as S.Schema<ListMeDepositRequest>;
+).annotate({ identifier: "ListMeDepositRequest" }) as any as S.Schema<ListMeDepositRequest>;
 
 export type ListMeDepositResponseBodyList = Array<string>;
 export const ListMeDepositResponseBodyList = /*@__PURE__*/ S.Array(
@@ -10707,9 +9781,7 @@ export const ListMeDepositResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMeDepositResponse = ListMeDepositResponseBodyList;
 export const ListMeDepositResponse = /*@__PURE__*/ S.suspend(() =>
   ListMeDepositResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMeDepositResponse",
-}) as any as S.Schema<ListMeDepositResponse>;
+).annotate({ identifier: "ListMeDepositResponse" }) as any as S.Schema<ListMeDepositResponse>;
 
 export interface ListMeDepositDetailsRequest {
   depositId: string;
@@ -10717,13 +9789,7 @@ export interface ListMeDepositDetailsRequest {
 export const ListMeDepositDetailsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     depositId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/deposit/{depositId}/details",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/deposit/{depositId}/details", code: 200 })),
 ).annotate({
   identifier: "ListMeDepositDetailsRequest",
 }) as any as S.Schema<ListMeDepositDetailsRequest>;
@@ -10784,11 +9850,7 @@ export const ListMeDepositPaidBillDetailsRequest = /*@__PURE__*/ S.suspend(() =>
     depositId: S.String.pipe(T.Label()),
     billId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/deposit/{depositId}/paidBills/{billId}/details",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/me/deposit/{depositId}/paidBills/{billId}/details", code: 200 }),
   ),
 ).annotate({
   identifier: "ListMeDepositPaidBillDetailsRequest",
@@ -10812,13 +9874,7 @@ export interface ListMeDepositPaidBillsRequest {
 export const ListMeDepositPaidBillsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     depositId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/deposit/{depositId}/paidBills",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/deposit/{depositId}/paidBills", code: 200 })),
 ).annotate({
   identifier: "ListMeDepositPaidBillsRequest",
 }) as any as S.Schema<ListMeDepositPaidBillsRequest>;
@@ -10838,9 +9894,7 @@ export const ListMeDepositPaidBillsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListMeDocumentRequest {}
 export const ListMeDocumentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/document", code: 200 })),
-).annotate({
-  identifier: "ListMeDocumentRequest",
-}) as any as S.Schema<ListMeDocumentRequest>;
+).annotate({ identifier: "ListMeDocumentRequest" }) as any as S.Schema<ListMeDocumentRequest>;
 
 export type ListMeDocumentResponseBodyList = Array<string>;
 export const ListMeDocumentResponseBodyList = /*@__PURE__*/ S.Array(
@@ -10850,9 +9904,7 @@ export const ListMeDocumentResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMeDocumentResponse = ListMeDocumentResponseBodyList;
 export const ListMeDocumentResponse = /*@__PURE__*/ S.suspend(() =>
   ListMeDocumentResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMeDocumentResponse",
-}) as any as S.Schema<ListMeDocumentResponse>;
+).annotate({ identifier: "ListMeDocumentResponse" }) as any as S.Schema<ListMeDocumentResponse>;
 
 export interface ListMeDownPaymentInvoiceRequest {
   /** Filter the value of category property (=) */
@@ -10979,13 +10031,7 @@ export const ListMeFidelityAccountMovementsRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     date_from: S.optional(S.String.pipe(T.Query("date.from"))),
     date_to: S.optional(S.String.pipe(T.Query("date.to"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/fidelityAccount/movements",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/fidelityAccount/movements", code: 200 })),
 ).annotate({
   identifier: "ListMeFidelityAccountMovementsRequest",
 }) as any as S.Schema<ListMeFidelityAccountMovementsRequest>;
@@ -11028,13 +10074,7 @@ export interface ListMeIdentityGroupUserRequest {
 export const ListMeIdentityGroupUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     group: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/identity/group/{group}/user",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/identity/group/{group}/user", code: 200 })),
 ).annotate({
   identifier: "ListMeIdentityGroupUserRequest",
 }) as any as S.Schema<ListMeIdentityGroupUserRequest>;
@@ -11096,13 +10136,7 @@ export const ListMeIdentityUserTokenResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface ListMeIncidentSbgMigrateServicesRequest {}
 export const ListMeIncidentSbgMigrateServicesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/incident/sbg/migrateServices",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/incident/sbg/migrateServices", code: 200 })),
 ).annotate({
   identifier: "ListMeIncidentSbgMigrateServicesRequest",
 }) as any as S.Schema<ListMeIncidentSbgMigrateServicesRequest>;
@@ -11277,9 +10311,7 @@ export const MeIncidentProposedOffer = /*@__PURE__*/ S.suspend(() =>
     pricingMode: S.optional(S.String),
     promotion: S.optional(MeIncidentPercentagePromotion),
   }),
-).annotate({
-  identifier: "MeIncidentProposedOffer",
-}) as any as S.Schema<MeIncidentProposedOffer>;
+).annotate({ identifier: "MeIncidentProposedOffer" }) as any as S.Schema<MeIncidentProposedOffer>;
 
 /** Additional information on the service */
 export type MeIncidentServiceToMigrateMetadataList = Array<ComplexTypeSafeKeyValueString>;
@@ -11369,9 +10401,7 @@ export const ListMeIpOrganisationResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListMeLogAuditRequest {}
 export const ListMeLogAuditRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/logs/audit", code: 200 })),
-).annotate({
-  identifier: "ListMeLogAuditRequest",
-}) as any as S.Schema<ListMeLogAuditRequest>;
+).annotate({ identifier: "ListMeLogAuditRequest" }) as any as S.Schema<ListMeLogAuditRequest>;
 
 /** Authentication type */
 export type AuditLogAuthUserTypeEnum = "ACCOUNT" | "PROVIDER" | "USER";
@@ -11389,9 +10419,7 @@ export const AuditLogAuthUserDetails = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(AuditLogAuthUserTypeEnum),
     user: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "AuditLogAuthUserDetails",
-}) as any as S.Schema<AuditLogAuthUserDetails>;
+).annotate({ identifier: "AuditLogAuthUserDetails" }) as any as S.Schema<AuditLogAuthUserDetails>;
 
 /** Authentication details */
 export interface AuditLogAuthDetails {
@@ -11402,9 +10430,7 @@ export const AuditLogAuthDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     userDetails: S.optional(AuditLogAuthUserDetails),
   }),
-).annotate({
-  identifier: "AuditLogAuthDetails",
-}) as any as S.Schema<AuditLogAuthDetails>;
+).annotate({ identifier: "AuditLogAuthDetails" }) as any as S.Schema<AuditLogAuthDetails>;
 
 /** Specific fields for GROUP events */
 export interface AuditLogGroupDetails {
@@ -11421,9 +10447,7 @@ export const AuditLogGroupDetails = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     role: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AuditLogGroupDetails",
-}) as any as S.Schema<AuditLogGroupDetails>;
+).annotate({ identifier: "AuditLogGroupDetails" }) as any as S.Schema<AuditLogGroupDetails>;
 
 /** specific fields for GROUP_CREATED events */
 export interface AuditLogGroupCreatedDetails {
@@ -11527,9 +10551,7 @@ export const AuditLogPolicyChanges = /*@__PURE__*/ S.suspend(() =>
     identities: S.optional(S.NullOr(AuditLogPolicyChangesIdentitiesList)),
     resources: S.optional(S.NullOr(AuditLogPolicyChangesResourcesList)),
   }),
-).annotate({
-  identifier: "AuditLogPolicyChanges",
-}) as any as S.Schema<AuditLogPolicyChanges>;
+).annotate({ identifier: "AuditLogPolicyChanges" }) as any as S.Schema<AuditLogPolicyChanges>;
 
 /** Specific fields for POLICY events */
 export interface AuditLogPolicyDetails {
@@ -11543,9 +10565,7 @@ export const AuditLogPolicyDetails = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AuditLogPolicyDetails",
-}) as any as S.Schema<AuditLogPolicyDetails>;
+).annotate({ identifier: "AuditLogPolicyDetails" }) as any as S.Schema<AuditLogPolicyDetails>;
 
 /** specific fields for POLICY_CREATED events */
 export interface AuditLogPolicyCreatedDetails {
@@ -11637,9 +10657,7 @@ export const AuditLogProviderDetails = /*@__PURE__*/ S.suspend(() =>
     userAttributeName: S.optional(S.String),
     usersDisabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AuditLogProviderDetails",
-}) as any as S.Schema<AuditLogProviderDetails>;
+).annotate({ identifier: "AuditLogProviderDetails" }) as any as S.Schema<AuditLogProviderDetails>;
 
 /** specific fields for PROVIDER_CREATED events */
 export interface AuditLogProviderCreatedDetails {
@@ -11808,9 +10826,7 @@ export const AuditLogTokenDetails = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     expiresAt: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "AuditLogTokenDetails",
-}) as any as S.Schema<AuditLogTokenDetails>;
+).annotate({ identifier: "AuditLogTokenDetails" }) as any as S.Schema<AuditLogTokenDetails>;
 
 /** specific fields for TOKEN_CREATED events */
 export interface AuditLogTokenCreatedDetails {
@@ -11924,9 +10940,7 @@ export const AuditLogUserDetails = /*@__PURE__*/ S.suspend(() =>
     passwordRecoveryEmail: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
     userType: S.optional(S.NullOr(AuthUserTypeEnum)),
   }),
-).annotate({
-  identifier: "AuditLogUserDetails",
-}) as any as S.Schema<AuditLogUserDetails>;
+).annotate({ identifier: "AuditLogUserDetails" }) as any as S.Schema<AuditLogUserDetails>;
 
 /** specific fields for USER_CREATED events */
 export interface AuditLogUserCreatedDetails {
@@ -12098,9 +11112,7 @@ export const ListMeLogAuditResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMeLogAuditResponse = ListMeLogAuditResponseBodyList;
 export const ListMeLogAuditResponse = /*@__PURE__*/ S.suspend(() =>
   ListMeLogAuditResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMeLogAuditResponse",
-}) as any as S.Schema<ListMeLogAuditResponse>;
+).annotate({ identifier: "ListMeLogAuditResponse" }) as any as S.Schema<ListMeLogAuditResponse>;
 
 export interface ListMeLogAuditLogKindRequest {}
 export const ListMeLogAuditLogKindRequest = /*@__PURE__*/ S.suspend(() =>
@@ -12128,13 +11140,7 @@ export interface ListMeLogAuditLogSubscriptionRequest {
 export const ListMeLogAuditLogSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     kind: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/logs/audit/log/subscription",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/logs/audit/log/subscription", code: 200 })),
 ).annotate({
   identifier: "ListMeLogAuditLogSubscriptionRequest",
 }) as any as S.Schema<ListMeLogAuditLogSubscriptionRequest>;
@@ -12154,9 +11160,7 @@ export const ListMeLogAuditLogSubscriptionResponse = /*@__PURE__*/ S.suspend(() 
 export interface ListMeLogKindRequest {}
 export const ListMeLogKindRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/api/log/kind", code: 200 })),
-).annotate({
-  identifier: "ListMeLogKindRequest",
-}) as any as S.Schema<ListMeLogKindRequest>;
+).annotate({ identifier: "ListMeLogKindRequest" }) as any as S.Schema<ListMeLogKindRequest>;
 
 export type ListMeLogKindResponseBodyList = Array<string>;
 export const ListMeLogKindResponseBodyList = /*@__PURE__*/ S.Array(
@@ -12166,16 +11170,12 @@ export const ListMeLogKindResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMeLogKindResponse = ListMeLogKindResponseBodyList;
 export const ListMeLogKindResponse = /*@__PURE__*/ S.suspend(() =>
   ListMeLogKindResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMeLogKindResponse",
-}) as any as S.Schema<ListMeLogKindResponse>;
+).annotate({ identifier: "ListMeLogKindResponse" }) as any as S.Schema<ListMeLogKindResponse>;
 
 export interface ListMeLogSelfRequest {}
 export const ListMeLogSelfRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/api/logs/self", code: 200 })),
-).annotate({
-  identifier: "ListMeLogSelfRequest",
-}) as any as S.Schema<ListMeLogSelfRequest>;
+).annotate({ identifier: "ListMeLogSelfRequest" }) as any as S.Schema<ListMeLogSelfRequest>;
 
 export type ListMeLogSelfResponseBodyList = Array<number>;
 export const ListMeLogSelfResponseBodyList = /*@__PURE__*/ S.Array(
@@ -12185,16 +11185,12 @@ export const ListMeLogSelfResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMeLogSelfResponse = ListMeLogSelfResponseBodyList;
 export const ListMeLogSelfResponse = /*@__PURE__*/ S.suspend(() =>
   ListMeLogSelfResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMeLogSelfResponse",
-}) as any as S.Schema<ListMeLogSelfResponse>;
+).annotate({ identifier: "ListMeLogSelfResponse" }) as any as S.Schema<ListMeLogSelfResponse>;
 
 export interface ListMeLogServicesRequest {}
 export const ListMeLogServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/api/logs/services", code: 200 })),
-).annotate({
-  identifier: "ListMeLogServicesRequest",
-}) as any as S.Schema<ListMeLogServicesRequest>;
+).annotate({ identifier: "ListMeLogServicesRequest" }) as any as S.Schema<ListMeLogServicesRequest>;
 
 export type ListMeLogServicesResponseBodyList = Array<number>;
 export const ListMeLogServicesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -12234,13 +11230,7 @@ export const ListMeLogSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface ListMeMailingListAvailableListsRequest {}
 export const ListMeMailingListAvailableListsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/mailingList/availableLists",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/mailingList/availableLists", code: 200 })),
 ).annotate({
   identifier: "ListMeMailingListAvailableListsRequest",
 }) as any as S.Schema<ListMeMailingListAvailableListsRequest>;
@@ -12261,9 +11251,7 @@ export const ListMeMailingListAvailableListsResponse = /*@__PURE__*/ S.suspend((
 export interface ListMeMigrationRequest {}
 export const ListMeMigrationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/migration", code: 200 })),
-).annotate({
-  identifier: "ListMeMigrationRequest",
-}) as any as S.Schema<ListMeMigrationRequest>;
+).annotate({ identifier: "ListMeMigrationRequest" }) as any as S.Schema<ListMeMigrationRequest>;
 
 export type ListMeMigrationResponseBodyList = Array<number>;
 export const ListMeMigrationResponseBodyList = /*@__PURE__*/ S.Array(
@@ -12273,9 +11261,7 @@ export const ListMeMigrationResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMeMigrationResponse = ListMeMigrationResponseBodyList;
 export const ListMeMigrationResponse = /*@__PURE__*/ S.suspend(() =>
   ListMeMigrationResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMeMigrationResponse",
-}) as any as S.Schema<ListMeMigrationResponse>;
+).annotate({ identifier: "ListMeMigrationResponse" }) as any as S.Schema<ListMeMigrationResponse>;
 
 export interface ListMeMigrationContractRequest {
   /** Migration ID */
@@ -12284,13 +11270,7 @@ export interface ListMeMigrationContractRequest {
 export const ListMeMigrationContractRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     migrationId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/migration/{migrationId}/contract",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/migration/{migrationId}/contract", code: 200 })),
 ).annotate({
   identifier: "ListMeMigrationContractRequest",
 }) as any as S.Schema<ListMeMigrationContractRequest>;
@@ -12309,13 +11289,7 @@ export const ListMeMigrationContractResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface ListMeNotificationEmailHistoryRequest {}
 export const ListMeNotificationEmailHistoryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/notification/email/history",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/notification/email/history", code: 200 })),
 ).annotate({
   identifier: "ListMeNotificationEmailHistoryRequest",
 }) as any as S.Schema<ListMeNotificationEmailHistoryRequest>;
@@ -12354,9 +11328,7 @@ export const ListMeOauth2ClientResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListMeOauth2TokenRequest {}
 export const ListMeOauth2TokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/api/oauth2/token", code: 200 })),
-).annotate({
-  identifier: "ListMeOauth2TokenRequest",
-}) as any as S.Schema<ListMeOauth2TokenRequest>;
+).annotate({ identifier: "ListMeOauth2TokenRequest" }) as any as S.Schema<ListMeOauth2TokenRequest>;
 
 export type ListMeOauth2TokenResponseBodyList = Array<string>;
 export const ListMeOauth2TokenResponseBodyList = /*@__PURE__*/ S.Array(
@@ -12381,9 +11353,7 @@ export const ListMeOrderRequest = /*@__PURE__*/ S.suspend(() =>
     date_from: S.optional(S.String.pipe(T.Query("date.from"))),
     date_to: S.optional(S.String.pipe(T.Query("date.to"))),
   }).pipe(T.Http({ method: "GET", uri: "/me/order", code: 200 })),
-).annotate({
-  identifier: "ListMeOrderRequest",
-}) as any as S.Schema<ListMeOrderRequest>;
+).annotate({ identifier: "ListMeOrderRequest" }) as any as S.Schema<ListMeOrderRequest>;
 
 export type ListMeOrderResponseBodyList = Array<number>;
 export const ListMeOrderResponseBodyList = /*@__PURE__*/ S.Array(
@@ -12393,9 +11363,7 @@ export const ListMeOrderResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMeOrderResponse = ListMeOrderResponseBodyList;
 export const ListMeOrderResponse = /*@__PURE__*/ S.suspend(() =>
   ListMeOrderResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMeOrderResponse",
-}) as any as S.Schema<ListMeOrderResponse>;
+).annotate({ identifier: "ListMeOrderResponse" }) as any as S.Schema<ListMeOrderResponse>;
 
 export interface ListMeOrderAvailablePaymentMeanRequest {
   orderId: number;
@@ -12403,13 +11371,7 @@ export interface ListMeOrderAvailablePaymentMeanRequest {
 export const ListMeOrderAvailablePaymentMeanRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     orderId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/order/{orderId}/availablePaymentMean",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/order/{orderId}/availablePaymentMean", code: 200 })),
 ).annotate({
   identifier: "ListMeOrderAvailablePaymentMeanRequest",
 }) as any as S.Schema<ListMeOrderAvailablePaymentMeanRequest>;
@@ -12490,11 +11452,7 @@ export const ListMeOrderAvailableRegisteredPaymentMeanRequest = /*@__PURE__*/ S.
   S.Struct({
     orderId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/order/{orderId}/availableRegisteredPaymentMean",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/me/order/{orderId}/availableRegisteredPaymentMean", code: 200 }),
   ),
 ).annotate({
   identifier: "ListMeOrderAvailableRegisteredPaymentMeanRequest",
@@ -12558,13 +11516,7 @@ export const ListMeOrderDebtOperationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     orderId: S.Number.pipe(T.Label()),
     depositOrderId: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/order/{orderId}/debt/operation",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/order/{orderId}/debt/operation", code: 200 })),
 ).annotate({
   identifier: "ListMeOrderDebtOperationRequest",
 }) as any as S.Schema<ListMeOrderDebtOperationRequest>;
@@ -12680,9 +11632,7 @@ export const BillingOrderFollowUp = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(BillingOrderFollowUpStatusEnum),
     step: S.optional(BillingOrderFollowUpStepEnum),
   }),
-).annotate({
-  identifier: "BillingOrderFollowUp",
-}) as any as S.Schema<BillingOrderFollowUp>;
+).annotate({ identifier: "BillingOrderFollowUp" }) as any as S.Schema<BillingOrderFollowUp>;
 
 export type ListMeOrderFollowUpResponseBodyList = Array<BillingOrderFollowUp>;
 export const ListMeOrderFollowUpResponseBodyList = /*@__PURE__*/ S.Array(
@@ -12702,13 +11652,7 @@ export interface ListMeOrderPaymentMeansRequest {
 export const ListMeOrderPaymentMeansRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     orderId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/order/{orderId}/paymentMeans",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/order/{orderId}/paymentMeans", code: 200 })),
 ).annotate({
   identifier: "ListMeOrderPaymentMeansRequest",
 }) as any as S.Schema<ListMeOrderPaymentMeansRequest>;
@@ -12774,9 +11718,7 @@ export const BillingOrderPaymentMean = /*@__PURE__*/ S.suspend(() =>
     subType: S.optional(S.NullOr(S.String)),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BillingOrderPaymentMean",
-}) as any as S.Schema<BillingOrderPaymentMean>;
+).annotate({ identifier: "BillingOrderPaymentMean" }) as any as S.Schema<BillingOrderPaymentMean>;
 
 export type BillingOrderPaymentMeansCreditCardList = Array<BillingOrderPaymentMean>;
 export const BillingOrderPaymentMeansCreditCardList = /*@__PURE__*/ S.Array(
@@ -12840,9 +11782,7 @@ export const BillingOrderPaymentMeans = /*@__PURE__*/ S.suspend(() =>
     paypal: S.optional(S.NullOr(BillingOrderPaymentMeansPaypalList)),
     promotion: S.optional(S.NullOr(BillingOrderPaymentMeansPromotionList)),
   }),
-).annotate({
-  identifier: "BillingOrderPaymentMeans",
-}) as any as S.Schema<BillingOrderPaymentMeans>;
+).annotate({ identifier: "BillingOrderPaymentMeans" }) as any as S.Schema<BillingOrderPaymentMeans>;
 
 export interface ListMeOrderPaymentMethodsRequest {
   orderId: number;
@@ -12850,13 +11790,7 @@ export interface ListMeOrderPaymentMethodsRequest {
 export const ListMeOrderPaymentMethodsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     orderId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/order/{orderId}/paymentMethods",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/order/{orderId}/paymentMethods", code: 200 })),
 ).annotate({
   identifier: "ListMeOrderPaymentMethodsRequest",
 }) as any as S.Schema<ListMeOrderPaymentMethodsRequest>;
@@ -12876,9 +11810,7 @@ export const PaymentMethodIcon = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     url: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "PaymentMethodIcon",
-}) as any as S.Schema<PaymentMethodIcon>;
+).annotate({ identifier: "PaymentMethodIcon" }) as any as S.Schema<PaymentMethodIcon>;
 
 /** Payment method integration type */
 export type PaymentMethodIntegrationType =
@@ -13070,9 +12002,7 @@ export const BillingOrderPaymentMethods = /*@__PURE__*/ S.suspend(() =>
 export interface ListMeOvhAccountRequest {}
 export const ListMeOvhAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/ovhAccount", code: 200 })),
-).annotate({
-  identifier: "ListMeOvhAccountRequest",
-}) as any as S.Schema<ListMeOvhAccountRequest>;
+).annotate({ identifier: "ListMeOvhAccountRequest" }) as any as S.Schema<ListMeOvhAccountRequest>;
 
 export type ListMeOvhAccountResponseBodyList = Array<string>;
 export const ListMeOvhAccountResponseBodyList = /*@__PURE__*/ S.Array(
@@ -13082,9 +12012,7 @@ export const ListMeOvhAccountResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMeOvhAccountResponse = ListMeOvhAccountResponseBodyList;
 export const ListMeOvhAccountResponse = /*@__PURE__*/ S.suspend(() =>
   ListMeOvhAccountResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMeOvhAccountResponse",
-}) as any as S.Schema<ListMeOvhAccountResponse>;
+).annotate({ identifier: "ListMeOvhAccountResponse" }) as any as S.Schema<ListMeOvhAccountResponse>;
 
 export interface ListMeOvhAccountMovementsRequest {
   ovhAccountId: string;
@@ -13098,13 +12026,7 @@ export const ListMeOvhAccountMovementsRequest = /*@__PURE__*/ S.suspend(() =>
     ovhAccountId: S.String.pipe(T.Label()),
     date_from: S.optional(S.String.pipe(T.Query("date.from"))),
     date_to: S.optional(S.String.pipe(T.Query("date.to"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/ovhAccount/{ovhAccountId}/movements",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/ovhAccount/{ovhAccountId}/movements", code: 200 })),
 ).annotate({
   identifier: "ListMeOvhAccountMovementsRequest",
 }) as any as S.Schema<ListMeOvhAccountMovementsRequest>;
@@ -13183,11 +12105,7 @@ export const ListMePaymentAvailableMethodsResponse = /*@__PURE__*/ S.suspend(() 
 export interface ListMePaymentMeanDeferredPaymentAccountRequest {}
 export const ListMePaymentMeanDeferredPaymentAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/paymentMean/deferredPaymentAccount",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/me/paymentMean/deferredPaymentAccount", code: 200 }),
   ),
 ).annotate({
   identifier: "ListMePaymentMeanDeferredPaymentAccountRequest",
@@ -13390,9 +12308,7 @@ export const ListMeRefundRequest = /*@__PURE__*/ S.suspend(() =>
     date_to: S.optional(S.String.pipe(T.Query("date.to"))),
     orderId: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/me/refund", code: 200 })),
-).annotate({
-  identifier: "ListMeRefundRequest",
-}) as any as S.Schema<ListMeRefundRequest>;
+).annotate({ identifier: "ListMeRefundRequest" }) as any as S.Schema<ListMeRefundRequest>;
 
 export type ListMeRefundResponseBodyList = Array<string>;
 export const ListMeRefundResponseBodyList = /*@__PURE__*/ S.Array(
@@ -13402,9 +12318,7 @@ export const ListMeRefundResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMeRefundResponse = ListMeRefundResponseBodyList;
 export const ListMeRefundResponse = /*@__PURE__*/ S.suspend(() =>
   ListMeRefundResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMeRefundResponse",
-}) as any as S.Schema<ListMeRefundResponse>;
+).annotate({ identifier: "ListMeRefundResponse" }) as any as S.Schema<ListMeRefundResponse>;
 
 export interface ListMeRefundDetailsRequest {
   refundId: string;
@@ -13463,9 +12377,7 @@ export const ServicesExpandedRoute = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.NullOr(S.String)),
     vars: S.optional(ServicesExpandedRouteVarsList),
   }),
-).annotate({
-  identifier: "ServicesExpandedRoute",
-}) as any as S.Schema<ServicesExpandedRoute>;
+).annotate({ identifier: "ServicesExpandedRoute" }) as any as S.Schema<ServicesExpandedRoute>;
 
 /** Description of a service being repricing */
 export interface MeRepricingService {
@@ -13521,9 +12433,7 @@ export const MeRepricingService = /*@__PURE__*/ S.suspend(() =>
     totalPriceBeforeWithTax: S.optional(OrderPrice),
     totalPriceBeforeWithoutTax: S.optional(OrderPrice),
   }),
-).annotate({
-  identifier: "MeRepricingService",
-}) as any as S.Schema<MeRepricingService>;
+).annotate({ identifier: "MeRepricingService" }) as any as S.Schema<MeRepricingService>;
 
 export type ListMeRepricingFall22ResponseBodyList = Array<MeRepricingService>;
 export const ListMeRepricingFall22ResponseBodyList = /*@__PURE__*/ S.Array(
@@ -13551,9 +12461,7 @@ export const ListMeReverseBillRequest = /*@__PURE__*/ S.suspend(() =>
     date_to: S.optional(S.String.pipe(T.Query("date.to"))),
     orderId: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/me/reverseBill", code: 200 })),
-).annotate({
-  identifier: "ListMeReverseBillRequest",
-}) as any as S.Schema<ListMeReverseBillRequest>;
+).annotate({ identifier: "ListMeReverseBillRequest" }) as any as S.Schema<ListMeReverseBillRequest>;
 
 export type ListMeReverseBillResponseBodyList = Array<string>;
 export const ListMeReverseBillResponseBodyList = /*@__PURE__*/ S.Array(
@@ -13573,13 +12481,7 @@ export interface ListMeReverseBillDetailsRequest {
 export const ListMeReverseBillDetailsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reverseBillId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/reverseBill/{reverseBillId}/details",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/reverseBill/{reverseBillId}/details", code: 200 })),
 ).annotate({
   identifier: "ListMeReverseBillDetailsRequest",
 }) as any as S.Schema<ListMeReverseBillDetailsRequest>;
@@ -13599,9 +12501,7 @@ export const ListMeReverseBillDetailsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListMeSlaRequest {}
 export const ListMeSlaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/sla", code: 200 })),
-).annotate({
-  identifier: "ListMeSlaRequest",
-}) as any as S.Schema<ListMeSlaRequest>;
+).annotate({ identifier: "ListMeSlaRequest" }) as any as S.Schema<ListMeSlaRequest>;
 
 export type ListMeSlaResponseBodyList = Array<number>;
 export const ListMeSlaResponseBodyList = /*@__PURE__*/ S.Array(
@@ -13611,9 +12511,7 @@ export const ListMeSlaResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMeSlaResponse = ListMeSlaResponseBodyList;
 export const ListMeSlaResponse = /*@__PURE__*/ S.suspend(() =>
   ListMeSlaResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMeSlaResponse",
-}) as any as S.Schema<ListMeSlaResponse>;
+).annotate({ identifier: "ListMeSlaResponse" }) as any as S.Schema<ListMeSlaResponse>;
 
 export interface ListMeSlaServicesRequest {
   /** Id of the object */
@@ -13623,9 +12521,7 @@ export const ListMeSlaServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/me/sla/{id}/services", code: 200 })),
-).annotate({
-  identifier: "ListMeSlaServicesRequest",
-}) as any as S.Schema<ListMeSlaServicesRequest>;
+).annotate({ identifier: "ListMeSlaServicesRequest" }) as any as S.Schema<ListMeSlaServicesRequest>;
 
 /** Describe all services impacted by SLA */
 export interface BillingSlaOperationService {
@@ -13664,9 +12560,7 @@ export const ListMeSlaServicesResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListMeSshKeyRequest {}
 export const ListMeSshKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/sshKey", code: 200 })),
-).annotate({
-  identifier: "ListMeSshKeyRequest",
-}) as any as S.Schema<ListMeSshKeyRequest>;
+).annotate({ identifier: "ListMeSshKeyRequest" }) as any as S.Schema<ListMeSshKeyRequest>;
 
 export type ListMeSshKeyResponseBodyList = Array<string>;
 export const ListMeSshKeyResponseBodyList = /*@__PURE__*/ S.Array(
@@ -13676,16 +12570,12 @@ export const ListMeSshKeyResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMeSshKeyResponse = ListMeSshKeyResponseBodyList;
 export const ListMeSshKeyResponse = /*@__PURE__*/ S.suspend(() =>
   ListMeSshKeyResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMeSshKeyResponse",
-}) as any as S.Schema<ListMeSshKeyResponse>;
+).annotate({ identifier: "ListMeSshKeyResponse" }) as any as S.Schema<ListMeSshKeyResponse>;
 
 export interface ListMeSubAccountRequest {}
 export const ListMeSubAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/subAccount", code: 200 })),
-).annotate({
-  identifier: "ListMeSubAccountRequest",
-}) as any as S.Schema<ListMeSubAccountRequest>;
+).annotate({ identifier: "ListMeSubAccountRequest" }) as any as S.Schema<ListMeSubAccountRequest>;
 
 export type ListMeSubAccountResponseBodyList = Array<number>;
 export const ListMeSubAccountResponseBodyList = /*@__PURE__*/ S.Array(
@@ -13695,16 +12585,12 @@ export const ListMeSubAccountResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMeSubAccountResponse = ListMeSubAccountResponseBodyList;
 export const ListMeSubAccountResponse = /*@__PURE__*/ S.suspend(() =>
   ListMeSubAccountResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMeSubAccountResponse",
-}) as any as S.Schema<ListMeSubAccountResponse>;
+).annotate({ identifier: "ListMeSubAccountResponse" }) as any as S.Schema<ListMeSubAccountResponse>;
 
 export interface ListMeTagRequest {}
 export const ListMeTagRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/me/tag", code: 200 })),
-).annotate({
-  identifier: "ListMeTagRequest",
-}) as any as S.Schema<ListMeTagRequest>;
+).annotate({ identifier: "ListMeTagRequest" }) as any as S.Schema<ListMeTagRequest>;
 
 export type ListMeTagResponseBodyList = Array<string>;
 export const ListMeTagResponseBodyList = /*@__PURE__*/ S.Array(
@@ -13714,9 +12600,7 @@ export const ListMeTagResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMeTagResponse = ListMeTagResponseBodyList;
 export const ListMeTagResponse = /*@__PURE__*/ S.suspend(() =>
   ListMeTagResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMeTagResponse",
-}) as any as S.Schema<ListMeTagResponse>;
+).annotate({ identifier: "ListMeTagResponse" }) as any as S.Schema<ListMeTagResponse>;
 
 export interface ListMeTagAvailableRequest {}
 export const ListMeTagAvailableRequest = /*@__PURE__*/ S.suspend(() =>
@@ -13782,9 +12666,7 @@ export const MeTagAvailableTag = /*@__PURE__*/ S.suspend(() =>
     keys: S.optional(MeTagAvailableTagKeysList),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MeTagAvailableTag",
-}) as any as S.Schema<MeTagAvailableTag>;
+).annotate({ identifier: "MeTagAvailableTag" }) as any as S.Schema<MeTagAvailableTag>;
 
 export type ListMeTagAvailableResponseBodyList = Array<MeTagAvailableTag>;
 export const ListMeTagAvailableResponseBodyList = /*@__PURE__*/ S.Array(
@@ -13839,9 +12721,7 @@ export const ListMeTaskDnsRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(DomainTaskStatusEnum.pipe(T.Query())),
     zone: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/me/task/dns", code: 200 })),
-).annotate({
-  identifier: "ListMeTaskDnsRequest",
-}) as any as S.Schema<ListMeTaskDnsRequest>;
+).annotate({ identifier: "ListMeTaskDnsRequest" }) as any as S.Schema<ListMeTaskDnsRequest>;
 
 export type ListMeTaskDnsResponseBodyList = Array<number>;
 export const ListMeTaskDnsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -13851,9 +12731,7 @@ export const ListMeTaskDnsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMeTaskDnsResponse = ListMeTaskDnsResponseBodyList;
 export const ListMeTaskDnsResponse = /*@__PURE__*/ S.suspend(() =>
   ListMeTaskDnsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMeTaskDnsResponse",
-}) as any as S.Schema<ListMeTaskDnsResponse>;
+).annotate({ identifier: "ListMeTaskDnsResponse" }) as any as S.Schema<ListMeTaskDnsResponse>;
 
 /** Operation functions */
 export type DomainOperationFunctionEnum =
@@ -13912,9 +12790,7 @@ export const ListMeTaskDomainRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(DomainOperationStatusEnum.pipe(T.Query())),
     type: S.optional(DomainOperationTypeEnum.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/me/task/domain", code: 200 })),
-).annotate({
-  identifier: "ListMeTaskDomainRequest",
-}) as any as S.Schema<ListMeTaskDomainRequest>;
+).annotate({ identifier: "ListMeTaskDomainRequest" }) as any as S.Schema<ListMeTaskDomainRequest>;
 
 export type ListMeTaskDomainResponseBodyList = Array<number>;
 export const ListMeTaskDomainResponseBodyList = /*@__PURE__*/ S.Array(
@@ -13924,9 +12800,7 @@ export const ListMeTaskDomainResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMeTaskDomainResponse = ListMeTaskDomainResponseBodyList;
 export const ListMeTaskDomainResponse = /*@__PURE__*/ S.suspend(() =>
   ListMeTaskDomainResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMeTaskDomainResponse",
-}) as any as S.Schema<ListMeTaskDomainResponse>;
+).annotate({ identifier: "ListMeTaskDomainResponse" }) as any as S.Schema<ListMeTaskDomainResponse>;
 
 export interface ListMeTaskDomainArgumentRequest {
   /** Id */
@@ -13979,11 +12853,7 @@ export const ListMeTaskEmailChangeResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListMeTelephonyDefaultIpRestrictionRequest {}
 export const ListMeTelephonyDefaultIpRestrictionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/telephony/defaultIpRestriction",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/me/telephony/defaultIpRestriction", code: 200 }),
   ),
 ).annotate({
   identifier: "ListMeTelephonyDefaultIpRestrictionRequest",
@@ -14034,11 +12904,7 @@ export const ListMeVoucherAccountMovementsRequest = /*@__PURE__*/ S.suspend(() =
     date_from: S.optional(S.String.pipe(T.Query("date.from"))),
     date_to: S.optional(S.String.pipe(T.Query("date.to"))),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/voucherAccount/{voucherAccountId}/movements",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/me/voucherAccount/{voucherAccountId}/movements", code: 200 }),
   ),
 ).annotate({
   identifier: "ListMeVoucherAccountMovementsRequest",
@@ -14070,9 +12936,7 @@ export const ListMeWithdrawalRequest = /*@__PURE__*/ S.suspend(() =>
     date_to: S.optional(S.String.pipe(T.Query("date.to"))),
     orderId: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/me/withdrawal", code: 200 })),
-).annotate({
-  identifier: "ListMeWithdrawalRequest",
-}) as any as S.Schema<ListMeWithdrawalRequest>;
+).annotate({ identifier: "ListMeWithdrawalRequest" }) as any as S.Schema<ListMeWithdrawalRequest>;
 
 export type ListMeWithdrawalResponseBodyList = Array<string>;
 export const ListMeWithdrawalResponseBodyList = /*@__PURE__*/ S.Array(
@@ -14082,9 +12946,7 @@ export const ListMeWithdrawalResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMeWithdrawalResponse = ListMeWithdrawalResponseBodyList;
 export const ListMeWithdrawalResponse = /*@__PURE__*/ S.suspend(() =>
   ListMeWithdrawalResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMeWithdrawalResponse",
-}) as any as S.Schema<ListMeWithdrawalResponse>;
+).annotate({ identifier: "ListMeWithdrawalResponse" }) as any as S.Schema<ListMeWithdrawalResponse>;
 
 export interface ListMeWithdrawalDetailsRequest {
   withdrawalId: string;
@@ -14092,13 +12954,7 @@ export interface ListMeWithdrawalDetailsRequest {
 export const ListMeWithdrawalDetailsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     withdrawalId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/me/withdrawal/{withdrawalId}/details",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/me/withdrawal/{withdrawalId}/details", code: 200 })),
 ).annotate({
   identifier: "ListMeWithdrawalDetailsRequest",
 }) as any as S.Schema<ListMeWithdrawalDetailsRequest>;
@@ -14131,13 +12987,7 @@ export const MigrateMeIncidentSbgServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dryRun: S.optional(S.Boolean),
     serviceIds: S.optional(MigrateMeIncidentSbgServicesRequestServiceIdsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/incident/sbg/migrateServices",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/incident/sbg/migrateServices", code: 200 })),
 ).annotate({
   identifier: "MigrateMeIncidentSbgServicesRequest",
 }) as any as S.Schema<MigrateMeIncidentSbgServicesRequest>;
@@ -14241,9 +13091,7 @@ export const OrderOrderDetail = /*@__PURE__*/ S.suspend(() =>
     totalPrice: S.optional(OrderPrice),
     unitPrice: S.optional(OrderPrice),
   }),
-).annotate({
-  identifier: "OrderOrderDetail",
-}) as any as S.Schema<OrderOrderDetail>;
+).annotate({ identifier: "OrderOrderDetail" }) as any as S.Schema<OrderOrderDetail>;
 
 /** Details of the order */
 export type OrderOrderDetailsList = Array<OrderOrderDetail>;
@@ -14272,9 +13120,7 @@ export const OrderOrderPrices = /*@__PURE__*/ S.suspend(() =>
     withTax: S.optional(OrderPrice),
     withoutTax: S.optional(OrderPrice),
   }),
-).annotate({
-  identifier: "OrderOrderPrices",
-}) as any as S.Schema<OrderOrderPrices>;
+).annotate({ identifier: "OrderOrderPrices" }) as any as S.Schema<OrderOrderPrices>;
 
 /** An order */
 export interface OrderOrder {
@@ -14308,9 +13154,7 @@ export const MeIncidentOrder = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     order: S.optional(OrderOrder),
   }),
-).annotate({
-  identifier: "MeIncidentOrder",
-}) as any as S.Schema<MeIncidentOrder>;
+).annotate({ identifier: "MeIncidentOrder" }) as any as S.Schema<MeIncidentOrder>;
 
 export interface PutMeAccessRestrictionDeveloperModeRequest {
   /** Allow login on your account on a development version of the Manager */
@@ -14319,13 +13163,7 @@ export interface PutMeAccessRestrictionDeveloperModeRequest {
 export const PutMeAccessRestrictionDeveloperModeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/me/accessRestriction/developerMode",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/me/accessRestriction/developerMode", code: 200 })),
 ).annotate({
   identifier: "PutMeAccessRestrictionDeveloperModeRequest",
 }) as any as S.Schema<PutMeAccessRestrictionDeveloperModeRequest>;
@@ -14372,13 +13210,7 @@ export const PutMeAccessRestrictionIpDefaultRuleRequest = /*@__PURE__*/ S.suspen
   S.Struct({
     rule: S.optional(NichandleAccessRestrictionIpRestrictionRuleEnum),
     warning: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/me/accessRestriction/ipDefaultRule",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/me/accessRestriction/ipDefaultRule", code: 200 })),
 ).annotate({
   identifier: "PutMeAccessRestrictionIpDefaultRuleRequest",
 }) as any as S.Schema<PutMeAccessRestrictionIpDefaultRuleRequest>;
@@ -14422,13 +13254,7 @@ export const PutMeAccessRestrictionTotpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
     description: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/me/accessRestriction/totp/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/me/accessRestriction/totp/{id}", code: 200 })),
 ).annotate({
   identifier: "PutMeAccessRestrictionTotpRequest",
 }) as any as S.Schema<PutMeAccessRestrictionTotpRequest>;
@@ -14473,9 +13299,7 @@ export const PutMeAutorenewRequest = /*@__PURE__*/ S.suspend(() =>
     active: S.optional(S.Boolean),
     renewDay: S.optional(S.Number),
   }).pipe(T.Http({ method: "PUT", uri: "/me/autorenew", code: 200 })),
-).annotate({
-  identifier: "PutMeAutorenewRequest",
-}) as any as S.Schema<PutMeAutorenewRequest>;
+).annotate({ identifier: "PutMeAutorenewRequest" }) as any as S.Schema<PutMeAutorenewRequest>;
 
 export interface PutMeAutorenewResponse {}
 export const PutMeAutorenewResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -14499,9 +13323,7 @@ export const PutMeBillingGroupRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     paymentMethodId: S.optional(S.NullOr(S.Number)),
   }).pipe(T.Http({ method: "PUT", uri: "/me/billing/group/{groupId}", code: 200 })),
-).annotate({
-  identifier: "PutMeBillingGroupRequest",
-}) as any as S.Schema<PutMeBillingGroupRequest>;
+).annotate({ identifier: "PutMeBillingGroupRequest" }) as any as S.Schema<PutMeBillingGroupRequest>;
 
 export interface PutMeBillingGroupResponse {}
 export const PutMeBillingGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -14558,13 +13380,7 @@ export const PutMeConsentDecisionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     campaignName: S.String.pipe(T.Label()),
     value: S.Boolean,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/me/consent/{campaignName}/decision",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/me/consent/{campaignName}/decision", code: 200 })),
 ).annotate({
   identifier: "PutMeConsentDecisionRequest",
 }) as any as S.Schema<PutMeConsentDecisionRequest>;
@@ -14645,9 +13461,7 @@ export const PutMeContactRequest = /*@__PURE__*/ S.suspend(() =>
     spareEmail: S.optional(S.NullOr(S.String)),
     vat: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PUT", uri: "/me/contact/{contactId}", code: 200 })),
-).annotate({
-  identifier: "PutMeContactRequest",
-}) as any as S.Schema<PutMeContactRequest>;
+).annotate({ identifier: "PutMeContactRequest" }) as any as S.Schema<PutMeContactRequest>;
 
 /** If defined, list of ip blocks which are allowed to call API with this credential */
 export type PutMeCredentialRequestAllowedIPsList = Array<string>;
@@ -14665,16 +13479,8 @@ export const PutMeCredentialRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     credentialId: S.Number.pipe(T.Label()),
     allowedIPs: S.optional(S.NullOr(PutMeCredentialRequestAllowedIPsList)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/me/api/credential/{credentialId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutMeCredentialRequest",
-}) as any as S.Schema<PutMeCredentialRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/me/api/credential/{credentialId}", code: 200 })),
+).annotate({ identifier: "PutMeCredentialRequest" }) as any as S.Schema<PutMeCredentialRequest>;
 
 export interface PutMeCredentialResponse {}
 export const PutMeCredentialResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -14692,9 +13498,7 @@ export const PutMeDocumentRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     expirationDate: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PUT", uri: "/me/document/{id}", code: 200 })),
-).annotate({
-  identifier: "PutMeDocumentRequest",
-}) as any as S.Schema<PutMeDocumentRequest>;
+).annotate({ identifier: "PutMeDocumentRequest" }) as any as S.Schema<PutMeDocumentRequest>;
 
 export interface PutMeDocumentResponse {}
 export const PutMeDocumentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -14786,9 +13590,7 @@ export const PutMeIdentityUserRequest = /*@__PURE__*/ S.suspend(() =>
     email: S.optional(S.NullOr(S.String)),
     group: S.optional(S.String),
   }).pipe(T.Http({ method: "PUT", uri: "/me/identity/user/{user}", code: 200 })),
-).annotate({
-  identifier: "PutMeIdentityUserRequest",
-}) as any as S.Schema<PutMeIdentityUserRequest>;
+).annotate({ identifier: "PutMeIdentityUserRequest" }) as any as S.Schema<PutMeIdentityUserRequest>;
 
 export interface PutMeIdentityUserResponse {}
 export const PutMeIdentityUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -14814,13 +13616,7 @@ export const PutMeIdentityUserTokenRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     expiresAt: S.optional(S.NullOr(S.String)),
     expiresIn: S.optional(S.NullOr(S.Number)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/me/identity/user/{user}/token/{name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/me/identity/user/{user}/token/{name}", code: 200 })),
 ).annotate({
   identifier: "PutMeIdentityUserTokenRequest",
 }) as any as S.Schema<PutMeIdentityUserTokenRequest>;
@@ -14849,13 +13645,7 @@ export const PutMeIpOrganisationRequest = /*@__PURE__*/ S.suspend(() =>
     phone: S.optional(S.String),
     state: S.optional(S.NullOr(S.String)),
     zip: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/me/ipOrganisation/{organisationId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/me/ipOrganisation/{organisationId}", code: 200 })),
 ).annotate({
   identifier: "PutMeIpOrganisationRequest",
 }) as any as S.Schema<PutMeIpOrganisationRequest>;
@@ -14885,9 +13675,7 @@ export const PutMeMarketingRequest = /*@__PURE__*/ S.suspend(() =>
     email: S.optional(MeMarketingConsentDetails),
     sms: S.optional(MeMarketingConsentDetails),
   }).pipe(T.Http({ method: "PUT", uri: "/me/marketing", code: 200 })),
-).annotate({
-  identifier: "PutMeMarketingRequest",
-}) as any as S.Schema<PutMeMarketingRequest>;
+).annotate({ identifier: "PutMeMarketingRequest" }) as any as S.Schema<PutMeMarketingRequest>;
 
 /** allowed callback urls */
 export type PutMeOauth2ClientRequestCallbackUrlsList = Array<string>;
@@ -14911,16 +13699,8 @@ export const PutMeOauth2ClientRequest = /*@__PURE__*/ S.suspend(() =>
     callbackUrls: S.optional(S.NullOr(PutMeOauth2ClientRequestCallbackUrlsList)),
     description: S.optional(S.String),
     name: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/me/api/oauth2/client/{clientId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutMeOauth2ClientRequest",
-}) as any as S.Schema<PutMeOauth2ClientRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/me/api/oauth2/client/{clientId}", code: 200 })),
+).annotate({ identifier: "PutMeOauth2ClientRequest" }) as any as S.Schema<PutMeOauth2ClientRequest>;
 
 export interface PutMeOauth2ClientResponse {}
 export const PutMeOauth2ClientResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -14936,9 +13716,7 @@ export const PutMeOvhAccountRequest = /*@__PURE__*/ S.suspend(() =>
     ovhAccountId: S.String.pipe(T.Label()),
     alertThreshold: S.optional(S.NullOr(S.Number)),
   }).pipe(T.Http({ method: "PUT", uri: "/me/ovhAccount/{ovhAccountId}", code: 200 })),
-).annotate({
-  identifier: "PutMeOvhAccountRequest",
-}) as any as S.Schema<PutMeOvhAccountRequest>;
+).annotate({ identifier: "PutMeOvhAccountRequest" }) as any as S.Schema<PutMeOvhAccountRequest>;
 
 export interface PutMeOvhAccountResponse {}
 export const PutMeOvhAccountResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -14955,13 +13733,7 @@ export const PutMePaymentMeanDeferredPaymentAccountRequest = /*@__PURE__*/ S.sus
   S.Struct({
     id: S.Number.pipe(T.Label()),
     description: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/me/paymentMean/deferredPaymentAccount/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/me/paymentMean/deferredPaymentAccount/{id}", code: 200 })),
 ).annotate({
   identifier: "PutMePaymentMeanDeferredPaymentAccountRequest",
 }) as any as S.Schema<PutMePaymentMeanDeferredPaymentAccountRequest>;
@@ -14986,13 +13758,7 @@ export const PutMePaymentMethodRequest = /*@__PURE__*/ S.suspend(() =>
     paymentMethodId: S.Number.pipe(T.Label()),
     default: S.optional(S.Boolean),
     description: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/me/payment/method/{paymentMethodId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/me/payment/method/{paymentMethodId}", code: 200 })),
 ).annotate({
   identifier: "PutMePaymentMethodRequest",
 }) as any as S.Schema<PutMePaymentMethodRequest>;
@@ -15028,9 +13794,7 @@ export const PutMeSubAccountRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     description: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PUT", uri: "/me/subAccount/{id}", code: 200 })),
-).annotate({
-  identifier: "PutMeSubAccountRequest",
-}) as any as S.Schema<PutMeSubAccountRequest>;
+).annotate({ identifier: "PutMeSubAccountRequest" }) as any as S.Schema<PutMeSubAccountRequest>;
 
 export interface PutMeSubAccountResponse {}
 export const PutMeSubAccountResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -15050,22 +13814,14 @@ export const PutMeTaskDomainArgumentRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     key: S.String.pipe(T.Label()),
     value: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/me/task/domain/{id}/argument/{key}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/me/task/domain/{id}/argument/{key}", code: 200 })),
 ).annotate({
   identifier: "PutMeTaskDomainArgumentRequest",
 }) as any as S.Schema<PutMeTaskDomainArgumentRequest>;
 
 export interface PutMeTaskDomainArgumentResponse {}
 export const PutMeTaskDomainArgumentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "PutMeTaskDomainArgumentResponse",
-  },
+  { identifier: "PutMeTaskDomainArgumentResponse" },
 ) as any as S.Schema<PutMeTaskDomainArgumentResponse>;
 
 export interface ResendMeTaskContactChangeEmailRequest {
@@ -15074,13 +13830,7 @@ export interface ResendMeTaskContactChangeEmailRequest {
 export const ResendMeTaskContactChangeEmailRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/task/contactChange/{id}/resendEmail",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/task/contactChange/{id}/resendEmail", code: 200 })),
 ).annotate({
   identifier: "ResendMeTaskContactChangeEmailRequest",
 }) as any as S.Schema<ResendMeTaskContactChangeEmailRequest>;
@@ -15099,13 +13849,7 @@ export interface SendMeAccessRestrictionSmsCodeRequest {
 export const SendMeAccessRestrictionSmsCodeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/accessRestriction/sms/{id}/sendCode",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/accessRestriction/sms/{id}/sendCode", code: 200 })),
 ).annotate({
   identifier: "SendMeAccessRestrictionSmsCodeRequest",
 }) as any as S.Schema<SendMeAccessRestrictionSmsCodeRequest>;
@@ -15149,13 +13893,7 @@ export interface ValidateMeAccessRestrictionBackupCodeRequest {
 export const ValidateMeAccessRestrictionBackupCodeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     code: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/accessRestriction/backupCode/validate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/accessRestriction/backupCode/validate", code: 200 })),
 ).annotate({
   identifier: "ValidateMeAccessRestrictionBackupCodeRequest",
 }) as any as S.Schema<ValidateMeAccessRestrictionBackupCodeRequest>;
@@ -15182,13 +13920,7 @@ export const ValidateMeAccessRestrictionSmsRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     id: S.Number.pipe(T.Label()),
     code: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/accessRestriction/sms/{id}/validate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/accessRestriction/sms/{id}/validate", code: 200 })),
 ).annotate({
   identifier: "ValidateMeAccessRestrictionSmsRequest",
 }) as any as S.Schema<ValidateMeAccessRestrictionSmsRequest>;
@@ -15210,13 +13942,7 @@ export const ValidateMeAccessRestrictionTotpRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     id: S.Number.pipe(T.Label()),
     code: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/accessRestriction/totp/{id}/validate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/accessRestriction/totp/{id}/validate", code: 200 })),
 ).annotate({
   identifier: "ValidateMeAccessRestrictionTotpRequest",
 }) as any as S.Schema<ValidateMeAccessRestrictionTotpRequest>;
@@ -15241,13 +13967,7 @@ export const ValidateMeAccessRestrictionU2fRequest = /*@__PURE__*/ S.suspend(() 
     attestationObject: S.String,
     clientDataJSON: S.String,
     rawId: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/me/accessRestriction/u2f/{id}/validate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/me/accessRestriction/u2f/{id}/validate", code: 200 })),
 ).annotate({
   identifier: "ValidateMeAccessRestrictionU2fRequest",
 }) as any as S.Schema<ValidateMeAccessRestrictionU2fRequest>;

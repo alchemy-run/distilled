@@ -202,11 +202,14 @@ export type QuickSearchPostRequestLang = QuickSearchPostRequestLangCase0 | strin
 export const QuickSearchPostRequestLang = S.Unknown as any as S.Schema<QuickSearchPostRequestLang>;
 
 export type QuickSearchPostRequestLibraryCase0 =
+  | "aadya-neural"
   | "acestep"
   | "adapter-transformers"
   | "allennlp"
+  | "aneforge"
   | "anemoi"
   | "araclip"
+  | "asimov"
   | "aviation-ner"
   | "asteroid"
   | "audiocraft"
@@ -224,6 +227,7 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "cancertathomev2"
   | "cartesia_pytorch"
   | "cartesia_mlx"
+  | "causilo"
   | "ccpfn"
   | "champ"
   | "chatterbox"
@@ -267,10 +271,13 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "fasttext"
   | "fixer"
   | "flair"
+  | "flexray"
   | "flextab"
   | "fme"
+  | "gaussianformer"
   | "gemma.cpp"
   | "geometry-crafter"
+  | "gliformer"
   | "gliner"
   | "gliner2"
   | "glm-tts"
@@ -280,6 +287,7 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "habibi-tts"
   | "hallo"
   | "minimax-h3"
+  | "mect"
   | "hermes"
   | "holomotion"
   | "hezar"
@@ -296,6 +304,7 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "infinite-you"
   | "intellifold"
   | "ising-decoding"
+  | "jev-style"
   | "keras"
   | "tf-keras"
   | "keras-hub"
@@ -307,6 +316,7 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "k2"
   | "lyra-2.0"
   | "lagernvs"
+  | "laya"
   | "ltx"
   | "lightning-ir"
   | "litert"
@@ -330,6 +340,7 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "merlin"
   | "medvae"
   | "mflux"
+  | "microduck"
   | "mitie"
   | "ml-agents"
   | "ml-sharp"
@@ -440,6 +451,7 @@ export type QuickSearchPostRequestLibraryCase0 =
   | "voicecraft"
   | "voxcpm"
   | "vui"
+  | "vqweb"
   | "vibevoice"
   | "videox_fun"
   | "wan2.2"
@@ -464,6 +476,7 @@ export type QuickSearchPostRequestTypeCase0Item =
   | "paper"
   | "collection"
   | "bucket"
+  | "container"
   | "kernel"
   | "blog";
 export const QuickSearchPostRequestTypeCase0Item = S.String;
@@ -617,22 +630,19 @@ export type QuickSearchPostRequestPipelines =
 export const QuickSearchPostRequestPipelines =
   S.Unknown as any as S.Schema<QuickSearchPostRequestPipelines>;
 
-/** Array of excluded resources: spaces/repo, models/repo, datasets/repo, papers/paperId, collections/collectionId, users/username, orgs/orgName, buckets/bucketName, kernels/repo, blog/blogSlug */
+/** Array of excluded resources: spaces/repo, models/repo, datasets/repo, papers/paperId, collections/collectionId, users/username, orgs/orgName, buckets/bucketName, containers/containerName, kernels/repo, blog/blogSlug */
 export type QuickSearchPostRequestExcludeList = Array<string>;
 export const QuickSearchPostRequestExcludeList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<QuickSearchPostRequestExcludeList>;
-
-export type QuickSearchPostRequestIncludeInvitees = boolean | unknown;
-export const QuickSearchPostRequestIncludeInvitees =
-  S.Unknown as any as S.Schema<QuickSearchPostRequestIncludeInvitees>;
 
 export type QuickSearchPostRequestRepoTypeCase0 =
   | "dataset"
   | "model"
   | "space"
   | "bucket"
-  | "kernel";
+  | "kernel"
+  | "container";
 export const QuickSearchPostRequestRepoTypeCase0 = S.String;
 
 export type QuickSearchPostRequestRepoType = QuickSearchPostRequestRepoTypeCase0 | string;
@@ -655,7 +665,7 @@ export interface QuickSearchPostRequest {
   pipelines?: QuickSearchPostRequestPipelines;
   exclude?: QuickSearchPostRequestExcludeList;
   namespace?: string;
-  includeInvitees?: QuickSearchPostRequestIncludeInvitees;
+  includeInvitees?: unknown;
   repoName?: string;
   repoType?: QuickSearchPostRequestRepoType;
   discussionId?: string;
@@ -674,16 +684,14 @@ export const QuickSearchPostRequest = /*@__PURE__*/ S.suspend(() =>
     pipelines: S.optional(QuickSearchPostRequestPipelines.pipe(T.Query())),
     exclude: S.optional(QuickSearchPostRequestExcludeList.pipe(T.Query())),
     namespace: S.optional(S.String.pipe(T.Query())),
-    includeInvitees: S.optional(QuickSearchPostRequestIncludeInvitees.pipe(T.Query())),
+    includeInvitees: S.optional(S.Unknown.pipe(T.Query())),
     repoName: S.optional(S.String.pipe(T.Query())),
     repoType: S.optional(QuickSearchPostRequestRepoType.pipe(T.Query())),
     discussionId: S.optional(S.String.pipe(T.Query())),
     discussionCollectionName: S.optional(S.String.pipe(T.Query())),
     spacesTags: S.optional(QuickSearchPostRequestSpacesTagsList.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/api/quicksearch", code: 200 })),
-).annotate({
-  identifier: "QuickSearchPostRequest",
-}) as any as S.Schema<QuickSearchPostRequest>;
+).annotate({ identifier: "QuickSearchPostRequest" }) as any as S.Schema<QuickSearchPostRequest>;
 
 export interface QuickSearchPostResponseDatasetsItem {
   _id: string;
@@ -831,6 +839,14 @@ export const QuickSearchPostResponseBucketsList = /*@__PURE__*/ S.Array(
   QuickSearchPostResponsePapersItem,
 ) as any as S.Schema<QuickSearchPostResponseBucketsList>;
 
+export type QuickSearchPostResponseContainersItem = QuickSearchPostResponsePapersItem;
+export const QuickSearchPostResponseContainersItem = QuickSearchPostResponsePapersItem;
+
+export type QuickSearchPostResponseContainersList = Array<QuickSearchPostResponsePapersItem>;
+export const QuickSearchPostResponseContainersList = /*@__PURE__*/ S.Array(
+  QuickSearchPostResponsePapersItem,
+) as any as S.Schema<QuickSearchPostResponseContainersList>;
+
 export type QuickSearchPostResponseKernelsItem = QuickSearchPostResponsePapersItem;
 export const QuickSearchPostResponseKernelsItem = QuickSearchPostResponsePapersItem;
 
@@ -877,6 +893,8 @@ export interface QuickSearchPostResponse {
   collectionsCount: number;
   buckets: QuickSearchPostResponseBucketsList;
   bucketsCount: number;
+  containers: QuickSearchPostResponseContainersList;
+  containersCount: number;
   kernels: QuickSearchPostResponseKernelsList;
   kernelsCount: number;
   blogs: QuickSearchPostResponseBlogsList;
@@ -899,14 +917,66 @@ export const QuickSearchPostResponse = /*@__PURE__*/ S.suspend(() =>
     collectionsCount: S.Number,
     buckets: QuickSearchPostResponseBucketsList,
     bucketsCount: S.Number,
+    containers: QuickSearchPostResponseContainersList,
+    containersCount: S.Number,
     kernels: QuickSearchPostResponseKernelsList,
     kernelsCount: S.Number,
     blogs: QuickSearchPostResponseBlogsList,
     blogsCount: S.Number,
   }),
-).annotate({
-  identifier: "QuickSearchPostResponse",
-}) as any as S.Schema<QuickSearchPostResponse>;
+).annotate({ identifier: "QuickSearchPostResponse" }) as any as S.Schema<QuickSearchPostResponse>;
+
+export type SearchFullTextRequestTypeCase0 =
+  | "dataset"
+  | "model"
+  | "space"
+  | "bucket"
+  | "kernel"
+  | "container";
+export const SearchFullTextRequestTypeCase0 = S.String;
+
+export type SearchFullTextRequestTypeCase1Item =
+  | "dataset"
+  | "model"
+  | "space"
+  | "bucket"
+  | "kernel"
+  | "container";
+export const SearchFullTextRequestTypeCase1Item = S.String;
+
+export type SearchFullTextRequestTypeCase1List = Array<
+  SearchFullTextRequestTypeCase1Item | (string & {})
+>;
+export const SearchFullTextRequestTypeCase1List = /*@__PURE__*/ S.Array(
+  SearchFullTextRequestTypeCase1Item,
+) as any as S.Schema<SearchFullTextRequestTypeCase1List>;
+
+export type SearchFullTextRequestType =
+  | SearchFullTextRequestTypeCase0
+  | SearchFullTextRequestTypeCase1List;
+export const SearchFullTextRequestType = S.Unknown as any as S.Schema<SearchFullTextRequestType>;
+
+export interface SearchFullTextRequest {
+  q?: string;
+  limit?: number;
+  skip?: number;
+  type?: SearchFullTextRequestType;
+  filter?: string;
+}
+export const SearchFullTextRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    q: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    skip: S.optional(S.Number.pipe(T.Query())),
+    type: S.optional(SearchFullTextRequestType.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/api/search/full-text", code: 200 })),
+).annotate({ identifier: "SearchFullTextRequest" }) as any as S.Schema<SearchFullTextRequest>;
+
+export interface SearchFullTextResponse {}
+export const SearchFullTextResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "SearchFullTextResponse",
+}) as any as S.Schema<SearchFullTextResponse>;
 
 export type SearchQuickRequestLangCase0 =
   | "aa"
@@ -1099,11 +1169,14 @@ export type SearchQuickRequestLang = SearchQuickRequestLangCase0 | string;
 export const SearchQuickRequestLang = S.Unknown as any as S.Schema<SearchQuickRequestLang>;
 
 export type SearchQuickRequestLibraryCase0 =
+  | "aadya-neural"
   | "acestep"
   | "adapter-transformers"
   | "allennlp"
+  | "aneforge"
   | "anemoi"
   | "araclip"
+  | "asimov"
   | "aviation-ner"
   | "asteroid"
   | "audiocraft"
@@ -1121,6 +1194,7 @@ export type SearchQuickRequestLibraryCase0 =
   | "cancertathomev2"
   | "cartesia_pytorch"
   | "cartesia_mlx"
+  | "causilo"
   | "ccpfn"
   | "champ"
   | "chatterbox"
@@ -1164,10 +1238,13 @@ export type SearchQuickRequestLibraryCase0 =
   | "fasttext"
   | "fixer"
   | "flair"
+  | "flexray"
   | "flextab"
   | "fme"
+  | "gaussianformer"
   | "gemma.cpp"
   | "geometry-crafter"
+  | "gliformer"
   | "gliner"
   | "gliner2"
   | "glm-tts"
@@ -1177,6 +1254,7 @@ export type SearchQuickRequestLibraryCase0 =
   | "habibi-tts"
   | "hallo"
   | "minimax-h3"
+  | "mect"
   | "hermes"
   | "holomotion"
   | "hezar"
@@ -1193,6 +1271,7 @@ export type SearchQuickRequestLibraryCase0 =
   | "infinite-you"
   | "intellifold"
   | "ising-decoding"
+  | "jev-style"
   | "keras"
   | "tf-keras"
   | "keras-hub"
@@ -1204,6 +1283,7 @@ export type SearchQuickRequestLibraryCase0 =
   | "k2"
   | "lyra-2.0"
   | "lagernvs"
+  | "laya"
   | "ltx"
   | "lightning-ir"
   | "litert"
@@ -1227,6 +1307,7 @@ export type SearchQuickRequestLibraryCase0 =
   | "merlin"
   | "medvae"
   | "mflux"
+  | "microduck"
   | "mitie"
   | "ml-agents"
   | "ml-sharp"
@@ -1337,6 +1418,7 @@ export type SearchQuickRequestLibraryCase0 =
   | "voicecraft"
   | "voxcpm"
   | "vui"
+  | "vqweb"
   | "vibevoice"
   | "videox_fun"
   | "wan2.2"
@@ -1360,6 +1442,7 @@ export type SearchQuickRequestTypeCase0Item =
   | "paper"
   | "collection"
   | "bucket"
+  | "container"
   | "kernel"
   | "blog";
 export const SearchQuickRequestTypeCase0Item = S.String;
@@ -1511,17 +1594,19 @@ export type SearchQuickRequestPipelines =
 export const SearchQuickRequestPipelines =
   S.Unknown as any as S.Schema<SearchQuickRequestPipelines>;
 
-/** Array of excluded resources: spaces/repo, models/repo, datasets/repo, papers/paperId, collections/collectionId, users/username, orgs/orgName, buckets/bucketName, kernels/repo, blog/blogSlug */
+/** Array of excluded resources: spaces/repo, models/repo, datasets/repo, papers/paperId, collections/collectionId, users/username, orgs/orgName, buckets/bucketName, containers/containerName, kernels/repo, blog/blogSlug */
 export type SearchQuickRequestExcludeList = Array<string>;
 export const SearchQuickRequestExcludeList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<SearchQuickRequestExcludeList>;
 
-export type SearchQuickRequestIncludeInvitees = boolean | unknown;
-export const SearchQuickRequestIncludeInvitees =
-  S.Unknown as any as S.Schema<SearchQuickRequestIncludeInvitees>;
-
-export type SearchQuickRequestRepoTypeCase0 = "dataset" | "model" | "space" | "bucket" | "kernel";
+export type SearchQuickRequestRepoTypeCase0 =
+  | "dataset"
+  | "model"
+  | "space"
+  | "bucket"
+  | "kernel"
+  | "container";
 export const SearchQuickRequestRepoTypeCase0 = S.String;
 
 export type SearchQuickRequestRepoType = SearchQuickRequestRepoTypeCase0 | string;
@@ -1543,7 +1628,7 @@ export interface SearchQuickRequest {
   pipelines?: SearchQuickRequestPipelines;
   exclude?: SearchQuickRequestExcludeList;
   namespace?: string;
-  includeInvitees?: SearchQuickRequestIncludeInvitees;
+  includeInvitees?: unknown;
   repoName?: string;
   repoType?: SearchQuickRequestRepoType;
   discussionId?: string;
@@ -1562,16 +1647,14 @@ export const SearchQuickRequest = /*@__PURE__*/ S.suspend(() =>
     pipelines: S.optional(SearchQuickRequestPipelines.pipe(T.Query())),
     exclude: S.optional(SearchQuickRequestExcludeList.pipe(T.Query())),
     namespace: S.optional(S.String.pipe(T.Query())),
-    includeInvitees: S.optional(SearchQuickRequestIncludeInvitees.pipe(T.Query())),
+    includeInvitees: S.optional(S.Unknown.pipe(T.Query())),
     repoName: S.optional(S.String.pipe(T.Query())),
     repoType: S.optional(SearchQuickRequestRepoType.pipe(T.Query())),
     discussionId: S.optional(S.String.pipe(T.Query())),
     discussionCollectionName: S.optional(S.String.pipe(T.Query())),
     spacesTags: S.optional(SearchQuickRequestSpacesTagsList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/quicksearch", code: 200 })),
-).annotate({
-  identifier: "SearchQuickRequest",
-}) as any as S.Schema<SearchQuickRequest>;
+).annotate({ identifier: "SearchQuickRequest" }) as any as S.Schema<SearchQuickRequest>;
 
 export type SearchQuickResponseDatasetsItem = QuickSearchPostResponseDatasetsItem;
 export const SearchQuickResponseDatasetsItem = QuickSearchPostResponseDatasetsItem;
@@ -1637,6 +1720,14 @@ export const SearchQuickResponseBucketsList = /*@__PURE__*/ S.Array(
   QuickSearchPostResponsePapersItem,
 ) as any as S.Schema<SearchQuickResponseBucketsList>;
 
+export type SearchQuickResponseContainersItem = QuickSearchPostResponsePapersItem;
+export const SearchQuickResponseContainersItem = QuickSearchPostResponsePapersItem;
+
+export type SearchQuickResponseContainersList = Array<QuickSearchPostResponsePapersItem>;
+export const SearchQuickResponseContainersList = /*@__PURE__*/ S.Array(
+  QuickSearchPostResponsePapersItem,
+) as any as S.Schema<SearchQuickResponseContainersList>;
+
 export type SearchQuickResponseKernelsItem = QuickSearchPostResponsePapersItem;
 export const SearchQuickResponseKernelsItem = QuickSearchPostResponsePapersItem;
 
@@ -1669,6 +1760,8 @@ export interface SearchQuickResponse {
   collectionsCount: number;
   buckets: SearchQuickResponseBucketsList;
   bucketsCount: number;
+  containers: SearchQuickResponseContainersList;
+  containersCount: number;
   kernels: SearchQuickResponseKernelsList;
   kernelsCount: number;
   blogs: SearchQuickResponseBlogsList;
@@ -1691,14 +1784,14 @@ export const SearchQuickResponse = /*@__PURE__*/ S.suspend(() =>
     collectionsCount: S.Number,
     buckets: SearchQuickResponseBucketsList,
     bucketsCount: S.Number,
+    containers: SearchQuickResponseContainersList,
+    containersCount: S.Number,
     kernels: SearchQuickResponseKernelsList,
     kernelsCount: S.Number,
     blogs: SearchQuickResponseBlogsList,
     blogsCount: S.Number,
   }),
-).annotate({
-  identifier: "SearchQuickResponse",
-}) as any as S.Schema<SearchQuickResponse>;
+).annotate({ identifier: "SearchQuickResponse" }) as any as S.Schema<SearchQuickResponse>;
 
 export type QuickSearchPostError = HuggingFaceOpError;
 /** Quick search Quick search for models, datasets, spaces, orgs, users, papers, collections, and buckets */
@@ -1710,6 +1803,21 @@ export const quickSearchPost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: QuickSearchPostRequest,
   output: QuickSearchPostResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SearchFullTextError = HuggingFaceOpError;
+/** Full-text search */
+export const searchFullText: API.OperationMethod<
+  SearchFullTextRequest,
+  SearchFullTextResponse,
+  SearchFullTextError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SearchFullTextRequest,
+  output: SearchFullTextResponse,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,

@@ -136,6 +136,13 @@
             "smithy.api#required": {}
           }
         },
+        "summary": {
+          "target": "com.posthog.stamphog#DigestSummary",
+          "traits": {
+            "smithy.api#documentation": "What the digest posted: its headline and the merged pull requests it listed. Both are empty on a run with nothing to post, and on runs stored before this format.",
+            "smithy.api#required": {}
+          }
+        },
         "slack_message_ts": {
           "target": "smithy.api#String",
           "traits": {
@@ -224,6 +231,87 @@
       },
       "traits": {
         "smithy.api#documentation": "* `pending` - PENDING\n* `completed` - COMPLETED\n* `failed` - FAILED"
+      }
+    },
+    "com.posthog.stamphog#DigestSummary": {
+      "type": "structure",
+      "members": {
+        "headline": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Prose about the merges with real consequence. Blank when the digest led with its first line.",
+            "smithy.api#required": {}
+          }
+        },
+        "prs": {
+          "target": "com.posthog.stamphog#DigestSummaryPrsList",
+          "traits": {
+            "smithy.api#documentation": "The merged pull requests the digest listed, in the order it listed them.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What the digest posted to Slack: the headline and the pull requests it listed."
+      }
+    },
+    "com.posthog.stamphog#DigestSummaryPR": {
+      "type": "structure",
+      "members": {
+        "pr_number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Pull request number on GitHub.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Pull request title.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full URL to the pull request on GitHub.",
+            "smithy.api#required": {}
+          }
+        },
+        "author_login": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "GitHub login of the pull request author.",
+            "smithy.api#required": {}
+          }
+        },
+        "summary": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The one-line summary of the change that the digest posted.",
+            "smithy.api#required": {}
+          }
+        },
+        "repository": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository full name, e.g. 'PostHog/posthog'. Blank on older runs.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One merged pull request as the digest listed it."
+      }
+    },
+    "com.posthog.stamphog#DigestSummaryPrsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.stamphog#DigestSummaryPR"
+      },
+      "traits": {
+        "smithy.api#documentation": "The merged pull requests the digest listed, in the order it listed them."
       }
     },
     "com.posthog.stamphog#PaginatedDigestRunListResultsList": {
@@ -657,7 +745,7 @@
         "user_access_level": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The caller's access level on the stamphog resource, resolved for the team that owns this row. 'manager' is required to change enabled, review_mode, or trigger_label.",
+            "smithy.api#documentation": "The caller's access level on the stamphog resource, resolved for the team that owns this row. 'editor' can turn reviews on. 'manager' is required to turn them off or to change review_mode or trigger_label.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -1024,6 +1112,131 @@
         "smithy.api#documentation": "Per-repo stamphog settings — enable/disable review, GitHub App installation, policy overrides."
       }
     },
+    "com.posthog.stamphog#StamphogRepoConfigsAddRepositoryCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "repository": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository full name, e.g. 'PostHog/posthog'. It must be in one of the project's connected GitHub installations, as available_repositories lists them. A repository the project already has is turned back on.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.stamphog#StamphogRepoConfigsAddRepositoryCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.stamphog#StamphogRepoConfigsAddRepositoryCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.stamphog#StamphogRepoConfig"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/stamphog/repo_configs/add_repository/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Turn reviews on for a repository from the project's connected GitHub installations. Creates the repo config, or turns an existing one back on. Needs the editor level on stamphog."
+      }
+    },
+    "com.posthog.stamphog#GetStamphogRepoConfigsAvailableRepositoryRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum number of repositories to return. Defaults to 50, at most 200."
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search",
+            "smithy.api#documentation": "Case-insensitive substring to match against the repository full name, e.g. 'posthog'."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.stamphog#StamphogAvailableRepositories": {
+      "type": "structure",
+      "members": {
+        "repositories": {
+          "target": "com.posthog.stamphog#StamphogAvailableRepositoriesRepositoriesList",
+          "traits": {
+            "smithy.api#documentation": "Repository full names the team can add, sorted by name and capped by limit. Only repositories a project member proved access to on GitHub are listed, and never one another project already holds under the same installation.",
+            "smithy.api#required": {}
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many repositories match the search in total, before limit applies.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_installation": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a project member connected a GitHub installation yet. False means GitHub must be connected before any repository can be added. True with a total_count of 0 and no search means no repository is left to add.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Repositories from the team's connected GitHub installations that are not added to stamphog yet."
+      }
+    },
+    "com.posthog.stamphog#StamphogAvailableRepositoriesRepositoriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Repository full names the team can add, sorted by name and capped by limit. Only repositories a project member proved access to on GitHub are listed, and never one another project already holds under the same installation."
+      }
+    },
+    "com.posthog.stamphog#GetStamphogRepoConfigsAvailableRepository": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.stamphog#GetStamphogRepoConfigsAvailableRepositoryRequest"
+      },
+      "output": {
+        "target": "com.posthog.stamphog#StamphogAvailableRepositories"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/stamphog/repo_configs/available_repositories/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List repositories from the project's connected GitHub installations that are not added to stamphog yet, so they can be added with add_repository."
+      }
+    },
     "com.posthog.stamphog#StamphogRepoConfigsInstallInfoRetrieveRequest": {
       "type": "structure",
       "members": {
@@ -1053,14 +1266,14 @@
         "install_url": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "GitHub install URL (github.com/apps/<slug>/installations/new) the user opens to install the App, or blank if the App slug is unconfigured. Used for the genuinely-not-installed case; the primary 'Connect' button uses authorize_url instead.",
+            "smithy.api#documentation": "GitHub install URL (github.com/apps/<slug>/installations/new) the 'Connect' button opens. The user picks a GitHub account there and chooses which repositories the App can reach, including an account where the App is already installed. Blank if the App slug is unconfigured.",
             "smithy.api#required": {}
           }
         },
         "authorize_url": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "GitHub authorize URL (github.com/login/oauth/authorize) the 'Connect' button opens. Authorize-first: an already-installed user is redirected straight back with an OAuth code (no installation_id), and sync_installation then discovers their installations server-side. Blank if the App client id is unconfigured.",
+            "smithy.api#documentation": "GitHub authorize URL (github.com/login/oauth/authorize). GitHub's redirect after configuring an existing installation carries no OAuth code, so the client passes through this URL once: an installed App redirects straight back with a code, which sync_installation uses to prove ownership. Blank if the App client id is unconfigured.",
             "smithy.api#required": {}
           }
         }
@@ -1128,7 +1341,7 @@
         "synced": {
           "target": "com.posthog.stamphog#StamphogSyncInstallationResponseSyncedList",
           "traits": {
-            "smithy.api#documentation": "Repo configs now bound to this team for the installation (created this call or already present).",
+            "smithy.api#documentation": "Repo configs this team already had for the installation's repositories, now bound to it. A sync creates no repo config: use add_repository to turn reviews on for a repository.",
             "smithy.api#required": {}
           }
         },
@@ -1136,6 +1349,13 @@
           "target": "com.posthog.stamphog#StamphogSyncInstallationResponseSkippedList",
           "traits": {
             "smithy.api#documentation": "Repository full names skipped because another team already owns them under this installation.",
+            "smithy.api#required": {}
+          }
+        },
+        "available_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many repositories this team can add after the sync, across all its connected installations. List them with available_repositories.",
             "smithy.api#required": {}
           }
         },
@@ -1155,7 +1375,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Result of syncing an installation: rows created/kept for this team, plus conflicting repos skipped."
+        "smithy.api#documentation": "Result of syncing an installation: the team's rows bound to it, and what the team can add now."
       }
     },
     "com.posthog.stamphog#StamphogSyncInstallationResponseSyncedList": {
@@ -1164,7 +1384,7 @@
         "target": "com.posthog.stamphog#StamphogRepoConfig"
       },
       "traits": {
-        "smithy.api#documentation": "Repo configs now bound to this team for the installation (created this call or already present)."
+        "smithy.api#documentation": "Repo configs this team already had for the installation's repositories, now bound to it. A sync creates no repo config: use add_repository to turn reviews on for a repository."
       }
     },
     "com.posthog.stamphog#StamphogSyncInstallationResponseSkippedList": {
@@ -1239,6 +1459,12 @@
             "smithy.api#enumValue": "label"
           }
         },
+        "MANUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manual"
+          }
+        },
         "SELF_DRIVING": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1298,7 +1524,7 @@
           "target": "com.posthog.stamphog#ListStamphogReviewRunsRequestTrigger",
           "traits": {
             "smithy.api#httpQuery": "trigger",
-            "smithy.api#documentation": "Filter by what caused the run: self_driving, label, or all."
+            "smithy.api#documentation": "Filter by what caused the run. Leave it unset to include runs from every trigger. 'all' is not a wildcard: it matches only runs in repos that review every pull request event. The other values: 'label' (the repo's trigger label opted the PR in), 'manual' (someone requested the review through the API or MCP), and 'self_driving' (stamphog reviewed a bot-authored PR from the inbox)."
           }
         }
       },
@@ -1412,7 +1638,7 @@
         "trigger": {
           "target": "com.posthog.stamphog#ReviewRunTriggerEnum",
           "traits": {
-            "smithy.api#documentation": "What caused this run to exist: self-driving inbox provenance, the repo's trigger label, or the repo reviewing every PR event.\n\n* `self_driving` - SELF_DRIVING\n* `label` - LABEL\n* `all` - ALL",
+            "smithy.api#documentation": "What caused this run to exist: self-driving inbox provenance, a manual request through the API, the repo's trigger label, or the repo reviewing every PR event.\n\n* `self_driving` - SELF_DRIVING\n* `manual` - MANUAL\n* `label` - LABEL\n* `all` - ALL",
             "smithy.api#required": {}
           }
         },
@@ -1440,8 +1666,16 @@
         "output": {
           "target": "com.posthog.stamphog#ReviewOutputSummary",
           "traits": {
-            "smithy.api#documentation": "Allowlisted, non-sensitive subset of the reviewer output blob (stamphog version, reviewer exit code). The raw reviewer stdout, PR payload, changed-file patches, and policy file contents are deliberately excluded — they carry repository content a project member without repo access must not read.",
+            "smithy.api#documentation": "Allowlisted subset of the reviewer output blob (stamphog version, reviewer exit code). The raw reviewer stdout, PR payload, changed-file patches, and policy file contents are excluded. The reviewer's reasoning, the text stamphog posts on GitHub, is in `reasoning` instead.",
             "smithy.api#required": {}
+          }
+        },
+        "reasoning": {
+          "target": "com.posthog.stamphog#ReviewReasoning",
+          "traits": {
+            "smithy.api#documentation": "The reviewer's reasoning, the same text stamphog posts as its GitHub review. Returned only when retrieving a single run, and null in list results. Its fields are null until the reviewer has run.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         },
         "error": {
@@ -1509,6 +1743,12 @@
             "smithy.api#enumValue": "self_driving"
           }
         },
+        "MANUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manual"
+          }
+        },
         "LABEL": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1523,7 +1763,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `self_driving` - SELF_DRIVING\n* `label` - LABEL\n* `all` - ALL"
+        "smithy.api#documentation": "* `self_driving` - SELF_DRIVING\n* `manual` - MANUAL\n* `label` - LABEL\n* `all` - ALL"
       }
     },
     "com.posthog.stamphog#ReviewRunStatusEnum": {
@@ -1655,7 +1895,56 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Allowlisted, non-sensitive slice of ``ReviewRun.output``.\n\nThe raw ``output`` blob also holds the reviewer's stdout, the full PR payload, changed-file patches,\nand default-branch policy file contents — repository content a project member without repo access\nmust never read. Only these derived, content-free fields are exposed."
+        "smithy.api#documentation": "Allowlisted, non-sensitive slice of ``ReviewRun.output``.\n\nThe raw ``output`` blob also holds the reviewer's stdout, the full PR payload, changed-file patches,\nand default-branch policy file contents, none of which the API returns. The reviewer's reasoning,\nthe text stamphog posts on GitHub, is parsed out of the stdout and returned as ``reasoning``."
+      }
+    },
+    "com.posthog.stamphog#ReviewReasoning": {
+      "type": "structure",
+      "members": {
+        "reasoning": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The reviewer's explanation of its verdict.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "showstoppers": {
+          "target": "com.posthog.stamphog#ReviewReasoningShowstoppersList",
+          "traits": {
+            "smithy.api#documentation": "Issues the reviewer found that block approval.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "review_body": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The review text stamphog posts on GitHub: the reasoning, the judgment points, and the gate outcome.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "change_summary": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A plain-language summary of what the change does.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The reviewer's reasoning for one run, the same text stamphog posts as its GitHub review."
+      }
+    },
+    "com.posthog.stamphog#ReviewReasoningShowstoppersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Issues the reviewer found that block approval."
       }
     },
     "com.posthog.stamphog#PaginatedReviewRunListResultsList": {
@@ -1679,7 +1968,76 @@
           "uri": "/api/projects/{project_id}/stamphog/review_runs/",
           "code": 200
         },
-        "smithy.api#documentation": "Read-only history of stamphog review runs, filterable by repository, PR number, and status."
+        "smithy.api#documentation": "History of stamphog review runs, filterable by repository, PR number, and status, plus manual review requests."
+      }
+    },
+    "com.posthog.stamphog#CreateStamphogReviewRunRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "repository": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full name of the GitHub repository, e.g. 'PostHog/posthog'. It must be connected and enabled in Stamphog.",
+            "smithy.api#required": {}
+          }
+        },
+        "pr_number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Pull request number on GitHub.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.stamphog#ReviewRequestResponse": {
+      "type": "structure",
+      "members": {
+        "run": {
+          "target": "com.posthog.stamphog#ReviewRun",
+          "traits": {
+            "smithy.api#documentation": "The review run for the pull request's current head. Poll it by id until status is terminal (completed, gated, failed, or superseded).",
+            "smithy.api#required": {}
+          }
+        },
+        "created": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when this request queued a new run. False when a queued, running, or finished run already covered the current head, which is returned instead.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The review run a request points at."
+      }
+    },
+    "com.posthog.stamphog#CreateStamphogReviewRun": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.stamphog#CreateStamphogReviewRunRequest"
+      },
+      "output": {
+        "target": "com.posthog.stamphog#ReviewRequestResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/stamphog/review_runs/",
+          "code": 200
+        },
+        "smithy.api#documentation": "History of stamphog review runs, filterable by repository, PR number, and status, plus manual review requests."
       }
     },
     "com.posthog.stamphog#GetStamphogReviewRunRequest": {
@@ -1719,7 +2077,7 @@
           "uri": "/api/projects/{project_id}/stamphog/review_runs/{id}/",
           "code": 200
         },
-        "smithy.api#documentation": "Read-only history of stamphog review runs, filterable by repository, PR number, and status."
+        "smithy.api#documentation": "History of stamphog review runs, filterable by repository, PR number, and status, plus manual review requests."
       }
     },
     "com.posthog.stamphog#Stamphog": {
@@ -1757,6 +2115,12 @@
           "target": "com.posthog.stamphog#StamphogRepoConfigsDestroy"
         },
         {
+          "target": "com.posthog.stamphog#StamphogRepoConfigsAddRepositoryCreate"
+        },
+        {
+          "target": "com.posthog.stamphog#GetStamphogRepoConfigsAvailableRepository"
+        },
+        {
           "target": "com.posthog.stamphog#StamphogRepoConfigsInstallInfoRetrieve"
         },
         {
@@ -1764,6 +2128,9 @@
         },
         {
           "target": "com.posthog.stamphog#ListStamphogReviewRuns"
+        },
+        {
+          "target": "com.posthog.stamphog#CreateStamphogReviewRun"
         },
         {
           "target": "com.posthog.stamphog#GetStamphogReviewRun"

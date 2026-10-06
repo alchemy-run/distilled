@@ -8,10 +8,7 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://autoscaling.amazonaws.com/doc/2011-01-01/");
-const svc = T.AwsApiService({
-  sdkId: "Auto Scaling",
-  serviceShapeName: "AutoScaling_2011_01_01",
-});
+const svc = T.AwsApiService({ sdkId: "Auto Scaling", serviceShapeName: "AutoScaling_2011_01_01" });
 const auth = T.AwsAuthSigv4({ name: "autoscaling" });
 const ver = T.ServiceVersion("2011-01-01");
 const proto = T.AwsProtocolsAwsQuery();
@@ -82,10 +79,7 @@ export class ActiveInstanceRefreshNotFoundFault
     "ActiveInstanceRefreshNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ActiveInstanceRefreshNotFound",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ActiveInstanceRefreshNotFound", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -99,20 +93,14 @@ export class AutoScalingGroupNotFound
   extends /*@__PURE__*/ S.TaggedError<AutoScalingGroupNotFound>()(
     "AutoScalingGroupNotFound",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.SyntheticError({
-      from: "ValidationError",
-      message: { includes: "not found" },
-    }),
+    T.SyntheticError({ from: "ValidationError", message: { includes: "not found" } }),
   ) {}
 export class IdempotentCallInProgressFault
   extends /*@__PURE__*/ S.TaggedError<IdempotentCallInProgressFault>()(
     "IdempotentCallInProgressFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "IdempotentCallInProgress",
-        httpResponseCode: 500,
-      }),
+      T.AwsQueryError({ code: "IdempotentCallInProgress", httpResponseCode: 500 }),
       T.HttpError(500),
     ),
   ).pipe(C.withServerError) {}
@@ -121,10 +109,7 @@ export class IdempotentParameterMismatchError
     "IdempotentParameterMismatchError",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "IdempotentParameterMismatch",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "IdempotentParameterMismatch", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -133,13 +118,19 @@ export class InstanceRefreshInProgressFault
     "InstanceRefreshInProgressFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InstanceRefreshInProgress",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InstanceRefreshInProgress", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
+export class InvalidIamInstanceProfile
+  extends /*@__PURE__*/ S.TaggedError<InvalidIamInstanceProfile>()(
+    "InvalidIamInstanceProfile",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    T.SyntheticError({
+      from: "ValidationError",
+      message: { includes: "Invalid IAM Instance Profile" },
+    }),
+  ) {}
 export class InvalidNextToken
   extends /*@__PURE__*/ S.TaggedError<InvalidNextToken>()(
     "InvalidNextToken",
@@ -151,10 +142,7 @@ export class IrreversibleInstanceRefreshFault
     "IrreversibleInstanceRefreshFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "IrreversibleInstanceRefresh",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "IrreversibleInstanceRefresh", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -181,10 +169,7 @@ export class ScalingActivityInProgressFault
     "ScalingActivityInProgressFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ScalingActivityInProgress",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ScalingActivityInProgress", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -193,10 +178,7 @@ export class ServiceLinkedRoleFailure
     "ServiceLinkedRoleFailure",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ServiceLinkedRoleFailure",
-        httpResponseCode: 500,
-      }),
+      T.AwsQueryError({ code: "ServiceLinkedRoleFailure", httpResponseCode: 500 }),
       T.HttpError(500),
     ),
   ).pipe(C.withServerError) {}
@@ -213,15 +195,11 @@ export const AttachInstancesQuery = /*@__PURE__*/ S.suspend(() =>
     InstanceIds: S.optional(InstanceIds),
     AutoScalingGroupName: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "AttachInstancesQuery",
-}) as any as S.Schema<AttachInstancesQuery>;
+).annotate({ identifier: "AttachInstancesQuery" }) as any as S.Schema<AttachInstancesQuery>;
 export interface AttachInstancesResponse {}
 export const AttachInstancesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AttachInstancesResponse",
-}) as any as S.Schema<AttachInstancesResponse>;
+).annotate({ identifier: "AttachInstancesResponse" }) as any as S.Schema<AttachInstancesResponse>;
 export type LoadBalancerNames = string[];
 export const LoadBalancerNames = /*@__PURE__*/ S.Array(S.String);
 export interface AttachLoadBalancersType {
@@ -233,9 +211,7 @@ export const AttachLoadBalancersType = /*@__PURE__*/ S.suspend(() =>
     AutoScalingGroupName: S.optional(S.String),
     LoadBalancerNames: S.optional(LoadBalancerNames),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "AttachLoadBalancersType",
-}) as any as S.Schema<AttachLoadBalancersType>;
+).annotate({ identifier: "AttachLoadBalancersType" }) as any as S.Schema<AttachLoadBalancersType>;
 export interface AttachLoadBalancersResultType {}
 export const AttachLoadBalancersResultType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -269,9 +245,7 @@ export interface TrafficSourceIdentifier {
 }
 export const TrafficSourceIdentifier = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Identifier: S.optional(S.String), Type: S.optional(S.String) }),
-).annotate({
-  identifier: "TrafficSourceIdentifier",
-}) as any as S.Schema<TrafficSourceIdentifier>;
+).annotate({ identifier: "TrafficSourceIdentifier" }) as any as S.Schema<TrafficSourceIdentifier>;
 export type TrafficSources = TrafficSourceIdentifier[];
 export const TrafficSources = /*@__PURE__*/ S.Array(TrafficSourceIdentifier);
 export type SkipZonalShiftValidation = boolean;
@@ -286,9 +260,7 @@ export const AttachTrafficSourcesType = /*@__PURE__*/ S.suspend(() =>
     TrafficSources: S.optional(TrafficSources),
     SkipZonalShiftValidation: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "AttachTrafficSourcesType",
-}) as any as S.Schema<AttachTrafficSourcesType>;
+).annotate({ identifier: "AttachTrafficSourcesType" }) as any as S.Schema<AttachTrafficSourcesType>;
 export interface AttachTrafficSourcesResultType {}
 export const AttachTrafficSourcesResultType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -335,9 +307,9 @@ export interface BatchDeleteScheduledActionAnswer {
   })[];
 }
 export const BatchDeleteScheduledActionAnswer = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FailedScheduledActions: S.optional(FailedScheduledUpdateGroupActionRequests),
-  }).pipe(ns),
+  S.Struct({ FailedScheduledActions: S.optional(FailedScheduledUpdateGroupActionRequests) }).pipe(
+    ns,
+  ),
 ).annotate({
   identifier: "BatchDeleteScheduledActionAnswer",
 }) as any as S.Schema<BatchDeleteScheduledActionAnswer>;
@@ -467,18 +439,14 @@ export interface VCpuCountRequest {
 }
 export const VCpuCountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Min: S.optional(S.Number), Max: S.optional(S.Number) }),
-).annotate({
-  identifier: "VCpuCountRequest",
-}) as any as S.Schema<VCpuCountRequest>;
+).annotate({ identifier: "VCpuCountRequest" }) as any as S.Schema<VCpuCountRequest>;
 export interface MemoryMiBRequest {
   Min?: number;
   Max?: number;
 }
 export const MemoryMiBRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Min: S.optional(S.Number), Max: S.optional(S.Number) }),
-).annotate({
-  identifier: "MemoryMiBRequest",
-}) as any as S.Schema<MemoryMiBRequest>;
+).annotate({ identifier: "MemoryMiBRequest" }) as any as S.Schema<MemoryMiBRequest>;
 export type CpuManufacturer = "intel" | "amd" | "amazon-web-services" | "apple" | (string & {});
 export const CpuManufacturer = S.String;
 
@@ -491,9 +459,7 @@ export interface MemoryGiBPerVCpuRequest {
 }
 export const MemoryGiBPerVCpuRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Min: S.optional(S.Number), Max: S.optional(S.Number) }),
-).annotate({
-  identifier: "MemoryGiBPerVCpuRequest",
-}) as any as S.Schema<MemoryGiBPerVCpuRequest>;
+).annotate({ identifier: "MemoryGiBPerVCpuRequest" }) as any as S.Schema<MemoryGiBPerVCpuRequest>;
 export type ExcludedInstance = string;
 export type ExcludedInstanceTypes = string[];
 export const ExcludedInstanceTypes = /*@__PURE__*/ S.Array(S.String);
@@ -554,9 +520,7 @@ export interface AcceleratorCountRequest {
 }
 export const AcceleratorCountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Min: S.optional(S.Number), Max: S.optional(S.Number) }),
-).annotate({
-  identifier: "AcceleratorCountRequest",
-}) as any as S.Schema<AcceleratorCountRequest>;
+).annotate({ identifier: "AcceleratorCountRequest" }) as any as S.Schema<AcceleratorCountRequest>;
 export type AcceleratorManufacturer =
   | "nvidia"
   | "amd"
@@ -688,9 +652,7 @@ export const InstanceRequirements = /*@__PURE__*/ S.suspend(() =>
     AllowedInstanceTypes: S.optional(AllowedInstanceTypes),
     BaselinePerformanceFactors: S.optional(BaselinePerformanceFactorsRequest),
   }),
-).annotate({
-  identifier: "InstanceRequirements",
-}) as any as S.Schema<InstanceRequirements>;
+).annotate({ identifier: "InstanceRequirements" }) as any as S.Schema<InstanceRequirements>;
 export type ImageId = string;
 export interface LaunchTemplateOverrides {
   InstanceType?: string;
@@ -707,9 +669,7 @@ export const LaunchTemplateOverrides = /*@__PURE__*/ S.suspend(() =>
     InstanceRequirements: S.optional(InstanceRequirements),
     ImageId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LaunchTemplateOverrides",
-}) as any as S.Schema<LaunchTemplateOverrides>;
+).annotate({ identifier: "LaunchTemplateOverrides" }) as any as S.Schema<LaunchTemplateOverrides>;
 export type Overrides = LaunchTemplateOverrides[];
 export const Overrides = /*@__PURE__*/ S.Array(LaunchTemplateOverrides);
 export interface LaunchTemplate {
@@ -741,9 +701,7 @@ export interface DistributionSegment {
 }
 export const DistributionSegment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TargetCapacityTypes: S.optional(TargetCapacityTypes) }),
-).annotate({
-  identifier: "DistributionSegment",
-}) as any as S.Schema<DistributionSegment>;
+).annotate({ identifier: "DistributionSegment" }) as any as S.Schema<DistributionSegment>;
 export type DistributionSegments = DistributionSegment[];
 export const DistributionSegments = /*@__PURE__*/ S.Array(DistributionSegment);
 export interface InstancesDistribution {
@@ -765,9 +723,7 @@ export const InstancesDistribution = /*@__PURE__*/ S.suspend(() =>
     SpotMaxPrice: S.optional(S.String),
     DistributionSegments: S.optional(DistributionSegments),
   }),
-).annotate({
-  identifier: "InstancesDistribution",
-}) as any as S.Schema<InstancesDistribution>;
+).annotate({ identifier: "InstancesDistribution" }) as any as S.Schema<InstancesDistribution>;
 export interface MixedInstancesPolicy {
   LaunchTemplate?: LaunchTemplate;
   InstancesDistribution?: InstancesDistribution;
@@ -777,9 +733,7 @@ export const MixedInstancesPolicy = /*@__PURE__*/ S.suspend(() =>
     LaunchTemplate: S.optional(LaunchTemplate),
     InstancesDistribution: S.optional(InstancesDistribution),
   }),
-).annotate({
-  identifier: "MixedInstancesPolicy",
-}) as any as S.Schema<MixedInstancesPolicy>;
+).annotate({ identifier: "MixedInstancesPolicy" }) as any as S.Schema<MixedInstancesPolicy>;
 export type Cooldown = number;
 export type AvailabilityZones = string[];
 export const AvailabilityZones = /*@__PURE__*/ S.Array(S.String);
@@ -876,9 +830,7 @@ export interface AvailabilityZoneDistribution {
   CapacityDistributionStrategy?: CapacityDistributionStrategy;
 }
 export const AvailabilityZoneDistribution = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CapacityDistributionStrategy: S.optional(CapacityDistributionStrategy),
-  }),
+  S.Struct({ CapacityDistributionStrategy: S.optional(CapacityDistributionStrategy) }),
 ).annotate({
   identifier: "AvailabilityZoneDistribution",
 }) as any as S.Schema<AvailabilityZoneDistribution>;
@@ -945,17 +897,13 @@ export interface RetentionTriggers {
 }
 export const RetentionTriggers = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TerminateHookAbandon: S.optional(RetentionAction) }),
-).annotate({
-  identifier: "RetentionTriggers",
-}) as any as S.Schema<RetentionTriggers>;
+).annotate({ identifier: "RetentionTriggers" }) as any as S.Schema<RetentionTriggers>;
 export interface InstanceLifecyclePolicy {
   RetentionTriggers?: RetentionTriggers;
 }
 export const InstanceLifecyclePolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RetentionTriggers: S.optional(RetentionTriggers) }),
-).annotate({
-  identifier: "InstanceLifecyclePolicy",
-}) as any as S.Schema<InstanceLifecyclePolicy>;
+).annotate({ identifier: "InstanceLifecyclePolicy" }) as any as S.Schema<InstanceLifecyclePolicy>;
 export type ManagerIdentifier = string;
 export interface Operator {
   Principal?: string;
@@ -1094,9 +1042,7 @@ export const BlockDeviceMapping = /*@__PURE__*/ S.suspend(() =>
     Ebs: S.optional(Ebs),
     NoDevice: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "BlockDeviceMapping",
-}) as any as S.Schema<BlockDeviceMapping>;
+).annotate({ identifier: "BlockDeviceMapping" }) as any as S.Schema<BlockDeviceMapping>;
 export type BlockDeviceMappings = BlockDeviceMapping[];
 export const BlockDeviceMappings = /*@__PURE__*/ S.Array(BlockDeviceMapping);
 export type MonitoringEnabled = boolean;
@@ -1105,9 +1051,7 @@ export interface InstanceMonitoring {
 }
 export const InstanceMonitoring = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Enabled: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "InstanceMonitoring",
-}) as any as S.Schema<InstanceMonitoring>;
+).annotate({ identifier: "InstanceMonitoring" }) as any as S.Schema<InstanceMonitoring>;
 export type SpotPrice = string;
 export type EbsOptimized = boolean;
 export type AssociatePublicIpAddress = boolean;
@@ -1129,9 +1073,7 @@ export const InstanceMetadataOptions = /*@__PURE__*/ S.suspend(() =>
     HttpPutResponseHopLimit: S.optional(S.Number),
     HttpEndpoint: S.optional(InstanceMetadataEndpointState),
   }),
-).annotate({
-  identifier: "InstanceMetadataOptions",
-}) as any as S.Schema<InstanceMetadataOptions>;
+).annotate({ identifier: "InstanceMetadataOptions" }) as any as S.Schema<InstanceMetadataOptions>;
 export interface CreateLaunchConfigurationType {
   LaunchConfigurationName?: string;
   ImageId?: string;
@@ -1191,9 +1133,7 @@ export const CreateOrUpdateTagsType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateOrUpdateTagsType",
-}) as any as S.Schema<CreateOrUpdateTagsType>;
+).annotate({ identifier: "CreateOrUpdateTagsType" }) as any as S.Schema<CreateOrUpdateTagsType>;
 export interface CreateOrUpdateTagsResponse {}
 export const CreateOrUpdateTagsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -1206,10 +1146,9 @@ export interface DeleteAutoScalingGroupType {
   ForceDelete?: boolean;
 }
 export const DeleteAutoScalingGroupType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AutoScalingGroupName: S.optional(S.String),
-    ForceDelete: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ AutoScalingGroupName: S.optional(S.String), ForceDelete: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteAutoScalingGroupType",
 }) as any as S.Schema<DeleteAutoScalingGroupType>;
@@ -1244,9 +1183,7 @@ export const DeleteLifecycleHookType = /*@__PURE__*/ S.suspend(() =>
     LifecycleHookName: S.optional(S.String),
     AutoScalingGroupName: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteLifecycleHookType",
-}) as any as S.Schema<DeleteLifecycleHookType>;
+).annotate({ identifier: "DeleteLifecycleHookType" }) as any as S.Schema<DeleteLifecycleHookType>;
 export interface DeleteLifecycleHookAnswer {}
 export const DeleteLifecycleHookAnswer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -1258,10 +1195,9 @@ export interface DeleteNotificationConfigurationType {
   TopicARN?: string;
 }
 export const DeleteNotificationConfigurationType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AutoScalingGroupName: S.optional(S.String),
-    TopicARN: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ AutoScalingGroupName: S.optional(S.String), TopicARN: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteNotificationConfigurationType",
 }) as any as S.Schema<DeleteNotificationConfigurationType>;
@@ -1276,13 +1212,10 @@ export interface DeletePolicyType {
   PolicyName?: string;
 }
 export const DeletePolicyType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AutoScalingGroupName: S.optional(S.String),
-    PolicyName: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeletePolicyType",
-}) as any as S.Schema<DeletePolicyType>;
+  S.Struct({ AutoScalingGroupName: S.optional(S.String), PolicyName: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "DeletePolicyType" }) as any as S.Schema<DeletePolicyType>;
 export interface DeletePolicyResponse {}
 export const DeletePolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeletePolicyResponse",
@@ -1322,13 +1255,10 @@ export interface DeleteWarmPoolType {
   ForceDelete?: boolean;
 }
 export const DeleteWarmPoolType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AutoScalingGroupName: S.optional(S.String),
-    ForceDelete: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteWarmPoolType",
-}) as any as S.Schema<DeleteWarmPoolType>;
+  S.Struct({ AutoScalingGroupName: S.optional(S.String), ForceDelete: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "DeleteWarmPoolType" }) as any as S.Schema<DeleteWarmPoolType>;
 export interface DeleteWarmPoolAnswer {}
 export const DeleteWarmPoolAnswer = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteWarmPoolAnswer",
@@ -1484,13 +1414,8 @@ export interface SuspendedProcess {
   SuspensionReason?: string;
 }
 export const SuspendedProcess = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProcessName: S.optional(S.String),
-    SuspensionReason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SuspendedProcess",
-}) as any as S.Schema<SuspendedProcess>;
+  S.Struct({ ProcessName: S.optional(S.String), SuspensionReason: S.optional(S.String) }),
+).annotate({ identifier: "SuspendedProcess" }) as any as S.Schema<SuspendedProcess>;
 export type SuspendedProcesses = SuspendedProcess[];
 export const SuspendedProcesses = /*@__PURE__*/ S.Array(SuspendedProcess);
 export interface EnabledMetric {
@@ -1534,9 +1459,7 @@ export interface InstanceReusePolicy {
 }
 export const InstanceReusePolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ReuseOnScaleIn: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "InstanceReusePolicy",
-}) as any as S.Schema<InstanceReusePolicy>;
+).annotate({ identifier: "InstanceReusePolicy" }) as any as S.Schema<InstanceReusePolicy>;
 export interface WarmPoolConfiguration {
   MaxGroupPreparedCapacity?: number;
   MinSize?: number;
@@ -1552,9 +1475,7 @@ export const WarmPoolConfiguration = /*@__PURE__*/ S.suspend(() =>
     Status: S.optional(WarmPoolStatus),
     InstanceReusePolicy: S.optional(InstanceReusePolicy),
   }),
-).annotate({
-  identifier: "WarmPoolConfiguration",
-}) as any as S.Schema<WarmPoolConfiguration>;
+).annotate({ identifier: "WarmPoolConfiguration" }) as any as S.Schema<WarmPoolConfiguration>;
 export type WarmPoolSize = number;
 export interface AutoScalingGroup {
   AutoScalingGroupName?: string;
@@ -1645,9 +1566,7 @@ export const AutoScalingGroup = /*@__PURE__*/ S.suspend(() =>
     InstanceLifecyclePolicy: S.optional(InstanceLifecyclePolicy),
     Operator: S.optional(Operator),
   }),
-).annotate({
-  identifier: "AutoScalingGroup",
-}) as any as S.Schema<AutoScalingGroup>;
+).annotate({ identifier: "AutoScalingGroup" }) as any as S.Schema<AutoScalingGroup>;
 export type AutoScalingGroups = AutoScalingGroup[];
 export const AutoScalingGroups = /*@__PURE__*/ S.Array(AutoScalingGroup);
 export interface AutoScalingGroupsType {
@@ -1677,9 +1596,7 @@ export interface AutoScalingGroupsType {
       HealthStatus: XmlStringMaxLen32;
       ProtectedFromScaleIn: InstanceProtected;
     })[];
-    TrafficSources: (TrafficSourceIdentifier & {
-      Identifier: XmlStringMaxLen511;
-    })[];
+    TrafficSources: (TrafficSourceIdentifier & { Identifier: XmlStringMaxLen511 })[];
     Operator: Operator & { Principal: ManagerIdentifier };
   })[];
   NextToken?: string;
@@ -1689,9 +1606,7 @@ export const AutoScalingGroupsType = /*@__PURE__*/ S.suspend(() =>
     AutoScalingGroups: S.optional(AutoScalingGroups),
     NextToken: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "AutoScalingGroupsType",
-}) as any as S.Schema<AutoScalingGroupsType>;
+).annotate({ identifier: "AutoScalingGroupsType" }) as any as S.Schema<AutoScalingGroupsType>;
 export interface DescribeAutoScalingInstancesType {
   InstanceIds?: string[];
   MaxRecords?: number;
@@ -1756,9 +1671,7 @@ export const AutoScalingInstancesType = /*@__PURE__*/ S.suspend(() =>
     AutoScalingInstances: S.optional(AutoScalingInstances),
     NextToken: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "AutoScalingInstancesType",
-}) as any as S.Schema<AutoScalingInstancesType>;
+).annotate({ identifier: "AutoScalingInstancesType" }) as any as S.Schema<AutoScalingInstancesType>;
 export interface DescribeAutoScalingNotificationTypesRequest {}
 export const DescribeAutoScalingNotificationTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -1771,9 +1684,7 @@ export interface DescribeAutoScalingNotificationTypesAnswer {
   AutoScalingNotificationTypes?: string[];
 }
 export const DescribeAutoScalingNotificationTypesAnswer = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AutoScalingNotificationTypes: S.optional(AutoScalingNotificationTypes),
-  }).pipe(ns),
+  S.Struct({ AutoScalingNotificationTypes: S.optional(AutoScalingNotificationTypes) }).pipe(ns),
 ).annotate({
   identifier: "DescribeAutoScalingNotificationTypesAnswer",
 }) as any as S.Schema<DescribeAutoScalingNotificationTypesAnswer>;
@@ -1817,10 +1728,7 @@ export interface InstanceRefreshLivePoolProgress {
   InstancesToUpdate?: number;
 }
 export const InstanceRefreshLivePoolProgress = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PercentageComplete: S.optional(S.Number),
-    InstancesToUpdate: S.optional(S.Number),
-  }),
+  S.Struct({ PercentageComplete: S.optional(S.Number), InstancesToUpdate: S.optional(S.Number) }),
 ).annotate({
   identifier: "InstanceRefreshLivePoolProgress",
 }) as any as S.Schema<InstanceRefreshLivePoolProgress>;
@@ -1829,10 +1737,7 @@ export interface InstanceRefreshWarmPoolProgress {
   InstancesToUpdate?: number;
 }
 export const InstanceRefreshWarmPoolProgress = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PercentageComplete: S.optional(S.Number),
-    InstancesToUpdate: S.optional(S.Number),
-  }),
+  S.Struct({ PercentageComplete: S.optional(S.Number), InstancesToUpdate: S.optional(S.Number) }),
 ).annotate({
   identifier: "InstanceRefreshWarmPoolProgress",
 }) as any as S.Schema<InstanceRefreshWarmPoolProgress>;
@@ -1868,9 +1773,7 @@ export interface AlarmSpecification {
 }
 export const AlarmSpecification = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Alarms: S.optional(AlarmList) }),
-).annotate({
-  identifier: "AlarmSpecification",
-}) as any as S.Schema<AlarmSpecification>;
+).annotate({ identifier: "AlarmSpecification" }) as any as S.Schema<AlarmSpecification>;
 export type IntPercent100To200 = number;
 export type BakeTime = number;
 export interface RefreshPreferences {
@@ -1900,9 +1803,7 @@ export const RefreshPreferences = /*@__PURE__*/ S.suspend(() =>
     MaxHealthyPercentage: S.optional(S.Number),
     BakeTime: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "RefreshPreferences",
-}) as any as S.Schema<RefreshPreferences>;
+).annotate({ identifier: "RefreshPreferences" }) as any as S.Schema<RefreshPreferences>;
 export interface DesiredConfiguration {
   LaunchTemplate?: LaunchTemplateSpecification;
   MixedInstancesPolicy?: MixedInstancesPolicy;
@@ -1912,9 +1813,7 @@ export const DesiredConfiguration = /*@__PURE__*/ S.suspend(() =>
     LaunchTemplate: S.optional(LaunchTemplateSpecification),
     MixedInstancesPolicy: S.optional(MixedInstancesPolicy),
   }),
-).annotate({
-  identifier: "DesiredConfiguration",
-}) as any as S.Schema<DesiredConfiguration>;
+).annotate({ identifier: "DesiredConfiguration" }) as any as S.Schema<DesiredConfiguration>;
 export interface RollbackDetails {
   RollbackReason?: string;
   RollbackStartTime?: Date;
@@ -1930,9 +1829,7 @@ export const RollbackDetails = /*@__PURE__*/ S.suspend(() =>
     InstancesToUpdateOnRollback: S.optional(S.Number),
     ProgressDetailsOnRollback: S.optional(InstanceRefreshProgressDetails),
   }),
-).annotate({
-  identifier: "RollbackDetails",
-}) as any as S.Schema<RollbackDetails>;
+).annotate({ identifier: "RollbackDetails" }) as any as S.Schema<RollbackDetails>;
 export type RefreshStrategy = "Rolling" | "ReplaceRootVolume" | (string & {});
 export const RefreshStrategy = S.String;
 
@@ -1967,9 +1864,7 @@ export const InstanceRefresh = /*@__PURE__*/ S.suspend(() =>
     RollbackDetails: S.optional(RollbackDetails),
     Strategy: S.optional(RefreshStrategy),
   }),
-).annotate({
-  identifier: "InstanceRefresh",
-}) as any as S.Schema<InstanceRefresh>;
+).annotate({ identifier: "InstanceRefresh" }) as any as S.Schema<InstanceRefresh>;
 export type InstanceRefreshes = InstanceRefresh[];
 export const InstanceRefreshes = /*@__PURE__*/ S.Array(InstanceRefresh);
 export interface DescribeInstanceRefreshesAnswer {
@@ -2058,9 +1953,7 @@ export const LaunchConfiguration = /*@__PURE__*/ S.suspend(() =>
     PlacementTenancy: S.optional(S.String),
     MetadataOptions: S.optional(InstanceMetadataOptions),
   }),
-).annotate({
-  identifier: "LaunchConfiguration",
-}) as any as S.Schema<LaunchConfiguration>;
+).annotate({ identifier: "LaunchConfiguration" }) as any as S.Schema<LaunchConfiguration>;
 export type LaunchConfigurations = LaunchConfiguration[];
 export const LaunchConfigurations = /*@__PURE__*/ S.Array(LaunchConfiguration);
 export interface LaunchConfigurationsType {
@@ -2069,9 +1962,7 @@ export interface LaunchConfigurationsType {
     ImageId: XmlStringMaxLen255;
     InstanceType: XmlStringMaxLen255;
     CreatedTime: Date;
-    BlockDeviceMappings: (BlockDeviceMapping & {
-      DeviceName: XmlStringMaxLen255;
-    })[];
+    BlockDeviceMappings: (BlockDeviceMapping & { DeviceName: XmlStringMaxLen255 })[];
   })[];
   NextToken?: string;
 }
@@ -2080,9 +1971,7 @@ export const LaunchConfigurationsType = /*@__PURE__*/ S.suspend(() =>
     LaunchConfigurations: S.optional(LaunchConfigurations),
     NextToken: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "LaunchConfigurationsType",
-}) as any as S.Schema<LaunchConfigurationsType>;
+).annotate({ identifier: "LaunchConfigurationsType" }) as any as S.Schema<LaunchConfigurationsType>;
 export type LifecycleHookNames = string[];
 export const LifecycleHookNames = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeLifecycleHooksType {
@@ -2142,9 +2031,7 @@ export interface DescribeLifecycleHookTypesAnswer {
   LifecycleHookTypes?: string[];
 }
 export const DescribeLifecycleHookTypesAnswer = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LifecycleHookTypes: S.optional(AutoScalingNotificationTypes),
-  }).pipe(ns),
+  S.Struct({ LifecycleHookTypes: S.optional(AutoScalingNotificationTypes) }).pipe(ns),
 ).annotate({
   identifier: "DescribeLifecycleHookTypesAnswer",
 }) as any as S.Schema<DescribeLifecycleHookTypesAnswer>;
@@ -2167,13 +2054,8 @@ export interface LoadBalancerState {
   State?: string;
 }
 export const LoadBalancerState = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LoadBalancerName: S.optional(S.String),
-    State: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LoadBalancerState",
-}) as any as S.Schema<LoadBalancerState>;
+  S.Struct({ LoadBalancerName: S.optional(S.String), State: S.optional(S.String) }),
+).annotate({ identifier: "LoadBalancerState" }) as any as S.Schema<LoadBalancerState>;
 export type LoadBalancerStates = LoadBalancerState[];
 export const LoadBalancerStates = /*@__PURE__*/ S.Array(LoadBalancerState);
 export interface DescribeLoadBalancersResponse {
@@ -2181,10 +2063,9 @@ export interface DescribeLoadBalancersResponse {
   NextToken?: string;
 }
 export const DescribeLoadBalancersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LoadBalancers: S.optional(LoadBalancerStates),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ LoadBalancers: S.optional(LoadBalancerStates), NextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
 ).annotate({
   identifier: "DescribeLoadBalancersResponse",
 }) as any as S.Schema<DescribeLoadBalancersResponse>;
@@ -2207,10 +2088,7 @@ export interface LoadBalancerTargetGroupState {
   State?: string;
 }
 export const LoadBalancerTargetGroupState = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LoadBalancerTargetGroupARN: S.optional(S.String),
-    State: S.optional(S.String),
-  }),
+  S.Struct({ LoadBalancerTargetGroupARN: S.optional(S.String), State: S.optional(S.String) }),
 ).annotate({
   identifier: "LoadBalancerTargetGroupState",
 }) as any as S.Schema<LoadBalancerTargetGroupState>;
@@ -2239,9 +2117,7 @@ export interface MetricCollectionType {
 }
 export const MetricCollectionType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Metric: S.optional(S.String) }),
-).annotate({
-  identifier: "MetricCollectionType",
-}) as any as S.Schema<MetricCollectionType>;
+).annotate({ identifier: "MetricCollectionType" }) as any as S.Schema<MetricCollectionType>;
 export type MetricCollectionTypes = MetricCollectionType[];
 export const MetricCollectionTypes = /*@__PURE__*/ S.Array(MetricCollectionType);
 export interface MetricGranularityType {
@@ -2249,9 +2125,7 @@ export interface MetricGranularityType {
 }
 export const MetricGranularityType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Granularity: S.optional(S.String) }),
-).annotate({
-  identifier: "MetricGranularityType",
-}) as any as S.Schema<MetricGranularityType>;
+).annotate({ identifier: "MetricGranularityType" }) as any as S.Schema<MetricGranularityType>;
 export type MetricGranularityTypes = MetricGranularityType[];
 export const MetricGranularityTypes = /*@__PURE__*/ S.Array(MetricGranularityType);
 export interface DescribeMetricCollectionTypesAnswer {
@@ -2327,9 +2201,7 @@ export const DescribePoliciesType = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribePoliciesType",
-}) as any as S.Schema<DescribePoliciesType>;
+).annotate({ identifier: "DescribePoliciesType" }) as any as S.Schema<DescribePoliciesType>;
 export type MinAdjustmentStep = number;
 export type MinAdjustmentMagnitude = number;
 export type PolicyIncrement = number;
@@ -2371,10 +2243,7 @@ export interface PredefinedMetricSpecification {
   ResourceLabel?: string;
 }
 export const PredefinedMetricSpecification = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PredefinedMetricType: S.optional(MetricType),
-    ResourceLabel: S.optional(S.String),
-  }),
+  S.Struct({ PredefinedMetricType: S.optional(MetricType), ResourceLabel: S.optional(S.String) }),
 ).annotate({
   identifier: "PredefinedMetricSpecification",
 }) as any as S.Schema<PredefinedMetricSpecification>;
@@ -2388,9 +2257,7 @@ export interface MetricDimension {
 }
 export const MetricDimension = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
-).annotate({
-  identifier: "MetricDimension",
-}) as any as S.Schema<MetricDimension>;
+).annotate({ identifier: "MetricDimension" }) as any as S.Schema<MetricDimension>;
 export type MetricDimensions = MetricDimension[];
 export const MetricDimensions = /*@__PURE__*/ S.Array(MetricDimension);
 export type MetricStatistic =
@@ -2431,9 +2298,7 @@ export const TargetTrackingMetricStat = /*@__PURE__*/ S.suspend(() =>
     Unit: S.optional(S.String),
     Period: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TargetTrackingMetricStat",
-}) as any as S.Schema<TargetTrackingMetricStat>;
+).annotate({ identifier: "TargetTrackingMetricStat" }) as any as S.Schema<TargetTrackingMetricStat>;
 export type XmlStringMetricLabel = string;
 export type ReturnData = boolean;
 export interface TargetTrackingMetricDataQuery {
@@ -2564,11 +2429,7 @@ export interface MetricStat {
   Unit?: string;
 }
 export const MetricStat = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Metric: S.optional(Metric),
-    Stat: S.optional(S.String),
-    Unit: S.optional(S.String),
-  }),
+  S.Struct({ Metric: S.optional(Metric), Stat: S.optional(S.String), Unit: S.optional(S.String) }),
 ).annotate({ identifier: "MetricStat" }) as any as S.Schema<MetricStat>;
 export interface MetricDataQuery {
   Id?: string;
@@ -2585,9 +2446,7 @@ export const MetricDataQuery = /*@__PURE__*/ S.suspend(() =>
     Label: S.optional(S.String),
     ReturnData: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MetricDataQuery",
-}) as any as S.Schema<MetricDataQuery>;
+).annotate({ identifier: "MetricDataQuery" }) as any as S.Schema<MetricDataQuery>;
 export type MetricDataQueries = MetricDataQuery[];
 export const MetricDataQueries = /*@__PURE__*/ S.Array(MetricDataQuery);
 export interface PredictiveScalingCustomizedScalingMetric {
@@ -2711,9 +2570,7 @@ export type ScalingPolicies = ScalingPolicy[];
 export const ScalingPolicies = /*@__PURE__*/ S.Array(ScalingPolicy);
 export interface PoliciesType {
   ScalingPolicies?: (ScalingPolicy & {
-    StepAdjustments: (StepAdjustment & {
-      ScalingAdjustment: PolicyIncrement;
-    })[];
+    StepAdjustments: (StepAdjustment & { ScalingAdjustment: PolicyIncrement })[];
     TargetTrackingConfiguration: TargetTrackingConfiguration & {
       TargetValue: MetricScale;
       PredefinedMetricSpecification: PredefinedMetricSpecification & {
@@ -2806,10 +2663,9 @@ export interface PoliciesType {
   NextToken?: string;
 }
 export const PoliciesType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ScalingPolicies: S.optional(ScalingPolicies),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ ScalingPolicies: S.optional(ScalingPolicies), NextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
 ).annotate({ identifier: "PoliciesType" }) as any as S.Schema<PoliciesType>;
 export type ActivityIds = string[];
 export const ActivityIds = /*@__PURE__*/ S.Array(S.String);
@@ -2899,10 +2755,7 @@ export interface ActivitiesType {
   NextToken?: string;
 }
 export const ActivitiesType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Activities: S.optional(Activities),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ Activities: S.optional(Activities), NextToken: S.optional(S.String) }).pipe(ns),
 ).annotate({ identifier: "ActivitiesType" }) as any as S.Schema<ActivitiesType>;
 export interface DescribeScalingProcessTypesRequest {}
 export const DescribeScalingProcessTypesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2985,9 +2838,7 @@ export const ScheduledActionsType = /*@__PURE__*/ S.suspend(() =>
     ScheduledUpdateGroupActions: S.optional(ScheduledUpdateGroupActions),
     NextToken: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "ScheduledActionsType",
-}) as any as S.Schema<ScheduledActionsType>;
+).annotate({ identifier: "ScheduledActionsType" }) as any as S.Schema<ScheduledActionsType>;
 export interface DescribeTagsType {
   Filters?: Filter[];
   NextToken?: string;
@@ -2999,18 +2850,13 @@ export const DescribeTagsType = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeTagsType",
-}) as any as S.Schema<DescribeTagsType>;
+).annotate({ identifier: "DescribeTagsType" }) as any as S.Schema<DescribeTagsType>;
 export interface TagsType {
   Tags?: TagDescription[];
   NextToken?: string;
 }
 export const TagsType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Tags: S.optional(TagDescriptionList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ Tags: S.optional(TagDescriptionList), NextToken: S.optional(S.String) }).pipe(ns),
 ).annotate({ identifier: "TagsType" }) as any as S.Schema<TagsType>;
 export interface DescribeTerminationPolicyTypesRequest {}
 export const DescribeTerminationPolicyTypesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3055,9 +2901,7 @@ export const TrafficSourceState = /*@__PURE__*/ S.suspend(() =>
     Identifier: S.optional(S.String),
     Type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TrafficSourceState",
-}) as any as S.Schema<TrafficSourceState>;
+).annotate({ identifier: "TrafficSourceState" }) as any as S.Schema<TrafficSourceState>;
 export type TrafficSourceStates = TrafficSourceState[];
 export const TrafficSourceStates = /*@__PURE__*/ S.Array(TrafficSourceState);
 export interface DescribeTrafficSourcesResponse {
@@ -3083,9 +2927,7 @@ export const DescribeWarmPoolType = /*@__PURE__*/ S.suspend(() =>
     MaxRecords: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeWarmPoolType",
-}) as any as S.Schema<DescribeWarmPoolType>;
+).annotate({ identifier: "DescribeWarmPoolType" }) as any as S.Schema<DescribeWarmPoolType>;
 export interface DescribeWarmPoolAnswer {
   WarmPoolConfiguration?: WarmPoolConfiguration;
   Instances?: (Instance & {
@@ -3103,9 +2945,7 @@ export const DescribeWarmPoolAnswer = /*@__PURE__*/ S.suspend(() =>
     Instances: S.optional(Instances),
     NextToken: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeWarmPoolAnswer",
-}) as any as S.Schema<DescribeWarmPoolAnswer>;
+).annotate({ identifier: "DescribeWarmPoolAnswer" }) as any as S.Schema<DescribeWarmPoolAnswer>;
 export type ShouldDecrementDesiredCapacity = boolean;
 export interface DetachInstancesQuery {
   InstanceIds?: string[];
@@ -3118,9 +2958,7 @@ export const DetachInstancesQuery = /*@__PURE__*/ S.suspend(() =>
     AutoScalingGroupName: S.optional(S.String),
     ShouldDecrementDesiredCapacity: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DetachInstancesQuery",
-}) as any as S.Schema<DetachInstancesQuery>;
+).annotate({ identifier: "DetachInstancesQuery" }) as any as S.Schema<DetachInstancesQuery>;
 export interface DetachInstancesAnswer {
   Activities?: (Activity & {
     ActivityId: XmlString;
@@ -3132,9 +2970,7 @@ export interface DetachInstancesAnswer {
 }
 export const DetachInstancesAnswer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Activities: S.optional(Activities) }).pipe(ns),
-).annotate({
-  identifier: "DetachInstancesAnswer",
-}) as any as S.Schema<DetachInstancesAnswer>;
+).annotate({ identifier: "DetachInstancesAnswer" }) as any as S.Schema<DetachInstancesAnswer>;
 export interface DetachLoadBalancersType {
   AutoScalingGroupName?: string;
   LoadBalancerNames?: string[];
@@ -3144,9 +2980,7 @@ export const DetachLoadBalancersType = /*@__PURE__*/ S.suspend(() =>
     AutoScalingGroupName: S.optional(S.String),
     LoadBalancerNames: S.optional(LoadBalancerNames),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DetachLoadBalancersType",
-}) as any as S.Schema<DetachLoadBalancersType>;
+).annotate({ identifier: "DetachLoadBalancersType" }) as any as S.Schema<DetachLoadBalancersType>;
 export interface DetachLoadBalancersResultType {}
 export const DetachLoadBalancersResultType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -3180,9 +3014,7 @@ export const DetachTrafficSourcesType = /*@__PURE__*/ S.suspend(() =>
     AutoScalingGroupName: S.optional(S.String),
     TrafficSources: S.optional(TrafficSources),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DetachTrafficSourcesType",
-}) as any as S.Schema<DetachTrafficSourcesType>;
+).annotate({ identifier: "DetachTrafficSourcesType" }) as any as S.Schema<DetachTrafficSourcesType>;
 export interface DetachTrafficSourcesResultType {}
 export const DetachTrafficSourcesResultType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -3196,10 +3028,9 @@ export interface DisableMetricsCollectionQuery {
   Metrics?: string[];
 }
 export const DisableMetricsCollectionQuery = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AutoScalingGroupName: S.optional(S.String),
-    Metrics: S.optional(Metrics),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ AutoScalingGroupName: S.optional(S.String), Metrics: S.optional(Metrics) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DisableMetricsCollectionQuery",
 }) as any as S.Schema<DisableMetricsCollectionQuery>;
@@ -3240,9 +3071,7 @@ export const EnterStandbyQuery = /*@__PURE__*/ S.suspend(() =>
     AutoScalingGroupName: S.optional(S.String),
     ShouldDecrementDesiredCapacity: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "EnterStandbyQuery",
-}) as any as S.Schema<EnterStandbyQuery>;
+).annotate({ identifier: "EnterStandbyQuery" }) as any as S.Schema<EnterStandbyQuery>;
 export interface EnterStandbyAnswer {
   Activities?: (Activity & {
     ActivityId: XmlString;
@@ -3254,9 +3083,7 @@ export interface EnterStandbyAnswer {
 }
 export const EnterStandbyAnswer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Activities: S.optional(Activities) }).pipe(ns),
-).annotate({
-  identifier: "EnterStandbyAnswer",
-}) as any as S.Schema<EnterStandbyAnswer>;
+).annotate({ identifier: "EnterStandbyAnswer" }) as any as S.Schema<EnterStandbyAnswer>;
 export type HonorCooldown = boolean;
 export interface ExecutePolicyType {
   AutoScalingGroupName?: string;
@@ -3273,9 +3100,7 @@ export const ExecutePolicyType = /*@__PURE__*/ S.suspend(() =>
     MetricValue: S.optional(S.Number),
     BreachThreshold: S.optional(S.Number),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ExecutePolicyType",
-}) as any as S.Schema<ExecutePolicyType>;
+).annotate({ identifier: "ExecutePolicyType" }) as any as S.Schema<ExecutePolicyType>;
 export interface ExecutePolicyResponse {}
 export const ExecutePolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "ExecutePolicyResponse",
@@ -3289,9 +3114,7 @@ export const ExitStandbyQuery = /*@__PURE__*/ S.suspend(() =>
     InstanceIds: S.optional(InstanceIds),
     AutoScalingGroupName: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ExitStandbyQuery",
-}) as any as S.Schema<ExitStandbyQuery>;
+).annotate({ identifier: "ExitStandbyQuery" }) as any as S.Schema<ExitStandbyQuery>;
 export interface ExitStandbyAnswer {
   Activities?: (Activity & {
     ActivityId: XmlString;
@@ -3303,9 +3126,7 @@ export interface ExitStandbyAnswer {
 }
 export const ExitStandbyAnswer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Activities: S.optional(Activities) }).pipe(ns),
-).annotate({
-  identifier: "ExitStandbyAnswer",
-}) as any as S.Schema<ExitStandbyAnswer>;
+).annotate({ identifier: "ExitStandbyAnswer" }) as any as S.Schema<ExitStandbyAnswer>;
 export interface GetPredictiveScalingForecastType {
   AutoScalingGroupName?: string;
   PolicyName?: string;
@@ -3351,9 +3172,7 @@ export const CapacityForecast = /*@__PURE__*/ S.suspend(() =>
     Timestamps: S.optional(PredictiveScalingForecastTimestamps),
     Values: S.optional(PredictiveScalingForecastValues),
   }),
-).annotate({
-  identifier: "CapacityForecast",
-}) as any as S.Schema<CapacityForecast>;
+).annotate({ identifier: "CapacityForecast" }) as any as S.Schema<CapacityForecast>;
 export interface GetPredictiveScalingForecastAnswer {
   LoadForecast: (LoadForecast & {
     Timestamps: PredictiveScalingForecastTimestamps;
@@ -3464,9 +3283,7 @@ export const LaunchInstancesRequest = /*@__PURE__*/ S.suspend(() =>
     SubnetIds: S.optional(SubnetIdsLimit1),
     RetryStrategy: S.optional(RetryStrategy),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "LaunchInstancesRequest",
-}) as any as S.Schema<LaunchInstancesRequest>;
+).annotate({ identifier: "LaunchInstancesRequest" }) as any as S.Schema<LaunchInstancesRequest>;
 export interface InstanceCollection {
   InstanceType?: string;
   MarketType?: string;
@@ -3484,9 +3301,7 @@ export const InstanceCollection = /*@__PURE__*/ S.suspend(() =>
     AvailabilityZoneId: S.optional(S.String),
     InstanceIds: S.optional(InstanceIds),
   }),
-).annotate({
-  identifier: "InstanceCollection",
-}) as any as S.Schema<InstanceCollection>;
+).annotate({ identifier: "InstanceCollection" }) as any as S.Schema<InstanceCollection>;
 export type InstanceCollections = InstanceCollection[];
 export const InstanceCollections = /*@__PURE__*/ S.Array(InstanceCollection);
 export interface LaunchInstancesError_ {
@@ -3508,9 +3323,7 @@ export const LaunchInstancesError_ = /*@__PURE__*/ S.suspend(() =>
     ErrorCode: S.optional(S.String),
     ErrorMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LaunchInstancesError",
-}) as any as S.Schema<LaunchInstancesError_>;
+).annotate({ identifier: "LaunchInstancesError" }) as any as S.Schema<LaunchInstancesError_>;
 export type LaunchInstancesErrors = LaunchInstancesError_[];
 export const LaunchInstancesErrors = /*@__PURE__*/ S.Array(LaunchInstancesError_);
 export interface LaunchInstancesResult {
@@ -3526,9 +3339,7 @@ export const LaunchInstancesResult = /*@__PURE__*/ S.suspend(() =>
     Instances: S.optional(InstanceCollections),
     Errors: S.optional(LaunchInstancesErrors),
   }).pipe(ns),
-).annotate({
-  identifier: "LaunchInstancesResult",
-}) as any as S.Schema<LaunchInstancesResult>;
+).annotate({ identifier: "LaunchInstancesResult" }) as any as S.Schema<LaunchInstancesResult>;
 export interface PutLifecycleHookType {
   LifecycleHookName?: string;
   AutoScalingGroupName?: string;
@@ -3550,14 +3361,10 @@ export const PutLifecycleHookType = /*@__PURE__*/ S.suspend(() =>
     HeartbeatTimeout: S.optional(S.Number),
     DefaultResult: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "PutLifecycleHookType",
-}) as any as S.Schema<PutLifecycleHookType>;
+).annotate({ identifier: "PutLifecycleHookType" }) as any as S.Schema<PutLifecycleHookType>;
 export interface PutLifecycleHookAnswer {}
 export const PutLifecycleHookAnswer = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate(
-  {
-    identifier: "PutLifecycleHookAnswer",
-  },
+  { identifier: "PutLifecycleHookAnswer" },
 ) as any as S.Schema<PutLifecycleHookAnswer>;
 export interface PutNotificationConfigurationType {
   AutoScalingGroupName?: string;
@@ -3612,18 +3419,13 @@ export const PutScalingPolicyType = /*@__PURE__*/ S.suspend(() =>
     Enabled: S.optional(S.Boolean),
     PredictiveScalingConfiguration: S.optional(PredictiveScalingConfiguration),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "PutScalingPolicyType",
-}) as any as S.Schema<PutScalingPolicyType>;
+).annotate({ identifier: "PutScalingPolicyType" }) as any as S.Schema<PutScalingPolicyType>;
 export interface PolicyARNType {
   PolicyARN?: string;
   Alarms?: Alarm[];
 }
 export const PolicyARNType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyARN: S.optional(S.String),
-    Alarms: S.optional(Alarms),
-  }).pipe(ns),
+  S.Struct({ PolicyARN: S.optional(S.String), Alarms: S.optional(Alarms) }).pipe(ns),
 ).annotate({ identifier: "PolicyARNType" }) as any as S.Schema<PolicyARNType>;
 export interface PutScheduledUpdateGroupActionType {
   AutoScalingGroupName?: string;
@@ -3674,9 +3476,7 @@ export const PutWarmPoolType = /*@__PURE__*/ S.suspend(() =>
     PoolState: S.optional(WarmPoolState),
     InstanceReusePolicy: S.optional(InstanceReusePolicy),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "PutWarmPoolType",
-}) as any as S.Schema<PutWarmPoolType>;
+).annotate({ identifier: "PutWarmPoolType" }) as any as S.Schema<PutWarmPoolType>;
 export interface PutWarmPoolAnswer {}
 export const PutWarmPoolAnswer = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "PutWarmPoolAnswer",
@@ -3714,15 +3514,11 @@ export const ScalingProcessQuery = /*@__PURE__*/ S.suspend(() =>
     AutoScalingGroupName: S.optional(S.String),
     ScalingProcesses: S.optional(ProcessNames),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ScalingProcessQuery",
-}) as any as S.Schema<ScalingProcessQuery>;
+).annotate({ identifier: "ScalingProcessQuery" }) as any as S.Schema<ScalingProcessQuery>;
 export interface ResumeProcessesResponse {}
 export const ResumeProcessesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "ResumeProcessesResponse",
-}) as any as S.Schema<ResumeProcessesResponse>;
+).annotate({ identifier: "ResumeProcessesResponse" }) as any as S.Schema<ResumeProcessesResponse>;
 export interface RollbackInstanceRefreshType {
   AutoScalingGroupName?: string;
 }
@@ -3752,9 +3548,7 @@ export const SetDesiredCapacityType = /*@__PURE__*/ S.suspend(() =>
     DesiredCapacity: S.optional(S.Number),
     HonorCooldown: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "SetDesiredCapacityType",
-}) as any as S.Schema<SetDesiredCapacityType>;
+).annotate({ identifier: "SetDesiredCapacityType" }) as any as S.Schema<SetDesiredCapacityType>;
 export interface SetDesiredCapacityResponse {}
 export const SetDesiredCapacityResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -3773,9 +3567,7 @@ export const SetInstanceHealthQuery = /*@__PURE__*/ S.suspend(() =>
     HealthStatus: S.optional(S.String),
     ShouldRespectGracePeriod: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "SetInstanceHealthQuery",
-}) as any as S.Schema<SetInstanceHealthQuery>;
+).annotate({ identifier: "SetInstanceHealthQuery" }) as any as S.Schema<SetInstanceHealthQuery>;
 export interface SetInstanceHealthResponse {}
 export const SetInstanceHealthResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -3816,9 +3608,7 @@ export const StartInstanceRefreshType = /*@__PURE__*/ S.suspend(() =>
     DesiredConfiguration: S.optional(DesiredConfiguration),
     Preferences: S.optional(RefreshPreferences),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "StartInstanceRefreshType",
-}) as any as S.Schema<StartInstanceRefreshType>;
+).annotate({ identifier: "StartInstanceRefreshType" }) as any as S.Schema<StartInstanceRefreshType>;
 export interface StartInstanceRefreshAnswer {
   InstanceRefreshId?: string;
 }
@@ -3830,9 +3620,7 @@ export const StartInstanceRefreshAnswer = /*@__PURE__*/ S.suspend(() =>
 export interface SuspendProcessesResponse {}
 export const SuspendProcessesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "SuspendProcessesResponse",
-}) as any as S.Schema<SuspendProcessesResponse>;
+).annotate({ identifier: "SuspendProcessesResponse" }) as any as S.Schema<SuspendProcessesResponse>;
 export type TerminationInstanceIds = string[];
 export const TerminationInstanceIds = /*@__PURE__*/ S.Array(S.String);
 export interface TerminateInstanceInAutoScalingGroupType {
@@ -3868,10 +3656,7 @@ export interface ActivityType {
   })[];
 }
 export const ActivityType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Activity: S.optional(Activity),
-    Activities: S.optional(Activities),
-  }).pipe(ns),
+  S.Struct({ Activity: S.optional(Activity), Activities: S.optional(Activities) }).pipe(ns),
 ).annotate({ identifier: "ActivityType" }) as any as S.Schema<ActivityType>;
 export type UpdatePlacementGroupParam = string;
 export interface UpdateAutoScalingGroupType {
@@ -4235,6 +4020,7 @@ export type CreateAutoScalingGroupError =
   | LimitExceededFault
   | ResourceContentionFault
   | ServiceLinkedRoleFailure
+  | InvalidIamInstanceProfile
   | CommonErrors;
 /**
  * **We strongly recommend using a launch template when calling this operation to ensure full functionality for Amazon EC2 Auto Scaling and Amazon EC2.**
@@ -4268,6 +4054,7 @@ export const createAutoScalingGroup: API.OperationMethod<
     LimitExceededFault,
     ResourceContentionFault,
     ServiceLinkedRoleFailure,
+    InvalidIamInstanceProfile,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6006,6 +5793,7 @@ export type UpdateAutoScalingGroupError =
   | ResourceContentionFault
   | ScalingActivityInProgressFault
   | ServiceLinkedRoleFailure
+  | InvalidIamInstanceProfile
   | CommonErrors;
 /**
  * **We strongly recommend that all Auto Scaling groups use launch templates to ensure full functionality for Amazon EC2 Auto Scaling and Amazon EC2.**
@@ -6058,7 +5846,12 @@ export const updateAutoScalingGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAutoScalingGroupType,
   output: UpdateAutoScalingGroupResponse,
-  errors: [ResourceContentionFault, ScalingActivityInProgressFault, ServiceLinkedRoleFailure],
+  errors: [
+    ResourceContentionFault,
+    ScalingActivityInProgressFault,
+    ServiceLinkedRoleFailure,
+    InvalidIamInstanceProfile,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutoScalingGroup",

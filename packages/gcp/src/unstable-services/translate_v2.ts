@@ -73,9 +73,7 @@ export const DetectLanguageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     q: S.optional(StringList),
   }),
-).annotate({
-  identifier: "DetectLanguageRequest",
-}) as any as S.Schema<DetectLanguageRequest>;
+).annotate({ identifier: "DetectLanguageRequest" }) as any as S.Schema<DetectLanguageRequest>;
 
 export interface DetectDetectionsRequest {
   /** OAuth bearer token. */
@@ -97,9 +95,7 @@ export const DetectDetectionsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://translation.googleapis.com/language/translate/",
     }),
   ),
-).annotate({
-  identifier: "DetectDetectionsRequest",
-}) as any as S.Schema<DetectDetectionsRequest>;
+).annotate({ identifier: "DetectDetectionsRequest" }) as any as S.Schema<DetectDetectionsRequest>;
 
 export interface DetectionsResourceItem {
   /** The confidence of the detection result of this language. */
@@ -115,9 +111,7 @@ export const DetectionsResourceItem = /*@__PURE__*/ S.suspend(() =>
     language: S.optional(S.String),
     isReliable: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DetectionsResourceItem",
-}) as any as S.Schema<DetectionsResourceItem>;
+).annotate({ identifier: "DetectionsResourceItem" }) as any as S.Schema<DetectionsResourceItem>;
 
 /** An array of languages which we detect for the given text The most likely language list first. */
 export type DetectionsResource = Array<DetectionsResourceItem>;
@@ -138,9 +132,7 @@ export const DetectionsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     detections: S.optional(DetectionsResourceList),
   }),
-).annotate({
-  identifier: "DetectionsListResponse",
-}) as any as S.Schema<DetectionsListResponse>;
+).annotate({ identifier: "DetectionsListResponse" }) as any as S.Schema<DetectionsListResponse>;
 
 export interface ListDetectionsRequest {
   /** OAuth bearer token. */
@@ -162,9 +154,7 @@ export const ListDetectionsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://translation.googleapis.com/language/translate/",
     }),
   ),
-).annotate({
-  identifier: "ListDetectionsRequest",
-}) as any as S.Schema<ListDetectionsRequest>;
+).annotate({ identifier: "ListDetectionsRequest" }) as any as S.Schema<ListDetectionsRequest>;
 
 export interface ListLanguagesRequest {
   /** OAuth bearer token. */
@@ -189,24 +179,20 @@ export const ListLanguagesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://translation.googleapis.com/language/translate/",
     }),
   ),
-).annotate({
-  identifier: "ListLanguagesRequest",
-}) as any as S.Schema<ListLanguagesRequest>;
+).annotate({ identifier: "ListLanguagesRequest" }) as any as S.Schema<ListLanguagesRequest>;
 
 export interface LanguagesResource {
-  /** Human readable name of the language localized to the target language. */
-  name?: string;
   /** Supported language code, generally consisting of its ISO 639-1 identifier. (E.g. 'en', 'ja'). In certain cases, BCP-47 codes including language + region identifiers are returned (e.g. 'zh-TW' and 'zh-CH') */
   language?: string;
+  /** Human readable name of the language localized to the target language. */
+  name?: string;
 }
 export const LanguagesResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     language: S.optional(S.String),
+    name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LanguagesResource",
-}) as any as S.Schema<LanguagesResource>;
+).annotate({ identifier: "LanguagesResource" }) as any as S.Schema<LanguagesResource>;
 
 export type LanguagesResourceList = Array<LanguagesResource>;
 export const LanguagesResourceList = /*@__PURE__*/ S.Array(
@@ -221,9 +207,7 @@ export const LanguagesListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     languages: S.optional(LanguagesResourceList),
   }),
-).annotate({
-  identifier: "LanguagesListResponse",
-}) as any as S.Schema<LanguagesListResponse>;
+).annotate({ identifier: "LanguagesListResponse" }) as any as S.Schema<LanguagesListResponse>;
 
 export type ListTranslationsFormatEnum = "html" | "text";
 export const ListTranslationsFormatEnum = S.String;
@@ -233,29 +217,29 @@ export interface ListTranslationsRequest {
   bearer_token?: string;
   /** Pretty-print response. */
   pp?: boolean;
+  /** The `model` type requested for this translation. Valid values are listed in public documentation. */
+  model?: string;
   /** The customization id for translate */
   cid?: StringList;
   /** The format of the source text, in either HTML (default) or plain-text. A value of "html" indicates HTML and a value of "text" indicates plain-text. */
   format?: ListTranslationsFormatEnum | (string & {});
-  /** The `model` type requested for this translation. Valid values are listed in public documentation. */
-  model?: string;
   /** The language of the source text, set to one of the language codes listed in Language Support. If the source language is not specified, the API will attempt to identify the source language automatically and return it within the response. */
   source?: string;
-  /** The input text to translate. Repeat this parameter to perform translation operations on multiple text inputs. */
-  q: StringList;
   /** The language to use for translation of the input text, set to one of the language codes listed in Language Support. */
   target: string;
+  /** The input text to translate. Repeat this parameter to perform translation operations on multiple text inputs. */
+  q: StringList;
 }
 export const ListTranslationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     bearer_token: S.optional(S.String.pipe(T.Query())),
     pp: S.optional(S.Boolean.pipe(T.Query())),
+    model: S.optional(S.String.pipe(T.Query())),
     cid: S.optional(StringList.pipe(T.Query())),
     format: S.optional(ListTranslationsFormatEnum.pipe(T.Query())),
-    model: S.optional(S.String.pipe(T.Query())),
     source: S.optional(S.String.pipe(T.Query())),
-    q: StringList.pipe(T.Query()),
     target: S.String.pipe(T.Query()),
+    q: StringList.pipe(T.Query()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -263,27 +247,23 @@ export const ListTranslationsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://translation.googleapis.com/language/translate/",
     }),
   ),
-).annotate({
-  identifier: "ListTranslationsRequest",
-}) as any as S.Schema<ListTranslationsRequest>;
+).annotate({ identifier: "ListTranslationsRequest" }) as any as S.Schema<ListTranslationsRequest>;
 
 export interface TranslationsResource {
   /** The source language of the initial request, detected automatically, if no source language was passed within the initial request. If the source language was passed, auto-detection of the language will not occur and this field will be empty. */
   detectedSourceLanguage?: string;
-  /** Text translated into the target language. */
-  translatedText?: string;
   /** The `model` type used for this translation. Valid values are listed in public documentation. Can be different from requested `model`. Present only if specific model type was explicitly requested. */
   model?: string;
+  /** Text translated into the target language. */
+  translatedText?: string;
 }
 export const TranslationsResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     detectedSourceLanguage: S.optional(S.String),
-    translatedText: S.optional(S.String),
     model: S.optional(S.String),
+    translatedText: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TranslationsResource",
-}) as any as S.Schema<TranslationsResource>;
+).annotate({ identifier: "TranslationsResource" }) as any as S.Schema<TranslationsResource>;
 
 export type TranslationsResourceList = Array<TranslationsResource>;
 export const TranslationsResourceList = /*@__PURE__*/ S.Array(
@@ -299,34 +279,30 @@ export const TranslationsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     translations: S.optional(TranslationsResourceList),
   }),
-).annotate({
-  identifier: "TranslationsListResponse",
-}) as any as S.Schema<TranslationsListResponse>;
+).annotate({ identifier: "TranslationsListResponse" }) as any as S.Schema<TranslationsListResponse>;
 
 /** The main translation request message for the Cloud Translation API. */
 export interface TranslateTextRequest {
-  /** The input text to translate. Repeat this parameter to perform translation operations on multiple text inputs. */
-  q?: StringList;
+  /** The language to use for translation of the input text, set to one of the language codes listed in Language Support. */
+  target?: string;
   /** The language of the source text, set to one of the language codes listed in Language Support. If the source language is not specified, the API will attempt to identify the source language automatically and return it within the response. */
   source?: string;
   /** The format of the source text, in either HTML (default) or plain-text. A value of "html" indicates HTML and a value of "text" indicates plain-text. */
   format?: string;
+  /** The input text to translate. Repeat this parameter to perform translation operations on multiple text inputs. */
+  q?: StringList;
   /** The `model` type requested for this translation. Valid values are listed in public documentation. */
   model?: string;
-  /** The language to use for translation of the input text, set to one of the language codes listed in Language Support. */
-  target?: string;
 }
 export const TranslateTextRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    q: S.optional(StringList),
+    target: S.optional(S.String),
     source: S.optional(S.String),
     format: S.optional(S.String),
+    q: S.optional(StringList),
     model: S.optional(S.String),
-    target: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TranslateTextRequest",
-}) as any as S.Schema<TranslateTextRequest>;
+).annotate({ identifier: "TranslateTextRequest" }) as any as S.Schema<TranslateTextRequest>;
 
 export interface TranslateTranslationsRequest {
   /** OAuth bearer token. */

@@ -81,14 +81,17 @@ export class AccessForbidden
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(403),
   ).pipe(C.withAuthError) {}
+export class ConflictException
+  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
+    "ConflictException",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    T.HttpError(409),
+  ).pipe(C.withConflictError) {}
 export class FeatureGroupNotFound
   extends /*@__PURE__*/ S.TaggedError<FeatureGroupNotFound>()(
     "FeatureGroupNotFound",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.SyntheticError({
-      from: "ValidationError",
-      message: { includes: "Resource Not Found" },
-    }),
+    T.SyntheticError({ from: "ValidationError", message: { includes: "Resource Not Found" } }),
   ).pipe(C.withNotFoundError) {}
 export class InternalFailure
   extends /*@__PURE__*/ S.TaggedError<InternalFailure>()(
@@ -132,9 +135,7 @@ export const BatchGetRecordIdentifier = /*@__PURE__*/ S.suspend(() =>
     RecordIdentifiersValueAsString: S.optional(RecordIdentifiers),
     FeatureNames: S.optional(FeatureNames),
   }),
-).annotate({
-  identifier: "BatchGetRecordIdentifier",
-}) as any as S.Schema<BatchGetRecordIdentifier>;
+).annotate({ identifier: "BatchGetRecordIdentifier" }) as any as S.Schema<BatchGetRecordIdentifier>;
 export type BatchGetRecordIdentifiers = BatchGetRecordIdentifier[];
 export const BatchGetRecordIdentifiers = /*@__PURE__*/ S.Array(BatchGetRecordIdentifier);
 export type ExpirationTimeResponse = "Enabled" | "Disabled" | (string & {});
@@ -149,9 +150,7 @@ export const BatchGetRecordRequest = /*@__PURE__*/ S.suspend(() =>
     Identifiers: S.optional(BatchGetRecordIdentifiers),
     ExpirationTimeResponse: S.optional(ExpirationTimeResponse),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/BatchGetRecord" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "BatchGetRecordRequest",
-}) as any as S.Schema<BatchGetRecordRequest>;
+).annotate({ identifier: "BatchGetRecordRequest" }) as any as S.Schema<BatchGetRecordRequest>;
 export type ValueAsStringList = string[];
 export const ValueAsStringList = /*@__PURE__*/ S.Array(S.String);
 export interface FeatureValue {
@@ -201,9 +200,7 @@ export const BatchGetRecordError_ = /*@__PURE__*/ S.suspend(() =>
     ErrorCode: S.optional(S.String),
     ErrorMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BatchGetRecordError",
-}) as any as S.Schema<BatchGetRecordError_>;
+).annotate({ identifier: "BatchGetRecordError" }) as any as S.Schema<BatchGetRecordError_>;
 export type BatchGetRecordErrors = BatchGetRecordError_[];
 export const BatchGetRecordErrors = /*@__PURE__*/ S.Array(BatchGetRecordError_);
 export type UnprocessedIdentifiers = BatchGetRecordIdentifier[];
@@ -231,9 +228,7 @@ export const BatchGetRecordResponse = /*@__PURE__*/ S.suspend(() =>
     Errors: S.optional(BatchGetRecordErrors),
     UnprocessedIdentifiers: S.optional(UnprocessedIdentifiers),
   }),
-).annotate({
-  identifier: "BatchGetRecordResponse",
-}) as any as S.Schema<BatchGetRecordResponse>;
+).annotate({ identifier: "BatchGetRecordResponse" }) as any as S.Schema<BatchGetRecordResponse>;
 export type TargetStore = "OnlineStore" | "OfflineStore" | (string & {});
 export const TargetStore = S.String;
 
@@ -263,9 +258,7 @@ export const BatchWriteRecordEntry = /*@__PURE__*/ S.suspend(() =>
     TargetStores: S.optional(TargetStores),
     TtlDuration: S.optional(TtlDuration),
   }),
-).annotate({
-  identifier: "BatchWriteRecordEntry",
-}) as any as S.Schema<BatchWriteRecordEntry>;
+).annotate({ identifier: "BatchWriteRecordEntry" }) as any as S.Schema<BatchWriteRecordEntry>;
 export type BatchWriteRecordEntries = BatchWriteRecordEntry[];
 export const BatchWriteRecordEntries = /*@__PURE__*/ S.Array(BatchWriteRecordEntry);
 export interface BatchWriteRecordRequest {
@@ -279,9 +272,7 @@ export const BatchWriteRecordRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/BatchWriteRecord" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "BatchWriteRecordRequest",
-}) as any as S.Schema<BatchWriteRecordRequest>;
+).annotate({ identifier: "BatchWriteRecordRequest" }) as any as S.Schema<BatchWriteRecordRequest>;
 export interface BatchWriteRecordError_ {
   Entry?: BatchWriteRecordEntry;
   ErrorCode?: string;
@@ -293,9 +284,7 @@ export const BatchWriteRecordError_ = /*@__PURE__*/ S.suspend(() =>
     ErrorCode: S.optional(S.String),
     ErrorMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BatchWriteRecordError",
-}) as any as S.Schema<BatchWriteRecordError_>;
+).annotate({ identifier: "BatchWriteRecordError" }) as any as S.Schema<BatchWriteRecordError_>;
 export type BatchWriteRecordErrors = BatchWriteRecordError_[];
 export const BatchWriteRecordErrors = /*@__PURE__*/ S.Array(BatchWriteRecordError_);
 export type UnprocessedBatchWriteRecordEntries = BatchWriteRecordEntry[];
@@ -305,10 +294,7 @@ export interface BatchWriteRecordResponse {
     Entry: BatchWriteRecordEntry & {
       FeatureGroupName: FeatureGroupNameOrArn;
       Record: (FeatureValue & { FeatureName: FeatureName })[];
-      TtlDuration: TtlDuration & {
-        Unit: TtlDurationUnit;
-        Value: TtlDurationValue;
-      };
+      TtlDuration: TtlDuration & { Unit: TtlDurationUnit; Value: TtlDurationValue };
     };
     ErrorCode: ValueAsString;
     ErrorMessage: Message;
@@ -316,10 +302,7 @@ export interface BatchWriteRecordResponse {
   UnprocessedEntries: (BatchWriteRecordEntry & {
     FeatureGroupName: FeatureGroupNameOrArn;
     Record: (FeatureValue & { FeatureName: FeatureName })[];
-    TtlDuration: TtlDuration & {
-      Unit: TtlDurationUnit;
-      Value: TtlDurationValue;
-    };
+    TtlDuration: TtlDuration & { Unit: TtlDurationUnit; Value: TtlDurationValue };
   })[];
 }
 export const BatchWriteRecordResponse = /*@__PURE__*/ S.suspend(() =>
@@ -327,9 +310,7 @@ export const BatchWriteRecordResponse = /*@__PURE__*/ S.suspend(() =>
     Errors: S.optional(BatchWriteRecordErrors),
     UnprocessedEntries: S.optional(UnprocessedBatchWriteRecordEntries),
   }),
-).annotate({
-  identifier: "BatchWriteRecordResponse",
-}) as any as S.Schema<BatchWriteRecordResponse>;
+).annotate({ identifier: "BatchWriteRecordResponse" }) as any as S.Schema<BatchWriteRecordResponse>;
 export type DeletionMode = "SoftDelete" | "HardDelete" | (string & {});
 export const DeletionMode = S.String;
 
@@ -359,9 +340,7 @@ export const DeleteRecordRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteRecordRequest",
-}) as any as S.Schema<DeleteRecordRequest>;
+).annotate({ identifier: "DeleteRecordRequest" }) as any as S.Schema<DeleteRecordRequest>;
 export interface DeleteRecordResponse {}
 export const DeleteRecordResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteRecordResponse",
@@ -392,18 +371,14 @@ export const GetRecordRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetRecordRequest",
-}) as any as S.Schema<GetRecordRequest>;
+).annotate({ identifier: "GetRecordRequest" }) as any as S.Schema<GetRecordRequest>;
 export interface GetRecordResponse {
   Record?: (FeatureValue & { FeatureName: FeatureName })[];
   ExpiresAt?: string;
 }
 export const GetRecordResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Record: S.optional(Record), ExpiresAt: S.optional(S.String) }),
-).annotate({
-  identifier: "GetRecordResponse",
-}) as any as S.Schema<GetRecordResponse>;
+).annotate({ identifier: "GetRecordResponse" }) as any as S.Schema<GetRecordResponse>;
 export type ListRecordsMaxResults = number;
 export type ListRecordsNextToken = string;
 export interface ListRecordsRequest {
@@ -420,10 +395,7 @@ export const ListRecordsRequest = /*@__PURE__*/ S.suspend(() =>
     IncludeSoftDeletedRecords: S.optional(S.Boolean),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/FeatureGroup/{FeatureGroupName}/ListRecords",
-      }),
+      T.Http({ method: "POST", uri: "/FeatureGroup/{FeatureGroupName}/ListRecords" }),
       svc,
       auth,
       proto,
@@ -431,9 +403,7 @@ export const ListRecordsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListRecordsRequest",
-}) as any as S.Schema<ListRecordsRequest>;
+).annotate({ identifier: "ListRecordsRequest" }) as any as S.Schema<ListRecordsRequest>;
 export type RecordIdentifierList = string[];
 export const RecordIdentifierList = /*@__PURE__*/ S.Array(S.String);
 export interface ListRecordsResponse {
@@ -445,9 +415,7 @@ export const ListRecordsResponse = /*@__PURE__*/ S.suspend(() =>
     RecordIdentifiers: S.optional(RecordIdentifierList),
     NextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListRecordsResponse",
-}) as any as S.Schema<ListRecordsResponse>;
+).annotate({ identifier: "ListRecordsResponse" }) as any as S.Schema<ListRecordsResponse>;
 export interface PutRecordRequest {
   FeatureGroupName: string;
   Record?: FeatureValue[];
@@ -470,13 +438,40 @@ export const PutRecordRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PutRecordRequest",
-}) as any as S.Schema<PutRecordRequest>;
+).annotate({ identifier: "PutRecordRequest" }) as any as S.Schema<PutRecordRequest>;
 export interface PutRecordResponse {}
 export const PutRecordResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutRecordResponse",
 }) as any as S.Schema<PutRecordResponse>;
+export interface UpdateRecordRequest {
+  FeatureGroupName: string;
+  RecordIdentifierValueAsString?: string;
+  Features?: FeatureValue[];
+  TargetStores?: TargetStore[];
+  TtlDuration?: TtlDuration;
+}
+export const UpdateRecordRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    FeatureGroupName: S.String.pipe(T.HttpLabel("FeatureGroupName")),
+    RecordIdentifierValueAsString: S.optional(S.String),
+    Features: S.optional(Record),
+    TargetStores: S.optional(TargetStores),
+    TtlDuration: S.optional(TtlDuration),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/FeatureGroup/{FeatureGroupName}/Record" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "UpdateRecordRequest" }) as any as S.Schema<UpdateRecordRequest>;
+export interface UpdateRecordResponse {}
+export const UpdateRecordResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "UpdateRecordResponse",
+}) as any as S.Schema<UpdateRecordResponse>;
 export type BatchGetRecordError =
   | AccessForbidden
   | InternalFailure
@@ -704,4 +699,56 @@ export const putRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecord",
+}));
+
+export type UpdateRecordError =
+  | AccessForbidden
+  | ConflictException
+  | InternalFailure
+  | ResourceNotFound
+  | ServiceUnavailable
+  | ValidationError
+  | CommonErrors;
+/**
+ * Updates one or more feature values for an existing record in the specified
+ * feature group. Features that you do not include in the request remain unchanged.
+ * You can update up to 100 features per call.
+ *
+ * This operation is available only for feature groups that use the
+ * `Standard_V2` or `InMemory` online store type.
+ *
+ * The record must already exist. If the record does not exist or has been
+ * soft-deleted, the operation returns a `ResourceNotFound` error. To create
+ * a record, use `PutRecord`.
+ *
+ * If you provide an `EventTime` that is older than the record's current
+ * `EventTime`, the service rejects the update with a
+ * `ConflictException`. If the `EventTime` is equal to or newer
+ * than the current value, the service applies the update. If you omit
+ * `EventTime`, the service keeps the record's existing
+ * `EventTime` and applies the update.
+ *
+ * If you specify a `TtlDuration`, you must also provide an
+ * `EventTime` in the request. Otherwise, the operation returns a
+ * `ValidationError`.
+ */
+export const updateRecord: API.OperationMethod<
+  UpdateRecordRequest,
+  UpdateRecordResponse,
+  UpdateRecordError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateRecordRequest,
+  output: UpdateRecordResponse,
+  errors: [
+    AccessForbidden,
+    ConflictException,
+    InternalFailure,
+    ResourceNotFound,
+    ServiceUnavailable,
+    ValidationError,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateRecord",
 }));

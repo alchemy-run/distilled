@@ -73,13 +73,7 @@ export const AcceptRepoTransferRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/transfer/accept",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/transfer/accept", code: 200 })),
 ).annotate({
   identifier: "AcceptRepoTransferRequest",
 }) as any as S.Schema<AcceptRepoTransferRequest>;
@@ -102,16 +96,8 @@ export const ActionRunRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     run_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/runs/{run_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ActionRunRequest",
-}) as any as S.Schema<ActionRunRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/runs/{run_id}", code: 200 })),
+).annotate({ identifier: "ActionRunRequest" }) as any as S.Schema<ActionRunRequest>;
 
 /** ExternalTracker represents settings for external tracker */
 export interface ExternalTracker {
@@ -131,9 +117,7 @@ export const ExternalTracker = /*@__PURE__*/ S.suspend(() =>
     external_tracker_style: S.optional(S.String),
     external_tracker_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExternalTracker",
-}) as any as S.Schema<ExternalTracker>;
+).annotate({ identifier: "ExternalTracker" }) as any as S.Schema<ExternalTracker>;
 
 /** ExternalWiki represents setting for external wiki */
 export interface ExternalWiki {
@@ -161,9 +145,7 @@ export const InternalTracker = /*@__PURE__*/ S.suspend(() =>
     enable_issue_dependencies: S.optional(S.Boolean),
     enable_time_tracker: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "InternalTracker",
-}) as any as S.Schema<InternalTracker>;
+).annotate({ identifier: "InternalTracker" }) as any as S.Schema<InternalTracker>;
 
 /** ObjectFormatName of the underlying git repository */
 export type RepositoryObjectFormatName = "sha1" | "sha256";
@@ -587,9 +569,7 @@ export const CancelActionRunRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CancelActionRunRequest",
-}) as any as S.Schema<CancelActionRunRequest>;
+).annotate({ identifier: "CancelActionRunRequest" }) as any as S.Schema<CancelActionRunRequest>;
 
 export interface CancelActionRunResponse {}
 export const CancelActionRunResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -607,9 +587,7 @@ export const ConvertRepoRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/convert", code: 200 })),
-).annotate({
-  identifier: "ConvertRepoRequest",
-}) as any as S.Schema<ConvertRepoRequest>;
+).annotate({ identifier: "ConvertRepoRequest" }) as any as S.Schema<ConvertRepoRequest>;
 
 /** ObjectFormatName of the underlying git repository */
 export type CreateCurrentUserRepoRequestObjectFormatName = "sha1" | "sha256";
@@ -685,9 +663,7 @@ export const CreateForkRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     organization: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/forks", code: 200 })),
-).annotate({
-  identifier: "CreateForkRequest",
-}) as any as S.Schema<CreateForkRequest>;
+).annotate({ identifier: "CreateForkRequest" }) as any as S.Schema<CreateForkRequest>;
 
 export interface CreateForkResponse {}
 export const CreateForkResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -769,15 +745,9 @@ export const DeleteActionRunRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     run_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/actions/runs/{run_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/actions/runs/{run_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteActionRunRequest",
-}) as any as S.Schema<DeleteActionRunRequest>;
+).annotate({ identifier: "DeleteActionRunRequest" }) as any as S.Schema<DeleteActionRunRequest>;
 
 export interface DeleteActionRunResponse {}
 export const DeleteActionRunResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -795,9 +765,7 @@ export const DeleteRepoRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}", code: 200 })),
-).annotate({
-  identifier: "DeleteRepoRequest",
-}) as any as S.Schema<DeleteRepoRequest>;
+).annotate({ identifier: "DeleteRepoRequest" }) as any as S.Schema<DeleteRepoRequest>;
 
 export interface DeleteRepoResponse {}
 export const DeleteRepoResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -824,9 +792,7 @@ export const DeleteRepoRunnerRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteRepoRunnerRequest",
-}) as any as S.Schema<DeleteRepoRunnerRequest>;
+).annotate({ identifier: "DeleteRepoRunnerRequest" }) as any as S.Schema<DeleteRepoRunnerRequest>;
 
 export interface DeleteRepoRunnerResponse {}
 export const DeleteRepoRunnerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -853,9 +819,7 @@ export const DeleteRepoSecretRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteRepoSecretRequest",
-}) as any as S.Schema<DeleteRepoSecretRequest>;
+).annotate({ identifier: "DeleteRepoSecretRequest" }) as any as S.Schema<DeleteRepoSecretRequest>;
 
 export interface DeleteRepoSecretResponse {}
 export const DeleteRepoSecretResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -892,9 +856,7 @@ export const DeleteRepoVariableResponse = /*@__PURE__*/ S.suspend(() => S.Struct
 }) as any as S.Schema<DeleteRepoVariableResponse>;
 
 /** Input keys and values configured in the workflow file. */
-export type DispatchWorkflowRequestInputsMap = {
-  [key: string]: string | undefined;
-};
+export type DispatchWorkflowRequestInputsMap = { [key: string]: string | undefined };
 export const DispatchWorkflowRequestInputsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -929,9 +891,7 @@ export const DispatchWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DispatchWorkflowRequest",
-}) as any as S.Schema<DispatchWorkflowRequest>;
+).annotate({ identifier: "DispatchWorkflowRequest" }) as any as S.Schema<DispatchWorkflowRequest>;
 
 /** the jobs name */
 export type DispatchWorkflowRunJobsList = Array<string>;
@@ -954,9 +914,7 @@ export const DispatchWorkflowRun = /*@__PURE__*/ S.suspend(() =>
     jobs: S.optional(DispatchWorkflowRunJobsList),
     run_number: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DispatchWorkflowRun",
-}) as any as S.Schema<DispatchWorkflowRun>;
+).annotate({ identifier: "DispatchWorkflowRun" }) as any as S.Schema<DispatchWorkflowRun>;
 
 export interface DownloadActionArtifactRequest {
   /** owner of the repo */
@@ -1097,9 +1055,7 @@ export const EditRepoRequest = /*@__PURE__*/ S.suspend(() =>
     website: S.optional(S.String),
     wiki_branch: S.optional(S.String),
   }).pipe(T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}", code: 200 })),
-).annotate({
-  identifier: "EditRepoRequest",
-}) as any as S.Schema<EditRepoRequest>;
+).annotate({ identifier: "EditRepoRequest" }) as any as S.Schema<EditRepoRequest>;
 
 export interface GenerateRepoRequest {
   /** name of the template repository owner */
@@ -1148,15 +1104,9 @@ export const GenerateRepoRequest = /*@__PURE__*/ S.suspend(() =>
     topics: S.optional(S.Boolean),
     webhooks: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{template_owner}/{template_repo}/generate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/repos/{template_owner}/{template_repo}/generate", code: 200 }),
   ),
-).annotate({
-  identifier: "GenerateRepoRequest",
-}) as any as S.Schema<GenerateRepoRequest>;
+).annotate({ identifier: "GenerateRepoRequest" }) as any as S.Schema<GenerateRepoRequest>;
 
 export interface GetActionArtifactRequest {
   /** owner of the repo */
@@ -1178,9 +1128,7 @@ export const GetActionArtifactRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetActionArtifactRequest",
-}) as any as S.Schema<GetActionArtifactRequest>;
+).annotate({ identifier: "GetActionArtifactRequest" }) as any as S.Schema<GetActionArtifactRequest>;
 
 /** ActionArtifact represents an artifact of a workflow run */
 export interface ActionArtifact {
@@ -1227,16 +1175,8 @@ export const GetAnnotatedTagRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     sha: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/git/tags/{sha}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetAnnotatedTagRequest",
-}) as any as S.Schema<GetAnnotatedTagRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/git/tags/{sha}", code: 200 })),
+).annotate({ identifier: "GetAnnotatedTagRequest" }) as any as S.Schema<GetAnnotatedTagRequest>;
 
 /** TagArchiveDownloadCount counts how many times a archive was downloaded */
 export interface TagArchiveDownloadCount {
@@ -1248,9 +1188,7 @@ export const TagArchiveDownloadCount = /*@__PURE__*/ S.suspend(() =>
     tar_gz: S.optional(S.Number),
     zip: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TagArchiveDownloadCount",
-}) as any as S.Schema<TagArchiveDownloadCount>;
+).annotate({ identifier: "TagArchiveDownloadCount" }) as any as S.Schema<TagArchiveDownloadCount>;
 
 /** AnnotatedTagObject contains meta information of the tag object */
 export interface AnnotatedTagObject {
@@ -1264,9 +1202,7 @@ export const AnnotatedTagObject = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AnnotatedTagObject",
-}) as any as S.Schema<AnnotatedTagObject>;
+).annotate({ identifier: "AnnotatedTagObject" }) as any as S.Schema<AnnotatedTagObject>;
 
 export interface CommitUser {
   date?: string;
@@ -1353,13 +1289,7 @@ export const GetBlobRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     sha: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/git/blobs/{sha}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/git/blobs/{sha}", code: 200 })),
 ).annotate({ identifier: "GetBlobRequest" }) as any as S.Schema<GetBlobRequest>;
 
 /** GitBlob represents a git blob */
@@ -1393,16 +1323,8 @@ export const GetBlobsRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     shas: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/git/blobs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetBlobsRequest",
-}) as any as S.Schema<GetBlobsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/git/blobs", code: 200 })),
+).annotate({ identifier: "GetBlobsRequest" }) as any as S.Schema<GetBlobsRequest>;
 
 export type GetBlobsResponseBodyList = Array<GitBlob>;
 export const GetBlobsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1412,9 +1334,7 @@ export const GetBlobsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetBlobsResponse = GetBlobsResponseBodyList;
 export const GetBlobsResponse = /*@__PURE__*/ S.suspend(() =>
   GetBlobsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetBlobsResponse",
-}) as any as S.Schema<GetBlobsResponse>;
+).annotate({ identifier: "GetBlobsResponse" }) as any as S.Schema<GetBlobsResponse>;
 
 export interface GetRepoRequest {
   /** owner of the repo */
@@ -1483,15 +1403,9 @@ export const GetRepoRunnerRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     runner_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/runners/{runner_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/runners/{runner_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetRepoRunnerRequest",
-}) as any as S.Schema<GetRepoRunnerRequest>;
+).annotate({ identifier: "GetRepoRunnerRequest" }) as any as S.Schema<GetRepoRunnerRequest>;
 
 /** Labels is a list of labels attached to this runner. */
 export type ActionRunnerLabelsList = Array<string>;
@@ -1560,16 +1474,8 @@ export const GetRepoRunnersRequest = /*@__PURE__*/ S.suspend(() =>
     visible: S.optional(S.Boolean.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/runners",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetRepoRunnersRequest",
-}) as any as S.Schema<GetRepoRunnersRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/runners", code: 200 })),
+).annotate({ identifier: "GetRepoRunnersRequest" }) as any as S.Schema<GetRepoRunnersRequest>;
 
 export type GetRepoRunnersResponseBodyList = Array<ActionRunner>;
 export const GetRepoRunnersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1579,9 +1485,7 @@ export const GetRepoRunnersResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetRepoRunnersResponse = GetRepoRunnersResponseBodyList;
 export const GetRepoRunnersResponse = /*@__PURE__*/ S.suspend(() =>
   GetRepoRunnersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetRepoRunnersResponse",
-}) as any as S.Schema<GetRepoRunnersResponse>;
+).annotate({ identifier: "GetRepoRunnersResponse" }) as any as S.Schema<GetRepoRunnersResponse>;
 
 export interface GetRepoVariableRequest {
   /** name of the owner */
@@ -1603,9 +1507,7 @@ export const GetRepoVariableRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetRepoVariableRequest",
-}) as any as S.Schema<GetRepoVariableRequest>;
+).annotate({ identifier: "GetRepoVariableRequest" }) as any as S.Schema<GetRepoVariableRequest>;
 
 /** ActionVariable return value of the query API */
 export interface ActionVariable {
@@ -1643,13 +1545,7 @@ export const GetRepoVariablesListRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/variables",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/variables", code: 200 })),
 ).annotate({
   identifier: "GetRepoVariablesListRequest",
 }) as any as S.Schema<GetRepoVariablesListRequest>;
@@ -1688,13 +1584,7 @@ export const GetTreeRequest = /*@__PURE__*/ S.suspend(() =>
     recursive: S.optional(S.Boolean.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/git/trees/{sha}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/git/trees/{sha}", code: 200 })),
 ).annotate({ identifier: "GetTreeRequest" }) as any as S.Schema<GetTreeRequest>;
 
 /** GitEntry represents a git tree */
@@ -1740,9 +1630,7 @@ export const GitTreeResponse = /*@__PURE__*/ S.suspend(() =>
     truncated: S.optional(S.Boolean),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GitTreeResponse",
-}) as any as S.Schema<GitTreeResponse>;
+).annotate({ identifier: "GitTreeResponse" }) as any as S.Schema<GitTreeResponse>;
 
 export interface ListActionArtifactsRequest {
   /** owner of the repo */
@@ -1763,13 +1651,7 @@ export const ListActionArtifactsRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/artifacts",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/artifacts", code: 200 })),
 ).annotate({
   identifier: "ListActionArtifactsRequest",
 }) as any as S.Schema<ListActionArtifactsRequest>;
@@ -1845,15 +1727,9 @@ export const ListActionRunJobsRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     run_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/runs/{run_id}/jobs",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/runs/{run_id}/jobs", code: 200 }),
   ),
-).annotate({
-  identifier: "ListActionRunJobsRequest",
-}) as any as S.Schema<ListActionRunJobsRequest>;
+).annotate({ identifier: "ListActionRunJobsRequest" }) as any as S.Schema<ListActionRunJobsRequest>;
 
 /** the action run job needed ids */
 export type ActionRunJobNeedsList = Array<string>;
@@ -1977,16 +1853,8 @@ export const ListActionRunsRequest = /*@__PURE__*/ S.suspend(() =>
     head_sha: S.optional(S.String.pipe(T.Query())),
     ref: S.optional(S.String.pipe(T.Query())),
     workflow_id: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/runs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListActionRunsRequest",
-}) as any as S.Schema<ListActionRunsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/runs", code: 200 })),
+).annotate({ identifier: "ListActionRunsRequest" }) as any as S.Schema<ListActionRunsRequest>;
 
 export type ListActionRunResponseWorkflowRunsList = Array<ActionRun>;
 export const ListActionRunResponseWorkflowRunsList = /*@__PURE__*/ S.Array(
@@ -2003,9 +1871,7 @@ export const ListActionRunResponse = /*@__PURE__*/ S.suspend(() =>
     total_count: S.optional(S.Number),
     workflow_runs: S.optional(ListActionRunResponseWorkflowRunsList),
   }),
-).annotate({
-  identifier: "ListActionRunResponse",
-}) as any as S.Schema<ListActionRunResponse>;
+).annotate({ identifier: "ListActionRunResponse" }) as any as S.Schema<ListActionRunResponse>;
 
 export type ListActionTasksRequestStatusItem =
   | "unknown"
@@ -2044,16 +1910,8 @@ export const ListActionTasksRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     status: S.optional(ListActionTasksRequestStatusList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/tasks",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListActionTasksRequest",
-}) as any as S.Schema<ListActionTasksRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/tasks", code: 200 })),
+).annotate({ identifier: "ListActionTasksRequest" }) as any as S.Schema<ListActionTasksRequest>;
 
 /** ActionTask represents a ActionTask */
 export interface ActionTask {
@@ -2104,9 +1962,7 @@ export const ActionTaskResponse = /*@__PURE__*/ S.suspend(() =>
     total_count: S.optional(S.Number),
     workflow_runs: S.optional(ActionTaskResponseWorkflowRunsList),
   }),
-).annotate({
-  identifier: "ActionTaskResponse",
-}) as any as S.Schema<ActionTaskResponse>;
+).annotate({ identifier: "ActionTaskResponse" }) as any as S.Schema<ActionTaskResponse>;
 
 export interface ListForksRequest {
   /** owner of the repo */
@@ -2125,9 +1981,7 @@ export const ListForksRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/forks", code: 200 })),
-).annotate({
-  identifier: "ListForksRequest",
-}) as any as S.Schema<ListForksRequest>;
+).annotate({ identifier: "ListForksRequest" }) as any as S.Schema<ListForksRequest>;
 
 export type ListForksResponseBodyList = Array<Repository>;
 export const ListForksResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2137,9 +1991,7 @@ export const ListForksResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListForksResponse = ListForksResponseBodyList;
 export const ListForksResponse = /*@__PURE__*/ S.suspend(() =>
   ListForksResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListForksResponse",
-}) as any as S.Schema<ListForksResponse>;
+).annotate({ identifier: "ListForksResponse" }) as any as S.Schema<ListForksResponse>;
 
 export type MigrateRepoRequestService =
   | "git"
@@ -2201,9 +2053,7 @@ export const MigrateRepoRequest = /*@__PURE__*/ S.suspend(() =>
     uid: S.optional(S.Number),
     wiki: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/repos/migrate", code: 200 })),
-).annotate({
-  identifier: "MigrateRepoRequest",
-}) as any as S.Schema<MigrateRepoRequest>;
+).annotate({ identifier: "MigrateRepoRequest" }) as any as S.Schema<MigrateRepoRequest>;
 
 export interface RegisterRepoRunnerRequest {
   /** owner of the repo */
@@ -2224,13 +2074,7 @@ export const RegisterRepoRunnerRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     ephemeral: S.optional(S.Boolean),
     name: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/actions/runners",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/actions/runners", code: 200 })),
 ).annotate({
   identifier: "RegisterRepoRunnerRequest",
 }) as any as S.Schema<RegisterRepoRunnerRequest>;
@@ -2246,9 +2090,7 @@ export const RegisterRunnerResponse = /*@__PURE__*/ S.suspend(() =>
     token: S.optional(S.String),
     uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RegisterRunnerResponse",
-}) as any as S.Schema<RegisterRunnerResponse>;
+).annotate({ identifier: "RegisterRunnerResponse" }) as any as S.Schema<RegisterRunnerResponse>;
 
 export interface RejectRepoTransferRequest {
   /** owner of the repo to transfer */
@@ -2260,13 +2102,7 @@ export const RejectRepoTransferRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/transfer/reject",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/transfer/reject", code: 200 })),
 ).annotate({
   identifier: "RejectRepoTransferRequest",
 }) as any as S.Schema<RejectRepoTransferRequest>;
@@ -2290,11 +2126,7 @@ export const RepoAddCollaboratorRequest = /*@__PURE__*/ S.suspend(() =>
     collaborator: S.String.pipe(T.Label()),
     permission: S.optional(RepoAddCollaboratorRequestPermission),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/repos/{owner}/{repo}/collaborators/{collaborator}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/collaborators/{collaborator}", code: 200 }),
   ),
 ).annotate({
   identifier: "RepoAddCollaboratorRequest",
@@ -2318,16 +2150,8 @@ export const RepoAddFlagRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     flag: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/repos/{owner}/{repo}/flags/{flag}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoAddFlagRequest",
-}) as any as S.Schema<RepoAddFlagRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/flags/{flag}", code: 200 })),
+).annotate({ identifier: "RepoAddFlagRequest" }) as any as S.Schema<RepoAddFlagRequest>;
 
 export interface RepoAddFlagResponse {}
 export const RepoAddFlagResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2358,16 +2182,8 @@ export const RepoAddPushMirrorRequest = /*@__PURE__*/ S.suspend(() =>
     remote_username: S.optional(S.String),
     sync_on_commit: S.optional(S.Boolean),
     use_ssh: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/push_mirrors",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoAddPushMirrorRequest",
-}) as any as S.Schema<RepoAddPushMirrorRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/push_mirrors", code: 200 })),
+).annotate({ identifier: "RepoAddPushMirrorRequest" }) as any as S.Schema<RepoAddPushMirrorRequest>;
 
 /** PushMirror represents information of a push mirror */
 export interface PushMirror {
@@ -2410,16 +2226,8 @@ export const RepoAddTeamRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     team: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/repos/{owner}/{repo}/teams/{team}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoAddTeamRequest",
-}) as any as S.Schema<RepoAddTeamRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/teams/{team}", code: 200 })),
+).annotate({ identifier: "RepoAddTeamRequest" }) as any as S.Schema<RepoAddTeamRequest>;
 
 export interface RepoAddTeamResponse {}
 export const RepoAddTeamResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2439,16 +2247,8 @@ export const RepoAddTopicRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     topic: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/repos/{owner}/{repo}/topics/{topic}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoAddTopicRequest",
-}) as any as S.Schema<RepoAddTopicRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/topics/{topic}", code: 200 })),
+).annotate({ identifier: "RepoAddTopicRequest" }) as any as S.Schema<RepoAddTopicRequest>;
 
 export interface RepoAddTopicResponse {}
 export const RepoAddTopicResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2477,9 +2277,7 @@ export const CommitDateOptions = /*@__PURE__*/ S.suspend(() =>
     author: S.optional(S.String),
     committer: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CommitDateOptions",
-}) as any as S.Schema<CommitDateOptions>;
+).annotate({ identifier: "CommitDateOptions" }) as any as S.Schema<CommitDateOptions>;
 
 export interface RepoApplyDiffPatchRequest {
   /** owner of the repo */
@@ -2521,13 +2319,7 @@ export const RepoApplyDiffPatchRequest = /*@__PURE__*/ S.suspend(() =>
     new_branch: S.optional(S.String),
     sha: S.String,
     signoff: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/diffpatch",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/diffpatch", code: 200 })),
 ).annotate({
   identifier: "RepoApplyDiffPatchRequest",
 }) as any as S.Schema<RepoApplyDiffPatchRequest>;
@@ -2573,9 +2365,7 @@ export const FileCommitResponse = /*@__PURE__*/ S.suspend(() =>
     tree: S.optional(CommitMeta),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FileCommitResponse",
-}) as any as S.Schema<FileCommitResponse>;
+).annotate({ identifier: "FileCommitResponse" }) as any as S.Schema<FileCommitResponse>;
 
 /** FileLinksResponse contains the links for a repo's file */
 export interface FileLinksResponse {
@@ -2589,9 +2379,7 @@ export const FileLinksResponse = /*@__PURE__*/ S.suspend(() =>
     html: S.optional(S.String),
     self: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FileLinksResponse",
-}) as any as S.Schema<FileLinksResponse>;
+).annotate({ identifier: "FileLinksResponse" }) as any as S.Schema<FileLinksResponse>;
 
 /** ContentsResponse contains information about a repo's entry's (dir, file, symlink, submodule) metadata and content */
 export interface ContentsResponse {
@@ -2636,9 +2424,7 @@ export const ContentsResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ContentsResponse",
-}) as any as S.Schema<ContentsResponse>;
+).annotate({ identifier: "ContentsResponse" }) as any as S.Schema<ContentsResponse>;
 
 /** FileResponse contains information about a repo's file */
 export interface FileResponse {
@@ -2668,11 +2454,7 @@ export const RepoCancelScheduledAutoMergeRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     index: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/pulls/{index}/merge",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/pulls/{index}/merge", code: 200 }),
   ),
 ).annotate({
   identifier: "RepoCancelScheduledAutoMergeRequest",
@@ -2710,9 +2492,7 @@ export const ChangeFileOperation = /*@__PURE__*/ S.suspend(() =>
     path: S.String,
     sha: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ChangeFileOperation",
-}) as any as S.Schema<ChangeFileOperation>;
+).annotate({ identifier: "ChangeFileOperation" }) as any as S.Schema<ChangeFileOperation>;
 
 /** list of file operations */
 export type RepoChangeFilesRequestFilesList = Array<ChangeFileOperation>;
@@ -2754,16 +2534,8 @@ export const RepoChangeFilesRequest = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     new_branch: S.optional(S.String),
     signoff: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/contents",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoChangeFilesRequest",
-}) as any as S.Schema<RepoChangeFilesRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/contents", code: 200 })),
+).annotate({ identifier: "RepoChangeFilesRequest" }) as any as S.Schema<RepoChangeFilesRequest>;
 
 export type FilesResponseFilesList = Array<ContentsResponse>;
 export const FilesResponseFilesList = /*@__PURE__*/ S.Array(
@@ -2798,11 +2570,7 @@ export const RepoCheckCollaboratorRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     collaborator: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/collaborators/{collaborator}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/collaborators/{collaborator}", code: 200 }),
   ),
 ).annotate({
   identifier: "RepoCheckCollaboratorRequest",
@@ -2826,16 +2594,8 @@ export const RepoCheckFlagRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     flag: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/flags/{flag}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoCheckFlagRequest",
-}) as any as S.Schema<RepoCheckFlagRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/flags/{flag}", code: 200 })),
+).annotate({ identifier: "RepoCheckFlagRequest" }) as any as S.Schema<RepoCheckFlagRequest>;
 
 export interface RepoCheckFlagResponse {}
 export const RepoCheckFlagResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2855,16 +2615,8 @@ export const RepoCheckTeamRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     team: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/teams/{team}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoCheckTeamRequest",
-}) as any as S.Schema<RepoCheckTeamRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/teams/{team}", code: 200 })),
+).annotate({ identifier: "RepoCheckTeamRequest" }) as any as S.Schema<RepoCheckTeamRequest>;
 
 export interface RepoCompareDiffRequest {
   /** owner of the repo */
@@ -2879,16 +2631,8 @@ export const RepoCompareDiffRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     basehead: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/compare/{basehead}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoCompareDiffRequest",
-}) as any as S.Schema<RepoCompareDiffRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/compare/{basehead}", code: 200 })),
+).annotate({ identifier: "RepoCompareDiffRequest" }) as any as S.Schema<RepoCompareDiffRequest>;
 
 export interface RepoCommit {
   author?: CommitUser;
@@ -2919,9 +2663,7 @@ export const CommitAffectedFiles = /*@__PURE__*/ S.suspend(() =>
     filename: S.optional(S.String),
     status: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CommitAffectedFiles",
-}) as any as S.Schema<CommitAffectedFiles>;
+).annotate({ identifier: "CommitAffectedFiles" }) as any as S.Schema<CommitAffectedFiles>;
 
 export type CommitFilesList = Array<CommitAffectedFiles>;
 export const CommitFilesList = /*@__PURE__*/ S.Array(
@@ -3016,16 +2758,8 @@ export const RepoCreateBranchRequest = /*@__PURE__*/ S.suspend(() =>
     new_branch_name: S.String,
     old_branch_name: S.optional(S.String),
     old_ref_name: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/branches",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoCreateBranchRequest",
-}) as any as S.Schema<RepoCreateBranchRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/branches", code: 200 })),
+).annotate({ identifier: "RepoCreateBranchRequest" }) as any as S.Schema<RepoCreateBranchRequest>;
 
 export type PayloadCommitAddedList = Array<string>;
 export const PayloadCommitAddedList = /*@__PURE__*/ S.Array(
@@ -3207,13 +2941,7 @@ export const RepoCreateBranchProtectionRequest = /*@__PURE__*/ S.suspend(() =>
     rule_name: S.optional(S.String),
     status_check_contexts: S.optional(RepoCreateBranchProtectionRequestStatusCheckContextsList),
     unprotected_file_patterns: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/branch_protections",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/branch_protections", code: 200 })),
 ).annotate({
   identifier: "RepoCreateBranchProtectionRequest",
 }) as any as S.Schema<RepoCreateBranchProtectionRequest>;
@@ -3314,9 +3042,7 @@ export const BranchProtection = /*@__PURE__*/ S.suspend(() =>
     unprotected_file_patterns: S.optional(S.String),
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "BranchProtection",
-}) as any as S.Schema<BranchProtection>;
+).annotate({ identifier: "BranchProtection" }) as any as S.Schema<BranchProtection>;
 
 export interface RepoCreateFileRequest {
   /** owner of the repo */
@@ -3355,16 +3081,8 @@ export const RepoCreateFileRequest = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     new_branch: S.optional(S.String),
     signoff: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/contents/{filepath}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoCreateFileRequest",
-}) as any as S.Schema<RepoCreateFileRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/contents/{filepath}", code: 200 })),
+).annotate({ identifier: "RepoCreateFileRequest" }) as any as S.Schema<RepoCreateFileRequest>;
 
 /** CreateHookOptionConfig has all config options in it required are "content_type" and "url" Required */
 export type CreateHookOptionConfig = { [key: string]: string | undefined };
@@ -3415,9 +3133,7 @@ export const RepoCreateHookRequest = /*@__PURE__*/ S.suspend(() =>
     events: S.optional(RepoCreateHookRequestEventsList),
     type: RepoCreateHookRequestType,
   }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/hooks", code: 200 })),
-).annotate({
-  identifier: "RepoCreateHookRequest",
-}) as any as S.Schema<RepoCreateHookRequest>;
+).annotate({ identifier: "RepoCreateHookRequest" }) as any as S.Schema<RepoCreateHookRequest>;
 
 /** Deprecated: use Metadata instead */
 export type HookConfigMap = { [key: string]: string | undefined };
@@ -3482,9 +3198,7 @@ export const RepoCreateKeyRequest = /*@__PURE__*/ S.suspend(() =>
     read_only: S.optional(S.Boolean),
     title: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/keys", code: 200 })),
-).annotate({
-  identifier: "RepoCreateKeyRequest",
-}) as any as S.Schema<RepoCreateKeyRequest>;
+).annotate({ identifier: "RepoCreateKeyRequest" }) as any as S.Schema<RepoCreateKeyRequest>;
 
 /** DeployKey a deploy key */
 export interface DeployKey {
@@ -3748,9 +3462,7 @@ export const CreatePullReviewComment = /*@__PURE__*/ S.suspend(() =>
     old_position: S.optional(S.Number),
     path: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreatePullReviewComment",
-}) as any as S.Schema<CreatePullReviewComment>;
+).annotate({ identifier: "CreatePullReviewComment" }) as any as S.Schema<CreatePullReviewComment>;
 
 export type RepoCreatePullReviewRequestCommentsList = Array<CreatePullReviewComment>;
 export const RepoCreatePullReviewRequestCommentsList = /*@__PURE__*/ S.Array(
@@ -3779,11 +3491,7 @@ export const RepoCreatePullReviewRequest = /*@__PURE__*/ S.suspend(() =>
     commit_id: S.optional(S.String),
     event: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/pulls/{index}/reviews",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/pulls/{index}/reviews", code: 200 }),
   ),
 ).annotate({
   identifier: "RepoCreatePullReviewRequest",
@@ -3905,9 +3613,7 @@ export const PullReviewComment = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.optional(S.String),
     user: S.optional(User),
   }),
-).annotate({
-  identifier: "PullReviewComment",
-}) as any as S.Schema<PullReviewComment>;
+).annotate({ identifier: "PullReviewComment" }) as any as S.Schema<PullReviewComment>;
 
 export type RepoCreatePullReviewRequestsRequestReviewersList = Array<string>;
 export const RepoCreatePullReviewRequestsRequestReviewersList = /*@__PURE__*/ S.Array(
@@ -3983,16 +3689,8 @@ export const RepoCreateReleaseRequest = /*@__PURE__*/ S.suspend(() =>
     prerelease: S.optional(S.Boolean),
     tag_name: S.String,
     target_commitish: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/releases",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoCreateReleaseRequest",
-}) as any as S.Schema<RepoCreateReleaseRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/releases", code: 200 })),
+).annotate({ identifier: "RepoCreateReleaseRequest" }) as any as S.Schema<RepoCreateReleaseRequest>;
 
 export type AttachmentType = "attachment" | "external";
 export const AttachmentType = S.String;
@@ -4086,13 +3784,7 @@ export const RepoCreateReleaseAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
     name: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/releases/{id}/assets",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/releases/{id}/assets", code: 200 })),
 ).annotate({
   identifier: "RepoCreateReleaseAttachmentRequest",
 }) as any as S.Schema<RepoCreateReleaseAttachmentRequest>;
@@ -4118,16 +3810,8 @@ export const RepoCreateStatusRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     state: S.optional(S.String),
     target_url: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/statuses/{sha}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoCreateStatusRequest",
-}) as any as S.Schema<RepoCreateStatusRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/statuses/{sha}", code: 200 })),
+).annotate({ identifier: "RepoCreateStatusRequest" }) as any as S.Schema<RepoCreateStatusRequest>;
 
 /** CommitStatus holds a single status of a single Commit */
 export interface CommitStatus {
@@ -4172,9 +3856,7 @@ export const RepoCreateTagRequest = /*@__PURE__*/ S.suspend(() =>
     tag_name: S.String,
     target: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/tags", code: 200 })),
-).annotate({
-  identifier: "RepoCreateTagRequest",
-}) as any as S.Schema<RepoCreateTagRequest>;
+).annotate({ identifier: "RepoCreateTagRequest" }) as any as S.Schema<RepoCreateTagRequest>;
 
 /** Tag represents a repository tag */
 export interface Tag {
@@ -4224,13 +3906,7 @@ export const RepoCreateTagProtectionRequest = /*@__PURE__*/ S.suspend(() =>
     name_pattern: S.optional(S.String),
     whitelist_teams: S.optional(RepoCreateTagProtectionRequestWhitelistTeamsList),
     whitelist_usernames: S.optional(RepoCreateTagProtectionRequestWhitelistUsernamesList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/tag_protections",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/tag_protections", code: 200 })),
 ).annotate({
   identifier: "RepoCreateTagProtectionRequest",
 }) as any as S.Schema<RepoCreateTagProtectionRequest>;
@@ -4284,13 +3960,7 @@ export const RepoCreateWikiPageRequest = /*@__PURE__*/ S.suspend(() =>
     content_base64: S.optional(S.String),
     message: S.optional(S.String),
     title: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/wiki/new",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/wiki/new", code: 200 })),
 ).annotate({
   identifier: "RepoCreateWikiPageRequest",
 }) as any as S.Schema<RepoCreateWikiPageRequest>;
@@ -4366,16 +4036,8 @@ export const RepoDeleteAvatarRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/avatar",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoDeleteAvatarRequest",
-}) as any as S.Schema<RepoDeleteAvatarRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/avatar", code: 200 })),
+).annotate({ identifier: "RepoDeleteAvatarRequest" }) as any as S.Schema<RepoDeleteAvatarRequest>;
 
 export interface RepoDeleteAvatarResponse {}
 export const RepoDeleteAvatarResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4395,16 +4057,8 @@ export const RepoDeleteBranchRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     branch: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/branches/{branch}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoDeleteBranchRequest",
-}) as any as S.Schema<RepoDeleteBranchRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/branches/{branch}", code: 200 })),
+).annotate({ identifier: "RepoDeleteBranchRequest" }) as any as S.Schema<RepoDeleteBranchRequest>;
 
 export interface RepoDeleteBranchResponse {}
 export const RepoDeleteBranchResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4425,11 +4079,7 @@ export const RepoDeleteBranchProtectionRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/branch_protections/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/branch_protections/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "RepoDeleteBranchProtectionRequest",
@@ -4509,15 +4159,9 @@ export const RepoDeleteFileRequest = /*@__PURE__*/ S.suspend(() =>
     sha: S.String,
     signoff: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/contents/{filepath}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/contents/{filepath}", code: 200 }),
   ),
-).annotate({
-  identifier: "RepoDeleteFileRequest",
-}) as any as S.Schema<RepoDeleteFileRequest>;
+).annotate({ identifier: "RepoDeleteFileRequest" }) as any as S.Schema<RepoDeleteFileRequest>;
 
 /** FileDeleteResponse contains information about a repo's file that was deleted */
 export interface FileDeleteResponse {
@@ -4531,9 +4175,7 @@ export const FileDeleteResponse = /*@__PURE__*/ S.suspend(() =>
     content: S.optional(S.Unknown),
     verification: S.optional(PayloadCommitVerification),
   }),
-).annotate({
-  identifier: "FileDeleteResponse",
-}) as any as S.Schema<FileDeleteResponse>;
+).annotate({ identifier: "FileDeleteResponse" }) as any as S.Schema<FileDeleteResponse>;
 
 export interface RepoDeleteFlagRequest {
   /** owner of the repo */
@@ -4548,16 +4190,8 @@ export const RepoDeleteFlagRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     flag: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/flags/{flag}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoDeleteFlagRequest",
-}) as any as S.Schema<RepoDeleteFlagRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/flags/{flag}", code: 200 })),
+).annotate({ identifier: "RepoDeleteFlagRequest" }) as any as S.Schema<RepoDeleteFlagRequest>;
 
 export interface RepoDeleteFlagResponse {}
 export const RepoDeleteFlagResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4577,16 +4211,8 @@ export const RepoDeleteGitHookRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/hooks/git/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoDeleteGitHookRequest",
-}) as any as S.Schema<RepoDeleteGitHookRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/hooks/git/{id}", code: 200 })),
+).annotate({ identifier: "RepoDeleteGitHookRequest" }) as any as S.Schema<RepoDeleteGitHookRequest>;
 
 export interface RepoDeleteGitHookResponse {}
 export const RepoDeleteGitHookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4606,16 +4232,8 @@ export const RepoDeleteHookRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/hooks/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoDeleteHookRequest",
-}) as any as S.Schema<RepoDeleteHookRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/hooks/{id}", code: 200 })),
+).annotate({ identifier: "RepoDeleteHookRequest" }) as any as S.Schema<RepoDeleteHookRequest>;
 
 export interface RepoDeleteHookResponse {}
 export const RepoDeleteHookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4635,16 +4253,8 @@ export const RepoDeleteKeyRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/keys/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoDeleteKeyRequest",
-}) as any as S.Schema<RepoDeleteKeyRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/keys/{id}", code: 200 })),
+).annotate({ identifier: "RepoDeleteKeyRequest" }) as any as S.Schema<RepoDeleteKeyRequest>;
 
 export interface RepoDeleteKeyResponse {}
 export const RepoDeleteKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4779,11 +4389,7 @@ export const RepoDeletePushMirrorRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/push_mirrors/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/push_mirrors/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "RepoDeletePushMirrorRequest",
@@ -4807,16 +4413,8 @@ export const RepoDeleteReleaseRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/releases/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoDeleteReleaseRequest",
-}) as any as S.Schema<RepoDeleteReleaseRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/releases/{id}", code: 200 })),
+).annotate({ identifier: "RepoDeleteReleaseRequest" }) as any as S.Schema<RepoDeleteReleaseRequest>;
 
 export interface RepoDeleteReleaseResponse {}
 export const RepoDeleteReleaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4871,11 +4469,7 @@ export const RepoDeleteReleaseByTagRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     tag: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/releases/tags/{tag}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/releases/tags/{tag}", code: 200 }),
   ),
 ).annotate({
   identifier: "RepoDeleteReleaseByTagRequest",
@@ -4899,16 +4493,8 @@ export const RepoDeleteTagRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     tag: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/tags/{tag}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoDeleteTagRequest",
-}) as any as S.Schema<RepoDeleteTagRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/tags/{tag}", code: 200 })),
+).annotate({ identifier: "RepoDeleteTagRequest" }) as any as S.Schema<RepoDeleteTagRequest>;
 
 export interface RepoDeleteTagResponse {}
 export const RepoDeleteTagResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4929,11 +4515,7 @@ export const RepoDeleteTagProtectionRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/tag_protections/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/tag_protections/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "RepoDeleteTagProtectionRequest",
@@ -4941,9 +4523,7 @@ export const RepoDeleteTagProtectionRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface RepoDeleteTagProtectionResponse {}
 export const RepoDeleteTagProtectionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "RepoDeleteTagProtectionResponse",
-  },
+  { identifier: "RepoDeleteTagProtectionResponse" },
 ) as any as S.Schema<RepoDeleteTagProtectionResponse>;
 
 export interface RepoDeleteTeamRequest {
@@ -4959,16 +4539,8 @@ export const RepoDeleteTeamRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     team: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/teams/{team}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoDeleteTeamRequest",
-}) as any as S.Schema<RepoDeleteTeamRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/teams/{team}", code: 200 })),
+).annotate({ identifier: "RepoDeleteTeamRequest" }) as any as S.Schema<RepoDeleteTeamRequest>;
 
 export interface RepoDeleteTeamResponse {}
 export const RepoDeleteTeamResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4988,16 +4560,8 @@ export const RepoDeleteTopicRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     topic: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/topics/{topic}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoDeleteTopicRequest",
-}) as any as S.Schema<RepoDeleteTopicRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/topics/{topic}", code: 200 })),
+).annotate({ identifier: "RepoDeleteTopicRequest" }) as any as S.Schema<RepoDeleteTopicRequest>;
 
 export interface RepoDeleteTopicResponse {}
 export const RepoDeleteTopicResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5018,11 +4582,7 @@ export const RepoDeleteWikiPageRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     pageName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/wiki/page/{pageName}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/wiki/page/{pageName}", code: 200 }),
   ),
 ).annotate({
   identifier: "RepoDeleteWikiPageRequest",
@@ -5053,11 +4613,7 @@ export const RepoDownloadCommitDiffOrPatchRequest = /*@__PURE__*/ S.suspend(() =
     sha: S.String.pipe(T.Label()),
     diffType: RepoDownloadCommitDiffOrPatchRequestDiffType.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/git/commits/{sha}.{diffType}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/git/commits/{sha}.{diffType}", code: 200 }),
   ),
 ).annotate({
   identifier: "RepoDownloadCommitDiffOrPatchRequest",
@@ -5093,11 +4649,7 @@ export const RepoDownloadPullDiffOrPatchRequest = /*@__PURE__*/ S.suspend(() =>
     diffType: RepoDownloadPullDiffOrPatchRequestDiffType.pipe(T.Label()),
     binary: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/pulls/{index}.{diffType}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/pulls/{index}.{diffType}", code: 200 }),
   ),
 ).annotate({
   identifier: "RepoDownloadPullDiffOrPatchRequest",
@@ -5211,11 +4763,7 @@ export const RepoEditBranchProtectionRequest = /*@__PURE__*/ S.suspend(() =>
     status_check_contexts: S.optional(RepoEditBranchProtectionRequestStatusCheckContextsList),
     unprotected_file_patterns: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/repos/{owner}/{repo}/branch_protections/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}/branch_protections/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "RepoEditBranchProtectionRequest",
@@ -5236,16 +4784,8 @@ export const RepoEditGitHookRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
     content: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/repos/{owner}/{repo}/hooks/git/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoEditGitHookRequest",
-}) as any as S.Schema<RepoEditGitHookRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}/hooks/git/{id}", code: 200 })),
+).annotate({ identifier: "RepoEditGitHookRequest" }) as any as S.Schema<RepoEditGitHookRequest>;
 
 /** GitHook represents a Git repository hook */
 export interface GitHook {
@@ -5261,9 +4801,7 @@ export const GitHook = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "GitHook" }) as any as S.Schema<GitHook>;
 
-export type RepoEditHookRequestConfigMap = {
-  [key: string]: string | undefined;
-};
+export type RepoEditHookRequestConfigMap = { [key: string]: string | undefined };
 export const RepoEditHookRequestConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5297,16 +4835,8 @@ export const RepoEditHookRequest = /*@__PURE__*/ S.suspend(() =>
     branch_filter: S.optional(S.String),
     config: S.optional(RepoEditHookRequestConfigMap),
     events: S.optional(RepoEditHookRequestEventsList),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/repos/{owner}/{repo}/hooks/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoEditHookRequest",
-}) as any as S.Schema<RepoEditHookRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}/hooks/{id}", code: 200 })),
+).annotate({ identifier: "RepoEditHookRequest" }) as any as S.Schema<RepoEditHookRequest>;
 
 export type RepoEditPullRequestRequestAssigneesList = Array<string>;
 export const RepoEditPullRequestRequestAssigneesList = /*@__PURE__*/ S.Array(
@@ -5353,13 +4883,7 @@ export const RepoEditPullRequestRequest = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(S.String),
     title: S.optional(S.String),
     unset_due_date: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/repos/{owner}/{repo}/pulls/{index}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}/pulls/{index}", code: 200 })),
 ).annotate({
   identifier: "RepoEditPullRequestRequest",
 }) as any as S.Schema<RepoEditPullRequestRequest>;
@@ -5391,16 +4915,8 @@ export const RepoEditReleaseRequest = /*@__PURE__*/ S.suspend(() =>
     prerelease: S.optional(S.Boolean),
     tag_name: S.optional(S.String),
     target_commitish: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/repos/{owner}/{repo}/releases/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoEditReleaseRequest",
-}) as any as S.Schema<RepoEditReleaseRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}/releases/{id}", code: 200 })),
+).annotate({ identifier: "RepoEditReleaseRequest" }) as any as S.Schema<RepoEditReleaseRequest>;
 
 export interface RepoEditReleaseAttachmentRequest {
   /** owner of the repo */
@@ -5464,11 +4980,7 @@ export const RepoEditTagProtectionRequest = /*@__PURE__*/ S.suspend(() =>
     whitelist_teams: S.optional(RepoEditTagProtectionRequestWhitelistTeamsList),
     whitelist_usernames: S.optional(RepoEditTagProtectionRequestWhitelistUsernamesList),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/repos/{owner}/{repo}/tag_protections/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}/tag_protections/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "RepoEditTagProtectionRequest",
@@ -5497,15 +5009,9 @@ export const RepoEditWikiPageRequest = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     title: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/repos/{owner}/{repo}/wiki/page/{pageName}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}/wiki/page/{pageName}", code: 200 }),
   ),
-).annotate({
-  identifier: "RepoEditWikiPageRequest",
-}) as any as S.Schema<RepoEditWikiPageRequest>;
+).annotate({ identifier: "RepoEditWikiPageRequest" }) as any as S.Schema<RepoEditWikiPageRequest>;
 
 export interface RepoGetActionJobLogsRequest {
   /** owner of the repo */
@@ -5524,11 +5030,7 @@ export const RepoGetActionJobLogsRequest = /*@__PURE__*/ S.suspend(() =>
     job_id: S.Number.pipe(T.Label()),
     attempt: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/jobs/{job_id}/logs",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/jobs/{job_id}/logs", code: 200 }),
   ),
 ).annotate({
   identifier: "RepoGetActionJobLogsRequest",
@@ -5555,11 +5057,7 @@ export const RepoGetActionRunLogsRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     run_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/runs/{run_id}/logs",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/runs/{run_id}/logs", code: 200 }),
   ),
 ).annotate({
   identifier: "RepoGetActionRunLogsRequest",
@@ -5607,9 +5105,7 @@ export const RepoGetAllCommitsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     not: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/commits", code: 200 })),
-).annotate({
-  identifier: "RepoGetAllCommitsRequest",
-}) as any as S.Schema<RepoGetAllCommitsRequest>;
+).annotate({ identifier: "RepoGetAllCommitsRequest" }) as any as S.Schema<RepoGetAllCommitsRequest>;
 
 export type RepoGetAllCommitsResponseBodyList = Array<Commit>;
 export const RepoGetAllCommitsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -5636,16 +5132,8 @@ export const RepoGetArchiveRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     archive: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/archive/{archive}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoGetArchiveRequest",
-}) as any as S.Schema<RepoGetArchiveRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/archive/{archive}", code: 200 })),
+).annotate({ identifier: "RepoGetArchiveRequest" }) as any as S.Schema<RepoGetArchiveRequest>;
 
 export interface RepoGetArchiveResponse {}
 export const RepoGetArchiveResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5662,16 +5150,8 @@ export const RepoGetAssigneesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/assignees",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoGetAssigneesRequest",
-}) as any as S.Schema<RepoGetAssigneesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/assignees", code: 200 })),
+).annotate({ identifier: "RepoGetAssigneesRequest" }) as any as S.Schema<RepoGetAssigneesRequest>;
 
 export type RepoGetAssigneesResponseBodyList = Array<User>;
 export const RepoGetAssigneesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -5681,9 +5161,7 @@ export const RepoGetAssigneesResponseBodyList = /*@__PURE__*/ S.Array(
 export type RepoGetAssigneesResponse = RepoGetAssigneesResponseBodyList;
 export const RepoGetAssigneesResponse = /*@__PURE__*/ S.suspend(() =>
   RepoGetAssigneesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RepoGetAssigneesResponse",
-}) as any as S.Schema<RepoGetAssigneesResponse>;
+).annotate({ identifier: "RepoGetAssigneesResponse" }) as any as S.Schema<RepoGetAssigneesResponse>;
 
 export interface RepoGetBranchRequest {
   /** owner of the repo */
@@ -5698,16 +5176,8 @@ export const RepoGetBranchRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     branch: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/branches/{branch}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoGetBranchRequest",
-}) as any as S.Schema<RepoGetBranchRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/branches/{branch}", code: 200 })),
+).annotate({ identifier: "RepoGetBranchRequest" }) as any as S.Schema<RepoGetBranchRequest>;
 
 export interface RepoGetBranchProtectionRequest {
   /** owner of the repo */
@@ -5723,11 +5193,7 @@ export const RepoGetBranchProtectionRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/branch_protections/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/branch_protections/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "RepoGetBranchProtectionRequest",
@@ -5741,9 +5207,7 @@ export const RepoGetByIDRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/repositories/{id}", code: 200 })),
-).annotate({
-  identifier: "RepoGetByIDRequest",
-}) as any as S.Schema<RepoGetByIDRequest>;
+).annotate({ identifier: "RepoGetByIDRequest" }) as any as S.Schema<RepoGetByIDRequest>;
 
 export interface RepoGetCombinedStatusByRefRequest {
   /** owner of the repo */
@@ -5764,13 +5228,7 @@ export const RepoGetCombinedStatusByRefRequest = /*@__PURE__*/ S.suspend(() =>
     ref: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/commits/{ref}/status",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/commits/{ref}/status", code: 200 })),
 ).annotate({
   identifier: "RepoGetCombinedStatusByRefRequest",
 }) as any as S.Schema<RepoGetCombinedStatusByRefRequest>;
@@ -5815,13 +5273,7 @@ export const RepoGetCommitPullRequestRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     sha: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/commits/{sha}/pull",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/commits/{sha}/pull", code: 200 })),
 ).annotate({
   identifier: "RepoGetCommitPullRequestRequest",
 }) as any as S.Schema<RepoGetCommitPullRequestRequest>;
@@ -5842,16 +5294,8 @@ export const RepoGetContentsRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     filepath: S.String.pipe(T.Label()),
     ref: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/contents/{filepath}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoGetContentsRequest",
-}) as any as S.Schema<RepoGetContentsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/contents/{filepath}", code: 200 })),
+).annotate({ identifier: "RepoGetContentsRequest" }) as any as S.Schema<RepoGetContentsRequest>;
 
 export interface RepoGetContentsListRequest {
   /** owner of the repo */
@@ -5900,19 +5344,13 @@ export const RepoGetEditorConfigRequest = /*@__PURE__*/ S.suspend(() =>
     filepath: S.String.pipe(T.Label()),
     ref: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/editorconfig/{filepath}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/editorconfig/{filepath}", code: 200 }),
   ),
 ).annotate({
   identifier: "RepoGetEditorConfigRequest",
 }) as any as S.Schema<RepoGetEditorConfigRequest>;
 
-export type RepoGetEditorConfigResponseBodyMap = {
-  [key: string]: string | undefined;
-};
+export type RepoGetEditorConfigResponseBodyMap = { [key: string]: string | undefined };
 export const RepoGetEditorConfigResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5938,16 +5376,8 @@ export const RepoGetGitHookRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/hooks/git/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoGetGitHookRequest",
-}) as any as S.Schema<RepoGetGitHookRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/hooks/git/{id}", code: 200 })),
+).annotate({ identifier: "RepoGetGitHookRequest" }) as any as S.Schema<RepoGetGitHookRequest>;
 
 export interface RepoGetHookRequest {
   /** owner of the repo */
@@ -5962,16 +5392,8 @@ export const RepoGetHookRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/hooks/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoGetHookRequest",
-}) as any as S.Schema<RepoGetHookRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/hooks/{id}", code: 200 })),
+).annotate({ identifier: "RepoGetHookRequest" }) as any as S.Schema<RepoGetHookRequest>;
 
 export interface RepoGetIssueConfigRequest {
   /** owner of the repo */
@@ -5983,13 +5405,7 @@ export const RepoGetIssueConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/issue_config",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issue_config", code: 200 })),
 ).annotate({
   identifier: "RepoGetIssueConfigRequest",
 }) as any as S.Schema<RepoGetIssueConfigRequest>;
@@ -6005,9 +5421,7 @@ export const IssueConfigContactLink = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IssueConfigContactLink",
-}) as any as S.Schema<IssueConfigContactLink>;
+).annotate({ identifier: "IssueConfigContactLink" }) as any as S.Schema<IssueConfigContactLink>;
 
 export type IssueConfigContactLinksList = Array<IssueConfigContactLink>;
 export const IssueConfigContactLinksList = /*@__PURE__*/ S.Array(
@@ -6035,28 +5449,18 @@ export const RepoGetIssueTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/issue_templates",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issue_templates", code: 200 })),
 ).annotate({
   identifier: "RepoGetIssueTemplatesRequest",
 }) as any as S.Schema<RepoGetIssueTemplatesRequest>;
 
-export type IssueFormFieldAttributesMap = {
-  [key: string]: unknown | undefined;
-};
+export type IssueFormFieldAttributesMap = { [key: string]: unknown | undefined };
 export const IssueFormFieldAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<IssueFormFieldAttributesMap>;
 
-export type IssueFormFieldValidationsMap = {
-  [key: string]: unknown | undefined;
-};
+export type IssueFormFieldValidationsMap = { [key: string]: unknown | undefined };
 export const IssueFormFieldValidationsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -6144,16 +5548,8 @@ export const RepoGetKeyRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/keys/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoGetKeyRequest",
-}) as any as S.Schema<RepoGetKeyRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/keys/{id}", code: 200 })),
+).annotate({ identifier: "RepoGetKeyRequest" }) as any as S.Schema<RepoGetKeyRequest>;
 
 export interface RepoGetLanguagesRequest {
   /** owner of the repo */
@@ -6165,20 +5561,10 @@ export const RepoGetLanguagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/languages",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoGetLanguagesRequest",
-}) as any as S.Schema<RepoGetLanguagesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/languages", code: 200 })),
+).annotate({ identifier: "RepoGetLanguagesRequest" }) as any as S.Schema<RepoGetLanguagesRequest>;
 
-export type RepoGetLanguagesResponseBodyMap = {
-  [key: string]: number | undefined;
-};
+export type RepoGetLanguagesResponseBodyMap = { [key: string]: number | undefined };
 export const RepoGetLanguagesResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -6187,9 +5573,7 @@ export const RepoGetLanguagesResponseBodyMap = /*@__PURE__*/ S.Record(
 export type RepoGetLanguagesResponse = RepoGetLanguagesResponseBodyMap;
 export const RepoGetLanguagesResponse = /*@__PURE__*/ S.suspend(() =>
   RepoGetLanguagesResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RepoGetLanguagesResponse",
-}) as any as S.Schema<RepoGetLanguagesResponse>;
+).annotate({ identifier: "RepoGetLanguagesResponse" }) as any as S.Schema<RepoGetLanguagesResponse>;
 
 export interface RepoGetLatestReleaseRequest {
   /** owner of the repo */
@@ -6201,13 +5585,7 @@ export const RepoGetLatestReleaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/releases/latest",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/releases/latest", code: 200 })),
 ).annotate({
   identifier: "RepoGetLatestReleaseRequest",
 }) as any as S.Schema<RepoGetLatestReleaseRequest>;
@@ -6231,16 +5609,8 @@ export const RepoGetNoteRequest = /*@__PURE__*/ S.suspend(() =>
     sha: S.String.pipe(T.Label()),
     verification: S.optional(S.Boolean.pipe(T.Query())),
     files: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/git/notes/{sha}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoGetNoteRequest",
-}) as any as S.Schema<RepoGetNoteRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/git/notes/{sha}", code: 200 })),
+).annotate({ identifier: "RepoGetNoteRequest" }) as any as S.Schema<RepoGetNoteRequest>;
 
 /** Note contains information related to a git note */
 export interface Note {
@@ -6267,13 +5637,7 @@ export const RepoGetPullRequestRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     index: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/pulls/{index}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/pulls/{index}", code: 200 })),
 ).annotate({
   identifier: "RepoGetPullRequestRequest",
 }) as any as S.Schema<RepoGetPullRequestRequest>;
@@ -6294,13 +5658,7 @@ export const RepoGetPullRequestByBaseHeadRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     base: S.String.pipe(T.Label()),
     head: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/pulls/{base}/{head}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/pulls/{base}/{head}", code: 200 })),
 ).annotate({
   identifier: "RepoGetPullRequestByBaseHeadRequest",
 }) as any as S.Schema<RepoGetPullRequestByBaseHeadRequest>;
@@ -6330,13 +5688,7 @@ export const RepoGetPullRequestCommitsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     verification: S.optional(S.Boolean.pipe(T.Query())),
     files: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/pulls/{index}/commits",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/pulls/{index}/commits", code: 200 })),
 ).annotate({
   identifier: "RepoGetPullRequestCommitsRequest",
 }) as any as S.Schema<RepoGetPullRequestCommitsRequest>;
@@ -6385,13 +5737,7 @@ export const RepoGetPullRequestFilesRequest = /*@__PURE__*/ S.suspend(() =>
     whitespace: S.optional(RepoGetPullRequestFilesRequestWhitespace.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/pulls/{index}/files",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/pulls/{index}/files", code: 200 })),
 ).annotate({
   identifier: "RepoGetPullRequestFilesRequest",
 }) as any as S.Schema<RepoGetPullRequestFilesRequest>;
@@ -6451,15 +5797,9 @@ export const RepoGetPullReviewRequest = /*@__PURE__*/ S.suspend(() =>
     index: S.Number.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/pulls/{index}/reviews/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/pulls/{index}/reviews/{id}", code: 200 }),
   ),
-).annotate({
-  identifier: "RepoGetPullReviewRequest",
-}) as any as S.Schema<RepoGetPullReviewRequest>;
+).annotate({ identifier: "RepoGetPullReviewRequest" }) as any as S.Schema<RepoGetPullReviewRequest>;
 
 export interface RepoGetPullReviewCommentRequest {
   /** owner of the repo */
@@ -6543,13 +5883,7 @@ export const RepoGetPushMirrorByRemoteNameRequest = /*@__PURE__*/ S.suspend(() =
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/push_mirrors/{name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/push_mirrors/{name}", code: 200 })),
 ).annotate({
   identifier: "RepoGetPushMirrorByRemoteNameRequest",
 }) as any as S.Schema<RepoGetPushMirrorByRemoteNameRequest>;
@@ -6570,23 +5904,13 @@ export const RepoGetRawFileRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     filepath: S.String.pipe(T.Label()),
     ref: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/raw/{filepath}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoGetRawFileRequest",
-}) as any as S.Schema<RepoGetRawFileRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/raw/{filepath}", code: 200 })),
+).annotate({ identifier: "RepoGetRawFileRequest" }) as any as S.Schema<RepoGetRawFileRequest>;
 
 export type RepoGetRawFileResponse = unknown;
 export const RepoGetRawFileResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RepoGetRawFileResponse",
-}) as any as S.Schema<RepoGetRawFileResponse>;
+).annotate({ identifier: "RepoGetRawFileResponse" }) as any as S.Schema<RepoGetRawFileResponse>;
 
 export interface RepoGetRawFileOrLFSRequest {
   /** owner of the repo */
@@ -6604,13 +5928,7 @@ export const RepoGetRawFileOrLFSRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     filepath: S.String.pipe(T.Label()),
     ref: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/media/{filepath}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/media/{filepath}", code: 200 })),
 ).annotate({
   identifier: "RepoGetRawFileOrLFSRequest",
 }) as any as S.Schema<RepoGetRawFileOrLFSRequest>;
@@ -6635,16 +5953,8 @@ export const RepoGetReleaseRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/releases/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoGetReleaseRequest",
-}) as any as S.Schema<RepoGetReleaseRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/releases/{id}", code: 200 })),
+).annotate({ identifier: "RepoGetReleaseRequest" }) as any as S.Schema<RepoGetReleaseRequest>;
 
 export interface RepoGetReleaseAttachmentRequest {
   /** owner of the repo */
@@ -6686,13 +5996,7 @@ export const RepoGetReleaseByTagRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     tag: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/releases/tags/{tag}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/releases/tags/{tag}", code: 200 })),
 ).annotate({
   identifier: "RepoGetReleaseByTagRequest",
 }) as any as S.Schema<RepoGetReleaseByTagRequest>;
@@ -6707,16 +6011,8 @@ export const RepoGetReviewersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/reviewers",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoGetReviewersRequest",
-}) as any as S.Schema<RepoGetReviewersRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/reviewers", code: 200 })),
+).annotate({ identifier: "RepoGetReviewersRequest" }) as any as S.Schema<RepoGetReviewersRequest>;
 
 export type RepoGetReviewersResponseBodyList = Array<User>;
 export const RepoGetReviewersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -6726,9 +6022,7 @@ export const RepoGetReviewersResponseBodyList = /*@__PURE__*/ S.Array(
 export type RepoGetReviewersResponse = RepoGetReviewersResponseBodyList;
 export const RepoGetReviewersResponse = /*@__PURE__*/ S.suspend(() =>
   RepoGetReviewersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RepoGetReviewersResponse",
-}) as any as S.Schema<RepoGetReviewersResponse>;
+).annotate({ identifier: "RepoGetReviewersResponse" }) as any as S.Schema<RepoGetReviewersResponse>;
 
 export interface RepoGetSingleCommitRequest {
   /** owner of the repo */
@@ -6752,13 +6046,7 @@ export const RepoGetSingleCommitRequest = /*@__PURE__*/ S.suspend(() =>
     stat: S.optional(S.Boolean.pipe(T.Query())),
     verification: S.optional(S.Boolean.pipe(T.Query())),
     files: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/git/commits/{sha}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/git/commits/{sha}", code: 200 })),
 ).annotate({
   identifier: "RepoGetSingleCommitRequest",
 }) as any as S.Schema<RepoGetSingleCommitRequest>;
@@ -6776,16 +6064,8 @@ export const RepoGetTagRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     tag: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/tags/{tag}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoGetTagRequest",
-}) as any as S.Schema<RepoGetTagRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/tags/{tag}", code: 200 })),
+).annotate({ identifier: "RepoGetTagRequest" }) as any as S.Schema<RepoGetTagRequest>;
 
 export interface RepoGetTagProtectionRequest {
   /** owner of the repo */
@@ -6800,13 +6080,7 @@ export const RepoGetTagProtectionRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/tag_protections/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/tag_protections/{id}", code: 200 })),
 ).annotate({
   identifier: "RepoGetTagProtectionRequest",
 }) as any as S.Schema<RepoGetTagProtectionRequest>;
@@ -6824,16 +6098,8 @@ export const RepoGetWikiPageRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     pageName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/wiki/page/{pageName}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoGetWikiPageRequest",
-}) as any as S.Schema<RepoGetWikiPageRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/wiki/page/{pageName}", code: 200 })),
+).annotate({ identifier: "RepoGetWikiPageRequest" }) as any as S.Schema<RepoGetWikiPageRequest>;
 
 export interface RepoGetWikiPageRevisionsRequest {
   /** owner of the repo */
@@ -6852,11 +6118,7 @@ export const RepoGetWikiPageRevisionsRequest = /*@__PURE__*/ S.suspend(() =>
     pageName: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/wiki/revisions/{pageName}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/wiki/revisions/{pageName}", code: 200 }),
   ),
 ).annotate({
   identifier: "RepoGetWikiPageRevisionsRequest",
@@ -6895,16 +6157,8 @@ export const RepoGetWikiPagesRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/wiki/pages",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoGetWikiPagesRequest",
-}) as any as S.Schema<RepoGetWikiPagesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/wiki/pages", code: 200 })),
+).annotate({ identifier: "RepoGetWikiPagesRequest" }) as any as S.Schema<RepoGetWikiPagesRequest>;
 
 /** WikiPageMetaData wiki page meta information */
 export interface WikiPageMetaData {
@@ -6920,9 +6174,7 @@ export const WikiPageMetaData = /*@__PURE__*/ S.suspend(() =>
     sub_url: S.optional(S.String),
     title: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WikiPageMetaData",
-}) as any as S.Schema<WikiPageMetaData>;
+).annotate({ identifier: "WikiPageMetaData" }) as any as S.Schema<WikiPageMetaData>;
 
 export type RepoGetWikiPagesResponseBodyList = Array<WikiPageMetaData>;
 export const RepoGetWikiPagesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -6932,9 +6184,7 @@ export const RepoGetWikiPagesResponseBodyList = /*@__PURE__*/ S.Array(
 export type RepoGetWikiPagesResponse = RepoGetWikiPagesResponseBodyList;
 export const RepoGetWikiPagesResponse = /*@__PURE__*/ S.suspend(() =>
   RepoGetWikiPagesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RepoGetWikiPagesResponse",
-}) as any as S.Schema<RepoGetWikiPagesResponse>;
+).annotate({ identifier: "RepoGetWikiPagesResponse" }) as any as S.Schema<RepoGetWikiPagesResponse>;
 
 export interface RepoListActionsSecretsRequest {
   /** owner of the repository */
@@ -6952,13 +6202,7 @@ export const RepoListActionsSecretsRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/secrets",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/secrets", code: 200 })),
 ).annotate({
   identifier: "RepoListActionsSecretsRequest",
 }) as any as S.Schema<RepoListActionsSecretsRequest>;
@@ -7007,13 +6251,7 @@ export const RepoListActivityFeedsRequest = /*@__PURE__*/ S.suspend(() =>
     date: S.optional(S.String.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/activities/feeds",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/activities/feeds", code: 200 })),
 ).annotate({
   identifier: "RepoListActivityFeedsRequest",
 }) as any as S.Schema<RepoListActivityFeedsRequest>;
@@ -7201,9 +6439,7 @@ export const RepoListBranchesRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/branches", code: 200 })),
-).annotate({
-  identifier: "RepoListBranchesRequest",
-}) as any as S.Schema<RepoListBranchesRequest>;
+).annotate({ identifier: "RepoListBranchesRequest" }) as any as S.Schema<RepoListBranchesRequest>;
 
 export type RepoListBranchesResponseBodyList = Array<Branch>;
 export const RepoListBranchesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -7213,9 +6449,7 @@ export const RepoListBranchesResponseBodyList = /*@__PURE__*/ S.Array(
 export type RepoListBranchesResponse = RepoListBranchesResponseBodyList;
 export const RepoListBranchesResponse = /*@__PURE__*/ S.suspend(() =>
   RepoListBranchesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RepoListBranchesResponse",
-}) as any as S.Schema<RepoListBranchesResponse>;
+).annotate({ identifier: "RepoListBranchesResponse" }) as any as S.Schema<RepoListBranchesResponse>;
 
 export interface RepoListBranchProtectionRequest {
   /** owner of the repo */
@@ -7227,13 +6461,7 @@ export const RepoListBranchProtectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/branch_protections",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/branch_protections", code: 200 })),
 ).annotate({
   identifier: "RepoListBranchProtectionRequest",
 }) as any as S.Schema<RepoListBranchProtectionRequest>;
@@ -7266,13 +6494,7 @@ export const RepoListCollaboratorsRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/collaborators",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/collaborators", code: 200 })),
 ).annotate({
   identifier: "RepoListCollaboratorsRequest",
 }) as any as S.Schema<RepoListCollaboratorsRequest>;
@@ -7300,9 +6522,7 @@ export const RepoListFlagsRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/flags", code: 200 })),
-).annotate({
-  identifier: "RepoListFlagsRequest",
-}) as any as S.Schema<RepoListFlagsRequest>;
+).annotate({ identifier: "RepoListFlagsRequest" }) as any as S.Schema<RepoListFlagsRequest>;
 
 export type RepoListFlagsResponseBodyList = Array<string>;
 export const RepoListFlagsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -7312,9 +6532,7 @@ export const RepoListFlagsResponseBodyList = /*@__PURE__*/ S.Array(
 export type RepoListFlagsResponse = RepoListFlagsResponseBodyList;
 export const RepoListFlagsResponse = /*@__PURE__*/ S.suspend(() =>
   RepoListFlagsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RepoListFlagsResponse",
-}) as any as S.Schema<RepoListFlagsResponse>;
+).annotate({ identifier: "RepoListFlagsResponse" }) as any as S.Schema<RepoListFlagsResponse>;
 
 export interface RepoListGitHooksRequest {
   /** owner of the repo */
@@ -7326,16 +6544,8 @@ export const RepoListGitHooksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/hooks/git",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoListGitHooksRequest",
-}) as any as S.Schema<RepoListGitHooksRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/hooks/git", code: 200 })),
+).annotate({ identifier: "RepoListGitHooksRequest" }) as any as S.Schema<RepoListGitHooksRequest>;
 
 export type RepoListGitHooksResponseBodyList = Array<GitHook>;
 export const RepoListGitHooksResponseBodyList = /*@__PURE__*/ S.Array(
@@ -7345,9 +6555,7 @@ export const RepoListGitHooksResponseBodyList = /*@__PURE__*/ S.Array(
 export type RepoListGitHooksResponse = RepoListGitHooksResponseBodyList;
 export const RepoListGitHooksResponse = /*@__PURE__*/ S.suspend(() =>
   RepoListGitHooksResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RepoListGitHooksResponse",
-}) as any as S.Schema<RepoListGitHooksResponse>;
+).annotate({ identifier: "RepoListGitHooksResponse" }) as any as S.Schema<RepoListGitHooksResponse>;
 
 export interface RepoListGitRefsRequest {
   /** owner of the repo */
@@ -7362,16 +6570,8 @@ export const RepoListGitRefsRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     ref: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/git/refs/{ref}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoListGitRefsRequest",
-}) as any as S.Schema<RepoListGitRefsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/git/refs/{ref}", code: 200 })),
+).annotate({ identifier: "RepoListGitRefsRequest" }) as any as S.Schema<RepoListGitRefsRequest>;
 
 export type RepoListGitRefsResponseBodyList = Array<Reference>;
 export const RepoListGitRefsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -7381,9 +6581,7 @@ export const RepoListGitRefsResponseBodyList = /*@__PURE__*/ S.Array(
 export type RepoListGitRefsResponse = RepoListGitRefsResponseBodyList;
 export const RepoListGitRefsResponse = /*@__PURE__*/ S.suspend(() =>
   RepoListGitRefsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RepoListGitRefsResponse",
-}) as any as S.Schema<RepoListGitRefsResponse>;
+).annotate({ identifier: "RepoListGitRefsResponse" }) as any as S.Schema<RepoListGitRefsResponse>;
 
 export interface RepoListHooksRequest {
   /** owner of the repo */
@@ -7402,9 +6600,7 @@ export const RepoListHooksRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/hooks", code: 200 })),
-).annotate({
-  identifier: "RepoListHooksRequest",
-}) as any as S.Schema<RepoListHooksRequest>;
+).annotate({ identifier: "RepoListHooksRequest" }) as any as S.Schema<RepoListHooksRequest>;
 
 export type RepoListHooksResponseBodyList = Array<Hook>;
 export const RepoListHooksResponseBodyList = /*@__PURE__*/ S.Array(
@@ -7414,9 +6610,7 @@ export const RepoListHooksResponseBodyList = /*@__PURE__*/ S.Array(
 export type RepoListHooksResponse = RepoListHooksResponseBodyList;
 export const RepoListHooksResponse = /*@__PURE__*/ S.suspend(() =>
   RepoListHooksResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RepoListHooksResponse",
-}) as any as S.Schema<RepoListHooksResponse>;
+).annotate({ identifier: "RepoListHooksResponse" }) as any as S.Schema<RepoListHooksResponse>;
 
 export interface RepoListKeysRequest {
   /** owner of the repo */
@@ -7441,9 +6635,7 @@ export const RepoListKeysRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/keys", code: 200 })),
-).annotate({
-  identifier: "RepoListKeysRequest",
-}) as any as S.Schema<RepoListKeysRequest>;
+).annotate({ identifier: "RepoListKeysRequest" }) as any as S.Schema<RepoListKeysRequest>;
 
 export type RepoListKeysResponseBodyList = Array<DeployKey>;
 export const RepoListKeysResponseBodyList = /*@__PURE__*/ S.Array(
@@ -7453,9 +6645,7 @@ export const RepoListKeysResponseBodyList = /*@__PURE__*/ S.Array(
 export type RepoListKeysResponse = RepoListKeysResponseBodyList;
 export const RepoListKeysResponse = /*@__PURE__*/ S.suspend(() =>
   RepoListKeysResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RepoListKeysResponse",
-}) as any as S.Schema<RepoListKeysResponse>;
+).annotate({ identifier: "RepoListKeysResponse" }) as any as S.Schema<RepoListKeysResponse>;
 
 export interface RepoListPinnedIssuesRequest {
   /** owner of the repo */
@@ -7467,13 +6657,7 @@ export const RepoListPinnedIssuesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/issues/pinned",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues/pinned", code: 200 })),
 ).annotate({
   identifier: "RepoListPinnedIssuesRequest",
 }) as any as S.Schema<RepoListPinnedIssuesRequest>;
@@ -7505,9 +6689,7 @@ export const PullRequestMeta = /*@__PURE__*/ S.suspend(() =>
     merged: S.optional(S.Boolean),
     merged_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PullRequestMeta",
-}) as any as S.Schema<PullRequestMeta>;
+).annotate({ identifier: "PullRequestMeta" }) as any as S.Schema<PullRequestMeta>;
 
 /** RepositoryMeta basic repository information */
 export interface RepositoryMeta {
@@ -7605,13 +6787,7 @@ export const RepoListPinnedPullRequestsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/pulls/pinned",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/pulls/pinned", code: 200 })),
 ).annotate({
   identifier: "RepoListPinnedPullRequestsRequest",
 }) as any as S.Schema<RepoListPinnedPullRequestsRequest>;
@@ -7719,13 +6895,7 @@ export const RepoListPullReviewsRequest = /*@__PURE__*/ S.suspend(() =>
     index: S.Number.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/pulls/{index}/reviews",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/pulls/{index}/reviews", code: 200 })),
 ).annotate({
   identifier: "RepoListPullReviewsRequest",
 }) as any as S.Schema<RepoListPullReviewsRequest>;
@@ -7758,13 +6928,7 @@ export const RepoListPushMirrorsRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/push_mirrors",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/push_mirrors", code: 200 })),
 ).annotate({
   identifier: "RepoListPushMirrorsRequest",
 }) as any as S.Schema<RepoListPushMirrorsRequest>;
@@ -7794,13 +6958,7 @@ export const RepoListReleaseAttachmentsRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/releases/{id}/assets",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/releases/{id}/assets", code: 200 })),
 ).annotate({
   identifier: "RepoListReleaseAttachmentsRequest",
 }) as any as S.Schema<RepoListReleaseAttachmentsRequest>;
@@ -7843,9 +7001,7 @@ export const RepoListReleasesRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/releases", code: 200 })),
-).annotate({
-  identifier: "RepoListReleasesRequest",
-}) as any as S.Schema<RepoListReleasesRequest>;
+).annotate({ identifier: "RepoListReleasesRequest" }) as any as S.Schema<RepoListReleasesRequest>;
 
 export type RepoListReleasesResponseBodyList = Array<Release>;
 export const RepoListReleasesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -7855,9 +7011,7 @@ export const RepoListReleasesResponseBodyList = /*@__PURE__*/ S.Array(
 export type RepoListReleasesResponse = RepoListReleasesResponseBodyList;
 export const RepoListReleasesResponse = /*@__PURE__*/ S.suspend(() =>
   RepoListReleasesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RepoListReleasesResponse",
-}) as any as S.Schema<RepoListReleasesResponse>;
+).annotate({ identifier: "RepoListReleasesResponse" }) as any as S.Schema<RepoListReleasesResponse>;
 
 export interface RepoListStargazersRequest {
   /** owner of the repo */
@@ -7875,13 +7029,7 @@ export const RepoListStargazersRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/stargazers",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/stargazers", code: 200 })),
 ).annotate({
   identifier: "RepoListStargazersRequest",
 }) as any as S.Schema<RepoListStargazersRequest>;
@@ -7934,16 +7082,8 @@ export const RepoListStatusesRequest = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(RepoListStatusesRequestState.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/statuses/{sha}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoListStatusesRequest",
-}) as any as S.Schema<RepoListStatusesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/statuses/{sha}", code: 200 })),
+).annotate({ identifier: "RepoListStatusesRequest" }) as any as S.Schema<RepoListStatusesRequest>;
 
 export type RepoListStatusesResponseBodyList = Array<CommitStatus>;
 export const RepoListStatusesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -7953,9 +7093,7 @@ export const RepoListStatusesResponseBodyList = /*@__PURE__*/ S.Array(
 export type RepoListStatusesResponse = RepoListStatusesResponseBodyList;
 export const RepoListStatusesResponse = /*@__PURE__*/ S.suspend(() =>
   RepoListStatusesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RepoListStatusesResponse",
-}) as any as S.Schema<RepoListStatusesResponse>;
+).annotate({ identifier: "RepoListStatusesResponse" }) as any as S.Schema<RepoListStatusesResponse>;
 
 export type RepoListStatusesByRefRequestSort =
   | "oldest"
@@ -7999,11 +7137,7 @@ export const RepoListStatusesByRefRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/commits/{ref}/statuses",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/commits/{ref}/statuses", code: 200 }),
   ),
 ).annotate({
   identifier: "RepoListStatusesByRefRequest",
@@ -8037,13 +7171,7 @@ export const RepoListSubscribersRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/subscribers",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/subscribers", code: 200 })),
 ).annotate({
   identifier: "RepoListSubscribersRequest",
 }) as any as S.Schema<RepoListSubscribersRequest>;
@@ -8070,13 +7198,7 @@ export const RepoListTagProtectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/tag_protections",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/tag_protections", code: 200 })),
 ).annotate({
   identifier: "RepoListTagProtectionRequest",
 }) as any as S.Schema<RepoListTagProtectionRequest>;
@@ -8110,9 +7232,7 @@ export const RepoListTagsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/tags", code: 200 })),
-).annotate({
-  identifier: "RepoListTagsRequest",
-}) as any as S.Schema<RepoListTagsRequest>;
+).annotate({ identifier: "RepoListTagsRequest" }) as any as S.Schema<RepoListTagsRequest>;
 
 export type RepoListTagsResponseBodyList = Array<Tag>;
 export const RepoListTagsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -8122,9 +7242,7 @@ export const RepoListTagsResponseBodyList = /*@__PURE__*/ S.Array(
 export type RepoListTagsResponse = RepoListTagsResponseBodyList;
 export const RepoListTagsResponse = /*@__PURE__*/ S.suspend(() =>
   RepoListTagsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RepoListTagsResponse",
-}) as any as S.Schema<RepoListTagsResponse>;
+).annotate({ identifier: "RepoListTagsResponse" }) as any as S.Schema<RepoListTagsResponse>;
 
 export interface RepoListTeamsRequest {
   /** owner of the repo */
@@ -8137,9 +7255,7 @@ export const RepoListTeamsRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/teams", code: 200 })),
-).annotate({
-  identifier: "RepoListTeamsRequest",
-}) as any as S.Schema<RepoListTeamsRequest>;
+).annotate({ identifier: "RepoListTeamsRequest" }) as any as S.Schema<RepoListTeamsRequest>;
 
 export type RepoListTeamsResponseBodyList = Array<Team>;
 export const RepoListTeamsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -8149,9 +7265,7 @@ export const RepoListTeamsResponseBodyList = /*@__PURE__*/ S.Array(
 export type RepoListTeamsResponse = RepoListTeamsResponseBodyList;
 export const RepoListTeamsResponse = /*@__PURE__*/ S.suspend(() =>
   RepoListTeamsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RepoListTeamsResponse",
-}) as any as S.Schema<RepoListTeamsResponse>;
+).annotate({ identifier: "RepoListTeamsResponse" }) as any as S.Schema<RepoListTeamsResponse>;
 
 export interface RepoListTopicsRequest {
   /** owner of the repo */
@@ -8170,9 +7284,7 @@ export const RepoListTopicsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/topics", code: 200 })),
-).annotate({
-  identifier: "RepoListTopicsRequest",
-}) as any as S.Schema<RepoListTopicsRequest>;
+).annotate({ identifier: "RepoListTopicsRequest" }) as any as S.Schema<RepoListTopicsRequest>;
 
 export type TopicNameTopicsList = Array<string>;
 export const TopicNameTopicsList = /*@__PURE__*/ S.Array(
@@ -8227,13 +7339,7 @@ export const RepoMergePullRequestRequest = /*@__PURE__*/ S.suspend(() =>
     force_merge: S.optional(S.Boolean),
     head_commit_id: S.optional(S.String),
     merge_when_checks_succeed: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/pulls/{index}/merge",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/pulls/{index}/merge", code: 200 })),
 ).annotate({
   identifier: "RepoMergePullRequestRequest",
 }) as any as S.Schema<RepoMergePullRequestRequest>;
@@ -8253,16 +7359,8 @@ export const RepoNewPinAllowedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/new_pin_allowed",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoNewPinAllowedRequest",
-}) as any as S.Schema<RepoNewPinAllowedRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/new_pin_allowed", code: 200 })),
+).annotate({ identifier: "RepoNewPinAllowedRequest" }) as any as S.Schema<RepoNewPinAllowedRequest>;
 
 /** NewIssuePinsAllowed represents an API response that says if new Issue Pins are allowed */
 export interface NewIssuePinsAllowed {
@@ -8274,9 +7372,7 @@ export const NewIssuePinsAllowed = /*@__PURE__*/ S.suspend(() =>
     issues: S.optional(S.Boolean),
     pull_requests: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "NewIssuePinsAllowed",
-}) as any as S.Schema<NewIssuePinsAllowed>;
+).annotate({ identifier: "NewIssuePinsAllowed" }) as any as S.Schema<NewIssuePinsAllowed>;
 
 export interface RepoPullRequestIsMergedRequest {
   /** owner of the repo */
@@ -8291,22 +7387,14 @@ export const RepoPullRequestIsMergedRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     index: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/pulls/{index}/merge",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/pulls/{index}/merge", code: 200 })),
 ).annotate({
   identifier: "RepoPullRequestIsMergedRequest",
 }) as any as S.Schema<RepoPullRequestIsMergedRequest>;
 
 export interface RepoPullRequestIsMergedResponse {}
 export const RepoPullRequestIsMergedResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "RepoPullRequestIsMergedResponse",
-  },
+  { identifier: "RepoPullRequestIsMergedResponse" },
 ) as any as S.Schema<RepoPullRequestIsMergedResponse>;
 
 export interface RepoRemoveNoteRequest {
@@ -8322,16 +7410,8 @@ export const RepoRemoveNoteRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     sha: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/git/notes/{sha}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoRemoveNoteRequest",
-}) as any as S.Schema<RepoRemoveNoteRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/git/notes/{sha}", code: 200 })),
+).annotate({ identifier: "RepoRemoveNoteRequest" }) as any as S.Schema<RepoRemoveNoteRequest>;
 
 export interface RepoRemoveNoteResponse {}
 export const RepoRemoveNoteResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8378,16 +7458,8 @@ export const RepoSearchRunJobsRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     labels: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/actions/runners/jobs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoSearchRunJobsRequest",
-}) as any as S.Schema<RepoSearchRunJobsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/actions/runners/jobs", code: 200 })),
+).annotate({ identifier: "RepoSearchRunJobsRequest" }) as any as S.Schema<RepoSearchRunJobsRequest>;
 
 export type RepoSearchRunJobsResponseBodyList = Array<ActionRunJob>;
 export const RepoSearchRunJobsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -8416,16 +7488,8 @@ export const RepoSetNoteRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     sha: S.String.pipe(T.Label()),
     message: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/git/notes/{sha}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoSetNoteRequest",
-}) as any as S.Schema<RepoSetNoteRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/git/notes/{sha}", code: 200 })),
+).annotate({ identifier: "RepoSetNoteRequest" }) as any as S.Schema<RepoSetNoteRequest>;
 
 export interface RepoSigningKeyRequest {
   /** owner of the repo */
@@ -8437,23 +7501,13 @@ export const RepoSigningKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/signing-key.gpg",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoSigningKeyRequest",
-}) as any as S.Schema<RepoSigningKeyRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/signing-key.gpg", code: 200 })),
+).annotate({ identifier: "RepoSigningKeyRequest" }) as any as S.Schema<RepoSigningKeyRequest>;
 
 export type RepoSigningKeyResponse = string;
 export const RepoSigningKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RepoSigningKeyResponse",
-}) as any as S.Schema<RepoSigningKeyResponse>;
+).annotate({ identifier: "RepoSigningKeyResponse" }) as any as S.Schema<RepoSigningKeyResponse>;
 
 export interface RepoSubmitPullReviewRequest {
   /** owner of the repo */
@@ -8476,11 +7530,7 @@ export const RepoSubmitPullReviewRequest = /*@__PURE__*/ S.suspend(() =>
     body: S.optional(S.String),
     event: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/pulls/{index}/reviews/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/pulls/{index}/reviews/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "RepoSubmitPullReviewRequest",
@@ -8499,13 +7549,7 @@ export const RepoSyncForkBranchRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     branch: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/sync_fork/{branch}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/sync_fork/{branch}", code: 200 })),
 ).annotate({
   identifier: "RepoSyncForkBranchRequest",
 }) as any as S.Schema<RepoSyncForkBranchRequest>;
@@ -8528,13 +7572,7 @@ export const RepoSyncForkBranchInfoRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     branch: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/sync_fork/{branch}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/sync_fork/{branch}", code: 200 })),
 ).annotate({
   identifier: "RepoSyncForkBranchInfoRequest",
 }) as any as S.Schema<RepoSyncForkBranchInfoRequest>;
@@ -8565,13 +7603,7 @@ export const RepoSyncForkDefaultRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/sync_fork",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/sync_fork", code: 200 })),
 ).annotate({
   identifier: "RepoSyncForkDefaultRequest",
 }) as any as S.Schema<RepoSyncForkDefaultRequest>;
@@ -8591,13 +7623,7 @@ export const RepoSyncForkDefaultInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/sync_fork",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/sync_fork", code: 200 })),
 ).annotate({
   identifier: "RepoSyncForkDefaultInfoRequest",
 }) as any as S.Schema<RepoSyncForkDefaultInfoRequest>;
@@ -8618,16 +7644,8 @@ export const RepoTestHookRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
     ref: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/hooks/{id}/tests",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoTestHookRequest",
-}) as any as S.Schema<RepoTestHookRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/hooks/{id}/tests", code: 200 })),
+).annotate({ identifier: "RepoTestHookRequest" }) as any as S.Schema<RepoTestHookRequest>;
 
 export interface RepoTestHookResponse {}
 export const RepoTestHookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8660,9 +7678,7 @@ export const RepoTrackedTimesRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/times", code: 200 })),
-).annotate({
-  identifier: "RepoTrackedTimesRequest",
-}) as any as S.Schema<RepoTrackedTimesRequest>;
+).annotate({ identifier: "RepoTrackedTimesRequest" }) as any as S.Schema<RepoTrackedTimesRequest>;
 
 /** TrackedTime worked time for an issue / pr */
 export interface TrackedTime {
@@ -8697,9 +7713,7 @@ export const RepoTrackedTimesResponseBodyList = /*@__PURE__*/ S.Array(
 export type RepoTrackedTimesResponse = RepoTrackedTimesResponseBodyList;
 export const RepoTrackedTimesResponse = /*@__PURE__*/ S.suspend(() =>
   RepoTrackedTimesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RepoTrackedTimesResponse",
-}) as any as S.Schema<RepoTrackedTimesResponse>;
+).annotate({ identifier: "RepoTrackedTimesResponse" }) as any as S.Schema<RepoTrackedTimesResponse>;
 
 export interface RepoUpdateAvatarRequest {
   /** owner of the repo */
@@ -8715,9 +7729,7 @@ export const RepoUpdateAvatarRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     image: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/avatar", code: 200 })),
-).annotate({
-  identifier: "RepoUpdateAvatarRequest",
-}) as any as S.Schema<RepoUpdateAvatarRequest>;
+).annotate({ identifier: "RepoUpdateAvatarRequest" }) as any as S.Schema<RepoUpdateAvatarRequest>;
 
 export interface RepoUpdateAvatarResponse {}
 export const RepoUpdateAvatarResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8740,16 +7752,8 @@ export const RepoUpdateBranchRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     branch: S.String.pipe(T.Label()),
     name: S.String,
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/repos/{owner}/{repo}/branches/{branch}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoUpdateBranchRequest",
-}) as any as S.Schema<RepoUpdateBranchRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}/branches/{branch}", code: 200 })),
+).annotate({ identifier: "RepoUpdateBranchRequest" }) as any as S.Schema<RepoUpdateBranchRequest>;
 
 export interface RepoUpdateBranchResponse {}
 export const RepoUpdateBranchResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8799,16 +7803,8 @@ export const RepoUpdateFileRequest = /*@__PURE__*/ S.suspend(() =>
     new_branch: S.optional(S.String),
     sha: S.String,
     signoff: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/repos/{owner}/{repo}/contents/{filepath}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RepoUpdateFileRequest",
-}) as any as S.Schema<RepoUpdateFileRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/contents/{filepath}", code: 200 })),
+).annotate({ identifier: "RepoUpdateFileRequest" }) as any as S.Schema<RepoUpdateFileRequest>;
 
 export type RepoUpdatePullRequestRequestStyle = "merge" | "rebase";
 export const RepoUpdatePullRequestRequestStyle = S.String;
@@ -8829,13 +7825,7 @@ export const RepoUpdatePullRequestRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     index: S.Number.pipe(T.Label()),
     style: S.optional(RepoUpdatePullRequestRequestStyle.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/pulls/{index}/update",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/pulls/{index}/update", code: 200 })),
 ).annotate({
   identifier: "RepoUpdatePullRequestRequest",
 }) as any as S.Schema<RepoUpdatePullRequestRequest>;
@@ -8865,9 +7855,7 @@ export const RepoUpdateTopicsRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     topics: S.optional(RepoUpdateTopicsRequestTopicsList),
   }).pipe(T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/topics", code: 200 })),
-).annotate({
-  identifier: "RepoUpdateTopicsRequest",
-}) as any as S.Schema<RepoUpdateTopicsRequest>;
+).annotate({ identifier: "RepoUpdateTopicsRequest" }) as any as S.Schema<RepoUpdateTopicsRequest>;
 
 export interface RepoUpdateTopicsResponse {}
 export const RepoUpdateTopicsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8884,13 +7872,7 @@ export const RepoValidateIssueConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/issue_config/validate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issue_config/validate", code: 200 })),
 ).annotate({
   identifier: "RepoValidateIssueConfigRequest",
 }) as any as S.Schema<RepoValidateIssueConfigRequest>;
@@ -8904,9 +7886,7 @@ export const IssueConfigValidation = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     valid: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "IssueConfigValidation",
-}) as any as S.Schema<IssueConfigValidation>;
+).annotate({ identifier: "IssueConfigValidation" }) as any as S.Schema<IssueConfigValidation>;
 
 export interface ReviewRepoDismissPullRequest {
   /** owner of the repo */
@@ -9037,9 +8017,7 @@ export const SearchRepoRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/repos/search", code: 200 })),
-).annotate({
-  identifier: "SearchRepoRequest",
-}) as any as S.Schema<SearchRepoRequest>;
+).annotate({ identifier: "SearchRepoRequest" }) as any as S.Schema<SearchRepoRequest>;
 
 export type SearchResultsDataList = Array<Repository>;
 export const SearchResultsDataList = /*@__PURE__*/ S.Array(
@@ -9072,9 +8050,7 @@ export const SearchTopicRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/topics/search", code: 200 })),
-).annotate({
-  identifier: "SearchTopicRequest",
-}) as any as S.Schema<SearchTopicRequest>;
+).annotate({ identifier: "SearchTopicRequest" }) as any as S.Schema<SearchTopicRequest>;
 
 /** TopicResponse for returning topics */
 export interface TopicResponse {
@@ -9106,9 +8082,7 @@ export const SearchTopicResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     topics: S.optional(SearchTopicResponseTopicsList),
   }),
-).annotate({
-  identifier: "SearchTopicResponse",
-}) as any as S.Schema<SearchTopicResponse>;
+).annotate({ identifier: "SearchTopicResponse" }) as any as S.Schema<SearchTopicResponse>;
 
 export interface SyncRepoMirrorRequest {
   /** owner of the repo to sync */
@@ -9120,16 +8094,8 @@ export const SyncRepoMirrorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/mirror-sync",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "SyncRepoMirrorRequest",
-}) as any as S.Schema<SyncRepoMirrorRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/mirror-sync", code: 200 })),
+).annotate({ identifier: "SyncRepoMirrorRequest" }) as any as S.Schema<SyncRepoMirrorRequest>;
 
 export interface SyncRepoMirrorResponse {}
 export const SyncRepoMirrorResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -9146,13 +8112,7 @@ export const SyncRepoPushMirrorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/push_mirrors-sync",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/push_mirrors-sync", code: 200 })),
 ).annotate({
   identifier: "SyncRepoPushMirrorRequest",
 }) as any as S.Schema<SyncRepoPushMirrorRequest>;
@@ -9183,16 +8143,8 @@ export const TransferRepoRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     new_owner: S.String,
     team_ids: S.optional(TransferRepoRequestTeamIdsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/transfer",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "TransferRepoRequest",
-}) as any as S.Schema<TransferRepoRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/transfer", code: 200 })),
+).annotate({ identifier: "TransferRepoRequest" }) as any as S.Schema<TransferRepoRequest>;
 
 export interface TransferRepoResponse {}
 export const TransferRepoResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -9216,15 +8168,9 @@ export const UpdateRepoSecretRequest = /*@__PURE__*/ S.suspend(() =>
     secretname: S.String.pipe(T.Label()),
     data: S.String,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/repos/{owner}/{repo}/actions/secrets/{secretname}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/actions/secrets/{secretname}", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateRepoSecretRequest",
-}) as any as S.Schema<UpdateRepoSecretRequest>;
+).annotate({ identifier: "UpdateRepoSecretRequest" }) as any as S.Schema<UpdateRepoSecretRequest>;
 
 export interface UpdateRepoSecretResponse {}
 export const UpdateRepoSecretResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -9276,13 +8222,7 @@ export const UserCurrentCheckSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/subscription",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/subscription", code: 200 })),
 ).annotate({
   identifier: "UserCurrentCheckSubscriptionRequest",
 }) as any as S.Schema<UserCurrentCheckSubscriptionRequest>;
@@ -9317,13 +8257,7 @@ export const UserCurrentDeleteSubscriptionRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/subscription",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/subscription", code: 200 })),
 ).annotate({
   identifier: "UserCurrentDeleteSubscriptionRequest",
 }) as any as S.Schema<UserCurrentDeleteSubscriptionRequest>;
@@ -9345,13 +8279,7 @@ export const UserCurrentPutSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/repos/{owner}/{repo}/subscription",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/subscription", code: 200 })),
 ).annotate({
   identifier: "UserCurrentPutSubscriptionRequest",
 }) as any as S.Schema<UserCurrentPutSubscriptionRequest>;

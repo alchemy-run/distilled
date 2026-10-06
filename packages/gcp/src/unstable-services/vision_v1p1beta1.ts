@@ -61,6 +61,9 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+
 export type GoogleCloudVisionV1p1beta1FeatureTypeEnum =
   | "TYPE_UNSPECIFIED"
   | "FACE_DETECTION"
@@ -79,18 +82,18 @@ export const GoogleCloudVisionV1p1beta1FeatureTypeEnum = S.String;
 
 /** The type of Google Cloud Vision API detection to perform, and the maximum number of results to return for that type. Multiple `Feature` objects can be specified in the `features` list. */
 export interface GoogleCloudVisionV1p1beta1Feature {
+  /** Model to use for the feature. Supported values: "builtin/stable" (the default if unset) and "builtin/latest". `DOCUMENT_TEXT_DETECTION` and `TEXT_DETECTION` also support "builtin/rc" for the latest release candidate. */
+  model?: string;
   /** Maximum number of results of this type. Does not apply to `TEXT_DETECTION`, `DOCUMENT_TEXT_DETECTION`, or `CROP_HINTS`. */
   maxResults?: number;
   /** The feature type. */
   type?: GoogleCloudVisionV1p1beta1FeatureTypeEnum | (string & {});
-  /** Model to use for the feature. Supported values: "builtin/stable" (the default if unset) and "builtin/latest". `DOCUMENT_TEXT_DETECTION` and `TEXT_DETECTION` also support "builtin/rc" for the latest release candidate. */
-  model?: string;
 }
 export const GoogleCloudVisionV1p1beta1Feature = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    model: S.optional(S.String),
     maxResults: S.optional(S.Number),
     type: S.optional(GoogleCloudVisionV1p1beta1FeatureTypeEnum),
-    model: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudVisionV1p1beta1Feature",
@@ -101,49 +104,63 @@ export const GoogleCloudVisionV1p1beta1FeatureList = /*@__PURE__*/ S.Array(
   GoogleCloudVisionV1p1beta1Feature,
 ) as any as S.Schema<GoogleCloudVisionV1p1beta1FeatureList>;
 
-/** The Google Cloud Storage location where the input will be read from. */
-export interface GoogleCloudVisionV1p1beta1GcsSource {
-  /** Google Cloud Storage URI for the input file. This must only be a Google Cloud Storage object. Wildcards are not currently supported. */
-  uri?: string;
+/** An object that represents a latitude/longitude pair. This is expressed as a pair of doubles to represent degrees latitude and degrees longitude. Unless specified otherwise, this object must conform to the WGS84 standard. Values must be within normalized ranges. */
+export interface LatLng {
+  /** The latitude in degrees. It must be in the range [-90.0, +90.0]. */
+  latitude?: number;
+  /** The longitude in degrees. It must be in the range [-180.0, +180.0]. */
+  longitude?: number;
 }
-export const GoogleCloudVisionV1p1beta1GcsSource = /*@__PURE__*/ S.suspend(() =>
+export const LatLng = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    uri: S.optional(S.String),
+    latitude: S.optional(S.Number),
+    longitude: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "GoogleCloudVisionV1p1beta1GcsSource",
-}) as any as S.Schema<GoogleCloudVisionV1p1beta1GcsSource>;
+).annotate({ identifier: "LatLng" }) as any as S.Schema<LatLng>;
 
-/** The desired input location and metadata. */
-export interface GoogleCloudVisionV1p1beta1InputConfig {
-  /** The Google Cloud Storage location to read the input from. */
-  gcsSource?: GoogleCloudVisionV1p1beta1GcsSource;
-  /** File content, represented as a stream of bytes. Note: As with all `bytes` fields, protobuffers use a pure binary representation, whereas JSON representations use base64. Currently, this field only works for BatchAnnotateFiles requests. It does not work for AsyncBatchAnnotateFiles requests. */
-  content?: string;
-  /** The type of the file. Currently only "application/pdf", "image/tiff" and "image/gif" are supported. Wildcards are not supported. */
-  mimeType?: string;
+/** Rectangle determined by min and max `LatLng` pairs. */
+export interface GoogleCloudVisionV1p1beta1LatLongRect {
+  /** Max lat/long pair. */
+  maxLatLng?: LatLng;
+  /** Min lat/long pair. */
+  minLatLng?: LatLng;
 }
-export const GoogleCloudVisionV1p1beta1InputConfig = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudVisionV1p1beta1LatLongRect = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    gcsSource: S.optional(GoogleCloudVisionV1p1beta1GcsSource),
-    content: S.optional(S.String),
-    mimeType: S.optional(S.String),
+    maxLatLng: S.optional(LatLng),
+    minLatLng: S.optional(LatLng),
   }),
 ).annotate({
-  identifier: "GoogleCloudVisionV1p1beta1InputConfig",
-}) as any as S.Schema<GoogleCloudVisionV1p1beta1InputConfig>;
+  identifier: "GoogleCloudVisionV1p1beta1LatLongRect",
+}) as any as S.Schema<GoogleCloudVisionV1p1beta1LatLongRect>;
+
+/** Parameters for web detection request. */
+export interface GoogleCloudVisionV1p1beta1WebDetectionParams {
+  /** This field has no effect on results. */
+  includeGeoResults?: boolean;
+}
+export const GoogleCloudVisionV1p1beta1WebDetectionParams = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    includeGeoResults: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "GoogleCloudVisionV1p1beta1WebDetectionParams",
+}) as any as S.Schema<GoogleCloudVisionV1p1beta1WebDetectionParams>;
+
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
 /** A vertex represents a 2D point in the image. NOTE: the vertex coordinates are in the same scale as the original image. */
 export interface GoogleCloudVisionV1p1beta1Vertex {
-  /** X coordinate. */
-  x?: number;
   /** Y coordinate. */
   y?: number;
+  /** X coordinate. */
+  x?: number;
 }
 export const GoogleCloudVisionV1p1beta1Vertex = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    x: S.optional(S.Number),
     y: S.optional(S.Number),
+    x: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "GoogleCloudVisionV1p1beta1Vertex",
@@ -155,13 +172,25 @@ export const GoogleCloudVisionV1p1beta1VertexList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<GoogleCloudVisionV1p1beta1VertexList>;
 
 /** A vertex represents a 2D point in the image. NOTE: the normalized vertex coordinates are relative to the original image and range from 0 to 1. */
-export type GoogleCloudVisionV1p1beta1NormalizedVertex = GoogleCloudVisionV1p1beta1Vertex;
-export const GoogleCloudVisionV1p1beta1NormalizedVertex = GoogleCloudVisionV1p1beta1Vertex;
+export interface GoogleCloudVisionV1p1beta1NormalizedVertex {
+  /** X coordinate. */
+  x?: number;
+  /** Y coordinate. */
+  y?: number;
+}
+export const GoogleCloudVisionV1p1beta1NormalizedVertex = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    x: S.optional(S.Number),
+    y: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "GoogleCloudVisionV1p1beta1NormalizedVertex",
+}) as any as S.Schema<GoogleCloudVisionV1p1beta1NormalizedVertex>;
 
 export type GoogleCloudVisionV1p1beta1NormalizedVertexList =
-  Array<GoogleCloudVisionV1p1beta1Vertex>;
+  Array<GoogleCloudVisionV1p1beta1NormalizedVertex>;
 export const GoogleCloudVisionV1p1beta1NormalizedVertexList = /*@__PURE__*/ S.Array(
-  GoogleCloudVisionV1p1beta1Vertex,
+  GoogleCloudVisionV1p1beta1NormalizedVertex,
 ) as any as S.Schema<GoogleCloudVisionV1p1beta1NormalizedVertexList>;
 
 /** A bounding polygon for the detected image annotation. */
@@ -180,26 +209,23 @@ export const GoogleCloudVisionV1p1beta1BoundingPoly = /*@__PURE__*/ S.suspend(()
   identifier: "GoogleCloudVisionV1p1beta1BoundingPoly",
 }) as any as S.Schema<GoogleCloudVisionV1p1beta1BoundingPoly>;
 
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
 /** Parameters for a product search request. */
 export interface GoogleCloudVisionV1p1beta1ProductSearchParams {
   /** The bounding polygon around the area of interest in the image. If it is not specified, system discretion will be applied. */
   boundingPoly?: GoogleCloudVisionV1p1beta1BoundingPoly;
+  /** The filtering expression. This can be used to restrict search results based on Product labels. We currently support an AND of OR of key-value expressions, where each expression within an OR must have the same key. An '=' should be used to connect the key and value. For example, "(color = red OR color = blue) AND brand = Google" is acceptable, but "(color = red OR brand = Google)" is not acceptable. "color: red" is not acceptable because it uses a ':' instead of an '='. */
+  filter?: string;
   /** The resource name of a ProductSet to be searched for similar images. Format is: `projects/PROJECT_ID/locations/LOC_ID/productSets/PRODUCT_SET_ID`. */
   productSet?: string;
   /** The list of product categories to search in. Currently, we only consider the first category, and either "homegoods-v2", "apparel-v2", "toys-v2", "packagedgoods-v1", or "general-v1" should be specified. The legacy categories "homegoods", "apparel", and "toys" are still supported but will be deprecated. For new products, please use "homegoods-v2", "apparel-v2", or "toys-v2" for better product search accuracy. It is recommended to migrate existing products to these categories as well. */
   productCategories?: StringList;
-  /** The filtering expression. This can be used to restrict search results based on Product labels. We currently support an AND of OR of key-value expressions, where each expression within an OR must have the same key. An '=' should be used to connect the key and value. For example, "(color = red OR color = blue) AND brand = Google" is acceptable, but "(color = red OR brand = Google)" is not acceptable. "color: red" is not acceptable because it uses a ':' instead of an '='. */
-  filter?: string;
 }
 export const GoogleCloudVisionV1p1beta1ProductSearchParams = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     boundingPoly: S.optional(GoogleCloudVisionV1p1beta1BoundingPoly),
+    filter: S.optional(S.String),
     productSet: S.optional(S.String),
     productCategories: S.optional(StringList),
-    filter: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudVisionV1p1beta1ProductSearchParams",
@@ -237,72 +263,29 @@ export const GoogleCloudVisionV1p1beta1CropHintsParams = /*@__PURE__*/ S.suspend
   identifier: "GoogleCloudVisionV1p1beta1CropHintsParams",
 }) as any as S.Schema<GoogleCloudVisionV1p1beta1CropHintsParams>;
 
-/** Parameters for web detection request. */
-export interface GoogleCloudVisionV1p1beta1WebDetectionParams {
-  /** This field has no effect on results. */
-  includeGeoResults?: boolean;
-}
-export const GoogleCloudVisionV1p1beta1WebDetectionParams = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    includeGeoResults: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "GoogleCloudVisionV1p1beta1WebDetectionParams",
-}) as any as S.Schema<GoogleCloudVisionV1p1beta1WebDetectionParams>;
-
-/** An object that represents a latitude/longitude pair. This is expressed as a pair of doubles to represent degrees latitude and degrees longitude. Unless specified otherwise, this object must conform to the WGS84 standard. Values must be within normalized ranges. */
-export interface LatLng {
-  /** The latitude in degrees. It must be in the range [-90.0, +90.0]. */
-  latitude?: number;
-  /** The longitude in degrees. It must be in the range [-180.0, +180.0]. */
-  longitude?: number;
-}
-export const LatLng = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    latitude: S.optional(S.Number),
-    longitude: S.optional(S.Number),
-  }),
-).annotate({ identifier: "LatLng" }) as any as S.Schema<LatLng>;
-
-/** Rectangle determined by min and max `LatLng` pairs. */
-export interface GoogleCloudVisionV1p1beta1LatLongRect {
-  /** Min lat/long pair. */
-  minLatLng?: LatLng;
-  /** Max lat/long pair. */
-  maxLatLng?: LatLng;
-}
-export const GoogleCloudVisionV1p1beta1LatLongRect = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    minLatLng: S.optional(LatLng),
-    maxLatLng: S.optional(LatLng),
-  }),
-).annotate({
-  identifier: "GoogleCloudVisionV1p1beta1LatLongRect",
-}) as any as S.Schema<GoogleCloudVisionV1p1beta1LatLongRect>;
-
 /** Image context and/or feature-specific parameters. */
 export interface GoogleCloudVisionV1p1beta1ImageContext {
+  /** Not used. */
+  latLongRect?: GoogleCloudVisionV1p1beta1LatLongRect;
+  /** Parameters for web detection. */
+  webDetectionParams?: GoogleCloudVisionV1p1beta1WebDetectionParams;
+  /** List of languages to use for TEXT_DETECTION. In most cases, an empty value yields the best results since it enables automatic language detection. For languages based on the Latin alphabet, setting `language_hints` is not needed. In rare cases, when the language of the text in the image is known, setting a hint will help get better results (although it will be a significant hindrance if the hint is wrong). Text detection returns an error if one or more of the specified languages is not one of the [supported languages](https://cloud.google.com/vision/docs/languages). */
+  languageHints?: StringList;
   /** Parameters for product search. */
   productSearchParams?: GoogleCloudVisionV1p1beta1ProductSearchParams;
   /** Parameters for text detection and document text detection. */
   textDetectionParams?: GoogleCloudVisionV1p1beta1TextDetectionParams;
   /** Parameters for crop hints annotation request. */
   cropHintsParams?: GoogleCloudVisionV1p1beta1CropHintsParams;
-  /** Parameters for web detection. */
-  webDetectionParams?: GoogleCloudVisionV1p1beta1WebDetectionParams;
-  /** Not used. */
-  latLongRect?: GoogleCloudVisionV1p1beta1LatLongRect;
-  /** List of languages to use for TEXT_DETECTION. In most cases, an empty value yields the best results since it enables automatic language detection. For languages based on the Latin alphabet, setting `language_hints` is not needed. In rare cases, when the language of the text in the image is known, setting a hint will help get better results (although it will be a significant hindrance if the hint is wrong). Text detection returns an error if one or more of the specified languages is not one of the [supported languages](https://cloud.google.com/vision/docs/languages). */
-  languageHints?: StringList;
 }
 export const GoogleCloudVisionV1p1beta1ImageContext = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    latLongRect: S.optional(GoogleCloudVisionV1p1beta1LatLongRect),
+    webDetectionParams: S.optional(GoogleCloudVisionV1p1beta1WebDetectionParams),
+    languageHints: S.optional(StringList),
     productSearchParams: S.optional(GoogleCloudVisionV1p1beta1ProductSearchParams),
     textDetectionParams: S.optional(GoogleCloudVisionV1p1beta1TextDetectionParams),
     cropHintsParams: S.optional(GoogleCloudVisionV1p1beta1CropHintsParams),
-    webDetectionParams: S.optional(GoogleCloudVisionV1p1beta1WebDetectionParams),
-    latLongRect: S.optional(GoogleCloudVisionV1p1beta1LatLongRect),
-    languageHints: S.optional(StringList),
   }),
 ).annotate({
   identifier: "GoogleCloudVisionV1p1beta1ImageContext",
@@ -311,23 +294,55 @@ export const GoogleCloudVisionV1p1beta1ImageContext = /*@__PURE__*/ S.suspend(()
 export type IntegerList = Array<number>;
 export const IntegerList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<IntegerList>;
 
+/** The Google Cloud Storage location where the input will be read from. */
+export interface GoogleCloudVisionV1p1beta1GcsSource {
+  /** Google Cloud Storage URI for the input file. This must only be a Google Cloud Storage object. Wildcards are not currently supported. */
+  uri?: string;
+}
+export const GoogleCloudVisionV1p1beta1GcsSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uri: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudVisionV1p1beta1GcsSource",
+}) as any as S.Schema<GoogleCloudVisionV1p1beta1GcsSource>;
+
+/** The desired input location and metadata. */
+export interface GoogleCloudVisionV1p1beta1InputConfig {
+  /** The type of the file. Currently only "application/pdf", "image/tiff" and "image/gif" are supported. Wildcards are not supported. */
+  mimeType?: string;
+  /** The Google Cloud Storage location to read the input from. */
+  gcsSource?: GoogleCloudVisionV1p1beta1GcsSource;
+  /** File content, represented as a stream of bytes. Note: As with all `bytes` fields, protobuffers use a pure binary representation, whereas JSON representations use base64. Currently, this field only works for BatchAnnotateFiles requests. It does not work for AsyncBatchAnnotateFiles requests. */
+  content?: string;
+}
+export const GoogleCloudVisionV1p1beta1InputConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mimeType: S.optional(S.String),
+    gcsSource: S.optional(GoogleCloudVisionV1p1beta1GcsSource),
+    content: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudVisionV1p1beta1InputConfig",
+}) as any as S.Schema<GoogleCloudVisionV1p1beta1InputConfig>;
+
 /** A request to annotate one single file, e.g. a PDF, TIFF or GIF file. */
 export interface GoogleCloudVisionV1p1beta1AnnotateFileRequest {
   /** Required. Requested features. */
   features?: GoogleCloudVisionV1p1beta1FeatureList;
-  /** Required. Information about the input file. */
-  inputConfig?: GoogleCloudVisionV1p1beta1InputConfig;
   /** Additional context that may accompany the image(s) in the file. */
   imageContext?: GoogleCloudVisionV1p1beta1ImageContext;
   /** Pages of the file to perform image annotation. Pages starts from 1, we assume the first page of the file is page 1. At most 5 pages are supported per request. Pages can be negative. Page 1 means the first page. Page 2 means the second page. Page -1 means the last page. Page -2 means the second to the last page. If the file is GIF instead of PDF or TIFF, page refers to GIF frames. If this field is empty, by default the service performs image annotation for the first 5 pages of the file. */
   pages?: IntegerList;
+  /** Required. Information about the input file. */
+  inputConfig?: GoogleCloudVisionV1p1beta1InputConfig;
 }
 export const GoogleCloudVisionV1p1beta1AnnotateFileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     features: S.optional(GoogleCloudVisionV1p1beta1FeatureList),
-    inputConfig: S.optional(GoogleCloudVisionV1p1beta1InputConfig),
     imageContext: S.optional(GoogleCloudVisionV1p1beta1ImageContext),
     pages: S.optional(IntegerList),
+    inputConfig: S.optional(GoogleCloudVisionV1p1beta1InputConfig),
   }),
 ).annotate({
   identifier: "GoogleCloudVisionV1p1beta1AnnotateFileRequest",
@@ -339,23 +354,20 @@ export const GoogleCloudVisionV1p1beta1AnnotateFileRequestList = /*@__PURE__*/ S
   GoogleCloudVisionV1p1beta1AnnotateFileRequest,
 ) as any as S.Schema<GoogleCloudVisionV1p1beta1AnnotateFileRequestList>;
 
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
-
 /** A list of requests to annotate files using the BatchAnnotateFiles API. */
 export interface GoogleCloudVisionV1p1beta1BatchAnnotateFilesRequest {
-  /** Required. The list of file annotation requests. Right now we support only one AnnotateFileRequest in BatchAnnotateFilesRequest. */
-  requests?: GoogleCloudVisionV1p1beta1AnnotateFileRequestList;
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent?: string;
   /** Optional. The labels with user-defined metadata for the request. Label keys and values can be no longer than 63 characters (Unicode codepoints), can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter. */
   labels?: StringMap;
+  /** Required. The list of file annotation requests. Right now we support only one AnnotateFileRequest in BatchAnnotateFilesRequest. */
+  requests?: GoogleCloudVisionV1p1beta1AnnotateFileRequestList;
 }
 export const GoogleCloudVisionV1p1beta1BatchAnnotateFilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requests: S.optional(GoogleCloudVisionV1p1beta1AnnotateFileRequestList),
     parent: S.optional(S.String),
     labels: S.optional(StringMap),
+    requests: S.optional(GoogleCloudVisionV1p1beta1AnnotateFileRequestList),
   }),
 ).annotate({
   identifier: "GoogleCloudVisionV1p1beta1BatchAnnotateFilesRequest",
@@ -375,9 +387,7 @@ export const AnnotateFilesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://vision.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "AnnotateFilesRequest",
-}) as any as S.Schema<AnnotateFilesRequest>;
+).annotate({ identifier: "AnnotateFilesRequest" }) as any as S.Schema<AnnotateFilesRequest>;
 
 export type DocumentMap = { [key: string]: unknown | undefined };
 export const DocumentMap = /*@__PURE__*/ S.Record(
@@ -392,349 +402,20 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    details: S.optional(DocumentMapList),
     code: S.optional(S.Number),
     message: S.optional(S.String),
+    details: S.optional(DocumentMapList),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
-
-/** Single crop hint that is used to generate a new crop when serving an image. */
-export interface GoogleCloudVisionV1p1beta1CropHint {
-  /** The bounding polygon for the crop region. The coordinates of the bounding box are in the original image's scale. */
-  boundingPoly?: GoogleCloudVisionV1p1beta1BoundingPoly;
-  /** Fraction of importance of this salient region with respect to the original image. */
-  importanceFraction?: number;
-  /** Confidence of this being a salient region. Range [0, 1]. */
-  confidence?: number;
-}
-export const GoogleCloudVisionV1p1beta1CropHint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    boundingPoly: S.optional(GoogleCloudVisionV1p1beta1BoundingPoly),
-    importanceFraction: S.optional(S.Number),
-    confidence: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "GoogleCloudVisionV1p1beta1CropHint",
-}) as any as S.Schema<GoogleCloudVisionV1p1beta1CropHint>;
-
-export type GoogleCloudVisionV1p1beta1CropHintList = Array<GoogleCloudVisionV1p1beta1CropHint>;
-export const GoogleCloudVisionV1p1beta1CropHintList = /*@__PURE__*/ S.Array(
-  GoogleCloudVisionV1p1beta1CropHint,
-) as any as S.Schema<GoogleCloudVisionV1p1beta1CropHintList>;
-
-/** Set of crop hints that are used to generate new crops when serving images. */
-export interface GoogleCloudVisionV1p1beta1CropHintsAnnotation {
-  /** Crop hint results. */
-  cropHints?: GoogleCloudVisionV1p1beta1CropHintList;
-}
-export const GoogleCloudVisionV1p1beta1CropHintsAnnotation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cropHints: S.optional(GoogleCloudVisionV1p1beta1CropHintList),
-  }),
-).annotate({
-  identifier: "GoogleCloudVisionV1p1beta1CropHintsAnnotation",
-}) as any as S.Schema<GoogleCloudVisionV1p1beta1CropHintsAnnotation>;
-
-export type GoogleCloudVisionV1p1beta1SafeSearchAnnotationAdultEnum =
-  | "UNKNOWN"
-  | "VERY_UNLIKELY"
-  | "UNLIKELY"
-  | "POSSIBLE"
-  | "LIKELY"
-  | "VERY_LIKELY";
-export const GoogleCloudVisionV1p1beta1SafeSearchAnnotationAdultEnum = S.String;
-
-export type GoogleCloudVisionV1p1beta1SafeSearchAnnotationSpoofEnum =
-  | "UNKNOWN"
-  | "VERY_UNLIKELY"
-  | "UNLIKELY"
-  | "POSSIBLE"
-  | "LIKELY"
-  | "VERY_LIKELY";
-export const GoogleCloudVisionV1p1beta1SafeSearchAnnotationSpoofEnum = S.String;
-
-export type GoogleCloudVisionV1p1beta1SafeSearchAnnotationMedicalEnum =
-  | "UNKNOWN"
-  | "VERY_UNLIKELY"
-  | "UNLIKELY"
-  | "POSSIBLE"
-  | "LIKELY"
-  | "VERY_LIKELY";
-export const GoogleCloudVisionV1p1beta1SafeSearchAnnotationMedicalEnum = S.String;
-
-export type GoogleCloudVisionV1p1beta1SafeSearchAnnotationRacyEnum =
-  | "UNKNOWN"
-  | "VERY_UNLIKELY"
-  | "UNLIKELY"
-  | "POSSIBLE"
-  | "LIKELY"
-  | "VERY_LIKELY";
-export const GoogleCloudVisionV1p1beta1SafeSearchAnnotationRacyEnum = S.String;
-
-export type GoogleCloudVisionV1p1beta1SafeSearchAnnotationViolenceEnum =
-  | "UNKNOWN"
-  | "VERY_UNLIKELY"
-  | "UNLIKELY"
-  | "POSSIBLE"
-  | "LIKELY"
-  | "VERY_LIKELY";
-export const GoogleCloudVisionV1p1beta1SafeSearchAnnotationViolenceEnum = S.String;
-
-/** Set of features pertaining to the image, computed by computer vision methods over safe-search verticals (for example, adult, spoof, medical, violence). */
-export interface GoogleCloudVisionV1p1beta1SafeSearchAnnotation {
-  /** Represents the adult content likelihood for the image. Adult content may contain elements such as nudity, pornographic images or cartoons, or sexual activities. */
-  adult?: GoogleCloudVisionV1p1beta1SafeSearchAnnotationAdultEnum;
-  /** Spoof likelihood. The likelihood that an modification was made to the image's canonical version to make it appear funny or offensive. */
-  spoof?: GoogleCloudVisionV1p1beta1SafeSearchAnnotationSpoofEnum;
-  /** Likelihood that this is a medical image. */
-  medical?: GoogleCloudVisionV1p1beta1SafeSearchAnnotationMedicalEnum;
-  /** Likelihood that the request image contains racy content. Racy content may include (but is not limited to) skimpy or sheer clothing, strategically covered nudity, lewd or provocative poses, or close-ups of sensitive body areas. */
-  racy?: GoogleCloudVisionV1p1beta1SafeSearchAnnotationRacyEnum;
-  /** Likelihood that this image contains violent content. Violent content may include death, serious harm, or injury to individuals or groups of individuals. */
-  violence?: GoogleCloudVisionV1p1beta1SafeSearchAnnotationViolenceEnum;
-}
-export const GoogleCloudVisionV1p1beta1SafeSearchAnnotation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    adult: S.optional(GoogleCloudVisionV1p1beta1SafeSearchAnnotationAdultEnum),
-    spoof: S.optional(GoogleCloudVisionV1p1beta1SafeSearchAnnotationSpoofEnum),
-    medical: S.optional(GoogleCloudVisionV1p1beta1SafeSearchAnnotationMedicalEnum),
-    racy: S.optional(GoogleCloudVisionV1p1beta1SafeSearchAnnotationRacyEnum),
-    violence: S.optional(GoogleCloudVisionV1p1beta1SafeSearchAnnotationViolenceEnum),
-  }),
-).annotate({
-  identifier: "GoogleCloudVisionV1p1beta1SafeSearchAnnotation",
-}) as any as S.Schema<GoogleCloudVisionV1p1beta1SafeSearchAnnotation>;
-
-/** A product label represented as a key-value pair. */
-export interface GoogleCloudVisionV1p1beta1ProductKeyValue {
-  /** The value of the label attached to the product. Cannot be empty and cannot exceed 128 bytes. */
-  value?: string;
-  /** The key of the label attached to the product. Cannot be empty and cannot exceed 128 bytes. */
-  key?: string;
-}
-export const GoogleCloudVisionV1p1beta1ProductKeyValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(S.String),
-    key: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudVisionV1p1beta1ProductKeyValue",
-}) as any as S.Schema<GoogleCloudVisionV1p1beta1ProductKeyValue>;
-
-export type GoogleCloudVisionV1p1beta1ProductKeyValueList =
-  Array<GoogleCloudVisionV1p1beta1ProductKeyValue>;
-export const GoogleCloudVisionV1p1beta1ProductKeyValueList = /*@__PURE__*/ S.Array(
-  GoogleCloudVisionV1p1beta1ProductKeyValue,
-) as any as S.Schema<GoogleCloudVisionV1p1beta1ProductKeyValueList>;
-
-/** A Product contains ReferenceImages. */
-export interface GoogleCloudVisionV1p1beta1Product {
-  /** The user-provided name for this Product. Must not be empty. Must be at most 4096 characters long. */
-  displayName?: string;
-  /** Key-value pairs that can be attached to a product. At query time, constraints can be specified based on the product_labels. Note that integer values can be provided as strings, e.g. "1199". Only strings with integer values can match a range-based restriction which is to be supported soon. Multiple values can be assigned to the same key. One product may have up to 500 product_labels. Notice that the total number of distinct product_labels over all products in one ProductSet cannot exceed 1M, otherwise the product search pipeline will refuse to work for that ProductSet. */
-  productLabels?: GoogleCloudVisionV1p1beta1ProductKeyValueList;
-  /** Immutable. The category for the product identified by the reference image. This should be one of "homegoods-v2", "apparel-v2", "toys-v2", "packagedgoods-v1" or "general-v1". The legacy categories "homegoods", "apparel", and "toys" are still supported, but these should not be used for new products. */
-  productCategory?: string;
-  /** The resource name of the product. Format is: `projects/PROJECT_ID/locations/LOC_ID/products/PRODUCT_ID`. This field is ignored when creating a product. */
-  name?: string;
-  /** User-provided metadata to be stored with this product. Must be at most 4096 characters long. */
-  description?: string;
-}
-export const GoogleCloudVisionV1p1beta1Product = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    displayName: S.optional(S.String),
-    productLabels: S.optional(GoogleCloudVisionV1p1beta1ProductKeyValueList),
-    productCategory: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudVisionV1p1beta1Product",
-}) as any as S.Schema<GoogleCloudVisionV1p1beta1Product>;
-
-/** Information about a product. */
-export interface GoogleCloudVisionV1p1beta1ProductSearchResultsResult {
-  /** A confidence level on the match, ranging from 0 (no confidence) to 1 (full confidence). */
-  score?: number;
-  /** The resource name of the image from the product that is the closest match to the query. */
-  image?: string;
-  /** The Product. */
-  product?: GoogleCloudVisionV1p1beta1Product;
-}
-export const GoogleCloudVisionV1p1beta1ProductSearchResultsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    score: S.optional(S.Number),
-    image: S.optional(S.String),
-    product: S.optional(GoogleCloudVisionV1p1beta1Product),
-  }),
-).annotate({
-  identifier: "GoogleCloudVisionV1p1beta1ProductSearchResultsResult",
-}) as any as S.Schema<GoogleCloudVisionV1p1beta1ProductSearchResultsResult>;
-
-export type GoogleCloudVisionV1p1beta1ProductSearchResultsResultList =
-  Array<GoogleCloudVisionV1p1beta1ProductSearchResultsResult>;
-export const GoogleCloudVisionV1p1beta1ProductSearchResultsResultList = /*@__PURE__*/ S.Array(
-  GoogleCloudVisionV1p1beta1ProductSearchResultsResult,
-) as any as S.Schema<GoogleCloudVisionV1p1beta1ProductSearchResultsResultList>;
-
-/** Prediction for what the object in the bounding box is. */
-export interface GoogleCloudVisionV1p1beta1ProductSearchResultsObjectAnnotation {
-  /** Object name, expressed in its `language_code` language. */
-  name?: string;
-  /** The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. */
-  languageCode?: string;
-  /** Object ID that should align with EntityAnnotation mid. */
-  mid?: string;
-  /** Score of the result. Range [0, 1]. */
-  score?: number;
-}
-export const GoogleCloudVisionV1p1beta1ProductSearchResultsObjectAnnotation =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.optional(S.String),
-      languageCode: S.optional(S.String),
-      mid: S.optional(S.String),
-      score: S.optional(S.Number),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudVisionV1p1beta1ProductSearchResultsObjectAnnotation",
-  }) as any as S.Schema<GoogleCloudVisionV1p1beta1ProductSearchResultsObjectAnnotation>;
-
-export type GoogleCloudVisionV1p1beta1ProductSearchResultsObjectAnnotationList =
-  Array<GoogleCloudVisionV1p1beta1ProductSearchResultsObjectAnnotation>;
-export const GoogleCloudVisionV1p1beta1ProductSearchResultsObjectAnnotationList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudVisionV1p1beta1ProductSearchResultsObjectAnnotation,
-  ) as any as S.Schema<GoogleCloudVisionV1p1beta1ProductSearchResultsObjectAnnotationList>;
-
-/** Information about the products similar to a single product in a query image. */
-export interface GoogleCloudVisionV1p1beta1ProductSearchResultsGroupedResult {
-  /** The bounding polygon around the product detected in the query image. */
-  boundingPoly?: GoogleCloudVisionV1p1beta1BoundingPoly;
-  /** List of results, one for each product match. */
-  results?: GoogleCloudVisionV1p1beta1ProductSearchResultsResultList;
-  /** List of generic predictions for the object in the bounding box. */
-  objectAnnotations?: GoogleCloudVisionV1p1beta1ProductSearchResultsObjectAnnotationList;
-}
-export const GoogleCloudVisionV1p1beta1ProductSearchResultsGroupedResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      boundingPoly: S.optional(GoogleCloudVisionV1p1beta1BoundingPoly),
-      results: S.optional(GoogleCloudVisionV1p1beta1ProductSearchResultsResultList),
-      objectAnnotations: S.optional(
-        GoogleCloudVisionV1p1beta1ProductSearchResultsObjectAnnotationList,
-      ),
-    }),
-).annotate({
-  identifier: "GoogleCloudVisionV1p1beta1ProductSearchResultsGroupedResult",
-}) as any as S.Schema<GoogleCloudVisionV1p1beta1ProductSearchResultsGroupedResult>;
-
-export type GoogleCloudVisionV1p1beta1ProductSearchResultsGroupedResultList =
-  Array<GoogleCloudVisionV1p1beta1ProductSearchResultsGroupedResult>;
-export const GoogleCloudVisionV1p1beta1ProductSearchResultsGroupedResultList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudVisionV1p1beta1ProductSearchResultsGroupedResult,
-  ) as any as S.Schema<GoogleCloudVisionV1p1beta1ProductSearchResultsGroupedResultList>;
-
-/** Results for a product search request. */
-export interface GoogleCloudVisionV1p1beta1ProductSearchResults {
-  /** Timestamp of the index which provided these results. Products added to the product set and products removed from the product set after this time are not reflected in the current results. */
-  indexTime?: string;
-  /** List of results, one for each product match. */
-  results?: GoogleCloudVisionV1p1beta1ProductSearchResultsResultList;
-  /** List of results grouped by products detected in the query image. Each entry corresponds to one bounding polygon in the query image, and contains the matching products specific to that region. There may be duplicate product matches in the union of all the per-product results. */
-  productGroupedResults?: GoogleCloudVisionV1p1beta1ProductSearchResultsGroupedResultList;
-}
-export const GoogleCloudVisionV1p1beta1ProductSearchResults = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    indexTime: S.optional(S.String),
-    results: S.optional(GoogleCloudVisionV1p1beta1ProductSearchResultsResultList),
-    productGroupedResults: S.optional(
-      GoogleCloudVisionV1p1beta1ProductSearchResultsGroupedResultList,
-    ),
-  }),
-).annotate({
-  identifier: "GoogleCloudVisionV1p1beta1ProductSearchResults",
-}) as any as S.Schema<GoogleCloudVisionV1p1beta1ProductSearchResults>;
-
-/** Represents a color in the RGBA color space. This representation is designed for simplicity of conversion to and from color representations in various languages over compactness. For example, the fields of this representation can be trivially provided to the constructor of `java.awt.Color` in Java; it can also be trivially provided to UIColor's `+colorWithRed:green:blue:alpha` method in iOS; and, with just a little work, it can be easily formatted into a CSS `rgba()` string in JavaScript. This reference page doesn't have information about the absolute color space that should be used to interpret the RGB value—for example, sRGB, Adobe RGB, DCI-P3, and BT.2020. By default, applications should assume the sRGB color space. When color equality needs to be decided, implementations, unless documented otherwise, treat two colors as equal if all their red, green, blue, and alpha values each differ by at most `1e-5`. Example (Java): import com.google.type.Color; // ... public static java.awt.Color fromProto(Color protocolor) { float alpha = protocolor.hasAlpha() ? protocolor.getAlpha().getValue() : 1.0; return new java.awt.Color( protocolor.getRed(), protocolor.getGreen(), protocolor.getBlue(), alpha); } public static Color toProto(java.awt.Color color) { float red = (float) color.getRed(); float green = (float) color.getGreen(); float blue = (float) color.getBlue(); float denominator = 255.0; Color.Builder resultBuilder = Color .newBuilder() .setRed(red / denominator) .setGreen(green / denominator) .setBlue(blue / denominator); int alpha = color.getAlpha(); if (alpha != 255) { result.setAlpha( FloatValue .newBuilder() .setValue(((float) alpha) / denominator) .build()); } return resultBuilder.build(); } // ... Example (iOS / Obj-C): // ... static UIColor* fromProto(Color* protocolor) { float red = [protocolor red]; float green = [protocolor green]; float blue = [protocolor blue]; FloatValue* alpha_wrapper = [protocolor alpha]; float alpha = 1.0; if (alpha_wrapper != nil) { alpha = [alpha_wrapper value]; } return [UIColor colorWithRed:red green:green blue:blue alpha:alpha]; } static Color* toProto(UIColor* color) { CGFloat red, green, blue, alpha; if (![color getRed:&red green:&green blue:&blue alpha:&alpha]) { return nil; } Color* result = [[Color alloc] init]; [result setRed:red]; [result setGreen:green]; [result setBlue:blue]; if (alpha <= 0.9999) { [result setAlpha:floatWrapperWithValue(alpha)]; } [result autorelease]; return result; } // ... Example (JavaScript): // ... var protoToCssColor = function(rgb_color) { var redFrac = rgb_color.red || 0.0; var greenFrac = rgb_color.green || 0.0; var blueFrac = rgb_color.blue || 0.0; var red = Math.floor(redFrac * 255); var green = Math.floor(greenFrac * 255); var blue = Math.floor(blueFrac * 255); if (!('alpha' in rgb_color)) { return rgbToCssColor(red, green, blue); } var alphaFrac = rgb_color.alpha.value || 0.0; var rgbParams = [red, green, blue].join(','); return ['rgba(', rgbParams, ',', alphaFrac, ')'].join(''); }; var rgbToCssColor = function(red, green, blue) { var rgbNumber = new Number((red << 16) | (green << 8) | blue); var hexString = rgbNumber.toString(16); var missingZeros = 6 - hexString.length; var resultBuilder = ['#']; for (var i = 0; i < missingZeros; i++) { resultBuilder.push('0'); } resultBuilder.push(hexString); return resultBuilder.join(''); }; // ... */
-export interface Color {
-  /** The amount of red in the color as a value in the interval [0, 1]. */
-  red?: number;
-  /** The amount of blue in the color as a value in the interval [0, 1]. */
-  blue?: number;
-  /** The fraction of this color that should be applied to the pixel. That is, the final pixel color is defined by the equation: `pixel color = alpha * (this color) + (1.0 - alpha) * (background color)` This means that a value of 1.0 corresponds to a solid color, whereas a value of 0.0 corresponds to a completely transparent color. This uses a wrapper message rather than a simple float scalar so that it is possible to distinguish between a default value and the value being unset. If omitted, this color object is rendered as a solid color (as if the alpha value had been explicitly given a value of 1.0). */
-  alpha?: number;
-  /** The amount of green in the color as a value in the interval [0, 1]. */
-  green?: number;
-}
-export const Color = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    red: S.optional(S.Number),
-    blue: S.optional(S.Number),
-    alpha: S.optional(S.Number),
-    green: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Color" }) as any as S.Schema<Color>;
-
-/** Color information consists of RGB channels, score, and the fraction of the image that the color occupies in the image. */
-export interface GoogleCloudVisionV1p1beta1ColorInfo {
-  /** RGB components of the color. */
-  color?: Color;
-  /** Image-specific score for this color. Value in range [0, 1]. */
-  score?: number;
-  /** The fraction of pixels the color occupies in the image. Value in range [0, 1]. */
-  pixelFraction?: number;
-}
-export const GoogleCloudVisionV1p1beta1ColorInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    color: S.optional(Color),
-    score: S.optional(S.Number),
-    pixelFraction: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "GoogleCloudVisionV1p1beta1ColorInfo",
-}) as any as S.Schema<GoogleCloudVisionV1p1beta1ColorInfo>;
-
-export type GoogleCloudVisionV1p1beta1ColorInfoList = Array<GoogleCloudVisionV1p1beta1ColorInfo>;
-export const GoogleCloudVisionV1p1beta1ColorInfoList = /*@__PURE__*/ S.Array(
-  GoogleCloudVisionV1p1beta1ColorInfo,
-) as any as S.Schema<GoogleCloudVisionV1p1beta1ColorInfoList>;
-
-/** Set of dominant colors and their corresponding scores. */
-export interface GoogleCloudVisionV1p1beta1DominantColorsAnnotation {
-  /** RGB color values with their score and pixel fraction. */
-  colors?: GoogleCloudVisionV1p1beta1ColorInfoList;
-}
-export const GoogleCloudVisionV1p1beta1DominantColorsAnnotation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    colors: S.optional(GoogleCloudVisionV1p1beta1ColorInfoList),
-  }),
-).annotate({
-  identifier: "GoogleCloudVisionV1p1beta1DominantColorsAnnotation",
-}) as any as S.Schema<GoogleCloudVisionV1p1beta1DominantColorsAnnotation>;
-
-/** Stores image properties, such as dominant colors. */
-export interface GoogleCloudVisionV1p1beta1ImageProperties {
-  /** If present, dominant colors completed successfully. */
-  dominantColors?: GoogleCloudVisionV1p1beta1DominantColorsAnnotation;
-}
-export const GoogleCloudVisionV1p1beta1ImageProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dominantColors: S.optional(GoogleCloudVisionV1p1beta1DominantColorsAnnotation),
-  }),
-).annotate({
-  identifier: "GoogleCloudVisionV1p1beta1ImageProperties",
-}) as any as S.Schema<GoogleCloudVisionV1p1beta1ImageProperties>;
 
 /** Detected language for a structural component. */
 export interface GoogleCloudVisionV1p1beta1TextAnnotationDetectedLanguage {
@@ -802,21 +483,21 @@ export const GoogleCloudVisionV1p1beta1TextAnnotationTextProperty = /*@__PURE__*
 
 /** A single symbol representation. */
 export interface GoogleCloudVisionV1p1beta1Symbol {
-  /** The bounding box for the symbol. The vertices are in the order of top-left, top-right, bottom-right, bottom-left. When a rotation of the bounding box is detected the rotation is represented as around the top-left corner as defined when the text is read in the 'natural' orientation. For example: * when the text is horizontal it might look like: 0----1 | | 3----2 * when it's rotated 180 degrees around the top-left corner it becomes: 2----3 | | 1----0 and the vertex order will still be (0, 1, 2, 3). */
-  boundingBox?: GoogleCloudVisionV1p1beta1BoundingPoly;
-  /** The actual UTF-8 representation of the symbol. */
-  text?: string;
   /** Additional information detected for the symbol. */
   property?: GoogleCloudVisionV1p1beta1TextAnnotationTextProperty;
+  /** The actual UTF-8 representation of the symbol. */
+  text?: string;
   /** Confidence of the OCR results for the symbol. Range [0, 1]. */
   confidence?: number;
+  /** The bounding box for the symbol. The vertices are in the order of top-left, top-right, bottom-right, bottom-left. When a rotation of the bounding box is detected the rotation is represented as around the top-left corner as defined when the text is read in the 'natural' orientation. For example: * when the text is horizontal it might look like: 0----1 | | 3----2 * when it's rotated 180 degrees around the top-left corner it becomes: 2----3 | | 1----0 and the vertex order will still be (0, 1, 2, 3). */
+  boundingBox?: GoogleCloudVisionV1p1beta1BoundingPoly;
 }
 export const GoogleCloudVisionV1p1beta1Symbol = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    boundingBox: S.optional(GoogleCloudVisionV1p1beta1BoundingPoly),
-    text: S.optional(S.String),
     property: S.optional(GoogleCloudVisionV1p1beta1TextAnnotationTextProperty),
+    text: S.optional(S.String),
     confidence: S.optional(S.Number),
+    boundingBox: S.optional(GoogleCloudVisionV1p1beta1BoundingPoly),
   }),
 ).annotate({
   identifier: "GoogleCloudVisionV1p1beta1Symbol",
@@ -829,10 +510,10 @@ export const GoogleCloudVisionV1p1beta1SymbolList = /*@__PURE__*/ S.Array(
 
 /** A word representation. */
 export interface GoogleCloudVisionV1p1beta1Word {
-  /** Additional information detected for the word. */
-  property?: GoogleCloudVisionV1p1beta1TextAnnotationTextProperty;
   /** Confidence of the OCR results for the word. Range [0, 1]. */
   confidence?: number;
+  /** Additional information detected for the word. */
+  property?: GoogleCloudVisionV1p1beta1TextAnnotationTextProperty;
   /** The bounding box for the word. The vertices are in the order of top-left, top-right, bottom-right, bottom-left. When a rotation of the bounding box is detected the rotation is represented as around the top-left corner as defined when the text is read in the 'natural' orientation. For example: * when the text is horizontal it might look like: 0----1 | | 3----2 * when it's rotated 180 degrees around the top-left corner it becomes: 2----3 | | 1----0 and the vertex order will still be (0, 1, 2, 3). */
   boundingBox?: GoogleCloudVisionV1p1beta1BoundingPoly;
   /** List of symbols in the word. The order of the symbols follows the natural reading order. */
@@ -840,8 +521,8 @@ export interface GoogleCloudVisionV1p1beta1Word {
 }
 export const GoogleCloudVisionV1p1beta1Word = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    property: S.optional(GoogleCloudVisionV1p1beta1TextAnnotationTextProperty),
     confidence: S.optional(S.Number),
+    property: S.optional(GoogleCloudVisionV1p1beta1TextAnnotationTextProperty),
     boundingBox: S.optional(GoogleCloudVisionV1p1beta1BoundingPoly),
     symbols: S.optional(GoogleCloudVisionV1p1beta1SymbolList),
   }),
@@ -856,21 +537,21 @@ export const GoogleCloudVisionV1p1beta1WordList = /*@__PURE__*/ S.Array(
 
 /** Structural unit of text representing a number of words in certain order. */
 export interface GoogleCloudVisionV1p1beta1Paragraph {
-  /** The bounding box for the paragraph. The vertices are in the order of top-left, top-right, bottom-right, bottom-left. When a rotation of the bounding box is detected the rotation is represented as around the top-left corner as defined when the text is read in the 'natural' orientation. For example: * when the text is horizontal it might look like: 0----1 | | 3----2 * when it's rotated 180 degrees around the top-left corner it becomes: 2----3 | | 1----0 and the vertex order will still be (0, 1, 2, 3). */
-  boundingBox?: GoogleCloudVisionV1p1beta1BoundingPoly;
+  /** Confidence of the OCR results for the paragraph. Range [0, 1]. */
+  confidence?: number;
   /** Additional information detected for the paragraph. */
   property?: GoogleCloudVisionV1p1beta1TextAnnotationTextProperty;
   /** List of all words in this paragraph. */
   words?: GoogleCloudVisionV1p1beta1WordList;
-  /** Confidence of the OCR results for the paragraph. Range [0, 1]. */
-  confidence?: number;
+  /** The bounding box for the paragraph. The vertices are in the order of top-left, top-right, bottom-right, bottom-left. When a rotation of the bounding box is detected the rotation is represented as around the top-left corner as defined when the text is read in the 'natural' orientation. For example: * when the text is horizontal it might look like: 0----1 | | 3----2 * when it's rotated 180 degrees around the top-left corner it becomes: 2----3 | | 1----0 and the vertex order will still be (0, 1, 2, 3). */
+  boundingBox?: GoogleCloudVisionV1p1beta1BoundingPoly;
 }
 export const GoogleCloudVisionV1p1beta1Paragraph = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    boundingBox: S.optional(GoogleCloudVisionV1p1beta1BoundingPoly),
+    confidence: S.optional(S.Number),
     property: S.optional(GoogleCloudVisionV1p1beta1TextAnnotationTextProperty),
     words: S.optional(GoogleCloudVisionV1p1beta1WordList),
-    confidence: S.optional(S.Number),
+    boundingBox: S.optional(GoogleCloudVisionV1p1beta1BoundingPoly),
   }),
 ).annotate({
   identifier: "GoogleCloudVisionV1p1beta1Paragraph",
@@ -892,24 +573,24 @@ export const GoogleCloudVisionV1p1beta1BlockBlockTypeEnum = S.String;
 
 /** Logical element on the page. */
 export interface GoogleCloudVisionV1p1beta1Block {
+  /** The bounding box for the block. The vertices are in the order of top-left, top-right, bottom-right, bottom-left. When a rotation of the bounding box is detected the rotation is represented as around the top-left corner as defined when the text is read in the 'natural' orientation. For example: * when the text is horizontal it might look like: 0----1 | | 3----2 * when it's rotated 180 degrees around the top-left corner it becomes: 2----3 | | 1----0 and the vertex order will still be (0, 1, 2, 3). */
+  boundingBox?: GoogleCloudVisionV1p1beta1BoundingPoly;
+  /** Additional information detected for the block. */
+  property?: GoogleCloudVisionV1p1beta1TextAnnotationTextProperty;
   /** List of paragraphs in this block (if this blocks is of type text). */
   paragraphs?: GoogleCloudVisionV1p1beta1ParagraphList;
   /** Detected block type (text, image etc) for this block. */
   blockType?: GoogleCloudVisionV1p1beta1BlockBlockTypeEnum;
-  /** Additional information detected for the block. */
-  property?: GoogleCloudVisionV1p1beta1TextAnnotationTextProperty;
   /** Confidence of the OCR results on the block. Range [0, 1]. */
   confidence?: number;
-  /** The bounding box for the block. The vertices are in the order of top-left, top-right, bottom-right, bottom-left. When a rotation of the bounding box is detected the rotation is represented as around the top-left corner as defined when the text is read in the 'natural' orientation. For example: * when the text is horizontal it might look like: 0----1 | | 3----2 * when it's rotated 180 degrees around the top-left corner it becomes: 2----3 | | 1----0 and the vertex order will still be (0, 1, 2, 3). */
-  boundingBox?: GoogleCloudVisionV1p1beta1BoundingPoly;
 }
 export const GoogleCloudVisionV1p1beta1Block = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    boundingBox: S.optional(GoogleCloudVisionV1p1beta1BoundingPoly),
+    property: S.optional(GoogleCloudVisionV1p1beta1TextAnnotationTextProperty),
     paragraphs: S.optional(GoogleCloudVisionV1p1beta1ParagraphList),
     blockType: S.optional(GoogleCloudVisionV1p1beta1BlockBlockTypeEnum),
-    property: S.optional(GoogleCloudVisionV1p1beta1TextAnnotationTextProperty),
     confidence: S.optional(S.Number),
-    boundingBox: S.optional(GoogleCloudVisionV1p1beta1BoundingPoly),
   }),
 ).annotate({
   identifier: "GoogleCloudVisionV1p1beta1Block",
@@ -922,24 +603,24 @@ export const GoogleCloudVisionV1p1beta1BlockList = /*@__PURE__*/ S.Array(
 
 /** Detected page from OCR. */
 export interface GoogleCloudVisionV1p1beta1Page {
-  /** Additional information detected on the page. */
-  property?: GoogleCloudVisionV1p1beta1TextAnnotationTextProperty;
-  /** List of blocks of text, images etc on this page. */
-  blocks?: GoogleCloudVisionV1p1beta1BlockList;
-  /** Confidence of the OCR results on the page. Range [0, 1]. */
-  confidence?: number;
   /** Page width. For PDFs the unit is points. For images (including TIFFs) the unit is pixels. */
   width?: number;
   /** Page height. For PDFs the unit is points. For images (including TIFFs) the unit is pixels. */
   height?: number;
+  /** Additional information detected on the page. */
+  property?: GoogleCloudVisionV1p1beta1TextAnnotationTextProperty;
+  /** Confidence of the OCR results on the page. Range [0, 1]. */
+  confidence?: number;
+  /** List of blocks of text, images etc on this page. */
+  blocks?: GoogleCloudVisionV1p1beta1BlockList;
 }
 export const GoogleCloudVisionV1p1beta1Page = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    property: S.optional(GoogleCloudVisionV1p1beta1TextAnnotationTextProperty),
-    blocks: S.optional(GoogleCloudVisionV1p1beta1BlockList),
-    confidence: S.optional(S.Number),
     width: S.optional(S.Number),
     height: S.optional(S.Number),
+    property: S.optional(GoogleCloudVisionV1p1beta1TextAnnotationTextProperty),
+    confidence: S.optional(S.Number),
+    blocks: S.optional(GoogleCloudVisionV1p1beta1BlockList),
   }),
 ).annotate({
   identifier: "GoogleCloudVisionV1p1beta1Page",
@@ -952,28 +633,142 @@ export const GoogleCloudVisionV1p1beta1PageList = /*@__PURE__*/ S.Array(
 
 /** TextAnnotation contains a structured representation of OCR extracted text. The hierarchy of an OCR extracted text structure is like this: TextAnnotation -> Page -> Block -> Paragraph -> Word -> Symbol Each structural component, starting from Page, may further have their own properties. Properties describe detected languages, breaks etc.. Please refer to the TextAnnotation.TextProperty message definition below for more detail. */
 export interface GoogleCloudVisionV1p1beta1TextAnnotation {
-  /** List of pages detected by OCR. */
-  pages?: GoogleCloudVisionV1p1beta1PageList;
   /** UTF-8 text detected on the pages. */
   text?: string;
+  /** List of pages detected by OCR. */
+  pages?: GoogleCloudVisionV1p1beta1PageList;
 }
 export const GoogleCloudVisionV1p1beta1TextAnnotation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pages: S.optional(GoogleCloudVisionV1p1beta1PageList),
     text: S.optional(S.String),
+    pages: S.optional(GoogleCloudVisionV1p1beta1PageList),
   }),
 ).annotate({
   identifier: "GoogleCloudVisionV1p1beta1TextAnnotation",
 }) as any as S.Schema<GoogleCloudVisionV1p1beta1TextAnnotation>;
 
-export type GoogleCloudVisionV1p1beta1FaceAnnotationSorrowLikelihoodEnum =
-  | "UNKNOWN"
-  | "VERY_UNLIKELY"
-  | "UNLIKELY"
-  | "POSSIBLE"
-  | "LIKELY"
-  | "VERY_LIKELY";
-export const GoogleCloudVisionV1p1beta1FaceAnnotationSorrowLikelihoodEnum = S.String;
+/** Single crop hint that is used to generate a new crop when serving an image. */
+export interface GoogleCloudVisionV1p1beta1CropHint {
+  /** Confidence of this being a salient region. Range [0, 1]. */
+  confidence?: number;
+  /** The bounding polygon for the crop region. The coordinates of the bounding box are in the original image's scale. */
+  boundingPoly?: GoogleCloudVisionV1p1beta1BoundingPoly;
+  /** Fraction of importance of this salient region with respect to the original image. */
+  importanceFraction?: number;
+}
+export const GoogleCloudVisionV1p1beta1CropHint = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    confidence: S.optional(S.Number),
+    boundingPoly: S.optional(GoogleCloudVisionV1p1beta1BoundingPoly),
+    importanceFraction: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "GoogleCloudVisionV1p1beta1CropHint",
+}) as any as S.Schema<GoogleCloudVisionV1p1beta1CropHint>;
+
+export type GoogleCloudVisionV1p1beta1CropHintList = Array<GoogleCloudVisionV1p1beta1CropHint>;
+export const GoogleCloudVisionV1p1beta1CropHintList = /*@__PURE__*/ S.Array(
+  GoogleCloudVisionV1p1beta1CropHint,
+) as any as S.Schema<GoogleCloudVisionV1p1beta1CropHintList>;
+
+/** Set of crop hints that are used to generate new crops when serving images. */
+export interface GoogleCloudVisionV1p1beta1CropHintsAnnotation {
+  /** Crop hint results. */
+  cropHints?: GoogleCloudVisionV1p1beta1CropHintList;
+}
+export const GoogleCloudVisionV1p1beta1CropHintsAnnotation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cropHints: S.optional(GoogleCloudVisionV1p1beta1CropHintList),
+  }),
+).annotate({
+  identifier: "GoogleCloudVisionV1p1beta1CropHintsAnnotation",
+}) as any as S.Schema<GoogleCloudVisionV1p1beta1CropHintsAnnotation>;
+
+/** A `Property` consists of a user-supplied name/value pair. */
+export interface GoogleCloudVisionV1p1beta1Property {
+  /** Name of the property. */
+  name?: string;
+  /** Value of numeric properties. */
+  uint64Value?: string;
+  /** Value of the property. */
+  value?: string;
+}
+export const GoogleCloudVisionV1p1beta1Property = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    uint64Value: S.optional(S.String),
+    value: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudVisionV1p1beta1Property",
+}) as any as S.Schema<GoogleCloudVisionV1p1beta1Property>;
+
+export type GoogleCloudVisionV1p1beta1PropertyList = Array<GoogleCloudVisionV1p1beta1Property>;
+export const GoogleCloudVisionV1p1beta1PropertyList = /*@__PURE__*/ S.Array(
+  GoogleCloudVisionV1p1beta1Property,
+) as any as S.Schema<GoogleCloudVisionV1p1beta1PropertyList>;
+
+/** Detected entity location information. */
+export interface GoogleCloudVisionV1p1beta1LocationInfo {
+  /** lat/long location coordinates. */
+  latLng?: LatLng;
+}
+export const GoogleCloudVisionV1p1beta1LocationInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    latLng: S.optional(LatLng),
+  }),
+).annotate({
+  identifier: "GoogleCloudVisionV1p1beta1LocationInfo",
+}) as any as S.Schema<GoogleCloudVisionV1p1beta1LocationInfo>;
+
+export type GoogleCloudVisionV1p1beta1LocationInfoList =
+  Array<GoogleCloudVisionV1p1beta1LocationInfo>;
+export const GoogleCloudVisionV1p1beta1LocationInfoList = /*@__PURE__*/ S.Array(
+  GoogleCloudVisionV1p1beta1LocationInfo,
+) as any as S.Schema<GoogleCloudVisionV1p1beta1LocationInfoList>;
+
+/** Set of detected entity features. */
+export interface GoogleCloudVisionV1p1beta1EntityAnnotation {
+  /** The relevancy of the ICA (Image Content Annotation) label to the image. For example, the relevancy of "tower" is likely higher to an image containing the detected "Eiffel Tower" than to an image containing a detected distant towering building, even though the confidence that there is a tower in each image may be the same. Range [0, 1]. */
+  topicality?: number;
+  /** Some entities may have optional user-supplied `Property` (name/value) fields, such a score or string that qualifies the entity. */
+  properties?: GoogleCloudVisionV1p1beta1PropertyList;
+  /** The language code for the locale in which the entity textual `description` is expressed. */
+  locale?: string;
+  /** The location information for the detected entity. Multiple `LocationInfo` elements can be present because one location may indicate the location of the scene in the image, and another location may indicate the location of the place where the image was taken. Location information is usually present for landmarks. */
+  locations?: GoogleCloudVisionV1p1beta1LocationInfoList;
+  /** Overall score of the result. Range [0, 1]. */
+  score?: number;
+  /** Opaque entity ID. Some IDs may be available in [Google Knowledge Graph Search API](https://developers.google.com/knowledge-graph/). */
+  mid?: string;
+  /** **Deprecated. Use `score` instead.** The accuracy of the entity detection in an image. For example, for an image in which the "Eiffel Tower" entity is detected, this field represents the confidence that there is a tower in the query image. Range [0, 1]. */
+  confidence?: number;
+  /** Entity textual description, expressed in its `locale` language. */
+  description?: string;
+  /** Image region to which this entity belongs. Not produced for `LABEL_DETECTION` features. */
+  boundingPoly?: GoogleCloudVisionV1p1beta1BoundingPoly;
+}
+export const GoogleCloudVisionV1p1beta1EntityAnnotation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    topicality: S.optional(S.Number),
+    properties: S.optional(GoogleCloudVisionV1p1beta1PropertyList),
+    locale: S.optional(S.String),
+    locations: S.optional(GoogleCloudVisionV1p1beta1LocationInfoList),
+    score: S.optional(S.Number),
+    mid: S.optional(S.String),
+    confidence: S.optional(S.Number),
+    description: S.optional(S.String),
+    boundingPoly: S.optional(GoogleCloudVisionV1p1beta1BoundingPoly),
+  }),
+).annotate({
+  identifier: "GoogleCloudVisionV1p1beta1EntityAnnotation",
+}) as any as S.Schema<GoogleCloudVisionV1p1beta1EntityAnnotation>;
+
+export type GoogleCloudVisionV1p1beta1EntityAnnotationList =
+  Array<GoogleCloudVisionV1p1beta1EntityAnnotation>;
+export const GoogleCloudVisionV1p1beta1EntityAnnotationList = /*@__PURE__*/ S.Array(
+  GoogleCloudVisionV1p1beta1EntityAnnotation,
+) as any as S.Schema<GoogleCloudVisionV1p1beta1EntityAnnotationList>;
 
 export type GoogleCloudVisionV1p1beta1FaceAnnotationSurpriseLikelihoodEnum =
   | "UNKNOWN"
@@ -983,52 +778,6 @@ export type GoogleCloudVisionV1p1beta1FaceAnnotationSurpriseLikelihoodEnum =
   | "LIKELY"
   | "VERY_LIKELY";
 export const GoogleCloudVisionV1p1beta1FaceAnnotationSurpriseLikelihoodEnum = S.String;
-
-export type GoogleCloudVisionV1p1beta1FaceAnnotationBlurredLikelihoodEnum =
-  | "UNKNOWN"
-  | "VERY_UNLIKELY"
-  | "UNLIKELY"
-  | "POSSIBLE"
-  | "LIKELY"
-  | "VERY_LIKELY";
-export const GoogleCloudVisionV1p1beta1FaceAnnotationBlurredLikelihoodEnum = S.String;
-
-export type GoogleCloudVisionV1p1beta1FaceAnnotationHeadwearLikelihoodEnum =
-  | "UNKNOWN"
-  | "VERY_UNLIKELY"
-  | "UNLIKELY"
-  | "POSSIBLE"
-  | "LIKELY"
-  | "VERY_LIKELY";
-export const GoogleCloudVisionV1p1beta1FaceAnnotationHeadwearLikelihoodEnum = S.String;
-
-export type GoogleCloudVisionV1p1beta1FaceAnnotationJoyLikelihoodEnum =
-  | "UNKNOWN"
-  | "VERY_UNLIKELY"
-  | "UNLIKELY"
-  | "POSSIBLE"
-  | "LIKELY"
-  | "VERY_LIKELY";
-export const GoogleCloudVisionV1p1beta1FaceAnnotationJoyLikelihoodEnum = S.String;
-
-/** A 3D position in the image, used primarily for Face detection landmarks. A valid Position must have both x and y coordinates. The position coordinates are in the same scale as the original image. */
-export interface GoogleCloudVisionV1p1beta1Position {
-  /** X coordinate. */
-  x?: number;
-  /** Y coordinate. */
-  y?: number;
-  /** Z coordinate (or depth). */
-  z?: number;
-}
-export const GoogleCloudVisionV1p1beta1Position = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    x: S.optional(S.Number),
-    y: S.optional(S.Number),
-    z: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "GoogleCloudVisionV1p1beta1Position",
-}) as any as S.Schema<GoogleCloudVisionV1p1beta1Position>;
 
 export type GoogleCloudVisionV1p1beta1FaceAnnotationLandmarkTypeEnum =
   | "UNKNOWN_LANDMARK"
@@ -1070,17 +819,36 @@ export type GoogleCloudVisionV1p1beta1FaceAnnotationLandmarkTypeEnum =
   | "RIGHT_CHEEK_CENTER";
 export const GoogleCloudVisionV1p1beta1FaceAnnotationLandmarkTypeEnum = S.String;
 
+/** A 3D position in the image, used primarily for Face detection landmarks. A valid Position must have both x and y coordinates. The position coordinates are in the same scale as the original image. */
+export interface GoogleCloudVisionV1p1beta1Position {
+  /** X coordinate. */
+  x?: number;
+  /** Y coordinate. */
+  y?: number;
+  /** Z coordinate (or depth). */
+  z?: number;
+}
+export const GoogleCloudVisionV1p1beta1Position = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    x: S.optional(S.Number),
+    y: S.optional(S.Number),
+    z: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "GoogleCloudVisionV1p1beta1Position",
+}) as any as S.Schema<GoogleCloudVisionV1p1beta1Position>;
+
 /** A face-specific landmark (for example, a face feature). Landmark positions may fall outside the bounds of the image if the face is near one or more edges of the image. Therefore it is NOT guaranteed that `0 <= x < width` or `0 <= y < height`. */
 export interface GoogleCloudVisionV1p1beta1FaceAnnotationLandmark {
-  /** Face landmark position. */
-  position?: GoogleCloudVisionV1p1beta1Position;
   /** Face landmark type. */
   type?: GoogleCloudVisionV1p1beta1FaceAnnotationLandmarkTypeEnum;
+  /** Face landmark position. */
+  position?: GoogleCloudVisionV1p1beta1Position;
 }
 export const GoogleCloudVisionV1p1beta1FaceAnnotationLandmark = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    position: S.optional(GoogleCloudVisionV1p1beta1Position),
     type: S.optional(GoogleCloudVisionV1p1beta1FaceAnnotationLandmarkTypeEnum),
+    position: S.optional(GoogleCloudVisionV1p1beta1Position),
   }),
 ).annotate({
   identifier: "GoogleCloudVisionV1p1beta1FaceAnnotationLandmark",
@@ -1092,6 +860,15 @@ export const GoogleCloudVisionV1p1beta1FaceAnnotationLandmarkList = /*@__PURE__*
   GoogleCloudVisionV1p1beta1FaceAnnotationLandmark,
 ) as any as S.Schema<GoogleCloudVisionV1p1beta1FaceAnnotationLandmarkList>;
 
+export type GoogleCloudVisionV1p1beta1FaceAnnotationBlurredLikelihoodEnum =
+  | "UNKNOWN"
+  | "VERY_UNLIKELY"
+  | "UNLIKELY"
+  | "POSSIBLE"
+  | "LIKELY"
+  | "VERY_LIKELY";
+export const GoogleCloudVisionV1p1beta1FaceAnnotationBlurredLikelihoodEnum = S.String;
+
 export type GoogleCloudVisionV1p1beta1FaceAnnotationAngerLikelihoodEnum =
   | "UNKNOWN"
   | "VERY_UNLIKELY"
@@ -1100,6 +877,15 @@ export type GoogleCloudVisionV1p1beta1FaceAnnotationAngerLikelihoodEnum =
   | "LIKELY"
   | "VERY_LIKELY";
 export const GoogleCloudVisionV1p1beta1FaceAnnotationAngerLikelihoodEnum = S.String;
+
+export type GoogleCloudVisionV1p1beta1FaceAnnotationHeadwearLikelihoodEnum =
+  | "UNKNOWN"
+  | "VERY_UNLIKELY"
+  | "UNLIKELY"
+  | "POSSIBLE"
+  | "LIKELY"
+  | "VERY_LIKELY";
+export const GoogleCloudVisionV1p1beta1FaceAnnotationHeadwearLikelihoodEnum = S.String;
 
 export type GoogleCloudVisionV1p1beta1FaceAnnotationUnderExposedLikelihoodEnum =
   | "UNKNOWN"
@@ -1110,58 +896,76 @@ export type GoogleCloudVisionV1p1beta1FaceAnnotationUnderExposedLikelihoodEnum =
   | "VERY_LIKELY";
 export const GoogleCloudVisionV1p1beta1FaceAnnotationUnderExposedLikelihoodEnum = S.String;
 
+export type GoogleCloudVisionV1p1beta1FaceAnnotationJoyLikelihoodEnum =
+  | "UNKNOWN"
+  | "VERY_UNLIKELY"
+  | "UNLIKELY"
+  | "POSSIBLE"
+  | "LIKELY"
+  | "VERY_LIKELY";
+export const GoogleCloudVisionV1p1beta1FaceAnnotationJoyLikelihoodEnum = S.String;
+
+export type GoogleCloudVisionV1p1beta1FaceAnnotationSorrowLikelihoodEnum =
+  | "UNKNOWN"
+  | "VERY_UNLIKELY"
+  | "UNLIKELY"
+  | "POSSIBLE"
+  | "LIKELY"
+  | "VERY_LIKELY";
+export const GoogleCloudVisionV1p1beta1FaceAnnotationSorrowLikelihoodEnum = S.String;
+
 /** A face annotation object contains the results of face detection. */
 export interface GoogleCloudVisionV1p1beta1FaceAnnotation {
-  /** Sorrow likelihood. */
-  sorrowLikelihood?: GoogleCloudVisionV1p1beta1FaceAnnotationSorrowLikelihoodEnum;
-  /** Roll angle, which indicates the amount of clockwise/anti-clockwise rotation of the face relative to the image vertical about the axis perpendicular to the face. Range [-180,180]. */
-  rollAngle?: number;
-  /** The `fd_bounding_poly` bounding polygon is tighter than the `boundingPoly`, and encloses only the skin part of the face. Typically, it is used to eliminate the face from any image analysis that detects the "amount of skin" visible in an image. It is not based on the landmarker results, only on the initial face detection, hence the fd (face detection) prefix. */
-  fdBoundingPoly?: GoogleCloudVisionV1p1beta1BoundingPoly;
   /** Surprise likelihood. */
   surpriseLikelihood?: GoogleCloudVisionV1p1beta1FaceAnnotationSurpriseLikelihoodEnum;
   /** Detection confidence. Range [0, 1]. */
   detectionConfidence?: number;
-  /** Pitch angle, which indicates the upwards/downwards angle that the face is pointing relative to the image's horizontal plane. Range [-180,180]. */
-  tiltAngle?: number;
-  /** Blurred likelihood. */
-  blurredLikelihood?: GoogleCloudVisionV1p1beta1FaceAnnotationBlurredLikelihoodEnum;
-  /** The bounding polygon around the face. The coordinates of the bounding box are in the original image's scale. The bounding box is computed to "frame" the face in accordance with human expectations. It is based on the landmarker results. Note that one or more x and/or y coordinates may not be generated in the `BoundingPoly` (the polygon will be unbounded) if only a partial face appears in the image to be annotated. */
-  boundingPoly?: GoogleCloudVisionV1p1beta1BoundingPoly;
-  /** Headwear likelihood. */
-  headwearLikelihood?: GoogleCloudVisionV1p1beta1FaceAnnotationHeadwearLikelihoodEnum;
   /** Face landmarking confidence. Range [0, 1]. */
   landmarkingConfidence?: number;
-  /** Joy likelihood. */
-  joyLikelihood?: GoogleCloudVisionV1p1beta1FaceAnnotationJoyLikelihoodEnum;
   /** Yaw angle, which indicates the leftward/rightward angle that the face is pointing relative to the vertical plane perpendicular to the image. Range [-180,180]. */
   panAngle?: number;
+  /** Roll angle, which indicates the amount of clockwise/anti-clockwise rotation of the face relative to the image vertical about the axis perpendicular to the face. Range [-180,180]. */
+  rollAngle?: number;
   /** Detected face landmarks. */
   landmarks?: GoogleCloudVisionV1p1beta1FaceAnnotationLandmarkList;
+  /** Blurred likelihood. */
+  blurredLikelihood?: GoogleCloudVisionV1p1beta1FaceAnnotationBlurredLikelihoodEnum;
+  /** Pitch angle, which indicates the upwards/downwards angle that the face is pointing relative to the image's horizontal plane. Range [-180,180]. */
+  tiltAngle?: number;
+  /** The `fd_bounding_poly` bounding polygon is tighter than the `boundingPoly`, and encloses only the skin part of the face. Typically, it is used to eliminate the face from any image analysis that detects the "amount of skin" visible in an image. It is not based on the landmarker results, only on the initial face detection, hence the fd (face detection) prefix. */
+  fdBoundingPoly?: GoogleCloudVisionV1p1beta1BoundingPoly;
+  /** The bounding polygon around the face. The coordinates of the bounding box are in the original image's scale. The bounding box is computed to "frame" the face in accordance with human expectations. It is based on the landmarker results. Note that one or more x and/or y coordinates may not be generated in the `BoundingPoly` (the polygon will be unbounded) if only a partial face appears in the image to be annotated. */
+  boundingPoly?: GoogleCloudVisionV1p1beta1BoundingPoly;
   /** Anger likelihood. */
   angerLikelihood?: GoogleCloudVisionV1p1beta1FaceAnnotationAngerLikelihoodEnum;
+  /** Headwear likelihood. */
+  headwearLikelihood?: GoogleCloudVisionV1p1beta1FaceAnnotationHeadwearLikelihoodEnum;
   /** Under-exposed likelihood. */
   underExposedLikelihood?: GoogleCloudVisionV1p1beta1FaceAnnotationUnderExposedLikelihoodEnum;
+  /** Joy likelihood. */
+  joyLikelihood?: GoogleCloudVisionV1p1beta1FaceAnnotationJoyLikelihoodEnum;
+  /** Sorrow likelihood. */
+  sorrowLikelihood?: GoogleCloudVisionV1p1beta1FaceAnnotationSorrowLikelihoodEnum;
 }
 export const GoogleCloudVisionV1p1beta1FaceAnnotation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sorrowLikelihood: S.optional(GoogleCloudVisionV1p1beta1FaceAnnotationSorrowLikelihoodEnum),
-    rollAngle: S.optional(S.Number),
-    fdBoundingPoly: S.optional(GoogleCloudVisionV1p1beta1BoundingPoly),
     surpriseLikelihood: S.optional(GoogleCloudVisionV1p1beta1FaceAnnotationSurpriseLikelihoodEnum),
     detectionConfidence: S.optional(S.Number),
-    tiltAngle: S.optional(S.Number),
-    blurredLikelihood: S.optional(GoogleCloudVisionV1p1beta1FaceAnnotationBlurredLikelihoodEnum),
-    boundingPoly: S.optional(GoogleCloudVisionV1p1beta1BoundingPoly),
-    headwearLikelihood: S.optional(GoogleCloudVisionV1p1beta1FaceAnnotationHeadwearLikelihoodEnum),
     landmarkingConfidence: S.optional(S.Number),
-    joyLikelihood: S.optional(GoogleCloudVisionV1p1beta1FaceAnnotationJoyLikelihoodEnum),
     panAngle: S.optional(S.Number),
+    rollAngle: S.optional(S.Number),
     landmarks: S.optional(GoogleCloudVisionV1p1beta1FaceAnnotationLandmarkList),
+    blurredLikelihood: S.optional(GoogleCloudVisionV1p1beta1FaceAnnotationBlurredLikelihoodEnum),
+    tiltAngle: S.optional(S.Number),
+    fdBoundingPoly: S.optional(GoogleCloudVisionV1p1beta1BoundingPoly),
+    boundingPoly: S.optional(GoogleCloudVisionV1p1beta1BoundingPoly),
     angerLikelihood: S.optional(GoogleCloudVisionV1p1beta1FaceAnnotationAngerLikelihoodEnum),
+    headwearLikelihood: S.optional(GoogleCloudVisionV1p1beta1FaceAnnotationHeadwearLikelihoodEnum),
     underExposedLikelihood: S.optional(
       GoogleCloudVisionV1p1beta1FaceAnnotationUnderExposedLikelihoodEnum,
     ),
+    joyLikelihood: S.optional(GoogleCloudVisionV1p1beta1FaceAnnotationJoyLikelihoodEnum),
+    sorrowLikelihood: S.optional(GoogleCloudVisionV1p1beta1FaceAnnotationSorrowLikelihoodEnum),
   }),
 ).annotate({
   identifier: "GoogleCloudVisionV1p1beta1FaceAnnotation",
@@ -1173,98 +977,82 @@ export const GoogleCloudVisionV1p1beta1FaceAnnotationList = /*@__PURE__*/ S.Arra
   GoogleCloudVisionV1p1beta1FaceAnnotation,
 ) as any as S.Schema<GoogleCloudVisionV1p1beta1FaceAnnotationList>;
 
-/** A `Property` consists of a user-supplied name/value pair. */
-export interface GoogleCloudVisionV1p1beta1Property {
-  /** Value of the property. */
+/** A product label represented as a key-value pair. */
+export interface GoogleCloudVisionV1p1beta1ProductKeyValue {
+  /** The key of the label attached to the product. Cannot be empty and cannot exceed 128 bytes. */
+  key?: string;
+  /** The value of the label attached to the product. Cannot be empty and cannot exceed 128 bytes. */
   value?: string;
-  /** Value of numeric properties. */
-  uint64Value?: string;
-  /** Name of the property. */
-  name?: string;
 }
-export const GoogleCloudVisionV1p1beta1Property = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudVisionV1p1beta1ProductKeyValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    key: S.optional(S.String),
     value: S.optional(S.String),
-    uint64Value: S.optional(S.String),
-    name: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "GoogleCloudVisionV1p1beta1Property",
-}) as any as S.Schema<GoogleCloudVisionV1p1beta1Property>;
+  identifier: "GoogleCloudVisionV1p1beta1ProductKeyValue",
+}) as any as S.Schema<GoogleCloudVisionV1p1beta1ProductKeyValue>;
 
-export type GoogleCloudVisionV1p1beta1PropertyList = Array<GoogleCloudVisionV1p1beta1Property>;
-export const GoogleCloudVisionV1p1beta1PropertyList = /*@__PURE__*/ S.Array(
-  GoogleCloudVisionV1p1beta1Property,
-) as any as S.Schema<GoogleCloudVisionV1p1beta1PropertyList>;
+export type GoogleCloudVisionV1p1beta1ProductKeyValueList =
+  Array<GoogleCloudVisionV1p1beta1ProductKeyValue>;
+export const GoogleCloudVisionV1p1beta1ProductKeyValueList = /*@__PURE__*/ S.Array(
+  GoogleCloudVisionV1p1beta1ProductKeyValue,
+) as any as S.Schema<GoogleCloudVisionV1p1beta1ProductKeyValueList>;
 
-/** Detected entity location information. */
-export interface GoogleCloudVisionV1p1beta1LocationInfo {
-  /** lat/long location coordinates. */
-  latLng?: LatLng;
-}
-export const GoogleCloudVisionV1p1beta1LocationInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    latLng: S.optional(LatLng),
-  }),
-).annotate({
-  identifier: "GoogleCloudVisionV1p1beta1LocationInfo",
-}) as any as S.Schema<GoogleCloudVisionV1p1beta1LocationInfo>;
-
-export type GoogleCloudVisionV1p1beta1LocationInfoList =
-  Array<GoogleCloudVisionV1p1beta1LocationInfo>;
-export const GoogleCloudVisionV1p1beta1LocationInfoList = /*@__PURE__*/ S.Array(
-  GoogleCloudVisionV1p1beta1LocationInfo,
-) as any as S.Schema<GoogleCloudVisionV1p1beta1LocationInfoList>;
-
-/** Set of detected entity features. */
-export interface GoogleCloudVisionV1p1beta1EntityAnnotation {
-  /** Some entities may have optional user-supplied `Property` (name/value) fields, such a score or string that qualifies the entity. */
-  properties?: GoogleCloudVisionV1p1beta1PropertyList;
-  /** Opaque entity ID. Some IDs may be available in [Google Knowledge Graph Search API](https://developers.google.com/knowledge-graph/). */
-  mid?: string;
-  /** The language code for the locale in which the entity textual `description` is expressed. */
-  locale?: string;
-  /** Overall score of the result. Range [0, 1]. */
-  score?: number;
-  /** The location information for the detected entity. Multiple `LocationInfo` elements can be present because one location may indicate the location of the scene in the image, and another location may indicate the location of the place where the image was taken. Location information is usually present for landmarks. */
-  locations?: GoogleCloudVisionV1p1beta1LocationInfoList;
-  /** Entity textual description, expressed in its `locale` language. */
+/** A Product contains ReferenceImages. */
+export interface GoogleCloudVisionV1p1beta1Product {
+  /** Immutable. The category for the product identified by the reference image. This should be one of "homegoods-v2", "apparel-v2", "toys-v2", "packagedgoods-v1" or "general-v1". The legacy categories "homegoods", "apparel", and "toys" are still supported, but these should not be used for new products. */
+  productCategory?: string;
+  /** The user-provided name for this Product. Must not be empty. Must be at most 4096 characters long. */
+  displayName?: string;
+  /** Key-value pairs that can be attached to a product. At query time, constraints can be specified based on the product_labels. Note that integer values can be provided as strings, e.g. "1199". Only strings with integer values can match a range-based restriction which is to be supported soon. Multiple values can be assigned to the same key. One product may have up to 500 product_labels. Notice that the total number of distinct product_labels over all products in one ProductSet cannot exceed 1M, otherwise the product search pipeline will refuse to work for that ProductSet. */
+  productLabels?: GoogleCloudVisionV1p1beta1ProductKeyValueList;
+  /** The resource name of the product. Format is: `projects/PROJECT_ID/locations/LOC_ID/products/PRODUCT_ID`. This field is ignored when creating a product. */
+  name?: string;
+  /** User-provided metadata to be stored with this product. Must be at most 4096 characters long. */
   description?: string;
-  /** Image region to which this entity belongs. Not produced for `LABEL_DETECTION` features. */
-  boundingPoly?: GoogleCloudVisionV1p1beta1BoundingPoly;
-  /** **Deprecated. Use `score` instead.** The accuracy of the entity detection in an image. For example, for an image in which the "Eiffel Tower" entity is detected, this field represents the confidence that there is a tower in the query image. Range [0, 1]. */
-  confidence?: number;
-  /** The relevancy of the ICA (Image Content Annotation) label to the image. For example, the relevancy of "tower" is likely higher to an image containing the detected "Eiffel Tower" than to an image containing a detected distant towering building, even though the confidence that there is a tower in each image may be the same. Range [0, 1]. */
-  topicality?: number;
 }
-export const GoogleCloudVisionV1p1beta1EntityAnnotation = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudVisionV1p1beta1Product = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    properties: S.optional(GoogleCloudVisionV1p1beta1PropertyList),
-    mid: S.optional(S.String),
-    locale: S.optional(S.String),
-    score: S.optional(S.Number),
-    locations: S.optional(GoogleCloudVisionV1p1beta1LocationInfoList),
+    productCategory: S.optional(S.String),
+    displayName: S.optional(S.String),
+    productLabels: S.optional(GoogleCloudVisionV1p1beta1ProductKeyValueList),
+    name: S.optional(S.String),
     description: S.optional(S.String),
-    boundingPoly: S.optional(GoogleCloudVisionV1p1beta1BoundingPoly),
-    confidence: S.optional(S.Number),
-    topicality: S.optional(S.Number),
   }),
 ).annotate({
-  identifier: "GoogleCloudVisionV1p1beta1EntityAnnotation",
-}) as any as S.Schema<GoogleCloudVisionV1p1beta1EntityAnnotation>;
+  identifier: "GoogleCloudVisionV1p1beta1Product",
+}) as any as S.Schema<GoogleCloudVisionV1p1beta1Product>;
 
-export type GoogleCloudVisionV1p1beta1EntityAnnotationList =
-  Array<GoogleCloudVisionV1p1beta1EntityAnnotation>;
-export const GoogleCloudVisionV1p1beta1EntityAnnotationList = /*@__PURE__*/ S.Array(
-  GoogleCloudVisionV1p1beta1EntityAnnotation,
-) as any as S.Schema<GoogleCloudVisionV1p1beta1EntityAnnotationList>;
+/** Information about a product. */
+export interface GoogleCloudVisionV1p1beta1ProductSearchResultsResult {
+  /** The Product. */
+  product?: GoogleCloudVisionV1p1beta1Product;
+  /** The resource name of the image from the product that is the closest match to the query. */
+  image?: string;
+  /** A confidence level on the match, ranging from 0 (no confidence) to 1 (full confidence). */
+  score?: number;
+}
+export const GoogleCloudVisionV1p1beta1ProductSearchResultsResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    product: S.optional(GoogleCloudVisionV1p1beta1Product),
+    image: S.optional(S.String),
+    score: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "GoogleCloudVisionV1p1beta1ProductSearchResultsResult",
+}) as any as S.Schema<GoogleCloudVisionV1p1beta1ProductSearchResultsResult>;
 
-/** Set of detected objects with bounding boxes. */
-export interface GoogleCloudVisionV1p1beta1LocalizedObjectAnnotation {
+export type GoogleCloudVisionV1p1beta1ProductSearchResultsResultList =
+  Array<GoogleCloudVisionV1p1beta1ProductSearchResultsResult>;
+export const GoogleCloudVisionV1p1beta1ProductSearchResultsResultList = /*@__PURE__*/ S.Array(
+  GoogleCloudVisionV1p1beta1ProductSearchResultsResult,
+) as any as S.Schema<GoogleCloudVisionV1p1beta1ProductSearchResultsResultList>;
+
+/** Prediction for what the object in the bounding box is. */
+export interface GoogleCloudVisionV1p1beta1ProductSearchResultsObjectAnnotation {
   /** Object name, expressed in its `language_code` language. */
   name?: string;
-  /** Image region to which this object belongs. This must be populated. */
-  boundingPoly?: GoogleCloudVisionV1p1beta1BoundingPoly;
   /** The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. */
   languageCode?: string;
   /** Object ID that should align with EntityAnnotation mid. */
@@ -1272,23 +1060,214 @@ export interface GoogleCloudVisionV1p1beta1LocalizedObjectAnnotation {
   /** Score of the result. Range [0, 1]. */
   score?: number;
 }
-export const GoogleCloudVisionV1p1beta1LocalizedObjectAnnotation = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudVisionV1p1beta1ProductSearchResultsObjectAnnotation =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.optional(S.String),
+      languageCode: S.optional(S.String),
+      mid: S.optional(S.String),
+      score: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudVisionV1p1beta1ProductSearchResultsObjectAnnotation",
+  }) as any as S.Schema<GoogleCloudVisionV1p1beta1ProductSearchResultsObjectAnnotation>;
+
+export type GoogleCloudVisionV1p1beta1ProductSearchResultsObjectAnnotationList =
+  Array<GoogleCloudVisionV1p1beta1ProductSearchResultsObjectAnnotation>;
+export const GoogleCloudVisionV1p1beta1ProductSearchResultsObjectAnnotationList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudVisionV1p1beta1ProductSearchResultsObjectAnnotation,
+  ) as any as S.Schema<GoogleCloudVisionV1p1beta1ProductSearchResultsObjectAnnotationList>;
+
+/** Information about the products similar to a single product in a query image. */
+export interface GoogleCloudVisionV1p1beta1ProductSearchResultsGroupedResult {
+  /** List of results, one for each product match. */
+  results?: GoogleCloudVisionV1p1beta1ProductSearchResultsResultList;
+  /** The bounding polygon around the product detected in the query image. */
+  boundingPoly?: GoogleCloudVisionV1p1beta1BoundingPoly;
+  /** List of generic predictions for the object in the bounding box. */
+  objectAnnotations?: GoogleCloudVisionV1p1beta1ProductSearchResultsObjectAnnotationList;
+}
+export const GoogleCloudVisionV1p1beta1ProductSearchResultsGroupedResult = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      results: S.optional(GoogleCloudVisionV1p1beta1ProductSearchResultsResultList),
+      boundingPoly: S.optional(GoogleCloudVisionV1p1beta1BoundingPoly),
+      objectAnnotations: S.optional(
+        GoogleCloudVisionV1p1beta1ProductSearchResultsObjectAnnotationList,
+      ),
+    }),
+).annotate({
+  identifier: "GoogleCloudVisionV1p1beta1ProductSearchResultsGroupedResult",
+}) as any as S.Schema<GoogleCloudVisionV1p1beta1ProductSearchResultsGroupedResult>;
+
+export type GoogleCloudVisionV1p1beta1ProductSearchResultsGroupedResultList =
+  Array<GoogleCloudVisionV1p1beta1ProductSearchResultsGroupedResult>;
+export const GoogleCloudVisionV1p1beta1ProductSearchResultsGroupedResultList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudVisionV1p1beta1ProductSearchResultsGroupedResult,
+  ) as any as S.Schema<GoogleCloudVisionV1p1beta1ProductSearchResultsGroupedResultList>;
+
+/** Results for a product search request. */
+export interface GoogleCloudVisionV1p1beta1ProductSearchResults {
+  /** Timestamp of the index which provided these results. Products added to the product set and products removed from the product set after this time are not reflected in the current results. */
+  indexTime?: string;
+  /** List of results grouped by products detected in the query image. Each entry corresponds to one bounding polygon in the query image, and contains the matching products specific to that region. There may be duplicate product matches in the union of all the per-product results. */
+  productGroupedResults?: GoogleCloudVisionV1p1beta1ProductSearchResultsGroupedResultList;
+  /** List of results, one for each product match. */
+  results?: GoogleCloudVisionV1p1beta1ProductSearchResultsResultList;
+}
+export const GoogleCloudVisionV1p1beta1ProductSearchResults = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    boundingPoly: S.optional(GoogleCloudVisionV1p1beta1BoundingPoly),
-    languageCode: S.optional(S.String),
-    mid: S.optional(S.String),
-    score: S.optional(S.Number),
+    indexTime: S.optional(S.String),
+    productGroupedResults: S.optional(
+      GoogleCloudVisionV1p1beta1ProductSearchResultsGroupedResultList,
+    ),
+    results: S.optional(GoogleCloudVisionV1p1beta1ProductSearchResultsResultList),
   }),
 ).annotate({
-  identifier: "GoogleCloudVisionV1p1beta1LocalizedObjectAnnotation",
-}) as any as S.Schema<GoogleCloudVisionV1p1beta1LocalizedObjectAnnotation>;
+  identifier: "GoogleCloudVisionV1p1beta1ProductSearchResults",
+}) as any as S.Schema<GoogleCloudVisionV1p1beta1ProductSearchResults>;
 
-export type GoogleCloudVisionV1p1beta1LocalizedObjectAnnotationList =
-  Array<GoogleCloudVisionV1p1beta1LocalizedObjectAnnotation>;
-export const GoogleCloudVisionV1p1beta1LocalizedObjectAnnotationList = /*@__PURE__*/ S.Array(
-  GoogleCloudVisionV1p1beta1LocalizedObjectAnnotation,
-) as any as S.Schema<GoogleCloudVisionV1p1beta1LocalizedObjectAnnotationList>;
+export type GoogleCloudVisionV1p1beta1SafeSearchAnnotationAdultEnum =
+  | "UNKNOWN"
+  | "VERY_UNLIKELY"
+  | "UNLIKELY"
+  | "POSSIBLE"
+  | "LIKELY"
+  | "VERY_LIKELY";
+export const GoogleCloudVisionV1p1beta1SafeSearchAnnotationAdultEnum = S.String;
+
+export type GoogleCloudVisionV1p1beta1SafeSearchAnnotationSpoofEnum =
+  | "UNKNOWN"
+  | "VERY_UNLIKELY"
+  | "UNLIKELY"
+  | "POSSIBLE"
+  | "LIKELY"
+  | "VERY_LIKELY";
+export const GoogleCloudVisionV1p1beta1SafeSearchAnnotationSpoofEnum = S.String;
+
+export type GoogleCloudVisionV1p1beta1SafeSearchAnnotationRacyEnum =
+  | "UNKNOWN"
+  | "VERY_UNLIKELY"
+  | "UNLIKELY"
+  | "POSSIBLE"
+  | "LIKELY"
+  | "VERY_LIKELY";
+export const GoogleCloudVisionV1p1beta1SafeSearchAnnotationRacyEnum = S.String;
+
+export type GoogleCloudVisionV1p1beta1SafeSearchAnnotationViolenceEnum =
+  | "UNKNOWN"
+  | "VERY_UNLIKELY"
+  | "UNLIKELY"
+  | "POSSIBLE"
+  | "LIKELY"
+  | "VERY_LIKELY";
+export const GoogleCloudVisionV1p1beta1SafeSearchAnnotationViolenceEnum = S.String;
+
+export type GoogleCloudVisionV1p1beta1SafeSearchAnnotationMedicalEnum =
+  | "UNKNOWN"
+  | "VERY_UNLIKELY"
+  | "UNLIKELY"
+  | "POSSIBLE"
+  | "LIKELY"
+  | "VERY_LIKELY";
+export const GoogleCloudVisionV1p1beta1SafeSearchAnnotationMedicalEnum = S.String;
+
+/** Set of features pertaining to the image, computed by computer vision methods over safe-search verticals (for example, adult, spoof, medical, violence). */
+export interface GoogleCloudVisionV1p1beta1SafeSearchAnnotation {
+  /** Represents the adult content likelihood for the image. Adult content may contain elements such as nudity, pornographic images or cartoons, or sexual activities. */
+  adult?: GoogleCloudVisionV1p1beta1SafeSearchAnnotationAdultEnum;
+  /** Spoof likelihood. The likelihood that an modification was made to the image's canonical version to make it appear funny or offensive. */
+  spoof?: GoogleCloudVisionV1p1beta1SafeSearchAnnotationSpoofEnum;
+  /** Likelihood that the request image contains racy content. Racy content may include (but is not limited to) skimpy or sheer clothing, strategically covered nudity, lewd or provocative poses, or close-ups of sensitive body areas. */
+  racy?: GoogleCloudVisionV1p1beta1SafeSearchAnnotationRacyEnum;
+  /** Likelihood that this image contains violent content. Violent content may include death, serious harm, or injury to individuals or groups of individuals. */
+  violence?: GoogleCloudVisionV1p1beta1SafeSearchAnnotationViolenceEnum;
+  /** Likelihood that this is a medical image. */
+  medical?: GoogleCloudVisionV1p1beta1SafeSearchAnnotationMedicalEnum;
+}
+export const GoogleCloudVisionV1p1beta1SafeSearchAnnotation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    adult: S.optional(GoogleCloudVisionV1p1beta1SafeSearchAnnotationAdultEnum),
+    spoof: S.optional(GoogleCloudVisionV1p1beta1SafeSearchAnnotationSpoofEnum),
+    racy: S.optional(GoogleCloudVisionV1p1beta1SafeSearchAnnotationRacyEnum),
+    violence: S.optional(GoogleCloudVisionV1p1beta1SafeSearchAnnotationViolenceEnum),
+    medical: S.optional(GoogleCloudVisionV1p1beta1SafeSearchAnnotationMedicalEnum),
+  }),
+).annotate({
+  identifier: "GoogleCloudVisionV1p1beta1SafeSearchAnnotation",
+}) as any as S.Schema<GoogleCloudVisionV1p1beta1SafeSearchAnnotation>;
+
+/** Represents a color in the RGBA color space. This representation is designed for simplicity of conversion to and from color representations in various languages over compactness. For example, the fields of this representation can be trivially provided to the constructor of `java.awt.Color` in Java; it can also be trivially provided to UIColor's `+colorWithRed:green:blue:alpha` method in iOS; and, with just a little work, it can be easily formatted into a CSS `rgba()` string in JavaScript. This reference page doesn't have information about the absolute color space that should be used to interpret the RGB value—for example, sRGB, Adobe RGB, DCI-P3, and BT.2020. By default, applications should assume the sRGB color space. When color equality needs to be decided, implementations, unless documented otherwise, treat two colors as equal if all their red, green, blue, and alpha values each differ by at most `1e-5`. Example (Java): import com.google.type.Color; // ... public static java.awt.Color fromProto(Color protocolor) { float alpha = protocolor.hasAlpha() ? protocolor.getAlpha().getValue() : 1.0; return new java.awt.Color( protocolor.getRed(), protocolor.getGreen(), protocolor.getBlue(), alpha); } public static Color toProto(java.awt.Color color) { float red = (float) color.getRed(); float green = (float) color.getGreen(); float blue = (float) color.getBlue(); float denominator = 255.0; Color.Builder resultBuilder = Color .newBuilder() .setRed(red / denominator) .setGreen(green / denominator) .setBlue(blue / denominator); int alpha = color.getAlpha(); if (alpha != 255) { result.setAlpha( FloatValue .newBuilder() .setValue(((float) alpha) / denominator) .build()); } return resultBuilder.build(); } // ... Example (iOS / Obj-C): // ... static UIColor* fromProto(Color* protocolor) { float red = [protocolor red]; float green = [protocolor green]; float blue = [protocolor blue]; FloatValue* alpha_wrapper = [protocolor alpha]; float alpha = 1.0; if (alpha_wrapper != nil) { alpha = [alpha_wrapper value]; } return [UIColor colorWithRed:red green:green blue:blue alpha:alpha]; } static Color* toProto(UIColor* color) { CGFloat red, green, blue, alpha; if (![color getRed:&red green:&green blue:&blue alpha:&alpha]) { return nil; } Color* result = [[Color alloc] init]; [result setRed:red]; [result setGreen:green]; [result setBlue:blue]; if (alpha <= 0.9999) { [result setAlpha:floatWrapperWithValue(alpha)]; } [result autorelease]; return result; } // ... Example (JavaScript): // ... var protoToCssColor = function(rgb_color) { var redFrac = rgb_color.red || 0.0; var greenFrac = rgb_color.green || 0.0; var blueFrac = rgb_color.blue || 0.0; var red = Math.floor(redFrac * 255); var green = Math.floor(greenFrac * 255); var blue = Math.floor(blueFrac * 255); if (!('alpha' in rgb_color)) { return rgbToCssColor(red, green, blue); } var alphaFrac = rgb_color.alpha.value || 0.0; var rgbParams = [red, green, blue].join(','); return ['rgba(', rgbParams, ',', alphaFrac, ')'].join(''); }; var rgbToCssColor = function(red, green, blue) { var rgbNumber = new Number((red << 16) | (green << 8) | blue); var hexString = rgbNumber.toString(16); var missingZeros = 6 - hexString.length; var resultBuilder = ['#']; for (var i = 0; i < missingZeros; i++) { resultBuilder.push('0'); } resultBuilder.push(hexString); return resultBuilder.join(''); }; // ... */
+export interface Color {
+  /** The amount of green in the color as a value in the interval [0, 1]. */
+  green?: number;
+  /** The amount of blue in the color as a value in the interval [0, 1]. */
+  blue?: number;
+  /** The fraction of this color that should be applied to the pixel. That is, the final pixel color is defined by the equation: `pixel color = alpha * (this color) + (1.0 - alpha) * (background color)` This means that a value of 1.0 corresponds to a solid color, whereas a value of 0.0 corresponds to a completely transparent color. This uses a wrapper message rather than a simple float scalar so that it is possible to distinguish between a default value and the value being unset. If omitted, this color object is rendered as a solid color (as if the alpha value had been explicitly given a value of 1.0). */
+  alpha?: number;
+  /** The amount of red in the color as a value in the interval [0, 1]. */
+  red?: number;
+}
+export const Color = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    green: S.optional(S.Number),
+    blue: S.optional(S.Number),
+    alpha: S.optional(S.Number),
+    red: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Color" }) as any as S.Schema<Color>;
+
+/** Color information consists of RGB channels, score, and the fraction of the image that the color occupies in the image. */
+export interface GoogleCloudVisionV1p1beta1ColorInfo {
+  /** RGB components of the color. */
+  color?: Color;
+  /** Image-specific score for this color. Value in range [0, 1]. */
+  score?: number;
+  /** The fraction of pixels the color occupies in the image. Value in range [0, 1]. */
+  pixelFraction?: number;
+}
+export const GoogleCloudVisionV1p1beta1ColorInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    color: S.optional(Color),
+    score: S.optional(S.Number),
+    pixelFraction: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "GoogleCloudVisionV1p1beta1ColorInfo",
+}) as any as S.Schema<GoogleCloudVisionV1p1beta1ColorInfo>;
+
+export type GoogleCloudVisionV1p1beta1ColorInfoList = Array<GoogleCloudVisionV1p1beta1ColorInfo>;
+export const GoogleCloudVisionV1p1beta1ColorInfoList = /*@__PURE__*/ S.Array(
+  GoogleCloudVisionV1p1beta1ColorInfo,
+) as any as S.Schema<GoogleCloudVisionV1p1beta1ColorInfoList>;
+
+/** Set of dominant colors and their corresponding scores. */
+export interface GoogleCloudVisionV1p1beta1DominantColorsAnnotation {
+  /** RGB color values with their score and pixel fraction. */
+  colors?: GoogleCloudVisionV1p1beta1ColorInfoList;
+}
+export const GoogleCloudVisionV1p1beta1DominantColorsAnnotation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    colors: S.optional(GoogleCloudVisionV1p1beta1ColorInfoList),
+  }),
+).annotate({
+  identifier: "GoogleCloudVisionV1p1beta1DominantColorsAnnotation",
+}) as any as S.Schema<GoogleCloudVisionV1p1beta1DominantColorsAnnotation>;
+
+/** Stores image properties, such as dominant colors. */
+export interface GoogleCloudVisionV1p1beta1ImageProperties {
+  /** If present, dominant colors completed successfully. */
+  dominantColors?: GoogleCloudVisionV1p1beta1DominantColorsAnnotation;
+}
+export const GoogleCloudVisionV1p1beta1ImageProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dominantColors: S.optional(GoogleCloudVisionV1p1beta1DominantColorsAnnotation),
+  }),
+).annotate({
+  identifier: "GoogleCloudVisionV1p1beta1ImageProperties",
+}) as any as S.Schema<GoogleCloudVisionV1p1beta1ImageProperties>;
 
 /** If an image was produced from a file (e.g. a PDF), this message gives information about the source of that image. */
 export interface GoogleCloudVisionV1p1beta1ImageAnnotationContext {
@@ -1306,30 +1285,58 @@ export const GoogleCloudVisionV1p1beta1ImageAnnotationContext = /*@__PURE__*/ S.
   identifier: "GoogleCloudVisionV1p1beta1ImageAnnotationContext",
 }) as any as S.Schema<GoogleCloudVisionV1p1beta1ImageAnnotationContext>;
 
-/** Entity deduced from similar images on the Internet. */
-export interface GoogleCloudVisionV1p1beta1WebDetectionWebEntity {
-  /** Opaque entity ID. */
-  entityId?: string;
-  /** Overall relevancy score for the entity. Not normalized and not comparable across different image queries. */
+/** Set of detected objects with bounding boxes. */
+export interface GoogleCloudVisionV1p1beta1LocalizedObjectAnnotation {
+  /** Object ID that should align with EntityAnnotation mid. */
+  mid?: string;
+  /** Score of the result. Range [0, 1]. */
   score?: number;
-  /** Canonical description of the entity, in English. */
-  description?: string;
+  /** Object name, expressed in its `language_code` language. */
+  name?: string;
+  /** The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. */
+  languageCode?: string;
+  /** Image region to which this object belongs. This must be populated. */
+  boundingPoly?: GoogleCloudVisionV1p1beta1BoundingPoly;
 }
-export const GoogleCloudVisionV1p1beta1WebDetectionWebEntity = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudVisionV1p1beta1LocalizedObjectAnnotation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entityId: S.optional(S.String),
+    mid: S.optional(S.String),
     score: S.optional(S.Number),
-    description: S.optional(S.String),
+    name: S.optional(S.String),
+    languageCode: S.optional(S.String),
+    boundingPoly: S.optional(GoogleCloudVisionV1p1beta1BoundingPoly),
   }),
 ).annotate({
-  identifier: "GoogleCloudVisionV1p1beta1WebDetectionWebEntity",
-}) as any as S.Schema<GoogleCloudVisionV1p1beta1WebDetectionWebEntity>;
+  identifier: "GoogleCloudVisionV1p1beta1LocalizedObjectAnnotation",
+}) as any as S.Schema<GoogleCloudVisionV1p1beta1LocalizedObjectAnnotation>;
 
-export type GoogleCloudVisionV1p1beta1WebDetectionWebEntityList =
-  Array<GoogleCloudVisionV1p1beta1WebDetectionWebEntity>;
-export const GoogleCloudVisionV1p1beta1WebDetectionWebEntityList = /*@__PURE__*/ S.Array(
-  GoogleCloudVisionV1p1beta1WebDetectionWebEntity,
-) as any as S.Schema<GoogleCloudVisionV1p1beta1WebDetectionWebEntityList>;
+export type GoogleCloudVisionV1p1beta1LocalizedObjectAnnotationList =
+  Array<GoogleCloudVisionV1p1beta1LocalizedObjectAnnotation>;
+export const GoogleCloudVisionV1p1beta1LocalizedObjectAnnotationList = /*@__PURE__*/ S.Array(
+  GoogleCloudVisionV1p1beta1LocalizedObjectAnnotation,
+) as any as S.Schema<GoogleCloudVisionV1p1beta1LocalizedObjectAnnotationList>;
+
+/** Metadata for online images. */
+export interface GoogleCloudVisionV1p1beta1WebDetectionWebImage {
+  /** (Deprecated) Overall relevancy score for the image. */
+  score?: number;
+  /** The result image URL. */
+  url?: string;
+}
+export const GoogleCloudVisionV1p1beta1WebDetectionWebImage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    score: S.optional(S.Number),
+    url: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudVisionV1p1beta1WebDetectionWebImage",
+}) as any as S.Schema<GoogleCloudVisionV1p1beta1WebDetectionWebImage>;
+
+export type GoogleCloudVisionV1p1beta1WebDetectionWebImageList =
+  Array<GoogleCloudVisionV1p1beta1WebDetectionWebImage>;
+export const GoogleCloudVisionV1p1beta1WebDetectionWebImageList = /*@__PURE__*/ S.Array(
+  GoogleCloudVisionV1p1beta1WebDetectionWebImage,
+) as any as S.Schema<GoogleCloudVisionV1p1beta1WebDetectionWebImageList>;
 
 /** Label to provide extra metadata for the web detection. */
 export interface GoogleCloudVisionV1p1beta1WebDetectionWebLabel {
@@ -1353,47 +1360,25 @@ export const GoogleCloudVisionV1p1beta1WebDetectionWebLabelList = /*@__PURE__*/ 
   GoogleCloudVisionV1p1beta1WebDetectionWebLabel,
 ) as any as S.Schema<GoogleCloudVisionV1p1beta1WebDetectionWebLabelList>;
 
-/** Metadata for online images. */
-export interface GoogleCloudVisionV1p1beta1WebDetectionWebImage {
-  /** The result image URL. */
-  url?: string;
-  /** (Deprecated) Overall relevancy score for the image. */
-  score?: number;
-}
-export const GoogleCloudVisionV1p1beta1WebDetectionWebImage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    url: S.optional(S.String),
-    score: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "GoogleCloudVisionV1p1beta1WebDetectionWebImage",
-}) as any as S.Schema<GoogleCloudVisionV1p1beta1WebDetectionWebImage>;
-
-export type GoogleCloudVisionV1p1beta1WebDetectionWebImageList =
-  Array<GoogleCloudVisionV1p1beta1WebDetectionWebImage>;
-export const GoogleCloudVisionV1p1beta1WebDetectionWebImageList = /*@__PURE__*/ S.Array(
-  GoogleCloudVisionV1p1beta1WebDetectionWebImage,
-) as any as S.Schema<GoogleCloudVisionV1p1beta1WebDetectionWebImageList>;
-
 /** Metadata for web pages. */
 export interface GoogleCloudVisionV1p1beta1WebDetectionWebPage {
-  /** Title for the web page, may contain HTML markups. */
-  pageTitle?: string;
-  /** Partial matching images on the page. Those images are similar enough to share some key-point features. For example an original image will likely have partial matching for its crops. */
-  partialMatchingImages?: GoogleCloudVisionV1p1beta1WebDetectionWebImageList;
-  /** The result web page URL. */
-  url?: string;
   /** (Deprecated) Overall relevancy score for the web page. */
   score?: number;
+  /** The result web page URL. */
+  url?: string;
+  /** Partial matching images on the page. Those images are similar enough to share some key-point features. For example an original image will likely have partial matching for its crops. */
+  partialMatchingImages?: GoogleCloudVisionV1p1beta1WebDetectionWebImageList;
+  /** Title for the web page, may contain HTML markups. */
+  pageTitle?: string;
   /** Fully matching images on the page. Can include resized copies of the query image. */
   fullMatchingImages?: GoogleCloudVisionV1p1beta1WebDetectionWebImageList;
 }
 export const GoogleCloudVisionV1p1beta1WebDetectionWebPage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageTitle: S.optional(S.String),
-    partialMatchingImages: S.optional(GoogleCloudVisionV1p1beta1WebDetectionWebImageList),
-    url: S.optional(S.String),
     score: S.optional(S.Number),
+    url: S.optional(S.String),
+    partialMatchingImages: S.optional(GoogleCloudVisionV1p1beta1WebDetectionWebImageList),
+    pageTitle: S.optional(S.String),
     fullMatchingImages: S.optional(GoogleCloudVisionV1p1beta1WebDetectionWebImageList),
   }),
 ).annotate({
@@ -1406,29 +1391,54 @@ export const GoogleCloudVisionV1p1beta1WebDetectionWebPageList = /*@__PURE__*/ S
   GoogleCloudVisionV1p1beta1WebDetectionWebPage,
 ) as any as S.Schema<GoogleCloudVisionV1p1beta1WebDetectionWebPageList>;
 
+/** Entity deduced from similar images on the Internet. */
+export interface GoogleCloudVisionV1p1beta1WebDetectionWebEntity {
+  /** Canonical description of the entity, in English. */
+  description?: string;
+  /** Opaque entity ID. */
+  entityId?: string;
+  /** Overall relevancy score for the entity. Not normalized and not comparable across different image queries. */
+  score?: number;
+}
+export const GoogleCloudVisionV1p1beta1WebDetectionWebEntity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    entityId: S.optional(S.String),
+    score: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "GoogleCloudVisionV1p1beta1WebDetectionWebEntity",
+}) as any as S.Schema<GoogleCloudVisionV1p1beta1WebDetectionWebEntity>;
+
+export type GoogleCloudVisionV1p1beta1WebDetectionWebEntityList =
+  Array<GoogleCloudVisionV1p1beta1WebDetectionWebEntity>;
+export const GoogleCloudVisionV1p1beta1WebDetectionWebEntityList = /*@__PURE__*/ S.Array(
+  GoogleCloudVisionV1p1beta1WebDetectionWebEntity,
+) as any as S.Schema<GoogleCloudVisionV1p1beta1WebDetectionWebEntityList>;
+
 /** Relevant information for the image from the Internet. */
 export interface GoogleCloudVisionV1p1beta1WebDetection {
-  /** Deduced entities from similar images on the Internet. */
-  webEntities?: GoogleCloudVisionV1p1beta1WebDetectionWebEntityList;
+  /** Fully matching images from the Internet. Can include resized copies of the query image. */
+  fullMatchingImages?: GoogleCloudVisionV1p1beta1WebDetectionWebImageList;
+  /** Partial matching images from the Internet. Those images are similar enough to share some key-point features. For example an original image will likely have partial matching for its crops. */
+  partialMatchingImages?: GoogleCloudVisionV1p1beta1WebDetectionWebImageList;
   /** The service's best guess as to the topic of the request image. Inferred from similar images on the open web. */
   bestGuessLabels?: GoogleCloudVisionV1p1beta1WebDetectionWebLabelList;
   /** Web pages containing the matching images from the Internet. */
   pagesWithMatchingImages?: GoogleCloudVisionV1p1beta1WebDetectionWebPageList;
   /** The visually similar image results. */
   visuallySimilarImages?: GoogleCloudVisionV1p1beta1WebDetectionWebImageList;
-  /** Partial matching images from the Internet. Those images are similar enough to share some key-point features. For example an original image will likely have partial matching for its crops. */
-  partialMatchingImages?: GoogleCloudVisionV1p1beta1WebDetectionWebImageList;
-  /** Fully matching images from the Internet. Can include resized copies of the query image. */
-  fullMatchingImages?: GoogleCloudVisionV1p1beta1WebDetectionWebImageList;
+  /** Deduced entities from similar images on the Internet. */
+  webEntities?: GoogleCloudVisionV1p1beta1WebDetectionWebEntityList;
 }
 export const GoogleCloudVisionV1p1beta1WebDetection = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    webEntities: S.optional(GoogleCloudVisionV1p1beta1WebDetectionWebEntityList),
+    fullMatchingImages: S.optional(GoogleCloudVisionV1p1beta1WebDetectionWebImageList),
+    partialMatchingImages: S.optional(GoogleCloudVisionV1p1beta1WebDetectionWebImageList),
     bestGuessLabels: S.optional(GoogleCloudVisionV1p1beta1WebDetectionWebLabelList),
     pagesWithMatchingImages: S.optional(GoogleCloudVisionV1p1beta1WebDetectionWebPageList),
     visuallySimilarImages: S.optional(GoogleCloudVisionV1p1beta1WebDetectionWebImageList),
-    partialMatchingImages: S.optional(GoogleCloudVisionV1p1beta1WebDetectionWebImageList),
-    fullMatchingImages: S.optional(GoogleCloudVisionV1p1beta1WebDetectionWebImageList),
+    webEntities: S.optional(GoogleCloudVisionV1p1beta1WebDetectionWebEntityList),
   }),
 ).annotate({
   identifier: "GoogleCloudVisionV1p1beta1WebDetection",
@@ -1436,50 +1446,50 @@ export const GoogleCloudVisionV1p1beta1WebDetection = /*@__PURE__*/ S.suspend(()
 
 /** Response to an image annotation request. */
 export interface GoogleCloudVisionV1p1beta1AnnotateImageResponse {
-  /** If present, crop hints have completed successfully. */
-  cropHintsAnnotation?: GoogleCloudVisionV1p1beta1CropHintsAnnotation;
-  /** If present, safe-search annotation has completed successfully. */
-  safeSearchAnnotation?: GoogleCloudVisionV1p1beta1SafeSearchAnnotation;
-  /** If present, product search has completed successfully. */
-  productSearchResults?: GoogleCloudVisionV1p1beta1ProductSearchResults;
-  /** If present, image properties were extracted successfully. */
-  imagePropertiesAnnotation?: GoogleCloudVisionV1p1beta1ImageProperties;
-  /** If set, represents the error message for the operation. Note that filled-in image annotations are guaranteed to be correct, even when `error` is set. */
-  error?: Status;
   /** If present, text (OCR) detection or document (OCR) text detection has completed successfully. This annotation provides the structural hierarchy for the OCR detected text. */
   fullTextAnnotation?: GoogleCloudVisionV1p1beta1TextAnnotation;
+  /** If set, represents the error message for the operation. Note that filled-in image annotations are guaranteed to be correct, even when `error` is set. */
+  error?: Status;
+  /** If present, crop hints have completed successfully. */
+  cropHintsAnnotation?: GoogleCloudVisionV1p1beta1CropHintsAnnotation;
+  /** If present, text (OCR) detection has completed successfully. */
+  textAnnotations?: GoogleCloudVisionV1p1beta1EntityAnnotationList;
   /** If present, face detection has completed successfully. */
   faceAnnotations?: GoogleCloudVisionV1p1beta1FaceAnnotationList;
   /** If present, logo detection has completed successfully. */
   logoAnnotations?: GoogleCloudVisionV1p1beta1EntityAnnotationList;
-  /** If present, localized object detection has completed successfully. This will be sorted descending by confidence score. */
-  localizedObjectAnnotations?: GoogleCloudVisionV1p1beta1LocalizedObjectAnnotationList;
-  /** If present, text (OCR) detection has completed successfully. */
-  textAnnotations?: GoogleCloudVisionV1p1beta1EntityAnnotationList;
-  /** If present, landmark detection has completed successfully. */
-  landmarkAnnotations?: GoogleCloudVisionV1p1beta1EntityAnnotationList;
+  /** If present, product search has completed successfully. */
+  productSearchResults?: GoogleCloudVisionV1p1beta1ProductSearchResults;
   /** If present, label detection has completed successfully. */
   labelAnnotations?: GoogleCloudVisionV1p1beta1EntityAnnotationList;
+  /** If present, safe-search annotation has completed successfully. */
+  safeSearchAnnotation?: GoogleCloudVisionV1p1beta1SafeSearchAnnotation;
+  /** If present, image properties were extracted successfully. */
+  imagePropertiesAnnotation?: GoogleCloudVisionV1p1beta1ImageProperties;
+  /** If present, landmark detection has completed successfully. */
+  landmarkAnnotations?: GoogleCloudVisionV1p1beta1EntityAnnotationList;
   /** If present, contextual information is needed to understand where this image comes from. */
   context?: GoogleCloudVisionV1p1beta1ImageAnnotationContext;
+  /** If present, localized object detection has completed successfully. This will be sorted descending by confidence score. */
+  localizedObjectAnnotations?: GoogleCloudVisionV1p1beta1LocalizedObjectAnnotationList;
   /** If present, web detection has completed successfully. */
   webDetection?: GoogleCloudVisionV1p1beta1WebDetection;
 }
 export const GoogleCloudVisionV1p1beta1AnnotateImageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cropHintsAnnotation: S.optional(GoogleCloudVisionV1p1beta1CropHintsAnnotation),
-    safeSearchAnnotation: S.optional(GoogleCloudVisionV1p1beta1SafeSearchAnnotation),
-    productSearchResults: S.optional(GoogleCloudVisionV1p1beta1ProductSearchResults),
-    imagePropertiesAnnotation: S.optional(GoogleCloudVisionV1p1beta1ImageProperties),
-    error: S.optional(Status),
     fullTextAnnotation: S.optional(GoogleCloudVisionV1p1beta1TextAnnotation),
+    error: S.optional(Status),
+    cropHintsAnnotation: S.optional(GoogleCloudVisionV1p1beta1CropHintsAnnotation),
+    textAnnotations: S.optional(GoogleCloudVisionV1p1beta1EntityAnnotationList),
     faceAnnotations: S.optional(GoogleCloudVisionV1p1beta1FaceAnnotationList),
     logoAnnotations: S.optional(GoogleCloudVisionV1p1beta1EntityAnnotationList),
-    localizedObjectAnnotations: S.optional(GoogleCloudVisionV1p1beta1LocalizedObjectAnnotationList),
-    textAnnotations: S.optional(GoogleCloudVisionV1p1beta1EntityAnnotationList),
-    landmarkAnnotations: S.optional(GoogleCloudVisionV1p1beta1EntityAnnotationList),
+    productSearchResults: S.optional(GoogleCloudVisionV1p1beta1ProductSearchResults),
     labelAnnotations: S.optional(GoogleCloudVisionV1p1beta1EntityAnnotationList),
+    safeSearchAnnotation: S.optional(GoogleCloudVisionV1p1beta1SafeSearchAnnotation),
+    imagePropertiesAnnotation: S.optional(GoogleCloudVisionV1p1beta1ImageProperties),
+    landmarkAnnotations: S.optional(GoogleCloudVisionV1p1beta1EntityAnnotationList),
     context: S.optional(GoogleCloudVisionV1p1beta1ImageAnnotationContext),
+    localizedObjectAnnotations: S.optional(GoogleCloudVisionV1p1beta1LocalizedObjectAnnotationList),
     webDetection: S.optional(GoogleCloudVisionV1p1beta1WebDetection),
   }),
 ).annotate({
@@ -1494,21 +1504,21 @@ export const GoogleCloudVisionV1p1beta1AnnotateImageResponseList = /*@__PURE__*/
 
 /** Response to a single file annotation request. A file may contain one or more images, which individually have their own responses. */
 export interface GoogleCloudVisionV1p1beta1AnnotateFileResponse {
-  /** If set, represents the error message for the failed request. The `responses` field will not be set in this case. */
-  error?: Status;
-  /** Individual responses to images found within the file. This field will be empty if the `error` field is set. */
-  responses?: GoogleCloudVisionV1p1beta1AnnotateImageResponseList;
-  /** This field gives the total number of pages in the file. */
-  totalPages?: number;
   /** Information about the file for which this response is generated. */
   inputConfig?: GoogleCloudVisionV1p1beta1InputConfig;
+  /** If set, represents the error message for the failed request. The `responses` field will not be set in this case. */
+  error?: Status;
+  /** This field gives the total number of pages in the file. */
+  totalPages?: number;
+  /** Individual responses to images found within the file. This field will be empty if the `error` field is set. */
+  responses?: GoogleCloudVisionV1p1beta1AnnotateImageResponseList;
 }
 export const GoogleCloudVisionV1p1beta1AnnotateFileResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    error: S.optional(Status),
-    responses: S.optional(GoogleCloudVisionV1p1beta1AnnotateImageResponseList),
-    totalPages: S.optional(S.Number),
     inputConfig: S.optional(GoogleCloudVisionV1p1beta1InputConfig),
+    error: S.optional(Status),
+    totalPages: S.optional(S.Number),
+    responses: S.optional(GoogleCloudVisionV1p1beta1AnnotateImageResponseList),
   }),
 ).annotate({
   identifier: "GoogleCloudVisionV1p1beta1AnnotateFileResponse",
@@ -1535,15 +1545,15 @@ export const GoogleCloudVisionV1p1beta1BatchAnnotateFilesResponse = /*@__PURE__*
 
 /** External image source (Google Cloud Storage or web URL image location). */
 export interface GoogleCloudVisionV1p1beta1ImageSource {
-  /** **Use `image_uri` instead.** The Google Cloud Storage URI of the form `gs://bucket_name/object_name`. Object versioning is not supported. See [Google Cloud Storage Request URIs](https://cloud.google.com/storage/docs/reference-uris) for more info. */
-  gcsImageUri?: string;
   /** The URI of the source image. Can be either: 1. A Google Cloud Storage URI of the form `gs://bucket_name/object_name`. Object versioning is not supported. See [Google Cloud Storage Request URIs](https://cloud.google.com/storage/docs/reference-uris) for more info. 2. A publicly-accessible image HTTP/HTTPS URL. When fetching images from HTTP/HTTPS URLs, Google cannot guarantee that the request will be completed. Your request may fail if the specified host denies the request (e.g. due to request throttling or DOS prevention), or if Google throttles requests to the site for abuse prevention. You should not depend on externally-hosted images for production applications. When both `gcs_image_uri` and `image_uri` are specified, `image_uri` takes precedence. */
   imageUri?: string;
+  /** **Use `image_uri` instead.** The Google Cloud Storage URI of the form `gs://bucket_name/object_name`. Object versioning is not supported. See [Google Cloud Storage Request URIs](https://cloud.google.com/storage/docs/reference-uris) for more info. */
+  gcsImageUri?: string;
 }
 export const GoogleCloudVisionV1p1beta1ImageSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    gcsImageUri: S.optional(S.String),
     imageUri: S.optional(S.String),
+    gcsImageUri: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudVisionV1p1beta1ImageSource",
@@ -1551,15 +1561,15 @@ export const GoogleCloudVisionV1p1beta1ImageSource = /*@__PURE__*/ S.suspend(() 
 
 /** Client image to perform Google Cloud Vision API tasks over. */
 export interface GoogleCloudVisionV1p1beta1Image {
-  /** Image content, represented as a stream of bytes. Note: As with all `bytes` fields, protobuffers use a pure binary representation, whereas JSON representations use base64. Currently, this field only works for BatchAnnotateImages requests. It does not work for AsyncBatchAnnotateImages requests. */
-  content?: string;
   /** Google Cloud Storage image location, or publicly-accessible image URL. If both `content` and `source` are provided for an image, `content` takes precedence and is used to perform the image annotation request. */
   source?: GoogleCloudVisionV1p1beta1ImageSource;
+  /** Image content, represented as a stream of bytes. Note: As with all `bytes` fields, protobuffers use a pure binary representation, whereas JSON representations use base64. Currently, this field only works for BatchAnnotateImages requests. It does not work for AsyncBatchAnnotateImages requests. */
+  content?: string;
 }
 export const GoogleCloudVisionV1p1beta1Image = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    content: S.optional(S.String),
     source: S.optional(GoogleCloudVisionV1p1beta1ImageSource),
+    content: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudVisionV1p1beta1Image",
@@ -1567,18 +1577,18 @@ export const GoogleCloudVisionV1p1beta1Image = /*@__PURE__*/ S.suspend(() =>
 
 /** Request for performing Google Cloud Vision API tasks over a user-provided image, with user-requested features, and with context information. */
 export interface GoogleCloudVisionV1p1beta1AnnotateImageRequest {
+  /** Requested features. */
+  features?: GoogleCloudVisionV1p1beta1FeatureList;
   /** Additional context that may accompany the image. */
   imageContext?: GoogleCloudVisionV1p1beta1ImageContext;
   /** The image to be processed. */
   image?: GoogleCloudVisionV1p1beta1Image;
-  /** Requested features. */
-  features?: GoogleCloudVisionV1p1beta1FeatureList;
 }
 export const GoogleCloudVisionV1p1beta1AnnotateImageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    features: S.optional(GoogleCloudVisionV1p1beta1FeatureList),
     imageContext: S.optional(GoogleCloudVisionV1p1beta1ImageContext),
     image: S.optional(GoogleCloudVisionV1p1beta1Image),
-    features: S.optional(GoogleCloudVisionV1p1beta1FeatureList),
   }),
 ).annotate({
   identifier: "GoogleCloudVisionV1p1beta1AnnotateImageRequest",
@@ -1594,16 +1604,16 @@ export const GoogleCloudVisionV1p1beta1AnnotateImageRequestList = /*@__PURE__*/ 
 export interface GoogleCloudVisionV1p1beta1BatchAnnotateImagesRequest {
   /** Optional. The labels with user-defined metadata for the request. Label keys and values can be no longer than 63 characters (Unicode codepoints), can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter. */
   labels?: StringMap;
-  /** Required. Individual image annotation requests for this batch. */
-  requests?: GoogleCloudVisionV1p1beta1AnnotateImageRequestList;
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent?: string;
+  /** Required. Individual image annotation requests for this batch. */
+  requests?: GoogleCloudVisionV1p1beta1AnnotateImageRequestList;
 }
 export const GoogleCloudVisionV1p1beta1BatchAnnotateImagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     labels: S.optional(StringMap),
-    requests: S.optional(GoogleCloudVisionV1p1beta1AnnotateImageRequestList),
     parent: S.optional(S.String),
+    requests: S.optional(GoogleCloudVisionV1p1beta1AnnotateImageRequestList),
   }),
 ).annotate({
   identifier: "GoogleCloudVisionV1p1beta1BatchAnnotateImagesRequest",
@@ -1623,9 +1633,7 @@ export const AnnotateImagesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://vision.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "AnnotateImagesRequest",
-}) as any as S.Schema<AnnotateImagesRequest>;
+).annotate({ identifier: "AnnotateImagesRequest" }) as any as S.Schema<AnnotateImagesRequest>;
 
 /** Response to a batch image annotation request. */
 export interface GoogleCloudVisionV1p1beta1BatchAnnotateImagesResponse {
@@ -1739,15 +1747,15 @@ export const GoogleCloudVisionV1p1beta1GcsDestination = /*@__PURE__*/ S.suspend(
 
 /** The desired output location and metadata. */
 export interface GoogleCloudVisionV1p1beta1OutputConfig {
-  /** The Google Cloud Storage location to write the output(s) to. */
-  gcsDestination?: GoogleCloudVisionV1p1beta1GcsDestination;
   /** The max number of response protos to put into each output JSON file on Google Cloud Storage. The valid range is [1, 100]. If not specified, the default value is 20. For example, for one pdf file with 100 pages, 100 response protos will be generated. If `batch_size` = 20, then 5 json files each containing 20 response protos will be written under the prefix `gcs_destination`.`uri`. Currently, batch_size only applies to GcsDestination, with potential future support for other output configurations. */
   batchSize?: number;
+  /** The Google Cloud Storage location to write the output(s) to. */
+  gcsDestination?: GoogleCloudVisionV1p1beta1GcsDestination;
 }
 export const GoogleCloudVisionV1p1beta1OutputConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    gcsDestination: S.optional(GoogleCloudVisionV1p1beta1GcsDestination),
     batchSize: S.optional(S.Number),
+    gcsDestination: S.optional(GoogleCloudVisionV1p1beta1GcsDestination),
   }),
 ).annotate({
   identifier: "GoogleCloudVisionV1p1beta1OutputConfig",
@@ -1755,21 +1763,21 @@ export const GoogleCloudVisionV1p1beta1OutputConfig = /*@__PURE__*/ S.suspend(()
 
 /** An offline file annotation request. */
 export interface GoogleCloudVisionV1p1beta1AsyncAnnotateFileRequest {
-  /** Additional context that may accompany the image(s) in the file. */
-  imageContext?: GoogleCloudVisionV1p1beta1ImageContext;
-  /** Required. Requested features. */
-  features?: GoogleCloudVisionV1p1beta1FeatureList;
-  /** Required. The desired output location and metadata (e.g. format). */
-  outputConfig?: GoogleCloudVisionV1p1beta1OutputConfig;
   /** Required. Information about the input file. */
   inputConfig?: GoogleCloudVisionV1p1beta1InputConfig;
+  /** Additional context that may accompany the image(s) in the file. */
+  imageContext?: GoogleCloudVisionV1p1beta1ImageContext;
+  /** Required. The desired output location and metadata (e.g. format). */
+  outputConfig?: GoogleCloudVisionV1p1beta1OutputConfig;
+  /** Required. Requested features. */
+  features?: GoogleCloudVisionV1p1beta1FeatureList;
 }
 export const GoogleCloudVisionV1p1beta1AsyncAnnotateFileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    imageContext: S.optional(GoogleCloudVisionV1p1beta1ImageContext),
-    features: S.optional(GoogleCloudVisionV1p1beta1FeatureList),
-    outputConfig: S.optional(GoogleCloudVisionV1p1beta1OutputConfig),
     inputConfig: S.optional(GoogleCloudVisionV1p1beta1InputConfig),
+    imageContext: S.optional(GoogleCloudVisionV1p1beta1ImageContext),
+    outputConfig: S.optional(GoogleCloudVisionV1p1beta1OutputConfig),
+    features: S.optional(GoogleCloudVisionV1p1beta1FeatureList),
   }),
 ).annotate({
   identifier: "GoogleCloudVisionV1p1beta1AsyncAnnotateFileRequest",
@@ -1821,24 +1829,24 @@ export const AsyncBatchAnnotateFilesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    error: S.optional(Status),
-    metadata: S.optional(DocumentMap),
-    done: S.optional(S.Boolean),
     response: S.optional(DocumentMap),
+    name: S.optional(S.String),
+    done: S.optional(S.Boolean),
+    metadata: S.optional(DocumentMap),
+    error: S.optional(Status),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
@@ -1848,18 +1856,18 @@ export interface GoogleCloudVisionV1p1beta1AsyncBatchAnnotateImagesRequest {
   labels?: StringMap;
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent?: string;
-  /** Required. Individual image annotation requests for this batch. */
-  requests?: GoogleCloudVisionV1p1beta1AnnotateImageRequestList;
   /** Required. The desired output location and metadata (e.g. format). */
   outputConfig?: GoogleCloudVisionV1p1beta1OutputConfig;
+  /** Required. Individual image annotation requests for this batch. */
+  requests?: GoogleCloudVisionV1p1beta1AnnotateImageRequestList;
 }
 export const GoogleCloudVisionV1p1beta1AsyncBatchAnnotateImagesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       labels: S.optional(StringMap),
       parent: S.optional(S.String),
-      requests: S.optional(GoogleCloudVisionV1p1beta1AnnotateImageRequestList),
       outputConfig: S.optional(GoogleCloudVisionV1p1beta1OutputConfig),
+      requests: S.optional(GoogleCloudVisionV1p1beta1AnnotateImageRequestList),
     }),
 ).annotate({
   identifier: "GoogleCloudVisionV1p1beta1AsyncBatchAnnotateImagesRequest",

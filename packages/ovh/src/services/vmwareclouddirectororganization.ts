@@ -40,13 +40,7 @@ export interface GetVmwareCloudDirectorBackupRequest {
 export const GetVmwareCloudDirectorBackupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     backupId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vmwareCloudDirector/backup/{backupId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/vmwareCloudDirector/backup/{backupId}", code: 200 })),
 ).annotate({
   identifier: "GetVmwareCloudDirectorBackupRequest",
 }) as any as S.Schema<GetVmwareCloudDirectorBackupRequest>;
@@ -166,9 +160,7 @@ export const CommonCurrentTask = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.NullOr(CommonCurrentTaskStatusEnum)),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CommonCurrentTask",
-}) as any as S.Schema<CommonCurrentTask>;
+).annotate({ identifier: "CommonCurrentTask" }) as any as S.Schema<CommonCurrentTask>;
 
 /** Asynchronous operations ongoing on the VMware Cloud Director organization backup service */
 export type VmwareCloudDirectorBackupBackupDetailsWithIAMCurrentTasksList =
@@ -202,9 +194,7 @@ export const IamResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(IamResourceMetadataTagsMap)),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamResourceMetadata",
-}) as any as S.Schema<IamResourceMetadata>;
+).annotate({ identifier: "IamResourceMetadata" }) as any as S.Schema<IamResourceMetadata>;
 
 /** VMware Cloud Director Backup target */
 export interface VmwareCloudDirectorBackupTargetOffer {
@@ -306,9 +296,7 @@ export const CommonTaskError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CommonTaskError",
-}) as any as S.Schema<CommonTaskError>;
+).annotate({ identifier: "CommonTaskError" }) as any as S.Schema<CommonTaskError>;
 
 /** Errors that occured on the task */
 export type CommonTaskErrorsList = Array<CommonTaskError>;
@@ -332,9 +320,7 @@ export const CommonTaskProgress = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     status: S.optional(CommonTaskStatusEnum),
   }),
-).annotate({
-  identifier: "CommonTaskProgress",
-}) as any as S.Schema<CommonTaskProgress>;
+).annotate({ identifier: "CommonTaskProgress" }) as any as S.Schema<CommonTaskProgress>;
 
 /** Progress steps of the asynchronous operation */
 export type CommonTaskProgressList = Array<CommonTaskProgress>;
@@ -391,11 +377,7 @@ export const GetVmwareCloudDirectorOrganizationRequest = /*@__PURE__*/ S.suspend
   S.Struct({
     organizationId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vmwareCloudDirector/organization/{organizationId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/vmwareCloudDirector/organization/{organizationId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetVmwareCloudDirectorOrganizationRequest",
@@ -880,11 +862,7 @@ export const ListVmwareCloudDirectorBackupEventRequest = /*@__PURE__*/ S.suspend
     xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
     xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vmwareCloudDirector/backup/{backupId}/event",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/vmwareCloudDirector/backup/{backupId}/event", code: 200 }),
   ),
 ).annotate({
   identifier: "ListVmwareCloudDirectorBackupEventRequest",
@@ -947,13 +925,7 @@ export const ListVmwareCloudDirectorBackupTaskRequest = /*@__PURE__*/ S.suspend(
     backupId: S.String.pipe(T.Label()),
     xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
     xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vmwareCloudDirector/backup/{backupId}/task",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/vmwareCloudDirector/backup/{backupId}/task", code: 200 })),
 ).annotate({
   identifier: "ListVmwareCloudDirectorBackupTaskRequest",
 }) as any as S.Schema<ListVmwareCloudDirectorBackupTaskRequest>;
@@ -998,13 +970,7 @@ export const ListVmwareCloudDirectorOrganizationRequest = /*@__PURE__*/ S.suspen
     iamTags: S.optional(ListVmwareCloudDirectorOrganizationRequestIamTagsMap.pipe(T.Query())),
     xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
     xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vmwareCloudDirector/organization",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/vmwareCloudDirector/organization", code: 200 })),
 ).annotate({
   identifier: "ListVmwareCloudDirectorOrganizationRequest",
 }) as any as S.Schema<ListVmwareCloudDirectorOrganizationRequest>;
@@ -1411,13 +1377,7 @@ export const ListVmwareCloudDirectorReferenceRegionRequest = /*@__PURE__*/ S.sus
   S.Struct({
     xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
     xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vmwareCloudDirector/reference/region",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/vmwareCloudDirector/reference/region", code: 200 })),
 ).annotate({
   identifier: "ListVmwareCloudDirectorReferenceRegionRequest",
 }) as any as S.Schema<ListVmwareCloudDirectorReferenceRegionRequest>;
@@ -1478,13 +1438,7 @@ export const PutVmwareCloudDirectorBackupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     backupId: S.String.pipe(T.Label()),
     targetSpec: VmwareCloudDirectorBackupTargetSpec,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/vmwareCloudDirector/backup/{backupId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/vmwareCloudDirector/backup/{backupId}", code: 200 })),
 ).annotate({
   identifier: "PutVmwareCloudDirectorBackupRequest",
 }) as any as S.Schema<PutVmwareCloudDirectorBackupRequest>;
@@ -1535,11 +1489,7 @@ export const PutVmwareCloudDirectorOrganizationRequest = /*@__PURE__*/ S.suspend
     organizationId: S.String.pipe(T.Label()),
     targetSpec: VmwareCloudDirectorOrganizationTargetSpec,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/vmwareCloudDirector/organization/{organizationId}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/vmwareCloudDirector/organization/{organizationId}", code: 200 }),
   ),
 ).annotate({
   identifier: "PutVmwareCloudDirectorOrganizationRequest",

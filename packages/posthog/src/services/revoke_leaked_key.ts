@@ -48,9 +48,7 @@ export const LeakedKeyReportResponse = /*@__PURE__*/ S.suspend(() =>
     found: S.Boolean,
     type: S.NullOr(LeakedKeyReportResponseTypeEnum),
   }),
-).annotate({
-  identifier: "LeakedKeyReportResponse",
-}) as any as S.Schema<LeakedKeyReportResponse>;
+).annotate({ identifier: "LeakedKeyReportResponse" }) as any as S.Schema<LeakedKeyReportResponse>;
 
 export type RevokeLeakedKeyCreateError = BadRequest | PosthogOpError;
 /** Report and revoke a leaked PostHog API key or token Public, unauthenticated endpoint for self-service revocation of a leaked PostHog personal API key, project secret API key, or OAuth access/refresh token. If the token matches a real credential, it is revoked immediately and the owner is notified by email. This includes an expired OAuth access token: the paired refresh token it protects may still be live. This endpoint only checks the region it is running on. `"found": false` does not guarantee the token is safe. If you're not sure which region issued it, check both: https://app.posthog.com/api/revoke_leaked_key and https://eu.posthog.com/api/revoke_leaked_key. */

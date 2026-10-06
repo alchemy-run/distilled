@@ -63,15 +63,15 @@ export class NotFound
 
 /** Request message for ApproveChangeRequest. */
 export interface GoogleCloudDataplexV1ApproveChangeRequestRequest {
-  /** Optional. The etag of the ChangeRequest. */
-  etag?: string;
   /** Optional. The comment or reason for approving the ChangeRequest. Maximum length is 1024 characters. */
   comment?: string;
+  /** Optional. The etag of the ChangeRequest. */
+  etag?: string;
 }
 export const GoogleCloudDataplexV1ApproveChangeRequestRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    etag: S.optional(S.String),
     comment: S.optional(S.String),
+    etag: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1ApproveChangeRequestRequest",
@@ -98,149 +98,101 @@ export const ApproveProjectsLocationsChangeRequestsRequest = /*@__PURE__*/ S.sus
   identifier: "ApproveProjectsLocationsChangeRequestsRequest",
 }) as any as S.Schema<ApproveProjectsLocationsChangeRequestsRequest>;
 
-/** Delete Glossary Request */
-export interface GoogleCloudDataplexV1DeleteGlossaryRequest {
-  /** Required. The name of the Glossary to delete. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} */
-  name?: string;
-  /** Optional. The etag of the Glossary. If this is provided, it must match the server's etag. If the etag is provided and does not match the server-computed etag, the request must fail with a ABORTED error code. */
-  etag?: string;
-}
-export const GoogleCloudDataplexV1DeleteGlossaryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    etag: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DeleteGlossaryRequest",
-}) as any as S.Schema<GoogleCloudDataplexV1DeleteGlossaryRequest>;
-
-/** Delete GlossaryTerm Request */
-export interface GoogleCloudDataplexV1DeleteGlossaryTermRequest {
-  /** Required. The name of the GlossaryTerm to delete. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/terms/{term_id} */
-  name?: string;
-}
-export const GoogleCloudDataplexV1DeleteGlossaryTermRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DeleteGlossaryTermRequest",
-}) as any as S.Schema<GoogleCloudDataplexV1DeleteGlossaryTermRequest>;
-
 export type StringMap = { [key: string]: string | undefined };
 export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
 
-/** A GlossaryCategory represents a collection of GlossaryCategories and GlossaryTerms within a Glossary that are related to each other. */
-export interface GoogleCloudDataplexV1GlossaryCategory {
-  /** Output only. System generated unique id for the GlossaryCategory. This ID will be different if the GlossaryCategory is deleted and re-created with the same name. */
-  uid?: string;
-  /** Required. The immediate parent of the GlossaryCategory in the resource-hierarchy. It can either be a Glossary or a GlossaryCategory. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} OR projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/categories/{category_id} */
-  parent?: string;
-  /** Optional. The user-mutable description of the GlossaryCategory. */
-  description?: string;
-  /** Output only. The time at which the GlossaryCategory was created. */
-  createTime?: string;
-  /** Optional. User-defined labels for the GlossaryCategory. */
+/** GlossaryTerms are the core of Glossary. A GlossaryTerm holds a rich text description that can be attached to Entries or specific columns to enrich them. */
+export interface GoogleCloudDataplexV1GlossaryTerm {
+  /** Optional. User-defined labels for the GlossaryTerm. */
   labels?: StringMap;
-  /** Output only. Identifier. The resource name of the GlossaryCategory. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/categories/{category_id} */
-  name?: string;
-  /** Optional. User friendly display name of the GlossaryCategory. This is user-mutable. This will be same as the GlossaryCategoryId, if not specified. */
-  displayName?: string;
-  /** Output only. The time at which the GlossaryCategory was last updated. */
+  /** Output only. The time at which the GlossaryTerm was created. */
+  createTime?: string;
+  /** Optional. The user-mutable description of the GlossaryTerm. */
+  description?: string;
+  /** Output only. System generated unique id for the GlossaryTerm. This ID will be different if the GlossaryTerm is deleted and re-created with the same name. */
+  uid?: string;
+  /** Output only. The time at which the GlossaryTerm was last updated. */
   updateTime?: string;
+  /** Output only. Identifier. The resource name of the GlossaryTerm. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/terms/{term_id} */
+  name?: string;
+  /** Optional. User friendly display name of the GlossaryTerm. This is user-mutable. This will be same as the GlossaryTermId, if not specified. */
+  displayName?: string;
+  /** Required. The immediate parent of the GlossaryTerm in the resource-hierarchy. It can either be a Glossary or a GlossaryCategory. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} OR projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/categories/{category_id} */
+  parent?: string;
 }
-export const GoogleCloudDataplexV1GlossaryCategory = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudDataplexV1GlossaryTerm = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    uid: S.optional(S.String),
-    parent: S.optional(S.String),
-    description: S.optional(S.String),
-    createTime: S.optional(S.String),
     labels: S.optional(StringMap),
+    createTime: S.optional(S.String),
+    description: S.optional(S.String),
+    uid: S.optional(S.String),
+    updateTime: S.optional(S.String),
     name: S.optional(S.String),
     displayName: S.optional(S.String),
-    updateTime: S.optional(S.String),
+    parent: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "GoogleCloudDataplexV1GlossaryCategory",
-}) as any as S.Schema<GoogleCloudDataplexV1GlossaryCategory>;
+  identifier: "GoogleCloudDataplexV1GlossaryTerm",
+}) as any as S.Schema<GoogleCloudDataplexV1GlossaryTerm>;
 
-/** Update GlossaryCategory Request */
-export interface GoogleCloudDataplexV1UpdateGlossaryCategoryRequest {
-  /** Required. The GlossaryCategory to update. The GlossaryCategory's name field is used to identify the GlossaryCategory to update. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/categories/{category_id} */
-  category?: GoogleCloudDataplexV1GlossaryCategory;
-  /** Required. The list of fields to update. */
-  updateMask?: string;
+/** Creates a new GlossaryTerm under the specified Glossary. */
+export interface GoogleCloudDataplexV1CreateGlossaryTermRequest {
+  /** Required. The GlossaryTerm to create. */
+  term?: GoogleCloudDataplexV1GlossaryTerm;
+  /** Required. The parent resource where the GlossaryTerm will be created. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} where location_id refers to a Google Cloud region. */
+  parent?: string;
+  /** Required. GlossaryTerm identifier. */
+  termId?: string;
 }
-export const GoogleCloudDataplexV1UpdateGlossaryCategoryRequest = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudDataplexV1CreateGlossaryTermRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    category: S.optional(GoogleCloudDataplexV1GlossaryCategory),
-    updateMask: S.optional(S.String),
+    term: S.optional(GoogleCloudDataplexV1GlossaryTerm),
+    parent: S.optional(S.String),
+    termId: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "GoogleCloudDataplexV1UpdateGlossaryCategoryRequest",
-}) as any as S.Schema<GoogleCloudDataplexV1UpdateGlossaryCategoryRequest>;
+  identifier: "GoogleCloudDataplexV1CreateGlossaryTermRequest",
+}) as any as S.Schema<GoogleCloudDataplexV1CreateGlossaryTermRequest>;
 
 /** A Glossary represents a collection of GlossaryCategories and GlossaryTerms defined by the user. Glossary is a top level resource and is the Google Cloud parent resource of all the GlossaryCategories and GlossaryTerms within it. */
 export interface GoogleCloudDataplexV1Glossary {
-  /** Output only. The time at which the Glossary was created. */
-  createTime?: string;
-  /** Output only. System generated unique id for the Glossary. This ID will be different if the Glossary is deleted and re-created with the same name. */
-  uid?: string;
-  /** Output only. The time at which the Glossary was last updated. */
-  updateTime?: string;
-  /** Output only. The number of GlossaryCategories in the Glossary. */
-  categoryCount?: number;
-  /** Output only. Identifier. The resource name of the Glossary. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} */
-  name?: string;
-  /** Optional. User-defined labels for the Glossary. */
-  labels?: StringMap;
   /** Optional. The user-mutable description of the Glossary. */
   description?: string;
-  /** Output only. The number of GlossaryTerms in the Glossary. */
-  termCount?: number;
-  /** Optional. User friendly display name of the Glossary. This is user-mutable. This will be same as the GlossaryId, if not specified. */
-  displayName?: string;
   /** Optional. Needed for resource freshness validation. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
   etag?: string;
+  /** Output only. Identifier. The resource name of the Glossary. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} */
+  name?: string;
+  /** Output only. The number of GlossaryTerms in the Glossary. */
+  termCount?: number;
+  /** Output only. The time at which the Glossary was last updated. */
+  updateTime?: string;
+  /** Output only. System generated unique id for the Glossary. This ID will be different if the Glossary is deleted and re-created with the same name. */
+  uid?: string;
+  /** Output only. The number of GlossaryCategories in the Glossary. */
+  categoryCount?: number;
+  /** Optional. User friendly display name of the Glossary. This is user-mutable. This will be same as the GlossaryId, if not specified. */
+  displayName?: string;
+  /** Optional. User-defined labels for the Glossary. */
+  labels?: StringMap;
+  /** Output only. The time at which the Glossary was created. */
+  createTime?: string;
 }
 export const GoogleCloudDataplexV1Glossary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createTime: S.optional(S.String),
-    uid: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    categoryCount: S.optional(S.Number),
-    name: S.optional(S.String),
-    labels: S.optional(StringMap),
     description: S.optional(S.String),
-    termCount: S.optional(S.Number),
-    displayName: S.optional(S.String),
     etag: S.optional(S.String),
+    name: S.optional(S.String),
+    termCount: S.optional(S.Number),
+    updateTime: S.optional(S.String),
+    uid: S.optional(S.String),
+    categoryCount: S.optional(S.Number),
+    displayName: S.optional(S.String),
+    labels: S.optional(StringMap),
+    createTime: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1Glossary",
 }) as any as S.Schema<GoogleCloudDataplexV1Glossary>;
-
-/** Create Glossary Request */
-export interface GoogleCloudDataplexV1CreateGlossaryRequest {
-  /** Required. The Glossary to create. */
-  glossary?: GoogleCloudDataplexV1Glossary;
-  /** Required. The parent resource where this Glossary will be created. Format: projects/{project_id_or_number}/locations/{location_id} where location_id refers to a Google Cloud region. */
-  parent?: string;
-  /** Required. Glossary ID: Glossary identifier. */
-  glossaryId?: string;
-  /** Optional. Validates the request without actually creating the Glossary. Default: false. */
-  validateOnly?: boolean;
-}
-export const GoogleCloudDataplexV1CreateGlossaryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    glossary: S.optional(GoogleCloudDataplexV1Glossary),
-    parent: S.optional(S.String),
-    glossaryId: S.optional(S.String),
-    validateOnly: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1CreateGlossaryRequest",
-}) as any as S.Schema<GoogleCloudDataplexV1CreateGlossaryRequest>;
 
 /** Update Glossary Request */
 export interface GoogleCloudDataplexV1UpdateGlossaryRequest {
@@ -260,195 +212,6 @@ export const GoogleCloudDataplexV1UpdateGlossaryRequest = /*@__PURE__*/ S.suspen
 ).annotate({
   identifier: "GoogleCloudDataplexV1UpdateGlossaryRequest",
 }) as any as S.Schema<GoogleCloudDataplexV1UpdateGlossaryRequest>;
-
-export type GoogleCloudDataplexV1EntryLinkEntryReferenceTypeEnum =
-  | "UNSPECIFIED"
-  | "SOURCE"
-  | "TARGET";
-export const GoogleCloudDataplexV1EntryLinkEntryReferenceTypeEnum = S.String;
-
-/** Reference to the Entry that is linked through the Entry Link. */
-export interface GoogleCloudDataplexV1EntryLinkEntryReference {
-  /** Required. Immutable. The reference type of the Entry. */
-  type?: GoogleCloudDataplexV1EntryLinkEntryReferenceTypeEnum | (string & {});
-  /** Required. Immutable. The relative resource name of the referenced Entry, of the form: projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}/entries/{entry_id} */
-  name?: string;
-  /** Immutable. The path in the Entry that is referenced in the Entry Link. Empty path denotes that the Entry itself is referenced in the Entry Link. */
-  path?: string;
-}
-export const GoogleCloudDataplexV1EntryLinkEntryReference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(GoogleCloudDataplexV1EntryLinkEntryReferenceTypeEnum),
-    name: S.optional(S.String),
-    path: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1EntryLinkEntryReference",
-}) as any as S.Schema<GoogleCloudDataplexV1EntryLinkEntryReference>;
-
-export type GoogleCloudDataplexV1EntryLinkEntryReferenceList =
-  Array<GoogleCloudDataplexV1EntryLinkEntryReference>;
-export const GoogleCloudDataplexV1EntryLinkEntryReferenceList = /*@__PURE__*/ S.Array(
-  GoogleCloudDataplexV1EntryLinkEntryReference,
-) as any as S.Schema<GoogleCloudDataplexV1EntryLinkEntryReferenceList>;
-
-/** Information related to the source system of the aspect. */
-export interface GoogleCloudDataplexV1AspectSource {
-  /** The time the aspect was last updated in the source system. */
-  updateTime?: string;
-  /** The time the aspect was created in the source system. */
-  createTime?: string;
-  /** The version of the data format used to produce this data. This field is used to indicated when the underlying data format changes (e.g., schema modifications, changes to the source URL format definition, etc). */
-  dataVersion?: string;
-}
-export const GoogleCloudDataplexV1AspectSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    updateTime: S.optional(S.String),
-    createTime: S.optional(S.String),
-    dataVersion: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1AspectSource",
-}) as any as S.Schema<GoogleCloudDataplexV1AspectSource>;
-
-export type DocumentMap = { [key: string]: unknown | undefined };
-export const DocumentMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<DocumentMap>;
-
-/** Represents a single piece of metadata describing an entry or entry link. */
-export interface GoogleCloudDataplexV1Aspect {
-  /** Output only. The path in the entry under which the aspect is attached. */
-  path?: string;
-  /** Output only. The time when the Aspect was last updated. */
-  updateTime?: string;
-  /** Output only. The resource name of the type used to create this Aspect. */
-  aspectType?: string;
-  /** Output only. The time when the Aspect was created. */
-  createTime?: string;
-  /** Optional. Information related to the source system of the aspect. */
-  aspectSource?: GoogleCloudDataplexV1AspectSource;
-  /** Required. The content of the aspect, according to its aspect type schema. The maximum size of the field is 120KB (encoded as UTF-8). */
-  data?: DocumentMap;
-}
-export const GoogleCloudDataplexV1Aspect = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    path: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    aspectType: S.optional(S.String),
-    createTime: S.optional(S.String),
-    aspectSource: S.optional(GoogleCloudDataplexV1AspectSource),
-    data: S.optional(DocumentMap),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1Aspect",
-}) as any as S.Schema<GoogleCloudDataplexV1Aspect>;
-
-export type GoogleCloudDataplexV1AspectMap = {
-  [key: string]: GoogleCloudDataplexV1Aspect | undefined;
-};
-export const GoogleCloudDataplexV1AspectMap = /*@__PURE__*/ S.Record(
-  S.String,
-  GoogleCloudDataplexV1Aspect,
-) as any as S.Schema<GoogleCloudDataplexV1AspectMap>;
-
-/** EntryLink represents a link between two Entries. */
-export interface GoogleCloudDataplexV1EntryLink {
-  /** Required. Immutable. Relative resource name of the Entry Link Type used to create this Entry Link. For example: Entry link between synonym terms in a glossary: projects/dataplex-types/locations/global/entryLinkTypes/synonym Entry link between related terms in a glossary: projects/dataplex-types/locations/global/entryLinkTypes/related Entry link between glossary terms and data assets: projects/dataplex-types/locations/global/entryLinkTypes/definition */
-  entryLinkType?: string;
-  /** Output only. The time when the Entry Link was created. */
-  createTime?: string;
-  /** Required. Immutable. Specifies the Entries referenced in the Entry Link. There should be exactly two entry references. */
-  entryReferences?: GoogleCloudDataplexV1EntryLinkEntryReferenceList;
-  /** Optional. The aspects that are attached to the entry link. The format of the aspect key has to be the following: {project_id_or_number}.{location_id}.{aspect_type_id} Currently, only a single aspect of a Dataplex-owned Aspect Type is allowed. */
-  aspects?: GoogleCloudDataplexV1AspectMap;
-  /** Output only. Immutable. Identifier. The relative resource name of the Entry Link, of the form: projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}/entryLinks/{entry_link_id} */
-  name?: string;
-  /** Output only. The time when the Entry Link was last updated. */
-  updateTime?: string;
-}
-export const GoogleCloudDataplexV1EntryLink = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    entryLinkType: S.optional(S.String),
-    createTime: S.optional(S.String),
-    entryReferences: S.optional(GoogleCloudDataplexV1EntryLinkEntryReferenceList),
-    aspects: S.optional(GoogleCloudDataplexV1AspectMap),
-    name: S.optional(S.String),
-    updateTime: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1EntryLink",
-}) as any as S.Schema<GoogleCloudDataplexV1EntryLink>;
-
-/** Request message for CreateEntryLink. */
-export interface GoogleCloudDataplexV1CreateEntryLinkRequest {
-  /** Required. The resource name of the parent Entry Group: projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}. */
-  parent?: string;
-  /** Required. Entry Link identifier * Must contain only lowercase letters, numbers and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the EntryGroup. */
-  entryLinkId?: string;
-  /** Required. Entry Link resource. */
-  entryLink?: GoogleCloudDataplexV1EntryLink;
-}
-export const GoogleCloudDataplexV1CreateEntryLinkRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    parent: S.optional(S.String),
-    entryLinkId: S.optional(S.String),
-    entryLink: S.optional(GoogleCloudDataplexV1EntryLink),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1CreateEntryLinkRequest",
-}) as any as S.Schema<GoogleCloudDataplexV1CreateEntryLinkRequest>;
-
-/** GlossaryTerms are the core of Glossary. A GlossaryTerm holds a rich text description that can be attached to Entries or specific columns to enrich them. */
-export interface GoogleCloudDataplexV1GlossaryTerm {
-  /** Optional. User-defined labels for the GlossaryTerm. */
-  labels?: StringMap;
-  /** Output only. System generated unique id for the GlossaryTerm. This ID will be different if the GlossaryTerm is deleted and re-created with the same name. */
-  uid?: string;
-  /** Required. The immediate parent of the GlossaryTerm in the resource-hierarchy. It can either be a Glossary or a GlossaryCategory. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} OR projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/categories/{category_id} */
-  parent?: string;
-  /** Optional. The user-mutable description of the GlossaryTerm. */
-  description?: string;
-  /** Output only. The time at which the GlossaryTerm was created. */
-  createTime?: string;
-  /** Output only. The time at which the GlossaryTerm was last updated. */
-  updateTime?: string;
-  /** Output only. Identifier. The resource name of the GlossaryTerm. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/terms/{term_id} */
-  name?: string;
-  /** Optional. User friendly display name of the GlossaryTerm. This is user-mutable. This will be same as the GlossaryTermId, if not specified. */
-  displayName?: string;
-}
-export const GoogleCloudDataplexV1GlossaryTerm = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    labels: S.optional(StringMap),
-    uid: S.optional(S.String),
-    parent: S.optional(S.String),
-    description: S.optional(S.String),
-    createTime: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    name: S.optional(S.String),
-    displayName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1GlossaryTerm",
-}) as any as S.Schema<GoogleCloudDataplexV1GlossaryTerm>;
-
-/** Update GlossaryTerm Request */
-export interface GoogleCloudDataplexV1UpdateGlossaryTermRequest {
-  /** Required. The GlossaryTerm to update. The GlossaryTerm's name field is used to identify the GlossaryTerm to update. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/terms/{term_id} */
-  term?: GoogleCloudDataplexV1GlossaryTerm;
-  /** Required. The list of fields to update. */
-  updateMask?: string;
-}
-export const GoogleCloudDataplexV1UpdateGlossaryTermRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    term: S.optional(GoogleCloudDataplexV1GlossaryTerm),
-    updateMask: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1UpdateGlossaryTermRequest",
-}) as any as S.Schema<GoogleCloudDataplexV1UpdateGlossaryTermRequest>;
 
 /** Information about individual items in the hierarchy that is associated with the data resource. */
 export interface GoogleCloudDataplexV1EntrySourceAncestor {
@@ -474,140 +237,210 @@ export const GoogleCloudDataplexV1EntrySourceAncestorList = /*@__PURE__*/ S.Arra
 
 /** Information related to the source system of the data resource that is represented by the entry. */
 export interface GoogleCloudDataplexV1EntrySource {
-  /** The time when the resource was created in the source system. */
-  createTime?: string;
+  /** The name of the source system. Maximum length is 64 characters. */
+  system?: string;
+  /** The name of the resource in the source system. Maximum length is 4,000 characters. */
+  resource?: string;
+  /** A description of the data resource. Maximum length is 2,000 characters. */
+  description?: string;
+  /** User-defined labels. The maximum size of keys and values is 128 characters each. */
+  labels?: StringMap;
   /** Output only. Location of the resource in the source system. You can search the entry by this location. By default, this should match the location of the entry group containing this entry. A different value allows capturing the source location for data external to Google Cloud. */
   location?: string;
+  /** The time when the resource was created in the source system. */
+  createTime?: string;
   /** The platform containing the source system. Maximum length is 64 characters. */
   platform?: string;
   /** Immutable. The entries representing the ancestors of the data resource in the source system. */
   ancestors?: GoogleCloudDataplexV1EntrySourceAncestorList;
-  /** The name of the resource in the source system. Maximum length is 4,000 characters. */
-  resource?: string;
-  /** The time when the resource was last updated in the source system. If the entry exists in the system and its EntrySource has update_time populated, further updates to the EntrySource of the entry must provide incremental updates to its update_time. */
-  updateTime?: string;
-  /** A description of the data resource. Maximum length is 2,000 characters. */
-  description?: string;
-  /** The name of the source system. Maximum length is 64 characters. */
-  system?: string;
-  /** User-defined labels. The maximum size of keys and values is 128 characters each. */
-  labels?: StringMap;
   /** A user-friendly display name. Maximum length is 500 characters. */
   displayName?: string;
+  /** The time when the resource was last updated in the source system. If the entry exists in the system and its EntrySource has update_time populated, further updates to the EntrySource of the entry must provide incremental updates to its update_time. */
+  updateTime?: string;
 }
 export const GoogleCloudDataplexV1EntrySource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createTime: S.optional(S.String),
+    system: S.optional(S.String),
+    resource: S.optional(S.String),
+    description: S.optional(S.String),
+    labels: S.optional(StringMap),
     location: S.optional(S.String),
+    createTime: S.optional(S.String),
     platform: S.optional(S.String),
     ancestors: S.optional(GoogleCloudDataplexV1EntrySourceAncestorList),
-    resource: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    description: S.optional(S.String),
-    system: S.optional(S.String),
-    labels: S.optional(StringMap),
     displayName: S.optional(S.String),
+    updateTime: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1EntrySource",
 }) as any as S.Schema<GoogleCloudDataplexV1EntrySource>;
 
+/** Information related to the source system of the aspect. */
+export interface GoogleCloudDataplexV1AspectSource {
+  /** The time the aspect was created in the source system. */
+  createTime?: string;
+  /** The version of the data format used to produce this data. This field is used to indicated when the underlying data format changes (e.g., schema modifications, changes to the source URL format definition, etc). */
+  dataVersion?: string;
+  /** The time the aspect was last updated in the source system. */
+  updateTime?: string;
+}
+export const GoogleCloudDataplexV1AspectSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    createTime: S.optional(S.String),
+    dataVersion: S.optional(S.String),
+    updateTime: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1AspectSource",
+}) as any as S.Schema<GoogleCloudDataplexV1AspectSource>;
+
+export type DocumentMap = { [key: string]: unknown | undefined };
+export const DocumentMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<DocumentMap>;
+
+/** Represents a single piece of metadata describing an entry or entry link. */
+export interface GoogleCloudDataplexV1Aspect {
+  /** Optional. Information related to the source system of the aspect. */
+  aspectSource?: GoogleCloudDataplexV1AspectSource;
+  /** Required. The content of the aspect, according to its aspect type schema. The maximum size of the field is 120KB (encoded as UTF-8). */
+  data?: DocumentMap;
+  /** Output only. The time when the Aspect was last updated. */
+  updateTime?: string;
+  /** Output only. The path in the entry under which the aspect is attached. */
+  path?: string;
+  /** Output only. The resource name of the type used to create this Aspect. */
+  aspectType?: string;
+  /** Output only. The time when the Aspect was created. */
+  createTime?: string;
+}
+export const GoogleCloudDataplexV1Aspect = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    aspectSource: S.optional(GoogleCloudDataplexV1AspectSource),
+    data: S.optional(DocumentMap),
+    updateTime: S.optional(S.String),
+    path: S.optional(S.String),
+    aspectType: S.optional(S.String),
+    createTime: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1Aspect",
+}) as any as S.Schema<GoogleCloudDataplexV1Aspect>;
+
+export type GoogleCloudDataplexV1AspectMap = {
+  [key: string]: GoogleCloudDataplexV1Aspect | undefined;
+};
+export const GoogleCloudDataplexV1AspectMap = /*@__PURE__*/ S.Record(
+  S.String,
+  GoogleCloudDataplexV1Aspect,
+) as any as S.Schema<GoogleCloudDataplexV1AspectMap>;
+
 /** An entry is a representation of a data resource that can be described by various metadata. */
 export interface GoogleCloudDataplexV1Entry {
-  /** Identifier. The relative resource name of the entry, in the format projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}/entries/{entry_id}. */
-  name?: string;
-  /** Required. Immutable. The relative resource name of the entry type that was used to create this entry, in the format projects/{project_id_or_number}/locations/{location_id}/entryTypes/{entry_type_id}. */
-  entryType?: string;
-  /** Output only. The time when the entry was last updated in Dataplex Universal Catalog. */
-  updateTime?: string;
   /** Optional. Immutable. The resource name of the parent entry, in the format projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}/entries/{entry_id}. */
   parentEntry?: string;
-  /** Output only. The time when the entry was created in Dataplex Universal Catalog. */
-  createTime?: string;
-  /** Optional. A name for the entry that can be referenced by an external system. For more information, see Fully qualified names (https://cloud.google.com/data-catalog/docs/fully-qualified-names). The maximum size of the field is 4000 characters. */
-  fullyQualifiedName?: string;
   /** Optional. Information related to the source system of the data resource that is represented by the entry. */
   entrySource?: GoogleCloudDataplexV1EntrySource;
+  /** Optional. A name for the entry that can be referenced by an external system. For more information, see Fully qualified names (https://cloud.google.com/data-catalog/docs/fully-qualified-names). The maximum size of the field is 4000 characters. */
+  fullyQualifiedName?: string;
+  /** Output only. The time when the entry was created in Dataplex Universal Catalog. */
+  createTime?: string;
+  /** Required. Immutable. The relative resource name of the entry type that was used to create this entry, in the format projects/{project_id_or_number}/locations/{location_id}/entryTypes/{entry_type_id}. */
+  entryType?: string;
   /** Optional. The aspects that are attached to the entry. Depending on how the aspect is attached to the entry, the format of the aspect key can be one of the following: If the aspect is attached directly to the entry: {project_id_or_number}.{location_id}.{aspect_type_id} If the aspect is attached to an entry's path: {project_id_or_number}.{location_id}.{aspect_type_id}@{path} */
   aspects?: GoogleCloudDataplexV1AspectMap;
+  /** Identifier. The relative resource name of the entry, in the format projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}/entries/{entry_id}. */
+  name?: string;
+  /** Output only. The time when the entry was last updated in Dataplex Universal Catalog. */
+  updateTime?: string;
 }
 export const GoogleCloudDataplexV1Entry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    entryType: S.optional(S.String),
-    updateTime: S.optional(S.String),
     parentEntry: S.optional(S.String),
-    createTime: S.optional(S.String),
-    fullyQualifiedName: S.optional(S.String),
     entrySource: S.optional(GoogleCloudDataplexV1EntrySource),
+    fullyQualifiedName: S.optional(S.String),
+    createTime: S.optional(S.String),
+    entryType: S.optional(S.String),
     aspects: S.optional(GoogleCloudDataplexV1AspectMap),
+    name: S.optional(S.String),
+    updateTime: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1Entry",
 }) as any as S.Schema<GoogleCloudDataplexV1Entry>;
+
+/** Create Entry request. */
+export interface GoogleCloudDataplexV1CreateEntryRequest {
+  /** Required. Entry resource. */
+  entry?: GoogleCloudDataplexV1Entry;
+  /** Required. Entry identifier. It has to be unique within an Entry Group.Entries corresponding to Google Cloud resources use an Entry ID format based on full resource names (https://cloud.google.com/apis/design/resource_names#full_resource_name). The format is a full resource name of the resource without the prefix double slashes in the API service name part of the full resource name. This allows retrieval of entries using their associated resource name.For example, if the full resource name of a resource is //library.googleapis.com/shelves/shelf1/books/book2, then the suggested entry_id is library.googleapis.com/shelves/shelf1/books/book2.It is also suggested to follow the same convention for entries corresponding to resources from providers or systems other than Google Cloud.The maximum size of the field is 4000 characters. */
+  entryId?: string;
+  /** Required. The resource name of the parent Entry Group: projects/{project}/locations/{location}/entryGroups/{entry_group}. */
+  parent?: string;
+}
+export const GoogleCloudDataplexV1CreateEntryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    entry: S.optional(GoogleCloudDataplexV1Entry),
+    entryId: S.optional(S.String),
+    parent: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1CreateEntryRequest",
+}) as any as S.Schema<GoogleCloudDataplexV1CreateEntryRequest>;
+
+export type GoogleCloudDataplexV1ChangeRequestStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "NEW"
+  | "APPROVED"
+  | "REJECTED"
+  | "EXPIRED"
+  | "REVOKED";
+export const GoogleCloudDataplexV1ChangeRequestStateEnum = S.String;
+
+/** Delete Glossary Request */
+export interface GoogleCloudDataplexV1DeleteGlossaryRequest {
+  /** Optional. The etag of the Glossary. If this is provided, it must match the server's etag. If the etag is provided and does not match the server-computed etag, the request must fail with a ABORTED error code. */
+  etag?: string;
+  /** Required. The name of the Glossary to delete. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} */
+  name?: string;
+}
+export const GoogleCloudDataplexV1DeleteGlossaryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    etag: S.optional(S.String),
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DeleteGlossaryRequest",
+}) as any as S.Schema<GoogleCloudDataplexV1DeleteGlossaryRequest>;
 
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
 /** Update Entry request. */
 export interface GoogleCloudDataplexV1UpdateEntryRequest {
-  /** Required. Entry resource. */
-  entry?: GoogleCloudDataplexV1Entry;
-  /** Optional. If set to true and the entry doesn't exist, the service will create it. */
-  allowMissing?: boolean;
-  /** Optional. The map keys of the Aspects which the service should modify. It supports the following syntaxes: - matches an aspect of the given type and empty path. @path - matches an aspect of the given type and specified path. For example, to attach an aspect to a field that is specified by the schema aspect, the path should have the format Schema.. @* - matches aspects of the given type for all paths. *@path - matches aspects of all types on the given path.The service will not remove existing aspects matching the syntax unless delete_missing_aspects is set to true.If this field is left empty, the service treats it as specifying exactly those Aspects present in the request. */
-  aspectKeys?: StringList;
   /** Optional. Mask of fields to update. To update Aspects, the update_mask must contain the value "aspects".If the update_mask is empty, the service will update all modifiable fields present in the request. */
   updateMask?: string;
   /** Optional. If set to true and the aspect_keys specify aspect ranges, the service deletes any existing aspects from that range that weren't provided in the request. */
   deleteMissingAspects?: boolean;
+  /** Optional. The map keys of the Aspects which the service should modify. It supports the following syntaxes: - matches an aspect of the given type and empty path. @path - matches an aspect of the given type and specified path. For example, to attach an aspect to a field that is specified by the schema aspect, the path should have the format Schema.. @* - matches aspects of the given type for all paths. *@path - matches aspects of all types on the given path.The service will not remove existing aspects matching the syntax unless delete_missing_aspects is set to true.If this field is left empty, the service treats it as specifying exactly those Aspects present in the request. */
+  aspectKeys?: StringList;
+  /** Optional. If set to true and the entry doesn't exist, the service will create it. */
+  allowMissing?: boolean;
+  /** Required. Entry resource. */
+  entry?: GoogleCloudDataplexV1Entry;
 }
 export const GoogleCloudDataplexV1UpdateEntryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entry: S.optional(GoogleCloudDataplexV1Entry),
-    allowMissing: S.optional(S.Boolean),
-    aspectKeys: S.optional(StringList),
     updateMask: S.optional(S.String),
     deleteMissingAspects: S.optional(S.Boolean),
+    aspectKeys: S.optional(StringList),
+    allowMissing: S.optional(S.Boolean),
+    entry: S.optional(GoogleCloudDataplexV1Entry),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1UpdateEntryRequest",
 }) as any as S.Schema<GoogleCloudDataplexV1UpdateEntryRequest>;
-
-/** Delete GlossaryCategory Request */
-export interface GoogleCloudDataplexV1DeleteGlossaryCategoryRequest {
-  /** Required. The name of the GlossaryCategory to delete. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/categories/{category_id} */
-  name?: string;
-}
-export const GoogleCloudDataplexV1DeleteGlossaryCategoryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DeleteGlossaryCategoryRequest",
-}) as any as S.Schema<GoogleCloudDataplexV1DeleteGlossaryCategoryRequest>;
-
-/** Message for requesting access to a Data Product. This will be used to create a ChangeRequest of type REQUEST_DATA_PRODUCT_ACCESS. */
-export interface GoogleCloudDataplexV1DataProductAccessRequest {
-  /** Required. The ID of the access group for which access is being requested. This corresponds to the unique identifier of the AccessGroup defined in the Data Product. */
-  accessGroupId?: string;
-  /** Output only. The display name of the access group defined in the Data Product for which access is being requested. */
-  accessGroupDisplayName?: string;
-  /** Optional. The principal for which access is being requested in IAM format. If not specified, the requestor's principal will be used. Example: serviceAccount:my-sa@my-project.iam.gserviceaccount.com. Only service account principals are currently supported. https://cloud.google.com/iam/docs/principal-identifiers */
-  requestedPrincipal?: string;
-  /** Required. The resource name of the data product. Format: projects/{project_number}/locations/{location_id}/dataProducts/{data_product_id} */
-  parent?: string;
-}
-export const GoogleCloudDataplexV1DataProductAccessRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accessGroupId: S.optional(S.String),
-    accessGroupDisplayName: S.optional(S.String),
-    requestedPrincipal: S.optional(S.String),
-    parent: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataProductAccessRequest",
-}) as any as S.Schema<GoogleCloudDataplexV1DataProductAccessRequest>;
 
 /** Delete Entry request. */
 export interface GoogleCloudDataplexV1DeleteEntryRequest {
@@ -622,33 +455,209 @@ export const GoogleCloudDataplexV1DeleteEntryRequest = /*@__PURE__*/ S.suspend((
   identifier: "GoogleCloudDataplexV1DeleteEntryRequest",
 }) as any as S.Schema<GoogleCloudDataplexV1DeleteEntryRequest>;
 
-/** Creates a new GlossaryTerm under the specified Glossary. */
-export interface GoogleCloudDataplexV1CreateGlossaryTermRequest {
-  /** Required. The parent resource where the GlossaryTerm will be created. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} where location_id refers to a Google Cloud region. */
+/** Message for requesting access to a Data Product. This will be used to create a ChangeRequest of type REQUEST_DATA_PRODUCT_ACCESS. */
+export interface GoogleCloudDataplexV1DataProductAccessRequest {
+  /** Optional. The principal for which access is being requested in IAM format. If not specified, the requestor's principal will be used. Example: serviceAccount:my-sa@my-project.iam.gserviceaccount.com. Only service account principals are currently supported. https://cloud.google.com/iam/docs/principal-identifiers */
+  requestedPrincipal?: string;
+  /** Required. The ID of the access group for which access is being requested. This corresponds to the unique identifier of the AccessGroup defined in the Data Product. */
+  accessGroupId?: string;
+  /** Output only. The display name of the access group defined in the Data Product for which access is being requested. */
+  accessGroupDisplayName?: string;
+  /** Required. The resource name of the data product. Format: projects/{project_number}/locations/{location_id}/dataProducts/{data_product_id} */
   parent?: string;
-  /** Required. The GlossaryTerm to create. */
-  term?: GoogleCloudDataplexV1GlossaryTerm;
-  /** Required. GlossaryTerm identifier. */
-  termId?: string;
 }
-export const GoogleCloudDataplexV1CreateGlossaryTermRequest = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudDataplexV1DataProductAccessRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    requestedPrincipal: S.optional(S.String),
+    accessGroupId: S.optional(S.String),
+    accessGroupDisplayName: S.optional(S.String),
     parent: S.optional(S.String),
-    term: S.optional(GoogleCloudDataplexV1GlossaryTerm),
-    termId: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "GoogleCloudDataplexV1CreateGlossaryTermRequest",
-}) as any as S.Schema<GoogleCloudDataplexV1CreateGlossaryTermRequest>;
+  identifier: "GoogleCloudDataplexV1DataProductAccessRequest",
+}) as any as S.Schema<GoogleCloudDataplexV1DataProductAccessRequest>;
 
-export type GoogleCloudDataplexV1ChangeRequestStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "NEW"
-  | "APPROVED"
-  | "REJECTED"
-  | "EXPIRED"
-  | "REVOKED";
-export const GoogleCloudDataplexV1ChangeRequestStateEnum = S.String;
+/** Create Glossary Request */
+export interface GoogleCloudDataplexV1CreateGlossaryRequest {
+  /** Optional. Validates the request without actually creating the Glossary. Default: false. */
+  validateOnly?: boolean;
+  /** Required. The parent resource where this Glossary will be created. Format: projects/{project_id_or_number}/locations/{location_id} where location_id refers to a Google Cloud region. */
+  parent?: string;
+  /** Required. Glossary ID: Glossary identifier. */
+  glossaryId?: string;
+  /** Required. The Glossary to create. */
+  glossary?: GoogleCloudDataplexV1Glossary;
+}
+export const GoogleCloudDataplexV1CreateGlossaryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    validateOnly: S.optional(S.Boolean),
+    parent: S.optional(S.String),
+    glossaryId: S.optional(S.String),
+    glossary: S.optional(GoogleCloudDataplexV1Glossary),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1CreateGlossaryRequest",
+}) as any as S.Schema<GoogleCloudDataplexV1CreateGlossaryRequest>;
+
+/** Update GlossaryTerm Request */
+export interface GoogleCloudDataplexV1UpdateGlossaryTermRequest {
+  /** Required. The list of fields to update. */
+  updateMask?: string;
+  /** Required. The GlossaryTerm to update. The GlossaryTerm's name field is used to identify the GlossaryTerm to update. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/terms/{term_id} */
+  term?: GoogleCloudDataplexV1GlossaryTerm;
+}
+export const GoogleCloudDataplexV1UpdateGlossaryTermRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    updateMask: S.optional(S.String),
+    term: S.optional(GoogleCloudDataplexV1GlossaryTerm),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1UpdateGlossaryTermRequest",
+}) as any as S.Schema<GoogleCloudDataplexV1UpdateGlossaryTermRequest>;
+
+/** Delete GlossaryTerm Request */
+export interface GoogleCloudDataplexV1DeleteGlossaryTermRequest {
+  /** Required. The name of the GlossaryTerm to delete. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/terms/{term_id} */
+  name?: string;
+}
+export const GoogleCloudDataplexV1DeleteGlossaryTermRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DeleteGlossaryTermRequest",
+}) as any as S.Schema<GoogleCloudDataplexV1DeleteGlossaryTermRequest>;
+
+export type GoogleCloudDataplexV1EntryLinkEntryReferenceTypeEnum =
+  | "UNSPECIFIED"
+  | "SOURCE"
+  | "TARGET";
+export const GoogleCloudDataplexV1EntryLinkEntryReferenceTypeEnum = S.String;
+
+/** Reference to the Entry that is linked through the Entry Link. */
+export interface GoogleCloudDataplexV1EntryLinkEntryReference {
+  /** Required. Immutable. The relative resource name of the referenced Entry, of the form: projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}/entries/{entry_id} */
+  name?: string;
+  /** Required. Immutable. The reference type of the Entry. */
+  type?: GoogleCloudDataplexV1EntryLinkEntryReferenceTypeEnum | (string & {});
+  /** Immutable. The path in the Entry that is referenced in the Entry Link. Empty path denotes that the Entry itself is referenced in the Entry Link. */
+  path?: string;
+}
+export const GoogleCloudDataplexV1EntryLinkEntryReference = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    type: S.optional(GoogleCloudDataplexV1EntryLinkEntryReferenceTypeEnum),
+    path: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1EntryLinkEntryReference",
+}) as any as S.Schema<GoogleCloudDataplexV1EntryLinkEntryReference>;
+
+export type GoogleCloudDataplexV1EntryLinkEntryReferenceList =
+  Array<GoogleCloudDataplexV1EntryLinkEntryReference>;
+export const GoogleCloudDataplexV1EntryLinkEntryReferenceList = /*@__PURE__*/ S.Array(
+  GoogleCloudDataplexV1EntryLinkEntryReference,
+) as any as S.Schema<GoogleCloudDataplexV1EntryLinkEntryReferenceList>;
+
+/** EntryLink represents a link between two Entries. */
+export interface GoogleCloudDataplexV1EntryLink {
+  /** Output only. The time when the Entry Link was created. */
+  createTime?: string;
+  /** Output only. The time when the Entry Link was last updated. */
+  updateTime?: string;
+  /** Required. Immutable. Relative resource name of the Entry Link Type used to create this Entry Link. For example: Entry link between synonym terms in a glossary: projects/dataplex-types/locations/global/entryLinkTypes/synonym Entry link between related terms in a glossary: projects/dataplex-types/locations/global/entryLinkTypes/related Entry link between glossary terms and data assets: projects/dataplex-types/locations/global/entryLinkTypes/definition */
+  entryLinkType?: string;
+  /** Required. Immutable. Specifies the Entries referenced in the Entry Link. There should be exactly two entry references. */
+  entryReferences?: GoogleCloudDataplexV1EntryLinkEntryReferenceList;
+  /** Optional. The aspects that are attached to the entry link. The format of the aspect key has to be the following: {project_id_or_number}.{location_id}.{aspect_type_id} Currently, only a single aspect of a Dataplex-owned Aspect Type is allowed. */
+  aspects?: GoogleCloudDataplexV1AspectMap;
+  /** Output only. Immutable. Identifier. The relative resource name of the Entry Link, of the form: projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}/entryLinks/{entry_link_id} */
+  name?: string;
+}
+export const GoogleCloudDataplexV1EntryLink = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    createTime: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    entryLinkType: S.optional(S.String),
+    entryReferences: S.optional(GoogleCloudDataplexV1EntryLinkEntryReferenceList),
+    aspects: S.optional(GoogleCloudDataplexV1AspectMap),
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1EntryLink",
+}) as any as S.Schema<GoogleCloudDataplexV1EntryLink>;
+
+/** Request message for CreateEntryLink. */
+export interface GoogleCloudDataplexV1CreateEntryLinkRequest {
+  /** Required. The resource name of the parent Entry Group: projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}. */
+  parent?: string;
+  /** Required. Entry Link resource. */
+  entryLink?: GoogleCloudDataplexV1EntryLink;
+  /** Required. Entry Link identifier * Must contain only lowercase letters, numbers and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the EntryGroup. */
+  entryLinkId?: string;
+}
+export const GoogleCloudDataplexV1CreateEntryLinkRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    parent: S.optional(S.String),
+    entryLink: S.optional(GoogleCloudDataplexV1EntryLink),
+    entryLinkId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1CreateEntryLinkRequest",
+}) as any as S.Schema<GoogleCloudDataplexV1CreateEntryLinkRequest>;
+
+/** A GlossaryCategory represents a collection of GlossaryCategories and GlossaryTerms within a Glossary that are related to each other. */
+export interface GoogleCloudDataplexV1GlossaryCategory {
+  /** Output only. The time at which the GlossaryCategory was created. */
+  createTime?: string;
+  /** Optional. User-defined labels for the GlossaryCategory. */
+  labels?: StringMap;
+  /** Output only. The time at which the GlossaryCategory was last updated. */
+  updateTime?: string;
+  /** Optional. The user-mutable description of the GlossaryCategory. */
+  description?: string;
+  /** Output only. System generated unique id for the GlossaryCategory. This ID will be different if the GlossaryCategory is deleted and re-created with the same name. */
+  uid?: string;
+  /** Output only. Identifier. The resource name of the GlossaryCategory. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/categories/{category_id} */
+  name?: string;
+  /** Optional. User friendly display name of the GlossaryCategory. This is user-mutable. This will be same as the GlossaryCategoryId, if not specified. */
+  displayName?: string;
+  /** Required. The immediate parent of the GlossaryCategory in the resource-hierarchy. It can either be a Glossary or a GlossaryCategory. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} OR projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/categories/{category_id} */
+  parent?: string;
+}
+export const GoogleCloudDataplexV1GlossaryCategory = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    createTime: S.optional(S.String),
+    labels: S.optional(StringMap),
+    updateTime: S.optional(S.String),
+    description: S.optional(S.String),
+    uid: S.optional(S.String),
+    name: S.optional(S.String),
+    displayName: S.optional(S.String),
+    parent: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1GlossaryCategory",
+}) as any as S.Schema<GoogleCloudDataplexV1GlossaryCategory>;
+
+/** Creates a new GlossaryCategory under the specified Glossary. */
+export interface GoogleCloudDataplexV1CreateGlossaryCategoryRequest {
+  /** Required. GlossaryCategory identifier. */
+  categoryId?: string;
+  /** Required. The GlossaryCategory to create. */
+  category?: GoogleCloudDataplexV1GlossaryCategory;
+  /** Required. The parent resource where this GlossaryCategory will be created. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} where locationId refers to a Google Cloud region. */
+  parent?: string;
+}
+export const GoogleCloudDataplexV1CreateGlossaryCategoryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    categoryId: S.optional(S.String),
+    category: S.optional(GoogleCloudDataplexV1GlossaryCategory),
+    parent: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1CreateGlossaryCategoryRequest",
+}) as any as S.Schema<GoogleCloudDataplexV1CreateGlossaryCategoryRequest>;
 
 /** Request message for DeleteEntryLink. */
 export interface GoogleCloudDataplexV1DeleteEntryLinkRequest {
@@ -663,24 +672,34 @@ export const GoogleCloudDataplexV1DeleteEntryLinkRequest = /*@__PURE__*/ S.suspe
   identifier: "GoogleCloudDataplexV1DeleteEntryLinkRequest",
 }) as any as S.Schema<GoogleCloudDataplexV1DeleteEntryLinkRequest>;
 
-/** Creates a new GlossaryCategory under the specified Glossary. */
-export interface GoogleCloudDataplexV1CreateGlossaryCategoryRequest {
-  /** Required. The parent resource where this GlossaryCategory will be created. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} where locationId refers to a Google Cloud region. */
-  parent?: string;
-  /** Required. GlossaryCategory identifier. */
-  categoryId?: string;
-  /** Required. The GlossaryCategory to create. */
-  category?: GoogleCloudDataplexV1GlossaryCategory;
+/** Delete GlossaryCategory Request */
+export interface GoogleCloudDataplexV1DeleteGlossaryCategoryRequest {
+  /** Required. The name of the GlossaryCategory to delete. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/categories/{category_id} */
+  name?: string;
 }
-export const GoogleCloudDataplexV1CreateGlossaryCategoryRequest = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudDataplexV1DeleteGlossaryCategoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.optional(S.String),
-    categoryId: S.optional(S.String),
-    category: S.optional(GoogleCloudDataplexV1GlossaryCategory),
+    name: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "GoogleCloudDataplexV1CreateGlossaryCategoryRequest",
-}) as any as S.Schema<GoogleCloudDataplexV1CreateGlossaryCategoryRequest>;
+  identifier: "GoogleCloudDataplexV1DeleteGlossaryCategoryRequest",
+}) as any as S.Schema<GoogleCloudDataplexV1DeleteGlossaryCategoryRequest>;
+
+/** Update GlossaryCategory Request */
+export interface GoogleCloudDataplexV1UpdateGlossaryCategoryRequest {
+  /** Required. The GlossaryCategory to update. The GlossaryCategory's name field is used to identify the GlossaryCategory to update. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/categories/{category_id} */
+  category?: GoogleCloudDataplexV1GlossaryCategory;
+  /** Required. The list of fields to update. */
+  updateMask?: string;
+}
+export const GoogleCloudDataplexV1UpdateGlossaryCategoryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    category: S.optional(GoogleCloudDataplexV1GlossaryCategory),
+    updateMask: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1UpdateGlossaryCategoryRequest",
+}) as any as S.Schema<GoogleCloudDataplexV1UpdateGlossaryCategoryRequest>;
 
 export type GoogleCloudDataplexV1ChangeRequestChangeTypeEnum =
   | "CHANGE_TYPE_UNSPECIFIED"
@@ -701,117 +720,98 @@ export type GoogleCloudDataplexV1ChangeRequestChangeTypeEnum =
   | "REQUEST_DATA_PRODUCT_ACCESS";
 export const GoogleCloudDataplexV1ChangeRequestChangeTypeEnum = S.String;
 
-/** Create Entry request. */
-export interface GoogleCloudDataplexV1CreateEntryRequest {
-  /** Required. The resource name of the parent Entry Group: projects/{project}/locations/{location}/entryGroups/{entry_group}. */
-  parent?: string;
-  /** Required. Entry resource. */
-  entry?: GoogleCloudDataplexV1Entry;
-  /** Required. Entry identifier. It has to be unique within an Entry Group.Entries corresponding to Google Cloud resources use an Entry ID format based on full resource names (https://cloud.google.com/apis/design/resource_names#full_resource_name). The format is a full resource name of the resource without the prefix double slashes in the API service name part of the full resource name. This allows retrieval of entries using their associated resource name.For example, if the full resource name of a resource is //library.googleapis.com/shelves/shelf1/books/book2, then the suggested entry_id is library.googleapis.com/shelves/shelf1/books/book2.It is also suggested to follow the same convention for entries corresponding to resources from providers or systems other than Google Cloud.The maximum size of the field is 4000 characters. */
-  entryId?: string;
-}
-export const GoogleCloudDataplexV1CreateEntryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    parent: S.optional(S.String),
-    entry: S.optional(GoogleCloudDataplexV1Entry),
-    entryId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1CreateEntryRequest",
-}) as any as S.Schema<GoogleCloudDataplexV1CreateEntryRequest>;
-
 /** Represents a proposed change to a metadata resource. */
 export interface GoogleCloudDataplexV1ChangeRequest {
-  /** Output only. The email address of the user who approved/rejected the ChangeRequest. */
-  approver?: string;
-  /** Payload for deleting a Glossary. */
-  deleteGlossary?: GoogleCloudDataplexV1DeleteGlossaryRequest;
-  /** Payload for deleting a GlossaryTerm. */
-  deleteGlossaryTerm?: GoogleCloudDataplexV1DeleteGlossaryTermRequest;
-  /** Payload for updating a GlossaryCategory. */
-  updateGlossaryCategory?: GoogleCloudDataplexV1UpdateGlossaryCategoryRequest;
-  /** Payload for creating a Glossary. */
-  createGlossary?: GoogleCloudDataplexV1CreateGlossaryRequest;
-  /** Output only. The time when the ChangeRequest was last updated. */
-  updateTime?: string;
-  /** Payload for updating a Glossary. */
-  updateGlossary?: GoogleCloudDataplexV1UpdateGlossaryRequest;
-  /** Payload for creating an EntryLink. */
-  createEntryLink?: GoogleCloudDataplexV1CreateEntryLinkRequest;
-  /** Optional. Justification of the ChangeRequest. This should explain why the change is needed or why it should be approved. */
-  justification?: string;
-  /** Payload for updating a GlossaryTerm. */
-  updateGlossaryTerm?: GoogleCloudDataplexV1UpdateGlossaryTermRequest;
-  /** Optional. This checksum is computed by the service. It can be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
-  /** Payload for updating an Entry. */
-  updateEntry?: GoogleCloudDataplexV1UpdateEntryRequest;
-  /** Output only. The reason provided for rejecting the ChangeRequest. */
-  rejectionComment?: string;
-  /** Payload for deleting a GlossaryCategory. */
-  deleteGlossaryCategory?: GoogleCloudDataplexV1DeleteGlossaryCategoryRequest;
-  /** Payload for Data Product access request. */
-  dataProductAccessRequest?: GoogleCloudDataplexV1DataProductAccessRequest;
-  /** Payload for deleting an Entry. */
-  deleteEntry?: GoogleCloudDataplexV1DeleteEntryRequest;
-  /** Optional. User-defined labels for the ChangeRequest. */
-  labels?: StringMap;
-  /** Output only. System generated globally unique ID for the ChangeRequest. */
-  uid?: string;
+  /** Output only. The email address of the user who created the ChangeRequest. */
+  author?: string;
   /** Payload for creating a GlossaryTerm. */
   createGlossaryTerm?: GoogleCloudDataplexV1CreateGlossaryTermRequest;
-  /** Output only. The full resource name of the target resource to be modified. Example: //dataplex.googleapis.com/projects/my-project/locations/us-central1/entryGroups/my-group/entries/my-entry */
-  resource?: string;
-  /** Output only. The current state of the ChangeRequest. */
-  state?: GoogleCloudDataplexV1ChangeRequestStateEnum | (string & {});
-  /** Payload for deleting an EntryLink. */
-  deleteEntryLink?: GoogleCloudDataplexV1DeleteEntryLinkRequest;
-  /** Output only. The comment provided by the reviewer when approving or rejecting the ChangeRequest. Maximum length is 1024 characters. */
-  reviewerComment?: string;
-  /** Output only. The time when the ChangeRequest was created. */
-  createTime?: string;
-  /** Payload for creating a GlossaryCategory. */
-  createGlossaryCategory?: GoogleCloudDataplexV1CreateGlossaryCategoryRequest;
-  /** Output only. The type of change represented by the change_payload. This field is derived from the populated field in the change_payload oneof. */
-  changeType?: GoogleCloudDataplexV1ChangeRequestChangeTypeEnum | (string & {});
+  /** Payload for updating a Glossary. */
+  updateGlossary?: GoogleCloudDataplexV1UpdateGlossaryRequest;
   /** Payload for creating an Entry. */
   createEntry?: GoogleCloudDataplexV1CreateEntryRequest;
   /** Identifier. The relative resource name of the ChangeRequest, of the form: projects/{project_number}/locations/{location_id}/changeRequests/{change_request_id} */
   name?: string;
-  /** Output only. The email address of the user who created the ChangeRequest. */
-  author?: string;
+  /** Output only. The current state of the ChangeRequest. */
+  state?: GoogleCloudDataplexV1ChangeRequestStateEnum | (string & {});
+  /** Payload for deleting a Glossary. */
+  deleteGlossary?: GoogleCloudDataplexV1DeleteGlossaryRequest;
+  /** Payload for updating an Entry. */
+  updateEntry?: GoogleCloudDataplexV1UpdateEntryRequest;
+  /** Output only. The time when the ChangeRequest was last updated. */
+  updateTime?: string;
+  /** Payload for deleting an Entry. */
+  deleteEntry?: GoogleCloudDataplexV1DeleteEntryRequest;
+  /** Optional. This checksum is computed by the service. It can be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string;
+  /** Payload for Data Product access request. */
+  dataProductAccessRequest?: GoogleCloudDataplexV1DataProductAccessRequest;
+  /** Payload for creating a Glossary. */
+  createGlossary?: GoogleCloudDataplexV1CreateGlossaryRequest;
+  /** Optional. User-defined labels for the ChangeRequest. */
+  labels?: StringMap;
+  /** Output only. The reason provided for rejecting the ChangeRequest. */
+  rejectionComment?: string;
+  /** Payload for updating a GlossaryTerm. */
+  updateGlossaryTerm?: GoogleCloudDataplexV1UpdateGlossaryTermRequest;
+  /** Payload for deleting a GlossaryTerm. */
+  deleteGlossaryTerm?: GoogleCloudDataplexV1DeleteGlossaryTermRequest;
+  /** Payload for creating an EntryLink. */
+  createEntryLink?: GoogleCloudDataplexV1CreateEntryLinkRequest;
+  /** Payload for creating a GlossaryCategory. */
+  createGlossaryCategory?: GoogleCloudDataplexV1CreateGlossaryCategoryRequest;
+  /** Output only. The time when the ChangeRequest was created. */
+  createTime?: string;
+  /** Payload for deleting an EntryLink. */
+  deleteEntryLink?: GoogleCloudDataplexV1DeleteEntryLinkRequest;
+  /** Output only. The full resource name of the target resource to be modified. Example: //dataplex.googleapis.com/projects/my-project/locations/us-central1/entryGroups/my-group/entries/my-entry */
+  resource?: string;
+  /** Output only. System generated globally unique ID for the ChangeRequest. */
+  uid?: string;
+  /** Payload for deleting a GlossaryCategory. */
+  deleteGlossaryCategory?: GoogleCloudDataplexV1DeleteGlossaryCategoryRequest;
+  /** Payload for updating a GlossaryCategory. */
+  updateGlossaryCategory?: GoogleCloudDataplexV1UpdateGlossaryCategoryRequest;
+  /** Output only. The type of change represented by the change_payload. This field is derived from the populated field in the change_payload oneof. */
+  changeType?: GoogleCloudDataplexV1ChangeRequestChangeTypeEnum | (string & {});
+  /** Optional. Justification of the ChangeRequest. This should explain why the change is needed or why it should be approved. */
+  justification?: string;
+  /** Output only. The comment provided by the reviewer when approving or rejecting the ChangeRequest. Maximum length is 1024 characters. */
+  reviewerComment?: string;
+  /** Output only. The email address of the user who approved/rejected the ChangeRequest. */
+  approver?: string;
 }
 export const GoogleCloudDataplexV1ChangeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    approver: S.optional(S.String),
-    deleteGlossary: S.optional(GoogleCloudDataplexV1DeleteGlossaryRequest),
-    deleteGlossaryTerm: S.optional(GoogleCloudDataplexV1DeleteGlossaryTermRequest),
-    updateGlossaryCategory: S.optional(GoogleCloudDataplexV1UpdateGlossaryCategoryRequest),
-    createGlossary: S.optional(GoogleCloudDataplexV1CreateGlossaryRequest),
-    updateTime: S.optional(S.String),
-    updateGlossary: S.optional(GoogleCloudDataplexV1UpdateGlossaryRequest),
-    createEntryLink: S.optional(GoogleCloudDataplexV1CreateEntryLinkRequest),
-    justification: S.optional(S.String),
-    updateGlossaryTerm: S.optional(GoogleCloudDataplexV1UpdateGlossaryTermRequest),
-    etag: S.optional(S.String),
-    updateEntry: S.optional(GoogleCloudDataplexV1UpdateEntryRequest),
-    rejectionComment: S.optional(S.String),
-    deleteGlossaryCategory: S.optional(GoogleCloudDataplexV1DeleteGlossaryCategoryRequest),
-    dataProductAccessRequest: S.optional(GoogleCloudDataplexV1DataProductAccessRequest),
-    deleteEntry: S.optional(GoogleCloudDataplexV1DeleteEntryRequest),
-    labels: S.optional(StringMap),
-    uid: S.optional(S.String),
+    author: S.optional(S.String),
     createGlossaryTerm: S.optional(GoogleCloudDataplexV1CreateGlossaryTermRequest),
-    resource: S.optional(S.String),
-    state: S.optional(GoogleCloudDataplexV1ChangeRequestStateEnum),
-    deleteEntryLink: S.optional(GoogleCloudDataplexV1DeleteEntryLinkRequest),
-    reviewerComment: S.optional(S.String),
-    createTime: S.optional(S.String),
-    createGlossaryCategory: S.optional(GoogleCloudDataplexV1CreateGlossaryCategoryRequest),
-    changeType: S.optional(GoogleCloudDataplexV1ChangeRequestChangeTypeEnum),
+    updateGlossary: S.optional(GoogleCloudDataplexV1UpdateGlossaryRequest),
     createEntry: S.optional(GoogleCloudDataplexV1CreateEntryRequest),
     name: S.optional(S.String),
-    author: S.optional(S.String),
+    state: S.optional(GoogleCloudDataplexV1ChangeRequestStateEnum),
+    deleteGlossary: S.optional(GoogleCloudDataplexV1DeleteGlossaryRequest),
+    updateEntry: S.optional(GoogleCloudDataplexV1UpdateEntryRequest),
+    updateTime: S.optional(S.String),
+    deleteEntry: S.optional(GoogleCloudDataplexV1DeleteEntryRequest),
+    etag: S.optional(S.String),
+    dataProductAccessRequest: S.optional(GoogleCloudDataplexV1DataProductAccessRequest),
+    createGlossary: S.optional(GoogleCloudDataplexV1CreateGlossaryRequest),
+    labels: S.optional(StringMap),
+    rejectionComment: S.optional(S.String),
+    updateGlossaryTerm: S.optional(GoogleCloudDataplexV1UpdateGlossaryTermRequest),
+    deleteGlossaryTerm: S.optional(GoogleCloudDataplexV1DeleteGlossaryTermRequest),
+    createEntryLink: S.optional(GoogleCloudDataplexV1CreateEntryLinkRequest),
+    createGlossaryCategory: S.optional(GoogleCloudDataplexV1CreateGlossaryCategoryRequest),
+    createTime: S.optional(S.String),
+    deleteEntryLink: S.optional(GoogleCloudDataplexV1DeleteEntryLinkRequest),
+    resource: S.optional(S.String),
+    uid: S.optional(S.String),
+    deleteGlossaryCategory: S.optional(GoogleCloudDataplexV1DeleteGlossaryCategoryRequest),
+    updateGlossaryCategory: S.optional(GoogleCloudDataplexV1UpdateGlossaryCategoryRequest),
+    changeType: S.optional(GoogleCloudDataplexV1ChangeRequestChangeTypeEnum),
+    justification: S.optional(S.String),
+    reviewerComment: S.optional(S.String),
+    approver: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1ChangeRequest",
@@ -958,13 +958,6 @@ export const CancelProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
   identifier: "CancelProjectsLocationsOperationsRequest",
 }) as any as S.Schema<CancelProjectsLocationsOperationsRequest>;
 
-export type GoogleCloudDataplexV1EncryptionConfigEncryptionStateEnum =
-  | "ENCRYPTION_STATE_UNSPECIFIED"
-  | "ENCRYPTING"
-  | "COMPLETED"
-  | "FAILED";
-export const GoogleCloudDataplexV1EncryptionConfigEncryptionStateEnum = S.String;
-
 export type GoogleCloudDataplexV1EncryptionConfigFailureDetailsErrorCodeEnum =
   | "UNKNOWN"
   | "INTERNAL_ERROR"
@@ -987,34 +980,41 @@ export const GoogleCloudDataplexV1EncryptionConfigFailureDetails = /*@__PURE__*/
   identifier: "GoogleCloudDataplexV1EncryptionConfigFailureDetails",
 }) as any as S.Schema<GoogleCloudDataplexV1EncryptionConfigFailureDetails>;
 
+export type GoogleCloudDataplexV1EncryptionConfigEncryptionStateEnum =
+  | "ENCRYPTION_STATE_UNSPECIFIED"
+  | "ENCRYPTING"
+  | "COMPLETED"
+  | "FAILED";
+export const GoogleCloudDataplexV1EncryptionConfigEncryptionStateEnum = S.String;
+
 /** A Resource designed to manage encryption configurations for customers to support Customer Managed Encryption Keys (CMEK). */
 export interface GoogleCloudDataplexV1EncryptionConfig {
-  /** Identifier. The resource name of the EncryptionConfig. Format: organizations/{organization}/locations/{location}/encryptionConfigs/{encryption_config} Global location is not supported. */
-  name?: string;
+  /** Output only. Details of the failure if anything related to Cmek db fails. */
+  failureDetails?: GoogleCloudDataplexV1EncryptionConfigFailureDetails;
   /** Output only. The state of encryption of the databases. */
   encryptionState?: GoogleCloudDataplexV1EncryptionConfigEncryptionStateEnum | (string & {});
+  /** Identifier. The resource name of the EncryptionConfig. Format: organizations/{organization}/locations/{location}/encryptionConfigs/{encryption_config} Global location is not supported. */
+  name?: string;
   /** Etag of the EncryptionConfig. This is a strong etag. */
   etag?: string;
   /** Output only. The time when the Encryption configuration was last updated. */
   updateTime?: string;
-  /** Output only. The time when the Encryption configuration was created. */
-  createTime?: string;
   /** Optional. If a key is chosen, it means that the customer is using CMEK. If a key is not chosen, it means that the customer is using Google managed encryption. */
   key?: string;
-  /** Output only. Details of the failure if anything related to Cmek db fails. */
-  failureDetails?: GoogleCloudDataplexV1EncryptionConfigFailureDetails;
+  /** Output only. The time when the Encryption configuration was created. */
+  createTime?: string;
   /** Optional. Represent the state of CMEK opt-in for metastore. */
   enableMetastoreEncryption?: boolean;
 }
 export const GoogleCloudDataplexV1EncryptionConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
+    failureDetails: S.optional(GoogleCloudDataplexV1EncryptionConfigFailureDetails),
     encryptionState: S.optional(GoogleCloudDataplexV1EncryptionConfigEncryptionStateEnum),
+    name: S.optional(S.String),
     etag: S.optional(S.String),
     updateTime: S.optional(S.String),
-    createTime: S.optional(S.String),
     key: S.optional(S.String),
-    failureDetails: S.optional(GoogleCloudDataplexV1EncryptionConfigFailureDetails),
+    createTime: S.optional(S.String),
     enableMetastoreEncryption: S.optional(S.Boolean),
   }),
 ).annotate({
@@ -1065,100 +1065,74 @@ export const GoogleRpcStatus = /*@__PURE__*/ S.suspend(() =>
     code: S.optional(S.Number),
     details: S.optional(DocumentMapList),
   }),
-).annotate({
-  identifier: "GoogleRpcStatus",
-}) as any as S.Schema<GoogleRpcStatus>;
+).annotate({ identifier: "GoogleRpcStatus" }) as any as S.Schema<GoogleRpcStatus>;
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
-  /** If the value is false, it means the operation is still in progress. If true, the operation is completed, and either error or response is available. */
-  done?: boolean;
   /** The error result of the operation in case of failure or cancellation. */
   error?: GoogleRpcStatus;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the name should be a resource name ending with operations/{unique_id}. */
-  name?: string;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as Delete, the response is google.protobuf.Empty. If the original method is standard Get/Create/Update, the response should be the resource. For other methods, the response should have the type XxxResponse, where Xxx is the original method name. For example, if the original method name is TakeSnapshot(), the inferred response type is TakeSnapshotResponse. */
   response?: DocumentMap;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the name should be a resource name ending with operations/{unique_id}. */
+  name?: string;
+  /** If the value is false, it means the operation is still in progress. If true, the operation is completed, and either error or response is available. */
+  done?: boolean;
 }
 export const GoogleLongrunningOperation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metadata: S.optional(DocumentMap),
-    done: S.optional(S.Boolean),
     error: S.optional(GoogleRpcStatus),
-    name: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
     response: S.optional(DocumentMap),
+    name: S.optional(S.String),
+    done: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "GoogleLongrunningOperation",
 }) as any as S.Schema<GoogleLongrunningOperation>;
 
-export type GoogleCloudDataplexV1AspectTypeDataClassificationEnum =
-  | "DATA_CLASSIFICATION_UNSPECIFIED"
-  | "METADATA_AND_DATA";
-export const GoogleCloudDataplexV1AspectTypeDataClassificationEnum = S.String;
-
-/** Definition of Enumvalue, to be used for enum fields. */
-export interface GoogleCloudDataplexV1AspectTypeMetadataTemplateEnumValue {
-  /** Required. Name of the enumvalue. This is the actual value that the aspect can contain. */
-  name?: string;
-  /** Required. Index for the enum value. It can't be modified. */
-  index?: number;
-  /** Optional. You can set this message if you need to deprecate an enum value. */
-  deprecated?: string;
+/** Authorization for an AspectType. */
+export interface GoogleCloudDataplexV1AspectTypeAuthorization {
+  /** Immutable. The IAM permission grantable on the EntryGroup to allow access to instantiate Aspects of Dataplex Universal Catalog owned AspectTypes, only settable for Dataplex Universal Catalog owned Types. */
+  alternateUsePermission?: string;
 }
-export const GoogleCloudDataplexV1AspectTypeMetadataTemplateEnumValue = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.optional(S.String),
-      index: S.optional(S.Number),
-      deprecated: S.optional(S.String),
-    }),
+export const GoogleCloudDataplexV1AspectTypeAuthorization = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    alternateUsePermission: S.optional(S.String),
+  }),
 ).annotate({
-  identifier: "GoogleCloudDataplexV1AspectTypeMetadataTemplateEnumValue",
-}) as any as S.Schema<GoogleCloudDataplexV1AspectTypeMetadataTemplateEnumValue>;
-
-export type GoogleCloudDataplexV1AspectTypeMetadataTemplateEnumValueList =
-  Array<GoogleCloudDataplexV1AspectTypeMetadataTemplateEnumValue>;
-export const GoogleCloudDataplexV1AspectTypeMetadataTemplateEnumValueList = /*@__PURE__*/ S.Array(
-  GoogleCloudDataplexV1AspectTypeMetadataTemplateEnumValue,
-) as any as S.Schema<GoogleCloudDataplexV1AspectTypeMetadataTemplateEnumValueList>;
+  identifier: "GoogleCloudDataplexV1AspectTypeAuthorization",
+}) as any as S.Schema<GoogleCloudDataplexV1AspectTypeAuthorization>;
 
 /** Definition of the annotations of a field. */
 export interface GoogleCloudDataplexV1AspectTypeMetadataTemplateAnnotations {
   /** Optional. Description for a field. */
   description?: string;
-  /** Optional. You can use String Type annotations to specify special meaning to string fields. The following values are supported: richText: The field must be interpreted as a rich text field. url: A fully qualified URL link. resource: A service qualified resource reference. */
-  stringType?: string;
-  /** Optional. Marks a field as deprecated. You can include a deprecation message. */
-  deprecated?: string;
   /** Optional. Suggested hints for string fields. You can use them to suggest values to users through console. */
   stringValues?: StringList;
   /** Optional. Display order for a field. You can use this to reorder where a field is rendered. */
   displayOrder?: number;
+  /** Optional. Marks a field as deprecated. You can include a deprecation message. */
+  deprecated?: string;
   /** Optional. Display name for a field. */
   displayName?: string;
+  /** Optional. You can use String Type annotations to specify special meaning to string fields. The following values are supported: richText: The field must be interpreted as a rich text field. url: A fully qualified URL link. resource: A service qualified resource reference. */
+  stringType?: string;
 }
 export const GoogleCloudDataplexV1AspectTypeMetadataTemplateAnnotations = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       description: S.optional(S.String),
-      stringType: S.optional(S.String),
-      deprecated: S.optional(S.String),
       stringValues: S.optional(StringList),
       displayOrder: S.optional(S.Number),
+      deprecated: S.optional(S.String),
       displayName: S.optional(S.String),
+      stringType: S.optional(S.String),
     }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1AspectTypeMetadataTemplateAnnotations",
 }) as any as S.Schema<GoogleCloudDataplexV1AspectTypeMetadataTemplateAnnotations>;
-
-export type GoogleCloudDataplexV1AspectTypeMetadataTemplateList =
-  Array<GoogleCloudDataplexV1AspectTypeMetadataTemplate>;
-export const GoogleCloudDataplexV1AspectTypeMetadataTemplateList = /*@__PURE__*/ S.Array(
-  S.suspend(() => GoogleCloudDataplexV1AspectTypeMetadataTemplate),
-) as any as S.Schema<GoogleCloudDataplexV1AspectTypeMetadataTemplateList>;
 
 /** Definition of the constraints of a field. */
 export interface GoogleCloudDataplexV1AspectTypeMetadataTemplateConstraints {
@@ -1174,61 +1148,85 @@ export const GoogleCloudDataplexV1AspectTypeMetadataTemplateConstraints = /*@__P
   identifier: "GoogleCloudDataplexV1AspectTypeMetadataTemplateConstraints",
 }) as any as S.Schema<GoogleCloudDataplexV1AspectTypeMetadataTemplateConstraints>;
 
+/** Definition of Enumvalue, to be used for enum fields. */
+export interface GoogleCloudDataplexV1AspectTypeMetadataTemplateEnumValue {
+  /** Required. Index for the enum value. It can't be modified. */
+  index?: number;
+  /** Optional. You can set this message if you need to deprecate an enum value. */
+  deprecated?: string;
+  /** Required. Name of the enumvalue. This is the actual value that the aspect can contain. */
+  name?: string;
+}
+export const GoogleCloudDataplexV1AspectTypeMetadataTemplateEnumValue = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      index: S.optional(S.Number),
+      deprecated: S.optional(S.String),
+      name: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1AspectTypeMetadataTemplateEnumValue",
+}) as any as S.Schema<GoogleCloudDataplexV1AspectTypeMetadataTemplateEnumValue>;
+
+export type GoogleCloudDataplexV1AspectTypeMetadataTemplateEnumValueList =
+  Array<GoogleCloudDataplexV1AspectTypeMetadataTemplateEnumValue>;
+export const GoogleCloudDataplexV1AspectTypeMetadataTemplateEnumValueList = /*@__PURE__*/ S.Array(
+  GoogleCloudDataplexV1AspectTypeMetadataTemplateEnumValue,
+) as any as S.Schema<GoogleCloudDataplexV1AspectTypeMetadataTemplateEnumValueList>;
+
+export type GoogleCloudDataplexV1AspectTypeMetadataTemplateList =
+  Array<GoogleCloudDataplexV1AspectTypeMetadataTemplate>;
+export const GoogleCloudDataplexV1AspectTypeMetadataTemplateList = /*@__PURE__*/ S.Array(
+  S.suspend(() => GoogleCloudDataplexV1AspectTypeMetadataTemplate),
+) as any as S.Schema<GoogleCloudDataplexV1AspectTypeMetadataTemplateList>;
+
 /** MetadataTemplate definition for an AspectType. */
 export interface GoogleCloudDataplexV1AspectTypeMetadataTemplate {
-  /** Optional. Index is used to encode Template messages. The value of index can range between 1 and 2,147,483,647. Index must be unique within all fields in a Template. (Nested Templates can reuse indexes). Once a Template is defined, the index cannot be changed, because it identifies the field in the actual storage format. Index is a mandatory field, but it is optional for top level fields, and map/array "values" definitions. */
-  index?: number;
   /** Optional. If the type is array, set array_items. array_items can refer to a primitive field or a complex (record only) field. To specify a primitive field, you only need to set name and type in the nested MetadataTemplate. The recommended value for the name field is item, as this isn't used in the actual payload. */
   arrayItems?: GoogleCloudDataplexV1AspectTypeMetadataTemplate;
-  /** Optional. The list of values for an enum type. You must define it if the type is enum. */
-  enumValues?: GoogleCloudDataplexV1AspectTypeMetadataTemplateEnumValueList;
   /** Optional. Specifies annotations on this field. */
   annotations?: GoogleCloudDataplexV1AspectTypeMetadataTemplateAnnotations;
-  /** Optional. Field definition. You must specify it if the type is record. It defines the nested fields. */
-  recordFields?: GoogleCloudDataplexV1AspectTypeMetadataTemplateList;
-  /** Optional. A reference to another field definition (not an inline definition). The value must be equal to the value of an id field defined elsewhere in the MetadataTemplate. Only fields with record type can refer to other fields. */
-  typeRef?: string;
-  /** Optional. You can use type id if this definition of the field needs to be reused later. The type id must be unique across the entire template. You can only specify it if the field type is record. */
-  typeId?: string;
-  /** Required. The name of the field. */
-  name?: string;
   /** Required. The datatype of this field. The following values are supported:Primitive types: string int bool double datetime. Must be of the format RFC3339 UTC "Zulu" (Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z").Complex types: enum array map record */
   type?: string;
+  /** Optional. You can use type id if this definition of the field needs to be reused later. The type id must be unique across the entire template. You can only specify it if the field type is record. */
+  typeId?: string;
   /** Optional. Specifies the constraints on this field. */
   constraints?: GoogleCloudDataplexV1AspectTypeMetadataTemplateConstraints;
+  /** Optional. Index is used to encode Template messages. The value of index can range between 1 and 2,147,483,647. Index must be unique within all fields in a Template. (Nested Templates can reuse indexes). Once a Template is defined, the index cannot be changed, because it identifies the field in the actual storage format. Index is a mandatory field, but it is optional for top level fields, and map/array "values" definitions. */
+  index?: number;
+  /** Required. The name of the field. */
+  name?: string;
+  /** Optional. A reference to another field definition (not an inline definition). The value must be equal to the value of an id field defined elsewhere in the MetadataTemplate. Only fields with record type can refer to other fields. */
+  typeRef?: string;
+  /** Optional. The list of values for an enum type. You must define it if the type is enum. */
+  enumValues?: GoogleCloudDataplexV1AspectTypeMetadataTemplateEnumValueList;
+  /** Optional. Field definition. You must specify it if the type is record. It defines the nested fields. */
+  recordFields?: GoogleCloudDataplexV1AspectTypeMetadataTemplateList;
   /** Optional. If the type is map, set map_items. map_items can refer to a primitive field or a complex (record only) field. To specify a primitive field, you only need to set name and type in the nested MetadataTemplate. The recommended value for the name field is item, as this isn't used in the actual payload. */
   mapItems?: GoogleCloudDataplexV1AspectTypeMetadataTemplate;
 }
 export const GoogleCloudDataplexV1AspectTypeMetadataTemplate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    index: S.optional(S.Number),
     arrayItems: S.optional(GoogleCloudDataplexV1AspectTypeMetadataTemplate),
-    enumValues: S.optional(GoogleCloudDataplexV1AspectTypeMetadataTemplateEnumValueList),
     annotations: S.optional(GoogleCloudDataplexV1AspectTypeMetadataTemplateAnnotations),
-    recordFields: S.optional(GoogleCloudDataplexV1AspectTypeMetadataTemplateList),
-    typeRef: S.optional(S.String),
-    typeId: S.optional(S.String),
-    name: S.optional(S.String),
     type: S.optional(S.String),
+    typeId: S.optional(S.String),
     constraints: S.optional(GoogleCloudDataplexV1AspectTypeMetadataTemplateConstraints),
+    index: S.optional(S.Number),
+    name: S.optional(S.String),
+    typeRef: S.optional(S.String),
+    enumValues: S.optional(GoogleCloudDataplexV1AspectTypeMetadataTemplateEnumValueList),
+    recordFields: S.optional(GoogleCloudDataplexV1AspectTypeMetadataTemplateList),
     mapItems: S.optional(GoogleCloudDataplexV1AspectTypeMetadataTemplate),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1AspectTypeMetadataTemplate",
 }) as any as S.Schema<GoogleCloudDataplexV1AspectTypeMetadataTemplate>;
 
-/** Authorization for an AspectType. */
-export interface GoogleCloudDataplexV1AspectTypeAuthorization {
-  /** Immutable. The IAM permission grantable on the EntryGroup to allow access to instantiate Aspects of Dataplex Universal Catalog owned AspectTypes, only settable for Dataplex Universal Catalog owned Types. */
-  alternateUsePermission?: string;
-}
-export const GoogleCloudDataplexV1AspectTypeAuthorization = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    alternateUsePermission: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1AspectTypeAuthorization",
-}) as any as S.Schema<GoogleCloudDataplexV1AspectTypeAuthorization>;
+export type GoogleCloudDataplexV1AspectTypeDataClassificationEnum =
+  | "DATA_CLASSIFICATION_UNSPECIFIED"
+  | "METADATA_AND_DATA";
+export const GoogleCloudDataplexV1AspectTypeDataClassificationEnum = S.String;
 
 export type GoogleCloudDataplexV1AspectTypeTransferStatusEnum =
   | "TRANSFER_STATUS_UNSPECIFIED"
@@ -1238,65 +1236,65 @@ export const GoogleCloudDataplexV1AspectTypeTransferStatusEnum = S.String;
 
 /** AspectType is a template for creating Aspects, and represents the JSON-schema for a given Entry, for example, BigQuery Table Schema. */
 export interface GoogleCloudDataplexV1AspectType {
+  /** Optional. User-defined labels for the AspectType. */
+  labels?: StringMap;
+  /** Immutable. Defines the Authorization for this type. */
+  authorization?: GoogleCloudDataplexV1AspectTypeAuthorization;
+  /** Output only. The time when the AspectType was last updated. */
+  updateTime?: string;
+  /** Required. MetadataTemplate of the aspect. */
+  metadataTemplate?: GoogleCloudDataplexV1AspectTypeMetadataTemplate;
+  /** Optional. Description of the AspectType. */
+  description?: string;
   /** Optional. Immutable. Stores data classification of the aspect. */
   dataClassification?: GoogleCloudDataplexV1AspectTypeDataClassificationEnum | (string & {});
   /** Output only. The time when the AspectType was created. */
   createTime?: string;
   /** Output only. System generated globally unique ID for the AspectType. If you delete and recreate the AspectType with the same name, then this ID will be different. */
   uid?: string;
-  /** Output only. The time when the AspectType was last updated. */
-  updateTime?: string;
-  /** Output only. The relative resource name of the AspectType, of the form: projects/{project_number}/locations/{location_id}/aspectTypes/{aspect_type_id}. */
-  name?: string;
-  /** Optional. User-defined labels for the AspectType. */
-  labels?: StringMap;
-  /** Optional. Description of the AspectType. */
-  description?: string;
-  /** Required. MetadataTemplate of the aspect. */
-  metadataTemplate?: GoogleCloudDataplexV1AspectTypeMetadataTemplate;
-  /** Immutable. Defines the Authorization for this type. */
-  authorization?: GoogleCloudDataplexV1AspectTypeAuthorization;
-  /** Optional. User friendly display name. */
-  displayName?: string;
   /** The service computes this checksum. The client may send it on update and delete requests to ensure it has an up-to-date value before proceeding. */
   etag?: string;
+  /** Optional. User friendly display name. */
+  displayName?: string;
   /** Output only. Denotes the transfer status of the Aspect Type. It is unspecified for Aspect Types created from Dataplex API. */
   transferStatus?: GoogleCloudDataplexV1AspectTypeTransferStatusEnum | (string & {});
+  /** Output only. The relative resource name of the AspectType, of the form: projects/{project_number}/locations/{location_id}/aspectTypes/{aspect_type_id}. */
+  name?: string;
 }
 export const GoogleCloudDataplexV1AspectType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    labels: S.optional(StringMap),
+    authorization: S.optional(GoogleCloudDataplexV1AspectTypeAuthorization),
+    updateTime: S.optional(S.String),
+    metadataTemplate: S.optional(GoogleCloudDataplexV1AspectTypeMetadataTemplate),
+    description: S.optional(S.String),
     dataClassification: S.optional(GoogleCloudDataplexV1AspectTypeDataClassificationEnum),
     createTime: S.optional(S.String),
     uid: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    name: S.optional(S.String),
-    labels: S.optional(StringMap),
-    description: S.optional(S.String),
-    metadataTemplate: S.optional(GoogleCloudDataplexV1AspectTypeMetadataTemplate),
-    authorization: S.optional(GoogleCloudDataplexV1AspectTypeAuthorization),
-    displayName: S.optional(S.String),
     etag: S.optional(S.String),
+    displayName: S.optional(S.String),
     transferStatus: S.optional(GoogleCloudDataplexV1AspectTypeTransferStatusEnum),
+    name: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1AspectType",
 }) as any as S.Schema<GoogleCloudDataplexV1AspectType>;
 
 export interface CreateProjectsLocationsAspectTypesRequest {
-  /** Required. The resource name of the AspectType, of the form: projects/{project_number}/locations/{location_id} where location_id refers to a Google Cloud region. */
-  parent: string;
-  /** Required. AspectType identifier. */
-  aspectTypeId?: string;
   /** Optional. The service validates the request without performing any mutations. The default is false. */
   validateOnly?: boolean;
+  /** Required. AspectType identifier. */
+  aspectTypeId?: string;
+  /** Required. The resource name of the AspectType, of the form: projects/{project_number}/locations/{location_id} where location_id refers to a Google Cloud region. */
+  parent: string;
   /** Request body */
   body?: GoogleCloudDataplexV1AspectType;
 }
 export const CreateProjectsLocationsAspectTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    aspectTypeId: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    aspectTypeId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(GoogleCloudDataplexV1AspectType.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1308,98 +1306,6 @@ export const CreateProjectsLocationsAspectTypesRequest = /*@__PURE__*/ S.suspend
 ).annotate({
   identifier: "CreateProjectsLocationsAspectTypesRequest",
 }) as any as S.Schema<CreateProjectsLocationsAspectTypesRequest>;
-
-/** Represents a subresource of the given resource, and associated bindings with it. Currently supported subresources are column and partition schema fields within a table. */
-export interface GoogleCloudDataplexV1DataAttributeBindingPath {
-  /** Optional. List of attributes to be associated with the path of the resource, provided in the form: projects/{project}/locations/{location}/dataTaxonomies/{dataTaxonomy}/attributes/{data_attribute_id} */
-  attributes?: StringList;
-  /** Required. The name identifier of the path. Nested columns should be of the form: 'address.city'. */
-  name?: string;
-}
-export const GoogleCloudDataplexV1DataAttributeBindingPath = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attributes: S.optional(StringList),
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataAttributeBindingPath",
-}) as any as S.Schema<GoogleCloudDataplexV1DataAttributeBindingPath>;
-
-export type GoogleCloudDataplexV1DataAttributeBindingPathList =
-  Array<GoogleCloudDataplexV1DataAttributeBindingPath>;
-export const GoogleCloudDataplexV1DataAttributeBindingPathList = /*@__PURE__*/ S.Array(
-  GoogleCloudDataplexV1DataAttributeBindingPath,
-) as any as S.Schema<GoogleCloudDataplexV1DataAttributeBindingPathList>;
-
-/** DataAttributeBinding represents binding of attributes to resources. Eg: Bind 'CustomerInfo' entity with 'PII' attribute. */
-export interface GoogleCloudDataplexV1DataAttributeBinding {
-  /** Optional. User friendly display name. */
-  displayName?: string;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. Etags must be used when calling the DeleteDataAttributeBinding and the UpdateDataAttributeBinding method. */
-  etag?: string;
-  /** Optional. The list of paths for items within the associated resource (eg. columns and partitions within a table) along with attribute bindings. */
-  paths?: GoogleCloudDataplexV1DataAttributeBindingPathList;
-  /** Optional. User-defined labels for the DataAttributeBinding. */
-  labels?: StringMap;
-  /** Optional. List of attributes to be associated with the resource, provided in the form: projects/{project}/locations/{location}/dataTaxonomies/{dataTaxonomy}/attributes/{data_attribute_id} */
-  attributes?: StringList;
-  /** Optional. Description of the DataAttributeBinding. */
-  description?: string;
-  /** Optional. Immutable. The resource name of the resource that is associated to attributes. Presently, only entity resource is supported in the form: projects/{project}/locations/{location}/lakes/{lake}/zones/{zone}/entities/{entity_id} Must belong in the same project and region as the attribute binding, and there can only exist one active binding for a resource. */
-  resource?: string;
-  /** Output only. The time when the DataAttributeBinding was last updated. */
-  updateTime?: string;
-  /** Output only. The relative resource name of the Data Attribute Binding, of the form: projects/{project_number}/locations/{location}/dataAttributeBindings/{data_attribute_binding_id} */
-  name?: string;
-  /** Output only. System generated globally unique ID for the DataAttributeBinding. This ID will be different if the DataAttributeBinding is deleted and re-created with the same name. */
-  uid?: string;
-  /** Output only. The time when the DataAttributeBinding was created. */
-  createTime?: string;
-}
-export const GoogleCloudDataplexV1DataAttributeBinding = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    displayName: S.optional(S.String),
-    etag: S.optional(S.String),
-    paths: S.optional(GoogleCloudDataplexV1DataAttributeBindingPathList),
-    labels: S.optional(StringMap),
-    attributes: S.optional(StringList),
-    description: S.optional(S.String),
-    resource: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    name: S.optional(S.String),
-    uid: S.optional(S.String),
-    createTime: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataAttributeBinding",
-}) as any as S.Schema<GoogleCloudDataplexV1DataAttributeBinding>;
-
-export interface CreateProjectsLocationsDataAttributeBindingsRequest {
-  /** Required. The resource name of the parent data taxonomy projects/{project_number}/locations/{location_id} */
-  parent: string;
-  /** Required. DataAttributeBinding identifier. * Must contain only lowercase letters, numbers and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the Location. */
-  dataAttributeBindingId?: string;
-  /** Optional. Only validate the request, but do not perform mutations. The default is false. */
-  validateOnly?: boolean;
-  /** Request body */
-  body?: GoogleCloudDataplexV1DataAttributeBinding;
-}
-export const CreateProjectsLocationsDataAttributeBindingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    parent: S.String.pipe(T.Label()),
-    dataAttributeBindingId: S.optional(S.String.pipe(T.Query())),
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    body: S.optional(GoogleCloudDataplexV1DataAttributeBinding.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "v1/{+parent}/dataAttributeBindings",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
-  ),
-).annotate({
-  identifier: "CreateProjectsLocationsDataAttributeBindingsRequest",
-}) as any as S.Schema<CreateProjectsLocationsDataAttributeBindingsRequest>;
 
 /** Output-only policy member strings of a Google Cloud resource's built-in identity. */
 export interface GoogleIamV1ResourcePolicyMember {
@@ -1419,18 +1325,18 @@ export const GoogleIamV1ResourcePolicyMember = /*@__PURE__*/ S.suspend(() =>
 
 /** Identity of a business contact. */
 export interface GoogleCloudDataplexV1ContactIdentity {
+  /** Optional. Email ID or freeform ID of the Contact person. */
+  contactId?: string;
   /** Required. Name of the contact person for the Data Domain; unvalidated freeform text. */
   contactName?: string;
   /** Required. Designation of the person i.e. Data Steward or Data Analyst. Example values: owner, steward, producer, admin. */
   contactRole?: string;
-  /** Optional. Email ID or freeform ID of the Contact person. */
-  contactId?: string;
 }
 export const GoogleCloudDataplexV1ContactIdentity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    contactId: S.optional(S.String),
     contactName: S.optional(S.String),
     contactRole: S.optional(S.String),
-    contactId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1ContactIdentity",
@@ -1456,39 +1362,39 @@ export const GoogleCloudDataplexV1Contacts = /*@__PURE__*/ S.suspend(() =>
 
 /** A DataDomain is a logical grouping of data resources for governance, discovery, and management at scale. */
 export interface GoogleCloudDataplexV1DataDomain {
-  /** Output only. The time at which the DataDomain was last updated. */
-  updateTime?: string;
+  /** Optional. User-defined labels for the DataDomain. */
+  labels?: StringMap;
   /** Identifier. The relative resource name of the DataDomain, of the form: projects/{project_id_or_number}/locations/{location_id}/dataDomains/{data_domain_id} */
   name?: string;
-  /** Output only. System-generated globally unique ID for the DataDomain. */
-  uid?: string;
-  /** Optional. Immutable. The resource name of the parent DataDomain. Empty if this is a top-level DataDomain. Format: projects/{project_id_or_number}/locations/{location}/dataDomains/{parent_data_domain_id} This field is immutable after creation. */
-  parentDataDomain?: string;
+  /** Output only. The time at which the DataDomain was last updated. */
+  updateTime?: string;
+  /** Optional. User-provided description of the DataDomain. */
+  description?: string;
   /** Output only. Output-only policy member strings of this resource. */
   policyMember?: GoogleIamV1ResourcePolicyMember;
-  /** Output only. The time at which the DataDomain was created. */
-  createTime?: string;
   /** Required. Contact info for the Data Domains. */
   contacts?: GoogleCloudDataplexV1Contacts;
   /** Required. User-friendly display name. */
   displayName?: string;
-  /** Optional. User-defined labels for the DataDomain. */
-  labels?: StringMap;
-  /** Optional. User-provided description of the DataDomain. */
-  description?: string;
+  /** Output only. The time at which the DataDomain was created. */
+  createTime?: string;
+  /** Optional. Immutable. The resource name of the parent DataDomain. Empty if this is a top-level DataDomain. Format: projects/{project_id_or_number}/locations/{location}/dataDomains/{parent_data_domain_id} This field is immutable after creation. */
+  parentDataDomain?: string;
+  /** Output only. System-generated globally unique ID for the DataDomain. */
+  uid?: string;
 }
 export const GoogleCloudDataplexV1DataDomain = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateTime: S.optional(S.String),
+    labels: S.optional(StringMap),
     name: S.optional(S.String),
-    uid: S.optional(S.String),
-    parentDataDomain: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    description: S.optional(S.String),
     policyMember: S.optional(GoogleIamV1ResourcePolicyMember),
-    createTime: S.optional(S.String),
     contacts: S.optional(GoogleCloudDataplexV1Contacts),
     displayName: S.optional(S.String),
-    labels: S.optional(StringMap),
-    description: S.optional(S.String),
+    createTime: S.optional(S.String),
+    parentDataDomain: S.optional(S.String),
+    uid: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1DataDomain",
@@ -1497,18 +1403,18 @@ export const GoogleCloudDataplexV1DataDomain = /*@__PURE__*/ S.suspend(() =>
 export interface CreateProjectsLocationsDataDomainsRequest {
   /** Required. DataDomain identifier. * Must contain only lowercase letters, numbers and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the project and location. */
   dataDomainId?: string;
-  /** Optional. Only validate the request, but do not perform mutations. */
-  validateOnly?: boolean;
   /** Required. The resource name of the parent location: projects/{project_id_or_number}/locations/{location_id} */
   parent: string;
+  /** Optional. Only validate the request, but do not perform mutations. */
+  validateOnly?: boolean;
   /** Request body */
   body?: GoogleCloudDataplexV1DataDomain;
 }
 export const CreateProjectsLocationsDataDomainsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dataDomainId: S.optional(S.String.pipe(T.Query())),
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(GoogleCloudDataplexV1DataDomain.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1523,41 +1429,41 @@ export const CreateProjectsLocationsDataDomainsRequest = /*@__PURE__*/ S.suspend
 
 /** DataDomainBinding represents a rule that includes a Google Cloud resource and its contents into a DataDomain. */
 export interface GoogleCloudDataplexV1DataDomainBinding {
-  /** Output only. The time at which the DataDomainBinding was created. */
-  createTime?: string;
-  /** Identifier. The relative resource name of the DataDomainBinding. Format: projects/{project_id_or_number}/locations/{location}/dataDomains/{data_domain_id}/bindings/{binding_id} */
-  name?: string;
   /** Output only. System-generated unique ID. */
   uid?: string;
   /** Required. Immutable. The full resource name of the Google Cloud resource to be bound (i.e. included together with its contents) to the DataDomain.Format: IAM Full resource name (https://docs.cloud.google.com/iam/docs/full-resource-names) Examples: - GCP Project: //cloudresourcemanager.googleapis.com/projects/{project-id} - BigQuery Dataset: //bigquery.googleapis.com/projects/{project-id}/datasets/{dataset-id} - BigQuery Table: //bigquery.googleapis.com/projects/{project-id}/datasets/{dataset-id}/tables/{table-id} - Dataplex Data Product: //dataplex.googleapis.com/projects/{project-number}/locations/{location}/dataProducts/{data-product-id}Authorization: the resource to be bound must first grant an IAM role with the resource-specific setIamPolicy permission to the DataDomain. Example: - resource: //bigquery.googleapis.com/projects/{project-id}/datasets/{dataset-id} - IAM role: with bigquery.datasets.setIamPolicy permission (e.g. roles/owner) - IAM member: principal://dataplex.googleapis.com/projects/{project-number}/name/locations/{location}/dataDomains/{data-domain-id} */
   resource?: string;
+  /** Output only. The time at which the DataDomainBinding was created. */
+  createTime?: string;
+  /** Identifier. The relative resource name of the DataDomainBinding. Format: projects/{project_id_or_number}/locations/{location}/dataDomains/{data_domain_id}/bindings/{binding_id} */
+  name?: string;
 }
 export const GoogleCloudDataplexV1DataDomainBinding = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createTime: S.optional(S.String),
-    name: S.optional(S.String),
     uid: S.optional(S.String),
     resource: S.optional(S.String),
+    createTime: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1DataDomainBinding",
 }) as any as S.Schema<GoogleCloudDataplexV1DataDomainBinding>;
 
 export interface CreateProjectsLocationsDataDomainsBindingsRequest {
-  /** Required. The resource name of the parent DataDomain: projects/{project_id_or_number}/locations/{location_id}/dataDomains/{data_domain_id} */
-  parent: string;
-  /** Optional. DataDomainBinding identifier. * Must contain only lowercase letters, numbers and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the parent DataDomain. If not provided, a system-generated UUID will be used. */
-  dataDomainBindingId?: string;
   /** Optional. Only validate the request, but do not perform mutations. */
   validateOnly?: boolean;
+  /** Optional. DataDomainBinding identifier. * Must contain only lowercase letters, numbers and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the parent DataDomain. If not provided, a system-generated UUID will be used. */
+  dataDomainBindingId?: string;
+  /** Required. The resource name of the parent DataDomain: projects/{project_id_or_number}/locations/{location_id}/dataDomains/{data_domain_id} */
+  parent: string;
   /** Request body */
   body?: GoogleCloudDataplexV1DataDomainBinding;
 }
 export const CreateProjectsLocationsDataDomainsBindingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    dataDomainBindingId: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    dataDomainBindingId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(GoogleCloudDataplexV1DataDomainBinding.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1569,52 +1475,6 @@ export const CreateProjectsLocationsDataDomainsBindingsRequest = /*@__PURE__*/ S
 ).annotate({
   identifier: "CreateProjectsLocationsDataDomainsBindingsRequest",
 }) as any as S.Schema<CreateProjectsLocationsDataDomainsBindingsRequest>;
-
-/** Represents the principal entity associated with an access group, as per https://cloud.google.com/iam/docs/principals-overview. */
-export interface GoogleCloudDataplexV1DataProductPrincipal {
-  /** Optional. Specifies the email of the producer service account, as per https://cloud.google.com/iam/docs/principals-overview#service-account. */
-  serviceAccount?: string;
-  /** Optional. Email of the Google Group, as per https://cloud.google.com/iam/docs/principals-overview#google-group. */
-  googleGroup?: string;
-}
-export const GoogleCloudDataplexV1DataProductPrincipal = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    serviceAccount: S.optional(S.String),
-    googleGroup: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataProductPrincipal",
-}) as any as S.Schema<GoogleCloudDataplexV1DataProductPrincipal>;
-
-/** Custom user defined access groups at the data product level. These are used for granting different levels of access (IAM roles) on the individual data product's data assets. */
-export interface GoogleCloudDataplexV1DataProductAccessGroup {
-  /** Required. Unique identifier of the access group within the data product. User defined. Eg. "analyst", "developer", etc. */
-  id?: string;
-  /** Required. The principal entity associated with this access group. */
-  principal?: GoogleCloudDataplexV1DataProductPrincipal;
-  /** Optional. Description of the access group. */
-  description?: string;
-  /** Required. User friendly display name of the access group. Eg. "Analyst", "Developer", etc. */
-  displayName?: string;
-}
-export const GoogleCloudDataplexV1DataProductAccessGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    principal: S.optional(GoogleCloudDataplexV1DataProductPrincipal),
-    description: S.optional(S.String),
-    displayName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataProductAccessGroup",
-}) as any as S.Schema<GoogleCloudDataplexV1DataProductAccessGroup>;
-
-export type GoogleCloudDataplexV1DataProductAccessGroupMap = {
-  [key: string]: GoogleCloudDataplexV1DataProductAccessGroup | undefined;
-};
-export const GoogleCloudDataplexV1DataProductAccessGroupMap = /*@__PURE__*/ S.Record(
-  S.String,
-  GoogleCloudDataplexV1DataProductAccessGroup,
-) as any as S.Schema<GoogleCloudDataplexV1DataProductAccessGroupMap>;
 
 /** Configuration for access approval for the data product. */
 export interface GoogleCloudDataplexV1DataProductAccessApprovalConfig {
@@ -1629,70 +1489,135 @@ export const GoogleCloudDataplexV1DataProductAccessApprovalConfig = /*@__PURE__*
   identifier: "GoogleCloudDataplexV1DataProductAccessApprovalConfig",
 }) as any as S.Schema<GoogleCloudDataplexV1DataProductAccessApprovalConfig>;
 
+/** Represents the principal entity associated with an access group, as per https://cloud.google.com/iam/docs/principals-overview. */
+export interface GoogleCloudDataplexV1DataProductPrincipal {
+  /** Optional. Email of the Google Group, as per https://cloud.google.com/iam/docs/principals-overview#google-group. */
+  googleGroup?: string;
+  /** Optional. Specifies the email of the producer service account, as per https://cloud.google.com/iam/docs/principals-overview#service-account. */
+  serviceAccount?: string;
+}
+export const GoogleCloudDataplexV1DataProductPrincipal = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    googleGroup: S.optional(S.String),
+    serviceAccount: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataProductPrincipal",
+}) as any as S.Schema<GoogleCloudDataplexV1DataProductPrincipal>;
+
+/** Default IAM role configuration for an access group. */
+export interface GoogleCloudDataplexV1DataProductAccessGroupDefaultIamRoleConfig {
+  /** Optional. The IAM role resource name to be applied as default. Example: "roles/bigquery.dataViewer". */
+  role?: string;
+}
+export const GoogleCloudDataplexV1DataProductAccessGroupDefaultIamRoleConfig =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      role: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1DataProductAccessGroupDefaultIamRoleConfig",
+  }) as any as S.Schema<GoogleCloudDataplexV1DataProductAccessGroupDefaultIamRoleConfig>;
+
+/** Custom user defined access groups at the data product level. These are used for granting different levels of access (IAM roles) on the individual data product's data assets. */
+export interface GoogleCloudDataplexV1DataProductAccessGroup {
+  /** Required. User friendly display name of the access group. Eg. "Analyst", "Developer", etc. */
+  displayName?: string;
+  /** Required. The principal entity associated with this access group. */
+  principal?: GoogleCloudDataplexV1DataProductPrincipal;
+  /** Required. Unique identifier of the access group within the data product. User defined. Eg. "analyst", "developer", etc. */
+  id?: string;
+  /** Optional. Description of the access group. */
+  description?: string;
+  /** Optional. Default IAM role configuration to be applied on the data assets associated with this data product, for this access group. */
+  defaultIamRoleConfig?: GoogleCloudDataplexV1DataProductAccessGroupDefaultIamRoleConfig;
+}
+export const GoogleCloudDataplexV1DataProductAccessGroup = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    principal: S.optional(GoogleCloudDataplexV1DataProductPrincipal),
+    id: S.optional(S.String),
+    description: S.optional(S.String),
+    defaultIamRoleConfig: S.optional(
+      GoogleCloudDataplexV1DataProductAccessGroupDefaultIamRoleConfig,
+    ),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataProductAccessGroup",
+}) as any as S.Schema<GoogleCloudDataplexV1DataProductAccessGroup>;
+
+export type GoogleCloudDataplexV1DataProductAccessGroupMap = {
+  [key: string]: GoogleCloudDataplexV1DataProductAccessGroup | undefined;
+};
+export const GoogleCloudDataplexV1DataProductAccessGroupMap = /*@__PURE__*/ S.Record(
+  S.String,
+  GoogleCloudDataplexV1DataProductAccessGroup,
+) as any as S.Schema<GoogleCloudDataplexV1DataProductAccessGroupMap>;
+
 /** A data product is a curated collection of data assets, packaged to address specific use cases. It's a way to manage and share data in a more organized, product-like manner. */
 export interface GoogleCloudDataplexV1DataProduct {
-  /** Identifier. Resource name of the data product. Format: projects/{project_id_or_number}/locations/{location_id}/dataProducts/{data_product_id}. */
-  name?: string;
-  /** Optional. Data product access groups by access group id as key. If data product is used only for packaging data assets, then access groups may be empty. However, if a data product is used for sharing data assets, then at least one access group must be specified.Example: { "analyst": { "id": "analyst", "displayName": "Analyst", "description": "Access group for analysts", "principal": { "googleGroup": "analysts@example.com" } } } */
-  accessGroups?: GoogleCloudDataplexV1DataProductAccessGroupMap;
-  /** Output only. The time at which the data product was created. */
-  createTime?: string;
-  /** Required. User-friendly display name of the data product. */
-  displayName?: string;
-  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
-  /** Optional. Configuration for access approval for the data product. */
-  accessApprovalConfig?: GoogleCloudDataplexV1DataProductAccessApprovalConfig;
-  /** Output only. The time at which the data product was last updated. */
-  updateTime?: string;
-  /** Output only. System generated unique ID for the data product. This ID will be different if the data product is deleted and re-created with the same name. */
-  uid?: string;
-  /** Optional. Base64 encoded image representing the data product. Max Size: 3.0MiB Expected image dimensions are 512x512 pixels, however the API only performs validation on size of the encoded data. Note: For byte fields, the content of the fields are base64-encoded (which increases the size of the data by 33-36%) when using JSON on the wire. */
-  icon?: string;
-  /** Required. Emails of the data product owners. */
-  ownerEmails?: StringList;
-  /** Optional. Description of the data product. */
-  description?: string;
-  /** Optional. User-defined labels for the data product.Example: { "environment": "production", "billing": "marketing-department" } */
-  labels?: StringMap;
   /** Output only. Number of data assets associated with this data product. */
   assetCount?: number;
+  /** Optional. Configuration for access approval for the data product. */
+  accessApprovalConfig?: GoogleCloudDataplexV1DataProductAccessApprovalConfig;
+  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string;
+  /** Output only. The time at which the data product was last updated. */
+  updateTime?: string;
+  /** Optional. Data product access groups by access group id as key. If data product is used only for packaging data assets, then access groups may be empty. However, if a data product is used for sharing data assets, then at least one access group must be specified.Example: { "analyst": { "id": "analyst", "displayName": "Analyst", "description": "Access group for analysts", "principal": { "googleGroup": "analysts@example.com" } } } */
+  accessGroups?: GoogleCloudDataplexV1DataProductAccessGroupMap;
+  /** Optional. Description of the data product. */
+  description?: string;
+  /** Output only. The time at which the data product was created. */
+  createTime?: string;
+  /** Optional. Base64 encoded image representing the data product. Max Size: 3.0MiB Expected image dimensions are 512x512 pixels, however the API only performs validation on size of the encoded data. Note: For byte fields, the content of the fields are base64-encoded (which increases the size of the data by 33-36%) when using JSON on the wire. */
+  icon?: string;
+  /** Output only. System generated unique ID for the data product. This ID will be different if the data product is deleted and re-created with the same name. */
+  uid?: string;
+  /** Optional. User-defined labels for the data product.Example: { "environment": "production", "billing": "marketing-department" } */
+  labels?: StringMap;
+  /** Required. Emails of the data product owners. */
+  ownerEmails?: StringList;
+  /** Required. User-friendly display name of the data product. */
+  displayName?: string;
+  /** Identifier. Resource name of the data product. Format: projects/{project_id_or_number}/locations/{location_id}/dataProducts/{data_product_id}. */
+  name?: string;
 }
 export const GoogleCloudDataplexV1DataProduct = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    accessGroups: S.optional(GoogleCloudDataplexV1DataProductAccessGroupMap),
-    createTime: S.optional(S.String),
-    displayName: S.optional(S.String),
-    etag: S.optional(S.String),
-    accessApprovalConfig: S.optional(GoogleCloudDataplexV1DataProductAccessApprovalConfig),
-    updateTime: S.optional(S.String),
-    uid: S.optional(S.String),
-    icon: S.optional(S.String),
-    ownerEmails: S.optional(StringList),
-    description: S.optional(S.String),
-    labels: S.optional(StringMap),
     assetCount: S.optional(S.Number),
+    accessApprovalConfig: S.optional(GoogleCloudDataplexV1DataProductAccessApprovalConfig),
+    etag: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    accessGroups: S.optional(GoogleCloudDataplexV1DataProductAccessGroupMap),
+    description: S.optional(S.String),
+    createTime: S.optional(S.String),
+    icon: S.optional(S.String),
+    uid: S.optional(S.String),
+    labels: S.optional(StringMap),
+    ownerEmails: S.optional(StringList),
+    displayName: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1DataProduct",
 }) as any as S.Schema<GoogleCloudDataplexV1DataProduct>;
 
 export interface CreateProjectsLocationsDataProductsRequest {
-  /** Required. The parent resource where this data product will be created. Format: projects/{project_id_or_number}/locations/{location_id} */
-  parent: string;
   /** Optional. The ID of the data product to create.The ID must conform to RFC-1034 and contain only lower-case letters (a-z), numbers (0-9), or hyphens, with the first character a letter, the last a letter or a number, and a 63 character maximum. Characters outside of ASCII are not permitted. Valid format regex: ^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$ If not provided, a system generated ID will be used. */
   dataProductId?: string;
   /** Optional. Validates the request without actually creating the data product. Default: false. */
   validateOnly?: boolean;
+  /** Required. The parent resource where this data product will be created. Format: projects/{project_id_or_number}/locations/{location_id} */
+  parent: string;
   /** Request body */
   body?: GoogleCloudDataplexV1DataProduct;
 }
 export const CreateProjectsLocationsDataProductsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     dataProductId: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(GoogleCloudDataplexV1DataProduct.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1705,14 +1630,25 @@ export const CreateProjectsLocationsDataProductsRequest = /*@__PURE__*/ S.suspen
   identifier: "CreateProjectsLocationsDataProductsRequest",
 }) as any as S.Schema<CreateProjectsLocationsDataProductsRequest>;
 
+export type GoogleCloudDataplexV1DataAssetAccessGroupConfigStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "APPLYING"
+  | "APPLIED"
+  | "FAILED"
+  | "UNSUPPORTED";
+export const GoogleCloudDataplexV1DataAssetAccessGroupConfigStateEnum = S.String;
+
 /** Configuration for access group inherited from the parent data product. */
 export interface GoogleCloudDataplexV1DataAssetAccessGroupConfig {
   /** Optional. IAM roles granted on the resource to this access group. Role name follows https://cloud.google.com/iam/docs/reference/rest/v1/roles.Example: [ "roles/bigquery.dataViewer" ] */
   iamRoles?: StringList;
+  /** Output only. The state of the iam role application. */
+  state?: GoogleCloudDataplexV1DataAssetAccessGroupConfigStateEnum | (string & {});
 }
 export const GoogleCloudDataplexV1DataAssetAccessGroupConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     iamRoles: S.optional(StringList),
+    state: S.optional(GoogleCloudDataplexV1DataAssetAccessGroupConfigStateEnum),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1DataAssetAccessGroupConfig",
@@ -1728,33 +1664,33 @@ export const GoogleCloudDataplexV1DataAssetAccessGroupConfigMap = /*@__PURE__*/ 
 
 /** Represents a data asset resource that can be packaged and shared via a data product. */
 export interface GoogleCloudDataplexV1DataAsset {
-  /** Required. Immutable. Full resource name of the cloud resource represented by the data asset. This must follow https://cloud.google.com/iam/docs/full-resource-names. Example: //bigquery.googleapis.com/projects/my_project_123/datasets/dataset_456/tables/table_789 Only BigQuery tables and datasets are currently supported. Data asset creator must have getIamPolicy and setIamPolicy permissions on the resource. Data asset creator must also have resource specific get permission, for instance, bigquery.tables.get for BigQuery tables. */
-  resource?: string;
-  /** Output only. The time at which the data asset was last updated. */
-  updateTime?: string;
-  /** Identifier. Resource name of the data asset. Format: projects/{project_id_or_number}/locations/{location_id}/dataProducts/{data_product_id}/dataAssets/{data_asset_id} */
-  name?: string;
-  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
-  /** Optional. User-defined labels for the data asset.Example: { "environment": "production", "billing": "marketing-department" } */
-  labels?: StringMap;
   /** Output only. System generated globally unique ID for the data asset. This ID will be different if the data asset is deleted and re-created with the same name. */
   uid?: string;
-  /** Output only. The time at which the data asset was created. */
-  createTime?: string;
   /** Optional. Access groups configurations for this data asset.The key is DataProduct.AccessGroup.id and the value is AccessGroupConfig.Example: { "analyst": { "iamRoles": ["roles/bigquery.dataViewer"] } } Currently, at most one IAM role is allowed per access group. For providing multiple predefined IAM roles, wrap them in a custom IAM role as per https://cloud.google.com/iam/docs/creating-custom-roles. */
   accessGroupConfigs?: GoogleCloudDataplexV1DataAssetAccessGroupConfigMap;
+  /** Required. Immutable. Full resource name of the cloud resource represented by the data asset. This must follow https://cloud.google.com/iam/docs/full-resource-names. Example: //bigquery.googleapis.com/projects/my_project_123/datasets/dataset_456/tables/table_789 Only BigQuery tables and datasets are currently supported. Data asset creator must have getIamPolicy and setIamPolicy permissions on the resource. Data asset creator must also have resource specific get permission, for instance, bigquery.tables.get for BigQuery tables. */
+  resource?: string;
+  /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string;
+  /** Identifier. Resource name of the data asset. Format: projects/{project_id_or_number}/locations/{location_id}/dataProducts/{data_product_id}/dataAssets/{data_asset_id} */
+  name?: string;
+  /** Optional. User-defined labels for the data asset.Example: { "environment": "production", "billing": "marketing-department" } */
+  labels?: StringMap;
+  /** Output only. The time at which the data asset was created. */
+  createTime?: string;
+  /** Output only. The time at which the data asset was last updated. */
+  updateTime?: string;
 }
 export const GoogleCloudDataplexV1DataAsset = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resource: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    name: S.optional(S.String),
-    etag: S.optional(S.String),
-    labels: S.optional(StringMap),
     uid: S.optional(S.String),
-    createTime: S.optional(S.String),
     accessGroupConfigs: S.optional(GoogleCloudDataplexV1DataAssetAccessGroupConfigMap),
+    resource: S.optional(S.String),
+    etag: S.optional(S.String),
+    name: S.optional(S.String),
+    labels: S.optional(StringMap),
+    createTime: S.optional(S.String),
+    updateTime: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1DataAsset",
@@ -1787,205 +1723,695 @@ export const CreateProjectsLocationsDataProductsDataAssetsRequest = /*@__PURE__*
   identifier: "CreateProjectsLocationsDataProductsDataAssetsRequest",
 }) as any as S.Schema<CreateProjectsLocationsDataProductsDataAssetsRequest>;
 
-/** Contains the specification for an unstructured data profile scan. */
-export interface GoogleCloudDataplexV1UnstructuredDataProfileSpec {
-  /** Optional. Whether to publish graph-profile as aspect on the catalog entry. */
-  graphProfilePublishingEnabled?: boolean;
-  /** Optional. Whether to use the global model. */
-  globalEndpointEnabled?: boolean;
-  /** Optional. Customized prompt for unstructured data profile. The field will be used as part of the prompt, could be some instruction, specifying skill, or specific area to focus. */
-  customizedPrompt?: string;
+/** The specification for fields to include or exclude in data profile scan. */
+export interface GoogleCloudDataplexV1DataProfileSpecSelectedFields {
+  /** Optional. Expected input is a list of fully qualified names of fields as in the schema.Only top-level field names for nested fields are supported. For instance, if 'x' is of nested field type, listing 'x' is supported but 'x.y.z' is not supported. Here 'y' and 'y.z' are nested fields of 'x'. */
+  fieldNames?: StringList;
 }
-export const GoogleCloudDataplexV1UnstructuredDataProfileSpec = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudDataplexV1DataProfileSpecSelectedFields = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    graphProfilePublishingEnabled: S.optional(S.Boolean),
-    globalEndpointEnabled: S.optional(S.Boolean),
-    customizedPrompt: S.optional(S.String),
+    fieldNames: S.optional(StringList),
   }),
 ).annotate({
-  identifier: "GoogleCloudDataplexV1UnstructuredDataProfileSpec",
-}) as any as S.Schema<GoogleCloudDataplexV1UnstructuredDataProfileSpec>;
+  identifier: "GoogleCloudDataplexV1DataProfileSpecSelectedFields",
+}) as any as S.Schema<GoogleCloudDataplexV1DataProfileSpecSelectedFields>;
 
-/** Describes JSON data format. */
-export interface GoogleCloudDataplexV1DataDiscoverySpecStorageConfigJsonOptions {
-  /** Optional. The character encoding of the data. The default is UTF-8. */
-  encoding?: string;
-  /** Optional. Whether to disable the inference of data types for JSON data. If true, all columns are registered as their primitive types (strings, number, or boolean). */
-  typeInferenceDisabled?: boolean;
+/** The configuration of BigQuery export post scan action. */
+export interface GoogleCloudDataplexV1DataProfileSpecPostScanActionsBigQueryExport {
+  /** Optional. The BigQuery table to export DataProfileScan results to. Format: //bigquery.googleapis.com/projects/PROJECT_ID/datasets/DATASET_ID/tables/TABLE_ID */
+  resultsTable?: string;
 }
-export const GoogleCloudDataplexV1DataDiscoverySpecStorageConfigJsonOptions =
+export const GoogleCloudDataplexV1DataProfileSpecPostScanActionsBigQueryExport =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      encoding: S.optional(S.String),
-      typeInferenceDisabled: S.optional(S.Boolean),
+      resultsTable: S.optional(S.String),
     }),
   ).annotate({
-    identifier: "GoogleCloudDataplexV1DataDiscoverySpecStorageConfigJsonOptions",
-  }) as any as S.Schema<GoogleCloudDataplexV1DataDiscoverySpecStorageConfigJsonOptions>;
+    identifier: "GoogleCloudDataplexV1DataProfileSpecPostScanActionsBigQueryExport",
+  }) as any as S.Schema<GoogleCloudDataplexV1DataProfileSpecPostScanActionsBigQueryExport>;
 
-/** Describes CSV and similar semi-structured data formats. */
-export interface GoogleCloudDataplexV1DataDiscoverySpecStorageConfigCsvOptions {
-  /** Optional. Whether to disable the inference of data types for CSV data. If true, all columns are registered as strings. */
-  typeInferenceDisabled?: boolean;
-  /** Optional. The character used to quote column values. Accepts " (double quotation mark) or ' (single quotation mark). If unspecified, defaults to " (double quotation mark). */
-  quote?: string;
-  /** Optional. The character encoding of the data. The default is UTF-8. */
-  encoding?: string;
-  /** Optional. The number of rows to interpret as header rows that should be skipped when reading data rows. */
-  headerRows?: number;
-  /** Optional. The delimiter that is used to separate values. The default is , (comma). */
-  delimiter?: string;
+/** The configuration of post scan actions of DataProfileScan job. */
+export interface GoogleCloudDataplexV1DataProfileSpecPostScanActions {
+  /** Optional. If set, results will be exported to the provided BigQuery table. */
+  bigqueryExport?: GoogleCloudDataplexV1DataProfileSpecPostScanActionsBigQueryExport;
 }
-export const GoogleCloudDataplexV1DataDiscoverySpecStorageConfigCsvOptions =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      typeInferenceDisabled: S.optional(S.Boolean),
-      quote: S.optional(S.String),
-      encoding: S.optional(S.String),
-      headerRows: S.optional(S.Number),
-      delimiter: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDataplexV1DataDiscoverySpecStorageConfigCsvOptions",
-  }) as any as S.Schema<GoogleCloudDataplexV1DataDiscoverySpecStorageConfigCsvOptions>;
-
-/** Describes options for unstructured data discovery. */
-export interface GoogleCloudDataplexV1DataDiscoverySpecStorageConfigUnstructuredDataOptions {
-  /** Optional. Specifies whether deeper semantic inference over the objects' contents using GenAI is enabled. */
-  semanticInferenceEnabled?: boolean;
-  /** Optional. Whether to use the global model endpoint. */
-  globalEndpointEnabled?: boolean;
-}
-export const GoogleCloudDataplexV1DataDiscoverySpecStorageConfigUnstructuredDataOptions =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      semanticInferenceEnabled: S.optional(S.Boolean),
-      globalEndpointEnabled: S.optional(S.Boolean),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDataplexV1DataDiscoverySpecStorageConfigUnstructuredDataOptions",
-  }) as any as S.Schema<GoogleCloudDataplexV1DataDiscoverySpecStorageConfigUnstructuredDataOptions>;
-
-/** Configurations related to Cloud Storage as the data source. */
-export interface GoogleCloudDataplexV1DataDiscoverySpecStorageConfig {
-  /** Optional. Defines the data to exclude during discovery. Provide a list of patterns that identify the data to exclude. For Cloud Storage bucket assets, these patterns are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these patterns are interpreted as patterns to match table names. */
-  excludePatterns?: StringList;
-  /** Optional. Configuration for JSON data. */
-  jsonOptions?: GoogleCloudDataplexV1DataDiscoverySpecStorageConfigJsonOptions;
-  /** Optional. Defines the data to include during discovery when only a subset of the data should be considered. Provide a list of patterns that identify the data to include. For Cloud Storage bucket assets, these patterns are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these patterns are interpreted as patterns to match table names. */
-  includePatterns?: StringList;
-  /** Optional. Configuration for CSV data. */
-  csvOptions?: GoogleCloudDataplexV1DataDiscoverySpecStorageConfigCsvOptions;
-  /** Optional. Specifies configuration for unstructured data discovery. */
-  unstructuredDataOptions?: GoogleCloudDataplexV1DataDiscoverySpecStorageConfigUnstructuredDataOptions;
-}
-export const GoogleCloudDataplexV1DataDiscoverySpecStorageConfig = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudDataplexV1DataProfileSpecPostScanActions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    excludePatterns: S.optional(StringList),
-    jsonOptions: S.optional(GoogleCloudDataplexV1DataDiscoverySpecStorageConfigJsonOptions),
-    includePatterns: S.optional(StringList),
-    csvOptions: S.optional(GoogleCloudDataplexV1DataDiscoverySpecStorageConfigCsvOptions),
-    unstructuredDataOptions: S.optional(
-      GoogleCloudDataplexV1DataDiscoverySpecStorageConfigUnstructuredDataOptions,
-    ),
+    bigqueryExport: S.optional(GoogleCloudDataplexV1DataProfileSpecPostScanActionsBigQueryExport),
   }),
 ).annotate({
-  identifier: "GoogleCloudDataplexV1DataDiscoverySpecStorageConfig",
-}) as any as S.Schema<GoogleCloudDataplexV1DataDiscoverySpecStorageConfig>;
+  identifier: "GoogleCloudDataplexV1DataProfileSpecPostScanActions",
+}) as any as S.Schema<GoogleCloudDataplexV1DataProfileSpecPostScanActions>;
 
-export type GoogleCloudDataplexV1DataDiscoverySpecBigQueryPublishingConfigTableTypeEnum =
-  | "TABLE_TYPE_UNSPECIFIED"
-  | "EXTERNAL"
-  | "BIGLAKE";
-export const GoogleCloudDataplexV1DataDiscoverySpecBigQueryPublishingConfigTableTypeEnum = S.String;
+export type GoogleCloudDataplexV1DataProfileSpecModeEnum =
+  | "MODE_UNSPECIFIED"
+  | "STANDARD"
+  | "LIGHTWEIGHT";
+export const GoogleCloudDataplexV1DataProfileSpecModeEnum = S.String;
 
-/** Describes BigQuery publishing configurations. */
-export interface GoogleCloudDataplexV1DataDiscoverySpecBigQueryPublishingConfig {
-  /** Optional. Determines whether to publish discovered tables as BigLake external tables or non-BigLake external tables. */
-  tableType?:
-    | GoogleCloudDataplexV1DataDiscoverySpecBigQueryPublishingConfigTableTypeEnum
-    | (string & {});
-  /** Optional. The BigQuery connection used to create BigLake tables. Must be in the form projects/{project_id}/locations/{location_id}/connections/{connection_id} */
-  connection?: string;
-  /** Optional. The location of the BigQuery dataset to publish BigLake external or non-BigLake external tables to. 1. If the Cloud Storage bucket is located in a multi-region bucket, then BigQuery dataset can be in the same multi-region bucket or any single region that is included in the same multi-region bucket. The datascan can be created in any single region that is included in the same multi-region bucket 2. If the Cloud Storage bucket is located in a dual-region bucket, then BigQuery dataset can be located in regions that are included in the dual-region bucket, or in a multi-region that includes the dual-region. The datascan can be created in any single region that is included in the same dual-region bucket. 3. If the Cloud Storage bucket is located in a single region, then BigQuery dataset can be in the same single region or any multi-region bucket that includes the same single region. The datascan will be created in the same single region as the bucket. 4. If the BigQuery dataset is in single region, it must be in the same single region as the datascan.For supported values, refer to https://cloud.google.com/bigquery/docs/locations#supported_locations. */
-  location?: string;
-  /** Optional. The project of the BigQuery dataset to publish BigLake external or non-BigLake external tables to. If not specified, the project of the Cloud Storage bucket will be used. The format is "projects/{project_id_or_number}". */
-  project?: string;
-}
-export const GoogleCloudDataplexV1DataDiscoverySpecBigQueryPublishingConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      tableType: S.optional(
-        GoogleCloudDataplexV1DataDiscoverySpecBigQueryPublishingConfigTableTypeEnum,
-      ),
-      connection: S.optional(S.String),
-      location: S.optional(S.String),
-      project: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDataplexV1DataDiscoverySpecBigQueryPublishingConfig",
-  }) as any as S.Schema<GoogleCloudDataplexV1DataDiscoverySpecBigQueryPublishingConfig>;
-
-/** Spec for a data discovery scan. */
-export interface GoogleCloudDataplexV1DataDiscoverySpec {
-  /** Cloud Storage related configurations. */
-  storageConfig?: GoogleCloudDataplexV1DataDiscoverySpecStorageConfig;
-  /** Optional. Configuration for metadata publishing. */
-  bigqueryPublishingConfig?: GoogleCloudDataplexV1DataDiscoverySpecBigQueryPublishingConfig;
-}
-export const GoogleCloudDataplexV1DataDiscoverySpec = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    storageConfig: S.optional(GoogleCloudDataplexV1DataDiscoverySpecStorageConfig),
-    bigqueryPublishingConfig: S.optional(
-      GoogleCloudDataplexV1DataDiscoverySpecBigQueryPublishingConfig,
-    ),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataDiscoverySpec",
-}) as any as S.Schema<GoogleCloudDataplexV1DataDiscoverySpec>;
-
-export type GoogleCloudDataplexV1DataDocumentationSpecSqlDialectEnum =
-  | "SQL_DIALECT_UNSPECIFIED"
-  | "GOOGLE_SQL"
-  | "SPARK_SQL";
-export const GoogleCloudDataplexV1DataDocumentationSpecSqlDialectEnum = S.String;
-
-export type GoogleCloudDataplexV1DataDocumentationSpecGenerationScopesItemEnum =
-  | "GENERATION_SCOPE_UNSPECIFIED"
-  | "ALL"
-  | "TABLE_AND_COLUMN_DESCRIPTIONS"
-  | "SQL_QUERIES"
-  | "BUSINESS_GLOSSARY_TERM_ASSOCIATIONS";
-export const GoogleCloudDataplexV1DataDocumentationSpecGenerationScopesItemEnum = S.String;
-
-export type GoogleCloudDataplexV1DataDocumentationSpecGenerationScopesItemEnumList = Array<
-  GoogleCloudDataplexV1DataDocumentationSpecGenerationScopesItemEnum | (string & {})
->;
-export const GoogleCloudDataplexV1DataDocumentationSpecGenerationScopesItemEnumList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDataplexV1DataDocumentationSpecGenerationScopesItemEnum,
-  ) as any as S.Schema<GoogleCloudDataplexV1DataDocumentationSpecGenerationScopesItemEnumList>;
-
-/** DataDocumentation scan related spec. */
-export interface GoogleCloudDataplexV1DataDocumentationSpec {
-  /** Optional. Whether to publish result to Dataplex Catalog. */
+/** DataProfileScan related setting. */
+export interface GoogleCloudDataplexV1DataProfileSpec {
+  /** Optional. The fields to exclude from data profile.If specified, the fields will be excluded from data profile, regardless of include_fields value. */
+  excludeFields?: GoogleCloudDataplexV1DataProfileSpecSelectedFields;
+  /** Optional. A filter applied to all rows in a single DataScan job. The filter needs to be a valid SQL expression for a WHERE clause in BigQuery standard SQL syntax. Example: col1 >= 0 AND col2 < 10 */
+  rowFilter?: string;
+  /** Optional. Actions to take upon job completion.. */
+  postScanActions?: GoogleCloudDataplexV1DataProfileSpecPostScanActions;
+  /** Optional. The fields to include in data profile.If not specified, all fields at the time of profile scan job execution are included, except for ones listed in exclude_fields. */
+  includeFields?: GoogleCloudDataplexV1DataProfileSpecSelectedFields;
+  /** Optional. If set, the latest DataScan job result will be published as Dataplex Universal Catalog metadata. */
   catalogPublishingEnabled?: boolean;
-  /** Optional. The SQL dialect to use in the generated SQL queries. If not specified, the default dialect is Google SQL. */
-  sqlDialect?: GoogleCloudDataplexV1DataDocumentationSpecSqlDialectEnum | (string & {});
-  /** Optional. Specifies which components of the data documentation to generate. Any component that is required to generate the specified components will also be generated. If no generation scope is specified, all available documentation components will be generated. */
-  generationScopes?: GoogleCloudDataplexV1DataDocumentationSpecGenerationScopesItemEnumList;
+  /** Optional. The percentage of the records to be selected from the dataset for DataScan. Value can range between 0.0 and 100.0 with up to 3 significant decimal digits. Sampling is not applied if sampling_percent is not specified, 0 or 100. */
+  samplingPercent?: number;
+  /** Optional. The execution mode for the profile scan. */
+  mode?: GoogleCloudDataplexV1DataProfileSpecModeEnum | (string & {});
 }
-export const GoogleCloudDataplexV1DataDocumentationSpec = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudDataplexV1DataProfileSpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    excludeFields: S.optional(GoogleCloudDataplexV1DataProfileSpecSelectedFields),
+    rowFilter: S.optional(S.String),
+    postScanActions: S.optional(GoogleCloudDataplexV1DataProfileSpecPostScanActions),
+    includeFields: S.optional(GoogleCloudDataplexV1DataProfileSpecSelectedFields),
     catalogPublishingEnabled: S.optional(S.Boolean),
-    sqlDialect: S.optional(GoogleCloudDataplexV1DataDocumentationSpecSqlDialectEnum),
-    generationScopes: S.optional(
-      GoogleCloudDataplexV1DataDocumentationSpecGenerationScopesItemEnumList,
-    ),
+    samplingPercent: S.optional(S.Number),
+    mode: S.optional(GoogleCloudDataplexV1DataProfileSpecModeEnum),
   }),
 ).annotate({
-  identifier: "GoogleCloudDataplexV1DataDocumentationSpec",
-}) as any as S.Schema<GoogleCloudDataplexV1DataDocumentationSpec>;
+  identifier: "GoogleCloudDataplexV1DataProfileSpec",
+}) as any as S.Schema<GoogleCloudDataplexV1DataProfileSpec>;
+
+export type GoogleCloudDataplexV1DataScanTypeEnum =
+  | "DATA_SCAN_TYPE_UNSPECIFIED"
+  | "DATA_QUALITY"
+  | "DATA_PROFILE"
+  | "DATA_DISCOVERY"
+  | "DATA_DOCUMENTATION"
+  | "UNSTRUCTURED_DATA_PROFILE";
+export const GoogleCloudDataplexV1DataScanTypeEnum = S.String;
+
+/** A dimension captures data quality intent about a defined subset of the rules specified. */
+export interface GoogleCloudDataplexV1DataQualityDimension {
+  /** Output only. The dimension name a rule belongs to. Custom dimension name is supported with all uppercase letters and maximum length of 30 characters. */
+  name?: string;
+}
+export const GoogleCloudDataplexV1DataQualityDimension = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataQualityDimension",
+}) as any as S.Schema<GoogleCloudDataplexV1DataQualityDimension>;
+
+/** DataQualityDimensionResult provides a more detailed, per-dimension view of the results. */
+export interface GoogleCloudDataplexV1DataQualityDimensionResult {
+  /** Output only. The dimension config specified in the DataQualitySpec, as is. */
+  dimension?: GoogleCloudDataplexV1DataQualityDimension;
+  /** Output only. The dimension-level data quality score for this data scan job if and only if the 'dimension' field is set.The score ranges between 0, 100 (up to two decimal points). */
+  score?: number;
+  /** Output only. Whether the dimension passed or failed. */
+  passed?: boolean;
+}
+export const GoogleCloudDataplexV1DataQualityDimensionResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dimension: S.optional(GoogleCloudDataplexV1DataQualityDimension),
+    score: S.optional(S.Number),
+    passed: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataQualityDimensionResult",
+}) as any as S.Schema<GoogleCloudDataplexV1DataQualityDimensionResult>;
+
+export type GoogleCloudDataplexV1DataQualityDimensionResultList =
+  Array<GoogleCloudDataplexV1DataQualityDimensionResult>;
+export const GoogleCloudDataplexV1DataQualityDimensionResultList = /*@__PURE__*/ S.Array(
+  GoogleCloudDataplexV1DataQualityDimensionResult,
+) as any as S.Schema<GoogleCloudDataplexV1DataQualityDimensionResultList>;
+
+/** DataQualityColumnResult provides a more detailed, per-column view of the results. */
+export interface GoogleCloudDataplexV1DataQualityColumnResult {
+  /** Output only. The column specified in the DataQualityRule. */
+  column?: string;
+  /** Output only. The dimension-level results for this column. */
+  dimensions?: GoogleCloudDataplexV1DataQualityDimensionResultList;
+  /** Output only. Whether the column passed or failed. */
+  passed?: boolean;
+  /** Output only. The column-level data quality score for this data scan job if and only if the 'column' field is set.The score ranges between between 0, 100 (up to two decimal points). */
+  score?: number;
+}
+export const GoogleCloudDataplexV1DataQualityColumnResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    column: S.optional(S.String),
+    dimensions: S.optional(GoogleCloudDataplexV1DataQualityDimensionResultList),
+    passed: S.optional(S.Boolean),
+    score: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataQualityColumnResult",
+}) as any as S.Schema<GoogleCloudDataplexV1DataQualityColumnResult>;
+
+export type GoogleCloudDataplexV1DataQualityColumnResultList =
+  Array<GoogleCloudDataplexV1DataQualityColumnResult>;
+export const GoogleCloudDataplexV1DataQualityColumnResultList = /*@__PURE__*/ S.Array(
+  GoogleCloudDataplexV1DataQualityColumnResult,
+) as any as S.Schema<GoogleCloudDataplexV1DataQualityColumnResultList>;
+
+/** Contains a single result from the debug query. */
+export interface GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResult {
+  /** Specifies the name of the result. Available if provided with an explicit alias using [AS] alias. */
+  name?: string;
+  /** Indicates the data type of the result. For more information, see BigQuery data types (https://cloud.google.com/bigquery/docs/reference/standard-sql/data-types). */
+  type?: string;
+  /** Represents the value of the result as a string. */
+  value?: string;
+}
+export const GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResult = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.optional(S.String),
+      type: S.optional(S.String),
+      value: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResult",
+}) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResult>;
+
+export type GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultList =
+  Array<GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResult>;
+export const GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultList = /*@__PURE__*/ S.Array(
+  GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResult,
+) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultList>;
+
+/** Contains all results from a debug query. */
+export interface GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultSet {
+  /** Output only. Contains all results. Up to 10 results can be returned. */
+  results?: GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultList;
+}
+export const GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultSet =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      results: S.optional(GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultList),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultSet",
+  }) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultSet>;
+
+export type GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultSetList =
+  Array<GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultSet>;
+export const GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultSetList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultSet,
+  ) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultSetList>;
+
+/** Evaluates whether each column value is contained by a specified set. */
+export interface GoogleCloudDataplexV1DataQualityRuleSetExpectation {
+  /** Optional. Expected values for the column value. */
+  values?: StringList;
+}
+export const GoogleCloudDataplexV1DataQualityRuleSetExpectation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    values: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataQualityRuleSetExpectation",
+}) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleSetExpectation>;
+
+/** Evaluates whether each row passes the specified condition.The SQL expression needs to use GoogleSQL syntax (https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax) and should produce a boolean value per row as the result.Example: col1 >= 0 AND col2 < 10 */
+export interface GoogleCloudDataplexV1DataQualityRuleRowConditionExpectation {
+  /** Optional. The SQL expression. */
+  sqlExpression?: string;
+}
+export const GoogleCloudDataplexV1DataQualityRuleRowConditionExpectation = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      sqlExpression: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataQualityRuleRowConditionExpectation",
+}) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleRowConditionExpectation>;
+
+/** Evaluates whether the column has duplicates. */
+export type GoogleCloudDataplexV1DataQualityRuleUniquenessExpectation =
+  GoogleLongrunningCancelOperationRequest;
+export const GoogleCloudDataplexV1DataQualityRuleUniquenessExpectation =
+  GoogleLongrunningCancelOperationRequest;
+
+/** Evaluates whether each column value matches a specified regex. */
+export interface GoogleCloudDataplexV1DataQualityRuleRegexExpectation {
+  /** Optional. A regular expression the column value is expected to match. */
+  regex?: string;
+}
+export const GoogleCloudDataplexV1DataQualityRuleRegexExpectation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    regex: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataQualityRuleRegexExpectation",
+}) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleRegexExpectation>;
+
+export type GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectationStatisticEnum =
+  | "STATISTIC_UNDEFINED"
+  | "MEAN"
+  | "MIN"
+  | "MAX";
+export const GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectationStatisticEnum = S.String;
+
+/** Evaluates whether the column aggregate statistic lies between a specified range. */
+export interface GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectation {
+  /** Optional. Whether column statistic needs to be strictly lesser than ('<') the maximum, or if equality is allowed.Only relevant if a max_value has been defined. Default = false. */
+  strictMaxEnabled?: boolean;
+  /** Optional. The minimum column statistic value allowed for a row to pass this validation.At least one of min_value and max_value need to be provided. */
+  minValue?: string;
+  /** Optional. The maximum column statistic value allowed for a row to pass this validation.At least one of min_value and max_value need to be provided. */
+  maxValue?: string;
+  /** Optional. Whether column statistic needs to be strictly greater than ('>') the minimum, or if equality is allowed.Only relevant if a min_value has been defined. Default = false. */
+  strictMinEnabled?: boolean;
+  /** Optional. The aggregate metric to evaluate. */
+  statistic?:
+    | GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectationStatisticEnum
+    | (string & {});
+}
+export const GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectation =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      strictMaxEnabled: S.optional(S.Boolean),
+      minValue: S.optional(S.String),
+      maxValue: S.optional(S.String),
+      strictMinEnabled: S.optional(S.Boolean),
+      statistic: S.optional(
+        GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectationStatisticEnum,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectation",
+  }) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectation>;
+
+/** Represents a parameter value. */
+export interface GoogleCloudDataplexV1DataQualityRuleTemplateReferenceParameterValue {
+  /** Required. Represents the string value of the parameter. */
+  value?: string;
+}
+export const GoogleCloudDataplexV1DataQualityRuleTemplateReferenceParameterValue =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      value: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1DataQualityRuleTemplateReferenceParameterValue",
+  }) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleTemplateReferenceParameterValue>;
+
+export type GoogleCloudDataplexV1DataQualityRuleTemplateReferenceParameterValueMap = {
+  [key: string]: GoogleCloudDataplexV1DataQualityRuleTemplateReferenceParameterValue | undefined;
+};
+export const GoogleCloudDataplexV1DataQualityRuleTemplateReferenceParameterValueMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    GoogleCloudDataplexV1DataQualityRuleTemplateReferenceParameterValue,
+  ) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleTemplateReferenceParameterValueMap>;
+
+/** Templatized SQL query for data quality rules. It can have parameters that can be substituted with values when a rule is created using this template. */
+export interface GoogleCloudDataplexV1DataQualityRuleTemplateSql {
+  /** Output only. Templatized SQL query for data quality rules. */
+  query?: string;
+}
+export const GoogleCloudDataplexV1DataQualityRuleTemplateSql = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    query: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataQualityRuleTemplateSql",
+}) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleTemplateSql>;
+
+export type GoogleCloudDataplexV1DataQualityRuleTemplateSqlList =
+  Array<GoogleCloudDataplexV1DataQualityRuleTemplateSql>;
+export const GoogleCloudDataplexV1DataQualityRuleTemplateSqlList = /*@__PURE__*/ S.Array(
+  GoogleCloudDataplexV1DataQualityRuleTemplateSql,
+) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleTemplateSqlList>;
+
+/** Description of the input parameter. It can include the type(s) supported by the parameter and intended usage. It is for information purposes only and does not affect the behavior of the rule template. */
+export interface GoogleCloudDataplexV1DataQualityRuleTemplateParameterDescription {
+  /** Output only. Description of the input parameter. It can include the type(s) supported by the parameter and intended usage. It is for information purposes only and does not affect the behavior of the rule template. */
+  description?: string;
+  /** Output only. The default value for the parameter if no value is provided. */
+  defaultValue?: string;
+}
+export const GoogleCloudDataplexV1DataQualityRuleTemplateParameterDescription =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      description: S.optional(S.String),
+      defaultValue: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1DataQualityRuleTemplateParameterDescription",
+  }) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleTemplateParameterDescription>;
+
+export type GoogleCloudDataplexV1DataQualityRuleTemplateParameterDescriptionMap = {
+  [key: string]: GoogleCloudDataplexV1DataQualityRuleTemplateParameterDescription | undefined;
+};
+export const GoogleCloudDataplexV1DataQualityRuleTemplateParameterDescriptionMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    GoogleCloudDataplexV1DataQualityRuleTemplateParameterDescription,
+  ) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleTemplateParameterDescriptionMap>;
+
+/** DataQualityRuleTemplate represents a template which can be reused across multiple data quality rules. */
+export interface GoogleCloudDataplexV1DataQualityRuleTemplate {
+  /** Output only. A list of features or properties supported by this rule template. */
+  capabilities?: StringList;
+  /** Output only. Collection of SQLs for data quality rules. Currently only one SQL is supported. */
+  sqlCollection?: GoogleCloudDataplexV1DataQualityRuleTemplateSqlList;
+  /** Output only. Description for input parameters */
+  inputParameters?: GoogleCloudDataplexV1DataQualityRuleTemplateParameterDescriptionMap;
+  /** Output only. The name of the rule template in the format: projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}/entries/{entry_id} */
+  name?: string;
+  /** Output only. The dimension a rule template belongs to. Rule level results are also aggregated at the dimension level. */
+  dimension?: string;
+}
+export const GoogleCloudDataplexV1DataQualityRuleTemplate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    capabilities: S.optional(StringList),
+    sqlCollection: S.optional(GoogleCloudDataplexV1DataQualityRuleTemplateSqlList),
+    inputParameters: S.optional(
+      GoogleCloudDataplexV1DataQualityRuleTemplateParameterDescriptionMap,
+    ),
+    name: S.optional(S.String),
+    dimension: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataQualityRuleTemplate",
+}) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleTemplate>;
+
+/** A rule that constructs a SQL statement to evaluate using a rule template and parameter values. If the constructed statement returns any rows, this rule fails */
+export interface GoogleCloudDataplexV1DataQualityRuleTemplateReference {
+  /** Optional. Provides the map of parameter name and value. The maximum size of the field is 120KB (encoded as UTF-8). */
+  values?: GoogleCloudDataplexV1DataQualityRuleTemplateReferenceParameterValueMap;
+  /** Required. The template entry name. Entry must be of EntryType projects/dataplex-types/locations/global/entryTypes/data-quality-rule-template and contains top-level aspect of AspectType projects/dataplex-types/locations/global/aspectTypes/data-quality-rule-template. The format is: projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}/entries/{entry_id} */
+  name?: string;
+  /** Output only. The rule template used to resolve the rule. It is only populated in the result. */
+  ruleTemplate?: GoogleCloudDataplexV1DataQualityRuleTemplate;
+  /** Output only. The resolved SQL statement generated from the template with parameters substituted. It is only populated in the result. */
+  resolvedSql?: string;
+}
+export const GoogleCloudDataplexV1DataQualityRuleTemplateReference = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    values: S.optional(GoogleCloudDataplexV1DataQualityRuleTemplateReferenceParameterValueMap),
+    name: S.optional(S.String),
+    ruleTemplate: S.optional(GoogleCloudDataplexV1DataQualityRuleTemplate),
+    resolvedSql: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataQualityRuleTemplateReference",
+}) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleTemplateReference>;
+
+/** Evaluates whether the provided expression is true.The SQL expression needs to use GoogleSQL syntax (https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax) and should produce a scalar boolean result.Example: MIN(col1) >= 0 */
+export type GoogleCloudDataplexV1DataQualityRuleTableConditionExpectation =
+  GoogleCloudDataplexV1DataQualityRuleRowConditionExpectation;
+export const GoogleCloudDataplexV1DataQualityRuleTableConditionExpectation =
+  GoogleCloudDataplexV1DataQualityRuleRowConditionExpectation;
+
+/** Evaluates whether each column value is null. */
+export type GoogleCloudDataplexV1DataQualityRuleNonNullExpectation =
+  GoogleLongrunningCancelOperationRequest;
+export const GoogleCloudDataplexV1DataQualityRuleNonNullExpectation =
+  GoogleLongrunningCancelOperationRequest;
+
+/** Evaluates whether each column value lies between a specified range. */
+export interface GoogleCloudDataplexV1DataQualityRuleRangeExpectation {
+  /** Optional. Whether each value needs to be strictly greater than ('>') the minimum, or if equality is allowed.Only relevant if a min_value has been defined. Default = false. */
+  strictMinEnabled?: boolean;
+  /** Optional. Whether each value needs to be strictly lesser than ('<') the maximum, or if equality is allowed.Only relevant if a max_value has been defined. Default = false. */
+  strictMaxEnabled?: boolean;
+  /** Optional. The minimum column value allowed for a row to pass this validation. At least one of min_value and max_value need to be provided. */
+  minValue?: string;
+  /** Optional. The maximum column value allowed for a row to pass this validation. At least one of min_value and max_value need to be provided. */
+  maxValue?: string;
+}
+export const GoogleCloudDataplexV1DataQualityRuleRangeExpectation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    strictMinEnabled: S.optional(S.Boolean),
+    strictMaxEnabled: S.optional(S.Boolean),
+    minValue: S.optional(S.String),
+    maxValue: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataQualityRuleRangeExpectation",
+}) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleRangeExpectation>;
+
+/** A SQL statement that is evaluated to return rows that match an invalid state. If any rows are are returned, this rule fails.The SQL statement must use GoogleSQL syntax (https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax), and must not contain any semicolons.You can use the data reference parameter ${data()} to reference the source table with all of its precondition filters applied. Examples of precondition filters include row filters, incremental data filters, and sampling. For more information, see Data reference parameter (https://cloud.google.com/dataplex/docs/auto-data-quality-overview#data-reference-parameter).Example: SELECT * FROM ${data()} WHERE price < 0 */
+export interface GoogleCloudDataplexV1DataQualityRuleSqlAssertion {
+  /** Optional. The SQL statement. */
+  sqlStatement?: string;
+}
+export const GoogleCloudDataplexV1DataQualityRuleSqlAssertion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sqlStatement: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataQualityRuleSqlAssertion",
+}) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleSqlAssertion>;
+
+/** Specifies a SQL statement that is evaluated to return up to 10 scalar values that are used to debug rules. If the rule fails, the values can help diagnose the cause of the failure.The SQL statement must use GoogleSQL syntax (https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax), and must not contain any semicolons.You can use the data reference parameter ${data()} to reference the source table with all of its precondition filters applied. Examples of precondition filters include row filters, incremental data filters, and sampling. For more information, see Data reference parameter (https://cloud.google.com/dataplex/docs/auto-data-quality-overview#data-reference-parameter).You can also name results with an explicit alias using [AS] alias. For more information, see BigQuery explicit aliases (https://docs.cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax#explicit_alias_syntax).Example: SELECT MIN(col1) AS min_col1, MAX(col1) AS max_col1 FROM ${data()} */
+export interface GoogleCloudDataplexV1DataQualityRuleDebugQuery {
+  /** Optional. Specifies the description of the debug query. The maximum length is 1,024 characters. */
+  description?: string;
+  /** Required. Specifies the SQL statement to be executed. */
+  sqlStatement?: string;
+}
+export const GoogleCloudDataplexV1DataQualityRuleDebugQuery = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    sqlStatement: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataQualityRuleDebugQuery",
+}) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleDebugQuery>;
+
+export type GoogleCloudDataplexV1DataQualityRuleDebugQueryList =
+  Array<GoogleCloudDataplexV1DataQualityRuleDebugQuery>;
+export const GoogleCloudDataplexV1DataQualityRuleDebugQueryList = /*@__PURE__*/ S.Array(
+  GoogleCloudDataplexV1DataQualityRuleDebugQuery,
+) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleDebugQueryList>;
+
+/** Entry source represents information about the related source entry. */
+export interface GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementEntrySource {
+  /** Output only. The entry type to represent the current characteristics of the entry in the form of: projects/{project_id_or_number}/locations/{location_id}/entryTypes/{entry-type-id}. */
+  entryType?: string;
+  /** Output only. The entry name in the form of: projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}/entries/{entry_id} */
+  entry?: string;
+  /** Output only. The display name of the entry. */
+  displayName?: string;
+}
+export const GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementEntrySource =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      entryType: S.optional(S.String),
+      entry: S.optional(S.String),
+      displayName: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementEntrySource",
+  }) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementEntrySource>;
+
+/** Entry link source represents information about the entry link. */
+export interface GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementEntryLinkSource {
+  /** Output only. The entry link type to represent the current relationship between the entry and the next entry in the path. In the form of: projects/{project_id_or_number}/locations/{location_id}/entryLinkTypes/{entry_link_type_id} */
+  entryLinkType?: string;
+  /** Output only. The entry link name in the form of: projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}/entryLinks/{entry_link_id} */
+  entryLink?: string;
+}
+export const GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementEntryLinkSource =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      entryLinkType: S.optional(S.String),
+      entryLink: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementEntryLinkSource",
+  }) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementEntryLinkSource>;
+
+/** Path Element represents the direct relationship between the rule origin (aspects) to the BigQuery Entry. Ordering of the rule relationship will be maintained such that the first entry in the list is the closest ancestor (BigQuery table itself). A blank source denotes that the rule is derived directly from the DataScan itself. */
+export interface GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElement {
+  /** Output only. Entry source represents information about the related source entry. */
+  entrySource?: GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementEntrySource;
+  /** Output only. Entry link source represents information about the entry link. */
+  entryLinkSource?: GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementEntryLinkSource;
+}
+export const GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElement =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      entrySource: S.optional(
+        GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementEntrySource,
+      ),
+      entryLinkSource: S.optional(
+        GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementEntryLinkSource,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElement",
+  }) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElement>;
+
+export type GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementList =
+  Array<GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElement>;
+export const GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElement,
+  ) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementList>;
+
+/** Represents the rule source information from Catalog. */
+export interface GoogleCloudDataplexV1DataQualityRuleRuleSource {
+  /** Output only. Rule path elements represent information about the individual items in the relationship path between the scan resource and rule origin in that order. */
+  rulePathElements?: GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementList;
+}
+export const GoogleCloudDataplexV1DataQualityRuleRuleSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    rulePathElements: S.optional(GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementList),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataQualityRuleRuleSource",
+}) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleRuleSource>;
+
+/** A rule captures data quality intent about a data source. */
+export interface GoogleCloudDataplexV1DataQualityRule {
+  /** Row-level rule which evaluates whether each column value is contained by a specified set. */
+  setExpectation?: GoogleCloudDataplexV1DataQualityRuleSetExpectation;
+  /** Row-level rule which evaluates whether each row in a table passes the specified condition. */
+  rowConditionExpectation?: GoogleCloudDataplexV1DataQualityRuleRowConditionExpectation;
+  /** Row-level rule which evaluates whether each column value is unique. */
+  uniquenessExpectation?: GoogleLongrunningCancelOperationRequest;
+  /** Row-level rule which evaluates whether each column value matches a specified regex. */
+  regexExpectation?: GoogleCloudDataplexV1DataQualityRuleRegexExpectation;
+  /** Aggregate rule which evaluates whether the column aggregate statistic lies between a specified range. */
+  statisticRangeExpectation?: GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectation;
+  /** Aggregate rule which references a rule template and provides the parameters to be substituted in the template. If any rows are returned, this rule fails. */
+  templateReference?: GoogleCloudDataplexV1DataQualityRuleTemplateReference;
+  /** Optional. Description of the rule. The maximum length is 1,024 characters. */
+  description?: string;
+  /** Optional. The unnested column which this rule is evaluated against. */
+  column?: string;
+  /** Optional. Map of attribute name and value linked to the rule. The rules to evaluate can be filtered based on attributes provided here and a filter expression provided in the DataQualitySpec.filter field. */
+  attributes?: StringMap;
+  /** Aggregate rule which evaluates whether the provided expression is true for a table. */
+  tableConditionExpectation?: GoogleCloudDataplexV1DataQualityRuleRowConditionExpectation;
+  /** Row-level rule which evaluates whether each column value is null. */
+  nonNullExpectation?: GoogleLongrunningCancelOperationRequest;
+  /** Optional. Whether the Rule is active or suspended. Default is false. */
+  suspended?: boolean;
+  /** Row-level rule which evaluates whether each column value lies between a specified range. */
+  rangeExpectation?: GoogleCloudDataplexV1DataQualityRuleRangeExpectation;
+  /** Aggregate rule which evaluates the number of rows returned for the provided statement. If any rows are returned, this rule fails. */
+  sqlAssertion?: GoogleCloudDataplexV1DataQualityRuleSqlAssertion;
+  /** Optional. The minimum ratio of passing_rows / total_rows required to pass this rule, with a range of 0.0, 1.0.0 indicates default value (i.e. 1.0).This field is only valid for row-level type rules. */
+  threshold?: number;
+  /** Optional. The dimension a rule belongs to. Results are also aggregated at the dimension level. Custom dimension name is supported with all uppercase letters and maximum length of 30 characters. */
+  dimension?: string;
+  /** Optional. Rows with null values will automatically fail a rule, unless ignore_null is true. In that case, such null rows are trivially considered passing.This field is only valid for the following type of rules: RangeExpectation RegexExpectation SetExpectation UniquenessExpectation */
+  ignoreNull?: boolean;
+  /** Optional. A mutable name for the rule. The name must contain only letters (a-z, A-Z), numbers (0-9), or hyphens (-). The maximum length is 63 characters. Must start with a letter. Must end with a number or a letter. */
+  name?: string;
+  /** Optional. Specifies the debug queries for this rule. Currently, only one query is supported, but this may be expanded in the future. */
+  debugQueries?: GoogleCloudDataplexV1DataQualityRuleDebugQueryList;
+  /** Output only. Contains information about the source of the rule and its relationship with the BigQuery table, where applicable. */
+  ruleSource?: GoogleCloudDataplexV1DataQualityRuleRuleSource;
+}
+export const GoogleCloudDataplexV1DataQualityRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    setExpectation: S.optional(GoogleCloudDataplexV1DataQualityRuleSetExpectation),
+    rowConditionExpectation: S.optional(
+      GoogleCloudDataplexV1DataQualityRuleRowConditionExpectation,
+    ),
+    uniquenessExpectation: S.optional(GoogleLongrunningCancelOperationRequest),
+    regexExpectation: S.optional(GoogleCloudDataplexV1DataQualityRuleRegexExpectation),
+    statisticRangeExpectation: S.optional(
+      GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectation,
+    ),
+    templateReference: S.optional(GoogleCloudDataplexV1DataQualityRuleTemplateReference),
+    description: S.optional(S.String),
+    column: S.optional(S.String),
+    attributes: S.optional(StringMap),
+    tableConditionExpectation: S.optional(
+      GoogleCloudDataplexV1DataQualityRuleRowConditionExpectation,
+    ),
+    nonNullExpectation: S.optional(GoogleLongrunningCancelOperationRequest),
+    suspended: S.optional(S.Boolean),
+    rangeExpectation: S.optional(GoogleCloudDataplexV1DataQualityRuleRangeExpectation),
+    sqlAssertion: S.optional(GoogleCloudDataplexV1DataQualityRuleSqlAssertion),
+    threshold: S.optional(S.Number),
+    dimension: S.optional(S.String),
+    ignoreNull: S.optional(S.Boolean),
+    name: S.optional(S.String),
+    debugQueries: S.optional(GoogleCloudDataplexV1DataQualityRuleDebugQueryList),
+    ruleSource: S.optional(GoogleCloudDataplexV1DataQualityRuleRuleSource),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataQualityRule",
+}) as any as S.Schema<GoogleCloudDataplexV1DataQualityRule>;
+
+/** DataQualityRuleResult provides a more detailed, per-rule view of the results. */
+export interface GoogleCloudDataplexV1DataQualityRuleResult {
+  /** Output only. The number of rows which passed a rule evaluation.This field is only valid for row-level type rules.This field is not set for rule SqlAssertion. */
+  passedCount?: string;
+  /** Output only. Whether the rule passed or failed. */
+  passed?: boolean;
+  /** Output only. The number of rows returned by the SQL statement in a SQL assertion rule.This field is only valid for SQL assertion rules. */
+  assertionRowCount?: string;
+  /** Output only. Contains the results of all debug queries for this rule. The number of result sets will correspond to the number of debug_queries. */
+  debugQueriesResultSets?: GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultSetList;
+  /** Output only. The rule specified in the DataQualitySpec, as is. */
+  rule?: GoogleCloudDataplexV1DataQualityRule;
+  /** Output only. The query to find rows that did not pass this rule.This field is only valid for row-level type rules. */
+  failingRowsQuery?: string;
+  /** Output only. The number of rows a rule was evaluated against.This field is only valid for row-level type rules.Evaluated count can be configured to either include all rows (default) - with null rows automatically failing rule evaluation, or exclude null rows from the evaluated_count, by setting ignore_nulls = true.This field is not set for rule SqlAssertion. */
+  evaluatedCount?: string;
+  /** Output only. The number of rows with null values in the specified column. */
+  nullCount?: string;
+  /** Output only. The ratio of passed_count / evaluated_count.This field is only valid for row-level type rules. */
+  passRatio?: number;
+}
+export const GoogleCloudDataplexV1DataQualityRuleResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    passedCount: S.optional(S.String),
+    passed: S.optional(S.Boolean),
+    assertionRowCount: S.optional(S.String),
+    debugQueriesResultSets: S.optional(
+      GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultSetList,
+    ),
+    rule: S.optional(GoogleCloudDataplexV1DataQualityRule),
+    failingRowsQuery: S.optional(S.String),
+    evaluatedCount: S.optional(S.String),
+    nullCount: S.optional(S.String),
+    passRatio: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataQualityRuleResult",
+}) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleResult>;
+
+export type GoogleCloudDataplexV1DataQualityRuleResultList =
+  Array<GoogleCloudDataplexV1DataQualityRuleResult>;
+export const GoogleCloudDataplexV1DataQualityRuleResultList = /*@__PURE__*/ S.Array(
+  GoogleCloudDataplexV1DataQualityRuleResult,
+) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleResultList>;
+
+/** The assets generated by Anomaly Detection Data Scan. */
+export interface GoogleCloudDataplexV1DataQualityResultAnomalyDetectionGeneratedAssets {
+  /** Output only. The intermediate table for data anomaly detection. Format: PROJECT_ID.DATASET_ID.TABLE_ID */
+  dataIntermediateTable?: string;
+  /** Output only. The intermediate table for volume anomaly detection. Format: PROJECT_ID.DATASET_ID.TABLE_ID */
+  volumeIntermediateTable?: string;
+  /** Output only. The intermediate table for freshness anomaly detection. Format: PROJECT_ID.DATASET_ID.TABLE_ID */
+  freshnessIntermediateTable?: string;
+  /** Output only. The result table for anomaly detection. Format: PROJECT_ID.DATASET_ID.TABLE_ID If the result table is set at AnomalyDetectionAssets, the result table here would be the same as the one set in the AnomalyDetectionAssets.result_table. */
+  resultTable?: string;
+}
+export const GoogleCloudDataplexV1DataQualityResultAnomalyDetectionGeneratedAssets =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      dataIntermediateTable: S.optional(S.String),
+      volumeIntermediateTable: S.optional(S.String),
+      freshnessIntermediateTable: S.optional(S.String),
+      resultTable: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1DataQualityResultAnomalyDetectionGeneratedAssets",
+  }) as any as S.Schema<GoogleCloudDataplexV1DataQualityResultAnomalyDetectionGeneratedAssets>;
 
 export type GoogleCloudDataplexV1DataScanCatalogPublishingStatusStateEnum =
   | "STATE_UNSPECIFIED"
@@ -2039,185 +2465,225 @@ export const GoogleCloudDataplexV1ScannedData = /*@__PURE__*/ S.suspend(() =>
   identifier: "GoogleCloudDataplexV1ScannedData",
 }) as any as S.Schema<GoogleCloudDataplexV1ScannedData>;
 
-/** The profile information for a string type field. */
-export interface GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoStringFieldInfo {
-  /** Output only. Average length of non-null values in the scanned data. */
-  averageLength?: number;
-  /** Output only. Maximum length of non-null values in the scanned data. */
-  maxLength?: string;
-  /** Output only. Minimum length of non-null values in the scanned data. */
-  minLength?: string;
+export type GoogleCloudDataplexV1DataQualityResultPostScanActionsResultBigQueryExportResultStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "SUCCEEDED"
+  | "FAILED"
+  | "SKIPPED";
+export const GoogleCloudDataplexV1DataQualityResultPostScanActionsResultBigQueryExportResultStateEnum =
+  S.String;
+
+/** The result of BigQuery export post scan action. */
+export interface GoogleCloudDataplexV1DataQualityResultPostScanActionsResultBigQueryExportResult {
+  /** Output only. Execution state for the BigQuery exporting. */
+  state?:
+    | GoogleCloudDataplexV1DataQualityResultPostScanActionsResultBigQueryExportResultStateEnum
+    | (string & {});
+  /** Output only. Additional information about the BigQuery exporting. */
+  message?: string;
 }
-export const GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoStringFieldInfo =
+export const GoogleCloudDataplexV1DataQualityResultPostScanActionsResultBigQueryExportResult =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      averageLength: S.optional(S.Number),
-      maxLength: S.optional(S.String),
-      minLength: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoStringFieldInfo",
-  }) as any as S.Schema<GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoStringFieldInfo>;
-
-/** Top N non-null values in the scanned data. */
-export interface GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoTopNValue {
-  /** Output only. String value of a top N non-null value. */
-  value?: string;
-  /** Output only. Count of the corresponding value in the scanned data. */
-  count?: string;
-  /** Output only. Ratio of the corresponding value in the field against the total number of rows in the scanned data. */
-  ratio?: number;
-}
-export const GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoTopNValue =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      value: S.optional(S.String),
-      count: S.optional(S.String),
-      ratio: S.optional(S.Number),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoTopNValue",
-  }) as any as S.Schema<GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoTopNValue>;
-
-export type GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoTopNValueList =
-  Array<GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoTopNValue>;
-export const GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoTopNValueList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoTopNValue,
-  ) as any as S.Schema<GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoTopNValueList>;
-
-export type DoubleList = Array<number>;
-export const DoubleList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<DoubleList>;
-
-/** The profile information for a double type field. */
-export interface GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoDoubleFieldInfo {
-  /** Output only. Maximum of non-null values in the scanned data. NaN, if the field has a NaN. */
-  max?: number;
-  /** Output only. A quartile divides the number of data points into four parts, or quarters, of more-or-less equal size. Three main quartiles used are: The first quartile (Q1) splits off the lowest 25% of data from the highest 75%. It is also known as the lower or 25th empirical quartile, as 25% of the data is below this point. The second quartile (Q2) is the median of a data set. So, 50% of the data lies below this point. The third quartile (Q3) splits off the highest 25% of data from the lowest 75%. It is known as the upper or 75th empirical quartile, as 75% of the data lies below this point. Here, the quartiles is provided as an ordered list of quartile values for the scanned data, occurring in order Q1, median, Q3. */
-  quartiles?: DoubleList;
-  /** Output only. Average of non-null values in the scanned data. NaN, if the field has a NaN. */
-  average?: number;
-  /** Output only. Standard deviation of non-null values in the scanned data. NaN, if the field has a NaN. */
-  standardDeviation?: number;
-  /** Output only. Minimum of non-null values in the scanned data. NaN, if the field has a NaN. */
-  min?: number;
-}
-export const GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoDoubleFieldInfo =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      max: S.optional(S.Number),
-      quartiles: S.optional(DoubleList),
-      average: S.optional(S.Number),
-      standardDeviation: S.optional(S.Number),
-      min: S.optional(S.Number),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoDoubleFieldInfo",
-  }) as any as S.Schema<GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoDoubleFieldInfo>;
-
-/** The profile information for an integer type field. */
-export interface GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoIntegerFieldInfo {
-  /** Output only. Minimum of non-null values in the scanned data. NaN, if the field has a NaN. */
-  min?: string;
-  /** Output only. Average of non-null values in the scanned data. NaN, if the field has a NaN. */
-  average?: number;
-  /** Output only. Standard deviation of non-null values in the scanned data. NaN, if the field has a NaN. */
-  standardDeviation?: number;
-  /** Output only. A quartile divides the number of data points into four parts, or quarters, of more-or-less equal size. Three main quartiles used are: The first quartile (Q1) splits off the lowest 25% of data from the highest 75%. It is also known as the lower or 25th empirical quartile, as 25% of the data is below this point. The second quartile (Q2) is the median of a data set. So, 50% of the data lies below this point. The third quartile (Q3) splits off the highest 25% of data from the lowest 75%. It is known as the upper or 75th empirical quartile, as 75% of the data lies below this point. Here, the quartiles is provided as an ordered list of approximate quartile values for the scanned data, occurring in order Q1, median, Q3. */
-  quartiles?: StringList;
-  /** Output only. Maximum of non-null values in the scanned data. NaN, if the field has a NaN. */
-  max?: string;
-}
-export const GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoIntegerFieldInfo =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      min: S.optional(S.String),
-      average: S.optional(S.Number),
-      standardDeviation: S.optional(S.Number),
-      quartiles: S.optional(StringList),
-      max: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoIntegerFieldInfo",
-  }) as any as S.Schema<GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoIntegerFieldInfo>;
-
-/** The profile information for each field type. */
-export interface GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfo {
-  /** String type field information. */
-  stringProfile?: GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoStringFieldInfo;
-  /** Output only. The list of top N non-null values, frequency and ratio with which they occur in the scanned data. N is 10 or equal to the number of distinct values in the field, whichever is smaller. Not available for complex non-groupable field type, including RECORD, ARRAY, GEOGRAPHY, and JSON, as well as fields with REPEATABLE mode. */
-  topNValues?: GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoTopNValueList;
-  /** Output only. Ratio of rows with null value against total scanned rows. */
-  nullRatio?: number;
-  /** Double type field information. */
-  doubleProfile?: GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoDoubleFieldInfo;
-  /** Output only. Ratio of rows with distinct values against total scanned rows. Not available for complex non-groupable field type, including RECORD, ARRAY, GEOGRAPHY, and JSON, as well as fields with REPEATABLE mode. */
-  distinctRatio?: number;
-  /** Integer type field information. */
-  integerProfile?: GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoIntegerFieldInfo;
-}
-export const GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfo =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      stringProfile: S.optional(
-        GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoStringFieldInfo,
+      state: S.optional(
+        GoogleCloudDataplexV1DataQualityResultPostScanActionsResultBigQueryExportResultStateEnum,
       ),
-      topNValues: S.optional(
-        GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoTopNValueList,
-      ),
-      nullRatio: S.optional(S.Number),
-      doubleProfile: S.optional(
-        GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoDoubleFieldInfo,
-      ),
-      distinctRatio: S.optional(S.Number),
-      integerProfile: S.optional(
-        GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoIntegerFieldInfo,
+      message: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1DataQualityResultPostScanActionsResultBigQueryExportResult",
+  }) as any as S.Schema<GoogleCloudDataplexV1DataQualityResultPostScanActionsResultBigQueryExportResult>;
+
+/** The result of post scan actions of DataQualityScan job. */
+export interface GoogleCloudDataplexV1DataQualityResultPostScanActionsResult {
+  /** Output only. The result of BigQuery export post scan action. */
+  bigqueryExportResult?: GoogleCloudDataplexV1DataQualityResultPostScanActionsResultBigQueryExportResult;
+}
+export const GoogleCloudDataplexV1DataQualityResultPostScanActionsResult = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      bigqueryExportResult: S.optional(
+        GoogleCloudDataplexV1DataQualityResultPostScanActionsResultBigQueryExportResult,
       ),
     }),
-  ).annotate({
-    identifier: "GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfo",
-  }) as any as S.Schema<GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfo>;
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataQualityResultPostScanActionsResult",
+}) as any as S.Schema<GoogleCloudDataplexV1DataQualityResultPostScanActionsResult>;
 
-/** A field within a table. */
-export interface GoogleCloudDataplexV1DataProfileResultProfileField {
-  /** Output only. The mode of the field. Possible values include: REQUIRED, if it is a required field. NULLABLE, if it is an optional field. REPEATED, if it is a repeated field. */
-  mode?: string;
-  /** Output only. Profile information for the corresponding field. */
-  profile?: GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfo;
-  /** Output only. The data type retrieved from the schema of the data source. For instance, for a BigQuery native table, it is the BigQuery Table Schema (https://cloud.google.com/bigquery/docs/reference/rest/v2/tables#tablefieldschema). For a Dataplex Universal Catalog Entity, it is the Entity Schema (https://cloud.google.com/dataplex/docs/reference/rpc/google.cloud.dataplex.v1#type_3). */
-  type?: string;
-  /** Output only. The name of the field. */
-  name?: string;
+/** The output of a DataQualityScan. */
+export interface GoogleCloudDataplexV1DataQualityResult {
+  /** Output only. A list of results at the column level.A column will have a corresponding DataQualityColumnResult if and only if there is at least one rule with the 'column' field set to it. */
+  columns?: GoogleCloudDataplexV1DataQualityColumnResultList;
+  /** Output only. A list of all the rules in a job, and their results. */
+  rules?: GoogleCloudDataplexV1DataQualityRuleResultList;
+  /** Output only. The count of rows processed. */
+  rowCount?: string;
+  /** Output only. Overall data quality result -- true if all rules passed. */
+  passed?: boolean;
+  /** Output only. The generated assets for anomaly detection. */
+  anomalyDetectionGeneratedAssets?: GoogleCloudDataplexV1DataQualityResultAnomalyDetectionGeneratedAssets;
+  /** Output only. The status of publishing the data scan as Dataplex Universal Catalog metadata. */
+  catalogPublishingStatus?: GoogleCloudDataplexV1DataScanCatalogPublishingStatus;
+  /** Output only. The data scanned for this result. */
+  scannedData?: GoogleCloudDataplexV1ScannedData;
+  /** Output only. The overall data quality score.The score ranges between 0, 100 (up to two decimal points). */
+  score?: number;
+  /** Output only. A list of results at the dimension level.A dimension will have a corresponding DataQualityDimensionResult if and only if there is at least one rule with the 'dimension' field set to it. */
+  dimensions?: GoogleCloudDataplexV1DataQualityDimensionResultList;
+  /** Output only. The result of post scan actions. */
+  postScanActionsResult?: GoogleCloudDataplexV1DataQualityResultPostScanActionsResult;
 }
-export const GoogleCloudDataplexV1DataProfileResultProfileField = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudDataplexV1DataQualityResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mode: S.optional(S.String),
-    profile: S.optional(GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfo),
-    type: S.optional(S.String),
-    name: S.optional(S.String),
+    columns: S.optional(GoogleCloudDataplexV1DataQualityColumnResultList),
+    rules: S.optional(GoogleCloudDataplexV1DataQualityRuleResultList),
+    rowCount: S.optional(S.String),
+    passed: S.optional(S.Boolean),
+    anomalyDetectionGeneratedAssets: S.optional(
+      GoogleCloudDataplexV1DataQualityResultAnomalyDetectionGeneratedAssets,
+    ),
+    catalogPublishingStatus: S.optional(GoogleCloudDataplexV1DataScanCatalogPublishingStatus),
+    scannedData: S.optional(GoogleCloudDataplexV1ScannedData),
+    score: S.optional(S.Number),
+    dimensions: S.optional(GoogleCloudDataplexV1DataQualityDimensionResultList),
+    postScanActionsResult: S.optional(GoogleCloudDataplexV1DataQualityResultPostScanActionsResult),
   }),
 ).annotate({
-  identifier: "GoogleCloudDataplexV1DataProfileResultProfileField",
-}) as any as S.Schema<GoogleCloudDataplexV1DataProfileResultProfileField>;
+  identifier: "GoogleCloudDataplexV1DataQualityResult",
+}) as any as S.Schema<GoogleCloudDataplexV1DataQualityResult>;
 
-export type GoogleCloudDataplexV1DataProfileResultProfileFieldList =
-  Array<GoogleCloudDataplexV1DataProfileResultProfileField>;
-export const GoogleCloudDataplexV1DataProfileResultProfileFieldList = /*@__PURE__*/ S.Array(
-  GoogleCloudDataplexV1DataProfileResultProfileField,
-) as any as S.Schema<GoogleCloudDataplexV1DataProfileResultProfileFieldList>;
-
-/** Contains name, type, mode and field type specific profile information. */
-export interface GoogleCloudDataplexV1DataProfileResultProfile {
-  /** Output only. List of fields with structural and profile information for each field. */
-  fields?: GoogleCloudDataplexV1DataProfileResultProfileFieldList;
+/** The configuration of BigQuery export post scan action. */
+export interface GoogleCloudDataplexV1DataQualitySpecPostScanActionsBigQueryExport {
+  /** Optional. The BigQuery table to export DataQualityScan results to. Format: //bigquery.googleapis.com/projects/PROJECT_ID/datasets/DATASET_ID/tables/TABLE_ID or projects/PROJECT_ID/datasets/DATASET_ID/tables/TABLE_ID */
+  resultsTable?: string;
 }
-export const GoogleCloudDataplexV1DataProfileResultProfile = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudDataplexV1DataQualitySpecPostScanActionsBigQueryExport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      resultsTable: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1DataQualitySpecPostScanActionsBigQueryExport",
+  }) as any as S.Schema<GoogleCloudDataplexV1DataQualitySpecPostScanActionsBigQueryExport>;
+
+/** This trigger is triggered whenever a scan job run ends, regardless of the result. */
+export type GoogleCloudDataplexV1DataQualitySpecPostScanActionsJobEndTrigger =
+  GoogleLongrunningCancelOperationRequest;
+export const GoogleCloudDataplexV1DataQualitySpecPostScanActionsJobEndTrigger =
+  GoogleLongrunningCancelOperationRequest;
+
+/** The individuals or groups who are designated to receive notifications upon triggers. */
+export interface GoogleCloudDataplexV1DataQualitySpecPostScanActionsRecipients {
+  /** Optional. The email recipients who will receive the DataQualityScan results report. */
+  emails?: StringList;
+}
+export const GoogleCloudDataplexV1DataQualitySpecPostScanActionsRecipients =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      emails: S.optional(StringList),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1DataQualitySpecPostScanActionsRecipients",
+  }) as any as S.Schema<GoogleCloudDataplexV1DataQualitySpecPostScanActionsRecipients>;
+
+/** This trigger is triggered when the DQ score in the job result is less than a specified input score. */
+export interface GoogleCloudDataplexV1DataQualitySpecPostScanActionsScoreThresholdTrigger {
+  /** Optional. The score range is in 0,100. */
+  scoreThreshold?: number;
+}
+export const GoogleCloudDataplexV1DataQualitySpecPostScanActionsScoreThresholdTrigger =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      scoreThreshold: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1DataQualitySpecPostScanActionsScoreThresholdTrigger",
+  }) as any as S.Schema<GoogleCloudDataplexV1DataQualitySpecPostScanActionsScoreThresholdTrigger>;
+
+/** This trigger is triggered when the scan job itself fails, regardless of the result. */
+export type GoogleCloudDataplexV1DataQualitySpecPostScanActionsJobFailureTrigger =
+  GoogleLongrunningCancelOperationRequest;
+export const GoogleCloudDataplexV1DataQualitySpecPostScanActionsJobFailureTrigger =
+  GoogleLongrunningCancelOperationRequest;
+
+/** The configuration of notification report post scan action. */
+export interface GoogleCloudDataplexV1DataQualitySpecPostScanActionsNotificationReport {
+  /** Optional. If set, report will be sent when a scan job ends. */
+  jobEndTrigger?: GoogleLongrunningCancelOperationRequest;
+  /** Required. The recipients who will receive the notification report. */
+  recipients?: GoogleCloudDataplexV1DataQualitySpecPostScanActionsRecipients;
+  /** Optional. If set, report will be sent when score threshold is met. */
+  scoreThresholdTrigger?: GoogleCloudDataplexV1DataQualitySpecPostScanActionsScoreThresholdTrigger;
+  /** Optional. If set, report will be sent when a scan job fails. */
+  jobFailureTrigger?: GoogleLongrunningCancelOperationRequest;
+}
+export const GoogleCloudDataplexV1DataQualitySpecPostScanActionsNotificationReport =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      jobEndTrigger: S.optional(GoogleLongrunningCancelOperationRequest),
+      recipients: S.optional(GoogleCloudDataplexV1DataQualitySpecPostScanActionsRecipients),
+      scoreThresholdTrigger: S.optional(
+        GoogleCloudDataplexV1DataQualitySpecPostScanActionsScoreThresholdTrigger,
+      ),
+      jobFailureTrigger: S.optional(GoogleLongrunningCancelOperationRequest),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1DataQualitySpecPostScanActionsNotificationReport",
+  }) as any as S.Schema<GoogleCloudDataplexV1DataQualitySpecPostScanActionsNotificationReport>;
+
+/** The configuration of post scan actions of DataQualityScan. */
+export interface GoogleCloudDataplexV1DataQualitySpecPostScanActions {
+  /** Optional. If set, results will be exported to the provided BigQuery table. */
+  bigqueryExport?: GoogleCloudDataplexV1DataQualitySpecPostScanActionsBigQueryExport;
+  /** Optional. If set, results will be sent to the provided notification receipts upon triggers. */
+  notificationReport?: GoogleCloudDataplexV1DataQualitySpecPostScanActionsNotificationReport;
+}
+export const GoogleCloudDataplexV1DataQualitySpecPostScanActions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fields: S.optional(GoogleCloudDataplexV1DataProfileResultProfileFieldList),
+    bigqueryExport: S.optional(GoogleCloudDataplexV1DataQualitySpecPostScanActionsBigQueryExport),
+    notificationReport: S.optional(
+      GoogleCloudDataplexV1DataQualitySpecPostScanActionsNotificationReport,
+    ),
   }),
 ).annotate({
-  identifier: "GoogleCloudDataplexV1DataProfileResultProfile",
-}) as any as S.Schema<GoogleCloudDataplexV1DataProfileResultProfile>;
+  identifier: "GoogleCloudDataplexV1DataQualitySpecPostScanActions",
+}) as any as S.Schema<GoogleCloudDataplexV1DataQualitySpecPostScanActions>;
+
+export type GoogleCloudDataplexV1DataQualityRuleList = Array<GoogleCloudDataplexV1DataQualityRule>;
+export const GoogleCloudDataplexV1DataQualityRuleList = /*@__PURE__*/ S.Array(
+  GoogleCloudDataplexV1DataQualityRule,
+) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleList>;
+
+/** DataQualityScan related setting. */
+export interface GoogleCloudDataplexV1DataQualitySpec {
+  /** Optional. Actions to take upon job completion. */
+  postScanActions?: GoogleCloudDataplexV1DataQualitySpecPostScanActions;
+  /** Optional. If enabled, the data scan will retrieve rules defined in the dataplex-types.global.data-rules aspect on all paths of the catalog entry corresponding to the BigQuery table resource and all attached glossary terms. The path that data-rules aspect is attached on the table entry defines the column that the rule will be evaluated against. For glossary terms, the path that the terms are attached on the table entry defines the column that the rule will be evaluated against. At the start of scan execution, the rules reflect the latest state retrieved from the catalog entry and any updates on the rules thereafter are ignored for that execution. The updates will be reflected from the next execution. Rules defined in the datascan must be empty if this field is enabled. */
+  enableCatalogBasedRules?: boolean;
+  /** Optional. A filter applied to all rows in a single DataScan job. The filter needs to be a valid SQL expression for a WHERE clause in GoogleSQL syntax (https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax#where_clause).Example: col1 >= 0 AND col2 < 10 */
+  rowFilter?: string;
+  /** Optional. The percentage of the records to be selected from the dataset for DataScan. Value can range between 0.0 and 100.0 with up to 3 significant decimal digits. Sampling is not applied if sampling_percent is not specified, 0 or 100. */
+  samplingPercent?: number;
+  /** Optional. If set, the latest DataScan job result will be published as Dataplex Universal Catalog metadata. */
+  catalogPublishingEnabled?: boolean;
+  /** Required. The list of rules to evaluate against a data source. At least one rule is required. */
+  rules?: GoogleCloudDataplexV1DataQualityRuleList;
+  /** Optional. Filter for selectively running a subset of rules. You can filter the request by the name or attribute key-value pairs defined on the rule. If not specified, all rules are run. The filter is applicable to both, the rules retrieved from catalog and explicitly defined rules in the scan. Please see filter syntax (https://docs.cloud.google.com/dataplex/docs/auto-data-quality-overview#rule-filtering) for more details. */
+  filter?: string;
+}
+export const GoogleCloudDataplexV1DataQualitySpec = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    postScanActions: S.optional(GoogleCloudDataplexV1DataQualitySpecPostScanActions),
+    enableCatalogBasedRules: S.optional(S.Boolean),
+    rowFilter: S.optional(S.String),
+    samplingPercent: S.optional(S.Number),
+    catalogPublishingEnabled: S.optional(S.Boolean),
+    rules: S.optional(GoogleCloudDataplexV1DataQualityRuleList),
+    filter: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataQualitySpec",
+}) as any as S.Schema<GoogleCloudDataplexV1DataQualitySpec>;
 
 export type GoogleCloudDataplexV1DataProfileResultPostScanActionsResultBigQueryExportResultStateEnum =
   | "STATE_UNSPECIFIED"
@@ -2264,42 +2730,755 @@ export const GoogleCloudDataplexV1DataProfileResultPostScanActionsResult = /*@__
   identifier: "GoogleCloudDataplexV1DataProfileResultPostScanActionsResult",
 }) as any as S.Schema<GoogleCloudDataplexV1DataProfileResultPostScanActionsResult>;
 
+/** The profile information for a string type field. */
+export interface GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoStringFieldInfo {
+  /** Output only. Minimum length of non-null values in the scanned data. */
+  minLength?: string;
+  /** Output only. Average length of non-null values in the scanned data. */
+  averageLength?: number;
+  /** Output only. Maximum length of non-null values in the scanned data. */
+  maxLength?: string;
+}
+export const GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoStringFieldInfo =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      minLength: S.optional(S.String),
+      averageLength: S.optional(S.Number),
+      maxLength: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoStringFieldInfo",
+  }) as any as S.Schema<GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoStringFieldInfo>;
+
+/** The profile information for an integer type field. */
+export interface GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoIntegerFieldInfo {
+  /** Output only. A quartile divides the number of data points into four parts, or quarters, of more-or-less equal size. Three main quartiles used are: The first quartile (Q1) splits off the lowest 25% of data from the highest 75%. It is also known as the lower or 25th empirical quartile, as 25% of the data is below this point. The second quartile (Q2) is the median of a data set. So, 50% of the data lies below this point. The third quartile (Q3) splits off the highest 25% of data from the lowest 75%. It is known as the upper or 75th empirical quartile, as 75% of the data lies below this point. Here, the quartiles is provided as an ordered list of approximate quartile values for the scanned data, occurring in order Q1, median, Q3. */
+  quartiles?: StringList;
+  /** Output only. Maximum of non-null values in the scanned data. NaN, if the field has a NaN. */
+  max?: string;
+  /** Output only. Average of non-null values in the scanned data. NaN, if the field has a NaN. */
+  average?: number;
+  /** Output only. Minimum of non-null values in the scanned data. NaN, if the field has a NaN. */
+  min?: string;
+  /** Output only. Standard deviation of non-null values in the scanned data. NaN, if the field has a NaN. */
+  standardDeviation?: number;
+}
+export const GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoIntegerFieldInfo =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      quartiles: S.optional(StringList),
+      max: S.optional(S.String),
+      average: S.optional(S.Number),
+      min: S.optional(S.String),
+      standardDeviation: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoIntegerFieldInfo",
+  }) as any as S.Schema<GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoIntegerFieldInfo>;
+
+export type DoubleList = Array<number>;
+export const DoubleList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<DoubleList>;
+
+/** The profile information for a double type field. */
+export interface GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoDoubleFieldInfo {
+  /** Output only. Standard deviation of non-null values in the scanned data. NaN, if the field has a NaN. */
+  standardDeviation?: number;
+  /** Output only. Minimum of non-null values in the scanned data. NaN, if the field has a NaN. */
+  min?: number;
+  /** Output only. Average of non-null values in the scanned data. NaN, if the field has a NaN. */
+  average?: number;
+  /** Output only. A quartile divides the number of data points into four parts, or quarters, of more-or-less equal size. Three main quartiles used are: The first quartile (Q1) splits off the lowest 25% of data from the highest 75%. It is also known as the lower or 25th empirical quartile, as 25% of the data is below this point. The second quartile (Q2) is the median of a data set. So, 50% of the data lies below this point. The third quartile (Q3) splits off the highest 25% of data from the lowest 75%. It is known as the upper or 75th empirical quartile, as 75% of the data lies below this point. Here, the quartiles is provided as an ordered list of quartile values for the scanned data, occurring in order Q1, median, Q3. */
+  quartiles?: DoubleList;
+  /** Output only. Maximum of non-null values in the scanned data. NaN, if the field has a NaN. */
+  max?: number;
+}
+export const GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoDoubleFieldInfo =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      standardDeviation: S.optional(S.Number),
+      min: S.optional(S.Number),
+      average: S.optional(S.Number),
+      quartiles: S.optional(DoubleList),
+      max: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoDoubleFieldInfo",
+  }) as any as S.Schema<GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoDoubleFieldInfo>;
+
+/** Top N non-null values in the scanned data. */
+export interface GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoTopNValue {
+  /** Output only. Ratio of the corresponding value in the field against the total number of rows in the scanned data. */
+  ratio?: number;
+  /** Output only. String value of a top N non-null value. */
+  value?: string;
+  /** Output only. Count of the corresponding value in the scanned data. */
+  count?: string;
+}
+export const GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoTopNValue =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ratio: S.optional(S.Number),
+      value: S.optional(S.String),
+      count: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoTopNValue",
+  }) as any as S.Schema<GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoTopNValue>;
+
+export type GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoTopNValueList =
+  Array<GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoTopNValue>;
+export const GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoTopNValueList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoTopNValue,
+  ) as any as S.Schema<GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoTopNValueList>;
+
+/** The profile information for each field type. */
+export interface GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfo {
+  /** String type field information. */
+  stringProfile?: GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoStringFieldInfo;
+  /** Output only. Ratio of rows with null value against total scanned rows. */
+  nullRatio?: number;
+  /** Integer type field information. */
+  integerProfile?: GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoIntegerFieldInfo;
+  /** Output only. Ratio of rows with distinct values against total scanned rows. Not available for complex non-groupable field type, including RECORD, ARRAY, GEOGRAPHY, and JSON, as well as fields with REPEATABLE mode. */
+  distinctRatio?: number;
+  /** Double type field information. */
+  doubleProfile?: GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoDoubleFieldInfo;
+  /** Output only. The list of top N non-null values, frequency and ratio with which they occur in the scanned data. N is 10 or equal to the number of distinct values in the field, whichever is smaller. Not available for complex non-groupable field type, including RECORD, ARRAY, GEOGRAPHY, and JSON, as well as fields with REPEATABLE mode. */
+  topNValues?: GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoTopNValueList;
+}
+export const GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfo =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      stringProfile: S.optional(
+        GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoStringFieldInfo,
+      ),
+      nullRatio: S.optional(S.Number),
+      integerProfile: S.optional(
+        GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoIntegerFieldInfo,
+      ),
+      distinctRatio: S.optional(S.Number),
+      doubleProfile: S.optional(
+        GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoDoubleFieldInfo,
+      ),
+      topNValues: S.optional(
+        GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoTopNValueList,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfo",
+  }) as any as S.Schema<GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfo>;
+
+/** A field within a table. */
+export interface GoogleCloudDataplexV1DataProfileResultProfileField {
+  /** Output only. The name of the field. */
+  name?: string;
+  /** Output only. The data type retrieved from the schema of the data source. For instance, for a BigQuery native table, it is the BigQuery Table Schema (https://cloud.google.com/bigquery/docs/reference/rest/v2/tables#tablefieldschema). For a Dataplex Universal Catalog Entity, it is the Entity Schema (https://cloud.google.com/dataplex/docs/reference/rpc/google.cloud.dataplex.v1#type_3). */
+  type?: string;
+  /** Output only. Profile information for the corresponding field. */
+  profile?: GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfo;
+  /** Output only. The mode of the field. Possible values include: REQUIRED, if it is a required field. NULLABLE, if it is an optional field. REPEATED, if it is a repeated field. */
+  mode?: string;
+}
+export const GoogleCloudDataplexV1DataProfileResultProfileField = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    profile: S.optional(GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfo),
+    mode: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataProfileResultProfileField",
+}) as any as S.Schema<GoogleCloudDataplexV1DataProfileResultProfileField>;
+
+export type GoogleCloudDataplexV1DataProfileResultProfileFieldList =
+  Array<GoogleCloudDataplexV1DataProfileResultProfileField>;
+export const GoogleCloudDataplexV1DataProfileResultProfileFieldList = /*@__PURE__*/ S.Array(
+  GoogleCloudDataplexV1DataProfileResultProfileField,
+) as any as S.Schema<GoogleCloudDataplexV1DataProfileResultProfileFieldList>;
+
+/** Contains name, type, mode and field type specific profile information. */
+export interface GoogleCloudDataplexV1DataProfileResultProfile {
+  /** Output only. List of fields with structural and profile information for each field. */
+  fields?: GoogleCloudDataplexV1DataProfileResultProfileFieldList;
+}
+export const GoogleCloudDataplexV1DataProfileResultProfile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fields: S.optional(GoogleCloudDataplexV1DataProfileResultProfileFieldList),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataProfileResultProfile",
+}) as any as S.Schema<GoogleCloudDataplexV1DataProfileResultProfile>;
+
 /** DataProfileResult defines the output of DataProfileScan. Each field of the table will have field type specific profile result. */
 export interface GoogleCloudDataplexV1DataProfileResult {
+  /** Output only. The count of rows scanned. */
+  rowCount?: string;
+  /** Output only. The result of post scan actions. */
+  postScanActionsResult?: GoogleCloudDataplexV1DataProfileResultPostScanActionsResult;
+  /** Output only. The profile information per field. */
+  profile?: GoogleCloudDataplexV1DataProfileResultProfile;
   /** Output only. The status of publishing the data scan as Dataplex Universal Catalog metadata. */
   catalogPublishingStatus?: GoogleCloudDataplexV1DataScanCatalogPublishingStatus;
   /** Output only. The data scanned for this result. */
   scannedData?: GoogleCloudDataplexV1ScannedData;
-  /** Output only. The profile information per field. */
-  profile?: GoogleCloudDataplexV1DataProfileResultProfile;
-  /** Output only. The result of post scan actions. */
-  postScanActionsResult?: GoogleCloudDataplexV1DataProfileResultPostScanActionsResult;
-  /** Output only. The count of rows scanned. */
-  rowCount?: string;
 }
 export const GoogleCloudDataplexV1DataProfileResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    rowCount: S.optional(S.String),
+    postScanActionsResult: S.optional(GoogleCloudDataplexV1DataProfileResultPostScanActionsResult),
+    profile: S.optional(GoogleCloudDataplexV1DataProfileResultProfile),
     catalogPublishingStatus: S.optional(GoogleCloudDataplexV1DataScanCatalogPublishingStatus),
     scannedData: S.optional(GoogleCloudDataplexV1ScannedData),
-    profile: S.optional(GoogleCloudDataplexV1DataProfileResultProfile),
-    postScanActionsResult: S.optional(GoogleCloudDataplexV1DataProfileResultPostScanActionsResult),
-    rowCount: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1DataProfileResult",
 }) as any as S.Schema<GoogleCloudDataplexV1DataProfileResult>;
 
-/** The credential of the calling user. */
-export type GoogleCloudDataplexV1ExecutionIdentityUserCredential =
-  GoogleLongrunningCancelOperationRequest;
-export const GoogleCloudDataplexV1ExecutionIdentityUserCredential =
-  GoogleLongrunningCancelOperationRequest;
+export type GoogleCloudDataplexV1DataDocumentationSpecGenerationScopesItemEnum =
+  | "GENERATION_SCOPE_UNSPECIFIED"
+  | "ALL"
+  | "TABLE_AND_COLUMN_DESCRIPTIONS"
+  | "SQL_QUERIES"
+  | "BUSINESS_GLOSSARY_TERM_ASSOCIATIONS";
+export const GoogleCloudDataplexV1DataDocumentationSpecGenerationScopesItemEnum = S.String;
 
-/** The Dataplex service agent associated with the user's project. */
-export type GoogleCloudDataplexV1ExecutionIdentityDataplexServiceAgent =
-  GoogleLongrunningCancelOperationRequest;
-export const GoogleCloudDataplexV1ExecutionIdentityDataplexServiceAgent =
-  GoogleLongrunningCancelOperationRequest;
+export type GoogleCloudDataplexV1DataDocumentationSpecGenerationScopesItemEnumList = Array<
+  GoogleCloudDataplexV1DataDocumentationSpecGenerationScopesItemEnum | (string & {})
+>;
+export const GoogleCloudDataplexV1DataDocumentationSpecGenerationScopesItemEnumList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDataplexV1DataDocumentationSpecGenerationScopesItemEnum,
+  ) as any as S.Schema<GoogleCloudDataplexV1DataDocumentationSpecGenerationScopesItemEnumList>;
+
+export type GoogleCloudDataplexV1DataDocumentationSpecSqlDialectEnum =
+  | "SQL_DIALECT_UNSPECIFIED"
+  | "GOOGLE_SQL"
+  | "SPARK_SQL";
+export const GoogleCloudDataplexV1DataDocumentationSpecSqlDialectEnum = S.String;
+
+/** DataDocumentation scan related spec. */
+export interface GoogleCloudDataplexV1DataDocumentationSpec {
+  /** Optional. Whether to publish result to Dataplex Catalog. */
+  catalogPublishingEnabled?: boolean;
+  /** Optional. Specifies which components of the data documentation to generate. Any component that is required to generate the specified components will also be generated. If no generation scope is specified, all available documentation components will be generated. */
+  generationScopes?: GoogleCloudDataplexV1DataDocumentationSpecGenerationScopesItemEnumList;
+  /** Optional. The SQL dialect to use in the generated SQL queries. If not specified, the default dialect is Google SQL. */
+  sqlDialect?: GoogleCloudDataplexV1DataDocumentationSpecSqlDialectEnum | (string & {});
+}
+export const GoogleCloudDataplexV1DataDocumentationSpec = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    catalogPublishingEnabled: S.optional(S.Boolean),
+    generationScopes: S.optional(
+      GoogleCloudDataplexV1DataDocumentationSpecGenerationScopesItemEnumList,
+    ),
+    sqlDialect: S.optional(GoogleCloudDataplexV1DataDocumentationSpecSqlDialectEnum),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataDocumentationSpec",
+}) as any as S.Schema<GoogleCloudDataplexV1DataDocumentationSpec>;
+
+export type GoogleCloudDataplexV1DataScanStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "CREATING"
+  | "DELETING"
+  | "ACTION_REQUIRED";
+export const GoogleCloudDataplexV1DataScanStateEnum = S.String;
+
+export type GoogleCloudDataplexV1DataDiscoverySpecBigQueryPublishingConfigTableTypeEnum =
+  | "TABLE_TYPE_UNSPECIFIED"
+  | "EXTERNAL"
+  | "BIGLAKE";
+export const GoogleCloudDataplexV1DataDiscoverySpecBigQueryPublishingConfigTableTypeEnum = S.String;
+
+/** Describes BigQuery publishing configurations. */
+export interface GoogleCloudDataplexV1DataDiscoverySpecBigQueryPublishingConfig {
+  /** Optional. The project of the BigQuery dataset to publish BigLake external or non-BigLake external tables to. If not specified, the project of the Cloud Storage bucket will be used. The format is "projects/{project_id_or_number}". */
+  project?: string;
+  /** Optional. The BigQuery connection used to create BigLake tables. Must be in the form projects/{project_id}/locations/{location_id}/connections/{connection_id} */
+  connection?: string;
+  /** Optional. Determines whether to publish discovered tables as BigLake external tables or non-BigLake external tables. */
+  tableType?:
+    | GoogleCloudDataplexV1DataDiscoverySpecBigQueryPublishingConfigTableTypeEnum
+    | (string & {});
+  /** Optional. The location of the BigQuery dataset to publish BigLake external or non-BigLake external tables to. 1. If the Cloud Storage bucket is located in a multi-region bucket, then BigQuery dataset can be in the same multi-region bucket or any single region that is included in the same multi-region bucket. The datascan can be created in any single region that is included in the same multi-region bucket 2. If the Cloud Storage bucket is located in a dual-region bucket, then BigQuery dataset can be located in regions that are included in the dual-region bucket, or in a multi-region that includes the dual-region. The datascan can be created in any single region that is included in the same dual-region bucket. 3. If the Cloud Storage bucket is located in a single region, then BigQuery dataset can be in the same single region or any multi-region bucket that includes the same single region. The datascan will be created in the same single region as the bucket. 4. If the BigQuery dataset is in single region, it must be in the same single region as the datascan.For supported values, refer to https://cloud.google.com/bigquery/docs/locations#supported_locations. */
+  location?: string;
+}
+export const GoogleCloudDataplexV1DataDiscoverySpecBigQueryPublishingConfig =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      project: S.optional(S.String),
+      connection: S.optional(S.String),
+      tableType: S.optional(
+        GoogleCloudDataplexV1DataDiscoverySpecBigQueryPublishingConfigTableTypeEnum,
+      ),
+      location: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1DataDiscoverySpecBigQueryPublishingConfig",
+  }) as any as S.Schema<GoogleCloudDataplexV1DataDiscoverySpecBigQueryPublishingConfig>;
+
+/** Describes JSON data format. */
+export interface GoogleCloudDataplexV1DataDiscoverySpecStorageConfigJsonOptions {
+  /** Optional. The character encoding of the data. The default is UTF-8. */
+  encoding?: string;
+  /** Optional. Whether to disable the inference of data types for JSON data. If true, all columns are registered as their primitive types (strings, number, or boolean). */
+  typeInferenceDisabled?: boolean;
+}
+export const GoogleCloudDataplexV1DataDiscoverySpecStorageConfigJsonOptions =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      encoding: S.optional(S.String),
+      typeInferenceDisabled: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1DataDiscoverySpecStorageConfigJsonOptions",
+  }) as any as S.Schema<GoogleCloudDataplexV1DataDiscoverySpecStorageConfigJsonOptions>;
+
+/** Describes options for unstructured data discovery. */
+export interface GoogleCloudDataplexV1DataDiscoverySpecStorageConfigUnstructuredDataOptions {
+  /** Optional. Whether to use the global model endpoint. */
+  globalEndpointEnabled?: boolean;
+  /** Optional. Specifies whether deeper semantic inference over the objects' contents using GenAI is enabled. */
+  semanticInferenceEnabled?: boolean;
+}
+export const GoogleCloudDataplexV1DataDiscoverySpecStorageConfigUnstructuredDataOptions =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      globalEndpointEnabled: S.optional(S.Boolean),
+      semanticInferenceEnabled: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1DataDiscoverySpecStorageConfigUnstructuredDataOptions",
+  }) as any as S.Schema<GoogleCloudDataplexV1DataDiscoverySpecStorageConfigUnstructuredDataOptions>;
+
+/** Describes CSV and similar semi-structured data formats. */
+export interface GoogleCloudDataplexV1DataDiscoverySpecStorageConfigCsvOptions {
+  /** Optional. The character encoding of the data. The default is UTF-8. */
+  encoding?: string;
+  /** Optional. The character used to quote column values. Accepts " (double quotation mark) or ' (single quotation mark). If unspecified, defaults to " (double quotation mark). */
+  quote?: string;
+  /** Optional. The number of rows to interpret as header rows that should be skipped when reading data rows. */
+  headerRows?: number;
+  /** Optional. Whether to disable the inference of data types for CSV data. If true, all columns are registered as strings. */
+  typeInferenceDisabled?: boolean;
+  /** Optional. The delimiter that is used to separate values. The default is , (comma). */
+  delimiter?: string;
+}
+export const GoogleCloudDataplexV1DataDiscoverySpecStorageConfigCsvOptions =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      encoding: S.optional(S.String),
+      quote: S.optional(S.String),
+      headerRows: S.optional(S.Number),
+      typeInferenceDisabled: S.optional(S.Boolean),
+      delimiter: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1DataDiscoverySpecStorageConfigCsvOptions",
+  }) as any as S.Schema<GoogleCloudDataplexV1DataDiscoverySpecStorageConfigCsvOptions>;
+
+/** Configurations related to Cloud Storage as the data source. */
+export interface GoogleCloudDataplexV1DataDiscoverySpecStorageConfig {
+  /** Optional. Configuration for JSON data. */
+  jsonOptions?: GoogleCloudDataplexV1DataDiscoverySpecStorageConfigJsonOptions;
+  /** Optional. Specifies configuration for unstructured data discovery. */
+  unstructuredDataOptions?: GoogleCloudDataplexV1DataDiscoverySpecStorageConfigUnstructuredDataOptions;
+  /** Optional. Defines the data to exclude during discovery. Provide a list of patterns that identify the data to exclude. For Cloud Storage bucket assets, these patterns are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these patterns are interpreted as patterns to match table names. */
+  excludePatterns?: StringList;
+  /** Optional. Configuration for CSV data. */
+  csvOptions?: GoogleCloudDataplexV1DataDiscoverySpecStorageConfigCsvOptions;
+  /** Optional. Defines the data to include during discovery when only a subset of the data should be considered. Provide a list of patterns that identify the data to include. For Cloud Storage bucket assets, these patterns are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these patterns are interpreted as patterns to match table names. */
+  includePatterns?: StringList;
+}
+export const GoogleCloudDataplexV1DataDiscoverySpecStorageConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    jsonOptions: S.optional(GoogleCloudDataplexV1DataDiscoverySpecStorageConfigJsonOptions),
+    unstructuredDataOptions: S.optional(
+      GoogleCloudDataplexV1DataDiscoverySpecStorageConfigUnstructuredDataOptions,
+    ),
+    excludePatterns: S.optional(StringList),
+    csvOptions: S.optional(GoogleCloudDataplexV1DataDiscoverySpecStorageConfigCsvOptions),
+    includePatterns: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataDiscoverySpecStorageConfig",
+}) as any as S.Schema<GoogleCloudDataplexV1DataDiscoverySpecStorageConfig>;
+
+/** Spec for a data discovery scan. */
+export interface GoogleCloudDataplexV1DataDiscoverySpec {
+  /** Optional. Configuration for metadata publishing. */
+  bigqueryPublishingConfig?: GoogleCloudDataplexV1DataDiscoverySpecBigQueryPublishingConfig;
+  /** Cloud Storage related configurations. */
+  storageConfig?: GoogleCloudDataplexV1DataDiscoverySpecStorageConfig;
+}
+export const GoogleCloudDataplexV1DataDiscoverySpec = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bigqueryPublishingConfig: S.optional(
+      GoogleCloudDataplexV1DataDiscoverySpecBigQueryPublishingConfig,
+    ),
+    storageConfig: S.optional(GoogleCloudDataplexV1DataDiscoverySpecStorageConfig),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataDiscoverySpec",
+}) as any as S.Schema<GoogleCloudDataplexV1DataDiscoverySpec>;
+
+/** Contains the specification for an unstructured data profile scan. */
+export interface GoogleCloudDataplexV1UnstructuredDataProfileSpec {
+  /** Optional. Whether to use the global model. */
+  globalEndpointEnabled?: boolean;
+  /** Optional. Customized prompt for unstructured data profile. The field will be used as part of the prompt, could be some instruction, specifying skill, or specific area to focus. */
+  customizedPrompt?: string;
+  /** Optional. Whether to publish graph-profile as aspect on the catalog entry. */
+  graphProfilePublishingEnabled?: boolean;
+}
+export const GoogleCloudDataplexV1UnstructuredDataProfileSpec = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    globalEndpointEnabled: S.optional(S.Boolean),
+    customizedPrompt: S.optional(S.String),
+    graphProfilePublishingEnabled: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1UnstructuredDataProfileSpec",
+}) as any as S.Schema<GoogleCloudDataplexV1UnstructuredDataProfileSpec>;
+
+/** The scan runs once via RunDataScan API. */
+export type GoogleCloudDataplexV1TriggerOnDemand = GoogleLongrunningCancelOperationRequest;
+export const GoogleCloudDataplexV1TriggerOnDemand = GoogleLongrunningCancelOperationRequest;
+
+/** The scan runs once using create API. */
+export interface GoogleCloudDataplexV1TriggerOneTime {
+  /** Optional. Time to live for OneTime scans. default value is 24 hours, minimum value is 0 seconds, and maximum value is 365 days. The time is calculated from the data scan job completion time. If value is set as 0 seconds, the scan will be immediately deleted upon job completion, regardless of whether the job succeeded or failed. */
+  ttlAfterScanCompletion?: string;
+}
+export const GoogleCloudDataplexV1TriggerOneTime = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ttlAfterScanCompletion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1TriggerOneTime",
+}) as any as S.Schema<GoogleCloudDataplexV1TriggerOneTime>;
+
+/** The scan is scheduled to run periodically. */
+export interface GoogleCloudDataplexV1TriggerSchedule {
+  /** Required. Cron (https://en.wikipedia.org/wiki/Cron) schedule for running scans periodically.To explicitly set a timezone in the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or "TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database (wikipedia (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List)). For example, CRON_TZ=America/New_York 1 * * * *, or TZ=America/New_York 1 * * * *.This field is required for Schedule scans. */
+  cron?: string;
+}
+export const GoogleCloudDataplexV1TriggerSchedule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cron: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1TriggerSchedule",
+}) as any as S.Schema<GoogleCloudDataplexV1TriggerSchedule>;
+
+/** DataScan scheduling and trigger settings. */
+export interface GoogleCloudDataplexV1Trigger {
+  /** The scan runs once via RunDataScan API. */
+  onDemand?: GoogleLongrunningCancelOperationRequest;
+  /** The scan runs once, and does not create an associated ScanJob child resource. */
+  oneTime?: GoogleCloudDataplexV1TriggerOneTime;
+  /** The scan is scheduled to run periodically. */
+  schedule?: GoogleCloudDataplexV1TriggerSchedule;
+}
+export const GoogleCloudDataplexV1Trigger = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    onDemand: S.optional(GoogleLongrunningCancelOperationRequest),
+    oneTime: S.optional(GoogleCloudDataplexV1TriggerOneTime),
+    schedule: S.optional(GoogleCloudDataplexV1TriggerSchedule),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1Trigger",
+}) as any as S.Schema<GoogleCloudDataplexV1Trigger>;
+
+/** DataScan execution settings. */
+export interface GoogleCloudDataplexV1DataScanExecutionSpec {
+  /** Optional. Spec related to how often and when a scan should be triggered.If not specified, the default is OnDemand, which means the scan will not run until the user calls RunDataScan API. */
+  trigger?: GoogleCloudDataplexV1Trigger;
+  /** Immutable. The unnested field (of type Date or Timestamp) that contains values which monotonically increase over time.If not specified, a data scan will run for all data in the table. */
+  field?: string;
+}
+export const GoogleCloudDataplexV1DataScanExecutionSpec = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    trigger: S.optional(GoogleCloudDataplexV1Trigger),
+    field: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataScanExecutionSpec",
+}) as any as S.Schema<GoogleCloudDataplexV1DataScanExecutionSpec>;
+
+/** The data source for DataScan. */
+export interface GoogleCloudDataplexV1DataSource {
+  /** Immutable. The Dataplex Universal Catalog entity that represents the data source (e.g. BigQuery table) for DataScan, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}. */
+  entity?: string;
+  /** Immutable. The service-qualified full resource name of the cloud resource for a DataScan job to scan against. The field could either be: Cloud Storage bucket for DataDiscoveryScan Format: //storage.googleapis.com/projects/PROJECT_ID/buckets/BUCKET_ID or BigQuery table of type "TABLE" for DataProfileScan/DataQualityScan/DataDocumentationScan Format: //bigquery.googleapis.com/projects/PROJECT_ID/datasets/DATASET_ID/tables/TABLE_ID or BigQuery dataset for DataDocumentationScan only Format: //bigquery.googleapis.com/projects/PROJECT_ID/datasets/DATASET_ID */
+  resource?: string;
+}
+export const GoogleCloudDataplexV1DataSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    entity: S.optional(S.String),
+    resource: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataSource",
+}) as any as S.Schema<GoogleCloudDataplexV1DataSource>;
+
+export type GoogleCloudDataplexV1GraphProfileFieldModeEnum =
+  | "MODE_UNSPECIFIED"
+  | "NULLABLE"
+  | "REPEATED"
+  | "REQUIRED";
+export const GoogleCloudDataplexV1GraphProfileFieldModeEnum = S.String;
+
+export type GoogleCloudDataplexV1GraphProfileFieldMetadataTypeEnum =
+  | "METADATA_TYPE_UNSPECIFIED"
+  | "BOOLEAN"
+  | "NUMBER"
+  | "STRING"
+  | "BYTES"
+  | "DATETIME"
+  | "TIMESTAMP"
+  | "GEOSPATIAL"
+  | "STRUCT"
+  | "OTHER";
+export const GoogleCloudDataplexV1GraphProfileFieldMetadataTypeEnum = S.String;
+
+/** Extraction hints (field-level). */
+export interface GoogleCloudDataplexV1GraphProfileFieldExtractionHints {
+  /** Output only. Standardizes extracted data (e.g., to ISO 3166-1 alpha-2). */
+  normalization?: string;
+  /** Output only. Generates value from other data instead of direct extraction (e.g., hashing). */
+  synthesis?: string;
+}
+export const GoogleCloudDataplexV1GraphProfileFieldExtractionHints = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    normalization: S.optional(S.String),
+    synthesis: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1GraphProfileFieldExtractionHints",
+}) as any as S.Schema<GoogleCloudDataplexV1GraphProfileFieldExtractionHints>;
+
+/** Represents a field in a node or edge type. */
+export interface GoogleCloudDataplexV1GraphProfileField {
+  /** Output only. The mode of the field. */
+  mode?: GoogleCloudDataplexV1GraphProfileFieldModeEnum | (string & {});
+  /** Output only. The data type of the field, e.g., STRING, INTEGER, DATE. */
+  dataType?: string;
+  /** Output only. The mapped metadata type. */
+  metadataType?: GoogleCloudDataplexV1GraphProfileFieldMetadataTypeEnum | (string & {});
+  /** Output only. Name of the field. */
+  name?: string;
+  /** Output only. Sub-fields of this field (for STRUCT types). */
+  fields?: GoogleCloudDataplexV1GraphProfileFieldList;
+  /** Output only. Extraction hints for the field. */
+  extractionHints?: GoogleCloudDataplexV1GraphProfileFieldExtractionHints;
+  /** Output only. Description of the field. */
+  description?: string;
+}
+export const GoogleCloudDataplexV1GraphProfileField = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mode: S.optional(GoogleCloudDataplexV1GraphProfileFieldModeEnum),
+    dataType: S.optional(S.String),
+    metadataType: S.optional(GoogleCloudDataplexV1GraphProfileFieldMetadataTypeEnum),
+    name: S.optional(S.String),
+    fields: S.optional(S.suspend(() => GoogleCloudDataplexV1GraphProfileFieldList)),
+    extractionHints: S.optional(GoogleCloudDataplexV1GraphProfileFieldExtractionHints),
+    description: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1GraphProfileField",
+}) as any as S.Schema<GoogleCloudDataplexV1GraphProfileField>;
+
+export type GoogleCloudDataplexV1GraphProfileFieldList =
+  Array<GoogleCloudDataplexV1GraphProfileField>;
+export const GoogleCloudDataplexV1GraphProfileFieldList = /*@__PURE__*/ S.Array(
+  GoogleCloudDataplexV1GraphProfileField,
+) as any as S.Schema<GoogleCloudDataplexV1GraphProfileFieldList>;
+
+/** Extraction hints (node-level). */
+export interface GoogleCloudDataplexV1GraphProfileNodeTypeExtractionHints {
+  /** Output only. Expected occurrence frequency of this node type within a document. Format: "Bounds - Description" Example: "0:N - A document may contain multiple people names." */
+  cardinality?: string;
+}
+export const GoogleCloudDataplexV1GraphProfileNodeTypeExtractionHints = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      cardinality: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1GraphProfileNodeTypeExtractionHints",
+}) as any as S.Schema<GoogleCloudDataplexV1GraphProfileNodeTypeExtractionHints>;
+
+/** Represents a type of node in the graph. */
+export interface GoogleCloudDataplexV1GraphProfileNodeType {
+  /** Output only. Field names forming the primary keys. The order in this array defines the key's ordinal positions for composite keys. */
+  primaryKeys?: StringList;
+  /** Output only. Fields of the node type. */
+  fields?: GoogleCloudDataplexV1GraphProfileFieldList;
+  /** Output only. Name of the node type. */
+  name?: string;
+  /** Output only. Description of the node type. */
+  description?: string;
+  /** Output only. Extraction hints for the node. */
+  extractionHints?: GoogleCloudDataplexV1GraphProfileNodeTypeExtractionHints;
+}
+export const GoogleCloudDataplexV1GraphProfileNodeType = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    primaryKeys: S.optional(StringList),
+    fields: S.optional(GoogleCloudDataplexV1GraphProfileFieldList),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    extractionHints: S.optional(GoogleCloudDataplexV1GraphProfileNodeTypeExtractionHints),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1GraphProfileNodeType",
+}) as any as S.Schema<GoogleCloudDataplexV1GraphProfileNodeType>;
+
+export type GoogleCloudDataplexV1GraphProfileNodeTypeList =
+  Array<GoogleCloudDataplexV1GraphProfileNodeType>;
+export const GoogleCloudDataplexV1GraphProfileNodeTypeList = /*@__PURE__*/ S.Array(
+  GoogleCloudDataplexV1GraphProfileNodeType,
+) as any as S.Schema<GoogleCloudDataplexV1GraphProfileNodeTypeList>;
+
+/** Extraction hints (edge-level). */
+export interface GoogleCloudDataplexV1GraphProfileEdgeTypeExtractionHints {
+  /** Output only. Expected connectivity topology and bounds of this relationship. Format: "Topology - Description" Example: "1:N - One company can have multiple financial reports." */
+  cardinality?: string;
+}
+export const GoogleCloudDataplexV1GraphProfileEdgeTypeExtractionHints = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      cardinality: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1GraphProfileEdgeTypeExtractionHints",
+}) as any as S.Schema<GoogleCloudDataplexV1GraphProfileEdgeTypeExtractionHints>;
+
+/** Maps a local field to a referenced field. */
+export interface GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMapping {
+  /** Output only. Local field name forming part of the foreign key. */
+  field?: string;
+  /** Output only. Field name in the referenced node type. */
+  referencedField?: string;
+}
+export const GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMapping =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      field: S.optional(S.String),
+      referencedField: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMapping",
+  }) as any as S.Schema<GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMapping>;
+
+export type GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMappingList =
+  Array<GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMapping>;
+export const GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMappingList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMapping,
+  ) as any as S.Schema<GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMappingList>;
+
+/** Represents a foreign key constraint. */
+export interface GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKey {
+  /** Output only. Description of the foreign key. */
+  description?: string;
+  /** Output only. The node type this constraint references. */
+  referencedNodeType?: string;
+  /** Output only. Field Mappings. Mappings between local fields and the fields they reference in the referenced node type. */
+  fieldMappings?: GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMappingList;
+  /** Output only. Name of the foreign key constraint. */
+  name?: string;
+}
+export const GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKey = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    referencedNodeType: S.optional(S.String),
+    fieldMappings: S.optional(GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMappingList),
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKey",
+}) as any as S.Schema<GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKey>;
+
+export type GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyList =
+  Array<GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKey>;
+export const GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyList = /*@__PURE__*/ S.Array(
+  GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKey,
+) as any as S.Schema<GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyList>;
+
+/** Represents a type of edge (relationship) in the graph. */
+export interface GoogleCloudDataplexV1GraphProfileEdgeType {
+  /** Output only. Extraction hints for the edge. */
+  extractionHints?: GoogleCloudDataplexV1GraphProfileEdgeTypeExtractionHints;
+  /** Output only. Description of the edge type. */
+  description?: string;
+  /** Output only. Name of the edge type. */
+  name?: string;
+  /** Output only. Source node type. */
+  sourceNodeType?: string;
+  /** Output only. Defines the Foreign Key constraints for the edge. */
+  foreignKeys?: GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyList;
+  /** Output only. Fields of the edge type. */
+  fields?: GoogleCloudDataplexV1GraphProfileFieldList;
+  /** Output only. Target node type. */
+  targetNodeType?: string;
+}
+export const GoogleCloudDataplexV1GraphProfileEdgeType = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    extractionHints: S.optional(GoogleCloudDataplexV1GraphProfileEdgeTypeExtractionHints),
+    description: S.optional(S.String),
+    name: S.optional(S.String),
+    sourceNodeType: S.optional(S.String),
+    foreignKeys: S.optional(GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyList),
+    fields: S.optional(GoogleCloudDataplexV1GraphProfileFieldList),
+    targetNodeType: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1GraphProfileEdgeType",
+}) as any as S.Schema<GoogleCloudDataplexV1GraphProfileEdgeType>;
+
+export type GoogleCloudDataplexV1GraphProfileEdgeTypeList =
+  Array<GoogleCloudDataplexV1GraphProfileEdgeType>;
+export const GoogleCloudDataplexV1GraphProfileEdgeTypeList = /*@__PURE__*/ S.Array(
+  GoogleCloudDataplexV1GraphProfileEdgeType,
+) as any as S.Schema<GoogleCloudDataplexV1GraphProfileEdgeTypeList>;
+
+/** Contains the strict structure for graph-profile for semantic inference scan result. */
+export interface GoogleCloudDataplexV1GraphProfile {
+  /** Output only. Node types. */
+  nodeTypes?: GoogleCloudDataplexV1GraphProfileNodeTypeList;
+  /** Output only. Edge types. */
+  edgeTypes?: GoogleCloudDataplexV1GraphProfileEdgeTypeList;
+}
+export const GoogleCloudDataplexV1GraphProfile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nodeTypes: S.optional(GoogleCloudDataplexV1GraphProfileNodeTypeList),
+    edgeTypes: S.optional(GoogleCloudDataplexV1GraphProfileEdgeTypeList),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1GraphProfile",
+}) as any as S.Schema<GoogleCloudDataplexV1GraphProfile>;
+
+/** Contains the result of an unstructured data profile scan. */
+export interface GoogleCloudDataplexV1UnstructuredDataProfileResult {
+  /** Output only. The inferred description. */
+  description?: string;
+  /** Output only. The inferred graph profile. */
+  graphProfile?: GoogleCloudDataplexV1GraphProfile;
+  /** Output only. Optional message for partial failures (e.g. node type extraction failed). */
+  partialFailureMessage?: string;
+}
+export const GoogleCloudDataplexV1UnstructuredDataProfileResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    graphProfile: S.optional(GoogleCloudDataplexV1GraphProfile),
+    partialFailureMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1UnstructuredDataProfileResult",
+}) as any as S.Schema<GoogleCloudDataplexV1UnstructuredDataProfileResult>;
 
 /** The service account */
 export interface GoogleCloudDataplexV1ExecutionIdentityServiceAccount {
@@ -2314,20 +3493,32 @@ export const GoogleCloudDataplexV1ExecutionIdentityServiceAccount = /*@__PURE__*
   identifier: "GoogleCloudDataplexV1ExecutionIdentityServiceAccount",
 }) as any as S.Schema<GoogleCloudDataplexV1ExecutionIdentityServiceAccount>;
 
+/** The Dataplex service agent associated with the user's project. */
+export type GoogleCloudDataplexV1ExecutionIdentityDataplexServiceAgent =
+  GoogleLongrunningCancelOperationRequest;
+export const GoogleCloudDataplexV1ExecutionIdentityDataplexServiceAgent =
+  GoogleLongrunningCancelOperationRequest;
+
+/** The credential of the calling user. */
+export type GoogleCloudDataplexV1ExecutionIdentityUserCredential =
+  GoogleLongrunningCancelOperationRequest;
+export const GoogleCloudDataplexV1ExecutionIdentityUserCredential =
+  GoogleLongrunningCancelOperationRequest;
+
 /** The identity to run the datascan. */
 export interface GoogleCloudDataplexV1ExecutionIdentity {
-  /** Optional. The credential of the calling user. Supports only ONE_TIME trigger type. */
-  userCredential?: GoogleLongrunningCancelOperationRequest;
-  /** Optional. The Dataplex service agent associated with the user's project. */
-  dataplexServiceAgent?: GoogleLongrunningCancelOperationRequest;
   /** Optional. The provided service account. */
   serviceAccount?: GoogleCloudDataplexV1ExecutionIdentityServiceAccount;
+  /** Optional. The Dataplex service agent associated with the user's project. */
+  dataplexServiceAgent?: GoogleLongrunningCancelOperationRequest;
+  /** Optional. The credential of the calling user. Supports only ONE_TIME trigger type. */
+  userCredential?: GoogleLongrunningCancelOperationRequest;
 }
 export const GoogleCloudDataplexV1ExecutionIdentity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userCredential: S.optional(GoogleLongrunningCancelOperationRequest),
-    dataplexServiceAgent: S.optional(GoogleLongrunningCancelOperationRequest),
     serviceAccount: S.optional(GoogleCloudDataplexV1ExecutionIdentityServiceAccount),
+    dataplexServiceAgent: S.optional(GoogleLongrunningCancelOperationRequest),
+    userCredential: S.optional(GoogleLongrunningCancelOperationRequest),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1ExecutionIdentity",
@@ -2352,173 +3543,75 @@ export const GoogleCloudDataplexV1DataScanExecutionStatus = /*@__PURE__*/ S.susp
   identifier: "GoogleCloudDataplexV1DataScanExecutionStatus",
 }) as any as S.Schema<GoogleCloudDataplexV1DataScanExecutionStatus>;
 
-/** The configuration of BigQuery export post scan action. */
-export interface GoogleCloudDataplexV1DataProfileSpecPostScanActionsBigQueryExport {
-  /** Optional. The BigQuery table to export DataProfileScan results to. Format: //bigquery.googleapis.com/projects/PROJECT_ID/datasets/DATASET_ID/tables/TABLE_ID */
-  resultsTable?: string;
+/** Describes result statistics of a data scan discovery job. */
+export interface GoogleCloudDataplexV1DataDiscoveryResultScanStatistics {
+  /** The number of filesets created. */
+  filesetsCreated?: number;
+  /** The number of files excluded. */
+  filesExcluded?: number;
+  /** The number of tables deleted. */
+  tablesDeleted?: number;
+  /** The number of tables created. */
+  tablesCreated?: number;
+  /** The number of filesets updated. */
+  filesetsUpdated?: number;
+  /** The number of files scanned. */
+  scannedFileCount?: number;
+  /** The data processed in bytes. */
+  dataProcessedBytes?: string;
+  /** The number of filesets deleted. */
+  filesetsDeleted?: number;
+  /** The number of tables updated. */
+  tablesUpdated?: number;
 }
-export const GoogleCloudDataplexV1DataProfileSpecPostScanActionsBigQueryExport =
-  /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudDataplexV1DataDiscoveryResultScanStatistics = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    filesetsCreated: S.optional(S.Number),
+    filesExcluded: S.optional(S.Number),
+    tablesDeleted: S.optional(S.Number),
+    tablesCreated: S.optional(S.Number),
+    filesetsUpdated: S.optional(S.Number),
+    scannedFileCount: S.optional(S.Number),
+    dataProcessedBytes: S.optional(S.String),
+    filesetsDeleted: S.optional(S.Number),
+    tablesUpdated: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataDiscoveryResultScanStatistics",
+}) as any as S.Schema<GoogleCloudDataplexV1DataDiscoveryResultScanStatistics>;
+
+/** Describes BigQuery publishing configurations. */
+export interface GoogleCloudDataplexV1DataDiscoveryResultBigQueryPublishing {
+  /** Output only. The BigQuery dataset the discovered tables are published to. */
+  dataset?: string;
+  /** Output only. The location of the BigQuery publishing dataset. */
+  location?: string;
+}
+export const GoogleCloudDataplexV1DataDiscoveryResultBigQueryPublishing = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
-      resultsTable: S.optional(S.String),
+      dataset: S.optional(S.String),
+      location: S.optional(S.String),
     }),
-  ).annotate({
-    identifier: "GoogleCloudDataplexV1DataProfileSpecPostScanActionsBigQueryExport",
-  }) as any as S.Schema<GoogleCloudDataplexV1DataProfileSpecPostScanActionsBigQueryExport>;
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataDiscoveryResultBigQueryPublishing",
+}) as any as S.Schema<GoogleCloudDataplexV1DataDiscoveryResultBigQueryPublishing>;
 
-/** The configuration of post scan actions of DataProfileScan job. */
-export interface GoogleCloudDataplexV1DataProfileSpecPostScanActions {
-  /** Optional. If set, results will be exported to the provided BigQuery table. */
-  bigqueryExport?: GoogleCloudDataplexV1DataProfileSpecPostScanActionsBigQueryExport;
+/** The output of a data discovery scan. */
+export interface GoogleCloudDataplexV1DataDiscoveryResult {
+  /** Output only. Describes result statistics of a data scan discovery job. */
+  scanStatistics?: GoogleCloudDataplexV1DataDiscoveryResultScanStatistics;
+  /** Output only. Configuration for metadata publishing. */
+  bigqueryPublishing?: GoogleCloudDataplexV1DataDiscoveryResultBigQueryPublishing;
 }
-export const GoogleCloudDataplexV1DataProfileSpecPostScanActions = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudDataplexV1DataDiscoveryResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    bigqueryExport: S.optional(GoogleCloudDataplexV1DataProfileSpecPostScanActionsBigQueryExport),
+    scanStatistics: S.optional(GoogleCloudDataplexV1DataDiscoveryResultScanStatistics),
+    bigqueryPublishing: S.optional(GoogleCloudDataplexV1DataDiscoveryResultBigQueryPublishing),
   }),
 ).annotate({
-  identifier: "GoogleCloudDataplexV1DataProfileSpecPostScanActions",
-}) as any as S.Schema<GoogleCloudDataplexV1DataProfileSpecPostScanActions>;
-
-/** The specification for fields to include or exclude in data profile scan. */
-export interface GoogleCloudDataplexV1DataProfileSpecSelectedFields {
-  /** Optional. Expected input is a list of fully qualified names of fields as in the schema.Only top-level field names for nested fields are supported. For instance, if 'x' is of nested field type, listing 'x' is supported but 'x.y.z' is not supported. Here 'y' and 'y.z' are nested fields of 'x'. */
-  fieldNames?: StringList;
-}
-export const GoogleCloudDataplexV1DataProfileSpecSelectedFields = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fieldNames: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataProfileSpecSelectedFields",
-}) as any as S.Schema<GoogleCloudDataplexV1DataProfileSpecSelectedFields>;
-
-export type GoogleCloudDataplexV1DataProfileSpecModeEnum =
-  | "MODE_UNSPECIFIED"
-  | "STANDARD"
-  | "LIGHTWEIGHT";
-export const GoogleCloudDataplexV1DataProfileSpecModeEnum = S.String;
-
-/** DataProfileScan related setting. */
-export interface GoogleCloudDataplexV1DataProfileSpec {
-  /** Optional. Actions to take upon job completion.. */
-  postScanActions?: GoogleCloudDataplexV1DataProfileSpecPostScanActions;
-  /** Optional. If set, the latest DataScan job result will be published as Dataplex Universal Catalog metadata. */
-  catalogPublishingEnabled?: boolean;
-  /** Optional. The fields to exclude from data profile.If specified, the fields will be excluded from data profile, regardless of include_fields value. */
-  excludeFields?: GoogleCloudDataplexV1DataProfileSpecSelectedFields;
-  /** Optional. The execution mode for the profile scan. */
-  mode?: GoogleCloudDataplexV1DataProfileSpecModeEnum | (string & {});
-  /** Optional. The percentage of the records to be selected from the dataset for DataScan. Value can range between 0.0 and 100.0 with up to 3 significant decimal digits. Sampling is not applied if sampling_percent is not specified, 0 or 100. */
-  samplingPercent?: number;
-  /** Optional. A filter applied to all rows in a single DataScan job. The filter needs to be a valid SQL expression for a WHERE clause in BigQuery standard SQL syntax. Example: col1 >= 0 AND col2 < 10 */
-  rowFilter?: string;
-  /** Optional. The fields to include in data profile.If not specified, all fields at the time of profile scan job execution are included, except for ones listed in exclude_fields. */
-  includeFields?: GoogleCloudDataplexV1DataProfileSpecSelectedFields;
-}
-export const GoogleCloudDataplexV1DataProfileSpec = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    postScanActions: S.optional(GoogleCloudDataplexV1DataProfileSpecPostScanActions),
-    catalogPublishingEnabled: S.optional(S.Boolean),
-    excludeFields: S.optional(GoogleCloudDataplexV1DataProfileSpecSelectedFields),
-    mode: S.optional(GoogleCloudDataplexV1DataProfileSpecModeEnum),
-    samplingPercent: S.optional(S.Number),
-    rowFilter: S.optional(S.String),
-    includeFields: S.optional(GoogleCloudDataplexV1DataProfileSpecSelectedFields),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataProfileSpec",
-}) as any as S.Schema<GoogleCloudDataplexV1DataProfileSpec>;
-
-/** Column of a table with generated metadata and nested fields. */
-export interface GoogleCloudDataplexV1DataDocumentationResultField {
-  /** Output only. The name of the column. */
-  name?: string;
-  /** Output only. Generated description for columns and fields. */
-  description?: string;
-  /** Output only. Nested fields. */
-  fields?: GoogleCloudDataplexV1DataDocumentationResultFieldList;
-}
-export const GoogleCloudDataplexV1DataDocumentationResultField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    fields: S.optional(S.suspend(() => GoogleCloudDataplexV1DataDocumentationResultFieldList)),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataDocumentationResultField",
-}) as any as S.Schema<GoogleCloudDataplexV1DataDocumentationResultField>;
-
-export type GoogleCloudDataplexV1DataDocumentationResultFieldList =
-  Array<GoogleCloudDataplexV1DataDocumentationResultField>;
-export const GoogleCloudDataplexV1DataDocumentationResultFieldList = /*@__PURE__*/ S.Array(
-  GoogleCloudDataplexV1DataDocumentationResultField,
-) as any as S.Schema<GoogleCloudDataplexV1DataDocumentationResultFieldList>;
-
-/** Schema of the table with generated metadata of columns. */
-export interface GoogleCloudDataplexV1DataDocumentationResultSchema {
-  /** Output only. The list of columns. */
-  fields?: GoogleCloudDataplexV1DataDocumentationResultFieldList;
-}
-export const GoogleCloudDataplexV1DataDocumentationResultSchema = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fields: S.optional(GoogleCloudDataplexV1DataDocumentationResultFieldList),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataDocumentationResultSchema",
-}) as any as S.Schema<GoogleCloudDataplexV1DataDocumentationResultSchema>;
-
-export type GoogleCloudDataplexV1DataDocumentationResultQuerySqlDialectEnum =
-  | "SQL_DIALECT_UNSPECIFIED"
-  | "GOOGLE_SQL"
-  | "SPARK_SQL";
-export const GoogleCloudDataplexV1DataDocumentationResultQuerySqlDialectEnum = S.String;
-
-/** A sample SQL query in data documentation. */
-export interface GoogleCloudDataplexV1DataDocumentationResultQuery {
-  /** Output only. The description for the query. */
-  description?: string;
-  /** Output only. The SQL dialect of the query. */
-  sqlDialect?: GoogleCloudDataplexV1DataDocumentationResultQuerySqlDialectEnum | (string & {});
-  /** Output only. The SQL query string which can be executed. */
-  sql?: string;
-}
-export const GoogleCloudDataplexV1DataDocumentationResultQuery = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    sqlDialect: S.optional(GoogleCloudDataplexV1DataDocumentationResultQuerySqlDialectEnum),
-    sql: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataDocumentationResultQuery",
-}) as any as S.Schema<GoogleCloudDataplexV1DataDocumentationResultQuery>;
-
-export type GoogleCloudDataplexV1DataDocumentationResultQueryList =
-  Array<GoogleCloudDataplexV1DataDocumentationResultQuery>;
-export const GoogleCloudDataplexV1DataDocumentationResultQueryList = /*@__PURE__*/ S.Array(
-  GoogleCloudDataplexV1DataDocumentationResultQuery,
-) as any as S.Schema<GoogleCloudDataplexV1DataDocumentationResultQueryList>;
-
-/** Insights for a table resource. */
-export interface GoogleCloudDataplexV1DataDocumentationResultTableResult {
-  /** Output only. Generated description of the table. */
-  overview?: string;
-  /** Output only. The service-qualified full resource name of the cloud resource. Ex: //bigquery.googleapis.com/projects/PROJECT_ID/datasets/DATASET_ID/tables/TABLE_ID */
-  name?: string;
-  /** Output only. Schema of the table with generated metadata of the columns in the schema. */
-  schema?: GoogleCloudDataplexV1DataDocumentationResultSchema;
-  /** Output only. Sample SQL queries for the table. */
-  queries?: GoogleCloudDataplexV1DataDocumentationResultQueryList;
-}
-export const GoogleCloudDataplexV1DataDocumentationResultTableResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    overview: S.optional(S.String),
-    name: S.optional(S.String),
-    schema: S.optional(GoogleCloudDataplexV1DataDocumentationResultSchema),
-    queries: S.optional(GoogleCloudDataplexV1DataDocumentationResultQueryList),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataDocumentationResultTableResult",
-}) as any as S.Schema<GoogleCloudDataplexV1DataDocumentationResultTableResult>;
+  identifier: "GoogleCloudDataplexV1DataDiscoveryResult",
+}) as any as S.Schema<GoogleCloudDataplexV1DataDiscoveryResult>;
 
 /** Represents an ordered set of paths within a table's schema. */
 export interface GoogleCloudDataplexV1DataDocumentationResultSchemaRelationshipSchemaPaths {
@@ -2563,10 +3656,10 @@ export const GoogleCloudDataplexV1DataDocumentationResultSchemaRelationshipSourc
 export interface GoogleCloudDataplexV1DataDocumentationResultSchemaRelationship {
   /** Output only. An ordered list of fields for the join from the first table. The size of this list must be the same as right_schema_paths. Each field at index i in this list must correspond to a field at the same index in the right_schema_paths list. */
   leftSchemaPaths?: GoogleCloudDataplexV1DataDocumentationResultSchemaRelationshipSchemaPaths;
-  /** Output only. The type of relationship between the schema paths. */
-  type?: GoogleCloudDataplexV1DataDocumentationResultSchemaRelationshipTypeEnum | (string & {});
   /** Output only. An ordered list of fields for the join from the second table. The size of this list must be the same as left_schema_paths. Each field at index i in this list must correspond to a field at the same index in the left_schema_paths list. */
   rightSchemaPaths?: GoogleCloudDataplexV1DataDocumentationResultSchemaRelationshipSchemaPaths;
+  /** Output only. The type of relationship between the schema paths. */
+  type?: GoogleCloudDataplexV1DataDocumentationResultSchemaRelationshipTypeEnum | (string & {});
   /** Output only. Sources which generated the schema relation edge. */
   sources?: GoogleCloudDataplexV1DataDocumentationResultSchemaRelationshipSourcesItemEnumList;
 }
@@ -2576,10 +3669,10 @@ export const GoogleCloudDataplexV1DataDocumentationResultSchemaRelationship =
       leftSchemaPaths: S.optional(
         GoogleCloudDataplexV1DataDocumentationResultSchemaRelationshipSchemaPaths,
       ),
-      type: S.optional(GoogleCloudDataplexV1DataDocumentationResultSchemaRelationshipTypeEnum),
       rightSchemaPaths: S.optional(
         GoogleCloudDataplexV1DataDocumentationResultSchemaRelationshipSchemaPaths,
       ),
+      type: S.optional(GoogleCloudDataplexV1DataDocumentationResultSchemaRelationshipTypeEnum),
       sources: S.optional(
         GoogleCloudDataplexV1DataDocumentationResultSchemaRelationshipSourcesItemEnumList,
       ),
@@ -2594,6 +3687,37 @@ export const GoogleCloudDataplexV1DataDocumentationResultSchemaRelationshipList 
   /*@__PURE__*/ S.Array(
     GoogleCloudDataplexV1DataDocumentationResultSchemaRelationship,
   ) as any as S.Schema<GoogleCloudDataplexV1DataDocumentationResultSchemaRelationshipList>;
+
+export type GoogleCloudDataplexV1DataDocumentationResultQuerySqlDialectEnum =
+  | "SQL_DIALECT_UNSPECIFIED"
+  | "GOOGLE_SQL"
+  | "SPARK_SQL";
+export const GoogleCloudDataplexV1DataDocumentationResultQuerySqlDialectEnum = S.String;
+
+/** A sample SQL query in data documentation. */
+export interface GoogleCloudDataplexV1DataDocumentationResultQuery {
+  /** Output only. The SQL dialect of the query. */
+  sqlDialect?: GoogleCloudDataplexV1DataDocumentationResultQuerySqlDialectEnum | (string & {});
+  /** Output only. The SQL query string which can be executed. */
+  sql?: string;
+  /** Output only. The description for the query. */
+  description?: string;
+}
+export const GoogleCloudDataplexV1DataDocumentationResultQuery = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sqlDialect: S.optional(GoogleCloudDataplexV1DataDocumentationResultQuerySqlDialectEnum),
+    sql: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataDocumentationResultQuery",
+}) as any as S.Schema<GoogleCloudDataplexV1DataDocumentationResultQuery>;
+
+export type GoogleCloudDataplexV1DataDocumentationResultQueryList =
+  Array<GoogleCloudDataplexV1DataDocumentationResultQuery>;
+export const GoogleCloudDataplexV1DataDocumentationResultQueryList = /*@__PURE__*/ S.Array(
+  GoogleCloudDataplexV1DataDocumentationResultQuery,
+) as any as S.Schema<GoogleCloudDataplexV1DataDocumentationResultQueryList>;
 
 /** Insights for a dataset resource. */
 export interface GoogleCloudDataplexV1DataDocumentationResultDatasetResult {
@@ -2617,1364 +3741,176 @@ export const GoogleCloudDataplexV1DataDocumentationResultDatasetResult = /*@__PU
   identifier: "GoogleCloudDataplexV1DataDocumentationResultDatasetResult",
 }) as any as S.Schema<GoogleCloudDataplexV1DataDocumentationResultDatasetResult>;
 
+/** Column of a table with generated metadata and nested fields. */
+export interface GoogleCloudDataplexV1DataDocumentationResultField {
+  /** Output only. The name of the column. */
+  name?: string;
+  /** Output only. Nested fields. */
+  fields?: GoogleCloudDataplexV1DataDocumentationResultFieldList;
+  /** Output only. Generated description for columns and fields. */
+  description?: string;
+}
+export const GoogleCloudDataplexV1DataDocumentationResultField = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    fields: S.optional(S.suspend(() => GoogleCloudDataplexV1DataDocumentationResultFieldList)),
+    description: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataDocumentationResultField",
+}) as any as S.Schema<GoogleCloudDataplexV1DataDocumentationResultField>;
+
+export type GoogleCloudDataplexV1DataDocumentationResultFieldList =
+  Array<GoogleCloudDataplexV1DataDocumentationResultField>;
+export const GoogleCloudDataplexV1DataDocumentationResultFieldList = /*@__PURE__*/ S.Array(
+  GoogleCloudDataplexV1DataDocumentationResultField,
+) as any as S.Schema<GoogleCloudDataplexV1DataDocumentationResultFieldList>;
+
+/** Schema of the table with generated metadata of columns. */
+export interface GoogleCloudDataplexV1DataDocumentationResultSchema {
+  /** Output only. The list of columns. */
+  fields?: GoogleCloudDataplexV1DataDocumentationResultFieldList;
+}
+export const GoogleCloudDataplexV1DataDocumentationResultSchema = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fields: S.optional(GoogleCloudDataplexV1DataDocumentationResultFieldList),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataDocumentationResultSchema",
+}) as any as S.Schema<GoogleCloudDataplexV1DataDocumentationResultSchema>;
+
+/** Insights for a table resource. */
+export interface GoogleCloudDataplexV1DataDocumentationResultTableResult {
+  /** Output only. Generated description of the table. */
+  overview?: string;
+  /** Output only. The service-qualified full resource name of the cloud resource. Ex: //bigquery.googleapis.com/projects/PROJECT_ID/datasets/DATASET_ID/tables/TABLE_ID */
+  name?: string;
+  /** Output only. Sample SQL queries for the table. */
+  queries?: GoogleCloudDataplexV1DataDocumentationResultQueryList;
+  /** Output only. Schema of the table with generated metadata of the columns in the schema. */
+  schema?: GoogleCloudDataplexV1DataDocumentationResultSchema;
+}
+export const GoogleCloudDataplexV1DataDocumentationResultTableResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    overview: S.optional(S.String),
+    name: S.optional(S.String),
+    queries: S.optional(GoogleCloudDataplexV1DataDocumentationResultQueryList),
+    schema: S.optional(GoogleCloudDataplexV1DataDocumentationResultSchema),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1DataDocumentationResultTableResult",
+}) as any as S.Schema<GoogleCloudDataplexV1DataDocumentationResultTableResult>;
+
 /** The output of a DataDocumentation scan. */
 export interface GoogleCloudDataplexV1DataDocumentationResult {
-  /** Output only. Insights for a Table resource. */
-  tableResult?: GoogleCloudDataplexV1DataDocumentationResultTableResult;
   /** Output only. Insights for a Dataset resource. */
   datasetResult?: GoogleCloudDataplexV1DataDocumentationResultDatasetResult;
+  /** Output only. Insights for a Table resource. */
+  tableResult?: GoogleCloudDataplexV1DataDocumentationResultTableResult;
 }
 export const GoogleCloudDataplexV1DataDocumentationResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tableResult: S.optional(GoogleCloudDataplexV1DataDocumentationResultTableResult),
     datasetResult: S.optional(GoogleCloudDataplexV1DataDocumentationResultDatasetResult),
+    tableResult: S.optional(GoogleCloudDataplexV1DataDocumentationResultTableResult),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1DataDocumentationResult",
 }) as any as S.Schema<GoogleCloudDataplexV1DataDocumentationResult>;
 
-export type GoogleCloudDataplexV1DataScanStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "CREATING"
-  | "DELETING"
-  | "ACTION_REQUIRED";
-export const GoogleCloudDataplexV1DataScanStateEnum = S.String;
-
-/** The configuration of BigQuery export post scan action. */
-export interface GoogleCloudDataplexV1DataQualitySpecPostScanActionsBigQueryExport {
-  /** Optional. The BigQuery table to export DataQualityScan results to. Format: //bigquery.googleapis.com/projects/PROJECT_ID/datasets/DATASET_ID/tables/TABLE_ID or projects/PROJECT_ID/datasets/DATASET_ID/tables/TABLE_ID */
-  resultsTable?: string;
-}
-export const GoogleCloudDataplexV1DataQualitySpecPostScanActionsBigQueryExport =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      resultsTable: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDataplexV1DataQualitySpecPostScanActionsBigQueryExport",
-  }) as any as S.Schema<GoogleCloudDataplexV1DataQualitySpecPostScanActionsBigQueryExport>;
-
-/** This trigger is triggered when the DQ score in the job result is less than a specified input score. */
-export interface GoogleCloudDataplexV1DataQualitySpecPostScanActionsScoreThresholdTrigger {
-  /** Optional. The score range is in 0,100. */
-  scoreThreshold?: number;
-}
-export const GoogleCloudDataplexV1DataQualitySpecPostScanActionsScoreThresholdTrigger =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      scoreThreshold: S.optional(S.Number),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDataplexV1DataQualitySpecPostScanActionsScoreThresholdTrigger",
-  }) as any as S.Schema<GoogleCloudDataplexV1DataQualitySpecPostScanActionsScoreThresholdTrigger>;
-
-/** This trigger is triggered when the scan job itself fails, regardless of the result. */
-export type GoogleCloudDataplexV1DataQualitySpecPostScanActionsJobFailureTrigger =
-  GoogleLongrunningCancelOperationRequest;
-export const GoogleCloudDataplexV1DataQualitySpecPostScanActionsJobFailureTrigger =
-  GoogleLongrunningCancelOperationRequest;
-
-/** This trigger is triggered whenever a scan job run ends, regardless of the result. */
-export type GoogleCloudDataplexV1DataQualitySpecPostScanActionsJobEndTrigger =
-  GoogleLongrunningCancelOperationRequest;
-export const GoogleCloudDataplexV1DataQualitySpecPostScanActionsJobEndTrigger =
-  GoogleLongrunningCancelOperationRequest;
-
-/** The individuals or groups who are designated to receive notifications upon triggers. */
-export interface GoogleCloudDataplexV1DataQualitySpecPostScanActionsRecipients {
-  /** Optional. The email recipients who will receive the DataQualityScan results report. */
-  emails?: StringList;
-}
-export const GoogleCloudDataplexV1DataQualitySpecPostScanActionsRecipients =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      emails: S.optional(StringList),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDataplexV1DataQualitySpecPostScanActionsRecipients",
-  }) as any as S.Schema<GoogleCloudDataplexV1DataQualitySpecPostScanActionsRecipients>;
-
-/** The configuration of notification report post scan action. */
-export interface GoogleCloudDataplexV1DataQualitySpecPostScanActionsNotificationReport {
-  /** Optional. If set, report will be sent when score threshold is met. */
-  scoreThresholdTrigger?: GoogleCloudDataplexV1DataQualitySpecPostScanActionsScoreThresholdTrigger;
-  /** Optional. If set, report will be sent when a scan job fails. */
-  jobFailureTrigger?: GoogleLongrunningCancelOperationRequest;
-  /** Optional. If set, report will be sent when a scan job ends. */
-  jobEndTrigger?: GoogleLongrunningCancelOperationRequest;
-  /** Required. The recipients who will receive the notification report. */
-  recipients?: GoogleCloudDataplexV1DataQualitySpecPostScanActionsRecipients;
-}
-export const GoogleCloudDataplexV1DataQualitySpecPostScanActionsNotificationReport =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      scoreThresholdTrigger: S.optional(
-        GoogleCloudDataplexV1DataQualitySpecPostScanActionsScoreThresholdTrigger,
-      ),
-      jobFailureTrigger: S.optional(GoogleLongrunningCancelOperationRequest),
-      jobEndTrigger: S.optional(GoogleLongrunningCancelOperationRequest),
-      recipients: S.optional(GoogleCloudDataplexV1DataQualitySpecPostScanActionsRecipients),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDataplexV1DataQualitySpecPostScanActionsNotificationReport",
-  }) as any as S.Schema<GoogleCloudDataplexV1DataQualitySpecPostScanActionsNotificationReport>;
-
-/** The configuration of post scan actions of DataQualityScan. */
-export interface GoogleCloudDataplexV1DataQualitySpecPostScanActions {
-  /** Optional. If set, results will be exported to the provided BigQuery table. */
-  bigqueryExport?: GoogleCloudDataplexV1DataQualitySpecPostScanActionsBigQueryExport;
-  /** Optional. If set, results will be sent to the provided notification receipts upon triggers. */
-  notificationReport?: GoogleCloudDataplexV1DataQualitySpecPostScanActionsNotificationReport;
-}
-export const GoogleCloudDataplexV1DataQualitySpecPostScanActions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bigqueryExport: S.optional(GoogleCloudDataplexV1DataQualitySpecPostScanActionsBigQueryExport),
-    notificationReport: S.optional(
-      GoogleCloudDataplexV1DataQualitySpecPostScanActionsNotificationReport,
-    ),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataQualitySpecPostScanActions",
-}) as any as S.Schema<GoogleCloudDataplexV1DataQualitySpecPostScanActions>;
-
-/** Evaluates whether the column has duplicates. */
-export type GoogleCloudDataplexV1DataQualityRuleUniquenessExpectation =
-  GoogleLongrunningCancelOperationRequest;
-export const GoogleCloudDataplexV1DataQualityRuleUniquenessExpectation =
-  GoogleLongrunningCancelOperationRequest;
-
-/** Evaluates whether the provided expression is true.The SQL expression needs to use GoogleSQL syntax (https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax) and should produce a scalar boolean result.Example: MIN(col1) >= 0 */
-export interface GoogleCloudDataplexV1DataQualityRuleTableConditionExpectation {
-  /** Optional. The SQL expression. */
-  sqlExpression?: string;
-}
-export const GoogleCloudDataplexV1DataQualityRuleTableConditionExpectation =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      sqlExpression: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDataplexV1DataQualityRuleTableConditionExpectation",
-  }) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleTableConditionExpectation>;
-
-/** Entry link source represents information about the entry link. */
-export interface GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementEntryLinkSource {
-  /** Output only. The entry link type to represent the current relationship between the entry and the next entry in the path. In the form of: projects/{project_id_or_number}/locations/{location_id}/entryLinkTypes/{entry_link_type_id} */
-  entryLinkType?: string;
-  /** Output only. The entry link name in the form of: projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}/entryLinks/{entry_link_id} */
-  entryLink?: string;
-}
-export const GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementEntryLinkSource =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      entryLinkType: S.optional(S.String),
-      entryLink: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementEntryLinkSource",
-  }) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementEntryLinkSource>;
-
-/** Entry source represents information about the related source entry. */
-export interface GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementEntrySource {
-  /** Output only. The entry name in the form of: projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}/entries/{entry_id} */
-  entry?: string;
-  /** Output only. The display name of the entry. */
-  displayName?: string;
-  /** Output only. The entry type to represent the current characteristics of the entry in the form of: projects/{project_id_or_number}/locations/{location_id}/entryTypes/{entry-type-id}. */
-  entryType?: string;
-}
-export const GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementEntrySource =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      entry: S.optional(S.String),
-      displayName: S.optional(S.String),
-      entryType: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementEntrySource",
-  }) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementEntrySource>;
-
-/** Path Element represents the direct relationship between the rule origin (aspects) to the BigQuery Entry. Ordering of the rule relationship will be maintained such that the first entry in the list is the closest ancestor (BigQuery table itself). A blank source denotes that the rule is derived directly from the DataScan itself. */
-export interface GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElement {
-  /** Output only. Entry link source represents information about the entry link. */
-  entryLinkSource?: GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementEntryLinkSource;
-  /** Output only. Entry source represents information about the related source entry. */
-  entrySource?: GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementEntrySource;
-}
-export const GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElement =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      entryLinkSource: S.optional(
-        GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementEntryLinkSource,
-      ),
-      entrySource: S.optional(
-        GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementEntrySource,
-      ),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElement",
-  }) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElement>;
-
-export type GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementList =
-  Array<GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElement>;
-export const GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElement,
-  ) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementList>;
-
-/** Represents the rule source information from Catalog. */
-export interface GoogleCloudDataplexV1DataQualityRuleRuleSource {
-  /** Output only. Rule path elements represent information about the individual items in the relationship path between the scan resource and rule origin in that order. */
-  rulePathElements?: GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementList;
-}
-export const GoogleCloudDataplexV1DataQualityRuleRuleSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    rulePathElements: S.optional(GoogleCloudDataplexV1DataQualityRuleRuleSourceRulePathElementList),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataQualityRuleRuleSource",
-}) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleRuleSource>;
-
-/** Represents a parameter value. */
-export interface GoogleCloudDataplexV1DataQualityRuleTemplateReferenceParameterValue {
-  /** Required. Represents the string value of the parameter. */
-  value?: string;
-}
-export const GoogleCloudDataplexV1DataQualityRuleTemplateReferenceParameterValue =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      value: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDataplexV1DataQualityRuleTemplateReferenceParameterValue",
-  }) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleTemplateReferenceParameterValue>;
-
-export type GoogleCloudDataplexV1DataQualityRuleTemplateReferenceParameterValueMap = {
-  [key: string]: GoogleCloudDataplexV1DataQualityRuleTemplateReferenceParameterValue | undefined;
-};
-export const GoogleCloudDataplexV1DataQualityRuleTemplateReferenceParameterValueMap =
-  /*@__PURE__*/ S.Record(
-    S.String,
-    GoogleCloudDataplexV1DataQualityRuleTemplateReferenceParameterValue,
-  ) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleTemplateReferenceParameterValueMap>;
-
-/** Description of the input parameter. It can include the type(s) supported by the parameter and intended usage. It is for information purposes only and does not affect the behavior of the rule template. */
-export interface GoogleCloudDataplexV1DataQualityRuleTemplateParameterDescription {
-  /** Output only. Description of the input parameter. It can include the type(s) supported by the parameter and intended usage. It is for information purposes only and does not affect the behavior of the rule template. */
-  description?: string;
-  /** Output only. The default value for the parameter if no value is provided. */
-  defaultValue?: string;
-}
-export const GoogleCloudDataplexV1DataQualityRuleTemplateParameterDescription =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      description: S.optional(S.String),
-      defaultValue: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDataplexV1DataQualityRuleTemplateParameterDescription",
-  }) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleTemplateParameterDescription>;
-
-export type GoogleCloudDataplexV1DataQualityRuleTemplateParameterDescriptionMap = {
-  [key: string]: GoogleCloudDataplexV1DataQualityRuleTemplateParameterDescription | undefined;
-};
-export const GoogleCloudDataplexV1DataQualityRuleTemplateParameterDescriptionMap =
-  /*@__PURE__*/ S.Record(
-    S.String,
-    GoogleCloudDataplexV1DataQualityRuleTemplateParameterDescription,
-  ) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleTemplateParameterDescriptionMap>;
-
-/** Templatized SQL query for data quality rules. It can have parameters that can be substituted with values when a rule is created using this template. */
-export interface GoogleCloudDataplexV1DataQualityRuleTemplateSql {
-  /** Output only. Templatized SQL query for data quality rules. */
-  query?: string;
-}
-export const GoogleCloudDataplexV1DataQualityRuleTemplateSql = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    query: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataQualityRuleTemplateSql",
-}) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleTemplateSql>;
-
-export type GoogleCloudDataplexV1DataQualityRuleTemplateSqlList =
-  Array<GoogleCloudDataplexV1DataQualityRuleTemplateSql>;
-export const GoogleCloudDataplexV1DataQualityRuleTemplateSqlList = /*@__PURE__*/ S.Array(
-  GoogleCloudDataplexV1DataQualityRuleTemplateSql,
-) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleTemplateSqlList>;
-
-/** DataQualityRuleTemplate represents a template which can be reused across multiple data quality rules. */
-export interface GoogleCloudDataplexV1DataQualityRuleTemplate {
-  /** Output only. Description for input parameters */
-  inputParameters?: GoogleCloudDataplexV1DataQualityRuleTemplateParameterDescriptionMap;
-  /** Output only. A list of features or properties supported by this rule template. */
-  capabilities?: StringList;
-  /** Output only. Collection of SQLs for data quality rules. Currently only one SQL is supported. */
-  sqlCollection?: GoogleCloudDataplexV1DataQualityRuleTemplateSqlList;
-  /** Output only. The dimension a rule template belongs to. Rule level results are also aggregated at the dimension level. */
-  dimension?: string;
-  /** Output only. The name of the rule template in the format: projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}/entries/{entry_id} */
-  name?: string;
-}
-export const GoogleCloudDataplexV1DataQualityRuleTemplate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    inputParameters: S.optional(
-      GoogleCloudDataplexV1DataQualityRuleTemplateParameterDescriptionMap,
-    ),
-    capabilities: S.optional(StringList),
-    sqlCollection: S.optional(GoogleCloudDataplexV1DataQualityRuleTemplateSqlList),
-    dimension: S.optional(S.String),
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataQualityRuleTemplate",
-}) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleTemplate>;
-
-/** A rule that constructs a SQL statement to evaluate using a rule template and parameter values. If the constructed statement returns any rows, this rule fails */
-export interface GoogleCloudDataplexV1DataQualityRuleTemplateReference {
-  /** Required. The template entry name. Entry must be of EntryType projects/dataplex-types/locations/global/entryTypes/data-quality-rule-template and contains top-level aspect of AspectType projects/dataplex-types/locations/global/aspectTypes/data-quality-rule-template. The format is: projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}/entries/{entry_id} */
-  name?: string;
-  /** Optional. Provides the map of parameter name and value. The maximum size of the field is 120KB (encoded as UTF-8). */
-  values?: GoogleCloudDataplexV1DataQualityRuleTemplateReferenceParameterValueMap;
-  /** Output only. The rule template used to resolve the rule. It is only populated in the result. */
-  ruleTemplate?: GoogleCloudDataplexV1DataQualityRuleTemplate;
-  /** Output only. The resolved SQL statement generated from the template with parameters substituted. It is only populated in the result. */
-  resolvedSql?: string;
-}
-export const GoogleCloudDataplexV1DataQualityRuleTemplateReference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    values: S.optional(GoogleCloudDataplexV1DataQualityRuleTemplateReferenceParameterValueMap),
-    ruleTemplate: S.optional(GoogleCloudDataplexV1DataQualityRuleTemplate),
-    resolvedSql: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataQualityRuleTemplateReference",
-}) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleTemplateReference>;
-
-/** Evaluates whether each column value lies between a specified range. */
-export interface GoogleCloudDataplexV1DataQualityRuleRangeExpectation {
-  /** Optional. The maximum column value allowed for a row to pass this validation. At least one of min_value and max_value need to be provided. */
-  maxValue?: string;
-  /** Optional. The minimum column value allowed for a row to pass this validation. At least one of min_value and max_value need to be provided. */
-  minValue?: string;
-  /** Optional. Whether each value needs to be strictly lesser than ('<') the maximum, or if equality is allowed.Only relevant if a max_value has been defined. Default = false. */
-  strictMaxEnabled?: boolean;
-  /** Optional. Whether each value needs to be strictly greater than ('>') the minimum, or if equality is allowed.Only relevant if a min_value has been defined. Default = false. */
-  strictMinEnabled?: boolean;
-}
-export const GoogleCloudDataplexV1DataQualityRuleRangeExpectation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxValue: S.optional(S.String),
-    minValue: S.optional(S.String),
-    strictMaxEnabled: S.optional(S.Boolean),
-    strictMinEnabled: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataQualityRuleRangeExpectation",
-}) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleRangeExpectation>;
-
-export type GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectationStatisticEnum =
-  | "STATISTIC_UNDEFINED"
-  | "MEAN"
-  | "MIN"
-  | "MAX";
-export const GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectationStatisticEnum = S.String;
-
-/** Evaluates whether the column aggregate statistic lies between a specified range. */
-export interface GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectation {
-  /** Optional. The minimum column statistic value allowed for a row to pass this validation.At least one of min_value and max_value need to be provided. */
-  minValue?: string;
-  /** Optional. The aggregate metric to evaluate. */
-  statistic?:
-    | GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectationStatisticEnum
-    | (string & {});
-  /** Optional. Whether column statistic needs to be strictly greater than ('>') the minimum, or if equality is allowed.Only relevant if a min_value has been defined. Default = false. */
-  strictMinEnabled?: boolean;
-  /** Optional. Whether column statistic needs to be strictly lesser than ('<') the maximum, or if equality is allowed.Only relevant if a max_value has been defined. Default = false. */
-  strictMaxEnabled?: boolean;
-  /** Optional. The maximum column statistic value allowed for a row to pass this validation.At least one of min_value and max_value need to be provided. */
-  maxValue?: string;
-}
-export const GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectation =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      minValue: S.optional(S.String),
-      statistic: S.optional(
-        GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectationStatisticEnum,
-      ),
-      strictMinEnabled: S.optional(S.Boolean),
-      strictMaxEnabled: S.optional(S.Boolean),
-      maxValue: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectation",
-  }) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectation>;
-
-/** Evaluates whether each row passes the specified condition.The SQL expression needs to use GoogleSQL syntax (https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax) and should produce a boolean value per row as the result.Example: col1 >= 0 AND col2 < 10 */
-export type GoogleCloudDataplexV1DataQualityRuleRowConditionExpectation =
-  GoogleCloudDataplexV1DataQualityRuleTableConditionExpectation;
-export const GoogleCloudDataplexV1DataQualityRuleRowConditionExpectation =
-  GoogleCloudDataplexV1DataQualityRuleTableConditionExpectation;
-
-/** Evaluates whether each column value is null. */
-export type GoogleCloudDataplexV1DataQualityRuleNonNullExpectation =
-  GoogleLongrunningCancelOperationRequest;
-export const GoogleCloudDataplexV1DataQualityRuleNonNullExpectation =
-  GoogleLongrunningCancelOperationRequest;
-
-/** Evaluates whether each column value is contained by a specified set. */
-export interface GoogleCloudDataplexV1DataQualityRuleSetExpectation {
-  /** Optional. Expected values for the column value. */
-  values?: StringList;
-}
-export const GoogleCloudDataplexV1DataQualityRuleSetExpectation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    values: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataQualityRuleSetExpectation",
-}) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleSetExpectation>;
-
-/** Evaluates whether each column value matches a specified regex. */
-export interface GoogleCloudDataplexV1DataQualityRuleRegexExpectation {
-  /** Optional. A regular expression the column value is expected to match. */
-  regex?: string;
-}
-export const GoogleCloudDataplexV1DataQualityRuleRegexExpectation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    regex: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataQualityRuleRegexExpectation",
-}) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleRegexExpectation>;
-
-/** A SQL statement that is evaluated to return rows that match an invalid state. If any rows are are returned, this rule fails.The SQL statement must use GoogleSQL syntax (https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax), and must not contain any semicolons.You can use the data reference parameter ${data()} to reference the source table with all of its precondition filters applied. Examples of precondition filters include row filters, incremental data filters, and sampling. For more information, see Data reference parameter (https://cloud.google.com/dataplex/docs/auto-data-quality-overview#data-reference-parameter).Example: SELECT * FROM ${data()} WHERE price < 0 */
-export interface GoogleCloudDataplexV1DataQualityRuleSqlAssertion {
-  /** Optional. The SQL statement. */
-  sqlStatement?: string;
-}
-export const GoogleCloudDataplexV1DataQualityRuleSqlAssertion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sqlStatement: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataQualityRuleSqlAssertion",
-}) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleSqlAssertion>;
-
-/** Specifies a SQL statement that is evaluated to return up to 10 scalar values that are used to debug rules. If the rule fails, the values can help diagnose the cause of the failure.The SQL statement must use GoogleSQL syntax (https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax), and must not contain any semicolons.You can use the data reference parameter ${data()} to reference the source table with all of its precondition filters applied. Examples of precondition filters include row filters, incremental data filters, and sampling. For more information, see Data reference parameter (https://cloud.google.com/dataplex/docs/auto-data-quality-overview#data-reference-parameter).You can also name results with an explicit alias using [AS] alias. For more information, see BigQuery explicit aliases (https://docs.cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax#explicit_alias_syntax).Example: SELECT MIN(col1) AS min_col1, MAX(col1) AS max_col1 FROM ${data()} */
-export interface GoogleCloudDataplexV1DataQualityRuleDebugQuery {
-  /** Required. Specifies the SQL statement to be executed. */
-  sqlStatement?: string;
-  /** Optional. Specifies the description of the debug query. The maximum length is 1,024 characters. */
-  description?: string;
-}
-export const GoogleCloudDataplexV1DataQualityRuleDebugQuery = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sqlStatement: S.optional(S.String),
-    description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataQualityRuleDebugQuery",
-}) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleDebugQuery>;
-
-export type GoogleCloudDataplexV1DataQualityRuleDebugQueryList =
-  Array<GoogleCloudDataplexV1DataQualityRuleDebugQuery>;
-export const GoogleCloudDataplexV1DataQualityRuleDebugQueryList = /*@__PURE__*/ S.Array(
-  GoogleCloudDataplexV1DataQualityRuleDebugQuery,
-) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleDebugQueryList>;
-
-/** A rule captures data quality intent about a data source. */
-export interface GoogleCloudDataplexV1DataQualityRule {
-  /** Row-level rule which evaluates whether each column value is unique. */
-  uniquenessExpectation?: GoogleLongrunningCancelOperationRequest;
-  /** Aggregate rule which evaluates whether the provided expression is true for a table. */
-  tableConditionExpectation?: GoogleCloudDataplexV1DataQualityRuleTableConditionExpectation;
-  /** Optional. The minimum ratio of passing_rows / total_rows required to pass this rule, with a range of 0.0, 1.0.0 indicates default value (i.e. 1.0).This field is only valid for row-level type rules. */
-  threshold?: number;
-  /** Optional. A mutable name for the rule. The name must contain only letters (a-z, A-Z), numbers (0-9), or hyphens (-). The maximum length is 63 characters. Must start with a letter. Must end with a number or a letter. */
-  name?: string;
-  /** Output only. Contains information about the source of the rule and its relationship with the BigQuery table, where applicable. */
-  ruleSource?: GoogleCloudDataplexV1DataQualityRuleRuleSource;
-  /** Aggregate rule which references a rule template and provides the parameters to be substituted in the template. If any rows are returned, this rule fails. */
-  templateReference?: GoogleCloudDataplexV1DataQualityRuleTemplateReference;
-  /** Optional. Description of the rule. The maximum length is 1,024 characters. */
-  description?: string;
-  /** Row-level rule which evaluates whether each column value lies between a specified range. */
-  rangeExpectation?: GoogleCloudDataplexV1DataQualityRuleRangeExpectation;
-  /** Aggregate rule which evaluates whether the column aggregate statistic lies between a specified range. */
-  statisticRangeExpectation?: GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectation;
-  /** Row-level rule which evaluates whether each row in a table passes the specified condition. */
-  rowConditionExpectation?: GoogleCloudDataplexV1DataQualityRuleTableConditionExpectation;
-  /** Row-level rule which evaluates whether each column value is null. */
-  nonNullExpectation?: GoogleLongrunningCancelOperationRequest;
-  /** Optional. Map of attribute name and value linked to the rule. The rules to evaluate can be filtered based on attributes provided here and a filter expression provided in the DataQualitySpec.filter field. */
-  attributes?: StringMap;
-  /** Row-level rule which evaluates whether each column value is contained by a specified set. */
-  setExpectation?: GoogleCloudDataplexV1DataQualityRuleSetExpectation;
-  /** Optional. Rows with null values will automatically fail a rule, unless ignore_null is true. In that case, such null rows are trivially considered passing.This field is only valid for the following type of rules: RangeExpectation RegexExpectation SetExpectation UniquenessExpectation */
-  ignoreNull?: boolean;
-  /** Row-level rule which evaluates whether each column value matches a specified regex. */
-  regexExpectation?: GoogleCloudDataplexV1DataQualityRuleRegexExpectation;
-  /** Aggregate rule which evaluates the number of rows returned for the provided statement. If any rows are returned, this rule fails. */
-  sqlAssertion?: GoogleCloudDataplexV1DataQualityRuleSqlAssertion;
-  /** Optional. The unnested column which this rule is evaluated against. */
-  column?: string;
-  /** Optional. Whether the Rule is active or suspended. Default is false. */
-  suspended?: boolean;
-  /** Optional. Specifies the debug queries for this rule. Currently, only one query is supported, but this may be expanded in the future. */
-  debugQueries?: GoogleCloudDataplexV1DataQualityRuleDebugQueryList;
-  /** Optional. The dimension a rule belongs to. Results are also aggregated at the dimension level. Custom dimension name is supported with all uppercase letters and maximum length of 30 characters. */
-  dimension?: string;
-}
-export const GoogleCloudDataplexV1DataQualityRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    uniquenessExpectation: S.optional(GoogleLongrunningCancelOperationRequest),
-    tableConditionExpectation: S.optional(
-      GoogleCloudDataplexV1DataQualityRuleTableConditionExpectation,
-    ),
-    threshold: S.optional(S.Number),
-    name: S.optional(S.String),
-    ruleSource: S.optional(GoogleCloudDataplexV1DataQualityRuleRuleSource),
-    templateReference: S.optional(GoogleCloudDataplexV1DataQualityRuleTemplateReference),
-    description: S.optional(S.String),
-    rangeExpectation: S.optional(GoogleCloudDataplexV1DataQualityRuleRangeExpectation),
-    statisticRangeExpectation: S.optional(
-      GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectation,
-    ),
-    rowConditionExpectation: S.optional(
-      GoogleCloudDataplexV1DataQualityRuleTableConditionExpectation,
-    ),
-    nonNullExpectation: S.optional(GoogleLongrunningCancelOperationRequest),
-    attributes: S.optional(StringMap),
-    setExpectation: S.optional(GoogleCloudDataplexV1DataQualityRuleSetExpectation),
-    ignoreNull: S.optional(S.Boolean),
-    regexExpectation: S.optional(GoogleCloudDataplexV1DataQualityRuleRegexExpectation),
-    sqlAssertion: S.optional(GoogleCloudDataplexV1DataQualityRuleSqlAssertion),
-    column: S.optional(S.String),
-    suspended: S.optional(S.Boolean),
-    debugQueries: S.optional(GoogleCloudDataplexV1DataQualityRuleDebugQueryList),
-    dimension: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataQualityRule",
-}) as any as S.Schema<GoogleCloudDataplexV1DataQualityRule>;
-
-export type GoogleCloudDataplexV1DataQualityRuleList = Array<GoogleCloudDataplexV1DataQualityRule>;
-export const GoogleCloudDataplexV1DataQualityRuleList = /*@__PURE__*/ S.Array(
-  GoogleCloudDataplexV1DataQualityRule,
-) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleList>;
-
-/** DataQualityScan related setting. */
-export interface GoogleCloudDataplexV1DataQualitySpec {
-  /** Optional. The percentage of the records to be selected from the dataset for DataScan. Value can range between 0.0 and 100.0 with up to 3 significant decimal digits. Sampling is not applied if sampling_percent is not specified, 0 or 100. */
-  samplingPercent?: number;
-  /** Optional. Filter for selectively running a subset of rules. You can filter the request by the name or attribute key-value pairs defined on the rule. If not specified, all rules are run. The filter is applicable to both, the rules retrieved from catalog and explicitly defined rules in the scan. Please see filter syntax (https://docs.cloud.google.com/dataplex/docs/auto-data-quality-overview#rule-filtering) for more details. */
-  filter?: string;
-  /** Optional. If enabled, the data scan will retrieve rules defined in the dataplex-types.global.data-rules aspect on all paths of the catalog entry corresponding to the BigQuery table resource and all attached glossary terms. The path that data-rules aspect is attached on the table entry defines the column that the rule will be evaluated against. For glossary terms, the path that the terms are attached on the table entry defines the column that the rule will be evaluated against. At the start of scan execution, the rules reflect the latest state retrieved from the catalog entry and any updates on the rules thereafter are ignored for that execution. The updates will be reflected from the next execution. Rules defined in the datascan must be empty if this field is enabled. */
-  enableCatalogBasedRules?: boolean;
-  /** Optional. A filter applied to all rows in a single DataScan job. The filter needs to be a valid SQL expression for a WHERE clause in GoogleSQL syntax (https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax#where_clause).Example: col1 >= 0 AND col2 < 10 */
-  rowFilter?: string;
-  /** Optional. Actions to take upon job completion. */
-  postScanActions?: GoogleCloudDataplexV1DataQualitySpecPostScanActions;
-  /** Required. The list of rules to evaluate against a data source. At least one rule is required. */
-  rules?: GoogleCloudDataplexV1DataQualityRuleList;
-  /** Optional. If set, the latest DataScan job result will be published as Dataplex Universal Catalog metadata. */
-  catalogPublishingEnabled?: boolean;
-}
-export const GoogleCloudDataplexV1DataQualitySpec = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    samplingPercent: S.optional(S.Number),
-    filter: S.optional(S.String),
-    enableCatalogBasedRules: S.optional(S.Boolean),
-    rowFilter: S.optional(S.String),
-    postScanActions: S.optional(GoogleCloudDataplexV1DataQualitySpecPostScanActions),
-    rules: S.optional(GoogleCloudDataplexV1DataQualityRuleList),
-    catalogPublishingEnabled: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataQualitySpec",
-}) as any as S.Schema<GoogleCloudDataplexV1DataQualitySpec>;
-
-/** Describes result statistics of a data scan discovery job. */
-export interface GoogleCloudDataplexV1DataDiscoveryResultScanStatistics {
-  /** The number of filesets updated. */
-  filesetsUpdated?: number;
-  /** The data processed in bytes. */
-  dataProcessedBytes?: string;
-  /** The number of tables created. */
-  tablesCreated?: number;
-  /** The number of filesets deleted. */
-  filesetsDeleted?: number;
-  /** The number of files scanned. */
-  scannedFileCount?: number;
-  /** The number of filesets created. */
-  filesetsCreated?: number;
-  /** The number of files excluded. */
-  filesExcluded?: number;
-  /** The number of tables deleted. */
-  tablesDeleted?: number;
-  /** The number of tables updated. */
-  tablesUpdated?: number;
-}
-export const GoogleCloudDataplexV1DataDiscoveryResultScanStatistics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    filesetsUpdated: S.optional(S.Number),
-    dataProcessedBytes: S.optional(S.String),
-    tablesCreated: S.optional(S.Number),
-    filesetsDeleted: S.optional(S.Number),
-    scannedFileCount: S.optional(S.Number),
-    filesetsCreated: S.optional(S.Number),
-    filesExcluded: S.optional(S.Number),
-    tablesDeleted: S.optional(S.Number),
-    tablesUpdated: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataDiscoveryResultScanStatistics",
-}) as any as S.Schema<GoogleCloudDataplexV1DataDiscoveryResultScanStatistics>;
-
-/** Describes BigQuery publishing configurations. */
-export interface GoogleCloudDataplexV1DataDiscoveryResultBigQueryPublishing {
-  /** Output only. The BigQuery dataset the discovered tables are published to. */
-  dataset?: string;
-  /** Output only. The location of the BigQuery publishing dataset. */
-  location?: string;
-}
-export const GoogleCloudDataplexV1DataDiscoveryResultBigQueryPublishing = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      dataset: S.optional(S.String),
-      location: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataDiscoveryResultBigQueryPublishing",
-}) as any as S.Schema<GoogleCloudDataplexV1DataDiscoveryResultBigQueryPublishing>;
-
-/** The output of a data discovery scan. */
-export interface GoogleCloudDataplexV1DataDiscoveryResult {
-  /** Output only. Describes result statistics of a data scan discovery job. */
-  scanStatistics?: GoogleCloudDataplexV1DataDiscoveryResultScanStatistics;
-  /** Output only. Configuration for metadata publishing. */
-  bigqueryPublishing?: GoogleCloudDataplexV1DataDiscoveryResultBigQueryPublishing;
-}
-export const GoogleCloudDataplexV1DataDiscoveryResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    scanStatistics: S.optional(GoogleCloudDataplexV1DataDiscoveryResultScanStatistics),
-    bigqueryPublishing: S.optional(GoogleCloudDataplexV1DataDiscoveryResultBigQueryPublishing),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataDiscoveryResult",
-}) as any as S.Schema<GoogleCloudDataplexV1DataDiscoveryResult>;
-
-/** Maps a local field to a referenced field. */
-export interface GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMapping {
-  /** Output only. Local field name forming part of the foreign key. */
-  field?: string;
-  /** Output only. Field name in the referenced node type. */
-  referencedField?: string;
-}
-export const GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMapping =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      field: S.optional(S.String),
-      referencedField: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMapping",
-  }) as any as S.Schema<GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMapping>;
-
-export type GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMappingList =
-  Array<GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMapping>;
-export const GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMappingList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMapping,
-  ) as any as S.Schema<GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMappingList>;
-
-/** Represents a foreign key constraint. */
-export interface GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKey {
-  /** Output only. Description of the foreign key. */
-  description?: string;
-  /** Output only. Name of the foreign key constraint. */
-  name?: string;
-  /** Output only. Field Mappings. Mappings between local fields and the fields they reference in the referenced node type. */
-  fieldMappings?: GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMappingList;
-  /** Output only. The node type this constraint references. */
-  referencedNodeType?: string;
-}
-export const GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKey = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    name: S.optional(S.String),
-    fieldMappings: S.optional(GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMappingList),
-    referencedNodeType: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKey",
-}) as any as S.Schema<GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKey>;
-
-export type GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyList =
-  Array<GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKey>;
-export const GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyList = /*@__PURE__*/ S.Array(
-  GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKey,
-) as any as S.Schema<GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyList>;
-
-export type GoogleCloudDataplexV1GraphProfileFieldModeEnum =
-  | "MODE_UNSPECIFIED"
-  | "NULLABLE"
-  | "REPEATED"
-  | "REQUIRED";
-export const GoogleCloudDataplexV1GraphProfileFieldModeEnum = S.String;
-
-/** Extraction hints (field-level). */
-export interface GoogleCloudDataplexV1GraphProfileFieldExtractionHints {
-  /** Output only. Standardizes extracted data (e.g., to ISO 3166-1 alpha-2). */
-  normalization?: string;
-  /** Output only. Generates value from other data instead of direct extraction (e.g., hashing). */
-  synthesis?: string;
-}
-export const GoogleCloudDataplexV1GraphProfileFieldExtractionHints = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    normalization: S.optional(S.String),
-    synthesis: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1GraphProfileFieldExtractionHints",
-}) as any as S.Schema<GoogleCloudDataplexV1GraphProfileFieldExtractionHints>;
-
-export type GoogleCloudDataplexV1GraphProfileFieldMetadataTypeEnum =
-  | "METADATA_TYPE_UNSPECIFIED"
-  | "BOOLEAN"
-  | "NUMBER"
-  | "STRING"
-  | "BYTES"
-  | "DATETIME"
-  | "TIMESTAMP"
-  | "GEOSPATIAL"
-  | "STRUCT"
-  | "OTHER";
-export const GoogleCloudDataplexV1GraphProfileFieldMetadataTypeEnum = S.String;
-
-/** Represents a field in a node or edge type. */
-export interface GoogleCloudDataplexV1GraphProfileField {
-  /** Output only. Description of the field. */
-  description?: string;
-  /** Output only. The data type of the field, e.g., STRING, INTEGER, DATE. */
-  dataType?: string;
-  /** Output only. Sub-fields of this field (for STRUCT types). */
-  fields?: GoogleCloudDataplexV1GraphProfileFieldList;
-  /** Output only. The mode of the field. */
-  mode?: GoogleCloudDataplexV1GraphProfileFieldModeEnum | (string & {});
-  /** Output only. Extraction hints for the field. */
-  extractionHints?: GoogleCloudDataplexV1GraphProfileFieldExtractionHints;
-  /** Output only. The mapped metadata type. */
-  metadataType?: GoogleCloudDataplexV1GraphProfileFieldMetadataTypeEnum | (string & {});
-  /** Output only. Name of the field. */
-  name?: string;
-}
-export const GoogleCloudDataplexV1GraphProfileField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    dataType: S.optional(S.String),
-    fields: S.optional(S.suspend(() => GoogleCloudDataplexV1GraphProfileFieldList)),
-    mode: S.optional(GoogleCloudDataplexV1GraphProfileFieldModeEnum),
-    extractionHints: S.optional(GoogleCloudDataplexV1GraphProfileFieldExtractionHints),
-    metadataType: S.optional(GoogleCloudDataplexV1GraphProfileFieldMetadataTypeEnum),
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1GraphProfileField",
-}) as any as S.Schema<GoogleCloudDataplexV1GraphProfileField>;
-
-export type GoogleCloudDataplexV1GraphProfileFieldList =
-  Array<GoogleCloudDataplexV1GraphProfileField>;
-export const GoogleCloudDataplexV1GraphProfileFieldList = /*@__PURE__*/ S.Array(
-  GoogleCloudDataplexV1GraphProfileField,
-) as any as S.Schema<GoogleCloudDataplexV1GraphProfileFieldList>;
-
-/** Extraction hints (edge-level). */
-export interface GoogleCloudDataplexV1GraphProfileEdgeTypeExtractionHints {
-  /** Output only. Expected connectivity topology and bounds of this relationship. Format: "Topology - Description" Example: "1:N - One company can have multiple financial reports." */
-  cardinality?: string;
-}
-export const GoogleCloudDataplexV1GraphProfileEdgeTypeExtractionHints = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      cardinality: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1GraphProfileEdgeTypeExtractionHints",
-}) as any as S.Schema<GoogleCloudDataplexV1GraphProfileEdgeTypeExtractionHints>;
-
-/** Represents a type of edge (relationship) in the graph. */
-export interface GoogleCloudDataplexV1GraphProfileEdgeType {
-  /** Output only. Description of the edge type. */
-  description?: string;
-  /** Output only. Defines the Foreign Key constraints for the edge. */
-  foreignKeys?: GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyList;
-  /** Output only. Target node type. */
-  targetNodeType?: string;
-  /** Output only. Source node type. */
-  sourceNodeType?: string;
-  /** Output only. Fields of the edge type. */
-  fields?: GoogleCloudDataplexV1GraphProfileFieldList;
-  /** Output only. Extraction hints for the edge. */
-  extractionHints?: GoogleCloudDataplexV1GraphProfileEdgeTypeExtractionHints;
-  /** Output only. Name of the edge type. */
-  name?: string;
-}
-export const GoogleCloudDataplexV1GraphProfileEdgeType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    foreignKeys: S.optional(GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyList),
-    targetNodeType: S.optional(S.String),
-    sourceNodeType: S.optional(S.String),
-    fields: S.optional(GoogleCloudDataplexV1GraphProfileFieldList),
-    extractionHints: S.optional(GoogleCloudDataplexV1GraphProfileEdgeTypeExtractionHints),
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1GraphProfileEdgeType",
-}) as any as S.Schema<GoogleCloudDataplexV1GraphProfileEdgeType>;
-
-export type GoogleCloudDataplexV1GraphProfileEdgeTypeList =
-  Array<GoogleCloudDataplexV1GraphProfileEdgeType>;
-export const GoogleCloudDataplexV1GraphProfileEdgeTypeList = /*@__PURE__*/ S.Array(
-  GoogleCloudDataplexV1GraphProfileEdgeType,
-) as any as S.Schema<GoogleCloudDataplexV1GraphProfileEdgeTypeList>;
-
-/** Extraction hints (node-level). */
-export interface GoogleCloudDataplexV1GraphProfileNodeTypeExtractionHints {
-  /** Output only. Expected occurrence frequency of this node type within a document. Format: "Bounds - Description" Example: "0:N - A document may contain multiple people names." */
-  cardinality?: string;
-}
-export const GoogleCloudDataplexV1GraphProfileNodeTypeExtractionHints = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      cardinality: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1GraphProfileNodeTypeExtractionHints",
-}) as any as S.Schema<GoogleCloudDataplexV1GraphProfileNodeTypeExtractionHints>;
-
-/** Represents a type of node in the graph. */
-export interface GoogleCloudDataplexV1GraphProfileNodeType {
-  /** Output only. Fields of the node type. */
-  fields?: GoogleCloudDataplexV1GraphProfileFieldList;
-  /** Output only. Field names forming the primary keys. The order in this array defines the key's ordinal positions for composite keys. */
-  primaryKeys?: StringList;
-  /** Output only. Extraction hints for the node. */
-  extractionHints?: GoogleCloudDataplexV1GraphProfileNodeTypeExtractionHints;
-  /** Output only. Description of the node type. */
-  description?: string;
-  /** Output only. Name of the node type. */
-  name?: string;
-}
-export const GoogleCloudDataplexV1GraphProfileNodeType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fields: S.optional(GoogleCloudDataplexV1GraphProfileFieldList),
-    primaryKeys: S.optional(StringList),
-    extractionHints: S.optional(GoogleCloudDataplexV1GraphProfileNodeTypeExtractionHints),
-    description: S.optional(S.String),
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1GraphProfileNodeType",
-}) as any as S.Schema<GoogleCloudDataplexV1GraphProfileNodeType>;
-
-export type GoogleCloudDataplexV1GraphProfileNodeTypeList =
-  Array<GoogleCloudDataplexV1GraphProfileNodeType>;
-export const GoogleCloudDataplexV1GraphProfileNodeTypeList = /*@__PURE__*/ S.Array(
-  GoogleCloudDataplexV1GraphProfileNodeType,
-) as any as S.Schema<GoogleCloudDataplexV1GraphProfileNodeTypeList>;
-
-/** Contains the strict structure for graph-profile for semantic inference scan result. */
-export interface GoogleCloudDataplexV1GraphProfile {
-  /** Output only. Edge types. */
-  edgeTypes?: GoogleCloudDataplexV1GraphProfileEdgeTypeList;
-  /** Output only. Node types. */
-  nodeTypes?: GoogleCloudDataplexV1GraphProfileNodeTypeList;
-}
-export const GoogleCloudDataplexV1GraphProfile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    edgeTypes: S.optional(GoogleCloudDataplexV1GraphProfileEdgeTypeList),
-    nodeTypes: S.optional(GoogleCloudDataplexV1GraphProfileNodeTypeList),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1GraphProfile",
-}) as any as S.Schema<GoogleCloudDataplexV1GraphProfile>;
-
-/** Contains the result of an unstructured data profile scan. */
-export interface GoogleCloudDataplexV1UnstructuredDataProfileResult {
-  /** Output only. Optional message for partial failures (e.g. node type extraction failed). */
-  partialFailureMessage?: string;
-  /** Output only. The inferred description. */
-  description?: string;
-  /** Output only. The inferred graph profile. */
-  graphProfile?: GoogleCloudDataplexV1GraphProfile;
-}
-export const GoogleCloudDataplexV1UnstructuredDataProfileResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    partialFailureMessage: S.optional(S.String),
-    description: S.optional(S.String),
-    graphProfile: S.optional(GoogleCloudDataplexV1GraphProfile),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1UnstructuredDataProfileResult",
-}) as any as S.Schema<GoogleCloudDataplexV1UnstructuredDataProfileResult>;
-
-/** The data source for DataScan. */
-export interface GoogleCloudDataplexV1DataSource {
-  /** Immutable. The Dataplex Universal Catalog entity that represents the data source (e.g. BigQuery table) for DataScan, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}. */
-  entity?: string;
-  /** Immutable. The service-qualified full resource name of the cloud resource for a DataScan job to scan against. The field could either be: Cloud Storage bucket for DataDiscoveryScan Format: //storage.googleapis.com/projects/PROJECT_ID/buckets/BUCKET_ID or BigQuery table of type "TABLE" for DataProfileScan/DataQualityScan/DataDocumentationScan Format: //bigquery.googleapis.com/projects/PROJECT_ID/datasets/DATASET_ID/tables/TABLE_ID or BigQuery dataset for DataDocumentationScan only Format: //bigquery.googleapis.com/projects/PROJECT_ID/datasets/DATASET_ID */
-  resource?: string;
-}
-export const GoogleCloudDataplexV1DataSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    entity: S.optional(S.String),
-    resource: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataSource",
-}) as any as S.Schema<GoogleCloudDataplexV1DataSource>;
-
-export type GoogleCloudDataplexV1DataScanTypeEnum =
-  | "DATA_SCAN_TYPE_UNSPECIFIED"
-  | "DATA_QUALITY"
-  | "DATA_PROFILE"
-  | "DATA_DISCOVERY"
-  | "DATA_DOCUMENTATION"
-  | "UNSTRUCTURED_DATA_PROFILE";
-export const GoogleCloudDataplexV1DataScanTypeEnum = S.String;
-
-/** A dimension captures data quality intent about a defined subset of the rules specified. */
-export interface GoogleCloudDataplexV1DataQualityDimension {
-  /** Output only. The dimension name a rule belongs to. Custom dimension name is supported with all uppercase letters and maximum length of 30 characters. */
-  name?: string;
-}
-export const GoogleCloudDataplexV1DataQualityDimension = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataQualityDimension",
-}) as any as S.Schema<GoogleCloudDataplexV1DataQualityDimension>;
-
-/** DataQualityDimensionResult provides a more detailed, per-dimension view of the results. */
-export interface GoogleCloudDataplexV1DataQualityDimensionResult {
-  /** Output only. The dimension config specified in the DataQualitySpec, as is. */
-  dimension?: GoogleCloudDataplexV1DataQualityDimension;
-  /** Output only. The dimension-level data quality score for this data scan job if and only if the 'dimension' field is set.The score ranges between 0, 100 (up to two decimal points). */
-  score?: number;
-  /** Output only. Whether the dimension passed or failed. */
-  passed?: boolean;
-}
-export const GoogleCloudDataplexV1DataQualityDimensionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dimension: S.optional(GoogleCloudDataplexV1DataQualityDimension),
-    score: S.optional(S.Number),
-    passed: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataQualityDimensionResult",
-}) as any as S.Schema<GoogleCloudDataplexV1DataQualityDimensionResult>;
-
-export type GoogleCloudDataplexV1DataQualityDimensionResultList =
-  Array<GoogleCloudDataplexV1DataQualityDimensionResult>;
-export const GoogleCloudDataplexV1DataQualityDimensionResultList = /*@__PURE__*/ S.Array(
-  GoogleCloudDataplexV1DataQualityDimensionResult,
-) as any as S.Schema<GoogleCloudDataplexV1DataQualityDimensionResultList>;
-
-/** DataQualityColumnResult provides a more detailed, per-column view of the results. */
-export interface GoogleCloudDataplexV1DataQualityColumnResult {
-  /** Output only. Whether the column passed or failed. */
-  passed?: boolean;
-  /** Output only. The column specified in the DataQualityRule. */
-  column?: string;
-  /** Output only. The column-level data quality score for this data scan job if and only if the 'column' field is set.The score ranges between between 0, 100 (up to two decimal points). */
-  score?: number;
-  /** Output only. The dimension-level results for this column. */
-  dimensions?: GoogleCloudDataplexV1DataQualityDimensionResultList;
-}
-export const GoogleCloudDataplexV1DataQualityColumnResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    passed: S.optional(S.Boolean),
-    column: S.optional(S.String),
-    score: S.optional(S.Number),
-    dimensions: S.optional(GoogleCloudDataplexV1DataQualityDimensionResultList),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataQualityColumnResult",
-}) as any as S.Schema<GoogleCloudDataplexV1DataQualityColumnResult>;
-
-export type GoogleCloudDataplexV1DataQualityColumnResultList =
-  Array<GoogleCloudDataplexV1DataQualityColumnResult>;
-export const GoogleCloudDataplexV1DataQualityColumnResultList = /*@__PURE__*/ S.Array(
-  GoogleCloudDataplexV1DataQualityColumnResult,
-) as any as S.Schema<GoogleCloudDataplexV1DataQualityColumnResultList>;
-
-/** The assets generated by Anomaly Detection Data Scan. */
-export interface GoogleCloudDataplexV1DataQualityResultAnomalyDetectionGeneratedAssets {
-  /** Output only. The intermediate table for data anomaly detection. Format: PROJECT_ID.DATASET_ID.TABLE_ID */
-  dataIntermediateTable?: string;
-  /** Output only. The result table for anomaly detection. Format: PROJECT_ID.DATASET_ID.TABLE_ID If the result table is set at AnomalyDetectionAssets, the result table here would be the same as the one set in the AnomalyDetectionAssets.result_table. */
-  resultTable?: string;
-  /** Output only. The intermediate table for freshness anomaly detection. Format: PROJECT_ID.DATASET_ID.TABLE_ID */
-  freshnessIntermediateTable?: string;
-  /** Output only. The intermediate table for volume anomaly detection. Format: PROJECT_ID.DATASET_ID.TABLE_ID */
-  volumeIntermediateTable?: string;
-}
-export const GoogleCloudDataplexV1DataQualityResultAnomalyDetectionGeneratedAssets =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      dataIntermediateTable: S.optional(S.String),
-      resultTable: S.optional(S.String),
-      freshnessIntermediateTable: S.optional(S.String),
-      volumeIntermediateTable: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDataplexV1DataQualityResultAnomalyDetectionGeneratedAssets",
-  }) as any as S.Schema<GoogleCloudDataplexV1DataQualityResultAnomalyDetectionGeneratedAssets>;
-
-/** Contains a single result from the debug query. */
-export interface GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResult {
-  /** Specifies the name of the result. Available if provided with an explicit alias using [AS] alias. */
-  name?: string;
-  /** Indicates the data type of the result. For more information, see BigQuery data types (https://cloud.google.com/bigquery/docs/reference/standard-sql/data-types). */
-  type?: string;
-  /** Represents the value of the result as a string. */
-  value?: string;
-}
-export const GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.optional(S.String),
-      type: S.optional(S.String),
-      value: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResult",
-}) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResult>;
-
-export type GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultList =
-  Array<GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResult>;
-export const GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultList = /*@__PURE__*/ S.Array(
-  GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResult,
-) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultList>;
-
-/** Contains all results from a debug query. */
-export interface GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultSet {
-  /** Output only. Contains all results. Up to 10 results can be returned. */
-  results?: GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultList;
-}
-export const GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultSet =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      results: S.optional(GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultList),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultSet",
-  }) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultSet>;
-
-export type GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultSetList =
-  Array<GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultSet>;
-export const GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultSetList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultSet,
-  ) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultSetList>;
-
-/** DataQualityRuleResult provides a more detailed, per-rule view of the results. */
-export interface GoogleCloudDataplexV1DataQualityRuleResult {
-  /** Output only. The number of rows returned by the SQL statement in a SQL assertion rule.This field is only valid for SQL assertion rules. */
-  assertionRowCount?: string;
-  /** Output only. The rule specified in the DataQualitySpec, as is. */
-  rule?: GoogleCloudDataplexV1DataQualityRule;
-  /** Output only. The number of rows with null values in the specified column. */
-  nullCount?: string;
-  /** Output only. The ratio of passed_count / evaluated_count.This field is only valid for row-level type rules. */
-  passRatio?: number;
-  /** Output only. The query to find rows that did not pass this rule.This field is only valid for row-level type rules. */
-  failingRowsQuery?: string;
-  /** Output only. Whether the rule passed or failed. */
-  passed?: boolean;
-  /** Output only. The number of rows a rule was evaluated against.This field is only valid for row-level type rules.Evaluated count can be configured to either include all rows (default) - with null rows automatically failing rule evaluation, or exclude null rows from the evaluated_count, by setting ignore_nulls = true.This field is not set for rule SqlAssertion. */
-  evaluatedCount?: string;
-  /** Output only. Contains the results of all debug queries for this rule. The number of result sets will correspond to the number of debug_queries. */
-  debugQueriesResultSets?: GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultSetList;
-  /** Output only. The number of rows which passed a rule evaluation.This field is only valid for row-level type rules.This field is not set for rule SqlAssertion. */
-  passedCount?: string;
-}
-export const GoogleCloudDataplexV1DataQualityRuleResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    assertionRowCount: S.optional(S.String),
-    rule: S.optional(GoogleCloudDataplexV1DataQualityRule),
-    nullCount: S.optional(S.String),
-    passRatio: S.optional(S.Number),
-    failingRowsQuery: S.optional(S.String),
-    passed: S.optional(S.Boolean),
-    evaluatedCount: S.optional(S.String),
-    debugQueriesResultSets: S.optional(
-      GoogleCloudDataplexV1DataQualityRuleResultDebugQueryResultSetList,
-    ),
-    passedCount: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataQualityRuleResult",
-}) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleResult>;
-
-export type GoogleCloudDataplexV1DataQualityRuleResultList =
-  Array<GoogleCloudDataplexV1DataQualityRuleResult>;
-export const GoogleCloudDataplexV1DataQualityRuleResultList = /*@__PURE__*/ S.Array(
-  GoogleCloudDataplexV1DataQualityRuleResult,
-) as any as S.Schema<GoogleCloudDataplexV1DataQualityRuleResultList>;
-
-export type GoogleCloudDataplexV1DataQualityResultPostScanActionsResultBigQueryExportResultStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "SUCCEEDED"
-  | "FAILED"
-  | "SKIPPED";
-export const GoogleCloudDataplexV1DataQualityResultPostScanActionsResultBigQueryExportResultStateEnum =
-  S.String;
-
-/** The result of BigQuery export post scan action. */
-export interface GoogleCloudDataplexV1DataQualityResultPostScanActionsResultBigQueryExportResult {
-  /** Output only. Additional information about the BigQuery exporting. */
-  message?: string;
-  /** Output only. Execution state for the BigQuery exporting. */
-  state?:
-    | GoogleCloudDataplexV1DataQualityResultPostScanActionsResultBigQueryExportResultStateEnum
-    | (string & {});
-}
-export const GoogleCloudDataplexV1DataQualityResultPostScanActionsResultBigQueryExportResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      message: S.optional(S.String),
-      state: S.optional(
-        GoogleCloudDataplexV1DataQualityResultPostScanActionsResultBigQueryExportResultStateEnum,
-      ),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDataplexV1DataQualityResultPostScanActionsResultBigQueryExportResult",
-  }) as any as S.Schema<GoogleCloudDataplexV1DataQualityResultPostScanActionsResultBigQueryExportResult>;
-
-/** The result of post scan actions of DataQualityScan job. */
-export interface GoogleCloudDataplexV1DataQualityResultPostScanActionsResult {
-  /** Output only. The result of BigQuery export post scan action. */
-  bigqueryExportResult?: GoogleCloudDataplexV1DataQualityResultPostScanActionsResultBigQueryExportResult;
-}
-export const GoogleCloudDataplexV1DataQualityResultPostScanActionsResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      bigqueryExportResult: S.optional(
-        GoogleCloudDataplexV1DataQualityResultPostScanActionsResultBigQueryExportResult,
-      ),
-    }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataQualityResultPostScanActionsResult",
-}) as any as S.Schema<GoogleCloudDataplexV1DataQualityResultPostScanActionsResult>;
-
-/** The output of a DataQualityScan. */
-export interface GoogleCloudDataplexV1DataQualityResult {
-  /** Output only. A list of results at the column level.A column will have a corresponding DataQualityColumnResult if and only if there is at least one rule with the 'column' field set to it. */
-  columns?: GoogleCloudDataplexV1DataQualityColumnResultList;
-  /** Output only. The status of publishing the data scan as Dataplex Universal Catalog metadata. */
-  catalogPublishingStatus?: GoogleCloudDataplexV1DataScanCatalogPublishingStatus;
-  /** Output only. The generated assets for anomaly detection. */
-  anomalyDetectionGeneratedAssets?: GoogleCloudDataplexV1DataQualityResultAnomalyDetectionGeneratedAssets;
-  /** Output only. The overall data quality score.The score ranges between 0, 100 (up to two decimal points). */
-  score?: number;
-  /** Output only. A list of all the rules in a job, and their results. */
-  rules?: GoogleCloudDataplexV1DataQualityRuleResultList;
-  /** Output only. A list of results at the dimension level.A dimension will have a corresponding DataQualityDimensionResult if and only if there is at least one rule with the 'dimension' field set to it. */
-  dimensions?: GoogleCloudDataplexV1DataQualityDimensionResultList;
-  /** Output only. The data scanned for this result. */
-  scannedData?: GoogleCloudDataplexV1ScannedData;
-  /** Output only. The result of post scan actions. */
-  postScanActionsResult?: GoogleCloudDataplexV1DataQualityResultPostScanActionsResult;
-  /** Output only. Overall data quality result -- true if all rules passed. */
-  passed?: boolean;
-  /** Output only. The count of rows processed. */
-  rowCount?: string;
-}
-export const GoogleCloudDataplexV1DataQualityResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    columns: S.optional(GoogleCloudDataplexV1DataQualityColumnResultList),
-    catalogPublishingStatus: S.optional(GoogleCloudDataplexV1DataScanCatalogPublishingStatus),
-    anomalyDetectionGeneratedAssets: S.optional(
-      GoogleCloudDataplexV1DataQualityResultAnomalyDetectionGeneratedAssets,
-    ),
-    score: S.optional(S.Number),
-    rules: S.optional(GoogleCloudDataplexV1DataQualityRuleResultList),
-    dimensions: S.optional(GoogleCloudDataplexV1DataQualityDimensionResultList),
-    scannedData: S.optional(GoogleCloudDataplexV1ScannedData),
-    postScanActionsResult: S.optional(GoogleCloudDataplexV1DataQualityResultPostScanActionsResult),
-    passed: S.optional(S.Boolean),
-    rowCount: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataQualityResult",
-}) as any as S.Schema<GoogleCloudDataplexV1DataQualityResult>;
-
-/** The scan runs once via RunDataScan API. */
-export type GoogleCloudDataplexV1TriggerOnDemand = GoogleLongrunningCancelOperationRequest;
-export const GoogleCloudDataplexV1TriggerOnDemand = GoogleLongrunningCancelOperationRequest;
-
-/** The scan is scheduled to run periodically. */
-export interface GoogleCloudDataplexV1TriggerSchedule {
-  /** Required. Cron (https://en.wikipedia.org/wiki/Cron) schedule for running scans periodically.To explicitly set a timezone in the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or "TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database (wikipedia (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List)). For example, CRON_TZ=America/New_York 1 * * * *, or TZ=America/New_York 1 * * * *.This field is required for Schedule scans. */
-  cron?: string;
-}
-export const GoogleCloudDataplexV1TriggerSchedule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cron: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1TriggerSchedule",
-}) as any as S.Schema<GoogleCloudDataplexV1TriggerSchedule>;
-
-/** The scan runs once using create API. */
-export interface GoogleCloudDataplexV1TriggerOneTime {
-  /** Optional. Time to live for OneTime scans. default value is 24 hours, minimum value is 0 seconds, and maximum value is 365 days. The time is calculated from the data scan job completion time. If value is set as 0 seconds, the scan will be immediately deleted upon job completion, regardless of whether the job succeeded or failed. */
-  ttlAfterScanCompletion?: string;
-}
-export const GoogleCloudDataplexV1TriggerOneTime = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ttlAfterScanCompletion: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1TriggerOneTime",
-}) as any as S.Schema<GoogleCloudDataplexV1TriggerOneTime>;
-
-/** DataScan scheduling and trigger settings. */
-export interface GoogleCloudDataplexV1Trigger {
-  /** The scan runs once via RunDataScan API. */
-  onDemand?: GoogleLongrunningCancelOperationRequest;
-  /** The scan is scheduled to run periodically. */
-  schedule?: GoogleCloudDataplexV1TriggerSchedule;
-  /** The scan runs once, and does not create an associated ScanJob child resource. */
-  oneTime?: GoogleCloudDataplexV1TriggerOneTime;
-}
-export const GoogleCloudDataplexV1Trigger = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    onDemand: S.optional(GoogleLongrunningCancelOperationRequest),
-    schedule: S.optional(GoogleCloudDataplexV1TriggerSchedule),
-    oneTime: S.optional(GoogleCloudDataplexV1TriggerOneTime),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1Trigger",
-}) as any as S.Schema<GoogleCloudDataplexV1Trigger>;
-
-/** DataScan execution settings. */
-export interface GoogleCloudDataplexV1DataScanExecutionSpec {
-  /** Optional. Spec related to how often and when a scan should be triggered.If not specified, the default is OnDemand, which means the scan will not run until the user calls RunDataScan API. */
-  trigger?: GoogleCloudDataplexV1Trigger;
-  /** Immutable. The unnested field (of type Date or Timestamp) that contains values which monotonically increase over time.If not specified, a data scan will run for all data in the table. */
-  field?: string;
-}
-export const GoogleCloudDataplexV1DataScanExecutionSpec = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    trigger: S.optional(GoogleCloudDataplexV1Trigger),
-    field: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataScanExecutionSpec",
-}) as any as S.Schema<GoogleCloudDataplexV1DataScanExecutionSpec>;
-
 /** Represents a user-visible job which provides the insights for the related data source.For example: Data quality: generates queries based on the rules and runs against the data to get data quality check results. For more information, see Auto data quality overview (https://cloud.google.com/dataplex/docs/auto-data-quality-overview). Data profile: analyzes the data in tables and generates insights about the structure, content and relationships (such as null percent, cardinality, min/max/mean, etc). For more information, see About data profiling (https://cloud.google.com/dataplex/docs/data-profiling-overview). Data discovery: scans data in Cloud Storage buckets to extract and then catalog metadata. For more information, see Discover and catalog Cloud Storage data (https://cloud.google.com/bigquery/docs/automatic-discovery). Data documentation: analyzes the table or dataset metadata and generates insights. For tables, insights include descriptions and sample SQL queries. For datasets, insights include descriptions, schema relationships and sample SQL queries. For more information, see Generate data insights in BigQuery (https://cloud.google.com/bigquery/docs/data-insights). */
 export interface GoogleCloudDataplexV1DataScan {
-  /** Output only. Identifier. The relative resource name of the scan, of the form: projects/{project}/locations/{location_id}/dataScans/{datascan_id}, where project refers to a project_id or project_number and location_id refers to a Google Cloud region. */
-  name?: string;
-  /** Optional. Settings for an unstructured data profile scan. */
-  unstructuredDataProfileSpec?: GoogleCloudDataplexV1UnstructuredDataProfileSpec;
-  /** Settings for a data discovery scan. */
-  dataDiscoverySpec?: GoogleCloudDataplexV1DataDiscoverySpec;
-  /** Settings for a data documentation scan. */
-  dataDocumentationSpec?: GoogleCloudDataplexV1DataDocumentationSpec;
-  /** Output only. The time when the scan was created. */
-  createTime?: string;
-  /** Output only. The result of a data profile scan. */
-  dataProfileResult?: GoogleCloudDataplexV1DataProfileResult;
-  /** Optional. User friendly display name. Must be between 1-256 characters. */
-  displayName?: string;
-  /** Optional. Immutable. The identity to run the datascan. If not specified, defaults to the Dataplex Service Agent. */
-  executionIdentity?: GoogleCloudDataplexV1ExecutionIdentity;
-  /** Output only. Status of the data scan execution. */
-  executionStatus?: GoogleCloudDataplexV1DataScanExecutionStatus;
   /** Settings for a data profile scan. */
   dataProfileSpec?: GoogleCloudDataplexV1DataProfileSpec;
-  /** Output only. The result of a data documentation scan. */
-  dataDocumentationResult?: GoogleCloudDataplexV1DataDocumentationResult;
-  /** Output only. Current state of the DataScan. */
-  state?: GoogleCloudDataplexV1DataScanStateEnum | (string & {});
-  /** Output only. The time when the scan was last updated. */
-  updateTime?: string;
-  /** Settings for a data quality scan. */
-  dataQualitySpec?: GoogleCloudDataplexV1DataQualitySpec;
-  /** Output only. The result of a data discovery scan. */
-  dataDiscoveryResult?: GoogleCloudDataplexV1DataDiscoveryResult;
-  /** Output only. The result of an unstructured data profile scan. */
-  unstructuredDataProfileResult?: GoogleCloudDataplexV1UnstructuredDataProfileResult;
-  /** Required. The data source for DataScan. */
-  data?: GoogleCloudDataplexV1DataSource;
   /** Output only. The type of DataScan. */
   type?: GoogleCloudDataplexV1DataScanTypeEnum | (string & {});
   /** Output only. The result of a data quality scan. */
   dataQualityResult?: GoogleCloudDataplexV1DataQualityResult;
+  /** Settings for a data quality scan. */
+  dataQualitySpec?: GoogleCloudDataplexV1DataQualitySpec;
+  /** Output only. The time when the scan was last updated. */
+  updateTime?: string;
+  /** Output only. The result of a data profile scan. */
+  dataProfileResult?: GoogleCloudDataplexV1DataProfileResult;
   /** Output only. System generated globally unique ID for the scan. This ID will be different if the scan is deleted and re-created with the same name. */
   uid?: string;
+  /** Settings for a data documentation scan. */
+  dataDocumentationSpec?: GoogleCloudDataplexV1DataDocumentationSpec;
   /** Optional. User-defined labels for the scan. */
   labels?: StringMap;
+  /** Output only. Current state of the DataScan. */
+  state?: GoogleCloudDataplexV1DataScanStateEnum | (string & {});
+  /** Settings for a data discovery scan. */
+  dataDiscoverySpec?: GoogleCloudDataplexV1DataDiscoverySpec;
+  /** Optional. Settings for an unstructured data profile scan. */
+  unstructuredDataProfileSpec?: GoogleCloudDataplexV1UnstructuredDataProfileSpec;
   /** Optional. DataScan execution settings.If not specified, the fields in it will use their default values. */
   executionSpec?: GoogleCloudDataplexV1DataScanExecutionSpec;
   /** Optional. Description of the scan. Must be between 1-1024 characters. */
   description?: string;
+  /** Required. The data source for DataScan. */
+  data?: GoogleCloudDataplexV1DataSource;
+  /** Output only. The result of an unstructured data profile scan. */
+  unstructuredDataProfileResult?: GoogleCloudDataplexV1UnstructuredDataProfileResult;
+  /** Output only. Identifier. The relative resource name of the scan, of the form: projects/{project}/locations/{location_id}/dataScans/{datascan_id}, where project refers to a project_id or project_number and location_id refers to a Google Cloud region. */
+  name?: string;
+  /** Optional. Immutable. The identity to run the datascan. If not specified, defaults to the Dataplex Service Agent. */
+  executionIdentity?: GoogleCloudDataplexV1ExecutionIdentity;
+  /** Output only. Status of the data scan execution. */
+  executionStatus?: GoogleCloudDataplexV1DataScanExecutionStatus;
+  /** Output only. The result of a data discovery scan. */
+  dataDiscoveryResult?: GoogleCloudDataplexV1DataDiscoveryResult;
+  /** Output only. The result of a data documentation scan. */
+  dataDocumentationResult?: GoogleCloudDataplexV1DataDocumentationResult;
+  /** Output only. The time when the scan was created. */
+  createTime?: string;
+  /** Optional. User friendly display name. Must be between 1-256 characters. */
+  displayName?: string;
 }
 export const GoogleCloudDataplexV1DataScan = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    unstructuredDataProfileSpec: S.optional(GoogleCloudDataplexV1UnstructuredDataProfileSpec),
-    dataDiscoverySpec: S.optional(GoogleCloudDataplexV1DataDiscoverySpec),
-    dataDocumentationSpec: S.optional(GoogleCloudDataplexV1DataDocumentationSpec),
-    createTime: S.optional(S.String),
-    dataProfileResult: S.optional(GoogleCloudDataplexV1DataProfileResult),
-    displayName: S.optional(S.String),
-    executionIdentity: S.optional(GoogleCloudDataplexV1ExecutionIdentity),
-    executionStatus: S.optional(GoogleCloudDataplexV1DataScanExecutionStatus),
     dataProfileSpec: S.optional(GoogleCloudDataplexV1DataProfileSpec),
-    dataDocumentationResult: S.optional(GoogleCloudDataplexV1DataDocumentationResult),
-    state: S.optional(GoogleCloudDataplexV1DataScanStateEnum),
-    updateTime: S.optional(S.String),
-    dataQualitySpec: S.optional(GoogleCloudDataplexV1DataQualitySpec),
-    dataDiscoveryResult: S.optional(GoogleCloudDataplexV1DataDiscoveryResult),
-    unstructuredDataProfileResult: S.optional(GoogleCloudDataplexV1UnstructuredDataProfileResult),
-    data: S.optional(GoogleCloudDataplexV1DataSource),
     type: S.optional(GoogleCloudDataplexV1DataScanTypeEnum),
     dataQualityResult: S.optional(GoogleCloudDataplexV1DataQualityResult),
+    dataQualitySpec: S.optional(GoogleCloudDataplexV1DataQualitySpec),
+    updateTime: S.optional(S.String),
+    dataProfileResult: S.optional(GoogleCloudDataplexV1DataProfileResult),
     uid: S.optional(S.String),
+    dataDocumentationSpec: S.optional(GoogleCloudDataplexV1DataDocumentationSpec),
     labels: S.optional(StringMap),
+    state: S.optional(GoogleCloudDataplexV1DataScanStateEnum),
+    dataDiscoverySpec: S.optional(GoogleCloudDataplexV1DataDiscoverySpec),
+    unstructuredDataProfileSpec: S.optional(GoogleCloudDataplexV1UnstructuredDataProfileSpec),
     executionSpec: S.optional(GoogleCloudDataplexV1DataScanExecutionSpec),
     description: S.optional(S.String),
+    data: S.optional(GoogleCloudDataplexV1DataSource),
+    unstructuredDataProfileResult: S.optional(GoogleCloudDataplexV1UnstructuredDataProfileResult),
+    name: S.optional(S.String),
+    executionIdentity: S.optional(GoogleCloudDataplexV1ExecutionIdentity),
+    executionStatus: S.optional(GoogleCloudDataplexV1DataScanExecutionStatus),
+    dataDiscoveryResult: S.optional(GoogleCloudDataplexV1DataDiscoveryResult),
+    dataDocumentationResult: S.optional(GoogleCloudDataplexV1DataDocumentationResult),
+    createTime: S.optional(S.String),
+    displayName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1DataScan",
 }) as any as S.Schema<GoogleCloudDataplexV1DataScan>;
 
 export interface CreateProjectsLocationsDataScansRequest {
-  /** Optional. Only validate the request, but do not perform mutations. The default is false. */
-  validateOnly?: boolean;
   /** Optional. DataScan identifier. If not provided, a unique ID will be generated with the prefix "data-scan-". Must contain only lowercase letters, numbers and hyphens. Must start with a letter. Must end with a number or a letter. Must be between 1-63 characters. Must be unique within the customer project / location. */
   dataScanId?: string;
   /** Required. The resource name of the parent location: projects/{project}/locations/{location_id} where project refers to a project_id or project_number and location_id refers to a Google Cloud region. */
   parent: string;
+  /** Optional. Only validate the request, but do not perform mutations. The default is false. */
+  validateOnly?: boolean;
   /** Request body */
   body?: GoogleCloudDataplexV1DataScan;
 }
 export const CreateProjectsLocationsDataScansRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     dataScanId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(GoogleCloudDataplexV1DataScan.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -3987,177 +3923,6 @@ export const CreateProjectsLocationsDataScansRequest = /*@__PURE__*/ S.suspend((
   identifier: "CreateProjectsLocationsDataScansRequest",
 }) as any as S.Schema<CreateProjectsLocationsDataScansRequest>;
 
-/** DataTaxonomy represents a set of hierarchical DataAttributes resources, grouped with a common theme Eg: 'SensitiveDataTaxonomy' can have attributes to manage PII data. It is defined at project level. */
-export interface GoogleCloudDataplexV1DataTaxonomy {
-  /** Optional. User friendly display name. */
-  displayName?: string;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
-  /** Optional. User-defined labels for the DataTaxonomy. */
-  labels?: StringMap;
-  /** Optional. Description of the DataTaxonomy. */
-  description?: string;
-  /** Output only. The time when the DataTaxonomy was last updated. */
-  updateTime?: string;
-  /** Output only. The relative resource name of the DataTaxonomy, of the form: projects/{project_number}/locations/{location_id}/dataTaxonomies/{data_taxonomy_id}. */
-  name?: string;
-  /** Output only. The number of attributes in the DataTaxonomy. */
-  attributeCount?: number;
-  /** Output only. System generated globally unique ID for the dataTaxonomy. This ID will be different if the DataTaxonomy is deleted and re-created with the same name. */
-  uid?: string;
-  /** Output only. The time when the DataTaxonomy was created. */
-  createTime?: string;
-  /** Output only. The number of classes in the DataTaxonomy. */
-  classCount?: number;
-}
-export const GoogleCloudDataplexV1DataTaxonomy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    displayName: S.optional(S.String),
-    etag: S.optional(S.String),
-    labels: S.optional(StringMap),
-    description: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    name: S.optional(S.String),
-    attributeCount: S.optional(S.Number),
-    uid: S.optional(S.String),
-    createTime: S.optional(S.String),
-    classCount: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataTaxonomy",
-}) as any as S.Schema<GoogleCloudDataplexV1DataTaxonomy>;
-
-export interface CreateProjectsLocationsDataTaxonomiesRequest {
-  /** Optional. Only validate the request, but do not perform mutations. The default is false. */
-  validateOnly?: boolean;
-  parent: string;
-  /** Required. DataTaxonomy identifier. * Must contain only lowercase letters, numbers and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the Project. */
-  dataTaxonomyId?: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1DataTaxonomy;
-}
-export const CreateProjectsLocationsDataTaxonomiesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    dataTaxonomyId: S.optional(S.String.pipe(T.Query())),
-    body: S.optional(GoogleCloudDataplexV1DataTaxonomy.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "v1/{+parent}/dataTaxonomies",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
-  ),
-).annotate({
-  identifier: "CreateProjectsLocationsDataTaxonomiesRequest",
-}) as any as S.Schema<CreateProjectsLocationsDataTaxonomiesRequest>;
-
-/** DataAccessSpec holds the access control configuration to be enforced on data stored within resources (eg: rows, columns in BigQuery Tables). When associated with data, the data is only accessible to principals explicitly granted access through the DataAccessSpec. Principals with access to the containing resource are not implicitly granted access. */
-export interface GoogleCloudDataplexV1DataAccessSpec {
-  /** Optional. The format of strings follows the pattern followed by IAM in the bindings. user:{email}, serviceAccount:{email} group:{email}. The set of principals to be granted reader role on data stored within resources. */
-  readers?: StringList;
-}
-export const GoogleCloudDataplexV1DataAccessSpec = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    readers: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataAccessSpec",
-}) as any as S.Schema<GoogleCloudDataplexV1DataAccessSpec>;
-
-/** ResourceAccessSpec holds the access control configuration to be enforced on the resources, for example, Cloud Storage bucket, BigQuery dataset, BigQuery table. */
-export interface GoogleCloudDataplexV1ResourceAccessSpec {
-  /** Optional. The set of principals to be granted owner role on the resource. */
-  owners?: StringList;
-  /** Optional. The format of strings follows the pattern followed by IAM in the bindings. user:{email}, serviceAccount:{email} group:{email}. The set of principals to be granted reader role on the resource. */
-  readers?: StringList;
-  /** Optional. The set of principals to be granted writer role on the resource. */
-  writers?: StringList;
-}
-export const GoogleCloudDataplexV1ResourceAccessSpec = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    owners: S.optional(StringList),
-    readers: S.optional(StringList),
-    writers: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1ResourceAccessSpec",
-}) as any as S.Schema<GoogleCloudDataplexV1ResourceAccessSpec>;
-
-/** Denotes one dataAttribute in a dataTaxonomy, for example, PII. DataAttribute resources can be defined in a hierarchy. A single dataAttribute resource can contain specs of multiple types PII - ResourceAccessSpec : - readers :foo@bar.com - DataAccessSpec : - readers :bar@foo.com */
-export interface GoogleCloudDataplexV1DataAttribute {
-  /** Output only. The number of child attributes present for this attribute. */
-  attributeCount?: number;
-  /** Output only. System generated globally unique ID for the DataAttribute. This ID will be different if the DataAttribute is deleted and re-created with the same name. */
-  uid?: string;
-  /** Output only. The time when the DataAttribute was created. */
-  createTime?: string;
-  /** Optional. Specified when applied to data stored on the resource (eg: rows, columns in BigQuery Tables). */
-  dataAccessSpec?: GoogleCloudDataplexV1DataAccessSpec;
-  /** Output only. The time when the DataAttribute was last updated. */
-  updateTime?: string;
-  /** Optional. Specified when applied to a resource (eg: Cloud Storage bucket, BigQuery dataset, BigQuery table). */
-  resourceAccessSpec?: GoogleCloudDataplexV1ResourceAccessSpec;
-  /** Output only. The relative resource name of the dataAttribute, of the form: projects/{project_number}/locations/{location_id}/dataTaxonomies/{dataTaxonomy}/attributes/{data_attribute_id}. */
-  name?: string;
-  /** Optional. The ID of the parent DataAttribute resource, should belong to the same data taxonomy. Circular dependency in parent chain is not valid. Maximum depth of the hierarchy allowed is 4. a -> b -> c -> d -> e, depth = 4 */
-  parentId?: string;
-  /** Optional. User-defined labels for the DataAttribute. */
-  labels?: StringMap;
-  /** Optional. Description of the DataAttribute. */
-  description?: string;
-  /** Optional. User friendly display name. */
-  displayName?: string;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
-}
-export const GoogleCloudDataplexV1DataAttribute = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attributeCount: S.optional(S.Number),
-    uid: S.optional(S.String),
-    createTime: S.optional(S.String),
-    dataAccessSpec: S.optional(GoogleCloudDataplexV1DataAccessSpec),
-    updateTime: S.optional(S.String),
-    resourceAccessSpec: S.optional(GoogleCloudDataplexV1ResourceAccessSpec),
-    name: S.optional(S.String),
-    parentId: S.optional(S.String),
-    labels: S.optional(StringMap),
-    description: S.optional(S.String),
-    displayName: S.optional(S.String),
-    etag: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1DataAttribute",
-}) as any as S.Schema<GoogleCloudDataplexV1DataAttribute>;
-
-export interface CreateProjectsLocationsDataTaxonomiesAttributesRequest {
-  /** Optional. Only validate the request, but do not perform mutations. The default is false. */
-  validateOnly?: boolean;
-  /** Required. DataAttribute identifier. * Must contain only lowercase letters, numbers and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the DataTaxonomy. */
-  dataAttributeId?: string;
-  /** Required. The resource name of the parent data taxonomy projects/{project_number}/locations/{location_id}/dataTaxonomies/{data_taxonomy_id} */
-  parent: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1DataAttribute;
-}
-export const CreateProjectsLocationsDataTaxonomiesAttributesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    dataAttributeId: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    body: S.optional(GoogleCloudDataplexV1DataAttribute.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "v1/{+parent}/attributes",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
-  ),
-).annotate({
-  identifier: "CreateProjectsLocationsDataTaxonomiesAttributesRequest",
-}) as any as S.Schema<CreateProjectsLocationsDataTaxonomiesAttributesRequest>;
-
 export type GoogleCloudDataplexV1EntryGroupTransferStatusEnum =
   | "TRANSFER_STATUS_UNSPECIFIED"
   | "TRANSFER_STATUS_MIGRATED"
@@ -4166,46 +3931,46 @@ export const GoogleCloudDataplexV1EntryGroupTransferStatusEnum = S.String;
 
 /** An Entry Group represents a logical grouping of one or more Entries. */
 export interface GoogleCloudDataplexV1EntryGroup {
-  /** Output only. The relative resource name of the EntryGroup, in the format projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}. */
-  name?: string;
-  /** Output only. The time when the EntryGroup was last updated. */
-  updateTime?: string;
+  /** Output only. Denotes the transfer status of the Entry Group. It is unspecified for Entry Group created from Dataplex API. */
+  transferStatus?: GoogleCloudDataplexV1EntryGroupTransferStatusEnum | (string & {});
   /** Output only. The time when the EntryGroup was created. */
   createTime?: string;
   /** Output only. System generated globally unique ID for the EntryGroup. If you delete and recreate the EntryGroup with the same name, this ID will be different. */
   uid?: string;
-  /** Optional. User friendly display name. */
-  displayName?: string;
-  /** This checksum is computed by the service, and might be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
-  /** Output only. Denotes the transfer status of the Entry Group. It is unspecified for Entry Group created from Dataplex API. */
-  transferStatus?: GoogleCloudDataplexV1EntryGroupTransferStatusEnum | (string & {});
   /** Optional. Description of the EntryGroup. */
   description?: string;
   /** Optional. User-defined labels for the EntryGroup. */
   labels?: StringMap;
+  /** Optional. User friendly display name. */
+  displayName?: string;
+  /** Output only. The time when the EntryGroup was last updated. */
+  updateTime?: string;
+  /** Output only. The relative resource name of the EntryGroup, in the format projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}. */
+  name?: string;
+  /** This checksum is computed by the service, and might be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string;
 }
 export const GoogleCloudDataplexV1EntryGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    updateTime: S.optional(S.String),
+    transferStatus: S.optional(GoogleCloudDataplexV1EntryGroupTransferStatusEnum),
     createTime: S.optional(S.String),
     uid: S.optional(S.String),
-    displayName: S.optional(S.String),
-    etag: S.optional(S.String),
-    transferStatus: S.optional(GoogleCloudDataplexV1EntryGroupTransferStatusEnum),
     description: S.optional(S.String),
     labels: S.optional(StringMap),
+    displayName: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    name: S.optional(S.String),
+    etag: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1EntryGroup",
 }) as any as S.Schema<GoogleCloudDataplexV1EntryGroup>;
 
 export interface CreateProjectsLocationsEntryGroupsRequest {
-  /** Required. The resource name of the entryGroup, of the form: projects/{project_number}/locations/{location_id} where location_id refers to a Google Cloud region. */
-  parent: string;
   /** Required. EntryGroup identifier. */
   entryGroupId?: string;
+  /** Required. The resource name of the entryGroup, of the form: projects/{project_number}/locations/{location_id} where location_id refers to a Google Cloud region. */
+  parent: string;
   /** Optional. The service validates the request without performing any mutations. The default is false. */
   validateOnly?: boolean;
   /** Request body */
@@ -4213,8 +3978,8 @@ export interface CreateProjectsLocationsEntryGroupsRequest {
 }
 export const CreateProjectsLocationsEntryGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     entryGroupId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(GoogleCloudDataplexV1EntryGroup.pipe(T.HttpBody())),
   }).pipe(
@@ -4253,17 +4018,17 @@ export const CreateProjectsLocationsEntryGroupsEntriesRequest = /*@__PURE__*/ S.
 }) as any as S.Schema<CreateProjectsLocationsEntryGroupsEntriesRequest>;
 
 export interface CreateProjectsLocationsEntryGroupsEntryLinksRequest {
-  /** Required. Entry Link identifier * Must contain only lowercase letters, numbers and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the EntryGroup. */
-  entryLinkId?: string;
   /** Required. The resource name of the parent Entry Group: projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}. */
   parent: string;
+  /** Required. Entry Link identifier * Must contain only lowercase letters, numbers and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the EntryGroup. */
+  entryLinkId?: string;
   /** Request body */
   body?: GoogleCloudDataplexV1EntryLink;
 }
 export const CreateProjectsLocationsEntryGroupsEntryLinksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entryLinkId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    entryLinkId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(GoogleCloudDataplexV1EntryLink.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -4309,68 +4074,68 @@ export const GoogleCloudDataplexV1EntryTypeAspectInfoList = /*@__PURE__*/ S.Arra
 
 /** Entry Type is a template for creating Entries. */
 export interface GoogleCloudDataplexV1EntryType {
-  /** Output only. The relative resource name of the EntryType, of the form: projects/{project_number}/locations/{location_id}/entryTypes/{entry_type_id}. */
-  name?: string;
-  /** Optional. Indicates the classes this Entry Type belongs to, for example, TABLE, DATABASE, MODEL. */
-  typeAliases?: StringList;
-  /** Output only. The time when the EntryType was created. */
-  createTime?: string;
-  /** Immutable. Authorization defined for this type. */
-  authorization?: GoogleCloudDataplexV1EntryTypeAuthorization;
   /** Optional. User friendly display name. */
   displayName?: string;
-  /** Optional. This checksum is computed by the service, and might be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
-  /** AspectInfo for the entry type. */
-  requiredAspects?: GoogleCloudDataplexV1EntryTypeAspectInfoList;
-  /** Output only. The time when the EntryType was last updated. */
-  updateTime?: string;
   /** Output only. System generated globally unique ID for the EntryType. This ID will be different if the EntryType is deleted and re-created with the same name. */
   uid?: string;
+  /** Immutable. Authorization defined for this type. */
+  authorization?: GoogleCloudDataplexV1EntryTypeAuthorization;
   /** Optional. The platform that Entries of this type belongs to. */
   platform?: string;
-  /** Optional. Description of the EntryType. */
-  description?: string;
-  /** Optional. User-defined labels for the EntryType. */
-  labels?: StringMap;
+  /** Output only. The time when the EntryType was last updated. */
+  updateTime?: string;
   /** Optional. The system that Entries of this type belongs to. Examples include CloudSQL, MariaDB etc */
   system?: string;
+  /** Optional. This checksum is computed by the service, and might be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string;
+  /** Optional. Description of the EntryType. */
+  description?: string;
+  /** Output only. The time when the EntryType was created. */
+  createTime?: string;
+  /** Optional. Indicates the classes this Entry Type belongs to, for example, TABLE, DATABASE, MODEL. */
+  typeAliases?: StringList;
+  /** AspectInfo for the entry type. */
+  requiredAspects?: GoogleCloudDataplexV1EntryTypeAspectInfoList;
+  /** Output only. The relative resource name of the EntryType, of the form: projects/{project_number}/locations/{location_id}/entryTypes/{entry_type_id}. */
+  name?: string;
+  /** Optional. User-defined labels for the EntryType. */
+  labels?: StringMap;
 }
 export const GoogleCloudDataplexV1EntryType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    typeAliases: S.optional(StringList),
-    createTime: S.optional(S.String),
-    authorization: S.optional(GoogleCloudDataplexV1EntryTypeAuthorization),
     displayName: S.optional(S.String),
-    etag: S.optional(S.String),
-    requiredAspects: S.optional(GoogleCloudDataplexV1EntryTypeAspectInfoList),
-    updateTime: S.optional(S.String),
     uid: S.optional(S.String),
+    authorization: S.optional(GoogleCloudDataplexV1EntryTypeAuthorization),
     platform: S.optional(S.String),
-    description: S.optional(S.String),
-    labels: S.optional(StringMap),
+    updateTime: S.optional(S.String),
     system: S.optional(S.String),
+    etag: S.optional(S.String),
+    description: S.optional(S.String),
+    createTime: S.optional(S.String),
+    typeAliases: S.optional(StringList),
+    requiredAspects: S.optional(GoogleCloudDataplexV1EntryTypeAspectInfoList),
+    name: S.optional(S.String),
+    labels: S.optional(StringMap),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1EntryType",
 }) as any as S.Schema<GoogleCloudDataplexV1EntryType>;
 
 export interface CreateProjectsLocationsEntryTypesRequest {
-  /** Optional. The service validates the request without performing any mutations. The default is false. */
-  validateOnly?: boolean;
   /** Required. The resource name of the EntryType, of the form: projects/{project_number}/locations/{location_id} where location_id refers to a Google Cloud region. */
   parent: string;
   /** Required. EntryType identifier. */
   entryTypeId?: string;
+  /** Optional. The service validates the request without performing any mutations. The default is false. */
+  validateOnly?: boolean;
   /** Request body */
   body?: GoogleCloudDataplexV1EntryType;
 }
 export const CreateProjectsLocationsEntryTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     entryTypeId: S.optional(S.String.pipe(T.Query())),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(GoogleCloudDataplexV1EntryType.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -4435,17 +4200,17 @@ export const CreateProjectsLocationsGlossariesCategoriesRequest = /*@__PURE__*/ 
 }) as any as S.Schema<CreateProjectsLocationsGlossariesCategoriesRequest>;
 
 export interface CreateProjectsLocationsGlossariesTermsRequest {
-  /** Required. GlossaryTerm identifier. */
-  termId?: string;
   /** Required. The parent resource where the GlossaryTerm will be created. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} where location_id refers to a Google Cloud region. */
   parent: string;
+  /** Required. GlossaryTerm identifier. */
+  termId?: string;
   /** Request body */
   body?: GoogleCloudDataplexV1GlossaryTerm;
 }
 export const CreateProjectsLocationsGlossariesTermsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    termId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    termId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(GoogleCloudDataplexV1GlossaryTerm.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -4466,25 +4231,6 @@ export type GoogleCloudDataplexV1LakeStateEnum =
   | "ACTION_REQUIRED";
 export const GoogleCloudDataplexV1LakeStateEnum = S.String;
 
-/** Aggregated status of the underlying assets of a lake or zone. */
-export interface GoogleCloudDataplexV1AssetStatus {
-  /** Number of active assets. */
-  activeAssets?: number;
-  /** Last update time of the status. */
-  updateTime?: string;
-  /** Number of assets that are in process of updating the security policy on attached resources. */
-  securityPolicyApplyingAssets?: number;
-}
-export const GoogleCloudDataplexV1AssetStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    activeAssets: S.optional(S.Number),
-    updateTime: S.optional(S.String),
-    securityPolicyApplyingAssets: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1AssetStatus",
-}) as any as S.Schema<GoogleCloudDataplexV1AssetStatus>;
-
 export type GoogleCloudDataplexV1LakeMetastoreStatusStateEnum =
   | "STATE_UNSPECIFIED"
   | "NONE"
@@ -4495,21 +4241,21 @@ export const GoogleCloudDataplexV1LakeMetastoreStatusStateEnum = S.String;
 
 /** Status of Lake and Dataproc Metastore service instance association. */
 export interface GoogleCloudDataplexV1LakeMetastoreStatus {
-  /** Additional information about the current status. */
-  message?: string;
   /** Last update time of the metastore status of the lake. */
   updateTime?: string;
   /** Current state of association. */
   state?: GoogleCloudDataplexV1LakeMetastoreStatusStateEnum | (string & {});
   /** The URI of the endpoint used to access the Metastore service. */
   endpoint?: string;
+  /** Additional information about the current status. */
+  message?: string;
 }
 export const GoogleCloudDataplexV1LakeMetastoreStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    message: S.optional(S.String),
     updateTime: S.optional(S.String),
     state: S.optional(GoogleCloudDataplexV1LakeMetastoreStatusStateEnum),
     endpoint: S.optional(S.String),
+    message: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1LakeMetastoreStatus",
@@ -4528,67 +4274,86 @@ export const GoogleCloudDataplexV1LakeMetastore = /*@__PURE__*/ S.suspend(() =>
   identifier: "GoogleCloudDataplexV1LakeMetastore",
 }) as any as S.Schema<GoogleCloudDataplexV1LakeMetastore>;
 
+/** Aggregated status of the underlying assets of a lake or zone. */
+export interface GoogleCloudDataplexV1AssetStatus {
+  /** Number of assets that are in process of updating the security policy on attached resources. */
+  securityPolicyApplyingAssets?: number;
+  /** Last update time of the status. */
+  updateTime?: string;
+  /** Number of active assets. */
+  activeAssets?: number;
+}
+export const GoogleCloudDataplexV1AssetStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    securityPolicyApplyingAssets: S.optional(S.Number),
+    updateTime: S.optional(S.String),
+    activeAssets: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1AssetStatus",
+}) as any as S.Schema<GoogleCloudDataplexV1AssetStatus>;
+
 /** A lake is a centralized repository for managing enterprise data across the organization distributed across many cloud projects, and stored in a variety of storage services such as Google Cloud Storage and BigQuery. The resources attached to a lake are referred to as managed resources. Data within these managed resources can be structured or unstructured. A lake provides data admins with tools to organize, secure and manage their data at scale, and provides data scientists and data engineers an integrated experience to easily search, discover, analyze and transform data and associated metadata. */
 export interface GoogleCloudDataplexV1Lake {
-  /** Optional. Description of the lake. */
-  description?: string;
-  /** Output only. Current state of the lake. */
-  state?: GoogleCloudDataplexV1LakeStateEnum | (string & {});
-  /** Output only. Aggregated status of the underlying assets of the lake. */
-  assetStatus?: GoogleCloudDataplexV1AssetStatus;
-  /** Optional. User-defined labels for the lake. */
-  labels?: StringMap;
-  /** Optional. User friendly display name. */
-  displayName?: string;
-  /** Output only. Metastore status of the lake. */
-  metastoreStatus?: GoogleCloudDataplexV1LakeMetastoreStatus;
-  /** Output only. Service account associated with this lake. This service account must be authorized to access or operate on resources managed by the lake. */
-  serviceAccount?: string;
-  /** Output only. The time when the lake was created. */
-  createTime?: string;
-  /** Optional. Settings to manage lake and Dataproc Metastore service instance association. */
-  metastore?: GoogleCloudDataplexV1LakeMetastore;
-  /** Output only. System generated globally unique ID for the lake. This ID will be different if the lake is deleted and re-created with the same name. */
-  uid?: string;
-  /** Output only. The relative resource name of the lake, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}. */
-  name?: string;
   /** Output only. The time when the lake was last updated. */
   updateTime?: string;
+  /** Output only. The relative resource name of the lake, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}. */
+  name?: string;
+  /** Output only. Current state of the lake. */
+  state?: GoogleCloudDataplexV1LakeStateEnum | (string & {});
+  /** Optional. Description of the lake. */
+  description?: string;
+  /** Optional. User-defined labels for the lake. */
+  labels?: StringMap;
+  /** Output only. Metastore status of the lake. */
+  metastoreStatus?: GoogleCloudDataplexV1LakeMetastoreStatus;
+  /** Optional. User friendly display name. */
+  displayName?: string;
+  /** Output only. System generated globally unique ID for the lake. This ID will be different if the lake is deleted and re-created with the same name. */
+  uid?: string;
+  /** Output only. Service account associated with this lake. This service account must be authorized to access or operate on resources managed by the lake. */
+  serviceAccount?: string;
+  /** Optional. Settings to manage lake and Dataproc Metastore service instance association. */
+  metastore?: GoogleCloudDataplexV1LakeMetastore;
+  /** Output only. Aggregated status of the underlying assets of the lake. */
+  assetStatus?: GoogleCloudDataplexV1AssetStatus;
+  /** Output only. The time when the lake was created. */
+  createTime?: string;
 }
 export const GoogleCloudDataplexV1Lake = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    description: S.optional(S.String),
-    state: S.optional(GoogleCloudDataplexV1LakeStateEnum),
-    assetStatus: S.optional(GoogleCloudDataplexV1AssetStatus),
-    labels: S.optional(StringMap),
-    displayName: S.optional(S.String),
-    metastoreStatus: S.optional(GoogleCloudDataplexV1LakeMetastoreStatus),
-    serviceAccount: S.optional(S.String),
-    createTime: S.optional(S.String),
-    metastore: S.optional(GoogleCloudDataplexV1LakeMetastore),
-    uid: S.optional(S.String),
-    name: S.optional(S.String),
     updateTime: S.optional(S.String),
+    name: S.optional(S.String),
+    state: S.optional(GoogleCloudDataplexV1LakeStateEnum),
+    description: S.optional(S.String),
+    labels: S.optional(StringMap),
+    metastoreStatus: S.optional(GoogleCloudDataplexV1LakeMetastoreStatus),
+    displayName: S.optional(S.String),
+    uid: S.optional(S.String),
+    serviceAccount: S.optional(S.String),
+    metastore: S.optional(GoogleCloudDataplexV1LakeMetastore),
+    assetStatus: S.optional(GoogleCloudDataplexV1AssetStatus),
+    createTime: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1Lake",
 }) as any as S.Schema<GoogleCloudDataplexV1Lake>;
 
 export interface CreateProjectsLocationsLakesRequest {
+  /** Required. The resource name of the lake location, of the form: projects/{project_number}/locations/{location_id} where location_id refers to a Google Cloud region. */
+  parent: string;
   /** Required. Lake identifier. This ID will be used to generate names such as database and dataset names when publishing metadata to Hive Metastore and BigQuery. * Must contain only lowercase letters, numbers and hyphens. * Must start with a letter. * Must end with a number or a letter. * Must be between 1-63 characters. * Must be unique within the customer project / location. */
   lakeId?: string;
   /** Optional. Only validate the request, but do not perform mutations. The default is false. */
   validateOnly?: boolean;
-  /** Required. The resource name of the lake location, of the form: projects/{project_number}/locations/{location_id} where location_id refers to a Google Cloud region. */
-  parent: string;
   /** Request body */
   body?: GoogleCloudDataplexV1Lake;
 }
 export const CreateProjectsLocationsLakesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    parent: S.String.pipe(T.Label()),
     lakeId: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     body: S.optional(GoogleCloudDataplexV1Lake.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -4601,47 +4366,36 @@ export const CreateProjectsLocationsLakesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateProjectsLocationsLakesRequest",
 }) as any as S.Schema<CreateProjectsLocationsLakesRequest>;
 
-/** Container Image Runtime Configuration used with Batch execution. */
-export interface GoogleCloudDataplexV1TaskInfrastructureSpecContainerImageRuntime {
-  /** Optional. A list of python packages to be installed. Valid formats include Cloud Storage URI to a PIP installable library. For example, gs://bucket-name/my/path/to/lib.tar.gz */
-  pythonPackages?: StringList;
-  /** Optional. Container image to use. */
-  image?: string;
-  /** Optional. Override to common configuration of open source components installed on the Dataproc cluster. The properties to set on daemon config files. Property keys are specified in prefix:property format, for example core:hadoop.tmp.dir. For more information, see Cluster properties (https://cloud.google.com/dataproc/docs/concepts/cluster-properties). */
-  properties?: StringMap;
-  /** Optional. A list of Java JARS to add to the classpath. Valid input includes Cloud Storage URIs to Jar binaries. For example, gs://bucket-name/my/path/to/file.jar */
-  javaJars?: StringList;
-}
-export const GoogleCloudDataplexV1TaskInfrastructureSpecContainerImageRuntime =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      pythonPackages: S.optional(StringList),
-      image: S.optional(S.String),
-      properties: S.optional(StringMap),
-      javaJars: S.optional(StringList),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudDataplexV1TaskInfrastructureSpecContainerImageRuntime",
-  }) as any as S.Schema<GoogleCloudDataplexV1TaskInfrastructureSpecContainerImageRuntime>;
+export type GoogleCloudDataplexV1TaskTriggerSpecTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "ON_DEMAND"
+  | "RECURRING";
+export const GoogleCloudDataplexV1TaskTriggerSpecTypeEnum = S.String;
 
-/** Cloud VPC Network used to run the infrastructure. */
-export interface GoogleCloudDataplexV1TaskInfrastructureSpecVpcNetwork {
-  /** Optional. The Cloud VPC network in which the job is run. By default, the Cloud VPC network named Default within the project is used. */
-  network?: string;
-  /** Optional. The Cloud VPC sub-network in which the job is run. */
-  subNetwork?: string;
-  /** Optional. List of network tags to apply to the job. */
-  networkTags?: StringList;
+/** Task scheduling and trigger settings. */
+export interface GoogleCloudDataplexV1TaskTriggerSpec {
+  /** Required. Immutable. Trigger type of the user-specified Task. */
+  type?: GoogleCloudDataplexV1TaskTriggerSpecTypeEnum | (string & {});
+  /** Optional. Cron schedule (https://en.wikipedia.org/wiki/Cron) for running tasks periodically. To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or "TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database. For example, CRON_TZ=America/New_York 1 * * * *, or TZ=America/New_York 1 * * * *. This field is required for RECURRING tasks. */
+  schedule?: string;
+  /** Optional. Number of retry attempts before aborting. Set to zero to never attempt to retry a failed task. */
+  maxRetries?: number;
+  /** Optional. Prevent the task from executing. This does not cancel already running tasks. It is intended to temporarily disable RECURRING tasks. */
+  disabled?: boolean;
+  /** Optional. The first run of the task will be after this time. If not specified, the task will run shortly after being submitted if ON_DEMAND and based on the schedule if RECURRING. */
+  startTime?: string;
 }
-export const GoogleCloudDataplexV1TaskInfrastructureSpecVpcNetwork = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudDataplexV1TaskTriggerSpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    network: S.optional(S.String),
-    subNetwork: S.optional(S.String),
-    networkTags: S.optional(StringList),
+    type: S.optional(GoogleCloudDataplexV1TaskTriggerSpecTypeEnum),
+    schedule: S.optional(S.String),
+    maxRetries: S.optional(S.Number),
+    disabled: S.optional(S.Boolean),
+    startTime: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "GoogleCloudDataplexV1TaskInfrastructureSpecVpcNetwork",
-}) as any as S.Schema<GoogleCloudDataplexV1TaskInfrastructureSpecVpcNetwork>;
+  identifier: "GoogleCloudDataplexV1TaskTriggerSpec",
+}) as any as S.Schema<GoogleCloudDataplexV1TaskTriggerSpec>;
 
 /** Batch compute resources associated with the task. */
 export interface GoogleCloudDataplexV1TaskInfrastructureSpecBatchComputeResources {
@@ -4660,20 +4414,62 @@ export const GoogleCloudDataplexV1TaskInfrastructureSpecBatchComputeResources =
     identifier: "GoogleCloudDataplexV1TaskInfrastructureSpecBatchComputeResources",
   }) as any as S.Schema<GoogleCloudDataplexV1TaskInfrastructureSpecBatchComputeResources>;
 
+/** Container Image Runtime Configuration used with Batch execution. */
+export interface GoogleCloudDataplexV1TaskInfrastructureSpecContainerImageRuntime {
+  /** Optional. Override to common configuration of open source components installed on the Dataproc cluster. The properties to set on daemon config files. Property keys are specified in prefix:property format, for example core:hadoop.tmp.dir. For more information, see Cluster properties (https://cloud.google.com/dataproc/docs/concepts/cluster-properties). */
+  properties?: StringMap;
+  /** Optional. A list of Java JARS to add to the classpath. Valid input includes Cloud Storage URIs to Jar binaries. For example, gs://bucket-name/my/path/to/file.jar */
+  javaJars?: StringList;
+  /** Optional. A list of python packages to be installed. Valid formats include Cloud Storage URI to a PIP installable library. For example, gs://bucket-name/my/path/to/lib.tar.gz */
+  pythonPackages?: StringList;
+  /** Optional. Container image to use. */
+  image?: string;
+}
+export const GoogleCloudDataplexV1TaskInfrastructureSpecContainerImageRuntime =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      properties: S.optional(StringMap),
+      javaJars: S.optional(StringList),
+      pythonPackages: S.optional(StringList),
+      image: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudDataplexV1TaskInfrastructureSpecContainerImageRuntime",
+  }) as any as S.Schema<GoogleCloudDataplexV1TaskInfrastructureSpecContainerImageRuntime>;
+
+/** Cloud VPC Network used to run the infrastructure. */
+export interface GoogleCloudDataplexV1TaskInfrastructureSpecVpcNetwork {
+  /** Optional. The Cloud VPC sub-network in which the job is run. */
+  subNetwork?: string;
+  /** Optional. List of network tags to apply to the job. */
+  networkTags?: StringList;
+  /** Optional. The Cloud VPC network in which the job is run. By default, the Cloud VPC network named Default within the project is used. */
+  network?: string;
+}
+export const GoogleCloudDataplexV1TaskInfrastructureSpecVpcNetwork = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subNetwork: S.optional(S.String),
+    networkTags: S.optional(StringList),
+    network: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1TaskInfrastructureSpecVpcNetwork",
+}) as any as S.Schema<GoogleCloudDataplexV1TaskInfrastructureSpecVpcNetwork>;
+
 /** Configuration for the underlying infrastructure used to run workloads. */
 export interface GoogleCloudDataplexV1TaskInfrastructureSpec {
+  /** Compute resources needed for a Task when using Dataproc Serverless. */
+  batch?: GoogleCloudDataplexV1TaskInfrastructureSpecBatchComputeResources;
   /** Container Image Runtime Configuration. */
   containerImage?: GoogleCloudDataplexV1TaskInfrastructureSpecContainerImageRuntime;
   /** Vpc network. */
   vpcNetwork?: GoogleCloudDataplexV1TaskInfrastructureSpecVpcNetwork;
-  /** Compute resources needed for a Task when using Dataproc Serverless. */
-  batch?: GoogleCloudDataplexV1TaskInfrastructureSpecBatchComputeResources;
 }
 export const GoogleCloudDataplexV1TaskInfrastructureSpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    batch: S.optional(GoogleCloudDataplexV1TaskInfrastructureSpecBatchComputeResources),
     containerImage: S.optional(GoogleCloudDataplexV1TaskInfrastructureSpecContainerImageRuntime),
     vpcNetwork: S.optional(GoogleCloudDataplexV1TaskInfrastructureSpecVpcNetwork),
-    batch: S.optional(GoogleCloudDataplexV1TaskInfrastructureSpecBatchComputeResources),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1TaskInfrastructureSpec",
@@ -4681,115 +4477,58 @@ export const GoogleCloudDataplexV1TaskInfrastructureSpec = /*@__PURE__*/ S.suspe
 
 /** Config for running scheduled notebooks. */
 export interface GoogleCloudDataplexV1TaskNotebookTaskConfig {
-  /** Optional. Cloud Storage URIs of files to be placed in the working directory of each executor. */
-  fileUris?: StringList;
-  /** Optional. Cloud Storage URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. */
-  archiveUris?: StringList;
   /** Required. Path to input notebook. This can be the Cloud Storage URI of the notebook file or the path to a Notebook Content. The execution args are accessible as environment variables (TASK_key=value). */
   notebook?: string;
+  /** Optional. Cloud Storage URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. */
+  archiveUris?: StringList;
+  /** Optional. Cloud Storage URIs of files to be placed in the working directory of each executor. */
+  fileUris?: StringList;
   /** Optional. Infrastructure specification for the execution. */
   infrastructureSpec?: GoogleCloudDataplexV1TaskInfrastructureSpec;
 }
 export const GoogleCloudDataplexV1TaskNotebookTaskConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fileUris: S.optional(StringList),
-    archiveUris: S.optional(StringList),
     notebook: S.optional(S.String),
+    archiveUris: S.optional(StringList),
+    fileUris: S.optional(StringList),
     infrastructureSpec: S.optional(GoogleCloudDataplexV1TaskInfrastructureSpec),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1TaskNotebookTaskConfig",
 }) as any as S.Schema<GoogleCloudDataplexV1TaskNotebookTaskConfig>;
 
-export type GoogleCloudDataplexV1TaskTriggerSpecTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "ON_DEMAND"
-  | "RECURRING";
-export const GoogleCloudDataplexV1TaskTriggerSpecTypeEnum = S.String;
-
-/** Task scheduling and trigger settings. */
-export interface GoogleCloudDataplexV1TaskTriggerSpec {
-  /** Required. Immutable. Trigger type of the user-specified Task. */
-  type?: GoogleCloudDataplexV1TaskTriggerSpecTypeEnum | (string & {});
-  /** Optional. Prevent the task from executing. This does not cancel already running tasks. It is intended to temporarily disable RECURRING tasks. */
-  disabled?: boolean;
-  /** Optional. The first run of the task will be after this time. If not specified, the task will run shortly after being submitted if ON_DEMAND and based on the schedule if RECURRING. */
-  startTime?: string;
-  /** Optional. Number of retry attempts before aborting. Set to zero to never attempt to retry a failed task. */
-  maxRetries?: number;
-  /** Optional. Cron schedule (https://en.wikipedia.org/wiki/Cron) for running tasks periodically. To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or "TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database. For example, CRON_TZ=America/New_York 1 * * * *, or TZ=America/New_York 1 * * * *. This field is required for RECURRING tasks. */
-  schedule?: string;
-}
-export const GoogleCloudDataplexV1TaskTriggerSpec = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(GoogleCloudDataplexV1TaskTriggerSpecTypeEnum),
-    disabled: S.optional(S.Boolean),
-    startTime: S.optional(S.String),
-    maxRetries: S.optional(S.Number),
-    schedule: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1TaskTriggerSpec",
-}) as any as S.Schema<GoogleCloudDataplexV1TaskTriggerSpec>;
+export type GoogleCloudDataplexV1TaskStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "CREATING"
+  | "DELETING"
+  | "ACTION_REQUIRED";
+export const GoogleCloudDataplexV1TaskStateEnum = S.String;
 
 /** Execution related settings, like retry and service_account. */
 export interface GoogleCloudDataplexV1TaskExecutionSpec {
-  /** Optional. The Cloud KMS key to use for encryption, of the form: projects/{project_number}/locations/{location_id}/keyRings/{key-ring-name}/cryptoKeys/{key-name}. */
-  kmsKey?: string;
-  /** Optional. The maximum duration after which the job execution is expired. */
-  maxJobExecutionLifetime?: string;
+  /** Optional. The project in which jobs are run. By default, the project containing the Lake is used. If a project is provided, the ExecutionSpec.service_account must belong to this project. */
+  project?: string;
   /** Required. Service account to use to execute a task. If not provided, the default Compute service account for the project is used. */
   serviceAccount?: string;
   /** Optional. The arguments to pass to the task. The args can use placeholders of the format ${placeholder} as part of key/value string. These will be interpolated before passing the args to the driver. Currently supported placeholders: - ${task_id} - ${job_time} To pass positional args, set the key as TASK_ARGS. The value should be a comma-separated string of all the positional arguments. To use a delimiter other than comma, refer to https://cloud.google.com/sdk/gcloud/reference/topic/escaping. In case of other keys being present in the args, then TASK_ARGS will be passed as the last argument. */
   args?: StringMap;
-  /** Optional. The project in which jobs are run. By default, the project containing the Lake is used. If a project is provided, the ExecutionSpec.service_account must belong to this project. */
-  project?: string;
+  /** Optional. The maximum duration after which the job execution is expired. */
+  maxJobExecutionLifetime?: string;
+  /** Optional. The Cloud KMS key to use for encryption, of the form: projects/{project_number}/locations/{location_id}/keyRings/{key-ring-name}/cryptoKeys/{key-name}. */
+  kmsKey?: string;
 }
 export const GoogleCloudDataplexV1TaskExecutionSpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kmsKey: S.optional(S.String),
-    maxJobExecutionLifetime: S.optional(S.String),
+    project: S.optional(S.String),
     serviceAccount: S.optional(S.String),
     args: S.optional(StringMap),
-    project: S.optional(S.String),
+    maxJobExecutionLifetime: S.optional(S.String),
+    kmsKey: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1TaskExecutionSpec",
 }) as any as S.Schema<GoogleCloudDataplexV1TaskExecutionSpec>;
-
-/** User-specified config for running a Spark task. */
-export interface GoogleCloudDataplexV1TaskSparkTaskConfig {
-  /** The Cloud Storage URI of the jar file that contains the main class. The execution args are passed in as a sequence of named process arguments (--key=value). */
-  mainJarFileUri?: string;
-  /** Optional. Cloud Storage URIs of files to be placed in the working directory of each executor. */
-  fileUris?: StringList;
-  /** The query text. The execution args are used to declare a set of script variables (set key="value";). */
-  sqlScript?: string;
-  /** Optional. Cloud Storage URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. */
-  archiveUris?: StringList;
-  /** The name of the driver's main class. The jar file that contains the class must be in the default CLASSPATH or specified in jar_file_uris. The execution args are passed in as a sequence of named process arguments (--key=value). */
-  mainClass?: string;
-  /** The Gcloud Storage URI of the main Python file to use as the driver. Must be a .py file. The execution args are passed in as a sequence of named process arguments (--key=value). */
-  pythonScriptFile?: string;
-  /** A reference to a query file. This should be the Cloud Storage URI of the query file. The execution args are used to declare a set of script variables (set key="value";). */
-  sqlScriptFile?: string;
-  /** Optional. Infrastructure specification for the execution. */
-  infrastructureSpec?: GoogleCloudDataplexV1TaskInfrastructureSpec;
-}
-export const GoogleCloudDataplexV1TaskSparkTaskConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mainJarFileUri: S.optional(S.String),
-    fileUris: S.optional(StringList),
-    sqlScript: S.optional(S.String),
-    archiveUris: S.optional(StringList),
-    mainClass: S.optional(S.String),
-    pythonScriptFile: S.optional(S.String),
-    sqlScriptFile: S.optional(S.String),
-    infrastructureSpec: S.optional(GoogleCloudDataplexV1TaskInfrastructureSpec),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1TaskSparkTaskConfig",
-}) as any as S.Schema<GoogleCloudDataplexV1TaskSparkTaskConfig>;
 
 export type GoogleCloudDataplexV1JobTriggerEnum =
   | "TRIGGER_UNSPECIFIED"
@@ -4812,49 +4551,47 @@ export const GoogleCloudDataplexV1JobServiceEnum = S.String;
 
 /** A job represents an instance of a task. */
 export interface GoogleCloudDataplexV1Job {
-  /** Output only. Job execution trigger. */
-  trigger?: GoogleCloudDataplexV1JobTriggerEnum | (string & {});
-  /** Output only. The time when the job ended. */
-  endTime?: string;
-  /** Output only. The number of times the job has been retried (excluding the initial attempt). */
-  retryCount?: number;
-  /** Output only. User-defined labels for the task. */
-  labels?: StringMap;
-  /** Output only. Spec related to how a task is executed. */
-  executionSpec?: GoogleCloudDataplexV1TaskExecutionSpec;
-  /** Output only. Execution state for the job. */
-  state?: GoogleCloudDataplexV1JobStateEnum | (string & {});
-  /** Output only. Additional information about the current state. */
-  message?: string;
   /** Output only. The relative resource name of the job, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/tasks/{task_id}/jobs/{job_id}. */
   name?: string;
+  /** Output only. The number of times the job has been retried (excluding the initial attempt). */
+  retryCount?: number;
+  /** Output only. Job execution trigger. */
+  trigger?: GoogleCloudDataplexV1JobTriggerEnum | (string & {});
+  /** Output only. Execution state for the job. */
+  state?: GoogleCloudDataplexV1JobStateEnum | (string & {});
   /** Output only. The time when the job was started. */
   startTime?: string;
+  /** Output only. The time when the job ended. */
+  endTime?: string;
+  /** Output only. User-defined labels for the task. */
+  labels?: StringMap;
+  /** Output only. The full resource name for the job run under a particular service. */
+  serviceJob?: string;
   /** Output only. The underlying service running a job. */
   service?: GoogleCloudDataplexV1JobServiceEnum | (string & {});
   /** Output only. System generated globally unique ID for the job. */
   uid?: string;
-  /** Output only. The full resource name for the job run under a particular service. */
-  serviceJob?: string;
+  /** Output only. Additional information about the current state. */
+  message?: string;
+  /** Output only. Spec related to how a task is executed. */
+  executionSpec?: GoogleCloudDataplexV1TaskExecutionSpec;
 }
 export const GoogleCloudDataplexV1Job = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    trigger: S.optional(GoogleCloudDataplexV1JobTriggerEnum),
-    endTime: S.optional(S.String),
-    retryCount: S.optional(S.Number),
-    labels: S.optional(StringMap),
-    executionSpec: S.optional(GoogleCloudDataplexV1TaskExecutionSpec),
-    state: S.optional(GoogleCloudDataplexV1JobStateEnum),
-    message: S.optional(S.String),
     name: S.optional(S.String),
+    retryCount: S.optional(S.Number),
+    trigger: S.optional(GoogleCloudDataplexV1JobTriggerEnum),
+    state: S.optional(GoogleCloudDataplexV1JobStateEnum),
     startTime: S.optional(S.String),
+    endTime: S.optional(S.String),
+    labels: S.optional(StringMap),
+    serviceJob: S.optional(S.String),
     service: S.optional(GoogleCloudDataplexV1JobServiceEnum),
     uid: S.optional(S.String),
-    serviceJob: S.optional(S.String),
+    message: S.optional(S.String),
+    executionSpec: S.optional(GoogleCloudDataplexV1TaskExecutionSpec),
   }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1Job",
-}) as any as S.Schema<GoogleCloudDataplexV1Job>;
+).annotate({ identifier: "GoogleCloudDataplexV1Job" }) as any as S.Schema<GoogleCloudDataplexV1Job>;
 
 /** Status of the task execution (e.g. Jobs). */
 export interface GoogleCloudDataplexV1TaskExecutionStatus {
@@ -4872,68 +4609,94 @@ export const GoogleCloudDataplexV1TaskExecutionStatus = /*@__PURE__*/ S.suspend(
   identifier: "GoogleCloudDataplexV1TaskExecutionStatus",
 }) as any as S.Schema<GoogleCloudDataplexV1TaskExecutionStatus>;
 
-export type GoogleCloudDataplexV1TaskStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "CREATING"
-  | "DELETING"
-  | "ACTION_REQUIRED";
-export const GoogleCloudDataplexV1TaskStateEnum = S.String;
+/** User-specified config for running a Spark task. */
+export interface GoogleCloudDataplexV1TaskSparkTaskConfig {
+  /** Optional. Cloud Storage URIs of files to be placed in the working directory of each executor. */
+  fileUris?: StringList;
+  /** The Gcloud Storage URI of the main Python file to use as the driver. Must be a .py file. The execution args are passed in as a sequence of named process arguments (--key=value). */
+  pythonScriptFile?: string;
+  /** Optional. Infrastructure specification for the execution. */
+  infrastructureSpec?: GoogleCloudDataplexV1TaskInfrastructureSpec;
+  /** The Cloud Storage URI of the jar file that contains the main class. The execution args are passed in as a sequence of named process arguments (--key=value). */
+  mainJarFileUri?: string;
+  /** Optional. Cloud Storage URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. */
+  archiveUris?: StringList;
+  /** The name of the driver's main class. The jar file that contains the class must be in the default CLASSPATH or specified in jar_file_uris. The execution args are passed in as a sequence of named process arguments (--key=value). */
+  mainClass?: string;
+  /** A reference to a query file. This should be the Cloud Storage URI of the query file. The execution args are used to declare a set of script variables (set key="value";). */
+  sqlScriptFile?: string;
+  /** The query text. The execution args are used to declare a set of script variables (set key="value";). */
+  sqlScript?: string;
+}
+export const GoogleCloudDataplexV1TaskSparkTaskConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fileUris: S.optional(StringList),
+    pythonScriptFile: S.optional(S.String),
+    infrastructureSpec: S.optional(GoogleCloudDataplexV1TaskInfrastructureSpec),
+    mainJarFileUri: S.optional(S.String),
+    archiveUris: S.optional(StringList),
+    mainClass: S.optional(S.String),
+    sqlScriptFile: S.optional(S.String),
+    sqlScript: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1TaskSparkTaskConfig",
+}) as any as S.Schema<GoogleCloudDataplexV1TaskSparkTaskConfig>;
 
 /** A task represents a user-visible job. */
 export interface GoogleCloudDataplexV1Task {
-  /** Output only. The time when the task was last updated. */
-  updateTime?: string;
-  /** Output only. System generated globally unique ID for the task. This ID will be different if the task is deleted and re-created with the same name. */
-  uid?: string;
-  /** Config related to running scheduled Notebooks. */
-  notebook?: GoogleCloudDataplexV1TaskNotebookTaskConfig;
-  /** Optional. User-defined labels for the task. */
-  labels?: StringMap;
   /** Required. Spec related to how often and when a task should be triggered. */
   triggerSpec?: GoogleCloudDataplexV1TaskTriggerSpec;
-  /** Required. Spec related to how a task is executed. */
-  executionSpec?: GoogleCloudDataplexV1TaskExecutionSpec;
-  /** Optional. Description of the task. */
-  description?: string;
-  /** Output only. The relative resource name of the task, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/ tasks/{task_id}. */
-  name?: string;
+  /** Config related to running scheduled Notebooks. */
+  notebook?: GoogleCloudDataplexV1TaskNotebookTaskConfig;
+  /** Output only. System generated globally unique ID for the task. This ID will be different if the task is deleted and re-created with the same name. */
+  uid?: string;
   /** Output only. The time when the task was created. */
   createTime?: string;
-  /** Config related to running custom Spark tasks. */
-  spark?: GoogleCloudDataplexV1TaskSparkTaskConfig;
-  /** Optional. User friendly display name. */
-  displayName?: string;
-  /** Output only. Status of the latest task executions. */
-  executionStatus?: GoogleCloudDataplexV1TaskExecutionStatus;
   /** Output only. Current state of the task. */
   state?: GoogleCloudDataplexV1TaskStateEnum | (string & {});
+  /** Output only. The relative resource name of the task, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/ tasks/{task_id}. */
+  name?: string;
+  /** Optional. Description of the task. */
+  description?: string;
+  /** Required. Spec related to how a task is executed. */
+  executionSpec?: GoogleCloudDataplexV1TaskExecutionSpec;
+  /** Output only. Status of the latest task executions. */
+  executionStatus?: GoogleCloudDataplexV1TaskExecutionStatus;
+  /** Config related to running custom Spark tasks. */
+  spark?: GoogleCloudDataplexV1TaskSparkTaskConfig;
+  /** Output only. The time when the task was last updated. */
+  updateTime?: string;
+  /** Optional. User-defined labels for the task. */
+  labels?: StringMap;
+  /** Optional. User friendly display name. */
+  displayName?: string;
 }
 export const GoogleCloudDataplexV1Task = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateTime: S.optional(S.String),
-    uid: S.optional(S.String),
-    notebook: S.optional(GoogleCloudDataplexV1TaskNotebookTaskConfig),
-    labels: S.optional(StringMap),
     triggerSpec: S.optional(GoogleCloudDataplexV1TaskTriggerSpec),
-    executionSpec: S.optional(GoogleCloudDataplexV1TaskExecutionSpec),
-    description: S.optional(S.String),
-    name: S.optional(S.String),
+    notebook: S.optional(GoogleCloudDataplexV1TaskNotebookTaskConfig),
+    uid: S.optional(S.String),
     createTime: S.optional(S.String),
-    spark: S.optional(GoogleCloudDataplexV1TaskSparkTaskConfig),
-    displayName: S.optional(S.String),
-    executionStatus: S.optional(GoogleCloudDataplexV1TaskExecutionStatus),
     state: S.optional(GoogleCloudDataplexV1TaskStateEnum),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    executionSpec: S.optional(GoogleCloudDataplexV1TaskExecutionSpec),
+    executionStatus: S.optional(GoogleCloudDataplexV1TaskExecutionStatus),
+    spark: S.optional(GoogleCloudDataplexV1TaskSparkTaskConfig),
+    updateTime: S.optional(S.String),
+    labels: S.optional(StringMap),
+    displayName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1Task",
 }) as any as S.Schema<GoogleCloudDataplexV1Task>;
 
 export interface CreateProjectsLocationsLakesTasksRequest {
-  /** Required. The resource name of the parent lake: projects/{project_number}/locations/{location_id}/lakes/{lake_id}. */
-  parent: string;
   /** Required. Task identifier. */
   taskId?: string;
+  /** Required. The resource name of the parent lake: projects/{project_number}/locations/{location_id}/lakes/{lake_id}. */
+  parent: string;
   /** Optional. Only validate the request, but do not perform mutations. The default is false. */
   validateOnly?: boolean;
   /** Request body */
@@ -4941,8 +4704,8 @@ export interface CreateProjectsLocationsLakesTasksRequest {
 }
 export const CreateProjectsLocationsLakesTasksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     taskId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(GoogleCloudDataplexV1Task.pipe(T.HttpBody())),
   }).pipe(
@@ -4955,9 +4718,6 @@ export const CreateProjectsLocationsLakesTasksRequest = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "CreateProjectsLocationsLakesTasksRequest",
 }) as any as S.Schema<CreateProjectsLocationsLakesTasksRequest>;
-
-export type GoogleCloudDataplexV1ZoneTypeEnum = "TYPE_UNSPECIFIED" | "RAW" | "CURATED";
-export const GoogleCloudDataplexV1ZoneTypeEnum = S.String;
 
 export type GoogleCloudDataplexV1ZoneResourceSpecLocationTypeEnum =
   | "LOCATION_TYPE_UNSPECIFIED"
@@ -4977,30 +4737,6 @@ export const GoogleCloudDataplexV1ZoneResourceSpec = /*@__PURE__*/ S.suspend(() 
 ).annotate({
   identifier: "GoogleCloudDataplexV1ZoneResourceSpec",
 }) as any as S.Schema<GoogleCloudDataplexV1ZoneResourceSpec>;
-
-export type GoogleCloudDataplexV1ZoneStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "CREATING"
-  | "DELETING"
-  | "ACTION_REQUIRED";
-export const GoogleCloudDataplexV1ZoneStateEnum = S.String;
-
-/** Describe JSON data format. */
-export interface GoogleCloudDataplexV1ZoneDiscoverySpecJsonOptions {
-  /** Optional. Whether to disable the inference of data type for Json data. If true, all columns will be registered as their primitive types (strings, number or boolean). */
-  disableTypeInference?: boolean;
-  /** Optional. The character encoding of the data. The default is UTF-8. */
-  encoding?: string;
-}
-export const GoogleCloudDataplexV1ZoneDiscoverySpecJsonOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    disableTypeInference: S.optional(S.Boolean),
-    encoding: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1ZoneDiscoverySpecJsonOptions",
-}) as any as S.Schema<GoogleCloudDataplexV1ZoneDiscoverySpecJsonOptions>;
 
 /** Describe CSV and similar semi-structured data formats. */
 export interface GoogleCloudDataplexV1ZoneDiscoverySpecCsvOptions {
@@ -5024,75 +4760,102 @@ export const GoogleCloudDataplexV1ZoneDiscoverySpecCsvOptions = /*@__PURE__*/ S.
   identifier: "GoogleCloudDataplexV1ZoneDiscoverySpecCsvOptions",
 }) as any as S.Schema<GoogleCloudDataplexV1ZoneDiscoverySpecCsvOptions>;
 
+/** Describe JSON data format. */
+export interface GoogleCloudDataplexV1ZoneDiscoverySpecJsonOptions {
+  /** Optional. The character encoding of the data. The default is UTF-8. */
+  encoding?: string;
+  /** Optional. Whether to disable the inference of data type for Json data. If true, all columns will be registered as their primitive types (strings, number or boolean). */
+  disableTypeInference?: boolean;
+}
+export const GoogleCloudDataplexV1ZoneDiscoverySpecJsonOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    encoding: S.optional(S.String),
+    disableTypeInference: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1ZoneDiscoverySpecJsonOptions",
+}) as any as S.Schema<GoogleCloudDataplexV1ZoneDiscoverySpecJsonOptions>;
+
 /** Settings to manage the metadata discovery and publishing in a zone. */
 export interface GoogleCloudDataplexV1ZoneDiscoverySpec {
   /** Optional. The list of patterns to apply for selecting data to exclude during discovery. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names. */
   excludePatterns?: StringList;
-  /** Optional. Configuration for Json data. */
-  jsonOptions?: GoogleCloudDataplexV1ZoneDiscoverySpecJsonOptions;
   /** Required. Whether discovery is enabled. */
   enabled?: boolean;
+  /** Optional. Cron schedule (https://en.wikipedia.org/wiki/Cron) for running discovery periodically. Successive discovery runs must be scheduled at least 60 minutes apart. The default value is to run discovery every 60 minutes.To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database. For example, CRON_TZ=America/New_York 1 * * * *, or TZ=America/New_York 1 * * * *. */
+  schedule?: string;
   /** Optional. Configuration for CSV data. */
   csvOptions?: GoogleCloudDataplexV1ZoneDiscoverySpecCsvOptions;
   /** Optional. The list of patterns to apply for selecting data to include during discovery if only a subset of the data should considered. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names. */
   includePatterns?: StringList;
-  /** Optional. Cron schedule (https://en.wikipedia.org/wiki/Cron) for running discovery periodically. Successive discovery runs must be scheduled at least 60 minutes apart. The default value is to run discovery every 60 minutes.To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database. For example, CRON_TZ=America/New_York 1 * * * *, or TZ=America/New_York 1 * * * *. */
-  schedule?: string;
+  /** Optional. Configuration for Json data. */
+  jsonOptions?: GoogleCloudDataplexV1ZoneDiscoverySpecJsonOptions;
 }
 export const GoogleCloudDataplexV1ZoneDiscoverySpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     excludePatterns: S.optional(StringList),
-    jsonOptions: S.optional(GoogleCloudDataplexV1ZoneDiscoverySpecJsonOptions),
     enabled: S.optional(S.Boolean),
+    schedule: S.optional(S.String),
     csvOptions: S.optional(GoogleCloudDataplexV1ZoneDiscoverySpecCsvOptions),
     includePatterns: S.optional(StringList),
-    schedule: S.optional(S.String),
+    jsonOptions: S.optional(GoogleCloudDataplexV1ZoneDiscoverySpecJsonOptions),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1ZoneDiscoverySpec",
 }) as any as S.Schema<GoogleCloudDataplexV1ZoneDiscoverySpec>;
 
+export type GoogleCloudDataplexV1ZoneStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "CREATING"
+  | "DELETING"
+  | "ACTION_REQUIRED";
+export const GoogleCloudDataplexV1ZoneStateEnum = S.String;
+
+export type GoogleCloudDataplexV1ZoneTypeEnum = "TYPE_UNSPECIFIED" | "RAW" | "CURATED";
+export const GoogleCloudDataplexV1ZoneTypeEnum = S.String;
+
 /** A zone represents a logical group of related assets within a lake. A zone can be used to map to organizational structure or represent stages of data readiness from raw to curated. It provides managing behavior that is shared or inherited by all contained assets. */
 export interface GoogleCloudDataplexV1Zone {
+  /** Output only. The relative resource name of the zone, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}. */
+  name?: string;
   /** Output only. System generated globally unique ID for the zone. This ID will be different if the zone is deleted and re-created with the same name. */
   uid?: string;
   /** Output only. The time when the zone was created. */
   createTime?: string;
-  /** Required. Immutable. The type of the zone. */
-  type?: GoogleCloudDataplexV1ZoneTypeEnum | (string & {});
-  /** Output only. The relative resource name of the zone, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}. */
-  name?: string;
   /** Required. Specification of the resources that are referenced by the assets within this zone. */
   resourceSpec?: GoogleCloudDataplexV1ZoneResourceSpec;
-  /** Output only. The time when the zone was last updated. */
-  updateTime?: string;
-  /** Output only. Current state of the zone. */
-  state?: GoogleCloudDataplexV1ZoneStateEnum | (string & {});
-  /** Output only. Aggregated status of the underlying assets of the zone. */
-  assetStatus?: GoogleCloudDataplexV1AssetStatus;
   /** Optional. Description of the zone. */
   description?: string;
+  /** Optional. Specification of the discovery feature applied to data in this zone. */
+  discoverySpec?: GoogleCloudDataplexV1ZoneDiscoverySpec;
+  /** Output only. Current state of the zone. */
+  state?: GoogleCloudDataplexV1ZoneStateEnum | (string & {});
+  /** Required. Immutable. The type of the zone. */
+  type?: GoogleCloudDataplexV1ZoneTypeEnum | (string & {});
+  /** Output only. The time when the zone was last updated. */
+  updateTime?: string;
   /** Optional. User defined labels for the zone. */
   labels?: StringMap;
   /** Optional. User friendly display name. */
   displayName?: string;
-  /** Optional. Specification of the discovery feature applied to data in this zone. */
-  discoverySpec?: GoogleCloudDataplexV1ZoneDiscoverySpec;
+  /** Output only. Aggregated status of the underlying assets of the zone. */
+  assetStatus?: GoogleCloudDataplexV1AssetStatus;
 }
 export const GoogleCloudDataplexV1Zone = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    name: S.optional(S.String),
     uid: S.optional(S.String),
     createTime: S.optional(S.String),
-    type: S.optional(GoogleCloudDataplexV1ZoneTypeEnum),
-    name: S.optional(S.String),
     resourceSpec: S.optional(GoogleCloudDataplexV1ZoneResourceSpec),
-    updateTime: S.optional(S.String),
-    state: S.optional(GoogleCloudDataplexV1ZoneStateEnum),
-    assetStatus: S.optional(GoogleCloudDataplexV1AssetStatus),
     description: S.optional(S.String),
+    discoverySpec: S.optional(GoogleCloudDataplexV1ZoneDiscoverySpec),
+    state: S.optional(GoogleCloudDataplexV1ZoneStateEnum),
+    type: S.optional(GoogleCloudDataplexV1ZoneTypeEnum),
+    updateTime: S.optional(S.String),
     labels: S.optional(StringMap),
     displayName: S.optional(S.String),
-    discoverySpec: S.optional(GoogleCloudDataplexV1ZoneDiscoverySpec),
+    assetStatus: S.optional(GoogleCloudDataplexV1AssetStatus),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1Zone",
@@ -5125,36 +4888,13 @@ export const CreateProjectsLocationsLakesZonesRequest = /*@__PURE__*/ S.suspend(
   identifier: "CreateProjectsLocationsLakesZonesRequest",
 }) as any as S.Schema<CreateProjectsLocationsLakesZonesRequest>;
 
-export type GoogleCloudDataplexV1AssetResourceSpecReadAccessModeEnum =
-  | "ACCESS_MODE_UNSPECIFIED"
-  | "DIRECT"
-  | "MANAGED";
-export const GoogleCloudDataplexV1AssetResourceSpecReadAccessModeEnum = S.String;
-
-export type GoogleCloudDataplexV1AssetResourceSpecTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "STORAGE_BUCKET"
-  | "BIGQUERY_DATASET";
-export const GoogleCloudDataplexV1AssetResourceSpecTypeEnum = S.String;
-
-/** Identifies the cloud resource that is referenced by this asset. */
-export interface GoogleCloudDataplexV1AssetResourceSpec {
-  /** Optional. Determines how read permissions are handled for each asset and their associated tables. Only available to storage buckets assets. */
-  readAccessMode?: GoogleCloudDataplexV1AssetResourceSpecReadAccessModeEnum | (string & {});
-  /** Immutable. Relative name of the cloud resource that contains the data that is being managed within a lake. For example: projects/{project_number}/buckets/{bucket_id} projects/{project_number}/datasets/{dataset_id} */
-  name?: string;
-  /** Required. Immutable. Type of resource. */
-  type?: GoogleCloudDataplexV1AssetResourceSpecTypeEnum | (string & {});
-}
-export const GoogleCloudDataplexV1AssetResourceSpec = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    readAccessMode: S.optional(GoogleCloudDataplexV1AssetResourceSpecReadAccessModeEnum),
-    name: S.optional(S.String),
-    type: S.optional(GoogleCloudDataplexV1AssetResourceSpecTypeEnum),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1AssetResourceSpec",
-}) as any as S.Schema<GoogleCloudDataplexV1AssetResourceSpec>;
+export type GoogleCloudDataplexV1AssetStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "CREATING"
+  | "DELETING"
+  | "ACTION_REQUIRED";
+export const GoogleCloudDataplexV1AssetStateEnum = S.String;
 
 export type GoogleCloudDataplexV1AssetDiscoveryStatusStateEnum =
   | "STATE_UNSPECIFIED"
@@ -5168,19 +4908,19 @@ export const GoogleCloudDataplexV1AssetDiscoveryStatusStateEnum = S.String;
 export interface GoogleCloudDataplexV1AssetDiscoveryStatusStats {
   /** The count of fileset entities within the referenced resource. */
   filesets?: string;
+  /** The count of table entities within the referenced resource. */
+  tables?: string;
   /** The number of stored data bytes within the referenced resource. */
   dataSize?: string;
   /** The count of data items within the referenced resource. */
   dataItems?: string;
-  /** The count of table entities within the referenced resource. */
-  tables?: string;
 }
 export const GoogleCloudDataplexV1AssetDiscoveryStatusStats = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     filesets: S.optional(S.String),
+    tables: S.optional(S.String),
     dataSize: S.optional(S.String),
     dataItems: S.optional(S.String),
-    tables: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1AssetDiscoveryStatusStats",
@@ -5188,74 +4928,64 @@ export const GoogleCloudDataplexV1AssetDiscoveryStatusStats = /*@__PURE__*/ S.su
 
 /** Status of discovery for an asset. */
 export interface GoogleCloudDataplexV1AssetDiscoveryStatus {
-  /** The duration of the last discovery run. */
-  lastRunDuration?: string;
-  /** The current status of the discovery feature. */
-  state?: GoogleCloudDataplexV1AssetDiscoveryStatusStateEnum | (string & {});
-  /** Additional information about the current state. */
-  message?: string;
   /** Last update time of the status. */
   updateTime?: string;
+  /** The current status of the discovery feature. */
+  state?: GoogleCloudDataplexV1AssetDiscoveryStatusStateEnum | (string & {});
+  /** The duration of the last discovery run. */
+  lastRunDuration?: string;
   /** The start time of the last discovery run. */
   lastRunTime?: string;
   /** Data Stats of the asset reported by discovery. */
   stats?: GoogleCloudDataplexV1AssetDiscoveryStatusStats;
+  /** Additional information about the current state. */
+  message?: string;
 }
 export const GoogleCloudDataplexV1AssetDiscoveryStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    lastRunDuration: S.optional(S.String),
-    state: S.optional(GoogleCloudDataplexV1AssetDiscoveryStatusStateEnum),
-    message: S.optional(S.String),
     updateTime: S.optional(S.String),
+    state: S.optional(GoogleCloudDataplexV1AssetDiscoveryStatusStateEnum),
+    lastRunDuration: S.optional(S.String),
     lastRunTime: S.optional(S.String),
     stats: S.optional(GoogleCloudDataplexV1AssetDiscoveryStatusStats),
+    message: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1AssetDiscoveryStatus",
 }) as any as S.Schema<GoogleCloudDataplexV1AssetDiscoveryStatus>;
 
+/** Describe JSON data format. */
+export type GoogleCloudDataplexV1AssetDiscoverySpecJsonOptions =
+  GoogleCloudDataplexV1ZoneDiscoverySpecJsonOptions;
+export const GoogleCloudDataplexV1AssetDiscoverySpecJsonOptions =
+  GoogleCloudDataplexV1ZoneDiscoverySpecJsonOptions;
+
 /** Describe CSV and similar semi-structured data formats. */
 export interface GoogleCloudDataplexV1AssetDiscoverySpecCsvOptions {
+  /** Optional. The delimiter being used to separate values. This defaults to ','. */
+  delimiter?: string;
   /** Optional. Whether to disable the inference of data type for CSV data. If true, all columns will be registered as strings. */
   disableTypeInference?: boolean;
   /** Optional. The number of rows to interpret as header rows that should be skipped when reading data rows. */
   headerRows?: number;
-  /** Optional. The delimiter being used to separate values. This defaults to ','. */
-  delimiter?: string;
   /** Optional. The character encoding of the data. The default is UTF-8. */
   encoding?: string;
 }
 export const GoogleCloudDataplexV1AssetDiscoverySpecCsvOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    delimiter: S.optional(S.String),
     disableTypeInference: S.optional(S.Boolean),
     headerRows: S.optional(S.Number),
-    delimiter: S.optional(S.String),
     encoding: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1AssetDiscoverySpecCsvOptions",
 }) as any as S.Schema<GoogleCloudDataplexV1AssetDiscoverySpecCsvOptions>;
 
-/** Describe JSON data format. */
-export interface GoogleCloudDataplexV1AssetDiscoverySpecJsonOptions {
-  /** Optional. The character encoding of the data. The default is UTF-8. */
-  encoding?: string;
-  /** Optional. Whether to disable the inference of data type for Json data. If true, all columns will be registered as their primitive types (strings, number or boolean). */
-  disableTypeInference?: boolean;
-}
-export const GoogleCloudDataplexV1AssetDiscoverySpecJsonOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    encoding: S.optional(S.String),
-    disableTypeInference: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1AssetDiscoverySpecJsonOptions",
-}) as any as S.Schema<GoogleCloudDataplexV1AssetDiscoverySpecJsonOptions>;
-
 /** Settings to manage the metadata discovery and publishing for an asset. */
 export interface GoogleCloudDataplexV1AssetDiscoverySpec {
-  /** Optional. Configuration for CSV data. */
-  csvOptions?: GoogleCloudDataplexV1AssetDiscoverySpecCsvOptions;
+  /** Optional. Whether discovery is enabled. */
+  enabled?: boolean;
   /** Optional. The list of patterns to apply for selecting data to include during discovery if only a subset of the data should considered. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names. */
   includePatterns?: StringList;
   /** Optional. Cron schedule (https://en.wikipedia.org/wiki/Cron) for running discovery periodically. Successive discovery runs must be scheduled at least 60 minutes apart. The default value is to run discovery every 60 minutes.To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid string from IANA time zone database. For example, CRON_TZ=America/New_York 1 * * * *, or TZ=America/New_York 1 * * * *. */
@@ -5263,22 +4993,53 @@ export interface GoogleCloudDataplexV1AssetDiscoverySpec {
   /** Optional. The list of patterns to apply for selecting data to exclude during discovery. For Cloud Storage bucket assets, these are interpreted as glob patterns used to match object names. For BigQuery dataset assets, these are interpreted as patterns to match table names. */
   excludePatterns?: StringList;
   /** Optional. Configuration for Json data. */
-  jsonOptions?: GoogleCloudDataplexV1AssetDiscoverySpecJsonOptions;
-  /** Optional. Whether discovery is enabled. */
-  enabled?: boolean;
+  jsonOptions?: GoogleCloudDataplexV1ZoneDiscoverySpecJsonOptions;
+  /** Optional. Configuration for CSV data. */
+  csvOptions?: GoogleCloudDataplexV1AssetDiscoverySpecCsvOptions;
 }
 export const GoogleCloudDataplexV1AssetDiscoverySpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    csvOptions: S.optional(GoogleCloudDataplexV1AssetDiscoverySpecCsvOptions),
+    enabled: S.optional(S.Boolean),
     includePatterns: S.optional(StringList),
     schedule: S.optional(S.String),
     excludePatterns: S.optional(StringList),
-    jsonOptions: S.optional(GoogleCloudDataplexV1AssetDiscoverySpecJsonOptions),
-    enabled: S.optional(S.Boolean),
+    jsonOptions: S.optional(GoogleCloudDataplexV1ZoneDiscoverySpecJsonOptions),
+    csvOptions: S.optional(GoogleCloudDataplexV1AssetDiscoverySpecCsvOptions),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1AssetDiscoverySpec",
 }) as any as S.Schema<GoogleCloudDataplexV1AssetDiscoverySpec>;
+
+export type GoogleCloudDataplexV1AssetResourceSpecTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "STORAGE_BUCKET"
+  | "BIGQUERY_DATASET";
+export const GoogleCloudDataplexV1AssetResourceSpecTypeEnum = S.String;
+
+export type GoogleCloudDataplexV1AssetResourceSpecReadAccessModeEnum =
+  | "ACCESS_MODE_UNSPECIFIED"
+  | "DIRECT"
+  | "MANAGED";
+export const GoogleCloudDataplexV1AssetResourceSpecReadAccessModeEnum = S.String;
+
+/** Identifies the cloud resource that is referenced by this asset. */
+export interface GoogleCloudDataplexV1AssetResourceSpec {
+  /** Immutable. Relative name of the cloud resource that contains the data that is being managed within a lake. For example: projects/{project_number}/buckets/{bucket_id} projects/{project_number}/datasets/{dataset_id} */
+  name?: string;
+  /** Required. Immutable. Type of resource. */
+  type?: GoogleCloudDataplexV1AssetResourceSpecTypeEnum | (string & {});
+  /** Optional. Determines how read permissions are handled for each asset and their associated tables. Only available to storage buckets assets. */
+  readAccessMode?: GoogleCloudDataplexV1AssetResourceSpecReadAccessModeEnum | (string & {});
+}
+export const GoogleCloudDataplexV1AssetResourceSpec = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    type: S.optional(GoogleCloudDataplexV1AssetResourceSpecTypeEnum),
+    readAccessMode: S.optional(GoogleCloudDataplexV1AssetResourceSpecReadAccessModeEnum),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1AssetResourceSpec",
+}) as any as S.Schema<GoogleCloudDataplexV1AssetResourceSpec>;
 
 export type GoogleCloudDataplexV1AssetSecurityStatusStateEnum =
   | "STATE_UNSPECIFIED"
@@ -5289,17 +5050,17 @@ export const GoogleCloudDataplexV1AssetSecurityStatusStateEnum = S.String;
 
 /** Security policy status of the asset. Data security policy, i.e., readers, writers & owners, should be specified in the lake/zone/asset IAM policy. */
 export interface GoogleCloudDataplexV1AssetSecurityStatus {
-  /** Additional information about the current state. */
-  message?: string;
   /** Last update time of the status. */
   updateTime?: string;
+  /** Additional information about the current state. */
+  message?: string;
   /** The current state of the security policy applied to the attached resource. */
   state?: GoogleCloudDataplexV1AssetSecurityStatusStateEnum | (string & {});
 }
 export const GoogleCloudDataplexV1AssetSecurityStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    message: S.optional(S.String),
     updateTime: S.optional(S.String),
+    message: S.optional(S.String),
     state: S.optional(GoogleCloudDataplexV1AssetSecurityStatusStateEnum),
   }),
 ).annotate({
@@ -5314,98 +5075,90 @@ export const GoogleCloudDataplexV1AssetResourceStatusStateEnum = S.String;
 
 /** Status of the resource referenced by an asset. */
 export interface GoogleCloudDataplexV1AssetResourceStatus {
-  /** The current state of the managed resource. */
-  state?: GoogleCloudDataplexV1AssetResourceStatusStateEnum | (string & {});
-  /** Additional information about the current state. */
-  message?: string;
   /** Last update time of the status. */
   updateTime?: string;
+  /** The current state of the managed resource. */
+  state?: GoogleCloudDataplexV1AssetResourceStatusStateEnum | (string & {});
   /** Output only. Service account associated with the BigQuery Connection. */
   managedAccessIdentity?: string;
+  /** Additional information about the current state. */
+  message?: string;
 }
 export const GoogleCloudDataplexV1AssetResourceStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    state: S.optional(GoogleCloudDataplexV1AssetResourceStatusStateEnum),
-    message: S.optional(S.String),
     updateTime: S.optional(S.String),
+    state: S.optional(GoogleCloudDataplexV1AssetResourceStatusStateEnum),
     managedAccessIdentity: S.optional(S.String),
+    message: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1AssetResourceStatus",
 }) as any as S.Schema<GoogleCloudDataplexV1AssetResourceStatus>;
 
-export type GoogleCloudDataplexV1AssetStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "CREATING"
-  | "DELETING"
-  | "ACTION_REQUIRED";
-export const GoogleCloudDataplexV1AssetStateEnum = S.String;
-
 /** An asset represents a cloud resource that is being managed within a lake as a member of a zone. */
 export interface GoogleCloudDataplexV1Asset {
   /** Output only. System generated globally unique ID for the asset. This ID will be different if the asset is deleted and re-created with the same name. */
   uid?: string;
-  /** Output only. The time when the asset was last updated. */
-  updateTime?: string;
-  /** Required. Specification of the resource that is referenced by this asset. */
-  resourceSpec?: GoogleCloudDataplexV1AssetResourceSpec;
-  /** Optional. User defined labels for the asset. */
-  labels?: StringMap;
-  /** Output only. Status of the discovery feature applied to data referenced by this asset. */
-  discoveryStatus?: GoogleCloudDataplexV1AssetDiscoveryStatus;
-  /** Optional. Description of the asset. */
-  description?: string;
-  /** Optional. Specification of the discovery feature applied to data referenced by this asset. When this spec is left unset, the asset will use the spec set on the parent zone. */
-  discoverySpec?: GoogleCloudDataplexV1AssetDiscoverySpec;
-  /** Output only. The time when the asset was created. */
-  createTime?: string;
-  /** Output only. Status of the security policy applied to resource referenced by this asset. */
-  securityStatus?: GoogleCloudDataplexV1AssetSecurityStatus;
-  /** Output only. Status of the resource referenced by this asset. */
-  resourceStatus?: GoogleCloudDataplexV1AssetResourceStatus;
-  /** Output only. The relative resource name of the asset, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/assets/{asset_id}. */
-  name?: string;
   /** Output only. Current state of the asset. */
   state?: GoogleCloudDataplexV1AssetStateEnum | (string & {});
   /** Optional. User friendly display name. */
   displayName?: string;
+  /** Output only. Status of the discovery feature applied to data referenced by this asset. */
+  discoveryStatus?: GoogleCloudDataplexV1AssetDiscoveryStatus;
+  /** Optional. Description of the asset. */
+  description?: string;
+  /** Output only. The time when the asset was last updated. */
+  updateTime?: string;
+  /** Optional. Specification of the discovery feature applied to data referenced by this asset. When this spec is left unset, the asset will use the spec set on the parent zone. */
+  discoverySpec?: GoogleCloudDataplexV1AssetDiscoverySpec;
+  /** Output only. The time when the asset was created. */
+  createTime?: string;
+  /** Output only. The relative resource name of the asset, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/assets/{asset_id}. */
+  name?: string;
+  /** Required. Specification of the resource that is referenced by this asset. */
+  resourceSpec?: GoogleCloudDataplexV1AssetResourceSpec;
+  /** Optional. User defined labels for the asset. */
+  labels?: StringMap;
+  /** Output only. Status of the security policy applied to resource referenced by this asset. */
+  securityStatus?: GoogleCloudDataplexV1AssetSecurityStatus;
+  /** Output only. Status of the resource referenced by this asset. */
+  resourceStatus?: GoogleCloudDataplexV1AssetResourceStatus;
 }
 export const GoogleCloudDataplexV1Asset = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uid: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    resourceSpec: S.optional(GoogleCloudDataplexV1AssetResourceSpec),
-    labels: S.optional(StringMap),
-    discoveryStatus: S.optional(GoogleCloudDataplexV1AssetDiscoveryStatus),
-    description: S.optional(S.String),
-    discoverySpec: S.optional(GoogleCloudDataplexV1AssetDiscoverySpec),
-    createTime: S.optional(S.String),
-    securityStatus: S.optional(GoogleCloudDataplexV1AssetSecurityStatus),
-    resourceStatus: S.optional(GoogleCloudDataplexV1AssetResourceStatus),
-    name: S.optional(S.String),
     state: S.optional(GoogleCloudDataplexV1AssetStateEnum),
     displayName: S.optional(S.String),
+    discoveryStatus: S.optional(GoogleCloudDataplexV1AssetDiscoveryStatus),
+    description: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    discoverySpec: S.optional(GoogleCloudDataplexV1AssetDiscoverySpec),
+    createTime: S.optional(S.String),
+    name: S.optional(S.String),
+    resourceSpec: S.optional(GoogleCloudDataplexV1AssetResourceSpec),
+    labels: S.optional(StringMap),
+    securityStatus: S.optional(GoogleCloudDataplexV1AssetSecurityStatus),
+    resourceStatus: S.optional(GoogleCloudDataplexV1AssetResourceStatus),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1Asset",
 }) as any as S.Schema<GoogleCloudDataplexV1Asset>;
 
 export interface CreateProjectsLocationsLakesZonesAssetsRequest {
-  /** Required. Asset identifier. This ID will be used to generate names such as table names when publishing metadata to Hive Metastore and BigQuery. * Must contain only lowercase letters, numbers and hyphens. * Must start with a letter. * Must end with a number or a letter. * Must be between 1-63 characters. * Must be unique within the zone. */
-  assetId?: string;
   /** Optional. Only validate the request, but do not perform mutations. The default is false. */
   validateOnly?: boolean;
   /** Required. The resource name of the parent zone: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}. */
   parent: string;
+  /** Required. Asset identifier. This ID will be used to generate names such as table names when publishing metadata to Hive Metastore and BigQuery. * Must contain only lowercase letters, numbers and hyphens. * Must start with a letter. * Must end with a number or a letter. * Must be between 1-63 characters. * Must be unique within the zone. */
+  assetId?: string;
   /** Request body */
   body?: GoogleCloudDataplexV1Asset;
 }
 export const CreateProjectsLocationsLakesZonesAssetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    assetId: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    assetId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(GoogleCloudDataplexV1Asset.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -5420,16 +5173,16 @@ export const CreateProjectsLocationsLakesZonesAssetsRequest = /*@__PURE__*/ S.su
 
 /** Provides compatibility information for a specific metadata store. */
 export interface GoogleCloudDataplexV1EntityCompatibilityStatusCompatibility {
-  /** Output only. Whether the entity is compatible and can be represented in the metadata store. */
-  compatible?: boolean;
   /** Output only. Provides additional detail if the entity is incompatible with the metadata store. */
   reason?: string;
+  /** Output only. Whether the entity is compatible and can be represented in the metadata store. */
+  compatible?: boolean;
 }
 export const GoogleCloudDataplexV1EntityCompatibilityStatusCompatibility = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      compatible: S.optional(S.Boolean),
       reason: S.optional(S.String),
+      compatible: S.optional(S.Boolean),
     }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1EntityCompatibilityStatusCompatibility",
@@ -5451,24 +5204,73 @@ export const GoogleCloudDataplexV1EntityCompatibilityStatus = /*@__PURE__*/ S.su
   identifier: "GoogleCloudDataplexV1EntityCompatibilityStatus",
 }) as any as S.Schema<GoogleCloudDataplexV1EntityCompatibilityStatus>;
 
-export type GoogleCloudDataplexV1StorageAccessReadEnum =
-  | "ACCESS_MODE_UNSPECIFIED"
-  | "DIRECT"
-  | "MANAGED";
-export const GoogleCloudDataplexV1StorageAccessReadEnum = S.String;
+export type GoogleCloudDataplexV1EntitySystemEnum =
+  | "STORAGE_SYSTEM_UNSPECIFIED"
+  | "CLOUD_STORAGE"
+  | "BIGQUERY";
+export const GoogleCloudDataplexV1EntitySystemEnum = S.String;
 
-/** Describes the access mechanism of the data within its storage location. */
-export interface GoogleCloudDataplexV1StorageAccess {
-  /** Output only. Describes the read access mechanism of the data. Not user settable. */
-  read?: GoogleCloudDataplexV1StorageAccessReadEnum | (string & {});
+export type GoogleCloudDataplexV1SchemaSchemaFieldTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "BOOLEAN"
+  | "BYTE"
+  | "INT16"
+  | "INT32"
+  | "INT64"
+  | "FLOAT"
+  | "DOUBLE"
+  | "DECIMAL"
+  | "STRING"
+  | "BINARY"
+  | "TIMESTAMP"
+  | "DATE"
+  | "TIME"
+  | "RECORD"
+  | "NULL";
+export const GoogleCloudDataplexV1SchemaSchemaFieldTypeEnum = S.String;
+
+export type GoogleCloudDataplexV1SchemaSchemaFieldModeEnum =
+  | "MODE_UNSPECIFIED"
+  | "REQUIRED"
+  | "NULLABLE"
+  | "REPEATED";
+export const GoogleCloudDataplexV1SchemaSchemaFieldModeEnum = S.String;
+
+/** Represents a column field within a table schema. */
+export interface GoogleCloudDataplexV1SchemaSchemaField {
+  /** Required. The name of the field. Must contain only letters, numbers and underscores, with a maximum length of 767 characters, and must begin with a letter or underscore. */
+  name?: string;
+  /** Required. The type of field. */
+  type?: GoogleCloudDataplexV1SchemaSchemaFieldTypeEnum | (string & {});
+  /** Required. Additional field semantics. */
+  mode?: GoogleCloudDataplexV1SchemaSchemaFieldModeEnum | (string & {});
+  /** Optional. Any nested field for complex types. */
+  fields?: GoogleCloudDataplexV1SchemaSchemaFieldList;
+  /** Optional. User friendly field description. Must be less than or equal to 1024 characters. */
+  description?: string;
 }
-export const GoogleCloudDataplexV1StorageAccess = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudDataplexV1SchemaSchemaField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    read: S.optional(GoogleCloudDataplexV1StorageAccessReadEnum),
+    name: S.optional(S.String),
+    type: S.optional(GoogleCloudDataplexV1SchemaSchemaFieldTypeEnum),
+    mode: S.optional(GoogleCloudDataplexV1SchemaSchemaFieldModeEnum),
+    fields: S.optional(S.suspend(() => GoogleCloudDataplexV1SchemaSchemaFieldList)),
+    description: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "GoogleCloudDataplexV1StorageAccess",
-}) as any as S.Schema<GoogleCloudDataplexV1StorageAccess>;
+  identifier: "GoogleCloudDataplexV1SchemaSchemaField",
+}) as any as S.Schema<GoogleCloudDataplexV1SchemaSchemaField>;
+
+export type GoogleCloudDataplexV1SchemaSchemaFieldList =
+  Array<GoogleCloudDataplexV1SchemaSchemaField>;
+export const GoogleCloudDataplexV1SchemaSchemaFieldList = /*@__PURE__*/ S.Array(
+  GoogleCloudDataplexV1SchemaSchemaField,
+) as any as S.Schema<GoogleCloudDataplexV1SchemaSchemaFieldList>;
+
+export type GoogleCloudDataplexV1SchemaPartitionStyleEnum =
+  | "PARTITION_STYLE_UNSPECIFIED"
+  | "HIVE_COMPATIBLE";
+export const GoogleCloudDataplexV1SchemaPartitionStyleEnum = S.String;
 
 export type GoogleCloudDataplexV1SchemaPartitionFieldTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -5511,85 +5313,23 @@ export const GoogleCloudDataplexV1SchemaPartitionFieldList = /*@__PURE__*/ S.Arr
   GoogleCloudDataplexV1SchemaPartitionField,
 ) as any as S.Schema<GoogleCloudDataplexV1SchemaPartitionFieldList>;
 
-export type GoogleCloudDataplexV1SchemaPartitionStyleEnum =
-  | "PARTITION_STYLE_UNSPECIFIED"
-  | "HIVE_COMPATIBLE";
-export const GoogleCloudDataplexV1SchemaPartitionStyleEnum = S.String;
-
-export type GoogleCloudDataplexV1SchemaSchemaFieldTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "BOOLEAN"
-  | "BYTE"
-  | "INT16"
-  | "INT32"
-  | "INT64"
-  | "FLOAT"
-  | "DOUBLE"
-  | "DECIMAL"
-  | "STRING"
-  | "BINARY"
-  | "TIMESTAMP"
-  | "DATE"
-  | "TIME"
-  | "RECORD"
-  | "NULL";
-export const GoogleCloudDataplexV1SchemaSchemaFieldTypeEnum = S.String;
-
-export type GoogleCloudDataplexV1SchemaSchemaFieldModeEnum =
-  | "MODE_UNSPECIFIED"
-  | "REQUIRED"
-  | "NULLABLE"
-  | "REPEATED";
-export const GoogleCloudDataplexV1SchemaSchemaFieldModeEnum = S.String;
-
-/** Represents a column field within a table schema. */
-export interface GoogleCloudDataplexV1SchemaSchemaField {
-  /** Optional. User friendly field description. Must be less than or equal to 1024 characters. */
-  description?: string;
-  /** Required. The type of field. */
-  type?: GoogleCloudDataplexV1SchemaSchemaFieldTypeEnum | (string & {});
-  /** Optional. Any nested field for complex types. */
-  fields?: GoogleCloudDataplexV1SchemaSchemaFieldList;
-  /** Required. Additional field semantics. */
-  mode?: GoogleCloudDataplexV1SchemaSchemaFieldModeEnum | (string & {});
-  /** Required. The name of the field. Must contain only letters, numbers and underscores, with a maximum length of 767 characters, and must begin with a letter or underscore. */
-  name?: string;
-}
-export const GoogleCloudDataplexV1SchemaSchemaField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    type: S.optional(GoogleCloudDataplexV1SchemaSchemaFieldTypeEnum),
-    fields: S.optional(S.suspend(() => GoogleCloudDataplexV1SchemaSchemaFieldList)),
-    mode: S.optional(GoogleCloudDataplexV1SchemaSchemaFieldModeEnum),
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1SchemaSchemaField",
-}) as any as S.Schema<GoogleCloudDataplexV1SchemaSchemaField>;
-
-export type GoogleCloudDataplexV1SchemaSchemaFieldList =
-  Array<GoogleCloudDataplexV1SchemaSchemaField>;
-export const GoogleCloudDataplexV1SchemaSchemaFieldList = /*@__PURE__*/ S.Array(
-  GoogleCloudDataplexV1SchemaSchemaField,
-) as any as S.Schema<GoogleCloudDataplexV1SchemaSchemaFieldList>;
-
 /** Schema information describing the structure and layout of the data. */
 export interface GoogleCloudDataplexV1Schema {
-  /** Optional. The sequence of fields describing the partition structure in entities. If this field is empty, there are no partitions within the data. */
-  partitionFields?: GoogleCloudDataplexV1SchemaPartitionFieldList;
-  /** Required. Set to true if user-managed or false if managed by Dataplex Universal Catalog. The default is false (managed by Dataplex Universal Catalog). Set to falseto enable Dataplex Universal Catalog discovery to update the schema. including new data discovery, schema inference, and schema evolution. Users retain the ability to input and edit the schema. Dataplex Universal Catalog treats schema input by the user as though produced by a previous Dataplex Universal Catalog discovery operation, and it will evolve the schema and take action based on that treatment. Set to true to fully manage the entity schema. This setting guarantees that Dataplex Universal Catalog will not change schema fields. */
-  userManaged?: boolean;
-  /** Optional. The structure of paths containing partition data within the entity. */
-  partitionStyle?: GoogleCloudDataplexV1SchemaPartitionStyleEnum | (string & {});
   /** Optional. The sequence of fields describing data in table entities. Note: BigQuery SchemaFields are immutable. */
   fields?: GoogleCloudDataplexV1SchemaSchemaFieldList;
+  /** Optional. The structure of paths containing partition data within the entity. */
+  partitionStyle?: GoogleCloudDataplexV1SchemaPartitionStyleEnum | (string & {});
+  /** Required. Set to true if user-managed or false if managed by Dataplex Universal Catalog. The default is false (managed by Dataplex Universal Catalog). Set to falseto enable Dataplex Universal Catalog discovery to update the schema. including new data discovery, schema inference, and schema evolution. Users retain the ability to input and edit the schema. Dataplex Universal Catalog treats schema input by the user as though produced by a previous Dataplex Universal Catalog discovery operation, and it will evolve the schema and take action based on that treatment. Set to true to fully manage the entity schema. This setting guarantees that Dataplex Universal Catalog will not change schema fields. */
+  userManaged?: boolean;
+  /** Optional. The sequence of fields describing the partition structure in entities. If this field is empty, there are no partitions within the data. */
+  partitionFields?: GoogleCloudDataplexV1SchemaPartitionFieldList;
 }
 export const GoogleCloudDataplexV1Schema = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    partitionFields: S.optional(GoogleCloudDataplexV1SchemaPartitionFieldList),
-    userManaged: S.optional(S.Boolean),
-    partitionStyle: S.optional(GoogleCloudDataplexV1SchemaPartitionStyleEnum),
     fields: S.optional(GoogleCloudDataplexV1SchemaSchemaFieldList),
+    partitionStyle: S.optional(GoogleCloudDataplexV1SchemaPartitionStyleEnum),
+    userManaged: S.optional(S.Boolean),
+    partitionFields: S.optional(GoogleCloudDataplexV1SchemaPartitionFieldList),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1Schema",
@@ -5598,11 +5338,24 @@ export const GoogleCloudDataplexV1Schema = /*@__PURE__*/ S.suspend(() =>
 export type GoogleCloudDataplexV1EntityTypeEnum = "TYPE_UNSPECIFIED" | "TABLE" | "FILESET";
 export const GoogleCloudDataplexV1EntityTypeEnum = S.String;
 
-export type GoogleCloudDataplexV1EntitySystemEnum =
-  | "STORAGE_SYSTEM_UNSPECIFIED"
-  | "CLOUD_STORAGE"
-  | "BIGQUERY";
-export const GoogleCloudDataplexV1EntitySystemEnum = S.String;
+export type GoogleCloudDataplexV1StorageAccessReadEnum =
+  | "ACCESS_MODE_UNSPECIFIED"
+  | "DIRECT"
+  | "MANAGED";
+export const GoogleCloudDataplexV1StorageAccessReadEnum = S.String;
+
+/** Describes the access mechanism of the data within its storage location. */
+export interface GoogleCloudDataplexV1StorageAccess {
+  /** Output only. Describes the read access mechanism of the data. Not user settable. */
+  read?: GoogleCloudDataplexV1StorageAccessReadEnum | (string & {});
+}
+export const GoogleCloudDataplexV1StorageAccess = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    read: S.optional(GoogleCloudDataplexV1StorageAccessReadEnum),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1StorageAccess",
+}) as any as S.Schema<GoogleCloudDataplexV1StorageAccess>;
 
 export type GoogleCloudDataplexV1StorageFormatFormatEnum =
   | "FORMAT_UNSPECIFIED"
@@ -5620,33 +5373,46 @@ export type GoogleCloudDataplexV1StorageFormatFormatEnum =
   | "UNKNOWN";
 export const GoogleCloudDataplexV1StorageFormatFormatEnum = S.String;
 
-/** Describes CSV and similar semi-structured data formats. */
-export interface GoogleCloudDataplexV1StorageFormatCsvOptions {
-  /** Optional. The character used to quote column values. Accepts '"' (double quotation mark) or ''' (single quotation mark). Defaults to '"' (double quotation mark) if unspecified. */
-  quote?: string;
-  /** Optional. The number of rows to interpret as header rows that should be skipped when reading data rows. Defaults to 0. */
-  headerRows?: number;
-  /** Optional. The delimiter used to separate values. Defaults to ','. */
-  delimiter?: string;
-  /** Optional. The character encoding of the data. Accepts "US-ASCII", "UTF-8", and "ISO-8859-1". Defaults to UTF-8 if unspecified. */
+/** Describes JSON data format. */
+export interface GoogleCloudDataplexV1StorageFormatJsonOptions {
+  /** Optional. The character encoding of the data. Accepts "US-ASCII", "UTF-8" and "ISO-8859-1". Defaults to UTF-8 if not specified. */
   encoding?: string;
 }
-export const GoogleCloudDataplexV1StorageFormatCsvOptions = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudDataplexV1StorageFormatJsonOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    quote: S.optional(S.String),
-    headerRows: S.optional(S.Number),
-    delimiter: S.optional(S.String),
     encoding: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "GoogleCloudDataplexV1StorageFormatCsvOptions",
-}) as any as S.Schema<GoogleCloudDataplexV1StorageFormatCsvOptions>;
+  identifier: "GoogleCloudDataplexV1StorageFormatJsonOptions",
+}) as any as S.Schema<GoogleCloudDataplexV1StorageFormatJsonOptions>;
 
 export type GoogleCloudDataplexV1StorageFormatCompressionFormatEnum =
   | "COMPRESSION_FORMAT_UNSPECIFIED"
   | "GZIP"
   | "BZIP2";
 export const GoogleCloudDataplexV1StorageFormatCompressionFormatEnum = S.String;
+
+/** Describes CSV and similar semi-structured data formats. */
+export interface GoogleCloudDataplexV1StorageFormatCsvOptions {
+  /** Optional. The delimiter used to separate values. Defaults to ','. */
+  delimiter?: string;
+  /** Optional. The number of rows to interpret as header rows that should be skipped when reading data rows. Defaults to 0. */
+  headerRows?: number;
+  /** Optional. The character used to quote column values. Accepts '"' (double quotation mark) or ''' (single quotation mark). Defaults to '"' (double quotation mark) if unspecified. */
+  quote?: string;
+  /** Optional. The character encoding of the data. Accepts "US-ASCII", "UTF-8", and "ISO-8859-1". Defaults to UTF-8 if unspecified. */
+  encoding?: string;
+}
+export const GoogleCloudDataplexV1StorageFormatCsvOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    delimiter: S.optional(S.String),
+    headerRows: S.optional(S.Number),
+    quote: S.optional(S.String),
+    encoding: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1StorageFormatCsvOptions",
+}) as any as S.Schema<GoogleCloudDataplexV1StorageFormatCsvOptions>;
 
 /** Describes Iceberg data format. */
 export interface GoogleCloudDataplexV1StorageFormatIcebergOptions {
@@ -5661,42 +5427,29 @@ export const GoogleCloudDataplexV1StorageFormatIcebergOptions = /*@__PURE__*/ S.
   identifier: "GoogleCloudDataplexV1StorageFormatIcebergOptions",
 }) as any as S.Schema<GoogleCloudDataplexV1StorageFormatIcebergOptions>;
 
-/** Describes JSON data format. */
-export interface GoogleCloudDataplexV1StorageFormatJsonOptions {
-  /** Optional. The character encoding of the data. Accepts "US-ASCII", "UTF-8" and "ISO-8859-1". Defaults to UTF-8 if not specified. */
-  encoding?: string;
-}
-export const GoogleCloudDataplexV1StorageFormatJsonOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    encoding: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1StorageFormatJsonOptions",
-}) as any as S.Schema<GoogleCloudDataplexV1StorageFormatJsonOptions>;
-
 /** Describes the format of the data within its storage location. */
 export interface GoogleCloudDataplexV1StorageFormat {
   /** Output only. The data format associated with the stored data, which represents content type values. The value is inferred from mime type. */
   format?: GoogleCloudDataplexV1StorageFormatFormatEnum | (string & {});
+  /** Optional. Additional information about CSV formatted data. */
+  json?: GoogleCloudDataplexV1StorageFormatJsonOptions;
+  /** Optional. The compression type associated with the stored data. If unspecified, the data is uncompressed. */
+  compressionFormat?: GoogleCloudDataplexV1StorageFormatCompressionFormatEnum | (string & {});
   /** Required. The mime type descriptor for the data. Must match the pattern {type}/{subtype}. Supported values: application/x-parquet application/x-avro application/x-orc application/x-tfrecord application/x-parquet+iceberg application/x-avro+iceberg application/x-orc+iceberg application/json application/{subtypes} text/csv text/ image/{image subtype} video/{video subtype} audio/{audio subtype} */
   mimeType?: string;
   /** Optional. Additional information about CSV formatted data. */
   csv?: GoogleCloudDataplexV1StorageFormatCsvOptions;
-  /** Optional. The compression type associated with the stored data. If unspecified, the data is uncompressed. */
-  compressionFormat?: GoogleCloudDataplexV1StorageFormatCompressionFormatEnum | (string & {});
   /** Optional. Additional information about iceberg tables. */
   iceberg?: GoogleCloudDataplexV1StorageFormatIcebergOptions;
-  /** Optional. Additional information about CSV formatted data. */
-  json?: GoogleCloudDataplexV1StorageFormatJsonOptions;
 }
 export const GoogleCloudDataplexV1StorageFormat = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     format: S.optional(GoogleCloudDataplexV1StorageFormatFormatEnum),
+    json: S.optional(GoogleCloudDataplexV1StorageFormatJsonOptions),
+    compressionFormat: S.optional(GoogleCloudDataplexV1StorageFormatCompressionFormatEnum),
     mimeType: S.optional(S.String),
     csv: S.optional(GoogleCloudDataplexV1StorageFormatCsvOptions),
-    compressionFormat: S.optional(GoogleCloudDataplexV1StorageFormatCompressionFormatEnum),
     iceberg: S.optional(GoogleCloudDataplexV1StorageFormatIcebergOptions),
-    json: S.optional(GoogleCloudDataplexV1StorageFormatJsonOptions),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1StorageFormat",
@@ -5704,62 +5457,62 @@ export const GoogleCloudDataplexV1StorageFormat = /*@__PURE__*/ S.suspend(() =>
 
 /** Represents tables and fileset metadata contained within a zone. */
 export interface GoogleCloudDataplexV1Entity {
-  /** Output only. Metadata stores that the entity is compatible with. */
-  compatibility?: GoogleCloudDataplexV1EntityCompatibilityStatus;
+  /** Required. A user-provided entity ID. It is mutable, and will be used as the published table name. Specifying a new ID in an update entity request will override the existing value. The ID must contain only letters (a-z, A-Z), numbers (0-9), and underscores, and consist of 256 or fewer characters. */
+  id?: string;
   /** Output only. The time when the entity was created. */
   createTime?: string;
-  /** Output only. The resource name of the entity, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{id}. */
-  name?: string;
-  /** Output only. The name of the associated Data Catalog entry. */
-  catalogEntry?: string;
+  /** Optional. User friendly longer description text. Must be shorter than or equal to 1024 characters. */
+  description?: string;
+  /** Output only. Metadata stores that the entity is compatible with. */
+  compatibility?: GoogleCloudDataplexV1EntityCompatibilityStatus;
+  /** Required. Immutable. The storage path of the entity data. For Cloud Storage data, this is the fully-qualified path to the entity, such as gs://bucket/path/to/data. For BigQuery data, this is the name of the table resource, such as projects/project_id/datasets/dataset_id/tables/table_id. */
+  dataPath?: string;
   /** Optional. Display name must be shorter than or equal to 256 characters. */
   displayName?: string;
-  /** Optional. The etag associated with the entity, which can be retrieved with a GetEntity request. Required for update and delete requests. */
-  etag?: string;
-  /** Output only. Identifies the access mechanism to the entity. Not user settable. */
-  access?: GoogleCloudDataplexV1StorageAccess;
-  /** Required. The description of the data structure and layout. The schema is not included in list responses. It is only included in SCHEMA and FULL entity views of a GetEntity response. */
-  schema?: GoogleCloudDataplexV1Schema;
-  /** Required. Immutable. The ID of the asset associated with the storage location containing the entity data. The entity must be with in the same zone with the asset. */
-  asset?: string;
-  /** Output only. System generated unique ID for the Entity. This ID will be different if the Entity is deleted and re-created with the same name. */
-  uid?: string;
-  /** Required. Immutable. The type of entity. */
-  type?: GoogleCloudDataplexV1EntityTypeEnum | (string & {});
-  /** Output only. The time when the entity was last updated. */
-  updateTime?: string;
+  /** Output only. The resource name of the entity, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{id}. */
+  name?: string;
   /** Optional. The set of items within the data path constituting the data in the entity, represented as a glob path. Example: gs://bucket/path/to/data/**\/*.csv. */
   dataPathPattern?: string;
   /** Required. Immutable. Identifies the storage system of the entity data. */
   system?: GoogleCloudDataplexV1EntitySystemEnum | (string & {});
-  /** Optional. User friendly longer description text. Must be shorter than or equal to 1024 characters. */
-  description?: string;
-  /** Required. A user-provided entity ID. It is mutable, and will be used as the published table name. Specifying a new ID in an update entity request will override the existing value. The ID must contain only letters (a-z, A-Z), numbers (0-9), and underscores, and consist of 256 or fewer characters. */
-  id?: string;
-  /** Required. Immutable. The storage path of the entity data. For Cloud Storage data, this is the fully-qualified path to the entity, such as gs://bucket/path/to/data. For BigQuery data, this is the name of the table resource, such as projects/project_id/datasets/dataset_id/tables/table_id. */
-  dataPath?: string;
+  /** Required. The description of the data structure and layout. The schema is not included in list responses. It is only included in SCHEMA and FULL entity views of a GetEntity response. */
+  schema?: GoogleCloudDataplexV1Schema;
+  /** Required. Immutable. The ID of the asset associated with the storage location containing the entity data. The entity must be with in the same zone with the asset. */
+  asset?: string;
+  /** Required. Immutable. The type of entity. */
+  type?: GoogleCloudDataplexV1EntityTypeEnum | (string & {});
+  /** Output only. System generated unique ID for the Entity. This ID will be different if the Entity is deleted and re-created with the same name. */
+  uid?: string;
+  /** Output only. Identifies the access mechanism to the entity. Not user settable. */
+  access?: GoogleCloudDataplexV1StorageAccess;
+  /** Output only. The name of the associated Data Catalog entry. */
+  catalogEntry?: string;
+  /** Output only. The time when the entity was last updated. */
+  updateTime?: string;
+  /** Optional. The etag associated with the entity, which can be retrieved with a GetEntity request. Required for update and delete requests. */
+  etag?: string;
   /** Required. Identifies the storage format of the entity data. It does not apply to entities with data stored in BigQuery. */
   format?: GoogleCloudDataplexV1StorageFormat;
 }
 export const GoogleCloudDataplexV1Entity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    compatibility: S.optional(GoogleCloudDataplexV1EntityCompatibilityStatus),
+    id: S.optional(S.String),
     createTime: S.optional(S.String),
-    name: S.optional(S.String),
-    catalogEntry: S.optional(S.String),
+    description: S.optional(S.String),
+    compatibility: S.optional(GoogleCloudDataplexV1EntityCompatibilityStatus),
+    dataPath: S.optional(S.String),
     displayName: S.optional(S.String),
-    etag: S.optional(S.String),
-    access: S.optional(GoogleCloudDataplexV1StorageAccess),
-    schema: S.optional(GoogleCloudDataplexV1Schema),
-    asset: S.optional(S.String),
-    uid: S.optional(S.String),
-    type: S.optional(GoogleCloudDataplexV1EntityTypeEnum),
-    updateTime: S.optional(S.String),
+    name: S.optional(S.String),
     dataPathPattern: S.optional(S.String),
     system: S.optional(GoogleCloudDataplexV1EntitySystemEnum),
-    description: S.optional(S.String),
-    id: S.optional(S.String),
-    dataPath: S.optional(S.String),
+    schema: S.optional(GoogleCloudDataplexV1Schema),
+    asset: S.optional(S.String),
+    type: S.optional(GoogleCloudDataplexV1EntityTypeEnum),
+    uid: S.optional(S.String),
+    access: S.optional(GoogleCloudDataplexV1StorageAccess),
+    catalogEntry: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    etag: S.optional(S.String),
     format: S.optional(GoogleCloudDataplexV1StorageFormat),
   }),
 ).annotate({
@@ -5767,17 +5520,17 @@ export const GoogleCloudDataplexV1Entity = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GoogleCloudDataplexV1Entity>;
 
 export interface CreateProjectsLocationsLakesZonesEntitiesRequest {
-  /** Optional. Only validate the request, but do not perform mutations. The default is false. */
-  validateOnly?: boolean;
   /** Required. The resource name of the parent zone: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}. */
   parent: string;
+  /** Optional. Only validate the request, but do not perform mutations. The default is false. */
+  validateOnly?: boolean;
   /** Request body */
   body?: GoogleCloudDataplexV1Entity;
 }
 export const CreateProjectsLocationsLakesZonesEntitiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(GoogleCloudDataplexV1Entity.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -5794,18 +5547,18 @@ export const CreateProjectsLocationsLakesZonesEntitiesRequest = /*@__PURE__*/ S.
 export interface GoogleCloudDataplexV1Partition {
   /** Output only. Partition values used in the HTTP URL must be double encoded. For example, url_encode(url_encode(value)) can be used to encode "US:CA/CA#Sunnyvale so that the request URL ends with "/partitions/US%253ACA/CA%2523Sunnyvale". The name field in the response retains the encoded format. */
   name?: string;
-  /** Required. Immutable. The set of values representing the partition, which correspond to the partition schema defined in the parent entity. */
-  values?: StringList;
   /** Optional. The etag for this partition. */
   etag?: string;
+  /** Required. Immutable. The set of values representing the partition, which correspond to the partition schema defined in the parent entity. */
+  values?: StringList;
   /** Required. Immutable. The location of the entity data within the partition, for example, gs://bucket/path/to/entity/key1=value1/key2=value2. Or projects//datasets//tables/ */
   location?: string;
 }
 export const GoogleCloudDataplexV1Partition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    values: S.optional(StringList),
     etag: S.optional(S.String),
+    values: S.optional(StringList),
     location: S.optional(S.String),
   }),
 ).annotate({
@@ -5837,25 +5590,6 @@ export const CreateProjectsLocationsLakesZonesEntitiesPartitionsRequest = /*@__P
   identifier: "CreateProjectsLocationsLakesZonesEntitiesPartitionsRequest",
 }) as any as S.Schema<CreateProjectsLocationsLakesZonesEntitiesPartitionsRequest>;
 
-/** Scope defines the scope of the metadata feed. Scopes are exclusive. Only one of the scopes can be specified. */
-export interface GoogleCloudDataplexV1MetadataFeedScope {
-  /** Optional. The projects whose entries you want to listen to. Must be in the same organization as the feed. Must be in the format: projects/{project_id_or_number}. */
-  projects?: StringList;
-  /** Optional. The entry groups whose entries you want to listen to. Must be in the format: projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}. */
-  entryGroups?: StringList;
-  /** Optional. Whether the metadata feed is at the organization-level. If true, all changes happened to the entries in the same organization as the feed are published. If false, you must specify a list of projects or a list of entry groups whose entries you want to listen to.The default is false. */
-  organizationLevel?: boolean;
-}
-export const GoogleCloudDataplexV1MetadataFeedScope = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projects: S.optional(StringList),
-    entryGroups: S.optional(StringList),
-    organizationLevel: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1MetadataFeedScope",
-}) as any as S.Schema<GoogleCloudDataplexV1MetadataFeedScope>;
-
 export type GoogleCloudDataplexV1MetadataFeedFiltersChangeTypesItemEnum =
   | "CHANGE_TYPE_UNSPECIFIED"
   | "CREATE"
@@ -5873,52 +5607,71 @@ export const GoogleCloudDataplexV1MetadataFeedFiltersChangeTypesItemEnumList =
 
 /** Filters defines the type of changes that you want to listen to. You can have multiple entry type filters and multiple aspect type filters. All of the entry type filters are OR'ed together. All of the aspect type filters are OR'ed together. All of the entry type filters and aspect type filters are AND'ed together. */
 export interface GoogleCloudDataplexV1MetadataFeedFilters {
-  /** Optional. The entry types that you want to listen to, specified as relative resource names in the format projects/{project_id_or_number}/locations/{location}/entryTypes/{entry_type_id}. Only entries that belong to the specified entry types are published. */
-  entryTypes?: StringList;
-  /** Optional. The type of change that you want to listen to. If not specified, all changes are published. */
-  changeTypes?: GoogleCloudDataplexV1MetadataFeedFiltersChangeTypesItemEnumList;
   /** Optional. The aspect types that you want to listen to. Depending on how the aspect is attached to the entry, in the format: projects/{project_id_or_number}/locations/{location}/aspectTypes/{aspect_type_id}. */
   aspectTypes?: StringList;
+  /** Optional. The type of change that you want to listen to. If not specified, all changes are published. */
+  changeTypes?: GoogleCloudDataplexV1MetadataFeedFiltersChangeTypesItemEnumList;
+  /** Optional. The entry types that you want to listen to, specified as relative resource names in the format projects/{project_id_or_number}/locations/{location}/entryTypes/{entry_type_id}. Only entries that belong to the specified entry types are published. */
+  entryTypes?: StringList;
 }
 export const GoogleCloudDataplexV1MetadataFeedFilters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entryTypes: S.optional(StringList),
-    changeTypes: S.optional(GoogleCloudDataplexV1MetadataFeedFiltersChangeTypesItemEnumList),
     aspectTypes: S.optional(StringList),
+    changeTypes: S.optional(GoogleCloudDataplexV1MetadataFeedFiltersChangeTypesItemEnumList),
+    entryTypes: S.optional(StringList),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1MetadataFeedFilters",
 }) as any as S.Schema<GoogleCloudDataplexV1MetadataFeedFilters>;
 
+/** Scope defines the scope of the metadata feed. Scopes are exclusive. Only one of the scopes can be specified. */
+export interface GoogleCloudDataplexV1MetadataFeedScope {
+  /** Optional. Whether the metadata feed is at the organization-level. If true, all changes happened to the entries in the same organization as the feed are published. If false, you must specify a list of projects or a list of entry groups whose entries you want to listen to.The default is false. */
+  organizationLevel?: boolean;
+  /** Optional. The entry groups whose entries you want to listen to. Must be in the format: projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}. */
+  entryGroups?: StringList;
+  /** Optional. The projects whose entries you want to listen to. Must be in the same organization as the feed. Must be in the format: projects/{project_id_or_number}. */
+  projects?: StringList;
+}
+export const GoogleCloudDataplexV1MetadataFeedScope = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organizationLevel: S.optional(S.Boolean),
+    entryGroups: S.optional(StringList),
+    projects: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1MetadataFeedScope",
+}) as any as S.Schema<GoogleCloudDataplexV1MetadataFeedScope>;
+
 /** MetadataFeed contains information related to the metadata feed. */
 export interface GoogleCloudDataplexV1MetadataFeed {
-  /** Optional. User-defined labels. */
-  labels?: StringMap;
-  /** Required. The scope of the metadata feed. Only the in scope changes are published. */
-  scope?: GoogleCloudDataplexV1MetadataFeedScope;
   /** Optional. The filters of the metadata feed. Only the changes that match the filters are published. */
   filters?: GoogleCloudDataplexV1MetadataFeedFilters;
-  /** Output only. The time when the feed was created. */
-  createTime?: string;
-  /** Optional. The pubsub topic that you want the metadata feed messages to publish to. Please grant Dataplex service account the permission to publish messages to the topic. The service account is: service-{PROJECT_NUMBER}@gcp-sa-dataplex.iam.gserviceaccount.com. */
-  pubsubTopic?: string;
+  /** Required. The scope of the metadata feed. Only the in scope changes are published. */
+  scope?: GoogleCloudDataplexV1MetadataFeedScope;
+  /** Optional. User-defined labels. */
+  labels?: StringMap;
   /** Output only. A system-generated, globally unique ID for the metadata job. If the metadata job is deleted and then re-created with the same name, this ID is different. */
   uid?: string;
   /** Output only. The time when the feed was updated. */
   updateTime?: string;
   /** Identifier. The resource name of the metadata feed, in the format projects/{project_id_or_number}/locations/{location_id}/metadataFeeds/{metadata_feed_id}. */
   name?: string;
+  /** Optional. The pubsub topic that you want the metadata feed messages to publish to. Please grant Dataplex service account the permission to publish messages to the topic. The service account is: service-{PROJECT_NUMBER}@gcp-sa-dataplex.iam.gserviceaccount.com. */
+  pubsubTopic?: string;
+  /** Output only. The time when the feed was created. */
+  createTime?: string;
 }
 export const GoogleCloudDataplexV1MetadataFeed = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    labels: S.optional(StringMap),
-    scope: S.optional(GoogleCloudDataplexV1MetadataFeedScope),
     filters: S.optional(GoogleCloudDataplexV1MetadataFeedFilters),
-    createTime: S.optional(S.String),
-    pubsubTopic: S.optional(S.String),
+    scope: S.optional(GoogleCloudDataplexV1MetadataFeedScope),
+    labels: S.optional(StringMap),
     uid: S.optional(S.String),
     updateTime: S.optional(S.String),
     name: S.optional(S.String),
+    pubsubTopic: S.optional(S.String),
+    createTime: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1MetadataFeed",
@@ -5951,35 +5704,16 @@ export const CreateProjectsLocationsMetadataFeedsRequest = /*@__PURE__*/ S.suspe
   identifier: "CreateProjectsLocationsMetadataFeedsRequest",
 }) as any as S.Schema<CreateProjectsLocationsMetadataFeedsRequest>;
 
-export type GoogleCloudDataplexV1MetadataJobTypeEnum = "TYPE_UNSPECIFIED" | "IMPORT" | "EXPORT";
-export const GoogleCloudDataplexV1MetadataJobTypeEnum = S.String;
-
-/** Summary results from a metadata export job. The results are a snapshot of the metadata at the time when the job was created. The exported entries are saved to a Cloud Storage bucket. */
-export interface GoogleCloudDataplexV1MetadataJobExportJobResult {
-  /** Output only. The number of entries that were exported. */
-  exportedEntries?: string;
-  /** Output only. The error message if the metadata export job failed. */
-  errorMessage?: string;
-}
-export const GoogleCloudDataplexV1MetadataJobExportJobResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    exportedEntries: S.optional(S.String),
-    errorMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1MetadataJobExportJobResult",
-}) as any as S.Schema<GoogleCloudDataplexV1MetadataJobExportJobResult>;
-
 /** The scope of the export job. */
 export interface GoogleCloudDataplexV1MetadataJobExportJobSpecExportJobScope {
   /** The entry types that are in scope for the export job, specified as relative resource names in the format projects/{project_id_or_number}/locations/{location}/entryTypes/{entry_type_id}. Only entries that belong to the specified entry types are affected by the job. */
   entryTypes?: StringList;
   /** The projects whose metadata you want to export, in the format projects/{project_id_or_number}. Only the entries from the specified projects are exported.The projects must be in the same organization and VPC Service Controls perimeter as the job.If you set the job scope to be a list of projects, then set the organization-level export flag to false and don't provide a list of entry groups. */
   projects?: StringList;
-  /** The entry groups whose metadata you want to export, in the format projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}. Only the entries in the specified entry groups are exported.The entry groups must be in the same location and the same VPC Service Controls perimeter as the job.If you set the job scope to be a list of entry groups, then set the organization-level export flag to false and don't provide a list of projects. */
-  entryGroups?: StringList;
   /** Whether the metadata export job is an organization-level export job. If true, the job exports the entries from the same organization and VPC Service Controls perimeter as the job. The project that the job belongs to determines the VPC Service Controls perimeter. If you set the job scope to be at the organization level, then don't provide a list of projects or entry groups. If false, you must specify a list of projects or a list of entry groups whose entries you want to export.The default is false. */
   organizationLevel?: boolean;
+  /** The entry groups whose metadata you want to export, in the format projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}. Only the entries in the specified entry groups are exported.The entry groups must be in the same location and the same VPC Service Controls perimeter as the job.If you set the job scope to be a list of entry groups, then set the organization-level export flag to false and don't provide a list of projects. */
+  entryGroups?: StringList;
   /** The aspect types that are in scope for the export job, specified as relative resource names in the format projects/{project_id_or_number}/locations/{location}/aspectTypes/{aspect_type_id}. Only aspects that belong to the specified aspect types are affected by the job. */
   aspectTypes?: StringList;
 }
@@ -5988,8 +5722,8 @@ export const GoogleCloudDataplexV1MetadataJobExportJobSpecExportJobScope = /*@__
     S.Struct({
       entryTypes: S.optional(StringList),
       projects: S.optional(StringList),
-      entryGroups: S.optional(StringList),
       organizationLevel: S.optional(S.Boolean),
+      entryGroups: S.optional(StringList),
       aspectTypes: S.optional(StringList),
     }),
 ).annotate({
@@ -6012,6 +5746,83 @@ export const GoogleCloudDataplexV1MetadataJobExportJobSpec = /*@__PURE__*/ S.sus
   identifier: "GoogleCloudDataplexV1MetadataJobExportJobSpec",
 }) as any as S.Schema<GoogleCloudDataplexV1MetadataJobExportJobSpec>;
 
+export type GoogleCloudDataplexV1MetadataJobImportJobSpecEntrySyncModeEnum =
+  | "SYNC_MODE_UNSPECIFIED"
+  | "FULL"
+  | "INCREMENTAL"
+  | "NONE";
+export const GoogleCloudDataplexV1MetadataJobImportJobSpecEntrySyncModeEnum = S.String;
+
+export type GoogleCloudDataplexV1MetadataJobImportJobSpecAspectSyncModeEnum =
+  | "SYNC_MODE_UNSPECIFIED"
+  | "FULL"
+  | "INCREMENTAL"
+  | "NONE";
+export const GoogleCloudDataplexV1MetadataJobImportJobSpecAspectSyncModeEnum = S.String;
+
+/** A boundary on the scope of impact that the metadata import job can have. */
+export interface GoogleCloudDataplexV1MetadataJobImportJobSpecImportJobScope {
+  /** Required. The entry types that are in scope for the import job, specified as relative resource names in the format projects/{project_number_or_id}/locations/{location_id}/entryTypes/{entry_type_id}. The job modifies only the entries and aspects that belong to these entry types.If the metadata import file attempts to modify an entry whose type isn't included in this list, the import job is halted before modifying any entries or aspects.The location of an entry type must either match the location of the job, or the entry type must be global. */
+  entryTypes?: StringList;
+  /** Optional. Defines the scope of entries that can be referenced in the entry links.Currently, projects are supported as valid scopes. Format: projects/{project_number_or_id}If the metadata import file attempts to create an entry link which references an entry that is not in the scope, the import job will skip that entry link. */
+  referencedEntryScopes?: StringList;
+  /** Required. The entry groups that are in scope for the import job, specified as relative resource names in the format projects/{project_number_or_id}/locations/{location_id}/entryGroups/{entry_group_id}. Only entries and aspects that belong to the specified entry groups are affected by the job.The entry groups and the job must be in the same location. */
+  entryGroups?: StringList;
+  /** Optional. The aspect types that are in scope for the import job, specified as relative resource names in the format projects/{project_number_or_id}/locations/{location_id}/aspectTypes/{aspect_type_id}. The job modifies only the aspects that belong to these aspect types.This field is required when creating an aspect-only import job.If the metadata import file attempts to modify an aspect whose type isn't included in this list, the import job is halted before modifying any entries or aspects.The location of an aspect type must either match the location of the job, or the aspect type must be global. */
+  aspectTypes?: StringList;
+  /** Optional. The entry link types that are in scope for the import job, specified as relative resource names in the format projects/{project_number_or_id}/locations/{location_id}/entryLinkTypes/{entry_link_type_id}. The job modifies only the entryLinks that belong to these entry link types.If the metadata import file attempts to create or delete an entry link whose entry link type isn't included in this list, the import job will skip those entry links. */
+  entryLinkTypes?: StringList;
+  /** Optional. The glossaries that are in scope for the import job, specified as relative resource names in the format projects/{project_number_or_id}/locations/{location_id}/glossaries/{glossary_id}.While importing Business Glossary entries, the user must provide glossaries. While importing entries, the user does not have to provide glossaries. If the metadata import file attempts to modify Business Glossary entries whose glossary isn't included in this list, the import job will skip those entries.The location of a glossary must either match the location of the job, or the glossary must be global. */
+  glossaries?: StringList;
+}
+export const GoogleCloudDataplexV1MetadataJobImportJobSpecImportJobScope = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      entryTypes: S.optional(StringList),
+      referencedEntryScopes: S.optional(StringList),
+      entryGroups: S.optional(StringList),
+      aspectTypes: S.optional(StringList),
+      entryLinkTypes: S.optional(StringList),
+      glossaries: S.optional(StringList),
+    }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1MetadataJobImportJobSpecImportJobScope",
+}) as any as S.Schema<GoogleCloudDataplexV1MetadataJobImportJobSpecImportJobScope>;
+
+export type GoogleCloudDataplexV1MetadataJobImportJobSpecLogLevelEnum =
+  | "LOG_LEVEL_UNSPECIFIED"
+  | "DEBUG"
+  | "INFO";
+export const GoogleCloudDataplexV1MetadataJobImportJobSpecLogLevelEnum = S.String;
+
+/** Job specification for a metadata import job.You can run the following kinds of metadata import jobs: Full sync of entries with incremental import of their aspects. Supported for custom entries. Incremental import of aspects only. Supported for aspects that belong to custom entries and system entries. For custom entries, you can modify both optional aspects and required aspects. For system entries, you can modify optional aspects. */
+export interface GoogleCloudDataplexV1MetadataJobImportJobSpec {
+  /** Required. The sync mode for entries. */
+  entrySyncMode?: GoogleCloudDataplexV1MetadataJobImportJobSpecEntrySyncModeEnum | (string & {});
+  /** Optional. The URI of a Cloud Storage bucket or folder (beginning with gs:// and ending with /) that contains the metadata import files for this job.A metadata import file defines the values to set for each of the entries and aspects in a metadata import job. For more information about how to create a metadata import file and the file requirements, see Metadata import file (https://cloud.google.com/dataplex/docs/import-metadata#metadata-import-file).You can provide multiple metadata import files in the same metadata job. The bucket or folder must contain at least one metadata import file, in JSON Lines format (either .json or .jsonl file extension).In FULL entry sync mode, don't save the metadata import file in a folder named SOURCE_STORAGE_URI/deletions/.Caution: If the metadata import file contains no data, all entries and aspects that belong to the job's scope are deleted. */
+  sourceStorageUri?: string;
+  /** Optional. The time when the process that created the metadata import files began. */
+  sourceCreateTime?: string;
+  /** Required. The sync mode for aspects. */
+  aspectSyncMode?: GoogleCloudDataplexV1MetadataJobImportJobSpecAspectSyncModeEnum | (string & {});
+  /** Required. A boundary on the scope of impact that the metadata import job can have. */
+  scope?: GoogleCloudDataplexV1MetadataJobImportJobSpecImportJobScope;
+  /** Optional. The level of logs to write to Cloud Logging for this job.Debug-level logs provide highly-detailed information for troubleshooting, but their increased verbosity could incur additional costs (https://cloud.google.com/stackdriver/pricing) that might not be merited for all jobs.If unspecified, defaults to INFO. */
+  logLevel?: GoogleCloudDataplexV1MetadataJobImportJobSpecLogLevelEnum | (string & {});
+}
+export const GoogleCloudDataplexV1MetadataJobImportJobSpec = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    entrySyncMode: S.optional(GoogleCloudDataplexV1MetadataJobImportJobSpecEntrySyncModeEnum),
+    sourceStorageUri: S.optional(S.String),
+    sourceCreateTime: S.optional(S.String),
+    aspectSyncMode: S.optional(GoogleCloudDataplexV1MetadataJobImportJobSpecAspectSyncModeEnum),
+    scope: S.optional(GoogleCloudDataplexV1MetadataJobImportJobSpecImportJobScope),
+    logLevel: S.optional(GoogleCloudDataplexV1MetadataJobImportJobSpecLogLevelEnum),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1MetadataJobImportJobSpec",
+}) as any as S.Schema<GoogleCloudDataplexV1MetadataJobImportJobSpec>;
+
 export type GoogleCloudDataplexV1MetadataJobStatusStateEnum =
   | "STATE_UNSPECIFIED"
   | "QUEUED"
@@ -6025,178 +5836,120 @@ export const GoogleCloudDataplexV1MetadataJobStatusStateEnum = S.String;
 
 /** Metadata job status. */
 export interface GoogleCloudDataplexV1MetadataJobStatus {
-  /** Output only. Message relating to the progression of a metadata job. */
-  message?: string;
   /** Output only. The time when the status was updated. */
   updateTime?: string;
-  /** Output only. Progress tracking. */
-  completionPercent?: number;
+  /** Output only. Message relating to the progression of a metadata job. */
+  message?: string;
   /** Output only. State of the metadata job. */
   state?: GoogleCloudDataplexV1MetadataJobStatusStateEnum | (string & {});
+  /** Output only. Progress tracking. */
+  completionPercent?: number;
 }
 export const GoogleCloudDataplexV1MetadataJobStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    message: S.optional(S.String),
     updateTime: S.optional(S.String),
-    completionPercent: S.optional(S.Number),
+    message: S.optional(S.String),
     state: S.optional(GoogleCloudDataplexV1MetadataJobStatusStateEnum),
+    completionPercent: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1MetadataJobStatus",
 }) as any as S.Schema<GoogleCloudDataplexV1MetadataJobStatus>;
 
-export type GoogleCloudDataplexV1MetadataJobImportJobSpecLogLevelEnum =
-  | "LOG_LEVEL_UNSPECIFIED"
-  | "DEBUG"
-  | "INFO";
-export const GoogleCloudDataplexV1MetadataJobImportJobSpecLogLevelEnum = S.String;
-
-export type GoogleCloudDataplexV1MetadataJobImportJobSpecEntrySyncModeEnum =
-  | "SYNC_MODE_UNSPECIFIED"
-  | "FULL"
-  | "INCREMENTAL"
-  | "NONE";
-export const GoogleCloudDataplexV1MetadataJobImportJobSpecEntrySyncModeEnum = S.String;
-
-/** A boundary on the scope of impact that the metadata import job can have. */
-export interface GoogleCloudDataplexV1MetadataJobImportJobSpecImportJobScope {
-  /** Required. The entry groups that are in scope for the import job, specified as relative resource names in the format projects/{project_number_or_id}/locations/{location_id}/entryGroups/{entry_group_id}. Only entries and aspects that belong to the specified entry groups are affected by the job.The entry groups and the job must be in the same location. */
-  entryGroups?: StringList;
-  /** Optional. The entry link types that are in scope for the import job, specified as relative resource names in the format projects/{project_number_or_id}/locations/{location_id}/entryLinkTypes/{entry_link_type_id}. The job modifies only the entryLinks that belong to these entry link types.If the metadata import file attempts to create or delete an entry link whose entry link type isn't included in this list, the import job will skip those entry links. */
-  entryLinkTypes?: StringList;
-  /** Required. The entry types that are in scope for the import job, specified as relative resource names in the format projects/{project_number_or_id}/locations/{location_id}/entryTypes/{entry_type_id}. The job modifies only the entries and aspects that belong to these entry types.If the metadata import file attempts to modify an entry whose type isn't included in this list, the import job is halted before modifying any entries or aspects.The location of an entry type must either match the location of the job, or the entry type must be global. */
-  entryTypes?: StringList;
-  /** Optional. The aspect types that are in scope for the import job, specified as relative resource names in the format projects/{project_number_or_id}/locations/{location_id}/aspectTypes/{aspect_type_id}. The job modifies only the aspects that belong to these aspect types.This field is required when creating an aspect-only import job.If the metadata import file attempts to modify an aspect whose type isn't included in this list, the import job is halted before modifying any entries or aspects.The location of an aspect type must either match the location of the job, or the aspect type must be global. */
-  aspectTypes?: StringList;
-  /** Optional. Defines the scope of entries that can be referenced in the entry links.Currently, projects are supported as valid scopes. Format: projects/{project_number_or_id}If the metadata import file attempts to create an entry link which references an entry that is not in the scope, the import job will skip that entry link. */
-  referencedEntryScopes?: StringList;
-  /** Optional. The glossaries that are in scope for the import job, specified as relative resource names in the format projects/{project_number_or_id}/locations/{location_id}/glossaries/{glossary_id}.While importing Business Glossary entries, the user must provide glossaries. While importing entries, the user does not have to provide glossaries. If the metadata import file attempts to modify Business Glossary entries whose glossary isn't included in this list, the import job will skip those entries.The location of a glossary must either match the location of the job, or the glossary must be global. */
-  glossaries?: StringList;
-}
-export const GoogleCloudDataplexV1MetadataJobImportJobSpecImportJobScope = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      entryGroups: S.optional(StringList),
-      entryLinkTypes: S.optional(StringList),
-      entryTypes: S.optional(StringList),
-      aspectTypes: S.optional(StringList),
-      referencedEntryScopes: S.optional(StringList),
-      glossaries: S.optional(StringList),
-    }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1MetadataJobImportJobSpecImportJobScope",
-}) as any as S.Schema<GoogleCloudDataplexV1MetadataJobImportJobSpecImportJobScope>;
-
-export type GoogleCloudDataplexV1MetadataJobImportJobSpecAspectSyncModeEnum =
-  | "SYNC_MODE_UNSPECIFIED"
-  | "FULL"
-  | "INCREMENTAL"
-  | "NONE";
-export const GoogleCloudDataplexV1MetadataJobImportJobSpecAspectSyncModeEnum = S.String;
-
-/** Job specification for a metadata import job.You can run the following kinds of metadata import jobs: Full sync of entries with incremental import of their aspects. Supported for custom entries. Incremental import of aspects only. Supported for aspects that belong to custom entries and system entries. For custom entries, you can modify both optional aspects and required aspects. For system entries, you can modify optional aspects. */
-export interface GoogleCloudDataplexV1MetadataJobImportJobSpec {
-  /** Optional. The URI of a Cloud Storage bucket or folder (beginning with gs:// and ending with /) that contains the metadata import files for this job.A metadata import file defines the values to set for each of the entries and aspects in a metadata import job. For more information about how to create a metadata import file and the file requirements, see Metadata import file (https://cloud.google.com/dataplex/docs/import-metadata#metadata-import-file).You can provide multiple metadata import files in the same metadata job. The bucket or folder must contain at least one metadata import file, in JSON Lines format (either .json or .jsonl file extension).In FULL entry sync mode, don't save the metadata import file in a folder named SOURCE_STORAGE_URI/deletions/.Caution: If the metadata import file contains no data, all entries and aspects that belong to the job's scope are deleted. */
-  sourceStorageUri?: string;
-  /** Optional. The level of logs to write to Cloud Logging for this job.Debug-level logs provide highly-detailed information for troubleshooting, but their increased verbosity could incur additional costs (https://cloud.google.com/stackdriver/pricing) that might not be merited for all jobs.If unspecified, defaults to INFO. */
-  logLevel?: GoogleCloudDataplexV1MetadataJobImportJobSpecLogLevelEnum | (string & {});
-  /** Required. The sync mode for entries. */
-  entrySyncMode?: GoogleCloudDataplexV1MetadataJobImportJobSpecEntrySyncModeEnum | (string & {});
-  /** Required. A boundary on the scope of impact that the metadata import job can have. */
-  scope?: GoogleCloudDataplexV1MetadataJobImportJobSpecImportJobScope;
-  /** Required. The sync mode for aspects. */
-  aspectSyncMode?: GoogleCloudDataplexV1MetadataJobImportJobSpecAspectSyncModeEnum | (string & {});
-  /** Optional. The time when the process that created the metadata import files began. */
-  sourceCreateTime?: string;
-}
-export const GoogleCloudDataplexV1MetadataJobImportJobSpec = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourceStorageUri: S.optional(S.String),
-    logLevel: S.optional(GoogleCloudDataplexV1MetadataJobImportJobSpecLogLevelEnum),
-    entrySyncMode: S.optional(GoogleCloudDataplexV1MetadataJobImportJobSpecEntrySyncModeEnum),
-    scope: S.optional(GoogleCloudDataplexV1MetadataJobImportJobSpecImportJobScope),
-    aspectSyncMode: S.optional(GoogleCloudDataplexV1MetadataJobImportJobSpecAspectSyncModeEnum),
-    sourceCreateTime: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1MetadataJobImportJobSpec",
-}) as any as S.Schema<GoogleCloudDataplexV1MetadataJobImportJobSpec>;
-
 /** Results from a metadata import job. */
 export interface GoogleCloudDataplexV1MetadataJobImportJobResult {
-  /** Output only. The total number of entries that were created. */
-  createdEntries?: string;
   /** Output only. The time when the status was updated. */
   updateTime?: string;
-  /** Output only. The total number of entries that were recreated. */
-  recreatedEntries?: string;
-  /** Output only. The total number of entries that were unchanged. */
-  unchangedEntries?: string;
-  /** Output only. The total number of entry links that were successfully deleted. */
-  deletedEntryLinks?: string;
-  /** Output only. The total number of entry links that were left unchanged. */
-  unchangedEntryLinks?: string;
-  /** Output only. The total number of entry links that were successfully created. */
-  createdEntryLinks?: string;
-  /** Output only. The total number of entries that were updated. */
-  updatedEntries?: string;
   /** Output only. The total number of entries that were deleted. */
   deletedEntries?: string;
+  /** Output only. The total number of entry links that were left unchanged. */
+  unchangedEntryLinks?: string;
+  /** Output only. The total number of entries that were unchanged. */
+  unchangedEntries?: string;
+  /** Output only. The total number of entries that were recreated. */
+  recreatedEntries?: string;
+  /** Output only. The total number of entry links that were successfully created. */
+  createdEntryLinks?: string;
+  /** Output only. The total number of entries that were created. */
+  createdEntries?: string;
+  /** Output only. The total number of entries that were updated. */
+  updatedEntries?: string;
+  /** Output only. The total number of entry links that were successfully deleted. */
+  deletedEntryLinks?: string;
 }
 export const GoogleCloudDataplexV1MetadataJobImportJobResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createdEntries: S.optional(S.String),
     updateTime: S.optional(S.String),
-    recreatedEntries: S.optional(S.String),
-    unchangedEntries: S.optional(S.String),
-    deletedEntryLinks: S.optional(S.String),
-    unchangedEntryLinks: S.optional(S.String),
-    createdEntryLinks: S.optional(S.String),
-    updatedEntries: S.optional(S.String),
     deletedEntries: S.optional(S.String),
+    unchangedEntryLinks: S.optional(S.String),
+    unchangedEntries: S.optional(S.String),
+    recreatedEntries: S.optional(S.String),
+    createdEntryLinks: S.optional(S.String),
+    createdEntries: S.optional(S.String),
+    updatedEntries: S.optional(S.String),
+    deletedEntryLinks: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1MetadataJobImportJobResult",
 }) as any as S.Schema<GoogleCloudDataplexV1MetadataJobImportJobResult>;
 
+/** Summary results from a metadata export job. The results are a snapshot of the metadata at the time when the job was created. The exported entries are saved to a Cloud Storage bucket. */
+export interface GoogleCloudDataplexV1MetadataJobExportJobResult {
+  /** Output only. The error message if the metadata export job failed. */
+  errorMessage?: string;
+  /** Output only. The number of entries that were exported. */
+  exportedEntries?: string;
+}
+export const GoogleCloudDataplexV1MetadataJobExportJobResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    errorMessage: S.optional(S.String),
+    exportedEntries: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1MetadataJobExportJobResult",
+}) as any as S.Schema<GoogleCloudDataplexV1MetadataJobExportJobResult>;
+
+export type GoogleCloudDataplexV1MetadataJobTypeEnum = "TYPE_UNSPECIFIED" | "IMPORT" | "EXPORT";
+export const GoogleCloudDataplexV1MetadataJobTypeEnum = S.String;
+
 /** A metadata job resource. */
 export interface GoogleCloudDataplexV1MetadataJob {
-  /** Output only. A system-generated, globally unique ID for the metadata job. If the metadata job is deleted and then re-created with the same name, this ID is different. */
-  uid?: string;
-  /** Output only. The time when the metadata job was created. */
-  createTime?: string;
-  /** Required. Metadata job type. */
-  type?: GoogleCloudDataplexV1MetadataJobTypeEnum | (string & {});
-  /** Output only. Export job result. */
-  exportResult?: GoogleCloudDataplexV1MetadataJobExportJobResult;
-  /** Output only. Identifier. The name of the resource that the configuration is applied to, in the format projects/{project_number}/locations/{location_id}/metadataJobs/{metadata_job_id}. */
-  name?: string;
   /** Output only. The time when the metadata job was updated. */
   updateTime?: string;
   /** Export job specification. */
   exportSpec?: GoogleCloudDataplexV1MetadataJobExportJobSpec;
-  /** Output only. Metadata job status. */
-  status?: GoogleCloudDataplexV1MetadataJobStatus;
-  /** Optional. User-defined labels. */
-  labels?: StringMap;
   /** Import job specification. */
   importSpec?: GoogleCloudDataplexV1MetadataJobImportJobSpec;
+  /** Output only. A system-generated, globally unique ID for the metadata job. If the metadata job is deleted and then re-created with the same name, this ID is different. */
+  uid?: string;
+  /** Output only. Identifier. The name of the resource that the configuration is applied to, in the format projects/{project_number}/locations/{location_id}/metadataJobs/{metadata_job_id}. */
+  name?: string;
+  /** Optional. User-defined labels. */
+  labels?: StringMap;
+  /** Output only. Metadata job status. */
+  status?: GoogleCloudDataplexV1MetadataJobStatus;
   /** Output only. Import job result. */
   importResult?: GoogleCloudDataplexV1MetadataJobImportJobResult;
+  /** Output only. The time when the metadata job was created. */
+  createTime?: string;
+  /** Output only. Export job result. */
+  exportResult?: GoogleCloudDataplexV1MetadataJobExportJobResult;
+  /** Required. Metadata job type. */
+  type?: GoogleCloudDataplexV1MetadataJobTypeEnum | (string & {});
 }
 export const GoogleCloudDataplexV1MetadataJob = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    uid: S.optional(S.String),
-    createTime: S.optional(S.String),
-    type: S.optional(GoogleCloudDataplexV1MetadataJobTypeEnum),
-    exportResult: S.optional(GoogleCloudDataplexV1MetadataJobExportJobResult),
-    name: S.optional(S.String),
     updateTime: S.optional(S.String),
     exportSpec: S.optional(GoogleCloudDataplexV1MetadataJobExportJobSpec),
-    status: S.optional(GoogleCloudDataplexV1MetadataJobStatus),
-    labels: S.optional(StringMap),
     importSpec: S.optional(GoogleCloudDataplexV1MetadataJobImportJobSpec),
+    uid: S.optional(S.String),
+    name: S.optional(S.String),
+    labels: S.optional(StringMap),
+    status: S.optional(GoogleCloudDataplexV1MetadataJobStatus),
     importResult: S.optional(GoogleCloudDataplexV1MetadataJobImportJobResult),
+    createTime: S.optional(S.String),
+    exportResult: S.optional(GoogleCloudDataplexV1MetadataJobExportJobResult),
+    type: S.optional(GoogleCloudDataplexV1MetadataJobTypeEnum),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1MetadataJob",
@@ -6205,18 +5958,18 @@ export const GoogleCloudDataplexV1MetadataJob = /*@__PURE__*/ S.suspend(() =>
 export interface CreateProjectsLocationsMetadataJobsRequest {
   /** Optional. The service validates the request without performing any mutations. The default is false. */
   validateOnly?: boolean;
-  /** Optional. The metadata job ID. If not provided, a unique ID is generated with the prefix metadata-job-. */
-  metadataJobId?: string;
   /** Required. The resource name of the parent location, in the format projects/{project_id_or_number}/locations/{location_id} */
   parent: string;
+  /** Optional. The metadata job ID. If not provided, a unique ID is generated with the prefix metadata-job-. */
+  metadataJobId?: string;
   /** Request body */
   body?: GoogleCloudDataplexV1MetadataJob;
 }
 export const CreateProjectsLocationsMetadataJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    metadataJobId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    metadataJobId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(GoogleCloudDataplexV1MetadataJob.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -6230,21 +5983,17 @@ export const CreateProjectsLocationsMetadataJobsRequest = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<CreateProjectsLocationsMetadataJobsRequest>;
 
 export interface DeleteOrganizationsLocationsEncryptionConfigsRequest {
-  /** Required. The name of the EncryptionConfig to delete. */
-  name: string;
   /** Optional. Etag of the EncryptionConfig. This is a strong etag. */
   etag?: string;
+  /** Required. The name of the EncryptionConfig to delete. */
+  name: string;
 }
 export const DeleteOrganizationsLocationsEncryptionConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     etag: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteOrganizationsLocationsEncryptionConfigsRequest",
@@ -6258,78 +6007,45 @@ export const DeleteOrganizationsLocationsOperationsRequest = /*@__PURE__*/ S.sus
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteOrganizationsLocationsOperationsRequest",
 }) as any as S.Schema<DeleteOrganizationsLocationsOperationsRequest>;
 
 export interface DeleteProjectsLocationsAspectTypesRequest {
-  /** Required. The resource name of the AspectType: projects/{project_number}/locations/{location_id}/aspectTypes/{aspect_type_id}. */
-  name: string;
   /** Optional. If the client provided etag value does not match the current etag value, the DeleteAspectTypeRequest method returns an ABORTED error response. */
   etag?: string;
+  /** Required. The resource name of the AspectType: projects/{project_number}/locations/{location_id}/aspectTypes/{aspect_type_id}. */
+  name: string;
 }
 export const DeleteProjectsLocationsAspectTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     etag: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsAspectTypesRequest",
 }) as any as S.Schema<DeleteProjectsLocationsAspectTypesRequest>;
 
 export interface DeleteProjectsLocationsChangeRequestsRequest {
-  /** Required. The name of the ChangeRequest to delete. Format: projects/{project_number}/locations/{location_id}/changeRequests/{change_request_id} */
-  name: string;
   /** Optional. The etag of the ChangeRequest. */
   etag?: string;
+  /** Required. The name of the ChangeRequest to delete. Format: projects/{project_number}/locations/{location_id}/changeRequests/{change_request_id} */
+  name: string;
 }
 export const DeleteProjectsLocationsChangeRequestsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     etag: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsChangeRequestsRequest",
 }) as any as S.Schema<DeleteProjectsLocationsChangeRequestsRequest>;
-
-export interface DeleteProjectsLocationsDataAttributeBindingsRequest {
-  /** Required. The resource name of the DataAttributeBinding: projects/{project_number}/locations/{location_id}/dataAttributeBindings/{data_attribute_binding_id} */
-  name: string;
-  /** Required. If the client provided etag value does not match the current etag value, the DeleteDataAttributeBindingRequest method returns an ABORTED error response. Etags must be used when calling the DeleteDataAttributeBinding. */
-  etag?: string;
-}
-export const DeleteProjectsLocationsDataAttributeBindingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.Label()),
-    etag: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
-  ),
-).annotate({
-  identifier: "DeleteProjectsLocationsDataAttributeBindingsRequest",
-}) as any as S.Schema<DeleteProjectsLocationsDataAttributeBindingsRequest>;
 
 export interface DeleteProjectsLocationsDataDomainsRequest {
   /** Required. The resource name of the DataDomain: projects/{project_id_or_number}/locations/{location_id}/dataDomains/{data_domain_id} */
@@ -6339,11 +6055,7 @@ export const DeleteProjectsLocationsDataDomainsRequest = /*@__PURE__*/ S.suspend
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsDataDomainsRequest",
@@ -6357,35 +6069,27 @@ export const DeleteProjectsLocationsDataDomainsBindingsRequest = /*@__PURE__*/ S
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsDataDomainsBindingsRequest",
 }) as any as S.Schema<DeleteProjectsLocationsDataDomainsBindingsRequest>;
 
 export interface DeleteProjectsLocationsDataProductsRequest {
+  /** Optional. The etag of the data product.If an etag is provided and does not match the current etag of the data product, then the deletion will be blocked and an ABORTED error will be returned. */
+  etag?: string;
   /** Optional. Validates the request without actually deleting the data product. Default: false. */
   validateOnly?: boolean;
   /** Required. The name of the data product to delete. Format: projects/{project_id_or_number}/locations/{location_id}/dataProducts/{data_product_id} */
   name: string;
-  /** Optional. The etag of the data product.If an etag is provided and does not match the current etag of the data product, then the deletion will be blocked and an ABORTED error will be returned. */
-  etag?: string;
 }
 export const DeleteProjectsLocationsDataProductsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    etag: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
-    etag: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsDataProductsRequest",
@@ -6394,22 +6098,18 @@ export const DeleteProjectsLocationsDataProductsRequest = /*@__PURE__*/ S.suspen
 export interface DeleteProjectsLocationsDataProductsDataAssetsRequest {
   /** Required. The name of the data asset to delete. Format: projects/{project_id_or_number}/locations/{location_id}/dataProducts/{data_product_id}/dataAssets/{data_asset_id} */
   name: string;
-  /** Optional. The etag of the data asset. If this is provided, it must match the server's etag. If the etag is provided and does not match the server-computed etag, the request must fail with a ABORTED error code. */
-  etag?: string;
   /** Optional. Validates the request without actually deleting the data asset. Defaults to false. */
   validateOnly?: boolean;
+  /** Optional. The etag of the data asset. If this is provided, it must match the server's etag. If the etag is provided and does not match the server-computed etag, the request must fail with a ABORTED error code. */
+  etag?: string;
 }
 export const DeleteProjectsLocationsDataProductsDataAssetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-    etag: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    etag: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsDataProductsDataAssetsRequest",
@@ -6426,74 +6126,24 @@ export const DeleteProjectsLocationsDataScansRequest = /*@__PURE__*/ S.suspend((
     name: S.String.pipe(T.Label()),
     force: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsDataScansRequest",
 }) as any as S.Schema<DeleteProjectsLocationsDataScansRequest>;
 
-export interface DeleteProjectsLocationsDataTaxonomiesRequest {
-  /** Required. The resource name of the DataTaxonomy: projects/{project_number}/locations/{location_id}/dataTaxonomies/{data_taxonomy_id} */
-  name: string;
-  /** Optional. If the client provided etag value does not match the current etag value,the DeleteDataTaxonomy method returns an ABORTED error. */
-  etag?: string;
-}
-export const DeleteProjectsLocationsDataTaxonomiesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.Label()),
-    etag: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
-  ),
-).annotate({
-  identifier: "DeleteProjectsLocationsDataTaxonomiesRequest",
-}) as any as S.Schema<DeleteProjectsLocationsDataTaxonomiesRequest>;
-
-export interface DeleteProjectsLocationsDataTaxonomiesAttributesRequest {
-  /** Required. The resource name of the DataAttribute: projects/{project_number}/locations/{location_id}/dataTaxonomies/{dataTaxonomy}/attributes/{data_attribute_id} */
-  name: string;
-  /** Optional. If the client provided etag value does not match the current etag value, the DeleteDataAttribute method returns an ABORTED error response. */
-  etag?: string;
-}
-export const DeleteProjectsLocationsDataTaxonomiesAttributesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.Label()),
-    etag: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
-  ),
-).annotate({
-  identifier: "DeleteProjectsLocationsDataTaxonomiesAttributesRequest",
-}) as any as S.Schema<DeleteProjectsLocationsDataTaxonomiesAttributesRequest>;
-
 export interface DeleteProjectsLocationsEntryGroupsRequest {
-  /** Required. The resource name of the EntryGroup: projects/{project_number}/locations/{location_id}/entryGroups/{entry_group_id}. */
-  name: string;
   /** Optional. If the client provided etag value does not match the current etag value, the DeleteEntryGroupRequest method returns an ABORTED error response. */
   etag?: string;
+  /** Required. The resource name of the EntryGroup: projects/{project_number}/locations/{location_id}/entryGroups/{entry_group_id}. */
+  name: string;
 }
 export const DeleteProjectsLocationsEntryGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     etag: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsEntryGroupsRequest",
@@ -6507,11 +6157,7 @@ export const DeleteProjectsLocationsEntryGroupsEntriesRequest = /*@__PURE__*/ S.
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsEntryGroupsEntriesRequest",
@@ -6525,53 +6171,41 @@ export const DeleteProjectsLocationsEntryGroupsEntryLinksRequest = /*@__PURE__*/
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsEntryGroupsEntryLinksRequest",
 }) as any as S.Schema<DeleteProjectsLocationsEntryGroupsEntryLinksRequest>;
 
 export interface DeleteProjectsLocationsEntryTypesRequest {
-  /** Required. The resource name of the EntryType: projects/{project_number}/locations/{location_id}/entryTypes/{entry_type_id}. */
-  name: string;
   /** Optional. If the client provided etag value does not match the current etag value, the DeleteEntryTypeRequest method returns an ABORTED error response. */
   etag?: string;
+  /** Required. The resource name of the EntryType: projects/{project_number}/locations/{location_id}/entryTypes/{entry_type_id}. */
+  name: string;
 }
 export const DeleteProjectsLocationsEntryTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     etag: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsEntryTypesRequest",
 }) as any as S.Schema<DeleteProjectsLocationsEntryTypesRequest>;
 
 export interface DeleteProjectsLocationsGlossariesRequest {
-  /** Required. The name of the Glossary to delete. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} */
-  name: string;
   /** Optional. The etag of the Glossary. If this is provided, it must match the server's etag. If the etag is provided and does not match the server-computed etag, the request must fail with a ABORTED error code. */
   etag?: string;
+  /** Required. The name of the Glossary to delete. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} */
+  name: string;
 }
 export const DeleteProjectsLocationsGlossariesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     etag: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsGlossariesRequest",
@@ -6585,11 +6219,7 @@ export const DeleteProjectsLocationsGlossariesCategoriesRequest = /*@__PURE__*/ 
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsGlossariesCategoriesRequest",
@@ -6603,11 +6233,7 @@ export const DeleteProjectsLocationsGlossariesTermsRequest = /*@__PURE__*/ S.sus
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsGlossariesTermsRequest",
@@ -6621,11 +6247,7 @@ export const DeleteProjectsLocationsLakesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsLakesRequest",
@@ -6639,11 +6261,7 @@ export const DeleteProjectsLocationsLakesTasksRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsLakesTasksRequest",
@@ -6657,11 +6275,7 @@ export const DeleteProjectsLocationsLakesZonesRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsLakesZonesRequest",
@@ -6675,32 +6289,24 @@ export const DeleteProjectsLocationsLakesZonesAssetsRequest = /*@__PURE__*/ S.su
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsLakesZonesAssetsRequest",
 }) as any as S.Schema<DeleteProjectsLocationsLakesZonesAssetsRequest>;
 
 export interface DeleteProjectsLocationsLakesZonesEntitiesRequest {
-  /** Required. The resource name of the entity: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}. */
-  name: string;
   /** Required. The etag associated with the entity, which can be retrieved with a GetEntity request. */
   etag?: string;
+  /** Required. The resource name of the entity: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}. */
+  name: string;
 }
 export const DeleteProjectsLocationsLakesZonesEntitiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     etag: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsLakesZonesEntitiesRequest",
@@ -6718,29 +6324,21 @@ export const DeleteProjectsLocationsLakesZonesEntitiesPartitionsRequest = /*@__P
       name: S.String.pipe(T.Label()),
       etag: S.optional(S.String.pipe(T.Query())),
     }).pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "v1/{+name}",
-        baseUrl: "https://dataplex.googleapis.com/",
-      }),
+      T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
     ),
 ).annotate({
   identifier: "DeleteProjectsLocationsLakesZonesEntitiesPartitionsRequest",
 }) as any as S.Schema<DeleteProjectsLocationsLakesZonesEntitiesPartitionsRequest>;
 
 export interface DeleteProjectsLocationsMetadataFeedsRequest {
-  /** Required. The resource name of the metadata feed, in the format projects/{project_id_or_number}/locations/{location_id}/MetadataFeeds/{metadata_feed_id}. */
+  /** Required. The resource name of the metadata feed, in the format projects/{project_id_or_number}/locations/{location_id}/metadataFeeds/{metadata_feed_id}. */
   name: string;
 }
 export const DeleteProjectsLocationsMetadataFeedsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsMetadataFeedsRequest",
@@ -6754,11 +6352,7 @@ export const DeleteProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsOperationsRequest",
@@ -6828,16 +6422,16 @@ export const GenerateDataQualityRulesProjectsLocationsDataScansJobsRequest =
   }) as any as S.Schema<GenerateDataQualityRulesProjectsLocationsDataScansJobsRequest>;
 
 export interface GetIamPolicyOrganizationsLocationsEncryptionConfigsRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset.The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
+  /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export const GetIamPolicyOrganizationsLocationsEncryptionConfigsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      resource: S.String.pipe(T.Label()),
       "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+      resource: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -6848,6 +6442,48 @@ export const GetIamPolicyOrganizationsLocationsEncryptionConfigsRequest = /*@__P
 ).annotate({
   identifier: "GetIamPolicyOrganizationsLocationsEncryptionConfigsRequest",
 }) as any as S.Schema<GetIamPolicyOrganizationsLocationsEncryptionConfigsRequest>;
+
+/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec.Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
+export interface GoogleTypeExpr {
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
+}
+export const GoogleTypeExpr = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    title: S.optional(S.String),
+    location: S.optional(S.String),
+    description: S.optional(S.String),
+    expression: S.optional(S.String),
+  }),
+).annotate({ identifier: "GoogleTypeExpr" }) as any as S.Schema<GoogleTypeExpr>;
+
+/** Associates members, or principals, with a role. */
+export interface GoogleIamV1Binding {
+  /** The condition that is associated with this binding.If the condition evaluates to true, then this binding applies to the current request.If the condition evaluates to false, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: GoogleTypeExpr;
+  /** Role that is assigned to the list of members, or principals. For example, roles/viewer, roles/editor, or roles/owner.For an overview of the IAM roles and permissions, see the IAM documentation (https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see here (https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string;
+  /** Specifies the principals requesting access for a Google Cloud resource. members can have the following values: allUsers: A special identifier that represents anyone who is on the internet; with or without a Google account. allAuthenticatedUsers: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. user:{emailid}: An email address that represents a specific Google account. For example, alice@example.com . serviceAccount:{emailid}: An email address that represents a Google service account. For example, my-other-app@appspot.gserviceaccount.com. serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]: An identifier for a Kubernetes service account (https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, my-project.svc.id.goog[my-namespace/my-kubernetes-sa]. group:{emailid}: An email address that represents a Google group. For example, admins@example.com. domain:{domain}: The G Suite domain (primary) that represents all the users of that domain. For example, google.com or example.com. principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}: A single identity in a workforce identity pool. principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}: All workforce identities in a group. principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}: All workforce identities with a specific attribute value. principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*: All identities in a workforce identity pool. principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}: A single identity in a workload identity pool. principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}: A workload identity pool group. principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}: All identities in a workload identity pool with a certain attribute. principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*: All identities in a workload identity pool. deleted:user:{emailid}?uid={uniqueid}: An email address (plus unique identifier) representing a user that has been recently deleted. For example, alice@example.com?uid=123456789012345678901. If the user is recovered, this value reverts to user:{emailid} and the recovered user retains the role in the binding. deleted:serviceAccount:{emailid}?uid={uniqueid}: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901. If the service account is undeleted, this value reverts to serviceAccount:{emailid} and the undeleted service account retains the role in the binding. deleted:group:{emailid}?uid={uniqueid}: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, admins@example.com?uid=123456789012345678901. If the group is recovered, this value reverts to group:{emailid} and the recovered group retains the role in the binding. deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}: Deleted single identity in a workforce identity pool. For example, deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value. */
+  members?: StringList;
+}
+export const GoogleIamV1Binding = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    condition: S.optional(GoogleTypeExpr),
+    role: S.optional(S.String),
+    members: S.optional(StringList),
+  }),
+).annotate({ identifier: "GoogleIamV1Binding" }) as any as S.Schema<GoogleIamV1Binding>;
+
+export type GoogleIamV1BindingList = Array<GoogleIamV1Binding>;
+export const GoogleIamV1BindingList = /*@__PURE__*/ S.Array(
+  GoogleIamV1Binding,
+) as any as S.Schema<GoogleIamV1BindingList>;
 
 export type GoogleIamV1AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
@@ -6889,91 +6525,64 @@ export const GoogleIamV1AuditConfig = /*@__PURE__*/ S.suspend(() =>
     service: S.optional(S.String),
     auditLogConfigs: S.optional(GoogleIamV1AuditLogConfigList),
   }),
-).annotate({
-  identifier: "GoogleIamV1AuditConfig",
-}) as any as S.Schema<GoogleIamV1AuditConfig>;
+).annotate({ identifier: "GoogleIamV1AuditConfig" }) as any as S.Schema<GoogleIamV1AuditConfig>;
 
 export type GoogleIamV1AuditConfigList = Array<GoogleIamV1AuditConfig>;
 export const GoogleIamV1AuditConfigList = /*@__PURE__*/ S.Array(
   GoogleIamV1AuditConfig,
 ) as any as S.Schema<GoogleIamV1AuditConfigList>;
 
-/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec.Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
-export interface GoogleTypeExpr {
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
-}
-export const GoogleTypeExpr = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    title: S.optional(S.String),
-    expression: S.optional(S.String),
-    description: S.optional(S.String),
-    location: S.optional(S.String),
-  }),
-).annotate({ identifier: "GoogleTypeExpr" }) as any as S.Schema<GoogleTypeExpr>;
-
-/** Associates members, or principals, with a role. */
-export interface GoogleIamV1Binding {
-  /** Specifies the principals requesting access for a Google Cloud resource. members can have the following values: allUsers: A special identifier that represents anyone who is on the internet; with or without a Google account. allAuthenticatedUsers: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. user:{emailid}: An email address that represents a specific Google account. For example, alice@example.com . serviceAccount:{emailid}: An email address that represents a Google service account. For example, my-other-app@appspot.gserviceaccount.com. serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]: An identifier for a Kubernetes service account (https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, my-project.svc.id.goog[my-namespace/my-kubernetes-sa]. group:{emailid}: An email address that represents a Google group. For example, admins@example.com. domain:{domain}: The G Suite domain (primary) that represents all the users of that domain. For example, google.com or example.com. principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}: A single identity in a workforce identity pool. principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}: All workforce identities in a group. principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}: All workforce identities with a specific attribute value. principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*: All identities in a workforce identity pool. principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}: A single identity in a workload identity pool. principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}: A workload identity pool group. principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}: All identities in a workload identity pool with a certain attribute. principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*: All identities in a workload identity pool. deleted:user:{emailid}?uid={uniqueid}: An email address (plus unique identifier) representing a user that has been recently deleted. For example, alice@example.com?uid=123456789012345678901. If the user is recovered, this value reverts to user:{emailid} and the recovered user retains the role in the binding. deleted:serviceAccount:{emailid}?uid={uniqueid}: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901. If the service account is undeleted, this value reverts to serviceAccount:{emailid} and the undeleted service account retains the role in the binding. deleted:group:{emailid}?uid={uniqueid}: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, admins@example.com?uid=123456789012345678901. If the group is recovered, this value reverts to group:{emailid} and the recovered group retains the role in the binding. deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}: Deleted single identity in a workforce identity pool. For example, deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value. */
-  members?: StringList;
-  /** The condition that is associated with this binding.If the condition evaluates to true, then this binding applies to the current request.If the condition evaluates to false, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: GoogleTypeExpr;
-  /** Role that is assigned to the list of members, or principals. For example, roles/viewer, roles/editor, or roles/owner.For an overview of the IAM roles and permissions, see the IAM documentation (https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see here (https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
-}
-export const GoogleIamV1Binding = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    members: S.optional(StringList),
-    condition: S.optional(GoogleTypeExpr),
-    role: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleIamV1Binding",
-}) as any as S.Schema<GoogleIamV1Binding>;
-
-export type GoogleIamV1BindingList = Array<GoogleIamV1Binding>;
-export const GoogleIamV1BindingList = /*@__PURE__*/ S.Array(
-  GoogleIamV1Binding,
-) as any as S.Schema<GoogleIamV1BindingList>;
-
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources.A Policy is a collection of bindings. A binding binds one or more members, or principals, to a single role. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A role is a named list of permissions; each role can be an IAM predefined role or a user-created custom role.For some types of Google Cloud resources, a binding can also specify a condition, which is a logical expression that allows access to a resource only if the expression evaluates to true. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies).JSON example: { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } YAML example: bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 For a description of IAM and its features, see the IAM documentation (https://cloud.google.com/iam/docs/). */
 export interface GoogleIamV1Policy {
-  /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: GoogleIamV1AuditConfigList;
-  /** Specifies the format of the policy.Valid values are 0, 1, and 3. Requests that specify an invalid value are rejected.Any operation that affects conditional role bindings must specify version 3. This requirement applies to the following operations: Getting a policy that includes a conditional role binding Adding a conditional role binding to a policy Changing a conditional role binding in a policy Removing any role binding, with or without a condition, from a policy that includes conditionsImportant: If you use IAM Conditions, you must include the etag field whenever you call setIamPolicy. If you omit this field, then IAM allows you to overwrite a version 3 policy with a version 1 policy, and all of the conditions in the version 3 policy are lost.If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
   /** Associates a list of members, or principals, with a role. Optionally, may specify a condition that determines how and when the bindings are applied. Each of the bindings must contain at least one principal.The bindings in a Policy can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the bindings grant 50 different roles to user:alice@example.com, and not to any other principal, then you can add another 1,450 principals to the bindings in the Policy. */
   bindings?: GoogleIamV1BindingList;
   /** etag is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the etag in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An etag is returned in the response to getIamPolicy, and systems are expected to put that etag in the request to setIamPolicy to ensure that their change will be applied to the same version of the policy.Important: If you use IAM Conditions, you must include the etag field whenever you call setIamPolicy. If you omit this field, then IAM allows you to overwrite a version 3 policy with a version 1 policy, and all of the conditions in the version 3 policy are lost. */
   etag?: string;
+  /** Specifies cloud audit logging configuration for this policy. */
+  auditConfigs?: GoogleIamV1AuditConfigList;
+  /** Specifies the format of the policy.Valid values are 0, 1, and 3. Requests that specify an invalid value are rejected.Any operation that affects conditional role bindings must specify version 3. This requirement applies to the following operations: Getting a policy that includes a conditional role binding Adding a conditional role binding to a policy Changing a conditional role binding in a policy Removing any role binding, with or without a condition, from a policy that includes conditionsImportant: If you use IAM Conditions, you must include the etag field whenever you call setIamPolicy. If you omit this field, then IAM allows you to overwrite a version 3 policy with a version 1 policy, and all of the conditions in the version 3 policy are lost.If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
+  version?: number;
 }
 export const GoogleIamV1Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    auditConfigs: S.optional(GoogleIamV1AuditConfigList),
-    version: S.optional(S.Number),
     bindings: S.optional(GoogleIamV1BindingList),
     etag: S.optional(S.String),
+    auditConfigs: S.optional(GoogleIamV1AuditConfigList),
+    version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "GoogleIamV1Policy",
-}) as any as S.Schema<GoogleIamV1Policy>;
+).annotate({ identifier: "GoogleIamV1Policy" }) as any as S.Schema<GoogleIamV1Policy>;
 
-export interface GetIamPolicyProjectsLocationsAspectTypesRequest {
+export interface GetIamPolicyProjectsLocationsAgentTasksRequest {
   /** Optional. The maximum policy version that will be used to format the policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset.The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
 }
-export const GetIamPolicyProjectsLocationsAspectTypesRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetIamPolicyProjectsLocationsAgentTasksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
     resource: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "v1/{+resource}:getIamPolicy",
+      baseUrl: "https://dataplex.googleapis.com/",
+    }),
+  ),
+).annotate({
+  identifier: "GetIamPolicyProjectsLocationsAgentTasksRequest",
+}) as any as S.Schema<GetIamPolicyProjectsLocationsAgentTasksRequest>;
+
+export interface GetIamPolicyProjectsLocationsAspectTypesRequest {
+  /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset.The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number;
+}
+export const GetIamPolicyProjectsLocationsAspectTypesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resource: S.String.pipe(T.Label()),
+    "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -6986,15 +6595,15 @@ export const GetIamPolicyProjectsLocationsAspectTypesRequest = /*@__PURE__*/ S.s
 }) as any as S.Schema<GetIamPolicyProjectsLocationsAspectTypesRequest>;
 
 export interface GetIamPolicyProjectsLocationsChangeRequestsRequest {
-  /** Optional. The maximum policy version that will be used to format the policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset.The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset.The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number;
 }
 export const GetIamPolicyProjectsLocationsChangeRequestsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
     resource: S.String.pipe(T.Label()),
+    "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -7007,16 +6616,16 @@ export const GetIamPolicyProjectsLocationsChangeRequestsRequest = /*@__PURE__*/ 
 }) as any as S.Schema<GetIamPolicyProjectsLocationsChangeRequestsRequest>;
 
 export interface GetIamPolicyProjectsLocationsDataAttributeBindingsRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset.The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
+  /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export const GetIamPolicyProjectsLocationsDataAttributeBindingsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      resource: S.String.pipe(T.Label()),
       "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+      resource: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -7071,15 +6680,15 @@ export const GetIamPolicyProjectsLocationsDataProductsRequest = /*@__PURE__*/ S.
 }) as any as S.Schema<GetIamPolicyProjectsLocationsDataProductsRequest>;
 
 export interface GetIamPolicyProjectsLocationsDataScansRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset.The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
+  /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export const GetIamPolicyProjectsLocationsDataScansRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resource: S.String.pipe(T.Label()),
     "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+    resource: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -7092,15 +6701,15 @@ export const GetIamPolicyProjectsLocationsDataScansRequest = /*@__PURE__*/ S.sus
 }) as any as S.Schema<GetIamPolicyProjectsLocationsDataScansRequest>;
 
 export interface GetIamPolicyProjectsLocationsDataTaxonomiesRequest {
-  /** Optional. The maximum policy version that will be used to format the policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset.The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset.The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number;
 }
 export const GetIamPolicyProjectsLocationsDataTaxonomiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
     resource: S.String.pipe(T.Label()),
+    "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -7113,16 +6722,16 @@ export const GetIamPolicyProjectsLocationsDataTaxonomiesRequest = /*@__PURE__*/ 
 }) as any as S.Schema<GetIamPolicyProjectsLocationsDataTaxonomiesRequest>;
 
 export interface GetIamPolicyProjectsLocationsDataTaxonomiesAttributesRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset.The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
+  /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export const GetIamPolicyProjectsLocationsDataTaxonomiesAttributesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      resource: S.String.pipe(T.Label()),
       "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+      resource: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -7177,15 +6786,15 @@ export const GetIamPolicyProjectsLocationsEntryLinkTypesRequest = /*@__PURE__*/ 
 }) as any as S.Schema<GetIamPolicyProjectsLocationsEntryLinkTypesRequest>;
 
 export interface GetIamPolicyProjectsLocationsEntryTypesRequest {
-  /** Optional. The maximum policy version that will be used to format the policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset.The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset.The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number;
 }
 export const GetIamPolicyProjectsLocationsEntryTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
     resource: S.String.pipe(T.Label()),
+    "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -7198,15 +6807,15 @@ export const GetIamPolicyProjectsLocationsEntryTypesRequest = /*@__PURE__*/ S.su
 }) as any as S.Schema<GetIamPolicyProjectsLocationsEntryTypesRequest>;
 
 export interface GetIamPolicyProjectsLocationsGlossariesRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset.The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
+  /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export const GetIamPolicyProjectsLocationsGlossariesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resource: S.String.pipe(T.Label()),
     "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+    resource: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -7241,15 +6850,15 @@ export const GetIamPolicyProjectsLocationsGlossariesCategoriesRequest = /*@__PUR
 }) as any as S.Schema<GetIamPolicyProjectsLocationsGlossariesCategoriesRequest>;
 
 export interface GetIamPolicyProjectsLocationsGlossariesTermsRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset.The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
+  /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export const GetIamPolicyProjectsLocationsGlossariesTermsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resource: S.String.pipe(T.Label()),
     "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+    resource: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -7283,15 +6892,15 @@ export const GetIamPolicyProjectsLocationsGovernanceRulesRequest = /*@__PURE__*/
 }) as any as S.Schema<GetIamPolicyProjectsLocationsGovernanceRulesRequest>;
 
 export interface GetIamPolicyProjectsLocationsLakesRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset.The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
+  /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export const GetIamPolicyProjectsLocationsLakesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resource: S.String.pipe(T.Label()),
     "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+    resource: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -7346,15 +6955,15 @@ export const GetIamPolicyProjectsLocationsLakesZonesRequest = /*@__PURE__*/ S.su
 }) as any as S.Schema<GetIamPolicyProjectsLocationsLakesZonesRequest>;
 
 export interface GetIamPolicyProjectsLocationsLakesZonesAssetsRequest {
-  /** Optional. The maximum policy version that will be used to format the policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset.The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset.The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number;
 }
 export const GetIamPolicyProjectsLocationsLakesZonesAssetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
     resource: S.String.pipe(T.Label()),
+    "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -7374,11 +6983,7 @@ export const GetOrganizationsLocationsEncryptionConfigsRequest = /*@__PURE__*/ S
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetOrganizationsLocationsEncryptionConfigsRequest",
@@ -7392,11 +6997,7 @@ export const GetOrganizationsLocationsOperationsRequest = /*@__PURE__*/ S.suspen
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetOrganizationsLocationsOperationsRequest",
@@ -7410,11 +7011,7 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsRequest",
@@ -7422,12 +7019,12 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A resource that represents a Google Cloud location. */
 export interface GoogleCloudLocationLocation {
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
   /** The canonical id for this location. For example: "us-east1". */
   locationId?: string;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap;
   /** Resource name for the location, which may vary between implementations. For example: "projects/example-project/locations/us-east1" */
   name?: string;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
@@ -7435,9 +7032,9 @@ export interface GoogleCloudLocationLocation {
 }
 export const GoogleCloudLocationLocation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metadata: S.optional(DocumentMap),
     locationId: S.optional(S.String),
     labels: S.optional(StringMap),
+    metadata: S.optional(DocumentMap),
     name: S.optional(S.String),
     displayName: S.optional(S.String),
   }),
@@ -7453,11 +7050,7 @@ export const GetProjectsLocationsAspectTypesRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsAspectTypesRequest",
@@ -7471,33 +7064,11 @@ export const GetProjectsLocationsChangeRequestsRequest = /*@__PURE__*/ S.suspend
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsChangeRequestsRequest",
 }) as any as S.Schema<GetProjectsLocationsChangeRequestsRequest>;
-
-export interface GetProjectsLocationsDataAttributeBindingsRequest {
-  /** Required. The resource name of the DataAttributeBinding: projects/{project_number}/locations/{location_id}/dataAttributeBindings/{data_attribute_binding_id} */
-  name: string;
-}
-export const GetProjectsLocationsDataAttributeBindingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
-  ),
-).annotate({
-  identifier: "GetProjectsLocationsDataAttributeBindingsRequest",
-}) as any as S.Schema<GetProjectsLocationsDataAttributeBindingsRequest>;
 
 export interface GetProjectsLocationsDataDomainsRequest {
   /** Required. The resource name of the DataDomain: projects/{project_id_or_number}/locations/{location_id}/dataDomains/{data_domain_id} */
@@ -7507,11 +7078,7 @@ export const GetProjectsLocationsDataDomainsRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsDataDomainsRequest",
@@ -7525,11 +7092,7 @@ export const GetProjectsLocationsDataDomainsBindingsRequest = /*@__PURE__*/ S.su
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsDataDomainsBindingsRequest",
@@ -7543,11 +7106,7 @@ export const GetProjectsLocationsDataProductsRequest = /*@__PURE__*/ S.suspend((
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsDataProductsRequest",
@@ -7561,11 +7120,7 @@ export const GetProjectsLocationsDataProductsDataAssetsRequest = /*@__PURE__*/ S
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsDataProductsDataAssetsRequest",
@@ -7585,11 +7140,7 @@ export const GetProjectsLocationsDataScansRequest = /*@__PURE__*/ S.suspend(() =
     view: S.optional(GetProjectsLocationsDataScansViewEnum.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsDataScansRequest",
@@ -7612,11 +7163,7 @@ export const GetProjectsLocationsDataScansJobsRequest = /*@__PURE__*/ S.suspend(
     view: S.optional(GetProjectsLocationsDataScansJobsViewEnum.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsDataScansJobsRequest",
@@ -7644,105 +7191,70 @@ export const GoogleCloudDataplexV1DataScanJobTypeEnum = S.String;
 
 /** A DataScanJob represents an instance of DataScan execution. */
 export interface GoogleCloudDataplexV1DataScanJob {
-  /** Output only. The result of a data profile scan. */
-  dataProfileResult?: GoogleCloudDataplexV1DataProfileResult;
-  /** Output only. Settings for a data profile scan. */
-  dataProfileSpec?: GoogleCloudDataplexV1DataProfileSpec;
-  /** Output only. The result of a data documentation scan. */
-  dataDocumentationResult?: GoogleCloudDataplexV1DataDocumentationResult;
-  /** Output only. Execution state for the DataScanJob. */
-  state?: GoogleCloudDataplexV1DataScanJobStateEnum;
-  /** Output only. Additional information about the current state. */
-  message?: string;
-  /** Output only. Identifier. The relative resource name of the DataScanJob, of the form: projects/{project}/locations/{location_id}/dataScans/{datascan_id}/jobs/{job_id}, where project refers to a project_id or project_number and location_id refers to a Google Cloud region. */
-  name?: string;
-  /** Output only. The time when the DataScanJob was started. */
-  startTime?: string;
-  /** Output only. Settings for an unstructured data profile scan. */
-  unstructuredDataProfileSpec?: GoogleCloudDataplexV1UnstructuredDataProfileSpec;
-  /** Output only. Settings for a data documentation scan. */
-  dataDocumentationSpec?: GoogleCloudDataplexV1DataDocumentationSpec;
-  /** Output only. Settings for a data discovery scan. */
-  dataDiscoverySpec?: GoogleCloudDataplexV1DataDiscoverySpec;
-  /** Output only. The time when the DataScanJob was created. */
-  createTime?: string;
-  /** Output only. The time when the DataScanJob ended. */
-  endTime?: string;
-  /** Output only. Settings for a data quality scan. */
-  dataQualitySpec?: GoogleCloudDataplexV1DataQualitySpec;
-  /** Output only. The result of a data discovery scan. */
-  dataDiscoveryResult?: GoogleCloudDataplexV1DataDiscoveryResult;
-  /** Output only. The result of an unstructured data profile scan. */
-  unstructuredDataProfileResult?: GoogleCloudDataplexV1UnstructuredDataProfileResult;
-  /** Output only. A message indicating partial failure details. */
-  partialFailureMessage?: string;
-  /** Output only. System generated globally unique ID for the DataScanJob. */
-  uid?: string;
-  /** Output only. The type of the parent DataScan. */
-  type?: GoogleCloudDataplexV1DataScanJobTypeEnum;
   /** Output only. The result of a data quality scan. */
   dataQualityResult?: GoogleCloudDataplexV1DataQualityResult;
+  /** Output only. Settings for a data documentation scan. */
+  dataDocumentationSpec?: GoogleCloudDataplexV1DataDocumentationSpec;
+  /** Output only. The time when the DataScanJob was created. */
+  createTime?: string;
+  /** Output only. Execution state for the DataScanJob. */
+  state?: GoogleCloudDataplexV1DataScanJobStateEnum;
+  /** Output only. The result of a data discovery scan. */
+  dataDiscoveryResult?: GoogleCloudDataplexV1DataDiscoveryResult;
+  /** Output only. Identifier. The relative resource name of the DataScanJob, of the form: projects/{project}/locations/{location_id}/dataScans/{datascan_id}/jobs/{job_id}, where project refers to a project_id or project_number and location_id refers to a Google Cloud region. */
+  name?: string;
+  /** Output only. System generated globally unique ID for the DataScanJob. */
+  uid?: string;
+  /** Output only. The result of a data profile scan. */
+  dataProfileResult?: GoogleCloudDataplexV1DataProfileResult;
+  /** Output only. A message indicating partial failure details. */
+  partialFailureMessage?: string;
+  /** Output only. The time when the DataScanJob was started. */
+  startTime?: string;
+  /** Output only. The type of the parent DataScan. */
+  type?: GoogleCloudDataplexV1DataScanJobTypeEnum;
+  /** Output only. The result of an unstructured data profile scan. */
+  unstructuredDataProfileResult?: GoogleCloudDataplexV1UnstructuredDataProfileResult;
+  /** Output only. Settings for a data profile scan. */
+  dataProfileSpec?: GoogleCloudDataplexV1DataProfileSpec;
+  /** Output only. Settings for a data quality scan. */
+  dataQualitySpec?: GoogleCloudDataplexV1DataQualitySpec;
+  /** Output only. Settings for a data discovery scan. */
+  dataDiscoverySpec?: GoogleCloudDataplexV1DataDiscoverySpec;
+  /** Output only. The result of a data documentation scan. */
+  dataDocumentationResult?: GoogleCloudDataplexV1DataDocumentationResult;
+  /** Output only. The time when the DataScanJob ended. */
+  endTime?: string;
+  /** Output only. Additional information about the current state. */
+  message?: string;
+  /** Output only. Settings for an unstructured data profile scan. */
+  unstructuredDataProfileSpec?: GoogleCloudDataplexV1UnstructuredDataProfileSpec;
 }
 export const GoogleCloudDataplexV1DataScanJob = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dataProfileResult: S.optional(GoogleCloudDataplexV1DataProfileResult),
-    dataProfileSpec: S.optional(GoogleCloudDataplexV1DataProfileSpec),
-    dataDocumentationResult: S.optional(GoogleCloudDataplexV1DataDocumentationResult),
-    state: S.optional(GoogleCloudDataplexV1DataScanJobStateEnum),
-    message: S.optional(S.String),
-    name: S.optional(S.String),
-    startTime: S.optional(S.String),
-    unstructuredDataProfileSpec: S.optional(GoogleCloudDataplexV1UnstructuredDataProfileSpec),
-    dataDocumentationSpec: S.optional(GoogleCloudDataplexV1DataDocumentationSpec),
-    dataDiscoverySpec: S.optional(GoogleCloudDataplexV1DataDiscoverySpec),
-    createTime: S.optional(S.String),
-    endTime: S.optional(S.String),
-    dataQualitySpec: S.optional(GoogleCloudDataplexV1DataQualitySpec),
-    dataDiscoveryResult: S.optional(GoogleCloudDataplexV1DataDiscoveryResult),
-    unstructuredDataProfileResult: S.optional(GoogleCloudDataplexV1UnstructuredDataProfileResult),
-    partialFailureMessage: S.optional(S.String),
-    uid: S.optional(S.String),
-    type: S.optional(GoogleCloudDataplexV1DataScanJobTypeEnum),
     dataQualityResult: S.optional(GoogleCloudDataplexV1DataQualityResult),
+    dataDocumentationSpec: S.optional(GoogleCloudDataplexV1DataDocumentationSpec),
+    createTime: S.optional(S.String),
+    state: S.optional(GoogleCloudDataplexV1DataScanJobStateEnum),
+    dataDiscoveryResult: S.optional(GoogleCloudDataplexV1DataDiscoveryResult),
+    name: S.optional(S.String),
+    uid: S.optional(S.String),
+    dataProfileResult: S.optional(GoogleCloudDataplexV1DataProfileResult),
+    partialFailureMessage: S.optional(S.String),
+    startTime: S.optional(S.String),
+    type: S.optional(GoogleCloudDataplexV1DataScanJobTypeEnum),
+    unstructuredDataProfileResult: S.optional(GoogleCloudDataplexV1UnstructuredDataProfileResult),
+    dataProfileSpec: S.optional(GoogleCloudDataplexV1DataProfileSpec),
+    dataQualitySpec: S.optional(GoogleCloudDataplexV1DataQualitySpec),
+    dataDiscoverySpec: S.optional(GoogleCloudDataplexV1DataDiscoverySpec),
+    dataDocumentationResult: S.optional(GoogleCloudDataplexV1DataDocumentationResult),
+    endTime: S.optional(S.String),
+    message: S.optional(S.String),
+    unstructuredDataProfileSpec: S.optional(GoogleCloudDataplexV1UnstructuredDataProfileSpec),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1DataScanJob",
 }) as any as S.Schema<GoogleCloudDataplexV1DataScanJob>;
-
-export interface GetProjectsLocationsDataTaxonomiesRequest {
-  name: string;
-}
-export const GetProjectsLocationsDataTaxonomiesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
-  ),
-).annotate({
-  identifier: "GetProjectsLocationsDataTaxonomiesRequest",
-}) as any as S.Schema<GetProjectsLocationsDataTaxonomiesRequest>;
-
-export interface GetProjectsLocationsDataTaxonomiesAttributesRequest {
-  /** Required. The resource name of the dataAttribute: projects/{project_number}/locations/{location_id}/dataTaxonomies/{dataTaxonomy}/attributes/{data_attribute_id} */
-  name: string;
-}
-export const GetProjectsLocationsDataTaxonomiesAttributesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
-  ),
-).annotate({
-  identifier: "GetProjectsLocationsDataTaxonomiesAttributesRequest",
-}) as any as S.Schema<GetProjectsLocationsDataTaxonomiesAttributesRequest>;
 
 export interface GetProjectsLocationsEntryGroupsRequest {
   /** Required. The resource name of the EntryGroup: projects/{project_number}/locations/{location_id}/entryGroups/{entry_group_id}. */
@@ -7752,11 +7264,7 @@ export const GetProjectsLocationsEntryGroupsRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsEntryGroupsRequest",
@@ -7773,25 +7281,21 @@ export const GetProjectsLocationsEntryGroupsEntriesViewEnum = S.String;
 export interface GetProjectsLocationsEntryGroupsEntriesRequest {
   /** Required. The resource name of the Entry: projects/{project}/locations/{location}/entryGroups/{entry_group}/entries/{entry}. */
   name: string;
+  /** Optional. Limits the aspects returned to the provided aspect types. It only works for CUSTOM view. */
+  aspectTypes?: StringList;
   /** Optional. View to control which parts of an entry the service should return. Please check the limitations on returned aspects in the Entry view documentation. Amount of returned aspects depends on the selected Entry View. */
   view?: GetProjectsLocationsEntryGroupsEntriesViewEnum | (string & {});
   /** Optional. Limits the aspects returned to those associated with the provided paths within the Entry. It only works for CUSTOM view. */
   paths?: StringList;
-  /** Optional. Limits the aspects returned to the provided aspect types. It only works for CUSTOM view. */
-  aspectTypes?: StringList;
 }
 export const GetProjectsLocationsEntryGroupsEntriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
+    aspectTypes: S.optional(StringList.pipe(T.Query())),
     view: S.optional(GetProjectsLocationsEntryGroupsEntriesViewEnum.pipe(T.Query())),
     paths: S.optional(StringList.pipe(T.Query())),
-    aspectTypes: S.optional(StringList.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsEntryGroupsEntriesRequest",
@@ -7805,11 +7309,7 @@ export const GetProjectsLocationsEntryGroupsEntryLinksRequest = /*@__PURE__*/ S.
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsEntryGroupsEntryLinksRequest",
@@ -7823,11 +7323,7 @@ export const GetProjectsLocationsEntryTypesRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsEntryTypesRequest",
@@ -7841,11 +7337,7 @@ export const GetProjectsLocationsGlossariesRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsGlossariesRequest",
@@ -7859,11 +7351,7 @@ export const GetProjectsLocationsGlossariesCategoriesRequest = /*@__PURE__*/ S.s
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsGlossariesCategoriesRequest",
@@ -7877,11 +7365,7 @@ export const GetProjectsLocationsGlossariesTermsRequest = /*@__PURE__*/ S.suspen
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsGlossariesTermsRequest",
@@ -7895,11 +7379,7 @@ export const GetProjectsLocationsLakesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsLakesRequest",
@@ -7913,11 +7393,7 @@ export const GetProjectsLocationsLakesTasksRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsLakesTasksRequest",
@@ -7931,11 +7407,7 @@ export const GetProjectsLocationsLakesTasksJobsRequest = /*@__PURE__*/ S.suspend
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsLakesTasksJobsRequest",
@@ -7949,11 +7421,7 @@ export const GetProjectsLocationsLakesZonesRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsLakesZonesRequest",
@@ -7967,11 +7435,7 @@ export const GetProjectsLocationsLakesZonesAssetsRequest = /*@__PURE__*/ S.suspe
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsLakesZonesAssetsRequest",
@@ -7985,21 +7449,17 @@ export type GetProjectsLocationsLakesZonesEntitiesViewEnum =
 export const GetProjectsLocationsLakesZonesEntitiesViewEnum = S.String;
 
 export interface GetProjectsLocationsLakesZonesEntitiesRequest {
-  /** Optional. Used to select the subset of entity information to return. Defaults to BASIC. */
-  view?: GetProjectsLocationsLakesZonesEntitiesViewEnum | (string & {});
   /** Required. The resource name of the entity: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}. */
   name: string;
+  /** Optional. Used to select the subset of entity information to return. Defaults to BASIC. */
+  view?: GetProjectsLocationsLakesZonesEntitiesViewEnum | (string & {});
 }
 export const GetProjectsLocationsLakesZonesEntitiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    view: S.optional(GetProjectsLocationsLakesZonesEntitiesViewEnum.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    view: S.optional(GetProjectsLocationsLakesZonesEntitiesViewEnum.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsLakesZonesEntitiesRequest",
@@ -8013,29 +7473,21 @@ export const GetProjectsLocationsLakesZonesEntitiesPartitionsRequest = /*@__PURE
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsLakesZonesEntitiesPartitionsRequest",
 }) as any as S.Schema<GetProjectsLocationsLakesZonesEntitiesPartitionsRequest>;
 
 export interface GetProjectsLocationsMetadataFeedsRequest {
-  /** Required. The resource name of the metadata feed, in the format projects/{project_id_or_number}/locations/{location_id}/MetadataFeeds/{metadata_feed_id}. */
+  /** Required. The resource name of the metadata feed, in the format projects/{project_id_or_number}/locations/{location_id}/metadataFeeds/{metadata_feed_id}. */
   name: string;
 }
 export const GetProjectsLocationsMetadataFeedsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsMetadataFeedsRequest",
@@ -8049,11 +7501,7 @@ export const GetProjectsLocationsMetadataJobsRequest = /*@__PURE__*/ S.suspend((
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsMetadataJobsRequest",
@@ -8067,35 +7515,31 @@ export const GetProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsOperationsRequest",
 }) as any as S.Schema<GetProjectsLocationsOperationsRequest>;
 
 export interface ListOrganizationsLocationsEncryptionConfigsRequest {
-  /** Optional. Filter the EncryptionConfigs to be returned. Using bare literals: (These values will be matched anywhere it may appear in the object's field values) * filter=some_value Using fields: (These values will be matched only in the specified field) * filter=some_field=some_value Supported fields: * name, key, create_time, update_time, encryption_state Example: * filter=name=organizations/123/locations/us-central1/encryptionConfigs/test-config conjunctions: (AND, OR, NOT) * filter=name=organizations/123/locations/us-central1/encryptionConfigs/test-config AND mode=CMEK logical operators: (>, <, >=, <=, !=, =, :), * filter=create_time>2024-05-01T00:00:00.000Z */
-  filter?: string;
-  /** Required. The location for which the EncryptionConfig is to be listed. */
-  parent: string;
   /** Optional. Order by fields for the result. */
   orderBy?: string;
-  /** Optional. Maximum number of EncryptionConfigs to return. The service may return fewer than this value. If unspecified, at most 10 EncryptionConfigs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  /** Required. The location for which the EncryptionConfig is to be listed. */
+  parent: string;
   /** Optional. Page token received from a previous ListEncryptionConfigs call. Provide this to retrieve the subsequent page. When paginating, the parameters - filter and order_by provided to ListEncryptionConfigs must match the call that provided the page token. */
   pageToken?: string;
+  /** Optional. Filter the EncryptionConfigs to be returned. Using bare literals: (These values will be matched anywhere it may appear in the object's field values) * filter=some_value Using fields: (These values will be matched only in the specified field) * filter=some_field=some_value Supported fields: * name, key, create_time, update_time, encryption_state Example: * filter=name=organizations/123/locations/us-central1/encryptionConfigs/test-config conjunctions: (AND, OR, NOT) * filter=name=organizations/123/locations/us-central1/encryptionConfigs/test-config AND mode=CMEK logical operators: (>, <, >=, <=, !=, =, :), * filter=create_time>2024-05-01T00:00:00.000Z */
+  filter?: string;
+  /** Optional. Maximum number of EncryptionConfigs to return. The service may return fewer than this value. If unspecified, at most 10 EncryptionConfigs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
 }
 export const ListOrganizationsLocationsEncryptionConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     orderBy: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -8115,42 +7559,42 @@ export const GoogleCloudDataplexV1EncryptionConfigList = /*@__PURE__*/ S.Array(
 
 /** List EncryptionConfigs Response */
 export interface GoogleCloudDataplexV1ListEncryptionConfigsResponse {
+  /** Locations that could not be reached. */
+  unreachableLocations?: StringList;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string;
   /** The list of EncryptionConfigs under the given parent location. */
   encryptionConfigs?: GoogleCloudDataplexV1EncryptionConfigList;
-  /** Locations that could not be reached. */
-  unreachableLocations?: StringList;
 }
 export const GoogleCloudDataplexV1ListEncryptionConfigsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    unreachableLocations: S.optional(StringList),
     nextPageToken: S.optional(S.String),
     encryptionConfigs: S.optional(GoogleCloudDataplexV1EncryptionConfigList),
-    unreachableLocations: S.optional(StringList),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1ListEncryptionConfigsResponse",
 }) as any as S.Schema<GoogleCloudDataplexV1ListEncryptionConfigsResponse>;
 
 export interface ListOrganizationsLocationsOperationsRequest {
+  /** The name of the operation's parent resource. */
+  name: string;
   /** The standard list filter. */
   filter?: string;
+  /** The standard list page token. */
+  pageToken?: string;
   /** When set to true, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field.This can only be true when reading across collections. For example, when parent is set to "projects/example/locations/-".This field is not supported by default and will result in an UNIMPLEMENTED error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
   /** The standard list page size. */
   pageSize?: number;
-  /** The standard list page token. */
-  pageToken?: string;
-  /** The name of the operation's parent resource. */
-  name: string;
 }
 export const ListOrganizationsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    name: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -8171,16 +7615,16 @@ export const GoogleLongrunningOperationList = /*@__PURE__*/ S.Array(
 export interface GoogleLongrunningListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
   operations?: GoogleLongrunningOperationList;
-  /** Unordered list. Unreachable resources. Populated when the request sets ListOperationsRequest.return_partial_success and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** Unordered list. Unreachable resources. Populated when the request sets ListOperationsRequest.return_partial_success and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList;
 }
 export const GoogleLongrunningListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     operations: S.optional(GoogleLongrunningOperationList),
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({
   identifier: "GoogleLongrunningListOperationsResponse",
@@ -8191,20 +7635,20 @@ export interface ListProjectsLocationsRequest {
   filter?: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** A page token received from the next_page_token field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     filter: S.optional(S.String.pipe(T.Query())),
     extraLocationTypes: S.optional(StringList.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -8223,15 +7667,15 @@ export const GoogleCloudLocationLocationList = /*@__PURE__*/ S.Array(
 
 /** The response message for Locations.ListLocations. */
 export interface GoogleCloudLocationListLocationsResponse {
-  /** A list of locations that matches the specified filter in the request. */
-  locations?: GoogleCloudLocationLocationList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** A list of locations that matches the specified filter in the request. */
+  locations?: GoogleCloudLocationLocationList;
 }
 export const GoogleCloudLocationListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    locations: S.optional(GoogleCloudLocationLocationList),
     nextPageToken: S.optional(S.String),
+    locations: S.optional(GoogleCloudLocationLocationList),
   }),
 ).annotate({
   identifier: "GoogleCloudLocationListLocationsResponse",
@@ -8240,22 +7684,22 @@ export const GoogleCloudLocationListLocationsResponse = /*@__PURE__*/ S.suspend(
 export interface ListProjectsLocationsAspectTypesRequest {
   /** Optional. Maximum number of AspectTypes to return. The service may return fewer than this value. If unspecified, the service returns at most 10 AspectTypes. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
-  /** Optional. Page token received from a previous ListAspectTypes call. Provide this to retrieve the subsequent page. When paginating, all other parameters you provide to ListAspectTypes must match the call that provided the page token. */
-  pageToken?: string;
   /** Optional. Filter request. Filters are case-sensitive. The service supports the following formats: labels.key1 = "value1" labels:key1 name = "value"These restrictions can be conjoined with AND, OR, and NOT conjunctions. */
   filter?: string;
-  /** Optional. Orders the result by name or create_time fields. If not specified, the ordering is undefined. */
-  orderBy?: string;
+  /** Optional. Page token received from a previous ListAspectTypes call. Provide this to retrieve the subsequent page. When paginating, all other parameters you provide to ListAspectTypes must match the call that provided the page token. */
+  pageToken?: string;
   /** Required. The resource name of the AspectType location, of the form: projects/{project_number}/locations/{location_id} where location_id refers to a Google Cloud region. */
   parent: string;
+  /** Optional. Orders the result by name or create_time fields. If not specified, the ordering is undefined. */
+  orderBy?: string;
 }
 export const ListProjectsLocationsAspectTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -8274,17 +7718,17 @@ export const GoogleCloudDataplexV1AspectTypeList = /*@__PURE__*/ S.Array(
 
 /** List AspectTypes response. */
 export interface GoogleCloudDataplexV1ListAspectTypesResponse {
-  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
   /** AspectTypes under the given parent location. */
   aspectTypes?: GoogleCloudDataplexV1AspectTypeList;
+  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
+  nextPageToken?: string;
   /** Locations that the service couldn't reach. */
   unreachableLocations?: StringList;
 }
 export const GoogleCloudDataplexV1ListAspectTypesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     aspectTypes: S.optional(GoogleCloudDataplexV1AspectTypeList),
+    nextPageToken: S.optional(S.String),
     unreachableLocations: S.optional(StringList),
   }),
 ).annotate({
@@ -8292,24 +7736,24 @@ export const GoogleCloudDataplexV1ListAspectTypesResponse = /*@__PURE__*/ S.susp
 }) as any as S.Schema<GoogleCloudDataplexV1ListAspectTypesResponse>;
 
 export interface ListProjectsLocationsChangeRequestsRequest {
-  /** Optional. Maximum number of ChangeRequests to return. The service may return fewer. */
-  pageSize?: number;
-  /** Optional. Page token received from a previous ListChangeRequests call. */
-  pageToken?: string;
-  /** Optional. Filter request. Supports filtering by: state, author, resource, create_time, update_time. */
-  filter?: string;
   /** Required. The parent, which owns this collection of ChangeRequests. Format: projects/{project_number}/locations/{location_id} */
   parent: string;
+  /** Optional. Page token received from a previous ListChangeRequests call. */
+  pageToken?: string;
   /** Optional. Order by fields for the result. */
   orderBy?: string;
+  /** Optional. Filter request. Supports filtering by: state, author, resource, create_time, update_time. */
+  filter?: string;
+  /** Optional. Maximum number of ChangeRequests to return. The service may return fewer. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsChangeRequestsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -8330,95 +7774,40 @@ export const GoogleCloudDataplexV1ChangeRequestList = /*@__PURE__*/ S.Array(
 export interface GoogleCloudDataplexV1ListChangeRequestsResponse {
   /** A token, which can be sent as page_token to retrieve the next page. */
   nextPageToken?: string;
-  /** The ChangeRequests from the specified project and location. */
-  changeRequests?: GoogleCloudDataplexV1ChangeRequestList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** The ChangeRequests from the specified project and location. */
+  changeRequests?: GoogleCloudDataplexV1ChangeRequestList;
 }
 export const GoogleCloudDataplexV1ListChangeRequestsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextPageToken: S.optional(S.String),
-    changeRequests: S.optional(GoogleCloudDataplexV1ChangeRequestList),
     unreachable: S.optional(StringList),
+    changeRequests: S.optional(GoogleCloudDataplexV1ChangeRequestList),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1ListChangeRequestsResponse",
 }) as any as S.Schema<GoogleCloudDataplexV1ListChangeRequestsResponse>;
 
-export interface ListProjectsLocationsDataAttributeBindingsRequest {
-  /** Optional. Page token received from a previous ListDataAttributeBindings call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListDataAttributeBindings must match the call that provided the page token. */
-  pageToken?: string;
-  /** Optional. Maximum number of DataAttributeBindings to return. The service may return fewer than this value. If unspecified, at most 10 DataAttributeBindings will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
-  /** Optional. Order by fields for the result. */
-  orderBy?: string;
-  /** Required. The resource name of the Location: projects/{project_number}/locations/{location_id} */
-  parent: string;
-  /** Optional. Filter request. Filter using resource: filter=resource:"resource-name" Filter using attribute: filter=attributes:"attribute-name" Filter using attribute in paths list: filter=paths.attributes:"attribute-name" */
-  filter?: string;
-}
-export const ListProjectsLocationsDataAttributeBindingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+parent}/dataAttributeBindings",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
-  ),
-).annotate({
-  identifier: "ListProjectsLocationsDataAttributeBindingsRequest",
-}) as any as S.Schema<ListProjectsLocationsDataAttributeBindingsRequest>;
-
-export type GoogleCloudDataplexV1DataAttributeBindingList =
-  Array<GoogleCloudDataplexV1DataAttributeBinding>;
-export const GoogleCloudDataplexV1DataAttributeBindingList = /*@__PURE__*/ S.Array(
-  GoogleCloudDataplexV1DataAttributeBinding,
-) as any as S.Schema<GoogleCloudDataplexV1DataAttributeBindingList>;
-
-/** List DataAttributeBindings response. */
-export interface GoogleCloudDataplexV1ListDataAttributeBindingsResponse {
-  /** Locations that could not be reached. */
-  unreachableLocations?: StringList;
-  /** DataAttributeBindings under the given parent Location. */
-  dataAttributeBindings?: GoogleCloudDataplexV1DataAttributeBindingList;
-  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
-}
-export const GoogleCloudDataplexV1ListDataAttributeBindingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    unreachableLocations: S.optional(StringList),
-    dataAttributeBindings: S.optional(GoogleCloudDataplexV1DataAttributeBindingList),
-    nextPageToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1ListDataAttributeBindingsResponse",
-}) as any as S.Schema<GoogleCloudDataplexV1ListDataAttributeBindingsResponse>;
-
 export interface ListProjectsLocationsDataDomainsRequest {
-  /** Optional. Page token received from a previous ListDataDomains call. */
-  pageToken?: string;
+  /** Required. The resource name of the parent location: projects/{project_id_or_number}/locations/{location_id} */
+  parent: string;
   /** Optional. Maximum number of DataDomains to return. The service may return fewer. If unspecified, at most 50 domains will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
   pageSize?: number;
   /** Optional. Order by fields for the result. */
   orderBy?: string;
-  /** Required. The resource name of the parent location: projects/{project_id_or_number}/locations/{location_id} */
-  parent: string;
   /** Optional. Filter request. Supports filter by parent_data_domain. */
   filter?: string;
+  /** Optional. Page token received from a previous ListDataDomains call. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsDataDomainsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -8454,22 +7843,22 @@ export const GoogleCloudDataplexV1ListDataDomainsResponse = /*@__PURE__*/ S.susp
 export interface ListProjectsLocationsDataDomainsBindingsRequest {
   /** Optional. Order by fields for the result. */
   orderBy?: string;
-  /** Required. The resource name of the parent DataDomain: projects/{project_id_or_number}/locations/{location_id}/dataDomains/{data_domain_id} */
-  parent: string;
-  /** Optional. Filter request. */
-  filter?: string;
   /** Optional. Page token received from a previous ListDataDomainBindings call. */
   pageToken?: string;
+  /** Required. The resource name of the parent DataDomain: projects/{project_id_or_number}/locations/{location_id}/dataDomains/{data_domain_id} */
+  parent: string;
   /** Optional. Maximum number of DataDomainBindings to return. The service may return fewer. If unspecified, at most 50 bindings will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
   pageSize?: number;
+  /** Optional. Filter request. */
+  filter?: string;
 }
 export const ListProjectsLocationsDataDomainsBindingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     orderBy: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -8504,24 +7893,24 @@ export const GoogleCloudDataplexV1ListDataDomainBindingsResponse = /*@__PURE__*/
 }) as any as S.Schema<GoogleCloudDataplexV1ListDataDomainBindingsResponse>;
 
 export interface ListProjectsLocationsDataProductsRequest {
-  /** Optional. Filter expression that filters data products listed in the response.Example of using this filter is: display_name="my-data-product" */
-  filter?: string;
-  /** Optional. Order by expression that orders data products listed in the response.Supported Order by fields are: name or create_time.If not specified, the ordering is undefined.Ordering by create_time is not supported when listing resources across locations (i.e. when request contains /locations/-). */
-  orderBy?: string;
-  /** Required. The parent, which has this collection of data products.Format: projects/{project_id_or_number}/locations/{location_id}.Supports listing across all locations with the wildcard - (hyphen) character. Example: projects/{project_id_or_number}/locations/- */
-  parent: string;
   /** Optional. The maximum number of data products to return. The service may return fewer than this value. If unspecified, at most 50 data products will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
+  /** Optional. Filter expression that filters data products listed in the response.Example of using this filter is: display_name="my-data-product" */
+  filter?: string;
   /** Optional. A page token, received from a previous ListDataProducts call. Provide this to retrieve the subsequent page.When paginating, all other parameters provided to ListDataProducts must match the call that provided the page token. */
   pageToken?: string;
+  /** Required. The parent, which has this collection of data products.Format: projects/{project_id_or_number}/locations/{location_id}.Supports listing across all locations with the wildcard - (hyphen) character. Example: projects/{project_id_or_number}/locations/- */
+  parent: string;
+  /** Optional. Order by expression that orders data products listed in the response.Supported Order by fields are: name or create_time.If not specified, the ordering is undefined.Ordering by create_time is not supported when listing resources across locations (i.e. when request contains /locations/-). */
+  orderBy?: string;
 }
 export const ListProjectsLocationsDataProductsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -8540,42 +7929,42 @@ export const GoogleCloudDataplexV1DataProductList = /*@__PURE__*/ S.Array(
 
 /** Response message for listing data products. */
 export interface GoogleCloudDataplexV1ListDataProductsResponse {
-  /** The data products for the requested filter criteria. */
-  dataProducts?: GoogleCloudDataplexV1DataProductList;
-  /** Unordered list. Locations that the service couldn't reach. */
-  unreachable?: StringList;
   /** A token, which can be sent as page_token to retrieve the next page. If this field is empty, then there are no subsequent pages. */
   nextPageToken?: string;
+  /** Unordered list. Locations that the service couldn't reach. */
+  unreachable?: StringList;
+  /** The data products for the requested filter criteria. */
+  dataProducts?: GoogleCloudDataplexV1DataProductList;
 }
 export const GoogleCloudDataplexV1ListDataProductsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dataProducts: S.optional(GoogleCloudDataplexV1DataProductList),
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
+    dataProducts: S.optional(GoogleCloudDataplexV1DataProductList),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1ListDataProductsResponse",
 }) as any as S.Schema<GoogleCloudDataplexV1ListDataProductsResponse>;
 
 export interface ListProjectsLocationsDataProductsDataAssetsRequest {
-  /** Optional. A page token, received from a previous ListDataAssets call. Provide this to retrieve the subsequent page.When paginating, all other parameters provided to ListDataAssets must match the call that provided the page token. */
-  pageToken?: string;
   /** Optional. The maximum number of data assets to return. The service may return fewer than this value. If unspecified, at most 50 data assets will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
-  /** Required. The parent, which has this collection of data assets. Format: projects/{project_id_or_number}/locations/{location_id}/dataProducts/{data_product_id} */
-  parent: string;
-  /** Optional. Order by expression that orders data assets listed in the response.Supported order_by fields are: name or create_time.If not specified, the ordering is undefined. */
-  orderBy?: string;
   /** Optional. Filter expression that filters data assets listed in the response. */
   filter?: string;
+  /** Optional. A page token, received from a previous ListDataAssets call. Provide this to retrieve the subsequent page.When paginating, all other parameters provided to ListDataAssets must match the call that provided the page token. */
+  pageToken?: string;
+  /** Optional. Order by expression that orders data assets listed in the response.Supported order_by fields are: name or create_time.If not specified, the ordering is undefined. */
+  orderBy?: string;
+  /** Required. The parent, which has this collection of data assets. Format: projects/{project_id_or_number}/locations/{location_id}/dataProducts/{data_product_id} */
+  parent: string;
 }
 export const ListProjectsLocationsDataProductsDataAssetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    orderBy: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -8594,38 +7983,38 @@ export const GoogleCloudDataplexV1DataAssetList = /*@__PURE__*/ S.Array(
 
 /** Response message for listing data assets. */
 export interface GoogleCloudDataplexV1ListDataAssetsResponse {
-  /** The data assets for the requested filter criteria. */
-  dataAssets?: GoogleCloudDataplexV1DataAssetList;
   /** A token, which can be sent as page_token to retrieve the next page. If this field is empty, then there are no subsequent pages. */
   nextPageToken?: string;
+  /** The data assets for the requested filter criteria. */
+  dataAssets?: GoogleCloudDataplexV1DataAssetList;
 }
 export const GoogleCloudDataplexV1ListDataAssetsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dataAssets: S.optional(GoogleCloudDataplexV1DataAssetList),
     nextPageToken: S.optional(S.String),
+    dataAssets: S.optional(GoogleCloudDataplexV1DataAssetList),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1ListDataAssetsResponse",
 }) as any as S.Schema<GoogleCloudDataplexV1ListDataAssetsResponse>;
 
 export interface ListProjectsLocationsDataScansRequest {
-  /** Optional. Maximum number of dataScans to return. The service may return fewer than this value. If unspecified, at most 500 scans will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
-  /** Optional. Page token received from a previous ListDataScans call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListDataScans must match the call that provided the page token. */
-  pageToken?: string;
   /** Optional. Filter request. */
   filter?: string;
+  /** Optional. Maximum number of dataScans to return. The service may return fewer than this value. If unspecified, at most 500 scans will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
   /** Optional. Order by fields (name or create_time) for the result. If not specified, the ordering is undefined. */
   orderBy?: string;
+  /** Optional. Page token received from a previous ListDataScans call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListDataScans must match the call that provided the page token. */
+  pageToken?: string;
   /** Required. The resource name of the parent location: projects/{project}/locations/{location_id} where project refers to a project_id or project_number and location_id refers to a Google Cloud region. */
   parent: string;
 }
 export const ListProjectsLocationsDataScansRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
@@ -8645,38 +8034,38 @@ export const GoogleCloudDataplexV1DataScanList = /*@__PURE__*/ S.Array(
 
 /** List dataScans response. */
 export interface GoogleCloudDataplexV1ListDataScansResponse {
-  /** DataScans (BASIC view only) under the given parent location. */
-  dataScans?: GoogleCloudDataplexV1DataScanList;
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
+  /** DataScans (BASIC view only) under the given parent location. */
+  dataScans?: GoogleCloudDataplexV1DataScanList;
 }
 export const GoogleCloudDataplexV1ListDataScansResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dataScans: S.optional(GoogleCloudDataplexV1DataScanList),
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
+    dataScans: S.optional(GoogleCloudDataplexV1DataScanList),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1ListDataScansResponse",
 }) as any as S.Schema<GoogleCloudDataplexV1ListDataScansResponse>;
 
 export interface ListProjectsLocationsDataScansJobsRequest {
+  /** Optional. Maximum number of DataScanJobs to return. The service may return fewer than this value. If unspecified, at most 10 DataScanJobs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
   /** Optional. Page token received from a previous ListDataScanJobs call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListDataScanJobs must match the call that provided the page token. */
   pageToken?: string;
   /** Required. The resource name of the parent environment: projects/{project}/locations/{location_id}/dataScans/{data_scan_id} where project refers to a project_id or project_number and location_id refers to a Google Cloud region. */
   parent: string;
-  /** Optional. Maximum number of DataScanJobs to return. The service may return fewer than this value. If unspecified, at most 10 DataScanJobs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
   /** Optional. An expression for filtering the results of the ListDataScanJobs request.If unspecified, all datascan jobs will be returned. Multiple filters can be applied (with AND, OR logical operators). Filters are case-sensitive.Allowed fields are: start_time end_timestart_time and end_time expect RFC-3339 formatted strings (e.g. 2018-10-08T18:30:00-07:00).For instance, 'start_time > 2018-10-08T00:00:00.123456789Z AND end_time < 2018-10-09T00:00:00.123456789Z' limits results to DataScanJobs between specified start and end times. */
   filter?: string;
 }
 export const ListProjectsLocationsDataScansJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -8696,147 +8085,39 @@ export const GoogleCloudDataplexV1DataScanJobList = /*@__PURE__*/ S.Array(
 
 /** List DataScanJobs response. */
 export interface GoogleCloudDataplexV1ListDataScanJobsResponse {
-  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
   /** DataScanJobs (BASIC view only) under a given dataScan. */
   dataScanJobs?: GoogleCloudDataplexV1DataScanJobList;
+  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
+  nextPageToken?: string;
 }
 export const GoogleCloudDataplexV1ListDataScanJobsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     dataScanJobs: S.optional(GoogleCloudDataplexV1DataScanJobList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1ListDataScanJobsResponse",
 }) as any as S.Schema<GoogleCloudDataplexV1ListDataScanJobsResponse>;
 
-export interface ListProjectsLocationsDataTaxonomiesRequest {
-  /** Optional. Page token received from a previous ListDataTaxonomies call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListDataTaxonomies must match the call that provided the page token. */
-  pageToken?: string;
-  /** Optional. Maximum number of DataTaxonomies to return. The service may return fewer than this value. If unspecified, at most 10 DataTaxonomies will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
-  /** Required. The resource name of the DataTaxonomy location, of the form: projects/{project_number}/locations/{location_id} where location_id refers to a Google Cloud region. */
-  parent: string;
-  /** Optional. Order by fields for the result. */
-  orderBy?: string;
-  /** Optional. Filter request. */
-  filter?: string;
-}
-export const ListProjectsLocationsDataTaxonomiesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+parent}/dataTaxonomies",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
-  ),
-).annotate({
-  identifier: "ListProjectsLocationsDataTaxonomiesRequest",
-}) as any as S.Schema<ListProjectsLocationsDataTaxonomiesRequest>;
-
-export type GoogleCloudDataplexV1DataTaxonomyList = Array<GoogleCloudDataplexV1DataTaxonomy>;
-export const GoogleCloudDataplexV1DataTaxonomyList = /*@__PURE__*/ S.Array(
-  GoogleCloudDataplexV1DataTaxonomy,
-) as any as S.Schema<GoogleCloudDataplexV1DataTaxonomyList>;
-
-/** List DataTaxonomies response. */
-export interface GoogleCloudDataplexV1ListDataTaxonomiesResponse {
-  /** Locations that could not be reached. */
-  unreachableLocations?: StringList;
-  /** DataTaxonomies under the given parent location. */
-  dataTaxonomies?: GoogleCloudDataplexV1DataTaxonomyList;
-  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
-}
-export const GoogleCloudDataplexV1ListDataTaxonomiesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    unreachableLocations: S.optional(StringList),
-    dataTaxonomies: S.optional(GoogleCloudDataplexV1DataTaxonomyList),
-    nextPageToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1ListDataTaxonomiesResponse",
-}) as any as S.Schema<GoogleCloudDataplexV1ListDataTaxonomiesResponse>;
-
-export interface ListProjectsLocationsDataTaxonomiesAttributesRequest {
-  /** Optional. Order by fields for the result. */
-  orderBy?: string;
-  /** Required. The resource name of the DataTaxonomy: projects/{project_number}/locations/{location_id}/dataTaxonomies/{data_taxonomy_id} */
-  parent: string;
-  /** Optional. Filter request. */
-  filter?: string;
-  /** Optional. Page token received from a previous ListDataAttributes call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListDataAttributes must match the call that provided the page token. */
-  pageToken?: string;
-  /** Optional. Maximum number of DataAttributes to return. The service may return fewer than this value. If unspecified, at most 10 dataAttributes will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
-}
-export const ListProjectsLocationsDataTaxonomiesAttributesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+parent}/attributes",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
-  ),
-).annotate({
-  identifier: "ListProjectsLocationsDataTaxonomiesAttributesRequest",
-}) as any as S.Schema<ListProjectsLocationsDataTaxonomiesAttributesRequest>;
-
-export type GoogleCloudDataplexV1DataAttributeList = Array<GoogleCloudDataplexV1DataAttribute>;
-export const GoogleCloudDataplexV1DataAttributeList = /*@__PURE__*/ S.Array(
-  GoogleCloudDataplexV1DataAttribute,
-) as any as S.Schema<GoogleCloudDataplexV1DataAttributeList>;
-
-/** List DataAttributes response. */
-export interface GoogleCloudDataplexV1ListDataAttributesResponse {
-  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
-  /** DataAttributes under the given parent DataTaxonomy. */
-  dataAttributes?: GoogleCloudDataplexV1DataAttributeList;
-  /** Locations that could not be reached. */
-  unreachableLocations?: StringList;
-}
-export const GoogleCloudDataplexV1ListDataAttributesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextPageToken: S.optional(S.String),
-    dataAttributes: S.optional(GoogleCloudDataplexV1DataAttributeList),
-    unreachableLocations: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1ListDataAttributesResponse",
-}) as any as S.Schema<GoogleCloudDataplexV1ListDataAttributesResponse>;
-
 export interface ListProjectsLocationsEntryGroupsRequest {
-  /** Optional. Filter request. */
-  filter?: string;
-  /** Required. The resource name of the entryGroup location, of the form: projects/{project_number}/locations/{location_id} where location_id refers to a Google Cloud region. */
-  parent: string;
-  /** Optional. Order by fields for the result. */
-  orderBy?: string;
-  /** Optional. Maximum number of EntryGroups to return. The service may return fewer than this value. If unspecified, the service returns at most 10 EntryGroups. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
   /** Optional. Page token received from a previous ListEntryGroups call. Provide this to retrieve the subsequent page. When paginating, all other parameters you provide to ListEntryGroups must match the call that provided the page token. */
   pageToken?: string;
+  /** Optional. Filter request. */
+  filter?: string;
+  /** Optional. Maximum number of EntryGroups to return. The service may return fewer than this value. If unspecified, the service returns at most 10 EntryGroups. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
+  /** Optional. Order by fields for the result. */
+  orderBy?: string;
+  /** Required. The resource name of the entryGroup location, of the form: projects/{project_number}/locations/{location_id} where location_id refers to a Google Cloud region. */
+  parent: string;
 }
 export const ListProjectsLocationsEntryGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -8855,38 +8136,38 @@ export const GoogleCloudDataplexV1EntryGroupList = /*@__PURE__*/ S.Array(
 
 /** List entry groups response. */
 export interface GoogleCloudDataplexV1ListEntryGroupsResponse {
-  /** Entry groups under the given parent location. */
-  entryGroups?: GoogleCloudDataplexV1EntryGroupList;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string;
   /** Locations that the service couldn't reach. */
   unreachableLocations?: StringList;
+  /** Entry groups under the given parent location. */
+  entryGroups?: GoogleCloudDataplexV1EntryGroupList;
 }
 export const GoogleCloudDataplexV1ListEntryGroupsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entryGroups: S.optional(GoogleCloudDataplexV1EntryGroupList),
     nextPageToken: S.optional(S.String),
     unreachableLocations: S.optional(StringList),
+    entryGroups: S.optional(GoogleCloudDataplexV1EntryGroupList),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1ListEntryGroupsResponse",
 }) as any as S.Schema<GoogleCloudDataplexV1ListEntryGroupsResponse>;
 
 export interface ListProjectsLocationsEntryGroupsEntriesRequest {
-  /** Required. The resource name of the parent Entry Group: projects/{project}/locations/{location}/entryGroups/{entry_group}. */
-  parent: string;
-  /** Optional. Page token received from a previous ListEntries call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
   /** Optional. Number of items to return per page. If there are remaining results, the service returns a next_page_token. If unspecified, the service returns at most 10 Entries. The maximum value is 100; values above 100 will be coerced to 100. */
   pageSize?: number;
+  /** Optional. Page token received from a previous ListEntries call. Provide this to retrieve the subsequent page. */
+  pageToken?: string;
+  /** Required. The resource name of the parent Entry Group: projects/{project}/locations/{location}/entryGroups/{entry_group}. */
+  parent: string;
   /** Optional. A filter on the entries to return. Filters are case-sensitive. You can filter the request by the following fields: entry_type entry_source.display_name parent_entryThe comparison operators are =, !=, <, >, <=, >=. The service compares strings according to lexical order.You can use the logical operators AND, OR, NOT in the filter.You can use Wildcard "*", but for entry_type and parent_entry you need to provide the full project id or number.You cannot use parent_entry in conjunction with other fields.Example filter expressions: "entry_source.display_name=AnExampleDisplayName" "entry_type=projects/example-project/locations/global/entryTypes/example-entry_type" "entry_type=projects/example-project/locations/us/entryTypes/a* OR entry_type=projects/another-project/locations/*" "NOT entry_source.display_name=AnotherExampleDisplayName" "parent_entry=projects/example-project/locations/us/entryGroups/example-entry-group/entries/example-entry" */
   filter?: string;
 }
 export const ListProjectsLocationsEntryGroupsEntriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -8921,24 +8202,24 @@ export const GoogleCloudDataplexV1ListEntriesResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<GoogleCloudDataplexV1ListEntriesResponse>;
 
 export interface ListProjectsLocationsEntryTypesRequest {
-  /** Optional. Page token received from a previous ListEntryTypes call. Provide this to retrieve the subsequent page. When paginating, all other parameters you provided to ListEntryTypes must match the call that provided the page token. */
-  pageToken?: string;
-  /** Optional. Maximum number of EntryTypes to return. The service may return fewer than this value. If unspecified, the service returns at most 10 EntryTypes. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
-  /** Optional. Orders the result by name or create_time fields. If not specified, the ordering is undefined. */
-  orderBy?: string;
   /** Required. The resource name of the EntryType location, of the form: projects/{project_number}/locations/{location_id} where location_id refers to a Google Cloud region. */
   parent: string;
   /** Optional. Filter request. Filters are case-sensitive. The service supports the following formats: labels.key1 = "value1" labels:key1 name = "value"These restrictions can be conjoined with AND, OR, and NOT conjunctions. */
   filter?: string;
+  /** Optional. Orders the result by name or create_time fields. If not specified, the ordering is undefined. */
+  orderBy?: string;
+  /** Optional. Maximum number of EntryTypes to return. The service may return fewer than this value. If unspecified, the service returns at most 10 EntryTypes. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
+  /** Optional. Page token received from a previous ListEntryTypes call. Provide this to retrieve the subsequent page. When paginating, all other parameters you provided to ListEntryTypes must match the call that provided the page token. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsEntryTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -8957,42 +8238,42 @@ export const GoogleCloudDataplexV1EntryTypeList = /*@__PURE__*/ S.Array(
 
 /** List EntryTypes response. */
 export interface GoogleCloudDataplexV1ListEntryTypesResponse {
+  /** Locations that the service couldn't reach. */
+  unreachableLocations?: StringList;
   /** EntryTypes under the given parent location. */
   entryTypes?: GoogleCloudDataplexV1EntryTypeList;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string;
-  /** Locations that the service couldn't reach. */
-  unreachableLocations?: StringList;
 }
 export const GoogleCloudDataplexV1ListEntryTypesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    unreachableLocations: S.optional(StringList),
     entryTypes: S.optional(GoogleCloudDataplexV1EntryTypeList),
     nextPageToken: S.optional(S.String),
-    unreachableLocations: S.optional(StringList),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1ListEntryTypesResponse",
 }) as any as S.Schema<GoogleCloudDataplexV1ListEntryTypesResponse>;
 
 export interface ListProjectsLocationsGlossariesRequest {
-  /** Optional. The maximum number of Glossaries to return. The service may return fewer than this value. If unspecified, at most 50 Glossaries will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
-  /** Optional. A page token, received from a previous ListGlossaries call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListGlossaries must match the call that provided the page token. */
-  pageToken?: string;
-  /** Optional. Filter expression that filters Glossaries listed in the response. Filters on proto fields of Glossary are supported. Examples of using a filter are: - display_name="my-glossary" - categoryCount=1 - termCount=0 */
-  filter?: string;
   /** Optional. Order by expression that orders Glossaries listed in the response. Order by fields are: name or create_time for the result. If not specified, the ordering is undefined. */
   orderBy?: string;
   /** Required. The parent, which has this collection of Glossaries. Format: projects/{project_id_or_number}/locations/{location_id} where location_id refers to a Google Cloud region. */
   parent: string;
+  /** Optional. Filter expression that filters Glossaries listed in the response. Filters on proto fields of Glossary are supported. Examples of using a filter are: - display_name="my-glossary" - categoryCount=1 - termCount=0 */
+  filter?: string;
+  /** Optional. A page token, received from a previous ListGlossaries call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListGlossaries must match the call that provided the page token. */
+  pageToken?: string;
+  /** Optional. The maximum number of Glossaries to return. The service may return fewer than this value. If unspecified, at most 50 Glossaries will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsGlossariesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -9029,24 +8310,24 @@ export const GoogleCloudDataplexV1ListGlossariesResponse = /*@__PURE__*/ S.suspe
 }) as any as S.Schema<GoogleCloudDataplexV1ListGlossariesResponse>;
 
 export interface ListProjectsLocationsGlossariesCategoriesRequest {
+  /** Optional. A page token, received from a previous ListGlossaryCategories call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListGlossaryCategories must match the call that provided the page token. */
+  pageToken?: string;
+  /** Optional. The maximum number of GlossaryCategories to return. The service may return fewer than this value. If unspecified, at most 50 GlossaryCategories will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
   /** Optional. Filter expression that filters GlossaryCategories listed in the response. Filters are supported on the following fields: - immediate_parentExamples of using a filter are: - immediate_parent="projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}" - immediate_parent="projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/categories/{category_id}"This will only return the GlossaryCategories that are directly nested under the specified parent. */
   filter?: string;
   /** Optional. Order by expression that orders GlossaryCategories listed in the response. Order by fields are: name or create_time for the result. If not specified, the ordering is undefined. */
   orderBy?: string;
   /** Required. The parent, which has this collection of GlossaryCategories. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} Location is the Google Cloud region. */
   parent: string;
-  /** Optional. The maximum number of GlossaryCategories to return. The service may return fewer than this value. If unspecified, at most 50 GlossaryCategories will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
-  /** Optional. A page token, received from a previous ListGlossaryCategories call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListGlossaryCategories must match the call that provided the page token. */
-  pageToken?: string;
 }
 export const ListProjectsLocationsGlossariesCategoriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -9066,17 +8347,17 @@ export const GoogleCloudDataplexV1GlossaryCategoryList = /*@__PURE__*/ S.Array(
 
 /** List GlossaryCategories Response */
 export interface GoogleCloudDataplexV1ListGlossaryCategoriesResponse {
-  /** Lists the GlossaryCategories in the specified parent. */
-  categories?: GoogleCloudDataplexV1GlossaryCategoryList;
   /** Locations that the service couldn't reach. */
   unreachableLocations?: StringList;
+  /** Lists the GlossaryCategories in the specified parent. */
+  categories?: GoogleCloudDataplexV1GlossaryCategoryList;
   /** A token, which can be sent as page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
 }
 export const GoogleCloudDataplexV1ListGlossaryCategoriesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    categories: S.optional(GoogleCloudDataplexV1GlossaryCategoryList),
     unreachableLocations: S.optional(StringList),
+    categories: S.optional(GoogleCloudDataplexV1GlossaryCategoryList),
     nextPageToken: S.optional(S.String),
   }),
 ).annotate({
@@ -9084,24 +8365,24 @@ export const GoogleCloudDataplexV1ListGlossaryCategoriesResponse = /*@__PURE__*/
 }) as any as S.Schema<GoogleCloudDataplexV1ListGlossaryCategoriesResponse>;
 
 export interface ListProjectsLocationsGlossariesTermsRequest {
-  /** Optional. A page token, received from a previous ListGlossaryTerms call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListGlossaryTerms must match the call that provided the page token. */
-  pageToken?: string;
-  /** Optional. The maximum number of GlossaryTerms to return. The service may return fewer than this value. If unspecified, at most 50 GlossaryTerms will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
-  /** Required. The parent, which has this collection of GlossaryTerms. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} where location_id refers to a Google Cloud region. */
-  parent: string;
-  /** Optional. Order by expression that orders GlossaryTerms listed in the response. Order by fields are: name or create_time for the result. If not specified, the ordering is undefined. */
-  orderBy?: string;
   /** Optional. Filter expression that filters GlossaryTerms listed in the response. Filters are supported on the following fields: - immediate_parentExamples of using a filter are: - immediate_parent="projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}" - immediate_parent="projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/categories/{category_id}"This will only return the GlossaryTerms that are directly nested under the specified parent. */
   filter?: string;
+  /** Optional. Order by expression that orders GlossaryTerms listed in the response. Order by fields are: name or create_time for the result. If not specified, the ordering is undefined. */
+  orderBy?: string;
+  /** Optional. A page token, received from a previous ListGlossaryTerms call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListGlossaryTerms must match the call that provided the page token. */
+  pageToken?: string;
+  /** Required. The parent, which has this collection of GlossaryTerms. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id} where location_id refers to a Google Cloud region. */
+  parent: string;
+  /** Optional. The maximum number of GlossaryTerms to return. The service may return fewer than this value. If unspecified, at most 50 GlossaryTerms will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsGlossariesTermsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    orderBy: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -9120,41 +8401,41 @@ export const GoogleCloudDataplexV1GlossaryTermList = /*@__PURE__*/ S.Array(
 
 /** List GlossaryTerms Response */
 export interface GoogleCloudDataplexV1ListGlossaryTermsResponse {
-  /** Lists the GlossaryTerms in the specified parent. */
-  terms?: GoogleCloudDataplexV1GlossaryTermList;
   /** Locations that the service couldn't reach. */
   unreachableLocations?: StringList;
   /** A token, which can be sent as page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** Lists the GlossaryTerms in the specified parent. */
+  terms?: GoogleCloudDataplexV1GlossaryTermList;
 }
 export const GoogleCloudDataplexV1ListGlossaryTermsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    terms: S.optional(GoogleCloudDataplexV1GlossaryTermList),
     unreachableLocations: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    terms: S.optional(GoogleCloudDataplexV1GlossaryTermList),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1ListGlossaryTermsResponse",
 }) as any as S.Schema<GoogleCloudDataplexV1ListGlossaryTermsResponse>;
 
 export interface ListProjectsLocationsLakesRequest {
-  /** Optional. Page token received from a previous ListLakes call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListLakes must match the call that provided the page token. */
-  pageToken?: string;
-  /** Optional. Maximum number of Lakes to return. The service may return fewer than this value. If unspecified, at most 10 lakes will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
   /** Required. The resource name of the lake location, of the form: projects/{project_number}/locations/{location_id} where location_id refers to a Google Cloud region. */
   parent: string;
   /** Optional. Order by fields for the result. */
   orderBy?: string;
+  /** Optional. Maximum number of Lakes to return. The service may return fewer than this value. If unspecified, at most 10 lakes will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
+  /** Optional. Page token received from a previous ListLakes call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListLakes must match the call that provided the page token. */
+  pageToken?: string;
   /** Optional. Filter request. */
   filter?: string;
 }
 export const ListProjectsLocationsLakesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -9174,36 +8455,36 @@ export const GoogleCloudDataplexV1LakeList = /*@__PURE__*/ S.Array(
 
 /** List lakes response. */
 export interface GoogleCloudDataplexV1ListLakesResponse {
-  /** Locations that could not be reached. */
-  unreachableLocations?: StringList;
   /** Lakes under the given parent location. */
   lakes?: GoogleCloudDataplexV1LakeList;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachableLocations?: StringList;
 }
 export const GoogleCloudDataplexV1ListLakesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachableLocations: S.optional(StringList),
     lakes: S.optional(GoogleCloudDataplexV1LakeList),
     nextPageToken: S.optional(S.String),
+    unreachableLocations: S.optional(StringList),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1ListLakesResponse",
 }) as any as S.Schema<GoogleCloudDataplexV1ListLakesResponse>;
 
 export interface ListProjectsLocationsLakesActionsRequest {
+  /** Optional. Maximum number of actions to return. The service may return fewer than this value. If unspecified, at most 10 actions will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
   /** Required. The resource name of the parent lake: projects/{project_number}/locations/{location_id}/lakes/{lake_id}. */
   parent: string;
   /** Optional. Page token received from a previous ListLakeActions call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListLakeActions must match the call that provided the page token. */
   pageToken?: string;
-  /** Optional. Maximum number of actions to return. The service may return fewer than this value. If unspecified, at most 10 actions will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
 }
 export const ListProjectsLocationsLakesActionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -9215,55 +8496,13 @@ export const ListProjectsLocationsLakesActionsRequest = /*@__PURE__*/ S.suspend(
   identifier: "ListProjectsLocationsLakesActionsRequest",
 }) as any as S.Schema<ListProjectsLocationsLakesActionsRequest>;
 
-/** Action details for invalid or unsupported data files detected by discovery. */
-export interface GoogleCloudDataplexV1ActionInvalidDataFormat {
-  /** The list of data locations sampled and used for format/schema inference. */
-  sampledDataLocations?: StringList;
-  /** The expected data format of the entity. */
-  expectedFormat?: string;
-  /** The new unexpected data format within the entity. */
-  newFormat?: string;
-}
-export const GoogleCloudDataplexV1ActionInvalidDataFormat = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sampledDataLocations: S.optional(StringList),
-    expectedFormat: S.optional(S.String),
-    newFormat: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1ActionInvalidDataFormat",
-}) as any as S.Schema<GoogleCloudDataplexV1ActionInvalidDataFormat>;
+/** Action details for absence of data detected by discovery. */
+export type GoogleCloudDataplexV1ActionMissingData = GoogleLongrunningCancelOperationRequest;
+export const GoogleCloudDataplexV1ActionMissingData = GoogleLongrunningCancelOperationRequest;
 
-export type GoogleCloudDataplexV1ActionIncompatibleDataSchemaSchemaChangeEnum =
-  | "SCHEMA_CHANGE_UNSPECIFIED"
-  | "INCOMPATIBLE"
-  | "MODIFIED";
-export const GoogleCloudDataplexV1ActionIncompatibleDataSchemaSchemaChangeEnum = S.String;
-
-/** Action details for incompatible schemas detected by discovery. */
-export interface GoogleCloudDataplexV1ActionIncompatibleDataSchema {
-  /** The name of the table containing invalid data. */
-  table?: string;
-  /** The new and incompatible schema within the table. The schema is provided as a JSON formatted structured listing columns and data types. */
-  newSchema?: string;
-  /** Whether the action relates to a schema that is incompatible or modified. */
-  schemaChange?: GoogleCloudDataplexV1ActionIncompatibleDataSchemaSchemaChangeEnum;
-  /** The existing and expected schema of the table. The schema is provided as a JSON formatted structure listing columns and data types. */
-  existingSchema?: string;
-  /** The list of data locations sampled and used for format/schema inference. */
-  sampledDataLocations?: StringList;
-}
-export const GoogleCloudDataplexV1ActionIncompatibleDataSchema = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    table: S.optional(S.String),
-    newSchema: S.optional(S.String),
-    schemaChange: S.optional(GoogleCloudDataplexV1ActionIncompatibleDataSchemaSchemaChangeEnum),
-    existingSchema: S.optional(S.String),
-    sampledDataLocations: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "GoogleCloudDataplexV1ActionIncompatibleDataSchema",
-}) as any as S.Schema<GoogleCloudDataplexV1ActionIncompatibleDataSchema>;
+/** Action details for resource references in assets that cannot be located. */
+export type GoogleCloudDataplexV1ActionMissingResource = GoogleLongrunningCancelOperationRequest;
+export const GoogleCloudDataplexV1ActionMissingResource = GoogleLongrunningCancelOperationRequest;
 
 export type GoogleCloudDataplexV1ActionInvalidDataPartitionExpectedStructureEnum =
   | "PARTITION_STRUCTURE_UNSPECIFIED"
@@ -9293,9 +8532,67 @@ export type GoogleCloudDataplexV1ActionCategoryEnum =
   | "DATA_DISCOVERY";
 export const GoogleCloudDataplexV1ActionCategoryEnum = S.String;
 
-/** Action details for absence of data detected by discovery. */
-export type GoogleCloudDataplexV1ActionMissingData = GoogleLongrunningCancelOperationRequest;
-export const GoogleCloudDataplexV1ActionMissingData = GoogleLongrunningCancelOperationRequest;
+/** Action details for invalid data arrangement. */
+export type GoogleCloudDataplexV1ActionInvalidDataOrganization =
+  GoogleLongrunningCancelOperationRequest;
+export const GoogleCloudDataplexV1ActionInvalidDataOrganization =
+  GoogleLongrunningCancelOperationRequest;
+
+export type GoogleCloudDataplexV1ActionIncompatibleDataSchemaSchemaChangeEnum =
+  | "SCHEMA_CHANGE_UNSPECIFIED"
+  | "INCOMPATIBLE"
+  | "MODIFIED";
+export const GoogleCloudDataplexV1ActionIncompatibleDataSchemaSchemaChangeEnum = S.String;
+
+/** Action details for incompatible schemas detected by discovery. */
+export interface GoogleCloudDataplexV1ActionIncompatibleDataSchema {
+  /** The list of data locations sampled and used for format/schema inference. */
+  sampledDataLocations?: StringList;
+  /** The existing and expected schema of the table. The schema is provided as a JSON formatted structure listing columns and data types. */
+  existingSchema?: string;
+  /** The name of the table containing invalid data. */
+  table?: string;
+  /** The new and incompatible schema within the table. The schema is provided as a JSON formatted structured listing columns and data types. */
+  newSchema?: string;
+  /** Whether the action relates to a schema that is incompatible or modified. */
+  schemaChange?: GoogleCloudDataplexV1ActionIncompatibleDataSchemaSchemaChangeEnum;
+}
+export const GoogleCloudDataplexV1ActionIncompatibleDataSchema = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sampledDataLocations: S.optional(StringList),
+    existingSchema: S.optional(S.String),
+    table: S.optional(S.String),
+    newSchema: S.optional(S.String),
+    schemaChange: S.optional(GoogleCloudDataplexV1ActionIncompatibleDataSchemaSchemaChangeEnum),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1ActionIncompatibleDataSchema",
+}) as any as S.Schema<GoogleCloudDataplexV1ActionIncompatibleDataSchema>;
+
+/** Action details for unauthorized resource issues raised to indicate that the service account associated with the lake instance is not authorized to access or manage the resource associated with an asset. */
+export type GoogleCloudDataplexV1ActionUnauthorizedResource =
+  GoogleLongrunningCancelOperationRequest;
+export const GoogleCloudDataplexV1ActionUnauthorizedResource =
+  GoogleLongrunningCancelOperationRequest;
+
+/** Action details for invalid or unsupported data files detected by discovery. */
+export interface GoogleCloudDataplexV1ActionInvalidDataFormat {
+  /** The new unexpected data format within the entity. */
+  newFormat?: string;
+  /** The list of data locations sampled and used for format/schema inference. */
+  sampledDataLocations?: StringList;
+  /** The expected data format of the entity. */
+  expectedFormat?: string;
+}
+export const GoogleCloudDataplexV1ActionInvalidDataFormat = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    newFormat: S.optional(S.String),
+    sampledDataLocations: S.optional(StringList),
+    expectedFormat: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudDataplexV1ActionInvalidDataFormat",
+}) as any as S.Schema<GoogleCloudDataplexV1ActionInvalidDataFormat>;
 
 /** Failed to apply security policy to the managed resource(s) under a lake, zone or an asset. For a lake or zone resource, one or more underlying assets has a failure applying security policy to the associated managed resource. */
 export interface GoogleCloudDataplexV1ActionFailedSecurityPolicyApply {
@@ -9310,75 +8607,59 @@ export const GoogleCloudDataplexV1ActionFailedSecurityPolicyApply = /*@__PURE__*
   identifier: "GoogleCloudDataplexV1ActionFailedSecurityPolicyApply",
 }) as any as S.Schema<GoogleCloudDataplexV1ActionFailedSecurityPolicyApply>;
 
-/** Action details for invalid data arrangement. */
-export type GoogleCloudDataplexV1ActionInvalidDataOrganization =
-  GoogleLongrunningCancelOperationRequest;
-export const GoogleCloudDataplexV1ActionInvalidDataOrganization =
-  GoogleLongrunningCancelOperationRequest;
-
-/** Action details for unauthorized resource issues raised to indicate that the service account associated with the lake instance is not authorized to access or manage the resource associated with an asset. */
-export type GoogleCloudDataplexV1ActionUnauthorizedResource =
-  GoogleLongrunningCancelOperationRequest;
-export const GoogleCloudDataplexV1ActionUnauthorizedResource =
-  GoogleLongrunningCancelOperationRequest;
-
-/** Action details for resource references in assets that cannot be located. */
-export type GoogleCloudDataplexV1ActionMissingResource = GoogleLongrunningCancelOperationRequest;
-export const GoogleCloudDataplexV1ActionMissingResource = GoogleLongrunningCancelOperationRequest;
-
 /** Action represents an issue requiring administrator action for resolution. */
 export interface GoogleCloudDataplexV1Action {
-  /** Details for issues related to invalid or unsupported data formats. */
-  invalidDataFormat?: GoogleCloudDataplexV1ActionInvalidDataFormat;
-  /** Output only. The relative resource name of the lake, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}. */
-  lake?: string;
-  /** Details for issues related to incompatible schemas detected within data. */
-  incompatibleDataSchema?: GoogleCloudDataplexV1ActionIncompatibleDataSchema;
-  /** Details for issues related to invalid or unsupported data partition structure. */
-  invalidDataPartition?: GoogleCloudDataplexV1ActionInvalidDataPartition;
-  /** The category of issue associated with the action. */
-  category?: GoogleCloudDataplexV1ActionCategoryEnum;
+  /** Details for issues related to absence of data within managed resources. */
+  missingData?: GoogleLongrunningCancelOperationRequest;
+  /** Details for issues related to absence of a managed resource. */
+  missingResource?: GoogleLongrunningCancelOperationRequest;
   /** Detailed description of the issue requiring action. */
   issue?: string;
   /** The time that the issue was detected. */
   detectTime?: string;
   /** Output only. The relative resource name of the zone, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}. */
   zone?: string;
-  /** Output only. The relative resource name of the asset, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/assets/{asset_id}. */
-  asset?: string;
-  /** Details for issues related to absence of data within managed resources. */
-  missingData?: GoogleLongrunningCancelOperationRequest;
-  /** Details for issues related to applying security policy. */
-  failedSecurityPolicyApply?: GoogleCloudDataplexV1ActionFailedSecurityPolicyApply;
-  /** The list of data locations associated with this action. Cloud Storage locations are represented as URI paths(E.g. gs://bucket/table1/year=2020/month=Jan/). BigQuery locations refer to resource names(E.g. bigquery.googleapis.com/projects/project-id/datasets/dataset-id). */
-  dataLocations?: StringList;
+  /** Details for issues related to invalid or unsupported data partition structure. */
+  invalidDataPartition?: GoogleCloudDataplexV1ActionInvalidDataPartition;
+  /** The category of issue associated with the action. */
+  category?: GoogleCloudDataplexV1ActionCategoryEnum;
   /** Details for issues related to invalid data arrangement. */
   invalidDataOrganization?: GoogleLongrunningCancelOperationRequest;
-  /** Output only. The relative resource name of the action, of the form: projects/{project}/locations/{location}/lakes/{lake}/actions/{action} projects/{project}/locations/{location}/lakes/{lake}/zones/{zone}/actions/{action} projects/{project}/locations/{location}/lakes/{lake}/zones/{zone}/assets/{asset}/actions/{action}. */
-  name?: string;
+  /** Details for issues related to incompatible schemas detected within data. */
+  incompatibleDataSchema?: GoogleCloudDataplexV1ActionIncompatibleDataSchema;
   /** Details for issues related to lack of permissions to access data resources. */
   unauthorizedResource?: GoogleLongrunningCancelOperationRequest;
-  /** Details for issues related to absence of a managed resource. */
-  missingResource?: GoogleLongrunningCancelOperationRequest;
+  /** Output only. The relative resource name of the action, of the form: projects/{project}/locations/{location}/lakes/{lake}/actions/{action} projects/{project}/locations/{location}/lakes/{lake}/zones/{zone}/actions/{action} projects/{project}/locations/{location}/lakes/{lake}/zones/{zone}/assets/{asset}/actions/{action}. */
+  name?: string;
+  /** The list of data locations associated with this action. Cloud Storage locations are represented as URI paths(E.g. gs://bucket/table1/year=2020/month=Jan/). BigQuery locations refer to resource names(E.g. bigquery.googleapis.com/projects/project-id/datasets/dataset-id). */
+  dataLocations?: StringList;
+  /** Output only. The relative resource name of the asset, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/assets/{asset_id}. */
+  asset?: string;
+  /** Details for issues related to invalid or unsupported data formats. */
+  invalidDataFormat?: GoogleCloudDataplexV1ActionInvalidDataFormat;
+  /** Details for issues related to applying security policy. */
+  failedSecurityPolicyApply?: GoogleCloudDataplexV1ActionFailedSecurityPolicyApply;
+  /** Output only. The relative resource name of the lake, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}. */
+  lake?: string;
 }
 export const GoogleCloudDataplexV1Action = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    invalidDataFormat: S.optional(GoogleCloudDataplexV1ActionInvalidDataFormat),
-    lake: S.optional(S.String),
-    incompatibleDataSchema: S.optional(GoogleCloudDataplexV1ActionIncompatibleDataSchema),
-    invalidDataPartition: S.optional(GoogleCloudDataplexV1ActionInvalidDataPartition),
-    category: S.optional(GoogleCloudDataplexV1ActionCategoryEnum),
+    missingData: S.optional(GoogleLongrunningCancelOperationRequest),
+    missingResource: S.optional(GoogleLongrunningCancelOperationRequest),
     issue: S.optional(S.String),
     detectTime: S.optional(S.String),
     zone: S.optional(S.String),
-    asset: S.optional(S.String),
-    missingData: S.optional(GoogleLongrunningCancelOperationRequest),
-    failedSecurityPolicyApply: S.optional(GoogleCloudDataplexV1ActionFailedSecurityPolicyApply),
-    dataLocations: S.optional(StringList),
+    invalidDataPartition: S.optional(GoogleCloudDataplexV1ActionInvalidDataPartition),
+    category: S.optional(GoogleCloudDataplexV1ActionCategoryEnum),
     invalidDataOrganization: S.optional(GoogleLongrunningCancelOperationRequest),
-    name: S.optional(S.String),
+    incompatibleDataSchema: S.optional(GoogleCloudDataplexV1ActionIncompatibleDataSchema),
     unauthorizedResource: S.optional(GoogleLongrunningCancelOperationRequest),
-    missingResource: S.optional(GoogleLongrunningCancelOperationRequest),
+    name: S.optional(S.String),
+    dataLocations: S.optional(StringList),
+    asset: S.optional(S.String),
+    invalidDataFormat: S.optional(GoogleCloudDataplexV1ActionInvalidDataFormat),
+    failedSecurityPolicyApply: S.optional(GoogleCloudDataplexV1ActionFailedSecurityPolicyApply),
+    lake: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1Action",
@@ -9391,39 +8672,39 @@ export const GoogleCloudDataplexV1ActionList = /*@__PURE__*/ S.Array(
 
 /** List actions response. */
 export interface GoogleCloudDataplexV1ListActionsResponse {
-  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
   /** Actions under the given parent lake/zone/asset. */
   actions?: GoogleCloudDataplexV1ActionList;
+  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
+  nextPageToken?: string;
 }
 export const GoogleCloudDataplexV1ListActionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     actions: S.optional(GoogleCloudDataplexV1ActionList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1ListActionsResponse",
 }) as any as S.Schema<GoogleCloudDataplexV1ListActionsResponse>;
 
 export interface ListProjectsLocationsLakesTasksRequest {
-  /** Optional. Order by fields for the result. */
-  orderBy?: string;
-  /** Required. The resource name of the parent lake: projects/{project_number}/locations/{location_id}/lakes/{lake_id}. */
-  parent: string;
-  /** Optional. Filter request. */
-  filter?: string;
-  /** Optional. Page token received from a previous ListZones call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListZones must match the call that provided the page token. */
-  pageToken?: string;
   /** Optional. Maximum number of tasks to return. The service may return fewer than this value. If unspecified, at most 10 tasks will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
+  /** Optional. Page token received from a previous ListZones call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListZones must match the call that provided the page token. */
+  pageToken?: string;
+  /** Optional. Filter request. */
+  filter?: string;
+  /** Required. The resource name of the parent lake: projects/{project_number}/locations/{location_id}/lakes/{lake_id}. */
+  parent: string;
+  /** Optional. Order by fields for the result. */
+  orderBy?: string;
 }
 export const ListProjectsLocationsLakesTasksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -9442,36 +8723,36 @@ export const GoogleCloudDataplexV1TaskList = /*@__PURE__*/ S.Array(
 
 /** List tasks response. */
 export interface GoogleCloudDataplexV1ListTasksResponse {
-  /** Locations that could not be reached. */
-  unreachableLocations?: StringList;
   /** Tasks under the given parent lake. */
   tasks?: GoogleCloudDataplexV1TaskList;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachableLocations?: StringList;
 }
 export const GoogleCloudDataplexV1ListTasksResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachableLocations: S.optional(StringList),
     tasks: S.optional(GoogleCloudDataplexV1TaskList),
     nextPageToken: S.optional(S.String),
+    unreachableLocations: S.optional(StringList),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1ListTasksResponse",
 }) as any as S.Schema<GoogleCloudDataplexV1ListTasksResponse>;
 
 export interface ListProjectsLocationsLakesTasksJobsRequest {
+  /** Optional. Maximum number of jobs to return. The service may return fewer than this value. If unspecified, at most 10 jobs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
   /** Required. The resource name of the parent environment: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/tasks/{task_id}. */
   parent: string;
   /** Optional. Page token received from a previous ListJobs call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListJobs must match the call that provided the page token. */
   pageToken?: string;
-  /** Optional. Maximum number of jobs to return. The service may return fewer than this value. If unspecified, at most 10 jobs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
 }
 export const ListProjectsLocationsLakesTasksJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -9505,24 +8786,24 @@ export const GoogleCloudDataplexV1ListJobsResponse = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<GoogleCloudDataplexV1ListJobsResponse>;
 
 export interface ListProjectsLocationsLakesZonesRequest {
-  /** Optional. Maximum number of zones to return. The service may return fewer than this value. If unspecified, at most 10 zones will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
-  /** Optional. Page token received from a previous ListZones call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListZones must match the call that provided the page token. */
-  pageToken?: string;
   /** Optional. Filter request. */
   filter?: string;
-  /** Required. The resource name of the parent lake: projects/{project_number}/locations/{location_id}/lakes/{lake_id}. */
-  parent: string;
+  /** Optional. Page token received from a previous ListZones call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListZones must match the call that provided the page token. */
+  pageToken?: string;
   /** Optional. Order by fields for the result. */
   orderBy?: string;
+  /** Optional. Maximum number of zones to return. The service may return fewer than this value. If unspecified, at most 10 zones will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
+  /** Required. The resource name of the parent lake: projects/{project_number}/locations/{location_id}/lakes/{lake_id}. */
+  parent: string;
 }
 export const ListProjectsLocationsLakesZonesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -9558,16 +8839,16 @@ export const GoogleCloudDataplexV1ListZonesResponse = /*@__PURE__*/ S.suspend(()
 export interface ListProjectsLocationsLakesZonesActionsRequest {
   /** Optional. Maximum number of actions to return. The service may return fewer than this value. If unspecified, at most 10 actions will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
-  /** Required. The resource name of the parent zone: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}. */
-  parent: string;
   /** Optional. Page token received from a previous ListZoneActions call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListZoneActions must match the call that provided the page token. */
   pageToken?: string;
+  /** Required. The resource name of the parent zone: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}. */
+  parent: string;
 }
 export const ListProjectsLocationsLakesZonesActionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -9580,12 +8861,12 @@ export const ListProjectsLocationsLakesZonesActionsRequest = /*@__PURE__*/ S.sus
 }) as any as S.Schema<ListProjectsLocationsLakesZonesActionsRequest>;
 
 export interface ListProjectsLocationsLakesZonesAssetsRequest {
-  /** Optional. Maximum number of asset to return. The service may return fewer than this value. If unspecified, at most 10 assets will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
   /** Optional. Page token received from a previous ListAssets call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListAssets must match the call that provided the page token. */
   pageToken?: string;
   /** Optional. Filter request. */
   filter?: string;
+  /** Optional. Maximum number of asset to return. The service may return fewer than this value. If unspecified, at most 10 assets will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
   /** Optional. Order by fields for the result. */
   orderBy?: string;
   /** Required. The resource name of the parent zone: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}. */
@@ -9593,9 +8874,9 @@ export interface ListProjectsLocationsLakesZonesAssetsRequest {
 }
 export const ListProjectsLocationsLakesZonesAssetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
   }).pipe(
@@ -9631,18 +8912,18 @@ export const GoogleCloudDataplexV1ListAssetsResponse = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<GoogleCloudDataplexV1ListAssetsResponse>;
 
 export interface ListProjectsLocationsLakesZonesAssetsActionsRequest {
-  /** Required. The resource name of the parent asset: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/assets/{asset_id}. */
-  parent: string;
   /** Optional. Page token received from a previous ListAssetActions call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListAssetActions must match the call that provided the page token. */
   pageToken?: string;
   /** Optional. Maximum number of actions to return. The service may return fewer than this value. If unspecified, at most 10 actions will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
+  /** Required. The resource name of the parent asset: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/assets/{asset_id}. */
+  parent: string;
 }
 export const ListProjectsLocationsLakesZonesAssetsActionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -9661,23 +8942,23 @@ export type ListProjectsLocationsLakesZonesEntitiesViewEnum =
 export const ListProjectsLocationsLakesZonesEntitiesViewEnum = S.String;
 
 export interface ListProjectsLocationsLakesZonesEntitiesRequest {
-  /** Required. The resource name of the parent zone: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}. */
-  parent: string;
-  /** Optional. The following filter parameters can be added to the URL to limit the entities returned by the API: Entity ID: ?filter="id=entityID" Asset ID: ?filter="asset=assetID" Data path ?filter="data_path=gs://my-bucket" Is HIVE compatible: ?filter="hive_compatible=true" Is BigQuery compatible: ?filter="bigquery_compatible=true" */
-  filter?: string;
-  /** Required. Specify the entity view to make a partial list request. */
-  view?: ListProjectsLocationsLakesZonesEntitiesViewEnum | (string & {});
   /** Optional. Page token received from a previous ListEntities call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListEntities must match the call that provided the page token. */
   pageToken?: string;
+  /** Required. The resource name of the parent zone: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}. */
+  parent: string;
+  /** Required. Specify the entity view to make a partial list request. */
+  view?: ListProjectsLocationsLakesZonesEntitiesViewEnum | (string & {});
+  /** Optional. The following filter parameters can be added to the URL to limit the entities returned by the API: Entity ID: ?filter="id=entityID" Asset ID: ?filter="asset=assetID" Data path ?filter="data_path=gs://my-bucket" Is HIVE compatible: ?filter="hive_compatible=true" Is BigQuery compatible: ?filter="bigquery_compatible=true" */
+  filter?: string;
   /** Optional. Maximum number of entities to return. The service may return fewer than this value. If unspecified, 100 entities will be returned by default. The maximum value is 500; larger values will will be truncated to 500. */
   pageSize?: number;
 }
 export const ListProjectsLocationsLakesZonesEntitiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
-    view: S.optional(ListProjectsLocationsLakesZonesEntitiesViewEnum.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    view: S.optional(ListProjectsLocationsLakesZonesEntitiesViewEnum.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -9712,22 +8993,22 @@ export const GoogleCloudDataplexV1ListEntitiesResponse = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<GoogleCloudDataplexV1ListEntitiesResponse>;
 
 export interface ListProjectsLocationsLakesZonesEntitiesPartitionsRequest {
-  /** Optional. Maximum number of partitions to return. The service may return fewer than this value. If unspecified, 100 partitions will be returned by default. The maximum page size is 500; larger values will will be truncated to 500. */
-  pageSize?: number;
-  /** Optional. Filter the partitions returned to the caller using a key value pair expression. Supported operators and syntax: logic operators: AND, OR comparison operators: <, >, >=, <= ,=, != LIKE operators: The right hand of a LIKE operator supports "." and "*" for wildcard searches, for example "value1 LIKE ".*oo.*" parenthetical grouping: ( )Sample filter expression: `?filter="key1 < value1 OR key2 > value2"Notes: Keys to the left of operators are case insensitive. Partition results are sorted first by creation time, then by lexicographic order. Up to 20 key value filter pairs are allowed, but due to performance considerations, only the first 10 will be used as a filter. */
-  filter?: string;
-  /** Required. The resource name of the parent entity: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}. */
-  parent: string;
   /** Optional. Page token received from a previous ListPartitions call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListPartitions must match the call that provided the page token. */
   pageToken?: string;
+  /** Optional. Maximum number of partitions to return. The service may return fewer than this value. If unspecified, 100 partitions will be returned by default. The maximum page size is 500; larger values will will be truncated to 500. */
+  pageSize?: number;
+  /** Required. The resource name of the parent entity: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{entity_id}. */
+  parent: string;
+  /** Optional. Filter the partitions returned to the caller using a key value pair expression. Supported operators and syntax: logic operators: AND, OR comparison operators: <, >, >=, <= ,=, != LIKE operators: The right hand of a LIKE operator supports "." and "*" for wildcard searches, for example "value1 LIKE ".*oo.*" parenthetical grouping: ( )Sample filter expression: `?filter="key1 < value1 OR key2 > value2"Notes: Keys to the left of operators are case insensitive. Partition results are sorted first by creation time, then by lexicographic order. Up to 20 key value filter pairs are allowed, but due to performance considerations, only the first 10 will be used as a filter. */
+  filter?: string;
 }
 export const ListProjectsLocationsLakesZonesEntitiesPartitionsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -9761,24 +9042,24 @@ export const GoogleCloudDataplexV1ListPartitionsResponse = /*@__PURE__*/ S.suspe
 }) as any as S.Schema<GoogleCloudDataplexV1ListPartitionsResponse>;
 
 export interface ListProjectsLocationsMetadataFeedsRequest {
-  /** Optional. The field to sort the results by, either name or create_time. If not specified, the ordering is undefined. */
-  orderBy?: string;
-  /** Required. The resource name of the parent location, in the format projects/{project_id_or_number}/locations/{location_id} */
-  parent: string;
-  /** Optional. Filter request. Filters are case-sensitive. The service supports the following formats: labels.key1 = "value1" labels:key1 name = "value"You can combine filters with AND, OR, and NOT operators. */
-  filter?: string;
   /** Optional. The page token received from a previous ListMetadataFeeds call. Provide this token to retrieve the subsequent page of results. When paginating, all other parameters that are provided to the ListMetadataFeeds request must match the call that provided the page token. */
   pageToken?: string;
   /** Optional. The maximum number of metadata feeds to return. The service might return fewer feeds than this value. If unspecified, at most 10 feeds are returned. The maximum value is 1,000. */
   pageSize?: number;
+  /** Required. The resource name of the parent location, in the format projects/{project_id_or_number}/locations/{location_id} */
+  parent: string;
+  /** Optional. The field to sort the results by, either name or create_time. If not specified, the ordering is undefined. */
+  orderBy?: string;
+  /** Optional. Filter request. Filters are case-sensitive. The service supports the following formats: labels.key1 = "value1" labels:key1 name = "value"You can combine filters with AND, OR, and NOT operators. */
+  filter?: string;
 }
 export const ListProjectsLocationsMetadataFeedsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -9799,40 +9080,40 @@ export const GoogleCloudDataplexV1MetadataFeedList = /*@__PURE__*/ S.Array(
 export interface GoogleCloudDataplexV1ListMetadataFeedsResponse {
   /** List of metadata feeds under the specified parent location. */
   metadataFeeds?: GoogleCloudDataplexV1MetadataFeedList;
-  /** Unordered list. Locations that the service couldn't reach. */
-  unreachable?: StringList;
   /** A token to retrieve the next page of results. If there are no more results in the list, the value is empty. */
   nextPageToken?: string;
+  /** Unordered list. Locations that the service couldn't reach. */
+  unreachable?: StringList;
 }
 export const GoogleCloudDataplexV1ListMetadataFeedsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metadataFeeds: S.optional(GoogleCloudDataplexV1MetadataFeedList),
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1ListMetadataFeedsResponse",
 }) as any as S.Schema<GoogleCloudDataplexV1ListMetadataFeedsResponse>;
 
 export interface ListProjectsLocationsMetadataJobsRequest {
-  /** Optional. Filter request. Filters are case-sensitive. The service supports the following formats: labels.key1 = "value1" labels:key1 name = "value"You can combine filters with AND, OR, and NOT operators. */
-  filter?: string;
-  /** Optional. The field to sort the results by, either name or create_time. If not specified, the ordering is undefined. */
-  orderBy?: string;
-  /** Required. The resource name of the parent location, in the format projects/{project_id_or_number}/locations/{location_id} */
-  parent: string;
   /** Optional. The maximum number of metadata jobs to return. The service might return fewer jobs than this value. If unspecified, at most 10 jobs are returned. The maximum value is 1,000. */
   pageSize?: number;
+  /** Optional. Filter request. Filters are case-sensitive. The service supports the following formats: labels.key1 = "value1" labels:key1 name = "value"You can combine filters with AND, OR, and NOT operators. */
+  filter?: string;
   /** Optional. The page token received from a previous ListMetadataJobs call. Provide this token to retrieve the subsequent page of results. When paginating, all other parameters that are provided to the ListMetadataJobs request must match the call that provided the page token. */
   pageToken?: string;
+  /** Required. The resource name of the parent location, in the format projects/{project_id_or_number}/locations/{location_id} */
+  parent: string;
+  /** Optional. The field to sort the results by, either name or create_time. If not specified, the ordering is undefined. */
+  orderBy?: string;
 }
 export const ListProjectsLocationsMetadataJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -9851,17 +9132,17 @@ export const GoogleCloudDataplexV1MetadataJobList = /*@__PURE__*/ S.Array(
 
 /** List metadata jobs response. */
 export interface GoogleCloudDataplexV1ListMetadataJobsResponse {
-  /** Locations that the service couldn't reach. */
-  unreachableLocations?: StringList;
   /** Metadata jobs under the specified parent location. */
   metadataJobs?: GoogleCloudDataplexV1MetadataJobList;
+  /** Locations that the service couldn't reach. */
+  unreachableLocations?: StringList;
   /** A token to retrieve the next page of results. If there are no more results in the list, the value is empty. */
   nextPageToken?: string;
 }
 export const GoogleCloudDataplexV1ListMetadataJobsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachableLocations: S.optional(StringList),
     metadataJobs: S.optional(GoogleCloudDataplexV1MetadataJobList),
+    unreachableLocations: S.optional(StringList),
     nextPageToken: S.optional(S.String),
   }),
 ).annotate({
@@ -9871,22 +9152,22 @@ export const GoogleCloudDataplexV1ListMetadataJobsResponse = /*@__PURE__*/ S.sus
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list filter. */
   filter?: string;
-  /** When set to true, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field.This can only be true when reading across collections. For example, when parent is set to "projects/example/locations/-".This field is not supported by default and will result in an UNIMPLEMENTED error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
-  /** The standard list page size. */
-  pageSize?: number;
-  /** The standard list page token. */
-  pageToken?: string;
   /** The name of the operation's parent resource. */
   name: string;
+  /** The standard list page size. */
+  pageSize?: number;
+  /** When set to true, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field.This can only be true when reading across collections. For example, when parent is set to "projects/example/locations/-".This field is not supported by default and will result in an UNIMPLEMENTED error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean;
+  /** The standard list page token. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     filter: S.optional(S.String.pipe(T.Query())),
-    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -9900,15 +9181,15 @@ export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(()
 
 /** Lookup Context using permissions in the source system. */
 export interface GoogleCloudDataplexV1LookupContextRequest {
-  /** Required. The entry names to look up the context for. The maximum number of resources for a request is limited to 10.Examples:projects/{project}/locations/{location}/entryGroups/{entry_group}/entries/{entry} */
-  resources?: StringList;
   /** Optional. Allows to configure the context.Supported options: format - The format of the context (one of yaml, xml, json, default is yaml). context_budget - If provided, the output will be intelligently truncated on a best-effort basis to contain approximately the desired amount of characters. There is no guarantee to achieve the specific amount. all_schema_fields - If set to true, all schema fields will be returned in the context (regardless of context_budget value). Otherwise, the list of schema fields is truncated. Default is false. */
   options?: StringMap;
+  /** Required. The entry names to look up the context for. The maximum number of resources for a request is limited to 10.Examples:projects/{project}/locations/{location}/entryGroups/{entry_group}/entries/{entry} */
+  resources?: StringList;
 }
 export const GoogleCloudDataplexV1LookupContextRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resources: S.optional(StringList),
     options: S.optional(StringMap),
+    resources: S.optional(StringList),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1LookupContextRequest",
@@ -9955,27 +9236,27 @@ export type LookupEntryLinksProjectsLocationsEntryModeEnum =
 export const LookupEntryLinksProjectsLocationsEntryModeEnum = S.String;
 
 export interface LookupEntryLinksProjectsLocationsRequest {
-  /** Maximum number of EntryLinks to return. The service may return fewer than this value. If unspecified, at most 10 EntryLinks will be returned. The maximum value is 10; values above 10 will be coerced to 10. */
-  pageSize?: number;
-  /** Required. The project to which the request should be attributed to Format: projects/{project_id_or_number}/locations/{location_id}. */
-  name: string;
-  /** Entry link types to filter the response by. If empty, all entry link types will be returned. At most 10 entry link types can be specified. */
-  entryLinkTypes?: StringList;
-  /** Page token received from a previous LookupEntryLinks call. Provide this to retrieve the subsequent page. When paginating, all other parameters that are provided to the LookupEntryLinks request must match the call that provided the page token. */
-  pageToken?: string;
   /** Required. The resource name of the referred Entry. Format: projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}/entries/{entry_id}. Entry Links which references this entry will be returned in the response. */
   entry?: string;
   /** Mode of entry reference. */
   entryMode?: LookupEntryLinksProjectsLocationsEntryModeEnum | (string & {});
+  /** Maximum number of EntryLinks to return. The service may return fewer than this value. If unspecified, at most 10 EntryLinks will be returned. The maximum value is 10; values above 10 will be coerced to 10. */
+  pageSize?: number;
+  /** Required. The project to which the request should be attributed to Format: projects/{project_id_or_number}/locations/{location_id}. */
+  name: string;
+  /** Page token received from a previous LookupEntryLinks call. Provide this to retrieve the subsequent page. When paginating, all other parameters that are provided to the LookupEntryLinks request must match the call that provided the page token. */
+  pageToken?: string;
+  /** Entry link types to filter the response by. If empty, all entry link types will be returned. At most 10 entry link types can be specified. */
+  entryLinkTypes?: StringList;
 }
 export const LookupEntryLinksProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
-    entryLinkTypes: S.optional(StringList.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     entry: S.optional(S.String.pipe(T.Query())),
     entryMode: S.optional(LookupEntryLinksProjectsLocationsEntryModeEnum.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    entryLinkTypes: S.optional(StringList.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -10017,24 +9298,24 @@ export type LookupEntryProjectsLocationsViewEnum =
 export const LookupEntryProjectsLocationsViewEnum = S.String;
 
 export interface LookupEntryProjectsLocationsRequest {
+  /** Optional. Limits the aspects returned to those associated with the provided paths within the Entry. It only works for CUSTOM view. */
+  paths?: StringList;
+  /** Required. The project to which the request should be attributed in the following form: projects/{project}/locations/{location}. */
+  name: string;
   /** Required. The resource name of the Entry: projects/{project}/locations/{location}/entryGroups/{entry_group}/entries/{entry}. */
   entry?: string;
   /** Optional. Limits the aspects returned to the provided aspect types. It only works for CUSTOM view. */
   aspectTypes?: StringList;
-  /** Required. The project to which the request should be attributed in the following form: projects/{project}/locations/{location}. */
-  name: string;
   /** Optional. View to control which parts of an entry the service should return. Please check the limitations on returned aspects in the Entry view documentation. Amount of returned aspects depends on the selected Entry View. */
   view?: LookupEntryProjectsLocationsViewEnum | (string & {});
-  /** Optional. Limits the aspects returned to those associated with the provided paths within the Entry. It only works for CUSTOM view. */
-  paths?: StringList;
 }
 export const LookupEntryProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    paths: S.optional(StringList.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     entry: S.optional(S.String.pipe(T.Query())),
     aspectTypes: S.optional(StringList.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     view: S.optional(LookupEntryProjectsLocationsViewEnum.pipe(T.Query())),
-    paths: S.optional(StringList.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -10048,21 +9329,21 @@ export const LookupEntryProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Modify Entry request using permissions in the source system. */
 export interface GoogleCloudDataplexV1ModifyEntryRequest {
-  /** Required. The entry to modify. */
-  entry?: GoogleCloudDataplexV1Entry;
-  /** Optional. The aspect keys which the service should modify. It supports the following syntaxes: - matches an aspect of the given type and empty path. @path - matches an aspect of the given type and specified path. For example, to attach an aspect to a field that is specified by the schema aspect, the path should have the format Schema.. @* - matches aspects of the given type for all paths. *@path - matches aspects of all types on the given path.The service will not remove existing aspects matching the syntax unless delete_missing_aspects is set to true.If this field is left empty, the service treats it as specifying exactly those Aspects present in the request. */
-  aspectKeys?: StringList;
-  /** Optional. Mask of fields to update. To update Aspects, the update_mask must contain the value "aspects".If the update_mask is empty, the service will update all modifiable fields present in the request. */
-  updateMask?: string;
   /** Optional. If set to true, any aspects not specified in the request will be deleted. The default is false. */
   deleteMissingAspects?: boolean;
+  /** Required. The entry to modify. */
+  entry?: GoogleCloudDataplexV1Entry;
+  /** Optional. Mask of fields to update. To update Aspects, the update_mask must contain the value "aspects".If the update_mask is empty, the service will update all modifiable fields present in the request. */
+  updateMask?: string;
+  /** Optional. The aspect keys which the service should modify. It supports the following syntaxes: - matches an aspect of the given type and empty path. @path - matches an aspect of the given type and specified path. For example, to attach an aspect to a field that is specified by the schema aspect, the path should have the format Schema.. @* - matches aspects of the given type for all paths. *@path - matches aspects of all types on the given path.The service will not remove existing aspects matching the syntax unless delete_missing_aspects is set to true.If this field is left empty, the service treats it as specifying exactly those Aspects present in the request. */
+  aspectKeys?: StringList;
 }
 export const GoogleCloudDataplexV1ModifyEntryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entry: S.optional(GoogleCloudDataplexV1Entry),
-    aspectKeys: S.optional(StringList),
-    updateMask: S.optional(S.String),
     deleteMissingAspects: S.optional(S.Boolean),
+    entry: S.optional(GoogleCloudDataplexV1Entry),
+    updateMask: S.optional(S.String),
+    aspectKeys: S.optional(StringList),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1ModifyEntryRequest",
@@ -10103,38 +9384,30 @@ export const PatchOrganizationsLocationsEncryptionConfigsRequest = /*@__PURE__*/
     updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(GoogleCloudDataplexV1EncryptionConfig.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchOrganizationsLocationsEncryptionConfigsRequest",
 }) as any as S.Schema<PatchOrganizationsLocationsEncryptionConfigsRequest>;
 
 export interface PatchProjectsLocationsAspectTypesRequest {
-  /** Required. Mask of fields to update. */
-  updateMask?: string;
   /** Optional. Only validate the request, but do not perform mutations. The default is false. */
   validateOnly?: boolean;
   /** Output only. The relative resource name of the AspectType, of the form: projects/{project_number}/locations/{location_id}/aspectTypes/{aspect_type_id}. */
   name: string;
+  /** Required. Mask of fields to update. */
+  updateMask?: string;
   /** Request body */
   body?: GoogleCloudDataplexV1AspectType;
 }
 export const PatchProjectsLocationsAspectTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(GoogleCloudDataplexV1AspectType.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsAspectTypesRequest",
@@ -10154,102 +9427,63 @@ export const PatchProjectsLocationsChangeRequestsRequest = /*@__PURE__*/ S.suspe
     updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(GoogleCloudDataplexV1ChangeRequest.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsChangeRequestsRequest",
 }) as any as S.Schema<PatchProjectsLocationsChangeRequestsRequest>;
 
-export interface PatchProjectsLocationsDataAttributeBindingsRequest {
-  /** Output only. The relative resource name of the Data Attribute Binding, of the form: projects/{project_number}/locations/{location}/dataAttributeBindings/{data_attribute_binding_id} */
-  name: string;
-  /** Required. Mask of fields to update. */
-  updateMask?: string;
-  /** Optional. Only validate the request, but do not perform mutations. The default is false. */
-  validateOnly?: boolean;
-  /** Request body */
-  body?: GoogleCloudDataplexV1DataAttributeBinding;
-}
-export const PatchProjectsLocationsDataAttributeBindingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.Label()),
-    updateMask: S.optional(S.String.pipe(T.Query())),
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    body: S.optional(GoogleCloudDataplexV1DataAttributeBinding.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
-  ),
-).annotate({
-  identifier: "PatchProjectsLocationsDataAttributeBindingsRequest",
-}) as any as S.Schema<PatchProjectsLocationsDataAttributeBindingsRequest>;
-
 export interface PatchProjectsLocationsDataDomainsRequest {
+  /** Optional. Mask of fields to update. */
+  updateMask?: string;
   /** Identifier. The relative resource name of the DataDomain, of the form: projects/{project_id_or_number}/locations/{location_id}/dataDomains/{data_domain_id} */
   name: string;
   /** Optional. Only validate the request, but do not perform mutations. */
   validateOnly?: boolean;
-  /** Optional. Mask of fields to update. */
-  updateMask?: string;
   /** Request body */
   body?: GoogleCloudDataplexV1DataDomain;
 }
 export const PatchProjectsLocationsDataDomainsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(GoogleCloudDataplexV1DataDomain.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsDataDomainsRequest",
 }) as any as S.Schema<PatchProjectsLocationsDataDomainsRequest>;
 
 export interface PatchProjectsLocationsDataProductsRequest {
+  /** Identifier. Resource name of the data product. Format: projects/{project_id_or_number}/locations/{location_id}/dataProducts/{data_product_id}. */
+  name: string;
   /** Optional. Validates the request without actually updating the data product. Default: false. */
   validateOnly?: boolean;
   /** Optional. The list of fields to update. If this is empty or not set, then all the fields will be updated. */
   updateMask?: string;
-  /** Identifier. Resource name of the data product. Format: projects/{project_id_or_number}/locations/{location_id}/dataProducts/{data_product_id}. */
-  name: string;
   /** Request body */
   body?: GoogleCloudDataplexV1DataProduct;
 }
 export const PatchProjectsLocationsDataProductsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    name: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     updateMask: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     body: S.optional(GoogleCloudDataplexV1DataProduct.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsDataProductsRequest",
 }) as any as S.Schema<PatchProjectsLocationsDataProductsRequest>;
 
 export interface PatchProjectsLocationsDataProductsDataAssetsRequest {
-  /** Identifier. Resource name of the data asset. Format: projects/{project_id_or_number}/locations/{location_id}/dataProducts/{data_product_id}/dataAssets/{data_asset_id} */
-  name: string;
   /** Optional. Validates the request without actually updating the data asset. Defaults to false. */
   validateOnly?: boolean;
+  /** Identifier. Resource name of the data asset. Format: projects/{project_id_or_number}/locations/{location_id}/dataProducts/{data_product_id}/dataAssets/{data_asset_id} */
+  name: string;
   /** Optional. The list of fields to update. If this is empty or not set, then all the fields will be updated. */
   updateMask?: string;
   /** Request body */
@@ -10257,16 +9491,12 @@ export interface PatchProjectsLocationsDataProductsDataAssetsRequest {
 }
 export const PatchProjectsLocationsDataProductsDataAssetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(GoogleCloudDataplexV1DataAsset.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsDataProductsDataAssetsRequest",
@@ -10289,92 +9519,30 @@ export const PatchProjectsLocationsDataScansRequest = /*@__PURE__*/ S.suspend(()
     name: S.String.pipe(T.Label()),
     body: S.optional(GoogleCloudDataplexV1DataScan.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsDataScansRequest",
 }) as any as S.Schema<PatchProjectsLocationsDataScansRequest>;
 
-export interface PatchProjectsLocationsDataTaxonomiesRequest {
-  /** Optional. Only validate the request, but do not perform mutations. The default is false. */
-  validateOnly?: boolean;
-  /** Required. Mask of fields to update. */
-  updateMask?: string;
-  /** Output only. The relative resource name of the DataTaxonomy, of the form: projects/{project_number}/locations/{location_id}/dataTaxonomies/{data_taxonomy_id}. */
-  name: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1DataTaxonomy;
-}
-export const PatchProjectsLocationsDataTaxonomiesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    updateMask: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
-    body: S.optional(GoogleCloudDataplexV1DataTaxonomy.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
-  ),
-).annotate({
-  identifier: "PatchProjectsLocationsDataTaxonomiesRequest",
-}) as any as S.Schema<PatchProjectsLocationsDataTaxonomiesRequest>;
-
-export interface PatchProjectsLocationsDataTaxonomiesAttributesRequest {
-  /** Required. Mask of fields to update. */
-  updateMask?: string;
-  /** Optional. Only validate the request, but do not perform mutations. The default is false. */
-  validateOnly?: boolean;
-  /** Output only. The relative resource name of the dataAttribute, of the form: projects/{project_number}/locations/{location_id}/dataTaxonomies/{dataTaxonomy}/attributes/{data_attribute_id}. */
-  name: string;
-  /** Request body */
-  body?: GoogleCloudDataplexV1DataAttribute;
-}
-export const PatchProjectsLocationsDataTaxonomiesAttributesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
-    body: S.optional(GoogleCloudDataplexV1DataAttribute.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
-  ),
-).annotate({
-  identifier: "PatchProjectsLocationsDataTaxonomiesAttributesRequest",
-}) as any as S.Schema<PatchProjectsLocationsDataTaxonomiesAttributesRequest>;
-
 export interface PatchProjectsLocationsEntryGroupsRequest {
-  /** Optional. The service validates the request, without performing any mutations. The default is false. */
-  validateOnly?: boolean;
   /** Required. Mask of fields to update. */
   updateMask?: string;
   /** Output only. The relative resource name of the EntryGroup, in the format projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}. */
   name: string;
+  /** Optional. The service validates the request, without performing any mutations. The default is false. */
+  validateOnly?: boolean;
   /** Request body */
   body?: GoogleCloudDataplexV1EntryGroup;
 }
 export const PatchProjectsLocationsEntryGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(GoogleCloudDataplexV1EntryGroup.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsEntryGroupsRequest",
@@ -10383,58 +9551,50 @@ export const PatchProjectsLocationsEntryGroupsRequest = /*@__PURE__*/ S.suspend(
 export interface PatchProjectsLocationsEntryGroupsEntriesRequest {
   /** Optional. Mask of fields to update. To update Aspects, the update_mask must contain the value "aspects".If the update_mask is empty, the service will update all modifiable fields present in the request. */
   updateMask?: string;
-  /** Optional. If set to true and the aspect_keys specify aspect ranges, the service deletes any existing aspects from that range that weren't provided in the request. */
-  deleteMissingAspects?: boolean;
-  /** Optional. The map keys of the Aspects which the service should modify. It supports the following syntaxes: - matches an aspect of the given type and empty path. @path - matches an aspect of the given type and specified path. For example, to attach an aspect to a field that is specified by the schema aspect, the path should have the format Schema.. @* - matches aspects of the given type for all paths. *@path - matches aspects of all types on the given path.The service will not remove existing aspects matching the syntax unless delete_missing_aspects is set to true.If this field is left empty, the service treats it as specifying exactly those Aspects present in the request. */
-  aspectKeys?: StringList;
   /** Identifier. The relative resource name of the entry, in the format projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}/entries/{entry_id}. */
   name: string;
+  /** Optional. The map keys of the Aspects which the service should modify. It supports the following syntaxes: - matches an aspect of the given type and empty path. @path - matches an aspect of the given type and specified path. For example, to attach an aspect to a field that is specified by the schema aspect, the path should have the format Schema.. @* - matches aspects of the given type for all paths. *@path - matches aspects of all types on the given path.The service will not remove existing aspects matching the syntax unless delete_missing_aspects is set to true.If this field is left empty, the service treats it as specifying exactly those Aspects present in the request. */
+  aspectKeys?: StringList;
   /** Optional. If set to true and the entry doesn't exist, the service will create it. */
   allowMissing?: boolean;
+  /** Optional. If set to true and the aspect_keys specify aspect ranges, the service deletes any existing aspects from that range that weren't provided in the request. */
+  deleteMissingAspects?: boolean;
   /** Request body */
   body?: GoogleCloudDataplexV1Entry;
 }
 export const PatchProjectsLocationsEntryGroupsEntriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     updateMask: S.optional(S.String.pipe(T.Query())),
-    deleteMissingAspects: S.optional(S.Boolean.pipe(T.Query())),
-    aspectKeys: S.optional(StringList.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    aspectKeys: S.optional(StringList.pipe(T.Query())),
     allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+    deleteMissingAspects: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(GoogleCloudDataplexV1Entry.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsEntryGroupsEntriesRequest",
 }) as any as S.Schema<PatchProjectsLocationsEntryGroupsEntriesRequest>;
 
 export interface PatchProjectsLocationsEntryGroupsEntryLinksRequest {
+  /** Optional. If set to true and the entry link doesn't exist, the service will create it. */
+  allowMissing?: boolean;
   /** Optional. The map keys of the Aspects which the service should modify. It should be the aspect type reference in the format {project_id_or_number}.{location_id}.{aspect_type_id}.If this field is left empty, the service treats it as specifying exactly those Aspects present in the request. */
   aspectKeys?: StringList;
   /** Output only. Immutable. Identifier. The relative resource name of the Entry Link, of the form: projects/{project_id_or_number}/locations/{location_id}/entryGroups/{entry_group_id}/entryLinks/{entry_link_id} */
   name: string;
-  /** Optional. If set to true and the entry link doesn't exist, the service will create it. */
-  allowMissing?: boolean;
   /** Request body */
   body?: GoogleCloudDataplexV1EntryLink;
 }
 export const PatchProjectsLocationsEntryGroupsEntryLinksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    allowMissing: S.optional(S.Boolean.pipe(T.Query())),
     aspectKeys: S.optional(StringList.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
-    allowMissing: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(GoogleCloudDataplexV1EntryLink.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsEntryGroupsEntryLinksRequest",
@@ -10457,11 +9617,7 @@ export const PatchProjectsLocationsEntryTypesRequest = /*@__PURE__*/ S.suspend((
     name: S.String.pipe(T.Label()),
     body: S.optional(GoogleCloudDataplexV1EntryType.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsEntryTypesRequest",
@@ -10484,11 +9640,7 @@ export const PatchProjectsLocationsGlossariesRequest = /*@__PURE__*/ S.suspend((
     updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(GoogleCloudDataplexV1Glossary.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsGlossariesRequest",
@@ -10508,89 +9660,73 @@ export const PatchProjectsLocationsGlossariesCategoriesRequest = /*@__PURE__*/ S
     updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(GoogleCloudDataplexV1GlossaryCategory.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsGlossariesCategoriesRequest",
 }) as any as S.Schema<PatchProjectsLocationsGlossariesCategoriesRequest>;
 
 export interface PatchProjectsLocationsGlossariesTermsRequest {
-  /** Output only. Identifier. The resource name of the GlossaryTerm. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/terms/{term_id} */
-  name: string;
   /** Required. The list of fields to update. */
   updateMask?: string;
+  /** Output only. Identifier. The resource name of the GlossaryTerm. Format: projects/{project_id_or_number}/locations/{location_id}/glossaries/{glossary_id}/terms/{term_id} */
+  name: string;
   /** Request body */
   body?: GoogleCloudDataplexV1GlossaryTerm;
 }
 export const PatchProjectsLocationsGlossariesTermsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(GoogleCloudDataplexV1GlossaryTerm.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsGlossariesTermsRequest",
 }) as any as S.Schema<PatchProjectsLocationsGlossariesTermsRequest>;
 
 export interface PatchProjectsLocationsLakesRequest {
-  /** Optional. Only validate the request, but do not perform mutations. The default is false. */
-  validateOnly?: boolean;
   /** Required. Mask of fields to update. */
   updateMask?: string;
   /** Output only. The relative resource name of the lake, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}. */
   name: string;
+  /** Optional. Only validate the request, but do not perform mutations. The default is false. */
+  validateOnly?: boolean;
   /** Request body */
   body?: GoogleCloudDataplexV1Lake;
 }
 export const PatchProjectsLocationsLakesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(GoogleCloudDataplexV1Lake.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsLakesRequest",
 }) as any as S.Schema<PatchProjectsLocationsLakesRequest>;
 
 export interface PatchProjectsLocationsLakesTasksRequest {
+  /** Output only. The relative resource name of the task, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/ tasks/{task_id}. */
+  name: string;
   /** Optional. Only validate the request, but do not perform mutations. The default is false. */
   validateOnly?: boolean;
   /** Required. Mask of fields to update. */
   updateMask?: string;
-  /** Output only. The relative resource name of the task, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/ tasks/{task_id}. */
-  name: string;
   /** Request body */
   body?: GoogleCloudDataplexV1Task;
 }
 export const PatchProjectsLocationsLakesTasksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    name: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     updateMask: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     body: S.optional(GoogleCloudDataplexV1Task.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsLakesTasksRequest",
@@ -10599,79 +9735,67 @@ export const PatchProjectsLocationsLakesTasksRequest = /*@__PURE__*/ S.suspend((
 export interface PatchProjectsLocationsLakesZonesRequest {
   /** Output only. The relative resource name of the zone, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}. */
   name: string;
-  /** Optional. Only validate the request, but do not perform mutations. The default is false. */
-  validateOnly?: boolean;
   /** Required. Mask of fields to update. */
   updateMask?: string;
+  /** Optional. Only validate the request, but do not perform mutations. The default is false. */
+  validateOnly?: boolean;
   /** Request body */
   body?: GoogleCloudDataplexV1Zone;
 }
 export const PatchProjectsLocationsLakesZonesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(GoogleCloudDataplexV1Zone.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsLakesZonesRequest",
 }) as any as S.Schema<PatchProjectsLocationsLakesZonesRequest>;
 
 export interface PatchProjectsLocationsLakesZonesAssetsRequest {
-  /** Output only. The relative resource name of the asset, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/assets/{asset_id}. */
-  name: string;
-  /** Optional. Only validate the request, but do not perform mutations. The default is false. */
-  validateOnly?: boolean;
   /** Required. Mask of fields to update. */
   updateMask?: string;
+  /** Optional. Only validate the request, but do not perform mutations. The default is false. */
+  validateOnly?: boolean;
+  /** Output only. The relative resource name of the asset, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/assets/{asset_id}. */
+  name: string;
   /** Request body */
   body?: GoogleCloudDataplexV1Asset;
 }
 export const PatchProjectsLocationsLakesZonesAssetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(GoogleCloudDataplexV1Asset.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsLakesZonesAssetsRequest",
 }) as any as S.Schema<PatchProjectsLocationsLakesZonesAssetsRequest>;
 
 export interface PatchProjectsLocationsMetadataFeedsRequest {
+  /** Optional. Mask of fields to update. */
+  updateMask?: string;
   /** Identifier. The resource name of the metadata feed, in the format projects/{project_id_or_number}/locations/{location_id}/metadataFeeds/{metadata_feed_id}. */
   name: string;
   /** Optional. Only validate the request, but do not perform mutations. The default is false. */
   validateOnly?: boolean;
-  /** Optional. Mask of fields to update. */
-  updateMask?: string;
   /** Request body */
   body?: GoogleCloudDataplexV1MetadataFeed;
 }
 export const PatchProjectsLocationsMetadataFeedsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(GoogleCloudDataplexV1MetadataFeed.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsMetadataFeedsRequest",
@@ -10716,15 +9840,15 @@ export const RejectProjectsLocationsChangeRequestsRequest = /*@__PURE__*/ S.susp
 
 /** Message for requesting access to a Data Product. */
 export interface GoogleCloudDataplexV1RequestDataProductAccessRequest {
-  /** Optional. Validates the request without actually creating the access change request. Defaults to false. */
-  validateOnly?: boolean;
   /** Required. The change request for the data product access request. */
   changeRequest?: GoogleCloudDataplexV1ChangeRequest;
+  /** Optional. Validates the request without actually creating the access change request. Defaults to false. */
+  validateOnly?: boolean;
 }
 export const GoogleCloudDataplexV1RequestDataProductAccessRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    validateOnly: S.optional(S.Boolean),
     changeRequest: S.optional(GoogleCloudDataplexV1ChangeRequest),
+    validateOnly: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "GoogleCloudDataplexV1RequestDataProductAccessRequest",
@@ -10779,11 +9903,7 @@ export const RunProjectsLocationsDataScansRequest = /*@__PURE__*/ S.suspend(() =
     name: S.String.pipe(T.Label()),
     body: S.optional(GoogleLongrunningCancelOperationRequest.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "v1/{+name}:run",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "POST", uri: "v1/{+name}:run", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "RunProjectsLocationsDataScansRequest",
@@ -10828,11 +9948,7 @@ export const RunProjectsLocationsLakesTasksRequest = /*@__PURE__*/ S.suspend(() 
     name: S.String.pipe(T.Label()),
     body: S.optional(GoogleCloudDataplexV1RunTaskRequest.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "v1/{+name}:run",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "POST", uri: "v1/{+name}:run", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "RunProjectsLocationsLakesTasksRequest",
@@ -10853,31 +9969,31 @@ export const GoogleCloudDataplexV1RunTaskResponse = /*@__PURE__*/ S.suspend(() =
 export interface SearchEntriesProjectsLocationsRequest {
   /** Optional. Specifies the ordering of results. Supported values are: relevance last_modified_timestamp last_modified_timestamp asc */
   orderBy?: string;
-  /** Optional. Specifies whether the search should understand the meaning and intent behind the query, rather than just matching keywords. */
-  semanticSearch?: boolean;
+  /** Optional. Number of results in the search page. If <=0, then defaults to 10. Max limit for page_size is 1000. Throws an invalid argument for page_size > 1000. */
+  pageSize?: number;
   /** Optional. Specifies the scope of the context in which the search will be performed. This scope will also be used to perform IAM checks, which if passing, will return all resources in the scope. */
   contexts?: StringList;
   /** Optional. The scope under which the search should be operating. It must either be organizations/ or projects/. If it is unspecified, it defaults to the organization where the project provided in name is located. */
   scope?: string;
-  /** Optional. Page token received from a previous SearchEntries call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
   /** Required. The project to which the request should be attributed in the following form: projects/{project}/locations/global. */
   name: string;
   /** Required. The query against which entries in scope should be matched. The query syntax is defined in Search syntax for Dataplex Universal Catalog (https://cloud.google.com/dataplex/docs/search-syntax). */
   query?: string;
-  /** Optional. Number of results in the search page. If <=0, then defaults to 10. Max limit for page_size is 1000. Throws an invalid argument for page_size > 1000. */
-  pageSize?: number;
+  /** Optional. Page token received from a previous SearchEntries call. Provide this to retrieve the subsequent page. */
+  pageToken?: string;
+  /** Optional. Specifies whether the search should understand the meaning and intent behind the query, rather than just matching keywords. */
+  semanticSearch?: boolean;
 }
 export const SearchEntriesProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     orderBy: S.optional(S.String.pipe(T.Query())),
-    semanticSearch: S.optional(S.Boolean.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     contexts: S.optional(StringList.pipe(T.Query())),
     scope: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     query: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    semanticSearch: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "POST",
@@ -10904,16 +10020,16 @@ export const GoogleCloudDataplexV1SearchEntriesResultSnippets = /*@__PURE__*/ S.
 
 /** A single result of a SearchEntries request. */
 export interface GoogleCloudDataplexV1SearchEntriesResult {
-  dataplexEntry?: GoogleCloudDataplexV1Entry;
   /** Snippets. */
   snippets?: GoogleCloudDataplexV1SearchEntriesResultSnippets;
+  dataplexEntry?: GoogleCloudDataplexV1Entry;
   /** Linked resource name. */
   linkedResource?: string;
 }
 export const GoogleCloudDataplexV1SearchEntriesResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dataplexEntry: S.optional(GoogleCloudDataplexV1Entry),
     snippets: S.optional(GoogleCloudDataplexV1SearchEntriesResultSnippets),
+    dataplexEntry: S.optional(GoogleCloudDataplexV1Entry),
     linkedResource: S.optional(S.String),
   }),
 ).annotate({
@@ -10984,6 +10100,27 @@ export const SetIamPolicyOrganizationsLocationsEncryptionConfigsRequest = /*@__P
 ).annotate({
   identifier: "SetIamPolicyOrganizationsLocationsEncryptionConfigsRequest",
 }) as any as S.Schema<SetIamPolicyOrganizationsLocationsEncryptionConfigsRequest>;
+
+export interface SetIamPolicyProjectsLocationsAgentTasksRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+  /** Request body */
+  body?: GoogleIamV1SetIamPolicyRequest;
+}
+export const SetIamPolicyProjectsLocationsAgentTasksRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resource: S.String.pipe(T.Label()),
+    body: S.optional(GoogleIamV1SetIamPolicyRequest.pipe(T.HttpBody())),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "v1/{+resource}:setIamPolicy",
+      baseUrl: "https://dataplex.googleapis.com/",
+    }),
+  ),
+).annotate({
+  identifier: "SetIamPolicyProjectsLocationsAgentTasksRequest",
+}) as any as S.Schema<SetIamPolicyProjectsLocationsAgentTasksRequest>;
 
 export interface SetIamPolicyProjectsLocationsAspectTypesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -11435,6 +10572,27 @@ export const GoogleIamV1TestIamPermissionsResponse = /*@__PURE__*/ S.suspend(() 
   identifier: "GoogleIamV1TestIamPermissionsResponse",
 }) as any as S.Schema<GoogleIamV1TestIamPermissionsResponse>;
 
+export interface TestIamPermissionsProjectsLocationsAgentTasksRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+  /** Request body */
+  body?: GoogleIamV1TestIamPermissionsRequest;
+}
+export const TestIamPermissionsProjectsLocationsAgentTasksRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resource: S.String.pipe(T.Label()),
+    body: S.optional(GoogleIamV1TestIamPermissionsRequest.pipe(T.HttpBody())),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "v1/{+resource}:testIamPermissions",
+      baseUrl: "https://dataplex.googleapis.com/",
+    }),
+  ),
+).annotate({
+  identifier: "TestIamPermissionsProjectsLocationsAgentTasksRequest",
+}) as any as S.Schema<TestIamPermissionsProjectsLocationsAgentTasksRequest>;
+
 export interface TestIamPermissionsProjectsLocationsAspectTypesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -11844,24 +11002,20 @@ export const TestIamPermissionsProjectsLocationsLakesZonesAssetsRequest = /*@__P
 }) as any as S.Schema<TestIamPermissionsProjectsLocationsLakesZonesAssetsRequest>;
 
 export interface UpdateProjectsLocationsLakesZonesEntitiesRequest {
-  /** Output only. The resource name of the entity, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{id}. */
-  name: string;
   /** Optional. Only validate the request, but do not perform mutations. The default is false. */
   validateOnly?: boolean;
+  /** Output only. The resource name of the entity, of the form: projects/{project_number}/locations/{location_id}/lakes/{lake_id}/zones/{zone_id}/entities/{id}. */
+  name: string;
   /** Request body */
   body?: GoogleCloudDataplexV1Entity;
 }
 export const UpdateProjectsLocationsLakesZonesEntitiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(GoogleCloudDataplexV1Entity.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "v1/{+name}",
-      baseUrl: "https://dataplex.googleapis.com/",
-    }),
+    T.Http({ method: "PUT", uri: "v1/{+name}", baseUrl: "https://dataplex.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "UpdateProjectsLocationsLakesZonesEntitiesRequest",
@@ -12027,26 +11181,6 @@ export const createProjectsLocationsAspectTypes: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateProjectsLocationsDataAttributeBindingsError =
-  | NotFound
-  | Forbidden
-  | BadRequest
-  | Conflict
-  | GcpOpError;
-/** Create a DataAttributeBinding resource. */
-export const createProjectsLocationsDataAttributeBindings: API.OperationMethod<
-  CreateProjectsLocationsDataAttributeBindingsRequest,
-  GoogleLongrunningOperation,
-  CreateProjectsLocationsDataAttributeBindingsError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: CreateProjectsLocationsDataAttributeBindingsRequest,
-  output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
 export type CreateProjectsLocationsDataDomainsError =
   | NotFound
   | Forbidden
@@ -12141,46 +11275,6 @@ export const createProjectsLocationsDataScans: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsLocationsDataScansRequest,
-  output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type CreateProjectsLocationsDataTaxonomiesError =
-  | NotFound
-  | Forbidden
-  | BadRequest
-  | Conflict
-  | GcpOpError;
-/** Create a DataTaxonomy resource. */
-export const createProjectsLocationsDataTaxonomies: API.OperationMethod<
-  CreateProjectsLocationsDataTaxonomiesRequest,
-  GoogleLongrunningOperation,
-  CreateProjectsLocationsDataTaxonomiesError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: CreateProjectsLocationsDataTaxonomiesRequest,
-  output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type CreateProjectsLocationsDataTaxonomiesAttributesError =
-  | NotFound
-  | Forbidden
-  | BadRequest
-  | Conflict
-  | GcpOpError;
-/** Create a DataAttribute resource. */
-export const createProjectsLocationsDataTaxonomiesAttributes: API.OperationMethod<
-  CreateProjectsLocationsDataTaxonomiesAttributesRequest,
-  GoogleLongrunningOperation,
-  CreateProjectsLocationsDataTaxonomiesAttributesError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: CreateProjectsLocationsDataTaxonomiesAttributesRequest,
   output: GoogleLongrunningOperation,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -12567,26 +11661,6 @@ export const deleteProjectsLocationsChangeRequests: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteProjectsLocationsDataAttributeBindingsError =
-  | NotFound
-  | Forbidden
-  | BadRequest
-  | Conflict
-  | GcpOpError;
-/** Deletes a DataAttributeBinding resource. All attributes within the DataAttributeBinding must be deleted before the DataAttributeBinding can be deleted. */
-export const deleteProjectsLocationsDataAttributeBindings: API.OperationMethod<
-  DeleteProjectsLocationsDataAttributeBindingsRequest,
-  GoogleLongrunningOperation,
-  DeleteProjectsLocationsDataAttributeBindingsError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: DeleteProjectsLocationsDataAttributeBindingsRequest,
-  output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
 export type DeleteProjectsLocationsDataDomainsError =
   | NotFound
   | Forbidden
@@ -12681,46 +11755,6 @@ export const deleteProjectsLocationsDataScans: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProjectsLocationsDataScansRequest,
-  output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type DeleteProjectsLocationsDataTaxonomiesError =
-  | NotFound
-  | Forbidden
-  | BadRequest
-  | Conflict
-  | GcpOpError;
-/** Deletes a DataTaxonomy resource. All attributes within the DataTaxonomy must be deleted before the DataTaxonomy can be deleted. */
-export const deleteProjectsLocationsDataTaxonomies: API.OperationMethod<
-  DeleteProjectsLocationsDataTaxonomiesRequest,
-  GoogleLongrunningOperation,
-  DeleteProjectsLocationsDataTaxonomiesError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: DeleteProjectsLocationsDataTaxonomiesRequest,
-  output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type DeleteProjectsLocationsDataTaxonomiesAttributesError =
-  | NotFound
-  | Forbidden
-  | BadRequest
-  | Conflict
-  | GcpOpError;
-/** Deletes a Data Attribute resource. */
-export const deleteProjectsLocationsDataTaxonomiesAttributes: API.OperationMethod<
-  DeleteProjectsLocationsDataTaxonomiesAttributesRequest,
-  GoogleLongrunningOperation,
-  DeleteProjectsLocationsDataTaxonomiesAttributesError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: DeleteProjectsLocationsDataTaxonomiesAttributesRequest,
   output: GoogleLongrunningOperation,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -13079,6 +12113,21 @@ export const getIamPolicyOrganizationsLocationsEncryptionConfigs: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetIamPolicyOrganizationsLocationsEncryptionConfigsRequest,
+  output: GoogleIamV1Policy,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetIamPolicyProjectsLocationsAgentTasksError = NotFound | Forbidden | GcpOpError;
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
+export const getIamPolicyProjectsLocationsAgentTasks: API.OperationMethod<
+  GetIamPolicyProjectsLocationsAgentTasksRequest,
+  GoogleIamV1Policy,
+  GetIamPolicyProjectsLocationsAgentTasksError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetIamPolicyProjectsLocationsAgentTasksRequest,
   output: GoogleIamV1Policy,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -13454,21 +12503,6 @@ export const getProjectsLocationsChangeRequests: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetProjectsLocationsDataAttributeBindingsError = NotFound | Forbidden | GcpOpError;
-/** Retrieves a DataAttributeBinding resource. */
-export const getProjectsLocationsDataAttributeBindings: API.OperationMethod<
-  GetProjectsLocationsDataAttributeBindingsRequest,
-  GoogleCloudDataplexV1DataAttributeBinding,
-  GetProjectsLocationsDataAttributeBindingsError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GetProjectsLocationsDataAttributeBindingsRequest,
-  output: GoogleCloudDataplexV1DataAttributeBinding,
-  errors: [NotFound, Forbidden, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
 export type GetProjectsLocationsDataDomainsError = NotFound | Forbidden | GcpOpError;
 /** Retrieves a DataDomain resource. */
 export const getProjectsLocationsDataDomains: API.OperationMethod<
@@ -13554,36 +12588,6 @@ export const getProjectsLocationsDataScansJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsDataScansJobsRequest,
   output: GoogleCloudDataplexV1DataScanJob,
-  errors: [NotFound, Forbidden, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GetProjectsLocationsDataTaxonomiesError = NotFound | Forbidden | GcpOpError;
-/** Retrieves a DataTaxonomy resource. */
-export const getProjectsLocationsDataTaxonomies: API.OperationMethod<
-  GetProjectsLocationsDataTaxonomiesRequest,
-  GoogleCloudDataplexV1DataTaxonomy,
-  GetProjectsLocationsDataTaxonomiesError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GetProjectsLocationsDataTaxonomiesRequest,
-  output: GoogleCloudDataplexV1DataTaxonomy,
-  errors: [NotFound, Forbidden, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GetProjectsLocationsDataTaxonomiesAttributesError = NotFound | Forbidden | GcpOpError;
-/** Retrieves a Data Attribute resource. */
-export const getProjectsLocationsDataTaxonomiesAttributes: API.OperationMethod<
-  GetProjectsLocationsDataTaxonomiesAttributesRequest,
-  GoogleCloudDataplexV1DataAttribute,
-  GetProjectsLocationsDataTaxonomiesAttributesError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GetProjectsLocationsDataTaxonomiesAttributesRequest,
-  output: GoogleCloudDataplexV1DataAttribute,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -13861,10 +12865,7 @@ export const listOrganizationsLocationsEncryptionConfigs: API.PaginatedOperation
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListOrganizationsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -13881,10 +12882,7 @@ export const listOrganizationsLocationsOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -13901,10 +12899,7 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsAspectTypesError = NotFound | Forbidden | GcpOpError;
@@ -13921,10 +12916,7 @@ export const listProjectsLocationsAspectTypes: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsChangeRequestsError = NotFound | Forbidden | GcpOpError;
@@ -13941,30 +12933,7 @@ export const listProjectsLocationsChangeRequests: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
-})) as any;
-
-export type ListProjectsLocationsDataAttributeBindingsError = NotFound | Forbidden | GcpOpError;
-/** Lists DataAttributeBinding resources in a project and location. */
-export const listProjectsLocationsDataAttributeBindings: API.PaginatedOperationMethod<
-  ListProjectsLocationsDataAttributeBindingsRequest,
-  GoogleCloudDataplexV1ListDataAttributeBindingsResponse,
-  ListProjectsLocationsDataAttributeBindingsError,
-  GcpOpContext,
-  GoogleCloudDataplexV1ListDataAttributeBindingsResponse
-> = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListProjectsLocationsDataAttributeBindingsRequest,
-  output: GoogleCloudDataplexV1ListDataAttributeBindingsResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsDataDomainsError = NotFound | Forbidden | GcpOpError;
@@ -13981,10 +12950,7 @@ export const listProjectsLocationsDataDomains: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsDataDomainsBindingsError = NotFound | Forbidden | GcpOpError;
@@ -14001,10 +12967,7 @@ export const listProjectsLocationsDataDomainsBindings: API.PaginatedOperationMet
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsDataProductsError = NotFound | Forbidden | GcpOpError;
@@ -14021,10 +12984,7 @@ export const listProjectsLocationsDataProducts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsDataProductsDataAssetsError = NotFound | Forbidden | GcpOpError;
@@ -14041,10 +13001,7 @@ export const listProjectsLocationsDataProductsDataAssets: API.PaginatedOperation
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsDataScansError = NotFound | Forbidden | GcpOpError;
@@ -14061,10 +13018,7 @@ export const listProjectsLocationsDataScans: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsDataScansJobsError = NotFound | Forbidden | GcpOpError;
@@ -14081,50 +13035,7 @@ export const listProjectsLocationsDataScansJobs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
-})) as any;
-
-export type ListProjectsLocationsDataTaxonomiesError = NotFound | Forbidden | GcpOpError;
-/** Lists DataTaxonomy resources in a project and location. */
-export const listProjectsLocationsDataTaxonomies: API.PaginatedOperationMethod<
-  ListProjectsLocationsDataTaxonomiesRequest,
-  GoogleCloudDataplexV1ListDataTaxonomiesResponse,
-  ListProjectsLocationsDataTaxonomiesError,
-  GcpOpContext,
-  GoogleCloudDataplexV1ListDataTaxonomiesResponse
-> = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListProjectsLocationsDataTaxonomiesRequest,
-  output: GoogleCloudDataplexV1ListDataTaxonomiesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
-})) as any;
-
-export type ListProjectsLocationsDataTaxonomiesAttributesError = NotFound | Forbidden | GcpOpError;
-/** Lists Data Attribute resources in a DataTaxonomy. */
-export const listProjectsLocationsDataTaxonomiesAttributes: API.PaginatedOperationMethod<
-  ListProjectsLocationsDataTaxonomiesAttributesRequest,
-  GoogleCloudDataplexV1ListDataAttributesResponse,
-  ListProjectsLocationsDataTaxonomiesAttributesError,
-  GcpOpContext,
-  GoogleCloudDataplexV1ListDataAttributesResponse
-> = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListProjectsLocationsDataTaxonomiesAttributesRequest,
-  output: GoogleCloudDataplexV1ListDataAttributesResponse,
-  errors: [NotFound, Forbidden, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsEntryGroupsError = NotFound | Forbidden | GcpOpError;
@@ -14141,10 +13052,7 @@ export const listProjectsLocationsEntryGroups: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsEntryGroupsEntriesError = NotFound | Forbidden | GcpOpError;
@@ -14161,10 +13069,7 @@ export const listProjectsLocationsEntryGroupsEntries: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsEntryTypesError = NotFound | Forbidden | GcpOpError;
@@ -14181,10 +13086,7 @@ export const listProjectsLocationsEntryTypes: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsGlossariesError = NotFound | Forbidden | GcpOpError;
@@ -14201,10 +13103,7 @@ export const listProjectsLocationsGlossaries: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsGlossariesCategoriesError = NotFound | Forbidden | GcpOpError;
@@ -14221,10 +13120,7 @@ export const listProjectsLocationsGlossariesCategories: API.PaginatedOperationMe
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsGlossariesTermsError = NotFound | Forbidden | GcpOpError;
@@ -14241,10 +13137,7 @@ export const listProjectsLocationsGlossariesTerms: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsLakesError = NotFound | Forbidden | GcpOpError;
@@ -14261,10 +13154,7 @@ export const listProjectsLocationsLakes: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsLakesActionsError = NotFound | Forbidden | GcpOpError;
@@ -14281,10 +13171,7 @@ export const listProjectsLocationsLakesActions: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsLakesTasksError = NotFound | Forbidden | GcpOpError;
@@ -14301,10 +13188,7 @@ export const listProjectsLocationsLakesTasks: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsLakesTasksJobsError = NotFound | Forbidden | GcpOpError;
@@ -14321,10 +13205,7 @@ export const listProjectsLocationsLakesTasksJobs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsLakesZonesError = NotFound | Forbidden | GcpOpError;
@@ -14341,10 +13222,7 @@ export const listProjectsLocationsLakesZones: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsLakesZonesActionsError = NotFound | Forbidden | GcpOpError;
@@ -14361,10 +13239,7 @@ export const listProjectsLocationsLakesZonesActions: API.PaginatedOperationMetho
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsLakesZonesAssetsError = NotFound | Forbidden | GcpOpError;
@@ -14381,10 +13256,7 @@ export const listProjectsLocationsLakesZonesAssets: API.PaginatedOperationMethod
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsLakesZonesAssetsActionsError = NotFound | Forbidden | GcpOpError;
@@ -14401,10 +13273,7 @@ export const listProjectsLocationsLakesZonesAssetsActions: API.PaginatedOperatio
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsLakesZonesEntitiesError = NotFound | Forbidden | GcpOpError;
@@ -14421,10 +13290,7 @@ export const listProjectsLocationsLakesZonesEntities: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsLakesZonesEntitiesPartitionsError =
@@ -14444,10 +13310,7 @@ export const listProjectsLocationsLakesZonesEntitiesPartitions: API.PaginatedOpe
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsMetadataFeedsError = NotFound | Forbidden | GcpOpError;
@@ -14464,10 +13327,7 @@ export const listProjectsLocationsMetadataFeeds: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsMetadataJobsError = NotFound | Forbidden | GcpOpError;
@@ -14484,10 +13344,7 @@ export const listProjectsLocationsMetadataJobs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -14504,10 +13361,7 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type LookupContextProjectsLocationsError =
@@ -14544,10 +13398,7 @@ export const lookupEntryLinksProjectsLocations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type LookupEntryProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -14645,26 +13496,6 @@ export const patchProjectsLocationsChangeRequests: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type PatchProjectsLocationsDataAttributeBindingsError =
-  | NotFound
-  | Forbidden
-  | BadRequest
-  | Conflict
-  | GcpOpError;
-/** Updates a DataAttributeBinding resource. */
-export const patchProjectsLocationsDataAttributeBindings: API.OperationMethod<
-  PatchProjectsLocationsDataAttributeBindingsRequest,
-  GoogleLongrunningOperation,
-  PatchProjectsLocationsDataAttributeBindingsError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: PatchProjectsLocationsDataAttributeBindingsRequest,
-  output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
 export type PatchProjectsLocationsDataDomainsError =
   | NotFound
   | Forbidden
@@ -14739,46 +13570,6 @@ export const patchProjectsLocationsDataScans: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchProjectsLocationsDataScansRequest,
-  output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type PatchProjectsLocationsDataTaxonomiesError =
-  | NotFound
-  | Forbidden
-  | BadRequest
-  | Conflict
-  | GcpOpError;
-/** Updates a DataTaxonomy resource. */
-export const patchProjectsLocationsDataTaxonomies: API.OperationMethod<
-  PatchProjectsLocationsDataTaxonomiesRequest,
-  GoogleLongrunningOperation,
-  PatchProjectsLocationsDataTaxonomiesError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: PatchProjectsLocationsDataTaxonomiesRequest,
-  output: GoogleLongrunningOperation,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type PatchProjectsLocationsDataTaxonomiesAttributesError =
-  | NotFound
-  | Forbidden
-  | BadRequest
-  | Conflict
-  | GcpOpError;
-/** Updates a DataAttribute resource. */
-export const patchProjectsLocationsDataTaxonomiesAttributes: API.OperationMethod<
-  PatchProjectsLocationsDataTaxonomiesAttributesRequest,
-  GoogleLongrunningOperation,
-  PatchProjectsLocationsDataTaxonomiesAttributesError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: PatchProjectsLocationsDataTaxonomiesAttributesRequest,
   output: GoogleLongrunningOperation,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -15124,10 +13915,7 @@ export const searchEntriesProjectsLocations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type SetIamPolicyOrganizationsLocationsEncryptionConfigsError =
@@ -15144,6 +13932,26 @@ export const setIamPolicyOrganizationsLocationsEncryptionConfigs: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: SetIamPolicyOrganizationsLocationsEncryptionConfigsRequest,
+  output: GoogleIamV1Policy,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SetIamPolicyProjectsLocationsAgentTasksError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
+export const setIamPolicyProjectsLocationsAgentTasks: API.OperationMethod<
+  SetIamPolicyProjectsLocationsAgentTasksRequest,
+  GoogleIamV1Policy,
+  SetIamPolicyProjectsLocationsAgentTasksError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SetIamPolicyProjectsLocationsAgentTasksRequest,
   output: GoogleIamV1Policy,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -15544,6 +14352,26 @@ export const testIamPermissionsOrganizationsLocationsEncryptionConfigs: API.Oper
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: TestIamPermissionsOrganizationsLocationsEncryptionConfigsRequest,
+  output: GoogleIamV1TestIamPermissionsResponse,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type TestIamPermissionsProjectsLocationsAgentTasksError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
+export const testIamPermissionsProjectsLocationsAgentTasks: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsAgentTasksRequest,
+  GoogleIamV1TestIamPermissionsResponse,
+  TestIamPermissionsProjectsLocationsAgentTasksError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: TestIamPermissionsProjectsLocationsAgentTasksRequest,
   output: GoogleIamV1TestIamPermissionsResponse,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,

@@ -11,7 +11,25 @@ import * as T from "../traits.ts";
 
 export type { HuggingFaceOpError, HuggingFaceOpContext };
 
-export type DuplicateXetFilesRequestTargetType = "dataset" | "model" | "space" | "kernel";
+export interface ApproveKernelAccessRequest {
+  namespace: string;
+  sendEmail?: boolean;
+}
+export const ApproveKernelAccessRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    namespace: S.String,
+    sendEmail: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "POST", uri: "/api/kernels/access-request/approve", code: 200 })),
+).annotate({
+  identifier: "ApproveKernelAccessRequest",
+}) as any as S.Schema<ApproveKernelAccessRequest>;
+
+export interface ApproveKernelAccessResponse {}
+export const ApproveKernelAccessResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "ApproveKernelAccessResponse",
+}) as any as S.Schema<ApproveKernelAccessResponse>;
+
+export type DuplicateXetFilesRequestTargetType = "model" | "space" | "dataset" | "kernel";
 export const DuplicateXetFilesRequestTargetType = S.String;
 
 export interface DuplicateXetFilesRequestTarget {
@@ -66,9 +84,7 @@ export const DuplicateXetFilesRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DuplicateXetFilesRequest",
-}) as any as S.Schema<DuplicateXetFilesRequest>;
+).annotate({ identifier: "DuplicateXetFilesRequest" }) as any as S.Schema<DuplicateXetFilesRequest>;
 
 export interface DuplicateXetFilesResponseFailedItem {
   /** Xet content hash of the file that failed */
@@ -123,24 +139,17 @@ export const GetKernelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/kernels/{namespace}/{repo}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetKernelRequest",
-}) as any as S.Schema<GetKernelRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/kernels/{namespace}/{repo}", code: 200 })),
+).annotate({ identifier: "GetKernelRequest" }) as any as S.Schema<GetKernelRequest>;
 
 export type GetKernelResponseGatedCase1 = "auto" | "manual";
 export const GetKernelResponseGatedCase1 = S.String;
 
-export type GetKernelResponseGated = unknown | GetKernelResponseGatedCase1;
+export type GetKernelResponseGated = boolean | GetKernelResponseGatedCase1;
 export const GetKernelResponseGated = S.Unknown as any as S.Schema<GetKernelResponseGated>;
 
 export interface GetKernelResponseResourceGroup {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   numUsers?: number;
@@ -159,6 +168,7 @@ export type GetKernelResponseAuthorDataCase0Plan = "team" | "enterprise" | "plus
 export const GetKernelResponseAuthorDataCase0Plan = S.String;
 
 export interface GetKernelResponseAuthorDataCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -167,7 +177,7 @@ export interface GetKernelResponseAuthorDataCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   plan?: GetKernelResponseAuthorDataCase0Plan;
   isUserFollowing?: boolean;
 }
@@ -181,7 +191,7 @@ export const GetKernelResponseAuthorDataCase0 = /*@__PURE__*/ S.suspend(() =>
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     plan: S.optional(GetKernelResponseAuthorDataCase0Plan),
     isUserFollowing: S.optional(S.Boolean),
   }),
@@ -208,7 +218,7 @@ export interface GetKernelResponseAuthorDataCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
   plan?: GetKernelResponseAuthorDataCase1PrimaryOrgPlan;
@@ -222,7 +232,7 @@ export const GetKernelResponseAuthorDataCase1PrimaryOrg = /*@__PURE__*/ S.suspen
     avatarUrl: S.String,
     fullname: S.String,
     name: S.String,
-    type: S.Unknown,
+    type: S.String,
     isHf: S.Boolean,
     isFollowing: S.optional(S.Boolean),
     plan: S.optional(GetKernelResponseAuthorDataCase1PrimaryOrgPlan),
@@ -236,6 +246,7 @@ export const GetKernelResponseAuthorDataCase1PrimaryOrg = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<GetKernelResponseAuthorDataCase1PrimaryOrg>;
 
 export interface GetKernelResponseAuthorDataCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -244,7 +255,7 @@ export interface GetKernelResponseAuthorDataCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
   primaryOrg?: GetKernelResponseAuthorDataCase1PrimaryOrg;
@@ -259,7 +270,7 @@ export const GetKernelResponseAuthorDataCase1 = /*@__PURE__*/ S.suspend(() =>
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     isPro: S.Boolean,
     isUserFollowing: S.optional(S.Boolean),
     primaryOrg: S.optional(GetKernelResponseAuthorDataCase1PrimaryOrg),
@@ -303,7 +314,7 @@ export interface GetKernelResponse {
   lastModified: string;
   likes: number;
   private: boolean;
-  repoType: unknown;
+  repoType: string;
   sha: string;
   gated: GetKernelResponseGated;
   resourceGroup?: GetKernelResponseResourceGroup;
@@ -322,7 +333,7 @@ export const GetKernelResponse = /*@__PURE__*/ S.suspend(() =>
     lastModified: S.String,
     likes: S.Number,
     private: S.Boolean,
-    repoType: S.Unknown,
+    repoType: S.String,
     sha: S.String,
     gated: GetKernelResponseGated,
     resourceGroup: S.optional(GetKernelResponseResourceGroup),
@@ -331,9 +342,7 @@ export const GetKernelResponse = /*@__PURE__*/ S.suspend(() =>
     supportedDriverFamilies: S.optional(GetKernelResponseSupportedDriverFamiliesList),
     trustedPublisher: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GetKernelResponse",
-}) as any as S.Schema<GetKernelResponse>;
+).annotate({ identifier: "GetKernelResponse" }) as any as S.Schema<GetKernelResponse>;
 
 export interface GetKernelRevisionRequest {
   namespace: string;
@@ -346,20 +355,14 @@ export const GetKernelRevisionRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     rev: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/kernels/{namespace}/{repo}/revision/{rev}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/kernels/{namespace}/{repo}/revision/{rev}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetKernelRevisionRequest",
-}) as any as S.Schema<GetKernelRevisionRequest>;
+).annotate({ identifier: "GetKernelRevisionRequest" }) as any as S.Schema<GetKernelRevisionRequest>;
 
 export type GetKernelRevisionResponseGatedCase1 = "auto" | "manual";
 export const GetKernelRevisionResponseGatedCase1 = S.String;
 
-export type GetKernelRevisionResponseGated = unknown | GetKernelRevisionResponseGatedCase1;
+export type GetKernelRevisionResponseGated = boolean | GetKernelRevisionResponseGatedCase1;
 export const GetKernelRevisionResponseGated =
   S.Unknown as any as S.Schema<GetKernelRevisionResponseGated>;
 
@@ -374,6 +377,7 @@ export type GetKernelRevisionResponseAuthorDataCase0Plan =
 export const GetKernelRevisionResponseAuthorDataCase0Plan = S.String;
 
 export interface GetKernelRevisionResponseAuthorDataCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -382,7 +386,7 @@ export interface GetKernelRevisionResponseAuthorDataCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   plan?: GetKernelRevisionResponseAuthorDataCase0Plan;
   isUserFollowing?: boolean;
 }
@@ -396,7 +400,7 @@ export const GetKernelRevisionResponseAuthorDataCase0 = /*@__PURE__*/ S.suspend(
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     plan: S.optional(GetKernelRevisionResponseAuthorDataCase0Plan),
     isUserFollowing: S.optional(S.Boolean),
   }),
@@ -423,7 +427,7 @@ export interface GetKernelRevisionResponseAuthorDataCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
   plan?: GetKernelRevisionResponseAuthorDataCase1PrimaryOrgPlan;
@@ -437,7 +441,7 @@ export const GetKernelRevisionResponseAuthorDataCase1PrimaryOrg = /*@__PURE__*/ 
     avatarUrl: S.String,
     fullname: S.String,
     name: S.String,
-    type: S.Unknown,
+    type: S.String,
     isHf: S.Boolean,
     isFollowing: S.optional(S.Boolean),
     plan: S.optional(GetKernelRevisionResponseAuthorDataCase1PrimaryOrgPlan),
@@ -451,6 +455,7 @@ export const GetKernelRevisionResponseAuthorDataCase1PrimaryOrg = /*@__PURE__*/ 
 }) as any as S.Schema<GetKernelRevisionResponseAuthorDataCase1PrimaryOrg>;
 
 export interface GetKernelRevisionResponseAuthorDataCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -459,7 +464,7 @@ export interface GetKernelRevisionResponseAuthorDataCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
   primaryOrg?: GetKernelRevisionResponseAuthorDataCase1PrimaryOrg;
@@ -474,7 +479,7 @@ export const GetKernelRevisionResponseAuthorDataCase1 = /*@__PURE__*/ S.suspend(
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     isPro: S.Boolean,
     isUserFollowing: S.optional(S.Boolean),
     primaryOrg: S.optional(GetKernelRevisionResponseAuthorDataCase1PrimaryOrg),
@@ -518,7 +523,7 @@ export interface GetKernelRevisionResponse {
   lastModified: string;
   likes: number;
   private: boolean;
-  repoType: unknown;
+  repoType: string;
   sha: string;
   gated: GetKernelRevisionResponseGated;
   resourceGroup?: GetKernelResponseResourceGroup;
@@ -537,7 +542,7 @@ export const GetKernelRevisionResponse = /*@__PURE__*/ S.suspend(() =>
     lastModified: S.String,
     likes: S.Number,
     private: S.Boolean,
-    repoType: S.Unknown,
+    repoType: S.String,
     sha: S.String,
     gated: GetKernelRevisionResponseGated,
     resourceGroup: S.optional(GetKernelResponseResourceGroup),
@@ -549,6 +554,59 @@ export const GetKernelRevisionResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetKernelRevisionResponse",
 }) as any as S.Schema<GetKernelRevisionResponse>;
+
+export interface GetSecurityStatusRequest {
+  namespace: string;
+  repo: string;
+}
+export const GetSecurityStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    namespace: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/api/kernels/{namespace}/{repo}/scan", code: 200 })),
+).annotate({ identifier: "GetSecurityStatusRequest" }) as any as S.Schema<GetSecurityStatusRequest>;
+
+export type GetSecurityStatusResponseFilesWithIssuesItemLevel =
+  | "unscanned"
+  | "safe"
+  | "queued"
+  | "error"
+  | "caution"
+  | "suspicious"
+  | "unsafe";
+export const GetSecurityStatusResponseFilesWithIssuesItemLevel = S.String;
+
+export interface GetSecurityStatusResponseFilesWithIssuesItem {
+  path: string;
+  level: GetSecurityStatusResponseFilesWithIssuesItemLevel;
+}
+export const GetSecurityStatusResponseFilesWithIssuesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    path: S.String,
+    level: GetSecurityStatusResponseFilesWithIssuesItemLevel,
+  }),
+).annotate({
+  identifier: "GetSecurityStatusResponseFilesWithIssuesItem",
+}) as any as S.Schema<GetSecurityStatusResponseFilesWithIssuesItem>;
+
+export type GetSecurityStatusResponseFilesWithIssuesList =
+  Array<GetSecurityStatusResponseFilesWithIssuesItem>;
+export const GetSecurityStatusResponseFilesWithIssuesList = /*@__PURE__*/ S.Array(
+  GetSecurityStatusResponseFilesWithIssuesItem,
+) as any as S.Schema<GetSecurityStatusResponseFilesWithIssuesList>;
+
+export interface GetSecurityStatusResponse {
+  scansDone: boolean;
+  filesWithIssues: GetSecurityStatusResponseFilesWithIssuesList;
+}
+export const GetSecurityStatusResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scansDone: S.Boolean,
+    filesWithIssues: GetSecurityStatusResponseFilesWithIssuesList,
+  }),
+).annotate({
+  identifier: "GetSecurityStatusResponse",
+}) as any as S.Schema<GetSecurityStatusResponse>;
 
 export type ListKernelsRequestAuthorCase1List = Array<string>;
 export const ListKernelsRequestAuthorCase1List = /*@__PURE__*/ S.Array(
@@ -685,21 +743,17 @@ export const ListKernelsRequest = /*@__PURE__*/ S.suspend(() =>
     gated: S.optional(S.Boolean.pipe(T.Query())),
     expand: S.optional(ListKernelsRequestExpand.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/kernels", code: 200 })),
-).annotate({
-  identifier: "ListKernelsRequest",
-}) as any as S.Schema<ListKernelsRequest>;
+).annotate({ identifier: "ListKernelsRequest" }) as any as S.Schema<ListKernelsRequest>;
 
 /** Kernel card metadata */
-export type ListKernelsResponseBodyItemCardDataMap = {
-  [key: string]: unknown | undefined;
-};
+export type ListKernelsResponseBodyItemCardDataMap = { [key: string]: unknown | undefined };
 export const ListKernelsResponseBodyItemCardDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<ListKernelsResponseBodyItemCardDataMap>;
 
 /** Gated access status */
-export type ListKernelsResponseBodyItemGated = boolean | unknown;
+export type ListKernelsResponseBodyItemGated = boolean | string;
 export const ListKernelsResponseBodyItemGated =
   S.Unknown as any as S.Schema<ListKernelsResponseBodyItemGated>;
 
@@ -715,7 +769,14 @@ export const ListKernelsResponseBodyItemTagsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<ListKernelsResponseBodyItemTagsList>;
 
-export type ListKernelsResponseBodyItemBuildMetadataCompatibilityTorchItem = "2.8" | "2.9" | "2.10";
+export type ListKernelsResponseBodyItemBuildMetadataCompatibilityTorchItem =
+  | "2.8"
+  | "2.9"
+  | "2.10"
+  | "2.11"
+  | "2.12"
+  | "2.13"
+  | "2.14";
 export const ListKernelsResponseBodyItemBuildMetadataCompatibilityTorchItem = S.String;
 
 export type ListKernelsResponseBodyItemBuildMetadataCompatibilityTorchList =
@@ -847,13 +908,13 @@ export const ListKernelsResponseBodyItemBuildMetadataBackendsItemHardwareTypesLi
 export interface ListKernelsResponseBodyItemBuildMetadataBackendsItem {
   type: ListKernelsResponseBodyItemBuildMetadataBackendsItemType;
   hardwareTypes: ListKernelsResponseBodyItemBuildMetadataBackendsItemHardwareTypesList;
-  noArchs?: unknown;
+  noArchs?: boolean;
 }
 export const ListKernelsResponseBodyItemBuildMetadataBackendsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: ListKernelsResponseBodyItemBuildMetadataBackendsItemType,
     hardwareTypes: ListKernelsResponseBodyItemBuildMetadataBackendsItemHardwareTypesList,
-    noArchs: S.optional(S.Unknown),
+    noArchs: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "ListKernelsResponseBodyItemBuildMetadataBackendsItem",
@@ -867,13 +928,13 @@ export const ListKernelsResponseBodyItemBuildMetadataBackendsList = /*@__PURE__*
 
 export interface ListKernelsResponseBodyItemBuildMetadataBuilder {
   version: string;
-  sha?: string;
+  commit?: string;
   dirty?: boolean;
 }
 export const ListKernelsResponseBodyItemBuildMetadataBuilder = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     version: S.String,
-    sha: S.optional(S.String),
+    commit: S.optional(S.String),
     dirty: S.optional(S.Boolean),
   }),
 ).annotate({
@@ -989,9 +1050,48 @@ export const ListKernelsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListKernelsResponse = ListKernelsResponseBodyList;
 export const ListKernelsResponse = /*@__PURE__*/ S.suspend(() =>
   ListKernelsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListKernelsResponse",
-}) as any as S.Schema<ListKernelsResponse>;
+).annotate({ identifier: "ListKernelsResponse" }) as any as S.Schema<ListKernelsResponse>;
+
+export type ListLikersRequestExpandItem = "likedAt";
+export const ListLikersRequestExpandItem = S.String;
+
+export type ListLikersRequestExpandList = Array<ListLikersRequestExpandItem | (string & {})>;
+export const ListLikersRequestExpandList = /*@__PURE__*/ S.Array(
+  ListLikersRequestExpandItem,
+) as any as S.Schema<ListLikersRequestExpandList>;
+
+export interface ListLikersRequest {
+  namespace: string;
+  repo: string;
+  expand?: ListLikersRequestExpandList;
+}
+export const ListLikersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    namespace: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    expand: S.optional(ListLikersRequestExpandList.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/api/kernels/{namespace}/{repo}/likers", code: 200 })),
+).annotate({ identifier: "ListLikersRequest" }) as any as S.Schema<ListLikersRequest>;
+
+export interface ListLikersResponse {}
+export const ListLikersResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "ListLikersResponse",
+}) as any as S.Schema<ListLikersResponse>;
+
+export type ApproveKernelAccessError = HuggingFaceOpError;
+/** Approve kernel access */
+export const approveKernelAccess: API.OperationMethod<
+  ApproveKernelAccessRequest,
+  ApproveKernelAccessResponse,
+  ApproveKernelAccessError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ApproveKernelAccessRequest,
+  output: ApproveKernelAccessResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
 
 export type DuplicateXetFilesError = HuggingFaceOpError;
 /** Duplicate xet files Duplicate xet-stored files from this repo (source) into another repo (target) by xet hash, without re-uploading file bytes. The caller must then commit the files with their sha256/size as usual. */
@@ -1038,6 +1138,21 @@ export const getKernelRevision: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetSecurityStatusError = HuggingFaceOpError;
+/** Get security status Get the security status of a repo */
+export const getSecurityStatus: API.OperationMethod<
+  GetSecurityStatusRequest,
+  GetSecurityStatusResponse,
+  GetSecurityStatusError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetSecurityStatusRequest,
+  output: GetSecurityStatusResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListKernelsError = HuggingFaceOpError;
 /** List kernels List kernels with optional filtering, sorting, and pagination */
 export const listKernels: API.OperationMethod<
@@ -1048,6 +1163,21 @@ export const listKernels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListKernelsRequest,
   output: ListKernelsResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListLikersError = HuggingFaceOpError;
+/** List likers */
+export const listLikers: API.OperationMethod<
+  ListLikersRequest,
+  ListLikersResponse,
+  ListLikersError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListLikersRequest,
+  output: ListLikersResponse,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,

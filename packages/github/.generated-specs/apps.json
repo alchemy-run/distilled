@@ -1678,6 +1678,12 @@
             "smithy.api#documentation": "The level of permission to grant the access token to view and manage Copilot cloud agent settings for an organization."
           }
         },
+        "organization_external_properties_for_repos": {
+          "target": "com.github.apps#AppPermissionsOrganizationExternalPropertiesForRepos",
+          "traits": {
+            "smithy.api#documentation": "The level of permission to grant the access token for managing external custom properties for repositories in an organization."
+          }
+        },
         "organization_announcement_banners": {
           "target": "com.github.apps#AppPermissionsOrganizationAnnouncementBanners",
           "traits": {
@@ -2521,6 +2527,32 @@
       },
       "traits": {
         "smithy.api#documentation": "The level of permission to grant the access token to view and manage Copilot cloud agent settings for an organization."
+      }
+    },
+    "com.github.apps#AppPermissionsOrganizationExternalPropertiesForRepos": {
+      "type": "enum",
+      "members": {
+        "READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read"
+          }
+        },
+        "WRITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write"
+          }
+        },
+        "ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admin"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The level of permission to grant the access token for managing external custom properties for repositories in an organization."
       }
     },
     "com.github.apps#AppPermissionsOrganizationAnnouncementBanners": {
@@ -7337,7 +7369,7 @@
           "uri": "/user/installations/{installation_id}/repositories/{repository_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Add a repository to an app installation\n\nAdd a single repository to an installation. The authenticated user must have admin access to the repository.\n\nThis endpoint only works for PATs (classic) with the `repo` scope."
+        "smithy.api#documentation": "Add a repository to an app installation\n\nAdd a single repository to an installation. The authenticated user must have admin access to the repository."
       }
     },
     "com.github.apps#RemoveRepoFromInstallationForAuthenticatedUserRequest": {
@@ -7389,7 +7421,7 @@
           "uri": "/user/installations/{installation_id}/repositories/{repository_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Remove a repository from an app installation\n\nRemove a single repository from an installation. The authenticated user must have admin access to the repository. The installation must have the `repository_selection` of `selected`.\n\nThis endpoint only works for PATs (classic) with the `repo` scope."
+        "smithy.api#documentation": "Remove a repository from an app installation\n\nRemove a single repository from an installation. The authenticated user must have admin access to the repository. The installation must have the `repository_selection` of `selected`.\n\nTo use a PAT (classic) with this endpoint, the `repo` scope is required"
       }
     },
     "com.github.apps#ListSubscriptionsForAuthenticatedUserRequest": {

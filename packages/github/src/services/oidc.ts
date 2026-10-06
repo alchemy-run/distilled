@@ -169,13 +169,7 @@ export interface GetOidcCustomSubTemplateForOrgRequest {
 export const GetOidcCustomSubTemplateForOrgRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/actions/oidc/customization/sub",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/actions/oidc/customization/sub", code: 200 })),
 ).annotate({
   identifier: "GetOidcCustomSubTemplateForOrgRequest",
 }) as any as S.Schema<GetOidcCustomSubTemplateForOrgRequest>;
@@ -283,13 +277,7 @@ export const UpdateOidcCustomSubTemplateForOrgRequest = /*@__PURE__*/ S.suspend(
     org: S.String.pipe(T.Label()),
     include_claim_keys: S.optional(UpdateOidcCustomSubTemplateForOrgRequestIncludeClaimKeysList),
     use_immutable_subject: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/orgs/{org}/actions/oidc/customization/sub",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/orgs/{org}/actions/oidc/customization/sub", code: 200 })),
 ).annotate({
   identifier: "UpdateOidcCustomSubTemplateForOrgRequest",
 }) as any as S.Schema<UpdateOidcCustomSubTemplateForOrgRequest>;

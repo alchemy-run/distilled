@@ -35,135 +35,16 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** * `full_refresh` - full_refresh * `incremental` - incremental * `append` - append * `webhook` - webhook * `cdc` - cdc * `xmin` - xmin */
-export type ExternalDataSchemaSyncTypeEnum =
-  | "full_refresh"
-  | "incremental"
-  | "append"
-  | "webhook"
-  | "cdc"
-  | "xmin";
-export const ExternalDataSchemaSyncTypeEnum = S.String;
-
-/** * `integer` - integer * `numeric` - numeric * `datetime` - datetime * `date` - date * `timestamp` - timestamp * `objectid` - objectid * `xid` - xid */
-export type IncrementalFieldTypeEnum =
-  | "integer"
-  | "numeric"
-  | "datetime"
-  | "date"
-  | "timestamp"
-  | "objectid"
-  | "xid";
-export const IncrementalFieldTypeEnum = S.String;
-
-/** * `never` - never * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
-export type ExternalDataSchemaSyncFrequencyEnum =
-  | "never"
-  | "5min"
-  | "15min"
-  | "30min"
-  | "1hour"
-  | "6hour"
-  | "12hour"
-  | "24hour"
-  | "7day"
-  | "30day";
-export const ExternalDataSchemaSyncFrequencyEnum = S.String;
-
-/** Column names for primary key deduplication. */
-export type CreateExternalDataSchemasIncrementalFieldRequestPrimaryKeyColumnsList = Array<string>;
-export const CreateExternalDataSchemasIncrementalFieldRequestPrimaryKeyColumnsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<CreateExternalDataSchemasIncrementalFieldRequestPrimaryKeyColumnsList>;
-
-/** * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
-export type CdcTableModeEnum = "consolidated" | "cdc_only" | "both";
-export const CdcTableModeEnum = S.String;
-
-/** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
-export type CreateExternalDataSchemasIncrementalFieldRequestEnabledColumnsList = Array<string>;
-export const CreateExternalDataSchemasIncrementalFieldRequestEnabledColumnsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<CreateExternalDataSchemasIncrementalFieldRequestEnabledColumnsList>;
-
-export interface CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem {
-  column: string;
-  /** One of: > >= < <= = != IN "NOT IN". */
-  operator: string;
-  /** Comparison value; must match the column's type. For `IN` / `NOT IN`, a comma-separated list (e.g. `1, 2, 3` or `'a','b'`). */
-  value: unknown;
-}
-export const CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      column: S.String,
-      operator: S.String,
-      value: S.Unknown,
-    }),
-  ).annotate({
-    identifier: "CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem",
-  }) as any as S.Schema<CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem>;
-
-/** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows. */
-export type CreateExternalDataSchemasIncrementalFieldRequestRowFiltersList =
-  Array<CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem>;
-export const CreateExternalDataSchemasIncrementalFieldRequestRowFiltersList = /*@__PURE__*/ S.Array(
-  CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem,
-) as any as S.Schema<CreateExternalDataSchemasIncrementalFieldRequestRowFiltersList>;
-
 export interface CreateExternalDataSchemasIncrementalFieldRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this external data schema. */
   id: string;
-  should_sync?: boolean;
-  /** Sync strategy: incremental, full_refresh, append, cdc, or xmin. * `full_refresh` - full_refresh * `incremental` - incremental * `append` - append * `webhook` - webhook * `cdc` - cdc * `xmin` - xmin */
-  sync_type?: ExternalDataSchemaSyncTypeEnum | (string & {}) | null;
-  /** Column name used to track sync progress. */
-  incremental_field?: string | null;
-  /** Data type of the incremental field. * `integer` - integer * `numeric` - numeric * `datetime` - datetime * `date` - date * `timestamp` - timestamp * `objectid` - objectid * `xid` - xid */
-  incremental_field_type?: IncrementalFieldTypeEnum | (string & {}) | null;
-  /** Seconds to subtract from the stored incremental watermark at sync time, so each incremental run re-reads a rolling overlap window and catches late or backdated rows. Applies to timestamp/date incremental fields only. The stored watermark is unchanged. Maximum 5184000 (60 days). */
-  incremental_field_lookback_seconds?: number | null;
-  /** How often to sync. The fastest sync frequency is 5 minutes. * `never` - never * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
-  sync_frequency?: ExternalDataSchemaSyncFrequencyEnum | (string & {}) | null;
-  /** UTC time of day to run the sync (HH:MM:SS). */
-  sync_time_of_day?: string | null;
-  /** Column names for primary key deduplication. */
-  primary_key_columns?: CreateExternalDataSchemasIncrementalFieldRequestPrimaryKeyColumnsList | null;
-  /** For CDC syncs: consolidated, cdc_only, or both. * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
-  cdc_table_mode?: CdcTableModeEnum | (string & {}) | null;
-  /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
-  enabled_columns?: CreateExternalDataSchemasIncrementalFieldRequestEnabledColumnsList | null;
-  /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows. */
-  row_filters?: CreateExternalDataSchemasIncrementalFieldRequestRowFiltersList | null;
-  /** Vendor API version override for this schema. `null` (default) syncs on the source's pinned version. Must be one of the source type's supported versions. User-managed: version-migration tooling never changes it. Not available for webhook-sync schemas. */
-  api_version?: string | null;
 }
 export const CreateExternalDataSchemasIncrementalFieldRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-    should_sync: S.optional(S.Boolean),
-    sync_type: S.optional(S.NullOr(ExternalDataSchemaSyncTypeEnum)),
-    incremental_field: S.optional(S.NullOr(S.String)),
-    incremental_field_type: S.optional(S.NullOr(IncrementalFieldTypeEnum)),
-    incremental_field_lookback_seconds: S.optional(S.NullOr(S.Number)),
-    sync_frequency: S.optional(S.NullOr(ExternalDataSchemaSyncFrequencyEnum)),
-    sync_time_of_day: S.optional(S.NullOr(S.String)),
-    primary_key_columns: S.optional(
-      S.NullOr(CreateExternalDataSchemasIncrementalFieldRequestPrimaryKeyColumnsList),
-    ),
-    cdc_table_mode: S.optional(S.NullOr(CdcTableModeEnum)),
-    enabled_columns: S.optional(
-      S.NullOr(CreateExternalDataSchemasIncrementalFieldRequestEnabledColumnsList),
-    ),
-    row_filters: S.optional(
-      S.NullOr(CreateExternalDataSchemasIncrementalFieldRequestRowFiltersList),
-    ),
-    api_version: S.optional(S.NullOr(S.String)),
   }).pipe(
     T.Http({
       method: "POST",
@@ -353,11 +234,54 @@ export const ExternalDataSchemaTableMap = /*@__PURE__*/ S.Record(
   S.Unknown,
 ) as any as S.Schema<ExternalDataSchemaTableMap>;
 
+/** * `full_refresh` - full_refresh * `incremental` - incremental * `append` - append * `webhook` - webhook * `cdc` - cdc * `xmin` - xmin */
+export type ExternalDataSchemaSyncTypeEnum =
+  | "full_refresh"
+  | "incremental"
+  | "append"
+  | "webhook"
+  | "cdc"
+  | "xmin";
+export const ExternalDataSchemaSyncTypeEnum = S.String;
+
+/** * `integer` - integer * `numeric` - numeric * `datetime` - datetime * `date` - date * `timestamp` - timestamp * `objectid` - objectid * `xid` - xid */
+export type IncrementalFieldTypeEnum =
+  | "integer"
+  | "numeric"
+  | "datetime"
+  | "date"
+  | "timestamp"
+  | "objectid"
+  | "xid";
+export const IncrementalFieldTypeEnum = S.String;
+
+/** * `never` - never * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
+export type ExternalDataSchemaSyncFrequencyEnum =
+  | "never"
+  | "5min"
+  | "15min"
+  | "30min"
+  | "1hour"
+  | "6hour"
+  | "12hour"
+  | "24hour"
+  | "7day"
+  | "30day";
+export const ExternalDataSchemaSyncFrequencyEnum = S.String;
+
 /** Column names for primary key deduplication. */
 export type ExternalDataSchemaPrimaryKeyColumnsList = Array<string>;
 export const ExternalDataSchemaPrimaryKeyColumnsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<ExternalDataSchemaPrimaryKeyColumnsList>;
+
+/** * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
+export type CdcTableModeEnum = "consolidated" | "cdc_only" | "both";
+export const CdcTableModeEnum = S.String;
+
+/** * `missing_primary_key` - Missing primary key * `duplicate_primary_key` - Duplicate primary key */
+export type IncrementalSyncBlockedReasonEnum = "missing_primary_key" | "duplicate_primary_key";
+export const IncrementalSyncBlockedReasonEnum = S.String;
 
 /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
 export type ExternalDataSchemaEnabledColumnsList = Array<string>;
@@ -365,16 +289,27 @@ export const ExternalDataSchemaEnabledColumnsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<ExternalDataSchemaEnabledColumnsList>;
 
-export type ExternalDataSchemaRowFiltersItem =
-  CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem;
-export const ExternalDataSchemaRowFiltersItem =
-  CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem;
+export interface ExternalDataSchemaRowFiltersItem {
+  column: string;
+  /** One of: > >= < <= = != IN "NOT IN". */
+  operator: string;
+  /** Comparison value; must match the column's type. For `IN` / `NOT IN`, a comma-separated list (e.g. `1, 2, 3` or `'a','b'`). */
+  value: unknown;
+}
+export const ExternalDataSchemaRowFiltersItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    column: S.String,
+    operator: S.String,
+    value: S.Unknown,
+  }),
+).annotate({
+  identifier: "ExternalDataSchemaRowFiltersItem",
+}) as any as S.Schema<ExternalDataSchemaRowFiltersItem>;
 
 /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows. */
-export type ExternalDataSchemaRowFiltersList =
-  Array<CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem>;
+export type ExternalDataSchemaRowFiltersList = Array<ExternalDataSchemaRowFiltersItem>;
 export const ExternalDataSchemaRowFiltersList = /*@__PURE__*/ S.Array(
-  CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem,
+  ExternalDataSchemaRowFiltersItem,
 ) as any as S.Schema<ExternalDataSchemaRowFiltersList>;
 
 export interface ExternalDataSchemaAvailableColumnsItem {
@@ -427,9 +362,7 @@ export const ExternalDataSchemaSource = /*@__PURE__*/ S.suspend(() =>
     api_version: S.optional(S.NullOr(S.String)),
     supported_api_versions: S.optional(ExternalDataSchemaSourceSupportedApiVersionsList),
   }),
-).annotate({
-  identifier: "ExternalDataSchemaSource",
-}) as any as S.Schema<ExternalDataSchemaSource>;
+).annotate({ identifier: "ExternalDataSchemaSource" }) as any as S.Schema<ExternalDataSchemaSource>;
 
 export interface ExternalDataSourceApiVersionDeprecation {
   /** The deprecated vendor API version this source is pinned to. */
@@ -473,11 +406,19 @@ export interface ExternalDataSchema {
   sync_frequency?: ExternalDataSchemaSyncFrequencyEnum | null;
   /** UTC time of day to run the sync (HH:MM:SS). */
   sync_time_of_day?: string | null;
+  /** Days between scheduled full refreshes, from 1 to 90, or null for none. A full refresh wipes the table and re-imports every row, so rows deleted at the source are removed. It runs on the first scheduled sync once the interval has passed, counted from when it was saved or from the last full resync (or, when full_refresh_time_of_day is set, from the slot of that time the last refresh served), and can start up to an hour early. Queries keep returning the current rows until a full refresh finishes, and workflows and destinations that run on new rows of the table run again for every row. Available for incremental, append, and xmin syncs only, and never shorter than the sync frequency. */
+  full_refresh_interval_days?: number | null;
+  /** UTC time of day (HH:MM:SS) that scheduled full refreshes are due, for example outside working hours. The refresh runs on the first scheduled sync from up to an hour before this time, so on a table that syncs every few hours it can run hours later. Each interval counts from the slot of this time that the last refresh or save served, where a slot less than an hour away counts as served. Saving a new time restarts the clock, so the first refresh after a save can come up to a day before a full interval has passed. Null counts the interval from when it was saved or from the last full resync. Cleared when full_refresh_interval_days is null. */
+  full_refresh_time_of_day?: string | null;
+  /** When the next scheduled full refresh is due. The first scheduled sync that starts at most an hour before this time re-imports the table. Saving a new interval or time, or any full resync, moves it one interval ahead, onto full_refresh_time_of_day when that is set. */
+  next_full_refresh_at?: string | null;
   description?: string | null;
   /** Column names for primary key deduplication. */
   primary_key_columns?: ExternalDataSchemaPrimaryKeyColumnsList | null;
   /** For CDC syncs: consolidated, cdc_only, or both. * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
   cdc_table_mode?: CdcTableModeEnum | null;
+  /** Why the last sync run could not merge rows for this table, or `null` when no such failure is current, which includes a run that failed for another reason. A blocked table is disabled, and the resolution differs by reason. `missing_primary_key`: no key to merge on, so set `primary_key_columns` to a unique key, which is accepted because none was set before. `duplicate_primary_key`: the key in use does not identify one row, and that key cannot be swapped once data has synced, so either remove the duplicates at the source and set `should_sync` to true, or delete the synced data before setting a different key. Either reason also accepts a different `sync_type`: `append` is only safe for insert-only tables, because updated rows arrive again as duplicates, and `full_refresh` re-reads the whole table on every sync and bills every row. This reports the last run's failure, so it clears once a run succeeds or fails for another reason, not when an update lands. * `missing_primary_key` - Missing primary key * `duplicate_primary_key` - Duplicate primary key */
+  incremental_sync_blocked?: IncrementalSyncBlockedReasonEnum | null;
   /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
   enabled_columns?: ExternalDataSchemaEnabledColumnsList | null;
   /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows. */
@@ -512,9 +453,13 @@ export const ExternalDataSchema = /*@__PURE__*/ S.suspend(() =>
     incremental_field_lookback_seconds: S.optional(S.NullOr(S.Number)),
     sync_frequency: S.optional(S.NullOr(ExternalDataSchemaSyncFrequencyEnum)),
     sync_time_of_day: S.optional(S.NullOr(S.String)),
+    full_refresh_interval_days: S.optional(S.NullOr(S.Number)),
+    full_refresh_time_of_day: S.optional(S.NullOr(S.String)),
+    next_full_refresh_at: S.optional(S.NullOr(S.String)),
     description: S.optional(S.NullOr(S.String)),
     primary_key_columns: S.optional(S.NullOr(ExternalDataSchemaPrimaryKeyColumnsList)),
     cdc_table_mode: S.optional(S.NullOr(CdcTableModeEnum)),
+    incremental_sync_blocked: S.optional(S.NullOr(IncrementalSyncBlockedReasonEnum)),
     enabled_columns: S.optional(S.NullOr(ExternalDataSchemaEnabledColumnsList)),
     row_filters: S.optional(S.NullOr(ExternalDataSchemaRowFiltersList)),
     available_columns: S.optional(ExternalDataSchemaAvailableColumnsList),
@@ -524,9 +469,7 @@ export const ExternalDataSchema = /*@__PURE__*/ S.suspend(() =>
     api_version_deprecation: S.optional(S.NullOr(ExternalDataSourceApiVersionDeprecation)),
     user_access_level: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ExternalDataSchema",
-}) as any as S.Schema<ExternalDataSchema>;
+).annotate({ identifier: "ExternalDataSchema" }) as any as S.Schema<ExternalDataSchema>;
 
 export interface GetExternalDataSchemasDestinationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -576,9 +519,7 @@ export const SchemaDestinations = /*@__PURE__*/ S.suspend(() =>
     inherits_from_source: S.Boolean,
     effective_destination_ids: S.optional(SchemaDestinationsEffectiveDestinationIdsList),
   }),
-).annotate({
-  identifier: "SchemaDestinations",
-}) as any as S.Schema<SchemaDestinations>;
+).annotate({ identifier: "SchemaDestinations" }) as any as S.Schema<SchemaDestinations>;
 
 export interface GetExternalDataSchemasLogRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -643,11 +584,7 @@ export const ListExternalDataSchemasRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/external_data_schemas/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/external_data_schemas/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListExternalDataSchemasRequest",
@@ -687,16 +624,13 @@ export const UpdateExternalDataSchemaRequestEnabledColumnsList = /*@__PURE__*/ S
   S.String,
 ) as any as S.Schema<UpdateExternalDataSchemaRequestEnabledColumnsList>;
 
-export type UpdateExternalDataSchemaRequestRowFiltersItem =
-  CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem;
-export const UpdateExternalDataSchemaRequestRowFiltersItem =
-  CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem;
+export type UpdateExternalDataSchemaRequestRowFiltersItem = ExternalDataSchemaRowFiltersItem;
+export const UpdateExternalDataSchemaRequestRowFiltersItem = ExternalDataSchemaRowFiltersItem;
 
 /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows. */
-export type UpdateExternalDataSchemaRequestRowFiltersList =
-  Array<CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem>;
+export type UpdateExternalDataSchemaRequestRowFiltersList = Array<ExternalDataSchemaRowFiltersItem>;
 export const UpdateExternalDataSchemaRequestRowFiltersList = /*@__PURE__*/ S.Array(
-  CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem,
+  ExternalDataSchemaRowFiltersItem,
 ) as any as S.Schema<UpdateExternalDataSchemaRequestRowFiltersList>;
 
 export interface UpdateExternalDataSchemaRequest {
@@ -717,6 +651,10 @@ export interface UpdateExternalDataSchemaRequest {
   sync_frequency?: ExternalDataSchemaSyncFrequencyEnum | (string & {}) | null;
   /** UTC time of day to run the sync (HH:MM:SS). */
   sync_time_of_day?: string | null;
+  /** Days between scheduled full refreshes, from 1 to 90, or null for none. A full refresh wipes the table and re-imports every row, so rows deleted at the source are removed. It runs on the first scheduled sync once the interval has passed, counted from when it was saved or from the last full resync (or, when full_refresh_time_of_day is set, from the slot of that time the last refresh served), and can start up to an hour early. Queries keep returning the current rows until a full refresh finishes, and workflows and destinations that run on new rows of the table run again for every row. Available for incremental, append, and xmin syncs only, and never shorter than the sync frequency. */
+  full_refresh_interval_days?: number | null;
+  /** UTC time of day (HH:MM:SS) that scheduled full refreshes are due, for example outside working hours. The refresh runs on the first scheduled sync from up to an hour before this time, so on a table that syncs every few hours it can run hours later. Each interval counts from the slot of this time that the last refresh or save served, where a slot less than an hour away counts as served. Saving a new time restarts the clock, so the first refresh after a save can come up to a day before a full interval has passed. Null counts the interval from when it was saved or from the last full resync. Cleared when full_refresh_interval_days is null. */
+  full_refresh_time_of_day?: string | null;
   /** Column names for primary key deduplication. */
   primary_key_columns?: UpdateExternalDataSchemaRequestPrimaryKeyColumnsList | null;
   /** For CDC syncs: consolidated, cdc_only, or both. * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
@@ -739,6 +677,8 @@ export const UpdateExternalDataSchemaRequest = /*@__PURE__*/ S.suspend(() =>
     incremental_field_lookback_seconds: S.optional(S.NullOr(S.Number)),
     sync_frequency: S.optional(S.NullOr(ExternalDataSchemaSyncFrequencyEnum)),
     sync_time_of_day: S.optional(S.NullOr(S.String)),
+    full_refresh_interval_days: S.optional(S.NullOr(S.Number)),
+    full_refresh_time_of_day: S.optional(S.NullOr(S.String)),
     primary_key_columns: S.optional(S.NullOr(UpdateExternalDataSchemaRequestPrimaryKeyColumnsList)),
     cdc_table_mode: S.optional(S.NullOr(CdcTableModeEnum)),
     enabled_columns: S.optional(S.NullOr(UpdateExternalDataSchemaRequestEnabledColumnsList)),
@@ -801,15 +741,15 @@ export const UpdateExternalDataSchemasPartialRequestEnabledColumnsList = /*@__PU
 ) as any as S.Schema<UpdateExternalDataSchemasPartialRequestEnabledColumnsList>;
 
 export type UpdateExternalDataSchemasPartialRequestRowFiltersItem =
-  CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem;
+  ExternalDataSchemaRowFiltersItem;
 export const UpdateExternalDataSchemasPartialRequestRowFiltersItem =
-  CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem;
+  ExternalDataSchemaRowFiltersItem;
 
 /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows. */
 export type UpdateExternalDataSchemasPartialRequestRowFiltersList =
-  Array<CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem>;
+  Array<ExternalDataSchemaRowFiltersItem>;
 export const UpdateExternalDataSchemasPartialRequestRowFiltersList = /*@__PURE__*/ S.Array(
-  CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem,
+  ExternalDataSchemaRowFiltersItem,
 ) as any as S.Schema<UpdateExternalDataSchemasPartialRequestRowFiltersList>;
 
 export interface UpdateExternalDataSchemasPartialRequest {
@@ -830,6 +770,10 @@ export interface UpdateExternalDataSchemasPartialRequest {
   sync_frequency?: ExternalDataSchemaSyncFrequencyEnum | (string & {}) | null;
   /** UTC time of day to run the sync (HH:MM:SS). */
   sync_time_of_day?: string | null;
+  /** Days between scheduled full refreshes, from 1 to 90, or null for none. A full refresh wipes the table and re-imports every row, so rows deleted at the source are removed. It runs on the first scheduled sync once the interval has passed, counted from when it was saved or from the last full resync (or, when full_refresh_time_of_day is set, from the slot of that time the last refresh served), and can start up to an hour early. Queries keep returning the current rows until a full refresh finishes, and workflows and destinations that run on new rows of the table run again for every row. Available for incremental, append, and xmin syncs only, and never shorter than the sync frequency. */
+  full_refresh_interval_days?: number | null;
+  /** UTC time of day (HH:MM:SS) that scheduled full refreshes are due, for example outside working hours. The refresh runs on the first scheduled sync from up to an hour before this time, so on a table that syncs every few hours it can run hours later. Each interval counts from the slot of this time that the last refresh or save served, where a slot less than an hour away counts as served. Saving a new time restarts the clock, so the first refresh after a save can come up to a day before a full interval has passed. Null counts the interval from when it was saved or from the last full resync. Cleared when full_refresh_interval_days is null. */
+  full_refresh_time_of_day?: string | null;
   /** Column names for primary key deduplication. */
   primary_key_columns?: UpdateExternalDataSchemasPartialRequestPrimaryKeyColumnsList | null;
   /** For CDC syncs: consolidated, cdc_only, or both. * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
@@ -852,6 +796,8 @@ export const UpdateExternalDataSchemasPartialRequest = /*@__PURE__*/ S.suspend((
     incremental_field_lookback_seconds: S.optional(S.NullOr(S.Number)),
     sync_frequency: S.optional(S.NullOr(ExternalDataSchemaSyncFrequencyEnum)),
     sync_time_of_day: S.optional(S.NullOr(S.String)),
+    full_refresh_interval_days: S.optional(S.NullOr(S.Number)),
+    full_refresh_time_of_day: S.optional(S.NullOr(S.String)),
     primary_key_columns: S.optional(
       S.NullOr(UpdateExternalDataSchemasPartialRequestPrimaryKeyColumnsList),
     ),
@@ -895,6 +841,7 @@ export type CreateExternalDataSchemasReloadError =
   | Forbidden
   | NotFound
   | PosthogOpError;
+/** Trigger a sync for the schema using its configured sync method. Most methods keep the existing warehouse table and add or merge new rows, but a full-refresh schema rebuilds the whole table on every run. To force a rebuild from the source, use resync. */
 export const createExternalDataSchemasReload: API.OperationMethod<
   CreateExternalDataSchemasReloadRequest,
   CreateExternalDataSchemasReloadResponse,
@@ -913,6 +860,7 @@ export type CreateExternalDataSchemasResyncError =
   | Forbidden
   | NotFound
   | PosthogOpError;
+/** Request a full resync of the schema. For sources that can backfill, this drops the warehouse table and re-imports every row from the source, so existing data is deleted first. A webhook-only schema cannot backfill, so it keeps its existing table and resumes ingestion instead. To sync without requesting a rebuild, use reload. */
 export const createExternalDataSchemasResync: API.OperationMethod<
   CreateExternalDataSchemasResyncRequest,
   CreateExternalDataSchemasResyncResponse,

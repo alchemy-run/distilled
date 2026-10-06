@@ -136,18 +136,14 @@ export const GenerateDataSetRequest = /*@__PURE__*/ S.suspend(() =>
     snsTopicArn: S.String,
     customerDefinedValues: S.optional(CustomerDefinedValues),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GenerateDataSetRequest",
-}) as any as S.Schema<GenerateDataSetRequest>;
+).annotate({ identifier: "GenerateDataSetRequest" }) as any as S.Schema<GenerateDataSetRequest>;
 export type DataSetRequestId = string;
 export interface GenerateDataSetResult {
   dataSetRequestId?: string;
 }
 export const GenerateDataSetResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ dataSetRequestId: S.optional(S.String) }),
-).annotate({
-  identifier: "GenerateDataSetResult",
-}) as any as S.Schema<GenerateDataSetResult>;
+).annotate({ identifier: "GenerateDataSetResult" }) as any as S.Schema<GenerateDataSetResult>;
 export type SupportDataSetType =
   | "customer_support_contacts_data"
   | "test_customer_support_contacts_data"

@@ -34,13 +34,7 @@ export interface GetVrackServiceResourceRequest {
 export const GetVrackServiceResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vrackServicesId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vrackServices/resource/{vrackServicesId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/vrackServices/resource/{vrackServicesId}", code: 200 })),
 ).annotate({
   identifier: "GetVrackServiceResourceRequest",
 }) as any as S.Schema<GetVrackServiceResourceRequest>;
@@ -61,9 +55,7 @@ export const VrackServicesEndpoint = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     ip: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VrackServicesEndpoint",
-}) as any as S.Schema<VrackServicesEndpoint>;
+).annotate({ identifier: "VrackServicesEndpoint" }) as any as S.Schema<VrackServicesEndpoint>;
 
 /** Endpoints representing the IPs assigned to the managed services */
 export type VrackServicesServiceEndpointEndpointsList = Array<VrackServicesEndpoint>;
@@ -136,9 +128,7 @@ export const VrackServicesSubnet = /*@__PURE__*/ S.suspend(() =>
     serviceRange: S.optional(VrackServicesServiceRange),
     vlan: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "VrackServicesSubnet",
-}) as any as S.Schema<VrackServicesSubnet>;
+).annotate({ identifier: "VrackServicesSubnet" }) as any as S.Schema<VrackServicesSubnet>;
 
 /** Subnets of the current vRack Services */
 export type VrackServicesVrackServicesCurrentStateSubnetsList = Array<VrackServicesSubnet>;
@@ -190,9 +180,7 @@ export const CommonCurrentTask = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.NullOr(CommonCurrentTaskStatusEnum)),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CommonCurrentTask",
-}) as any as S.Schema<CommonCurrentTask>;
+).annotate({ identifier: "CommonCurrentTask" }) as any as S.Schema<CommonCurrentTask>;
 
 /** Asynchronous operations ongoing on the vRack Services */
 export type VrackServicesVrackServicesWithIAMCurrentTasksList = Array<CommonCurrentTask>;
@@ -225,9 +213,7 @@ export const IamResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(IamResourceMetadataTagsMap)),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamResourceMetadata",
-}) as any as S.Schema<IamResourceMetadata>;
+).annotate({ identifier: "IamResourceMetadata" }) as any as S.Schema<IamResourceMetadata>;
 
 /** It reflects the readiness of the vRack Services resource. The status `READY` indicates that the vRack Services state is stable. It guarantees that the `currentState` is fully aligned with the `targetSpec`. A new target specification request will be accepted only in this status. */
 export type VrackServicesResourceStatusEnum =
@@ -382,9 +368,7 @@ export const CommonTaskError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CommonTaskError",
-}) as any as S.Schema<CommonTaskError>;
+).annotate({ identifier: "CommonTaskError" }) as any as S.Schema<CommonTaskError>;
 
 /** Errors that occured on the task */
 export type CommonTaskErrorsList = Array<CommonTaskError>;
@@ -408,9 +392,7 @@ export const CommonTaskProgress = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     status: S.optional(CommonTaskStatusEnum),
   }),
-).annotate({
-  identifier: "CommonTaskProgress",
-}) as any as S.Schema<CommonTaskProgress>;
+).annotate({ identifier: "CommonTaskProgress" }) as any as S.Schema<CommonTaskProgress>;
 
 /** Progress steps of the asynchronous operation */
 export type CommonTaskProgressList = Array<CommonTaskProgress>;
@@ -506,13 +488,7 @@ export const ListVrackServiceReferenceRegionRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
     xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vrackServices/reference/region",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/vrackServices/reference/region", code: 200 })),
 ).annotate({
   identifier: "ListVrackServiceReferenceRegionRequest",
 }) as any as S.Schema<ListVrackServiceReferenceRegionRequest>;
@@ -526,9 +502,7 @@ export const VrackServicesRegion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VrackServicesRegion",
-}) as any as S.Schema<VrackServicesRegion>;
+).annotate({ identifier: "VrackServicesRegion" }) as any as S.Schema<VrackServicesRegion>;
 
 export type ListVrackServiceReferenceRegionResponseBodyList = Array<VrackServicesRegion>;
 export const ListVrackServiceReferenceRegionResponseBodyList = /*@__PURE__*/ S.Array(
@@ -666,11 +640,7 @@ export const ListVrackServiceResourceTaskRequest = /*@__PURE__*/ S.suspend(() =>
     xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
     xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vrackServices/resource/{vrackServicesId}/task",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/vrackServices/resource/{vrackServicesId}/task", code: 200 }),
   ),
 ).annotate({
   identifier: "ListVrackServiceResourceTaskRequest",
@@ -701,13 +671,7 @@ export const PutVrackServiceResourceRequest = /*@__PURE__*/ S.suspend(() =>
     vrackServicesId: S.String.pipe(T.Label()),
     checksum: S.String,
     targetSpec: VrackServicesVrackServicesTargetSpec,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/vrackServices/resource/{vrackServicesId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/vrackServices/resource/{vrackServicesId}", code: 200 })),
 ).annotate({
   identifier: "PutVrackServiceResourceRequest",
 }) as any as S.Schema<PutVrackServiceResourceRequest>;

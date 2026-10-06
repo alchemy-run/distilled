@@ -26,6 +26,15 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+export class NotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 404 }],
+  ) {}
+
 export interface AccountsNotebooksDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -86,7 +95,7 @@ export const AccountsRelationshipsDestroyResponse = /*@__PURE__*/ S.suspend(() =
   identifier: "AccountsRelationshipsDestroyResponse",
 }) as any as S.Schema<AccountsRelationshipsDestroyResponse>;
 
-/** Value to store, matching the definition's type: a number for number/currency/percent, a boolean for boolean, an ISO-8601 string for date/datetime, an HTTP or HTTPS URL for link properties, or text for text properties. */
+/** Value to store, matching the definition's type: a number for number/currency/percent, a boolean for boolean, an ISO-8601 string for date/datetime, an HTTP or HTTPS URL for link properties, or text for text properties. Null clears the current value while preserving its history. */
 export type CreateAccountsCustomPropertyValueRequestValue = string | number | boolean;
 export const CreateAccountsCustomPropertyValueRequestValue =
   S.Unknown as any as S.Schema<CreateAccountsCustomPropertyValueRequestValue>;
@@ -98,15 +107,15 @@ export interface CreateAccountsCustomPropertyValueRequest {
   account_id: string;
   /** UUID of the custom property definition whose value to set for this account. */
   definition: string;
-  /** Value to store, matching the definition's type: a number for number/currency/percent, a boolean for boolean, an ISO-8601 string for date/datetime, an HTTP or HTTPS URL for link properties, or text for text properties. */
-  value: CreateAccountsCustomPropertyValueRequestValue;
+  /** Value to store, matching the definition's type: a number for number/currency/percent, a boolean for boolean, an ISO-8601 string for date/datetime, an HTTP or HTTPS URL for link properties, or text for text properties. Null clears the current value while preserving its history. */
+  value: CreateAccountsCustomPropertyValueRequestValue | null;
 }
 export const CreateAccountsCustomPropertyValueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     account_id: S.String.pipe(T.Label()),
     definition: S.String,
-    value: CreateAccountsCustomPropertyValueRequestValue,
+    value: S.NullOr(CreateAccountsCustomPropertyValueRequestValue),
   }).pipe(
     T.Http({
       method: "POST",
@@ -146,9 +155,7 @@ export const CustomPropertyValue = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     created_by_id: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "CustomPropertyValue",
-}) as any as S.Schema<CustomPropertyValue>;
+).annotate({ identifier: "CustomPropertyValue" }) as any as S.Schema<CustomPropertyValue>;
 
 export interface CreateAccountsNotebookRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -157,7 +164,7 @@ export interface CreateAccountsNotebookRequest {
   account_id: string;
   /** Human-readable title of the account notebook. */
   title?: string | null;
-  /** Notebook content as a ProseMirror JSON document structure. */
+  /** Notebook content as a ProseMirror JSON document. On create, the server stores it as a markdown notebook. */
   content?: unknown;
   /** Plain text representation of the notebook content for search. */
   text_content?: string | null;
@@ -236,7 +243,7 @@ export interface AccountNotebook {
   short_id: string;
   /** Human-readable title of the account notebook. */
   title?: string | null;
-  /** Notebook content as a ProseMirror JSON document structure. */
+  /** Notebook content as a ProseMirror JSON document. On create, the server stores it as a markdown notebook. */
   content?: unknown;
   /** Plain text representation of the notebook content for search. */
   text_content?: string | null;
@@ -257,9 +264,7 @@ export const AccountNotebook = /*@__PURE__*/ S.suspend(() =>
     last_modified_at: S.String,
     last_modified_by: UserBasic,
   }),
-).annotate({
-  identifier: "AccountNotebook",
-}) as any as S.Schema<AccountNotebook>;
+).annotate({ identifier: "AccountNotebook" }) as any as S.Schema<AccountNotebook>;
 
 export interface CreateAccountsRelationshipRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -298,6 +303,8 @@ export interface AccountRelationshipDefinition {
   description?: string | null;
   /** Whether only one user can hold this relationship per account at a time, e.g. a single CSM per account. */
   is_single_holder?: boolean;
+  /** Whether customer analytics can take control of this relationship per account. Rows under a controlled relationship can't be deleted. On an account where control has started, only a person can change the relationship and an empty relationship is a deliberate decision. Set by project operators, not through this API. */
+  is_controlled: boolean;
 }
 export const AccountRelationshipDefinition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -305,6 +312,7 @@ export const AccountRelationshipDefinition = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     description: S.optional(S.NullOr(S.String)),
     is_single_holder: S.optional(S.Boolean),
+    is_controlled: S.Boolean,
   }),
 ).annotate({
   identifier: "AccountRelationshipDefinition",
@@ -322,9 +330,16 @@ export const AccountAssignment = /*@__PURE__*/ S.suspend(() =>
     id: S.Number,
     email: S.String,
   }),
-).annotate({
-  identifier: "AccountAssignment",
-}) as any as S.Schema<AccountAssignment>;
+).annotate({ identifier: "AccountAssignment" }) as any as S.Schema<AccountAssignment>;
+
+/** * `human` - Human * `workflow` - Workflow * `ai` - AI * `salesforce_claim` - Salesforce claim * `migration` - Migration */
+export type AccountRelationshipSourceEnum =
+  | "human"
+  | "workflow"
+  | "ai"
+  | "salesforce_claim"
+  | "migration";
+export const AccountRelationshipSourceEnum = S.String;
 
 /** One assignment of a user to an account relationship, with its effective range. */
 export interface AccountRelationship {
@@ -338,6 +353,8 @@ export interface AccountRelationship {
   started_at: string;
   /** When this assignment ended; null while it is active. */
   ended_at: string | null;
+  /** Which kind of writer made this assignment; null on rows older than provenance tracking. * `human` - Human * `workflow` - Workflow * `ai` - AI * `salesforce_claim` - Salesforce claim * `migration` - Migration */
+  source: AccountRelationshipSourceEnum | null;
 }
 export const AccountRelationship = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -346,10 +363,9 @@ export const AccountRelationship = /*@__PURE__*/ S.suspend(() =>
     user: S.NullOr(AccountAssignment),
     started_at: S.String,
     ended_at: S.NullOr(S.String),
+    source: S.NullOr(AccountRelationshipSourceEnum),
   }),
-).annotate({
-  identifier: "AccountRelationship",
-}) as any as S.Schema<AccountRelationship>;
+).annotate({ identifier: "AccountRelationship" }) as any as S.Schema<AccountRelationship>;
 
 export interface CreateAccountsRelationshipsEndRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -373,6 +389,260 @@ export const CreateAccountsRelationshipsEndRequest = /*@__PURE__*/ S.suspend(() 
 ).annotate({
   identifier: "CreateAccountsRelationshipsEndRequest",
 }) as any as S.Schema<CreateAccountsRelationshipsEndRequest>;
+
+/** Email domains owned by this account's company, used to match inbound touchpoints to the account. */
+export type CreateCustomerAnalyticsExternalAccountRequestPropertiesEmailDomainsList = Array<string>;
+export const CreateCustomerAnalyticsExternalAccountRequestPropertiesEmailDomainsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<CreateCustomerAnalyticsExternalAccountRequestPropertiesEmailDomainsList>;
+
+/** Individual email addresses pinned to this account, matched before the domain fallback. */
+export type CreateCustomerAnalyticsExternalAccountRequestPropertiesKnownEmailsList = Array<string>;
+export const CreateCustomerAnalyticsExternalAccountRequestPropertiesKnownEmailsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<CreateCustomerAnalyticsExternalAccountRequestPropertiesKnownEmailsList>;
+
+/** Typed properties for a new account: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), email_domains and known_emails. Unknown keys are rejected. Ignored when the account already exists. */
+export interface CreateCustomerAnalyticsExternalAccountRequestProperties {
+  /** Primary company website hostname used for account identity and logo lookup. */
+  website_domain?: string | null;
+  /** Email domains owned by this account's company, used to match inbound touchpoints to the account. */
+  email_domains?: CreateCustomerAnalyticsExternalAccountRequestPropertiesEmailDomainsList;
+  /** Individual email addresses pinned to this account, matched before the domain fallback. */
+  known_emails?: CreateCustomerAnalyticsExternalAccountRequestPropertiesKnownEmailsList;
+  stripe_customer_id?: string | null;
+  hubspot_deal_id?: string | null;
+  billing_id?: string | null;
+  sfdc_id?: string | null;
+  zendesk_id?: string | null;
+  slack_channel_id?: string | null;
+  usage_dashboard_link?: string | null;
+  metabase_link?: string | null;
+}
+export const CreateCustomerAnalyticsExternalAccountRequestProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    website_domain: S.optional(S.NullOr(S.String)),
+    email_domains: S.optional(
+      CreateCustomerAnalyticsExternalAccountRequestPropertiesEmailDomainsList,
+    ),
+    known_emails: S.optional(
+      CreateCustomerAnalyticsExternalAccountRequestPropertiesKnownEmailsList,
+    ),
+    stripe_customer_id: S.optional(S.NullOr(S.String)),
+    hubspot_deal_id: S.optional(S.NullOr(S.String)),
+    billing_id: S.optional(S.NullOr(S.String)),
+    sfdc_id: S.optional(S.NullOr(S.String)),
+    zendesk_id: S.optional(S.NullOr(S.String)),
+    slack_channel_id: S.optional(S.NullOr(S.String)),
+    usage_dashboard_link: S.optional(S.NullOr(S.String)),
+    metabase_link: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "CreateCustomerAnalyticsExternalAccountRequestProperties",
+}) as any as S.Schema<CreateCustomerAnalyticsExternalAccountRequestProperties>;
+
+export interface CreateCustomerAnalyticsExternalAccountRequest {
+  /** External ID (group key) for the account. An account with this ID already existing is a no-op. Without a `name`, the account name is derived from the matching group's `name` property, falling back to this ID. */
+  external_id: string;
+  /** Name for a new account. Ignored when the account already exists. Blank means no name. */
+  name?: string | null;
+  /** Typed properties for a new account: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), email_domains and known_emails. Unknown keys are rejected. Ignored when the account already exists. */
+  properties?: CreateCustomerAnalyticsExternalAccountRequestProperties | null;
+}
+export const CreateCustomerAnalyticsExternalAccountRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    external_id: S.String,
+    name: S.optional(S.NullOr(S.String)),
+    properties: S.optional(S.NullOr(CreateCustomerAnalyticsExternalAccountRequestProperties)),
+  }).pipe(T.Http({ method: "POST", uri: "/api/customer_analytics/external/account", code: 200 })),
+).annotate({
+  identifier: "CreateCustomerAnalyticsExternalAccountRequest",
+}) as any as S.Schema<CreateCustomerAnalyticsExternalAccountRequest>;
+
+/** Typed account properties: external-system ids. Role assignments live under `relationships`. */
+export type ExternalAccountPropertiesMap = { [key: string]: unknown | undefined };
+export const ExternalAccountPropertiesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<ExternalAccountPropertiesMap>;
+
+/** * `unmanaged` - Unmanaged * `assigned` - Assigned * `cleared` - Cleared * `blocked` - Blocked */
+export type OwnershipRoleStateEnum = "unmanaged" | "assigned" | "cleared" | "blocked";
+export const OwnershipRoleStateEnum = S.String;
+
+export interface ExternalAccountOwnershipHolder {
+  /** PostHog user id of the holder. */
+  user_id: number;
+  /** Current email address of the holder; null for a holder outside the organization. */
+  email: string | null;
+  /** Current display name of the holder; null when unset or outside the organization. */
+  name: string | null;
+  /** Whether the holder is currently a member of the project's organization. */
+  is_organization_member: boolean;
+  /** Whether the holder's PostHog user account is active. */
+  is_active: boolean;
+}
+export const ExternalAccountOwnershipHolder = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    user_id: S.Number,
+    email: S.NullOr(S.String),
+    name: S.NullOr(S.String),
+    is_organization_member: S.Boolean,
+    is_active: S.Boolean,
+  }),
+).annotate({
+  identifier: "ExternalAccountOwnershipHolder",
+}) as any as S.Schema<ExternalAccountOwnershipHolder>;
+
+/** * `holder_missing` - The active relationship has no user * `holder_inactive` - The holder's user account is deactivated * `holder_not_in_organization` - The holder is not a member of the organization * `multiple_active_holders` - More than one active relationship holds the role */
+export type OwnershipRoleDiagnosticEnum =
+  | "holder_missing"
+  | "holder_inactive"
+  | "holder_not_in_organization"
+  | "multiple_active_holders";
+export const OwnershipRoleDiagnosticEnum = S.String;
+
+/** Why a managed relationship is blocked. Informational on an unmanaged one. */
+export type ExternalAccountRoleOwnershipDiagnosticsList = Array<OwnershipRoleDiagnosticEnum>;
+export const ExternalAccountRoleOwnershipDiagnosticsList = /*@__PURE__*/ S.Array(
+  OwnershipRoleDiagnosticEnum,
+) as any as S.Schema<ExternalAccountRoleOwnershipDiagnosticsList>;
+
+export interface ExternalAccountRoleOwnership {
+  /** The controlled relationship definition. Map it to the role you project; it does not change. */
+  definition_id: string;
+  /** Current name of the relationship definition. */
+  definition_name: string;
+  /** `unmanaged`: customer analytics does not hold authority over this relationship on this account; the holder, if any, is a legacy assignment. `assigned`: the holder is authoritative. `cleared`: the relationship is authoritatively empty. `blocked`: the relationship is managed but its holder cannot be projected; see `diagnostics` and keep the last applied value. * `unmanaged` - Unmanaged * `assigned` - Assigned * `cleared` - Cleared * `blocked` - Blocked */
+  state: OwnershipRoleStateEnum;
+  /** When customer analytics last decided this relationship on this account; null while unmanaged. */
+  controlled_at: string | null;
+  /** The active relationship holding the role, or null when empty. */
+  relationship_id: string | null;
+  /** The current holder, or null. */
+  holder: ExternalAccountOwnershipHolder | null;
+  /** Why a managed relationship is blocked. Informational on an unmanaged one. */
+  diagnostics: ExternalAccountRoleOwnershipDiagnosticsList;
+}
+export const ExternalAccountRoleOwnership = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    definition_id: S.String,
+    definition_name: S.String,
+    state: OwnershipRoleStateEnum,
+    controlled_at: S.NullOr(S.String),
+    relationship_id: S.NullOr(S.String),
+    holder: S.NullOr(ExternalAccountOwnershipHolder),
+    diagnostics: ExternalAccountRoleOwnershipDiagnosticsList,
+  }),
+).annotate({
+  identifier: "ExternalAccountRoleOwnership",
+}) as any as S.Schema<ExternalAccountRoleOwnership>;
+
+/** One entry per controlled relationship definition of the project, in name order, whether or not this account is managed under it. Empty when the project controls no relationship. */
+export type ExternalAccountOwnershipRolesList = Array<ExternalAccountRoleOwnership>;
+export const ExternalAccountOwnershipRolesList = /*@__PURE__*/ S.Array(
+  ExternalAccountRoleOwnership,
+) as any as S.Schema<ExternalAccountOwnershipRolesList>;
+
+export interface ExternalAccountOwnership {
+  /** Account UUID, the canonical identity within this project. */
+  account_id: string;
+  /** External account key: the group key the account is linked to. */
+  external_id: string | null;
+  /** Region of this PostHog instance (`us`, `eu`), or null when self-hosted. */
+  region: string | null;
+  /** One entry per controlled relationship definition of the project, in name order, whether or not this account is managed under it. Empty when the project controls no relationship. */
+  roles: ExternalAccountOwnershipRolesList;
+}
+export const ExternalAccountOwnership = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    account_id: S.String,
+    external_id: S.NullOr(S.String),
+    region: S.NullOr(S.String),
+    roles: ExternalAccountOwnershipRolesList,
+  }),
+).annotate({ identifier: "ExternalAccountOwnership" }) as any as S.Schema<ExternalAccountOwnership>;
+
+/** Tag names on the account, sorted alphabetically. */
+export type ExternalAccountTagsList = Array<string>;
+export const ExternalAccountTagsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ExternalAccountTagsList>;
+
+export interface ExternalAccountAssignment {
+  /** PostHog user id of the assigned user. */
+  user_id: number;
+  /** Email address of the assigned user. */
+  email: string;
+}
+export const ExternalAccountAssignment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    user_id: S.Number,
+    email: S.String,
+  }),
+).annotate({
+  identifier: "ExternalAccountAssignment",
+}) as any as S.Schema<ExternalAccountAssignment>;
+
+export type ExternalAccountRelationshipsValueList = Array<ExternalAccountAssignment>;
+export const ExternalAccountRelationshipsValueList = /*@__PURE__*/ S.Array(
+  ExternalAccountAssignment,
+) as any as S.Schema<ExternalAccountRelationshipsValueList>;
+
+/** Active relationship assignments keyed by definition name (e.g. 'CSM'). Definitions with no active assignment are omitted. */
+export type ExternalAccountRelationshipsMap = {
+  [key: string]: ExternalAccountRelationshipsValueList | undefined;
+};
+export const ExternalAccountRelationshipsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ExternalAccountRelationshipsValueList,
+) as any as S.Schema<ExternalAccountRelationshipsMap>;
+
+/** Every team custom property definition keyed by name, with the account's active value or null. */
+export type ExternalAccountCustomPropertiesMap = { [key: string]: unknown | undefined };
+export const ExternalAccountCustomPropertiesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<ExternalAccountCustomPropertiesMap>;
+
+export interface ExternalAccount {
+  /** Account UUID. */
+  id: string;
+  /** External account key — the group key the account is linked to. */
+  external_id: string | null;
+  /** Human-readable account name. */
+  name: string;
+  /** When the account churned, or null if it has not churned. */
+  churned_at: string | null;
+  /** When Track Rules ignored the account, or null if it is tracked. */
+  ignored_at: string | null;
+  /** Typed account properties: external-system ids. Role assignments live under `relationships`. */
+  properties: ExternalAccountPropertiesMap;
+  /** Authority state of each relationship the project controls. */
+  ownership: ExternalAccountOwnership;
+  /** Tag names on the account, sorted alphabetically. */
+  tags: ExternalAccountTagsList;
+  /** Active relationship assignments keyed by definition name (e.g. 'CSM'). Definitions with no active assignment are omitted. */
+  relationships: ExternalAccountRelationshipsMap;
+  /** Every team custom property definition keyed by name, with the account's active value or null. */
+  custom_properties: ExternalAccountCustomPropertiesMap;
+}
+export const ExternalAccount = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    external_id: S.NullOr(S.String),
+    name: S.String,
+    churned_at: S.NullOr(S.String),
+    ignored_at: S.NullOr(S.String),
+    properties: ExternalAccountPropertiesMap,
+    ownership: ExternalAccountOwnership,
+    tags: ExternalAccountTagsList,
+    relationships: ExternalAccountRelationshipsMap,
+    custom_properties: ExternalAccountCustomPropertiesMap,
+  }),
+).annotate({ identifier: "ExternalAccount" }) as any as S.Schema<ExternalAccount>;
 
 /** Names of the events to stream (matched exactly). Duplicates and blanks are dropped. */
 export type CreateEventStreamRequestEventNamesList = Array<string>;
@@ -402,16 +672,8 @@ export const CreateEventStreamRequest = /*@__PURE__*/ S.suspend(() =>
     slack_integration: S.optional(S.NullOr(S.Number)),
     slack_channel_id: S.optional(S.String),
     slack_channel_name: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/event_streams/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateEventStreamRequest",
-}) as any as S.Schema<CreateEventStreamRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/event_streams/", code: 200 })),
+).annotate({ identifier: "CreateEventStreamRequest" }) as any as S.Schema<CreateEventStreamRequest>;
 
 /** Names of the events to stream (matched exactly). Duplicates and blanks are dropped. */
 export type EventStreamEventNamesList = Array<string>;
@@ -494,11 +756,7 @@ export const EventStreamsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/projects/{project_id}/event_streams/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/event_streams/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "EventStreamsDestroyRequest",
@@ -563,9 +821,7 @@ export const EventStreamTestMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     channel_id: S.String,
   }),
-).annotate({
-  identifier: "EventStreamTestMessage",
-}) as any as S.Schema<EventStreamTestMessage>;
+).annotate({ identifier: "EventStreamTestMessage" }) as any as S.Schema<EventStreamTestMessage>;
 
 export interface GetAccountsNotebookRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -591,6 +847,18 @@ export const GetAccountsNotebookRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetAccountsNotebookRequest>;
 
 export interface GetCustomerAnalyticsExternalAccountRequest {
+  /** External account key: the group key the account is linked to. */
+  external_id: string;
+}
+export const GetCustomerAnalyticsExternalAccountRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    external_id: S.String.pipe(T.Query()),
+  }).pipe(T.Http({ method: "GET", uri: "/api/customer_analytics/external/account", code: 200 })),
+).annotate({
+  identifier: "GetCustomerAnalyticsExternalAccountRequest",
+}) as any as S.Schema<GetCustomerAnalyticsExternalAccountRequest>;
+
+export interface GetCustomerAnalyticsExternalAccountRequest2 {
   /** When true, return only accounts with at least one active relationship assignment to a current member of the project's organization. */
   assigned_only?: boolean;
   /** Account UUID from `next_cursor` to continue listing from. Omit for the first page. */
@@ -599,23 +867,23 @@ export interface GetCustomerAnalyticsExternalAccountRequest {
   include_ignored?: boolean;
   /** Maximum number of accounts to return. Values below 1 are clamped to 1; values above 100 are clamped to 100. */
   limit?: number;
+  /** When true, return only accounts where customer analytics holds authority over at least one controlled relationship, including accounts whose managed relationships are cleared and accounts that are ignored. Authority does not end when an account is ignored, so `include_ignored` is implied. */
+  managed_only?: boolean;
+  /** Project ID. Required for personal API keys. Project secret API keys use their bound project. */
+  project_id?: number;
 }
-export const GetCustomerAnalyticsExternalAccountRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetCustomerAnalyticsExternalAccountRequest2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     assigned_only: S.optional(S.Boolean.pipe(T.Query())),
     cursor: S.optional(S.String.pipe(T.Query())),
     include_ignored: S.optional(S.Boolean.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/customer_analytics/external/accounts",
-      code: 200,
-    }),
-  ),
+    managed_only: S.optional(S.Boolean.pipe(T.Query())),
+    project_id: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/api/customer_analytics/external/accounts", code: 200 })),
 ).annotate({
-  identifier: "GetCustomerAnalyticsExternalAccountRequest",
-}) as any as S.Schema<GetCustomerAnalyticsExternalAccountRequest>;
+  identifier: "GetCustomerAnalyticsExternalAccountRequest2",
+}) as any as S.Schema<GetCustomerAnalyticsExternalAccountRequest2>;
 
 export interface ExternalAccountListAssignment {
   /** PostHog user id of the assigned user. */
@@ -658,6 +926,8 @@ export interface ExternalAccountListItem {
   churned_at: string | null;
   /** When Track Rules ignored the account, or null if it is tracked. */
   ignored_at: string | null;
+  /** Authority state of each relationship the project controls. */
+  ownership: ExternalAccountOwnership;
   /** Active relationship assignments to current organization members, keyed by relationship definition name (e.g. 'CSM', 'Account executive'). Definitions with no active assignment are omitted. */
   relationships: ExternalAccountListItemRelationshipsMap;
 }
@@ -667,11 +937,10 @@ export const ExternalAccountListItem = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     churned_at: S.NullOr(S.String),
     ignored_at: S.NullOr(S.String),
+    ownership: ExternalAccountOwnership,
     relationships: ExternalAccountListItemRelationshipsMap,
   }),
-).annotate({
-  identifier: "ExternalAccountListItem",
-}) as any as S.Schema<ExternalAccountListItem>;
+).annotate({ identifier: "ExternalAccountListItem" }) as any as S.Schema<ExternalAccountListItem>;
 
 /** Accounts in this page, ordered by account id. */
 export type ExternalAccountListPageResultsList = Array<ExternalAccountListItem>;
@@ -690,9 +959,7 @@ export const ExternalAccountListPage = /*@__PURE__*/ S.suspend(() =>
     results: ExternalAccountListPageResultsList,
     next_cursor: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ExternalAccountListPage",
-}) as any as S.Schema<ExternalAccountListPage>;
+).annotate({ identifier: "ExternalAccountListPage" }) as any as S.Schema<ExternalAccountListPage>;
 
 export type ListAccountNotesRequestAssignedToList = Array<number>;
 export const ListAccountNotesRequestAssignedToList = /*@__PURE__*/ S.Array(
@@ -729,16 +996,8 @@ export const ListAccountNotesRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/account_notes/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListAccountNotesRequest",
-}) as any as S.Schema<ListAccountNotesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/account_notes/", code: 200 })),
+).annotate({ identifier: "ListAccountNotesRequest" }) as any as S.Schema<ListAccountNotesRequest>;
 
 /** A team-wide account note — an internal notebook linked to a Customer analytics account. */
 export interface AccountNote {
@@ -787,9 +1046,7 @@ export const PaginatedAccountNoteList = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.String)),
     results: PaginatedAccountNoteListResultsList,
   }),
-).annotate({
-  identifier: "PaginatedAccountNoteList",
-}) as any as S.Schema<PaginatedAccountNoteList>;
+).annotate({ identifier: "PaginatedAccountNoteList" }) as any as S.Schema<PaginatedAccountNoteList>;
 
 export interface ListAccountsCustomPropertyValuesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -930,16 +1187,8 @@ export interface ListEventStreamsRequest {
 export const ListEventStreamsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/event_streams/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListEventStreamsRequest",
-}) as any as S.Schema<ListEventStreamsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/event_streams/", code: 200 })),
+).annotate({ identifier: "ListEventStreamsRequest" }) as any as S.Schema<ListEventStreamsRequest>;
 
 export type ListEventStreamsResponseBodyList = Array<EventStream>;
 export const ListEventStreamsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -949,9 +1198,7 @@ export const ListEventStreamsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListEventStreamsResponse = ListEventStreamsResponseBodyList;
 export const ListEventStreamsResponse = /*@__PURE__*/ S.suspend(() =>
   ListEventStreamsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListEventStreamsResponse",
-}) as any as S.Schema<ListEventStreamsResponse>;
+).annotate({ identifier: "ListEventStreamsResponse" }) as any as S.Schema<ListEventStreamsResponse>;
 
 /** Names of the events to stream (matched exactly). Duplicates and blanks are dropped. */
 export type UpdateEventStreamRequestEventNamesList = Array<string>;
@@ -985,15 +1232,9 @@ export const UpdateEventStreamRequest = /*@__PURE__*/ S.suspend(() =>
     slack_channel_id: S.optional(S.String),
     slack_channel_name: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/event_streams/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/projects/{project_id}/event_streams/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateEventStreamRequest",
-}) as any as S.Schema<UpdateEventStreamRequest>;
+).annotate({ identifier: "UpdateEventStreamRequest" }) as any as S.Schema<UpdateEventStreamRequest>;
 
 /** Names of the events to stream (matched exactly). Duplicates and blanks are dropped. */
 export type UpdateEventStreamsPartialRequestEventNamesList = Array<string>;
@@ -1027,11 +1268,7 @@ export const UpdateEventStreamsPartialRequest = /*@__PURE__*/ S.suspend(() =>
     slack_channel_id: S.optional(S.String),
     slack_channel_name: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/event_streams/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/event_streams/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateEventStreamsPartialRequest",
@@ -1117,6 +1354,21 @@ export const createAccountsRelationshipsEnd: API.OperationMethod<
   input: CreateAccountsRelationshipsEndRequest,
   output: AccountRelationship,
   errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateCustomerAnalyticsExternalAccountError = BadRequest | Forbidden | PosthogOpError;
+/** Create an external customer analytics account Create an account by external ID. If the account already exists, return it unchanged with HTTP 200. Accepts the team secret API token or a project secret API key with the `account:write` scope. */
+export const createCustomerAnalyticsExternalAccount: API.OperationMethod<
+  CreateCustomerAnalyticsExternalAccountRequest,
+  ExternalAccount,
+  CreateCustomerAnalyticsExternalAccountError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCustomerAnalyticsExternalAccountRequest,
+  output: ExternalAccount,
+  errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
@@ -1210,17 +1462,40 @@ export const getAccountsNotebook: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetCustomerAnalyticsExternalAccountError = BadRequest | Forbidden | PosthogOpError;
-/** List external customer analytics accounts List tracked accounts with external IDs, lifecycle timestamps, and active relationship assignments. Set `include_ignored=true` to include ignored accounts. Requires a project secret API key with the `account:read` scope. */
+export type GetCustomerAnalyticsExternalAccountError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+/** Get an external customer analytics account Fetch one account by external ID with its properties, controlled relationship ownership, tags, active relationship assignments and custom property values. Accepts the team secret API token or a project secret API key with the `account:read` scope. */
 export const getCustomerAnalyticsExternalAccount: API.OperationMethod<
   GetCustomerAnalyticsExternalAccountRequest,
-  ExternalAccountListPage,
+  ExternalAccount,
   GetCustomerAnalyticsExternalAccountError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCustomerAnalyticsExternalAccountRequest,
+  output: ExternalAccount,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetCustomerAnalyticsExternalAccount2Error =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+/** List external customer analytics accounts List tracked accounts with external IDs, lifecycle timestamps, controlled relationship ownership, and active relationship assignments. Set `include_ignored=true` to include ignored accounts and `managed_only=true` to read only the accounts customer analytics holds ownership authority for. Requires a project secret API key or personal API key with the `account:read` scope. Personal API keys also require `project_id` and return only accounts the key owner can access. */
+export const getCustomerAnalyticsExternalAccount2: API.OperationMethod<
+  GetCustomerAnalyticsExternalAccountRequest2,
+  ExternalAccountListPage,
+  GetCustomerAnalyticsExternalAccount2Error,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCustomerAnalyticsExternalAccountRequest2,
   output: ExternalAccountListPage,
-  errors: [BadRequest, Forbidden],
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));

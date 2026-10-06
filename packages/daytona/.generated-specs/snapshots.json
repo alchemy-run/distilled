@@ -70,14 +70,14 @@
       "type": "structure",
       "members": {
         "page": {
-          "target": "smithy.api#Double",
+          "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "page",
             "smithy.api#documentation": "Page number of the results"
           }
         },
         "limit": {
-          "target": "smithy.api#Double",
+          "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "limit",
             "smithy.api#documentation": "Number of results per page"
@@ -133,19 +133,19 @@
           }
         },
         "total": {
-          "target": "smithy.api#Double",
+          "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "page": {
-          "target": "smithy.api#Double",
+          "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "totalPages": {
-          "target": "smithy.api#Double",
+          "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#required": {}
           }
@@ -379,6 +379,12 @@
             "smithy.api#enumValue": "H200"
           }
         },
+        "B300": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "B300"
+          }
+        },
         "RTX_PRO_6000": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -478,12 +484,6 @@
             "smithy.api#enumValue": "container"
           }
         },
-        "ANDROID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "android"
-          }
-        },
         "WINDOWS": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -578,12 +578,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "container"
-          }
-        },
-        "ANDROID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "android"
           }
         },
         "WINDOWS": {

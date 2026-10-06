@@ -58,9 +58,7 @@ export const ArtifactExistsRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "HEAD", uri: "/v8/artifacts/{hash}", code: 200 })),
-).annotate({
-  identifier: "ArtifactExistsRequest",
-}) as any as S.Schema<ArtifactExistsRequest>;
+).annotate({ identifier: "ArtifactExistsRequest" }) as any as S.Schema<ArtifactExistsRequest>;
 
 export interface ArtifactExistsResponse {}
 export const ArtifactExistsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -87,24 +85,22 @@ export const ArtifactQueryRequest = /*@__PURE__*/ S.suspend(() =>
     slug: S.optional(S.String.pipe(T.Query())),
     hashes: ArtifactQueryRequestHashesList,
   }).pipe(T.Http({ method: "POST", uri: "/v8/artifacts", code: 200 })),
-).annotate({
-  identifier: "ArtifactQueryRequest",
-}) as any as S.Schema<ArtifactQueryRequest>;
+).annotate({ identifier: "ArtifactQueryRequest" }) as any as S.Schema<ArtifactQueryRequest>;
 
 export interface ArtifactQueryResponseBodyValueCase0 {
-  size: number;
-  taskDurationMs: number;
-  tag?: string;
-  sha?: string;
   dirtyHash?: string;
+  sha?: string;
+  size: number;
+  tag?: string;
+  taskDurationMs: number;
 }
 export const ArtifactQueryResponseBodyValueCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    size: S.Number,
-    taskDurationMs: S.Number,
-    tag: S.optional(S.String),
-    sha: S.optional(S.String),
     dirtyHash: S.optional(S.String),
+    sha: S.optional(S.String),
+    size: S.Number,
+    tag: S.optional(S.String),
+    taskDurationMs: S.Number,
   }),
 ).annotate({
   identifier: "ArtifactQueryResponseBodyValueCase0",
@@ -149,9 +145,7 @@ export const ArtifactQueryResponseBodyMap = /*@__PURE__*/ S.Record(
 export type ArtifactQueryResponse = ArtifactQueryResponseBodyMap;
 export const ArtifactQueryResponse = /*@__PURE__*/ S.suspend(() =>
   ArtifactQueryResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ArtifactQueryResponse",
-}) as any as S.Schema<ArtifactQueryResponse>;
+).annotate({ identifier: "ArtifactQueryResponse" }) as any as S.Schema<ArtifactQueryResponse>;
 
 export interface DeleteAllArtifactsRequest {
   /** The Team identifier to perform the request on behalf of. */
@@ -201,16 +195,12 @@ export const DownloadArtifactRequest = /*@__PURE__*/ S.suspend(() =>
       S.Number.pipe(T.Header("x-artifact-client-interactive")),
     ),
   }).pipe(T.Http({ method: "GET", uri: "/v8/artifacts/{hash}", code: 200 })),
-).annotate({
-  identifier: "DownloadArtifactRequest",
-}) as any as S.Schema<DownloadArtifactRequest>;
+).annotate({ identifier: "DownloadArtifactRequest" }) as any as S.Schema<DownloadArtifactRequest>;
 
 export type DownloadArtifactResponse = string;
 export const DownloadArtifactResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DownloadArtifactResponse",
-}) as any as S.Schema<DownloadArtifactResponse>;
+).annotate({ identifier: "DownloadArtifactResponse" }) as any as S.Schema<DownloadArtifactResponse>;
 
 /** One of `LOCAL` or `REMOTE`. `LOCAL` specifies that the cache event was from the user's filesystem cache. `REMOTE` specifies that the cache event is from a remote cache. */
 export type RecordEventsRequestBodyItemSource = "LOCAL" | "REMOTE";
@@ -270,9 +260,7 @@ export const RecordEventsRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     body: RecordEventsRequestBodyList.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/v8/artifacts/events", code: 200 })),
-).annotate({
-  identifier: "RecordEventsRequest",
-}) as any as S.Schema<RecordEventsRequest>;
+).annotate({ identifier: "RecordEventsRequest" }) as any as S.Schema<RecordEventsRequest>;
 
 export interface RecordEventsResponse {}
 export const RecordEventsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -299,9 +287,7 @@ export const StatusResponseBodyCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.String,
   }),
-).annotate({
-  identifier: "StatusResponseBodyCase0",
-}) as any as S.Schema<StatusResponseBodyCase0>;
+).annotate({ identifier: "StatusResponseBodyCase0" }) as any as S.Schema<StatusResponseBodyCase0>;
 
 export type StatusResponseBodyCase1Status = "disabled" | "enabled" | "over_limit" | "paused";
 export const StatusResponseBodyCase1Status = S.String;
@@ -313,9 +299,7 @@ export const StatusResponseBodyCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: StatusResponseBodyCase1Status,
   }),
-).annotate({
-  identifier: "StatusResponseBodyCase1",
-}) as any as S.Schema<StatusResponseBodyCase1>;
+).annotate({ identifier: "StatusResponseBodyCase1" }) as any as S.Schema<StatusResponseBodyCase1>;
 
 export type StatusResponseBody = StatusResponseBodyCase0 | StatusResponseBodyCase1;
 export const StatusResponseBody = S.Unknown as any as S.Schema<StatusResponseBody>;
@@ -362,9 +346,7 @@ export const UploadArtifactRequest = /*@__PURE__*/ S.suspend(() =>
     xArtifactSha: S.optional(S.String.pipe(T.Header("x-artifact-sha"))),
     xArtifactDirtyHash: S.optional(S.String.pipe(T.Header("x-artifact-dirty-hash"))),
   }).pipe(T.Http({ method: "PUT", uri: "/v8/artifacts/{hash}", code: 200 })),
-).annotate({
-  identifier: "UploadArtifactRequest",
-}) as any as S.Schema<UploadArtifactRequest>;
+).annotate({ identifier: "UploadArtifactRequest" }) as any as S.Schema<UploadArtifactRequest>;
 
 /** Array of URLs where the artifact was updated */
 export type UploadArtifactResponseUrlsList = Array<string>;
@@ -380,9 +362,7 @@ export const UploadArtifactResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     urls: UploadArtifactResponseUrlsList,
   }),
-).annotate({
-  identifier: "UploadArtifactResponse",
-}) as any as S.Schema<UploadArtifactResponse>;
+).annotate({ identifier: "UploadArtifactResponse" }) as any as S.Schema<UploadArtifactResponse>;
 
 export type ArtifactExistsError =
   | BadRequest
@@ -404,7 +384,12 @@ export const artifactExists: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ArtifactQueryError = BadRequest | PaymentRequired | Forbidden | VercelOpError;
+export type ArtifactQueryError =
+  | BadRequest
+  | PaymentRequired
+  | Forbidden
+  | NotFound
+  | VercelOpError;
 /** Query information about an artifact Query information about an array of artifacts. */
 export const artifactQuery: API.OperationMethod<
   ArtifactQueryRequest,
@@ -414,12 +399,12 @@ export const artifactQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ArtifactQueryRequest,
   output: ArtifactQueryResponse,
-  errors: [BadRequest, PaymentRequired, Forbidden],
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeleteAllArtifactsError = BadRequest | Forbidden | VercelOpError;
+export type DeleteAllArtifactsError = BadRequest | Forbidden | NotFound | VercelOpError;
 /** Delete all cache artifacts Deletes all cache artifacts stored for the authenticated team or user, clearing the Remote Cache. Subsequent builds will re-populate the cache. */
 export const deleteAllArtifacts: API.OperationMethod<
   DeleteAllArtifactsRequest,
@@ -429,7 +414,7 @@ export const deleteAllArtifacts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAllArtifactsRequest,
   output: DeleteAllArtifactsResponse,
-  errors: [BadRequest, Forbidden],
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
@@ -454,7 +439,7 @@ export const downloadArtifact: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type RecordEventsError = BadRequest | PaymentRequired | Forbidden | VercelOpError;
+export type RecordEventsError = BadRequest | PaymentRequired | Forbidden | NotFound | VercelOpError;
 /** Record an artifacts cache usage event Records an artifacts cache usage event. The body of this request is an array of cache usage events. The supported event types are `HIT` and `MISS`. The source is either `LOCAL` the cache event was on the users filesystem cache or `REMOTE` if the cache event is for a remote cache. When the event is a `HIT` the request also accepts a number `duration` which is the time taken to generate the artifact in the cache. */
 export const recordEvents: API.OperationMethod<
   RecordEventsRequest,
@@ -464,12 +449,12 @@ export const recordEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RecordEventsRequest,
   output: RecordEventsResponse,
-  errors: [BadRequest, PaymentRequired, Forbidden],
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
 
-export type StatusError = BadRequest | PaymentRequired | Forbidden | VercelOpError;
+export type StatusError = BadRequest | PaymentRequired | Forbidden | NotFound | VercelOpError;
 /** Get status of Remote Caching for this principal Check the status of Remote Caching for this principal. Returns a JSON-encoded status indicating if Remote Caching is enabled, disabled, or disabled due to usage limits. */
 export const status: API.OperationMethod<
   StatusRequest,
@@ -479,12 +464,17 @@ export const status: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StatusRequest,
   output: StatusResponse,
-  errors: [BadRequest, PaymentRequired, Forbidden],
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
 
-export type UploadArtifactError = BadRequest | PaymentRequired | Forbidden | VercelOpError;
+export type UploadArtifactError =
+  | BadRequest
+  | PaymentRequired
+  | Forbidden
+  | NotFound
+  | VercelOpError;
 /** Upload a cache artifact Uploads a cache artifact identified by the `hash` specified on the path. The cache artifact can then be downloaded with the provided `hash`. */
 export const uploadArtifact: API.OperationMethod<
   UploadArtifactRequest,
@@ -494,7 +484,7 @@ export const uploadArtifact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UploadArtifactRequest,
   output: UploadArtifactResponse,
-  errors: [BadRequest, PaymentRequired, Forbidden],
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));

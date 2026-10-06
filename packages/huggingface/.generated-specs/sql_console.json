@@ -112,12 +112,14 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
         "repoId": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -142,6 +144,7 @@
         "userId": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -266,6 +269,86 @@
           "code": 200
         },
         "smithy.api#documentation": "Delete embed\n\nDelete SQL Console embed"
+      }
+    },
+    "com.huggingface.sql_console#HideEmbedRequestRepoType": {
+      "type": "enum",
+      "members": {
+        "DATASETS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "datasets"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.sql_console#HideEmbedRequest": {
+      "type": "structure",
+      "members": {
+        "repoType": {
+          "target": "com.huggingface.sql_console#HideEmbedRequestRepoType",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.sql_console#HideEmbedResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.huggingface.sql_console#HideEmbed": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.sql_console#HideEmbedRequest"
+      },
+      "output": {
+        "target": "com.huggingface.sql_console#HideEmbedResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/{repoType}/{namespace}/{repo}/sql-console/embed/{id}/hide",
+          "code": 200
+        },
+        "smithy.api#documentation": "Hide embed\n\nHide a SQL Console embed from the dataset's community queries. Requires write access to the dataset."
       }
     },
     "com.huggingface.sql_console#CreateEmbedRequestRepoType": {
@@ -398,12 +481,14 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
         "repoId": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -428,6 +513,7 @@
         "userId": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -483,6 +569,9 @@
         },
         {
           "target": "com.huggingface.sql_console#DeleteEmbed"
+        },
+        {
+          "target": "com.huggingface.sql_console#HideEmbed"
         },
         {
           "target": "com.huggingface.sql_console#CreateEmbed"

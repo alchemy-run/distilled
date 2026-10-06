@@ -225,9 +225,7 @@ export const CommonTaskError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CommonTaskError",
-}) as any as S.Schema<CommonTaskError>;
+).annotate({ identifier: "CommonTaskError" }) as any as S.Schema<CommonTaskError>;
 
 /** Errors that occured on the task */
 export type CommonCurrentTaskErrorsList = Array<CommonTaskError>;
@@ -265,9 +263,7 @@ export const CommonCurrentTask = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.NullOr(CommonCurrentTaskStatusEnum)),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CommonCurrentTask",
-}) as any as S.Schema<CommonCurrentTask>;
+).annotate({ identifier: "CommonCurrentTask" }) as any as S.Schema<CommonCurrentTask>;
 
 /** Ongoing asynchronous tasks related to the autobackup */
 export type PublicCloudInstanceAutobackupCurrentTasksList = Array<CommonCurrentTask>;
@@ -364,11 +360,7 @@ export const CreatePublicCloudProjectComputeBackupRequest = /*@__PURE__*/ S.susp
     projectId: S.String.pipe(T.Label()),
     targetSpec: PublicCloudInstanceBackupTargetSpec,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/publicCloud/project/{projectId}/compute/backup",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/publicCloud/project/{projectId}/compute/backup", code: 200 }),
   ),
 ).annotate({
   identifier: "CreatePublicCloudProjectComputeBackupRequest",
@@ -631,11 +623,7 @@ export const CreatePublicCloudProjectComputeInstanceRequest = /*@__PURE__*/ S.su
     projectId: S.String.pipe(T.Label()),
     targetSpec: PublicCloudInstanceInstanceTargetSpec,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/publicCloud/project/{projectId}/compute/instance",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/publicCloud/project/{projectId}/compute/instance", code: 200 }),
   ),
 ).annotate({
   identifier: "CreatePublicCloudProjectComputeInstanceRequest",
@@ -1150,11 +1138,7 @@ export const CreatePublicCloudProjectFloatingIpRequest = /*@__PURE__*/ S.suspend
     projectId: S.String.pipe(T.Label()),
     targetSpec: PublicCloudFloatingIpFloatingIPTargetSpec,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/publicCloud/project/{projectId}/floatingIp",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/publicCloud/project/{projectId}/floatingIp", code: 200 }),
   ),
 ).annotate({
   identifier: "CreatePublicCloudProjectFloatingIpRequest",
@@ -1320,13 +1304,7 @@ export const CreatePublicCloudProjectGatewayRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     projectId: S.String.pipe(T.Label()),
     targetSpec: PublicCloudGatewayGatewayTargetSpec,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/publicCloud/project/{projectId}/gateway",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/publicCloud/project/{projectId}/gateway", code: 200 })),
 ).annotate({
   identifier: "CreatePublicCloudProjectGatewayRequest",
 }) as any as S.Schema<CreatePublicCloudProjectGatewayRequest>;
@@ -2004,11 +1982,7 @@ export const CreatePublicCloudProjectLoadbalancerRequest = /*@__PURE__*/ S.suspe
     projectId: S.String.pipe(T.Label()),
     targetSpec: PublicCloudLoadbalancerLoadbalancerTargetSpec,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/publicCloud/project/{projectId}/loadbalancer",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/publicCloud/project/{projectId}/loadbalancer", code: 200 }),
   ),
 ).annotate({
   identifier: "CreatePublicCloudProjectLoadbalancerRequest",
@@ -3143,13 +3117,7 @@ export const CreatePublicCloudProjectNetworkRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     projectId: S.String.pipe(T.Label()),
     targetSpec: PublicCloudNetworkNetworkTargetSpec,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/publicCloud/project/{projectId}/network",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/publicCloud/project/{projectId}/network", code: 200 })),
 ).annotate({
   identifier: "CreatePublicCloudProjectNetworkRequest",
 }) as any as S.Schema<CreatePublicCloudProjectNetworkRequest>;
@@ -3412,9 +3380,7 @@ export const PublicCloudNetworkSubnet = /*@__PURE__*/ S.suspend(() =>
     targetSpec: S.optional(PublicCloudNetworkSubnetTargetSpec),
     updatedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PublicCloudNetworkSubnet",
-}) as any as S.Schema<PublicCloudNetworkSubnet>;
+).annotate({ identifier: "PublicCloudNetworkSubnet" }) as any as S.Schema<PublicCloudNetworkSubnet>;
 
 /** Desired specification for a floating IP */
 export type PublicCloudPublicIpFloatingIPTargetSpec = PublicCloudFloatingIpFloatingIPTargetSpec;
@@ -3583,13 +3549,7 @@ export const CreatePublicCloudProjectRancherRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     projectId: S.String.pipe(T.Label()),
     targetSpec: PublicCloudRancherRancherCreationTargetSpec,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/publicCloud/project/{projectId}/rancher",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/publicCloud/project/{projectId}/rancher", code: 200 })),
 ).annotate({
   identifier: "CreatePublicCloudProjectRancherRequest",
 }) as any as S.Schema<CreatePublicCloudProjectRancherRequest>;
@@ -3652,9 +3612,7 @@ export const PublicCloudRancherUsage = /*@__PURE__*/ S.suspend(() =>
     datetime: S.optional(S.String),
     orchestratedVcpus: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PublicCloudRancherUsage",
-}) as any as S.Schema<PublicCloudRancherUsage>;
+).annotate({ identifier: "PublicCloudRancherUsage" }) as any as S.Schema<PublicCloudRancherUsage>;
 
 /** Current state of the managed Rancher service */
 export interface PublicCloudRancherRancherCurrentState {
@@ -3904,11 +3862,7 @@ export const CreatePublicCloudProjectSecurityGroupRequest = /*@__PURE__*/ S.susp
     projectId: S.String.pipe(T.Label()),
     targetSpec: PublicCloudSecurityGroupSecurityGroupTargetSpec,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/publicCloud/project/{projectId}/securityGroup",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/publicCloud/project/{projectId}/securityGroup", code: 200 }),
   ),
 ).annotate({
   identifier: "CreatePublicCloudProjectSecurityGroupRequest",
@@ -4046,13 +4000,7 @@ export const CreatePublicCloudProjectSshKeyRequest = /*@__PURE__*/ S.suspend(() 
     projectId: S.String.pipe(T.Label()),
     name: S.String,
     publicKey: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/publicCloud/project/{projectId}/sshKey",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/publicCloud/project/{projectId}/sshKey", code: 200 })),
 ).annotate({
   identifier: "CreatePublicCloudProjectSshKeyRequest",
 }) as any as S.Schema<CreatePublicCloudProjectSshKeyRequest>;
@@ -4075,9 +4023,7 @@ export const PublicCloudSshKeySSHKey = /*@__PURE__*/ S.suspend(() =>
     publicKey: S.optional(S.String),
     updatedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PublicCloudSshKeySSHKey",
-}) as any as S.Schema<PublicCloudSshKeySSHKey>;
+).annotate({ identifier: "PublicCloudSshKeySSHKey" }) as any as S.Schema<PublicCloudSshKeySSHKey>;
 
 /** Target specification for a block storage backup */
 export interface PublicCloudBlockStorageBackupTargetSpec {
@@ -4504,23 +4450,107 @@ export const PublicCloudBlockStorageBlock = /*@__PURE__*/ S.suspend(() =>
   identifier: "PublicCloudBlockStorageBlock",
 }) as any as S.Schema<PublicCloudBlockStorageBlock>;
 
+export interface PublicCloudStorageFileFileStorageNetworkTargetSpecNetwork {
+  id: string;
+}
+export const PublicCloudStorageFileFileStorageNetworkTargetSpecNetwork = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.String,
+    }),
+).annotate({
+  identifier: "PublicCloudStorageFileFileStorageNetworkTargetSpecNetwork",
+}) as any as S.Schema<PublicCloudStorageFileFileStorageNetworkTargetSpecNetwork>;
+
+export type PublicCloudStorageFileFileStorageNetworkTargetSpecSubnet =
+  PublicCloudStorageFileFileStorageNetworkTargetSpecNetwork;
+export const PublicCloudStorageFileFileStorageNetworkTargetSpecSubnet =
+  PublicCloudStorageFileFileStorageNetworkTargetSpecNetwork;
+
+export interface PublicCloudStorageFileFileStorageNetworkTargetSpec {
+  description?: string | null;
+  location: PublicCloudCommonLocation;
+  name: string;
+  network: PublicCloudStorageFileFileStorageNetworkTargetSpecNetwork;
+  subnet: PublicCloudStorageFileFileStorageNetworkTargetSpecNetwork;
+}
+export const PublicCloudStorageFileFileStorageNetworkTargetSpec = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.NullOr(S.String)),
+    location: PublicCloudCommonLocation,
+    name: S.String,
+    network: PublicCloudStorageFileFileStorageNetworkTargetSpecNetwork,
+    subnet: PublicCloudStorageFileFileStorageNetworkTargetSpecNetwork,
+  }),
+).annotate({
+  identifier: "PublicCloudStorageFileFileStorageNetworkTargetSpec",
+}) as any as S.Schema<PublicCloudStorageFileFileStorageNetworkTargetSpec>;
+
+export interface CreatePublicCloudProjectStorageFileNetworkRequest {
+  projectId: string;
+  targetSpec: PublicCloudStorageFileFileStorageNetworkTargetSpec;
+}
+export const CreatePublicCloudProjectStorageFileNetworkRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    projectId: S.String.pipe(T.Label()),
+    targetSpec: PublicCloudStorageFileFileStorageNetworkTargetSpec,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/publicCloud/project/{projectId}/storage/file/network",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreatePublicCloudProjectStorageFileNetworkRequest",
+}) as any as S.Schema<CreatePublicCloudProjectStorageFileNetworkRequest>;
+
+/** A Public Cloud file storage share network */
+export interface PublicCloudStorageFileFileStorageNetwork {
+  id?: string;
+  resourceStatus?: CommonResourceStatusEnum;
+  targetSpec?: PublicCloudStorageFileFileStorageNetworkTargetSpec;
+  currentState?: PublicCloudStorageFileFileStorageNetworkTargetSpec | null;
+}
+export const PublicCloudStorageFileFileStorageNetwork = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    resourceStatus: S.optional(CommonResourceStatusEnum),
+    targetSpec: S.optional(PublicCloudStorageFileFileStorageNetworkTargetSpec),
+    currentState: S.optional(S.NullOr(PublicCloudStorageFileFileStorageNetworkTargetSpec)),
+  }),
+).annotate({
+  identifier: "PublicCloudStorageFileFileStorageNetwork",
+}) as any as S.Schema<PublicCloudStorageFileFileStorageNetwork>;
+
+/** Parent file storage share */
+export interface PublicCloudStorageFileFileStorageSnapshotTargetSpecShare {
+  /** ID of the parent file storage share */
+  id: string;
+}
+export const PublicCloudStorageFileFileStorageSnapshotTargetSpecShare = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.String,
+    }),
+).annotate({
+  identifier: "PublicCloudStorageFileFileStorageSnapshotTargetSpecShare",
+}) as any as S.Schema<PublicCloudStorageFileFileStorageSnapshotTargetSpecShare>;
+
 /** Target specification for a file storage snapshot */
 export interface PublicCloudStorageFileFileStorageSnapshotTargetSpec {
   /** Description of the snapshot */
   description?: string | null;
-  /** Location of the snapshot */
-  location: PublicCloudCommonLocation;
   /** Desired snapshot name */
   name?: string | null;
-  /** ID of the parent file storage share */
-  shareId: string;
+  /** Parent file storage share */
+  share: PublicCloudStorageFileFileStorageSnapshotTargetSpecShare;
 }
 export const PublicCloudStorageFileFileStorageSnapshotTargetSpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     description: S.optional(S.NullOr(S.String)),
-    location: PublicCloudCommonLocation,
     name: S.optional(S.NullOr(S.String)),
-    shareId: S.String,
+    share: PublicCloudStorageFileFileStorageSnapshotTargetSpecShare,
   }),
 ).annotate({
   identifier: "PublicCloudStorageFileFileStorageSnapshotTargetSpec",
@@ -4547,9 +4577,19 @@ export const CreatePublicCloudProjectStorageFileSnapshotRequest = /*@__PURE__*/ 
   identifier: "CreatePublicCloudProjectStorageFileSnapshotRequest",
 }) as any as S.Schema<CreatePublicCloudProjectStorageFileSnapshotRequest>;
 
-/** Supported file sharing protocols */
-export type PublicCloudStorageFileFileStorageProtocolEnum = "NFS";
-export const PublicCloudStorageFileFileStorageProtocolEnum = S.String;
+/** Parent file storage share */
+export interface PublicCloudStorageFileFileStorageSnapshotCurrentStateShare {
+  /** ID of the parent file storage share */
+  id?: string;
+}
+export const PublicCloudStorageFileFileStorageSnapshotCurrentStateShare = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "PublicCloudStorageFileFileStorageSnapshotCurrentStateShare",
+}) as any as S.Schema<PublicCloudStorageFileFileStorageSnapshotCurrentStateShare>;
 
 /** Current state of a file storage snapshot as observed from the infrastructure */
 export interface PublicCloudStorageFileFileStorageSnapshotCurrentState {
@@ -4559,24 +4599,18 @@ export interface PublicCloudStorageFileFileStorageSnapshotCurrentState {
   location?: PublicCloudCommonLocation;
   /** Current snapshot name */
   name?: string | null;
-  /** ID of the parent file storage share */
-  shareId?: string;
-  /** File sharing protocol of the parent share */
-  shareProto?: PublicCloudStorageFileFileStorageProtocolEnum;
-  /** Size of the parent share in GB at the time of the snapshot */
-  shareSize?: number;
+  /** Parent file storage share */
+  share?: PublicCloudStorageFileFileStorageSnapshotCurrentStateShare;
   /** Size of the snapshot in GB */
-  snapshotSize?: number;
+  size?: number;
 }
 export const PublicCloudStorageFileFileStorageSnapshotCurrentState = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     description: S.optional(S.NullOr(S.String)),
     location: S.optional(PublicCloudCommonLocation),
     name: S.optional(S.NullOr(S.String)),
-    shareId: S.optional(S.String),
-    shareProto: S.optional(PublicCloudStorageFileFileStorageProtocolEnum),
-    shareSize: S.optional(S.Number),
-    snapshotSize: S.optional(S.Number),
+    share: S.optional(PublicCloudStorageFileFileStorageSnapshotCurrentStateShare),
+    size: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "PublicCloudStorageFileFileStorageSnapshotCurrentState",
@@ -4816,9 +4850,7 @@ export const PublicCloudStorageObjectBucketCurrentTasksList = /*@__PURE__*/ S.Ar
 ) as any as S.Schema<PublicCloudStorageObjectBucketCurrentTasksList>;
 
 /** Metadata tags for the bucket */
-export type PublicCloudStorageObjectBucketTargetSpecTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PublicCloudStorageObjectBucketTargetSpecTagsMap = { [key: string]: string | undefined };
 export const PublicCloudStorageObjectBucketTargetSpecTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5429,11 +5461,7 @@ export const DeletePublicCloudProjectSshKeyRequest = /*@__PURE__*/ S.suspend(() 
     projectId: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/publicCloud/project/{projectId}/sshKey/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/publicCloud/project/{projectId}/sshKey/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeletePublicCloudProjectSshKeyRequest",
@@ -5501,6 +5529,25 @@ export const DeletePublicCloudProjectStorageBlockVolumeRequest = /*@__PURE__*/ S
 ).annotate({
   identifier: "DeletePublicCloudProjectStorageBlockVolumeRequest",
 }) as any as S.Schema<DeletePublicCloudProjectStorageBlockVolumeRequest>;
+
+export interface DeletePublicCloudProjectStorageFileNetworkRequest {
+  projectId: string;
+  networkId: string;
+}
+export const DeletePublicCloudProjectStorageFileNetworkRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    projectId: S.String.pipe(T.Label()),
+    networkId: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/publicCloud/project/{projectId}/storage/file/network/{networkId}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeletePublicCloudProjectStorageFileNetworkRequest",
+}) as any as S.Schema<DeletePublicCloudProjectStorageFileNetworkRequest>;
 
 export interface DeletePublicCloudProjectStorageFileShareRequest {
   /** Project ID */
@@ -5591,6 +5638,10 @@ export const PublicCloudStorageFileFileStorageCurrentStateExportLocationsList =
     PublicCloudStorageFileFileStorageExportLocation,
   ) as any as S.Schema<PublicCloudStorageFileFileStorageCurrentStateExportLocationsList>;
 
+/** Supported file sharing protocols */
+export type PublicCloudStorageFileFileStorageProtocolEnum = "NFS";
+export const PublicCloudStorageFileFileStorageProtocolEnum = S.String;
+
 /** Supported file storage types (performance tiers) */
 export type PublicCloudStorageFileFileStorageTypeEnum = "STANDARD_1AZ";
 export const PublicCloudStorageFileFileStorageTypeEnum = S.String;
@@ -5666,6 +5717,19 @@ export const PublicCloudStorageFileFileStorageTargetSpecAccessRulesList = /*@__P
   PublicCloudStorageFileFileStorageAccessRuleInput,
 ) as any as S.Schema<PublicCloudStorageFileFileStorageTargetSpecAccessRulesList>;
 
+/** Share network to attach the file storage to */
+export interface PublicCloudStorageFileFileStorageTargetSpecShareNetwork {
+  /** Share network ID */
+  id: string;
+}
+export const PublicCloudStorageFileFileStorageTargetSpecShareNetwork = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+  }),
+).annotate({
+  identifier: "PublicCloudStorageFileFileStorageTargetSpecShareNetwork",
+}) as any as S.Schema<PublicCloudStorageFileFileStorageTargetSpecShareNetwork>;
+
 /** Target specification for a file storage */
 export interface PublicCloudStorageFileFileStorageTargetSpec {
   /** Access rules controlling which IPs can access the file storage */
@@ -5676,16 +5740,14 @@ export interface PublicCloudStorageFileFileStorageTargetSpec {
   location: PublicCloudCommonLocation;
   /** Desired file storage name */
   name: string;
-  /** Private network ID to attach the file storage to */
-  networkId: string;
+  /** Share network to attach the file storage to */
+  shareNetwork: PublicCloudStorageFileFileStorageTargetSpecShareNetwork;
   /** File sharing protocol */
   protocol: PublicCloudStorageFileFileStorageProtocolEnum | (string & {});
   /** File storage type (performance tier) */
   shareType: PublicCloudStorageFileFileStorageTypeEnum | (string & {});
   /** Size of the file storage in GB */
   size: number;
-  /** Subnet ID within the private network */
-  subnetId: string;
 }
 export const PublicCloudStorageFileFileStorageTargetSpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5693,11 +5755,10 @@ export const PublicCloudStorageFileFileStorageTargetSpec = /*@__PURE__*/ S.suspe
     description: S.optional(S.NullOr(S.String)),
     location: PublicCloudCommonLocation,
     name: S.String,
-    networkId: S.String,
+    shareNetwork: PublicCloudStorageFileFileStorageTargetSpecShareNetwork,
     protocol: PublicCloudStorageFileFileStorageProtocolEnum,
     shareType: PublicCloudStorageFileFileStorageTypeEnum,
     size: S.Number,
-    subnetId: S.String,
   }),
 ).annotate({
   identifier: "PublicCloudStorageFileFileStorageTargetSpec",
@@ -5786,13 +5847,7 @@ export interface GetPublicCloudProjectRequest {
 export const GetPublicCloudProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/publicCloud/project/{projectId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/publicCloud/project/{projectId}", code: 200 })),
 ).annotate({
   identifier: "GetPublicCloudProjectRequest",
 }) as any as S.Schema<GetPublicCloudProjectRequest>;
@@ -5855,9 +5910,7 @@ export const IamResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(IamResourceMetadataTagsMap)),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamResourceMetadata",
-}) as any as S.Schema<IamResourceMetadata>;
+).annotate({ identifier: "IamResourceMetadata" }) as any as S.Schema<IamResourceMetadata>;
 
 /** Target specification of the cloud project */
 export interface PublicCloudProjectProjectTargetSpec {
@@ -6461,13 +6514,7 @@ export const GetPublicCloudProjectQuotaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectId: S.String.pipe(T.Label()),
     region: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/publicCloud/project/{projectId}/quota",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/publicCloud/project/{projectId}/quota", code: 200 })),
 ).annotate({
   identifier: "GetPublicCloudProjectQuotaRequest",
 }) as any as S.Schema<GetPublicCloudProjectQuotaRequest>;
@@ -7029,9 +7076,7 @@ export const PublicCloudQuotaQuota = /*@__PURE__*/ S.suspend(() =>
     targetSpec: S.optional(PublicCloudQuotaQuotaTargetSpec),
     updatedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PublicCloudQuotaQuota",
-}) as any as S.Schema<PublicCloudQuotaQuota>;
+).annotate({ identifier: "PublicCloudQuotaQuota" }) as any as S.Schema<PublicCloudQuotaQuota>;
 
 export interface GetPublicCloudProjectRancherRequest {
   /** Project ID */
@@ -7106,9 +7151,7 @@ export const CommonTaskProgress = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     status: S.optional(CommonTaskStatusEnum),
   }),
-).annotate({
-  identifier: "CommonTaskProgress",
-}) as any as S.Schema<CommonTaskProgress>;
+).annotate({ identifier: "CommonTaskProgress" }) as any as S.Schema<CommonTaskProgress>;
 
 /** Progress steps of the asynchronous operation */
 export type CommonTaskProgressList = Array<CommonTaskProgress>;
@@ -7410,11 +7453,7 @@ export const GetPublicCloudProjectSshKeyRequest = /*@__PURE__*/ S.suspend(() =>
     projectId: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/publicCloud/project/{projectId}/sshKey/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/publicCloud/project/{projectId}/sshKey/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetPublicCloudProjectSshKeyRequest",
@@ -7482,6 +7521,25 @@ export const GetPublicCloudProjectStorageBlockVolumeRequest = /*@__PURE__*/ S.su
 ).annotate({
   identifier: "GetPublicCloudProjectStorageBlockVolumeRequest",
 }) as any as S.Schema<GetPublicCloudProjectStorageBlockVolumeRequest>;
+
+export interface GetPublicCloudProjectStorageFileNetworkRequest {
+  projectId: string;
+  networkId: string;
+}
+export const GetPublicCloudProjectStorageFileNetworkRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    projectId: S.String.pipe(T.Label()),
+    networkId: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/publicCloud/project/{projectId}/storage/file/network/{networkId}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetPublicCloudProjectStorageFileNetworkRequest",
+}) as any as S.Schema<GetPublicCloudProjectStorageFileNetworkRequest>;
 
 export interface GetPublicCloudProjectStorageFileShareRequest {
   /** Project ID */
@@ -7647,11 +7705,7 @@ export const ListPublicCloudProjectComputeBackupRequest = /*@__PURE__*/ S.suspen
     xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
     xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/publicCloud/project/{projectId}/compute/backup",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/publicCloud/project/{projectId}/compute/backup", code: 200 }),
   ),
 ).annotate({
   identifier: "ListPublicCloudProjectComputeBackupRequest",
@@ -7684,11 +7738,7 @@ export const ListPublicCloudProjectComputeInstanceRequest = /*@__PURE__*/ S.susp
     xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
     xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/publicCloud/project/{projectId}/compute/instance",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/publicCloud/project/{projectId}/compute/instance", code: 200 }),
   ),
 ).annotate({
   identifier: "ListPublicCloudProjectComputeInstanceRequest",
@@ -7830,13 +7880,7 @@ export const ListPublicCloudProjectFloatingIpRequest = /*@__PURE__*/ S.suspend((
     projectId: S.String.pipe(T.Label()),
     xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
     xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/publicCloud/project/{projectId}/floatingIp",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/publicCloud/project/{projectId}/floatingIp", code: 200 })),
 ).annotate({
   identifier: "ListPublicCloudProjectFloatingIpRequest",
 }) as any as S.Schema<ListPublicCloudProjectFloatingIpRequest>;
@@ -7868,13 +7912,7 @@ export const ListPublicCloudProjectGatewayRequest = /*@__PURE__*/ S.suspend(() =
     projectId: S.String.pipe(T.Label()),
     xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
     xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/publicCloud/project/{projectId}/gateway",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/publicCloud/project/{projectId}/gateway", code: 200 })),
 ).annotate({
   identifier: "ListPublicCloudProjectGatewayRequest",
 }) as any as S.Schema<ListPublicCloudProjectGatewayRequest>;
@@ -7986,11 +8024,7 @@ export const ListPublicCloudProjectKeyManagerSecretRequest = /*@__PURE__*/ S.sus
     xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
     xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/publicCloud/project/{projectId}/keyManager/secret",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/publicCloud/project/{projectId}/keyManager/secret", code: 200 }),
   ),
 ).annotate({
   identifier: "ListPublicCloudProjectKeyManagerSecretRequest",
@@ -8065,11 +8099,7 @@ export const ListPublicCloudProjectLoadbalancerRequest = /*@__PURE__*/ S.suspend
     xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
     xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/publicCloud/project/{projectId}/loadbalancer",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/publicCloud/project/{projectId}/loadbalancer", code: 200 }),
   ),
 ).annotate({
   identifier: "ListPublicCloudProjectLoadbalancerRequest",
@@ -8275,13 +8305,7 @@ export const ListPublicCloudProjectNetworkRequest = /*@__PURE__*/ S.suspend(() =
     projectId: S.String.pipe(T.Label()),
     xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
     xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/publicCloud/project/{projectId}/network",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/publicCloud/project/{projectId}/network", code: 200 })),
 ).annotate({
   identifier: "ListPublicCloudProjectNetworkRequest",
 }) as any as S.Schema<ListPublicCloudProjectNetworkRequest>;
@@ -8351,13 +8375,7 @@ export const ListPublicCloudProjectPublicIpRequest = /*@__PURE__*/ S.suspend(() 
     projectId: S.String.pipe(T.Label()),
     xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
     xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/publicCloud/project/{projectId}/publicIp",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/publicCloud/project/{projectId}/publicIp", code: 200 })),
 ).annotate({
   identifier: "ListPublicCloudProjectPublicIpRequest",
 }) as any as S.Schema<ListPublicCloudProjectPublicIpRequest>;
@@ -8447,11 +8465,7 @@ export const ListPublicCloudProjectPublicIpExtNetRequest = /*@__PURE__*/ S.suspe
     xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
     xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/publicCloud/project/{projectId}/publicIp/extNet",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/publicCloud/project/{projectId}/publicIp/extNet", code: 200 }),
   ),
 ).annotate({
   identifier: "ListPublicCloudProjectPublicIpExtNetRequest",
@@ -8485,11 +8499,7 @@ export const ListPublicCloudProjectPublicIpFloatingRequest = /*@__PURE__*/ S.sus
     xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
     xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/publicCloud/project/{projectId}/publicIp/floating",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/publicCloud/project/{projectId}/publicIp/floating", code: 200 }),
   ),
 ).annotate({
   identifier: "ListPublicCloudProjectPublicIpFloatingRequest",
@@ -8522,13 +8532,7 @@ export const ListPublicCloudProjectRancherRequest = /*@__PURE__*/ S.suspend(() =
     projectId: S.String.pipe(T.Label()),
     xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
     xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/publicCloud/project/{projectId}/rancher",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/publicCloud/project/{projectId}/rancher", code: 200 })),
 ).annotate({
   identifier: "ListPublicCloudProjectRancherRequest",
 }) as any as S.Schema<ListPublicCloudProjectRancherRequest>;
@@ -9006,11 +9010,7 @@ export const ListPublicCloudProjectReferenceRegionRequest = /*@__PURE__*/ S.susp
     xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
     xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/publicCloud/project/{projectId}/reference/region",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/publicCloud/project/{projectId}/reference/region", code: 200 }),
   ),
 ).annotate({
   identifier: "ListPublicCloudProjectReferenceRegionRequest",
@@ -9044,11 +9044,7 @@ export const ListPublicCloudProjectSecurityGroupRequest = /*@__PURE__*/ S.suspen
     xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
     xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/publicCloud/project/{projectId}/securityGroup",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/publicCloud/project/{projectId}/securityGroup", code: 200 }),
   ),
 ).annotate({
   identifier: "ListPublicCloudProjectSecurityGroupRequest",
@@ -9081,13 +9077,7 @@ export const ListPublicCloudProjectSshKeyRequest = /*@__PURE__*/ S.suspend(() =>
     projectId: S.String.pipe(T.Label()),
     xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
     xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/publicCloud/project/{projectId}/sshKey",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/publicCloud/project/{projectId}/sshKey", code: 200 })),
 ).annotate({
   identifier: "ListPublicCloudProjectSshKeyRequest",
 }) as any as S.Schema<ListPublicCloudProjectSshKeyRequest>;
@@ -9223,6 +9213,37 @@ export const ListPublicCloudProjectStorageBlockVolumeResponse = /*@__PURE__*/ S.
 ).annotate({
   identifier: "ListPublicCloudProjectStorageBlockVolumeResponse",
 }) as any as S.Schema<ListPublicCloudProjectStorageBlockVolumeResponse>;
+
+export interface ListPublicCloudProjectStorageFileNetworkRequest {
+  projectId: string;
+}
+export const ListPublicCloudProjectStorageFileNetworkRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    projectId: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/publicCloud/project/{projectId}/storage/file/network",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListPublicCloudProjectStorageFileNetworkRequest",
+}) as any as S.Schema<ListPublicCloudProjectStorageFileNetworkRequest>;
+
+export type ListPublicCloudProjectStorageFileNetworkResponseBodyList =
+  Array<PublicCloudStorageFileFileStorageNetwork>;
+export const ListPublicCloudProjectStorageFileNetworkResponseBodyList = /*@__PURE__*/ S.Array(
+  PublicCloudStorageFileFileStorageNetwork,
+) as any as S.Schema<ListPublicCloudProjectStorageFileNetworkResponseBodyList>;
+
+export type ListPublicCloudProjectStorageFileNetworkResponse =
+  ListPublicCloudProjectStorageFileNetworkResponseBodyList;
+export const ListPublicCloudProjectStorageFileNetworkResponse = /*@__PURE__*/ S.suspend(() =>
+  ListPublicCloudProjectStorageFileNetworkResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListPublicCloudProjectStorageFileNetworkResponse",
+}) as any as S.Schema<ListPublicCloudProjectStorageFileNetworkResponse>;
 
 export interface ListPublicCloudProjectStorageFileShareRequest {
   /** Project ID */
@@ -10512,13 +10533,7 @@ export const PutPublicCloudProjectQuotaRequest = /*@__PURE__*/ S.suspend(() =>
     projectId: S.String.pipe(T.Label()),
     checksum: S.String,
     targetSpec: PublicCloudQuotaQuotaUpdateTargetSpec,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/publicCloud/project/{projectId}/quota",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/publicCloud/project/{projectId}/quota", code: 200 })),
 ).annotate({
   identifier: "PutPublicCloudProjectQuotaRequest",
 }) as any as S.Schema<PutPublicCloudProjectQuotaRequest>;
@@ -11430,6 +11445,21 @@ export const createPublicCloudProjectStorageBlockVolume: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreatePublicCloudProjectStorageFileNetworkError = OvhOpError;
+/** Create a Public Cloud file storage share network */
+export const createPublicCloudProjectStorageFileNetwork: API.OperationMethod<
+  CreatePublicCloudProjectStorageFileNetworkRequest,
+  PublicCloudStorageFileFileStorageNetwork,
+  CreatePublicCloudProjectStorageFileNetworkError,
+  OvhOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreatePublicCloudProjectStorageFileNetworkRequest,
+  output: PublicCloudStorageFileFileStorageNetwork,
+  errors: [UnknownOvhError],
+  protocol: OvhProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreatePublicCloudProjectStorageFileSnapshotError =
   | BadRequest
   | NotFound
@@ -11838,6 +11868,21 @@ export const deletePublicCloudProjectStorageBlockVolume: API.OperationMethod<
   input: DeletePublicCloudProjectStorageBlockVolumeRequest,
   output: PublicCloudBlockStorageBlock,
   errors: [NotFound, Conflict, UnknownOvhError],
+  protocol: OvhProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeletePublicCloudProjectStorageFileNetworkError = OvhOpError;
+/** Delete a Public Cloud file storage share network */
+export const deletePublicCloudProjectStorageFileNetwork: API.OperationMethod<
+  DeletePublicCloudProjectStorageFileNetworkRequest,
+  PublicCloudStorageFileFileStorageNetwork,
+  DeletePublicCloudProjectStorageFileNetworkError,
+  OvhOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeletePublicCloudProjectStorageFileNetworkRequest,
+  output: PublicCloudStorageFileFileStorageNetwork,
+  errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
 }));
@@ -12393,6 +12438,21 @@ export const getPublicCloudProjectStorageBlockVolume: API.OperationMethod<
   input: GetPublicCloudProjectStorageBlockVolumeRequest,
   output: PublicCloudBlockStorageBlock,
   errors: [NotFound, UnknownOvhError],
+  protocol: OvhProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetPublicCloudProjectStorageFileNetworkError = OvhOpError;
+/** Get a Public Cloud file storage share network */
+export const getPublicCloudProjectStorageFileNetwork: API.OperationMethod<
+  GetPublicCloudProjectStorageFileNetworkRequest,
+  PublicCloudStorageFileFileStorageNetwork,
+  GetPublicCloudProjectStorageFileNetworkError,
+  OvhOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetPublicCloudProjectStorageFileNetworkRequest,
+  output: PublicCloudStorageFileFileStorageNetwork,
+  errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
 }));
@@ -13007,6 +13067,21 @@ export const listPublicCloudProjectStorageBlockVolume: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListPublicCloudProjectStorageBlockVolumeRequest,
   output: ListPublicCloudProjectStorageBlockVolumeResponse,
+  errors: [UnknownOvhError],
+  protocol: OvhProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListPublicCloudProjectStorageFileNetworkError = OvhOpError;
+/** List Public Cloud file storage share networks */
+export const listPublicCloudProjectStorageFileNetwork: API.OperationMethod<
+  ListPublicCloudProjectStorageFileNetworkRequest,
+  ListPublicCloudProjectStorageFileNetworkResponse,
+  ListPublicCloudProjectStorageFileNetworkError,
+  OvhOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListPublicCloudProjectStorageFileNetworkRequest,
+  output: ListPublicCloudProjectStorageFileNetworkResponse,
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,

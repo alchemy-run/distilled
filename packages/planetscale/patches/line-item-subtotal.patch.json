@@ -1,0 +1,13 @@
+{
+  "description": "Type invoice line-item subtotal as a string. The spec declares PaginatedLineItem data[].subtotal as type: number, but GET /v1/organizations/{org}/invoices/{id}/line-items returns it as a stringified decimal, like the invoice total the spec already types as a string. Observed on the live API 2026-09-30: every line item's subtotal was a JSON string holding a decimal.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/definitions/PaginatedLineItem/properties/data/items/properties/subtotal",
+      "value": {
+        "type": "string",
+        "description": "The total for the line item, as a stringified decimal to preserve precision"
+      }
+    }
+  ]
+}

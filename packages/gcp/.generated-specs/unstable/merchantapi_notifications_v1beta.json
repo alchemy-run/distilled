@@ -8,20 +8,13 @@
     "distilled.finalized": true
   },
   "shapes": {
-    "com.gcp.merchantapi_notifications_v1beta#Empty": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#documentation": "A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); }"
-      }
-    },
     "com.gcp.merchantapi_notifications_v1beta#ProductChange": {
       "type": "structure",
       "members": {
-        "regionCode": {
-          "target": "smithy.api#String",
+        "reportingContext": {
+          "target": "com.gcp.merchantapi_notifications_v1beta#ProductChangeReportingContextEnum",
           "traits": {
-            "smithy.api#documentation": "Countries that have the change (if applicable). Represented in the ISO 3166 format."
+            "smithy.api#documentation": "Reporting contexts that have the change (if applicable). Currently this field supports only (`SHOPPING_ADS`, `LOCAL_INVENTORY_ADS`, `YOUTUBE_SHOPPING`, `YOUTUBE_CHECKOUT`, `YOUTUBE_AFFILIATE`) from the enum value [ReportingContextEnum](/merchant/api/reference/rest/Shared.Types/ReportingContextEnum)"
           }
         },
         "oldValue": {
@@ -30,10 +23,10 @@
             "smithy.api#documentation": "The old value of the changed resource or attribute. If empty, it means that the product was created. Will have one of these values : (`approved`, `pending`, `disapproved`, ``)"
           }
         },
-        "reportingContext": {
-          "target": "com.gcp.merchantapi_notifications_v1beta#ProductChangeReportingContextEnum",
+        "regionCode": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Reporting contexts that have the change (if applicable). Currently this field supports only (`SHOPPING_ADS`, `LOCAL_INVENTORY_ADS`, `YOUTUBE_SHOPPING`, `YOUTUBE_CHECKOUT`, `YOUTUBE_AFFILIATE`) from the enum value [ReportingContextEnum](/merchant/api/reference/rest/Shared.Types/ReportingContextEnum)"
+            "smithy.api#documentation": "Countries that have the change (if applicable). Represented in the ISO 3166 format."
           }
         },
         "newValue": {
@@ -178,13 +171,154 @@
         }
       }
     },
+    "com.gcp.merchantapi_notifications_v1beta#ProductStatusChangeMessage": {
+      "type": "structure",
+      "members": {
+        "account": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The target account that owns the entity that changed. Format : `accounts/{merchant_id}`"
+          }
+        },
+        "eventTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time at which the event was generated. If you want to order the notification messages you receive you should rely on this field not on the order of receiving the notifications."
+          }
+        },
+        "managingAccount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The account that manages the merchant's account. can be the same as merchant id if it is standalone account. Format : `accounts/{service_provider_id}`"
+          }
+        },
+        "resourceType": {
+          "target": "com.gcp.merchantapi_notifications_v1beta#ProductStatusChangeMessageResourceTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "The resource that changed, in this case it will always be `Product`."
+          }
+        },
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product id."
+          }
+        },
+        "resource": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product name. Format: `accounts/{account}/products/{product}`"
+          }
+        },
+        "attribute": {
+          "target": "com.gcp.merchantapi_notifications_v1beta#ProductStatusChangeMessageAttributeEnum",
+          "traits": {
+            "smithy.api#documentation": "The attribute in the resource that changed, in this case it will be always `Status`."
+          }
+        },
+        "changes": {
+          "target": "com.gcp.merchantapi_notifications_v1beta#ProductChangeList",
+          "traits": {
+            "smithy.api#documentation": "A message to describe the change that happened to the product"
+          }
+        },
+        "expirationTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The product expiration time. This field will not be set if the notification is sent for a product deletion event."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The message that the merchant will receive to notify about product status change event"
+      }
+    },
+    "com.gcp.merchantapi_notifications_v1beta#ProductStatusChangeMessageResourceTypeEnum": {
+      "type": "enum",
+      "members": {
+        "RESOURCE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RESOURCE_UNSPECIFIED"
+          }
+        },
+        "PRODUCT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PRODUCT"
+          }
+        },
+        "ACCOUNT_SERVICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ACCOUNT_SERVICE"
+          }
+        }
+      }
+    },
+    "com.gcp.merchantapi_notifications_v1beta#ProductStatusChangeMessageAttributeEnum": {
+      "type": "enum",
+      "members": {
+        "ATTRIBUTE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ATTRIBUTE_UNSPECIFIED"
+          }
+        },
+        "STATUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATUS"
+          }
+        }
+      }
+    },
+    "com.gcp.merchantapi_notifications_v1beta#ProductChangeList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.merchantapi_notifications_v1beta#ProductChange"
+      }
+    },
+    "com.gcp.merchantapi_notifications_v1beta#Empty": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); }"
+      }
+    },
+    "com.gcp.merchantapi_notifications_v1beta#ListNotificationSubscriptionsResponse": {
+      "type": "structure",
+      "members": {
+        "notificationSubscriptions": {
+          "target": "com.gcp.merchantapi_notifications_v1beta#NotificationSubscriptionList",
+          "traits": {
+            "smithy.api#documentation": "The list of notification subscriptions requested by the merchant."
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response message for the ListNotificationSubscription method."
+      }
+    },
+    "com.gcp.merchantapi_notifications_v1beta#NotificationSubscriptionList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.merchantapi_notifications_v1beta#NotificationSubscription"
+      }
+    },
     "com.gcp.merchantapi_notifications_v1beta#NotificationSubscription": {
       "type": "structure",
       "members": {
-        "name": {
-          "target": "smithy.api#String",
+        "allManagedAccounts": {
+          "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Output only. The `name` of the notification configuration. Generated by the Merchant API upon creation of a new `NotificationSubscription`. The `account` represents the merchant ID of the merchant that owns the configuration. Format: `accounts/{account}/notificationsubscriptions/{notification_subscription}`"
+            "smithy.api#documentation": "If this value is true, the requesting account is notified of the specified event for all managed accounts (can be subaccounts or other linked accounts) including newly added accounts on a daily basis."
           }
         },
         "targetAccount": {
@@ -193,16 +327,16 @@
             "smithy.api#documentation": "The `name` of the account you want to receive notifications for. Format: `accounts/{account}`"
           }
         },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The `name` of the notification configuration. Generated by the Merchant API upon creation of a new `NotificationSubscription`. The `account` represents the merchant ID of the merchant that owns the configuration. Format: `accounts/{account}/notificationsubscriptions/{notification_subscription}`"
+          }
+        },
         "registeredEvent": {
           "target": "com.gcp.merchantapi_notifications_v1beta#NotificationSubscriptionRegisteredEventEnum",
           "traits": {
             "smithy.api#documentation": "The event that the merchant wants to be notified about."
-          }
-        },
-        "allManagedAccounts": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "If this value is true, the requesting account is notified of the specified event for all managed accounts (can be subaccounts or other linked accounts) including newly added accounts on a daily basis."
           }
         },
         "callBackUri": {
@@ -239,156 +373,15 @@
         }
       }
     },
-    "com.gcp.merchantapi_notifications_v1beta#ListNotificationSubscriptionsResponse": {
+    "com.gcp.merchantapi_notifications_v1beta#DeleteAccountsNotificationsubscriptionsRequest": {
       "type": "structure",
       "members": {
-        "notificationSubscriptions": {
-          "target": "com.gcp.merchantapi_notifications_v1beta#NotificationSubscriptionList",
-          "traits": {
-            "smithy.api#documentation": "The list of notification subscriptions requested by the merchant."
-          }
-        },
-        "nextPageToken": {
+        "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Response message for the ListNotificationSubscription method."
-      }
-    },
-    "com.gcp.merchantapi_notifications_v1beta#NotificationSubscriptionList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.merchantapi_notifications_v1beta#NotificationSubscription"
-      }
-    },
-    "com.gcp.merchantapi_notifications_v1beta#ProductStatusChangeMessage": {
-      "type": "structure",
-      "members": {
-        "managingAccount": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The account that manages the merchant's account. can be the same as merchant id if it is standalone account. Format : `accounts/{service_provider_id}`"
-          }
-        },
-        "attribute": {
-          "target": "com.gcp.merchantapi_notifications_v1beta#ProductStatusChangeMessageAttributeEnum",
-          "traits": {
-            "smithy.api#documentation": "The attribute in the resource that changed, in this case it will be always `Status`."
-          }
-        },
-        "eventTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The time at which the event was generated. If you want to order the notification messages you receive you should rely on this field not on the order of receiving the notifications."
-          }
-        },
-        "resource": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The product name. Format: `accounts/{account}/products/{product}`"
-          }
-        },
-        "changes": {
-          "target": "com.gcp.merchantapi_notifications_v1beta#ProductChangeList",
-          "traits": {
-            "smithy.api#documentation": "A message to describe the change that happened to the product"
-          }
-        },
-        "resourceType": {
-          "target": "com.gcp.merchantapi_notifications_v1beta#ProductStatusChangeMessageResourceTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "The resource that changed, in this case it will always be `Product`."
-          }
-        },
-        "resourceId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The product id."
-          }
-        },
-        "expirationTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. The product expiration time. This field will not be set if the notification is sent for a product deletion event."
-          }
-        },
-        "account": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The target account that owns the entity that changed. Format : `accounts/{merchant_id}`"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The message that the merchant will receive to notify about product status change event"
-      }
-    },
-    "com.gcp.merchantapi_notifications_v1beta#ProductStatusChangeMessageAttributeEnum": {
-      "type": "enum",
-      "members": {
-        "ATTRIBUTE_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ATTRIBUTE_UNSPECIFIED"
-          }
-        },
-        "STATUS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "STATUS"
-          }
-        }
-      }
-    },
-    "com.gcp.merchantapi_notifications_v1beta#ProductChangeList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.merchantapi_notifications_v1beta#ProductChange"
-      }
-    },
-    "com.gcp.merchantapi_notifications_v1beta#ProductStatusChangeMessageResourceTypeEnum": {
-      "type": "enum",
-      "members": {
-        "RESOURCE_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "RESOURCE_UNSPECIFIED"
-          }
-        },
-        "PRODUCT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "PRODUCT"
-          }
-        },
-        "ACCOUNT_SERVICE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ACCOUNT_SERVICE"
-          }
-        }
-      }
-    },
-    "com.gcp.merchantapi_notifications_v1beta#CreateAccountsNotificationsubscriptionsRequest": {
-      "type": "structure",
-      "members": {
-        "parent": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. The merchant account that owns the new notification subscription. Format: `accounts/{account}`",
+            "smithy.api#documentation": "Required. The name of the notification subscription to be deleted.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
-          }
-        },
-        "body": {
-          "target": "com.gcp.merchantapi_notifications_v1beta#NotificationSubscription",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
           }
         }
       }
@@ -445,13 +438,13 @@
         ]
       }
     },
-    "com.gcp.merchantapi_notifications_v1beta#CreateAccountsNotificationsubscriptions": {
+    "com.gcp.merchantapi_notifications_v1beta#DeleteAccountsNotificationsubscriptions": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.merchantapi_notifications_v1beta#CreateAccountsNotificationsubscriptionsRequest"
+        "target": "com.gcp.merchantapi_notifications_v1beta#DeleteAccountsNotificationsubscriptionsRequest"
       },
       "output": {
-        "target": "com.gcp.merchantapi_notifications_v1beta#NotificationSubscription"
+        "target": "com.gcp.merchantapi_notifications_v1beta#Empty"
       },
       "errors": [
         {
@@ -469,65 +462,28 @@
       ],
       "traits": {
         "smithy.api#http": {
-          "method": "POST",
-          "uri": "notifications/v1beta/{+parent}/notificationsubscriptions"
-        },
-        "smithy.api#documentation": "Creates a notification subscription for a business. For standalone or sub-accounts, the business can create a subscription for self. For advanced accounts, the business can create a subscription for all managed accounts or for a specific subaccount. See [Decode notifications](/merchant/api/guides/accounts/notifications#decode_notifications) for information on how to decode the notification payload and how to interpret its contents. We will allow the following types of notification subscriptions to exist together (per business as a subscriber per event type): 1. Subscription for all managed accounts + subscription for self. 2. Multiple \"partial\" subscriptions for managed accounts + subscription for self. we will not allow (per business as a subscriber per event type): 1. Multiple self subscriptions. 2. Multiple \"all managed accounts\" subscriptions. 3. \"All managed accounts\" subscription and partial subscriptions at the same time. 4. Multiple partial subscriptions for the same target account."
-      }
-    },
-    "com.gcp.merchantapi_notifications_v1beta#GetAccountsNotificationsubscriptionsRequest": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. The `name` of the notification subscription.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.gcp.merchantapi_notifications_v1beta#GetAccountsNotificationsubscriptions": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.merchantapi_notifications_v1beta#GetAccountsNotificationsubscriptionsRequest"
-      },
-      "output": {
-        "target": "com.gcp.merchantapi_notifications_v1beta#NotificationSubscription"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.merchantapi_notifications_v1beta#NotFound"
-        },
-        {
-          "target": "com.gcp.merchantapi_notifications_v1beta#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
+          "method": "DELETE",
           "uri": "notifications/v1beta/{+name}"
         },
-        "smithy.api#documentation": "Gets notification subscriptions for an account."
+        "smithy.api#documentation": "Deletes a notification subscription for a merchant."
       }
     },
     "com.gcp.merchantapi_notifications_v1beta#PatchAccountsNotificationsubscriptionsRequest": {
       "type": "structure",
       "members": {
+        "updateMask": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "List of fields being updated.",
+            "smithy.api#httpQuery": "updateMask"
+          }
+        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Output only. The `name` of the notification configuration. Generated by the Merchant API upon creation of a new `NotificationSubscription`. The `account` represents the merchant ID of the merchant that owns the configuration. Format: `accounts/{account}/notificationsubscriptions/{notification_subscription}`",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
-          }
-        },
-        "updateMask": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "List of fields being updated.",
-            "smithy.api#httpQuery": "updateMask"
           }
         },
         "body": {
@@ -580,18 +536,18 @@
             "smithy.api#required": {}
           }
         },
-        "pageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. Token (if provided) to retrieve the subsequent page. All other parameters must match the original call that provided the page token.",
-            "smithy.api#httpQuery": "pageToken"
-          }
-        },
         "pageSize": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Optional. The maximum number of notification subscriptions to return in a page. The default value for `page_size` is 100. The maximum value is `200`. Values above `200` will be coerced to `200`.",
             "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Token (if provided) to retrieve the subsequent page. All other parameters must match the original call that provided the page token.",
+            "smithy.api#httpQuery": "pageToken"
           }
         }
       }
@@ -624,26 +580,70 @@
         }
       }
     },
-    "com.gcp.merchantapi_notifications_v1beta#DeleteAccountsNotificationsubscriptionsRequest": {
+    "com.gcp.merchantapi_notifications_v1beta#GetAccountsNotificationsubscriptionsRequest": {
       "type": "structure",
       "members": {
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Required. The name of the notification subscription to be deleted.",
+            "smithy.api#documentation": "Required. The `name` of the notification subscription.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
         }
       }
     },
-    "com.gcp.merchantapi_notifications_v1beta#DeleteAccountsNotificationsubscriptions": {
+    "com.gcp.merchantapi_notifications_v1beta#GetAccountsNotificationsubscriptions": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.merchantapi_notifications_v1beta#DeleteAccountsNotificationsubscriptionsRequest"
+        "target": "com.gcp.merchantapi_notifications_v1beta#GetAccountsNotificationsubscriptionsRequest"
       },
       "output": {
-        "target": "com.gcp.merchantapi_notifications_v1beta#Empty"
+        "target": "com.gcp.merchantapi_notifications_v1beta#NotificationSubscription"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.merchantapi_notifications_v1beta#NotFound"
+        },
+        {
+          "target": "com.gcp.merchantapi_notifications_v1beta#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "notifications/v1beta/{+name}"
+        },
+        "smithy.api#documentation": "Gets notification subscriptions for an account."
+      }
+    },
+    "com.gcp.merchantapi_notifications_v1beta#CreateAccountsNotificationsubscriptionsRequest": {
+      "type": "structure",
+      "members": {
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The merchant account that owns the new notification subscription. Format: `accounts/{account}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.merchantapi_notifications_v1beta#NotificationSubscription",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.merchantapi_notifications_v1beta#CreateAccountsNotificationsubscriptions": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.merchantapi_notifications_v1beta#CreateAccountsNotificationsubscriptionsRequest"
+      },
+      "output": {
+        "target": "com.gcp.merchantapi_notifications_v1beta#NotificationSubscription"
       },
       "errors": [
         {
@@ -661,10 +661,10 @@
       ],
       "traits": {
         "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "notifications/v1beta/{+name}"
+          "method": "POST",
+          "uri": "notifications/v1beta/{+parent}/notificationsubscriptions"
         },
-        "smithy.api#documentation": "Deletes a notification subscription for a merchant."
+        "smithy.api#documentation": "Creates a notification subscription for a business. For standalone or sub-accounts, the business can create a subscription for self. For advanced accounts, the business can create a subscription for all managed accounts or for a specific subaccount. See [Decode notifications](/merchant/api/guides/accounts/notifications#decode_notifications) for information on how to decode the notification payload and how to interpret its contents. We will allow the following types of notification subscriptions to exist together (per business as a subscriber per event type): 1. Subscription for all managed accounts + subscription for self. 2. Multiple \"partial\" subscriptions for managed accounts + subscription for self. we will not allow (per business as a subscriber per event type): 1. Multiple self subscriptions. 2. Multiple \"all managed accounts\" subscriptions. 3. \"All managed accounts\" subscription and partial subscriptions at the same time. 4. Multiple partial subscriptions for the same target account."
       }
     }
   }

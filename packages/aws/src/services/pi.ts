@@ -9,10 +9,7 @@ import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://pi.amazonaws.com/doc/2018-02-27/");
-const svc = T.AwsApiService({
-  sdkId: "PI",
-  serviceShapeName: "PerformanceInsightsv20180227",
-});
+const svc = T.AwsApiService({ sdkId: "PI", serviceShapeName: "PerformanceInsightsv20180227" });
 const auth = T.AwsAuthSigv4({ name: "pi" });
 const ver = T.ServiceVersion("2018-02-27");
 const proto = T.AwsProtocolsAwsJson1_1();
@@ -132,11 +129,9 @@ export interface DeletePerformanceAnalysisReportRequest {
   AnalysisReportId: string;
 }
 export const DeletePerformanceAnalysisReportRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceType: ServiceType,
-    Identifier: S.String,
-    AnalysisReportId: S.String,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ ServiceType: ServiceType, Identifier: S.String, AnalysisReportId: S.String }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeletePerformanceAnalysisReportRequest",
 }) as any as S.Schema<DeletePerformanceAnalysisReportRequest>;
@@ -208,9 +203,7 @@ export interface ResponsePartitionKey {
 }
 export const ResponsePartitionKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Dimensions: DimensionMap }),
-).annotate({
-  identifier: "ResponsePartitionKey",
-}) as any as S.Schema<ResponsePartitionKey>;
+).annotate({ identifier: "ResponsePartitionKey" }) as any as S.Schema<ResponsePartitionKey>;
 export type ResponsePartitionKeyList = ResponsePartitionKey[];
 export const ResponsePartitionKeyList = /*@__PURE__*/ S.Array(ResponsePartitionKey);
 export type AdditionalMetricsMap = { [key: string]: number | undefined };
@@ -230,9 +223,7 @@ export const DimensionKeyDescription = /*@__PURE__*/ S.suspend(() =>
     AdditionalMetrics: S.optional(AdditionalMetricsMap),
     Partitions: S.optional(MetricValuesList),
   }),
-).annotate({
-  identifier: "DimensionKeyDescription",
-}) as any as S.Schema<DimensionKeyDescription>;
+).annotate({ identifier: "DimensionKeyDescription" }) as any as S.Schema<DimensionKeyDescription>;
 export type DimensionKeyDescriptionList = DimensionKeyDescription[];
 export const DimensionKeyDescriptionList = /*@__PURE__*/ S.Array(DimensionKeyDescription);
 export interface DescribeDimensionKeysResponse {
@@ -287,9 +278,7 @@ export const DimensionKeyDetail = /*@__PURE__*/ S.suspend(() =>
     Dimension: S.optional(S.String),
     Status: S.optional(DetailStatus),
   }),
-).annotate({
-  identifier: "DimensionKeyDetail",
-}) as any as S.Schema<DimensionKeyDetail>;
+).annotate({ identifier: "DimensionKeyDetail" }) as any as S.Schema<DimensionKeyDetail>;
 export type DimensionKeyDetailList = DimensionKeyDetail[];
 export const DimensionKeyDetailList = /*@__PURE__*/ S.Array(DimensionKeyDetail);
 export interface GetDimensionKeyDetailsResponse {
@@ -373,9 +362,7 @@ export interface Data {
   PerformanceInsightsMetric?: PerformanceInsightsMetric;
 }
 export const Data = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PerformanceInsightsMetric: S.optional(PerformanceInsightsMetric),
-  }),
+  S.Struct({ PerformanceInsightsMetric: S.optional(PerformanceInsightsMetric) }),
 ).annotate({ identifier: "Data" }) as any as S.Schema<Data>;
 export type DataList = Data[];
 export const DataList = /*@__PURE__*/ S.Array(Data);
@@ -411,9 +398,7 @@ export const Insight = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Insight" }) as any as S.Schema<Insight>;
 export type InsightList = Insight[];
 export const InsightList = /*@__PURE__*/ S.Array(
-  S.suspend((): S.Schema<Insight> => Insight).annotate({
-    identifier: "Insight",
-  }),
+  S.suspend((): S.Schema<Insight> => Insight).annotate({ identifier: "Insight" }),
 ) as any as S.Schema<InsightList>;
 export interface AnalysisReport {
   AnalysisReportId: string;
@@ -471,9 +456,7 @@ export interface FeatureMetadata {
 }
 export const FeatureMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Status: S.optional(FeatureStatus) }),
-).annotate({
-  identifier: "FeatureMetadata",
-}) as any as S.Schema<FeatureMetadata>;
+).annotate({ identifier: "FeatureMetadata" }) as any as S.Schema<FeatureMetadata>;
 export type FeatureMetadataMap = { [key: string]: FeatureMetadata | undefined };
 export const FeatureMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
@@ -484,10 +467,7 @@ export interface GetResourceMetadataResponse {
   Features?: { [key: string]: FeatureMetadata | undefined };
 }
 export const GetResourceMetadataResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Identifier: S.optional(S.String),
-    Features: S.optional(FeatureMetadataMap),
-  }).pipe(ns),
+  S.Struct({ Identifier: S.optional(S.String), Features: S.optional(FeatureMetadataMap) }).pipe(ns),
 ).annotate({
   identifier: "GetResourceMetadataResponse",
 }) as any as S.Schema<GetResourceMetadataResponse>;
@@ -548,10 +528,7 @@ export interface DataPoint {
   Value: number;
 }
 export const DataPoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    Value: S.Number,
-  }),
+  S.Struct({ Timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")), Value: S.Number }),
 ).annotate({ identifier: "DataPoint" }) as any as S.Schema<DataPoint>;
 export type DataPointsList = DataPoint[];
 export const DataPointsList = /*@__PURE__*/ S.Array(DataPoint);
@@ -560,13 +537,8 @@ export interface MetricKeyDataPoints {
   DataPoints?: DataPoint[];
 }
 export const MetricKeyDataPoints = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Key: S.optional(ResponseResourceMetricKey),
-    DataPoints: S.optional(DataPointsList),
-  }),
-).annotate({
-  identifier: "MetricKeyDataPoints",
-}) as any as S.Schema<MetricKeyDataPoints>;
+  S.Struct({ Key: S.optional(ResponseResourceMetricKey), DataPoints: S.optional(DataPointsList) }),
+).annotate({ identifier: "MetricKeyDataPoints" }) as any as S.Schema<MetricKeyDataPoints>;
 export type MetricKeyDataPointsList = MetricKeyDataPoints[];
 export const MetricKeyDataPointsList = /*@__PURE__*/ S.Array(MetricKeyDataPoints);
 export interface GetResourceMetricsResponse {
@@ -623,9 +595,7 @@ export interface DimensionDetail {
 }
 export const DimensionDetail = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Identifier: S.optional(S.String) }),
-).annotate({
-  identifier: "DimensionDetail",
-}) as any as S.Schema<DimensionDetail>;
+).annotate({ identifier: "DimensionDetail" }) as any as S.Schema<DimensionDetail>;
 export type DimensionDetailList = DimensionDetail[];
 export const DimensionDetailList = /*@__PURE__*/ S.Array(DimensionDetail);
 export interface DimensionGroupDetail {
@@ -633,13 +603,8 @@ export interface DimensionGroupDetail {
   Dimensions?: DimensionDetail[];
 }
 export const DimensionGroupDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Group: S.optional(S.String),
-    Dimensions: S.optional(DimensionDetailList),
-  }),
-).annotate({
-  identifier: "DimensionGroupDetail",
-}) as any as S.Schema<DimensionGroupDetail>;
+  S.Struct({ Group: S.optional(S.String), Dimensions: S.optional(DimensionDetailList) }),
+).annotate({ identifier: "DimensionGroupDetail" }) as any as S.Schema<DimensionGroupDetail>;
 export type DimensionGroupDetailList = DimensionGroupDetail[];
 export const DimensionGroupDetailList = /*@__PURE__*/ S.Array(DimensionGroupDetail);
 export interface MetricDimensionGroups {
@@ -647,13 +612,8 @@ export interface MetricDimensionGroups {
   Groups?: DimensionGroupDetail[];
 }
 export const MetricDimensionGroups = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Metric: S.optional(S.String),
-    Groups: S.optional(DimensionGroupDetailList),
-  }),
-).annotate({
-  identifier: "MetricDimensionGroups",
-}) as any as S.Schema<MetricDimensionGroups>;
+  S.Struct({ Metric: S.optional(S.String), Groups: S.optional(DimensionGroupDetailList) }),
+).annotate({ identifier: "MetricDimensionGroups" }) as any as S.Schema<MetricDimensionGroups>;
 export type MetricDimensionsList = MetricDimensionGroups[];
 export const MetricDimensionsList = /*@__PURE__*/ S.Array(MetricDimensionGroups);
 export interface ListAvailableResourceDimensionsResponse {
@@ -700,9 +660,7 @@ export const ResponseResourceMetric = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     Unit: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResponseResourceMetric",
-}) as any as S.Schema<ResponseResourceMetric>;
+).annotate({ identifier: "ResponseResourceMetric" }) as any as S.Schema<ResponseResourceMetric>;
 export type ResponseResourceMetricList = ResponseResourceMetric[];
 export const ResponseResourceMetricList = /*@__PURE__*/ S.Array(ResponseResourceMetric);
 export interface ListAvailableResourceMetricsResponse {
@@ -786,9 +744,7 @@ export const AnalysisReportSummary = /*@__PURE__*/ S.suspend(() =>
     Status: S.optional(AnalysisStatus),
     Tags: S.optional(TagList),
   }),
-).annotate({
-  identifier: "AnalysisReportSummary",
-}) as any as S.Schema<AnalysisReportSummary>;
+).annotate({ identifier: "AnalysisReportSummary" }) as any as S.Schema<AnalysisReportSummary>;
 export type AnalysisReportSummaryList = AnalysisReportSummary[];
 export const AnalysisReportSummaryList = /*@__PURE__*/ S.Array(AnalysisReportSummary);
 export interface ListPerformanceAnalysisReportsResponse {
@@ -829,14 +785,10 @@ export interface TagResourceRequest {
   Tags: Tag[];
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceType: ServiceType,
-    ResourceARN: S.String,
-    Tags: TagList,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+  S.Struct({ ServiceType: ServiceType, ResourceARN: S.String, Tags: TagList }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "TagResourceResponse",
@@ -849,14 +801,10 @@ export interface UntagResourceRequest {
   TagKeys: string[];
 }
 export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceType: ServiceType,
-    ResourceARN: S.String,
-    TagKeys: TagKeyList,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+  S.Struct({ ServiceType: ServiceType, ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UntagResourceResponse",

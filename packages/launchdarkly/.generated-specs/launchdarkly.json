@@ -1817,6 +1817,12 @@
             "smithy.api#required": {}
           }
         },
+        "notifyTeamKeys": {
+          "target": "com.launchdarkly.api#ExpandableApprovalRequestResponseNotifyTeamKeysList",
+          "traits": {
+            "smithy.api#documentation": "An array of team keys, if teams were specified when the approval request was created. The members of these teams are listed in <code>notifyMemberIds</code>, resolved when the request was made. Team membership may have changed since then."
+          }
+        },
         "appliedDate": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -2044,6 +2050,15 @@
       },
       "traits": {
         "smithy.api#documentation": "An array of member IDs. These members are notified to review the approval request."
+      }
+    },
+    "com.launchdarkly.api#ExpandableApprovalRequestResponseNotifyTeamKeysList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of team keys, if teams were specified when the approval request was created. The members of these teams are listed in <code>notifyMemberIds</code>, resolved when the request was made. Team membership may have changed since then."
       }
     },
     "com.launchdarkly.api#ExpandableApprovalRequestResponseStatus": {
@@ -2544,7 +2559,7 @@
         "defaultTrackEvents": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Enables tracking detailed information for new flags by default",
+            "smithy.api#documentation": "The initial value of trackEvents for flags created in this environment. Does not affect existing flags. Required for Data Export, but doesn't enable Data Export on its own.",
             "smithy.api#required": {}
           }
         },
@@ -3511,6 +3526,12 @@
             "smithy.api#required": {}
           }
         },
+        "notifyTeamKeys": {
+          "target": "com.launchdarkly.api#ApprovalRequestResponseNotifyTeamKeysList",
+          "traits": {
+            "smithy.api#documentation": "An array of team keys, if teams were specified when the approval request was created. The members of these teams are listed in <code>notifyMemberIds</code>, resolved when the request was made. Team membership may have changed since then."
+          }
+        },
         "appliedDate": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -3644,6 +3665,15 @@
       },
       "traits": {
         "smithy.api#documentation": "An array of member IDs. These members are notified to review the approval request."
+      }
+    },
+    "com.launchdarkly.api#ApprovalRequestResponseNotifyTeamKeysList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of team keys, if teams were specified when the approval request was created. The members of these teams are listed in <code>notifyMemberIds</code>, resolved when the request was made. Team membership may have changed since then."
       }
     },
     "com.launchdarkly.api#ApprovalRequestResponseStatus": {
@@ -3868,6 +3898,12 @@
             "smithy.api#required": {}
           }
         },
+        "notifyTeamKeys": {
+          "target": "com.launchdarkly.api#FlagConfigApprovalRequestResponseNotifyTeamKeysList",
+          "traits": {
+            "smithy.api#documentation": "An array of team keys, if teams were specified when the approval request was created. The members of these teams are listed in <code>notifyMemberIds</code>, resolved when the request was made. Team membership may have changed since then."
+          }
+        },
         "appliedDate": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -3989,6 +4025,15 @@
       },
       "traits": {
         "smithy.api#documentation": "An array of member IDs. These members are notified to review the approval request."
+      }
+    },
+    "com.launchdarkly.api#FlagConfigApprovalRequestResponseNotifyTeamKeysList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of team keys, if teams were specified when the approval request was created. The members of these teams are listed in <code>notifyMemberIds</code>, resolved when the request was made. Team membership may have changed since then."
       }
     },
     "com.launchdarkly.api#FlagConfigApprovalRequestResponseStatus": {
@@ -4664,10 +4709,22 @@
             "smithy.api#documentation": "The authorized application name"
           }
         },
+        "iconUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The icon for this authorized application, if it has one"
+          }
+        },
         "maintainerName": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The name of the maintainer for this authorized application"
+          }
+        },
+        "isAgent": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this application acted on behalf of the member in this entry. When true, the member and the application are co-authors of the change rather than the member acting alone. Omitted for applications that act on their own."
           }
         }
       },
@@ -7701,7 +7758,7 @@
           "uri": "/api/v2/destinations/{projectKey}/{environmentKey}/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Get destination\n\nGet a single Data Export destination by ID."
+        "smithy.api#documentation": "Get destination\n\nGet a single Data Export destination by ID. The destination must belong to the environment in the URL. Otherwise, the response is 404."
       }
     },
     "com.launchdarkly.api#UpdateDestinationByIdRequest": {
@@ -7771,7 +7828,7 @@
           "uri": "/api/v2/destinations/{projectKey}/{environmentKey}/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Update Data Export destination\n\nUpdate a Data Export destination. Updating a destination uses a [JSON patch](https://datatracker.ietf.org/doc/html/rfc6902) or [JSON merge patch](https://datatracker.ietf.org/doc/html/rfc7386) representation of the desired changes. To learn more, read [Updates](https://launchdarkly.com/docs/api#updates)."
+        "smithy.api#documentation": "Update Data Export destination\n\nUpdate a Data Export destination. The destination must belong to the environment in the URL. Otherwise, the response is 404. Updating a destination uses a [JSON patch](https://datatracker.ietf.org/doc/html/rfc6902) or [JSON merge patch](https://datatracker.ietf.org/doc/html/rfc7386) representation of the desired changes. To learn more, read [Updates](https://launchdarkly.com/docs/api#updates)."
       }
     },
     "com.launchdarkly.api#DeleteDestinationRequest": {
@@ -7828,7 +7885,7 @@
           "uri": "/api/v2/destinations/{projectKey}/{environmentKey}/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete Data Export destination\n\nDelete a Data Export destination by ID."
+        "smithy.api#documentation": "Delete Data Export destination\n\nDelete a Data Export destination by ID. The destination must belong to the environment in the URL. Otherwise, the response is 404."
       }
     },
     "com.launchdarkly.api#GetFlagLinksRequest": {
@@ -9946,7 +10003,7 @@
         "_site": {
           "target": "com.launchdarkly.api#Link",
           "traits": {
-            "smithy.api#documentation": "Details on how to access the flag configuration in the LaunchDarkly UI",
+            "smithy.api#documentation": "A link to access the flag configuration in the LaunchDarkly UI. The href is an opaque URL; do not parse or rely on its structure. Use resource keys or _links for programmatic navigation.",
             "smithy.api#required": {}
           }
         },
@@ -9966,14 +10023,14 @@
         "trackEvents": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether LaunchDarkly tracks events for the feature flag, for all rules",
+            "smithy.api#documentation": "Whether the SDK sends a detailed event for every evaluation of this flag, across all rules, instead of only summary counts. Required for Data Export, but doesn't enable Data Export on its own.",
             "smithy.api#required": {}
           }
         },
         "trackEventsFallthrough": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether LaunchDarkly tracks events for the feature flag, for the default rule",
+            "smithy.api#documentation": "Whether the SDK sends a detailed event for every evaluation of this flag's default rule, instead of only summary counts. Required for Data Export, but doesn't enable Data Export on its own.",
             "smithy.api#required": {}
           }
         },
@@ -10091,7 +10148,7 @@
         "trackEvents": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether LaunchDarkly tracks events for this rule",
+            "smithy.api#documentation": "Whether the SDK sends a detailed event for every evaluation of this rule, instead of only summary counts. Required for Data Export, but doesn't enable Data Export on its own.",
             "smithy.api#required": {}
           }
         },
@@ -10701,7 +10758,7 @@
         "_site": {
           "target": "com.launchdarkly.api#Link",
           "traits": {
-            "smithy.api#documentation": "Details on how to access the prerequisite flag in the LaunchDarkly UI",
+            "smithy.api#documentation": "A link to access the prerequisite flag in the LaunchDarkly UI. The href is an opaque URL; do not parse or rely on its structure.",
             "smithy.api#required": {}
           }
         }
@@ -10734,7 +10791,7 @@
         "_site": {
           "target": "com.launchdarkly.api#Link",
           "traits": {
-            "smithy.api#documentation": "Details on how to access the dependent flag in the LaunchDarkly UI",
+            "smithy.api#documentation": "A link to access the dependent flag in the LaunchDarkly UI. The href is an opaque URL; do not parse or rely on its structure.",
             "smithy.api#required": {}
           }
         }
@@ -10938,7 +10995,7 @@
           "uri": "/api/v2/flags/{projectKey}/{featureFlagKey}",
           "code": 200
         },
-        "smithy.api#documentation": "Update feature flag\n\nPerform a partial update to a feature flag. The request body must be a valid semantic patch, JSON patch, or JSON merge patch. To learn more the different formats, read [Updates](https://launchdarkly.com/docs/api#updates).\n\n### Using semantic patches on a feature flag\n\nTo make a semantic patch request, you must append `domain-model=launchdarkly.semanticpatch` to your `Content-Type` header. To learn more, read [Updates using semantic patch](https://launchdarkly.com/docs/api#updates-using-semantic-patch).\n\nThe body of a semantic patch request for updating feature flags takes the following properties:\n\n* `comment` (string): (Optional) A description of the update.\n* `environmentKey` (string): (Required for some instructions only) The key of the LaunchDarkly environment.\n* `instructions` (array): (Required) A list of actions the update should perform. Each action in the list must be an object with a `kind` property that indicates the instruction. If the action requires parameters, you must include those parameters as additional fields in the object. The body of a single semantic patch can contain many different instructions.\n\n### Instructions\n\nSemantic patch requests support the following `kind` instructions for updating feature flags.\n\n<details>\n<summary>Click to expand instructions for <strong>turning flags on and off</strong></summary>\n\nThese instructions require the `environmentKey` parameter.\n\n#### turnFlagOff\n\nSets the flag's targeting state to **Off**.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [ { \"kind\": \"turnFlagOff\" } ]\n}\n```\n\n#### turnFlagOn\n\nSets the flag's targeting state to **On**.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [ { \"kind\": \"turnFlagOn\" } ]\n}\n```\n\n</details><br />\n\n<details>\n<summary>Click to expand instructions for <strong>working with targeting and variations</strong></summary>\n\nThese instructions require the `environmentKey` parameter.\n\nSeveral of the instructions for working with targeting and variations require flag rule IDs, variation IDs, or clause IDs as parameters. Each of these are returned as part of the [Get feature flag](https://launchdarkly.com/docs/api/feature-flags/get-feature-flag) response. The flag rule ID is the `_id` field of each element in the `rules` array within each environment listed in the `environments` object. The variation ID is the `_id` field in each element of the `variations` array. The clause ID is the `_id` field of each element of the `clauses` array within the `rules` array within each environment listed in the `environments` object.\n\n#### addClauses\n\nAdds the given clauses to the rule indicated by `ruleId`.\n\n##### Parameters\n\n- `ruleId`: ID of a rule in the flag.\n- `clauses`: Array of clause objects, with `contextKind` (string), `attribute` (string), `op` (string), `negate` (boolean), and `values` (array of strings, numbers, or dates) properties. The `contextKind`, `attribute`, and `values` are case sensitive. The `op` must be lower-case.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"addClauses\",\n\t\t\"ruleId\": \"a902ef4a-2faf-4eaf-88e1-ecc356708a29\",\n\t\t\"clauses\": [{\n\t\t\t\"contextKind\": \"user\",\n\t\t\t\"attribute\": \"country\",\n\t\t\t\"op\": \"in\",\n\t\t\t\"negate\": false,\n\t\t\t\"values\": [\"USA\", \"Canada\"]\n\t\t}]\n\t}]\n}\n```\n\n#### addPrerequisite\n\nAdds the flag indicated by `key` with variation `variationId` as a prerequisite to the flag in the path parameter.\n\n##### Parameters\n\n- `key`: Flag key of the prerequisite flag.\n- `variationId`: ID of a variation of the prerequisite flag.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"addPrerequisite\",\n\t\t\"key\": \"example-prereq-flag-key\",\n\t\t\"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\"\n\t}]\n}\n```\n\n#### addRule\n\nAdds a new targeting rule to the flag. The rule may contain `clauses` and serve the variation that `variationId` indicates, or serve a percentage rollout that `rolloutWeights`, `rolloutBucketBy`, and `rolloutContextKind` indicate.\n\nIf you set `beforeRuleId`, this adds the new rule before the indicated rule. Otherwise, adds the new rule to the end of the list.\n\n##### Parameters\n\n- `clauses`: Array of clause objects, with `contextKind` (string), `attribute` (string), `op` (string), `negate` (boolean), and `values` (array of strings, numbers, or dates) properties. The `contextKind`, `attribute`, and `values` are case sensitive. The `op` must be lower-case.\n- `beforeRuleId`: (Optional) ID of a flag rule.\n- Either\n  - `variationId`: ID of a variation of the flag.\n\n  or\n\n  - `rolloutWeights`: (Optional) Map of `variationId` to weight, in thousandths of a percent (0-100000).\n  - `rolloutBucketBy`: (Optional) Context attribute available in the specified `rolloutContextKind`.\n  - `rolloutContextKind`: (Optional) Context kind, defaults to `user`\n\nHere's an example that uses a `variationId`:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [{\n    \"kind\": \"addRule\",\n    \"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\",\n    \"clauses\": [{\n      \"contextKind\": \"organization\",\n      \"attribute\": \"located_in\",\n      \"op\": \"in\",\n      \"negate\": false,\n      \"values\": [\"Sweden\", \"Norway\"]\n    }]\n  }]\n}\n```\n\nHere's an example that uses a percentage rollout:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [{\n    \"kind\": \"addRule\",\n    \"clauses\": [{\n      \"contextKind\": \"organization\",\n      \"attribute\": \"located_in\",\n      \"op\": \"in\",\n      \"negate\": false,\n      \"values\": [\"Sweden\", \"Norway\"]\n    }],\n    \"rolloutContextKind\": \"organization\",\n    \"rolloutWeights\": {\n      \"2f43f67c-3e4e-4945-a18a-26559378ca00\": 15000, // serve 15% this variation\n      \"e5830889-1ec5-4b0c-9cc9-c48790090c43\": 85000  // serve 85% this variation\n    }\n  }]\n}\n```\n\n#### addTargets\n\nAdds context keys to the individual context targets for the context kind that `contextKind` specifies and the variation that `variationId` specifies. Returns an error if this causes the flag to target the same context key in multiple variations.\n\n##### Parameters\n\n- `values`: List of context keys.\n- `contextKind`: (Optional) Context kind to target, defaults to `user`\n- `variationId`: ID of a variation on the flag.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"addTargets\",\n\t\t\"values\": [\"context-key-123abc\", \"context-key-456def\"],\n\t\t\"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\"\n\t}]\n}\n```\n\n#### addUserTargets\n\nAdds user keys to the individual user targets for the variation that `variationId` specifies. Returns an error if this causes the flag to target the same user key in multiple variations. If you are working with contexts, use `addTargets` instead of this instruction.\n\n##### Parameters\n\n- `values`: List of user keys.\n- `variationId`: ID of a variation on the flag.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"addUserTargets\",\n\t\t\"values\": [\"user-key-123abc\", \"user-key-456def\"],\n\t\t\"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\"\n\t}]\n}\n```\n\n#### addValuesToClause\n\nAdds `values` to the values of the clause that `ruleId` and `clauseId` indicate. Does not update the context kind, attribute, or operator.\n\n##### Parameters\n\n- `ruleId`: ID of a rule in the flag.\n- `clauseId`: ID of a clause in that rule.\n- `values`: Array of strings, case sensitive.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"addValuesToClause\",\n\t\t\"ruleId\": \"a902ef4a-2faf-4eaf-88e1-ecc356708a29\",\n\t\t\"clauseId\": \"10a58772-3121-400f-846b-b8a04e8944ed\",\n\t\t\"values\": [\"beta_testers\"]\n\t}]\n}\n```\n\n#### addVariation\n\nAdds a variation to the flag.\n\n##### Parameters\n\n- `value`: The variation value.\n- `name`: (Optional) The variation name.\n- `description`: (Optional) A description for the variation.\n\nHere's an example:\n\n```json\n{\n\t\"instructions\": [ { \"kind\": \"addVariation\", \"value\": 20, \"name\": \"New variation\" } ]\n}\n```\n\n#### clearTargets\n\nRemoves all individual targets from the variation that `variationId` specifies. This includes both user and non-user targets.\n\n##### Parameters\n\n- `variationId`: ID of a variation on the flag.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [ { \"kind\": \"clearTargets\", \"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\" } ]\n}\n```\n\n#### clearUserTargets\n\nRemoves all individual user targets from the variation that `variationId` specifies. If you are working with contexts, use `clearTargets` instead of this instruction.\n\n##### Parameters\n\n- `variationId`: ID of a variation on the flag.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [ { \"kind\": \"clearUserTargets\", \"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\" } ]\n}\n```\n\n#### removeClauses\n\nRemoves the clauses specified by `clauseIds` from the rule indicated by `ruleId`.\n\n##### Parameters\n\n- `ruleId`: ID of a rule in the flag.\n- `clauseIds`: Array of IDs of clauses in the rule.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"removeClauses\",\n\t\t\"ruleId\": \"a902ef4a-2faf-4eaf-88e1-ecc356708a29\",\n\t\t\"clauseIds\": [\"10a58772-3121-400f-846b-b8a04e8944ed\", \"36a461dc-235e-4b08-97b9-73ce9365873e\"]\n\t}]\n}\n```\n\n#### removePrerequisite\n\nRemoves the prerequisite flag indicated by `key`. Does nothing if this prerequisite does not exist.\n\n##### Parameters\n\n- `key`: Flag key of an existing prerequisite flag.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [ { \"kind\": \"removePrerequisite\", \"key\": \"prereq-flag-key-123abc\" } ]\n}\n```\n\n#### removeRule\n\nRemoves the targeting rule specified by `ruleId`. Does nothing if the rule does not exist.\n\n##### Parameters\n\n- `ruleId`: ID of a rule in the flag.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [ { \"kind\": \"removeRule\", \"ruleId\": \"a902ef4a-2faf-4eaf-88e1-ecc356708a29\" } ]\n}\n```\n\n#### removeTargets\n\nRemoves context keys from the individual context targets for the context kind that `contextKind` specifies and the variation that `variationId` specifies. Does nothing if the flag does not target the context keys.\n\n##### Parameters\n\n- `values`: List of context keys.\n- `contextKind`: (Optional) Context kind to target, defaults to `user`\n- `variationId`: ID of a flag variation.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"removeTargets\",\n\t\t\"values\": [\"context-key-123abc\", \"context-key-456def\"],\n\t\t\"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\"\n\t}]\n}\n```\n\n#### removeUserTargets\n\nRemoves user keys from the individual user targets for the variation that `variationId` specifies. Does nothing if the flag does not target the user keys. If you are working with contexts, use `removeTargets` instead of this instruction.\n\n##### Parameters\n\n- `values`: List of user keys.\n- `variationId`: ID of a flag variation.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"removeUserTargets\",\n\t\t\"values\": [\"user-key-123abc\", \"user-key-456def\"],\n\t\t\"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\"\n\t}]\n}\n```\n\n#### removeValuesFromClause\n\nRemoves `values` from the values of the clause indicated by `ruleId` and `clauseId`. Does not update the context kind, attribute, or operator.\n\n##### Parameters\n\n- `ruleId`: ID of a rule in the flag.\n- `clauseId`: ID of a clause in that rule.\n- `values`: Array of strings, case sensitive.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"removeValuesFromClause\",\n\t\t\"ruleId\": \"a902ef4a-2faf-4eaf-88e1-ecc356708a29\",\n\t\t\"clauseId\": \"10a58772-3121-400f-846b-b8a04e8944ed\",\n\t\t\"values\": [\"beta_testers\"]\n\t}]\n}\n```\n\n#### removeVariation\n\nRemoves a variation from the flag.\n\n##### Parameters\n\n- `variationId`: ID of a variation of the flag to remove.\n\nHere's an example:\n\n```json\n{\n\t\"instructions\": [ { \"kind\": \"removeVariation\", \"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\" } ]\n}\n```\n\n#### reorderRules\n\nRearranges the rules to match the order given in `ruleIds`. Returns an error if `ruleIds` does not match the current set of rules on the flag.\n\n##### Parameters\n\n- `ruleIds`: Array of IDs of all rules in the flag.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"reorderRules\",\n\t\t\"ruleIds\": [\"a902ef4a-2faf-4eaf-88e1-ecc356708a29\", \"63c238d1-835d-435e-8f21-c8d5e40b2a3d\"]\n\t}]\n}\n```\n\n#### replacePrerequisites\n\nRemoves all existing prerequisites and replaces them with the list you provide.\n\n##### Parameters\n\n- `prerequisites`: A list of prerequisites. Each item in the list must include a flag `key` and `variationId`.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [\n    {\n      \"kind\": \"replacePrerequisites\",\n      \"prerequisites\": [\n        {\n          \"key\": \"prereq-flag-key-123abc\",\n          \"variationId\": \"10a58772-3121-400f-846b-b8a04e8944ed\"\n        },\n        {\n          \"key\": \"another-prereq-flag-key-456def\",\n          \"variationId\": \"e5830889-1ec5-4b0c-9cc9-c48790090c43\"\n        }\n      ]\n    }\n  ]\n}\n```\n\n#### replaceRules\n\nRemoves all targeting rules for the flag and replaces them with the list you provide.\n\n##### Parameters\n\n- `rules`: A list of rules.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [\n    {\n      \"kind\": \"replaceRules\",\n      \"rules\": [\n        {\n          \"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\",\n          \"description\": \"My new rule\",\n          \"clauses\": [\n            {\n              \"contextKind\": \"user\",\n              \"attribute\": \"segmentMatch\",\n              \"op\": \"segmentMatch\",\n              \"values\": [\"test\"]\n            }\n          ],\n          \"trackEvents\": true\n        }\n      ]\n    }\n  ]\n}\n```\n\n#### replaceTargets\n\nRemoves all existing targeting and replaces it with the list of targets you provide.\n\n##### Parameters\n\n- `targets`: A list of context targeting. Each item in the list includes an optional `contextKind` that defaults to `user`, a required `variationId`, and a required list of `values`.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [\n    {\n      \"kind\": \"replaceTargets\",\n      \"targets\": [\n        {\n          \"contextKind\": \"user\",\n          \"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\",\n          \"values\": [\"user-key-123abc\"]\n        },\n        {\n          \"contextKind\": \"device\",\n          \"variationId\": \"e5830889-1ec5-4b0c-9cc9-c48790090c43\",\n          \"values\": [\"device-key-456def\"]\n        }\n      ]\n    }    \n  ]\n}\n```\n\n#### replaceUserTargets\n\nRemoves all existing user targeting and replaces it with the list of targets you provide. In the list of targets, you must include a target for each of the flag's variations. If you are working with contexts, use `replaceTargets` instead of this instruction.\n\n##### Parameters\n\n- `targets`: A list of user targeting. Each item in the list must include a `variationId` and a list of `values`.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [\n    {\n      \"kind\": \"replaceUserTargets\",\n      \"targets\": [\n        {\n          \"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\",\n          \"values\": [\"user-key-123abc\", \"user-key-456def\"]\n        },\n        {\n          \"variationId\": \"e5830889-1ec5-4b0c-9cc9-c48790090c43\",\n          \"values\": [\"user-key-789ghi\"]\n        }\n      ]\n    }\n  ]\n}\n```\n\n#### updateClause\n\nReplaces the clause indicated by `ruleId` and `clauseId` with `clause`.\n\n##### Parameters\n\n- `ruleId`: ID of a rule in the flag.\n- `clauseId`: ID of a clause in that rule.\n- `clause`: New `clause` object, with `contextKind` (string), `attribute` (string), `op` (string), `negate` (boolean), and `values` (array of strings, numbers, or dates) properties. The `contextKind`, `attribute`, and `values` are case sensitive. The `op` must be lower-case.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [{\n    \"kind\": \"updateClause\",\n    \"ruleId\": \"a902ef4a-2faf-4eaf-88e1-ecc356708a29\",\n    \"clauseId\": \"10c7462a-2062-45ba-a8bb-dfb3de0f8af5\",\n    \"clause\": {\n      \"contextKind\": \"user\",\n      \"attribute\": \"country\",\n      \"op\": \"in\",\n      \"negate\": false,\n      \"values\": [\"Mexico\", \"Canada\"]\n    }\n  }]\n}\n```\n\n#### updateDefaultVariation\n\nUpdates the default on or off variation of the flag.\n\n##### Parameters\n\n- `onVariationValue`: (Optional) The value of the variation of the new on variation.\n- `offVariationValue`: (Optional) The value of the variation of the new off variation\n\nHere's an example:\n\n```json\n{\n\t\"instructions\": [ { \"kind\": \"updateDefaultVariation\", \"OnVariationValue\": true, \"OffVariationValue\": false } ]\n}\n```\n\n#### updateFallthroughVariationOrRollout\n\nUpdates the default or \"fallthrough\" rule for the flag, which the flag serves when a context matches none of the targeting rules. The rule can serve either the variation that `variationId` indicates, or a percentage rollout that `rolloutWeights` and `rolloutBucketBy` indicate.\n\n##### Parameters\n\n- `variationId`: ID of a variation of the flag.\n\nor\n\n- `rolloutWeights`: Map of `variationId` to weight, in thousandths of a percent (0-100000).\n- `rolloutBucketBy`: (Optional) Context attribute available in the specified `rolloutContextKind`.\n- `rolloutContextKind`: (Optional) Context kind, defaults to `user`\n\nHere's an example that uses a `variationId`:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"updateFallthroughVariationOrRollout\",\n\t\t\"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\"\n\t}]\n}\n```\n\nHere's an example that uses a percentage rollout:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"updateFallthroughVariationOrRollout\",\n\t\t\"rolloutContextKind\": \"user\",\n\t\t\"rolloutWeights\": {\n\t\t\t\"2f43f67c-3e4e-4945-a18a-26559378ca00\": 15000, // serve 15% this variation\n\t\t\t\"e5830889-1ec5-4b0c-9cc9-c48790090c43\": 85000  // serve 85% this variation\n\t\t}\n\t}]\n}\n```\n\n#### updateOffVariation\n\nUpdates the default off variation to `variationId`. The flag serves the default off variation when the flag's targeting is **Off**.\n\n##### Parameters\n\n- `variationId`: ID of a variation of the flag.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [ { \"kind\": \"updateOffVariation\", \"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\" } ]\n}\n```\n\n#### updatePrerequisite\n\nChanges the prerequisite flag that `key` indicates to use the variation that `variationId` indicates. Returns an error if this prerequisite does not exist.\n\n##### Parameters\n\n- `key`: Flag key of an existing prerequisite flag.\n- `variationId`: ID of a variation of the prerequisite flag.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"updatePrerequisite\",\n\t\t\"key\": \"example-prereq-flag-key\",\n\t\t\"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\"\n\t}]\n}\n```\n\n#### updateRuleDescription\n\nUpdates the description of the feature flag rule.\n\n##### Parameters\n\n- `description`: The new human-readable description for this rule.\n- `ruleId`: The ID of the rule. You can retrieve this by making a GET request for the flag.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"updateRuleDescription\",\n\t\t\"description\": \"New rule description\",\n\t\t\"ruleId\": \"a902ef4a-2faf-4eaf-88e1-ecc356708a29\"\n\t}]\n}\n```\n\n#### updateRuleTrackEvents\n\nUpdates whether or not LaunchDarkly tracks events for the feature flag associated with this rule.\n\n##### Parameters\n\n- `ruleId`: The ID of the rule. You can retrieve this by making a GET request for the flag.\n- `trackEvents`: Whether or not events are tracked.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"updateRuleTrackEvents\",\n\t\t\"ruleId\": \"a902ef4a-2faf-4eaf-88e1-ecc356708a29\",\n\t\t\"trackEvents\": true\n\t}]\n}\n```\n\n#### updateRuleVariationOrRollout\n\nUpdates what `ruleId` serves when its clauses evaluate to true. The rule can serve either the variation that `variationId` indicates, or a percent rollout that `rolloutWeights` and `rolloutBucketBy` indicate.\n\n##### Parameters\n\n- `ruleId`: ID of a rule in the flag.\n- `variationId`: ID of a variation of the flag.\n\n  or\n\n- `rolloutWeights`: Map of `variationId` to weight, in thousandths of a percent (0-100000).\n- `rolloutBucketBy`: (Optional) Context attribute available in the specified `rolloutContextKind`.\n- `rolloutContextKind`: (Optional) Context kind, defaults to `user`\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"updateRuleVariationOrRollout\",\n\t\t\"ruleId\": \"a902ef4a-2faf-4eaf-88e1-ecc356708a29\",\n\t\t\"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\"\n\t}]\n}\n```\n\n#### updateTrackEvents\n\nUpdates whether or not LaunchDarkly tracks events for the feature flag, for all rules.\n\n##### Parameters\n\n- `trackEvents`: Whether or not events are tracked.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [ { \"kind\": \"updateTrackEvents\", \"trackEvents\": true } ]\n}\n```\n\n#### updateTrackEventsFallthrough\n\nUpdates whether or not LaunchDarkly tracks events for the feature flag, for the default rule.\n\n##### Parameters\n\n- `trackEvents`: Whether or not events are tracked.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [ { \"kind\": \"updateTrackEventsFallthrough\", \"trackEvents\": true } ]\n}\n```\n\n#### updateVariation\n\nUpdates a variation of the flag.\n\n##### Parameters\n\n- `variationId`: The ID of the variation to update.\n- `name`: (Optional) The updated variation name.\n- `value`: (Optional) The updated variation value.\n- `description`: (Optional) The updated variation description.\n\nHere's an example:\n\n```json\n{\n\t\"instructions\": [ { \"kind\": \"updateVariation\", \"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\", \"value\": 20 } ]\n}\n```\n\n</details><br />\n\n<details>\n<summary>Click to expand instructions for <strong>updating flag settings</strong></summary>\n\nThese instructions do not require the `environmentKey` parameter. They make changes that apply to the flag across all environments.\n\n#### addCustomProperties\n\nAdds a new custom property to the feature flag. Custom properties are used to associate feature flags with LaunchDarkly integrations. For example, if you create an integration with an issue tracking service, you may want to associate a flag with a list of issues related to a feature's development.\n\n##### Parameters\n\n - `key`: The custom property key.\n - `name`: The custom property name.\n - `values`: A list of the associated values for the custom property.\n\nHere's an example:\n\n```json\n{\n\t\"instructions\": [{\n\t\t\"kind\": \"addCustomProperties\",\n\t\t\"key\": \"example-custom-property\",\n\t\t\"name\": \"Example custom property\",\n\t\t\"values\": [\"value1\", \"value2\"]\n\t}]\n}\n```\n\n#### addTags\n\nAdds tags to the feature flag.\n\n##### Parameters\n\n- `values`: A list of tags to add.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"addTags\", \"values\": [\"tag1\", \"tag2\"] } ]\n}\n```\n\n#### makeFlagPermanent\n\nMarks the feature flag as permanent. LaunchDarkly does not prompt you to remove permanent flags, even if one variation is rolled out to all your customers.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"makeFlagPermanent\" } ]\n}\n```\n\n#### makeFlagTemporary\n\nMarks the feature flag as temporary.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"makeFlagTemporary\" } ]\n}\n```\n\n#### removeCustomProperties\n\nRemoves the associated values from a custom property. If all the associated values are removed, this instruction also removes the custom property.\n\n##### Parameters\n\n - `key`: The custom property key.\n - `values`: A list of the associated values to remove from the custom property.\n\n```json\n{\n\t\"instructions\": [{\n\t\t\"kind\": \"replaceCustomProperties\",\n\t\t\"key\": \"example-custom-property\",\n\t\t\"values\": [\"value1\", \"value2\"]\n\t}]\n}\n```\n\n#### removeMaintainer\n\nRemoves the flag's maintainer. To set a new maintainer, use the `updateMaintainerMember` or `updateMaintainerTeam` instructions.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"removeMaintainer\" } ]\n}\n```\n\n#### removeTags\n\nRemoves tags from the feature flag.\n\n##### Parameters\n\n- `values`: A list of tags to remove.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"removeTags\", \"values\": [\"tag1\", \"tag2\"] } ]\n}\n```\n\n#### replaceCustomProperties\n\nReplaces the existing associated values for a custom property with the new values.\n\n##### Parameters\n\n - `key`: The custom property key.\n - `name`: The custom property name.\n - `values`: A list of the new associated values for the custom property.\n\nHere's an example:\n\n```json\n{\n \"instructions\": [{\n   \"kind\": \"replaceCustomProperties\",\n   \"key\": \"example-custom-property\",\n   \"name\": \"Example custom property\",\n   \"values\": [\"value1\", \"value2\"]\n }]\n}\n```\n\n#### turnOffClientSideAvailability\n\nTurns off client-side SDK availability for the flag. This is equivalent to unchecking the **SDKs using Mobile key** and/or **SDKs using Client-side ID** boxes for the flag. If you're using a client-side or mobile SDK, you must expose your feature flags in order for the client-side or mobile SDKs to evaluate them.\n\n##### Parameters\n\n- `value`: Use \"usingMobileKey\" to turn off availability for mobile SDKs. Use \"usingEnvironmentId\" to turn on availability for client-side SDKs.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"turnOffClientSideAvailability\", \"value\": \"usingMobileKey\" } ]\n}\n```\n\n#### turnOnClientSideAvailability\n\nTurns on client-side SDK availability for the flag. This is equivalent to checking the **SDKs using Mobile key** and/or **SDKs using Client-side ID** boxes for the flag. If you're using a client-side or mobile SDK, you must expose your feature flags in order for the client-side or mobile SDKs to evaluate them.\n\n##### Parameters\n\n- `value`: Use \"usingMobileKey\" to turn on availability for mobile SDKs. Use \"usingEnvironmentId\" to turn on availability for client-side SDKs.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"turnOnClientSideAvailability\", \"value\": \"usingMobileKey\" } ]\n}\n```\n\n#### updateDescription\n\nUpdates the feature flag description.\n\n##### Parameters\n\n- `value`: The new description.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"updateDescription\", \"value\": \"Updated flag description\" } ]\n}\n```\n#### updateMaintainerMember\n\nUpdates the maintainer of the flag to an existing member and removes the existing maintainer.\n\n##### Parameters\n\n- `value`: The ID of the member.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"updateMaintainerMember\", \"value\": \"61e9b714fd47591727db558a\" } ]\n}\n```\n\n#### updateMaintainerTeam\n\nUpdates the maintainer of the flag to an existing team and removes the existing maintainer.\n\n##### Parameters\n\n- `value`: The key of the team.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"updateMaintainerTeam\", \"value\": \"example-team-key\" } ]\n}\n```\n\n#### updateName\n\nUpdates the feature flag name.\n\n##### Parameters\n\n- `value`: The new name.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"updateName\", \"value\": \"Updated flag name\" } ]\n}\n```\n\n</details><br />\n\n<details>\n<summary>Click to expand instructions for <strong>updating the flag lifecycle</strong></summary>\n\nThese instructions do not require the `environmentKey` parameter. They make changes that apply to the flag across all environments.\n\n#### archiveFlag\n\nArchives the feature flag. This retires it from LaunchDarkly without deleting it. You cannot archive a flag that is a prerequisite of other flags.\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"archiveFlag\" } ]\n}\n```\n\n#### deleteFlag\n\nDeletes the feature flag and its rules. You cannot restore a deleted flag. If this flag is requested again, the flag value defined in code will be returned for all contexts.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"deleteFlag\" } ]\n}\n```\n\n#### deprecateFlag\n\nDeprecates the feature flag. This hides it from the live flags list without archiving or deleting it.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"deprecateFlag\" } ]\n}\n```\n\n#### restoreDeprecatedFlag\n\nRestores the feature flag if it was previously deprecated.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"restoreDeprecatedFlag\" } ]\n}\n```\n\n#### restoreFlag\n\nRestores the feature flag if it was previously archived.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"restoreFlag\" } ]\n}\n```\n\n</details>\n\n### Using JSON patches on a feature flag\n\nIf you do not include the semantic patch header described above, you can use a [JSON patch](https://launchdarkly.com/docs/api#updates-using-json-patch) or [JSON merge patch](https://datatracker.ietf.org/doc/html/rfc7386) representation of the desired changes.\n\nIn the JSON patch representation, use a JSON pointer in the `path` element to describe what field to change. Use the [Get feature flag](https://launchdarkly.com/docs/api/feature-flags/get-feature-flag) endpoint to find the field you want to update.\n\nThere are a few special cases to keep in mind when determining the value of the `path` element:\n\n  * To add an individual target to a specific variation if the flag variation already has individual targets, the path for the JSON patch operation is:\n\n  ```json\n  [\n    {\n      \"op\": \"add\",\n      \"path\": \"/environments/devint/targets/0/values/-\",\n      \"value\": \"TestClient10\"\n    }\n  ]\n  ```\n\n  * To add an individual target to a specific variation if the flag variation does not already have individual targets, the path for the JSON patch operation is:\n\n  ```json\n  [\n    {\n      \"op\": \"add\",\n      \"path\": \"/environments/devint/targets/-\",\n      \"value\": { \"variation\": 0, \"values\": [\"TestClient10\"] }\n    }\n  ]\n  ```\n\n  * To add a flag to a release pipeline, the path for the JSON patch operation is:\n\n  ```json\n  [\n    {\n      \"op\": \"add\",\n      \"path\": \"/releasePipelineKey\",\n      \"value\": \"example-release-pipeline-key\"\n    }\n  ]\n  ```\n\n### Required approvals\nIf a request attempts to alter a flag configuration in an environment where approvals are required for the flag, the request will fail with a 405. Changes to the flag configuration in that environment will require creating an [approval request](https://launchdarkly.com/docs/api/approvals).\n\n### Conflicts\nIf a flag configuration change made through this endpoint would cause a pending scheduled change or approval request to fail, this endpoint will return a 400. You can ignore this check by adding an `ignoreConflicts` query parameter set to `true`.\n\n### Migration flags\nFor migration flags, the cohort information is included in the `rules` property of a flag's response. You can update cohorts by updating `rules`. Default cohort information is included in the `fallthrough` property of a flag's response. You can update the default cohort by updating `fallthrough`.\nWhen you update the rollout for a cohort or the default cohort through the API, provide a rollout instead of a single `variationId`.\nTo learn more, read [Migration flags](https://launchdarkly.com/docs/home/flags/migration)."
+        "smithy.api#documentation": "Update feature flag\n\nPerform a partial update to a feature flag. The request body must be a valid semantic patch, JSON patch, or JSON merge patch. To learn more the different formats, read [Updates](https://launchdarkly.com/docs/api#updates).\n\n### Using semantic patches on a feature flag\n\nTo make a semantic patch request, you must append `domain-model=launchdarkly.semanticpatch` to your `Content-Type` header. To learn more, read [Updates using semantic patch](https://launchdarkly.com/docs/api#updates-using-semantic-patch).\n\nThe body of a semantic patch request for updating feature flags takes the following properties:\n\n* `comment` (string): (Optional) A description of the update.\n* `environmentKey` (string): (Required for some instructions only) The key of the LaunchDarkly environment.\n* `instructions` (array): (Required) A list of actions the update should perform. Each action in the list must be an object with a `kind` property that indicates the instruction. If the action requires parameters, you must include those parameters as additional fields in the object. The body of a single semantic patch can contain many different instructions.\n\n### Instructions\n\nSemantic patch requests support the following `kind` instructions for updating feature flags.\n\n<details>\n<summary>Click to expand instructions for <strong>turning flags on and off</strong></summary>\n\nThese instructions require the `environmentKey` parameter.\n\n#### turnFlagOff\n\nSets the flag's targeting state to **Off**.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [ { \"kind\": \"turnFlagOff\" } ]\n}\n```\n\n#### turnFlagOn\n\nSets the flag's targeting state to **On**.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [ { \"kind\": \"turnFlagOn\" } ]\n}\n```\n\n</details><br />\n\n<details>\n<summary>Click to expand instructions for <strong>working with targeting and variations</strong></summary>\n\nThese instructions require the `environmentKey` parameter.\n\nSeveral of the instructions for working with targeting and variations require flag rule IDs, variation IDs, or clause IDs as parameters. Each of these are returned as part of the [Get feature flag](https://launchdarkly.com/docs/api/feature-flags/get-feature-flag) response. The flag rule ID is the `_id` field of each element in the `rules` array within each environment listed in the `environments` object. The variation ID is the `_id` field in each element of the `variations` array. The clause ID is the `_id` field of each element of the `clauses` array within the `rules` array within each environment listed in the `environments` object.\n\n#### addClauses\n\nAdds the given clauses to the rule indicated by `ruleId`.\n\n##### Parameters\n\n- `ruleId`: ID of a rule in the flag.\n- `clauses`: Array of clause objects, with `contextKind` (string), `attribute` (string), `op` (string), `negate` (boolean), and `values` (array of strings, numbers, or dates) properties. The `contextKind`, `attribute`, and `values` are case sensitive. The `op` must be lower-case.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"addClauses\",\n\t\t\"ruleId\": \"a902ef4a-2faf-4eaf-88e1-ecc356708a29\",\n\t\t\"clauses\": [{\n\t\t\t\"contextKind\": \"user\",\n\t\t\t\"attribute\": \"country\",\n\t\t\t\"op\": \"in\",\n\t\t\t\"negate\": false,\n\t\t\t\"values\": [\"USA\", \"Canada\"]\n\t\t}]\n\t}]\n}\n```\n\n#### addPrerequisite\n\nAdds the flag indicated by `key` with variation `variationId` as a prerequisite to the flag in the path parameter.\n\n##### Parameters\n\n- `key`: Flag key of the prerequisite flag.\n- `variationId`: ID of a variation of the prerequisite flag.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"addPrerequisite\",\n\t\t\"key\": \"example-prereq-flag-key\",\n\t\t\"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\"\n\t}]\n}\n```\n\n#### addRule\n\nAdds a new targeting rule to the flag. The rule may contain `clauses` and serve the variation that `variationId` indicates, or serve a percentage rollout that `rolloutWeights`, `rolloutBucketBy`, and `rolloutContextKind` indicate.\n\nIf you set `beforeRuleId`, this adds the new rule before the indicated rule. Otherwise, adds the new rule to the end of the list.\n\n##### Parameters\n\n- `clauses`: Array of clause objects, with `contextKind` (string), `attribute` (string), `op` (string), `negate` (boolean), and `values` (array of strings, numbers, or dates) properties. The `contextKind`, `attribute`, and `values` are case sensitive. The `op` must be lower-case.\n- `beforeRuleId`: (Optional) ID of a flag rule.\n- Either\n  - `variationId`: ID of a variation of the flag.\n\n  or\n\n  - `rolloutWeights`: (Optional) Map of `variationId` to weight, in thousandths of a percent (0-100000).\n  - `rolloutBucketBy`: (Optional) Context attribute available in the specified `rolloutContextKind`.\n  - `rolloutContextKind`: (Optional) Context kind, defaults to `user`\n\nHere's an example that uses a `variationId`:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [{\n    \"kind\": \"addRule\",\n    \"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\",\n    \"clauses\": [{\n      \"contextKind\": \"organization\",\n      \"attribute\": \"located_in\",\n      \"op\": \"in\",\n      \"negate\": false,\n      \"values\": [\"Sweden\", \"Norway\"]\n    }]\n  }]\n}\n```\n\nHere's an example that uses a percentage rollout:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [{\n    \"kind\": \"addRule\",\n    \"clauses\": [{\n      \"contextKind\": \"organization\",\n      \"attribute\": \"located_in\",\n      \"op\": \"in\",\n      \"negate\": false,\n      \"values\": [\"Sweden\", \"Norway\"]\n    }],\n    \"rolloutContextKind\": \"organization\",\n    \"rolloutWeights\": {\n      \"2f43f67c-3e4e-4945-a18a-26559378ca00\": 15000, // serve 15% this variation\n      \"e5830889-1ec5-4b0c-9cc9-c48790090c43\": 85000  // serve 85% this variation\n    }\n  }]\n}\n```\n\n#### addTargets\n\nAdds context keys to the individual context targets for the context kind that `contextKind` specifies and the variation that `variationId` specifies. Returns an error if this causes the flag to target the same context key in multiple variations.\n\n##### Parameters\n\n- `values`: List of context keys.\n- `contextKind`: (Optional) Context kind to target, defaults to `user`\n- `variationId`: ID of a variation on the flag.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"addTargets\",\n\t\t\"values\": [\"context-key-123abc\", \"context-key-456def\"],\n\t\t\"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\"\n\t}]\n}\n```\n\n#### addUserTargets\n\nAdds user keys to the individual user targets for the variation that `variationId` specifies. Returns an error if this causes the flag to target the same user key in multiple variations. If you are working with contexts, use `addTargets` instead of this instruction.\n\n##### Parameters\n\n- `values`: List of user keys.\n- `variationId`: ID of a variation on the flag.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"addUserTargets\",\n\t\t\"values\": [\"user-key-123abc\", \"user-key-456def\"],\n\t\t\"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\"\n\t}]\n}\n```\n\n#### addValuesToClause\n\nAdds `values` to the values of the clause that `ruleId` and `clauseId` indicate. Does not update the context kind, attribute, or operator.\n\n##### Parameters\n\n- `ruleId`: ID of a rule in the flag.\n- `clauseId`: ID of a clause in that rule.\n- `values`: Array of strings, case sensitive.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"addValuesToClause\",\n\t\t\"ruleId\": \"a902ef4a-2faf-4eaf-88e1-ecc356708a29\",\n\t\t\"clauseId\": \"10a58772-3121-400f-846b-b8a04e8944ed\",\n\t\t\"values\": [\"beta_testers\"]\n\t}]\n}\n```\n\n#### addVariation\n\nAdds a variation to the flag.\n\n##### Parameters\n\n- `value`: The variation value.\n- `name`: (Optional) The variation name.\n- `description`: (Optional) A description for the variation.\n\nHere's an example:\n\n```json\n{\n\t\"instructions\": [ { \"kind\": \"addVariation\", \"value\": 20, \"name\": \"New variation\" } ]\n}\n```\n\n#### clearTargets\n\nRemoves all individual targets from the variation that `variationId` specifies. This includes both user and non-user targets.\n\n##### Parameters\n\n- `variationId`: ID of a variation on the flag.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [ { \"kind\": \"clearTargets\", \"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\" } ]\n}\n```\n\n#### clearUserTargets\n\nRemoves all individual user targets from the variation that `variationId` specifies. If you are working with contexts, use `clearTargets` instead of this instruction.\n\n##### Parameters\n\n- `variationId`: ID of a variation on the flag.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [ { \"kind\": \"clearUserTargets\", \"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\" } ]\n}\n```\n\n#### removeClauses\n\nRemoves the clauses specified by `clauseIds` from the rule indicated by `ruleId`.\n\n##### Parameters\n\n- `ruleId`: ID of a rule in the flag.\n- `clauseIds`: Array of IDs of clauses in the rule.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"removeClauses\",\n\t\t\"ruleId\": \"a902ef4a-2faf-4eaf-88e1-ecc356708a29\",\n\t\t\"clauseIds\": [\"10a58772-3121-400f-846b-b8a04e8944ed\", \"36a461dc-235e-4b08-97b9-73ce9365873e\"]\n\t}]\n}\n```\n\n#### removePrerequisite\n\nRemoves the prerequisite flag indicated by `key`. Does nothing if this prerequisite does not exist.\n\n##### Parameters\n\n- `key`: Flag key of an existing prerequisite flag.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [ { \"kind\": \"removePrerequisite\", \"key\": \"prereq-flag-key-123abc\" } ]\n}\n```\n\n#### removeRule\n\nRemoves the targeting rule specified by `ruleId`. Does nothing if the rule does not exist.\n\n##### Parameters\n\n- `ruleId`: ID of a rule in the flag.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [ { \"kind\": \"removeRule\", \"ruleId\": \"a902ef4a-2faf-4eaf-88e1-ecc356708a29\" } ]\n}\n```\n\n#### removeTargets\n\nRemoves context keys from the individual context targets for the context kind that `contextKind` specifies and the variation that `variationId` specifies. Does nothing if the flag does not target the context keys.\n\n##### Parameters\n\n- `values`: List of context keys.\n- `contextKind`: (Optional) Context kind to target, defaults to `user`\n- `variationId`: ID of a flag variation.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"removeTargets\",\n\t\t\"values\": [\"context-key-123abc\", \"context-key-456def\"],\n\t\t\"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\"\n\t}]\n}\n```\n\n#### removeUserTargets\n\nRemoves user keys from the individual user targets for the variation that `variationId` specifies. Does nothing if the flag does not target the user keys. If you are working with contexts, use `removeTargets` instead of this instruction.\n\n##### Parameters\n\n- `values`: List of user keys.\n- `variationId`: ID of a flag variation.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"removeUserTargets\",\n\t\t\"values\": [\"user-key-123abc\", \"user-key-456def\"],\n\t\t\"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\"\n\t}]\n}\n```\n\n#### removeValuesFromClause\n\nRemoves `values` from the values of the clause indicated by `ruleId` and `clauseId`. Does not update the context kind, attribute, or operator.\n\n##### Parameters\n\n- `ruleId`: ID of a rule in the flag.\n- `clauseId`: ID of a clause in that rule.\n- `values`: Array of strings, case sensitive.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"removeValuesFromClause\",\n\t\t\"ruleId\": \"a902ef4a-2faf-4eaf-88e1-ecc356708a29\",\n\t\t\"clauseId\": \"10a58772-3121-400f-846b-b8a04e8944ed\",\n\t\t\"values\": [\"beta_testers\"]\n\t}]\n}\n```\n\n#### removeVariation\n\nRemoves a variation from the flag.\n\n##### Parameters\n\n- `variationId`: ID of a variation of the flag to remove.\n\nHere's an example:\n\n```json\n{\n\t\"instructions\": [ { \"kind\": \"removeVariation\", \"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\" } ]\n}\n```\n\n#### reorderRules\n\nRearranges the rules to match the order given in `ruleIds`. Returns an error if `ruleIds` does not match the current set of rules on the flag.\n\n##### Parameters\n\n- `ruleIds`: Array of IDs of all rules in the flag.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"reorderRules\",\n\t\t\"ruleIds\": [\"a902ef4a-2faf-4eaf-88e1-ecc356708a29\", \"63c238d1-835d-435e-8f21-c8d5e40b2a3d\"]\n\t}]\n}\n```\n\n#### replacePrerequisites\n\nRemoves all existing prerequisites and replaces them with the list you provide.\n\n##### Parameters\n\n- `prerequisites`: A list of prerequisites. Each item in the list must include a flag `key` and `variationId`.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [\n    {\n      \"kind\": \"replacePrerequisites\",\n      \"prerequisites\": [\n        {\n          \"key\": \"prereq-flag-key-123abc\",\n          \"variationId\": \"10a58772-3121-400f-846b-b8a04e8944ed\"\n        },\n        {\n          \"key\": \"another-prereq-flag-key-456def\",\n          \"variationId\": \"e5830889-1ec5-4b0c-9cc9-c48790090c43\"\n        }\n      ]\n    }\n  ]\n}\n```\n\n#### replaceRules\n\nRemoves all targeting rules for the flag and replaces them with the list you provide.\n\n##### Parameters\n\n- `rules`: A list of rules.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [\n    {\n      \"kind\": \"replaceRules\",\n      \"rules\": [\n        {\n          \"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\",\n          \"description\": \"My new rule\",\n          \"clauses\": [\n            {\n              \"contextKind\": \"user\",\n              \"attribute\": \"segmentMatch\",\n              \"op\": \"segmentMatch\",\n              \"values\": [\"test\"]\n            }\n          ],\n          \"trackEvents\": true\n        }\n      ]\n    }\n  ]\n}\n```\n\n#### replaceTargets\n\nRemoves all existing targeting and replaces it with the list of targets you provide.\n\n##### Parameters\n\n- `targets`: A list of context targeting. Each item in the list includes an optional `contextKind` that defaults to `user`, a required `variationId`, and a required list of `values`.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [\n    {\n      \"kind\": \"replaceTargets\",\n      \"targets\": [\n        {\n          \"contextKind\": \"user\",\n          \"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\",\n          \"values\": [\"user-key-123abc\"]\n        },\n        {\n          \"contextKind\": \"device\",\n          \"variationId\": \"e5830889-1ec5-4b0c-9cc9-c48790090c43\",\n          \"values\": [\"device-key-456def\"]\n        }\n      ]\n    }    \n  ]\n}\n```\n\n#### replaceUserTargets\n\nRemoves all existing user targeting and replaces it with the list of targets you provide. In the list of targets, you must include a target for each of the flag's variations. If you are working with contexts, use `replaceTargets` instead of this instruction.\n\n##### Parameters\n\n- `targets`: A list of user targeting. Each item in the list must include a `variationId` and a list of `values`.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [\n    {\n      \"kind\": \"replaceUserTargets\",\n      \"targets\": [\n        {\n          \"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\",\n          \"values\": [\"user-key-123abc\", \"user-key-456def\"]\n        },\n        {\n          \"variationId\": \"e5830889-1ec5-4b0c-9cc9-c48790090c43\",\n          \"values\": [\"user-key-789ghi\"]\n        }\n      ]\n    }\n  ]\n}\n```\n\n#### updateClause\n\nReplaces the clause indicated by `ruleId` and `clauseId` with `clause`.\n\n##### Parameters\n\n- `ruleId`: ID of a rule in the flag.\n- `clauseId`: ID of a clause in that rule.\n- `clause`: New `clause` object, with `contextKind` (string), `attribute` (string), `op` (string), `negate` (boolean), and `values` (array of strings, numbers, or dates) properties. The `contextKind`, `attribute`, and `values` are case sensitive. The `op` must be lower-case.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [{\n    \"kind\": \"updateClause\",\n    \"ruleId\": \"a902ef4a-2faf-4eaf-88e1-ecc356708a29\",\n    \"clauseId\": \"10c7462a-2062-45ba-a8bb-dfb3de0f8af5\",\n    \"clause\": {\n      \"contextKind\": \"user\",\n      \"attribute\": \"country\",\n      \"op\": \"in\",\n      \"negate\": false,\n      \"values\": [\"Mexico\", \"Canada\"]\n    }\n  }]\n}\n```\n\n#### updateDefaultVariation\n\nUpdates the default on or off variation of the flag.\n\n##### Parameters\n\n- `onVariationValue`: (Optional) The value of the variation of the new on variation.\n- `offVariationValue`: (Optional) The value of the variation of the new off variation\n\nHere's an example:\n\n```json\n{\n\t\"instructions\": [ { \"kind\": \"updateDefaultVariation\", \"OnVariationValue\": true, \"OffVariationValue\": false } ]\n}\n```\n\n#### updateFallthroughVariationOrRollout\n\nUpdates the default or \"fallthrough\" rule for the flag, which the flag serves when a context matches none of the targeting rules. The rule can serve either the variation that `variationId` indicates, or a percentage rollout that `rolloutWeights` and `rolloutBucketBy` indicate.\n\n##### Parameters\n\n- `variationId`: ID of a variation of the flag.\n\nor\n\n- `rolloutWeights`: Map of `variationId` to weight, in thousandths of a percent (0-100000).\n- `rolloutBucketBy`: (Optional) Context attribute available in the specified `rolloutContextKind`.\n- `rolloutContextKind`: (Optional) Context kind, defaults to `user`\n\nHere's an example that uses a `variationId`:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"updateFallthroughVariationOrRollout\",\n\t\t\"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\"\n\t}]\n}\n```\n\nHere's an example that uses a percentage rollout:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"updateFallthroughVariationOrRollout\",\n\t\t\"rolloutContextKind\": \"user\",\n\t\t\"rolloutWeights\": {\n\t\t\t\"2f43f67c-3e4e-4945-a18a-26559378ca00\": 15000, // serve 15% this variation\n\t\t\t\"e5830889-1ec5-4b0c-9cc9-c48790090c43\": 85000  // serve 85% this variation\n\t\t}\n\t}]\n}\n```\n\n#### updateOffVariation\n\nUpdates the default off variation to `variationId`. The flag serves the default off variation when the flag's targeting is **Off**.\n\n##### Parameters\n\n- `variationId`: ID of a variation of the flag.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [ { \"kind\": \"updateOffVariation\", \"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\" } ]\n}\n```\n\n#### updatePrerequisite\n\nChanges the prerequisite flag that `key` indicates to use the variation that `variationId` indicates. Returns an error if this prerequisite does not exist.\n\n##### Parameters\n\n- `key`: Flag key of an existing prerequisite flag.\n- `variationId`: ID of a variation of the prerequisite flag.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"updatePrerequisite\",\n\t\t\"key\": \"example-prereq-flag-key\",\n\t\t\"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\"\n\t}]\n}\n```\n\n#### updateRuleDescription\n\nUpdates the description of the feature flag rule.\n\n##### Parameters\n\n- `description`: The new human-readable description for this rule.\n- `ruleId`: The ID of the rule. You can retrieve this by making a GET request for the flag.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"updateRuleDescription\",\n\t\t\"description\": \"New rule description\",\n\t\t\"ruleId\": \"a902ef4a-2faf-4eaf-88e1-ecc356708a29\"\n\t}]\n}\n```\n\n#### updateRuleTrackEvents\n\nUpdates whether the SDK sends a detailed event for every evaluation of this rule, instead of only summary counts. Required for Data Export, but doesn't enable Data Export on its own.\n\n##### Parameters\n\n- `ruleId`: The ID of the rule. You can retrieve this by making a GET request for the flag.\n- `trackEvents`: Whether or not detailed events are sent for this rule.\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"updateRuleTrackEvents\",\n\t\t\"ruleId\": \"a902ef4a-2faf-4eaf-88e1-ecc356708a29\",\n\t\t\"trackEvents\": true\n\t}]\n}\n```\n\n#### updateRuleVariationOrRollout\n\nUpdates what `ruleId` serves when its clauses evaluate to true. The rule can serve either the variation that `variationId` indicates, or a percent rollout that `rolloutWeights` and `rolloutBucketBy` indicate.\n\n##### Parameters\n\n- `ruleId`: ID of a rule in the flag.\n- `variationId`: ID of a variation of the flag.\n\n  or\n\n- `rolloutWeights`: Map of `variationId` to weight, in thousandths of a percent (0-100000).\n- `rolloutBucketBy`: (Optional) Context attribute available in the specified `rolloutContextKind`.\n- `rolloutContextKind`: (Optional) Context kind, defaults to `user`\n\nHere's an example:\n\n```json\n{\n\t\"environmentKey\": \"environment-key-123abc\",\n\t\"instructions\": [{\n\t\t\"kind\": \"updateRuleVariationOrRollout\",\n\t\t\"ruleId\": \"a902ef4a-2faf-4eaf-88e1-ecc356708a29\",\n\t\t\"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\"\n\t}]\n}\n```\n\n#### updateTrackEvents\n\nUpdates whether the SDK sends detailed evaluation events for this flag, for all rules. Required for Data Export, but doesn't enable Data Export on its own.\n\n##### Parameters\n\n- `trackEvents`: Whether or not detailed events are sent for this flag.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [ { \"kind\": \"updateTrackEvents\", \"trackEvents\": true } ]\n}\n```\n\n#### updateTrackEventsFallthrough\n\nUpdates whether the SDK sends detailed evaluation events for the flag's default rule. Required for Data Export, but doesn't enable Data Export on its own.\n\n##### Parameters\n\n- `trackEvents`: Whether or not detailed events are sent for the default rule.\n\nHere's an example:\n\n```json\n{\n  \"environmentKey\": \"environment-key-123abc\",\n  \"instructions\": [ { \"kind\": \"updateTrackEventsFallthrough\", \"trackEvents\": true } ]\n}\n```\n\n#### updateVariation\n\nUpdates a variation of the flag.\n\n##### Parameters\n\n- `variationId`: The ID of the variation to update.\n- `name`: (Optional) The updated variation name.\n- `value`: (Optional) The updated variation value.\n- `description`: (Optional) The updated variation description.\n\nHere's an example:\n\n```json\n{\n\t\"instructions\": [ { \"kind\": \"updateVariation\", \"variationId\": \"2f43f67c-3e4e-4945-a18a-26559378ca00\", \"value\": 20 } ]\n}\n```\n\n</details><br />\n\n<details>\n<summary>Click to expand instructions for <strong>updating flag settings</strong></summary>\n\nThese instructions do not require the `environmentKey` parameter. They make changes that apply to the flag across all environments.\n\n#### addCustomProperties\n\nAdds a new custom property to the feature flag. Custom properties are used to associate feature flags with LaunchDarkly integrations. For example, if you create an integration with an issue tracking service, you may want to associate a flag with a list of issues related to a feature's development.\n\n##### Parameters\n\n - `key`: The custom property key.\n - `name`: The custom property name.\n - `values`: A list of the associated values for the custom property.\n\nHere's an example:\n\n```json\n{\n\t\"instructions\": [{\n\t\t\"kind\": \"addCustomProperties\",\n\t\t\"key\": \"example-custom-property\",\n\t\t\"name\": \"Example custom property\",\n\t\t\"values\": [\"value1\", \"value2\"]\n\t}]\n}\n```\n\n#### addTags\n\nAdds tags to the feature flag.\n\n##### Parameters\n\n- `values`: A list of tags to add.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"addTags\", \"values\": [\"tag1\", \"tag2\"] } ]\n}\n```\n\n#### makeFlagPermanent\n\nMarks the feature flag as permanent. LaunchDarkly does not prompt you to remove permanent flags, even if one variation is rolled out to all your customers.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"makeFlagPermanent\" } ]\n}\n```\n\n#### makeFlagTemporary\n\nMarks the feature flag as temporary.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"makeFlagTemporary\" } ]\n}\n```\n\n#### removeCustomProperties\n\nRemoves the associated values from a custom property. If all the associated values are removed, this instruction also removes the custom property.\n\n##### Parameters\n\n - `key`: The custom property key.\n - `values`: A list of the associated values to remove from the custom property.\n\n```json\n{\n\t\"instructions\": [{\n\t\t\"kind\": \"replaceCustomProperties\",\n\t\t\"key\": \"example-custom-property\",\n\t\t\"values\": [\"value1\", \"value2\"]\n\t}]\n}\n```\n\n#### removeMaintainer\n\nRemoves the flag's maintainer. To set a new maintainer, use the `updateMaintainerMember` or `updateMaintainerTeam` instructions.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"removeMaintainer\" } ]\n}\n```\n\n#### removeTags\n\nRemoves tags from the feature flag.\n\n##### Parameters\n\n- `values`: A list of tags to remove.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"removeTags\", \"values\": [\"tag1\", \"tag2\"] } ]\n}\n```\n\n#### replaceCustomProperties\n\nReplaces the existing associated values for a custom property with the new values.\n\n##### Parameters\n\n - `key`: The custom property key.\n - `name`: The custom property name.\n - `values`: A list of the new associated values for the custom property.\n\nHere's an example:\n\n```json\n{\n \"instructions\": [{\n   \"kind\": \"replaceCustomProperties\",\n   \"key\": \"example-custom-property\",\n   \"name\": \"Example custom property\",\n   \"values\": [\"value1\", \"value2\"]\n }]\n}\n```\n\n#### turnOffClientSideAvailability\n\nTurns off client-side SDK availability for the flag. This is equivalent to unchecking the **SDKs using Mobile key** and/or **SDKs using Client-side ID** boxes for the flag. If you're using a client-side or mobile SDK, you must expose your feature flags in order for the client-side or mobile SDKs to evaluate them.\n\n##### Parameters\n\n- `value`: Use \"usingMobileKey\" to turn off availability for mobile SDKs. Use \"usingEnvironmentId\" to turn on availability for client-side SDKs.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"turnOffClientSideAvailability\", \"value\": \"usingMobileKey\" } ]\n}\n```\n\n#### turnOnClientSideAvailability\n\nTurns on client-side SDK availability for the flag. This is equivalent to checking the **SDKs using Mobile key** and/or **SDKs using Client-side ID** boxes for the flag. If you're using a client-side or mobile SDK, you must expose your feature flags in order for the client-side or mobile SDKs to evaluate them.\n\n##### Parameters\n\n- `value`: Use \"usingMobileKey\" to turn on availability for mobile SDKs. Use \"usingEnvironmentId\" to turn on availability for client-side SDKs.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"turnOnClientSideAvailability\", \"value\": \"usingMobileKey\" } ]\n}\n```\n\n#### updateDescription\n\nUpdates the feature flag description.\n\n##### Parameters\n\n- `value`: The new description.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"updateDescription\", \"value\": \"Updated flag description\" } ]\n}\n```\n#### updateMaintainerMember\n\nUpdates the maintainer of the flag to an existing member and removes the existing maintainer.\n\n##### Parameters\n\n- `value`: The ID of the member.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"updateMaintainerMember\", \"value\": \"61e9b714fd47591727db558a\" } ]\n}\n```\n\n#### updateMaintainerTeam\n\nUpdates the maintainer of the flag to an existing team and removes the existing maintainer.\n\n##### Parameters\n\n- `value`: The key of the team.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"updateMaintainerTeam\", \"value\": \"example-team-key\" } ]\n}\n```\n\n#### updateName\n\nUpdates the feature flag name.\n\n##### Parameters\n\n- `value`: The new name.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"updateName\", \"value\": \"Updated flag name\" } ]\n}\n```\n\n</details><br />\n\n<details>\n<summary>Click to expand instructions for <strong>updating the flag lifecycle</strong></summary>\n\nThese instructions do not require the `environmentKey` parameter. They make changes that apply to the flag across all environments.\n\n#### archiveFlag\n\nArchives the feature flag. This retires it from LaunchDarkly without deleting it. You cannot archive a flag that is a prerequisite of other flags.\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"archiveFlag\" } ]\n}\n```\n\n#### deleteFlag\n\nDeletes the feature flag and its rules. You cannot restore a deleted flag. If this flag is requested again, the flag value defined in code will be returned for all contexts.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"deleteFlag\" } ]\n}\n```\n\n#### deprecateFlag\n\nDeprecates the feature flag. This hides it from the live flags list without archiving or deleting it.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"deprecateFlag\" } ]\n}\n```\n\n#### restoreDeprecatedFlag\n\nRestores the feature flag if it was previously deprecated.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"restoreDeprecatedFlag\" } ]\n}\n```\n\n#### restoreFlag\n\nRestores the feature flag if it was previously archived.\n\nHere's an example:\n\n```json\n{\n  \"instructions\": [ { \"kind\": \"restoreFlag\" } ]\n}\n```\n\n</details>\n\n### Using JSON patches on a feature flag\n\nIf you do not include the semantic patch header described above, you can use a [JSON patch](https://launchdarkly.com/docs/api#updates-using-json-patch) or [JSON merge patch](https://datatracker.ietf.org/doc/html/rfc7386) representation of the desired changes.\n\nIn the JSON patch representation, use a JSON pointer in the `path` element to describe what field to change. Use the [Get feature flag](https://launchdarkly.com/docs/api/feature-flags/get-feature-flag) endpoint to find the field you want to update.\n\nThere are a few special cases to keep in mind when determining the value of the `path` element:\n\n  * To add an individual target to a specific variation if the flag variation already has individual targets, the path for the JSON patch operation is:\n\n  ```json\n  [\n    {\n      \"op\": \"add\",\n      \"path\": \"/environments/devint/targets/0/values/-\",\n      \"value\": \"TestClient10\"\n    }\n  ]\n  ```\n\n  * To add an individual target to a specific variation if the flag variation does not already have individual targets, the path for the JSON patch operation is:\n\n  ```json\n  [\n    {\n      \"op\": \"add\",\n      \"path\": \"/environments/devint/targets/-\",\n      \"value\": { \"variation\": 0, \"values\": [\"TestClient10\"] }\n    }\n  ]\n  ```\n\n  * To add a flag to a release pipeline, the path for the JSON patch operation is:\n\n  ```json\n  [\n    {\n      \"op\": \"add\",\n      \"path\": \"/releasePipelineKey\",\n      \"value\": \"example-release-pipeline-key\"\n    }\n  ]\n  ```\n\n### Required approvals\nIf a request attempts to alter a flag configuration in an environment where approvals are required for the flag, the request will fail with a 405. Changes to the flag configuration in that environment will require creating an [approval request](https://launchdarkly.com/docs/api/approvals).\n\n### Conflicts\nIf a flag configuration change made through this endpoint would cause a pending scheduled change or approval request to fail, this endpoint will return a 400. You can ignore this check by adding an `ignoreConflicts` query parameter set to `true`.\n\n### Migration flags\nFor migration flags, the cohort information is included in the `rules` property of a flag's response. You can update cohorts by updating `rules`. Default cohort information is included in the `fallthrough` property of a flag's response. You can update the default cohort by updating `fallthrough`.\nWhen you update the rollout for a cohort or the default cohort through the API, provide a rollout instead of a single `variationId`.\nTo learn more, read [Migration flags](https://launchdarkly.com/docs/home/flags/migration)."
       }
     },
     "com.launchdarkly.api#DeleteFeatureFlagRequest": {
@@ -11248,7 +11305,7 @@
         "_site": {
           "target": "com.launchdarkly.api#Link",
           "traits": {
-            "smithy.api#documentation": "Details on how to access the prerequisite flag in the LaunchDarkly UI",
+            "smithy.api#documentation": "A link to access the prerequisite flag in the LaunchDarkly UI. The href is an opaque URL; do not parse or rely on its structure.",
             "smithy.api#required": {}
           }
         }
@@ -11307,7 +11364,7 @@
         "_site": {
           "target": "com.launchdarkly.api#Link",
           "traits": {
-            "smithy.api#documentation": "Details on how to access the dependent flag in this environment in the LaunchDarkly UI",
+            "smithy.api#documentation": "A link to access the dependent flag in this environment in the LaunchDarkly UI. The href is an opaque URL; do not parse or rely on its structure.",
             "smithy.api#required": {}
           }
         }
@@ -15057,6 +15114,13 @@
             "smithy.api#required": {},
             "smithy.api#documentation": "A key that corresponds to the third-party integration you are configuring. For example, `mezmo`."
           }
+        },
+        "includePending": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "includePending",
+            "smithy.api#documentation": "When `true`, includes pending two-step setup drafts that were created using `/setup` but are not yet finalized. Defaults to `false`, which returns only active configurations."
+          }
         }
       },
       "traits": {
@@ -15158,7 +15222,7 @@
         "redshiftSetupScripts": {
           "target": "com.launchdarkly.api#IntegrationConfigurationsRepRedshiftSetupScriptsList",
           "traits": {
-            "smithy.api#documentation": "SQL setup scripts (4 parts) for Redshift Native Experimentation setup. Present only for setup endpoint responses."
+            "smithy.api#documentation": "SQL setup scripts (4 parts) for Redshift native Experimentation setup. Present on setup endpoint responses and, rehydrated from the persisted config, on active (finalized) Redshift native Experimentation configurations."
           }
         },
         "redshiftIAMPermissionsPolicy": {
@@ -15406,7 +15470,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "SQL setup scripts (4 parts) for Redshift Native Experimentation setup. Present only for setup endpoint responses."
+        "smithy.api#documentation": "SQL setup scripts (4 parts) for Redshift native Experimentation setup. Present on setup endpoint responses and, rehydrated from the persisted config, on active (finalized) Redshift native Experimentation configurations."
       }
     },
     "com.launchdarkly.api#IntegrationConfigurationCollectionRepItemsList": {
@@ -17994,7 +18058,7 @@
           }
         },
         "lastUsedInGuardedRollout": {
-          "target": "com.launchdarkly.api#DependentMeasuredRolloutRep",
+          "target": "com.launchdarkly.api#DependentReleasePhaseRep",
           "traits": {
             "smithy.api#documentation": "The most recent guarded rollout that used this metric"
           }
@@ -18299,13 +18363,13 @@
         "smithy.api#documentation": "Metric groups that use this metric"
       }
     },
-    "com.launchdarkly.api#DependentMeasuredRolloutRep": {
+    "com.launchdarkly.api#DependentReleasePhaseRep": {
       "type": "structure",
       "members": {
         "_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The guarded rollout measured rollout Id",
+            "smithy.api#documentation": "The guarded rollout release phase ID",
             "smithy.api#required": {}
           }
         },
@@ -18358,7 +18422,7 @@
           }
         },
         "_links": {
-          "target": "com.launchdarkly.api#DependentMeasuredRolloutRepLinksMap",
+          "target": "com.launchdarkly.api#DependentReleasePhaseRepLinksMap",
           "traits": {
             "smithy.api#documentation": "The location and content type of related resources",
             "smithy.api#required": {}
@@ -18367,7 +18431,7 @@
       },
       "traits": {}
     },
-    "com.launchdarkly.api#DependentMeasuredRolloutRepLinksMap": {
+    "com.launchdarkly.api#DependentReleasePhaseRepLinksMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -19115,7 +19179,7 @@
         "defaultTrackEvents": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Enables tracking detailed information for new flags by default"
+            "smithy.api#documentation": "The initial value of trackEvents for flags created in this environment. Does not affect existing flags. Required for Data Export, but doesn't enable Data Export on its own."
           }
         },
         "confirmChanges": {
@@ -19972,7 +20036,7 @@
           "uri": "/api/v2/projects/{projectKey}/environments",
           "code": 200
         },
-        "smithy.api#documentation": "List environments\n\nReturn a list of environments for the specified project.\n\nBy default, this returns the first 20 environments. Page through this list with the `limit` parameter and by following the `first`, `prev`, `next`, and `last` links in the `_links` field that returns. If those links do not appear, the pages they refer to don't exist. For example, the `first` and `prev` links will be missing from the response on the first page, because there is no previous page and you cannot return to the first page when you are already on the first page.\n\n### Filtering environments\n\nLaunchDarkly supports two fields for filters:\n- `query` is a string that matches against the environments' names and keys. It is not case sensitive.\n- `tags` is a `+`-separated list of environment tags. It filters the list of environments that have all of the tags in the list.\n\nFor example, the filter `filter=query:abc,tags:tag-1+tag-2` matches environments with the string `abc` in their name or key and also are tagged with `tag-1` and `tag-2`. The filter is not case-sensitive.\n\nThe documented values for `filter` query parameters are prior to URL encoding. For example, the `+` in `filter=tags:tag-1+tag-2` must be encoded to `%2B`.\n\n### Sorting environments\n\nLaunchDarkly supports the following fields for sorting:\n\n- `createdOn` sorts by the creation date of the environment.\n- `critical` sorts by whether the environments are marked as critical.\n- `name` sorts by environment name.\n\nFor example, `sort=name` sorts the response by environment name in ascending order."
+        "smithy.api#documentation": "List environments\n\nReturn a list of environments for the specified project.\n\nBy default, this returns the first 20 environments. Page through this list with the `limit` parameter and by following the `first`, `prev`, `next`, and `last` links in the `_links` field that returns. If those links do not appear, the pages they refer to don't exist. For example, the `first` and `prev` links will be missing from the response on the first page, because there is no previous page and you cannot return to the first page when you are already on the first page.\n\n### Filtering environments\n\nLaunchDarkly supports the following fields for filters:\n- `query` is a string that matches against the environments' names and keys. It is not case sensitive.\n- `tags` is a `+`-separated list of environment tags. It filters the list of environments that have all of the tags in the list.\n- `critical` is a boolean filter. `critical:true` returns only environments marked as critical, and `critical:false` returns only non-critical environments.\n\nFor example, the filter `filter=query:abc,tags:tag-1+tag-2` matches environments with the string `abc` in their name or key and also are tagged with `tag-1` and `tag-2`. The filter is not case-sensitive.\n\nThe documented values for `filter` query parameters are prior to URL encoding. For example, the `+` in `filter=tags:tag-1+tag-2` must be encoded to `%2B`.\n\n### Sorting environments\n\nLaunchDarkly supports the following fields for sorting:\n\n- `createdOn` sorts by the creation date of the environment.\n- `critical` sorts by whether the environments are marked as critical.\n- `name` sorts by environment name.\n\nFor example, `sort=name` sorts the response by environment name in ascending order."
       }
     },
     "com.launchdarkly.api#PostEnvironmentRequestTagsList": {
@@ -20031,7 +20095,7 @@
         "defaultTrackEvents": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Enables tracking detailed information for new flags by default"
+            "smithy.api#documentation": "The initial value of trackEvents for flags created in this environment. Does not affect existing flags. Required for Data Export, but doesn't enable Data Export on its own."
           }
         },
         "confirmChanges": {
@@ -20342,7 +20406,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "filter",
-            "smithy.api#documentation": "A comma-separated list of context filters. This endpoint only accepts `kind` filters, with the `equals` operator, and `name` filters, with the `startsWith` operator. To learn more about the filter syntax, read [Filtering contexts and context instances](https://launchdarkly.com/docs/ld-docs/api/contexts#filtering-contexts-and-context-instances)."
+            "smithy.api#documentation": "A comma-separated list of context filters. This endpoint only accepts `kind` filters, with the `equals` operator, and `name` filters, with the `startsWith` operator. To learn more about the filter syntax, read [Filtering contexts](https://launchdarkly.com/docs/ld-docs/api/contexts#filtering-contexts)."
           }
         },
         "limit": {
@@ -20490,7 +20554,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "filter",
-            "smithy.api#documentation": "A comma-separated list of context filters. This endpoint only accepts `kind` filters, with the `equals` operator, and `value` filters, with the `startsWith` operator. To learn more about the filter syntax, read [Filtering contexts and context instances](https://launchdarkly.com/docs/ld-docs/api/contexts#filtering-contexts-and-context-instances)."
+            "smithy.api#documentation": "A comma-separated list of context filters. This endpoint requires a `kind` filter, with the `equals` operator, and also accepts a `value` filter, with the `startsWith` operator. To learn more about the filter syntax, read [Filtering contexts](https://launchdarkly.com/docs/ld-docs/api/contexts#filtering-contexts)."
           }
         },
         "limit": {
@@ -20601,372 +20665,6 @@
         "smithy.api#documentation": "Get context attribute values\n\nGet context attribute values."
       }
     },
-    "com.launchdarkly.api#SearchContextInstancesRequest": {
-      "type": "structure",
-      "members": {
-        "projectKey": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "The project key"
-          }
-        },
-        "environmentKey": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "The environment key"
-          }
-        },
-        "limit": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#httpQuery": "limit",
-            "smithy.api#documentation": "Specifies the maximum number of items in the collection to return (max: 50, default: 20)"
-          }
-        },
-        "continuationToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "continuationToken",
-            "smithy.api#documentation": "Limits results to context instances with sort values after the value specified. You can use this for pagination, however, we recommend using the `next` link we provide instead."
-          }
-        },
-        "sort": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "sort",
-            "smithy.api#documentation": "Specifies a field by which to sort. LaunchDarkly supports sorting by timestamp in ascending order by specifying `ts` for this value, or descending order by specifying `-ts`."
-          }
-        },
-        "filter": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "filter",
-            "smithy.api#documentation": "A comma-separated list of context filters. This endpoint only accepts an `applicationId` filter. To learn more about the filter syntax, read [Filtering contexts and context instances](https://launchdarkly.com/docs/ld-docs/api/contexts#filtering-contexts-and-context-instances)."
-          }
-        },
-        "includeTotalCount": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#httpQuery": "includeTotalCount",
-            "smithy.api#documentation": "Specifies whether to include or omit the total count of matching context instances. Defaults to true."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.launchdarkly.api#ContextInstances": {
-      "type": "structure",
-      "members": {
-        "_links": {
-          "target": "com.launchdarkly.api#ContextInstancesLinksMap",
-          "traits": {
-            "smithy.api#documentation": "The location and content type of related resources"
-          }
-        },
-        "totalCount": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The number of unique context instances"
-          }
-        },
-        "_environmentId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The environment ID",
-            "smithy.api#required": {}
-          }
-        },
-        "continuationToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "An obfuscated string that references the last context instance on the previous page of results. You can use this for pagination, however, we recommend using the <code>next</code> link instead."
-          }
-        },
-        "items": {
-          "target": "com.launchdarkly.api#ContextInstancesItemsList",
-          "traits": {
-            "smithy.api#documentation": "A collection of context instances. Can include multiple versions of context instances that have the same <code>id</code>, but different <code>applicationId</code>s.",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.launchdarkly.api#ContextInstancesLinksMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "com.launchdarkly.api#Link"
-      },
-      "traits": {
-        "smithy.api#documentation": "The location and content type of related resources"
-      }
-    },
-    "com.launchdarkly.api#ContextInstanceRecord": {
-      "type": "structure",
-      "members": {
-        "lastSeen": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Timestamp of the last time an evaluation occurred for this context instance"
-          }
-        },
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The context instance ID",
-            "smithy.api#required": {}
-          }
-        },
-        "applicationId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "An identifier representing the application where the LaunchDarkly SDK is running"
-          }
-        },
-        "anonymousKinds": {
-          "target": "com.launchdarkly.api#ContextInstanceRecordAnonymousKindsList",
-          "traits": {
-            "smithy.api#documentation": "A list of the context kinds this context was associated with that the SDK removed because they were marked as anonymous at flag evaluation"
-          }
-        },
-        "context": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#documentation": "The context, including its kind and attributes",
-            "smithy.api#required": {}
-          }
-        },
-        "_links": {
-          "target": "com.launchdarkly.api#ContextInstanceRecordLinksMap",
-          "traits": {
-            "smithy.api#documentation": "The location and content type of related resources"
-          }
-        },
-        "_access": {
-          "target": "com.launchdarkly.api#Access",
-          "traits": {
-            "smithy.api#documentation": "Details on the allowed and denied actions for this context instance"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.launchdarkly.api#ContextInstanceRecordAnonymousKindsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "A list of the context kinds this context was associated with that the SDK removed because they were marked as anonymous at flag evaluation"
-      }
-    },
-    "com.launchdarkly.api#ContextInstanceRecordLinksMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "com.launchdarkly.api#Link"
-      },
-      "traits": {
-        "smithy.api#documentation": "The location and content type of related resources"
-      }
-    },
-    "com.launchdarkly.api#ContextInstancesItemsList": {
-      "type": "list",
-      "member": {
-        "target": "com.launchdarkly.api#ContextInstanceRecord"
-      },
-      "traits": {
-        "smithy.api#documentation": "A collection of context instances. Can include multiple versions of context instances that have the same <code>id</code>, but different <code>applicationId</code>s."
-      }
-    },
-    "com.launchdarkly.api#SearchContextInstances": {
-      "type": "operation",
-      "input": {
-        "target": "com.launchdarkly.api#SearchContextInstancesRequest"
-      },
-      "output": {
-        "target": "com.launchdarkly.api#ContextInstances"
-      },
-      "errors": [
-        {
-          "target": "com.launchdarkly.api#BadRequest"
-        },
-        {
-          "target": "com.launchdarkly.api#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/v2/projects/{projectKey}/environments/{environmentKey}/context-instances/search",
-          "code": 200
-        },
-        "smithy.api#documentation": "Search for context instances\n\nSearch for context instances.\n\nYou can use either the query parameters or the request body parameters. If both are provided, there is an error.\n\nTo learn more about the filter syntax, read [Filtering contexts and context instances](https://launchdarkly.com/docs/api/contexts#filtering-contexts-and-context-instances). To learn more about context instances, read [Context instances](https://launchdarkly.com/docs/home/observability/multi-contexts#context-instances)."
-      }
-    },
-    "com.launchdarkly.api#GetContextInstancesRequest": {
-      "type": "structure",
-      "members": {
-        "projectKey": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "The project key"
-          }
-        },
-        "environmentKey": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "The environment key"
-          }
-        },
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "The context instance ID"
-          }
-        },
-        "limit": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#httpQuery": "limit",
-            "smithy.api#documentation": "Specifies the maximum number of context instances to return (max: 50, default: 20)"
-          }
-        },
-        "continuationToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "continuationToken",
-            "smithy.api#documentation": "Limits results to context instances with sort values after the value specified. You can use this for pagination, however, we recommend using the `next` link we provide instead."
-          }
-        },
-        "sort": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "sort",
-            "smithy.api#documentation": "Specifies a field by which to sort. LaunchDarkly supports sorting by timestamp in ascending order by specifying `ts` for this value, or descending order by specifying `-ts`."
-          }
-        },
-        "filter": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "filter",
-            "smithy.api#documentation": "A comma-separated list of context filters. This endpoint only accepts an `applicationId` filter. To learn more about the filter syntax, read [Filtering contexts and context instances](https://launchdarkly.com/docs/ld-docs/api/contexts#filtering-contexts-and-context-instances)."
-          }
-        },
-        "includeTotalCount": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#httpQuery": "includeTotalCount",
-            "smithy.api#documentation": "Specifies whether to include or omit the total count of matching context instances. Defaults to true."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.launchdarkly.api#GetContextInstances": {
-      "type": "operation",
-      "input": {
-        "target": "com.launchdarkly.api#GetContextInstancesRequest"
-      },
-      "output": {
-        "target": "com.launchdarkly.api#ContextInstances"
-      },
-      "errors": [
-        {
-          "target": "com.launchdarkly.api#BadRequest"
-        },
-        {
-          "target": "com.launchdarkly.api#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/v2/projects/{projectKey}/environments/{environmentKey}/context-instances/{id}",
-          "code": 200
-        },
-        "smithy.api#documentation": "Get context instances\n\nGet context instances by ID."
-      }
-    },
-    "com.launchdarkly.api#DeleteContextInstancesRequest": {
-      "type": "structure",
-      "members": {
-        "projectKey": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "The project key"
-          }
-        },
-        "environmentKey": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "The environment key"
-          }
-        },
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "The context instance ID"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.launchdarkly.api#DeleteContextInstances": {
-      "type": "operation",
-      "input": {
-        "target": "com.launchdarkly.api#DeleteContextInstancesRequest"
-      },
-      "output": {
-        "target": "smithy.api#Unit"
-      },
-      "errors": [
-        {
-          "target": "com.launchdarkly.api#BadRequest"
-        },
-        {
-          "target": "com.launchdarkly.api#Forbidden"
-        },
-        {
-          "target": "com.launchdarkly.api#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/v2/projects/{projectKey}/environments/{environmentKey}/context-instances/{id}",
-          "code": 200
-        },
-        "smithy.api#documentation": "Delete context instances\n\nDelete context instances by ID."
-      }
-    },
     "com.launchdarkly.api#SearchContextsRequest": {
       "type": "structure",
       "members": {
@@ -20997,28 +20695,28 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "continuationToken",
-            "smithy.api#documentation": "Limits results to contexts with sort values after the value specified. You can use this for pagination, however, we recommend using the `next` link we provide instead."
+            "smithy.api#documentation": "An opaque cursor that identifies the next page of results. You can use this for pagination, however, we recommend using the `next` link we provide instead."
           }
         },
         "sort": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "sort",
-            "smithy.api#documentation": "Specifies a field by which to sort. LaunchDarkly supports sorting by timestamp in ascending order by specifying `ts` for this value, or descending order by specifying `-ts`."
+            "smithy.api#documentation": "Deprecated. This endpoint does not support sorting. Requests that include this parameter are rejected with a `400` response, so omit it. Results are always sorted by context kind and key."
           }
         },
         "filter": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "filter",
-            "smithy.api#documentation": "A comma-separated list of context filters. To learn more about the filter syntax, read [Filtering contexts and context instances](https://launchdarkly.com/docs/ld-docs/api/contexts#filtering-contexts-and-context-instances)."
+            "smithy.api#documentation": "A comma-separated list of context filters. To learn more about the filter syntax, read [Filtering contexts](https://launchdarkly.com/docs/ld-docs/api/contexts#filtering-contexts)."
           }
         },
         "includeTotalCount": {
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#httpQuery": "includeTotalCount",
-            "smithy.api#documentation": "Specifies whether to include or omit the total count of matching contexts. Defaults to true."
+            "smithy.api#documentation": "Specifies whether to include or omit the total count of matching contexts. Defaults to true. The total count is approximate and may be omitted if it is unavailable."
           }
         }
       },
@@ -21038,7 +20736,7 @@
         "totalCount": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The number of contexts"
+            "smithy.api#documentation": "The number of matching contexts. This value is approximate and may be omitted if it is unavailable."
           }
         },
         "_environmentId": {
@@ -21051,7 +20749,7 @@
         "continuationToken": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "An obfuscated string that references the last context instance on the previous page of results. You can use this for pagination, however, we recommend using the <code>next</code> link instead."
+            "smithy.api#documentation": "An obfuscated string that references the last context on the previous page of results. You can use this for pagination, however, we recommend using the <code>next</code> link instead."
           }
         },
         "items": {
@@ -21088,7 +20786,7 @@
         "applicationId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "An identifier representing the application where the LaunchDarkly SDK is running"
+            "smithy.api#documentation": "An identifier representing the application where the LaunchDarkly SDK is running. Populated when you get contexts by kind and key. Empty in search results, which return each context's most recently reported data."
           }
         },
         "context": {
@@ -21113,7 +20811,7 @@
         "associatedContexts": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The total number of associated contexts. Associated contexts are contexts that have appeared in the same context instance, that is, they were part of the same flag evaluation."
+            "smithy.api#documentation": "Deprecated. This value is always 1."
           }
         }
       },
@@ -21162,7 +20860,7 @@
           "uri": "/api/v2/projects/{projectKey}/environments/{environmentKey}/contexts/search",
           "code": 200
         },
-        "smithy.api#documentation": "Search for contexts\n\nSearch for contexts.\n\nYou can use either the query parameters or the request body parameters. If both are provided, there is an error.\n\nTo learn more about the filter syntax, read [Filtering contexts and context instances](https://launchdarkly.com/docs/api/contexts#filtering-contexts-and-context-instances). To learn more about contexts, read [Contexts and context kinds](https://launchdarkly.com/docs/home/observability/contexts#contexts-and-context-kinds)."
+        "smithy.api#documentation": "Search for contexts\n\nSearch for contexts.\n\nYou can use either the query parameters or the request body parameters. If both are provided, there is an error.\n\nResults are sorted by context kind and key. Each context appears once, with its most recently reported attributes. Results include contexts that LaunchDarkly has received within the last 30 days.\n\nTo learn more about the filter syntax, read [Filtering contexts](https://launchdarkly.com/docs/api/contexts#filtering-contexts). To learn more about contexts, read [Contexts and context kinds](https://launchdarkly.com/docs/home/observability/contexts#contexts-and-context-kinds)."
       }
     },
     "com.launchdarkly.api#PutContextFlagSettingRequest": {
@@ -21302,21 +21000,21 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "continuationToken",
-            "smithy.api#documentation": "Limits results to contexts with sort values after the value specified. You can use this for pagination, however, we recommend using the `next` link we provide instead."
+            "smithy.api#documentation": "An opaque cursor that identifies the next page of results. You can use this for pagination, however, we recommend using the `next` link we provide instead."
           }
         },
         "sort": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "sort",
-            "smithy.api#documentation": "Specifies a field by which to sort. LaunchDarkly supports sorting by timestamp in ascending order by specifying `ts` for this value, or descending order by specifying `-ts`."
+            "smithy.api#documentation": "Deprecated. This endpoint does not support sorting. Requests that include this parameter are rejected with a `400` response, so omit it. Results are always sorted by context kind and key."
           }
         },
         "filter": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "filter",
-            "smithy.api#documentation": "A comma-separated list of context filters. This endpoint only accepts an `applicationId` filter. To learn more about the filter syntax, read [Filtering contexts and context instances](https://launchdarkly.com/docs/ld-docs/api/contexts#filtering-contexts-and-context-instances)."
+            "smithy.api#documentation": "A comma-separated list of context filters. This endpoint only accepts an `applicationId` filter. To learn more about the filter syntax, read [Filtering contexts](https://launchdarkly.com/docs/ld-docs/api/contexts#filtering-contexts)."
           }
         },
         "includeTotalCount": {
@@ -21353,7 +21051,7 @@
           "uri": "/api/v2/projects/{projectKey}/environments/{environmentKey}/contexts/{kind}/{key}",
           "code": 200
         },
-        "smithy.api#documentation": "Get contexts\n\nGet contexts based on kind and key."
+        "smithy.api#documentation": "Get contexts\n\nGet contexts based on kind and key. Returns one item for each application from which LaunchDarkly has received the context, with the `applicationId` field populated."
       }
     },
     "com.launchdarkly.api#GetExperimentsRequest": {
@@ -23500,6 +23198,9 @@
         },
         {
           "target": "com.launchdarkly.api#Conflict"
+        },
+        {
+          "target": "com.launchdarkly.api#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -32523,6 +32224,13 @@
             "smithy.api#documentation": "A comma-separated list of filters. Each filter is constructed as `field:value`."
           }
         },
+        "sort": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "sort",
+            "smithy.api#documentation": "A comma-separated list of fields to sort by. Fields are sorted in ascending order by default. Prefix a field with `-` to sort in descending order. Supported fields: `name`, `memberCount`."
+          }
+        },
         "expand": {
           "target": "smithy.api#String",
           "traits": {
@@ -32899,7 +32607,7 @@
           "uri": "/api/v2/teams",
           "code": 200
         },
-        "smithy.api#documentation": "List teams\n\nReturn a list of teams.\n\nBy default, this returns the first 20 teams. Page through this list with the `limit` parameter and by following the `first`, `prev`, `next`, and `last` links in the `_links` field that returns. If those links do not appear, the pages they refer to don't exist. For example, the `first` and `prev` links will be missing from the response on the first page, because there is no previous page and you cannot return to the first page when you are already on the first page.\n\n### Filtering teams\n\nLaunchDarkly supports the following fields for filters:\n\n- `query` is a string that matches against the teams' names and keys. It is not case-sensitive.\n  - A request with `query:abc` returns teams with the string `abc` in their name or key.\n- `nomembers` is a boolean that filters the list of teams who have 0 members\n  - A request with `nomembers:true` returns teams that have 0 members\n  - A request with `nomembers:false` returns teams that have 1 or more members\n\n### Expanding the teams response\nLaunchDarkly supports expanding several fields in the \"List teams\" response. By default, these fields are **not** included in the response.\n\nTo expand the response, append the `expand` query parameter and add a comma-separated list with any of the following fields:\n\n* `members` includes the total count of members that belong to the team.\n* `roles` includes a paginated list of the custom roles that you have assigned to the team.\n* `roleAttributes` includes a list of the role attributes that you have assigned to the team.\n* `projects` includes a paginated list of the projects that the team has any write access to.\n* `maintainers` includes a paginated list of the maintainers that you have assigned to the team.\n\nFor example, `expand=members,maintainers` includes the `members` and `maintainers` fields in the response."
+        "smithy.api#documentation": "List teams\n\nReturn a list of teams.\n\nBy default, this returns the first 20 teams. Page through this list with the `limit` parameter and by following the `first`, `prev`, `next`, and `last` links in the `_links` field that returns. If those links do not appear, the pages they refer to don't exist. For example, the `first` and `prev` links will be missing from the response on the first page, because there is no previous page and you cannot return to the first page when you are already on the first page.\n\n### Filtering teams\n\nLaunchDarkly supports the following fields for filters:\n\n- `query` is a string that matches against the teams' names and keys. It is not case-sensitive.\n  - A request with `query:abc` returns teams with the string `abc` in their name or key.\n- `nomembers` is a boolean that filters the list of teams who have 0 members\n  - A request with `nomembers:true` returns teams that have 0 members\n  - A request with `nomembers:false` returns teams that have 1 or more members\n\n### Sorting teams\n\nLaunchDarkly supports the following fields for sorting:\n\n- `name` sorts by team name. It is not case-sensitive.\n- `memberCount` sorts by the number of members on the team.\n\nBy default, the sort is in ascending order. Use `-` to sort in descending order. For example, `?sort=name` sorts the response by team name in ascending order, and `?sort=-memberCount` sorts by member count from largest to smallest. Combine fields with a comma to break ties, for example `?sort=-memberCount,name`.\n\n### Expanding the teams response\nLaunchDarkly supports expanding several fields in the \"List teams\" response. By default, these fields are **not** included in the response.\n\nTo expand the response, append the `expand` query parameter and add a comma-separated list with any of the following fields:\n\n* `members` includes the total count of members that belong to the team.\n* `roles` includes a paginated list of the custom roles that you have assigned to the team.\n* `roleAttributes` includes a list of the role attributes that you have assigned to the team.\n* `projects` includes a paginated list of the projects that the team has any write access to.\n* `maintainers` includes a paginated list of the maintainers that you have assigned to the team.\n\nFor example, `expand=members,maintainers` includes the `members` and `maintainers` fields in the response."
       }
     },
     "com.launchdarkly.api#CreateTeamRequestCustomRoleKeysList": {
@@ -34673,7 +34381,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectKey",
-            "smithy.api#documentation": "A project key to filter results by. Can be specified multiple times, one query parameter per project key."
+            "smithy.api#documentation": "A project key to filter results by. Without `groupBy=projectId`, filters to the project's current environments so retained pre-materialization usage remains visible. Can be specified multiple times, one query parameter per project key."
           }
         },
         "environmentKey": {
@@ -34690,11 +34398,18 @@
             "smithy.api#documentation": "An event kind to filter results by. Can be specified multiple times, one query parameter per event kind."
           }
         },
+        "destinationKind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "destinationKind",
+            "smithy.api#documentation": "A Streaming configuration kind to filter results by. Values preserve raw product identity; `snowflake` is legacy Streaming Snowflake and is distinct from Warehouse `snowflake-v2`. Can be specified multiple times.<br/>Valid values: `kinesis`, `google-pubsub`, `mparticle`, `segment`, `azure-event-hubs`, `snowflake`, `unknown`."
+          }
+        },
         "groupBy": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "groupBy",
-            "smithy.api#documentation": "If specified, returns data for each distinct value of the given field. Can be specified multiple times to group data by multiple dimensions, one query parameter per dimension.<br/>Valid values: `environmentId`, `eventKind`."
+            "smithy.api#documentation": "If specified, returns data for each distinct value of the given field. Can be specified multiple times to group data by multiple dimensions, one query parameter per dimension. `projectId` requires one or more explicit `projectKey` filters and is capped at 100 selected projects. `destinationId` returns one series per streaming destination with `destinationName` metadata, plus `destinationViewable` when the destination is in the current configuration. The destination's own kind is added as `destinationKind` only when you can view the destination. A kind requested with `groupBy=destinationKind` is returned unchanged. A destination ID absent from the current configuration is named `Unknown historical destination`. Destinations you cannot view are reported together in one `Unknown destination` series with `destinationId` `hidden` and `destinationViewable` `false`, one per combination of the other requested dimensions, such as `destinationKind`. Usage without a destination ID is one series with an empty `destinationId` named `Unattributed`.<br/>Valid values: `projectId`, `environmentId`, `eventKind`, `destinationKind`, `destinationId`."
           }
         },
         "aggregationType": {
@@ -34716,13 +34431,82 @@
         "smithy.api#input": {}
       }
     },
+    "com.launchdarkly.api#DataExportSeriesListRep": {
+      "type": "structure",
+      "members": {
+        "_links": {
+          "target": "com.launchdarkly.api#DataExportSeriesListRepLinksMap",
+          "traits": {
+            "smithy.api#documentation": "The location and content type of related resources",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.launchdarkly.api#DataExportSeriesListRepMetadataList",
+          "traits": {
+            "smithy.api#documentation": "Metadata about each series",
+            "smithy.api#required": {}
+          }
+        },
+        "series": {
+          "target": "com.launchdarkly.api#DataExportSeriesListRepSeriesList",
+          "traits": {
+            "smithy.api#documentation": "An array of data points with timestamps. Each element of the array is an object with a 'time' field, whose value is the timestamp, and one or more key fields. If there are multiple key fields, they are labeled '0', '1', and so on, and are explained in the <code>metadata</code>.",
+            "smithy.api#required": {}
+          }
+        },
+        "dataThrough": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The end of the latest hour written by this source's usage pipeline, as an RFC 3339 UTC timestamp. It is measured across all accounts, not only yours, and usage after this time is not counted yet. Omitted when the watermark is unavailable."
+          }
+        },
+        "delayed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this source's usage pipeline is late: it wrote every hour of the 24 hours ending at <code>dataThrough</code>, and more than three hours have passed since <code>dataThrough</code>. Always <code>false</code> for a source with gaps in those 24 hours, where gaps usually mean no usage rather than a stalled pipeline. Omitted when <code>dataThrough</code> is omitted."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.launchdarkly.api#DataExportSeriesListRepLinksMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The location and content type of related resources"
+      }
+    },
+    "com.launchdarkly.api#DataExportSeriesListRepMetadataList": {
+      "type": "list",
+      "member": {
+        "target": "com.launchdarkly.api#SeriesMetadataRep"
+      },
+      "traits": {
+        "smithy.api#documentation": "Metadata about each series"
+      }
+    },
+    "com.launchdarkly.api#DataExportSeriesListRepSeriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.launchdarkly.api#SeriesTimeSliceRep"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of data points with timestamps. Each element of the array is an object with a 'time' field, whose value is the timestamp, and one or more key fields. If there are multiple key fields, they are labeled '0', '1', and so on, and are explained in the <code>metadata</code>."
+      }
+    },
     "com.launchdarkly.api#GetDataExportEventsUsage": {
       "type": "operation",
       "input": {
         "target": "com.launchdarkly.api#GetDataExportEventsUsageRequest"
       },
       "output": {
-        "target": "com.launchdarkly.api#SeriesListRep"
+        "target": "com.launchdarkly.api#DataExportSeriesListRep"
       },
       "errors": [
         {
@@ -34730,6 +34514,9 @@
         },
         {
           "target": "com.launchdarkly.api#Forbidden"
+        },
+        {
+          "target": "com.launchdarkly.api#Conflict"
         }
       ],
       "traits": {
@@ -34738,7 +34525,7 @@
           "uri": "/api/v2/usage/data-export-events",
           "code": 200
         },
-        "smithy.api#documentation": "Get data export events usage\n\nGet a time series array showing the number of data export events from your account. The supported granularity varies by aggregation type. The maximum time range is 365 days."
+        "smithy.api#documentation": "Get data export events usage\n\nGet a time series array showing the number of data export events from your account. The supported granularity varies by aggregation type. The maximum time range is 365 days. `groupBy=projectId` resolves legacy rows through the account's current environment-to-project mapping and returns `409` instead of a partial series when any successful row remains unattributed. Plain project filtering keeps its current-environment compatibility behavior."
       }
     },
     "com.launchdarkly.api#GetEvaluationsUsageRequest": {
@@ -34819,7 +34606,7 @@
           "uri": "/api/v2/usage/evaluations/{projectKey}/{environmentKey}/{featureFlagKey}",
           "code": 200
         },
-        "smithy.api#documentation": "Get evaluations usage\n\nGet time-series arrays of the number of times a flag is evaluated, broken down by the variation that resulted from that evaluation. The granularity of the data depends on the age of the data requested. If the requested range is within the past two hours, minutely data is returned. If it is within the last two days, hourly data is returned. Otherwise, daily data is returned."
+        "smithy.api#documentation": "Get evaluations usage\n\nGet time-series arrays of the number of times a flag is evaluated, broken down by the variation that resulted from that evaluation. The granularity of the returned data depends on the length of the requested time range: ranges shorter than two hours return minutely data, ranges shorter than two days return hourly data, and ranges of two days or longer return daily data. Minutely data is retained for 70 days; a range shorter than two hours that starts before then is returned at hourly granularity instead, with the start of the range widened to the containing hour. Ranges that predate available data return an empty series list. If a flag has served many distinct variation values in the requested range, the least recently seen values may be aggregated into a single additional series labeled \"Other Variations\"."
       }
     },
     "com.launchdarkly.api#GetEventsUsageRequest": {
@@ -34901,7 +34688,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectKey",
-            "smithy.api#documentation": "A project key to filter results by. Can be specified multiple times, one query parameter per project key."
+            "smithy.api#documentation": "A project key to filter results by. Without `environmentKey`, filters to the project's current environments. Can be specified multiple times, one query parameter per project key."
           }
         },
         "environmentKey": {
@@ -34997,7 +34784,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectKey",
-            "smithy.api#documentation": "A project key to filter results by. Can be specified multiple times, one query parameter per project key."
+            "smithy.api#documentation": "A project key to filter results by. Without `environmentKey`, filters by project, including projects that currently have no environments. Can be specified multiple times, one query parameter per project key."
           }
         },
         "environmentKey": {
@@ -35891,7 +35678,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "sdkType",
-            "smithy.api#documentation": "An SDK type to filter results by. Can be specified multiple times, one query parameter per SDK type."
+            "smithy.api#documentation": "Deprecated. This endpoint reports server-side connections only, so `server` is the only value that returns data and omitting the parameter is equivalent. Any other value returns an empty series. To report client-side connections, use `GET /api/v2/usage/streams/{source}`."
           }
         },
         "sdkAppId": {
@@ -35905,7 +35692,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "groupBy",
-            "smithy.api#documentation": "If specified, returns data for each distinct value of the given field. Can be specified multiple times to group data by multiple dimensions, one query parameter per dimension.<br/>Valid values: `projectId`, `environmentId`, `connectionType`, `relayVersion`, `sdkName`, `sdkVersion`, `sdkType`, `sdkAppId`."
+            "smithy.api#documentation": "If specified, returns data for each distinct value of the given field. Can be specified multiple times to group data by multiple dimensions, one query parameter per dimension.<br/>Valid values: `projectId`, `environmentId`, `connectionType`, `relayVersion`, `sdkName`, `sdkVersion`, `sdkAppId`.<br/>`sdkType` is no longer offered: this endpoint reports server-side connections only, so grouping by it returns a single group. It is still accepted, for compatibility."
           }
         },
         "aggregationType": {
@@ -36592,18 +36379,25 @@
             "smithy.api#documentation": "An environment key to filter results by. If specified, exactly one `projectKey` must be provided. Can be specified multiple times, one query parameter per environment key."
           }
         },
+        "destinationKind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "destinationKind",
+            "smithy.api#documentation": "A Warehouse configuration kind to filter results by. Cannot be combined with `destination`. Can be specified multiple times.<br/>Valid values: `snowflake-v2`, `databricks`, `bigquery`, `redshift`, `clickhouse`, `s3`."
+          }
+        },
         "destination": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "destination",
-            "smithy.api#documentation": "A destination kind to filter results by. Can be specified multiple times, one query parameter per destination kind.<br/>Valid values: `snowflake-v2`, `databricks`, `bigquery`, `redshift`, `clickhouse`."
+            "smithy.api#documentation": "A Warehouse configuration kind to filter results by. Cannot be combined with `destinationKind`. Existing behavior is unchanged. Can be specified multiple times.<br/>Valid values: `snowflake-v2`, `databricks`, `bigquery`, `redshift`, `clickhouse`."
           }
         },
         "groupBy": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "groupBy",
-            "smithy.api#documentation": "If specified, returns data for each distinct value of the given field. Can be specified multiple times to group data by multiple dimensions, one query parameter per dimension.<br/>Valid values: `projectId`, `environmentId`, `destination`."
+            "smithy.api#documentation": "If specified, returns data for each distinct value of the given field. Can be specified multiple times.<br/>Valid values: `projectId`, `environmentId`, `destination`, `destinationKind`, `destinationId`. `destination` and `destinationKind` return the same raw Warehouse configuration kinds. `destinationId` returns one series per warehouse destination with `destinationName` metadata. When a current destination you can view matches, its `destinationId` is the LaunchDarkly destination ID, with `destinationViewable`. Otherwise, it is the warehouse provider's destination ID, named `Unknown destination`. The destination's own kind is added as `destinationKind` only when you can view the destination. A kind requested with `groupBy=destinationKind` is returned unchanged. Destinations you cannot view are reported together in one `Unknown destination` series with `destinationId` `hidden` and `destinationViewable` `false`, one per combination of the other requested dimensions, such as `destinationKind`. Usage without a destination ID is one series with an empty `destinationId` named `Unattributed`."
           }
         },
         "aggregationType": {
@@ -36631,7 +36425,7 @@
         "target": "com.launchdarkly.api#GetWarehouseExportUsageRequest"
       },
       "output": {
-        "target": "com.launchdarkly.api#SeriesListRep"
+        "target": "com.launchdarkly.api#DataExportSeriesListRep"
       },
       "errors": [
         {
@@ -37230,6 +37024,291 @@
           "code": 200
         },
         "smithy.api#documentation": "List tags\n\nGet a list of tags."
+      }
+    },
+    "com.launchdarkly.api#GetDataExportProjectRankingRequestProjectKeyList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.launchdarkly.api#GetDataExportProjectRankingRequest": {
+      "type": "structure",
+      "members": {
+        "from": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "from",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Inclusive UTC range start in Unix milliseconds."
+          }
+        },
+        "to": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "to",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Exclusive UTC range end in Unix milliseconds."
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "source",
+            "smithy.api#documentation": "The source scope. Only `streaming` is supported."
+          }
+        },
+        "dimension": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "dimension",
+            "smithy.api#documentation": "The ranking dimension. Only `project` is supported."
+          }
+        },
+        "projectKey": {
+          "target": "com.launchdarkly.api#GetDataExportProjectRankingRequestProjectKeyList",
+          "traits": {
+            "smithy.api#httpQuery": "projectKey",
+            "smithy.api#documentation": "A canonical project key to include. Can be specified multiple times, with at most 100 unique explicit selections; duplicates do not consume the limit. When omitted, all account projects with usage in the requested range are ranked."
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search",
+            "smithy.api#documentation": "A case-insensitive substring matched against canonical project keys before querying usage. Project names are not searched."
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "An opaque cursor returned by a previous response. Cursors are bound to the account and ranking inputs."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "The maximum number of ranked projects to return. This bounds response rows and look-ahead, not the account-wide candidate universe."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.launchdarkly.api#DataExportProjectRankingRep": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.launchdarkly.api#DataExportProjectRankingRepItemsList",
+          "traits": {
+            "smithy.api#documentation": "Projects in deterministic rank order.",
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "com.launchdarkly.api#DataExportProjectRankingPageRep",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "scope": {
+          "target": "com.launchdarkly.api#DataExportProjectRankingScopeRep",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A bounded Streaming project ranking."
+      }
+    },
+    "com.launchdarkly.api#DataExportProjectRankRep": {
+      "type": "structure",
+      "members": {
+        "projectKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The canonical project key.",
+            "smithy.api#required": {}
+          }
+        },
+        "projectName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The current project name.",
+            "smithy.api#required": {}
+          }
+        },
+        "rank": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The one-based rank within all matching projects.",
+            "smithy.api#required": {}
+          }
+        },
+        "usage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Successful Streaming transfers in the requested range.",
+            "smithy.api#required": {}
+          }
+        },
+        "components": {
+          "target": "com.launchdarkly.api#DataExportProjectRankComponentsRep",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.launchdarkly.api#DataExportProjectRankComponentsRep": {
+      "type": "structure",
+      "members": {
+        "streaming": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Successful Streaming transfers attributed to this project in the requested range.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.launchdarkly.api#DataExportProjectRankingRepItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.launchdarkly.api#DataExportProjectRankRep"
+      },
+      "traits": {
+        "smithy.api#documentation": "Projects in deterministic rank order."
+      }
+    },
+    "com.launchdarkly.api#DataExportProjectRankingPageRep": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The bounded page size requested.",
+            "smithy.api#required": {}
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of items on this page.",
+            "smithy.api#required": {}
+          }
+        },
+        "totalCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of matching projects with usage.",
+            "smithy.api#required": {}
+          }
+        },
+        "nextCursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An opaque cursor for the next page."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.launchdarkly.api#DataExportProjectRankingScopeRep": {
+      "type": "structure",
+      "members": {
+        "source": {
+          "target": "com.launchdarkly.api#DataExportProjectRankingScopeRepSource",
+          "traits": {
+            "smithy.api#documentation": "The included usage source.",
+            "smithy.api#required": {}
+          }
+        },
+        "dimension": {
+          "target": "com.launchdarkly.api#DataExportProjectRankingScopeRepDimension",
+          "traits": {
+            "smithy.api#documentation": "The ranked dimension.",
+            "smithy.api#required": {}
+          }
+        },
+        "from": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Inclusive UTC range start in Unix milliseconds.",
+            "smithy.api#required": {}
+          }
+        },
+        "to": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Exclusive UTC range end in Unix milliseconds.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.launchdarkly.api#DataExportProjectRankingScopeRepSource": {
+      "type": "enum",
+      "members": {
+        "STREAMING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "streaming"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The included usage source."
+      }
+    },
+    "com.launchdarkly.api#DataExportProjectRankingScopeRepDimension": {
+      "type": "enum",
+      "members": {
+        "PROJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The ranked dimension."
+      }
+    },
+    "com.launchdarkly.api#GetDataExportProjectRanking": {
+      "type": "operation",
+      "input": {
+        "target": "com.launchdarkly.api#GetDataExportProjectRankingRequest"
+      },
+      "output": {
+        "target": "com.launchdarkly.api#DataExportProjectRankingRep"
+      },
+      "errors": [
+        {
+          "target": "com.launchdarkly.api#BadRequest"
+        },
+        {
+          "target": "com.launchdarkly.api#Forbidden"
+        },
+        {
+          "target": "com.launchdarkly.api#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/v2/usage/data-export-events/projects/ranking",
+          "code": 200
+        },
+        "smithy.api#documentation": "Rank Streaming usage by project\n\nRank projects with usage in the requested range by successful Streaming transfers. Legacy rows are attributed through the account's complete current environment-to-project mapping. If any successful row remains unattributed after resolution, the operation returns `409` instead of a partial ranking. The result limit does not cap the account-wide project universe or environment mapping. This source-specific operation does not provide Combined or Warehouse ranking."
       }
     },
     "com.launchdarkly.api#GetAIConfigTargetingRequest": {
@@ -40407,7 +40486,7 @@
           "uri": "/api/v2/projects/{projectKey}/ai-configs/{configKey}/variations/{variationKey}",
           "code": 200
         },
-        "smithy.api#documentation": "Update AI Config variation\n\nEdit an existing variation of an AI Config. This creates a new version of the variation.\n\nThe request body must be a JSON object of the fields to update. The values you include replace the existing values for the fields.\n\nHere's an example:\n```\n  {\n    \"messages\": [\n      {\n        \"role\": \"system\",\n        \"content\": \"The new message\"\n      }\n    ]\n  }\n```"
+        "smithy.api#documentation": "Update AI Config variation\n\nEdit an existing variation of an AI Config. This creates a new version of the variation.\n\nThe request body must be a JSON object of the fields to update. The values you include replace the existing values for the fields.\n\nIf the variation is in use in a project environment where approval settings require review for this AI Config, this endpoint returns 403 and the change must be submitted through an approval request.\n\nHere's an example:\n```\n  {\n    \"messages\": [\n      {\n        \"role\": \"system\",\n        \"content\": \"The new message\"\n      }\n    ]\n  }\n```"
       }
     },
     "com.launchdarkly.api#DeleteAIConfigVariationRequest": {
@@ -45084,7 +45163,7 @@
           "uri": "/api/v2/projects/{projectKey}/agent-optimizations/{optimizationKey}/results",
           "code": 200
         },
-        "smithy.api#documentation": "List agent optimization runs\n\nGet the most recent result for each unique run of an agent optimization."
+        "smithy.api#documentation": "List latest agent optimization result per run\n\nGet the most recent result for each unique run of an agent optimization."
       }
     },
     "com.launchdarkly.api#PostAgentOptimizationResultRequestParametersMap": {
@@ -50809,6 +50888,359 @@
         "smithy.api#documentation": "Delete IP Allowlist Entry\n\nDelete an IP allowlist entry by id."
       }
     },
+    "com.launchdarkly.api#GetProjectSdkKeysRequestSort": {
+      "type": "enum",
+      "members": {
+        "CREATEDAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "createdAt"
+          }
+        },
+        "CREATEDAT_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-createdAt"
+          }
+        },
+        "ENVIRONMENTKEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "environmentKey"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.launchdarkly.api#GetProjectSdkKeysRequest": {
+      "type": "structure",
+      "members": {
+        "projectKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "filter",
+            "smithy.api#documentation": "A queryfilter expression to apply to the list of SDK keys. Supports the following fields and operators: `kind` (`equals`, `anyOf`; values: \"sdk\", \"mobile\"), `active` (`equals`, `anyOf`; values: `true`, `false`), `environmentKey` (`equals`, `anyOf`; values: environment keys), `viewKey` (`equals`, `anyOf`; values: view key strings — returns only SDK keys linked to the specified view(s)), `name` (`equals` only; returns SDK keys whose name or key contains the value, matched case-insensitively). Example: `kind anyOf [\"sdk\",\"mobile\"], environmentKey anyOf [\"production\",\"test\"], viewKey equals my-view, name equals \"production\"`."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "The number of SDK keys to return. Defaults to 20. Maximum is 100."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The number of SDK keys to skip. Used for pagination."
+          }
+        },
+        "expand": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "expand",
+            "smithy.api#documentation": "A comma-separated list of fields to expand in the response. Supported fields: `environmentSummary`, `viewSummaries`."
+          }
+        },
+        "sort": {
+          "target": "com.launchdarkly.api#GetProjectSdkKeysRequestSort",
+          "traits": {
+            "smithy.api#httpQuery": "sort",
+            "smithy.api#documentation": "A sort to apply to the list of SDK keys. Supported fields: `createdAt` and `environmentKey`. Prefix `createdAt` with `-` to sort in descending order (for example, `-createdAt`). `environmentKey` orders keys by environment key ascending, then by creation time ascending within each environment, so each page is environment-contiguous."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.launchdarkly.api#SdkKeys": {
+      "type": "structure",
+      "members": {
+        "_links": {
+          "target": "com.launchdarkly.api#SdkKeysSelfLink"
+        },
+        "items": {
+          "target": "com.launchdarkly.api#SdkKeysItemsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total number of SDK keys matching the query, before pagination.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.launchdarkly.api#SdkKeysSelfLink": {
+      "type": "structure",
+      "members": {
+        "self": {
+          "target": "com.launchdarkly.api#CoreLink",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.launchdarkly.api#SdkKeyListItem": {
+      "type": "structure",
+      "members": {
+        "_links": {
+          "target": "com.launchdarkly.api#ParentAndSelfLinks"
+        },
+        "kind": {
+          "target": "com.launchdarkly.api#SdkKeyKind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user-defined identifying key of the SDK key. This is used solely to identify an SDK key and is distinct from the value field, which is the actual SDK key value.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The human-readable name of the SDK key.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The optional description of the SDK key."
+          }
+        },
+        "expiry": {
+          "target": "smithy.api#Integer"
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The string value of the SDK key. Use this when configuring your SDK.",
+            "smithy.api#required": {}
+          }
+        },
+        "isDefault": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates if this SDK key is the system-defined default for the environment. There may also be an expiring default SDK key for the environment (not possible with mobile keys).",
+            "smithy.api#required": {}
+          }
+        },
+        "_createdByMemberId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the member who created the SDK key. This field is immutable."
+          }
+        },
+        "_createdAt": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "_updatedAt": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The auto-incremented version number of the SDK key.",
+            "smithy.api#required": {}
+          }
+        },
+        "environmentSummary": {
+          "target": "com.launchdarkly.api#SdkKeysEnvironmentSummary"
+        },
+        "viewSummaries": {
+          "target": "com.launchdarkly.api#SdkKeyListItemViewSummariesList",
+          "traits": {
+            "smithy.api#documentation": "Summaries of views associated with the SDK key."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.launchdarkly.api#SdkKeyKind": {
+      "type": "enum",
+      "members": {
+        "SDK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sdk"
+          }
+        },
+        "MOBILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mobile"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The kind of SDK key. Can be either \"sdk\" (server-side) or \"mobile\" (mobile)."
+      }
+    },
+    "com.launchdarkly.api#SdkKeysEnvironmentSummary": {
+      "type": "structure",
+      "members": {
+        "_links": {
+          "target": "com.launchdarkly.api#SdkKeysEnvironmentSummaryLinksMap",
+          "traits": {
+            "smithy.api#documentation": "The location and content type of related resources",
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A project-unique key for the environment",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-friendly name for the environment",
+            "smithy.api#required": {}
+          }
+        },
+        "color": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The color used to indicate this environment in the UI",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.launchdarkly.api#SdkKeysEnvironmentSummaryLinksMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.launchdarkly.api#Link"
+      },
+      "traits": {
+        "smithy.api#documentation": "The location and content type of related resources"
+      }
+    },
+    "com.launchdarkly.api#ViewSummary": {
+      "type": "structure",
+      "members": {
+        "_links": {
+          "target": "com.launchdarkly.api#ParentAndSelfLinks"
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The key of the view.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The human-readable name of the view.",
+            "smithy.api#required": {}
+          }
+        },
+        "resourceSummary": {
+          "target": "com.launchdarkly.api#ViewResourceSummary",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.launchdarkly.api#ViewResourceSummary": {
+      "type": "structure",
+      "members": {
+        "flagCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of flags associated with the view.",
+            "smithy.api#required": {}
+          }
+        },
+        "segmentCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of segments associated with the view.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.launchdarkly.api#SdkKeyListItemViewSummariesList": {
+      "type": "list",
+      "member": {
+        "target": "com.launchdarkly.api#ViewSummary"
+      },
+      "traits": {
+        "smithy.api#documentation": "Summaries of views associated with the SDK key."
+      }
+    },
+    "com.launchdarkly.api#SdkKeysItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.launchdarkly.api#SdkKeyListItem"
+      },
+      "traits": {}
+    },
+    "com.launchdarkly.api#GetProjectSdkKeys": {
+      "type": "operation",
+      "input": {
+        "target": "com.launchdarkly.api#GetProjectSdkKeysRequest"
+      },
+      "output": {
+        "target": "com.launchdarkly.api#SdkKeys"
+      },
+      "errors": [
+        {
+          "target": "com.launchdarkly.api#BadRequest"
+        },
+        {
+          "target": "com.launchdarkly.api#Forbidden"
+        },
+        {
+          "target": "com.launchdarkly.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/v2/projects/{projectKey}/sdk-keys",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get all project SDK keys\n\nGet all SDK keys for a given project across environments."
+      }
+    },
     "com.launchdarkly.api#GetSdkKeysRequestSort": {
       "type": "enum",
       "members": {
@@ -50899,18 +51331,6 @@
       },
       "traits": {}
     },
-    "com.launchdarkly.api#SdkKeysSelfLink": {
-      "type": "structure",
-      "members": {
-        "self": {
-          "target": "com.launchdarkly.api#CoreLink",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
     "com.launchdarkly.api#SdkKey": {
       "type": "structure",
       "members": {
@@ -50988,26 +51408,6 @@
       },
       "traits": {}
     },
-    "com.launchdarkly.api#SdkKeyKind": {
-      "type": "enum",
-      "members": {
-        "SDK": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "sdk"
-          }
-        },
-        "MOBILE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "mobile"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The kind of SDK key. Can be either \"sdk\" (server-side) or \"mobile\" (mobile)."
-      }
-    },
     "com.launchdarkly.api#SdkKeysForGetSdkKeysItemsList": {
       "type": "list",
       "member": {
@@ -51063,6 +51463,15 @@
         "smithy.api#documentation": "The kind of SDK key. Can be either \"sdk\" (server-side) or \"mobile\" (mobile). Defaults to \"sdk\" when not explicitly defined."
       }
     },
+    "com.launchdarkly.api#PostSdkKeyRequestViewKeysList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of view keys to associate with the SDK key."
+      }
+    },
     "com.launchdarkly.api#PostSdkKeyRequest": {
       "type": "structure",
       "members": {
@@ -51108,6 +51517,12 @@
         },
         "expiry": {
           "target": "smithy.api#Integer"
+        },
+        "viewKeys": {
+          "target": "com.launchdarkly.api#PostSdkKeyRequestViewKeysList",
+          "traits": {
+            "smithy.api#documentation": "List of view keys to associate with the SDK key."
+          }
         }
       },
       "traits": {
@@ -51345,6 +51760,180 @@
           "code": 200
         },
         "smithy.api#documentation": "Delete SDK key\n\nDelete a specific SDK key by its key."
+      }
+    },
+    "com.launchdarkly.api#PutSdkKeyViewsRequestViewKeysList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The complete target list of view keys to associate with this SDK key. An empty array removes all views from the SDK key."
+      }
+    },
+    "com.launchdarkly.api#PutSdkKeyViewsRequest": {
+      "type": "structure",
+      "members": {
+        "projectKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "environmentKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "sdkKeyKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "expand": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "expand",
+            "smithy.api#documentation": "A comma-separated list of fields to expand in the response. Supported fields: `viewSummaries`."
+          }
+        },
+        "viewKeys": {
+          "target": "com.launchdarkly.api#PutSdkKeyViewsRequestViewKeysList",
+          "traits": {
+            "smithy.api#documentation": "The complete target list of view keys to associate with this SDK key. An empty array removes all views from the SDK key.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.launchdarkly.api#PutSdkKeyViewsResponseViewSummariesList": {
+      "type": "list",
+      "member": {
+        "target": "com.launchdarkly.api#ViewSummary"
+      },
+      "traits": {
+        "smithy.api#documentation": "Summaries of views associated with the SDK key."
+      }
+    },
+    "com.launchdarkly.api#PutSdkKeyViewsResponse": {
+      "type": "structure",
+      "members": {
+        "_links": {
+          "target": "com.launchdarkly.api#ParentAndSelfLinks"
+        },
+        "kind": {
+          "target": "com.launchdarkly.api#SdkKeyKind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user-defined identifying key of the SDK key. This is used solely to identify an SDK key and is distinct from the value field, which is the actual SDK key value.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The human-readable name of the SDK key.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The optional description of the SDK key."
+          }
+        },
+        "expiry": {
+          "target": "smithy.api#Integer"
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The string value of the SDK key. Use this when configuring your SDK.",
+            "smithy.api#required": {}
+          }
+        },
+        "isDefault": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates if this SDK key is the system-defined default for the environment. There may also be an expiring default SDK key for the environment (not possible with mobile keys).",
+            "smithy.api#required": {}
+          }
+        },
+        "_createdByMemberId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the member who created the SDK key. This field is immutable."
+          }
+        },
+        "_createdAt": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "_updatedAt": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The auto-incremented version number of the SDK key.",
+            "smithy.api#required": {}
+          }
+        },
+        "viewSummaries": {
+          "target": "com.launchdarkly.api#PutSdkKeyViewsResponseViewSummariesList",
+          "traits": {
+            "smithy.api#documentation": "Summaries of views associated with the SDK key."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.launchdarkly.api#PutSdkKeyViews": {
+      "type": "operation",
+      "input": {
+        "target": "com.launchdarkly.api#PutSdkKeyViewsRequest"
+      },
+      "output": {
+        "target": "com.launchdarkly.api#PutSdkKeyViewsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.launchdarkly.api#BadRequest"
+        },
+        {
+          "target": "com.launchdarkly.api#Forbidden"
+        },
+        {
+          "target": "com.launchdarkly.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v2/projects/{projectKey}/environments/{environmentKey}/sdk-keys/{sdkKeyKey}/views",
+          "code": 200
+        },
+        "smithy.api#documentation": "Replace SDK key views\n\nReplace the set of views associated with an SDK key. The `viewKeys` field is required. To remove all views from the SDK key, pass an empty `viewKeys` array."
       }
     },
     "com.launchdarkly.api#AdaptiveTriggerResourceKind": {
@@ -56002,15 +56591,6 @@
           "target": "com.launchdarkly.api#GetContextAttributeValues"
         },
         {
-          "target": "com.launchdarkly.api#SearchContextInstances"
-        },
-        {
-          "target": "com.launchdarkly.api#GetContextInstances"
-        },
-        {
-          "target": "com.launchdarkly.api#DeleteContextInstances"
-        },
-        {
           "target": "com.launchdarkly.api#SearchContexts"
         },
         {
@@ -56404,6 +56984,9 @@
           "target": "com.launchdarkly.api#GetTags"
         },
         {
+          "target": "com.launchdarkly.api#GetDataExportProjectRanking"
+        },
+        {
           "target": "com.launchdarkly.api#GetAIConfigTargeting"
         },
         {
@@ -56662,6 +57245,9 @@
           "target": "com.launchdarkly.api#DeleteIpAllowlistEntry"
         },
         {
+          "target": "com.launchdarkly.api#GetProjectSdkKeys"
+        },
+        {
           "target": "com.launchdarkly.api#GetSdkKeys"
         },
         {
@@ -56675,6 +57261,9 @@
         },
         {
           "target": "com.launchdarkly.api#DeleteSdkKeyByKey"
+        },
+        {
+          "target": "com.launchdarkly.api#PutSdkKeyViews"
         },
         {
           "target": "com.launchdarkly.api#ListAdaptiveTriggers"

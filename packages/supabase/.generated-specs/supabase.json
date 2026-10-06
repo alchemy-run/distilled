@@ -930,7 +930,7 @@
           "uri": "/v1/branches/{branch_id_or_ref}/diff",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Diffs a database branch\n\nDiffs the specified database branch"
+        "smithy.api#documentation": "Diffs a database branch\n\nDiffs the specified database branch\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1ProjectWithDatabaseResponseOutput": {
@@ -2735,7 +2735,7 @@
           "uri": "/v1/projects/available-regions",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Gets the list of available regions that can be used for a new project"
+        "smithy.api#documentation": "Gets the list of available regions that can be used for a new project\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#OrganizationResponseV1Output": {
@@ -2993,7 +2993,7 @@
           "uri": "/v1/oauth/authorize",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Authorize user through oauth"
+        "smithy.api#documentation": "Authorize user through oauth\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1ExchangeOauthTokenRequestGrantType": {
@@ -3136,7 +3136,7 @@
           "uri": "/v1/oauth/token",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Exchange auth code for user's access and refresh token\n\nSupports `authorization_code`, `refresh_token`, and `urn:ietf:params:oauth:grant-type:jwt-bearer` grant types. The `jwt-bearer` grant type (IDJAG — identity-directed JWT assertion) is in beta and available on Team and Enterprise plans only.",
+        "smithy.api#documentation": "Exchange auth code for user's access and refresh token\n\nSupports `authorization_code`, `refresh_token`, and `urn:ietf:params:oauth:grant-type:jwt-bearer` grant types. The `jwt-bearer` grant type (IDJAG — identity-directed JWT assertion) is in beta and available on Team and Enterprise plans only.\n\nThis endpoint is currently in its **Beta** stage.",
         "com.distilled.openapi#contentType": "form-urlencoded"
       }
     },
@@ -3190,7 +3190,7 @@
           "uri": "/v1/oauth/revoke",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Revoke oauth app authorization and it's corresponding tokens"
+        "smithy.api#documentation": "Revoke oauth app authorization and it's corresponding tokens\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1OauthAuthorizeProjectClaimRequestResponseType": {
@@ -3812,10 +3812,7 @@
           }
         },
         "schema_version": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+          "target": "smithy.api#String"
         },
         "sql": {
           "target": "smithy.api#String",
@@ -5521,6 +5518,9 @@
           "target": "com.supabase.api#BadRequest"
         },
         {
+          "target": "com.supabase.api#Forbidden"
+        },
+        {
           "target": "com.supabase.api#NotFound"
         }
       ],
@@ -5813,6 +5813,9 @@
           "target": "com.supabase.api#BadRequest"
         },
         {
+          "target": "com.supabase.api#Forbidden"
+        },
+        {
           "target": "com.supabase.api#NotFound"
         }
       ],
@@ -5905,6 +5908,9 @@
           "target": "com.supabase.api#BadRequest"
         },
         {
+          "target": "com.supabase.api#Forbidden"
+        },
+        {
           "target": "com.supabase.api#NotFound"
         }
       ],
@@ -5943,10 +5949,7 @@
           }
         },
         "custom_hostname": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+          "target": "smithy.api#String"
         },
         "data": {
           "target": "com.supabase.api#UpdateCustomHostnameResponseOutputData",
@@ -6060,16 +6063,10 @@
       "type": "structure",
       "members": {
         "txt_name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+          "target": "smithy.api#String"
         },
         "txt_value": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+          "target": "smithy.api#String"
         }
       },
       "traits": {}
@@ -6104,10 +6101,7 @@
       "type": "structure",
       "members": {
         "status": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+          "target": "smithy.api#String"
         },
         "validation_records": {
           "target": "com.supabase.api#UpdateCustomHostnameResponseOutputDataResultSslValidationRecordsList"
@@ -6122,22 +6116,13 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+          "target": "smithy.api#String"
         },
         "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+          "target": "smithy.api#String"
         },
         "value": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+          "target": "smithy.api#String"
         }
       },
       "traits": {}
@@ -6165,28 +6150,19 @@
           }
         },
         "ssl": {
-          "target": "com.supabase.api#UpdateCustomHostnameResponseOutputDataResultSsl",
-          "traits": {
-            "smithy.api#required": {}
-          }
+          "target": "com.supabase.api#UpdateCustomHostnameResponseOutputDataResultSsl"
         },
         "ownership_verification": {
           "target": "com.supabase.api#UpdateCustomHostnameResponseOutputDataResultOwnershipVerification"
         },
         "custom_origin_server": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+          "target": "smithy.api#String"
         },
         "verification_errors": {
           "target": "com.supabase.api#UpdateCustomHostnameResponseOutputDataResultVerificationErrorsList"
         },
         "status": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+          "target": "smithy.api#String"
         }
       },
       "traits": {}
@@ -6243,7 +6219,7 @@
           "uri": "/v1/projects/{ref}/custom-hostname",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Gets project's custom hostname config"
+        "smithy.api#documentation": "Gets project's custom hostname config\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1DeleteHostnameConfigRequest": {
@@ -6291,7 +6267,7 @@
           "uri": "/v1/projects/{ref}/custom-hostname",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Deletes a project's custom hostname configuration"
+        "smithy.api#documentation": "Deletes a project's custom hostname configuration\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1UpdateHostnameConfigRequest": {
@@ -6338,7 +6314,7 @@
           "uri": "/v1/projects/{ref}/custom-hostname/initialize",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Updates project's custom hostname configuration"
+        "smithy.api#documentation": "Updates project's custom hostname configuration\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1VerifyDnsConfigRequest": {
@@ -6379,7 +6355,7 @@
           "uri": "/v1/projects/{ref}/custom-hostname/reverify",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Attempts to verify the DNS configuration for project's custom hostname configuration"
+        "smithy.api#documentation": "Attempts to verify the DNS configuration for project's custom hostname configuration\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1ActivateCustomHostnameRequest": {
@@ -6420,7 +6396,7 @@
           "uri": "/v1/projects/{ref}/custom-hostname/activate",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Activates a custom hostname for a project."
+        "smithy.api#documentation": "Activates a custom hostname for a project.\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1GetJitAccessConfigRequest": {
@@ -6569,7 +6545,7 @@
           "uri": "/v1/projects/{ref}/jit-access",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Get project's temporary access configuration."
+        "smithy.api#documentation": "Get project's temporary access configuration.\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1UpdateJitAccessConfigRequestState": {
@@ -6742,7 +6718,7 @@
           "uri": "/v1/projects/{ref}/jit-access",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Update project's temporary access configuration."
+        "smithy.api#documentation": "Update project's temporary access configuration.\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1ListAllNetworkBansRequest": {
@@ -6802,7 +6778,7 @@
           "uri": "/v1/projects/{ref}/network-bans/retrieve",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Gets project's network bans"
+        "smithy.api#documentation": "Gets project's network bans\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1ListAllNetworkBansEnrichedRequest": {
@@ -6886,7 +6862,7 @@
           "uri": "/v1/projects/{ref}/network-bans/retrieve/enriched",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Gets project's network bans with additional information about which databases they affect"
+        "smithy.api#documentation": "Gets project's network bans with additional information about which databases they affect\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1DeleteNetworkBansRequestIpv4AddressesList": {
@@ -6952,7 +6928,7 @@
           "uri": "/v1/projects/{ref}/network-bans",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Remove network bans."
+        "smithy.api#documentation": "Remove network bans.\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1GetNetworkRestrictionsRequest": {
@@ -7122,7 +7098,7 @@
           "uri": "/v1/projects/{ref}/network-restrictions",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Gets project's network restrictions"
+        "smithy.api#documentation": "Gets project's network restrictions\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1PatchNetworkRestrictionsRequestAddDbAllowedCidrsList": {
@@ -7402,7 +7378,7 @@
           "uri": "/v1/projects/{ref}/network-restrictions",
           "code": 200
         },
-        "smithy.api#documentation": "[Alpha] Updates project's network restrictions by adding or removing CIDRs"
+        "smithy.api#documentation": "Updates project's network restrictions by adding or removing CIDRs\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Alpha** stage."
       }
     },
     "com.supabase.api#V1UpdateNetworkRestrictionsRequestDbAllowedCidrsList": {
@@ -7463,7 +7439,7 @@
           "uri": "/v1/projects/{ref}/network-restrictions/apply",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Updates project's network restrictions"
+        "smithy.api#documentation": "Updates project's network restrictions\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1GetPgsodiumConfigRequest": {
@@ -7517,7 +7493,7 @@
           "uri": "/v1/projects/{ref}/pgsodium",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Gets project's pgsodium config"
+        "smithy.api#documentation": "Gets project's pgsodium config\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1UpdatePgsodiumConfigRequest": {
@@ -7565,7 +7541,7 @@
           "uri": "/v1/projects/{ref}/pgsodium",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Updates project's pgsodium config. Updating the root_key can cause all data encrypted with the older key to become inaccessible."
+        "smithy.api#documentation": "Updates project's pgsodium config. Updating the root_key can cause all data encrypted with the older key to become inaccessible.\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1GetPostgrestServiceConfigRequest": {
@@ -8185,7 +8161,7 @@
           "uri": "/v1/projects/{ref}/ssl-enforcement",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Get project's SSL enforcement configuration."
+        "smithy.api#documentation": "Get project's SSL enforcement configuration.\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1UpdateSslEnforcementConfigRequestRequestedConfig": {
@@ -8244,7 +8220,7 @@
           "uri": "/v1/projects/{ref}/ssl-enforcement",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Update project's SSL enforcement configuration."
+        "smithy.api#documentation": "Update project's SSL enforcement configuration.\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1GenerateTypescriptTypesRequest": {
@@ -8383,7 +8359,7 @@
           "uri": "/v1/projects/{ref}/vanity-subdomain",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Gets current vanity subdomain config"
+        "smithy.api#documentation": "Gets current vanity subdomain config\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1DeactivateVanitySubdomainConfigRequest": {
@@ -8424,7 +8400,7 @@
           "uri": "/v1/projects/{ref}/vanity-subdomain",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Deletes a project's vanity subdomain configuration"
+        "smithy.api#documentation": "Deletes a project's vanity subdomain configuration\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1CheckVanitySubdomainAvailabilityRequest": {
@@ -8483,7 +8459,7 @@
           "uri": "/v1/projects/{ref}/vanity-subdomain/check-availability",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Checks vanity subdomain availability"
+        "smithy.api#documentation": "Checks vanity subdomain availability\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1ActivateVanitySubdomainConfigRequest": {
@@ -8542,7 +8518,7 @@
           "uri": "/v1/projects/{ref}/vanity-subdomain/activate",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Activates a vanity subdomain for a project."
+        "smithy.api#documentation": "Activates a vanity subdomain for a project.\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1UpgradePostgresVersionRequestReleaseChannel": {
@@ -8646,7 +8622,7 @@
           "uri": "/v1/projects/{ref}/upgrade",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Upgrades the project's Postgres version"
+        "smithy.api#documentation": "Upgrades the project's Postgres version\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1GetPostgresUpgradeEligibilityRequest": {
@@ -9502,7 +9478,7 @@
           "uri": "/v1/projects/{ref}/upgrade/eligibility",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Returns the project's eligibility for upgrades"
+        "smithy.api#documentation": "Returns the project's eligibility for upgrades\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1GetPostgresUpgradeStatusRequest": {
@@ -9730,7 +9706,7 @@
           "uri": "/v1/projects/{ref}/upgrade/status",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Gets the latest status of the project's upgrade"
+        "smithy.api#documentation": "Gets the latest status of the project's upgrade\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1GetReadonlyModeStatusRequest": {
@@ -10000,7 +9976,7 @@
           "uri": "/v1/projects/{ref}/read-replicas/setup",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Set up a read replica"
+        "smithy.api#documentation": "Set up a read replica\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1RemoveAReadReplicaRequest": {
@@ -10047,7 +10023,7 @@
           "uri": "/v1/projects/{ref}/read-replicas/remove",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Remove a read replica"
+        "smithy.api#documentation": "Remove a read replica\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1GetServicesHealthRequestServicesCase1Item": {
@@ -12960,6 +12936,13 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "security_update_password_require_current_password": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "security_update_password_require_reauthentication": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -13932,6 +13915,13 @@
         "security_update_password_require_reauthentication": {
           "target": "smithy.api#Boolean",
           "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "security_update_password_require_current_password": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Require the user's current password when updating their password.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -16960,6 +16950,607 @@
         "smithy.api#documentation": "Revokes project claim token"
       }
     },
+    "com.supabase.api#V1GetPerformanceAdvisorsRequest": {
+      "type": "structure",
+      "members": {
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ref"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.supabase.api#V1ProjectAdvisorsResponseOutput": {
+      "type": "structure",
+      "members": {
+        "lints": {
+          "target": "com.supabase.api#V1ProjectAdvisorsResponseOutputLintsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.supabase.api#V1ProjectAdvisorsResponseOutputLintsItemName": {
+      "type": "enum",
+      "members": {
+        "UNINDEXED_FOREIGN_KEYS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unindexed_foreign_keys"
+          }
+        },
+        "AUTH_USERS_EXPOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auth_users_exposed"
+          }
+        },
+        "AUTH_RLS_INITPLAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auth_rls_initplan"
+          }
+        },
+        "NO_PRIMARY_KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_primary_key"
+          }
+        },
+        "UNUSED_INDEX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unused_index"
+          }
+        },
+        "MULTIPLE_PERMISSIVE_POLICIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multiple_permissive_policies"
+          }
+        },
+        "POLICY_EXISTS_RLS_DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "policy_exists_rls_disabled"
+          }
+        },
+        "RLS_ENABLED_NO_POLICY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rls_enabled_no_policy"
+          }
+        },
+        "DUPLICATE_INDEX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "duplicate_index"
+          }
+        },
+        "SECURITY_DEFINER_VIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "security_definer_view"
+          }
+        },
+        "FUNCTION_SEARCH_PATH_MUTABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "function_search_path_mutable"
+          }
+        },
+        "RLS_DISABLED_IN_PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rls_disabled_in_public"
+          }
+        },
+        "EXTENSION_IN_PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "extension_in_public"
+          }
+        },
+        "RLS_REFERENCES_USER_METADATA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rls_references_user_metadata"
+          }
+        },
+        "MATERIALIZED_VIEW_IN_API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "materialized_view_in_api"
+          }
+        },
+        "FOREIGN_TABLE_IN_API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "foreign_table_in_api"
+          }
+        },
+        "UNSUPPORTED_REG_TYPES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unsupported_reg_types"
+          }
+        },
+        "AUTH_OTP_LONG_EXPIRY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auth_otp_long_expiry"
+          }
+        },
+        "AUTH_OTP_SHORT_LENGTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auth_otp_short_length"
+          }
+        },
+        "SSL_NOT_ENFORCED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ssl_not_enforced"
+          }
+        },
+        "LOG_CONNECTIONS_NOT_ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "log_connections_not_enabled"
+          }
+        },
+        "NETWORK_RESTRICTIONS_NOT_SET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "network_restrictions_not_set"
+          }
+        },
+        "PASSWORD_REQUIREMENTS_MIN_LENGTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "password_requirements_min_length"
+          }
+        },
+        "PITR_NOT_ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pitr_not_enabled"
+          }
+        },
+        "AUTH_LEAKED_PASSWORD_PROTECTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auth_leaked_password_protection"
+          }
+        },
+        "AUTH_INSUFFICIENT_MFA_OPTIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auth_insufficient_mfa_options"
+          }
+        },
+        "AUTH_PASSWORD_POLICY_MISSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auth_password_policy_missing"
+          }
+        },
+        "LEAKED_SERVICE_KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "leaked_service_key"
+          }
+        },
+        "NO_BACKUP_ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_backup_admin"
+          }
+        },
+        "VULNERABLE_POSTGRES_VERSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vulnerable_postgres_version"
+          }
+        },
+        "DB_NOT_REACHABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "db_not_reachable"
+          }
+        },
+        "DB_CONNECTION_FAILING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "db_connection_failing"
+          }
+        },
+        "DB_CONNECTION_LIMIT_REACHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "db_connection_limit_reached"
+          }
+        },
+        "INSTANCE_TELEMETRY_LOST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instance_telemetry_lost"
+          }
+        },
+        "INSTANCE_DB_DOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instance_db_down"
+          }
+        },
+        "INSTANCE_ALERT_FIRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instance_alert_firing"
+          }
+        },
+        "LOG_DATA_API_ERROR_RATE_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "log_data_api_error_rate_high"
+          }
+        },
+        "LOG_AUTH_ERROR_RATE_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "log_auth_error_rate_high"
+          }
+        },
+        "LOG_STORAGE_ERROR_RATE_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "log_storage_error_rate_high"
+          }
+        },
+        "LOG_EDGE_FUNCTION_ERROR_RATE_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "log_edge_function_error_rate_high"
+          }
+        },
+        "PROJECT_NOT_ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project_not_active"
+          }
+        },
+        "ADVISOR_CHECK_UNAVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "advisor_check_unavailable"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.supabase.api#V1ProjectAdvisorsResponseOutputLintsItemLevel": {
+      "type": "enum",
+      "members": {
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ERROR"
+          }
+        },
+        "WARN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "WARN"
+          }
+        },
+        "INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INFO"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.supabase.api#V1ProjectAdvisorsResponseOutputLintsItemFacing": {
+      "type": "enum",
+      "members": {
+        "EXTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EXTERNAL"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.supabase.api#V1ProjectAdvisorsResponseOutputLintsItemCategoriesItem": {
+      "type": "enum",
+      "members": {
+        "PERFORMANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PERFORMANCE"
+          }
+        },
+        "SECURITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SECURITY"
+          }
+        },
+        "HEALTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HEALTH"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.supabase.api#V1ProjectAdvisorsResponseOutputLintsItemCategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.supabase.api#V1ProjectAdvisorsResponseOutputLintsItemCategoriesItem"
+      },
+      "traits": {}
+    },
+    "com.supabase.api#V1ProjectAdvisorsResponseOutputLintsItemMetadataType": {
+      "type": "enum",
+      "members": {
+        "TABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "table"
+          }
+        },
+        "VIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "view"
+          }
+        },
+        "MATERIALIZED_VIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "materialized view"
+          }
+        },
+        "FOREIGN_TABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "foreign table"
+          }
+        },
+        "AUTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auth"
+          }
+        },
+        "FUNCTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "function"
+          }
+        },
+        "EXTENSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "extension"
+          }
+        },
+        "COMPLIANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "compliance"
+          }
+        },
+        "HEALTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "health"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.supabase.api#V1ProjectAdvisorsResponseOutputLintsItemMetadataFkeyColumnsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      },
+      "traits": {}
+    },
+    "com.supabase.api#V1ProjectAdvisorsResponseOutputLintsItemMetadata": {
+      "type": "structure",
+      "members": {
+        "schema": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "entity": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "com.supabase.api#V1ProjectAdvisorsResponseOutputLintsItemMetadataType"
+        },
+        "fkey_name": {
+          "target": "smithy.api#String"
+        },
+        "fkey_columns": {
+          "target": "com.supabase.api#V1ProjectAdvisorsResponseOutputLintsItemMetadataFkeyColumnsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.supabase.api#V1ProjectAdvisorsResponseOutputLintsItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "com.supabase.api#V1ProjectAdvisorsResponseOutputLintsItemName",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "level": {
+          "target": "com.supabase.api#V1ProjectAdvisorsResponseOutputLintsItemLevel",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "facing": {
+          "target": "com.supabase.api#V1ProjectAdvisorsResponseOutputLintsItemFacing",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "categories": {
+          "target": "com.supabase.api#V1ProjectAdvisorsResponseOutputLintsItemCategoriesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "detail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "remediation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.supabase.api#V1ProjectAdvisorsResponseOutputLintsItemMetadata"
+        },
+        "cache_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "observed_at": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.supabase.api#V1ProjectAdvisorsResponseOutputLintsList": {
+      "type": "list",
+      "member": {
+        "target": "com.supabase.api#V1ProjectAdvisorsResponseOutputLintsItem"
+      },
+      "traits": {}
+    },
+    "com.supabase.api#V1GetPerformanceAdvisors": {
+      "type": "operation",
+      "input": {
+        "target": "com.supabase.api#V1GetPerformanceAdvisorsRequest"
+      },
+      "output": {
+        "target": "com.supabase.api#V1ProjectAdvisorsResponseOutput"
+      },
+      "errors": [
+        {
+          "target": "com.supabase.api#BadRequest"
+        },
+        {
+          "target": "com.supabase.api#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{ref}/advisors/performance",
+          "code": 200
+        },
+        "smithy.api#documentation": "Gets project performance advisors.\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable."
+      }
+    },
+    "com.supabase.api#V1GetSecurityAdvisorsRequestLintType": {
+      "type": "enum",
+      "members": {
+        "SQL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sql"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.supabase.api#V1GetSecurityAdvisorsRequest": {
+      "type": "structure",
+      "members": {
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ref"
+          }
+        },
+        "lint_type": {
+          "target": "com.supabase.api#V1GetSecurityAdvisorsRequestLintType",
+          "traits": {
+            "smithy.api#httpQuery": "lint_type"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.supabase.api#V1GetSecurityAdvisors": {
+      "type": "operation",
+      "input": {
+        "target": "com.supabase.api#V1GetSecurityAdvisorsRequest"
+      },
+      "output": {
+        "target": "com.supabase.api#V1ProjectAdvisorsResponseOutput"
+      },
+      "errors": [
+        {
+          "target": "com.supabase.api#BadRequest"
+        },
+        {
+          "target": "com.supabase.api#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{ref}/advisors/security",
+          "code": 200
+        },
+        "smithy.api#documentation": "Gets project security advisors.\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable."
+      }
+    },
     "com.supabase.api#V1GetProjectLogsRequest": {
       "type": "structure",
       "members": {
@@ -17708,7 +18299,7 @@
           "uri": "/v1/projects/{ref}/cli/login-role",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Create a login role for CLI with temporary password"
+        "smithy.api#documentation": "Create a login role for CLI with temporary password\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1DeleteLoginRolesRequest": {
@@ -17773,7 +18364,7 @@
           "uri": "/v1/projects/{ref}/cli/login-role",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Delete existing login roles used by CLI"
+        "smithy.api#documentation": "Delete existing login roles used by CLI\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1ListMigrationHistoryRequest": {
@@ -18215,7 +18806,7 @@
           "uri": "/v1/projects/{ref}/database/query",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Run sql query"
+        "smithy.api#documentation": "Run sql query\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1ReadOnlyQueryRequestParametersList": {
@@ -18272,7 +18863,7 @@
           "uri": "/v1/projects/{ref}/database/query/read-only",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Run a sql query as supabase_read_only_user\n\nAll entity references must be schema qualified."
+        "smithy.api#documentation": "Run a sql query as supabase_read_only_user\n\nAll entity references must be schema qualified.\n\nThis endpoint is currently in its **Beta** stage."
       }
     },
     "com.supabase.api#V1EnableDatabaseWebhookRequest": {
@@ -18313,7 +18904,104 @@
           "uri": "/v1/projects/{ref}/database/webhooks/enable",
           "code": 200
         },
-        "smithy.api#documentation": "[Beta] Enables Database Webhooks on the project"
+        "smithy.api#documentation": "Enables Database Webhooks on the project\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable.\n\nThis endpoint is currently in its **Beta** stage."
+      }
+    },
+    "com.supabase.api#V1GetDatabaseMetadataRequest": {
+      "type": "structure",
+      "members": {
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ref"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.supabase.api#GetProjectDbMetadataResponseOutput": {
+      "type": "structure",
+      "members": {
+        "databases": {
+          "target": "com.supabase.api#GetProjectDbMetadataResponseOutputDatabasesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.supabase.api#GetProjectDbMetadataResponseOutputDatabasesItemSchemasItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.supabase.api#GetProjectDbMetadataResponseOutputDatabasesItemSchemasList": {
+      "type": "list",
+      "member": {
+        "target": "com.supabase.api#GetProjectDbMetadataResponseOutputDatabasesItemSchemasItem"
+      },
+      "traits": {}
+    },
+    "com.supabase.api#GetProjectDbMetadataResponseOutputDatabasesItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "schemas": {
+          "target": "com.supabase.api#GetProjectDbMetadataResponseOutputDatabasesItemSchemasList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.supabase.api#GetProjectDbMetadataResponseOutputDatabasesList": {
+      "type": "list",
+      "member": {
+        "target": "com.supabase.api#GetProjectDbMetadataResponseOutputDatabasesItem"
+      },
+      "traits": {}
+    },
+    "com.supabase.api#V1GetDatabaseMetadata": {
+      "type": "operation",
+      "input": {
+        "target": "com.supabase.api#V1GetDatabaseMetadataRequest"
+      },
+      "output": {
+        "target": "com.supabase.api#GetProjectDbMetadataResponseOutput"
+      },
+      "errors": [
+        {
+          "target": "com.supabase.api#BadRequest"
+        },
+        {
+          "target": "com.supabase.api#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/projects/{ref}/database/context",
+          "code": 200
+        },
+        "smithy.api#documentation": "Gets database metadata for the given project.\n\nThis is an **experimental** endpoint. It is subject to change or removal in future versions. Use it with caution, as it may not remain supported or stable."
       }
     },
     "com.supabase.api#V1UpdateDatabasePasswordRequest": {
@@ -18542,10 +19230,10 @@
       "type": "structure",
       "members": {
         "user_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+          "target": "smithy.api#String"
+        },
+        "act": {
+          "target": "smithy.api#String"
         },
         "user_role": {
           "target": "com.supabase.api#JitAuthorizeAccessResponseOutputUserRole",
@@ -21030,7 +21718,8 @@
         "migrationVersion": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -21172,6 +21861,12 @@
           }
         },
         "iceberg_catalog": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object_versioning": {
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
@@ -22316,6 +23011,14 @@
           "traits": {
             "smithy.api#documentation": "Whether to enable presence",
             "smithy.api#required": {}
+          }
+        },
+        "admin_suspended_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "If set, the Realtime service has been suspended by an admin.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -26652,6 +27355,12 @@
           "target": "com.supabase.api#V1DeleteProjectClaimToken"
         },
         {
+          "target": "com.supabase.api#V1GetPerformanceAdvisors"
+        },
+        {
+          "target": "com.supabase.api#V1GetSecurityAdvisors"
+        },
+        {
           "target": "com.supabase.api#V1GetProjectLogs"
         },
         {
@@ -26698,6 +27407,9 @@
         },
         {
           "target": "com.supabase.api#V1EnableDatabaseWebhook"
+        },
+        {
+          "target": "com.supabase.api#V1GetDatabaseMetadata"
         },
         {
           "target": "com.supabase.api#V1UpdateDatabasePassword"

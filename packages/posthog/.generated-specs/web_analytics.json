@@ -172,6 +172,13 @@
             "smithy.api#required": {}
           }
         },
+        "metadata": {
+          "target": "com.posthog.web_analytics#DigestMetadata",
+          "traits": {
+            "smithy.api#documentation": "Period, filters and metric definitions behind the numbers, and a status that explains a zero.",
+            "smithy.api#required": {}
+          }
+        },
         "dashboard_url": {
           "target": "smithy.api#String",
           "traits": {
@@ -447,6 +454,95 @@
         "smithy.api#documentation": "Goal conversions."
       }
     },
+    "com.posthog.web_analytics#DigestMetadata": {
+      "type": "structure",
+      "members": {
+        "data_status": {
+          "target": "com.posthog.web_analytics#DigestDataStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "How to read the headline numbers. 'ok': the headline has pageviews or sessions in the period. 'no_web_sessions': the headline is zero, but the project has sessions in the period. None of them contain a $pageview or $screen event from a non-test account. Query the sessions table directly to count them. 'no_sessions': the project has no sessions in the period. 'unknown': the headline is zero, and the check for other sessions in the period failed. Query the sessions table directly to count them.\n\n* `ok` - OK\n* `no_web_sessions` - No web sessions\n* `no_sessions` - No sessions\n* `unknown` - Unknown",
+            "smithy.api#required": {}
+          }
+        },
+        "date_from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start of the current period, in the project timezone.",
+            "smithy.api#required": {}
+          }
+        },
+        "date_to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "End of the current period, in the project timezone.",
+            "smithy.api#required": {}
+          }
+        },
+        "timezone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project timezone for the period boundaries.",
+            "smithy.api#required": {}
+          }
+        },
+        "filter_test_accounts": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the headline metrics, top pages and top sources exclude events from test accounts. Goal conversions include them.",
+            "smithy.api#required": {}
+          }
+        },
+        "notes": {
+          "target": "com.posthog.web_analytics#DigestMetadataNotesList",
+          "traits": {
+            "smithy.api#documentation": "Metric definitions to use when you compare the digest with a direct query.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics#DigestDataStatusEnum": {
+      "type": "enum",
+      "members": {
+        "OK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ok"
+          }
+        },
+        "NO_WEB_SESSIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_web_sessions"
+          }
+        },
+        "NO_SESSIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_sessions"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `ok` - OK\n* `no_web_sessions` - No web sessions\n* `no_sessions` - No sessions\n* `unknown` - Unknown"
+      }
+    },
+    "com.posthog.web_analytics#DigestMetadataNotesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Metric definitions to use when you compare the digest with a direct query."
+      }
+    },
     "com.posthog.web_analytics#RecapPersona": {
       "type": "structure",
       "members": {
@@ -636,6 +732,12 @@
             "smithy.api#documentation": "Goal conversions."
           }
         },
+        "metadata": {
+          "target": "com.posthog.web_analytics#DigestMetadata",
+          "traits": {
+            "smithy.api#documentation": "Period, filters and metric definitions behind the numbers, and a status that explains a zero."
+          }
+        },
         "dashboard_url": {
           "target": "smithy.api#String",
           "traits": {
@@ -689,6 +791,1766 @@
         "smithy.api#documentation": "Summarize web analytics\n\nSummarizes a project's web analytics over a lookback window (default 7 days): unique visitors, pageviews, sessions, bounce rate, and average session duration with period-over-period comparisons, plus the top 5 pages, top 5 traffic sources, and goal conversions."
       }
     },
+    "com.posthog.web_analytics#DismissWebAnalyticsContentAutopilotOpportunityRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this content autopilot opportunity."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotOpportunity": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "profile_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Site profile this opportunity belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Latest run that drafted this opportunity.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "proposal_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Latest proposal drafted for this opportunity.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "kind": {
+          "target": "com.posthog.web_analytics#ContentAutopilotOpportunityKindEnum",
+          "traits": {
+            "smithy.api#documentation": "Type of visibility gap.\n\n* `ai_visibility_gap` - AI visibility gap",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The prompt the site isn't cited for.",
+            "smithy.api#required": {}
+          }
+        },
+        "score": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Priority from 0 to 1. Higher means a clearer, more consistent gap.",
+            "smithy.api#required": {}
+          }
+        },
+        "recommended_type": {
+          "target": "com.posthog.web_analytics#ContentAutopilotProposalProposalTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "`page_improvement` when the engines cited a site page for the prompt. Otherwise `new_content`, and drafting decides between a new page and an existing one.\n\n* `new_content` - New content\n* `page_improvement` - Page improvement",
+            "smithy.api#required": {}
+          }
+        },
+        "target_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Site page the engines cited for the prompt, to improve. Empty when no page was cited.",
+            "smithy.api#required": {}
+          }
+        },
+        "evidence": {
+          "target": "com.posthog.web_analytics#ContentAutopilotOpportunityEvidenceList",
+          "traits": {
+            "smithy.api#documentation": "Why this opportunity was selected.",
+            "smithy.api#required": {}
+          }
+        },
+        "gap": {
+          "target": "com.posthog.web_analytics#ContentAutopilotCitationGap",
+          "traits": {
+            "smithy.api#documentation": "Citation check results behind this opportunity.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.posthog.web_analytics#ContentAutopilotOpportunityStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Where the opportunity is in the drafting workflow.\n\n* `new` - New\n* `dismissed` - Dismissed\n* `queued` - Queued\n* `drafted` - Drafted",
+            "smithy.api#required": {}
+          }
+        },
+        "last_refreshed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the citation data was last read.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics#ContentAutopilotOpportunityKindEnum": {
+      "type": "enum",
+      "members": {
+        "AI_VISIBILITY_GAP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ai_visibility_gap"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `ai_visibility_gap` - AI visibility gap"
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotProposalProposalTypeEnum": {
+      "type": "enum",
+      "members": {
+        "NEW_CONTENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "new_content"
+          }
+        },
+        "PAGE_IMPROVEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "page_improvement"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `new_content` - New content\n* `page_improvement` - Page improvement"
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotEvidence": {
+      "type": "structure",
+      "members": {
+        "opportunity_kind": {
+          "target": "com.posthog.web_analytics#OpportunityKindEnum",
+          "traits": {
+            "smithy.api#documentation": "Reason the opportunity was selected.\n\n* `poor_ctr` - Poor click-through rate\n* `content_gap` - Content gap\n* `organic_decline` - Organic decline\n* `ai_visibility_gap` - AI visibility gap\n* `site_hygiene` - Site hygiene",
+            "smithy.api#required": {}
+          }
+        },
+        "explanation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Plain-language explanation of the supporting evidence.",
+            "smithy.api#required": {}
+          }
+        },
+        "page_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Page supported by this evidence."
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Search query supported by this evidence."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics#OpportunityKindEnum": {
+      "type": "enum",
+      "members": {
+        "POOR_CTR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "poor_ctr"
+          }
+        },
+        "CONTENT_GAP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "content_gap"
+          }
+        },
+        "ORGANIC_DECLINE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organic_decline"
+          }
+        },
+        "AI_VISIBILITY_GAP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ai_visibility_gap"
+          }
+        },
+        "SITE_HYGIENE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "site_hygiene"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `poor_ctr` - Poor click-through rate\n* `content_gap` - Content gap\n* `organic_decline` - Organic decline\n* `ai_visibility_gap` - AI visibility gap\n* `site_hygiene` - Site hygiene"
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotOpportunityEvidenceList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.web_analytics#ContentAutopilotEvidence"
+      },
+      "traits": {
+        "smithy.api#documentation": "Why this opportunity was selected."
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotCitationGap": {
+      "type": "structure",
+      "members": {
+        "checks": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Successful citation checks in the lookback window.",
+            "smithy.api#required": {}
+          }
+        },
+        "cited_checks": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Checks whose answer cited the site.",
+            "smithy.api#required": {}
+          }
+        },
+        "mentioned_checks": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Checks whose answer named the site's brand or cited the site."
+          }
+        },
+        "citation_rate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Share of checks that cited the site, from 0 to 1.",
+            "smithy.api#required": {}
+          }
+        },
+        "engines": {
+          "target": "com.posthog.web_analytics#ContentAutopilotCitationGapEnginesList",
+          "traits": {
+            "smithy.api#documentation": "Engines that answered the prompt.",
+            "smithy.api#required": {}
+          }
+        },
+        "engines_not_citing": {
+          "target": "com.posthog.web_analytics#ContentAutopilotCitationGapEnginesNotCitingList",
+          "traits": {
+            "smithy.api#documentation": "Engines that never cited the site in the window.",
+            "smithy.api#required": {}
+          }
+        },
+        "competitor_urls": {
+          "target": "com.posthog.web_analytics#ContentAutopilotCitationGapCompetitorUrlsList",
+          "traits": {
+            "smithy.api#documentation": "Other sites' pages the engines cited, most frequent first.",
+            "smithy.api#required": {}
+          }
+        },
+        "competitor_domains": {
+          "target": "com.posthog.web_analytics#ContentAutopilotCitationGapCompetitorDomainsList",
+          "traits": {
+            "smithy.api#documentation": "Domains the engines cited instead, most frequent first.",
+            "smithy.api#required": {}
+          }
+        },
+        "engine_search_queries": {
+          "target": "com.posthog.web_analytics#ContentAutopilotCitationGapEngineSearchQueriesList",
+          "traits": {
+            "smithy.api#documentation": "Web searches the engines ran while answering.",
+            "smithy.api#required": {}
+          }
+        },
+        "our_cited_urls": {
+          "target": "com.posthog.web_analytics#ContentAutopilotCitationGapOurCitedUrlsList",
+          "traits": {
+            "smithy.api#documentation": "Site pages the engines cited when they did cite the site.",
+            "smithy.api#required": {}
+          }
+        },
+        "latest_answers": {
+          "target": "com.posthog.web_analytics#ContentAutopilotCitationGapLatestAnswersList",
+          "traits": {
+            "smithy.api#documentation": "Most recent answer per engine.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_checked_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the prompt was last checked, in ISO 8601.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics#ContentAutopilotCitationGapEnginesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Engines that answered the prompt."
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotCitationGapEnginesNotCitingList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Engines that never cited the site in the window."
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotCitationGapCompetitorUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Other sites' pages the engines cited, most frequent first."
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotCitationGapCompetitorDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Domains the engines cited instead, most frequent first."
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotCitationGapEngineSearchQueriesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Web searches the engines ran while answering."
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotCitationGapOurCitedUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Site pages the engines cited when they did cite the site."
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotEngineAnswer": {
+      "type": "structure",
+      "members": {
+        "engine": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Answer engine that gave the answer.",
+            "smithy.api#required": {}
+          }
+        },
+        "answer_text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The engine's most recent answer. Third-party text.",
+            "smithy.api#required": {}
+          }
+        },
+        "checked_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the answer was recorded, in ISO 8601.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics#ContentAutopilotCitationGapLatestAnswersList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.web_analytics#ContentAutopilotEngineAnswer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Most recent answer per engine."
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotOpportunityStatusEnum": {
+      "type": "enum",
+      "members": {
+        "NEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "new"
+          }
+        },
+        "DISMISSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dismissed"
+          }
+        },
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "DRAFTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "drafted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `new` - New\n* `dismissed` - Dismissed\n* `queued` - Queued\n* `drafted` - Drafted"
+      }
+    },
+    "com.posthog.web_analytics#DismissWebAnalyticsContentAutopilotOpportunity": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.web_analytics#DismissWebAnalyticsContentAutopilotOpportunityRequest"
+      },
+      "output": {
+        "target": "com.posthog.web_analytics#ContentAutopilotOpportunity"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/web_analytics_content_autopilot_opportunities/{id}/dismiss/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Dismiss a content opportunity\n\nMarks an opportunity as dismissed. It stays dismissed across refreshes, and list responses still include it with status `dismissed`."
+      }
+    },
+    "com.posthog.web_analytics#WebAnalyticsContentAutopilotOpportunitiesDraftRequestOpportunityIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Opportunities to draft, up to 5 at a time."
+      }
+    },
+    "com.posthog.web_analytics#WebAnalyticsContentAutopilotOpportunitiesDraftRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "profile_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Site profile the opportunities belong to.",
+            "smithy.api#required": {}
+          }
+        },
+        "opportunity_ids": {
+          "target": "com.posthog.web_analytics#WebAnalyticsContentAutopilotOpportunitiesDraftRequestOpportunityIdsList",
+          "traits": {
+            "smithy.api#documentation": "Opportunities to draft, up to 5 at a time.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.web_analytics#WebAnalyticsContentAutopilotOpportunitiesDraft": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.web_analytics#WebAnalyticsContentAutopilotOpportunitiesDraftRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/web_analytics_content_autopilot_opportunities/draft/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Draft content for opportunities\n\nStarts a run that researches and drafts content for the selected opportunities."
+      }
+    },
+    "com.posthog.web_analytics#RefreshWebAnalyticsContentAutopilotOpportunityRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "profile_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Site profile to refresh opportunities for.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.web_analytics#RefreshWebAnalyticsContentAutopilotOpportunityResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.web_analytics#ContentAutopilotOpportunity"
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics#RefreshWebAnalyticsContentAutopilotOpportunityResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.web_analytics#RefreshWebAnalyticsContentAutopilotOpportunityResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.web_analytics#RefreshWebAnalyticsContentAutopilotOpportunity": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.web_analytics#RefreshWebAnalyticsContentAutopilotOpportunityRequest"
+      },
+      "output": {
+        "target": "com.posthog.web_analytics#RefreshWebAnalyticsContentAutopilotOpportunityResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/web_analytics_content_autopilot_opportunities/refresh/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Refresh content opportunities\n\nRe-reads AI citation checks and updates the site's content opportunities. Makes no model calls."
+      }
+    },
+    "com.posthog.web_analytics#WebAnalyticsContentAutopilotProfilesDiscoverRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public site URL to inspect for onboarding defaults.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotSiteDiscoveryResponse": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Site name inferred from the homepage or hostname.",
+            "smithy.api#required": {}
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Normalized site origin.",
+            "smithy.api#required": {}
+          }
+        },
+        "source_urls": {
+          "target": "com.posthog.web_analytics#ContentAutopilotSiteDiscoveryResponseSourceUrlsList",
+          "traits": {
+            "smithy.api#documentation": "Detected sitemap URLs or an editable conventional suggestion.",
+            "smithy.api#required": {}
+          }
+        },
+        "content_boundaries": {
+          "target": "com.posthog.web_analytics#ContentAutopilotSiteDiscoveryResponseContentBoundariesList",
+          "traits": {
+            "smithy.api#documentation": "Editable same-origin path boundaries.",
+            "smithy.api#required": {}
+          }
+        },
+        "sitemap_detected": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether at least one sitemap was verified.",
+            "smithy.api#required": {}
+          }
+        },
+        "warnings": {
+          "target": "com.posthog.web_analytics#ContentAutopilotSiteDiscoveryResponseWarningsList",
+          "traits": {
+            "smithy.api#documentation": "Non-blocking discovery warnings.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics#ContentAutopilotSiteDiscoveryResponseSourceUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Detected sitemap URLs or an editable conventional suggestion."
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotSiteDiscoveryResponseContentBoundariesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Editable same-origin path boundaries."
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotSiteDiscoveryResponseWarningsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Non-blocking discovery warnings."
+      }
+    },
+    "com.posthog.web_analytics#WebAnalyticsContentAutopilotProfilesDiscover": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.web_analytics#WebAnalyticsContentAutopilotProfilesDiscoverRequest"
+      },
+      "output": {
+        "target": "com.posthog.web_analytics#ContentAutopilotSiteDiscoveryResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/web_analytics_content_autopilot_profiles/discover/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Discover content autopilot site settings\n\nInspects a public site for its canonical origin, name, and sitemap URLs."
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotPackage": {
+      "type": "structure",
+      "members": {
+        "file_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Repository-relative Markdown or MDX file path.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Content title.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Search description or summary.",
+            "smithy.api#required": {}
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL slug.",
+            "smithy.api#required": {}
+          }
+        },
+        "frontmatter": {
+          "target": "com.posthog.web_analytics#ContentAutopilotPackageFrontmatterList",
+          "traits": {
+            "smithy.api#documentation": "Ordered frontmatter entries.",
+            "smithy.api#required": {}
+          }
+        },
+        "internal_links": {
+          "target": "com.posthog.web_analytics#ContentAutopilotPackageInternalLinksList",
+          "traits": {
+            "smithy.api#documentation": "Validated same-origin internal links included in the content.",
+            "smithy.api#required": {}
+          }
+        },
+        "source_notes": {
+          "target": "com.posthog.web_analytics#ContentAutopilotPackageSourceNotesList",
+          "traits": {
+            "smithy.api#documentation": "Portable source notes included with the export.",
+            "smithy.api#required": {}
+          }
+        },
+        "json_ld": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-LD structured data to embed in the page, such as an FAQPage document."
+          }
+        },
+        "llms_txt_line": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Suggested llms.txt entry for the page."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics#ContentAutopilotFrontmatterEntry": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Frontmatter field name.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Serialized frontmatter value.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics#ContentAutopilotPackageFrontmatterList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.web_analytics#ContentAutopilotFrontmatterEntry"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ordered frontmatter entries."
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotPackageInternalLinksList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Validated same-origin internal links included in the content."
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotPackageSourceNotesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Portable source notes included with the export."
+      }
+    },
+    "com.posthog.web_analytics#EditWebAnalyticsContentAutopilotProposalRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this content autopilot proposal."
+          }
+        },
+        "proposed_markdown": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Edited Markdown to save for review.",
+            "smithy.api#required": {}
+          }
+        },
+        "content_package": {
+          "target": "com.posthog.web_analytics#ContentAutopilotPackage",
+          "traits": {
+            "smithy.api#documentation": "Updated structured package to save with the proposal.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotProposal": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Run that generated this proposal.",
+            "smithy.api#required": {}
+          }
+        },
+        "proposal_type": {
+          "target": "com.posthog.web_analytics#ContentAutopilotProposalProposalTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "New article or bounded page improvement.\n\n* `new_content` - New content\n* `page_improvement` - Page improvement",
+            "smithy.api#required": {}
+          }
+        },
+        "lifecycle_status": {
+          "target": "com.posthog.web_analytics#ContentAutopilotProposalLifecycleStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Review and export lifecycle status.\n\n* `generating` - Generating\n* `ready_for_review` - Ready for review\n* `rejected` - Rejected\n* `exported` - Exported\n* `failed` - Failed",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Review title for this proposal.",
+            "smithy.api#required": {}
+          }
+        },
+        "target_query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Primary query or topic targeted by this proposal.",
+            "smithy.api#required": {}
+          }
+        },
+        "target_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Existing or intended public URL.",
+            "smithy.api#required": {}
+          }
+        },
+        "evidence": {
+          "target": "com.posthog.web_analytics#ContentAutopilotProposalEvidenceList",
+          "traits": {
+            "smithy.api#documentation": "Performance evidence for this proposal.",
+            "smithy.api#required": {}
+          }
+        },
+        "validation_report": {
+          "target": "com.posthog.web_analytics#ContentAutopilotValidationReport",
+          "traits": {
+            "smithy.api#documentation": "Blocking and advisory validation results.",
+            "smithy.api#required": {}
+          }
+        },
+        "content_package": {
+          "target": "com.posthog.web_analytics#ContentAutopilotPackage",
+          "traits": {
+            "smithy.api#documentation": "Structured package that accompanies the exported Markdown.",
+            "smithy.api#required": {}
+          }
+        },
+        "original_markdown": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Existing content for page-improvement diffs.",
+            "smithy.api#required": {}
+          }
+        },
+        "proposed_markdown": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full proposed Markdown after edits.",
+            "smithy.api#required": {}
+          }
+        },
+        "brief": {
+          "target": "com.posthog.web_analytics#ContentAutopilotBrief",
+          "traits": {
+            "smithy.api#documentation": "Content brief the draft was written from.",
+            "smithy.api#required": {}
+          }
+        },
+        "source_ledger": {
+          "target": "com.posthog.web_analytics#ContentAutopilotProposalSourceLedgerList",
+          "traits": {
+            "smithy.api#documentation": "Factual claims in the draft and the site pages that support them.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics#ContentAutopilotProposalLifecycleStatusEnum": {
+      "type": "enum",
+      "members": {
+        "GENERATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "generating"
+          }
+        },
+        "READY_FOR_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready_for_review"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rejected"
+          }
+        },
+        "EXPORTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "exported"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `generating` - Generating\n* `ready_for_review` - Ready for review\n* `rejected` - Rejected\n* `exported` - Exported\n* `failed` - Failed"
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotProposalEvidenceList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.web_analytics#ContentAutopilotEvidence"
+      },
+      "traits": {
+        "smithy.api#documentation": "Performance evidence for this proposal."
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotValidationReport": {
+      "type": "structure",
+      "members": {
+        "passed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether every blocking validation passed.",
+            "smithy.api#required": {}
+          }
+        },
+        "checks": {
+          "target": "com.posthog.web_analytics#ContentAutopilotValidationReportChecksList",
+          "traits": {
+            "smithy.api#documentation": "Factual, brand, intent, originality, linking, crawlability, and schema checks.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics#ContentAutopilotValidationCheck": {
+      "type": "structure",
+      "members": {
+        "check_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable identifier for the validation gate.",
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable validation name.",
+            "smithy.api#required": {}
+          }
+        },
+        "passed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the proposal passed this validation.",
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Validation result and any action needed.",
+            "smithy.api#required": {}
+          }
+        },
+        "blocking": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether failure prevents export.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics#ContentAutopilotValidationReportChecksList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.web_analytics#ContentAutopilotValidationCheck"
+      },
+      "traits": {
+        "smithy.api#documentation": "Factual, brand, intent, originality, linking, crawlability, and schema checks."
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotBrief": {
+      "type": "structure",
+      "members": {
+        "intent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What the person asking wants to know or decide."
+          }
+        },
+        "audience": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Who the content is for."
+          }
+        },
+        "recommended_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Whether the brief recommends new_content or page_improvement."
+          }
+        },
+        "target_page": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Site page the brief chose to improve. Empty for a new page."
+          }
+        },
+        "site_pages_to_read": {
+          "target": "com.posthog.web_analytics#ContentAutopilotBriefSitePagesToReadList",
+          "traits": {
+            "smithy.api#documentation": "Site pages the brief asked to read for facts."
+          }
+        },
+        "competitors_to_research": {
+          "target": "com.posthog.web_analytics#ContentAutopilotBriefCompetitorsToResearchList",
+          "traits": {
+            "smithy.api#documentation": "Products the brief asked to research for a comparison."
+          }
+        },
+        "working_title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Working title for the page."
+          }
+        },
+        "outline": {
+          "target": "com.posthog.web_analytics#ContentAutopilotBriefOutlineList",
+          "traits": {
+            "smithy.api#documentation": "Planned sections, in order."
+          }
+        },
+        "questions_to_answer": {
+          "target": "com.posthog.web_analytics#ContentAutopilotBriefQuestionsToAnswerList",
+          "traits": {
+            "smithy.api#documentation": "Questions the page must answer."
+          }
+        },
+        "competitor_coverage": {
+          "target": "com.posthog.web_analytics#ContentAutopilotBriefCompetitorCoverageList",
+          "traits": {
+            "smithy.api#documentation": "Topics the cited competitor pages cover that the site's pages don't."
+          }
+        },
+        "engine_answer_summary": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What AI answer engines currently say, including what they get wrong."
+          }
+        },
+        "disambiguation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What the question means, when AI answer engines misread which product or company it asks about."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics#ContentAutopilotBriefSitePagesToReadList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Site pages the brief asked to read for facts."
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotBriefCompetitor": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Product to compare against.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The product's own page to research.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics#ContentAutopilotBriefCompetitorsToResearchList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.web_analytics#ContentAutopilotBriefCompetitor"
+      },
+      "traits": {
+        "smithy.api#documentation": "Products the brief asked to research for a comparison."
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotBriefOutlineList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Planned sections, in order."
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotBriefQuestionsToAnswerList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Questions the page must answer."
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotBriefCompetitorCoverageList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Topics the cited competitor pages cover that the site's pages don't."
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotSourceLedgerEntry": {
+      "type": "structure",
+      "members": {
+        "claim": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Factual claim the draft makes.",
+            "smithy.api#required": {}
+          }
+        },
+        "source_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Page that supports the claim.",
+            "smithy.api#required": {}
+          }
+        },
+        "quote": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short quote from the source page.",
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "com.posthog.web_analytics#ContentAutopilotSourceLedgerEntryKindEnum",
+          "traits": {
+            "smithy.api#documentation": "Whether the source is one of the site's pages or a competitor's own page.\n\n* `site` - site\n* `competitor` - competitor"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics#ContentAutopilotSourceLedgerEntryKindEnum": {
+      "type": "enum",
+      "members": {
+        "SITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "site"
+          }
+        },
+        "COMPETITOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "competitor"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `site` - site\n* `competitor` - competitor"
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotProposalSourceLedgerList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.web_analytics#ContentAutopilotSourceLedgerEntry"
+      },
+      "traits": {
+        "smithy.api#documentation": "Factual claims in the draft and the site pages that support them."
+      }
+    },
+    "com.posthog.web_analytics#EditWebAnalyticsContentAutopilotProposal": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.web_analytics#EditWebAnalyticsContentAutopilotProposalRequest"
+      },
+      "output": {
+        "target": "com.posthog.web_analytics#ContentAutopilotProposal"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/web_analytics_content_autopilot_proposals/{id}/edit/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Edit a content proposal\n\nSaves reviewed Markdown and its structured package without publishing it."
+      }
+    },
+    "com.posthog.web_analytics#ExportWebAnalyticsContentAutopilotProposalRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this content autopilot proposal."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotExportResponse": {
+      "type": "structure",
+      "members": {
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Suggested export filename.",
+            "smithy.api#required": {}
+          }
+        },
+        "markdown": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Validated Markdown content.",
+            "smithy.api#required": {}
+          }
+        },
+        "content_package": {
+          "target": "com.posthog.web_analytics#ContentAutopilotPackage",
+          "traits": {
+            "smithy.api#documentation": "Structured JSON package for a CMS adapter.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics#ExportWebAnalyticsContentAutopilotProposal": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.web_analytics#ExportWebAnalyticsContentAutopilotProposalRequest"
+      },
+      "output": {
+        "target": "com.posthog.web_analytics#ContentAutopilotExportResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/web_analytics_content_autopilot_proposals/{id}/export/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Export a content proposal\n\nReturns validated Markdown and structured JSON without publishing it."
+      }
+    },
+    "com.posthog.web_analytics#RegenerateWebAnalyticsContentAutopilotProposalRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this content autopilot proposal."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.web_analytics#RegenerateWebAnalyticsContentAutopilotProposal": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.web_analytics#RegenerateWebAnalyticsContentAutopilotProposalRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/web_analytics_content_autopilot_proposals/{id}/regenerate/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Regenerate a content proposal\n\nReturns a proposal to generation while keeping its previous result inspectable in history."
+      }
+    },
+    "com.posthog.web_analytics#RejectWebAnalyticsContentAutopilotProposalRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this content autopilot proposal."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.web_analytics#RejectWebAnalyticsContentAutopilotProposal": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.web_analytics#RejectWebAnalyticsContentAutopilotProposalRequest"
+      },
+      "output": {
+        "target": "com.posthog.web_analytics#ContentAutopilotProposal"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/web_analytics_content_autopilot_proposals/{id}/reject/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Reject a content proposal\n\nRejects a proposal without changing the public site."
+      }
+    },
+    "com.posthog.web_analytics#CancelWebAnalyticsContentAutopilotRunRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this content autopilot run."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotRun": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "profile_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Site profile used by this run.",
+            "smithy.api#required": {}
+          }
+        },
+        "run_status": {
+          "target": "com.posthog.web_analytics#ContentAutopilotRunRunStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Current durable workflow status.\n\n* `pending` - Pending\n* `generating` - Generating\n* `ready_for_review` - Ready for review\n* `completed` - Completed\n* `canceled` - Canceled\n* `failed` - Failed",
+            "smithy.api#required": {}
+          }
+        },
+        "input_snapshot": {
+          "target": "com.posthog.web_analytics#ContentAutopilotSnapshot",
+          "traits": {
+            "smithy.api#documentation": "Immutable inputs captured at run start.",
+            "smithy.api#required": {}
+          }
+        },
+        "errors": {
+          "target": "com.posthog.web_analytics#ContentAutopilotRunErrorsList",
+          "traits": {
+            "smithy.api#documentation": "Inspectable workflow errors from this run.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "completed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics#ContentAutopilotRunRunStatusEnum": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "GENERATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "generating"
+          }
+        },
+        "READY_FOR_REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready_for_review"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "canceled"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `pending` - Pending\n* `generating` - Generating\n* `ready_for_review` - Ready for review\n* `completed` - Completed\n* `canceled` - Canceled\n* `failed` - Failed"
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotSnapshot": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Site domain used for the run."
+          }
+        },
+        "confidence": {
+          "target": "com.posthog.web_analytics#ContentAutopilotSnapshotConfidenceEnum",
+          "traits": {
+            "smithy.api#documentation": "Confidence level based on the available data sources.\n\n* `standard` - Standard\n* `lower` - Lower"
+          }
+        },
+        "source_urls": {
+          "target": "com.posthog.web_analytics#ContentAutopilotSnapshotSourceUrlsList",
+          "traits": {
+            "smithy.api#documentation": "Public sources authorized for this run."
+          }
+        },
+        "content_boundaries": {
+          "target": "com.posthog.web_analytics#ContentAutopilotSnapshotContentBoundariesList",
+          "traits": {
+            "smithy.api#documentation": "Site paths authorized for this run."
+          }
+        },
+        "brand_rules": {
+          "target": "com.posthog.web_analytics#ContentAutopilotSnapshotBrandRulesList",
+          "traits": {
+            "smithy.api#documentation": "Editorial rules captured for this run."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics#ContentAutopilotSnapshotConfidenceEnum": {
+      "type": "enum",
+      "members": {
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard"
+          }
+        },
+        "LOWER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lower"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `standard` - Standard\n* `lower` - Lower"
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotSnapshotSourceUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Public sources authorized for this run."
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotSnapshotContentBoundariesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Site paths authorized for this run."
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotSnapshotBrandRulesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Editorial rules captured for this run."
+      }
+    },
+    "com.posthog.web_analytics#ContentAutopilotError": {
+      "type": "structure",
+      "members": {
+        "error_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable machine-readable error code.",
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error explanation suitable for the review workspace.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics#ContentAutopilotRunErrorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.web_analytics#ContentAutopilotError"
+      },
+      "traits": {
+        "smithy.api#documentation": "Inspectable workflow errors from this run."
+      }
+    },
+    "com.posthog.web_analytics#CancelWebAnalyticsContentAutopilotRun": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.web_analytics#CancelWebAnalyticsContentAutopilotRunRequest"
+      },
+      "output": {
+        "target": "com.posthog.web_analytics#ContentAutopilotRun"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/web_analytics_content_autopilot_runs/{id}/cancel/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Cancel a content autopilot run\n\nStops a pending or generating run without creating content writes."
+      }
+    },
+    "com.posthog.web_analytics#StartWebAnalyticsContentAutopilotRunRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "profile_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Site profile to research.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.web_analytics#StartWebAnalyticsContentAutopilotRun": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.web_analytics#StartWebAnalyticsContentAutopilotRunRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/web_analytics_content_autopilot_runs/start/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Start a content autopilot run\n\nCaptures the current profile and creates one pending on-demand content research run."
+      }
+    },
     "com.posthog.web_analytics#BadRequest": {
       "type": "structure",
       "members": {},
@@ -714,6 +2576,36 @@
         },
         {
           "target": "com.posthog.web_analytics#WebAnalyticsWeeklyDigest"
+        },
+        {
+          "target": "com.posthog.web_analytics#DismissWebAnalyticsContentAutopilotOpportunity"
+        },
+        {
+          "target": "com.posthog.web_analytics#WebAnalyticsContentAutopilotOpportunitiesDraft"
+        },
+        {
+          "target": "com.posthog.web_analytics#RefreshWebAnalyticsContentAutopilotOpportunity"
+        },
+        {
+          "target": "com.posthog.web_analytics#WebAnalyticsContentAutopilotProfilesDiscover"
+        },
+        {
+          "target": "com.posthog.web_analytics#EditWebAnalyticsContentAutopilotProposal"
+        },
+        {
+          "target": "com.posthog.web_analytics#ExportWebAnalyticsContentAutopilotProposal"
+        },
+        {
+          "target": "com.posthog.web_analytics#RegenerateWebAnalyticsContentAutopilotProposal"
+        },
+        {
+          "target": "com.posthog.web_analytics#RejectWebAnalyticsContentAutopilotProposal"
+        },
+        {
+          "target": "com.posthog.web_analytics#CancelWebAnalyticsContentAutopilotRun"
+        },
+        {
+          "target": "com.posthog.web_analytics#StartWebAnalyticsContentAutopilotRun"
         }
       ],
       "traits": {

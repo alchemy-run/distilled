@@ -206,9 +206,7 @@ export const ApiOverviewDomains = /*@__PURE__*/ S.suspend(() =>
     actions_inbound: S.optional(ApiOverviewDomainsActionsInbound),
     artifact_attestations: S.optional(ApiOverviewDomainsArtifactAttestations),
   }),
-).annotate({
-  identifier: "ApiOverviewDomains",
-}) as any as S.Schema<ApiOverviewDomains>;
+).annotate({ identifier: "ApiOverviewDomains" }) as any as S.Schema<ApiOverviewDomains>;
 
 /** Api Overview */
 export interface ApiOverview {
@@ -257,9 +255,7 @@ export const ApiOverview = /*@__PURE__*/ S.suspend(() =>
 export interface GetAllVersionsRequest {}
 export const GetAllVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/versions", code: 200 })),
-).annotate({
-  identifier: "GetAllVersionsRequest",
-}) as any as S.Schema<GetAllVersionsRequest>;
+).annotate({ identifier: "GetAllVersionsRequest" }) as any as S.Schema<GetAllVersionsRequest>;
 
 export type GetAllVersionsResponseBodyList = Array<string>;
 export const GetAllVersionsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -269,9 +265,7 @@ export const GetAllVersionsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetAllVersionsResponse = GetAllVersionsResponseBodyList;
 export const GetAllVersionsResponse = /*@__PURE__*/ S.suspend(() =>
   GetAllVersionsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetAllVersionsResponse",
-}) as any as S.Schema<GetAllVersionsResponse>;
+).annotate({ identifier: "GetAllVersionsResponse" }) as any as S.Schema<GetAllVersionsResponse>;
 
 export interface GetOctocatRequest {
   /** The words to show in Octocat's speech bubble */
@@ -281,9 +275,7 @@ export const GetOctocatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     s: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/octocat", code: 200 })),
-).annotate({
-  identifier: "GetOctocatRequest",
-}) as any as S.Schema<GetOctocatRequest>;
+).annotate({ identifier: "GetOctocatRequest" }) as any as S.Schema<GetOctocatRequest>;
 
 export interface GetOctocatResponse {}
 export const GetOctocatResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

@@ -3276,6 +3276,9 @@
         },
         {
           "target": "com.amazonaws.autoscaling#ServiceLinkedRoleFailure"
+        },
+        {
+          "target": "aws.synthetic#InvalidIamInstanceProfile"
         }
       ],
       "traits": {
@@ -12034,6 +12037,9 @@
         },
         {
           "target": "com.amazonaws.autoscaling#ServiceLinkedRoleFailure"
+        },
+        {
+          "target": "aws.synthetic#InvalidIamInstanceProfile"
         }
       ],
       "traits": {
@@ -12486,6 +12492,18 @@
     },
     "com.amazonaws.autoscaling#ZonalShiftEnabled": {
       "type": "boolean"
+    },
+    "aws.synthetic#InvalidIamInstanceProfile": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "aws.codegen#synthetic": {
+          "from": "ValidationError",
+          "message": {
+            "includes": "Invalid IAM Instance Profile"
+          }
+        }
+      }
     },
     "aws.synthetic#AutoScalingGroupNotFound": {
       "type": "structure",

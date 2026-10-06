@@ -138,11 +138,7 @@ export const GetPullRequestCreationCapForOrgRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     org: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/interaction-limits/pulls/creation-cap",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/interaction-limits/pulls/creation-cap", code: 200 }),
   ),
 ).annotate({
   identifier: "GetPullRequestCreationCapForOrgRequest",
@@ -153,11 +149,14 @@ export interface GetPullRequestCreationCapForOrgResponse {
   enabled: boolean;
   /** The maximum number of open pull requests a user can have at one time */
   max_open_pull_requests: number;
+  /** Whether draft pull requests count toward the pull request creation cap */
+  include_drafts?: boolean;
 }
 export const GetPullRequestCreationCapForOrgResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.Boolean,
     max_open_pull_requests: S.Number,
+    include_drafts: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "GetPullRequestCreationCapForOrgResponse",
@@ -189,11 +188,14 @@ export interface GetPullRequestCreationCapForRepoResponse {
   enabled: boolean;
   /** The maximum number of open pull requests a user can have at one time */
   max_open_pull_requests: number;
+  /** Whether draft pull requests count toward the pull request creation cap */
+  include_drafts?: boolean;
 }
 export const GetPullRequestCreationCapForRepoResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.Boolean,
     max_open_pull_requests: S.Number,
+    include_drafts: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "GetPullRequestCreationCapForRepoResponse",
@@ -222,9 +224,7 @@ export const InteractionLimitResponse = /*@__PURE__*/ S.suspend(() =>
     origin: S.String,
     expires_at: S.String,
   }),
-).annotate({
-  identifier: "InteractionLimitResponse",
-}) as any as S.Schema<InteractionLimitResponse>;
+).annotate({ identifier: "InteractionLimitResponse" }) as any as S.Schema<InteractionLimitResponse>;
 
 export type GetRestrictionsForAuthenticatedUserResponseBody = InteractionLimitResponse | unknown;
 export const GetRestrictionsForAuthenticatedUserResponseBody =
@@ -271,13 +271,7 @@ export const GetRestrictionsForRepoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/interaction-limits",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/interaction-limits", code: 200 })),
 ).annotate({
   identifier: "GetRestrictionsForRepoRequest",
 }) as any as S.Schema<GetRestrictionsForRepoRequest>;
@@ -351,13 +345,7 @@ export interface RemoveRestrictionsForOrgRequest {
 export const RemoveRestrictionsForOrgRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/interaction-limits",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/orgs/{org}/interaction-limits", code: 200 })),
 ).annotate({
   identifier: "RemoveRestrictionsForOrgRequest",
 }) as any as S.Schema<RemoveRestrictionsForOrgRequest>;
@@ -379,13 +367,7 @@ export const RemoveRestrictionsForRepoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/interaction-limits",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/interaction-limits", code: 200 })),
 ).annotate({
   identifier: "RemoveRestrictionsForRepoRequest",
 }) as any as S.Schema<RemoveRestrictionsForRepoRequest>;
@@ -481,13 +463,7 @@ export const SetRestrictionsForRepoRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     limit: InteractionGroup,
     expiry: S.optional(InteractionExpiry),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/repos/{owner}/{repo}/interaction-limits",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/interaction-limits", code: 200 })),
 ).annotate({
   identifier: "SetRestrictionsForRepoRequest",
 }) as any as S.Schema<SetRestrictionsForRepoRequest>;
@@ -499,12 +475,15 @@ export interface UpdatePullRequestCreationCapForOrgRequest {
   enabled: boolean;
   /** The maximum number of open pull requests a user can have at one time */
   max_open_pull_requests?: number;
+  /** Whether draft pull requests count toward the pull request creation cap */
+  include_drafts?: boolean;
 }
 export const UpdatePullRequestCreationCapForOrgRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     enabled: S.Boolean,
     max_open_pull_requests: S.optional(S.Number),
+    include_drafts: S.optional(S.Boolean),
   }).pipe(
     T.Http({
       method: "PATCH",
@@ -521,11 +500,14 @@ export interface UpdatePullRequestCreationCapForOrgResponse {
   enabled: boolean;
   /** The maximum number of open pull requests a user can have at one time */
   max_open_pull_requests: number;
+  /** Whether draft pull requests count toward the pull request creation cap */
+  include_drafts?: boolean;
 }
 export const UpdatePullRequestCreationCapForOrgResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.Boolean,
     max_open_pull_requests: S.Number,
+    include_drafts: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "UpdatePullRequestCreationCapForOrgResponse",
@@ -540,6 +522,8 @@ export interface UpdatePullRequestCreationCapForRepoRequest {
   enabled: boolean;
   /** The maximum number of open pull requests a user can have at one time */
   max_open_pull_requests?: number;
+  /** Whether draft pull requests count toward the pull request creation cap */
+  include_drafts?: boolean;
 }
 export const UpdatePullRequestCreationCapForRepoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -547,6 +531,7 @@ export const UpdatePullRequestCreationCapForRepoRequest = /*@__PURE__*/ S.suspen
     repo: S.String.pipe(T.Label()),
     enabled: S.Boolean,
     max_open_pull_requests: S.optional(S.Number),
+    include_drafts: S.optional(S.Boolean),
   }).pipe(
     T.Http({
       method: "PATCH",
@@ -563,11 +548,14 @@ export interface UpdatePullRequestCreationCapForRepoResponse {
   enabled: boolean;
   /** The maximum number of open pull requests a user can have at one time */
   max_open_pull_requests: number;
+  /** Whether draft pull requests count toward the pull request creation cap */
+  include_drafts?: boolean;
 }
 export const UpdatePullRequestCreationCapForRepoResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.Boolean,
     max_open_pull_requests: S.Number,
+    include_drafts: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "UpdatePullRequestCreationCapForRepoResponse",

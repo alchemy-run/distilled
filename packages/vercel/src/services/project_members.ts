@@ -26,6 +26,15 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+export class NotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 404 }],
+  ) {}
+
 /** The project role of the member that will be added. */
 export type AddProjectMemberRequestRole = "ADMIN" | "PROJECT_VIEWER" | "PROJECT_DEVELOPER";
 export const AddProjectMemberRequestRole = S.String;
@@ -55,16 +64,8 @@ export const AddProjectMemberRequest = /*@__PURE__*/ S.suspend(() =>
     username: S.optional(S.String),
     email: S.optional(S.String),
     role: AddProjectMemberRequestRole,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/projects/{idOrName}/members",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AddProjectMemberRequest",
-}) as any as S.Schema<AddProjectMemberRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v1/projects/{idOrName}/members", code: 200 })),
+).annotate({ identifier: "AddProjectMemberRequest" }) as any as S.Schema<AddProjectMemberRequest>;
 
 export interface AddProjectMemberResponse {
   id: string;
@@ -73,9 +74,7 @@ export const AddProjectMemberResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }),
-).annotate({
-  identifier: "AddProjectMemberResponse",
-}) as any as S.Schema<AddProjectMemberResponse>;
+).annotate({ identifier: "AddProjectMemberResponse" }) as any as S.Schema<AddProjectMemberResponse>;
 
 export interface GetProjectMembersRequest {
   /** The ID or name of the Project. */
@@ -102,24 +101,8 @@ export const GetProjectMembersRequest = /*@__PURE__*/ S.suspend(() =>
     search: S.optional(S.String.pipe(T.Query())),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/projects/{idOrName}/members",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetProjectMembersRequest",
-}) as any as S.Schema<GetProjectMembersRequest>;
-
-/** Role of this user in the project. */
-export type GetProjectMembersResponseBodyCase1MembersItemRole =
-  | "ADMIN"
-  | "PROJECT_DEVELOPER"
-  | "PROJECT_GUEST"
-  | "PROJECT_VIEWER";
-export const GetProjectMembersResponseBodyCase1MembersItemRole = S.String;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/projects/{idOrName}/members", code: 200 })),
+).annotate({ identifier: "GetProjectMembersRequest" }) as any as S.Schema<GetProjectMembersRequest>;
 
 /** Role of this user in the project. */
 export type GetProjectMembersResponseBodyCase1MembersItemComputedProjectRole =
@@ -128,6 +111,14 @@ export type GetProjectMembersResponseBodyCase1MembersItemComputedProjectRole =
   | "PROJECT_GUEST"
   | "PROJECT_VIEWER";
 export const GetProjectMembersResponseBodyCase1MembersItemComputedProjectRole = S.String;
+
+/** Role of this user in the project. */
+export type GetProjectMembersResponseBodyCase1MembersItemRole =
+  | "ADMIN"
+  | "PROJECT_DEVELOPER"
+  | "PROJECT_GUEST"
+  | "PROJECT_VIEWER";
+export const GetProjectMembersResponseBodyCase1MembersItemRole = S.String;
 
 /** The role of this user in the team. */
 export type GetProjectMembersResponseBodyCase1MembersItemTeamRole =
@@ -144,34 +135,34 @@ export const GetProjectMembersResponseBodyCase1MembersItemTeamRole = S.String;
 export interface GetProjectMembersResponseBodyCase1MembersItem {
   /** ID of the file for the Avatar of this member. */
   avatar?: string;
-  /** The email of this member. */
-  email: string;
-  /** Role of this user in the project. */
-  role: GetProjectMembersResponseBodyCase1MembersItemRole;
   /** Role of this user in the project. */
   computedProjectRole: GetProjectMembersResponseBodyCase1MembersItemComputedProjectRole;
+  /** Timestamp in milliseconds when this member was added. */
+  createdAt: number;
+  /** The email of this member. */
+  email: string;
+  /** The name of this user. */
+  name?: string;
+  /** Role of this user in the project. */
+  role: GetProjectMembersResponseBodyCase1MembersItemRole;
+  /** The role of this user in the team. */
+  teamRole: GetProjectMembersResponseBodyCase1MembersItemTeamRole;
   /** The ID of this user. */
   uid: string;
   /** The unique username of this user. */
   username: string;
-  /** The name of this user. */
-  name?: string;
-  /** Timestamp in milliseconds when this member was added. */
-  createdAt: number;
-  /** The role of this user in the team. */
-  teamRole: GetProjectMembersResponseBodyCase1MembersItemTeamRole;
 }
 export const GetProjectMembersResponseBodyCase1MembersItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     avatar: S.optional(S.String),
-    email: S.String,
-    role: GetProjectMembersResponseBodyCase1MembersItemRole,
     computedProjectRole: GetProjectMembersResponseBodyCase1MembersItemComputedProjectRole,
+    createdAt: S.Number,
+    email: S.String,
+    name: S.optional(S.String),
+    role: GetProjectMembersResponseBodyCase1MembersItemRole,
+    teamRole: GetProjectMembersResponseBodyCase1MembersItemTeamRole,
     uid: S.String,
     username: S.String,
-    name: S.optional(S.String),
-    createdAt: S.Number,
-    teamRole: GetProjectMembersResponseBodyCase1MembersItemTeamRole,
   }),
 ).annotate({
   identifier: "GetProjectMembersResponseBodyCase1MembersItem",
@@ -184,9 +175,9 @@ export const GetProjectMembersResponseBodyCase1MembersList = /*@__PURE__*/ S.Arr
 ) as any as S.Schema<GetProjectMembersResponseBodyCase1MembersList>;
 
 export interface GetProjectMembersResponseBodyCase1Pagination {
-  hasNext: boolean;
   /** Amount of items in the current page. */
   count: number;
+  hasNext: boolean;
   /** Timestamp that must be used to request the next page. */
   next: number | null;
   /** Timestamp that must be used to request the previous page. */
@@ -194,8 +185,8 @@ export interface GetProjectMembersResponseBodyCase1Pagination {
 }
 export const GetProjectMembersResponseBodyCase1Pagination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    hasNext: S.Boolean,
     count: S.Number,
+    hasNext: S.Boolean,
     next: S.NullOr(S.Number),
     prev: S.NullOr(S.Number),
   }),
@@ -244,13 +235,7 @@ export const RemoveProjectMemberRequest = /*@__PURE__*/ S.suspend(() =>
     uid: S.String.pipe(T.Label()),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/projects/{idOrName}/members/{uid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/projects/{idOrName}/members/{uid}", code: 200 })),
 ).annotate({
   identifier: "RemoveProjectMemberRequest",
 }) as any as S.Schema<RemoveProjectMemberRequest>;
@@ -266,7 +251,7 @@ export const RemoveProjectMemberResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "RemoveProjectMemberResponse",
 }) as any as S.Schema<RemoveProjectMemberResponse>;
 
-export type AddProjectMemberError = BadRequest | Forbidden | VercelOpError;
+export type AddProjectMemberError = BadRequest | Forbidden | NotFound | VercelOpError;
 /** Adds a new member to a project. Adds a new member to the project. */
 export const addProjectMember: API.OperationMethod<
   AddProjectMemberRequest,
@@ -276,12 +261,12 @@ export const addProjectMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AddProjectMemberRequest,
   output: AddProjectMemberResponse,
-  errors: [BadRequest, Forbidden],
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetProjectMembersError = BadRequest | Forbidden | VercelOpError;
+export type GetProjectMembersError = BadRequest | Forbidden | NotFound | VercelOpError;
 /** List project members Lists all members of a project. */
 export const getProjectMembers: API.OperationMethod<
   GetProjectMembersRequest,
@@ -291,12 +276,12 @@ export const getProjectMembers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectMembersRequest,
   output: GetProjectMembersResponse,
-  errors: [BadRequest, Forbidden],
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
 
-export type RemoveProjectMemberError = BadRequest | Forbidden | VercelOpError;
+export type RemoveProjectMemberError = BadRequest | Forbidden | NotFound | VercelOpError;
 /** Remove a Project Member Remove a member from a specific project */
 export const removeProjectMember: API.OperationMethod<
   RemoveProjectMemberRequest,
@@ -306,7 +291,7 @@ export const removeProjectMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RemoveProjectMemberRequest,
   output: RemoveProjectMemberResponse,
-  errors: [BadRequest, Forbidden],
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));

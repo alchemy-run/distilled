@@ -35,6 +35,291 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** * `issue_created` - issue_created * `issue_reopened` - issue_reopened * `issue_spiking` - issue_spiking * `issue_assigned` - issue_assigned */
+export type TriggersEnum = "issue_created" | "issue_reopened" | "issue_spiking" | "issue_assigned";
+export const TriggersEnum = S.String;
+
+/** Issue lifecycle events that open a notification thread for an issue. */
+export type CreateErrorTrackingAlertRequestTriggersList = Array<TriggersEnum | (string & {})>;
+export const CreateErrorTrackingAlertRequestTriggersList = /*@__PURE__*/ S.Array(
+  TriggersEnum,
+) as any as S.Schema<CreateErrorTrackingAlertRequestTriggersList>;
+
+export type ErrorTrackingAlertFiltersInputEventsItemMap = { [key: string]: unknown | undefined };
+export const ErrorTrackingAlertFiltersInputEventsItemMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<ErrorTrackingAlertFiltersInputEventsItemMap>;
+
+/** Event filters a transition must match. */
+export type ErrorTrackingAlertFiltersInputEventsList =
+  Array<ErrorTrackingAlertFiltersInputEventsItemMap>;
+export const ErrorTrackingAlertFiltersInputEventsList = /*@__PURE__*/ S.Array(
+  ErrorTrackingAlertFiltersInputEventsItemMap,
+) as any as S.Schema<ErrorTrackingAlertFiltersInputEventsList>;
+
+export type ErrorTrackingAlertFiltersInputActionsItemMap = { [key: string]: unknown | undefined };
+export const ErrorTrackingAlertFiltersInputActionsItemMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<ErrorTrackingAlertFiltersInputActionsItemMap>;
+
+/** Action filters a transition must match. */
+export type ErrorTrackingAlertFiltersInputActionsList =
+  Array<ErrorTrackingAlertFiltersInputActionsItemMap>;
+export const ErrorTrackingAlertFiltersInputActionsList = /*@__PURE__*/ S.Array(
+  ErrorTrackingAlertFiltersInputActionsItemMap,
+) as any as S.Schema<ErrorTrackingAlertFiltersInputActionsList>;
+
+export type ErrorTrackingAlertFiltersInputPropertiesItemMap = {
+  [key: string]: unknown | undefined;
+};
+export const ErrorTrackingAlertFiltersInputPropertiesItemMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<ErrorTrackingAlertFiltersInputPropertiesItemMap>;
+
+/** Property filters a transition must match. */
+export type ErrorTrackingAlertFiltersInputPropertiesList =
+  Array<ErrorTrackingAlertFiltersInputPropertiesItemMap>;
+export const ErrorTrackingAlertFiltersInputPropertiesList = /*@__PURE__*/ S.Array(
+  ErrorTrackingAlertFiltersInputPropertiesItemMap,
+) as any as S.Schema<ErrorTrackingAlertFiltersInputPropertiesList>;
+
+export interface ErrorTrackingAlertFiltersInput {
+  /** Event filters a transition must match. */
+  events?: ErrorTrackingAlertFiltersInputEventsList;
+  /** Action filters a transition must match. */
+  actions?: ErrorTrackingAlertFiltersInputActionsList;
+  /** Property filters a transition must match. */
+  properties?: ErrorTrackingAlertFiltersInputPropertiesList;
+  /** Whether to exclude internal and test accounts. */
+  filter_test_accounts?: boolean;
+}
+export const ErrorTrackingAlertFiltersInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    events: S.optional(ErrorTrackingAlertFiltersInputEventsList),
+    actions: S.optional(ErrorTrackingAlertFiltersInputActionsList),
+    properties: S.optional(ErrorTrackingAlertFiltersInputPropertiesList),
+    filter_test_accounts: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "ErrorTrackingAlertFiltersInput",
+}) as any as S.Schema<ErrorTrackingAlertFiltersInput>;
+
+/** * `slack` - slack */
+export type ChannelTypeEnum = "slack";
+export const ChannelTypeEnum = S.String;
+
+export interface ErrorTrackingAlertSlackConfig {
+  /** Slack channel ID notifications are delivered to. */
+  channel: string;
+  /** Human-readable Slack channel name, stored for display only. */
+  channel_name?: string;
+}
+export const ErrorTrackingAlertSlackConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    channel: S.String,
+    channel_name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ErrorTrackingAlertSlackConfig",
+}) as any as S.Schema<ErrorTrackingAlertSlackConfig>;
+
+export interface ErrorTrackingAlertDestinationRequest {
+  /** Delivery channel for notifications. * `slack` - slack */
+  channel_type: ChannelTypeEnum | (string & {});
+  /** ID of the workspace integration used to deliver notifications (required for Slack). */
+  integration_id?: number | null;
+  /** Channel-specific delivery settings, e.g. {"channel": "C0123"} for Slack. */
+  config: ErrorTrackingAlertSlackConfig;
+}
+export const ErrorTrackingAlertDestinationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    channel_type: ChannelTypeEnum,
+    integration_id: S.optional(S.NullOr(S.Number)),
+    config: ErrorTrackingAlertSlackConfig,
+  }),
+).annotate({
+  identifier: "ErrorTrackingAlertDestinationRequest",
+}) as any as S.Schema<ErrorTrackingAlertDestinationRequest>;
+
+/** Delivery targets notifications fan out to. */
+export type CreateErrorTrackingAlertRequestDestinationsList =
+  Array<ErrorTrackingAlertDestinationRequest>;
+export const CreateErrorTrackingAlertRequestDestinationsList = /*@__PURE__*/ S.Array(
+  ErrorTrackingAlertDestinationRequest,
+) as any as S.Schema<CreateErrorTrackingAlertRequestDestinationsList>;
+
+export interface CreateErrorTrackingAlertRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Human-readable name of the alert. */
+  name: string;
+  /** Issue lifecycle events that open a notification thread for an issue. */
+  triggers: CreateErrorTrackingAlertRequestTriggersList;
+  /** Property filters a transition must match to open a notification thread. Same shape as hog function filters; the bytecode is compiled on save. */
+  filters?: ErrorTrackingAlertFiltersInput;
+  /** Minimum seconds between thread-opening notifications per issue, at most 30 days. 0 disables the throttle. */
+  throttle_seconds?: number;
+  /** Delivery targets notifications fan out to. */
+  destinations: CreateErrorTrackingAlertRequestDestinationsList;
+}
+export const CreateErrorTrackingAlertRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    name: S.String,
+    triggers: CreateErrorTrackingAlertRequestTriggersList,
+    filters: S.optional(ErrorTrackingAlertFiltersInput),
+    throttle_seconds: S.optional(S.Number),
+    destinations: CreateErrorTrackingAlertRequestDestinationsList,
+  }).pipe(
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/error_tracking/alerts/", code: 200 }),
+  ),
+).annotate({
+  identifier: "CreateErrorTrackingAlertRequest",
+}) as any as S.Schema<CreateErrorTrackingAlertRequest>;
+
+/** Issue lifecycle events that open a notification thread for an issue. */
+export type ErrorTrackingAlertTriggersList = Array<TriggersEnum>;
+export const ErrorTrackingAlertTriggersList = /*@__PURE__*/ S.Array(
+  TriggersEnum,
+) as any as S.Schema<ErrorTrackingAlertTriggersList>;
+
+export type ErrorTrackingAlertFiltersEventsItemMap = { [key: string]: unknown | undefined };
+export const ErrorTrackingAlertFiltersEventsItemMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<ErrorTrackingAlertFiltersEventsItemMap>;
+
+/** Event filters a transition must match. */
+export type ErrorTrackingAlertFiltersEventsList = Array<ErrorTrackingAlertFiltersEventsItemMap>;
+export const ErrorTrackingAlertFiltersEventsList = /*@__PURE__*/ S.Array(
+  ErrorTrackingAlertFiltersEventsItemMap,
+) as any as S.Schema<ErrorTrackingAlertFiltersEventsList>;
+
+export type ErrorTrackingAlertFiltersActionsItemMap = { [key: string]: unknown | undefined };
+export const ErrorTrackingAlertFiltersActionsItemMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<ErrorTrackingAlertFiltersActionsItemMap>;
+
+/** Action filters a transition must match. */
+export type ErrorTrackingAlertFiltersActionsList = Array<ErrorTrackingAlertFiltersActionsItemMap>;
+export const ErrorTrackingAlertFiltersActionsList = /*@__PURE__*/ S.Array(
+  ErrorTrackingAlertFiltersActionsItemMap,
+) as any as S.Schema<ErrorTrackingAlertFiltersActionsList>;
+
+export type ErrorTrackingAlertFiltersPropertiesItemMap = { [key: string]: unknown | undefined };
+export const ErrorTrackingAlertFiltersPropertiesItemMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<ErrorTrackingAlertFiltersPropertiesItemMap>;
+
+/** Property filters a transition must match. */
+export type ErrorTrackingAlertFiltersPropertiesList =
+  Array<ErrorTrackingAlertFiltersPropertiesItemMap>;
+export const ErrorTrackingAlertFiltersPropertiesList = /*@__PURE__*/ S.Array(
+  ErrorTrackingAlertFiltersPropertiesItemMap,
+) as any as S.Schema<ErrorTrackingAlertFiltersPropertiesList>;
+
+export interface ErrorTrackingAlertFilters {
+  /** Event filters a transition must match. */
+  events?: ErrorTrackingAlertFiltersEventsList;
+  /** Action filters a transition must match. */
+  actions?: ErrorTrackingAlertFiltersActionsList;
+  /** Property filters a transition must match. */
+  properties?: ErrorTrackingAlertFiltersPropertiesList;
+  /** Whether to exclude internal and test accounts. */
+  filter_test_accounts?: boolean;
+  /** Compiled filter bytecode. Generated by the server on save. */
+  bytecode: unknown;
+}
+export const ErrorTrackingAlertFilters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    events: S.optional(ErrorTrackingAlertFiltersEventsList),
+    actions: S.optional(ErrorTrackingAlertFiltersActionsList),
+    properties: S.optional(ErrorTrackingAlertFiltersPropertiesList),
+    filter_test_accounts: S.optional(S.Boolean),
+    bytecode: S.Unknown,
+  }),
+).annotate({
+  identifier: "ErrorTrackingAlertFilters",
+}) as any as S.Schema<ErrorTrackingAlertFilters>;
+
+export interface ErrorTrackingAlertDestination {
+  /** Delivery channel for notifications. * `slack` - slack */
+  channel_type: ChannelTypeEnum;
+  /** ID of the workspace integration used to deliver notifications (required for Slack). */
+  integration_id?: number | null;
+  /** Channel-specific delivery settings, e.g. {"channel": "C0123"} for Slack. */
+  config: ErrorTrackingAlertSlackConfig;
+  /** Unique identifier of the destination. */
+  id: string;
+  /** When a notification last reached this destination. */
+  last_delivered_at: string | null;
+  /** When delivery to this destination last failed. */
+  last_failure_at: string | null;
+  /** Message of the most recent delivery failure. */
+  last_error: string;
+  /** Delivery failures since the last successful delivery. */
+  consecutive_failures: number;
+}
+export const ErrorTrackingAlertDestination = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    channel_type: ChannelTypeEnum,
+    integration_id: S.optional(S.NullOr(S.Number)),
+    config: ErrorTrackingAlertSlackConfig,
+    id: S.String,
+    last_delivered_at: S.NullOr(S.String),
+    last_failure_at: S.NullOr(S.String),
+    last_error: S.String,
+    consecutive_failures: S.Number,
+  }),
+).annotate({
+  identifier: "ErrorTrackingAlertDestination",
+}) as any as S.Schema<ErrorTrackingAlertDestination>;
+
+/** Delivery targets notifications fan out to. */
+export type ErrorTrackingAlertDestinationsList = Array<ErrorTrackingAlertDestination>;
+export const ErrorTrackingAlertDestinationsList = /*@__PURE__*/ S.Array(
+  ErrorTrackingAlertDestination,
+) as any as S.Schema<ErrorTrackingAlertDestinationsList>;
+
+export interface ErrorTrackingAlert {
+  /** Unique identifier of the alert. */
+  id: string;
+  /** Human-readable name of the alert. */
+  name: string;
+  /** Whether the alert currently fires notifications. */
+  enabled: boolean;
+  /** Issue lifecycle events that open a notification thread for an issue. */
+  triggers: ErrorTrackingAlertTriggersList;
+  /** Property filters a transition must match to open a notification thread. Same shape as hog function filters, including the compiled bytecode. */
+  filters: ErrorTrackingAlertFilters;
+  /** Minimum seconds between thread-opening notifications per issue. 0 disables the throttle. */
+  throttle_seconds: number;
+  /** Delivery targets notifications fan out to. */
+  destinations: ErrorTrackingAlertDestinationsList;
+  /** When the alert was created. */
+  created_at: string;
+  /** When the alert was last updated. */
+  updated_at: string;
+}
+export const ErrorTrackingAlert = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+    enabled: S.Boolean,
+    triggers: ErrorTrackingAlertTriggersList,
+    filters: ErrorTrackingAlertFilters,
+    throttle_seconds: S.Number,
+    destinations: ErrorTrackingAlertDestinationsList,
+    created_at: S.String,
+    updated_at: S.String,
+  }),
+).annotate({ identifier: "ErrorTrackingAlert" }) as any as S.Schema<ErrorTrackingAlert>;
+
 export type FilterLogicalOperator = "AND" | "OR";
 export const FilterLogicalOperator = S.String;
 
@@ -111,9 +396,7 @@ export const EventPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(EventPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "EventPropertyFilter",
-}) as any as S.Schema<EventPropertyFilter>;
+).annotate({ identifier: "EventPropertyFilter" }) as any as S.Schema<EventPropertyFilter>;
 
 export type PersonPropertyFilterValueCase0Item = string | number | boolean;
 export const PersonPropertyFilterValueCase0Item =
@@ -147,9 +430,7 @@ export const PersonPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(PersonPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "PersonPropertyFilter",
-}) as any as S.Schema<PersonPropertyFilter>;
+).annotate({ identifier: "PersonPropertyFilter" }) as any as S.Schema<PersonPropertyFilter>;
 
 export type PersonMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export const PersonMetadataPropertyFilterValueCase0Item =
@@ -223,9 +504,7 @@ export const ElementPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(ElementPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "ElementPropertyFilter",
-}) as any as S.Schema<ElementPropertyFilter>;
+).annotate({ identifier: "ElementPropertyFilter" }) as any as S.Schema<ElementPropertyFilter>;
 
 export type EventMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export const EventMetadataPropertyFilterValueCase0Item =
@@ -295,9 +574,7 @@ export const SessionPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(SessionPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "SessionPropertyFilter",
-}) as any as S.Schema<SessionPropertyFilter>;
+).annotate({ identifier: "SessionPropertyFilter" }) as any as S.Schema<SessionPropertyFilter>;
 
 export interface CohortPropertyFilter {
   cohort_name?: string | null;
@@ -316,9 +593,7 @@ export const CohortPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CohortPropertyFilter",
-}) as any as S.Schema<CohortPropertyFilter>;
+).annotate({ identifier: "CohortPropertyFilter" }) as any as S.Schema<CohortPropertyFilter>;
 
 export type DurationType = "duration" | "active_seconds" | "inactive_seconds";
 export const DurationType = S.String;
@@ -358,9 +633,7 @@ export const RecordingPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(RecordingPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "RecordingPropertyFilter",
-}) as any as S.Schema<RecordingPropertyFilter>;
+).annotate({ identifier: "RecordingPropertyFilter" }) as any as S.Schema<RecordingPropertyFilter>;
 
 export type LogEntryPropertyFilterValueCase0Item = string | number | boolean;
 export const LogEntryPropertyFilterValueCase0Item =
@@ -394,13 +667,9 @@ export const LogEntryPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(LogEntryPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "LogEntryPropertyFilter",
-}) as any as S.Schema<LogEntryPropertyFilter>;
+).annotate({ identifier: "LogEntryPropertyFilter" }) as any as S.Schema<LogEntryPropertyFilter>;
 
-export type GroupPropertyFilterGroupKeyNamesMap = {
-  [key: string]: string | undefined;
-};
+export type GroupPropertyFilterGroupKeyNamesMap = { [key: string]: string | undefined };
 export const GroupPropertyFilterGroupKeyNamesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -441,9 +710,7 @@ export const GroupPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(GroupPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "GroupPropertyFilter",
-}) as any as S.Schema<GroupPropertyFilter>;
+).annotate({ identifier: "GroupPropertyFilter" }) as any as S.Schema<GroupPropertyFilter>;
 
 export type FeaturePropertyFilterValueCase0Item = string | number | boolean;
 export const FeaturePropertyFilterValueCase0Item =
@@ -477,9 +744,7 @@ export const FeaturePropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(FeaturePropertyFilterValue)),
   }),
-).annotate({
-  identifier: "FeaturePropertyFilter",
-}) as any as S.Schema<FeaturePropertyFilter>;
+).annotate({ identifier: "FeaturePropertyFilter" }) as any as S.Schema<FeaturePropertyFilter>;
 
 /** The value can be true, false, or a variant name */
 export type FlagPropertyFilterValue = boolean | string;
@@ -504,9 +769,7 @@ export const FlagPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(FlagPropertyFilterValue),
   }),
-).annotate({
-  identifier: "FlagPropertyFilter",
-}) as any as S.Schema<FlagPropertyFilter>;
+).annotate({ identifier: "FlagPropertyFilter" }) as any as S.Schema<FlagPropertyFilter>;
 
 export type HogQLPropertyFilterValueCase0Item = string | number | boolean;
 export const HogQLPropertyFilterValueCase0Item =
@@ -537,9 +800,7 @@ export const HogQLPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(HogQLPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "HogQLPropertyFilter",
-}) as any as S.Schema<HogQLPropertyFilter>;
+).annotate({ identifier: "HogQLPropertyFilter" }) as any as S.Schema<HogQLPropertyFilter>;
 
 export interface EmptyPropertyFilter {
   type?: string;
@@ -548,9 +809,7 @@ export const EmptyPropertyFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EmptyPropertyFilter",
-}) as any as S.Schema<EmptyPropertyFilter>;
+).annotate({ identifier: "EmptyPropertyFilter" }) as any as S.Schema<EmptyPropertyFilter>;
 
 export type DataWarehousePropertyFilterValueCase0Item = string | number | boolean;
 export const DataWarehousePropertyFilterValueCase0Item =
@@ -658,9 +917,7 @@ export const ErrorTrackingIssueFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(ErrorTrackingIssueFilterValue)),
   }),
-).annotate({
-  identifier: "ErrorTrackingIssueFilter",
-}) as any as S.Schema<ErrorTrackingIssueFilter>;
+).annotate({ identifier: "ErrorTrackingIssueFilter" }) as any as S.Schema<ErrorTrackingIssueFilter>;
 
 export type LogPropertyFilterType = "log" | "log_attribute" | "log_resource_attribute";
 export const LogPropertyFilterType = S.String;
@@ -692,9 +949,7 @@ export const LogPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(LogPropertyFilterType),
     value: S.optional(S.NullOr(LogPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "LogPropertyFilter",
-}) as any as S.Schema<LogPropertyFilter>;
+).annotate({ identifier: "LogPropertyFilter" }) as any as S.Schema<LogPropertyFilter>;
 
 export type MetricPropertyFilterValueCase0Item = string | number | boolean;
 export const MetricPropertyFilterValueCase0Item =
@@ -727,9 +982,7 @@ export const MetricPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(MetricPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "MetricPropertyFilter",
-}) as any as S.Schema<MetricPropertyFilter>;
+).annotate({ identifier: "MetricPropertyFilter" }) as any as S.Schema<MetricPropertyFilter>;
 
 export type SpanPropertyFilterType = "span" | "span_attribute" | "span_resource_attribute";
 export const SpanPropertyFilterType = S.String;
@@ -761,9 +1014,7 @@ export const SpanPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(SpanPropertyFilterType),
     value: S.optional(S.NullOr(SpanPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "SpanPropertyFilter",
-}) as any as S.Schema<SpanPropertyFilter>;
+).annotate({ identifier: "SpanPropertyFilter" }) as any as S.Schema<SpanPropertyFilter>;
 
 export type RevenueAnalyticsPropertyFilterValueCase0Item = string | number | boolean;
 export const RevenueAnalyticsPropertyFilterValueCase0Item =
@@ -940,9 +1191,7 @@ export const BehavioralPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: InlineBehavioralType,
   }),
-).annotate({
-  identifier: "BehavioralPropertyFilter",
-}) as any as S.Schema<BehavioralPropertyFilter>;
+).annotate({ identifier: "BehavioralPropertyFilter" }) as any as S.Schema<BehavioralPropertyFilter>;
 
 export type PropertyGroupFilterValueValuesItem =
   | PropertyGroupFilterValue
@@ -987,9 +1236,7 @@ export const PropertyGroupFilterValue = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(FilterLogicalOperator),
     values: S.optional(PropertyGroupFilterValueValuesList),
   }),
-).annotate({
-  identifier: "PropertyGroupFilterValue",
-}) as any as S.Schema<PropertyGroupFilterValue>;
+).annotate({ identifier: "PropertyGroupFilterValue" }) as any as S.Schema<PropertyGroupFilterValue>;
 
 /** * `user` - user * `role` - role */
 export type AssigneeTypeEnum = "user" | "role";
@@ -1129,9 +1376,7 @@ export const ErrorTrackingBypassRule = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "ErrorTrackingBypassRule",
-}) as any as S.Schema<ErrorTrackingBypassRule>;
+).annotate({ identifier: "ErrorTrackingBypassRule" }) as any as S.Schema<ErrorTrackingBypassRule>;
 
 /** Provider-specific fields describing the external issue to create. Required keys depend on the integration kind: github -> {repository, title, body}; gitlab -> {title, body}; linear -> {team_id, title, description}; jira -> {project_key, title, description}. Examples: github {"repository":"posthog","title":"Checkout TypeError","body":"Stack trace"}; linear {"team_id":"team-id","title":"Checkout TypeError","description":"Stack trace"}; jira {"project_key":"ENG","title":"Checkout TypeError","description":"Stack trace"}. */
 export type CreateErrorTrackingExternalReferenceRequestConfigMap = {
@@ -1195,18 +1440,24 @@ export interface ErrorTrackingExternalReferenceResult {
   integration?: ErrorTrackingExternalReferenceIntegrationResult;
   /** URL of the linked external issue in the provider's system. */
   external_url?: string;
+  /** Provider-native identifier of the linked issue. */
+  external_id?: string;
+  /** Title of the linked issue. */
+  title?: string;
 }
 export const ErrorTrackingExternalReferenceResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     integration: S.optional(ErrorTrackingExternalReferenceIntegrationResult),
     external_url: S.optional(S.String),
+    external_id: S.optional(S.String),
+    title: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ErrorTrackingExternalReferenceResult",
 }) as any as S.Schema<ErrorTrackingExternalReferenceResult>;
 
-/** Identifier of the existing external issue to link, as returned by the search-issues endpoint. Required keys depend on the integration kind: github -> {repository, number}; gitlab -> {issue_id}; linear -> {id}; jira -> {key}. */
+/** Identifier and optional title of the existing external issue to link, as returned by the search-issues endpoint. Required keys depend on the integration kind: github -> {repository, number}; gitlab -> {issue_id}; linear -> {id}; jira -> {key}. */
 export type CreateErrorTrackingExternalReferencesLinkIssueRequestExternalContextMap = {
   [key: string]: unknown | undefined;
 };
@@ -1223,7 +1474,7 @@ export interface CreateErrorTrackingExternalReferencesLinkIssueRequest {
   integration_id: number;
   /** ID of the error tracking issue to link the reference to. */
   issue: string;
-  /** Identifier of the existing external issue to link, as returned by the search-issues endpoint. Required keys depend on the integration kind: github -> {repository, number}; gitlab -> {issue_id}; linear -> {id}; jira -> {key}. */
+  /** Identifier and optional title of the existing external issue to link, as returned by the search-issues endpoint. Required keys depend on the integration kind: github -> {repository, number}; gitlab -> {issue_id}; linear -> {id}; jira -> {key}. */
   external_context: CreateErrorTrackingExternalReferencesLinkIssueRequestExternalContextMap;
 }
 export const CreateErrorTrackingExternalReferencesLinkIssueRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1311,9 +1562,7 @@ export const ErrorTrackingGroupingRuleAssignee = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ErrorTrackingGroupingRuleAssignee>;
 
 /** Issue linked to this rule */
-export type ErrorTrackingGroupingRuleIssueMap = {
-  [key: string]: string | undefined;
-};
+export type ErrorTrackingGroupingRuleIssueMap = { [key: string]: string | undefined };
 export const ErrorTrackingGroupingRuleIssueMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1468,9 +1717,7 @@ export const ErrorTrackingDateRange = /*@__PURE__*/ S.suspend(() =>
     date_from: S.optional(S.String),
     date_to: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ErrorTrackingDateRange",
-}) as any as S.Schema<ErrorTrackingDateRange>;
+).annotate({ identifier: "ErrorTrackingDateRange" }) as any as S.Schema<ErrorTrackingDateRange>;
 
 export interface CreateErrorTrackingQueryIssueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1481,10 +1728,12 @@ export interface CreateErrorTrackingQueryIssueRequest {
   dateRange?: ErrorTrackingDateRange;
   /** When true, exclude internal/test account data from results. Defaults to true. */
   filterTestAccounts?: boolean;
-  /** Volume buckets. Maximum 200. */
+  /** Integer count of equal-width time buckets across dateRange, from 0 to 200. Not a time unit: 'hour', 'day', and 'week' are invalid. Example: 7 with a 7-day dateRange gives daily buckets. Defaults to 0, or to 12 when includeSparkline is true. */
   volumeResolution?: number;
   /** Set true to include a compact numeric occurrence sparkline. Defaults to false. */
   includeSparkline?: boolean;
+  /** Set true to include the issue page breakdowns: the most common paths (or URLs when events have no path), screens, browsers, OS, libraries, library versions, and app versions, each with a count, plus the sessions with the most events. Covers at most the last 30 days of dateRange. Adds one aggregate query, so request it only to answer where, for whom, or on which platforms the issue happens. Defaults to false. */
+  includeBreakdown?: boolean;
 }
 export const CreateErrorTrackingQueryIssueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1494,6 +1743,7 @@ export const CreateErrorTrackingQueryIssueRequest = /*@__PURE__*/ S.suspend(() =
     filterTestAccounts: S.optional(S.Boolean),
     volumeResolution: S.optional(S.Number),
     includeSparkline: S.optional(S.Boolean),
+    includeBreakdown: S.optional(S.Boolean),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1599,9 +1849,7 @@ export const ErrorTrackingTopFrame = /*@__PURE__*/ S.suspend(() =>
     column: S.optional(S.Number),
     in_app: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ErrorTrackingTopFrame",
-}) as any as S.Schema<ErrorTrackingTopFrame>;
+).annotate({ identifier: "ErrorTrackingTopFrame" }) as any as S.Schema<ErrorTrackingTopFrame>;
 
 export interface ErrorTrackingLatestRelease {
   /** Release version. */
@@ -1644,9 +1892,7 @@ export const ErrorTrackingImpact = /*@__PURE__*/ S.suspend(() =>
     users: S.optional(S.Number),
     sessions: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ErrorTrackingImpact",
-}) as any as S.Schema<ErrorTrackingImpact>;
+).annotate({ identifier: "ErrorTrackingImpact" }) as any as S.Schema<ErrorTrackingImpact>;
 
 /** Optional compact occurrence sparkline. */
 export type ErrorTrackingIssueDetailSparklineList = Array<number>;
@@ -1654,12 +1900,141 @@ export const ErrorTrackingIssueDetailSparklineList = /*@__PURE__*/ S.Array(
   S.Number,
 ) as any as S.Schema<ErrorTrackingIssueDetailSparklineList>;
 
+/** Up to 5 $session_id values with the most matching events, for session recording lookups. */
+export type ErrorTrackingIssueBreakdownSampleSessionIdsList = Array<string>;
+export const ErrorTrackingIssueBreakdownSampleSessionIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ErrorTrackingIssueBreakdownSampleSessionIdsList>;
+
+export interface ErrorTrackingBreakdownValue {
+  /** Property value. */
+  value: string;
+  /** Number of matching events with this value. */
+  count: number;
+}
+export const ErrorTrackingBreakdownValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.String,
+    count: S.Number,
+  }),
+).annotate({
+  identifier: "ErrorTrackingBreakdownValue",
+}) as any as S.Schema<ErrorTrackingBreakdownValue>;
+
+/** Most common $pathname values, most frequent first. */
+export type ErrorTrackingBreakdownTopValuesPathList = Array<ErrorTrackingBreakdownValue>;
+export const ErrorTrackingBreakdownTopValuesPathList = /*@__PURE__*/ S.Array(
+  ErrorTrackingBreakdownValue,
+) as any as S.Schema<ErrorTrackingBreakdownTopValuesPathList>;
+
+/** Most common $current_url values, most frequent first. Returned only when events have no $pathname, as with backend SDKs. */
+export type ErrorTrackingBreakdownTopValuesUrlList = Array<ErrorTrackingBreakdownValue>;
+export const ErrorTrackingBreakdownTopValuesUrlList = /*@__PURE__*/ S.Array(
+  ErrorTrackingBreakdownValue,
+) as any as S.Schema<ErrorTrackingBreakdownTopValuesUrlList>;
+
+/** Most common $screen_name values, most frequent first. */
+export type ErrorTrackingBreakdownTopValuesScreenList = Array<ErrorTrackingBreakdownValue>;
+export const ErrorTrackingBreakdownTopValuesScreenList = /*@__PURE__*/ S.Array(
+  ErrorTrackingBreakdownValue,
+) as any as S.Schema<ErrorTrackingBreakdownTopValuesScreenList>;
+
+/** Most common $browser values, most frequent first. */
+export type ErrorTrackingBreakdownTopValuesBrowserList = Array<ErrorTrackingBreakdownValue>;
+export const ErrorTrackingBreakdownTopValuesBrowserList = /*@__PURE__*/ S.Array(
+  ErrorTrackingBreakdownValue,
+) as any as S.Schema<ErrorTrackingBreakdownTopValuesBrowserList>;
+
+/** Most common $os values, most frequent first. */
+export type ErrorTrackingBreakdownTopValuesOsList = Array<ErrorTrackingBreakdownValue>;
+export const ErrorTrackingBreakdownTopValuesOsList = /*@__PURE__*/ S.Array(
+  ErrorTrackingBreakdownValue,
+) as any as S.Schema<ErrorTrackingBreakdownTopValuesOsList>;
+
+/** Most common $lib values, most frequent first. */
+export type ErrorTrackingBreakdownTopValuesLibraryList = Array<ErrorTrackingBreakdownValue>;
+export const ErrorTrackingBreakdownTopValuesLibraryList = /*@__PURE__*/ S.Array(
+  ErrorTrackingBreakdownValue,
+) as any as S.Schema<ErrorTrackingBreakdownTopValuesLibraryList>;
+
+/** Most common $lib_version values, most frequent first. */
+export type ErrorTrackingBreakdownTopValuesLibraryVersionList = Array<ErrorTrackingBreakdownValue>;
+export const ErrorTrackingBreakdownTopValuesLibraryVersionList = /*@__PURE__*/ S.Array(
+  ErrorTrackingBreakdownValue,
+) as any as S.Schema<ErrorTrackingBreakdownTopValuesLibraryVersionList>;
+
+/** Most common $app_version values, most frequent first. */
+export type ErrorTrackingBreakdownTopValuesAppVersionList = Array<ErrorTrackingBreakdownValue>;
+export const ErrorTrackingBreakdownTopValuesAppVersionList = /*@__PURE__*/ S.Array(
+  ErrorTrackingBreakdownValue,
+) as any as S.Schema<ErrorTrackingBreakdownTopValuesAppVersionList>;
+
+export interface ErrorTrackingBreakdownTopValues {
+  /** Most common $pathname values, most frequent first. */
+  path?: ErrorTrackingBreakdownTopValuesPathList;
+  /** Most common $current_url values, most frequent first. Returned only when events have no $pathname, as with backend SDKs. */
+  url?: ErrorTrackingBreakdownTopValuesUrlList;
+  /** Most common $screen_name values, most frequent first. */
+  screen?: ErrorTrackingBreakdownTopValuesScreenList;
+  /** Most common $browser values, most frequent first. */
+  browser?: ErrorTrackingBreakdownTopValuesBrowserList;
+  /** Most common $os values, most frequent first. */
+  os?: ErrorTrackingBreakdownTopValuesOsList;
+  /** Most common $lib values, most frequent first. */
+  library?: ErrorTrackingBreakdownTopValuesLibraryList;
+  /** Most common $lib_version values, most frequent first. */
+  library_version?: ErrorTrackingBreakdownTopValuesLibraryVersionList;
+  /** Most common $app_version values, most frequent first. */
+  app_version?: ErrorTrackingBreakdownTopValuesAppVersionList;
+}
+export const ErrorTrackingBreakdownTopValues = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    path: S.optional(ErrorTrackingBreakdownTopValuesPathList),
+    url: S.optional(ErrorTrackingBreakdownTopValuesUrlList),
+    screen: S.optional(ErrorTrackingBreakdownTopValuesScreenList),
+    browser: S.optional(ErrorTrackingBreakdownTopValuesBrowserList),
+    os: S.optional(ErrorTrackingBreakdownTopValuesOsList),
+    library: S.optional(ErrorTrackingBreakdownTopValuesLibraryList),
+    library_version: S.optional(ErrorTrackingBreakdownTopValuesLibraryVersionList),
+    app_version: S.optional(ErrorTrackingBreakdownTopValuesAppVersionList),
+  }),
+).annotate({
+  identifier: "ErrorTrackingBreakdownTopValues",
+}) as any as S.Schema<ErrorTrackingBreakdownTopValues>;
+
+export interface ErrorTrackingIssueBreakdown {
+  /** Start of the range that the breakdown covers. */
+  date_from: string;
+  /** End of the range that the breakdown covers. */
+  date_to: string;
+  /** True when the requested range was longer than 30 days and the breakdown covers only the last 30. */
+  range_limited: boolean;
+  /** Matching exception events in the breakdown range. */
+  occurrences: number;
+  /** Up to 5 $session_id values with the most matching events, for session recording lookups. */
+  sample_session_ids: ErrorTrackingIssueBreakdownSampleSessionIdsList;
+  /** Most common values for each dimension. A dimension with no values is left out. */
+  top_values: ErrorTrackingBreakdownTopValues;
+}
+export const ErrorTrackingIssueBreakdown = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    date_from: S.String,
+    date_to: S.String,
+    range_limited: S.Boolean,
+    occurrences: S.Number,
+    sample_session_ids: ErrorTrackingIssueBreakdownSampleSessionIdsList,
+    top_values: ErrorTrackingBreakdownTopValues,
+  }),
+).annotate({
+  identifier: "ErrorTrackingIssueBreakdown",
+}) as any as S.Schema<ErrorTrackingIssueBreakdown>;
+
 export interface ErrorTrackingIssueDetail {
   /** Error tracking issue ID. */
   id: string;
   /** Issue name. */
   name?: string | null;
-  /** Issue description. */
+  /** Issue description. List rows truncate it to a short preview; the issue detail query returns it in full. */
   description?: string | null;
   /** Issue status. */
   status?: string;
@@ -1687,6 +2062,8 @@ export interface ErrorTrackingIssueDetail {
   impact?: ErrorTrackingImpact;
   /** Optional compact occurrence sparkline. */
   sparkline?: ErrorTrackingIssueDetailSparklineList;
+  /** Aggregate over matching events. Returned only when includeBreakdown is true. */
+  breakdown?: ErrorTrackingIssueBreakdown;
 }
 export const ErrorTrackingIssueDetail = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1706,10 +2083,9 @@ export const ErrorTrackingIssueDetail = /*@__PURE__*/ S.suspend(() =>
     latest_release: S.optional(ErrorTrackingLatestRelease),
     impact: S.optional(ErrorTrackingImpact),
     sparkline: S.optional(ErrorTrackingIssueDetailSparklineList),
+    breakdown: S.optional(ErrorTrackingIssueBreakdown),
   }),
-).annotate({
-  identifier: "ErrorTrackingIssueDetail",
-}) as any as S.Schema<ErrorTrackingIssueDetail>;
+).annotate({ identifier: "ErrorTrackingIssueDetail" }) as any as S.Schema<ErrorTrackingIssueDetail>;
 
 export type PropertyItemValueCase3Item = string | number;
 export const PropertyItemValueCase3Item = S.Unknown as any as S.Schema<PropertyItemValueCase3Item>;
@@ -1887,9 +2263,7 @@ export const CreateErrorTrackingQueryIssueEventRequest = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<CreateErrorTrackingQueryIssueEventRequest>;
 
 /** Normalized sampled exception event properties. */
-export type ErrorTrackingEventPropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type ErrorTrackingEventPropertiesMap = { [key: string]: unknown | undefined };
 export const ErrorTrackingEventPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1912,9 +2286,7 @@ export const ErrorTrackingEvent = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.optional(S.String),
     properties: S.optional(ErrorTrackingEventPropertiesMap),
   }),
-).annotate({
-  identifier: "ErrorTrackingEvent",
-}) as any as S.Schema<ErrorTrackingEvent>;
+).annotate({ identifier: "ErrorTrackingEvent" }) as any as S.Schema<ErrorTrackingEvent>;
 
 /** Sampled exception events. */
 export type ErrorTrackingIssueEventsResponseResultsList = Array<ErrorTrackingEvent>;
@@ -2003,9 +2375,7 @@ export const ErrorTrackingRecommendation = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ErrorTrackingRecommendation>;
 
 /** Optional free-form metadata object stored alongside the release. */
-export type CreateErrorTrackingReleaseRequestMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateErrorTrackingReleaseRequestMetadataMap = { [key: string]: unknown | undefined };
 export const CreateErrorTrackingReleaseRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2041,9 +2411,7 @@ export const CreateErrorTrackingReleaseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateErrorTrackingReleaseRequest",
 }) as any as S.Schema<CreateErrorTrackingReleaseRequest>;
 
-export type ErrorTrackingReleaseMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type ErrorTrackingReleaseMetadataMap = { [key: string]: unknown | undefined };
 export const ErrorTrackingReleaseMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2068,9 +2436,7 @@ export const ErrorTrackingRelease = /*@__PURE__*/ S.suspend(() =>
     version: S.optional(S.String),
     project: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ErrorTrackingRelease",
-}) as any as S.Schema<ErrorTrackingRelease>;
+).annotate({ identifier: "ErrorTrackingRelease" }) as any as S.Schema<ErrorTrackingRelease>;
 
 /** * `low` - low * `medium` - medium * `high` - high * `critical` - critical */
 export type ErrorTrackingIssueSeverityRuleEnum = "low" | "medium" | "high" | "critical";
@@ -2103,9 +2469,7 @@ export const CreateErrorTrackingSeverityRuleRequest = /*@__PURE__*/ S.suspend(()
   identifier: "CreateErrorTrackingSeverityRuleRequest",
 }) as any as S.Schema<CreateErrorTrackingSeverityRuleRequest>;
 
-export type ErrorTrackingSeverityRuleDisabledDataIssueMap = {
-  [key: string]: unknown | undefined;
-};
+export type ErrorTrackingSeverityRuleDisabledDataIssueMap = { [key: string]: unknown | undefined };
 export const ErrorTrackingSeverityRuleDisabledDataIssueMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2212,6 +2576,33 @@ export const ErrorTrackingSuppressionRule = /*@__PURE__*/ S.suspend(() =>
   identifier: "ErrorTrackingSuppressionRule",
 }) as any as S.Schema<ErrorTrackingSuppressionRule>;
 
+export interface ErrorTrackingAlertsDestroyRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+}
+export const ErrorTrackingAlertsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/api/projects/{project_id}/error_tracking/alerts/{id}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ErrorTrackingAlertsDestroyRequest",
+}) as any as S.Schema<ErrorTrackingAlertsDestroyRequest>;
+
+export interface ErrorTrackingAlertsDestroyResponse {}
+export const ErrorTrackingAlertsDestroyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "ErrorTrackingAlertsDestroyResponse",
+}) as any as S.Schema<ErrorTrackingAlertsDestroyResponse>;
+
 export interface ErrorTrackingAssignmentRulesDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -2300,7 +2691,7 @@ export interface ErrorTrackingExternalReferencesSearchIssuesRetrieveRequest {
   integration_id: number;
   /** Repository to search within. Required for GitHub, ignored by other providers. */
   repository?: string;
-  /** Text to match against existing issue titles / keys in the provider. GitHub matches it as an exact phrase. Leave blank for recent issues. */
+  /** Text to match against existing issue titles or identifiers in the provider. GitHub matches titles as an exact phrase. Leave blank for recent issues. */
   search?: string;
 }
 export const ErrorTrackingExternalReferencesSearchIssuesRetrieveRequest = /*@__PURE__*/ S.suspend(
@@ -2478,70 +2869,39 @@ export const ErrorTrackingIssueAssignResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ErrorTrackingIssueAssignResponse",
 }) as any as S.Schema<ErrorTrackingIssueAssignResponse>;
 
-export interface ErrorTrackingIssueAssigneeReadInput {
-  type: string;
-}
-export const ErrorTrackingIssueAssigneeReadInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-  }),
-).annotate({
-  identifier: "ErrorTrackingIssueAssigneeReadInput",
-}) as any as S.Schema<ErrorTrackingIssueAssigneeReadInput>;
+/** * `set_status` - set_status * `assign` - assign */
+export type ErrorTrackingIssueBulkRequestActionEnum = "set_status" | "assign";
+export const ErrorTrackingIssueBulkRequestActionEnum = S.String;
 
-/** Read-only shape of an external reference, shared by every response. */
-export interface ErrorTrackingExternalReferenceResultInput {}
-export const ErrorTrackingExternalReferenceResultInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "ErrorTrackingExternalReferenceResultInput",
-}) as any as S.Schema<ErrorTrackingExternalReferenceResultInput>;
+/** IDs of the issues to update. */
+export type ErrorTrackingIssuesBulkCreateRequestIdsList = Array<string>;
+export const ErrorTrackingIssuesBulkCreateRequestIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ErrorTrackingIssuesBulkCreateRequestIdsList>;
 
-export type ErrorTrackingIssuesBulkCreateRequestExternalIssuesList =
-  Array<ErrorTrackingExternalReferenceResultInput>;
-export const ErrorTrackingIssuesBulkCreateRequestExternalIssuesList = /*@__PURE__*/ S.Array(
-  ErrorTrackingExternalReferenceResultInput,
-) as any as S.Schema<ErrorTrackingIssuesBulkCreateRequestExternalIssuesList>;
-
-export interface ErrorTrackingIssueCohortRead {
-  id: number;
-  name: string;
-}
-export const ErrorTrackingIssueCohortRead = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.Number,
-    name: S.String,
-  }),
-).annotate({
-  identifier: "ErrorTrackingIssueCohortRead",
-}) as any as S.Schema<ErrorTrackingIssueCohortRead>;
+/** * `active` - active * `resolved` - resolved * `suppressed` - suppressed */
+export type ErrorTrackingIssueWritableStatusEnum = "active" | "resolved" | "suppressed";
+export const ErrorTrackingIssueWritableStatusEnum = S.String;
 
 export interface ErrorTrackingIssuesBulkCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  id: string;
-  status: string;
-  /** Issue severity, or null when no severity is assigned. */
-  severity: ErrorTrackingIssueSeverity | (string & {}) | null;
-  name: string | null;
-  description: string | null;
-  first_seen: string | null;
-  assignee: ErrorTrackingIssueAssigneeReadInput | null;
-  external_issues: ErrorTrackingIssuesBulkCreateRequestExternalIssuesList;
-  cohort: ErrorTrackingIssueCohortRead | null;
+  /** Which mutation to apply to every listed issue. * `set_status` - set_status * `assign` - assign */
+  action: ErrorTrackingIssueBulkRequestActionEnum | (string & {});
+  /** IDs of the issues to update. */
+  ids: ErrorTrackingIssuesBulkCreateRequestIdsList;
+  /** Status to set. Required when action is set_status. * `active` - active * `resolved` - resolved * `suppressed` - suppressed */
+  status?: ErrorTrackingIssueWritableStatusEnum | (string & {});
+  /** Assignment target. Required when action is assign; null unassigns. */
+  assignee?: ErrorTrackingIssueAssigneeWrite | null;
 }
 export const ErrorTrackingIssuesBulkCreateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
-    id: S.String,
-    status: S.String,
-    severity: S.NullOr(ErrorTrackingIssueSeverity),
-    name: S.NullOr(S.String),
-    description: S.NullOr(S.String),
-    first_seen: S.NullOr(S.String),
-    assignee: S.NullOr(ErrorTrackingIssueAssigneeReadInput),
-    external_issues: ErrorTrackingIssuesBulkCreateRequestExternalIssuesList,
-    cohort: S.NullOr(ErrorTrackingIssueCohortRead),
+    action: ErrorTrackingIssueBulkRequestActionEnum,
+    ids: ErrorTrackingIssuesBulkCreateRequestIdsList,
+    status: S.optional(ErrorTrackingIssueWritableStatusEnum),
+    assignee: S.optional(S.NullOr(ErrorTrackingIssueAssigneeWrite)),
   }).pipe(
     T.Http({
       method: "POST",
@@ -2553,12 +2913,17 @@ export const ErrorTrackingIssuesBulkCreateRequest = /*@__PURE__*/ S.suspend(() =
   identifier: "ErrorTrackingIssuesBulkCreateRequest",
 }) as any as S.Schema<ErrorTrackingIssuesBulkCreateRequest>;
 
-export interface ErrorTrackingIssuesBulkCreateResponse {}
-export const ErrorTrackingIssuesBulkCreateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+export interface ErrorTrackingIssueSuccessResponse {
+  /** Whether the update completed successfully. */
+  success: boolean;
+}
+export const ErrorTrackingIssueSuccessResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    success: S.Boolean,
+  }),
 ).annotate({
-  identifier: "ErrorTrackingIssuesBulkCreateResponse",
-}) as any as S.Schema<ErrorTrackingIssuesBulkCreateResponse>;
+  identifier: "ErrorTrackingIssueSuccessResponse",
+}) as any as S.Schema<ErrorTrackingIssueSuccessResponse>;
 
 export interface ErrorTrackingIssuesDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2612,9 +2977,7 @@ export const ErrorTrackingAssignee = /*@__PURE__*/ S.suspend(() =>
     id: ErrorTrackingAssigneeId,
     type: AssigneeTypeEnum,
   }),
-).annotate({
-  identifier: "ErrorTrackingAssignee",
-}) as any as S.Schema<ErrorTrackingAssignee>;
+).annotate({ identifier: "ErrorTrackingAssignee" }) as any as S.Schema<ErrorTrackingAssignee>;
 
 /** Advanced flat AND property filters. Prefer typed shortcut fields when they fit. HogQL filters are rejected. */
 export type ErrorTrackingQueryIssuesListCreateRequestFilterGroupList = Array<PropertyItem>;
@@ -2674,11 +3037,11 @@ export interface ErrorTrackingQueryIssuesListCreateRequest {
   orderBy?: ErrorTrackingIssueOrderByEnum | (string & {});
   /** Sort direction. Defaults to DESC. * `ASC` - ASC * `DESC` - DESC */
   orderDirection?: OrderDirectionEnum | (string & {});
-  /** Page size. */
+  /** Page size. Defaults to 10. Use nextOffset to fetch more rows instead of a large page. */
   limit?: number;
   /** Pagination offset. */
   offset?: number;
-  /** Number of volume buckets. Defaults to 0 for compact aggregate counts. */
+  /** Integer count of equal-width time buckets across dateRange, from 0 to 200. Not a time unit: 'hour', 'day', and 'week' are invalid. Example: 7 with a 7-day dateRange gives daily buckets. Defaults to 0, which returns only aggregate counts without volume buckets. */
   volumeResolution?: number;
   /** Filter by SDK/library value from event $lib, for example posthog-js. */
   library?: ErrorTrackingQueryIssuesListCreateRequestLibrary;
@@ -2732,7 +3095,7 @@ export interface ErrorTrackingIssueListItem {
   id: string;
   /** Issue name. */
   name?: string | null;
-  /** Issue description. */
+  /** Issue description. List rows truncate it to a short preview; the issue detail query returns it in full. */
   description?: string | null;
   /** Issue status. */
   status?: string;
@@ -2803,11 +3166,14 @@ export interface ErrorTrackingRecommendationsRefreshCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
+  /** False skips the recompute when the current result is still fresh. Defaults to true. */
+  force?: boolean;
 }
 export const ErrorTrackingRecommendationsRefreshCreateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
+    force: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "POST",
@@ -2901,9 +3267,7 @@ export const ErrorTrackingSettings = /*@__PURE__*/ S.suspend(() =>
     per_issue_rate_limit_value: S.optional(S.NullOr(S.Number)),
     per_issue_rate_limit_bucket_size_minutes: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ErrorTrackingSettings",
-}) as any as S.Schema<ErrorTrackingSettings>;
+).annotate({ identifier: "ErrorTrackingSettings" }) as any as S.Schema<ErrorTrackingSettings>;
 
 export interface ErrorTrackingSettingsUpdateSettingsPartialUpdateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -3038,17 +3402,13 @@ export const ErrorTrackingStackFramesBatchGetCreateRequest = /*@__PURE__*/ S.sus
   identifier: "ErrorTrackingStackFramesBatchGetCreateRequest",
 }) as any as S.Schema<ErrorTrackingStackFramesBatchGetCreateRequest>;
 
-export type ErrorTrackingStackFrameContentsMap = {
-  [key: string]: unknown | undefined;
-};
+export type ErrorTrackingStackFrameContentsMap = { [key: string]: unknown | undefined };
 export const ErrorTrackingStackFrameContentsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<ErrorTrackingStackFrameContentsMap>;
 
-export type ErrorTrackingStackFrameContextMap = {
-  [key: string]: unknown | undefined;
-};
+export type ErrorTrackingStackFrameContextMap = { [key: string]: unknown | undefined };
 export const ErrorTrackingStackFrameContextMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3075,9 +3435,7 @@ export const ErrorTrackingStackFrame = /*@__PURE__*/ S.suspend(() =>
     symbol_set_ref: S.optional(S.NullOr(S.String)),
     release: S.optional(S.NullOr(ErrorTrackingRelease)),
   }),
-).annotate({
-  identifier: "ErrorTrackingStackFrame",
-}) as any as S.Schema<ErrorTrackingStackFrame>;
+).annotate({ identifier: "ErrorTrackingStackFrame" }) as any as S.Schema<ErrorTrackingStackFrame>;
 
 /** Resolved stack frames for the requested raw IDs. */
 export type ErrorTrackingStackFrameBatchGetResponseResultsList = Array<ErrorTrackingStackFrame>;
@@ -3151,6 +3509,81 @@ export const ErrorTrackingSuppressionRulesDestroyResponse = /*@__PURE__*/ S.susp
   identifier: "ErrorTrackingSuppressionRulesDestroyResponse",
 }) as any as S.Schema<ErrorTrackingSuppressionRulesDestroyResponse>;
 
+export interface ErrorTrackingSymbolSetUpload {
+  /** Symbol set reference to upload. */
+  chunk_id: string;
+  /** Optional error tracking release ID associated with this symbol set. */
+  release_id?: string | null;
+  /** Optional hash of the symbol set content, used to skip unchanged uploads. */
+  content_hash?: string | null;
+  /** Optional byte count of the content about to be uploaded. When given, the upload response also carries a presigned PUT signed for exactly this length, which S3-compatible stores without presigned POST support (such as Cloudflare R2) accept. */
+  content_length?: number | null;
+}
+export const ErrorTrackingSymbolSetUpload = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    chunk_id: S.String,
+    release_id: S.optional(S.NullOr(S.String)),
+    content_hash: S.optional(S.NullOr(S.String)),
+    content_length: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({
+  identifier: "ErrorTrackingSymbolSetUpload",
+}) as any as S.Schema<ErrorTrackingSymbolSetUpload>;
+
+/** Symbol sets the client intends to upload, with per-symbol release IDs and content hashes. Send at most 1000 per request. */
+export type ErrorTrackingSymbolSetsBulkCheckUploadCreateRequestSymbolSetsList =
+  Array<ErrorTrackingSymbolSetUpload>;
+export const ErrorTrackingSymbolSetsBulkCheckUploadCreateRequestSymbolSetsList =
+  /*@__PURE__*/ S.Array(
+    ErrorTrackingSymbolSetUpload,
+  ) as any as S.Schema<ErrorTrackingSymbolSetsBulkCheckUploadCreateRequestSymbolSetsList>;
+
+export interface ErrorTrackingSymbolSetsBulkCheckUploadCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Symbol sets the client intends to upload, with per-symbol release IDs and content hashes. Send at most 1000 per request. */
+  symbol_sets: ErrorTrackingSymbolSetsBulkCheckUploadCreateRequestSymbolSetsList;
+  /** Whether to overwrite uploaded symbol sets whose content hash changed. */
+  force?: boolean;
+  /** Whether to skip uploaded symbol sets whose content hash changed instead of failing. */
+  skip_on_conflict?: boolean;
+}
+export const ErrorTrackingSymbolSetsBulkCheckUploadCreateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    symbol_sets: ErrorTrackingSymbolSetsBulkCheckUploadCreateRequestSymbolSetsList,
+    force: S.optional(S.Boolean),
+    skip_on_conflict: S.optional(S.Boolean),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/error_tracking/symbol_sets/bulk_check_upload/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ErrorTrackingSymbolSetsBulkCheckUploadCreateRequest",
+}) as any as S.Schema<ErrorTrackingSymbolSetsBulkCheckUploadCreateRequest>;
+
+/** Chunk IDs to send to `bulk_start_upload`: the symbol set is missing, its upload never completed, its content differs, or it still needs the release bound. The other chunks are already uploaded with identical content and were marked as still in use. */
+export type ErrorTrackingSymbolSetBulkCheckUploadResponseChunkIdsToUploadList = Array<string>;
+export const ErrorTrackingSymbolSetBulkCheckUploadResponseChunkIdsToUploadList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ErrorTrackingSymbolSetBulkCheckUploadResponseChunkIdsToUploadList>;
+
+export interface ErrorTrackingSymbolSetBulkCheckUploadResponse {
+  /** Chunk IDs to send to `bulk_start_upload`: the symbol set is missing, its upload never completed, its content differs, or it still needs the release bound. The other chunks are already uploaded with identical content and were marked as still in use. */
+  chunk_ids_to_upload: ErrorTrackingSymbolSetBulkCheckUploadResponseChunkIdsToUploadList;
+}
+export const ErrorTrackingSymbolSetBulkCheckUploadResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    chunk_ids_to_upload: ErrorTrackingSymbolSetBulkCheckUploadResponseChunkIdsToUploadList,
+  }),
+).annotate({
+  identifier: "ErrorTrackingSymbolSetBulkCheckUploadResponse",
+}) as any as S.Schema<ErrorTrackingSymbolSetBulkCheckUploadResponse>;
+
 /** Symbol set IDs to delete. */
 export type ErrorTrackingSymbolSetsBulkDeleteCreateRequestIdsList = Array<string>;
 export const ErrorTrackingSymbolSetsBulkDeleteCreateRequestIdsList = /*@__PURE__*/ S.Array(
@@ -3223,31 +3656,6 @@ export const ErrorTrackingSymbolSetsBulkFinishUploadCreateResponse = /*@__PURE__
   identifier: "ErrorTrackingSymbolSetsBulkFinishUploadCreateResponse",
 }) as any as S.Schema<ErrorTrackingSymbolSetsBulkFinishUploadCreateResponse>;
 
-/** Legacy list of symbol set references to upload, all associated with `release_id`. */
-export type ErrorTrackingSymbolSetsBulkStartUploadCreateRequestChunkIdsList = Array<string>;
-export const ErrorTrackingSymbolSetsBulkStartUploadCreateRequestChunkIdsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<ErrorTrackingSymbolSetsBulkStartUploadCreateRequestChunkIdsList>;
-
-export interface ErrorTrackingSymbolSetUpload {
-  /** Symbol set reference to upload. */
-  chunk_id: string;
-  /** Optional error tracking release ID associated with this symbol set. */
-  release_id?: string | null;
-  /** Optional hash of the symbol set content, used to skip unchanged uploads. */
-  content_hash?: string | null;
-}
-export const ErrorTrackingSymbolSetUpload = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    chunk_id: S.String,
-    release_id: S.optional(S.NullOr(S.String)),
-    content_hash: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({
-  identifier: "ErrorTrackingSymbolSetUpload",
-}) as any as S.Schema<ErrorTrackingSymbolSetUpload>;
-
 /** Symbol sets to upload with per-symbol release IDs and content hashes. */
 export type ErrorTrackingSymbolSetsBulkStartUploadCreateRequestSymbolSetsList =
   Array<ErrorTrackingSymbolSetUpload>;
@@ -3256,28 +3664,35 @@ export const ErrorTrackingSymbolSetsBulkStartUploadCreateRequestSymbolSetsList =
     ErrorTrackingSymbolSetUpload,
   ) as any as S.Schema<ErrorTrackingSymbolSetsBulkStartUploadCreateRequestSymbolSetsList>;
 
+/** Legacy list of symbol set references to upload, all associated with `release_id`. */
+export type ErrorTrackingSymbolSetsBulkStartUploadCreateRequestChunkIdsList = Array<string>;
+export const ErrorTrackingSymbolSetsBulkStartUploadCreateRequestChunkIdsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ErrorTrackingSymbolSetsBulkStartUploadCreateRequestChunkIdsList>;
+
 export interface ErrorTrackingSymbolSetsBulkStartUploadCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** Legacy list of symbol set references to upload, all associated with `release_id`. */
-  chunk_ids?: ErrorTrackingSymbolSetsBulkStartUploadCreateRequestChunkIdsList;
-  /** Optional error tracking release ID used with `chunk_ids`. */
-  release_id?: string | null;
   /** Symbol sets to upload with per-symbol release IDs and content hashes. */
   symbol_sets?: ErrorTrackingSymbolSetsBulkStartUploadCreateRequestSymbolSetsList;
   /** Whether to overwrite uploaded symbol sets whose content hash changed. */
   force?: boolean;
   /** Whether to skip uploaded symbol sets whose content hash changed instead of failing. */
   skip_on_conflict?: boolean;
+  /** Legacy list of symbol set references to upload, all associated with `release_id`. */
+  chunk_ids?: ErrorTrackingSymbolSetsBulkStartUploadCreateRequestChunkIdsList;
+  /** Optional error tracking release ID used with `chunk_ids`. */
+  release_id?: string | null;
 }
 export const ErrorTrackingSymbolSetsBulkStartUploadCreateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
-    chunk_ids: S.optional(ErrorTrackingSymbolSetsBulkStartUploadCreateRequestChunkIdsList),
-    release_id: S.optional(S.NullOr(S.String)),
     symbol_sets: S.optional(ErrorTrackingSymbolSetsBulkStartUploadCreateRequestSymbolSetsList),
     force: S.optional(S.Boolean),
     skip_on_conflict: S.optional(S.Boolean),
+    chunk_ids: S.optional(ErrorTrackingSymbolSetsBulkStartUploadCreateRequestChunkIdsList),
+    release_id: S.optional(S.NullOr(S.String)),
   }).pipe(
     T.Http({
       method: "POST",
@@ -3290,9 +3705,7 @@ export const ErrorTrackingSymbolSetsBulkStartUploadCreateRequest = /*@__PURE__*/
 }) as any as S.Schema<ErrorTrackingSymbolSetsBulkStartUploadCreateRequest>;
 
 /** Form fields to include in the multipart POST, before the file part. */
-export type ErrorTrackingSymbolSetPresignedPostFieldsMap = {
-  [key: string]: string | undefined;
-};
+export type ErrorTrackingSymbolSetPresignedPostFieldsMap = { [key: string]: string | undefined };
 export const ErrorTrackingSymbolSetPresignedPostFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3320,12 +3733,18 @@ export interface ErrorTrackingSymbolSetBulkStartUploadEntry {
   presigned_url: ErrorTrackingSymbolSetPresignedPost;
   /** Presigned POST against the standard S3 endpoint, present only when the primary URL uses transfer acceleration. For clients whose network blocks the accelerated endpoint. */
   fallback_presigned_url?: ErrorTrackingSymbolSetPresignedPost;
+  /** Presigned PUT for the upload, present only when the request declared `content_length`. Send the raw bytes with a matching `Content-Length` header. Prefer this over `presigned_url`: presigned POST is an AWS extension that some S3-compatible stores reject. */
+  presigned_put_url?: string;
+  /** Presigned PUT against the standard S3 endpoint, present only when the primary PUT uses transfer acceleration. */
+  fallback_presigned_put_url?: string;
 }
 export const ErrorTrackingSymbolSetBulkStartUploadEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     symbol_set_id: S.String,
     presigned_url: ErrorTrackingSymbolSetPresignedPost,
     fallback_presigned_url: S.optional(ErrorTrackingSymbolSetPresignedPost),
+    presigned_put_url: S.optional(S.String),
+    fallback_presigned_put_url: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ErrorTrackingSymbolSetBulkStartUploadEntry",
@@ -3441,6 +3860,26 @@ export const ErrorTrackingSymbolSetsFinishUploadUpdateResponse = /*@__PURE__*/ S
   identifier: "ErrorTrackingSymbolSetsFinishUploadUpdateResponse",
 }) as any as S.Schema<ErrorTrackingSymbolSetsFinishUploadUpdateResponse>;
 
+export interface GetErrorTrackingAlertRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+}
+export const GetErrorTrackingAlertRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/error_tracking/alerts/{id}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetErrorTrackingAlertRequest",
+}) as any as S.Schema<GetErrorTrackingAlertRequest>;
+
 export interface GetErrorTrackingAssignmentRuleRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -3539,9 +3978,7 @@ export const ErrorTrackingFingerprint = /*@__PURE__*/ S.suspend(() =>
     issue_id: S.optional(S.String),
     created_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ErrorTrackingFingerprint",
-}) as any as S.Schema<ErrorTrackingFingerprint>;
+).annotate({ identifier: "ErrorTrackingFingerprint" }) as any as S.Schema<ErrorTrackingFingerprint>;
 
 export interface GetErrorTrackingFingerprintsResolveRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -3668,11 +4105,14 @@ export interface GetErrorTrackingIssueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
+  /** Resolve the issue that currently owns this fingerprint first. */
+  fingerprint?: string;
 }
 export const GetErrorTrackingIssueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
+    fingerprint: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3706,6 +4146,19 @@ export const ErrorTrackingIssueReadExternalIssuesList = /*@__PURE__*/ S.Array(
   ErrorTrackingExternalReferenceResult,
 ) as any as S.Schema<ErrorTrackingIssueReadExternalIssuesList>;
 
+export interface ErrorTrackingIssueCohortRead {
+  id: number;
+  name: string;
+}
+export const ErrorTrackingIssueCohortRead = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.Number,
+    name: S.String,
+  }),
+).annotate({
+  identifier: "ErrorTrackingIssueCohortRead",
+}) as any as S.Schema<ErrorTrackingIssueCohortRead>;
+
 /** Read-only serializer for issue contract types returned by the facade. */
 export interface ErrorTrackingIssueRead {
   id: string;
@@ -3731,9 +4184,7 @@ export const ErrorTrackingIssueRead = /*@__PURE__*/ S.suspend(() =>
     external_issues: ErrorTrackingIssueReadExternalIssuesList,
     cohort: S.NullOr(ErrorTrackingIssueCohortRead),
   }),
-).annotate({
-  identifier: "ErrorTrackingIssueRead",
-}) as any as S.Schema<ErrorTrackingIssueRead>;
+).annotate({ identifier: "ErrorTrackingIssueRead" }) as any as S.Schema<ErrorTrackingIssueRead>;
 
 export interface GetErrorTrackingIssuesActivityRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -3805,20 +4256,31 @@ export const GetErrorTrackingIssuesExistRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetErrorTrackingIssuesExistRequest",
 }) as any as S.Schema<GetErrorTrackingIssuesExistRequest>;
 
-export interface GetErrorTrackingIssuesExistResponse {}
-export const GetErrorTrackingIssuesExistResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+export interface ErrorTrackingIssueExistsResponse {
+  /** Whether the project has recorded any issue at all. */
+  exists: boolean;
+}
+export const ErrorTrackingIssueExistsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    exists: S.Boolean,
+  }),
 ).annotate({
-  identifier: "GetErrorTrackingIssuesExistResponse",
-}) as any as S.Schema<GetErrorTrackingIssuesExistResponse>;
+  identifier: "ErrorTrackingIssueExistsResponse",
+}) as any as S.Schema<ErrorTrackingIssueExistsResponse>;
 
 export interface GetErrorTrackingIssuesValueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Issue property to list values for. */
+  key: string;
+  /** Substring the returned values must contain. */
+  value?: string;
 }
 export const GetErrorTrackingIssuesValueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
+    key: S.String.pipe(T.Query()),
+    value: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3830,12 +4292,36 @@ export const GetErrorTrackingIssuesValueRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetErrorTrackingIssuesValueRequest",
 }) as any as S.Schema<GetErrorTrackingIssuesValueRequest>;
 
-export interface GetErrorTrackingIssuesValueResponse {}
-export const GetErrorTrackingIssuesValueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+export interface ErrorTrackingIssueValue {
+  /** One distinct value of the requested property. */
+  name: string;
+}
+export const ErrorTrackingIssueValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+  }),
+).annotate({ identifier: "ErrorTrackingIssueValue" }) as any as S.Schema<ErrorTrackingIssueValue>;
+
+/** Distinct values, for the taxonomic filter. */
+export type ErrorTrackingIssueValuesResponseResultsList = Array<ErrorTrackingIssueValue>;
+export const ErrorTrackingIssueValuesResponseResultsList = /*@__PURE__*/ S.Array(
+  ErrorTrackingIssueValue,
+) as any as S.Schema<ErrorTrackingIssueValuesResponseResultsList>;
+
+export interface ErrorTrackingIssueValuesResponse {
+  /** Distinct values, for the taxonomic filter. */
+  results: ErrorTrackingIssueValuesResponseResultsList;
+  /** Always false. Kept for the taxonomic filter's shared shape. */
+  refreshing: boolean;
+}
+export const ErrorTrackingIssueValuesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: ErrorTrackingIssueValuesResponseResultsList,
+    refreshing: S.Boolean,
+  }),
 ).annotate({
-  identifier: "GetErrorTrackingIssuesValueResponse",
-}) as any as S.Schema<GetErrorTrackingIssuesValueResponse>;
+  identifier: "ErrorTrackingIssueValuesResponse",
+}) as any as S.Schema<ErrorTrackingIssueValuesResponse>;
 
 export interface GetErrorTrackingReleaseRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -3985,9 +4471,49 @@ export const ErrorTrackingSymbolSet = /*@__PURE__*/ S.suspend(() =>
     has_uploaded_file: S.optional(S.Boolean),
     release: S.optional(S.NullOr(ErrorTrackingRelease)),
   }),
+).annotate({ identifier: "ErrorTrackingSymbolSet" }) as any as S.Schema<ErrorTrackingSymbolSet>;
+
+export interface ListErrorTrackingAlertsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Number of results to return per page. */
+  limit?: number;
+  /** The initial index from which to return the results. */
+  offset?: number;
+}
+export const ListErrorTrackingAlertsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    offset: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/error_tracking/alerts/", code: 200 }),
+  ),
 ).annotate({
-  identifier: "ErrorTrackingSymbolSet",
-}) as any as S.Schema<ErrorTrackingSymbolSet>;
+  identifier: "ListErrorTrackingAlertsRequest",
+}) as any as S.Schema<ListErrorTrackingAlertsRequest>;
+
+export type PaginatedErrorTrackingAlertListResultsList = Array<ErrorTrackingAlert>;
+export const PaginatedErrorTrackingAlertListResultsList = /*@__PURE__*/ S.Array(
+  ErrorTrackingAlert,
+) as any as S.Schema<PaginatedErrorTrackingAlertListResultsList>;
+
+export interface PaginatedErrorTrackingAlertList {
+  count: number;
+  next?: string | null;
+  previous?: string | null;
+  results: PaginatedErrorTrackingAlertListResultsList;
+}
+export const PaginatedErrorTrackingAlertList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.Number,
+    next: S.optional(S.NullOr(S.String)),
+    previous: S.optional(S.NullOr(S.String)),
+    results: PaginatedErrorTrackingAlertListResultsList,
+  }),
+).annotate({
+  identifier: "PaginatedErrorTrackingAlertList",
+}) as any as S.Schema<PaginatedErrorTrackingAlertList>;
 
 export interface ListErrorTrackingAssignmentRulesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -4132,6 +4658,8 @@ export const PaginatedErrorTrackingExternalReferenceResultList = /*@__PURE__*/ S
 export interface ListErrorTrackingFingerprintsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Return only the fingerprints of this issue. */
+  issue_id?: string;
   /** Number of results to return per page. */
   limit?: number;
   /** The initial index from which to return the results. */
@@ -4140,6 +4668,7 @@ export interface ListErrorTrackingFingerprintsRequest {
 export const ListErrorTrackingFingerprintsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
+    issue_id: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
@@ -4223,11 +4752,7 @@ export const ListErrorTrackingIssuesRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/error_tracking/issues/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/error_tracking/issues/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListErrorTrackingIssuesRequest",
@@ -4262,12 +4787,15 @@ export interface ListErrorTrackingRecommendationsRequest {
   limit?: number;
   /** The initial index from which to return the results. */
   offset?: number;
+  /** True reads the current state without scheduling a refresh. */
+  poll?: boolean;
 }
 export const ListErrorTrackingRecommendationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
+    poll: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4402,33 +4930,31 @@ export const ListErrorTrackingSpikeDetectionConfigRequest = /*@__PURE__*/ S.susp
   identifier: "ListErrorTrackingSpikeDetectionConfigRequest",
 }) as any as S.Schema<ListErrorTrackingSpikeDetectionConfigRequest>;
 
-export type ListErrorTrackingSpikeDetectionConfigResponseBodyList =
-  Array<ErrorTrackingSpikeDetectionConfig>;
-export const ListErrorTrackingSpikeDetectionConfigResponseBodyList = /*@__PURE__*/ S.Array(
-  ErrorTrackingSpikeDetectionConfig,
-) as any as S.Schema<ListErrorTrackingSpikeDetectionConfigResponseBodyList>;
-
-export type ListErrorTrackingSpikeDetectionConfigResponse =
-  ListErrorTrackingSpikeDetectionConfigResponseBodyList;
-export const ListErrorTrackingSpikeDetectionConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  ListErrorTrackingSpikeDetectionConfigResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListErrorTrackingSpikeDetectionConfigResponse",
-}) as any as S.Schema<ListErrorTrackingSpikeDetectionConfigResponse>;
-
 export interface ListErrorTrackingSpikeEventsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Include spikes detected at or after this time. */
+  date_from?: string;
+  /** Include spikes detected at or before this time. */
+  date_to?: string;
+  /** Comma-separated issue UUIDs to include. */
+  issue_ids?: string;
   /** Number of results to return per page. */
   limit?: number;
   /** The initial index from which to return the results. */
   offset?: number;
+  /** Field to order by. Prefix with a hyphen for descending. */
+  order_by?: string;
 }
 export const ListErrorTrackingSpikeEventsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
+    date_from: S.optional(S.String.pipe(T.Query())),
+    date_to: S.optional(S.String.pipe(T.Query())),
+    issue_ids: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
+    order_by: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4470,9 +4996,7 @@ export const ErrorTrackingSpikeEvent = /*@__PURE__*/ S.suspend(() =>
     computed_baseline: S.optional(S.Number),
     current_bucket_value: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ErrorTrackingSpikeEvent",
-}) as any as S.Schema<ErrorTrackingSpikeEvent>;
+).annotate({ identifier: "ErrorTrackingSpikeEvent" }) as any as S.Schema<ErrorTrackingSpikeEvent>;
 
 export type PaginatedErrorTrackingSpikeEventListResultsList = Array<ErrorTrackingSpikeEvent>;
 export const PaginatedErrorTrackingSpikeEventListResultsList = /*@__PURE__*/ S.Array(
@@ -4659,6 +5183,110 @@ export const PaginatedErrorTrackingSymbolSetList = /*@__PURE__*/ S.suspend(() =>
   identifier: "PaginatedErrorTrackingSymbolSetList",
 }) as any as S.Schema<PaginatedErrorTrackingSymbolSetList>;
 
+/** Issue lifecycle events that open a notification thread for an issue. */
+export type UpdateErrorTrackingAlertRequestTriggersList = Array<TriggersEnum | (string & {})>;
+export const UpdateErrorTrackingAlertRequestTriggersList = /*@__PURE__*/ S.Array(
+  TriggersEnum,
+) as any as S.Schema<UpdateErrorTrackingAlertRequestTriggersList>;
+
+/** Delivery targets notifications fan out to. */
+export type UpdateErrorTrackingAlertRequestDestinationsList =
+  Array<ErrorTrackingAlertDestinationRequest>;
+export const UpdateErrorTrackingAlertRequestDestinationsList = /*@__PURE__*/ S.Array(
+  ErrorTrackingAlertDestinationRequest,
+) as any as S.Schema<UpdateErrorTrackingAlertRequestDestinationsList>;
+
+export interface UpdateErrorTrackingAlertRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+  /** Human-readable name of the alert. */
+  name: string;
+  /** Issue lifecycle events that open a notification thread for an issue. */
+  triggers: UpdateErrorTrackingAlertRequestTriggersList;
+  /** Property filters a transition must match to open a notification thread. Same shape as hog function filters; the bytecode is compiled on save. */
+  filters?: ErrorTrackingAlertFiltersInput;
+  /** Minimum seconds between thread-opening notifications per issue, at most 30 days. 0 disables the throttle. */
+  throttle_seconds?: number;
+  /** Delivery targets notifications fan out to. */
+  destinations: UpdateErrorTrackingAlertRequestDestinationsList;
+  /** Whether the alert fires notifications. Defaults to enabled. */
+  enabled?: boolean;
+}
+export const UpdateErrorTrackingAlertRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    name: S.String,
+    triggers: UpdateErrorTrackingAlertRequestTriggersList,
+    filters: S.optional(ErrorTrackingAlertFiltersInput),
+    throttle_seconds: S.optional(S.Number),
+    destinations: UpdateErrorTrackingAlertRequestDestinationsList,
+    enabled: S.optional(S.Boolean),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/api/projects/{project_id}/error_tracking/alerts/{id}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdateErrorTrackingAlertRequest",
+}) as any as S.Schema<UpdateErrorTrackingAlertRequest>;
+
+/** Issue lifecycle events that open a notification thread. Omit to keep the current triggers. */
+export type UpdateErrorTrackingAlertsPartialRequestTriggersList = Array<
+  TriggersEnum | (string & {})
+>;
+export const UpdateErrorTrackingAlertsPartialRequestTriggersList = /*@__PURE__*/ S.Array(
+  TriggersEnum,
+) as any as S.Schema<UpdateErrorTrackingAlertsPartialRequestTriggersList>;
+
+/** Delivery targets notifications fan out to. When provided, replaces all current destinations. */
+export type UpdateErrorTrackingAlertsPartialRequestDestinationsList =
+  Array<ErrorTrackingAlertDestinationRequest>;
+export const UpdateErrorTrackingAlertsPartialRequestDestinationsList = /*@__PURE__*/ S.Array(
+  ErrorTrackingAlertDestinationRequest,
+) as any as S.Schema<UpdateErrorTrackingAlertsPartialRequestDestinationsList>;
+
+export interface UpdateErrorTrackingAlertsPartialRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+  /** Human-readable name of the alert. Omit to keep the current name. */
+  name?: string;
+  /** Whether the alert fires notifications. Omit to keep the current state. */
+  enabled?: boolean;
+  /** Issue lifecycle events that open a notification thread. Omit to keep the current triggers. */
+  triggers?: UpdateErrorTrackingAlertsPartialRequestTriggersList;
+  /** Property filters a transition must match to open a notification thread. Omit to keep the current filters. */
+  filters?: ErrorTrackingAlertFiltersInput;
+  /** Minimum seconds between thread-opening notifications per issue, at most 30 days. Omit to keep the current value. */
+  throttle_seconds?: number;
+  /** Delivery targets notifications fan out to. When provided, replaces all current destinations. */
+  destinations?: UpdateErrorTrackingAlertsPartialRequestDestinationsList;
+}
+export const UpdateErrorTrackingAlertsPartialRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    name: S.optional(S.String),
+    enabled: S.optional(S.Boolean),
+    triggers: S.optional(UpdateErrorTrackingAlertsPartialRequestTriggersList),
+    filters: S.optional(ErrorTrackingAlertFiltersInput),
+    throttle_seconds: S.optional(S.Number),
+    destinations: S.optional(UpdateErrorTrackingAlertsPartialRequestDestinationsList),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/api/projects/{project_id}/error_tracking/alerts/{id}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdateErrorTrackingAlertsPartialRequest",
+}) as any as S.Schema<UpdateErrorTrackingAlertsPartialRequest>;
+
 export interface UpdateErrorTrackingAssignmentRuleRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -4725,19 +5353,26 @@ export const UpdateErrorTrackingAssignmentRulesPartialResponse = /*@__PURE__*/ S
   identifier: "UpdateErrorTrackingAssignmentRulesPartialResponse",
 }) as any as S.Schema<UpdateErrorTrackingAssignmentRulesPartialResponse>;
 
+/** Mapping from assignment rule UUID to its new evaluation order. */
+export type UpdateErrorTrackingAssignmentRulesReorderPartialRequestOrdersMap = {
+  [key: string]: number | undefined;
+};
+export const UpdateErrorTrackingAssignmentRulesReorderPartialRequestOrdersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Number,
+  ) as any as S.Schema<UpdateErrorTrackingAssignmentRulesReorderPartialRequestOrdersMap>;
+
 export interface UpdateErrorTrackingAssignmentRulesReorderPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  filters?: unknown;
-  order_key?: number;
-  disabled_data?: unknown;
+  /** Mapping from assignment rule UUID to its new evaluation order. */
+  orders?: UpdateErrorTrackingAssignmentRulesReorderPartialRequestOrdersMap;
 }
 export const UpdateErrorTrackingAssignmentRulesReorderPartialRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
-    filters: S.optional(S.Unknown),
-    order_key: S.optional(S.Number),
-    disabled_data: S.optional(S.Unknown),
+    orders: S.optional(UpdateErrorTrackingAssignmentRulesReorderPartialRequestOrdersMap),
   }).pipe(
     T.Http({
       method: "PATCH",
@@ -4816,22 +5451,25 @@ export const UpdateErrorTrackingBypassRulesPartialResponse = /*@__PURE__*/ S.sus
   identifier: "UpdateErrorTrackingBypassRulesPartialResponse",
 }) as any as S.Schema<UpdateErrorTrackingBypassRulesPartialResponse>;
 
+/** Mapping from bypass rule UUID to its new evaluation order. */
+export type UpdateErrorTrackingBypassRulesReorderPartialRequestOrdersMap = {
+  [key: string]: number | undefined;
+};
+export const UpdateErrorTrackingBypassRulesReorderPartialRequestOrdersMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Number,
+) as any as S.Schema<UpdateErrorTrackingBypassRulesReorderPartialRequestOrdersMap>;
+
 export interface UpdateErrorTrackingBypassRulesReorderPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** Property-group filters that define which incoming error events bypass rate limiting. */
-  filters?: unknown;
-  /** Position of the rule in the team's ordered list. Rules are evaluated greedily in ascending order. */
-  order_key?: number;
-  /** Populated when the rule has been automatically disabled (for example, after its filters failed to evaluate during ingestion). Null while the rule is active. */
-  disabled_data?: unknown;
+  /** Mapping from bypass rule UUID to its new evaluation order. */
+  orders?: UpdateErrorTrackingBypassRulesReorderPartialRequestOrdersMap;
 }
 export const UpdateErrorTrackingBypassRulesReorderPartialRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
-    filters: S.optional(S.Unknown),
-    order_key: S.optional(S.Number),
-    disabled_data: S.optional(S.Unknown),
+    orders: S.optional(UpdateErrorTrackingBypassRulesReorderPartialRequestOrdersMap),
   }).pipe(
     T.Http({
       method: "PATCH",
@@ -4910,21 +5548,26 @@ export const UpdateErrorTrackingGroupingRulesPartialResponse = /*@__PURE__*/ S.s
   identifier: "UpdateErrorTrackingGroupingRulesPartialResponse",
 }) as any as S.Schema<UpdateErrorTrackingGroupingRulesPartialResponse>;
 
+/** Mapping from grouping rule UUID to its new evaluation order. */
+export type UpdateErrorTrackingGroupingRulesReorderPartialRequestOrdersMap = {
+  [key: string]: number | undefined;
+};
+export const UpdateErrorTrackingGroupingRulesReorderPartialRequestOrdersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Number,
+  ) as any as S.Schema<UpdateErrorTrackingGroupingRulesReorderPartialRequestOrdersMap>;
+
 export interface UpdateErrorTrackingGroupingRulesReorderPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  filters?: unknown;
-  description?: string | null;
-  order_key?: number;
-  disabled_data?: unknown;
+  /** Mapping from grouping rule UUID to its new evaluation order. */
+  orders?: UpdateErrorTrackingGroupingRulesReorderPartialRequestOrdersMap;
 }
 export const UpdateErrorTrackingGroupingRulesReorderPartialRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
-    filters: S.optional(S.Unknown),
-    description: S.optional(S.NullOr(S.String)),
-    order_key: S.optional(S.Number),
-    disabled_data: S.optional(S.Unknown),
+    orders: S.optional(UpdateErrorTrackingGroupingRulesReorderPartialRequestOrdersMap),
   }).pipe(
     T.Http({
       method: "PATCH",
@@ -4943,16 +5586,12 @@ export const UpdateErrorTrackingGroupingRulesReorderPartialResponse = /*@__PURE_
   identifier: "UpdateErrorTrackingGroupingRulesReorderPartialResponse",
 }) as any as S.Schema<UpdateErrorTrackingGroupingRulesReorderPartialResponse>;
 
-/** * `active` - active * `resolved` - resolved * `suppressed` - suppressed */
-export type ErrorTrackingIssueWriteStatusEnum = "active" | "resolved" | "suppressed";
-export const ErrorTrackingIssueWriteStatusEnum = S.String;
-
 export interface UpdateErrorTrackingIssueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
   /** Issue status to set. Deprecated archived and pending_release values are rejected. * `active` - active * `resolved` - resolved * `suppressed` - suppressed */
-  status?: ErrorTrackingIssueWriteStatusEnum | (string & {});
+  status?: ErrorTrackingIssueWritableStatusEnum | (string & {});
   /** Issue severity to set, or null to remove the assigned severity. */
   severity?: ErrorTrackingIssueSeverity | (string & {}) | null;
   /** Optional issue display name. */
@@ -4964,7 +5603,7 @@ export const UpdateErrorTrackingIssueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-    status: S.optional(ErrorTrackingIssueWriteStatusEnum),
+    status: S.optional(ErrorTrackingIssueWritableStatusEnum),
     severity: S.optional(S.NullOr(ErrorTrackingIssueSeverity)),
     name: S.optional(S.NullOr(S.String)),
     description: S.optional(S.NullOr(S.String)),
@@ -4979,38 +5618,18 @@ export const UpdateErrorTrackingIssueRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateErrorTrackingIssueRequest",
 }) as any as S.Schema<UpdateErrorTrackingIssueRequest>;
 
-export type UpdateErrorTrackingIssuesCohortRequestExternalIssuesList =
-  Array<ErrorTrackingExternalReferenceResultInput>;
-export const UpdateErrorTrackingIssuesCohortRequestExternalIssuesList = /*@__PURE__*/ S.Array(
-  ErrorTrackingExternalReferenceResultInput,
-) as any as S.Schema<UpdateErrorTrackingIssuesCohortRequestExternalIssuesList>;
-
 export interface UpdateErrorTrackingIssuesCohortRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
-  status: string;
-  /** Issue severity, or null when no severity is assigned. */
-  severity: ErrorTrackingIssueSeverity | (string & {}) | null;
-  name: string | null;
-  description: string | null;
-  first_seen: string | null;
-  assignee: ErrorTrackingIssueAssigneeReadInput | null;
-  external_issues: UpdateErrorTrackingIssuesCohortRequestExternalIssuesList;
-  cohort: ErrorTrackingIssueCohortRead | null;
+  /** ID of the cohort to attach to the issue. */
+  cohortId: number;
 }
 export const UpdateErrorTrackingIssuesCohortRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-    status: S.String,
-    severity: S.NullOr(ErrorTrackingIssueSeverity),
-    name: S.NullOr(S.String),
-    description: S.NullOr(S.String),
-    first_seen: S.NullOr(S.String),
-    assignee: S.NullOr(ErrorTrackingIssueAssigneeReadInput),
-    external_issues: UpdateErrorTrackingIssuesCohortRequestExternalIssuesList,
-    cohort: S.NullOr(ErrorTrackingIssueCohortRead),
+    cohortId: S.Number,
   }).pipe(
     T.Http({
       method: "PUT",
@@ -5022,19 +5641,12 @@ export const UpdateErrorTrackingIssuesCohortRequest = /*@__PURE__*/ S.suspend(()
   identifier: "UpdateErrorTrackingIssuesCohortRequest",
 }) as any as S.Schema<UpdateErrorTrackingIssuesCohortRequest>;
 
-export interface UpdateErrorTrackingIssuesCohortResponse {}
-export const UpdateErrorTrackingIssuesCohortResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateErrorTrackingIssuesCohortResponse",
-}) as any as S.Schema<UpdateErrorTrackingIssuesCohortResponse>;
-
 export interface UpdateErrorTrackingIssuesPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
   /** Issue status to set. Deprecated archived and pending_release values are rejected. * `active` - active * `resolved` - resolved * `suppressed` - suppressed */
-  status?: ErrorTrackingIssueWriteStatusEnum | (string & {});
+  status?: ErrorTrackingIssueWritableStatusEnum | (string & {});
   /** Issue severity to set, or null to remove the assigned severity. */
   severity?: ErrorTrackingIssueSeverity | (string & {}) | null;
   /** Optional issue display name. */
@@ -5046,7 +5658,7 @@ export const UpdateErrorTrackingIssuesPartialRequest = /*@__PURE__*/ S.suspend((
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-    status: S.optional(ErrorTrackingIssueWriteStatusEnum),
+    status: S.optional(ErrorTrackingIssueWritableStatusEnum),
     severity: S.optional(S.NullOr(ErrorTrackingIssueSeverity)),
     name: S.optional(S.NullOr(S.String)),
     description: S.optional(S.NullOr(S.String)),
@@ -5062,9 +5674,7 @@ export const UpdateErrorTrackingIssuesPartialRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<UpdateErrorTrackingIssuesPartialRequest>;
 
 /** Free-form metadata object. Omit to preserve the current value. */
-export type UpdateErrorTrackingReleaseRequestMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateErrorTrackingReleaseRequestMetadataMap = { [key: string]: unknown | undefined };
 export const UpdateErrorTrackingReleaseRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -5327,22 +5937,27 @@ export const UpdateErrorTrackingSuppressionRulesPartialResponse = /*@__PURE__*/ 
   identifier: "UpdateErrorTrackingSuppressionRulesPartialResponse",
 }) as any as S.Schema<UpdateErrorTrackingSuppressionRulesPartialResponse>;
 
+/** Mapping from suppression rule UUID to its new evaluation order. */
+export type UpdateErrorTrackingSuppressionRulesReorderPartialRequestOrdersMap = {
+  [key: string]: number | undefined;
+};
+export const UpdateErrorTrackingSuppressionRulesReorderPartialRequestOrdersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Number,
+  ) as any as S.Schema<UpdateErrorTrackingSuppressionRulesReorderPartialRequestOrdersMap>;
+
 export interface UpdateErrorTrackingSuppressionRulesReorderPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  filters?: unknown;
-  order_key?: number;
-  disabled_data?: unknown;
-  sampling_rate?: number;
+  /** Mapping from suppression rule UUID to its new evaluation order. */
+  orders?: UpdateErrorTrackingSuppressionRulesReorderPartialRequestOrdersMap;
 }
 export const UpdateErrorTrackingSuppressionRulesReorderPartialRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       project_id: S.String.pipe(T.Label()),
-      filters: S.optional(S.Unknown),
-      order_key: S.optional(S.Number),
-      disabled_data: S.optional(S.Unknown),
-      sampling_rate: S.optional(S.Number),
+      orders: S.optional(UpdateErrorTrackingSuppressionRulesReorderPartialRequestOrdersMap),
     }).pipe(
       T.Http({
         method: "PATCH",
@@ -5360,6 +5975,20 @@ export const UpdateErrorTrackingSuppressionRulesReorderPartialResponse = /*@__PU
 ).annotate({
   identifier: "UpdateErrorTrackingSuppressionRulesReorderPartialResponse",
 }) as any as S.Schema<UpdateErrorTrackingSuppressionRulesReorderPartialResponse>;
+
+export type CreateErrorTrackingAlertError = PosthogOpError;
+export const createErrorTrackingAlert: API.OperationMethod<
+  CreateErrorTrackingAlertRequest,
+  ErrorTrackingAlert,
+  CreateErrorTrackingAlertError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateErrorTrackingAlertRequest,
+  output: ErrorTrackingAlert,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
 
 export type CreateErrorTrackingAssignmentRuleError = PosthogOpError;
 export const createErrorTrackingAssignmentRule: API.OperationMethod<
@@ -5461,7 +6090,7 @@ export const createErrorTrackingIssuesSplit: API.OperationMethod<
 }));
 
 export type CreateErrorTrackingQueryIssueError = NotFound | PosthogOpError;
-/** Get compact error tracking issue details Fetch one error tracking issue with impact counts, top in_app frame, latest release, and optional sparkline. */
+/** Get compact error tracking issue details Fetch one error tracking issue with impact counts, top in_app frame, latest release, and optional sparkline and event breakdown. */
 export const createErrorTrackingQueryIssue: API.OperationMethod<
   CreateErrorTrackingQueryIssueRequest,
   ErrorTrackingIssueDetail,
@@ -5541,6 +6170,20 @@ export const createErrorTrackingSuppressionRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateErrorTrackingSuppressionRuleRequest,
   output: ErrorTrackingSuppressionRule,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ErrorTrackingAlertsDestroyError = PosthogOpError;
+export const errorTrackingAlertsDestroy: API.OperationMethod<
+  ErrorTrackingAlertsDestroyRequest,
+  ErrorTrackingAlertsDestroyResponse,
+  ErrorTrackingAlertsDestroyError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ErrorTrackingAlertsDestroyRequest,
+  output: ErrorTrackingAlertsDestroyResponse,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -5650,12 +6293,12 @@ export const errorTrackingIssuesAssignPartialUpdate: API.OperationMethod<
 export type ErrorTrackingIssuesBulkCreateError = PosthogOpError;
 export const errorTrackingIssuesBulkCreate: API.OperationMethod<
   ErrorTrackingIssuesBulkCreateRequest,
-  ErrorTrackingIssuesBulkCreateResponse,
+  ErrorTrackingIssueSuccessResponse,
   ErrorTrackingIssuesBulkCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: ErrorTrackingIssuesBulkCreateRequest,
-  output: ErrorTrackingIssuesBulkCreateResponse,
+  output: ErrorTrackingIssueSuccessResponse,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -5832,6 +6475,21 @@ export const errorTrackingSuppressionRulesDestroy: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ErrorTrackingSymbolSetsBulkCheckUploadCreateError = PosthogOpError;
+/** Report which of the given symbol sets still need `bulk_start_upload`. Symbol sets already uploaded with identical content are omitted and marked as still in use. */
+export const errorTrackingSymbolSetsBulkCheckUploadCreate: API.OperationMethod<
+  ErrorTrackingSymbolSetsBulkCheckUploadCreateRequest,
+  ErrorTrackingSymbolSetBulkCheckUploadResponse,
+  ErrorTrackingSymbolSetsBulkCheckUploadCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ErrorTrackingSymbolSetsBulkCheckUploadCreateRequest,
+  output: ErrorTrackingSymbolSetBulkCheckUploadResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ErrorTrackingSymbolSetsBulkDeleteCreateError =
   | BadRequest
   | Forbidden
@@ -5929,6 +6587,20 @@ export const errorTrackingSymbolSetsFinishUploadUpdate: API.OperationMethod<
   input: ErrorTrackingSymbolSetsFinishUploadUpdateRequest,
   output: ErrorTrackingSymbolSetsFinishUploadUpdateResponse,
   errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetErrorTrackingAlertError = PosthogOpError;
+export const getErrorTrackingAlert: API.OperationMethod<
+  GetErrorTrackingAlertRequest,
+  ErrorTrackingAlert,
+  GetErrorTrackingAlertError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetErrorTrackingAlertRequest,
+  output: ErrorTrackingAlert,
+  errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
@@ -6090,12 +6762,12 @@ export const getErrorTrackingIssuesAllActivity: API.OperationMethod<
 export type GetErrorTrackingIssuesExistError = PosthogOpError;
 export const getErrorTrackingIssuesExist: API.OperationMethod<
   GetErrorTrackingIssuesExistRequest,
-  GetErrorTrackingIssuesExistResponse,
+  ErrorTrackingIssueExistsResponse,
   GetErrorTrackingIssuesExistError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetErrorTrackingIssuesExistRequest,
-  output: GetErrorTrackingIssuesExistResponse,
+  output: ErrorTrackingIssueExistsResponse,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -6104,12 +6776,12 @@ export const getErrorTrackingIssuesExist: API.OperationMethod<
 export type GetErrorTrackingIssuesValueError = PosthogOpError;
 export const getErrorTrackingIssuesValue: API.OperationMethod<
   GetErrorTrackingIssuesValueRequest,
-  GetErrorTrackingIssuesValueResponse,
+  ErrorTrackingIssueValuesResponse,
   GetErrorTrackingIssuesValueError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetErrorTrackingIssuesValueRequest,
-  output: GetErrorTrackingIssuesValueResponse,
+  output: ErrorTrackingIssueValuesResponse,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -6195,6 +6867,20 @@ export const getErrorTrackingSymbolSet: API.OperationMethod<
   input: GetErrorTrackingSymbolSetRequest,
   output: ErrorTrackingSymbolSet,
   errors: [Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListErrorTrackingAlertsError = PosthogOpError;
+export const listErrorTrackingAlerts: API.OperationMethod<
+  ListErrorTrackingAlertsRequest,
+  PaginatedErrorTrackingAlertList,
+  ListErrorTrackingAlertsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListErrorTrackingAlertsRequest,
+  output: PaginatedErrorTrackingAlertList,
+  errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
@@ -6328,12 +7014,12 @@ export const listErrorTrackingSeverityRules: API.OperationMethod<
 export type ListErrorTrackingSpikeDetectionConfigError = PosthogOpError;
 export const listErrorTrackingSpikeDetectionConfig: API.OperationMethod<
   ListErrorTrackingSpikeDetectionConfigRequest,
-  ListErrorTrackingSpikeDetectionConfigResponse,
+  ErrorTrackingSpikeDetectionConfig,
   ListErrorTrackingSpikeDetectionConfigError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: ListErrorTrackingSpikeDetectionConfigRequest,
-  output: ListErrorTrackingSpikeDetectionConfigResponse,
+  output: ErrorTrackingSpikeDetectionConfig,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -6391,6 +7077,34 @@ export const listErrorTrackingSymbolSets: API.OperationMethod<
   input: ListErrorTrackingSymbolSetsRequest,
   output: PaginatedErrorTrackingSymbolSetList,
   errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateErrorTrackingAlertError = PosthogOpError;
+export const updateErrorTrackingAlert: API.OperationMethod<
+  UpdateErrorTrackingAlertRequest,
+  ErrorTrackingAlert,
+  UpdateErrorTrackingAlertError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateErrorTrackingAlertRequest,
+  output: ErrorTrackingAlert,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateErrorTrackingAlertsPartialError = PosthogOpError;
+export const updateErrorTrackingAlertsPartial: API.OperationMethod<
+  UpdateErrorTrackingAlertsPartialRequest,
+  ErrorTrackingAlert,
+  UpdateErrorTrackingAlertsPartialError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateErrorTrackingAlertsPartialRequest,
+  output: ErrorTrackingAlert,
+  errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
@@ -6538,12 +7252,12 @@ export const updateErrorTrackingIssue: API.OperationMethod<
 export type UpdateErrorTrackingIssuesCohortError = PosthogOpError;
 export const updateErrorTrackingIssuesCohort: API.OperationMethod<
   UpdateErrorTrackingIssuesCohortRequest,
-  UpdateErrorTrackingIssuesCohortResponse,
+  ErrorTrackingIssueSuccessResponse,
   UpdateErrorTrackingIssuesCohortError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateErrorTrackingIssuesCohortRequest,
-  output: UpdateErrorTrackingIssuesCohortResponse,
+  output: ErrorTrackingIssueSuccessResponse,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,

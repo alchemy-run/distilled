@@ -60,16 +60,8 @@ export const CreateBlobRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     content: S.String,
     encoding: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/git/blobs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateBlobRequest",
-}) as any as S.Schema<CreateBlobRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/git/blobs", code: 200 })),
+).annotate({ identifier: "CreateBlobRequest" }) as any as S.Schema<CreateBlobRequest>;
 
 /** Short Blob */
 export interface ShortBlob {
@@ -155,16 +147,8 @@ export const CreateCommitRequest = /*@__PURE__*/ S.suspend(() =>
     author: S.optional(CreateCommitRequestAuthor),
     committer: S.optional(CreateCommitRequestCommitter),
     signature: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/git/commits",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateCommitRequest",
-}) as any as S.Schema<CreateCommitRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/git/commits", code: 200 })),
+).annotate({ identifier: "CreateCommitRequest" }) as any as S.Schema<CreateCommitRequest>;
 
 /** Identifying information for the git-user */
 export interface GitCommitAuthor {
@@ -181,9 +165,7 @@ export const GitCommitAuthor = /*@__PURE__*/ S.suspend(() =>
     email: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "GitCommitAuthor",
-}) as any as S.Schema<GitCommitAuthor>;
+).annotate({ identifier: "GitCommitAuthor" }) as any as S.Schema<GitCommitAuthor>;
 
 /** Identifying information for the git-user */
 export type GitCommitCommitter = GitCommitAuthor;
@@ -213,9 +195,7 @@ export const GitCommitParentsItem = /*@__PURE__*/ S.suspend(() =>
     url: S.String,
     html_url: S.String,
   }),
-).annotate({
-  identifier: "GitCommitParentsItem",
-}) as any as S.Schema<GitCommitParentsItem>;
+).annotate({ identifier: "GitCommitParentsItem" }) as any as S.Schema<GitCommitParentsItem>;
 
 export type GitCommitParentsList = Array<GitCommitParentsItem>;
 export const GitCommitParentsList = /*@__PURE__*/ S.Array(
@@ -237,9 +217,7 @@ export const GitCommitVerification = /*@__PURE__*/ S.suspend(() =>
     payload: S.NullOr(S.String),
     verified_at: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "GitCommitVerification",
-}) as any as S.Schema<GitCommitVerification>;
+).annotate({ identifier: "GitCommitVerification" }) as any as S.Schema<GitCommitVerification>;
 
 /** Low-level Git commit operations within a repository */
 export interface GitCommit {
@@ -289,16 +267,8 @@ export const CreateRefRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     ref: S.String,
     sha: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/git/refs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateRefRequest",
-}) as any as S.Schema<CreateRefRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/git/refs", code: 200 })),
+).annotate({ identifier: "CreateRefRequest" }) as any as S.Schema<CreateRefRequest>;
 
 export interface GitRefObject {
   type: string;
@@ -349,9 +319,7 @@ export const CreateTagRequestTagger = /*@__PURE__*/ S.suspend(() =>
     email: S.String,
     date: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateTagRequestTagger",
-}) as any as S.Schema<CreateTagRequestTagger>;
+).annotate({ identifier: "CreateTagRequestTagger" }) as any as S.Schema<CreateTagRequestTagger>;
 
 export interface CreateTagRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -378,16 +346,8 @@ export const CreateTagRequest = /*@__PURE__*/ S.suspend(() =>
     object: S.String,
     type: CreateTagRequestType,
     tagger: S.optional(CreateTagRequestTagger),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/git/tags",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateTagRequest",
-}) as any as S.Schema<CreateTagRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/git/tags", code: 200 })),
+).annotate({ identifier: "CreateTagRequest" }) as any as S.Schema<CreateTagRequest>;
 
 export interface GitTagTagger {
   date: string;
@@ -513,16 +473,8 @@ export const CreateTreeRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     tree: CreateTreeRequestTreeList,
     base_tree: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/git/trees",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateTreeRequest",
-}) as any as S.Schema<CreateTreeRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/git/trees", code: 200 })),
+).annotate({ identifier: "CreateTreeRequest" }) as any as S.Schema<CreateTreeRequest>;
 
 export interface GitTreeTreeItem {
   path: string;
@@ -541,9 +493,7 @@ export const GitTreeTreeItem = /*@__PURE__*/ S.suspend(() =>
     size: S.optional(S.Number),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GitTreeTreeItem",
-}) as any as S.Schema<GitTreeTreeItem>;
+).annotate({ identifier: "GitTreeTreeItem" }) as any as S.Schema<GitTreeTreeItem>;
 
 /** Objects specifying a tree structure */
 export type GitTreeTreeList = Array<GitTreeTreeItem>;
@@ -581,16 +531,8 @@ export const DeleteRefRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     ref: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/git/refs/{ref}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteRefRequest",
-}) as any as S.Schema<DeleteRefRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/git/refs/{ref}", code: 200 })),
+).annotate({ identifier: "DeleteRefRequest" }) as any as S.Schema<DeleteRefRequest>;
 
 export interface DeleteRefResponse {}
 export const DeleteRefResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -609,13 +551,7 @@ export const GetBlobRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     file_sha: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/git/blobs/{file_sha}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/git/blobs/{file_sha}", code: 200 })),
 ).annotate({ identifier: "GetBlobRequest" }) as any as S.Schema<GetBlobRequest>;
 
 /** Blob */
@@ -654,15 +590,9 @@ export const GetCommitRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     commit_sha: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/git/commits/{commit_sha}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/git/commits/{commit_sha}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetCommitRequest",
-}) as any as S.Schema<GetCommitRequest>;
+).annotate({ identifier: "GetCommitRequest" }) as any as S.Schema<GetCommitRequest>;
 
 export interface GetRefRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -677,13 +607,7 @@ export const GetRefRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     ref: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/git/ref/{ref}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/git/ref/{ref}", code: 200 })),
 ).annotate({ identifier: "GetRefRequest" }) as any as S.Schema<GetRefRequest>;
 
 export interface GetTagRequest {
@@ -698,13 +622,7 @@ export const GetTagRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     tag_sha: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/git/tags/{tag_sha}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/git/tags/{tag_sha}", code: 200 })),
 ).annotate({ identifier: "GetTagRequest" }) as any as S.Schema<GetTagRequest>;
 
 export interface GetTreeRequest {
@@ -723,13 +641,7 @@ export const GetTreeRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     tree_sha: S.String.pipe(T.Label()),
     recursive: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/git/trees/{tree_sha}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/git/trees/{tree_sha}", code: 200 })),
 ).annotate({ identifier: "GetTreeRequest" }) as any as S.Schema<GetTreeRequest>;
 
 export interface ListMatchingRefsRequest {
@@ -746,15 +658,9 @@ export const ListMatchingRefsRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     ref: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/git/matching-refs/{ref}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/git/matching-refs/{ref}", code: 200 }),
   ),
-).annotate({
-  identifier: "ListMatchingRefsRequest",
-}) as any as S.Schema<ListMatchingRefsRequest>;
+).annotate({ identifier: "ListMatchingRefsRequest" }) as any as S.Schema<ListMatchingRefsRequest>;
 
 export type ListMatchingRefsResponseBodyList = Array<GitRef>;
 export const ListMatchingRefsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -764,9 +670,7 @@ export const ListMatchingRefsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMatchingRefsResponse = ListMatchingRefsResponseBodyList;
 export const ListMatchingRefsResponse = /*@__PURE__*/ S.suspend(() =>
   ListMatchingRefsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMatchingRefsResponse",
-}) as any as S.Schema<ListMatchingRefsResponse>;
+).annotate({ identifier: "ListMatchingRefsResponse" }) as any as S.Schema<ListMatchingRefsResponse>;
 
 export interface UpdateRefRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -787,16 +691,8 @@ export const UpdateRefRequest = /*@__PURE__*/ S.suspend(() =>
     ref: S.String.pipe(T.Label()),
     sha: S.String,
     force: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/repos/{owner}/{repo}/git/refs/{ref}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateRefRequest",
-}) as any as S.Schema<UpdateRefRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}/git/refs/{ref}", code: 200 })),
+).annotate({ identifier: "UpdateRefRequest" }) as any as S.Schema<UpdateRefRequest>;
 
 export type CreateBlobError = Forbidden | NotFound | Conflict | UnprocessableEntity | GithubOpError;
 /** Create a blob */

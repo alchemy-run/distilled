@@ -100,28 +100,24 @@ export const UrlNotification = /*@__PURE__*/ S.suspend(() =>
     notifyTime: S.optional(S.String),
     type: S.optional(UrlNotificationTypeEnum),
   }),
-).annotate({
-  identifier: "UrlNotification",
-}) as any as S.Schema<UrlNotification>;
+).annotate({ identifier: "UrlNotification" }) as any as S.Schema<UrlNotification>;
 
 /** Summary of the most recent Indexing API notifications successfully received, for a given URL. */
 export interface UrlNotificationMetadata {
-  /** URL to which this metadata refers. */
-  url?: string;
-  /** Latest notification received with type `URL_REMOVED`. */
-  latestRemove?: UrlNotification;
   /** Latest notification received with type `URL_UPDATED`. */
   latestUpdate?: UrlNotification;
+  /** Latest notification received with type `URL_REMOVED`. */
+  latestRemove?: UrlNotification;
+  /** URL to which this metadata refers. */
+  url?: string;
 }
 export const UrlNotificationMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    url: S.optional(S.String),
-    latestRemove: S.optional(UrlNotification),
     latestUpdate: S.optional(UrlNotification),
+    latestRemove: S.optional(UrlNotification),
+    url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UrlNotificationMetadata",
-}) as any as S.Schema<UrlNotificationMetadata>;
+).annotate({ identifier: "UrlNotificationMetadata" }) as any as S.Schema<UrlNotificationMetadata>;
 
 export interface PublishUrlNotificationsRequest {
   /** Request body */

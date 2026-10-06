@@ -240,11 +240,7 @@ export const ListPropertyDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ListPropertyDefinitionsRequestType.pipe(T.Query())),
     verified: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/property_definitions/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/property_definitions/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListPropertyDefinitionsRequest",
@@ -283,7 +279,7 @@ export const PropertyDefinitionsBulkUpdateTagsCreateRequestIdsList = /*@__PURE__
 export type BulkUpdateTagsActionEnum = "add" | "remove" | "set";
 export const BulkUpdateTagsActionEnum = S.String;
 
-/** Tag names to add, remove, or set. */
+/** Tag names to add, remove, or set (up to 100 per request, 255 characters each). */
 export type PropertyDefinitionsBulkUpdateTagsCreateRequestTagsList = Array<string>;
 export const PropertyDefinitionsBulkUpdateTagsCreateRequestTagsList = /*@__PURE__*/ S.Array(
   S.String,
@@ -296,7 +292,7 @@ export interface PropertyDefinitionsBulkUpdateTagsCreateRequest {
   ids?: PropertyDefinitionsBulkUpdateTagsCreateRequestIdsList;
   /** 'add' merges with existing tags, 'remove' deletes specific tags, 'set' replaces all tags. * `add` - add * `remove` - remove * `set` - set */
   action?: BulkUpdateTagsActionEnum | (string & {});
-  /** Tag names to add, remove, or set. */
+  /** Tag names to add, remove, or set (up to 100 per request, 255 characters each). */
   tags?: PropertyDefinitionsBulkUpdateTagsCreateRequestTagsList;
 }
 export const PropertyDefinitionsBulkUpdateTagsCreateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -330,9 +326,7 @@ export const BulkUpdateTagsItem = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.Number),
     tags: S.optional(BulkUpdateTagsItemTagsList),
   }),
-).annotate({
-  identifier: "BulkUpdateTagsItem",
-}) as any as S.Schema<BulkUpdateTagsItem>;
+).annotate({ identifier: "BulkUpdateTagsItem" }) as any as S.Schema<BulkUpdateTagsItem>;
 
 export type BulkUpdateTagsResponseUpdatedList = Array<BulkUpdateTagsItem>;
 export const BulkUpdateTagsResponseUpdatedList = /*@__PURE__*/ S.Array(
@@ -348,9 +342,7 @@ export const BulkUpdateTagsError = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.Number),
     reason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BulkUpdateTagsError",
-}) as any as S.Schema<BulkUpdateTagsError>;
+).annotate({ identifier: "BulkUpdateTagsError" }) as any as S.Schema<BulkUpdateTagsError>;
 
 export type BulkUpdateTagsResponseSkippedList = Array<BulkUpdateTagsError>;
 export const BulkUpdateTagsResponseSkippedList = /*@__PURE__*/ S.Array(
@@ -366,9 +358,7 @@ export const BulkUpdateTagsResponse = /*@__PURE__*/ S.suspend(() =>
     updated: S.optional(BulkUpdateTagsResponseUpdatedList),
     skipped: S.optional(BulkUpdateTagsResponseSkippedList),
   }),
-).annotate({
-  identifier: "BulkUpdateTagsResponse",
-}) as any as S.Schema<BulkUpdateTagsResponse>;
+).annotate({ identifier: "BulkUpdateTagsResponse" }) as any as S.Schema<BulkUpdateTagsResponse>;
 
 export interface PropertyDefinitionsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */

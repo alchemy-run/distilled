@@ -27,11 +27,7 @@ export const ApproveDomainOutgoingTransferRequest = /*@__PURE__*/ S.suspend(() =
     approveType: S.optional(DomainApproveTypeEnum),
     ident: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/{serviceName}/outgoingTransfer/approve",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/domain/{serviceName}/outgoingTransfer/approve", code: 200 }),
   ),
 ).annotate({
   identifier: "ApproveDomainOutgoingTransferRequest",
@@ -54,16 +50,8 @@ export const CancelDomainTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/{serviceName}/task/{id}/cancel",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CancelDomainTaskRequest",
-}) as any as S.Schema<CancelDomainTaskRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/domain/{serviceName}/task/{id}/cancel", code: 200 })),
+).annotate({ identifier: "CancelDomainTaskRequest" }) as any as S.Schema<CancelDomainTaskRequest>;
 
 export interface CancelDomainTaskResponse {}
 export const CancelDomainTaskResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -80,13 +68,7 @@ export const CancelDomainZoneTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/zone/{zoneName}/task/{id}/cancel",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/domain/zone/{zoneName}/task/{id}/cancel", code: 200 })),
 ).annotate({
   identifier: "CancelDomainZoneTaskRequest",
 }) as any as S.Schema<CancelDomainZoneTaskRequest>;
@@ -513,9 +495,7 @@ export const NichandleNichandleInput = /*@__PURE__*/ S.suspend(() =>
     vat: S.optional(S.NullOr(S.String)),
     zip: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "NichandleNichandleInput",
-}) as any as S.Schema<NichandleNichandleInput>;
+).annotate({ identifier: "NichandleNichandleInput" }) as any as S.Schema<NichandleNichandleInput>;
 
 /** The extra data contain additional rule data fields */
 export interface DomainConfigurationRulesRuleExtraData {
@@ -563,9 +543,7 @@ export const DomainContactAddress = /*@__PURE__*/ S.suspend(() =>
     province: S.optional(S.NullOr(S.String)),
     zip: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "DomainContactAddress",
-}) as any as S.Schema<DomainContactAddress>;
+).annotate({ identifier: "DomainContactAddress" }) as any as S.Schema<DomainContactAddress>;
 
 /** A contact contains the personal data of a user */
 export interface DomainContactInput {
@@ -692,9 +670,7 @@ export const DomainContactInput = /*@__PURE__*/ S.suspend(() =>
     vat: S.optional(S.NullOr(S.String)),
     website: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "DomainContactInput",
-}) as any as S.Schema<DomainContactInput>;
+).annotate({ identifier: "DomainContactInput" }) as any as S.Schema<DomainContactInput>;
 
 export interface CheckDomainConfigurationRuleRequest {
   /** Depending on the action, the applied rule will change (transfer vs create) */
@@ -718,13 +694,7 @@ export const CheckDomainConfigurationRuleRequest = /*@__PURE__*/ S.suspend(() =>
     extras: S.optional(S.NullOr(DomainConfigurationRulesRuleExtraData)),
     owner: S.optional(S.NullOr(DomainContactInput)),
     techAccount: S.optional(S.NullOr(NichandleNichandleInput)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/configurationRule/check",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/domain/configurationRule/check", code: 200 })),
 ).annotate({
   identifier: "CheckDomainConfigurationRuleRequest",
 }) as any as S.Schema<CheckDomainConfigurationRuleRequest>;
@@ -788,13 +758,7 @@ export const ConfirmDomainZoneTerminationRequest = /*@__PURE__*/ S.suspend(() =>
     futureUse: S.optional(ServiceTerminationFutureUseEnum),
     reason: S.optional(ServiceTerminationReasonEnum),
     token: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/zone/{zoneName}/confirmTermination",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/domain/zone/{zoneName}/confirmTermination", code: 200 })),
 ).annotate({
   identifier: "ConfirmDomainZoneTerminationRequest",
 }) as any as S.Schema<ConfirmDomainZoneTerminationRequest>;
@@ -930,9 +894,7 @@ export const CreateContactRequest = /*@__PURE__*/ S.suspend(() =>
     vat: S.optional(S.NullOr(S.String)),
     website: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/domain/contact", code: 200 })),
-).annotate({
-  identifier: "CreateContactRequest",
-}) as any as S.Schema<CreateContactRequest>;
+).annotate({ identifier: "CreateContactRequest" }) as any as S.Schema<CreateContactRequest>;
 
 /** A contact contains the personal data of a user */
 export interface DomainContact {
@@ -1080,13 +1042,7 @@ export const CreateDomainChangeContactRequest = /*@__PURE__*/ S.suspend(() =>
     contactAdmin: S.optional(S.String),
     contactBilling: S.optional(S.String),
     contactTech: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/{serviceName}/changeContact",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/domain/{serviceName}/changeContact", code: 200 })),
 ).annotate({
   identifier: "CreateDomainChangeContactRequest",
 }) as any as S.Schema<CreateDomainChangeContactRequest>;
@@ -1127,9 +1083,7 @@ export const DomainDataSmdSmdLabel = /*@__PURE__*/ S.suspend(() =>
     label: S.optional(S.String),
     trademark: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DomainDataSmdSmdLabel",
-}) as any as S.Schema<DomainDataSmdSmdLabel>;
+).annotate({ identifier: "DomainDataSmdSmdLabel" }) as any as S.Schema<DomainDataSmdSmdLabel>;
 
 /** List of the labels that are protect with that SMD file */
 export type DomainDataSmdSmdProtectedLabelsList = Array<DomainDataSmdSmdLabel>;
@@ -1161,9 +1115,7 @@ export const DomainDataSmdSmd = /*@__PURE__*/ S.suspend(() =>
     protectedLabels: S.optional(DomainDataSmdSmdProtectedLabelsList),
     smdId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DomainDataSmdSmd",
-}) as any as S.Schema<DomainDataSmdSmd>;
+).annotate({ identifier: "DomainDataSmdSmd" }) as any as S.Schema<DomainDataSmdSmd>;
 
 /** DNSSEC Algorithm 3: DSA 5: RSASHA1 6: DSA-NSEC3-SHA1 7: RSASHA1-NSEC3-SHA1 8: RSASHA256 10: RSASHA512 12: ECC-GOST 13: ECDSAP256SHA256 14: ECDSAP384SHA384 15: ED25519 16: ED448 */
 export type DnssecKeyAlgorithmEnum = 3 | 5 | 6 | 7 | 8 | 10 | 12 | 13 | 14 | 15 | 16;
@@ -1209,13 +1161,7 @@ export const CreateDomainDsRecordRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     keys: CreateDomainDsRecordRequestKeysList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/{serviceName}/dsRecord",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/domain/{serviceName}/dsRecord", code: 200 })),
 ).annotate({
   identifier: "CreateDomainDsRecordRequest",
 }) as any as S.Schema<CreateDomainDsRecordRequest>;
@@ -1300,13 +1246,7 @@ export const CreateDomainGlueRecordRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     host: S.String,
     ips: CreateDomainGlueRecordRequestIpsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/{serviceName}/glueRecord",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/domain/{serviceName}/glueRecord", code: 200 })),
 ).annotate({
   identifier: "CreateDomainGlueRecordRequest",
 }) as any as S.Schema<CreateDomainGlueRecordRequest>;
@@ -1343,13 +1283,7 @@ export const CreateDomainNameServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     nameServer: CreateDomainNameServerRequestNameServerList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/{serviceName}/nameServer",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/domain/{serviceName}/nameServer", code: 200 })),
 ).annotate({
   identifier: "CreateDomainNameServerRequest",
 }) as any as S.Schema<CreateDomainNameServerRequest>;
@@ -1363,9 +1297,7 @@ export const DomainOrderContactOwner = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "DomainOrderContactOwner",
-}) as any as S.Schema<DomainOrderContactOwner>;
+).annotate({ identifier: "DomainOrderContactOwner" }) as any as S.Schema<DomainOrderContactOwner>;
 
 /** Admin, tech and owner contacts for a domain order. admin and tech are OVH NIC handles (e.g. xxxxx-ovh); owner is an OVH contact resource referenced by its numeric id (see /me/contact), not a NIC handle. Billing is forced to the customer code by the server and is not exposed. */
 export interface DomainOrderContacts {
@@ -1382,9 +1314,7 @@ export const DomainOrderContacts = /*@__PURE__*/ S.suspend(() =>
     owner: S.optional(S.NullOr(DomainOrderContactOwner)),
     tech: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "DomainOrderContacts",
-}) as any as S.Schema<DomainOrderContacts>;
+).annotate({ identifier: "DomainOrderContacts" }) as any as S.Schema<DomainOrderContacts>;
 
 /** List of DNS servers (hostnames) to set on the domain. Optional: if omitted, OVHcloud's recommended DNS servers for the domain are used. */
 export type CreateDomainOrderRequestDnsList = Array<string>;
@@ -1448,9 +1378,7 @@ export const DomainOrderZoneOptions = /*@__PURE__*/ S.suspend(() =>
     create: S.optional(S.NullOr(S.Boolean)),
     dnssec: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "DomainOrderZoneOptions",
-}) as any as S.Schema<DomainOrderZoneOptions>;
+).annotate({ identifier: "DomainOrderZoneOptions" }) as any as S.Schema<DomainOrderZoneOptions>;
 
 export interface CreateDomainOrderRequest {
   /** If true, simulate the order and return the pricing without actually placing it. Default to false. */
@@ -1484,9 +1412,7 @@ export const CreateDomainOrderRequest = /*@__PURE__*/ S.suspend(() =>
     waiveRetractationPeriod: S.optional(S.NullOr(S.Boolean)),
     zone: S.optional(S.NullOr(DomainOrderZoneOptions)),
   }).pipe(T.Http({ method: "POST", uri: "/domain/order/create", code: 200 })),
-).annotate({
-  identifier: "CreateDomainOrderRequest",
-}) as any as S.Schema<CreateDomainOrderRequest>;
+).annotate({ identifier: "CreateDomainOrderRequest" }) as any as S.Schema<CreateDomainOrderRequest>;
 
 /** A contract (terms) the customer subscribes to when placing a domain order */
 export interface DomainOrderContract {
@@ -1500,9 +1426,7 @@ export const DomainOrderContract = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DomainOrderContract",
-}) as any as S.Schema<DomainOrderContract>;
+).annotate({ identifier: "DomainOrderContract" }) as any as S.Schema<DomainOrderContract>;
 
 /** Legal contracts (terms, as PDFs) the customer subscribes to with this order */
 export type DomainOrderOrderResponseContractsList = Array<DomainOrderContract>;
@@ -1531,9 +1455,7 @@ export const DomainOrderPrice = /*@__PURE__*/ S.suspend(() =>
     text: S.optional(S.String),
     value: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DomainOrderPrice",
-}) as any as S.Schema<DomainOrderPrice>;
+).annotate({ identifier: "DomainOrderPrice" }) as any as S.Schema<DomainOrderPrice>;
 
 /** Pricing breakdown with and without tax */
 export interface DomainOrderPricing {
@@ -1556,9 +1478,7 @@ export const DomainOrderPricing = /*@__PURE__*/ S.suspend(() =>
     finalPriceWithoutTax: S.optional(DomainOrderPrice),
     tax: S.optional(DomainOrderPrice),
   }),
-).annotate({
-  identifier: "DomainOrderPricing",
-}) as any as S.Schema<DomainOrderPricing>;
+).annotate({ identifier: "DomainOrderPricing" }) as any as S.Schema<DomainOrderPricing>;
 
 /** Response returned after placing a domain order */
 export interface DomainOrderOrderResponse {
@@ -1593,9 +1513,7 @@ export const DomainOrderOrderResponse = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.NullOr(S.String)),
     zone: S.optional(S.NullOr(DomainOrderZoneOptions)),
   }),
-).annotate({
-  identifier: "DomainOrderOrderResponse",
-}) as any as S.Schema<DomainOrderOrderResponse>;
+).annotate({ identifier: "DomainOrderOrderResponse" }) as any as S.Schema<DomainOrderOrderResponse>;
 
 export interface CreateDomainTaskAccelerateRequest {
   /** Service name */
@@ -1607,13 +1525,7 @@ export const CreateDomainTaskAccelerateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/{serviceName}/task/{id}/accelerate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/domain/{serviceName}/task/{id}/accelerate", code: 200 })),
 ).annotate({
   identifier: "CreateDomainTaskAccelerateRequest",
 }) as any as S.Schema<CreateDomainTaskAccelerateRequest>;
@@ -1635,13 +1547,7 @@ export const CreateDomainTaskRelaunchRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/{serviceName}/task/{id}/relaunch",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/domain/{serviceName}/task/{id}/relaunch", code: 200 })),
 ).annotate({
   identifier: "CreateDomainTaskRelaunchRequest",
 }) as any as S.Schema<CreateDomainTaskRelaunchRequest>;
@@ -1663,13 +1569,7 @@ export const CreateDomainUkOutgoingTransferRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     tag: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/{serviceName}/ukOutgoingTransfer",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/domain/{serviceName}/ukOutgoingTransfer", code: 200 })),
 ).annotate({
   identifier: "CreateDomainUkOutgoingTransferRequest",
 }) as any as S.Schema<CreateDomainUkOutgoingTransferRequest>;
@@ -1690,13 +1590,7 @@ export const CreateDomainZoneChangeContactRequest = /*@__PURE__*/ S.suspend(() =
     contactAdmin: S.optional(S.String),
     contactBilling: S.optional(S.String),
     contactTech: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/zone/{zoneName}/changeContact",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/domain/zone/{zoneName}/changeContact", code: 200 })),
 ).annotate({
   identifier: "CreateDomainZoneChangeContactRequest",
 }) as any as S.Schema<CreateDomainZoneChangeContactRequest>;
@@ -1724,11 +1618,7 @@ export const CreateDomainZoneTaskAccelerateRequest = /*@__PURE__*/ S.suspend(() 
     zoneName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/zone/{zoneName}/task/{id}/accelerate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/domain/zone/{zoneName}/task/{id}/accelerate", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDomainZoneTaskAccelerateRequest",
@@ -1751,13 +1641,7 @@ export const CreateDomainZoneTaskRelaunchRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/zone/{zoneName}/task/{id}/relaunch",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/domain/zone/{zoneName}/task/{id}/relaunch", code: 200 })),
 ).annotate({
   identifier: "CreateDomainZoneTaskRelaunchRequest",
 }) as any as S.Schema<CreateDomainZoneTaskRelaunchRequest>;
@@ -1785,16 +1669,8 @@ export const CreateDynDnsLoginRequest = /*@__PURE__*/ S.suspend(() =>
     loginSuffix: S.String,
     password: S.String.pipe(T.SensitiveValue({})),
     subDomain: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/zone/{zoneName}/dynHost/login",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateDynDnsLoginRequest",
-}) as any as S.Schema<CreateDynDnsLoginRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/domain/zone/{zoneName}/dynHost/login", code: 200 })),
+).annotate({ identifier: "CreateDynDnsLoginRequest" }) as any as S.Schema<CreateDynDnsLoginRequest>;
 
 /** DNS zone dynHost login */
 export interface DomainZoneDynHostLogin {
@@ -1811,9 +1687,7 @@ export const DomainZoneDynHostLogin = /*@__PURE__*/ S.suspend(() =>
     subDomain: S.optional(S.String),
     zone: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DomainZoneDynHostLogin",
-}) as any as S.Schema<DomainZoneDynHostLogin>;
+).annotate({ identifier: "DomainZoneDynHostLogin" }) as any as S.Schema<DomainZoneDynHostLogin>;
 
 export interface CreateDynDnsRecordRequest {
   /** Zone name */
@@ -1828,13 +1702,7 @@ export const CreateDynDnsRecordRequest = /*@__PURE__*/ S.suspend(() =>
     zoneName: S.String.pipe(T.Label()),
     ip: S.optional(S.String),
     subDomain: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/zone/{zoneName}/dynHost/record",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/domain/zone/{zoneName}/dynHost/record", code: 200 })),
 ).annotate({
   identifier: "CreateDynDnsRecordRequest",
 }) as any as S.Schema<CreateDynDnsRecordRequest>;
@@ -1860,9 +1728,7 @@ export const DomainZoneDynHostRecord = /*@__PURE__*/ S.suspend(() =>
     ttl: S.optional(S.NullOr(S.Number)),
     zone: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DomainZoneDynHostRecord",
-}) as any as S.Schema<DomainZoneDynHostRecord>;
+).annotate({ identifier: "DomainZoneDynHostRecord" }) as any as S.Schema<DomainZoneDynHostRecord>;
 
 /** Resource record name */
 export type DomainZoneRecordTypeEnum =
@@ -1906,16 +1772,8 @@ export const CreateRecordRequest = /*@__PURE__*/ S.suspend(() =>
     subDomain: S.optional(S.NullOr(S.String)),
     target: S.String,
     ttl: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/zone/{zoneName}/record",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateRecordRequest",
-}) as any as S.Schema<CreateRecordRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/domain/zone/{zoneName}/record", code: 200 })),
+).annotate({ identifier: "CreateRecordRequest" }) as any as S.Schema<CreateRecordRequest>;
 
 /** DNS zone history */
 export interface DomainZoneRecord {
@@ -1940,9 +1798,7 @@ export const DomainZoneRecord = /*@__PURE__*/ S.suspend(() =>
     ttl: S.optional(S.NullOr(S.Number)),
     zone: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DomainZoneRecord",
-}) as any as S.Schema<DomainZoneRecord>;
+).annotate({ identifier: "DomainZoneRecord" }) as any as S.Schema<DomainZoneRecord>;
 
 /** Redirection type: - visible -> Redirection by http code 302 - visiblePermanent -> Redirection by http code 301 - invisible -> Redirection by html frame */
 export type DomainZoneRedirectionTypeEnum = "invisible" | "visible" | "visiblePermanent";
@@ -1972,16 +1828,8 @@ export const CreateRedirectionRequest = /*@__PURE__*/ S.suspend(() =>
     target: S.String,
     title: S.optional(S.NullOr(S.String)),
     type: DomainZoneRedirectionTypeEnum,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/zone/{zoneName}/redirection",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateRedirectionRequest",
-}) as any as S.Schema<CreateRedirectionRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/domain/zone/{zoneName}/redirection", code: 200 })),
+).annotate({ identifier: "CreateRedirectionRequest" }) as any as S.Schema<CreateRedirectionRequest>;
 
 /** DNS zone redirections */
 export interface DomainZoneRedirection {
@@ -2012,9 +1860,7 @@ export const DomainZoneRedirection = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(DomainZoneRedirectionTypeEnum),
     zone: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DomainZoneRedirection",
-}) as any as S.Schema<DomainZoneRedirection>;
+).annotate({ identifier: "DomainZoneRedirection" }) as any as S.Schema<DomainZoneRedirection>;
 
 export interface DeleteDomainDataSmdRequest {
   /** Smd ID */
@@ -2043,13 +1889,7 @@ export const DeleteDomainGlueRecordRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     host: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/domain/{serviceName}/glueRecord/{host}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/domain/{serviceName}/glueRecord/{host}", code: 200 })),
 ).annotate({
   identifier: "DeleteDomainGlueRecordRequest",
 }) as any as S.Schema<DeleteDomainGlueRecordRequest>;
@@ -2064,13 +1904,7 @@ export const DeleteDomainNameServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/domain/{serviceName}/nameServer/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/domain/{serviceName}/nameServer/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteDomainNameServerRequest",
 }) as any as S.Schema<DeleteDomainNameServerRequest>;
@@ -2089,13 +1923,7 @@ export const DeleteDomainOptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     option: DeleteDomainOptionRequestOption.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/domain/{serviceName}/option/{option}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/domain/{serviceName}/option/{option}", code: 200 })),
 ).annotate({
   identifier: "DeleteDomainOptionRequest",
 }) as any as S.Schema<DeleteDomainOptionRequest>;
@@ -2116,11 +1944,7 @@ export const DeleteDynHostLoginRequest = /*@__PURE__*/ S.suspend(() =>
     zoneName: S.String.pipe(T.Label()),
     login: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/domain/zone/{zoneName}/dynHost/login/{login}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/domain/zone/{zoneName}/dynHost/login/{login}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteDynHostLoginRequest",
@@ -2142,11 +1966,7 @@ export const DeleteDynHostRecordRequest = /*@__PURE__*/ S.suspend(() =>
     zoneName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/domain/zone/{zoneName}/dynHost/record/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/domain/zone/{zoneName}/dynHost/record/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteDynHostRecordRequest",
@@ -2167,16 +1987,8 @@ export const DeleteRecordRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/domain/zone/{zoneName}/record/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteRecordRequest",
-}) as any as S.Schema<DeleteRecordRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/domain/zone/{zoneName}/record/{id}", code: 200 })),
+).annotate({ identifier: "DeleteRecordRequest" }) as any as S.Schema<DeleteRecordRequest>;
 
 export interface DeleteRecordResponse {}
 export const DeleteRecordResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2193,16 +2005,8 @@ export const DeleteRedirectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/domain/zone/{zoneName}/redirection/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteRedirectionRequest",
-}) as any as S.Schema<DeleteRedirectionRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/domain/zone/{zoneName}/redirection/{id}", code: 200 })),
+).annotate({ identifier: "DeleteRedirectionRequest" }) as any as S.Schema<DeleteRedirectionRequest>;
 
 export interface DeleteRedirectionResponse {}
 export const DeleteRedirectionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2216,16 +2020,8 @@ export interface DisableDNSSECRequest {
 export const DisableDNSSECRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/domain/zone/{zoneName}/dnssec",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DisableDNSSECRequest",
-}) as any as S.Schema<DisableDNSSECRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/domain/zone/{zoneName}/dnssec", code: 200 })),
+).annotate({ identifier: "DisableDNSSECRequest" }) as any as S.Schema<DisableDNSSECRequest>;
 
 export interface DisableDNSSECResponse {}
 export const DisableDNSSECResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2263,9 +2059,7 @@ export const EditDomainRequest = /*@__PURE__*/ S.suspend(() =>
     nameServerType: S.optional(DomainNameServerNameServerTypeEnum),
     transferLockStatus: S.optional(DomainLockStatusEnum),
   }).pipe(T.Http({ method: "PUT", uri: "/domain/{serviceName}", code: 200 })),
-).annotate({
-  identifier: "EditDomainRequest",
-}) as any as S.Schema<EditDomainRequest>;
+).annotate({ identifier: "EditDomainRequest" }) as any as S.Schema<EditDomainRequest>;
 
 /** A contact summary contains the personal data of a user */
 export interface DomainContactSummary {
@@ -2276,9 +2070,7 @@ export const DomainContactSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DomainContactSummary",
-}) as any as S.Schema<DomainContactSummary>;
+).annotate({ identifier: "DomainContactSummary" }) as any as S.Schema<DomainContactSummary>;
 
 /** Domain dnssec state */
 export type DomainDnssecStateEnum = "disabled" | "enabled" | "not_supported";
@@ -2335,9 +2127,7 @@ export const DomainParentService = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(DomainParentServiceTypeEnum),
   }),
-).annotate({
-  identifier: "DomainParentService",
-}) as any as S.Schema<DomainParentService>;
+).annotate({ identifier: "DomainParentService" }) as any as S.Schema<DomainParentService>;
 
 /** Domain renewal state */
 export type DomainRenewalStateEnum =
@@ -2448,9 +2238,7 @@ export const DomainDomainService = /*@__PURE__*/ S.suspend(() =>
     transferLockStatus: S.optional(DomainLockStatusEnum),
     whoisOwner: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DomainDomainService",
-}) as any as S.Schema<DomainDomainService>;
+).annotate({ identifier: "DomainDomainService" }) as any as S.Schema<DomainDomainService>;
 
 export interface EditDynDnsLoginRequest {
   /** Zone name */
@@ -2466,15 +2254,9 @@ export const EditDynDnsLoginRequest = /*@__PURE__*/ S.suspend(() =>
     login: S.String.pipe(T.Label()),
     subDomain: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/domain/zone/{zoneName}/dynHost/login/{login}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/domain/zone/{zoneName}/dynHost/login/{login}", code: 200 }),
   ),
-).annotate({
-  identifier: "EditDynDnsLoginRequest",
-}) as any as S.Schema<EditDynDnsLoginRequest>;
+).annotate({ identifier: "EditDynDnsLoginRequest" }) as any as S.Schema<EditDynDnsLoginRequest>;
 
 export interface EditDynDnsLoginResponse {}
 export const EditDynDnsLoginResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2497,16 +2279,8 @@ export const EditDynDnsRecordRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     ip: S.optional(S.String),
     subDomain: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/domain/zone/{zoneName}/dynHost/record/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "EditDynDnsRecordRequest",
-}) as any as S.Schema<EditDynDnsRecordRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/domain/zone/{zoneName}/dynHost/record/{id}", code: 200 })),
+).annotate({ identifier: "EditDynDnsRecordRequest" }) as any as S.Schema<EditDynDnsRecordRequest>;
 
 export interface EditDynDnsRecordResponse {}
 export const EditDynDnsRecordResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2532,16 +2306,8 @@ export const EditRecordRequest = /*@__PURE__*/ S.suspend(() =>
     subDomain: S.optional(S.NullOr(S.String)),
     target: S.optional(S.String),
     ttl: S.optional(S.NullOr(S.Number)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/domain/zone/{zoneName}/record/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "EditRecordRequest",
-}) as any as S.Schema<EditRecordRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/domain/zone/{zoneName}/record/{id}", code: 200 })),
+).annotate({ identifier: "EditRecordRequest" }) as any as S.Schema<EditRecordRequest>;
 
 export interface EditRecordResponse {}
 export const EditRecordResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2572,16 +2338,8 @@ export const EditRedirectionRequest = /*@__PURE__*/ S.suspend(() =>
     target: S.optional(S.String),
     title: S.optional(S.NullOr(S.String)),
     type: S.optional(DomainZoneRedirectionTypeEnum),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/domain/zone/{zoneName}/redirection/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "EditRedirectionRequest",
-}) as any as S.Schema<EditRedirectionRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/domain/zone/{zoneName}/redirection/{id}", code: 200 })),
+).annotate({ identifier: "EditRedirectionRequest" }) as any as S.Schema<EditRedirectionRequest>;
 
 export interface EditRedirectionResponse {}
 export const EditRedirectionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2595,16 +2353,8 @@ export interface EnableDNSSECRequest {
 export const EnableDNSSECRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/zone/{zoneName}/dnssec",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "EnableDNSSECRequest",
-}) as any as S.Schema<EnableDNSSECRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/domain/zone/{zoneName}/dnssec", code: 200 })),
+).annotate({ identifier: "EnableDNSSECRequest" }) as any as S.Schema<EnableDNSSECRequest>;
 
 export interface EnableDNSSECResponse {}
 export const EnableDNSSECResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2619,16 +2369,12 @@ export const GetContactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contactId: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/domain/contact/{contactId}", code: 200 })),
-).annotate({
-  identifier: "GetContactRequest",
-}) as any as S.Schema<GetContactRequest>;
+).annotate({ identifier: "GetContactRequest" }) as any as S.Schema<GetContactRequest>;
 
 export interface GetContactsRequest {}
 export const GetContactsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/domain/contact", code: 200 })),
-).annotate({
-  identifier: "GetContactsRequest",
-}) as any as S.Schema<GetContactsRequest>;
+).annotate({ identifier: "GetContactsRequest" }) as any as S.Schema<GetContactsRequest>;
 
 export type GetContactsResponseBodyList = Array<DomainContact>;
 export const GetContactsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2638,9 +2384,7 @@ export const GetContactsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetContactsResponse = GetContactsResponseBodyList;
 export const GetContactsResponse = /*@__PURE__*/ S.suspend(() =>
   GetContactsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetContactsResponse",
-}) as any as S.Schema<GetContactsResponse>;
+).annotate({ identifier: "GetContactsResponse" }) as any as S.Schema<GetContactsResponse>;
 
 export interface GetDNSSECStatusRequest {
   /** Zone name */
@@ -2650,9 +2394,7 @@ export const GetDNSSECStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/domain/zone/{zoneName}/dnssec", code: 200 })),
-).annotate({
-  identifier: "GetDNSSECStatusRequest",
-}) as any as S.Schema<GetDNSSECStatusRequest>;
+).annotate({ identifier: "GetDNSSECStatusRequest" }) as any as S.Schema<GetDNSSECStatusRequest>;
 
 /** All DNSSEC statuses */
 export type DomainDnssecStatusEnum =
@@ -2671,9 +2413,7 @@ export const DomainZoneDnssec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.optional(DomainDnssecStatusEnum),
   }),
-).annotate({
-  identifier: "DomainZoneDnssec",
-}) as any as S.Schema<DomainZoneDnssec>;
+).annotate({ identifier: "DomainZoneDnssec" }) as any as S.Schema<DomainZoneDnssec>;
 
 export interface GetDomainRequest {
   /** Service name */
@@ -2683,9 +2423,7 @@ export const GetDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/domain/{serviceName}", code: 200 })),
-).annotate({
-  identifier: "GetDomainRequest",
-}) as any as S.Schema<GetDomainRequest>;
+).annotate({ identifier: "GetDomainRequest" }) as any as S.Schema<GetDomainRequest>;
 
 /** Resource state */
 export type IamResourceMetadataStateEnum = "EXPIRED" | "IN_CREATION" | "OK" | "SUSPENDED";
@@ -2719,9 +2457,7 @@ export const IamResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(IamResourceMetadataTagsMap)),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamResourceMetadata",
-}) as any as S.Schema<IamResourceMetadata>;
+).annotate({ identifier: "IamResourceMetadata" }) as any as S.Schema<IamResourceMetadata>;
 
 /** Name servers list */
 export type DomainDomainServiceWithIAMNameServersList = Array<DomainNameServerNameServer>;
@@ -2822,9 +2558,7 @@ export const GetDomainAuthInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/domain/{serviceName}/authInfo", code: 200 })),
-).annotate({
-  identifier: "GetDomainAuthInfoRequest",
-}) as any as S.Schema<GetDomainAuthInfoRequest>;
+).annotate({ identifier: "GetDomainAuthInfoRequest" }) as any as S.Schema<GetDomainAuthInfoRequest>;
 
 export type GetDomainAuthInfoResponse = string;
 export const GetDomainAuthInfoResponse = /*@__PURE__*/ S.suspend(() =>
@@ -2840,13 +2574,7 @@ export interface GetDomainConfigurationDataRequest {
 export const GetDomainConfigurationDataRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/{serviceName}/configurations/data",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/domain/{serviceName}/configurations/data", code: 200 })),
 ).annotate({
   identifier: "GetDomainConfigurationDataRequest",
 }) as any as S.Schema<GetDomainConfigurationDataRequest>;
@@ -3323,9 +3051,7 @@ export const GetDomainDataSmdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     smdId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/domain/data/smd/{smdId}", code: 200 })),
-).annotate({
-  identifier: "GetDomainDataSmdRequest",
-}) as any as S.Schema<GetDomainDataSmdRequest>;
+).annotate({ identifier: "GetDomainDataSmdRequest" }) as any as S.Schema<GetDomainDataSmdRequest>;
 
 export interface GetDomainDsRecordRequest {
   /** Service name */
@@ -3337,16 +3063,8 @@ export const GetDomainDsRecordRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/{serviceName}/dsRecord/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDomainDsRecordRequest",
-}) as any as S.Schema<GetDomainDsRecordRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/domain/{serviceName}/dsRecord/{id}", code: 200 })),
+).annotate({ identifier: "GetDomainDsRecordRequest" }) as any as S.Schema<GetDomainDsRecordRequest>;
 
 /** Generated: The key has been created, but has not yet been used for anything. Published: The DNSKEY record is published in the zone, but predecessors of the key may be held in caches. Ready: The new key data has been published for long enough to guarantee that any previous versions of the DNSKEY RRset have expired from caches. Active: The key has started to be used to sign RRsets. Retired: A successor key has become active and this key is no longer being used to generate RRSIGs. Removed: The key has been removed from the zone. Revoked: The key is published for a period with the "revoke" bit set as a way of notifying validating resolvers that have configured it as an trust anchor that it is about to be removed from the zone. */
 export type DnssecKeyStatusEnum =
@@ -3417,11 +3135,7 @@ export const GetDomainExtensionRegistryConfigurationsRequest = /*@__PURE__*/ S.s
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/extensions/{name}/registryConfigurations",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/domain/extensions/{name}/registryConfigurations", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDomainExtensionRegistryConfigurationsRequest",
@@ -3671,13 +3385,7 @@ export const GetDomainGlueRecordRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     host: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/{serviceName}/glueRecord/{host}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/domain/{serviceName}/glueRecord/{host}", code: 200 })),
 ).annotate({
   identifier: "GetDomainGlueRecordRequest",
 }) as any as S.Schema<GetDomainGlueRecordRequest>;
@@ -3714,13 +3422,7 @@ export const GetDomainNameServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/{serviceName}/nameServer/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/domain/{serviceName}/nameServer/{id}", code: 200 })),
 ).annotate({
   identifier: "GetDomainNameServerRequest",
 }) as any as S.Schema<GetDomainNameServerRequest>;
@@ -3761,11 +3463,7 @@ export const GetDomainNameServerStatusRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/{serviceName}/nameServer/{id}/status",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/domain/{serviceName}/nameServer/{id}/status", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDomainNameServerStatusRequest",
@@ -3808,16 +3506,8 @@ export const GetDomainOptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     option: GetDomainOptionRequestOption.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/{serviceName}/option/{option}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDomainOptionRequest",
-}) as any as S.Schema<GetDomainOptionRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/domain/{serviceName}/option/{option}", code: 200 })),
+).annotate({ identifier: "GetDomainOptionRequest" }) as any as S.Schema<GetDomainOptionRequest>;
 
 /** All options a domain can have */
 export type DomainDomainOptionEnum = "dnsAnycast";
@@ -3852,9 +3542,7 @@ export const GetDomainOptionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/domain/{serviceName}/options", code: 200 })),
-).annotate({
-  identifier: "GetDomainOptionsRequest",
-}) as any as S.Schema<GetDomainOptionsRequest>;
+).annotate({ identifier: "GetDomainOptionsRequest" }) as any as S.Schema<GetDomainOptionsRequest>;
 
 /** Data of a domain option */
 export interface DomainServiceOption {
@@ -3865,9 +3553,7 @@ export const DomainServiceOption = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DomainServiceOption",
-}) as any as S.Schema<DomainServiceOption>;
+).annotate({ identifier: "DomainServiceOption" }) as any as S.Schema<DomainServiceOption>;
 
 /** Representation of the domain options */
 export interface DomainServiceOptions {
@@ -3884,9 +3570,7 @@ export const DomainServiceOptions = /*@__PURE__*/ S.suspend(() =>
     offer: S.optional(S.NullOr(DomainServiceOption)),
     zone: S.optional(S.NullOr(DomainServiceOption)),
   }),
-).annotate({
-  identifier: "DomainServiceOptions",
-}) as any as S.Schema<DomainServiceOptions>;
+).annotate({ identifier: "DomainServiceOptions" }) as any as S.Schema<DomainServiceOptions>;
 
 /** Resource tag filter */
 export interface IamResourceTagFilterInput {}
@@ -3918,9 +3602,7 @@ export const GetDomainsRequest = /*@__PURE__*/ S.suspend(() =>
     iamTags: S.optional(GetDomainsRequestIamTagsMap.pipe(T.Query())),
     whoisOwner: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/domain", code: 200 })),
-).annotate({
-  identifier: "GetDomainsRequest",
-}) as any as S.Schema<GetDomainsRequest>;
+).annotate({ identifier: "GetDomainsRequest" }) as any as S.Schema<GetDomainsRequest>;
 
 export type GetDomainsResponseBodyList = Array<string>;
 export const GetDomainsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3930,9 +3612,7 @@ export const GetDomainsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetDomainsResponse = GetDomainsResponseBodyList;
 export const GetDomainsResponse = /*@__PURE__*/ S.suspend(() =>
   GetDomainsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetDomainsResponse",
-}) as any as S.Schema<GetDomainsResponse>;
+).annotate({ identifier: "GetDomainsResponse" }) as any as S.Schema<GetDomainsResponse>;
 
 export interface GetDomainServiceInfosRequest {
   /** Service name */
@@ -3941,13 +3621,7 @@ export interface GetDomainServiceInfosRequest {
 export const GetDomainServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/domain/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "GetDomainServiceInfosRequest",
 }) as any as S.Schema<GetDomainServiceInfosRequest>;
@@ -3979,9 +3653,7 @@ export const ServiceRenewType = /*@__PURE__*/ S.suspend(() =>
     manualPayment: S.optional(S.NullOr(S.Boolean)),
     period: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ServiceRenewType",
-}) as any as S.Schema<ServiceRenewType>;
+).annotate({ identifier: "ServiceRenewType" }) as any as S.Schema<ServiceRenewType>;
 
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -4039,9 +3711,7 @@ export const ServicesService = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.optional(S.Number),
     status: S.optional(ServiceStateEnum),
   }),
-).annotate({
-  identifier: "ServicesService",
-}) as any as S.Schema<ServicesService>;
+).annotate({ identifier: "ServicesService" }) as any as S.Schema<ServicesService>;
 
 export interface GetDomainTaskRequest {
   /** Service name */
@@ -4053,16 +3723,8 @@ export const GetDomainTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/{serviceName}/task/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDomainTaskRequest",
-}) as any as S.Schema<GetDomainTaskRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/domain/{serviceName}/task/{id}", code: 200 })),
+).annotate({ identifier: "GetDomainTaskRequest" }) as any as S.Schema<GetDomainTaskRequest>;
 
 export interface GetDomainZoneCapabilitiesRequest {
   /** Zone name */
@@ -4071,13 +3733,7 @@ export interface GetDomainZoneCapabilitiesRequest {
 export const GetDomainZoneCapabilitiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/zone/{zoneName}/capabilities",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/domain/zone/{zoneName}/capabilities", code: 200 })),
 ).annotate({
   identifier: "GetDomainZoneCapabilitiesRequest",
 }) as any as S.Schema<GetDomainZoneCapabilitiesRequest>;
@@ -4091,9 +3747,7 @@ export const DomainZoneCapabilities = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dynHost: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DomainZoneCapabilities",
-}) as any as S.Schema<DomainZoneCapabilities>;
+).annotate({ identifier: "DomainZoneCapabilities" }) as any as S.Schema<DomainZoneCapabilities>;
 
 export interface GetDomainZoneExportRequest {
   /** Zone name */
@@ -4125,11 +3779,7 @@ export const GetDomainZoneHistoryRequest = /*@__PURE__*/ S.suspend(() =>
     zoneName: S.String.pipe(T.Label()),
     creationDate: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/zone/{zoneName}/history/{creationDate}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/domain/zone/{zoneName}/history/{creationDate}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDomainZoneHistoryRequest",
@@ -4161,13 +3811,7 @@ export const GetDomainZoneOptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneName: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/zone/{zoneName}/option/{name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/domain/zone/{zoneName}/option/{name}", code: 200 })),
 ).annotate({
   identifier: "GetDomainZoneOptionRequest",
 }) as any as S.Schema<GetDomainZoneOptionRequest>;
@@ -4181,9 +3825,7 @@ export const DomainZoneOption = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DomainZoneOption",
-}) as any as S.Schema<DomainZoneOption>;
+).annotate({ identifier: "DomainZoneOption" }) as any as S.Schema<DomainZoneOption>;
 
 export interface GetDomainZoneOptionServiceInfosRequest {
   /** The internal name of your zone */
@@ -4196,11 +3838,7 @@ export const GetDomainZoneOptionServiceInfosRequest = /*@__PURE__*/ S.suspend(()
     zoneName: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/zone/{zoneName}/option/{name}/serviceInfos",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/domain/zone/{zoneName}/option/{name}/serviceInfos", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDomainZoneOptionServiceInfosRequest",
@@ -4213,13 +3851,7 @@ export interface GetDomainZoneServiceInfosRequest {
 export const GetDomainZoneServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/zone/{zoneName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/domain/zone/{zoneName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "GetDomainZoneServiceInfosRequest",
 }) as any as S.Schema<GetDomainZoneServiceInfosRequest>;
@@ -4232,9 +3864,7 @@ export const GetDomainZoneSoaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/domain/zone/{zoneName}/soa", code: 200 })),
-).annotate({
-  identifier: "GetDomainZoneSoaRequest",
-}) as any as S.Schema<GetDomainZoneSoaRequest>;
+).annotate({ identifier: "GetDomainZoneSoaRequest" }) as any as S.Schema<GetDomainZoneSoaRequest>;
 
 /** DNS zone SOA */
 export interface DomainZoneSoa {
@@ -4275,16 +3905,8 @@ export const GetDomainZoneTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/zone/{zoneName}/task/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDomainZoneTaskRequest",
-}) as any as S.Schema<GetDomainZoneTaskRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/domain/zone/{zoneName}/task/{id}", code: 200 })),
+).annotate({ identifier: "GetDomainZoneTaskRequest" }) as any as S.Schema<GetDomainZoneTaskRequest>;
 
 /** All functions from a dns task */
 export type DomainTaskFunctionEnum =
@@ -4360,15 +3982,9 @@ export const GetDynHostLoginRequest = /*@__PURE__*/ S.suspend(() =>
     zoneName: S.String.pipe(T.Label()),
     login: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/zone/{zoneName}/dynHost/login/{login}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/domain/zone/{zoneName}/dynHost/login/{login}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetDynHostLoginRequest",
-}) as any as S.Schema<GetDynHostLoginRequest>;
+).annotate({ identifier: "GetDynHostLoginRequest" }) as any as S.Schema<GetDynHostLoginRequest>;
 
 export interface GetDynHostLoginsRequest {
   /** Zone name */
@@ -4383,16 +3999,8 @@ export const GetDynHostLoginsRequest = /*@__PURE__*/ S.suspend(() =>
     zoneName: S.String.pipe(T.Label()),
     login: S.optional(S.String.pipe(T.Query())),
     subDomain: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/zone/{zoneName}/dynHost/login",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDynHostLoginsRequest",
-}) as any as S.Schema<GetDynHostLoginsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/domain/zone/{zoneName}/dynHost/login", code: 200 })),
+).annotate({ identifier: "GetDynHostLoginsRequest" }) as any as S.Schema<GetDynHostLoginsRequest>;
 
 export type GetDynHostLoginsResponseBodyList = Array<string>;
 export const GetDynHostLoginsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4402,9 +4010,7 @@ export const GetDynHostLoginsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetDynHostLoginsResponse = GetDynHostLoginsResponseBodyList;
 export const GetDynHostLoginsResponse = /*@__PURE__*/ S.suspend(() =>
   GetDynHostLoginsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetDynHostLoginsResponse",
-}) as any as S.Schema<GetDynHostLoginsResponse>;
+).annotate({ identifier: "GetDynHostLoginsResponse" }) as any as S.Schema<GetDynHostLoginsResponse>;
 
 export interface GetDynHostRecordRequest {
   /** Zone name */
@@ -4416,16 +4022,8 @@ export const GetDynHostRecordRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/zone/{zoneName}/dynHost/record/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDynHostRecordRequest",
-}) as any as S.Schema<GetDynHostRecordRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/domain/zone/{zoneName}/dynHost/record/{id}", code: 200 })),
+).annotate({ identifier: "GetDynHostRecordRequest" }) as any as S.Schema<GetDynHostRecordRequest>;
 
 export interface GetDynHostRecordsRequest {
   /** Zone name */
@@ -4437,16 +4035,8 @@ export const GetDynHostRecordsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneName: S.String.pipe(T.Label()),
     subDomain: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/zone/{zoneName}/dynHost/record",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDynHostRecordsRequest",
-}) as any as S.Schema<GetDynHostRecordsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/domain/zone/{zoneName}/dynHost/record", code: 200 })),
+).annotate({ identifier: "GetDynHostRecordsRequest" }) as any as S.Schema<GetDynHostRecordsRequest>;
 
 export type GetDynHostRecordsResponseBodyList = Array<number>;
 export const GetDynHostRecordsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4470,16 +4060,8 @@ export const GetRecordRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/zone/{zoneName}/record/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetRecordRequest",
-}) as any as S.Schema<GetRecordRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/domain/zone/{zoneName}/record/{id}", code: 200 })),
+).annotate({ identifier: "GetRecordRequest" }) as any as S.Schema<GetRecordRequest>;
 
 export interface GetRecordsRequest {
   /** Zone name */
@@ -4495,9 +4077,7 @@ export const GetRecordsRequest = /*@__PURE__*/ S.suspend(() =>
     fieldType: S.optional(DomainZoneRecordTypeEnum.pipe(T.Query())),
     subDomain: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/domain/zone/{zoneName}/record", code: 200 })),
-).annotate({
-  identifier: "GetRecordsRequest",
-}) as any as S.Schema<GetRecordsRequest>;
+).annotate({ identifier: "GetRecordsRequest" }) as any as S.Schema<GetRecordsRequest>;
 
 export type GetRecordsResponseBodyList = Array<number>;
 export const GetRecordsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4507,9 +4087,7 @@ export const GetRecordsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetRecordsResponse = GetRecordsResponseBodyList;
 export const GetRecordsResponse = /*@__PURE__*/ S.suspend(() =>
   GetRecordsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetRecordsResponse",
-}) as any as S.Schema<GetRecordsResponse>;
+).annotate({ identifier: "GetRecordsResponse" }) as any as S.Schema<GetRecordsResponse>;
 
 export interface GetRedirectionRequest {
   /** Zone name */
@@ -4521,16 +4099,8 @@ export const GetRedirectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/zone/{zoneName}/redirection/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetRedirectionRequest",
-}) as any as S.Schema<GetRedirectionRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/domain/zone/{zoneName}/redirection/{id}", code: 200 })),
+).annotate({ identifier: "GetRedirectionRequest" }) as any as S.Schema<GetRedirectionRequest>;
 
 export interface GetRedirectionsRequest {
   /** Zone name */
@@ -4542,16 +4112,8 @@ export const GetRedirectionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneName: S.String.pipe(T.Label()),
     subDomain: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/zone/{zoneName}/redirection",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetRedirectionsRequest",
-}) as any as S.Schema<GetRedirectionsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/domain/zone/{zoneName}/redirection", code: 200 })),
+).annotate({ identifier: "GetRedirectionsRequest" }) as any as S.Schema<GetRedirectionsRequest>;
 
 export type GetRedirectionsResponseBodyList = Array<number>;
 export const GetRedirectionsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4561,9 +4123,7 @@ export const GetRedirectionsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetRedirectionsResponse = GetRedirectionsResponseBodyList;
 export const GetRedirectionsResponse = /*@__PURE__*/ S.suspend(() =>
   GetRedirectionsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetRedirectionsResponse",
-}) as any as S.Schema<GetRedirectionsResponse>;
+).annotate({ identifier: "GetRedirectionsResponse" }) as any as S.Schema<GetRedirectionsResponse>;
 
 export interface GetZoneRequest {
   /** Zone name */
@@ -4608,9 +4168,7 @@ export const DomainZoneWithIAM = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     nameServers: S.optional(DomainZoneWithIAMNameServersList),
   }),
-).annotate({
-  identifier: "DomainZoneWithIAM",
-}) as any as S.Schema<DomainZoneWithIAM>;
+).annotate({ identifier: "DomainZoneWithIAM" }) as any as S.Schema<DomainZoneWithIAM>;
 
 export type GetZonesRequestIamTagsValueList = Array<IamResourceTagFilterInput>;
 export const GetZonesRequestIamTagsValueList = /*@__PURE__*/ S.Array(
@@ -4633,9 +4191,7 @@ export const GetZonesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     iamTags: S.optional(GetZonesRequestIamTagsMap.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/domain/zone", code: 200 })),
-).annotate({
-  identifier: "GetZonesRequest",
-}) as any as S.Schema<GetZonesRequest>;
+).annotate({ identifier: "GetZonesRequest" }) as any as S.Schema<GetZonesRequest>;
 
 export type GetZonesResponseBodyList = Array<string>;
 export const GetZonesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4645,9 +4201,7 @@ export const GetZonesResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetZonesResponse = GetZonesResponseBodyList;
 export const GetZonesResponse = /*@__PURE__*/ S.suspend(() =>
   GetZonesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetZonesResponse",
-}) as any as S.Schema<GetZonesResponse>;
+).annotate({ identifier: "GetZonesResponse" }) as any as S.Schema<GetZonesResponse>;
 
 export interface ImportDomainZoneRequest {
   /** Zone name */
@@ -4659,16 +4213,8 @@ export const ImportDomainZoneRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneName: S.String.pipe(T.Label()),
     zoneFile: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/zone/{zoneName}/import",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ImportDomainZoneRequest",
-}) as any as S.Schema<ImportDomainZoneRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/domain/zone/{zoneName}/import", code: 200 })),
+).annotate({ identifier: "ImportDomainZoneRequest" }) as any as S.Schema<ImportDomainZoneRequest>;
 
 export interface ListDomainConfigurationObfuscatedEmailsRequest {
   /** Service name */
@@ -4736,13 +4282,7 @@ export interface ListDomainConfigurationOptinRequest {
 export const ListDomainConfigurationOptinRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/{serviceName}/configurations/optin",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/domain/{serviceName}/configurations/optin", code: 200 })),
 ).annotate({
   identifier: "ListDomainConfigurationOptinRequest",
 }) as any as S.Schema<ListDomainConfigurationOptinRequest>;
@@ -4798,9 +4338,7 @@ export const ListDomainConfigurationOptinResponse = /*@__PURE__*/ S.suspend(() =
 export interface ListDomainDataSmdRequest {}
 export const ListDomainDataSmdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/domain/data/smd", code: 200 })),
-).annotate({
-  identifier: "ListDomainDataSmdRequest",
-}) as any as S.Schema<ListDomainDataSmdRequest>;
+).annotate({ identifier: "ListDomainDataSmdRequest" }) as any as S.Schema<ListDomainDataSmdRequest>;
 
 export type ListDomainDataSmdResponseBodyList = Array<DomainDataSmdSmd>;
 export const ListDomainDataSmdResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4862,13 +4400,7 @@ export interface ListDomainExtensionByCategoryRequest {
 export const ListDomainExtensionByCategoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     categoryType: S.optional(ListDomainExtensionByCategoryRequestCategoryTypeList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/extensions/byCategory",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/domain/extensions/byCategory", code: 200 })),
 ).annotate({
   identifier: "ListDomainExtensionByCategoryRequest",
 }) as any as S.Schema<ListDomainExtensionByCategoryRequest>;
@@ -4952,13 +4484,7 @@ export interface ListDomainExtensionHighlightedRequest {
 export const ListDomainExtensionHighlightedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ovhSubsidiary: S.optional(NichandleOvhSubsidiaryEnum.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/extensions/highlighted",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/domain/extensions/highlighted", code: 200 })),
 ).annotate({
   identifier: "ListDomainExtensionHighlightedRequest",
 }) as any as S.Schema<ListDomainExtensionHighlightedRequest>;
@@ -4982,13 +4508,7 @@ export interface ListDomainExtensionPricingAttributesRequest {
 export const ListDomainExtensionPricingAttributesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ovhSubsidiary: S.optional(NichandleOvhSubsidiaryEnum.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/extensions/pricingAttributes",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/domain/extensions/pricingAttributes", code: 200 })),
 ).annotate({
   identifier: "ListDomainExtensionPricingAttributesRequest",
 }) as any as S.Schema<ListDomainExtensionPricingAttributesRequest>;
@@ -5073,13 +4593,7 @@ export const ListDomainGlueRecordRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     host: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/{serviceName}/glueRecord",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/domain/{serviceName}/glueRecord", code: 200 })),
 ).annotate({
   identifier: "ListDomainGlueRecordRequest",
 }) as any as S.Schema<ListDomainGlueRecordRequest>;
@@ -5103,13 +4617,7 @@ export interface ListDomainNameServerRequest {
 export const ListDomainNameServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/{serviceName}/nameServer",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/domain/{serviceName}/nameServer", code: 200 })),
 ).annotate({
   identifier: "ListDomainNameServerRequest",
 }) as any as S.Schema<ListDomainNameServerRequest>;
@@ -5134,9 +4642,7 @@ export const ListDomainOptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/domain/{serviceName}/option", code: 200 })),
-).annotate({
-  identifier: "ListDomainOptionRequest",
-}) as any as S.Schema<ListDomainOptionRequest>;
+).annotate({ identifier: "ListDomainOptionRequest" }) as any as S.Schema<ListDomainOptionRequest>;
 
 export type ListDomainOptionResponseBodyList = Array<DomainDomainOptionEnum>;
 export const ListDomainOptionResponseBodyList = /*@__PURE__*/ S.Array(
@@ -5146,9 +4652,7 @@ export const ListDomainOptionResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListDomainOptionResponse = ListDomainOptionResponseBodyList;
 export const ListDomainOptionResponse = /*@__PURE__*/ S.suspend(() =>
   ListDomainOptionResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListDomainOptionResponse",
-}) as any as S.Schema<ListDomainOptionResponse>;
+).annotate({ identifier: "ListDomainOptionResponse" }) as any as S.Schema<ListDomainOptionResponse>;
 
 export interface ListDomainRuleEmailsObfuscationRequest {
   /** Service name */
@@ -5158,11 +4662,7 @@ export const ListDomainRuleEmailsObfuscationRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/{serviceName}/rules/emailsObfuscation",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/domain/{serviceName}/rules/emailsObfuscation", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDomainRuleEmailsObfuscationRequest",
@@ -5189,13 +4689,7 @@ export interface ListDomainRuleOptinRequest {
 export const ListDomainRuleOptinRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/{serviceName}/rules/optin",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/domain/{serviceName}/rules/optin", code: 200 })),
 ).annotate({
   identifier: "ListDomainRuleOptinRequest",
 }) as any as S.Schema<ListDomainRuleOptinRequest>;
@@ -5218,9 +4712,7 @@ export const DomainRulesOptin = /*@__PURE__*/ S.suspend(() =>
     fields: S.optional(DomainRulesOptinFieldsList),
     type: S.optional(DomainConfigurationsContactTypeEnum),
   }),
-).annotate({
-  identifier: "DomainRulesOptin",
-}) as any as S.Schema<DomainRulesOptin>;
+).annotate({ identifier: "DomainRulesOptin" }) as any as S.Schema<DomainRulesOptin>;
 
 export type ListDomainRuleOptinResponseBodyList = Array<DomainRulesOptin>;
 export const ListDomainRuleOptinResponseBodyList = /*@__PURE__*/ S.Array(
@@ -5251,9 +4743,7 @@ export const ListDomainTaskRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(DomainOperationStatusEnum.pipe(T.Query())),
     type: S.optional(DomainOperationTypeEnum.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/domain/{serviceName}/task", code: 200 })),
-).annotate({
-  identifier: "ListDomainTaskRequest",
-}) as any as S.Schema<ListDomainTaskRequest>;
+).annotate({ identifier: "ListDomainTaskRequest" }) as any as S.Schema<ListDomainTaskRequest>;
 
 export type ListDomainTaskResponseBodyList = Array<number>;
 export const ListDomainTaskResponseBodyList = /*@__PURE__*/ S.Array(
@@ -5263,9 +4753,7 @@ export const ListDomainTaskResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListDomainTaskResponse = ListDomainTaskResponseBodyList;
 export const ListDomainTaskResponse = /*@__PURE__*/ S.suspend(() =>
   ListDomainTaskResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListDomainTaskResponse",
-}) as any as S.Schema<ListDomainTaskResponse>;
+).annotate({ identifier: "ListDomainTaskResponse" }) as any as S.Schema<ListDomainTaskResponse>;
 
 export interface ListDomainUkRegistrarsRequest {
   /** Service name */
@@ -5274,13 +4762,7 @@ export interface ListDomainUkRegistrarsRequest {
 export const ListDomainUkRegistrarsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/{serviceName}/ukRegistrars",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/domain/{serviceName}/ukRegistrars", code: 200 })),
 ).annotate({
   identifier: "ListDomainUkRegistrarsRequest",
 }) as any as S.Schema<ListDomainUkRegistrarsRequest>;
@@ -5297,9 +4779,7 @@ export const DomainUkRegistrar = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     tag: S.String,
   }),
-).annotate({
-  identifier: "DomainUkRegistrar",
-}) as any as S.Schema<DomainUkRegistrar>;
+).annotate({ identifier: "DomainUkRegistrar" }) as any as S.Schema<DomainUkRegistrar>;
 
 export type ListDomainUkRegistrarsResponseBodyList = Array<DomainUkRegistrar>;
 export const ListDomainUkRegistrarsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -5326,13 +4806,7 @@ export const ListDomainZoneHistoryRequest = /*@__PURE__*/ S.suspend(() =>
     zoneName: S.String.pipe(T.Label()),
     creationDate_from: S.optional(S.String.pipe(T.Query("creationDate.from"))),
     creationDate_to: S.optional(S.String.pipe(T.Query("creationDate.to"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/zone/{zoneName}/history",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/domain/zone/{zoneName}/history", code: 200 })),
 ).annotate({
   identifier: "ListDomainZoneHistoryRequest",
 }) as any as S.Schema<ListDomainZoneHistoryRequest>;
@@ -5412,9 +4886,7 @@ export const DomainZoneStatus = /*@__PURE__*/ S.suspend(() =>
     isDeployed: S.optional(S.Boolean),
     warnings: S.optional(S.NullOr(DomainZoneStatusWarningsList)),
   }),
-).annotate({
-  identifier: "DomainZoneStatus",
-}) as any as S.Schema<DomainZoneStatus>;
+).annotate({ identifier: "DomainZoneStatus" }) as any as S.Schema<DomainZoneStatus>;
 
 export interface ListDomainZoneTaskRequest {
   /** Zone name */
@@ -5485,13 +4957,7 @@ export const PutDomainConfigurationDataRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     customFields: S.optional(DomainConfigurationsCustomFieldsInput),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/domain/{serviceName}/configurations/data",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/domain/{serviceName}/configurations/data", code: 200 })),
 ).annotate({
   identifier: "PutDomainConfigurationDataRequest",
 }) as any as S.Schema<PutDomainConfigurationDataRequest>;
@@ -5555,13 +5021,7 @@ export const PutDomainConfigurationOptinRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     optin: S.optional(PutDomainConfigurationOptinRequestOptinList),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/domain/{serviceName}/configurations/optin",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/domain/{serviceName}/configurations/optin", code: 200 })),
 ).annotate({
   identifier: "PutDomainConfigurationOptinRequest",
 }) as any as S.Schema<PutDomainConfigurationOptinRequest>;
@@ -5589,9 +5049,7 @@ export const PutDomainDataSmdRequest = /*@__PURE__*/ S.suspend(() =>
     smdId: S.String.pipe(T.Label()),
     data: S.String,
   }).pipe(T.Http({ method: "PUT", uri: "/domain/data/smd/{smdId}", code: 200 })),
-).annotate({
-  identifier: "PutDomainDataSmdRequest",
-}) as any as S.Schema<PutDomainDataSmdRequest>;
+).annotate({ identifier: "PutDomainDataSmdRequest" }) as any as S.Schema<PutDomainDataSmdRequest>;
 
 export interface PutDomainServiceInfosRequest {
   /** Service name */
@@ -5603,13 +5061,7 @@ export const PutDomainServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     renew: S.optional(S.NullOr(ServiceRenewType)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/domain/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/domain/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "PutDomainServiceInfosRequest",
 }) as any as S.Schema<PutDomainServiceInfosRequest>;
@@ -5633,11 +5085,7 @@ export const PutDomainZoneOptionServiceInfosRequest = /*@__PURE__*/ S.suspend(()
     name: S.String.pipe(T.Label()),
     renew: ServiceRenewType,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/domain/zone/{zoneName}/option/{name}/serviceInfos",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/domain/zone/{zoneName}/option/{name}/serviceInfos", code: 200 }),
   ),
 ).annotate({
   identifier: "PutDomainZoneOptionServiceInfosRequest",
@@ -5660,13 +5108,7 @@ export const PutDomainZoneServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneName: S.String.pipe(T.Label()),
     renew: S.optional(S.NullOr(ServiceRenewType)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/domain/zone/{zoneName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/domain/zone/{zoneName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "PutDomainZoneServiceInfosRequest",
 }) as any as S.Schema<PutDomainZoneServiceInfosRequest>;
@@ -5707,9 +5149,7 @@ export const PutDomainZoneSoaRequest = /*@__PURE__*/ S.suspend(() =>
     server: S.optional(S.String),
     ttl: S.optional(S.Number),
   }).pipe(T.Http({ method: "PUT", uri: "/domain/zone/{zoneName}/soa", code: 200 })),
-).annotate({
-  identifier: "PutDomainZoneSoaRequest",
-}) as any as S.Schema<PutDomainZoneSoaRequest>;
+).annotate({ identifier: "PutDomainZoneSoaRequest" }) as any as S.Schema<PutDomainZoneSoaRequest>;
 
 export interface PutDomainZoneSoaResponse {}
 export const PutDomainZoneSoaResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5759,16 +5199,8 @@ export interface RefreshZoneRequest {
 export const RefreshZoneRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/zone/{zoneName}/refresh",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RefreshZoneRequest",
-}) as any as S.Schema<RefreshZoneRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/domain/zone/{zoneName}/refresh", code: 200 })),
+).annotate({ identifier: "RefreshZoneRequest" }) as any as S.Schema<RefreshZoneRequest>;
 
 export interface RefreshZoneResponse {}
 export const RefreshZoneResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5791,9 +5223,7 @@ export const DomainZoneResetRecord = /*@__PURE__*/ S.suspend(() =>
     fieldType: S.optional(DomainZoneResettableNamedResolutionFieldTypeEnum),
     target: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DomainZoneResetRecord",
-}) as any as S.Schema<DomainZoneResetRecord>;
+).annotate({ identifier: "DomainZoneResetRecord" }) as any as S.Schema<DomainZoneResetRecord>;
 
 /** Records that will be set after reset */
 export type ResetDomainZoneRequestDnsRecordsList = Array<DomainZoneResetRecord>;
@@ -5815,9 +5245,7 @@ export const ResetDomainZoneRequest = /*@__PURE__*/ S.suspend(() =>
     DnsRecords: S.optional(ResetDomainZoneRequestDnsRecordsList),
     minimized: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/domain/zone/{zoneName}/reset", code: 200 })),
-).annotate({
-  identifier: "ResetDomainZoneRequest",
-}) as any as S.Schema<ResetDomainZoneRequest>;
+).annotate({ identifier: "ResetDomainZoneRequest" }) as any as S.Schema<ResetDomainZoneRequest>;
 
 export interface ResetDomainZoneResponse {}
 export const ResetDomainZoneResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5852,13 +5280,7 @@ export interface TerminateDomainZoneRequest {
 export const TerminateDomainZoneRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/zone/{zoneName}/terminate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/domain/zone/{zoneName}/terminate", code: 200 })),
 ).annotate({
   identifier: "TerminateDomainZoneRequest",
 }) as any as S.Schema<TerminateDomainZoneRequest>;
@@ -5997,9 +5419,7 @@ export const UpdateContactRequest = /*@__PURE__*/ S.suspend(() =>
     vat: S.optional(S.NullOr(S.String)),
     website: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PUT", uri: "/domain/contact/{contactId}", code: 200 })),
-).annotate({
-  identifier: "UpdateContactRequest",
-}) as any as S.Schema<UpdateContactRequest>;
+).annotate({ identifier: "UpdateContactRequest" }) as any as S.Schema<UpdateContactRequest>;
 
 /** IP address */
 export type UpdateDomainGlueRecordRequestIpsList = Array<string>;
@@ -6021,11 +5441,7 @@ export const UpdateDomainGlueRecordRequest = /*@__PURE__*/ S.suspend(() =>
     host: S.String.pipe(T.Label()),
     ips: UpdateDomainGlueRecordRequestIpsList,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/{serviceName}/glueRecord/{host}/update",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/domain/{serviceName}/glueRecord/{host}/update", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateDomainGlueRecordRequest",
@@ -6047,13 +5463,7 @@ export const UpdateDomainNameServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     nameServers: UpdateDomainNameServerRequestNameServersList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/{serviceName}/nameServers/update",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/domain/{serviceName}/nameServers/update", code: 200 })),
 ).annotate({
   identifier: "UpdateDomainNameServerRequest",
 }) as any as S.Schema<UpdateDomainNameServerRequest>;

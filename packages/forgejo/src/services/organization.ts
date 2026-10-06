@@ -51,12 +51,7 @@ export class OrganizationOwnsRepositories
       code: S.Number,
       message: S.String,
     }).pipe(C.withConflictError),
-    [
-      {
-        status: 500,
-        message: { includes: "still has ownership of repositories" },
-      },
-    ],
+    [{ status: 500, message: { includes: "still has ownership of repositories" } }],
   ) {}
 
 export class UnprocessableEntity
@@ -94,9 +89,7 @@ export const CreateOrgRequest = /*@__PURE__*/ S.suspend(() =>
     visibility: S.optional(CreateOrgRequestVisibility),
     website: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/orgs", code: 200 })),
-).annotate({
-  identifier: "CreateOrgRequest",
-}) as any as S.Schema<CreateOrgRequest>;
+).annotate({ identifier: "CreateOrgRequest" }) as any as S.Schema<CreateOrgRequest>;
 
 /** Organization represents an organization */
 export interface Organization {
@@ -187,9 +180,7 @@ export const CreateOrgRepoRequest = /*@__PURE__*/ S.suspend(() =>
     template: S.optional(S.Boolean),
     trust_model: S.optional(CreateOrgRepoRequestTrustModel),
   }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/repos", code: 200 })),
-).annotate({
-  identifier: "CreateOrgRepoRequest",
-}) as any as S.Schema<CreateOrgRepoRequest>;
+).annotate({ identifier: "CreateOrgRepoRequest" }) as any as S.Schema<CreateOrgRepoRequest>;
 
 /** ExternalTracker represents settings for external tracker */
 export interface ExternalTracker {
@@ -209,9 +200,7 @@ export const ExternalTracker = /*@__PURE__*/ S.suspend(() =>
     external_tracker_style: S.optional(S.String),
     external_tracker_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExternalTracker",
-}) as any as S.Schema<ExternalTracker>;
+).annotate({ identifier: "ExternalTracker" }) as any as S.Schema<ExternalTracker>;
 
 /** ExternalWiki represents setting for external wiki */
 export interface ExternalWiki {
@@ -239,9 +228,7 @@ export const InternalTracker = /*@__PURE__*/ S.suspend(() =>
     enable_issue_dependencies: S.optional(S.Boolean),
     enable_time_tracker: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "InternalTracker",
-}) as any as S.Schema<InternalTracker>;
+).annotate({ identifier: "InternalTracker" }) as any as S.Schema<InternalTracker>;
 
 /** ObjectFormatName of the underlying git repository */
 export type RepositoryObjectFormatName = "sha1" | "sha256";
@@ -552,15 +539,9 @@ export const CreateOrgVariableRequest = /*@__PURE__*/ S.suspend(() =>
     variablename: S.String.pipe(T.Label()),
     value: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/actions/variables/{variablename}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/orgs/{org}/actions/variables/{variablename}", code: 200 }),
   ),
-).annotate({
-  identifier: "CreateOrgVariableRequest",
-}) as any as S.Schema<CreateOrgVariableRequest>;
+).annotate({ identifier: "CreateOrgVariableRequest" }) as any as S.Schema<CreateOrgVariableRequest>;
 
 export interface CreateOrgVariableResponse {}
 export const CreateOrgVariableResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -575,9 +556,7 @@ export const DeleteOrgRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/orgs/{org}", code: 200 })),
-).annotate({
-  identifier: "DeleteOrgRequest",
-}) as any as S.Schema<DeleteOrgRequest>;
+).annotate({ identifier: "DeleteOrgRequest" }) as any as S.Schema<DeleteOrgRequest>;
 
 export interface DeleteOrgResponse {}
 export const DeleteOrgResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -594,16 +573,8 @@ export const DeleteOrgRunnerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     runner_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/actions/runners/{runner_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteOrgRunnerRequest",
-}) as any as S.Schema<DeleteOrgRunnerRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/orgs/{org}/actions/runners/{runner_id}", code: 200 })),
+).annotate({ identifier: "DeleteOrgRunnerRequest" }) as any as S.Schema<DeleteOrgRunnerRequest>;
 
 export interface DeleteOrgRunnerResponse {}
 export const DeleteOrgRunnerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -620,16 +591,8 @@ export const DeleteOrgSecretRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     secretname: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/actions/secrets/{secretname}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteOrgSecretRequest",
-}) as any as S.Schema<DeleteOrgSecretRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/orgs/{org}/actions/secrets/{secretname}", code: 200 })),
+).annotate({ identifier: "DeleteOrgSecretRequest" }) as any as S.Schema<DeleteOrgSecretRequest>;
 
 export interface DeleteOrgSecretResponse {}
 export const DeleteOrgSecretResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -647,15 +610,9 @@ export const DeleteOrgVariableRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     variablename: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/actions/variables/{variablename}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/orgs/{org}/actions/variables/{variablename}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteOrgVariableRequest",
-}) as any as S.Schema<DeleteOrgVariableRequest>;
+).annotate({ identifier: "DeleteOrgVariableRequest" }) as any as S.Schema<DeleteOrgVariableRequest>;
 
 export interface DeleteOrgVariableResponse {}
 export const DeleteOrgVariableResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -711,16 +668,8 @@ export const GetOrgRunnerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     runner_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/actions/runners/{runner_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetOrgRunnerRequest",
-}) as any as S.Schema<GetOrgRunnerRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/actions/runners/{runner_id}", code: 200 })),
+).annotate({ identifier: "GetOrgRunnerRequest" }) as any as S.Schema<GetOrgRunnerRequest>;
 
 /** Labels is a list of labels attached to this runner. */
 export type ActionRunnerLabelsList = Array<string>;
@@ -787,9 +736,7 @@ export const GetOrgRunnersRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/actions/runners", code: 200 })),
-).annotate({
-  identifier: "GetOrgRunnersRequest",
-}) as any as S.Schema<GetOrgRunnersRequest>;
+).annotate({ identifier: "GetOrgRunnersRequest" }) as any as S.Schema<GetOrgRunnersRequest>;
 
 export type GetOrgRunnersResponseBodyList = Array<ActionRunner>;
 export const GetOrgRunnersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -799,9 +746,7 @@ export const GetOrgRunnersResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetOrgRunnersResponse = GetOrgRunnersResponseBodyList;
 export const GetOrgRunnersResponse = /*@__PURE__*/ S.suspend(() =>
   GetOrgRunnersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetOrgRunnersResponse",
-}) as any as S.Schema<GetOrgRunnersResponse>;
+).annotate({ identifier: "GetOrgRunnersResponse" }) as any as S.Schema<GetOrgRunnersResponse>;
 
 export interface GetOrgVariableRequest {
   /** name of the organization */
@@ -814,15 +759,9 @@ export const GetOrgVariableRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     variablename: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/actions/variables/{variablename}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/actions/variables/{variablename}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetOrgVariableRequest",
-}) as any as S.Schema<GetOrgVariableRequest>;
+).annotate({ identifier: "GetOrgVariableRequest" }) as any as S.Schema<GetOrgVariableRequest>;
 
 /** ActionVariable return value of the query API */
 export interface ActionVariable {
@@ -885,9 +824,7 @@ export const OrgAddTeamMemberRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "PUT", uri: "/teams/{id}/members/{username}", code: 200 })),
-).annotate({
-  identifier: "OrgAddTeamMemberRequest",
-}) as any as S.Schema<OrgAddTeamMemberRequest>;
+).annotate({ identifier: "OrgAddTeamMemberRequest" }) as any as S.Schema<OrgAddTeamMemberRequest>;
 
 export interface OrgAddTeamMemberResponse {}
 export const OrgAddTeamMemberResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -928,9 +865,7 @@ export const OrgBlockUserRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "PUT", uri: "/orgs/{org}/block/{username}", code: 200 })),
-).annotate({
-  identifier: "OrgBlockUserRequest",
-}) as any as S.Schema<OrgBlockUserRequest>;
+).annotate({ identifier: "OrgBlockUserRequest" }) as any as S.Schema<OrgBlockUserRequest>;
 
 export interface OrgBlockUserResponse {}
 export const OrgBlockUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -948,16 +883,12 @@ export const OrgCheckQuotaRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     subject: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/quota/check", code: 200 })),
-).annotate({
-  identifier: "OrgCheckQuotaRequest",
-}) as any as S.Schema<OrgCheckQuotaRequest>;
+).annotate({ identifier: "OrgCheckQuotaRequest" }) as any as S.Schema<OrgCheckQuotaRequest>;
 
 export type OrgCheckQuotaResponse = boolean;
 export const OrgCheckQuotaResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "OrgCheckQuotaResponse",
-}) as any as S.Schema<OrgCheckQuotaResponse>;
+).annotate({ identifier: "OrgCheckQuotaResponse" }) as any as S.Schema<OrgCheckQuotaResponse>;
 
 export interface OrgConcealMemberRequest {
   /** name of the organization */
@@ -969,16 +900,8 @@ export const OrgConcealMemberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/public_members/{username}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "OrgConcealMemberRequest",
-}) as any as S.Schema<OrgConcealMemberRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/orgs/{org}/public_members/{username}", code: 200 })),
+).annotate({ identifier: "OrgConcealMemberRequest" }) as any as S.Schema<OrgConcealMemberRequest>;
 
 export interface OrgConcealMemberResponse {}
 export const OrgConcealMemberResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1031,9 +954,7 @@ export const OrgCreateHookRequest = /*@__PURE__*/ S.suspend(() =>
     events: S.optional(OrgCreateHookRequestEventsList),
     type: OrgCreateHookRequestType,
   }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/hooks", code: 200 })),
-).annotate({
-  identifier: "OrgCreateHookRequest",
-}) as any as S.Schema<OrgCreateHookRequest>;
+).annotate({ identifier: "OrgCreateHookRequest" }) as any as S.Schema<OrgCreateHookRequest>;
 
 /** Deprecated: use Metadata instead */
 export type HookConfigMap = { [key: string]: string | undefined };
@@ -1096,9 +1017,7 @@ export const OrgCreateLabelRequest = /*@__PURE__*/ S.suspend(() =>
     is_archived: S.optional(S.Boolean),
     name: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/labels", code: 200 })),
-).annotate({
-  identifier: "OrgCreateLabelRequest",
-}) as any as S.Schema<OrgCreateLabelRequest>;
+).annotate({ identifier: "OrgCreateLabelRequest" }) as any as S.Schema<OrgCreateLabelRequest>;
 
 /** Label a label to an issue or a pr */
 export interface Label {
@@ -1130,9 +1049,7 @@ export const OrgCreateTeamRequestUnitsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<OrgCreateTeamRequestUnitsList>;
 
-export type OrgCreateTeamRequestUnitsMapMap = {
-  [key: string]: string | undefined;
-};
+export type OrgCreateTeamRequestUnitsMapMap = { [key: string]: string | undefined };
 export const OrgCreateTeamRequestUnitsMapMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1160,9 +1077,7 @@ export const OrgCreateTeamRequest = /*@__PURE__*/ S.suspend(() =>
     units: S.optional(OrgCreateTeamRequestUnitsList),
     units_map: S.optional(OrgCreateTeamRequestUnitsMapMap),
   }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/teams", code: 200 })),
-).annotate({
-  identifier: "OrgCreateTeamRequest",
-}) as any as S.Schema<OrgCreateTeamRequest>;
+).annotate({ identifier: "OrgCreateTeamRequest" }) as any as S.Schema<OrgCreateTeamRequest>;
 
 export interface OrgDeleteAvatarRequest {
   /** name of the organization */
@@ -1172,9 +1087,7 @@ export const OrgDeleteAvatarRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/orgs/{org}/avatar", code: 200 })),
-).annotate({
-  identifier: "OrgDeleteAvatarRequest",
-}) as any as S.Schema<OrgDeleteAvatarRequest>;
+).annotate({ identifier: "OrgDeleteAvatarRequest" }) as any as S.Schema<OrgDeleteAvatarRequest>;
 
 export interface OrgDeleteAvatarResponse {}
 export const OrgDeleteAvatarResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1192,9 +1105,7 @@ export const OrgDeleteHookRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/orgs/{org}/hooks/{id}", code: 200 })),
-).annotate({
-  identifier: "OrgDeleteHookRequest",
-}) as any as S.Schema<OrgDeleteHookRequest>;
+).annotate({ identifier: "OrgDeleteHookRequest" }) as any as S.Schema<OrgDeleteHookRequest>;
 
 export interface OrgDeleteHookResponse {}
 export const OrgDeleteHookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1212,9 +1123,7 @@ export const OrgDeleteLabelRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/orgs/{org}/labels/{id}", code: 200 })),
-).annotate({
-  identifier: "OrgDeleteLabelRequest",
-}) as any as S.Schema<OrgDeleteLabelRequest>;
+).annotate({ identifier: "OrgDeleteLabelRequest" }) as any as S.Schema<OrgDeleteLabelRequest>;
 
 export interface OrgDeleteLabelResponse {}
 export const OrgDeleteLabelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1231,16 +1140,8 @@ export const OrgDeleteMemberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/members/{username}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "OrgDeleteMemberRequest",
-}) as any as S.Schema<OrgDeleteMemberRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/orgs/{org}/members/{username}", code: 200 })),
+).annotate({ identifier: "OrgDeleteMemberRequest" }) as any as S.Schema<OrgDeleteMemberRequest>;
 
 export interface OrgDeleteMemberResponse {}
 export const OrgDeleteMemberResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1255,9 +1156,7 @@ export const OrgDeleteTeamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/teams/{id}", code: 200 })),
-).annotate({
-  identifier: "OrgDeleteTeamRequest",
-}) as any as S.Schema<OrgDeleteTeamRequest>;
+).annotate({ identifier: "OrgDeleteTeamRequest" }) as any as S.Schema<OrgDeleteTeamRequest>;
 
 export interface OrgDeleteTeamResponse {}
 export const OrgDeleteTeamResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1296,9 +1195,7 @@ export const OrgEditHookRequest = /*@__PURE__*/ S.suspend(() =>
     config: S.optional(OrgEditHookRequestConfigMap),
     events: S.optional(OrgEditHookRequestEventsList),
   }).pipe(T.Http({ method: "PATCH", uri: "/orgs/{org}/hooks/{id}", code: 200 })),
-).annotate({
-  identifier: "OrgEditHookRequest",
-}) as any as S.Schema<OrgEditHookRequest>;
+).annotate({ identifier: "OrgEditHookRequest" }) as any as S.Schema<OrgEditHookRequest>;
 
 export interface OrgEditLabelRequest {
   /** name of the organization */
@@ -1321,9 +1218,7 @@ export const OrgEditLabelRequest = /*@__PURE__*/ S.suspend(() =>
     is_archived: S.optional(S.Boolean),
     name: S.optional(S.String),
   }).pipe(T.Http({ method: "PATCH", uri: "/orgs/{org}/labels/{id}", code: 200 })),
-).annotate({
-  identifier: "OrgEditLabelRequest",
-}) as any as S.Schema<OrgEditLabelRequest>;
+).annotate({ identifier: "OrgEditLabelRequest" }) as any as S.Schema<OrgEditLabelRequest>;
 
 export type OrgEditTeamRequestPermission = "read" | "write" | "admin";
 export const OrgEditTeamRequestPermission = S.String;
@@ -1333,9 +1228,7 @@ export const OrgEditTeamRequestUnitsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<OrgEditTeamRequestUnitsList>;
 
-export type OrgEditTeamRequestUnitsMapMap = {
-  [key: string]: string | undefined;
-};
+export type OrgEditTeamRequestUnitsMapMap = { [key: string]: string | undefined };
 export const OrgEditTeamRequestUnitsMapMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1363,9 +1256,7 @@ export const OrgEditTeamRequest = /*@__PURE__*/ S.suspend(() =>
     units: S.optional(OrgEditTeamRequestUnitsList),
     units_map: S.optional(OrgEditTeamRequestUnitsMapMap),
   }).pipe(T.Http({ method: "PATCH", uri: "/teams/{id}", code: 200 })),
-).annotate({
-  identifier: "OrgEditTeamRequest",
-}) as any as S.Schema<OrgEditTeamRequest>;
+).annotate({ identifier: "OrgEditTeamRequest" }) as any as S.Schema<OrgEditTeamRequest>;
 
 export interface OrgGetAllRequest {
   /** page number of results to return (1-based) */
@@ -1378,9 +1269,7 @@ export const OrgGetAllRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/orgs", code: 200 })),
-).annotate({
-  identifier: "OrgGetAllRequest",
-}) as any as S.Schema<OrgGetAllRequest>;
+).annotate({ identifier: "OrgGetAllRequest" }) as any as S.Schema<OrgGetAllRequest>;
 
 export type OrgGetAllResponseBodyList = Array<Organization>;
 export const OrgGetAllResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1390,9 +1279,7 @@ export const OrgGetAllResponseBodyList = /*@__PURE__*/ S.Array(
 export type OrgGetAllResponse = OrgGetAllResponseBodyList;
 export const OrgGetAllResponse = /*@__PURE__*/ S.suspend(() =>
   OrgGetAllResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "OrgGetAllResponse",
-}) as any as S.Schema<OrgGetAllResponse>;
+).annotate({ identifier: "OrgGetAllResponse" }) as any as S.Schema<OrgGetAllResponse>;
 
 export interface OrgGetHookRequest {
   /** name of the organization */
@@ -1405,9 +1292,7 @@ export const OrgGetHookRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/hooks/{id}", code: 200 })),
-).annotate({
-  identifier: "OrgGetHookRequest",
-}) as any as S.Schema<OrgGetHookRequest>;
+).annotate({ identifier: "OrgGetHookRequest" }) as any as S.Schema<OrgGetHookRequest>;
 
 export interface OrgGetLabelRequest {
   /** name of the organization */
@@ -1420,9 +1305,7 @@ export const OrgGetLabelRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/labels/{id}", code: 200 })),
-).annotate({
-  identifier: "OrgGetLabelRequest",
-}) as any as S.Schema<OrgGetLabelRequest>;
+).annotate({ identifier: "OrgGetLabelRequest" }) as any as S.Schema<OrgGetLabelRequest>;
 
 export interface OrgGetQuotaRequest {
   /** name of the organization */
@@ -1432,9 +1315,7 @@ export const OrgGetQuotaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/quota", code: 200 })),
-).annotate({
-  identifier: "OrgGetQuotaRequest",
-}) as any as S.Schema<OrgGetQuotaRequest>;
+).annotate({ identifier: "OrgGetQuotaRequest" }) as any as S.Schema<OrgGetQuotaRequest>;
 
 /** Subjects the rule affects */
 export type QuotaRuleInfoSubjectsList = Array<string>;
@@ -1525,9 +1406,7 @@ export const QuotaUsedSizeAssets = /*@__PURE__*/ S.suspend(() =>
     attachments: S.optional(QuotaUsedSizeAssetsAttachments),
     packages: S.optional(QuotaUsedSizeAssetsPackages),
   }),
-).annotate({
-  identifier: "QuotaUsedSizeAssets",
-}) as any as S.Schema<QuotaUsedSizeAssets>;
+).annotate({ identifier: "QuotaUsedSizeAssets" }) as any as S.Schema<QuotaUsedSizeAssets>;
 
 /** QuotaUsedSizeGit represents the size-based git (lfs) quota usage of a user */
 export interface QuotaUsedSizeGit {
@@ -1538,9 +1417,7 @@ export const QuotaUsedSizeGit = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     LFS: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "QuotaUsedSizeGit",
-}) as any as S.Schema<QuotaUsedSizeGit>;
+).annotate({ identifier: "QuotaUsedSizeGit" }) as any as S.Schema<QuotaUsedSizeGit>;
 
 /** QuotaUsedSizeRepos represents the size-based repository quota usage of a user */
 export interface QuotaUsedSizeRepos {
@@ -1554,9 +1431,7 @@ export const QuotaUsedSizeRepos = /*@__PURE__*/ S.suspend(() =>
     private: S.optional(S.Number),
     public: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "QuotaUsedSizeRepos",
-}) as any as S.Schema<QuotaUsedSizeRepos>;
+).annotate({ identifier: "QuotaUsedSizeRepos" }) as any as S.Schema<QuotaUsedSizeRepos>;
 
 /** QuotaUsedSize represents the size-based quota usage of a user */
 export interface QuotaUsedSize {
@@ -1602,9 +1477,7 @@ export const OrgGetTeamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/teams/{id}", code: 200 })),
-).annotate({
-  identifier: "OrgGetTeamRequest",
-}) as any as S.Schema<OrgGetTeamRequest>;
+).annotate({ identifier: "OrgGetTeamRequest" }) as any as S.Schema<OrgGetTeamRequest>;
 
 export interface OrgGetUserPermissionsRequest {
   /** username of user */
@@ -1616,13 +1489,7 @@ export const OrgGetUserPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String.pipe(T.Label()),
     org: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/users/{username}/orgs/{org}/permissions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/users/{username}/orgs/{org}/permissions", code: 200 })),
 ).annotate({
   identifier: "OrgGetUserPermissionsRequest",
 }) as any as S.Schema<OrgGetUserPermissionsRequest>;
@@ -1643,9 +1510,7 @@ export const OrganizationPermissions = /*@__PURE__*/ S.suspend(() =>
     is_admin: S.optional(S.Boolean),
     is_owner: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "OrganizationPermissions",
-}) as any as S.Schema<OrganizationPermissions>;
+).annotate({ identifier: "OrganizationPermissions" }) as any as S.Schema<OrganizationPermissions>;
 
 export interface OrgIsMemberRequest {
   /** name of the organization */
@@ -1658,9 +1523,7 @@ export const OrgIsMemberRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/members/{username}", code: 200 })),
-).annotate({
-  identifier: "OrgIsMemberRequest",
-}) as any as S.Schema<OrgIsMemberRequest>;
+).annotate({ identifier: "OrgIsMemberRequest" }) as any as S.Schema<OrgIsMemberRequest>;
 
 export interface OrgIsMemberResponse {}
 export const OrgIsMemberResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1677,16 +1540,8 @@ export const OrgIsPublicMemberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/public_members/{username}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "OrgIsPublicMemberRequest",
-}) as any as S.Schema<OrgIsPublicMemberRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/public_members/{username}", code: 200 })),
+).annotate({ identifier: "OrgIsPublicMemberRequest" }) as any as S.Schema<OrgIsPublicMemberRequest>;
 
 export interface OrgIsPublicMemberResponse {}
 export const OrgIsPublicMemberResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1989,9 +1844,7 @@ export const OrgListHooksRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/hooks", code: 200 })),
-).annotate({
-  identifier: "OrgListHooksRequest",
-}) as any as S.Schema<OrgListHooksRequest>;
+).annotate({ identifier: "OrgListHooksRequest" }) as any as S.Schema<OrgListHooksRequest>;
 
 export type OrgListHooksResponseBodyList = Array<Hook>;
 export const OrgListHooksResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2001,9 +1854,7 @@ export const OrgListHooksResponseBodyList = /*@__PURE__*/ S.Array(
 export type OrgListHooksResponse = OrgListHooksResponseBodyList;
 export const OrgListHooksResponse = /*@__PURE__*/ S.suspend(() =>
   OrgListHooksResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "OrgListHooksResponse",
-}) as any as S.Schema<OrgListHooksResponse>;
+).annotate({ identifier: "OrgListHooksResponse" }) as any as S.Schema<OrgListHooksResponse>;
 
 export type OrgListLabelsRequestSort = "mostissues" | "leastissues" | "reversealphabetically";
 export const OrgListLabelsRequestSort = S.String;
@@ -2025,9 +1876,7 @@ export const OrgListLabelsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/labels", code: 200 })),
-).annotate({
-  identifier: "OrgListLabelsRequest",
-}) as any as S.Schema<OrgListLabelsRequest>;
+).annotate({ identifier: "OrgListLabelsRequest" }) as any as S.Schema<OrgListLabelsRequest>;
 
 export type OrgListLabelsResponseBodyList = Array<Label>;
 export const OrgListLabelsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2037,9 +1886,7 @@ export const OrgListLabelsResponseBodyList = /*@__PURE__*/ S.Array(
 export type OrgListLabelsResponse = OrgListLabelsResponseBodyList;
 export const OrgListLabelsResponse = /*@__PURE__*/ S.suspend(() =>
   OrgListLabelsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "OrgListLabelsResponse",
-}) as any as S.Schema<OrgListLabelsResponse>;
+).annotate({ identifier: "OrgListLabelsResponse" }) as any as S.Schema<OrgListLabelsResponse>;
 
 export interface OrgListMembersRequest {
   /** name of the organization */
@@ -2055,9 +1902,7 @@ export const OrgListMembersRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/members", code: 200 })),
-).annotate({
-  identifier: "OrgListMembersRequest",
-}) as any as S.Schema<OrgListMembersRequest>;
+).annotate({ identifier: "OrgListMembersRequest" }) as any as S.Schema<OrgListMembersRequest>;
 
 export type OrgListMembersResponseBodyList = Array<User>;
 export const OrgListMembersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2067,9 +1912,7 @@ export const OrgListMembersResponseBodyList = /*@__PURE__*/ S.Array(
 export type OrgListMembersResponse = OrgListMembersResponseBodyList;
 export const OrgListMembersResponse = /*@__PURE__*/ S.suspend(() =>
   OrgListMembersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "OrgListMembersResponse",
-}) as any as S.Schema<OrgListMembersResponse>;
+).annotate({ identifier: "OrgListMembersResponse" }) as any as S.Schema<OrgListMembersResponse>;
 
 export interface OrgListPublicMembersRequest {
   /** name of the organization */
@@ -2134,9 +1977,7 @@ export const QuotaUsedArtifact = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     size: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "QuotaUsedArtifact",
-}) as any as S.Schema<QuotaUsedArtifact>;
+).annotate({ identifier: "QuotaUsedArtifact" }) as any as S.Schema<QuotaUsedArtifact>;
 
 /** QuotaUsedArtifactList represents a list of artifacts counting towards a user's quota */
 export type QuotaUsedArtifactList = Array<QuotaUsedArtifact>;
@@ -2203,9 +2044,7 @@ export const QuotaUsedAttachment = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     size: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "QuotaUsedAttachment",
-}) as any as S.Schema<QuotaUsedAttachment>;
+).annotate({ identifier: "QuotaUsedAttachment" }) as any as S.Schema<QuotaUsedAttachment>;
 
 /** QuotaUsedAttachmentList represents a list of attachment counting towards a user's quota */
 export type QuotaUsedAttachmentList = Array<QuotaUsedAttachment>;
@@ -2259,9 +2098,7 @@ export const QuotaUsedPackage = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "QuotaUsedPackage",
-}) as any as S.Schema<QuotaUsedPackage>;
+).annotate({ identifier: "QuotaUsedPackage" }) as any as S.Schema<QuotaUsedPackage>;
 
 /** QuotaUsedPackageList represents a list of packages counting towards a user's quota */
 export type QuotaUsedPackageList = Array<QuotaUsedPackage>;
@@ -2290,9 +2127,7 @@ export const OrgListReposRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/repos", code: 200 })),
-).annotate({
-  identifier: "OrgListReposRequest",
-}) as any as S.Schema<OrgListReposRequest>;
+).annotate({ identifier: "OrgListReposRequest" }) as any as S.Schema<OrgListReposRequest>;
 
 export type OrgListReposResponseBodyList = Array<Repository>;
 export const OrgListReposResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2302,9 +2137,7 @@ export const OrgListReposResponseBodyList = /*@__PURE__*/ S.Array(
 export type OrgListReposResponse = OrgListReposResponseBodyList;
 export const OrgListReposResponse = /*@__PURE__*/ S.suspend(() =>
   OrgListReposResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "OrgListReposResponse",
-}) as any as S.Schema<OrgListReposResponse>;
+).annotate({ identifier: "OrgListReposResponse" }) as any as S.Schema<OrgListReposResponse>;
 
 export interface OrgListTeamActivityFeedsRequest {
   /** id of the team */
@@ -2350,9 +2183,7 @@ export const OrgListTeamMemberRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/teams/{id}/members/{username}", code: 200 })),
-).annotate({
-  identifier: "OrgListTeamMemberRequest",
-}) as any as S.Schema<OrgListTeamMemberRequest>;
+).annotate({ identifier: "OrgListTeamMemberRequest" }) as any as S.Schema<OrgListTeamMemberRequest>;
 
 export interface OrgListTeamMembersRequest {
   /** id of the team */
@@ -2398,9 +2229,7 @@ export const OrgListTeamRepoRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/teams/{id}/repos/{org}/{repo}", code: 200 })),
-).annotate({
-  identifier: "OrgListTeamRepoRequest",
-}) as any as S.Schema<OrgListTeamRepoRequest>;
+).annotate({ identifier: "OrgListTeamRepoRequest" }) as any as S.Schema<OrgListTeamRepoRequest>;
 
 export interface OrgListTeamReposRequest {
   /** id of the team */
@@ -2416,9 +2245,7 @@ export const OrgListTeamReposRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/teams/{id}/repos", code: 200 })),
-).annotate({
-  identifier: "OrgListTeamReposRequest",
-}) as any as S.Schema<OrgListTeamReposRequest>;
+).annotate({ identifier: "OrgListTeamReposRequest" }) as any as S.Schema<OrgListTeamReposRequest>;
 
 export type OrgListTeamReposResponseBodyList = Array<Repository>;
 export const OrgListTeamReposResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2428,9 +2255,7 @@ export const OrgListTeamReposResponseBodyList = /*@__PURE__*/ S.Array(
 export type OrgListTeamReposResponse = OrgListTeamReposResponseBodyList;
 export const OrgListTeamReposResponse = /*@__PURE__*/ S.suspend(() =>
   OrgListTeamReposResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "OrgListTeamReposResponse",
-}) as any as S.Schema<OrgListTeamReposResponse>;
+).annotate({ identifier: "OrgListTeamReposResponse" }) as any as S.Schema<OrgListTeamReposResponse>;
 
 export interface OrgListTeamsRequest {
   /** name of the organization */
@@ -2446,9 +2271,7 @@ export const OrgListTeamsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/teams", code: 200 })),
-).annotate({
-  identifier: "OrgListTeamsRequest",
-}) as any as S.Schema<OrgListTeamsRequest>;
+).annotate({ identifier: "OrgListTeamsRequest" }) as any as S.Schema<OrgListTeamsRequest>;
 
 export type OrgListTeamsResponseBodyList = Array<Team>;
 export const OrgListTeamsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2458,9 +2281,7 @@ export const OrgListTeamsResponseBodyList = /*@__PURE__*/ S.Array(
 export type OrgListTeamsResponse = OrgListTeamsResponseBodyList;
 export const OrgListTeamsResponse = /*@__PURE__*/ S.suspend(() =>
   OrgListTeamsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "OrgListTeamsResponse",
-}) as any as S.Schema<OrgListTeamsResponse>;
+).annotate({ identifier: "OrgListTeamsResponse" }) as any as S.Schema<OrgListTeamsResponse>;
 
 export interface OrgListUserOrgsRequest {
   /** username of user */
@@ -2476,9 +2297,7 @@ export const OrgListUserOrgsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/users/{username}/orgs", code: 200 })),
-).annotate({
-  identifier: "OrgListUserOrgsRequest",
-}) as any as S.Schema<OrgListUserOrgsRequest>;
+).annotate({ identifier: "OrgListUserOrgsRequest" }) as any as S.Schema<OrgListUserOrgsRequest>;
 
 export type OrgListUserOrgsResponseBodyList = Array<Organization>;
 export const OrgListUserOrgsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2488,9 +2307,7 @@ export const OrgListUserOrgsResponseBodyList = /*@__PURE__*/ S.Array(
 export type OrgListUserOrgsResponse = OrgListUserOrgsResponseBodyList;
 export const OrgListUserOrgsResponse = /*@__PURE__*/ S.suspend(() =>
   OrgListUserOrgsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "OrgListUserOrgsResponse",
-}) as any as S.Schema<OrgListUserOrgsResponse>;
+).annotate({ identifier: "OrgListUserOrgsResponse" }) as any as S.Schema<OrgListUserOrgsResponse>;
 
 export interface OrgPublicizeMemberRequest {
   /** name of the organization */
@@ -2502,13 +2319,7 @@ export const OrgPublicizeMemberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/orgs/{org}/public_members/{username}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/orgs/{org}/public_members/{username}", code: 200 })),
 ).annotate({
   identifier: "OrgPublicizeMemberRequest",
 }) as any as S.Schema<OrgPublicizeMemberRequest>;
@@ -2528,13 +2339,7 @@ export const OrgRemoveTeamMemberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/teams/{id}/members/{username}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/teams/{id}/members/{username}", code: 200 })),
 ).annotate({
   identifier: "OrgRemoveTeamMemberRequest",
 }) as any as S.Schema<OrgRemoveTeamMemberRequest>;
@@ -2557,22 +2362,14 @@ export const OrgRemoveTeamRepositoryRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     org: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/teams/{id}/repos/{org}/{repo}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/teams/{id}/repos/{org}/{repo}", code: 200 })),
 ).annotate({
   identifier: "OrgRemoveTeamRepositoryRequest",
 }) as any as S.Schema<OrgRemoveTeamRepositoryRequest>;
 
 export interface OrgRemoveTeamRepositoryResponse {}
 export const OrgRemoveTeamRepositoryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "OrgRemoveTeamRepositoryResponse",
-  },
+  { identifier: "OrgRemoveTeamRepositoryResponse" },
 ) as any as S.Schema<OrgRemoveTeamRepositoryResponse>;
 
 export interface OrgSearchRunJobsRequest {
@@ -2585,16 +2382,8 @@ export const OrgSearchRunJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     labels: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/actions/runners/jobs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "OrgSearchRunJobsRequest",
-}) as any as S.Schema<OrgSearchRunJobsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/actions/runners/jobs", code: 200 })),
+).annotate({ identifier: "OrgSearchRunJobsRequest" }) as any as S.Schema<OrgSearchRunJobsRequest>;
 
 /** the action run job needed ids */
 export type ActionRunJobNeedsList = Array<string>;
@@ -2657,9 +2446,7 @@ export const OrgSearchRunJobsResponseBodyList = /*@__PURE__*/ S.Array(
 export type OrgSearchRunJobsResponse = OrgSearchRunJobsResponseBodyList;
 export const OrgSearchRunJobsResponse = /*@__PURE__*/ S.suspend(() =>
   OrgSearchRunJobsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "OrgSearchRunJobsResponse",
-}) as any as S.Schema<OrgSearchRunJobsResponse>;
+).annotate({ identifier: "OrgSearchRunJobsResponse" }) as any as S.Schema<OrgSearchRunJobsResponse>;
 
 export interface OrgUnblockUserRequest {
   /** name of the org */
@@ -2672,9 +2459,7 @@ export const OrgUnblockUserRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "PUT", uri: "/orgs/{org}/unblock/{username}", code: 200 })),
-).annotate({
-  identifier: "OrgUnblockUserRequest",
-}) as any as S.Schema<OrgUnblockUserRequest>;
+).annotate({ identifier: "OrgUnblockUserRequest" }) as any as S.Schema<OrgUnblockUserRequest>;
 
 export interface OrgUnblockUserResponse {}
 export const OrgUnblockUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2692,9 +2477,7 @@ export const OrgUpdateAvatarRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     image: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/avatar", code: 200 })),
-).annotate({
-  identifier: "OrgUpdateAvatarRequest",
-}) as any as S.Schema<OrgUpdateAvatarRequest>;
+).annotate({ identifier: "OrgUpdateAvatarRequest" }) as any as S.Schema<OrgUpdateAvatarRequest>;
 
 export interface OrgUpdateAvatarResponse {}
 export const OrgUpdateAvatarResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2718,9 +2501,7 @@ export const RegisterOrgRunnerRequest = /*@__PURE__*/ S.suspend(() =>
     ephemeral: S.optional(S.Boolean),
     name: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/actions/runners", code: 200 })),
-).annotate({
-  identifier: "RegisterOrgRunnerRequest",
-}) as any as S.Schema<RegisterOrgRunnerRequest>;
+).annotate({ identifier: "RegisterOrgRunnerRequest" }) as any as S.Schema<RegisterOrgRunnerRequest>;
 
 export interface RegisterRunnerResponse {
   id?: number;
@@ -2733,9 +2514,7 @@ export const RegisterRunnerResponse = /*@__PURE__*/ S.suspend(() =>
     token: S.optional(S.String),
     uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RegisterRunnerResponse",
-}) as any as S.Schema<RegisterRunnerResponse>;
+).annotate({ identifier: "RegisterRunnerResponse" }) as any as S.Schema<RegisterRunnerResponse>;
 
 export interface RenameOrgRequest {
   /** existing org name */
@@ -2748,9 +2527,7 @@ export const RenameOrgRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     new_name: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/rename", code: 200 })),
-).annotate({
-  identifier: "RenameOrgRequest",
-}) as any as S.Schema<RenameOrgRequest>;
+).annotate({ identifier: "RenameOrgRequest" }) as any as S.Schema<RenameOrgRequest>;
 
 export interface RenameOrgResponse {}
 export const RenameOrgResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2777,9 +2554,7 @@ export const SearchTeamRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/teams/search", code: 200 })),
-).annotate({
-  identifier: "SearchTeamRequest",
-}) as any as S.Schema<SearchTeamRequest>;
+).annotate({ identifier: "SearchTeamRequest" }) as any as S.Schema<SearchTeamRequest>;
 
 export type SearchTeamResponseDataList = Array<Team>;
 export const SearchTeamResponseDataList = /*@__PURE__*/ S.Array(
@@ -2795,9 +2570,7 @@ export const SearchTeamResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(SearchTeamResponseDataList),
     ok: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SearchTeamResponse",
-}) as any as S.Schema<SearchTeamResponse>;
+).annotate({ identifier: "SearchTeamResponse" }) as any as S.Schema<SearchTeamResponse>;
 
 export interface UpdateOrgSecretRequest {
   /** name of organization */
@@ -2812,16 +2585,8 @@ export const UpdateOrgSecretRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     secretname: S.String.pipe(T.Label()),
     data: S.String,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/orgs/{org}/actions/secrets/{secretname}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateOrgSecretRequest",
-}) as any as S.Schema<UpdateOrgSecretRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/orgs/{org}/actions/secrets/{secretname}", code: 200 })),
+).annotate({ identifier: "UpdateOrgSecretRequest" }) as any as S.Schema<UpdateOrgSecretRequest>;
 
 export interface UpdateOrgSecretResponse {}
 export const UpdateOrgSecretResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2845,15 +2610,9 @@ export const UpdateOrgVariableRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     value: S.String,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/orgs/{org}/actions/variables/{variablename}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/orgs/{org}/actions/variables/{variablename}", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateOrgVariableRequest",
-}) as any as S.Schema<UpdateOrgVariableRequest>;
+).annotate({ identifier: "UpdateOrgVariableRequest" }) as any as S.Schema<UpdateOrgVariableRequest>;
 
 export interface UpdateOrgVariableResponse {}
 export const UpdateOrgVariableResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

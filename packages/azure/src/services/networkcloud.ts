@@ -3036,7 +3036,7 @@ export const ClusterSecretArchive = /*@__PURE__*/ S.suspend(() =>
 export interface SecretArchiveSettings {
   /** The selection of the managed identity to use with this vault URI. The identity type must be either system assigned or user assigned. */
   associatedIdentity?: IdentitySelector;
-  /** The URI for the key vault used as the secret archive. */
+  /** The URI of the secret archive endpoint. The URI must use the `https://` scheme. */
   vaultUri?: string;
 }
 export const SecretArchiveSettings = /*@__PURE__*/ S.suspend(() =>
@@ -3046,7 +3046,7 @@ export const SecretArchiveSettings = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "SecretArchiveSettings" }) as any as S.Schema<SecretArchiveSettings>;
 
-/** The mode of operation for runtime protection. */
+/** The strategy for updating the cluster. */
 export type ClusterUpdateStrategyType = "Rack" | "PauseAfterRack";
 export const ClusterUpdateStrategyType = S.String;
 
@@ -3054,7 +3054,7 @@ export const ClusterUpdateStrategyType = S.String;
 export interface ClusterUpdateStrategy {
   /** The maximum number of worker nodes that can be offline within the increment of update, e.g., rack-by-rack. Limited by the maximum number of machines in the increment. Defaults to the whole increment size. */
   maxUnavailable?: number;
-  /** The mode of operation for runtime protection. */
+  /** The strategy for updating the cluster. */
   strategyType: ClusterUpdateStrategyType | (string & {});
   /** Selection of how the threshold should be evaluated. */
   thresholdType: ValidationThresholdType | (string & {});
@@ -7176,16 +7176,16 @@ export const StorageApplianceProvisioningState = S.String;
 
 /** StorageApplianceProperties represents the properties of the storage appliance. */
 export interface StorageApplianceProperties {
+  /** The credentials of the administrative interface on this storage appliance. */
+  administratorCredentials: AdministrativeCredentials;
   /** The resource ID of the rack where this storage appliance resides. */
   rackId: string;
-  /** The SKU for the storage appliance. */
-  storageApplianceSkuId: string;
   /** The slot the storage appliance is in the rack based on the BOM configuration. */
   rackSlot: number;
   /** The serial number for the storage appliance. */
   serialNumber: string;
-  /** The credentials of the administrative interface on this storage appliance. */
-  administratorCredentials: AdministrativeCredentials;
+  /** The SKU for the storage appliance. */
+  storageApplianceSkuId: string;
   /** The CA certificate information issued by the platform for connecting to TLS interfaces for the storage appliance. Callers add this certificate to their trusted CA store to allow secure communication with the storage appliance. */
   caCertificate?: CertificateInfo;
   /** The total capacity of the storage appliance. Measured in GiB. */
@@ -7221,11 +7221,11 @@ export interface StorageApplianceProperties {
 }
 export const StorageApplianceProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    administratorCredentials: AdministrativeCredentials,
     rackId: S.String,
-    storageApplianceSkuId: S.String,
     rackSlot: S.Number,
     serialNumber: S.String,
-    administratorCredentials: AdministrativeCredentials,
+    storageApplianceSkuId: S.String,
     caCertificate: S.optional(CertificateInfo),
     capacity: S.optional(S.Number),
     capacityUsed: S.optional(S.Number),
@@ -11507,24 +11507,24 @@ export const StorageAppliancesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Rec
 
 /** StorageApplianceProperties represents the properties of the storage appliance. */
 export interface StorageAppliancePropertiesInput {
+  /** The credentials of the administrative interface on this storage appliance. */
+  administratorCredentials: AdministrativeCredentials;
   /** The resource ID of the rack where this storage appliance resides. */
   rackId: string;
-  /** The SKU for the storage appliance. */
-  storageApplianceSkuId: string;
   /** The slot the storage appliance is in the rack based on the BOM configuration. */
   rackSlot: number;
   /** The serial number for the storage appliance. */
   serialNumber: string;
-  /** The credentials of the administrative interface on this storage appliance. */
-  administratorCredentials: AdministrativeCredentials;
+  /** The SKU for the storage appliance. */
+  storageApplianceSkuId: string;
 }
 export const StorageAppliancePropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    administratorCredentials: AdministrativeCredentials,
     rackId: S.String,
-    storageApplianceSkuId: S.String,
     rackSlot: S.Number,
     serialNumber: S.String,
-    administratorCredentials: AdministrativeCredentials,
+    storageApplianceSkuId: S.String,
   }),
 ).annotate({
   identifier: "StorageAppliancePropertiesInput",
@@ -12723,7 +12723,7 @@ export const ClusterSecretArchivePatch = /*@__PURE__*/ S.suspend(() =>
 export interface ClusterUpdateStrategyPatch {
   /** The maximum number of worker nodes that can be offline within the increment of update, e.g., rack-by-rack. Limited by the maximum number of machines in the increment. Defaults to the whole increment size. */
   maxUnavailable?: number;
-  /** The mode of operation for runtime protection. */
+  /** The strategy for updating the cluster. */
   strategyType?: ClusterUpdateStrategyType | (string & {});
   /** Selection of how the threshold should be evaluated. */
   thresholdType?: ValidationThresholdType | (string & {});

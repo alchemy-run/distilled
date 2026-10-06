@@ -43,11 +43,7 @@ export const CreateUsersCredentialsReviewCompleteRequest = /*@__PURE__*/ S.suspe
   S.Struct({
     uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/users/{uuid}/credentials_review_complete/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/users/{uuid}/credentials_review_complete/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateUsersCredentialsReviewCompleteRequest",
@@ -59,6 +55,59 @@ export const CreateUsersCredentialsReviewCompleteResponse = /*@__PURE__*/ S.susp
 ).annotate({
   identifier: "CreateUsersCredentialsReviewCompleteResponse",
 }) as any as S.Schema<CreateUsersCredentialsReviewCompleteResponse>;
+
+export interface UserCodexAuthTokens {
+  /** The ChatGPT access token (a JWT) from the `tokens` object of the Codex `auth.json`. */
+  access_token: string | Redacted.Redacted<string>;
+  /** The single-use ChatGPT refresh token from the same `tokens` object. */
+  refresh_token: string | Redacted.Redacted<string>;
+  /** The OpenID id token from the same `tokens` object, when present. Used to read the account email. */
+  id_token?: string | null;
+}
+export const UserCodexAuthTokens = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    access_token: S.String.pipe(T.SensitiveValue({})),
+    refresh_token: S.String.pipe(T.SensitiveValue({})),
+    id_token: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "UserCodexAuthTokens" }) as any as S.Schema<UserCodexAuthTokens>;
+
+export interface CreateUsersIntegrationsCodexRequest {
+  uuid: string;
+  /** The `tokens` object of the `auth.json` that `codex login` wrote. PostHog refreshes the chain once, stores the rotated tokens, and refreshes them for cloud runs from then on. */
+  tokens: UserCodexAuthTokens;
+}
+export const CreateUsersIntegrationsCodexRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.String.pipe(T.Label()),
+    tokens: UserCodexAuthTokens,
+  }).pipe(T.Http({ method: "POST", uri: "/api/users/{uuid}/integrations/codex/", code: 200 })),
+).annotate({
+  identifier: "CreateUsersIntegrationsCodexRequest",
+}) as any as S.Schema<CreateUsersIntegrationsCodexRequest>;
+
+/** * `connected` - Connected * `reauth_required` - Reauth Required * `not_connected` - Not Connected */
+export type CodexIntegrationStatusEnum = "connected" | "reauth_required" | "not_connected";
+export const CodexIntegrationStatusEnum = S.String;
+
+export interface UserCodexIntegration {
+  /** `connected` when cloud runs can use the account; `reauth_required` when OpenAI rejected the refresh token and the user must log in and connect again; `not_connected` when no account is connected. * `connected` - Connected * `reauth_required` - Reauth Required * `not_connected` - Not Connected */
+  status: CodexIntegrationStatusEnum;
+  /** The ChatGPT plan type OpenAI reports for the account. */
+  plan_type?: string | null;
+  /** The email of the connected ChatGPT account. */
+  email?: string | null;
+  /** When the account was connected. */
+  connected_at?: string | null;
+}
+export const UserCodexIntegration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: CodexIntegrationStatusEnum,
+    plan_type: S.optional(S.NullOr(S.String)),
+    email: S.optional(S.NullOr(S.String)),
+    connected_at: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "UserCodexIntegration" }) as any as S.Schema<UserCodexIntegration>;
 
 export interface CreateUsersIntegrationsGithubPrepareCallbackRequest {
   uuid: string;
@@ -103,28 +152,21 @@ export const CreateUsersOnboardingSkipRequest = /*@__PURE__*/ S.suspend(() =>
     uuid: S.String.pipe(T.Label()),
     reason: OnboardingSkipRequestReasonEnum,
     step_at_skip: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/users/{uuid}/onboarding/skip/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/users/{uuid}/onboarding/skip/", code: 200 })),
 ).annotate({
   identifier: "CreateUsersOnboardingSkipRequest",
 }) as any as S.Schema<CreateUsersOnboardingSkipRequest>;
 
 /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated — other preferences stay as-is. */
-export type UserOutputNotificationSettingsMap = {
-  [key: string]: unknown | undefined;
-};
+export type UserOutputNotificationSettingsMap = { [key: string]: unknown | undefined };
 export const UserOutputNotificationSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<UserOutputNotificationSettingsMap>;
 
-/** * `discussions_mentioned` - discussions_mentioned * `error_tracking_issue_assigned` - error_tracking_issue_assigned * `error_tracking_weekly_digest_project_enabled` - error_tracking_weekly_digest_project_enabled * `materialized_view_sync_failed` - materialized_view_sync_failed * `materialized_view_sync_failed_daily` - materialized_view_sync_failed_daily * `materialized_view_sync_failed_immediate` - materialized_view_sync_failed_immediate * `organization_member_join_email_disabled` - organization_member_join_email_disabled * `pipeline_notifications_disabled` - pipeline_notifications_disabled * `project_weekly_digest_disabled` - project_weekly_digest_disabled * `web_analytics_weekly_digest_project_enabled` - web_analytics_weekly_digest_project_enabled */
+/** * `data_catalog_weekly_digest` - data_catalog_weekly_digest * `discussions_mentioned` - discussions_mentioned * `error_tracking_issue_assigned` - error_tracking_issue_assigned * `error_tracking_weekly_digest_project_enabled` - error_tracking_weekly_digest_project_enabled * `materialized_view_sync_failed` - materialized_view_sync_failed * `materialized_view_sync_failed_daily` - materialized_view_sync_failed_daily * `materialized_view_sync_failed_immediate` - materialized_view_sync_failed_immediate * `organization_member_join_email_disabled` - organization_member_join_email_disabled * `pipeline_notifications_disabled` - pipeline_notifications_disabled * `project_weekly_digest_disabled` - project_weekly_digest_disabled * `web_analytics_weekly_digest_project_enabled` - web_analytics_weekly_digest_project_enabled */
 export type SettingEnum =
+  | "data_catalog_weekly_digest"
   | "discussions_mentioned"
   | "error_tracking_issue_assigned"
   | "error_tracking_weekly_digest_project_enabled"
@@ -138,7 +180,7 @@ export type SettingEnum =
 export const SettingEnum = S.String;
 
 export interface OrganizationNotificationLock {
-  /** Notification setting this rule enforces. * `discussions_mentioned` - discussions_mentioned * `error_tracking_issue_assigned` - error_tracking_issue_assigned * `error_tracking_weekly_digest_project_enabled` - error_tracking_weekly_digest_project_enabled * `materialized_view_sync_failed` - materialized_view_sync_failed * `materialized_view_sync_failed_daily` - materialized_view_sync_failed_daily * `materialized_view_sync_failed_immediate` - materialized_view_sync_failed_immediate * `organization_member_join_email_disabled` - organization_member_join_email_disabled * `pipeline_notifications_disabled` - pipeline_notifications_disabled * `project_weekly_digest_disabled` - project_weekly_digest_disabled * `web_analytics_weekly_digest_project_enabled` - web_analytics_weekly_digest_project_enabled */
+  /** Notification setting this rule enforces. * `data_catalog_weekly_digest` - data_catalog_weekly_digest * `discussions_mentioned` - discussions_mentioned * `error_tracking_issue_assigned` - error_tracking_issue_assigned * `error_tracking_weekly_digest_project_enabled` - error_tracking_weekly_digest_project_enabled * `materialized_view_sync_failed` - materialized_view_sync_failed * `materialized_view_sync_failed_daily` - materialized_view_sync_failed_daily * `materialized_view_sync_failed_immediate` - materialized_view_sync_failed_immediate * `organization_member_join_email_disabled` - organization_member_join_email_disabled * `pipeline_notifications_disabled` - pipeline_notifications_disabled * `project_weekly_digest_disabled` - project_weekly_digest_disabled * `web_analytics_weekly_digest_project_enabled` - web_analytics_weekly_digest_project_enabled */
   setting: SettingEnum;
   /** What the setting applies to: a project ID or an organization ID. Empty for a setting that is a single switch. */
   scope_id: string;
@@ -822,9 +864,7 @@ export const OrganizationTeamsList = /*@__PURE__*/ S.Array(
   OrganizationTeamsItemMap,
 ) as any as S.Schema<OrganizationTeamsList>;
 
-export type OrganizationProjectsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type OrganizationProjectsItemMap = { [key: string]: unknown | undefined };
 export const OrganizationProjectsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -846,16 +886,33 @@ export const OrganizationMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
 ) as any as S.Schema<OrganizationMetadataMap>;
 
-/** * `bayesian` - Bayesian * `frequentist` - Frequentist */
-export type OrganizationDefaultExperimentStatsMethodEnum = "bayesian" | "frequentist";
-export const OrganizationDefaultExperimentStatsMethodEnum = S.String;
+export interface OrganizationMemberNoticeAction {
+  /** Text on the button shown next to the notice. */
+  label: string;
+  /** Link the button opens in a new tab. Must use http or https. */
+  url: string;
+}
+export const OrganizationMemberNoticeAction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    label: S.String,
+    url: S.String,
+  }),
+).annotate({
+  identifier: "OrganizationMemberNoticeAction",
+}) as any as S.Schema<OrganizationMemberNoticeAction>;
 
-/** Default statistical method for new experiments in this organization. * `bayesian` - Bayesian * `frequentist` - Frequentist */
-export type OrganizationDefaultExperimentStatsMethod =
-  | OrganizationDefaultExperimentStatsMethodEnum
-  | BlankEnum;
-export const OrganizationDefaultExperimentStatsMethod =
-  S.Unknown as any as S.Schema<OrganizationDefaultExperimentStatsMethod>;
+export interface OrganizationMemberNotice {
+  /** HTML shown in the banner. Supports formatting tags and links (<b>, <strong>, <i>, <em>, <u>, <s>, <code>, <br>, <p>, <span>, <ul>, <ol>, <li>, <a href>). Other tags, styles and scripts are removed. */
+  message: string;
+  /** Optional link button shown on the right of the banner. */
+  action?: OrganizationMemberNoticeAction | null;
+}
+export const OrganizationMemberNotice = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message: S.String,
+    action: S.optional(S.NullOr(OrganizationMemberNoticeAction)),
+  }),
+).annotate({ identifier: "OrganizationMemberNotice" }) as any as S.Schema<OrganizationMemberNotice>;
 
 export interface Organization {
   id?: string;
@@ -885,6 +942,8 @@ export interface Organization {
   allow_publicly_shared_resources?: boolean;
   /** When True, requests through the PostHog MCP server can read but not change this organization's data. */
   read_only_mcp_access?: boolean | null;
+  /** Notice shown in a banner to every member of the organization. Set to null to remove it. */
+  member_notice?: OrganizationMemberNotice | null;
   member_count?: number;
   is_ai_data_processing_approved?: boolean | null;
   /** When True, this organization allows its data to be used to train PostHog AI models. */
@@ -893,9 +952,8 @@ export interface Organization {
   is_ai_training_locked?: boolean | null;
   /** When True, in-app callouts inviting members to enable AI training are shown. */
   is_ai_training_cta_shown?: boolean | null;
-  is_hipaa?: boolean | null;
-  /** Default statistical method for new experiments in this organization. * `bayesian` - Bayesian * `frequentist` - Frequentist */
-  default_experiment_stats_method?: OrganizationDefaultExperimentStatsMethod | null;
+  /** Whether the organization has a countersigned Business Associate Agreement on file. When true, AI training stays opted out and cannot be changed. */
+  has_signed_baa?: boolean;
   /** Default setting for 'Discard client IP data' for new projects in this organization. */
   default_anonymize_ips?: boolean;
   /** ID of the role to automatically assign to new members joining the organization */
@@ -906,6 +964,8 @@ export interface Organization {
   is_not_active_reason?: string | null;
   /** Set to True when org deletion has been initiated. Blocks all UI access until the async task completes. */
   is_pending_deletion?: boolean | null;
+  /** When True, access controls resolve with the most specific matching rule. When False, the legacy resolution order applies. */
+  uses_most_specific_access_resolution?: boolean | null;
 }
 export const Organization = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -931,18 +991,19 @@ export const Organization = /*@__PURE__*/ S.suspend(() =>
     members_can_see_org_members: S.optional(S.Boolean),
     allow_publicly_shared_resources: S.optional(S.Boolean),
     read_only_mcp_access: S.optional(S.NullOr(S.Boolean)),
+    member_notice: S.optional(S.NullOr(OrganizationMemberNotice)),
     member_count: S.optional(S.Number),
     is_ai_data_processing_approved: S.optional(S.NullOr(S.Boolean)),
     is_ai_training_opted_in: S.optional(S.NullOr(S.Boolean)),
     is_ai_training_locked: S.optional(S.NullOr(S.Boolean)),
     is_ai_training_cta_shown: S.optional(S.NullOr(S.Boolean)),
-    is_hipaa: S.optional(S.NullOr(S.Boolean)),
-    default_experiment_stats_method: S.optional(S.NullOr(OrganizationDefaultExperimentStatsMethod)),
+    has_signed_baa: S.optional(S.Boolean),
     default_anonymize_ips: S.optional(S.Boolean),
     default_role_id: S.optional(S.NullOr(S.String)),
     is_active: S.optional(S.NullOr(S.Boolean)),
     is_not_active_reason: S.optional(S.NullOr(S.String)),
     is_pending_deletion: S.optional(S.NullOr(S.Boolean)),
+    uses_most_specific_access_resolution: S.optional(S.NullOr(S.Boolean)),
   }),
 ).annotate({ identifier: "Organization" }) as any as S.Schema<Organization>;
 
@@ -973,9 +1034,7 @@ export const OrganizationBasic = /*@__PURE__*/ S.suspend(() =>
     is_not_active_reason: S.optional(S.NullOr(S.String)),
     is_pending_deletion: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "OrganizationBasic",
-}) as any as S.Schema<OrganizationBasic>;
+).annotate({ identifier: "OrganizationBasic" }) as any as S.Schema<OrganizationBasic>;
 
 export type UserOutputOrganizationsList = Array<OrganizationBasic>;
 export const UserOutputOrganizationsList = /*@__PURE__*/ S.Array(
@@ -1087,6 +1146,8 @@ export interface UserOutput {
   /** The reason the operator gave when the current impersonation session started (or was last up/downgraded). Null when not impersonating. */
   is_impersonated_reason?: string | null;
   sensitive_session_expires_at?: string | null;
+  /** When the last re-authentication stops counting as fresh. Changing `email` after this needs a new re-authentication. Null when the session has none on record. */
+  fresh_reauth_expires_at?: string | null;
   team?: TeamBasic;
   organization?: Organization;
   organizations?: UserOutputOrganizationsList;
@@ -1105,7 +1166,7 @@ export interface UserOutput {
   passkeys_enabled_for_2fa?: boolean | null;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
   hide_mcp_hints?: boolean;
-  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. */
+  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true. */
   ui_configuration?: unknown;
   onboarding_skipped_at?: string | null;
   onboarding_skipped_reason?: OnboardingSkippedReasonEnum | null;
@@ -1144,6 +1205,7 @@ export const UserOutput = /*@__PURE__*/ S.suspend(() =>
     is_impersonated_read_only: S.optional(S.NullOr(S.Boolean)),
     is_impersonated_reason: S.optional(S.NullOr(S.String)),
     sensitive_session_expires_at: S.optional(S.NullOr(S.String)),
+    fresh_reauth_expires_at: S.optional(S.NullOr(S.String)),
     team: S.optional(TeamBasic),
     organization: S.optional(Organization),
     organizations: S.optional(UserOutputOrganizationsList),
@@ -1190,13 +1252,7 @@ export const CreateUsersPushTokenRequest = /*@__PURE__*/ S.suspend(() =>
     uuid: S.String.pipe(T.Label()),
     token: S.String,
     platform: UserPushTokenPlatformEnum,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/users/{uuid}/push_tokens/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/users/{uuid}/push_tokens/", code: 200 })),
 ).annotate({
   identifier: "CreateUsersPushTokenRequest",
 }) as any as S.Schema<CreateUsersPushTokenRequest>;
@@ -1218,9 +1274,7 @@ export const UserPushTokenItem = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     last_seen_at: S.String,
   }),
-).annotate({
-  identifier: "UserPushTokenItem",
-}) as any as S.Schema<UserPushTokenItem>;
+).annotate({ identifier: "UserPushTokenItem" }) as any as S.Schema<UserPushTokenItem>;
 
 /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated — other preferences stay as-is. */
 export type CreateUsersRequestEmailVerificationRequestNotificationSettingsMap = {
@@ -1274,7 +1328,7 @@ export interface CreateUsersRequestEmailVerificationRequest {
   passkeys_enabled_for_2fa?: boolean | null;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
   hide_mcp_hints?: boolean;
-  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. */
+  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true. */
   ui_configuration?: unknown;
 }
 export const CreateUsersRequestEmailVerificationRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1305,13 +1359,7 @@ export const CreateUsersRequestEmailVerificationRequest = /*@__PURE__*/ S.suspen
     passkeys_enabled_for_2fa: S.optional(S.NullOr(S.Boolean)),
     hide_mcp_hints: S.optional(S.Boolean),
     ui_configuration: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/users/request_email_verification/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/users/request_email_verification/", code: 200 })),
 ).annotate({
   identifier: "CreateUsersRequestEmailVerificationRequest",
 }) as any as S.Schema<CreateUsersRequestEmailVerificationRequest>;
@@ -1375,7 +1423,7 @@ export interface CreateUsersScenePersonalisationRequest {
   passkeys_enabled_for_2fa?: boolean | null;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
   hide_mcp_hints?: boolean;
-  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. */
+  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true. */
   ui_configuration?: unknown;
 }
 export const CreateUsersScenePersonalisationRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1405,13 +1453,7 @@ export const CreateUsersScenePersonalisationRequest = /*@__PURE__*/ S.suspend(()
     passkeys_enabled_for_2fa: S.optional(S.NullOr(S.Boolean)),
     hide_mcp_hints: S.optional(S.Boolean),
     ui_configuration: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/users/{uuid}/scene_personalisation/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/users/{uuid}/scene_personalisation/", code: 200 })),
 ).annotate({
   identifier: "CreateUsersScenePersonalisationRequest",
 }) as any as S.Schema<CreateUsersScenePersonalisationRequest>;
@@ -1427,40 +1469,33 @@ export const CreateUsersScenePersonalisationResponse = /*@__PURE__*/ S.suspend((
 export type AutonomyPriorityEnum = "P0" | "P1" | "P2" | "P3" | "P4";
 export const AutonomyPriorityEnum = S.String;
 
-export type CreateUsersSignalAutonomyRequestAutostartPriority = AutonomyPriorityEnum | BlankEnum;
-export const CreateUsersSignalAutonomyRequestAutostartPriority =
-  S.Unknown as any as S.Schema<CreateUsersSignalAutonomyRequestAutostartPriority>;
-
-/** Minimum report priority that triggers a Slack notification. P0 is highest. Null means notify on every priority. When set, reports without a priority judgment do not notify. * `P0` - P0 * `P1` - P1 * `P2` - P2 * `P3` - P3 * `P4` - P4 */
-export type CreateUsersSignalAutonomyRequestSlackNotificationMinPriority =
-  | AutonomyPriorityEnum
-  | BlankEnum;
-export const CreateUsersSignalAutonomyRequestSlackNotificationMinPriority =
-  S.Unknown as any as S.Schema<CreateUsersSignalAutonomyRequestSlackNotificationMinPriority>;
-
 export interface CreateUsersSignalAutonomyRequest {
   user_id: string;
-  autostart_priority?: CreateUsersSignalAutonomyRequestAutostartPriority | null;
-  /** Slack channel target in the same `channel_id|#channel-name` shape PostHog uses elsewhere (only the channel id is required). Null disables Slack notifications. */
+  autostart_priority?: AutonomyPriorityEnum | (string & {}) | null;
+  /** Primary key of a Slack `Integration` row in one of the caller's teams. Pair with `slack_notification_channel` to enable notifications; pass null on either to disable them. */
+  slack_notification_integration_id?: number | null;
+  /** `channel_id|#channel-name` target, the same convention used by Insight Alerts, or a `member_id|@display-name` target (`U0123ABC456|@sam`) to send the ping as a direct message. A member target is checked against the workspace on save. */
   slack_notification_channel?: string | null;
-  /** Minimum report priority that triggers a Slack notification. P0 is highest. Null means notify on every priority. When set, reports without a priority judgment do not notify. * `P0` - P0 * `P1` - P1 * `P2` - P2 * `P3` - P3 * `P4` - P4 */
-  slack_notification_min_priority?: CreateUsersSignalAutonomyRequestSlackNotificationMinPriority | null;
+  /** Set true to send the ping as a direct message from the PostHog app. The caller's own member id is resolved in the connected workspace and stored in `slack_notification_channel`, so nothing has to be picked. Rejected when the workspace has no eligible account for the caller, and cannot be combined with `slack_notification_channel`. */
+  slack_notification_direct_message?: boolean;
+  /** P0 is highest. Null = notify for every priority. When set, reports without a priority judgment do not notify. * `P0` - P0 * `P1` - P1 * `P2` - P2 * `P3` - P3 * `P4` - P4 */
+  slack_notification_min_priority?: AutonomyPriorityEnum | (string & {}) | null;
+  /** Add this user as a GitHub assignee on implementation pull requests for reports that suggest them as reviewer. Off by default. Turning it off stops future assignment and never removes an existing assignee. */
+  github_assign_on_pull_request?: boolean;
+  /** Open implementation pull requests for reports that suggest this user as reviewer ready for review instead of draft, so the full CI matrix runs without anybody clicking Ready. Null follows the project default. A ready pull request runs the full matrix on every push. */
+  github_open_pull_request_ready?: boolean | null;
 }
 export const CreateUsersSignalAutonomyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     user_id: S.String.pipe(T.Label()),
-    autostart_priority: S.optional(S.NullOr(CreateUsersSignalAutonomyRequestAutostartPriority)),
+    autostart_priority: S.optional(S.NullOr(AutonomyPriorityEnum)),
+    slack_notification_integration_id: S.optional(S.NullOr(S.Number)),
     slack_notification_channel: S.optional(S.NullOr(S.String)),
-    slack_notification_min_priority: S.optional(
-      S.NullOr(CreateUsersSignalAutonomyRequestSlackNotificationMinPriority),
-    ),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/users/{user_id}/signal_autonomy/",
-      code: 200,
-    }),
-  ),
+    slack_notification_direct_message: S.optional(S.Boolean),
+    slack_notification_min_priority: S.optional(S.NullOr(AutonomyPriorityEnum)),
+    github_assign_on_pull_request: S.optional(S.Boolean),
+    github_open_pull_request_ready: S.optional(S.NullOr(S.Boolean)),
+  }).pipe(T.Http({ method: "POST", uri: "/api/users/{user_id}/signal_autonomy/", code: 200 })),
 ).annotate({
   identifier: "CreateUsersSignalAutonomyRequest",
 }) as any as S.Schema<CreateUsersSignalAutonomyRequest>;
@@ -1497,10 +1532,14 @@ export interface SignalUserAutonomyConfig {
   autostart_priority?: SignalUserAutonomyConfigAutostartPriority | null;
   /** ID of the Slack Integration to deliver inbox-item notifications through, or null when notifications are disabled. */
   slack_notification_integration_id?: number | null;
-  /** Slack channel target in the same `channel_id|#channel-name` shape PostHog uses elsewhere (only the channel id is required). Null disables Slack notifications. */
+  /** Where the reviewer ping goes, in the same `id|name` shape PostHog uses elsewhere (only the id is required): a channel (`C0123ABC456|#alerts`), or a workspace member (`U0123ABC456|@sam`) who is sent a direct message. Null disables Slack notifications. */
   slack_notification_channel?: string | null;
   /** Minimum report priority that triggers a Slack notification. P0 is highest. Null means notify on every priority. When set, reports without a priority judgment do not notify. * `P0` - P0 * `P1` - P1 * `P2` - P2 * `P3` - P3 * `P4` - P4 */
   slack_notification_min_priority?: SignalUserAutonomyConfigSlackNotificationMinPriority | null;
+  /** Whether to add this user as a GitHub assignee on implementation pull requests for reports that suggest them as reviewer. Off by default. Assignment is additive, so turning it off never removes an assignee from a pull request that already has one. */
+  github_assign_on_pull_request?: boolean;
+  /** Whether implementation pull requests for reports that suggest this user as reviewer open ready for review instead of draft, so the full CI matrix starts right away. Null follows the project's default_open_pull_request_ready. Applies only when the pull request is created; a pull request somebody converts back to draft stays draft. */
+  github_open_pull_request_ready?: boolean | null;
   created_at?: string;
   updated_at?: string;
 }
@@ -1514,12 +1553,12 @@ export const SignalUserAutonomyConfig = /*@__PURE__*/ S.suspend(() =>
     slack_notification_min_priority: S.optional(
       S.NullOr(SignalUserAutonomyConfigSlackNotificationMinPriority),
     ),
+    github_assign_on_pull_request: S.optional(S.Boolean),
+    github_open_pull_request_ready: S.optional(S.NullOr(S.Boolean)),
     created_at: S.optional(S.String),
     updated_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SignalUserAutonomyConfig",
-}) as any as S.Schema<SignalUserAutonomyConfig>;
+).annotate({ identifier: "SignalUserAutonomyConfig" }) as any as S.Schema<SignalUserAutonomyConfig>;
 
 /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated — other preferences stay as-is. */
 export type CreateUsersTwoFactorBackupCodeRequestNotificationSettingsMap = {
@@ -1573,7 +1612,7 @@ export interface CreateUsersTwoFactorBackupCodeRequest {
   passkeys_enabled_for_2fa?: boolean | null;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
   hide_mcp_hints?: boolean;
-  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. */
+  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true. */
   ui_configuration?: unknown;
 }
 export const CreateUsersTwoFactorBackupCodeRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1601,13 +1640,7 @@ export const CreateUsersTwoFactorBackupCodeRequest = /*@__PURE__*/ S.suspend(() 
     passkeys_enabled_for_2fa: S.optional(S.NullOr(S.Boolean)),
     hide_mcp_hints: S.optional(S.Boolean),
     ui_configuration: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/users/{uuid}/two_factor_backup_codes/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/users/{uuid}/two_factor_backup_codes/", code: 200 })),
 ).annotate({
   identifier: "CreateUsersTwoFactorBackupCodeRequest",
 }) as any as S.Schema<CreateUsersTwoFactorBackupCodeRequest>;
@@ -1669,7 +1702,7 @@ export interface CreateUsersValidate2faRequest {
   passkeys_enabled_for_2fa?: boolean | null;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
   hide_mcp_hints?: boolean;
-  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. */
+  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true. */
   ui_configuration?: unknown;
 }
 export const CreateUsersValidate2faRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1697,13 +1730,7 @@ export const CreateUsersValidate2faRequest = /*@__PURE__*/ S.suspend(() =>
     passkeys_enabled_for_2fa: S.optional(S.NullOr(S.Boolean)),
     hide_mcp_hints: S.optional(S.Boolean),
     ui_configuration: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/users/{uuid}/validate_2fa/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/users/{uuid}/validate_2fa/", code: 200 })),
 ).annotate({
   identifier: "CreateUsersValidate2faRequest",
 }) as any as S.Schema<CreateUsersValidate2faRequest>;
@@ -1728,13 +1755,7 @@ export interface GetUsersGithubLoginRequest {
 export const GetUsersGithubLoginRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/users/{uuid}/github_login/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/users/{uuid}/github_login/", code: 200 })),
 ).annotate({
   identifier: "GetUsersGithubLoginRequest",
 }) as any as S.Schema<GetUsersGithubLoginRequest>;
@@ -1747,9 +1768,7 @@ export const UserGithubLogin = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     github_login: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "UserGithubLogin",
-}) as any as S.Schema<UserGithubLogin>;
+).annotate({ identifier: "UserGithubLogin" }) as any as S.Schema<UserGithubLogin>;
 
 export interface GetUsersHedgehogConfigRequest {
   uuid: string;
@@ -1757,13 +1776,7 @@ export interface GetUsersHedgehogConfigRequest {
 export const GetUsersHedgehogConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/users/{uuid}/hedgehog_config/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/users/{uuid}/hedgehog_config/", code: 200 })),
 ).annotate({
   identifier: "GetUsersHedgehogConfigRequest",
 }) as any as S.Schema<GetUsersHedgehogConfigRequest>;
@@ -1772,6 +1785,17 @@ export interface GetUsersHedgehogConfigResponse {}
 export const GetUsersHedgehogConfigResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "GetUsersHedgehogConfigResponse",
 }) as any as S.Schema<GetUsersHedgehogConfigResponse>;
+
+export interface GetUsersIntegrationsCodexRequest {
+  uuid: string;
+}
+export const GetUsersIntegrationsCodexRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/api/users/{uuid}/integrations/codex/", code: 200 })),
+).annotate({
+  identifier: "GetUsersIntegrationsCodexRequest",
+}) as any as S.Schema<GetUsersIntegrationsCodexRequest>;
 
 export interface GetUsersIntegrationsGithubBranchRequest {
   uuid: string;
@@ -1824,13 +1848,13 @@ export const GitHubBranchesResponse = /*@__PURE__*/ S.suspend(() =>
     default_branch: S.optional(S.NullOr(S.String)),
     has_more: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GitHubBranchesResponse",
-}) as any as S.Schema<GitHubBranchesResponse>;
+).annotate({ identifier: "GitHubBranchesResponse" }) as any as S.Schema<GitHubBranchesResponse>;
 
 export interface GetUsersIntegrationsGithubReposRequest {
   uuid: string;
   installation_id: string;
+  /** When true, return only id, name, and full_name for each repository. Use it to list large rosters in fewer, smaller pages. */
+  compact?: boolean;
   /** Maximum number of repositories to return per request (max 500). */
   limit?: number;
   /** Number of repositories to skip before returning results. */
@@ -1842,6 +1866,7 @@ export const GetUsersIntegrationsGithubReposRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     installation_id: S.String.pipe(T.Label()),
+    compact: S.optional(S.Boolean.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
@@ -1899,6 +1924,8 @@ export interface GitHubReposResponse {
   repositories?: GitHubReposResponseRepositoriesList;
   /** Whether more repositories are available beyond this page. */
   has_more?: boolean;
+  /** The offset to pass to get the next page, or null when this page is the last one. */
+  next_offset?: number | null;
   /** Total number of repositories matching the search query, across all pages. */
   total?: number;
 }
@@ -1906,11 +1933,10 @@ export const GitHubReposResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     repositories: S.optional(GitHubReposResponseRepositoriesList),
     has_more: S.optional(S.Boolean),
+    next_offset: S.optional(S.NullOr(S.Number)),
     total: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "GitHubReposResponse",
-}) as any as S.Schema<GitHubReposResponse>;
+).annotate({ identifier: "GitHubReposResponse" }) as any as S.Schema<GitHubReposResponse>;
 
 export interface GetUsersIntegrationsSlackLinkableWorkspaceRequest {
   uuid: string;
@@ -1978,13 +2004,7 @@ export interface GetUsersSignalAutonomyRequest {
 export const GetUsersSignalAutonomyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     user_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/users/{user_id}/signal_autonomy/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/users/{user_id}/signal_autonomy/", code: 200 })),
 ).annotate({
   identifier: "GetUsersSignalAutonomyRequest",
 }) as any as S.Schema<GetUsersSignalAutonomyRequest>;
@@ -1995,13 +2015,7 @@ export interface GetUsersStart2faSetupRequest {
 export const GetUsersStart2faSetupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/users/{uuid}/start_2fa_setup/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/users/{uuid}/start_2fa_setup/", code: 200 })),
 ).annotate({
   identifier: "GetUsersStart2faSetupRequest",
 }) as any as S.Schema<GetUsersStart2faSetupRequest>;
@@ -2017,23 +2031,35 @@ export interface GetUsersTwoFactorStatusRequest {
 export const GetUsersTwoFactorStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/users/{uuid}/two_factor_status/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/users/{uuid}/two_factor_status/", code: 200 })),
 ).annotate({
   identifier: "GetUsersTwoFactorStatusRequest",
 }) as any as S.Schema<GetUsersTwoFactorStatusRequest>;
 
-export interface GetUsersTwoFactorStatusResponse {}
-export const GetUsersTwoFactorStatusResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "GetUsersTwoFactorStatusResponse",
-  },
-) as any as S.Schema<GetUsersTwoFactorStatusResponse>;
+export interface TwoFactorStatus {
+  /** Whether the user has any 2FA method enabled. */
+  is_enabled: boolean;
+  /** Number of unused backup codes. The codes themselves are only returned when they are generated. */
+  backup_codes_remaining: number;
+  /** The primary 2FA method: "TOTP" or "passkey". Null when 2FA is off. */
+  method: string | null;
+  /** Whether the user has at least one verified passkey. */
+  has_passkeys: boolean;
+  /** Whether the user has an authenticator app set up. */
+  has_totp: boolean;
+  /** Whether passkeys count as a 2FA method. */
+  passkeys_enabled_for_2fa: boolean;
+}
+export const TwoFactorStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    is_enabled: S.Boolean,
+    backup_codes_remaining: S.Number,
+    method: S.NullOr(S.String),
+    has_passkeys: S.Boolean,
+    has_totp: S.Boolean,
+    passkeys_enabled_for_2fa: S.Boolean,
+  }),
+).annotate({ identifier: "TwoFactorStatus" }) as any as S.Schema<TwoFactorStatus>;
 
 export interface InstallUsersIntegrationsGithubRequestsDestroyRequest {
   uuid: string;
@@ -2076,9 +2102,7 @@ export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/users/", code: 200 })),
-).annotate({
-  identifier: "ListUsersRequest",
-}) as any as S.Schema<ListUsersRequest>;
+).annotate({ identifier: "ListUsersRequest" }) as any as S.Schema<ListUsersRequest>;
 
 export type PaginatedUserListOutputResultsList = Array<UserOutput>;
 export const PaginatedUserListOutputResultsList = /*@__PURE__*/ S.Array(
@@ -2098,9 +2122,7 @@ export const PaginatedUserListOutput = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.String)),
     results: S.optional(PaginatedUserListOutputResultsList),
   }),
-).annotate({
-  identifier: "PaginatedUserListOutput",
-}) as any as S.Schema<PaginatedUserListOutput>;
+).annotate({ identifier: "PaginatedUserListOutput" }) as any as S.Schema<PaginatedUserListOutput>;
 
 export type ListUsersIntegrationsRequestKind = "github" | "slack";
 export const ListUsersIntegrationsRequestKind = S.String;
@@ -2120,13 +2142,7 @@ export const ListUsersIntegrationsRequest = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(ListUsersIntegrationsRequestKind.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/users/{uuid}/integrations/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/users/{uuid}/integrations/", code: 200 })),
 ).annotate({
   identifier: "ListUsersIntegrationsRequest",
 }) as any as S.Schema<ListUsersIntegrationsRequest>;
@@ -2142,9 +2158,7 @@ export const UserGitHubAccount = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.NullOr(S.String)),
     name: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "UserGitHubAccount",
-}) as any as S.Schema<UserGitHubAccount>;
+).annotate({ identifier: "UserGitHubAccount" }) as any as S.Schema<UserGitHubAccount>;
 
 /** * `connected` - connected * `unavailable` - unavailable */
 export type InstallationStatusEnum = "connected" | "unavailable";
@@ -2240,13 +2254,7 @@ export const ListUsersLoginSessionsRequest = /*@__PURE__*/ S.suspend(() =>
     uuid: S.String.pipe(T.Label()),
     email: S.optional(S.String.pipe(T.Query())),
     is_staff: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/users/{uuid}/login_sessions/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/users/{uuid}/login_sessions/", code: 200 })),
 ).annotate({
   identifier: "ListUsersLoginSessionsRequest",
 }) as any as S.Schema<ListUsersLoginSessionsRequest>;
@@ -2278,9 +2286,7 @@ export const UserAuthSession = /*@__PURE__*/ S.suspend(() =>
     login_method: S.String,
     is_current: S.Boolean,
   }),
-).annotate({
-  identifier: "UserAuthSession",
-}) as any as S.Schema<UserAuthSession>;
+).annotate({ identifier: "UserAuthSession" }) as any as S.Schema<UserAuthSession>;
 
 export type ListUsersLoginSessionsResponseBodyList = Array<UserAuthSession>;
 export const ListUsersLoginSessionsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2303,11 +2309,7 @@ export const LoginUserSessionsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
     uuid: S.String.pipe(T.Label()),
     session_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/users/{uuid}/login_sessions/{session_id}/",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/users/{uuid}/login_sessions/{session_id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "LoginUserSessionsDestroyRequest",
@@ -2326,13 +2328,7 @@ export interface SignalUserAutonomyDestroyRequest {
 export const SignalUserAutonomyDestroyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     user_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/users/{user_id}/signal_autonomy/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/users/{user_id}/signal_autonomy/", code: 200 })),
 ).annotate({
   identifier: "SignalUserAutonomyDestroyRequest",
 }) as any as S.Schema<SignalUserAutonomyDestroyRequest>;
@@ -2345,9 +2341,7 @@ export const SignalUserAutonomyDestroyResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SignalUserAutonomyDestroyResponse>;
 
 /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated — other preferences stay as-is. */
-export type UpdateUserRequestNotificationSettingsMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateUserRequestNotificationSettingsMap = { [key: string]: unknown | undefined };
 export const UpdateUserRequestNotificationSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2393,7 +2387,7 @@ export interface UpdateUserRequest {
   passkeys_enabled_for_2fa?: boolean | null;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
   hide_mcp_hints?: boolean;
-  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. */
+  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true. */
   ui_configuration?: unknown;
 }
 export const UpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2422,9 +2416,7 @@ export const UpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
     hide_mcp_hints: S.optional(S.Boolean),
     ui_configuration: S.optional(S.Unknown),
   }).pipe(T.Http({ method: "PUT", uri: "/api/users/{uuid}/", code: 200 })),
-).annotate({
-  identifier: "UpdateUserRequest",
-}) as any as S.Schema<UpdateUserRequest>;
+).annotate({ identifier: "UpdateUserRequest" }) as any as S.Schema<UpdateUserRequest>;
 
 /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated — other preferences stay as-is. */
 export type UpdateUsersHedgehogConfigPartialRequestNotificationSettingsMap = {
@@ -2479,7 +2471,7 @@ export interface UpdateUsersHedgehogConfigPartialRequest {
   passkeys_enabled_for_2fa?: boolean | null;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
   hide_mcp_hints?: boolean;
-  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. */
+  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true. */
   ui_configuration?: unknown;
 }
 export const UpdateUsersHedgehogConfigPartialRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2511,13 +2503,7 @@ export const UpdateUsersHedgehogConfigPartialRequest = /*@__PURE__*/ S.suspend((
     passkeys_enabled_for_2fa: S.optional(S.NullOr(S.Boolean)),
     hide_mcp_hints: S.optional(S.Boolean),
     ui_configuration: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/users/{uuid}/hedgehog_config/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/users/{uuid}/hedgehog_config/", code: 200 })),
 ).annotate({
   identifier: "UpdateUsersHedgehogConfigPartialRequest",
 }) as any as S.Schema<UpdateUsersHedgehogConfigPartialRequest>;
@@ -2579,7 +2565,7 @@ export interface UpdateUsersPartialRequest {
   passkeys_enabled_for_2fa?: boolean | null;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
   hide_mcp_hints?: boolean;
-  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. */
+  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true. */
   ui_configuration?: unknown;
 }
 export const UpdateUsersPartialRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2624,13 +2610,7 @@ export const UpdateUsersProductIntroSeenPartialRequest = /*@__PURE__*/ S.suspend
     uuid: S.String.pipe(T.Label()),
     product_key: S.optional(S.String),
     seen: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/users/{uuid}/product_intro_seen/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/users/{uuid}/product_intro_seen/", code: 200 })),
 ).annotate({
   identifier: "UpdateUsersProductIntroSeenPartialRequest",
 }) as any as S.Schema<UpdateUsersProductIntroSeenPartialRequest>;
@@ -2705,7 +2685,7 @@ export interface UsersCancelEmailChangeRequestPartialUpdateRequest {
   passkeys_enabled_for_2fa?: boolean | null;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
   hide_mcp_hints?: boolean;
-  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. */
+  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true. */
   ui_configuration?: unknown;
 }
 export const UsersCancelEmailChangeRequestPartialUpdateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2738,13 +2718,7 @@ export const UsersCancelEmailChangeRequestPartialUpdateRequest = /*@__PURE__*/ S
     passkeys_enabled_for_2fa: S.optional(S.NullOr(S.Boolean)),
     hide_mcp_hints: S.optional(S.Boolean),
     ui_configuration: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/users/cancel_email_change_request/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/users/cancel_email_change_request/", code: 200 })),
 ).annotate({
   identifier: "UsersCancelEmailChangeRequestPartialUpdateRequest",
 }) as any as S.Schema<UsersCancelEmailChangeRequestPartialUpdateRequest>;
@@ -2763,14 +2737,30 @@ export const UsersDestroyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/api/users/{uuid}/", code: 200 })),
-).annotate({
-  identifier: "UsersDestroyRequest",
-}) as any as S.Schema<UsersDestroyRequest>;
+).annotate({ identifier: "UsersDestroyRequest" }) as any as S.Schema<UsersDestroyRequest>;
 
 export interface UsersDestroyResponse {}
 export const UsersDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UsersDestroyResponse",
 }) as any as S.Schema<UsersDestroyResponse>;
+
+export interface UsersIntegrationsCodexDestroyRequest {
+  uuid: string;
+}
+export const UsersIntegrationsCodexDestroyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/users/{uuid}/integrations/codex/", code: 200 })),
+).annotate({
+  identifier: "UsersIntegrationsCodexDestroyRequest",
+}) as any as S.Schema<UsersIntegrationsCodexDestroyRequest>;
+
+export interface UsersIntegrationsCodexDestroyResponse {}
+export const UsersIntegrationsCodexDestroyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UsersIntegrationsCodexDestroyResponse",
+}) as any as S.Schema<UsersIntegrationsCodexDestroyResponse>;
 
 export interface UsersIntegrationsGithubDestroyRequest {
   uuid: string;
@@ -2848,9 +2838,7 @@ export const GitHubInstallRequestItem = /*@__PURE__*/ S.suspend(() =>
     requested_at: S.String,
     resolved_at: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "GitHubInstallRequestItem",
-}) as any as S.Schema<GitHubInstallRequestItem>;
+).annotate({ identifier: "GitHubInstallRequestItem" }) as any as S.Schema<GitHubInstallRequestItem>;
 
 /** The user's GitHub App install-approval requests, newest first. */
 export type GitHubInstallRequestListResponseResultsList = Array<GitHubInstallRequestItem>;
@@ -2926,11 +2914,7 @@ export const UsersIntegrationsGithubStartCreateRequest = /*@__PURE__*/ S.suspend
     team_id: S.optional(S.NullOr(S.Number)),
     connect_from: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/users/{uuid}/integrations/github/start/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/users/{uuid}/integrations/github/start/", code: 200 }),
   ),
 ).annotate({
   identifier: "UsersIntegrationsGithubStartCreateRequest",
@@ -2990,11 +2974,7 @@ export const UsersIntegrationsSlackStartCreateRequest = /*@__PURE__*/ S.suspend(
     team_id: S.optional(S.NullOr(S.Number)),
     slack_team_id: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/users/{uuid}/integrations/slack/start/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/users/{uuid}/integrations/slack/start/", code: 200 }),
   ),
 ).annotate({
   identifier: "UsersIntegrationsSlackStartCreateRequest",
@@ -3019,11 +2999,7 @@ export const UsersLoginSessionsRevokeOthersCreateRequest = /*@__PURE__*/ S.suspe
   S.Struct({
     uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/users/{uuid}/login_sessions/revoke_others/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/users/{uuid}/login_sessions/revoke_others/", code: 200 }),
   ),
 ).annotate({
   identifier: "UsersLoginSessionsRevokeOthersCreateRequest",
@@ -3050,13 +3026,7 @@ export const UsersPushTokensUnregisterCreateRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     token: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/users/{uuid}/push_tokens/unregister/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/users/{uuid}/push_tokens/unregister/", code: 200 })),
 ).annotate({
   identifier: "UsersPushTokensUnregisterCreateRequest",
 }) as any as S.Schema<UsersPushTokensUnregisterCreateRequest>;
@@ -3118,7 +3088,7 @@ export interface UsersTwoFactorDisableCreateRequest {
   passkeys_enabled_for_2fa?: boolean | null;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
   hide_mcp_hints?: boolean;
-  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. */
+  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true. */
   ui_configuration?: unknown;
 }
 export const UsersTwoFactorDisableCreateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3146,13 +3116,7 @@ export const UsersTwoFactorDisableCreateRequest = /*@__PURE__*/ S.suspend(() =>
     passkeys_enabled_for_2fa: S.optional(S.NullOr(S.Boolean)),
     hide_mcp_hints: S.optional(S.Boolean),
     ui_configuration: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/users/{uuid}/two_factor_disable/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/users/{uuid}/two_factor_disable/", code: 200 })),
 ).annotate({
   identifier: "UsersTwoFactorDisableCreateRequest",
 }) as any as S.Schema<UsersTwoFactorDisableCreateRequest>;
@@ -3170,13 +3134,7 @@ export interface UsersTwoFactorStartSetupRetrieveRequest {
 export const UsersTwoFactorStartSetupRetrieveRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/users/{uuid}/two_factor_start_setup/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/users/{uuid}/two_factor_start_setup/", code: 200 })),
 ).annotate({
   identifier: "UsersTwoFactorStartSetupRetrieveRequest",
 }) as any as S.Schema<UsersTwoFactorStartSetupRetrieveRequest>;
@@ -3238,7 +3196,7 @@ export interface UsersTwoFactorValidateCreateRequest {
   passkeys_enabled_for_2fa?: boolean | null;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
   hide_mcp_hints?: boolean;
-  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. */
+  /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Currently covers sidebar section and item visibility. Send the complete object: it replaces the stored value wholesale. Null means no customization; absent keys mean the element is shown. Once `sidebar.starred_products_setup_completed` is true, an update that omits it keeps it true. */
   ui_configuration?: unknown;
 }
 export const UsersTwoFactorValidateCreateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3266,13 +3224,7 @@ export const UsersTwoFactorValidateCreateRequest = /*@__PURE__*/ S.suspend(() =>
     passkeys_enabled_for_2fa: S.optional(S.NullOr(S.Boolean)),
     hide_mcp_hints: S.optional(S.Boolean),
     ui_configuration: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/users/{uuid}/two_factor_validate/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/users/{uuid}/two_factor_validate/", code: 200 })),
 ).annotate({
   identifier: "UsersTwoFactorValidateCreateRequest",
 }) as any as S.Schema<UsersTwoFactorValidateCreateRequest>;
@@ -3315,6 +3267,21 @@ export const createUsersCredentialsReviewComplete: API.OperationMethod<
   input: CreateUsersCredentialsReviewCompleteRequest,
   output: CreateUsersCredentialsReviewCompleteResponse,
   errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateUsersIntegrationsCodexError = BadRequest | Forbidden | NotFound | PosthogOpError;
+/** Connect a ChatGPT account for Codex cloud tasks Submit the `tokens` object of the `auth.json` that `codex login` wrote on the user's machine. PostHog refreshes the chain once to prove it works, stores the rotated tokens encrypted, and from then on refreshes them for the user's Codex cloud runs. Only the owning user can connect. No response carries a token. */
+export const createUsersIntegrationsCodex: API.OperationMethod<
+  CreateUsersIntegrationsCodexRequest,
+  UserCodexIntegration,
+  CreateUsersIntegrationsCodexError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateUsersIntegrationsCodexRequest,
+  output: UserCodexIntegration,
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
@@ -3487,6 +3454,21 @@ export const getUsersHedgehogConfig: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetUsersIntegrationsCodexError = PosthogOpError;
+/** Show the ChatGPT account connected for Codex cloud tasks `/api/users/@me/integrations/` — manage the user's personal GitHub integrations. */
+export const getUsersIntegrationsCodex: API.OperationMethod<
+  GetUsersIntegrationsCodexRequest,
+  UserCodexIntegration,
+  GetUsersIntegrationsCodexError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetUsersIntegrationsCodexRequest,
+  output: UserCodexIntegration,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetUsersIntegrationsGithubBranchError = PosthogOpError;
 /** List branches for a personal GitHub installation repository List branches for a repository accessible to a personal GitHub installation. */
 export const getUsersIntegrationsGithubBranch: API.OperationMethod<
@@ -3562,15 +3544,15 @@ export const getUsersStart2faSetup: API.OperationMethod<
 }));
 
 export type GetUsersTwoFactorStatusError = Forbidden | NotFound | PosthogOpError;
-/** Get current 2FA status including backup codes if enabled */
+/** Get current 2FA status, including how many backup codes are left. */
 export const getUsersTwoFactorStatus: API.OperationMethod<
   GetUsersTwoFactorStatusRequest,
-  GetUsersTwoFactorStatusResponse,
+  TwoFactorStatus,
   GetUsersTwoFactorStatusError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetUsersTwoFactorStatusRequest,
-  output: GetUsersTwoFactorStatusResponse,
+  output: TwoFactorStatus,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -3755,6 +3737,21 @@ export const usersDestroy: API.OperationMethod<
   input: UsersDestroyRequest,
   output: UsersDestroyResponse,
   errors: [Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UsersIntegrationsCodexDestroyError = Forbidden | PosthogOpError;
+/** Disconnect the ChatGPT account used for Codex cloud tasks Revokes the refresh token at OpenAI and deletes the stored tokens. Idempotent. */
+export const usersIntegrationsCodexDestroy: API.OperationMethod<
+  UsersIntegrationsCodexDestroyRequest,
+  UsersIntegrationsCodexDestroyResponse,
+  UsersIntegrationsCodexDestroyError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UsersIntegrationsCodexDestroyRequest,
+  output: UsersIntegrationsCodexDestroyResponse,
+  errors: [Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));

@@ -58,7 +58,7 @@ export interface CreateEarlyAccessFeatureRequest {
   documentation_url?: string;
   /** Arbitrary JSON metadata associated with this feature. */
   payload?: unknown;
-  /** Optional ID of an existing feature flag to link. If omitted, a new flag is auto-created from the feature name. The flag must not already be linked to another feature, must not be group-based, and must not be multivariate. */
+  /** Optional ID of an existing feature flag to link. If omitted, a new flag is auto-created from the feature name. The flag must not already be linked to another feature, must not belong to another product such as a survey or experiment, must not be group-based, and must not be multivariate. */
   feature_flag_id?: number;
   _create_in_folder?: string;
 }
@@ -73,11 +73,7 @@ export const CreateEarlyAccessFeatureRequest = /*@__PURE__*/ S.suspend(() =>
     feature_flag_id: S.optional(S.Number),
     _create_in_folder: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/early_access_feature/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/early_access_feature/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateEarlyAccessFeatureRequest",
@@ -155,9 +151,7 @@ export const EarlyAccessFeatureSerializerCreateOnlyOutputAssignee = /*@__PURE__*
   identifier: "EarlyAccessFeatureSerializerCreateOnlyOutputAssignee",
 }) as any as S.Schema<EarlyAccessFeatureSerializerCreateOnlyOutputAssignee>;
 
-export type MinimalFeatureFlagFiltersMap = {
-  [key: string]: unknown | undefined;
-};
+export type MinimalFeatureFlagFiltersMap = { [key: string]: unknown | undefined };
 export const MinimalFeatureFlagFiltersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -217,9 +211,7 @@ export const MinimalFeatureFlag = /*@__PURE__*/ S.suspend(() =>
     bucketing_identifier: S.optional(S.NullOr(MinimalFeatureFlagBucketingIdentifier)),
     evaluation_contexts: S.optional(MinimalFeatureFlagEvaluationContextsList),
   }),
-).annotate({
-  identifier: "MinimalFeatureFlag",
-}) as any as S.Schema<MinimalFeatureFlag>;
+).annotate({ identifier: "MinimalFeatureFlag" }) as any as S.Schema<MinimalFeatureFlag>;
 
 /** Mixin for serializers to add user access control fields */
 export interface EarlyAccessFeatureSerializerCreateOnlyOutput {
@@ -311,9 +303,7 @@ export const GetEarlyAccessFeatureRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetEarlyAccessFeatureRequest>;
 
 /** Feature flag payload for this early access feature */
-export type EarlyAccessFeaturePayloadMap = {
-  [key: string]: unknown | undefined;
-};
+export type EarlyAccessFeaturePayloadMap = { [key: string]: unknown | undefined };
 export const EarlyAccessFeaturePayloadMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -376,9 +366,7 @@ export const EarlyAccessFeature2 = /*@__PURE__*/ S.suspend(() =>
     assignee: S.optional(S.NullOr(EarlyAccessFeatureAssignee)),
     user_access_level: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "EarlyAccessFeature2",
-}) as any as S.Schema<EarlyAccessFeature2>;
+).annotate({ identifier: "EarlyAccessFeature2" }) as any as S.Schema<EarlyAccessFeature2>;
 
 export interface ListEarlyAccessFeatureRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -394,11 +382,7 @@ export const ListEarlyAccessFeatureRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/early_access_feature/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/early_access_feature/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListEarlyAccessFeatureRequest",

@@ -337,9 +337,7 @@ export const CreateForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     base_role: S.optional(CreateForOrgRequestBaseRole),
     resources_attributes: S.optional(CreateForOrgRequestResourcesAttributesList),
   }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/copilot-spaces", code: 200 })),
-).annotate({
-  identifier: "CreateForOrgRequest",
-}) as any as S.Schema<CreateForOrgRequest>;
+).annotate({ identifier: "CreateForOrgRequest" }) as any as S.Schema<CreateForOrgRequest>;
 
 /** The base role that determines default permissions. - `no_access`: No default access - `reader`: Default read permissions - `writer`: Default write permissions (organization spaces only) - `admin`: Default admin permissions (organization spaces only) */
 export type CopilotSpaceBaseRole = "reader" | "writer" | "admin" | "no_access";
@@ -427,9 +425,7 @@ export const OrganizationSimple = /*@__PURE__*/ S.suspend(() =>
     avatar_url: S.String,
     description: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "OrganizationSimple",
-}) as any as S.Schema<OrganizationSimple>;
+).annotate({ identifier: "OrganizationSimple" }) as any as S.Schema<OrganizationSimple>;
 
 /** The user or organization that owns this space. */
 export type CopilotSpaceOwner = SimpleUser | OrganizationSimple;
@@ -630,16 +626,8 @@ export const CreateForUserRequest = /*@__PURE__*/ S.suspend(() =>
     general_instructions: S.optional(S.String),
     base_role: S.optional(CreateForUserRequestBaseRole),
     resources_attributes: S.optional(CreateForUserRequestResourcesAttributesList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/users/{username}/copilot-spaces",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateForUserRequest",
-}) as any as S.Schema<CreateForUserRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/users/{username}/copilot-spaces", code: 200 })),
+).annotate({ identifier: "CreateForUserRequest" }) as any as S.Schema<CreateForUserRequest>;
 
 /** The type of resource to create. */
 export type CreateResourceForOrgRequestResourceType =
@@ -651,9 +639,7 @@ export type CreateResourceForOrgRequestResourceType =
 export const CreateResourceForOrgRequestResourceType = S.String;
 
 /** Resource-specific metadata. */
-export type CreateResourceForOrgRequestMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateResourceForOrgRequestMetadataMap = { [key: string]: unknown | undefined };
 export const CreateResourceForOrgRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -698,9 +684,7 @@ export type CopilotSpaceResourceResourceType =
 export const CopilotSpaceResourceResourceType = S.String;
 
 /** Resource-specific metadata. The keys and values depend on the resource type. */
-export type CopilotSpaceResourceMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CopilotSpaceResourceMetadataMap = { [key: string]: unknown | undefined };
 export const CopilotSpaceResourceMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -730,9 +714,7 @@ export const CopilotSpaceResource = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "CopilotSpaceResource",
-}) as any as S.Schema<CopilotSpaceResource>;
+).annotate({ identifier: "CopilotSpaceResource" }) as any as S.Schema<CopilotSpaceResource>;
 
 /** The type of resource to create. */
 export type CreateResourceForUserRequestResourceType =
@@ -744,9 +726,7 @@ export type CreateResourceForUserRequestResourceType =
 export const CreateResourceForUserRequestResourceType = S.String;
 
 /** Resource-specific metadata. */
-export type CreateResourceForUserRequestMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateResourceForUserRequestMetadataMap = { [key: string]: unknown | undefined };
 export const CreateResourceForUserRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -790,15 +770,9 @@ export const DeleteForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     space_number: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/copilot-spaces/{space_number}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/orgs/{org}/copilot-spaces/{space_number}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteForOrgRequest",
-}) as any as S.Schema<DeleteForOrgRequest>;
+).annotate({ identifier: "DeleteForOrgRequest" }) as any as S.Schema<DeleteForOrgRequest>;
 
 export interface DeleteForOrgResponse {}
 export const DeleteForOrgResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -816,15 +790,9 @@ export const DeleteForUserRequest = /*@__PURE__*/ S.suspend(() =>
     username: S.String.pipe(T.Label()),
     space_number: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/users/{username}/copilot-spaces/{space_number}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/users/{username}/copilot-spaces/{space_number}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteForUserRequest",
-}) as any as S.Schema<DeleteForUserRequest>;
+).annotate({ identifier: "DeleteForUserRequest" }) as any as S.Schema<DeleteForUserRequest>;
 
 export interface DeleteForUserResponse {}
 export const DeleteForUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -899,16 +867,8 @@ export const GetForOrgRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     space_number: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/copilot-spaces/{space_number}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetForOrgRequest",
-}) as any as S.Schema<GetForOrgRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/copilot-spaces/{space_number}", code: 200 })),
+).annotate({ identifier: "GetForOrgRequest" }) as any as S.Schema<GetForOrgRequest>;
 
 export interface GetForUserRequest {
   /** The handle for the GitHub user account. */
@@ -921,15 +881,9 @@ export const GetForUserRequest = /*@__PURE__*/ S.suspend(() =>
     username: S.String.pipe(T.Label()),
     space_number: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/users/{username}/copilot-spaces/{space_number}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/users/{username}/copilot-spaces/{space_number}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetForUserRequest",
-}) as any as S.Schema<GetForUserRequest>;
+).annotate({ identifier: "GetForUserRequest" }) as any as S.Schema<GetForUserRequest>;
 
 export interface GetResourceForOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -951,9 +905,7 @@ export const GetResourceForOrgRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetResourceForOrgRequest",
-}) as any as S.Schema<GetResourceForOrgRequest>;
+).annotate({ identifier: "GetResourceForOrgRequest" }) as any as S.Schema<GetResourceForOrgRequest>;
 
 export interface GetResourceForUserRequest {
   /** The handle for the GitHub user account. */
@@ -1074,9 +1026,7 @@ export const ListForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     after: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/copilot-spaces", code: 200 })),
-).annotate({
-  identifier: "ListForOrgRequest",
-}) as any as S.Schema<ListForOrgRequest>;
+).annotate({ identifier: "ListForOrgRequest" }) as any as S.Schema<ListForOrgRequest>;
 
 /** The list of Copilot Spaces on this page of results. */
 export type ListForOrgResponseSpacesList = Array<CopilotSpace>;
@@ -1092,9 +1042,7 @@ export const ListForOrgResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     spaces: ListForOrgResponseSpacesList,
   }),
-).annotate({
-  identifier: "ListForOrgResponse",
-}) as any as S.Schema<ListForOrgResponse>;
+).annotate({ identifier: "ListForOrgResponse" }) as any as S.Schema<ListForOrgResponse>;
 
 export interface ListForUserRequest {
   /** The handle for the GitHub user account. */
@@ -1112,16 +1060,8 @@ export const ListForUserRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
     after: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/users/{username}/copilot-spaces",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListForUserRequest",
-}) as any as S.Schema<ListForUserRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/users/{username}/copilot-spaces", code: 200 })),
+).annotate({ identifier: "ListForUserRequest" }) as any as S.Schema<ListForUserRequest>;
 
 /** The list of Copilot Spaces on this page of results. */
 export type ListForUserResponseSpacesList = Array<CopilotSpace>;
@@ -1137,9 +1077,7 @@ export const ListForUserResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     spaces: ListForUserResponseSpacesList,
   }),
-).annotate({
-  identifier: "ListForUserResponse",
-}) as any as S.Schema<ListForUserResponse>;
+).annotate({ identifier: "ListForUserResponse" }) as any as S.Schema<ListForUserResponse>;
 
 export interface ListResourcesForOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -1449,16 +1387,8 @@ export const UpdateForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     general_instructions: S.optional(S.String),
     base_role: S.optional(UpdateForOrgRequestBaseRole),
     resources_attributes: S.optional(UpdateForOrgRequestResourcesAttributesList),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/orgs/{org}/copilot-spaces/{space_number}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateForOrgRequest",
-}) as any as S.Schema<UpdateForOrgRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/orgs/{org}/copilot-spaces/{space_number}", code: 200 })),
+).annotate({ identifier: "UpdateForOrgRequest" }) as any as S.Schema<UpdateForOrgRequest>;
 
 /** The base role that determines default permissions for the space. Changing this field requires admin permissions. - `no_access`: No default access (default) - `reader`: Makes the space publicly readable Note: User spaces do not support writer or admin base roles. */
 export type UpdateForUserRequestBaseRole = "reader" | "no_access";
@@ -1529,20 +1459,12 @@ export const UpdateForUserRequest = /*@__PURE__*/ S.suspend(() =>
     base_role: S.optional(UpdateForUserRequestBaseRole),
     resources_attributes: S.optional(UpdateForUserRequestResourcesAttributesList),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/users/{username}/copilot-spaces/{space_number}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/users/{username}/copilot-spaces/{space_number}", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateForUserRequest",
-}) as any as S.Schema<UpdateForUserRequest>;
+).annotate({ identifier: "UpdateForUserRequest" }) as any as S.Schema<UpdateForUserRequest>;
 
 /** Updated resource-specific metadata. */
-export type UpdateResourceForOrgRequestMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateResourceForOrgRequestMetadataMap = { [key: string]: unknown | undefined };
 export const UpdateResourceForOrgRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1576,9 +1498,7 @@ export const UpdateResourceForOrgRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateResourceForOrgRequest>;
 
 /** Updated resource-specific metadata. */
-export type UpdateResourceForUserRequestMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateResourceForUserRequestMetadataMap = { [key: string]: unknown | undefined };
 export const UpdateResourceForUserRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,

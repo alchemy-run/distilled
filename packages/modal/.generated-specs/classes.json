@@ -53,13 +53,10 @@
         "isMethod": {
           "target": "smithy.api#Boolean"
         },
-        "useFunctionId": {
-          "target": "smithy.api#String"
-        },
         "useMethodName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "used for methods"
+            "smithy.api#documentation": "use_function_id, pre-0.67 class method placeholders"
           }
         },
         "definitionId": {
@@ -109,6 +106,12 @@
         },
         "appId": {
           "target": "smithy.api#String"
+        },
+        "baseFunctionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The base Function ID for a variant, or the Function's own ID otherwise."
+          }
         }
       }
     },

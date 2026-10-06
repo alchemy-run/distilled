@@ -61,28 +61,231 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export interface CancelTaskRequest {
+  /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
+  tenant?: string;
+}
+export const CancelTaskRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tenant: S.optional(S.String),
+  }),
+).annotate({ identifier: "CancelTaskRequest" }) as any as S.Schema<CancelTaskRequest>;
+
+export interface CancelTasksRequest {
+  /** The resource name of the task to cancel. Format: tasks/{task_id} */
+  name: string;
+  /** Request body */
+  body?: CancelTaskRequest;
+}
+export const CancelTasksRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    body: S.optional(CancelTaskRequest.pipe(T.HttpBody())),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "v1/{+name}:cancel",
+      baseUrl: "https://cloudbilling.googleapis.com/",
+    }),
+  ),
+).annotate({ identifier: "CancelTasksRequest" }) as any as S.Schema<CancelTasksRequest>;
+
+export type DocumentMap = { [key: string]: unknown | undefined };
+export const DocumentMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<DocumentMap>;
+
+export type StringList_ = Array<string>;
+export const StringList_ = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList_>;
+
+/** FilePart represents the different ways files can be provided. If files are small, directly feeding the bytes is supported via file_with_bytes. If the file is large, the agent should read the content as appropriate directly from the file_with_uri source. */
+export interface FilePart {
+  name?: string;
+  fileWithBytes?: string;
+  mimeType?: string;
+  fileWithUri?: string;
+}
+export const FilePart = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    fileWithBytes: S.optional(S.String),
+    mimeType: S.optional(S.String),
+    fileWithUri: S.optional(S.String),
+  }),
+).annotate({ identifier: "FilePart" }) as any as S.Schema<FilePart>;
+
+/** DataPart represents a structured blob. This is most commonly a JSON payload. */
+export interface DataPart {
+  data?: DocumentMap;
+}
+export const DataPart = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(DocumentMap),
+  }),
+).annotate({ identifier: "DataPart" }) as any as S.Schema<DataPart>;
+
+/** Part represents a container for a section of communication content. Parts can be purely textual, some sort of file (image, video, etc) or a structured data blob (i.e. JSON). */
+export interface Part {
+  text?: string;
+  file?: FilePart;
+  data?: DataPart;
+  /** Optional metadata associated with this part. */
+  metadata?: DocumentMap;
+}
+export const Part = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    text: S.optional(S.String),
+    file: S.optional(FilePart),
+    data: S.optional(DataPart),
+    metadata: S.optional(DocumentMap),
+  }),
+).annotate({ identifier: "Part" }) as any as S.Schema<Part>;
+
+export type PartList = Array<Part>;
+export const PartList = /*@__PURE__*/ S.Array(Part) as any as S.Schema<PartList>;
+
+/** Artifacts are the container for task completed results. These are similar to Messages but are intended to be the product of a task, as opposed to point-to-point communication. */
+export interface Artifact {
+  /** Optional metadata included with the artifact. */
+  metadata?: DocumentMap;
+  /** A human readable description of the artifact, optional. */
+  description?: string;
+  /** A human readable name for the artifact. */
+  name?: string;
+  /** Unique identifier (e.g. UUID) for the artifact. It must be at least unique within a task. */
+  artifactId?: string;
+  /** The URIs of extensions that are present or contributed to this Artifact. */
+  extensions?: StringList_;
+  /** The content of the artifact. */
+  parts?: PartList;
+}
+export const Artifact = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    metadata: S.optional(DocumentMap),
+    description: S.optional(S.String),
+    name: S.optional(S.String),
+    artifactId: S.optional(S.String),
+    extensions: S.optional(StringList_),
+    parts: S.optional(PartList),
+  }),
+).annotate({ identifier: "Artifact" }) as any as S.Schema<Artifact>;
+
+export type ArtifactList = Array<Artifact>;
+export const ArtifactList = /*@__PURE__*/ S.Array(Artifact) as any as S.Schema<ArtifactList>;
+
+export type MessageRoleEnum = "ROLE_UNSPECIFIED" | "ROLE_USER" | "ROLE_AGENT";
+export const MessageRoleEnum = S.String;
+
+/** Message is one unit of communication between client and server. It is associated with a context and optionally a task. Since the server is responsible for the context definition, it must always provide a context_id in its messages. The client can optionally provide the context_id if it knows the context to associate the message to. Similarly for task_id, except the server decides if a task is created and whether to include the task_id. */
+export interface Message {
+  /** The context id of the message. This is optional and if set, the message will be associated with the given context. */
+  contextId?: string;
+  /** A role for the message. */
+  role?: MessageRoleEnum | (string & {});
+  /** protolint:disable REPEATED_FIELD_NAMES_PLURALIZED Content is the container of the message content. */
+  content?: PartList;
+  /** The task id of the message. This is optional and if set, the message will be associated with the given task. */
+  taskId?: string;
+  /** protolint:enable REPEATED_FIELD_NAMES_PLURALIZED Any optional metadata to provide along with the message. */
+  metadata?: DocumentMap;
+  /** The URIs of extensions that are present or contributed to this Message. */
+  extensions?: StringList_;
+  /** The unique identifier (e.g. UUID)of the message. This is required and created by the message creator. */
+  messageId?: string;
+}
+export const Message = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contextId: S.optional(S.String),
+    role: S.optional(MessageRoleEnum),
+    content: S.optional(PartList),
+    taskId: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
+    extensions: S.optional(StringList_),
+    messageId: S.optional(S.String),
+  }),
+).annotate({ identifier: "Message" }) as any as S.Schema<Message>;
+
+export type MessageList = Array<Message>;
+export const MessageList = /*@__PURE__*/ S.Array(Message) as any as S.Schema<MessageList>;
+
+export type TaskStatusStateEnum =
+  | "TASK_STATE_UNSPECIFIED"
+  | "TASK_STATE_SUBMITTED"
+  | "TASK_STATE_WORKING"
+  | "TASK_STATE_COMPLETED"
+  | "TASK_STATE_FAILED"
+  | "TASK_STATE_CANCELLED"
+  | "TASK_STATE_INPUT_REQUIRED"
+  | "TASK_STATE_REJECTED"
+  | "TASK_STATE_AUTH_REQUIRED";
+export const TaskStatusStateEnum = S.String;
+
+/** A container for the status of a task */
+export interface TaskStatus {
+  /** Timestamp when the status was recorded. Example: "2023-10-27T10:00:00Z" */
+  timestamp?: string;
+  /** A message associated with the status. */
+  message?: Message;
+  /** The current state of this task */
+  state?: TaskStatusStateEnum;
+}
+export const TaskStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.optional(S.String),
+    message: S.optional(Message),
+    state: S.optional(TaskStatusStateEnum),
+  }),
+).annotate({ identifier: "TaskStatus" }) as any as S.Schema<TaskStatus>;
+
+/** Task is the core unit of action for A2A. It has a current status and when results are created for the task they are stored in the artifact. If there are multiple turns for a task, these are stored in history. */
+export interface Task {
+  /** Unique identifier (e.g. UUID) for the contextual collection of interactions (tasks and messages). Created by the A2A server. */
+  contextId?: string;
+  /** protolint:enable REPEATED_FIELD_NAMES_PLURALIZED A key/value object to store custom metadata about a task. */
+  metadata?: DocumentMap;
+  /** Unique identifier (e.g. UUID) for the task, generated by the server for a new task. */
+  id?: string;
+  /** A set of output artifacts for a Task. */
+  artifacts?: ArtifactList;
+  /** protolint:disable REPEATED_FIELD_NAMES_PLURALIZED The history of interactions from a task. */
+  history?: MessageList;
+  /** The current status of a Task, including state and a message. */
+  status?: TaskStatus;
+}
+export const Task = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contextId: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
+    id: S.optional(S.String),
+    artifacts: S.optional(ArtifactList),
+    history: S.optional(MessageList),
+    status: S.optional(TaskStatus),
+  }),
+).annotate({ identifier: "Task" }) as any as S.Schema<Task>;
+
 /** A billing account in the [Google Cloud Console](https://console.cloud.google.com/). You can assign a billing account to one or more projects. */
 export interface BillingAccount {
-  /** Optional. The currency in which the billing account is billed and charged, represented as an ISO 4217 code such as `USD`. Billing account currency is determined at the time of billing account creation and cannot be updated subsequently, so this field should not be set on update requests. In addition, a subaccount always matches the currency of its parent billing account, so this field should not be set on subaccount creation requests. Clients can read this field to determine the currency of an existing billing account. */
-  currencyCode?: string;
+  /** If this account is a [subaccount](https://cloud.google.com/billing/docs/concepts), then this will be the resource name of the parent billing account that it is being resold through. Otherwise this will be empty. */
+  masterBillingAccount?: string;
   /** The display name given to the billing account, such as `My Billing Account`. This name is displayed in the Google Cloud Console. */
   displayName?: string;
   /** Output only. The resource name of the billing account. The resource name has the form `billingAccounts/{billing_account_id}`. For example, `billingAccounts/012345-567890-ABCDEF` would be the resource name for billing account `012345-567890-ABCDEF`. */
   name?: string;
-  /** If this account is a [subaccount](https://cloud.google.com/billing/docs/concepts), then this will be the resource name of the parent billing account that it is being resold through. Otherwise this will be empty. */
-  masterBillingAccount?: string;
   /** Output only. The billing account's parent resource identifier. Use the `MoveBillingAccount` method to update the account's parent resource if it is a organization. Format: - `organizations/{organization_id}`, for example, `organizations/12345678` - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
   parent?: string;
+  /** Optional. The currency in which the billing account is billed and charged, represented as an ISO 4217 code such as `USD`. Billing account currency is determined at the time of billing account creation and cannot be updated subsequently, so this field should not be set on update requests. In addition, a subaccount always matches the currency of its parent billing account, so this field should not be set on subaccount creation requests. Clients can read this field to determine the currency of an existing billing account. */
+  currencyCode?: string;
   /** Output only. True if the billing account is open, and will therefore be charged for any usage on associated projects. False if the billing account is closed, and therefore projects associated with it are unable to use paid services. */
   open?: boolean;
 }
 export const BillingAccount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    currencyCode: S.optional(S.String),
+    masterBillingAccount: S.optional(S.String),
     displayName: S.optional(S.String),
     name: S.optional(S.String),
-    masterBillingAccount: S.optional(S.String),
     parent: S.optional(S.String),
+    currencyCode: S.optional(S.String),
     open: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "BillingAccount" }) as any as S.Schema<BillingAccount>;
@@ -150,6 +353,109 @@ export const CreateOrganizationsBillingAccountsRequest = /*@__PURE__*/ S.suspend
   identifier: "CreateOrganizationsBillingAccountsRequest",
 }) as any as S.Schema<CreateOrganizationsBillingAccountsRequest>;
 
+/** Defines authentication details, used for push notifications. */
+export interface AuthenticationInfo {
+  /** Supported authentication schemes - e.g. Basic, Bearer, etc */
+  schemes?: StringList_;
+  /** Optional credentials */
+  credentials?: string;
+}
+export const AuthenticationInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    schemes: S.optional(StringList_),
+    credentials: S.optional(S.String),
+  }),
+).annotate({ identifier: "AuthenticationInfo" }) as any as S.Schema<AuthenticationInfo>;
+
+/** Configuration for setting up push notifications for task updates. */
+export interface PushNotificationConfig {
+  /** A unique identifier (e.g. UUID) for this push notification. */
+  id?: string;
+  /** Information about the authentication to sent with the notification */
+  authentication?: AuthenticationInfo;
+  /** Token unique for this task/session */
+  token?: string;
+  /** Url to send the notification too */
+  url?: string;
+}
+export const PushNotificationConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    authentication: S.optional(AuthenticationInfo),
+    token: S.optional(S.String),
+    url: S.optional(S.String),
+  }),
+).annotate({ identifier: "PushNotificationConfig" }) as any as S.Schema<PushNotificationConfig>;
+
+export interface TaskPushNotificationConfig {
+  /** The push notification configuration details. */
+  pushNotificationConfig?: PushNotificationConfig;
+  /** The resource name of the config. Format: tasks/{task_id}/pushNotificationConfigs/{config_id} */
+  name?: string;
+}
+export const TaskPushNotificationConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pushNotificationConfig: S.optional(PushNotificationConfig),
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "TaskPushNotificationConfig",
+}) as any as S.Schema<TaskPushNotificationConfig>;
+
+export interface CreateTasksPushNotificationConfigsRequest {
+  /** Required. The parent task resource for this config. Format: tasks/{task_id} */
+  parent: string;
+  /** Required. The ID for the new config. */
+  configId?: string;
+  /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
+  tenant?: string;
+  /** Request body */
+  body?: TaskPushNotificationConfig;
+}
+export const CreateTasksPushNotificationConfigsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    parent: S.String.pipe(T.Label()),
+    configId: S.optional(S.String.pipe(T.Query())),
+    tenant: S.optional(S.String.pipe(T.Query())),
+    body: S.optional(TaskPushNotificationConfig.pipe(T.HttpBody())),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "v1/{+parent}",
+      baseUrl: "https://cloudbilling.googleapis.com/",
+    }),
+  ),
+).annotate({
+  identifier: "CreateTasksPushNotificationConfigsRequest",
+}) as any as S.Schema<CreateTasksPushNotificationConfigsRequest>;
+
+export interface DeleteTasksPushNotificationConfigsRequest {
+  /** The resource name of the config to delete. Format: tasks/{task_id}/pushNotificationConfigs/{config_id} */
+  name: string;
+  /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
+  tenant?: string;
+}
+export const DeleteTasksPushNotificationConfigsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    tenant: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "v1/{+name}",
+      baseUrl: "https://cloudbilling.googleapis.com/",
+    }),
+  ),
+).annotate({
+  identifier: "DeleteTasksPushNotificationConfigsRequest",
+}) as any as S.Schema<DeleteTasksPushNotificationConfigsRequest>;
+
+/** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
+export interface Empty {}
+export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "Empty",
+}) as any as S.Schema<Empty>;
+
 export interface GetBillingAccountsRequest {
   /** Required. The resource name of the billing account to retrieve. For example, `billingAccounts/012345-567890-ABCDEF`. */
   name: string;
@@ -158,11 +464,7 @@ export const GetBillingAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://cloudbilling.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://cloudbilling.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetBillingAccountsRequest",
@@ -188,25 +490,445 @@ export const GetBillingInfoProjectsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Encapsulation of billing information for a Google Cloud Console project. A project has at most one associated billing account at a time (but a billing account can be assigned to multiple projects). */
 export interface ProjectBillingInfo {
-  /** Output only. The resource name for the `ProjectBillingInfo`; has the form `projects/{project_id}/billingInfo`. For example, the resource name for the billing information for project `tokyo-rain-123` would be `projects/tokyo-rain-123/billingInfo`. */
-  name?: string;
-  /** Output only. The ID of the project that this `ProjectBillingInfo` represents, such as `tokyo-rain-123`. This is a convenience field so that you don't need to parse the `name` field to obtain a project ID. */
-  projectId?: string;
   /** The resource name of the billing account associated with the project, if any. For example, `billingAccounts/012345-567890-ABCDEF`. */
   billingAccountName?: string;
+  /** Output only. The resource name for the `ProjectBillingInfo`; has the form `projects/{project_id}/billingInfo`. For example, the resource name for the billing information for project `tokyo-rain-123` would be `projects/tokyo-rain-123/billingInfo`. */
+  name?: string;
   /** Output only. True if the project is associated with an open billing account, to which usage on the project is charged. False if the project is associated with a closed billing account, or no billing account at all, and therefore cannot use paid services. */
   billingEnabled?: boolean;
+  /** Output only. The ID of the project that this `ProjectBillingInfo` represents, such as `tokyo-rain-123`. This is a convenience field so that you don't need to parse the `name` field to obtain a project ID. */
+  projectId?: string;
 }
 export const ProjectBillingInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    projectId: S.optional(S.String),
     billingAccountName: S.optional(S.String),
+    name: S.optional(S.String),
     billingEnabled: S.optional(S.Boolean),
+    projectId: S.optional(S.String),
+  }),
+).annotate({ identifier: "ProjectBillingInfo" }) as any as S.Schema<ProjectBillingInfo>;
+
+export interface GetCardV1Request {
+  /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
+  tenant?: string;
+}
+export const GetCardV1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tenant: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "v1/card", baseUrl: "https://cloudbilling.googleapis.com/" }),
+  ),
+).annotate({ identifier: "GetCardV1Request" }) as any as S.Schema<GetCardV1Request>;
+
+/** AgentCardSignature represents a JWS signature of an AgentCard. This follows the JSON format of an RFC 7515 JSON Web Signature (JWS). */
+export interface AgentCardSignature {
+  /** The unprotected JWS header values. */
+  header?: DocumentMap;
+  /** Required. The computed signature, base64url-encoded. Required. */
+  signature?: string;
+  /** Required. The protected JWS header for the signature. This is always a base64url-encoded JSON object. Required. */
+  protected?: string;
+}
+export const AgentCardSignature = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    header: S.optional(DocumentMap),
+    signature: S.optional(S.String),
+    protected: S.optional(S.String),
+  }),
+).annotate({ identifier: "AgentCardSignature" }) as any as S.Schema<AgentCardSignature>;
+
+export type AgentCardSignatureList = Array<AgentCardSignature>;
+export const AgentCardSignatureList = /*@__PURE__*/ S.Array(
+  AgentCardSignature,
+) as any as S.Schema<AgentCardSignatureList>;
+
+/** protolint:disable REPEATED_FIELD_NAMES_PLURALIZED */
+export interface StringList {
+  list?: StringList_;
+}
+export const StringList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    list: S.optional(StringList_),
+  }),
+).annotate({ identifier: "StringList" }) as any as S.Schema<StringList>;
+
+export type StringListMap = { [key: string]: StringList | undefined };
+export const StringListMap = /*@__PURE__*/ S.Record(
+  S.String,
+  StringList,
+) as any as S.Schema<StringListMap>;
+
+export interface Security {
+  schemes?: StringListMap;
+}
+export const Security = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    schemes: S.optional(StringListMap),
+  }),
+).annotate({ identifier: "Security" }) as any as S.Schema<Security>;
+
+export type SecurityList = Array<Security>;
+export const SecurityList = /*@__PURE__*/ S.Array(Security) as any as S.Schema<SecurityList>;
+
+/** AgentSkill represents a unit of action/solution that the agent can perform. One can think of this as a type of highly reliable solution that an agent can be tasked to provide. Agents have the autonomy to choose how and when to use specific skills, but clients should have confidence that if the skill is defined that unit of action can be reliably performed. */
+export interface AgentSkill {
+  /** A set of example queries that this skill is designed to address. These examples should help the caller to understand how to craft requests to the agent to achieve specific goals. Example: ["I need a recipe for bread"] */
+  examples?: StringList_;
+  /** Possible input modalities supported. */
+  inputModes?: StringList_;
+  /** protolint:disable REPEATED_FIELD_NAMES_PLURALIZED Security schemes necessary for the agent to leverage this skill. As in the overall AgentCard.security, this list represents a logical OR of security requirement objects. Each object is a set of security schemes that must be used together (a logical AND). protolint:enable REPEATED_FIELD_NAMES_PLURALIZED */
+  security?: SecurityList;
+  /** A human (or llm) readable description of the skill details and behaviors. */
+  description?: string;
+  /** A set of tags for the skill to enhance categorization/utilization. Example: ["cooking", "customer support", "billing"] */
+  tags?: StringList_;
+  /** Possible output modalities produced */
+  outputModes?: StringList_;
+  /** A human readable name for the skill. */
+  name?: string;
+  /** Unique identifier of the skill within this agent. */
+  id?: string;
+}
+export const AgentSkill = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    examples: S.optional(StringList_),
+    inputModes: S.optional(StringList_),
+    security: S.optional(SecurityList),
+    description: S.optional(S.String),
+    tags: S.optional(StringList_),
+    outputModes: S.optional(StringList_),
+    name: S.optional(S.String),
+    id: S.optional(S.String),
+  }),
+).annotate({ identifier: "AgentSkill" }) as any as S.Schema<AgentSkill>;
+
+export type AgentSkillList = Array<AgentSkill>;
+export const AgentSkillList = /*@__PURE__*/ S.Array(AgentSkill) as any as S.Schema<AgentSkillList>;
+
+/** A declaration of an extension supported by an Agent. */
+export interface AgentExtension {
+  /** A description of how this agent uses this extension. Example: "Google OAuth 2.0 authentication" */
+  description?: string;
+  /** Whether the client must follow specific requirements of the extension. Example: false */
+  required?: boolean;
+  /** The URI of the extension. Example: "https://developers.google.com/identity/protocols/oauth2" */
+  uri?: string;
+  /** Optional configuration for the extension. */
+  params?: DocumentMap;
+}
+export const AgentExtension = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    required: S.optional(S.Boolean),
+    uri: S.optional(S.String),
+    params: S.optional(DocumentMap),
+  }),
+).annotate({ identifier: "AgentExtension" }) as any as S.Schema<AgentExtension>;
+
+export type AgentExtensionList = Array<AgentExtension>;
+export const AgentExtensionList = /*@__PURE__*/ S.Array(
+  AgentExtension,
+) as any as S.Schema<AgentExtensionList>;
+
+/** Defines the A2A feature set supported by the agent */
+export interface AgentCapabilities {
+  /** If the agent will support streaming responses */
+  streaming?: boolean;
+  /** Extensions supported by this agent. */
+  extensions?: AgentExtensionList;
+  /** If the agent can send push notifications to the clients webhook */
+  pushNotifications?: boolean;
+}
+export const AgentCapabilities = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    streaming: S.optional(S.Boolean),
+    extensions: S.optional(AgentExtensionList),
+    pushNotifications: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "AgentCapabilities" }) as any as S.Schema<AgentCapabilities>;
+
+/** Represents information about the service provider of an agent. */
+export interface AgentProvider {
+  /** The providers reference url Example: "https://ai.google.dev" */
+  url?: string;
+  /** The providers organization name Example: "Google" */
+  organization?: string;
+}
+export const AgentProvider = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    url: S.optional(S.String),
+    organization: S.optional(S.String),
+  }),
+).annotate({ identifier: "AgentProvider" }) as any as S.Schema<AgentProvider>;
+
+/** Defines additional transport information for the agent. */
+export interface AgentInterface {
+  /** The url this interface is found at. */
+  url?: string;
+  /** Tenant to be set in the request when calling the agent. Experimental, might still change for 1.0 release. */
+  tenant?: string;
+  /** The transport supported this url. This is an open form string, to be easily extended for many transport protocols. The core ones officially supported are JSONRPC, GRPC and HTTP+JSON. */
+  transport?: string;
+}
+export const AgentInterface = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    url: S.optional(S.String),
+    tenant: S.optional(S.String),
+    transport: S.optional(S.String),
+  }),
+).annotate({ identifier: "AgentInterface" }) as any as S.Schema<AgentInterface>;
+
+export type AgentInterfaceList = Array<AgentInterface>;
+export const AgentInterfaceList = /*@__PURE__*/ S.Array(
+  AgentInterface,
+) as any as S.Schema<AgentInterfaceList>;
+
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+
+export interface PasswordOAuthFlow {
+  /** The token URL to be used for this flow. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS. */
+  tokenUrl?: string;
+  /** The URL to be used for obtaining refresh tokens. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS. */
+  refreshUrl?: string;
+  /** The available scopes for the OAuth2 security scheme. A map between the scope name and a short description for it. The map MAY be empty. */
+  scopes?: StringMap;
+}
+export const PasswordOAuthFlow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tokenUrl: S.optional(S.String),
+    refreshUrl: S.optional(S.String),
+    scopes: S.optional(StringMap),
+  }),
+).annotate({ identifier: "PasswordOAuthFlow" }) as any as S.Schema<PasswordOAuthFlow>;
+
+export interface AuthorizationCodeOAuthFlow {
+  /** The authorization URL to be used for this flow. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS */
+  authorizationUrl?: string;
+  /** The token URL to be used for this flow. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS. */
+  tokenUrl?: string;
+  /** The URL to be used for obtaining refresh tokens. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS. */
+  refreshUrl?: string;
+  /** The available scopes for the OAuth2 security scheme. A map between the scope name and a short description for it. The map MAY be empty. */
+  scopes?: StringMap;
+}
+export const AuthorizationCodeOAuthFlow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    authorizationUrl: S.optional(S.String),
+    tokenUrl: S.optional(S.String),
+    refreshUrl: S.optional(S.String),
+    scopes: S.optional(StringMap),
   }),
 ).annotate({
-  identifier: "ProjectBillingInfo",
-}) as any as S.Schema<ProjectBillingInfo>;
+  identifier: "AuthorizationCodeOAuthFlow",
+}) as any as S.Schema<AuthorizationCodeOAuthFlow>;
+
+export interface ClientCredentialsOAuthFlow {
+  /** The URL to be used for obtaining refresh tokens. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS. */
+  refreshUrl?: string;
+  /** The available scopes for the OAuth2 security scheme. A map between the scope name and a short description for it. The map MAY be empty. */
+  scopes?: StringMap;
+  /** The token URL to be used for this flow. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS. */
+  tokenUrl?: string;
+}
+export const ClientCredentialsOAuthFlow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    refreshUrl: S.optional(S.String),
+    scopes: S.optional(StringMap),
+    tokenUrl: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ClientCredentialsOAuthFlow",
+}) as any as S.Schema<ClientCredentialsOAuthFlow>;
+
+export interface ImplicitOAuthFlow {
+  /** The available scopes for the OAuth2 security scheme. A map between the scope name and a short description for it. The map MAY be empty. */
+  scopes?: StringMap;
+  /** The URL to be used for obtaining refresh tokens. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS. */
+  refreshUrl?: string;
+  /** The authorization URL to be used for this flow. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS */
+  authorizationUrl?: string;
+}
+export const ImplicitOAuthFlow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scopes: S.optional(StringMap),
+    refreshUrl: S.optional(S.String),
+    authorizationUrl: S.optional(S.String),
+  }),
+).annotate({ identifier: "ImplicitOAuthFlow" }) as any as S.Schema<ImplicitOAuthFlow>;
+
+export interface OAuthFlows {
+  password?: PasswordOAuthFlow;
+  authorizationCode?: AuthorizationCodeOAuthFlow;
+  clientCredentials?: ClientCredentialsOAuthFlow;
+  implicit?: ImplicitOAuthFlow;
+}
+export const OAuthFlows = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    password: S.optional(PasswordOAuthFlow),
+    authorizationCode: S.optional(AuthorizationCodeOAuthFlow),
+    clientCredentials: S.optional(ClientCredentialsOAuthFlow),
+    implicit: S.optional(ImplicitOAuthFlow),
+  }),
+).annotate({ identifier: "OAuthFlows" }) as any as S.Schema<OAuthFlows>;
+
+export interface OAuth2SecurityScheme {
+  /** An object containing configuration information for the flow types supported */
+  flows?: OAuthFlows;
+  /** URL to the oauth2 authorization server metadata [RFC8414](https://datatracker.ietf.org/doc/html/rfc8414). TLS is required. */
+  oauth2MetadataUrl?: string;
+  /** Description of this security scheme. */
+  description?: string;
+}
+export const OAuth2SecurityScheme = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    flows: S.optional(OAuthFlows),
+    oauth2MetadataUrl: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotate({ identifier: "OAuth2SecurityScheme" }) as any as S.Schema<OAuth2SecurityScheme>;
+
+export interface APIKeySecurityScheme {
+  /** Description of this security scheme. */
+  description?: string;
+  /** Name of the header, query or cookie parameter to be used. */
+  name?: string;
+  /** Location of the API key, valid values are "query", "header", or "cookie" */
+  location?: string;
+}
+export const APIKeySecurityScheme = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    name: S.optional(S.String),
+    location: S.optional(S.String),
+  }),
+).annotate({ identifier: "APIKeySecurityScheme" }) as any as S.Schema<APIKeySecurityScheme>;
+
+export interface HTTPAuthSecurityScheme {
+  /** Description of this security scheme. */
+  description?: string;
+  /** The name of the HTTP Authentication scheme to be used in the Authorization header as defined in RFC7235. The values used SHOULD be registered in the IANA Authentication Scheme registry. The value is case-insensitive, as defined in RFC7235. */
+  scheme?: string;
+  /** A hint to the client to identify how the bearer token is formatted. Bearer tokens are usually generated by an authorization server, so this information is primarily for documentation purposes. */
+  bearerFormat?: string;
+}
+export const HTTPAuthSecurityScheme = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    scheme: S.optional(S.String),
+    bearerFormat: S.optional(S.String),
+  }),
+).annotate({ identifier: "HTTPAuthSecurityScheme" }) as any as S.Schema<HTTPAuthSecurityScheme>;
+
+export interface MutualTlsSecurityScheme {
+  /** Description of this security scheme. */
+  description?: string;
+}
+export const MutualTlsSecurityScheme = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+  }),
+).annotate({ identifier: "MutualTlsSecurityScheme" }) as any as S.Schema<MutualTlsSecurityScheme>;
+
+export interface OpenIdConnectSecurityScheme {
+  /** Description of this security scheme. */
+  description?: string;
+  /** Well-known URL to discover the [[OpenID-Connect-Discovery]] provider metadata. */
+  openIdConnectUrl?: string;
+}
+export const OpenIdConnectSecurityScheme = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    openIdConnectUrl: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "OpenIdConnectSecurityScheme",
+}) as any as S.Schema<OpenIdConnectSecurityScheme>;
+
+export interface SecurityScheme {
+  oauth2SecurityScheme?: OAuth2SecurityScheme;
+  apiKeySecurityScheme?: APIKeySecurityScheme;
+  httpAuthSecurityScheme?: HTTPAuthSecurityScheme;
+  mtlsSecurityScheme?: MutualTlsSecurityScheme;
+  openIdConnectSecurityScheme?: OpenIdConnectSecurityScheme;
+}
+export const SecurityScheme = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    oauth2SecurityScheme: S.optional(OAuth2SecurityScheme),
+    apiKeySecurityScheme: S.optional(APIKeySecurityScheme),
+    httpAuthSecurityScheme: S.optional(HTTPAuthSecurityScheme),
+    mtlsSecurityScheme: S.optional(MutualTlsSecurityScheme),
+    openIdConnectSecurityScheme: S.optional(OpenIdConnectSecurityScheme),
+  }),
+).annotate({ identifier: "SecurityScheme" }) as any as S.Schema<SecurityScheme>;
+
+export type SecuritySchemeMap = { [key: string]: SecurityScheme | undefined };
+export const SecuritySchemeMap = /*@__PURE__*/ S.Record(
+  S.String,
+  SecurityScheme,
+) as any as S.Schema<SecuritySchemeMap>;
+
+/** AgentCard conveys key information: - Overall details (version, name, description, uses) - Skills; a set of actions/solutions the agent can perform - Default modalities/content types supported by the agent. - Authentication requirements Next ID: 19 */
+export interface AgentCard {
+  /** JSON Web Signatures computed for this AgentCard. */
+  signatures?: AgentCardSignatureList;
+  /** Whether the agent supports providing an extended agent card when the user is authenticated, i.e. is the card from .well-known different than the card from GetAgentCard. */
+  supportsAuthenticatedExtendedCard?: boolean;
+  /** protolint:enable REPEATED_FIELD_NAMES_PLURALIZED The set of interaction modes that the agent supports across all skills. This can be overridden per skill. Defined as mime types. */
+  defaultInputModes?: StringList_;
+  /** A human readable name for the agent. Example: "Recipe Agent" */
+  name?: string;
+  /** The version of the A2A protocol this agent supports. */
+  protocolVersion?: string;
+  /** The mime types supported as outputs from this agent. */
+  defaultOutputModes?: StringList_;
+  /** protolint:disable REPEATED_FIELD_NAMES_PLURALIZED Security requirements for contacting the agent. This list can be seen as an OR of ANDs. Each object in the list describes one possible set of security requirements that must be present on a request. This allows specifying, for example, "callers must either use OAuth OR an API Key AND mTLS." Example: security { schemes { key: "oauth" value { list: ["read"] } } } security { schemes { key: "api-key" } schemes { key: "mtls" } } */
+  security?: SecurityList;
+  /** Skills represent a unit of ability an agent can perform. This may somewhat abstract but represents a more focused set of actions that the agent is highly likely to succeed at. */
+  skills?: AgentSkillList;
+  /** A2A Capability set supported by the agent. */
+  capabilities?: AgentCapabilities;
+  /** The version of the agent. Example: "1.0.0" */
+  version?: string;
+  /** A URL to the address the agent is hosted at. This represents the preferred endpoint as declared by the agent. */
+  url?: string;
+  /** The service provider of the agent. */
+  provider?: AgentProvider;
+  /** A url to provide additional documentation about the agent. */
+  documentationUrl?: string;
+  /** An optional URL to an icon for the agent. */
+  iconUrl?: string;
+  /** The transport of the preferred endpoint. If empty, defaults to JSONRPC. */
+  preferredTransport?: string;
+  /** A description of the agent's domain of action/solution space. Example: "Agent that helps users with recipes and cooking." */
+  description?: string;
+  /** Announcement of additional supported transports. Client can use any of the supported transports. */
+  additionalInterfaces?: AgentInterfaceList;
+  /** The security scheme details used for authenticating with this agent. */
+  securitySchemes?: SecuritySchemeMap;
+}
+export const AgentCard = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    signatures: S.optional(AgentCardSignatureList),
+    supportsAuthenticatedExtendedCard: S.optional(S.Boolean),
+    defaultInputModes: S.optional(StringList_),
+    name: S.optional(S.String),
+    protocolVersion: S.optional(S.String),
+    defaultOutputModes: S.optional(StringList_),
+    security: S.optional(SecurityList),
+    skills: S.optional(AgentSkillList),
+    capabilities: S.optional(AgentCapabilities),
+    version: S.optional(S.String),
+    url: S.optional(S.String),
+    provider: S.optional(AgentProvider),
+    documentationUrl: S.optional(S.String),
+    iconUrl: S.optional(S.String),
+    preferredTransport: S.optional(S.String),
+    description: S.optional(S.String),
+    additionalInterfaces: S.optional(AgentInterfaceList),
+    securitySchemes: S.optional(SecuritySchemeMap),
+  }),
+).annotate({ identifier: "AgentCard" }) as any as S.Schema<AgentCard>;
 
 export interface GetIamPolicyBillingAccountsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -229,6 +951,46 @@ export const GetIamPolicyBillingAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetIamPolicyBillingAccountsRequest",
 }) as any as S.Schema<GetIamPolicyBillingAccountsRequest>;
 
+/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
+export interface Expr {
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string;
+}
+export const Expr = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    expression: S.optional(S.String),
+    description: S.optional(S.String),
+    title: S.optional(S.String),
+    location: S.optional(S.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
+
+/** Associates `members`, or principals, with a `role`. */
+export interface Binding {
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr;
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string;
+  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
+  members?: StringList_;
+}
+export const Binding = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    condition: S.optional(Expr),
+    role: S.optional(S.String),
+    members: S.optional(StringList_),
+  }),
+).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
+
+export type BindingList = Array<Binding>;
+export const BindingList = /*@__PURE__*/ S.Array(Binding) as any as S.Schema<BindingList>;
+
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
   | "ADMIN_READ"
@@ -236,20 +998,17 @@ export type AuditLogConfigLogTypeEnum =
   | "DATA_READ";
 export const AuditLogConfigLogTypeEnum = S.String;
 
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
+  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
+  exemptedMembers?: StringList_;
   /** The log type that this config enables. */
   logType?: AuditLogConfigLogTypeEnum | (string & {});
-  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
 }
 export const AuditLogConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    exemptedMembers: S.optional(StringList_),
     logType: S.optional(AuditLogConfigLogTypeEnum),
-    exemptedMembers: S.optional(StringList),
   }),
 ).annotate({ identifier: "AuditLogConfig" }) as any as S.Schema<AuditLogConfig>;
 
@@ -277,81 +1036,76 @@ export const AuditConfigList = /*@__PURE__*/ S.Array(
   AuditConfig,
 ) as any as S.Schema<AuditConfigList>;
 
-/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
-export interface Expr {
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
-}
-export const Expr = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    expression: S.optional(S.String),
-    location: S.optional(S.String),
-    title: S.optional(S.String),
-  }),
-).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
-
-/** Associates `members`, or principals, with a `role`. */
-export interface Binding {
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
-  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
-}
-export const Binding = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    condition: S.optional(Expr),
-    members: S.optional(StringList),
-    role: S.optional(S.String),
-  }),
-).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
-
-export type BindingList = Array<Binding>;
-export const BindingList = /*@__PURE__*/ S.Array(Binding) as any as S.Schema<BindingList>;
-
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
-  /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: AuditConfigList;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: BindingList;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number;
+  /** Specifies cloud audit logging configuration for this policy. */
+  auditConfigs?: AuditConfigList;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string;
 }
 export const Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    auditConfigs: S.optional(AuditConfigList),
     bindings: S.optional(BindingList),
     version: S.optional(S.Number),
+    auditConfigs: S.optional(AuditConfigList),
     etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
 
+export interface GetTasksRequest {
+  /** The number of most recent messages from the task's history to retrieve. */
+  historyLength?: number;
+  /** Required. The resource name of the task. Format: tasks/{task_id} */
+  name: string;
+  /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
+  tenant?: string;
+}
+export const GetTasksRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    historyLength: S.optional(S.Number.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    tenant: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://cloudbilling.googleapis.com/" }),
+  ),
+).annotate({ identifier: "GetTasksRequest" }) as any as S.Schema<GetTasksRequest>;
+
+export interface GetTasksPushNotificationConfigsRequest {
+  /** The resource name of the config to retrieve. Format: tasks/{task_id}/pushNotificationConfigs/{config_id} */
+  name: string;
+  /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
+  tenant?: string;
+}
+export const GetTasksPushNotificationConfigsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    tenant: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://cloudbilling.googleapis.com/" }),
+  ),
+).annotate({
+  identifier: "GetTasksPushNotificationConfigsRequest",
+}) as any as S.Schema<GetTasksPushNotificationConfigsRequest>;
+
 export interface ListBillingAccountsRequest {
+  /** Requested page size. The maximum page size is 100; this is also the default. */
+  pageSize?: number;
   /** Optional. The parent resource to list billing accounts from. Format: - `organizations/{organization_id}`, for example, `organizations/12345678` - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
   parent?: string;
   /** Options for how to filter the returned billing accounts. This only supports filtering for [subaccounts](https://cloud.google.com/billing/docs/concepts) under a single provided parent billing account. (for example, `master_billing_account=billingAccounts/012345-678901-ABCDEF`). Boolean algebra and other fields are not currently supported. */
   filter?: string;
-  /** Requested page size. The maximum page size is 100; this is also the default. */
-  pageSize?: number;
   /** A token identifying a page of results to return. This should be a `next_page_token` value returned from a previous `ListBillingAccounts` call. If unspecified, the first page of results is returned. */
   pageToken?: string;
 }
 export const ListBillingAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -371,32 +1125,32 @@ export const BillingAccountList = /*@__PURE__*/ S.Array(
 
 /** Response message for `ListBillingAccounts`. */
 export interface ListBillingAccountsResponse {
-  /** A list of billing accounts. */
-  billingAccounts?: BillingAccountList;
   /** A token to retrieve the next page of results. To retrieve the next page, call `ListBillingAccounts` again with the `page_token` field set to this value. This field is empty if there are no more results to retrieve. */
   nextPageToken?: string;
+  /** A list of billing accounts. */
+  billingAccounts?: BillingAccountList;
 }
 export const ListBillingAccountsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    billingAccounts: S.optional(BillingAccountList),
     nextPageToken: S.optional(S.String),
+    billingAccounts: S.optional(BillingAccountList),
   }),
 ).annotate({
   identifier: "ListBillingAccountsResponse",
 }) as any as S.Schema<ListBillingAccountsResponse>;
 
 export interface ListBillingAccountsProjectsRequest {
-  /** A token identifying a page of results to be returned. This should be a `next_page_token` value returned from a previous `ListProjectBillingInfo` call. If unspecified, the first page of results is returned. */
-  pageToken?: string;
   /** Requested page size. The maximum page size is 100; this is also the default. */
   pageSize?: number;
+  /** A token identifying a page of results to be returned. This should be a `next_page_token` value returned from a previous `ListProjectBillingInfo` call. If unspecified, the first page of results is returned. */
+  pageToken?: string;
   /** Required. The resource name of the billing account associated with the projects that you want to list. For example, `billingAccounts/012345-567890-ABCDEF`. */
   name: string;
 }
 export const ListBillingAccountsProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
@@ -458,21 +1212,21 @@ export const ListBillingAccountsSubAccountsRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<ListBillingAccountsSubAccountsRequest>;
 
 export interface ListOrganizationsBillingAccountsRequest {
-  /** A token identifying a page of results to return. This should be a `next_page_token` value returned from a previous `ListBillingAccounts` call. If unspecified, the first page of results is returned. */
-  pageToken?: string;
-  /** Optional. The parent resource to list billing accounts from. Format: - `organizations/{organization_id}`, for example, `organizations/12345678` - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
-  parent: string;
   /** Requested page size. The maximum page size is 100; this is also the default. */
   pageSize?: number;
   /** Options for how to filter the returned billing accounts. This only supports filtering for [subaccounts](https://cloud.google.com/billing/docs/concepts) under a single provided parent billing account. (for example, `master_billing_account=billingAccounts/012345-678901-ABCDEF`). Boolean algebra and other fields are not currently supported. */
   filter?: string;
+  /** A token identifying a page of results to return. This should be a `next_page_token` value returned from a previous `ListBillingAccounts` call. If unspecified, the first page of results is returned. */
+  pageToken?: string;
+  /** Optional. The parent resource to list billing accounts from. Format: - `organizations/{organization_id}`, for example, `organizations/12345678` - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
+  parent: string;
 }
 export const ListOrganizationsBillingAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -495,33 +1249,27 @@ export const ListServicesRequest = /*@__PURE__*/ S.suspend(() =>
     pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/services",
-      baseUrl: "https://cloudbilling.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/services", baseUrl: "https://cloudbilling.googleapis.com/" }),
   ),
-).annotate({
-  identifier: "ListServicesRequest",
-}) as any as S.Schema<ListServicesRequest>;
+).annotate({ identifier: "ListServicesRequest" }) as any as S.Schema<ListServicesRequest>;
 
 /** Encapsulates a single service in Google Cloud Platform. */
 export interface Service {
   /** The resource name for the service. Example: "services/6F81-5844-456A" */
   name?: string;
+  /** The identifier for the service. Example: "6F81-5844-456A" */
+  serviceId?: string;
   /** The business under which the service is offered. Ex. "businessEntities/GCP", "businessEntities/Maps" */
   businessEntityName?: string;
   /** A human readable display name for this service. */
   displayName?: string;
-  /** The identifier for the service. Example: "6F81-5844-456A" */
-  serviceId?: string;
 }
 export const Service = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
+    serviceId: S.optional(S.String),
     businessEntityName: S.optional(S.String),
     displayName: S.optional(S.String),
-    serviceId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Service" }) as any as S.Schema<Service>;
 
@@ -540,32 +1288,30 @@ export const ListServicesResponse = /*@__PURE__*/ S.suspend(() =>
     services: S.optional(ServiceList),
     nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListServicesResponse",
-}) as any as S.Schema<ListServicesResponse>;
+).annotate({ identifier: "ListServicesResponse" }) as any as S.Schema<ListServicesResponse>;
 
 export interface ListServicesSkusRequest {
-  /** Optional inclusive start time of the time range for which the pricing versions will be returned. Timestamps in the future are not allowed. The time range has to be within a single calendar month in America/Los_Angeles timezone. Time range as a whole is optional. If not specified, the latest pricing will be returned (up to 12 hours old at most). */
-  startTime?: string;
-  /** Optional exclusive end time of the time range for which the pricing versions will be returned. Timestamps in the future are not allowed. The time range has to be within a single calendar month in America/Los_Angeles timezone. Time range as a whole is optional. If not specified, the latest pricing will be returned (up to 12 hours old at most). */
-  endTime?: string;
-  /** The ISO 4217 currency code for the pricing info in the response proto. Will use the conversion rate as of start_time. Optional. If not specified USD will be used. */
-  currencyCode?: string;
   /** A token identifying a page of results to return. This should be a `next_page_token` value returned from a previous `ListSkus` call. If unspecified, the first page of results is returned. */
   pageToken?: string;
+  /** Optional inclusive start time of the time range for which the pricing versions will be returned. Timestamps in the future are not allowed. The time range has to be within a single calendar month in America/Los_Angeles timezone. Time range as a whole is optional. If not specified, the latest pricing will be returned (up to 12 hours old at most). */
+  startTime?: string;
   /** Requested page size. Defaults to 5000. */
   pageSize?: number;
+  /** Optional exclusive end time of the time range for which the pricing versions will be returned. Timestamps in the future are not allowed. The time range has to be within a single calendar month in America/Los_Angeles timezone. Time range as a whole is optional. If not specified, the latest pricing will be returned (up to 12 hours old at most). */
+  endTime?: string;
   /** Required. The name of the service. Example: "services/6F81-5844-456A" */
   parent: string;
+  /** The ISO 4217 currency code for the pricing info in the response proto. Will use the conversion rate as of start_time. Optional. If not specified USD will be used. */
+  currencyCode?: string;
 }
 export const ListServicesSkusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    startTime: S.optional(S.String.pipe(T.Query())),
-    endTime: S.optional(S.String.pipe(T.Query())),
-    currencyCode: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    startTime: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    endTime: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    currencyCode: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -573,104 +1319,53 @@ export const ListServicesSkusRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://cloudbilling.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListServicesSkusRequest",
-}) as any as S.Schema<ListServicesSkusRequest>;
-
-/** Represents the category hierarchy of a SKU. */
-export interface Category {
-  /** The display name of the service this SKU belongs to. */
-  serviceDisplayName?: string;
-  /** The type of product the SKU refers to. Example: "Compute", "Storage", "Network", "ApplicationServices" etc. */
-  resourceFamily?: string;
-  /** A group classification for related SKUs. Example: "RAM", "GPU", "Prediction", "Ops", "GoogleEgress" etc. */
-  resourceGroup?: string;
-  /** Represents how the SKU is consumed. Example: "OnDemand", "Preemptible", "Commit1Mo", "Commit1Yr" etc. */
-  usageType?: string;
-}
-export const Category = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    serviceDisplayName: S.optional(S.String),
-    resourceFamily: S.optional(S.String),
-    resourceGroup: S.optional(S.String),
-    usageType: S.optional(S.String),
-  }),
-).annotate({ identifier: "Category" }) as any as S.Schema<Category>;
+).annotate({ identifier: "ListServicesSkusRequest" }) as any as S.Schema<ListServicesSkusRequest>;
 
 export type GeoTaxonomyTypeEnum = "TYPE_UNSPECIFIED" | "GLOBAL" | "REGIONAL" | "MULTI_REGIONAL";
 export const GeoTaxonomyTypeEnum = S.String;
 
 /** Encapsulates the geographic taxonomy data for a sku. */
 export interface GeoTaxonomy {
+  /** The list of regions associated with a sku. Empty for Global skus, which are associated with all Google Cloud regions. */
+  regions?: StringList_;
   /** The type of Geo Taxonomy: GLOBAL, REGIONAL, or MULTI_REGIONAL. */
   type?: GeoTaxonomyTypeEnum;
-  /** The list of regions associated with a sku. Empty for Global skus, which are associated with all Google Cloud regions. */
-  regions?: StringList;
 }
 export const GeoTaxonomy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    regions: S.optional(StringList_),
     type: S.optional(GeoTaxonomyTypeEnum),
-    regions: S.optional(StringList),
   }),
 ).annotate({ identifier: "GeoTaxonomy" }) as any as S.Schema<GeoTaxonomy>;
-
-export type AggregationInfoAggregationLevelEnum =
-  | "AGGREGATION_LEVEL_UNSPECIFIED"
-  | "ACCOUNT"
-  | "PROJECT";
-export const AggregationInfoAggregationLevelEnum = S.String;
-
-export type AggregationInfoAggregationIntervalEnum =
-  | "AGGREGATION_INTERVAL_UNSPECIFIED"
-  | "DAILY"
-  | "MONTHLY";
-export const AggregationInfoAggregationIntervalEnum = S.String;
-
-/** Represents the aggregation level and interval for pricing of a single SKU. */
-export interface AggregationInfo {
-  aggregationLevel?: AggregationInfoAggregationLevelEnum;
-  /** The number of intervals to aggregate over. Example: If aggregation_level is "DAILY" and aggregation_count is 14, aggregation will be over 14 days. */
-  aggregationCount?: number;
-  aggregationInterval?: AggregationInfoAggregationIntervalEnum;
-}
-export const AggregationInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    aggregationLevel: S.optional(AggregationInfoAggregationLevelEnum),
-    aggregationCount: S.optional(S.Number),
-    aggregationInterval: S.optional(AggregationInfoAggregationIntervalEnum),
-  }),
-).annotate({
-  identifier: "AggregationInfo",
-}) as any as S.Schema<AggregationInfo>;
 
 /** Represents an amount of money with its currency type. */
 export interface Money {
   /** The three-letter currency code defined in ISO 4217. */
   currencyCode?: string;
-  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
-  nanos?: number;
   /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
   units?: string;
+  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
+  nanos?: number;
 }
 export const Money = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     currencyCode: S.optional(S.String),
-    nanos: S.optional(S.Number),
     units: S.optional(S.String),
+    nanos: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Money" }) as any as S.Schema<Money>;
 
 /** The price rate indicating starting usage and its corresponding price. */
 export interface TierRate {
-  /** The price per unit of usage. Example: unit_price of amount $10 indicates that each unit will cost $10. */
-  unitPrice?: Money;
   /** Usage is priced at this rate only after this amount. Example: start_usage_amount of 10 indicates that the usage will be priced at the unit_price after the first 10 usage_units. */
   startUsageAmount?: number;
+  /** The price per unit of usage. Example: unit_price of amount $10 indicates that each unit will cost $10. */
+  unitPrice?: Money;
 }
 export const TierRate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unitPrice: S.optional(Money),
     startUsageAmount: S.optional(S.Number),
+    unitPrice: S.optional(Money),
   }),
 ).annotate({ identifier: "TierRate" }) as any as S.Schema<TierRate>;
 
@@ -679,55 +1374,80 @@ export const TierRateList = /*@__PURE__*/ S.Array(TierRate) as any as S.Schema<T
 
 /** Expresses a mathematical pricing formula. For Example:- `usage_unit: GBy` `tiered_rates:` `[start_usage_amount: 20, unit_price: $10]` `[start_usage_amount: 100, unit_price: $5]` The above expresses a pricing formula where the first 20GB is free, the next 80GB is priced at $10 per GB followed by $5 per GB for additional usage. */
 export interface PricingExpression {
+  /** The list of tiered rates for this pricing. The total cost is computed by applying each of the tiered rates on usage. This repeated list is sorted by ascending order of start_usage_amount. */
+  tieredRates?: TierRateList;
   /** The recommended quantity of units for displaying pricing info. When displaying pricing info it is recommended to display: (unit_price * display_quantity) per display_quantity usage_unit. This field does not affect the pricing formula and is for display purposes only. Example: If the unit_price is "0.0001 USD", the usage_unit is "GB" and the display_quantity is "1000" then the recommended way of displaying the pricing info is "0.10 USD per 1000 GB" */
   displayQuantity?: number;
   /** The base unit in human readable form. Example: "byte". */
   baseUnitDescription?: string;
-  /** The base unit for the SKU which is the unit used in usage exports. Example: "By" */
-  baseUnit?: string;
+  /** The short hand for unit of usage this pricing is specified in. Example: usage_unit of "GiBy" means that usage is specified in "Gibi Byte". */
+  usageUnit?: string;
   /** The unit of usage in human readable form. Example: "gibi byte". */
   usageUnitDescription?: string;
   /** Conversion factor for converting from price per usage_unit to price per base_unit, and start_usage_amount to start_usage_amount in base_unit. unit_price / base_unit_conversion_factor = price per base_unit. start_usage_amount * base_unit_conversion_factor = start_usage_amount in base_unit. */
   baseUnitConversionFactor?: number;
-  /** The list of tiered rates for this pricing. The total cost is computed by applying each of the tiered rates on usage. This repeated list is sorted by ascending order of start_usage_amount. */
-  tieredRates?: TierRateList;
-  /** The short hand for unit of usage this pricing is specified in. Example: usage_unit of "GiBy" means that usage is specified in "Gibi Byte". */
-  usageUnit?: string;
+  /** The base unit for the SKU which is the unit used in usage exports. Example: "By" */
+  baseUnit?: string;
 }
 export const PricingExpression = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    tieredRates: S.optional(TierRateList),
     displayQuantity: S.optional(S.Number),
     baseUnitDescription: S.optional(S.String),
-    baseUnit: S.optional(S.String),
+    usageUnit: S.optional(S.String),
     usageUnitDescription: S.optional(S.String),
     baseUnitConversionFactor: S.optional(S.Number),
-    tieredRates: S.optional(TierRateList),
-    usageUnit: S.optional(S.String),
+    baseUnit: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PricingExpression",
-}) as any as S.Schema<PricingExpression>;
+).annotate({ identifier: "PricingExpression" }) as any as S.Schema<PricingExpression>;
+
+export type AggregationInfoAggregationIntervalEnum =
+  | "AGGREGATION_INTERVAL_UNSPECIFIED"
+  | "DAILY"
+  | "MONTHLY";
+export const AggregationInfoAggregationIntervalEnum = S.String;
+
+export type AggregationInfoAggregationLevelEnum =
+  | "AGGREGATION_LEVEL_UNSPECIFIED"
+  | "ACCOUNT"
+  | "PROJECT";
+export const AggregationInfoAggregationLevelEnum = S.String;
+
+/** Represents the aggregation level and interval for pricing of a single SKU. */
+export interface AggregationInfo {
+  aggregationInterval?: AggregationInfoAggregationIntervalEnum;
+  aggregationLevel?: AggregationInfoAggregationLevelEnum;
+  /** The number of intervals to aggregate over. Example: If aggregation_level is "DAILY" and aggregation_count is 14, aggregation will be over 14 days. */
+  aggregationCount?: number;
+}
+export const AggregationInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    aggregationInterval: S.optional(AggregationInfoAggregationIntervalEnum),
+    aggregationLevel: S.optional(AggregationInfoAggregationLevelEnum),
+    aggregationCount: S.optional(S.Number),
+  }),
+).annotate({ identifier: "AggregationInfo" }) as any as S.Schema<AggregationInfo>;
 
 /** Represents the pricing information for a SKU at a single point of time. */
 export interface PricingInfo {
-  /** Aggregation Info. This can be left unspecified if the pricing expression doesn't require aggregation. */
-  aggregationInfo?: AggregationInfo;
   /** Expresses the pricing formula. See `PricingExpression` for an example. */
   pricingExpression?: PricingExpression;
-  /** The timestamp from which this pricing was effective within the requested time range. This is guaranteed to be greater than or equal to the start_time field in the request and less than the end_time field in the request. If a time range was not specified in the request this field will be equivalent to a time within the last 12 hours, indicating the latest pricing info. */
-  effectiveTime?: string;
-  /** An optional human readable summary of the pricing information, has a maximum length of 256 characters. */
-  summary?: string;
   /** Conversion rate used for currency conversion, from USD to the currency specified in the request. This includes any surcharge collected for billing in non USD currency. If a currency is not specified in the request this defaults to 1.0. Example: USD * currency_conversion_rate = JPY */
   currencyConversionRate?: number;
+  /** The timestamp from which this pricing was effective within the requested time range. This is guaranteed to be greater than or equal to the start_time field in the request and less than the end_time field in the request. If a time range was not specified in the request this field will be equivalent to a time within the last 12 hours, indicating the latest pricing info. */
+  effectiveTime?: string;
+  /** Aggregation Info. This can be left unspecified if the pricing expression doesn't require aggregation. */
+  aggregationInfo?: AggregationInfo;
+  /** An optional human readable summary of the pricing information, has a maximum length of 256 characters. */
+  summary?: string;
 }
 export const PricingInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    aggregationInfo: S.optional(AggregationInfo),
     pricingExpression: S.optional(PricingExpression),
-    effectiveTime: S.optional(S.String),
-    summary: S.optional(S.String),
     currencyConversionRate: S.optional(S.Number),
+    effectiveTime: S.optional(S.String),
+    aggregationInfo: S.optional(AggregationInfo),
+    summary: S.optional(S.String),
   }),
 ).annotate({ identifier: "PricingInfo" }) as any as S.Schema<PricingInfo>;
 
@@ -736,34 +1456,54 @@ export const PricingInfoList = /*@__PURE__*/ S.Array(
   PricingInfo,
 ) as any as S.Schema<PricingInfoList>;
 
+/** Represents the category hierarchy of a SKU. */
+export interface Category {
+  /** Represents how the SKU is consumed. Example: "OnDemand", "Preemptible", "Commit1Mo", "Commit1Yr" etc. */
+  usageType?: string;
+  /** The display name of the service this SKU belongs to. */
+  serviceDisplayName?: string;
+  /** A group classification for related SKUs. Example: "RAM", "GPU", "Prediction", "Ops", "GoogleEgress" etc. */
+  resourceGroup?: string;
+  /** The type of product the SKU refers to. Example: "Compute", "Storage", "Network", "ApplicationServices" etc. */
+  resourceFamily?: string;
+}
+export const Category = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    usageType: S.optional(S.String),
+    serviceDisplayName: S.optional(S.String),
+    resourceGroup: S.optional(S.String),
+    resourceFamily: S.optional(S.String),
+  }),
+).annotate({ identifier: "Category" }) as any as S.Schema<Category>;
+
 /** Encapsulates a single SKU in Google Cloud */
 export interface Sku {
+  /** A human readable description of the SKU, has a maximum length of 256 characters. */
+  description?: string;
+  /** The geographic taxonomy for this sku. */
+  geoTaxonomy?: GeoTaxonomy;
+  /** List of service regions this SKU is offered at. Example: "asia-east1" Service regions can be found at https://cloud.google.com/about/locations/ */
+  serviceRegions?: StringList_;
+  /** A timeline of pricing info for this SKU in chronological order. */
+  pricingInfo?: PricingInfoList;
+  /** The category hierarchy of this SKU, purely for organizational purpose. */
+  category?: Category;
   /** The resource name for the SKU. Example: "services/6F81-5844-456A/skus/D041-B8A1-6E0B" */
   name?: string;
   /** The identifier for the SKU. Example: "D041-B8A1-6E0B" */
   skuId?: string;
-  /** The category hierarchy of this SKU, purely for organizational purpose. */
-  category?: Category;
-  /** The geographic taxonomy for this sku. */
-  geoTaxonomy?: GeoTaxonomy;
-  /** List of service regions this SKU is offered at. Example: "asia-east1" Service regions can be found at https://cloud.google.com/about/locations/ */
-  serviceRegions?: StringList;
-  /** A human readable description of the SKU, has a maximum length of 256 characters. */
-  description?: string;
-  /** A timeline of pricing info for this SKU in chronological order. */
-  pricingInfo?: PricingInfoList;
   /** Identifies the service provider. This is 'Google' for first party services in Google Cloud Platform. */
   serviceProviderName?: string;
 }
 export const Sku = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    description: S.optional(S.String),
+    geoTaxonomy: S.optional(GeoTaxonomy),
+    serviceRegions: S.optional(StringList_),
+    pricingInfo: S.optional(PricingInfoList),
+    category: S.optional(Category),
     name: S.optional(S.String),
     skuId: S.optional(S.String),
-    category: S.optional(Category),
-    geoTaxonomy: S.optional(GeoTaxonomy),
-    serviceRegions: S.optional(StringList),
-    description: S.optional(S.String),
-    pricingInfo: S.optional(PricingInfoList),
     serviceProviderName: S.optional(S.String),
   }),
 ).annotate({ identifier: "Sku" }) as any as S.Schema<Sku>;
@@ -773,19 +1513,64 @@ export const SkuList = /*@__PURE__*/ S.Array(Sku) as any as S.Schema<SkuList>;
 
 /** Response message for `ListSkus`. */
 export interface ListSkusResponse {
-  /** A token to retrieve the next page of results. To retrieve the next page, call `ListSkus` again with the `page_token` field set to this value. This field is empty if there are no more results to retrieve. */
-  nextPageToken?: string;
   /** The list of public SKUs of the given service. */
   skus?: SkuList;
+  /** A token to retrieve the next page of results. To retrieve the next page, call `ListSkus` again with the `page_token` field set to this value. This field is empty if there are no more results to retrieve. */
+  nextPageToken?: string;
 }
 export const ListSkusResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     skus: S.optional(SkuList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotate({ identifier: "ListSkusResponse" }) as any as S.Schema<ListSkusResponse>;
+
+export interface ListTasksPushNotificationConfigsRequest {
+  /** The parent task resource. Format: tasks/{task_id} */
+  parent: string;
+  /** For AIP-158 these fields are present. Usually not used/needed. The maximum number of configurations to return. If unspecified, all configs will be returned. */
+  pageSize?: number;
+  /** A page token received from a previous ListTaskPushNotificationConfigRequest call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListTaskPushNotificationConfigRequest` must match the call that provided the page token. */
+  pageToken?: string;
+  /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
+  tenant?: string;
+}
+export const ListTasksPushNotificationConfigsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    tenant: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "v1/{+parent}/pushNotificationConfigs",
+      baseUrl: "https://cloudbilling.googleapis.com/",
+    }),
+  ),
+).annotate({
+  identifier: "ListTasksPushNotificationConfigsRequest",
+}) as any as S.Schema<ListTasksPushNotificationConfigsRequest>;
+
+export type TaskPushNotificationConfigList = Array<TaskPushNotificationConfig>;
+export const TaskPushNotificationConfigList = /*@__PURE__*/ S.Array(
+  TaskPushNotificationConfig,
+) as any as S.Schema<TaskPushNotificationConfigList>;
+
+export interface ListTaskPushNotificationConfigResponse {
+  /** The list of push notification configurations. */
+  configs?: TaskPushNotificationConfigList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+}
+export const ListTaskPushNotificationConfigResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    configs: S.optional(TaskPushNotificationConfigList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "ListSkusResponse",
-}) as any as S.Schema<ListSkusResponse>;
+  identifier: "ListTaskPushNotificationConfigResponse",
+}) as any as S.Schema<ListTaskPushNotificationConfigResponse>;
 
 /** Request message for `MoveBillingAccount` RPC. */
 export interface MoveBillingAccountRequest {
@@ -843,28 +1628,92 @@ export const MoveOrganizationsBillingAccountsRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<MoveOrganizationsBillingAccountsRequest>;
 
 export interface PatchBillingAccountsRequest {
-  /** The update mask applied to the resource. Only "display_name" is currently supported. */
-  updateMask?: string;
   /** Required. The name of the billing account resource to be updated. */
   name: string;
+  /** The update mask applied to the resource. Only "display_name" is currently supported. */
+  updateMask?: string;
   /** Request body */
   body?: BillingAccount;
 }
 export const PatchBillingAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(BillingAccount.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://cloudbilling.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://cloudbilling.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchBillingAccountsRequest",
 }) as any as S.Schema<PatchBillingAccountsRequest>;
+
+/** Configuration of a send message request. */
+export interface SendMessageConfiguration {
+  /** If true, the message will be blocking until the task is completed. If false, the message will be non-blocking and the task will be returned immediately. It is the caller's responsibility to check for any task updates. */
+  blocking?: boolean;
+  /** The output modes that the agent is expected to respond with. */
+  acceptedOutputModes?: StringList_;
+  /** The maximum number of messages to include in the history. if 0, the history will be unlimited. */
+  historyLength?: number;
+  /** A configuration of a webhook that can be used to receive updates */
+  pushNotification?: PushNotificationConfig;
+}
+export const SendMessageConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    blocking: S.optional(S.Boolean),
+    acceptedOutputModes: S.optional(StringList_),
+    historyLength: S.optional(S.Number),
+    pushNotification: S.optional(PushNotificationConfig),
+  }),
+).annotate({ identifier: "SendMessageConfiguration" }) as any as S.Schema<SendMessageConfiguration>;
+
+/** /////////// Request Messages /////////// */
+export interface SendMessageRequest {
+  /** Configuration for the send request. */
+  configuration?: SendMessageConfiguration;
+  /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
+  tenant?: string;
+  /** Optional metadata for the request. */
+  metadata?: DocumentMap;
+  /** Required. The message to send to the agent. */
+  message?: Message;
+}
+export const SendMessageRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    configuration: S.optional(SendMessageConfiguration),
+    tenant: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
+    message: S.optional(Message),
+  }),
+).annotate({ identifier: "SendMessageRequest" }) as any as S.Schema<SendMessageRequest>;
+
+export interface SendMessageRequest_ {
+  /** Request body */
+  body?: SendMessageRequest;
+}
+export const SendMessageRequest_ = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    body: S.optional(SendMessageRequest.pipe(T.HttpBody())),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "v1/message:send",
+      baseUrl: "https://cloudbilling.googleapis.com/",
+    }),
+  ),
+).annotate({ identifier: "SendMessageRequest_" }) as any as S.Schema<SendMessageRequest_>;
+
+/** ////// Response Messages /////////// */
+export interface SendMessageResponse {
+  message?: Message;
+  task?: Task;
+}
+export const SendMessageResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message: S.optional(Message),
+    task: S.optional(Task),
+  }),
+).annotate({ identifier: "SendMessageResponse" }) as any as S.Schema<SendMessageResponse>;
 
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -878,9 +1727,7 @@ export const SetIamPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     policy: S.optional(Policy),
     updateMask: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SetIamPolicyRequest",
-}) as any as S.Schema<SetIamPolicyRequest>;
+).annotate({ identifier: "SetIamPolicyRequest" }) as any as S.Schema<SetIamPolicyRequest>;
 
 export interface SetIamPolicyBillingAccountsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -903,14 +1750,114 @@ export const SetIamPolicyBillingAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "SetIamPolicyBillingAccountsRequest",
 }) as any as S.Schema<SetIamPolicyBillingAccountsRequest>;
 
+export interface StreamMessageRequest {
+  /** Request body */
+  body?: SendMessageRequest;
+}
+export const StreamMessageRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    body: S.optional(SendMessageRequest.pipe(T.HttpBody())),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "v1/message:stream",
+      baseUrl: "https://cloudbilling.googleapis.com/",
+    }),
+  ),
+).annotate({ identifier: "StreamMessageRequest" }) as any as S.Schema<StreamMessageRequest>;
+
+/** TaskStatusUpdateEvent is a delta even on a task indicating that a task has changed. */
+export interface TaskStatusUpdateEvent {
+  /** The id of the task that is changed */
+  taskId?: string;
+  /** Optional metadata to associate with the task update. */
+  metadata?: DocumentMap;
+  /** The new status of the task. */
+  status?: TaskStatus;
+  /** The id of the context that the task belongs to */
+  contextId?: string;
+  /** Whether this is the last status update expected for this task. */
+  final?: boolean;
+}
+export const TaskStatusUpdateEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    taskId: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
+    status: S.optional(TaskStatus),
+    contextId: S.optional(S.String),
+    final: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "TaskStatusUpdateEvent" }) as any as S.Schema<TaskStatusUpdateEvent>;
+
+/** TaskArtifactUpdateEvent represents a task delta where an artifact has been generated. */
+export interface TaskArtifactUpdateEvent {
+  /** Optional metadata associated with the artifact update. */
+  metadata?: DocumentMap;
+  /** The id of the task for this artifact */
+  taskId?: string;
+  /** Whether this should be appended to a prior one produced */
+  append?: boolean;
+  /** Whether this represents the last part of an artifact */
+  lastChunk?: boolean;
+  /** The artifact itself */
+  artifact?: Artifact;
+  /** The id of the context that this task belongs too */
+  contextId?: string;
+}
+export const TaskArtifactUpdateEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    metadata: S.optional(DocumentMap),
+    taskId: S.optional(S.String),
+    append: S.optional(S.Boolean),
+    lastChunk: S.optional(S.Boolean),
+    artifact: S.optional(Artifact),
+    contextId: S.optional(S.String),
+  }),
+).annotate({ identifier: "TaskArtifactUpdateEvent" }) as any as S.Schema<TaskArtifactUpdateEvent>;
+
+/** The stream response for a message. The stream should be one of the following sequences: If the response is a message, the stream should contain one, and only one, message and then close If the response is a task lifecycle, the first response should be a Task object followed by zero or more TaskStatusUpdateEvents and TaskArtifactUpdateEvents. The stream should complete when the Task if in an interrupted or terminal state. A stream that ends before these conditions are met are */
+export interface StreamResponse {
+  message?: Message;
+  statusUpdate?: TaskStatusUpdateEvent;
+  artifactUpdate?: TaskArtifactUpdateEvent;
+  task?: Task;
+}
+export const StreamResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message: S.optional(Message),
+    statusUpdate: S.optional(TaskStatusUpdateEvent),
+    artifactUpdate: S.optional(TaskArtifactUpdateEvent),
+    task: S.optional(Task),
+  }),
+).annotate({ identifier: "StreamResponse" }) as any as S.Schema<StreamResponse>;
+
+export interface SubscribeTasksRequest {
+  /** The resource name of the task to subscribe to. Format: tasks/{task_id} */
+  name: string;
+  /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
+  tenant?: string;
+}
+export const SubscribeTasksRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    tenant: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "v1/{+name}:subscribe",
+      baseUrl: "https://cloudbilling.googleapis.com/",
+    }),
+  ),
+).annotate({ identifier: "SubscribeTasksRequest" }) as any as S.Schema<SubscribeTasksRequest>;
+
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList;
+  permissions?: StringList_;
 }
 export const TestIamPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    permissions: S.optional(StringList),
+    permissions: S.optional(StringList_),
   }),
 ).annotate({
   identifier: "TestIamPermissionsRequest",
@@ -940,11 +1887,11 @@ export const TestIamPermissionsBillingAccountsRequest = /*@__PURE__*/ S.suspend(
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
-  permissions?: StringList;
+  permissions?: StringList_;
 }
 export const TestIamPermissionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    permissions: S.optional(StringList),
+    permissions: S.optional(StringList_),
   }),
 ).annotate({
   identifier: "TestIamPermissionsResponse",
@@ -970,6 +1917,21 @@ export const UpdateBillingInfoProjectsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateBillingInfoProjectsRequest",
 }) as any as S.Schema<UpdateBillingInfoProjectsRequest>;
+
+export type CancelTasksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+/** Cancel a task from the agent. If supported one should expect no more task updates for the task. */
+export const cancelTasks: API.OperationMethod<
+  CancelTasksRequest,
+  Task,
+  CancelTasksError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CancelTasksRequest,
+  output: Task,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
 
 export type CreateBillingAccountsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** This method creates [billing subaccounts](https://cloud.google.com/billing/docs/concepts#subaccounts). Google Cloud resellers should use the Channel Services APIs, [accounts.customers.create](https://cloud.google.com/channel/docs/reference/rest/v1/accounts.customers/create) and [accounts.customers.entitlements.create](https://cloud.google.com/channel/docs/reference/rest/v1/accounts.customers.entitlements/create). When creating a subaccount, the current authenticated user must have the `billing.accounts.update` IAM permission on the parent account, which is typically given to billing account [administrators](https://cloud.google.com/billing/docs/how-to/billing-access). This method will return an error if the parent account has not been provisioned for subaccounts. */
@@ -1026,6 +1988,46 @@ export const createOrganizationsBillingAccounts: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateTasksPushNotificationConfigsError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Set a push notification config for a task. */
+export const createTasksPushNotificationConfigs: API.OperationMethod<
+  CreateTasksPushNotificationConfigsRequest,
+  TaskPushNotificationConfig,
+  CreateTasksPushNotificationConfigsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateTasksPushNotificationConfigsRequest,
+  output: TaskPushNotificationConfig,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteTasksPushNotificationConfigsError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Delete a push notification config for a task. */
+export const deleteTasksPushNotificationConfigs: API.OperationMethod<
+  DeleteTasksPushNotificationConfigsRequest,
+  Empty,
+  DeleteTasksPushNotificationConfigsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteTasksPushNotificationConfigsRequest,
+  output: Empty,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetBillingAccountsError = NotFound | Forbidden | GcpOpError;
 /** Gets information about a billing account. The current authenticated user must be a [viewer of the billing account](https://cloud.google.com/billing/docs/how-to/billing-access). */
 export const getBillingAccounts: API.OperationMethod<
@@ -1056,6 +2058,21 @@ export const getBillingInfoProjects: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetCardV1Error = NotFound | Forbidden | GcpOpError;
+/** GetAgentCard returns the agent card for the agent. */
+export const getCardV1: API.OperationMethod<
+  GetCardV1Request,
+  AgentCard,
+  GetCardV1Error,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCardV1Request,
+  output: AgentCard,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetIamPolicyBillingAccountsError = NotFound | Forbidden | GcpOpError;
 /** Gets the access control policy for a billing account. The caller must have the `billing.accounts.getIamPolicy` permission on the account, which is often given to billing account [viewers](https://cloud.google.com/billing/docs/how-to/billing-access). */
 export const getIamPolicyBillingAccounts: API.OperationMethod<
@@ -1066,6 +2083,32 @@ export const getIamPolicyBillingAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetIamPolicyBillingAccountsRequest,
   output: Policy,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetTasksError = NotFound | Forbidden | GcpOpError;
+/** Get the current state of a task from the agent. */
+export const getTasks: API.OperationMethod<GetTasksRequest, Task, GetTasksError, GcpOpContext> =
+  /*@__PURE__*/ API.make(() => ({
+    input: GetTasksRequest,
+    output: Task,
+    errors: [NotFound, Forbidden, UnknownGCPError],
+    protocol: GcpProtocol,
+    retry: Retry.Retry,
+  }));
+
+export type GetTasksPushNotificationConfigsError = NotFound | Forbidden | GcpOpError;
+/** Get a push notification config for a task. */
+export const getTasksPushNotificationConfigs: API.OperationMethod<
+  GetTasksPushNotificationConfigsRequest,
+  TaskPushNotificationConfig,
+  GetTasksPushNotificationConfigsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetTasksPushNotificationConfigsRequest,
+  output: TaskPushNotificationConfig,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1085,10 +2128,7 @@ export const listBillingAccounts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListBillingAccountsProjectsError = NotFound | Forbidden | GcpOpError;
@@ -1105,10 +2145,7 @@ export const listBillingAccountsProjects: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListBillingAccountsSubAccountsError = NotFound | Forbidden | GcpOpError;
@@ -1125,10 +2162,7 @@ export const listBillingAccountsSubAccounts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListOrganizationsBillingAccountsError = NotFound | Forbidden | GcpOpError;
@@ -1145,10 +2179,7 @@ export const listOrganizationsBillingAccounts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListServicesError = NotFound | Forbidden | GcpOpError;
@@ -1165,10 +2196,7 @@ export const listServices: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListServicesSkusError = NotFound | Forbidden | GcpOpError;
@@ -1185,10 +2213,24 @@ export const listServicesSkus: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
+})) as any;
+
+export type ListTasksPushNotificationConfigsError = NotFound | Forbidden | GcpOpError;
+/** Get a list of push notifications configured for a task. */
+export const listTasksPushNotificationConfigs: API.PaginatedOperationMethod<
+  ListTasksPushNotificationConfigsRequest,
+  ListTaskPushNotificationConfigResponse,
+  ListTasksPushNotificationConfigsError,
+  GcpOpContext,
+  ListTaskPushNotificationConfigResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListTasksPushNotificationConfigsRequest,
+  output: ListTaskPushNotificationConfigResponse,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type MoveBillingAccountsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1236,6 +2278,21 @@ export const patchBillingAccounts: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type SendMessageError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+/** Send a message to the agent. This is a blocking call that will return the task once it is completed, or a LRO if requested. */
+export const sendMessage: API.OperationMethod<
+  SendMessageRequest_,
+  SendMessageResponse,
+  SendMessageError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SendMessageRequest_,
+  output: SendMessageResponse,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
 export type SetIamPolicyBillingAccountsError =
   | NotFound
   | Forbidden
@@ -1252,6 +2309,36 @@ export const setIamPolicyBillingAccounts: API.OperationMethod<
   input: SetIamPolicyBillingAccountsRequest,
   output: Policy,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type StreamMessageError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+/** SendStreamingMessage is a streaming call that will return a stream of task update events until the Task is in an interrupted or terminal state. */
+export const streamMessage: API.OperationMethod<
+  StreamMessageRequest,
+  StreamResponse,
+  StreamMessageError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: StreamMessageRequest,
+  output: StreamResponse,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SubscribeTasksError = NotFound | Forbidden | GcpOpError;
+/** TaskSubscription is a streaming call that will return a stream of task update events. This attaches the stream to an existing in process task. If the task is complete the stream will return the completed task (like GetTask) and close the stream. */
+export const subscribeTasks: API.OperationMethod<
+  SubscribeTasksRequest,
+  StreamResponse,
+  SubscribeTasksError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SubscribeTasksRequest,
+  output: StreamResponse,
+  errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));

@@ -113,6 +113,8 @@ export interface CreateBucketRequest {
   branchId?: string;
   /** Git name of the branch to associate the bucket with. Mutually exclusive with branchId. */
   branchGitName?: string;
+  /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. */
+  logicalId?: string;
 }
 export const CreateBucketRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -120,10 +122,9 @@ export const CreateBucketRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     branchId: S.optional(S.String),
     branchGitName: S.optional(S.String),
+    logicalId: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v1/buckets", code: 200 })),
-).annotate({
-  identifier: "CreateBucketRequest",
-}) as any as S.Schema<CreateBucketRequest>;
+).annotate({ identifier: "CreateBucketRequest" }) as any as S.Schema<CreateBucketRequest>;
 
 export interface CreateBucketResponseDataProject {
   id: string;
@@ -150,6 +151,7 @@ export interface CreateBucketResponseData {
   createdAt: string;
   project: CreateBucketResponseDataProject;
   branchId: string | null;
+  logicalId: string | null;
 }
 export const CreateBucketResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -162,10 +164,9 @@ export const CreateBucketResponseData = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.String,
     project: CreateBucketResponseDataProject,
     branchId: S.NullOr(S.String),
+    logicalId: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "CreateBucketResponseData",
-}) as any as S.Schema<CreateBucketResponseData>;
+).annotate({ identifier: "CreateBucketResponseData" }) as any as S.Schema<CreateBucketResponseData>;
 
 export interface CreateBucketResponse {
   data: CreateBucketResponseData;
@@ -174,9 +175,7 @@ export const CreateBucketResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: CreateBucketResponseData,
   }),
-).annotate({
-  identifier: "CreateBucketResponse",
-}) as any as S.Schema<CreateBucketResponse>;
+).annotate({ identifier: "CreateBucketResponse" }) as any as S.Schema<CreateBucketResponse>;
 
 /** Access role for the key: "read" or "read_write". */
 export type CreateBucketKeyRequestRole = "read" | "read_write";
@@ -195,9 +194,7 @@ export const CreateBucketKeyRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     role: CreateBucketKeyRequestRole,
   }).pipe(T.Http({ method: "POST", uri: "/v1/buckets/{bucketId}/keys", code: 200 })),
-).annotate({
-  identifier: "CreateBucketKeyRequest",
-}) as any as S.Schema<CreateBucketKeyRequest>;
+).annotate({ identifier: "CreateBucketKeyRequest" }) as any as S.Schema<CreateBucketKeyRequest>;
 
 export type CreateBucketKeyResponseDataRole = "read" | "read_write";
 export const CreateBucketKeyResponseDataRole = S.String;
@@ -238,9 +235,7 @@ export const CreateBucketKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: CreateBucketKeyResponseData,
   }),
-).annotate({
-  identifier: "CreateBucketKeyResponse",
-}) as any as S.Schema<CreateBucketKeyResponse>;
+).annotate({ identifier: "CreateBucketKeyResponse" }) as any as S.Schema<CreateBucketKeyResponse>;
 
 /** `ci` for a build reported from a CI run, `cli` for a deploy run directly by a human or agent. */
 export type CreateBuildRequestSource = "ci" | "cli";
@@ -296,9 +291,7 @@ export const CreateBuildRequest = /*@__PURE__*/ S.suspend(() =>
     branchId: S.optional(S.String),
     applicationTopologyContentHash: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v1/builds", code: 200 })),
-).annotate({
-  identifier: "CreateBuildRequest",
-}) as any as S.Schema<CreateBuildRequest>;
+).annotate({ identifier: "CreateBuildRequest" }) as any as S.Schema<CreateBuildRequest>;
 
 export type CreateBuildResponseDataSource = "webhook" | "setup" | "manual" | "ci" | "cli";
 export const CreateBuildResponseDataSource = S.String;
@@ -356,9 +349,7 @@ export const CreateBuildResponseData = /*@__PURE__*/ S.suspend(() =>
     startedAt: S.NullOr(S.String),
     finishedAt: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "CreateBuildResponseData",
-}) as any as S.Schema<CreateBuildResponseData>;
+).annotate({ identifier: "CreateBuildResponseData" }) as any as S.Schema<CreateBuildResponseData>;
 
 export interface CreateBuildResponse {
   data: CreateBuildResponseData;
@@ -367,9 +358,7 @@ export const CreateBuildResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: CreateBuildResponseData,
   }),
-).annotate({
-  identifier: "CreateBuildResponse",
-}) as any as S.Schema<CreateBuildResponse>;
+).annotate({ identifier: "CreateBuildResponse" }) as any as S.Schema<CreateBuildResponse>;
 
 export interface CreateConnectionRequest {
   databaseId: string;
@@ -380,9 +369,7 @@ export const CreateConnectionRequest = /*@__PURE__*/ S.suspend(() =>
     databaseId: S.String,
     name: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v1/connections", code: 200 })),
-).annotate({
-  identifier: "CreateConnectionRequest",
-}) as any as S.Schema<CreateConnectionRequest>;
+).annotate({ identifier: "CreateConnectionRequest" }) as any as S.Schema<CreateConnectionRequest>;
 
 export type CreateConnectionResponseDataKind = "postgres" | "accelerate";
 export const CreateConnectionResponseDataKind = S.String;
@@ -493,9 +480,7 @@ export const CreateConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: CreateConnectionResponseData,
   }),
-).annotate({
-  identifier: "CreateConnectionResponse",
-}) as any as S.Schema<CreateConnectionResponse>;
+).annotate({ identifier: "CreateConnectionResponse" }) as any as S.Schema<CreateConnectionResponse>;
 
 export interface CreateConnectionRotateRequest {
   id: string;
@@ -589,7 +574,7 @@ export const CreateConnectionRotateResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateConnectionRotateResponse",
 }) as any as S.Schema<CreateConnectionRotateResponse>;
 
-/** Region for the database. Use "inherit" to use the project default database region. */
+/** Use "inherit" to use the project's default region (falls back to the default database's region for projects without one). */
 export type CreateDatabaseRequestRegion =
   | "us-east-1"
   | "us-west-1"
@@ -658,7 +643,7 @@ export const CreateDatabaseRequestSource = /*@__PURE__*/ S.suspend(() =>
 export interface CreateDatabaseRequest {
   /** ID of the project to create the database in */
   projectId: string;
-  /** Region for the database. Use "inherit" to use the project default database region. */
+  /** Use "inherit" to use the project's default region (falls back to the default database's region for projects without one). */
   region?: CreateDatabaseRequestRegion | (string & {});
   /** Display name for the database */
   name?: string;
@@ -670,6 +655,8 @@ export interface CreateDatabaseRequest {
   branchId?: string | null;
   /** Git name of the Branch to attach the database to; the Branch is created when it does not exist. Mutually exclusive with branchId. Omit to attach to the project's default Branch. Every database belongs to a Branch, so null is rejected. */
   branchGitName?: string | null;
+  /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. */
+  logicalId?: string;
 }
 export const CreateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -680,10 +667,9 @@ export const CreateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     source: S.optional(CreateDatabaseRequestSource),
     branchId: S.optional(S.NullOr(S.String)),
     branchGitName: S.optional(S.NullOr(S.String)),
+    logicalId: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v1/databases", code: 200 })),
-).annotate({
-  identifier: "CreateDatabaseRequest",
-}) as any as S.Schema<CreateDatabaseRequest>;
+).annotate({ identifier: "CreateDatabaseRequest" }) as any as S.Schema<CreateDatabaseRequest>;
 
 export type CreateDatabaseResponseDataStatus = "failure" | "provisioning" | "ready" | "recovering";
 export const CreateDatabaseResponseDataStatus = S.String;
@@ -849,6 +835,7 @@ export interface CreateDatabaseResponseData {
   region: CreateDatabaseResponseDataRegion | null;
   source: CreateDatabaseResponseDataSource | null;
   branchId: string | null;
+  logicalId: string | null;
 }
 export const CreateDatabaseResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -865,6 +852,7 @@ export const CreateDatabaseResponseData = /*@__PURE__*/ S.suspend(() =>
     region: S.NullOr(CreateDatabaseResponseDataRegion),
     source: S.NullOr(CreateDatabaseResponseDataSource),
     branchId: S.NullOr(S.String),
+    logicalId: S.NullOr(S.String),
   }),
 ).annotate({
   identifier: "CreateDatabaseResponseData",
@@ -877,9 +865,7 @@ export const CreateDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: CreateDatabaseResponseData,
   }),
-).annotate({
-  identifier: "CreateDatabaseResponse",
-}) as any as S.Schema<CreateDatabaseResponse>;
+).annotate({ identifier: "CreateDatabaseResponse" }) as any as S.Schema<CreateDatabaseResponse>;
 
 export interface CreateDatabaseConnectionRequest {
   databaseId: string;
@@ -889,13 +875,7 @@ export const CreateDatabaseConnectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     databaseId: S.String.pipe(T.Label()),
     name: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/databases/{databaseId}/connections",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/databases/{databaseId}/connections", code: 200 })),
 ).annotate({
   identifier: "CreateDatabaseConnectionRequest",
 }) as any as S.Schema<CreateDatabaseConnectionRequest>;
@@ -992,13 +972,7 @@ export const CreateDatabaseRestoreRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     targetDatabaseId: S.String.pipe(T.Label()),
     source: CreateDatabaseRequestSourceCase1,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/databases/{targetDatabaseId}/restore",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/databases/{targetDatabaseId}/restore", code: 200 })),
 ).annotate({
   identifier: "CreateDatabaseRestoreRequest",
 }) as any as S.Schema<CreateDatabaseRestoreRequest>;
@@ -1133,6 +1107,7 @@ export interface CreateDatabaseRestoreResponseData {
   region: CreateDatabaseResponseDataRegion | null;
   source: CreateDatabaseRestoreResponseDataSource;
   branchId: string | null;
+  logicalId: string | null;
 }
 export const CreateDatabaseRestoreResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1149,6 +1124,7 @@ export const CreateDatabaseRestoreResponseData = /*@__PURE__*/ S.suspend(() =>
     region: S.NullOr(CreateDatabaseResponseDataRegion),
     source: CreateDatabaseRestoreResponseDataSource,
     branchId: S.NullOr(S.String),
+    logicalId: S.NullOr(S.String),
   }),
 ).annotate({
   identifier: "CreateDatabaseRestoreResponseData",
@@ -1171,13 +1147,7 @@ export interface CreateDeploymentStartRequest {
 export const CreateDeploymentStartRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deploymentId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/deployments/{deploymentId}/start",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/deployments/{deploymentId}/start", code: 200 })),
 ).annotate({
   identifier: "CreateDeploymentStartRequest",
 }) as any as S.Schema<CreateDeploymentStartRequest>;
@@ -1210,13 +1180,7 @@ export interface CreateDeploymentStopRequest {
 export const CreateDeploymentStopRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deploymentId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/deployments/{deploymentId}/stop",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/deployments/{deploymentId}/stop", code: 200 })),
 ).annotate({
   identifier: "CreateDeploymentStopRequest",
 }) as any as S.Schema<CreateDeploymentStopRequest>;
@@ -1233,9 +1197,7 @@ export const CreateDomainRetryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domainId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/v1/domains/{domainId}/retry", code: 200 })),
-).annotate({
-  identifier: "CreateDomainRetryRequest",
-}) as any as S.Schema<CreateDomainRetryRequest>;
+).annotate({ identifier: "CreateDomainRetryRequest" }) as any as S.Schema<CreateDomainRetryRequest>;
 
 export type CreateDomainRetryResponseDataStatus =
   | "pending_dns"
@@ -1403,6 +1365,7 @@ export interface CreateProjectRequest {
   name?: string;
   region?: CreateProjectRequestRegion | (string & {});
   logicalId?: string;
+  workspaceId?: string;
 }
 export const CreateProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1410,10 +1373,9 @@ export const CreateProjectRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     region: S.optional(CreateProjectRequestRegion),
     logicalId: S.optional(S.String),
+    workspaceId: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v1/projects", code: 200 })),
-).annotate({
-  identifier: "CreateProjectRequest",
-}) as any as S.Schema<CreateProjectRequest>;
+).annotate({ identifier: "CreateProjectRequest" }) as any as S.Schema<CreateProjectRequest>;
 
 export type CreateProjectResponseDataWorkspace = CreateBucketResponseDataProject;
 export const CreateProjectResponseDataWorkspace = CreateBucketResponseDataProject;
@@ -1597,6 +1559,7 @@ export interface CreateProjectResponseDataDatabase {
   region: CreateDatabaseResponseDataRegion;
   source: CreateProjectResponseDataDatabaseSource | null;
   branchId: string | null;
+  logicalId: string | null;
   /** Deprecated: use `connections[]` instead. */
   apiKeys: CreateProjectResponseDataDatabaseApiKeysList;
   /** Deprecated: use `connections[].endpoints.direct.connectionString` or `connections[].endpoints.pooled.connectionString`. */
@@ -1618,6 +1581,7 @@ export const CreateProjectResponseDataDatabase = /*@__PURE__*/ S.suspend(() =>
     region: CreateDatabaseResponseDataRegion,
     source: S.NullOr(CreateProjectResponseDataDatabaseSource),
     branchId: S.NullOr(S.String),
+    logicalId: S.NullOr(S.String),
     apiKeys: CreateProjectResponseDataDatabaseApiKeysList,
     connectionString: S.NullOr(S.String).pipe(T.SensitiveValue({})),
     directConnection: S.NullOr(CreateConnectionResponseDataDirectConnection),
@@ -1660,9 +1624,7 @@ export const CreateProjectResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: CreateProjectResponseData,
   }),
-).annotate({
-  identifier: "CreateProjectResponse",
-}) as any as S.Schema<CreateProjectResponse>;
+).annotate({ identifier: "CreateProjectResponse" }) as any as S.Schema<CreateProjectResponse>;
 
 export interface CreateProjectBranchRequest {
   projectId: string;
@@ -1674,13 +1636,7 @@ export const CreateProjectBranchRequest = /*@__PURE__*/ S.suspend(() =>
     projectId: S.String.pipe(T.Label()),
     gitName: S.String,
     isDefault: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/projects/{projectId}/branches",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/projects/{projectId}/branches", code: 200 })),
 ).annotate({
   identifier: "CreateProjectBranchRequest",
 }) as any as S.Schema<CreateProjectBranchRequest>;
@@ -1788,6 +1744,7 @@ export const CreateProjectBranchAlchemyStateLeaseResponse = /*@__PURE__*/ S.susp
   identifier: "CreateProjectBranchAlchemyStateLeaseResponse",
 }) as any as S.Schema<CreateProjectBranchAlchemyStateLeaseResponse>;
 
+/** Use "inherit" to use the project's default region (falls back to the default database's region for projects without one). */
 export type CreateProjectDatabaseRequestRegion =
   | "us-east-1"
   | "us-west-1"
@@ -1801,7 +1758,6 @@ export const CreateProjectDatabaseRequestRegion = S.String;
 /** Deprecated: use `source` instead. */
 export interface CreateProjectDatabaseRequestFromDatabase {
   id: string;
-  /** The unique identifier for this backup */
   backupId?: string;
 }
 export const CreateProjectDatabaseRequestFromDatabase = /*@__PURE__*/ S.suspend(() =>
@@ -1836,6 +1792,7 @@ export const CreateProjectDatabaseRequestSource = /*@__PURE__*/ S.suspend(() =>
 
 export interface CreateProjectDatabaseRequest {
   projectId: string;
+  /** Use "inherit" to use the project's default region (falls back to the default database's region for projects without one). */
   region?: CreateProjectDatabaseRequestRegion | (string & {});
   name?: string;
   isDefault?: boolean;
@@ -1851,13 +1808,7 @@ export const CreateProjectDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     isDefault: S.optional(S.Boolean),
     fromDatabase: S.optional(CreateProjectDatabaseRequestFromDatabase),
     source: S.optional(CreateProjectDatabaseRequestSource),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/projects/{projectId}/databases",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/projects/{projectId}/databases", code: 200 })),
 ).annotate({
   identifier: "CreateProjectDatabaseRequest",
 }) as any as S.Schema<CreateProjectDatabaseRequest>;
@@ -2045,6 +1996,7 @@ export interface CreateProjectDatabaseResponseData {
   region: CreateDatabaseResponseDataRegion;
   source: CreateProjectDatabaseResponseDataSource | null;
   branchId: string | null;
+  logicalId: string | null;
   /** Deprecated: use `connections[]` instead. */
   apiKeys: CreateProjectDatabaseResponseDataApiKeysList;
   /** Deprecated: use `connections[].endpoints.direct.connectionString` or `connections[].endpoints.pooled.connectionString`. */
@@ -2067,6 +2019,7 @@ export const CreateProjectDatabaseResponseData = /*@__PURE__*/ S.suspend(() =>
     region: CreateDatabaseResponseDataRegion,
     source: S.NullOr(CreateProjectDatabaseResponseDataSource),
     branchId: S.NullOr(S.String),
+    logicalId: S.NullOr(S.String),
     apiKeys: CreateProjectDatabaseResponseDataApiKeysList,
     connectionString: S.NullOr(S.String).pipe(T.SensitiveValue({})),
     directConnection: S.NullOr(CreateConnectionResponseDataDirectConnection),
@@ -2110,18 +2063,14 @@ export const CreateScmInstallationsInstallIntentRequestProvider = S.String;
 export interface CreateScmInstallationsInstallIntentRequest {
   provider: CreateScmInstallationsInstallIntentRequestProvider | (string & {});
   workspaceId: string;
+  repository?: string;
 }
 export const CreateScmInstallationsInstallIntentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     provider: CreateScmInstallationsInstallIntentRequestProvider,
     workspaceId: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/scm-installations/install-intents",
-      code: 200,
-    }),
-  ),
+    repository: S.optional(S.String),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/scm-installations/install-intents", code: 200 })),
 ).annotate({
   identifier: "CreateScmInstallationsInstallIntentRequest",
 }) as any as S.Schema<CreateScmInstallationsInstallIntentRequest>;
@@ -2134,6 +2083,9 @@ export interface CreateScmInstallationsInstallIntentResponseData {
   provider: CreateScmInstallationsInstallIntentResponseDataProvider;
   workspaceId: string;
   installUrl: string;
+  alreadyLinked?: boolean;
+  accountLogin?: string;
+  hint?: string;
 }
 export const CreateScmInstallationsInstallIntentResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2141,6 +2093,9 @@ export const CreateScmInstallationsInstallIntentResponseData = /*@__PURE__*/ S.s
     provider: CreateScmInstallationsInstallIntentResponseDataProvider,
     workspaceId: S.String,
     installUrl: S.String,
+    alreadyLinked: S.optional(S.Boolean),
+    accountLogin: S.optional(S.String),
+    hint: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CreateScmInstallationsInstallIntentResponseData",
@@ -2172,6 +2127,8 @@ export interface CreateServiceRequest {
   branchId?: string | null;
   branchGitName?: string | null;
   projectId: string;
+  /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. */
+  logicalId?: string;
 }
 export const CreateServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2180,10 +2137,9 @@ export const CreateServiceRequest = /*@__PURE__*/ S.suspend(() =>
     branchId: S.optional(S.NullOr(S.String)),
     branchGitName: S.optional(S.NullOr(S.String)),
     projectId: S.String,
+    logicalId: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v1/services", code: 200 })),
-).annotate({
-  identifier: "CreateServiceRequest",
-}) as any as S.Schema<CreateServiceRequest>;
+).annotate({ identifier: "CreateServiceRequest" }) as any as S.Schema<CreateServiceRequest>;
 
 export type CreateServiceResponseDataRegion = CreateDatabaseResponseDataRegion;
 export const CreateServiceResponseDataRegion = CreateDatabaseResponseDataRegion;
@@ -2199,6 +2155,7 @@ export interface CreateServiceResponseData {
   latestDeploymentId: string | null;
   appEndpointDomain: string;
   createdAt: string;
+  logicalId: string | null;
 }
 export const CreateServiceResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2212,6 +2169,7 @@ export const CreateServiceResponseData = /*@__PURE__*/ S.suspend(() =>
     latestDeploymentId: S.NullOr(S.String),
     appEndpointDomain: S.String,
     createdAt: S.String,
+    logicalId: S.NullOr(S.String),
   }),
 ).annotate({
   identifier: "CreateServiceResponseData",
@@ -2224,9 +2182,7 @@ export const CreateServiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: CreateServiceResponseData,
   }),
-).annotate({
-  identifier: "CreateServiceResponse",
-}) as any as S.Schema<CreateServiceResponse>;
+).annotate({ identifier: "CreateServiceResponse" }) as any as S.Schema<CreateServiceResponse>;
 
 export interface CreateServiceDeploymentRequestPortMapping {
   http?: number | null;
@@ -2249,13 +2205,7 @@ export const CreateServiceDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.String.pipe(T.Label()),
     portMapping: S.optional(CreateServiceDeploymentRequestPortMapping),
     skipCodeUpload: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/services/{serviceId}/deployments",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/services/{serviceId}/deployments", code: 200 })),
 ).annotate({
   identifier: "CreateServiceDeploymentRequest",
 }) as any as S.Schema<CreateServiceDeploymentRequest>;
@@ -2298,13 +2248,7 @@ export const CreateServiceDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
     hostname: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/services/{serviceId}/domains",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/services/{serviceId}/domains", code: 200 })),
 ).annotate({
   identifier: "CreateServiceDomainRequest",
 }) as any as S.Schema<CreateServiceDomainRequest>;
@@ -2393,13 +2337,7 @@ export const CreateServicePromoteRequest = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.String.pipe(T.Label()),
     deploymentId: S.optional(S.String),
     versionId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/services/{serviceId}/promote",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/services/{serviceId}/promote", code: 200 })),
 ).annotate({
   identifier: "CreateServicePromoteRequest",
 }) as any as S.Schema<CreateServicePromoteRequest>;
@@ -2439,13 +2377,7 @@ export const CreateServiceRollbackRequest = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.String.pipe(T.Label()),
     deploymentId: S.optional(S.String),
     versionId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/services/{serviceId}/rollback",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/services/{serviceId}/rollback", code: 200 })),
 ).annotate({
   identifier: "CreateServiceRollbackRequest",
 }) as any as S.Schema<CreateServiceRollbackRequest>;
@@ -2525,14 +2457,53 @@ export const CreateSourceRepositoryResponseData = /*@__PURE__*/ S.suspend(() =>
 
 export interface CreateSourceRepositoryResponse {
   data: CreateSourceRepositoryResponseData;
+  hint?: string;
 }
 export const CreateSourceRepositoryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: CreateSourceRepositoryResponseData,
+    hint: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CreateSourceRepositoryResponse",
 }) as any as S.Schema<CreateSourceRepositoryResponse>;
+
+export interface CreateWorkspaceRequest {
+  displayName?: string;
+}
+export const CreateWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/workspaces", code: 200 })),
+).annotate({ identifier: "CreateWorkspaceRequest" }) as any as S.Schema<CreateWorkspaceRequest>;
+
+export interface CreateWorkspaceResponseData {
+  id: string;
+  type: string;
+  url: string;
+  name: string;
+  createdAt: string;
+}
+export const CreateWorkspaceResponseData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: S.String,
+    url: S.String,
+    name: S.String,
+    createdAt: S.String,
+  }),
+).annotate({
+  identifier: "CreateWorkspaceResponseData",
+}) as any as S.Schema<CreateWorkspaceResponseData>;
+
+export interface CreateWorkspaceResponse {
+  data: CreateWorkspaceResponseData;
+}
+export const CreateWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: CreateWorkspaceResponseData,
+  }),
+).annotate({ identifier: "CreateWorkspaceResponse" }) as any as S.Schema<CreateWorkspaceResponse>;
 
 export interface CreateWorkspaceServiceTokenRequest {
   workspaceId: string;
@@ -2544,11 +2515,7 @@ export const CreateWorkspaceServiceTokenRequest = /*@__PURE__*/ S.suspend(() =>
     workspaceId: S.String.pipe(T.Label()),
     name: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/workspaces/{workspaceId}/service-tokens",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/workspaces/{workspaceId}/service-tokens", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateWorkspaceServiceTokenRequest",
@@ -2595,9 +2562,7 @@ export const DeleteBranchRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     branchId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v1/branches/{branchId}", code: 200 })),
-).annotate({
-  identifier: "DeleteBranchRequest",
-}) as any as S.Schema<DeleteBranchRequest>;
+).annotate({ identifier: "DeleteBranchRequest" }) as any as S.Schema<DeleteBranchRequest>;
 
 export interface DeleteBranchResponse {}
 export const DeleteBranchResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2611,9 +2576,7 @@ export const DeleteBucketRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     bucketId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v1/buckets/{bucketId}", code: 200 })),
-).annotate({
-  identifier: "DeleteBucketRequest",
-}) as any as S.Schema<DeleteBucketRequest>;
+).annotate({ identifier: "DeleteBucketRequest" }) as any as S.Schema<DeleteBucketRequest>;
 
 export interface DeleteBucketResponse {}
 export const DeleteBucketResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2628,16 +2591,8 @@ export const DeleteBucketKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     bucketId: S.String.pipe(T.Label()),
     keyId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/buckets/{bucketId}/keys/{keyId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteBucketKeyRequest",
-}) as any as S.Schema<DeleteBucketKeyRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/buckets/{bucketId}/keys/{keyId}", code: 200 })),
+).annotate({ identifier: "DeleteBucketKeyRequest" }) as any as S.Schema<DeleteBucketKeyRequest>;
 
 export interface DeleteBucketKeyResponse {}
 export const DeleteBucketKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2651,9 +2606,7 @@ export const DeleteConnectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v1/connections/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteConnectionRequest",
-}) as any as S.Schema<DeleteConnectionRequest>;
+).annotate({ identifier: "DeleteConnectionRequest" }) as any as S.Schema<DeleteConnectionRequest>;
 
 export interface DeleteConnectionResponse {}
 export const DeleteConnectionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2667,9 +2620,7 @@ export const DeleteDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     databaseId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v1/databases/{databaseId}", code: 200 })),
-).annotate({
-  identifier: "DeleteDatabaseRequest",
-}) as any as S.Schema<DeleteDatabaseRequest>;
+).annotate({ identifier: "DeleteDatabaseRequest" }) as any as S.Schema<DeleteDatabaseRequest>;
 
 export interface DeleteDatabaseResponse {}
 export const DeleteDatabaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2682,16 +2633,8 @@ export interface DeleteDeploymentRequest {
 export const DeleteDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deploymentId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/deployments/{deploymentId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteDeploymentRequest",
-}) as any as S.Schema<DeleteDeploymentRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/deployments/{deploymentId}", code: 200 })),
+).annotate({ identifier: "DeleteDeploymentRequest" }) as any as S.Schema<DeleteDeploymentRequest>;
 
 export interface DeleteDeploymentResponse {}
 export const DeleteDeploymentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2705,9 +2648,7 @@ export const DeleteDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domainId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v1/domains/{domainId}", code: 200 })),
-).annotate({
-  identifier: "DeleteDomainRequest",
-}) as any as S.Schema<DeleteDomainRequest>;
+).annotate({ identifier: "DeleteDomainRequest" }) as any as S.Schema<DeleteDomainRequest>;
 
 export interface DeleteDomainResponse {}
 export const DeleteDomainResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2720,13 +2661,7 @@ export interface DeleteEnvironmentVariableRequest {
 export const DeleteEnvironmentVariableRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     envVarId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/environment-variables/{envVarId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/environment-variables/{envVarId}", code: 200 })),
 ).annotate({
   identifier: "DeleteEnvironmentVariableRequest",
 }) as any as S.Schema<DeleteEnvironmentVariableRequest>;
@@ -2745,9 +2680,7 @@ export const DeleteIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v1/integrations/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteIntegrationRequest",
-}) as any as S.Schema<DeleteIntegrationRequest>;
+).annotate({ identifier: "DeleteIntegrationRequest" }) as any as S.Schema<DeleteIntegrationRequest>;
 
 export interface DeleteIntegrationResponse {}
 export const DeleteIntegrationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2761,9 +2694,7 @@ export const DeleteProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v1/projects/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteProjectRequest",
-}) as any as S.Schema<DeleteProjectRequest>;
+).annotate({ identifier: "DeleteProjectRequest" }) as any as S.Schema<DeleteProjectRequest>;
 
 export interface DeleteProjectResponse {}
 export const DeleteProjectResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2865,9 +2796,7 @@ export const DeleteServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v1/services/{serviceId}", code: 200 })),
-).annotate({
-  identifier: "DeleteServiceRequest",
-}) as any as S.Schema<DeleteServiceRequest>;
+).annotate({ identifier: "DeleteServiceRequest" }) as any as S.Schema<DeleteServiceRequest>;
 
 export interface DeleteServiceResponse {}
 export const DeleteServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2880,13 +2809,7 @@ export interface DeleteSourceRepositoryRequest {
 export const DeleteSourceRepositoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/source-repositories/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/source-repositories/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteSourceRepositoryRequest",
 }) as any as S.Schema<DeleteSourceRepositoryRequest>;
@@ -2948,6 +2871,43 @@ export const DeleteWorkspaceServiceTokenResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteWorkspaceServiceTokenResponse",
 }) as any as S.Schema<DeleteWorkspaceServiceTokenResponse>;
 
+export interface GetAgentApprovalRequest {
+  approvalId: string;
+}
+export const GetAgentApprovalRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    approvalId: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/agent-approvals/{approvalId}", code: 200 })),
+).annotate({ identifier: "GetAgentApprovalRequest" }) as any as S.Schema<GetAgentApprovalRequest>;
+
+export type GetAgentApprovalResponseStatus =
+  | "pending"
+  | "approved"
+  | "approved_window"
+  | "denied"
+  | "expired"
+  | "consumed";
+export const GetAgentApprovalResponseStatus = S.String;
+
+export interface GetAgentApprovalResponse {
+  id: string;
+  status: GetAgentApprovalResponseStatus;
+  expiresAt: string;
+  windowExpiresAt: string | null;
+  decidedAt: string | null;
+  hint?: string;
+}
+export const GetAgentApprovalResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    status: GetAgentApprovalResponseStatus,
+    expiresAt: S.String,
+    windowExpiresAt: S.NullOr(S.String),
+    decidedAt: S.NullOr(S.String),
+    hint: S.optional(S.String),
+  }),
+).annotate({ identifier: "GetAgentApprovalResponse" }) as any as S.Schema<GetAgentApprovalResponse>;
+
 export interface GetBranchRequest {
   branchId: string;
 }
@@ -2955,9 +2915,7 @@ export const GetBranchRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     branchId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/branches/{branchId}", code: 200 })),
-).annotate({
-  identifier: "GetBranchRequest",
-}) as any as S.Schema<GetBranchRequest>;
+).annotate({ identifier: "GetBranchRequest" }) as any as S.Schema<GetBranchRequest>;
 
 export type GetBranchResponseDataRole = "production" | "preview";
 export const GetBranchResponseDataRole = S.String;
@@ -2990,9 +2948,7 @@ export const GetBranchResponseData = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.String,
     project: CreateBucketResponseDataProject,
   }),
-).annotate({
-  identifier: "GetBranchResponseData",
-}) as any as S.Schema<GetBranchResponseData>;
+).annotate({ identifier: "GetBranchResponseData" }) as any as S.Schema<GetBranchResponseData>;
 
 export interface GetBranchResponse {
   data: GetBranchResponseData;
@@ -3001,9 +2957,7 @@ export const GetBranchResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: GetBranchResponseData,
   }),
-).annotate({
-  identifier: "GetBranchResponse",
-}) as any as S.Schema<GetBranchResponse>;
+).annotate({ identifier: "GetBranchResponse" }) as any as S.Schema<GetBranchResponse>;
 
 export interface GetBucketRequest {
   bucketId: string;
@@ -3012,9 +2966,7 @@ export const GetBucketRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     bucketId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/buckets/{bucketId}", code: 200 })),
-).annotate({
-  identifier: "GetBucketRequest",
-}) as any as S.Schema<GetBucketRequest>;
+).annotate({ identifier: "GetBucketRequest" }) as any as S.Schema<GetBucketRequest>;
 
 export type GetBucketResponseDataProject = CreateBucketResponseDataProject;
 export const GetBucketResponseDataProject = CreateBucketResponseDataProject;
@@ -3029,9 +2981,7 @@ export const GetBucketResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: CreateBucketResponseData,
   }),
-).annotate({
-  identifier: "GetBucketResponse",
-}) as any as S.Schema<GetBucketResponse>;
+).annotate({ identifier: "GetBucketResponse" }) as any as S.Schema<GetBucketResponse>;
 
 export interface GetBucketKeysRequest {
   bucketId: string;
@@ -3044,9 +2994,7 @@ export const GetBucketKeysRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/buckets/{bucketId}/keys", code: 200 })),
-).annotate({
-  identifier: "GetBucketKeysRequest",
-}) as any as S.Schema<GetBucketKeysRequest>;
+).annotate({ identifier: "GetBucketKeysRequest" }) as any as S.Schema<GetBucketKeysRequest>;
 
 export type GetBucketKeysResponseDataItemRole = "read" | "read_write";
 export const GetBucketKeysResponseDataItemRole = S.String;
@@ -3101,14 +3049,13 @@ export const GetBucketKeysResponse = /*@__PURE__*/ S.suspend(() =>
     data: GetBucketKeysResponseDataList,
     pagination: GetBucketKeysResponsePagination,
   }),
-).annotate({
-  identifier: "GetBucketKeysResponse",
-}) as any as S.Schema<GetBucketKeysResponse>;
+).annotate({ identifier: "GetBucketKeysResponse" }) as any as S.Schema<GetBucketKeysResponse>;
 
 export interface GetBucketsRequest {
   cursor?: string;
   limit?: number;
   projectId?: string;
+  logicalId?: string;
   branchId?: string;
   branchGitName?: string;
 }
@@ -3117,12 +3064,11 @@ export const GetBucketsRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     projectId: S.optional(S.String.pipe(T.Query())),
+    logicalId: S.optional(S.String.pipe(T.Query())),
     branchId: S.optional(S.String.pipe(T.Query())),
     branchGitName: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/buckets", code: 200 })),
-).annotate({
-  identifier: "GetBucketsRequest",
-}) as any as S.Schema<GetBucketsRequest>;
+).annotate({ identifier: "GetBucketsRequest" }) as any as S.Schema<GetBucketsRequest>;
 
 export type GetBucketsResponseDataItemProject = CreateBucketResponseDataProject;
 export const GetBucketsResponseDataItemProject = CreateBucketResponseDataProject;
@@ -3147,9 +3093,7 @@ export const GetBucketsResponse = /*@__PURE__*/ S.suspend(() =>
     data: GetBucketsResponseDataList,
     pagination: GetBucketKeysResponsePagination,
   }),
-).annotate({
-  identifier: "GetBucketsResponse",
-}) as any as S.Schema<GetBucketsResponse>;
+).annotate({ identifier: "GetBucketsResponse" }) as any as S.Schema<GetBucketsResponse>;
 
 export interface GetBuildRequest {
   buildId: string;
@@ -3158,9 +3102,7 @@ export const GetBuildRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     buildId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/builds/{buildId}", code: 200 })),
-).annotate({
-  identifier: "GetBuildRequest",
-}) as any as S.Schema<GetBuildRequest>;
+).annotate({ identifier: "GetBuildRequest" }) as any as S.Schema<GetBuildRequest>;
 
 export type GetBuildResponseDataSource = "webhook" | "setup" | "manual" | "ci" | "cli";
 export const GetBuildResponseDataSource = S.String;
@@ -3257,9 +3199,7 @@ export const GetBuildResponseData = /*@__PURE__*/ S.suspend(() =>
     finishedAt: S.NullOr(S.String),
     resources: GetBuildResponseDataResourcesList,
   }),
-).annotate({
-  identifier: "GetBuildResponseData",
-}) as any as S.Schema<GetBuildResponseData>;
+).annotate({ identifier: "GetBuildResponseData" }) as any as S.Schema<GetBuildResponseData>;
 
 export interface GetBuildResponse {
   data: GetBuildResponseData;
@@ -3268,29 +3208,7 @@ export const GetBuildResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: GetBuildResponseData,
   }),
-).annotate({
-  identifier: "GetBuildResponse",
-}) as any as S.Schema<GetBuildResponse>;
-
-export interface GetBuildLogsRequest {
-  buildId: string;
-  follow?: boolean;
-  cursor?: string;
-}
-export const GetBuildLogsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    buildId: S.String.pipe(T.Label()),
-    follow: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
-    cursor: S.optional(S.String.pipe(T.Query())),
-  }).pipe(T.Http({ method: "GET", uri: "/v1/builds/{buildId}/logs", code: 200 })),
-).annotate({
-  identifier: "GetBuildLogsRequest",
-}) as any as S.Schema<GetBuildLogsRequest>;
-
-export interface GetBuildLogsResponse {}
-export const GetBuildLogsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "GetBuildLogsResponse",
-}) as any as S.Schema<GetBuildLogsResponse>;
+).annotate({ identifier: "GetBuildResponse" }) as any as S.Schema<GetBuildResponse>;
 
 export type GetBuildsRequestState = "pending" | "running" | "succeeded" | "failed" | "cancelled";
 export const GetBuildsRequestState = S.String;
@@ -3310,9 +3228,7 @@ export const GetBuildsRequest = /*@__PURE__*/ S.suspend(() =>
     branchId: S.optional(S.String.pipe(T.Query())),
     state: S.optional(GetBuildsRequestState.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/builds", code: 200 })),
-).annotate({
-  identifier: "GetBuildsRequest",
-}) as any as S.Schema<GetBuildsRequest>;
+).annotate({ identifier: "GetBuildsRequest" }) as any as S.Schema<GetBuildsRequest>;
 
 export type GetBuildsResponseDataItemSource = "webhook" | "setup" | "manual" | "ci" | "cli";
 export const GetBuildsResponseDataItemSource = S.String;
@@ -3391,9 +3307,7 @@ export const GetBuildsResponse = /*@__PURE__*/ S.suspend(() =>
     data: GetBuildsResponseDataList,
     pagination: GetBucketKeysResponsePagination,
   }),
-).annotate({
-  identifier: "GetBuildsResponse",
-}) as any as S.Schema<GetBuildsResponse>;
+).annotate({ identifier: "GetBuildsResponse" }) as any as S.Schema<GetBuildsResponse>;
 
 export interface GetConnectionRequest {
   id: string;
@@ -3402,9 +3316,7 @@ export const GetConnectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/connections/{id}", code: 200 })),
-).annotate({
-  identifier: "GetConnectionRequest",
-}) as any as S.Schema<GetConnectionRequest>;
+).annotate({ identifier: "GetConnectionRequest" }) as any as S.Schema<GetConnectionRequest>;
 
 export type GetConnectionResponseDataKind = "postgres" | "accelerate";
 export const GetConnectionResponseDataKind = S.String;
@@ -3473,9 +3385,7 @@ export const GetConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: GetConnectionResponseData,
   }),
-).annotate({
-  identifier: "GetConnectionResponse",
-}) as any as S.Schema<GetConnectionResponse>;
+).annotate({ identifier: "GetConnectionResponse" }) as any as S.Schema<GetConnectionResponse>;
 
 export interface GetConnectionsRequest {
   cursor?: string;
@@ -3488,9 +3398,7 @@ export const GetConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     databaseId: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/connections", code: 200 })),
-).annotate({
-  identifier: "GetConnectionsRequest",
-}) as any as S.Schema<GetConnectionsRequest>;
+).annotate({ identifier: "GetConnectionsRequest" }) as any as S.Schema<GetConnectionsRequest>;
 
 export type GetConnectionsResponseDataItemKind = "postgres" | "accelerate";
 export const GetConnectionsResponseDataItemKind = S.String;
@@ -3569,9 +3477,7 @@ export const GetConnectionsResponse = /*@__PURE__*/ S.suspend(() =>
     data: GetConnectionsResponseDataList,
     pagination: GetBucketKeysResponsePagination,
   }),
-).annotate({
-  identifier: "GetConnectionsResponse",
-}) as any as S.Schema<GetConnectionsResponse>;
+).annotate({ identifier: "GetConnectionsResponse" }) as any as S.Schema<GetConnectionsResponse>;
 
 export interface GetDatabaseRequest {
   databaseId: string;
@@ -3580,9 +3486,7 @@ export const GetDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     databaseId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/databases/{databaseId}", code: 200 })),
-).annotate({
-  identifier: "GetDatabaseRequest",
-}) as any as S.Schema<GetDatabaseRequest>;
+).annotate({ identifier: "GetDatabaseRequest" }) as any as S.Schema<GetDatabaseRequest>;
 
 export type GetDatabaseResponseDataStatus = "failure" | "provisioning" | "ready" | "recovering";
 export const GetDatabaseResponseDataStatus = S.String;
@@ -3693,6 +3597,7 @@ export interface GetDatabaseResponseData {
   region: CreateDatabaseResponseDataRegion | null;
   source: GetDatabaseResponseDataSource | null;
   branchId: string | null;
+  logicalId: string | null;
 }
 export const GetDatabaseResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3709,10 +3614,9 @@ export const GetDatabaseResponseData = /*@__PURE__*/ S.suspend(() =>
     region: S.NullOr(CreateDatabaseResponseDataRegion),
     source: S.NullOr(GetDatabaseResponseDataSource),
     branchId: S.NullOr(S.String),
+    logicalId: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "GetDatabaseResponseData",
-}) as any as S.Schema<GetDatabaseResponseData>;
+).annotate({ identifier: "GetDatabaseResponseData" }) as any as S.Schema<GetDatabaseResponseData>;
 
 export interface GetDatabaseResponse {
   data: GetDatabaseResponseData;
@@ -3721,9 +3625,7 @@ export const GetDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: GetDatabaseResponseData,
   }),
-).annotate({
-  identifier: "GetDatabaseResponse",
-}) as any as S.Schema<GetDatabaseResponse>;
+).annotate({ identifier: "GetDatabaseResponse" }) as any as S.Schema<GetDatabaseResponse>;
 
 export interface GetDatabaseBackupsRequest {
   databaseId: string;
@@ -3733,22 +3635,14 @@ export const GetDatabaseBackupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     databaseId: S.String.pipe(T.Label()),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/databases/{databaseId}/backups",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/databases/{databaseId}/backups", code: 200 })),
 ).annotate({
   identifier: "GetDatabaseBackupsRequest",
 }) as any as S.Schema<GetDatabaseBackupsRequest>;
 
-/** Type of backup */
 export type GetDatabaseBackupsResponseDataItemBackupType = "full" | "incremental" | "differential";
 export const GetDatabaseBackupsResponseDataItemBackupType = S.String;
 
-/** Status of backup instance */
 export type GetDatabaseBackupsResponseDataItemStatus =
   | "running"
   | "completed"
@@ -3757,15 +3651,10 @@ export type GetDatabaseBackupsResponseDataItemStatus =
 export const GetDatabaseBackupsResponseDataItemStatus = S.String;
 
 export interface GetDatabaseBackupsResponseDataItem {
-  /** The unique identifier for this backup */
   id: string;
-  /** Type of backup */
   backupType: GetDatabaseBackupsResponseDataItemBackupType;
-  /** Timestamp when the backup was created */
   createdAt: string;
-  /** Total file size (in MiB) of gzipped backup files */
   size?: number;
-  /** Status of backup instance */
   status: GetDatabaseBackupsResponseDataItemStatus;
   type?: string;
 }
@@ -3836,13 +3725,7 @@ export const GetDatabaseConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
     databaseId: S.String.pipe(T.Label()),
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/databases/{databaseId}/connections",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/databases/{databaseId}/connections", code: 200 })),
 ).annotate({
   identifier: "GetDatabaseConnectionsRequest",
 }) as any as S.Schema<GetDatabaseConnectionsRequest>;
@@ -3932,6 +3815,7 @@ export interface GetDatabasesRequest {
   cursor?: string;
   limit?: number;
   projectId?: string;
+  logicalId?: string;
   branchId?: string;
   branchGitName?: string;
 }
@@ -3940,12 +3824,11 @@ export const GetDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     projectId: S.optional(S.String.pipe(T.Query())),
+    logicalId: S.optional(S.String.pipe(T.Query())),
     branchId: S.optional(S.String.pipe(T.Query())),
     branchGitName: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/databases", code: 200 })),
-).annotate({
-  identifier: "GetDatabasesRequest",
-}) as any as S.Schema<GetDatabasesRequest>;
+).annotate({ identifier: "GetDatabasesRequest" }) as any as S.Schema<GetDatabasesRequest>;
 
 export type GetDatabasesResponseDataItemStatus =
   | "failure"
@@ -4061,6 +3944,7 @@ export interface GetDatabasesResponseDataItem {
   region: CreateDatabaseResponseDataRegion | null;
   source: GetDatabasesResponseDataItemSource | null;
   branchId: string | null;
+  logicalId: string | null;
 }
 export const GetDatabasesResponseDataItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4077,6 +3961,7 @@ export const GetDatabasesResponseDataItem = /*@__PURE__*/ S.suspend(() =>
     region: S.NullOr(CreateDatabaseResponseDataRegion),
     source: S.NullOr(GetDatabasesResponseDataItemSource),
     branchId: S.NullOr(S.String),
+    logicalId: S.NullOr(S.String),
   }),
 ).annotate({
   identifier: "GetDatabasesResponseDataItem",
@@ -4099,9 +3984,7 @@ export const GetDatabasesResponse = /*@__PURE__*/ S.suspend(() =>
     data: GetDatabasesResponseDataList,
     pagination: GetBucketKeysResponsePagination,
   }),
-).annotate({
-  identifier: "GetDatabasesResponse",
-}) as any as S.Schema<GetDatabasesResponse>;
+).annotate({ identifier: "GetDatabasesResponse" }) as any as S.Schema<GetDatabasesResponse>;
 
 export interface GetDatabaseUsageRequest {
   databaseId: string;
@@ -4113,16 +3996,8 @@ export const GetDatabaseUsageRequest = /*@__PURE__*/ S.suspend(() =>
     databaseId: S.String.pipe(T.Label()),
     startDate: S.optional(S.String.pipe(T.Query())),
     endDate: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/databases/{databaseId}/usage",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDatabaseUsageRequest",
-}) as any as S.Schema<GetDatabaseUsageRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/databases/{databaseId}/usage", code: 200 })),
+).annotate({ identifier: "GetDatabaseUsageRequest" }) as any as S.Schema<GetDatabaseUsageRequest>;
 
 export interface GetDatabaseUsageResponsePeriod {
   start: string;
@@ -4177,9 +4052,7 @@ export const GetDatabaseUsageResponse = /*@__PURE__*/ S.suspend(() =>
     metrics: GetDatabaseUsageResponseMetrics,
     generatedAt: S.String,
   }),
-).annotate({
-  identifier: "GetDatabaseUsageResponse",
-}) as any as S.Schema<GetDatabaseUsageResponse>;
+).annotate({ identifier: "GetDatabaseUsageResponse" }) as any as S.Schema<GetDatabaseUsageResponse>;
 
 export interface GetDeploymentRequest {
   deploymentId: string;
@@ -4188,14 +4061,10 @@ export const GetDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deploymentId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/deployments/{deploymentId}", code: 200 })),
-).annotate({
-  identifier: "GetDeploymentRequest",
-}) as any as S.Schema<GetDeploymentRequest>;
+).annotate({ identifier: "GetDeploymentRequest" }) as any as S.Schema<GetDeploymentRequest>;
 
 /** Environment variable names present on this compute version. Values are always redacted as "[redacted]" and must not be treated as deployed secret values. */
-export type GetDeploymentResponseDataEnvVarsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDeploymentResponseDataEnvVarsMap = { [key: string]: string | undefined };
 export const GetDeploymentResponseDataEnvVarsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4249,9 +4118,7 @@ export const GetDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: GetDeploymentResponseData,
   }),
-).annotate({
-  identifier: "GetDeploymentResponse",
-}) as any as S.Schema<GetDeploymentResponse>;
+).annotate({ identifier: "GetDeploymentResponse" }) as any as S.Schema<GetDeploymentResponse>;
 
 export interface GetDeploymentLogsRequest {
   deploymentId: string;
@@ -4265,16 +4132,8 @@ export const GetDeploymentLogsRequest = /*@__PURE__*/ S.suspend(() =>
     tail: S.optional(S.Number.pipe(T.Query())),
     from_start: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     cursor: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/deployments/{deploymentId}/logs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDeploymentLogsRequest",
-}) as any as S.Schema<GetDeploymentLogsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/deployments/{deploymentId}/logs", code: 200 })),
+).annotate({ identifier: "GetDeploymentLogsRequest" }) as any as S.Schema<GetDeploymentLogsRequest>;
 
 export interface GetDeploymentLogsResponse {}
 export const GetDeploymentLogsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4288,9 +4147,7 @@ export const GetDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domainId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/domains/{domainId}", code: 200 })),
-).annotate({
-  identifier: "GetDomainRequest",
-}) as any as S.Schema<GetDomainRequest>;
+).annotate({ identifier: "GetDomainRequest" }) as any as S.Schema<GetDomainRequest>;
 
 export type GetDomainResponseDataStatus =
   | "pending_dns"
@@ -4348,9 +4205,7 @@ export const GetDomainResponseData = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.String,
     dnsRecords: GetDomainResponseDataDnsRecordsList,
   }),
-).annotate({
-  identifier: "GetDomainResponseData",
-}) as any as S.Schema<GetDomainResponseData>;
+).annotate({ identifier: "GetDomainResponseData" }) as any as S.Schema<GetDomainResponseData>;
 
 export interface GetDomainResponse {
   data: GetDomainResponseData;
@@ -4359,9 +4214,7 @@ export const GetDomainResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: GetDomainResponseData,
   }),
-).annotate({
-  identifier: "GetDomainResponse",
-}) as any as S.Schema<GetDomainResponse>;
+).annotate({ identifier: "GetDomainResponse" }) as any as S.Schema<GetDomainResponse>;
 
 export interface GetEnvironmentVariableRequest {
   envVarId: string;
@@ -4369,13 +4222,7 @@ export interface GetEnvironmentVariableRequest {
 export const GetEnvironmentVariableRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     envVarId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/environment-variables/{envVarId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/environment-variables/{envVarId}", code: 200 })),
 ).annotate({
   identifier: "GetEnvironmentVariableRequest",
 }) as any as S.Schema<GetEnvironmentVariableRequest>;
@@ -4512,9 +4359,7 @@ export const GetIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/integrations/{id}", code: 200 })),
-).annotate({
-  identifier: "GetIntegrationRequest",
-}) as any as S.Schema<GetIntegrationRequest>;
+).annotate({ identifier: "GetIntegrationRequest" }) as any as S.Schema<GetIntegrationRequest>;
 
 export type GetIntegrationResponseDataScopesList = Array<string>;
 export const GetIntegrationResponseDataScopesList = /*@__PURE__*/ S.Array(
@@ -4579,9 +4424,7 @@ export const GetIntegrationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: GetIntegrationResponseData,
   }),
-).annotate({
-  identifier: "GetIntegrationResponse",
-}) as any as S.Schema<GetIntegrationResponse>;
+).annotate({ identifier: "GetIntegrationResponse" }) as any as S.Schema<GetIntegrationResponse>;
 
 export interface GetIntegrationsRequest {
   cursor?: string;
@@ -4594,9 +4437,7 @@ export const GetIntegrationsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     workspaceId: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/integrations", code: 200 })),
-).annotate({
-  identifier: "GetIntegrationsRequest",
-}) as any as S.Schema<GetIntegrationsRequest>;
+).annotate({ identifier: "GetIntegrationsRequest" }) as any as S.Schema<GetIntegrationsRequest>;
 
 export type GetIntegrationsResponseDataItemScopesList = Array<string>;
 export const GetIntegrationsResponseDataItemScopesList = /*@__PURE__*/ S.Array(
@@ -4647,9 +4488,7 @@ export const GetIntegrationsResponse = /*@__PURE__*/ S.suspend(() =>
     data: GetIntegrationsResponseDataList,
     pagination: GetBucketKeysResponsePagination,
   }),
-).annotate({
-  identifier: "GetIntegrationsResponse",
-}) as any as S.Schema<GetIntegrationsResponse>;
+).annotate({ identifier: "GetIntegrationsResponse" }) as any as S.Schema<GetIntegrationsResponse>;
 
 export interface GetMeRequest {}
 export const GetMeRequest = /*@__PURE__*/ S.suspend(() =>
@@ -4667,14 +4506,16 @@ export const GetMeResponseDataUser = /*@__PURE__*/ S.suspend(() =>
     email: S.String,
     name: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "GetMeResponseDataUser",
-}) as any as S.Schema<GetMeResponseDataUser>;
+).annotate({ identifier: "GetMeResponseDataUser" }) as any as S.Schema<GetMeResponseDataUser>;
 
 export type GetMeResponseDataWorkspace = CreateDatabaseResponseDataRegion;
 export const GetMeResponseDataWorkspace = CreateDatabaseResponseDataRegion;
 
-export type GetMeResponseDataCredentialType = "oauth" | "service_token" | "management_token";
+export type GetMeResponseDataCredentialType =
+  | "oauth"
+  | "service_token"
+  | "management_token"
+  | "agent_token";
 export const GetMeResponseDataCredentialType = S.String;
 
 export interface GetMeResponseDataCredential {
@@ -4703,9 +4544,7 @@ export const GetMeResponseData = /*@__PURE__*/ S.suspend(() =>
     workspace: S.NullOr(CreateDatabaseResponseDataRegion),
     credential: GetMeResponseDataCredential,
   }),
-).annotate({
-  identifier: "GetMeResponseData",
-}) as any as S.Schema<GetMeResponseData>;
+).annotate({ identifier: "GetMeResponseData" }) as any as S.Schema<GetMeResponseData>;
 
 export interface GetMeResponse {
   data: GetMeResponseData;
@@ -4723,9 +4562,7 @@ export const GetProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/projects/{id}", code: 200 })),
-).annotate({
-  identifier: "GetProjectRequest",
-}) as any as S.Schema<GetProjectRequest>;
+).annotate({ identifier: "GetProjectRequest" }) as any as S.Schema<GetProjectRequest>;
 
 export type GetProjectResponseDataWorkspace = CreateBucketResponseDataProject;
 export const GetProjectResponseDataWorkspace = CreateBucketResponseDataProject;
@@ -4751,9 +4588,7 @@ export const GetProjectResponseData = /*@__PURE__*/ S.suspend(() =>
     defaultRegion: S.NullOr(S.String),
     workspace: CreateBucketResponseDataProject,
   }),
-).annotate({
-  identifier: "GetProjectResponseData",
-}) as any as S.Schema<GetProjectResponseData>;
+).annotate({ identifier: "GetProjectResponseData" }) as any as S.Schema<GetProjectResponseData>;
 
 export interface GetProjectResponse {
   data: GetProjectResponseData;
@@ -4762,9 +4597,7 @@ export const GetProjectResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: GetProjectResponseData,
   }),
-).annotate({
-  identifier: "GetProjectResponse",
-}) as any as S.Schema<GetProjectResponse>;
+).annotate({ identifier: "GetProjectResponse" }) as any as S.Schema<GetProjectResponse>;
 
 export interface GetProjectBranchAlchemyStateStateStacksRequest {
   projectId: string;
@@ -5196,13 +5029,7 @@ export const GetProjectBranchesRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     gitName: S.optional(S.String.pipe(T.Query())),
     gitNameContains: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/projects/{projectId}/branches",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/projects/{projectId}/branches", code: 200 })),
 ).annotate({
   identifier: "GetProjectBranchesRequest",
 }) as any as S.Schema<GetProjectBranchesRequest>;
@@ -5283,13 +5110,7 @@ export const GetProjectDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
     projectId: S.String.pipe(T.Label()),
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/projects/{projectId}/databases",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/projects/{projectId}/databases", code: 200 })),
 ).annotate({
   identifier: "GetProjectDatabasesRequest",
 }) as any as S.Schema<GetProjectDatabasesRequest>;
@@ -5410,6 +5231,7 @@ export interface GetProjectDatabasesResponseDataItem {
   region: CreateDatabaseResponseDataRegion | null;
   source: GetProjectDatabasesResponseDataItemSource | null;
   branchId: string | null;
+  logicalId: string | null;
 }
 export const GetProjectDatabasesResponseDataItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5426,6 +5248,7 @@ export const GetProjectDatabasesResponseDataItem = /*@__PURE__*/ S.suspend(() =>
     region: S.NullOr(CreateDatabaseResponseDataRegion),
     source: S.NullOr(GetProjectDatabasesResponseDataItemSource),
     branchId: S.NullOr(S.String),
+    logicalId: S.NullOr(S.String),
   }),
 ).annotate({
   identifier: "GetProjectDatabasesResponseDataItem",
@@ -5463,9 +5286,7 @@ export const GetProjectsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     logicalId: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/projects", code: 200 })),
-).annotate({
-  identifier: "GetProjectsRequest",
-}) as any as S.Schema<GetProjectsRequest>;
+).annotate({ identifier: "GetProjectsRequest" }) as any as S.Schema<GetProjectsRequest>;
 
 export type GetProjectsResponseDataItemWorkspace = CreateBucketResponseDataProject;
 export const GetProjectsResponseDataItemWorkspace = CreateBucketResponseDataProject;
@@ -5490,9 +5311,7 @@ export const GetProjectsResponse = /*@__PURE__*/ S.suspend(() =>
     data: GetProjectsResponseDataList,
     pagination: GetBucketKeysResponsePagination,
   }),
-).annotate({
-  identifier: "GetProjectsResponse",
-}) as any as S.Schema<GetProjectsResponse>;
+).annotate({ identifier: "GetProjectsResponse" }) as any as S.Schema<GetProjectsResponse>;
 
 export type GetRegionsRequestProduct = "postgres" | "accelerate";
 export const GetRegionsRequestProduct = S.String;
@@ -5504,9 +5323,7 @@ export const GetRegionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     product: S.optional(GetRegionsRequestProduct.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/regions", code: 200 })),
-).annotate({
-  identifier: "GetRegionsRequest",
-}) as any as S.Schema<GetRegionsRequest>;
+).annotate({ identifier: "GetRegionsRequest" }) as any as S.Schema<GetRegionsRequest>;
 
 export type GetRegionsResponseDataItemProduct = "postgres" | "accelerate";
 export const GetRegionsResponseDataItemProduct = S.String;
@@ -5545,9 +5362,7 @@ export const GetRegionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: GetRegionsResponseDataList,
   }),
-).annotate({
-  identifier: "GetRegionsResponse",
-}) as any as S.Schema<GetRegionsResponse>;
+).annotate({ identifier: "GetRegionsResponse" }) as any as S.Schema<GetRegionsResponse>;
 
 export interface GetRegionsAccelerateRequest {}
 export const GetRegionsAccelerateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -5699,12 +5514,14 @@ export interface GetScmInstallationsRequest {
   cursor?: string;
   limit?: number;
   workspaceId: string;
+  repository?: string;
 }
 export const GetScmInstallationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     workspaceId: S.String.pipe(T.Query()),
+    repository: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/scm-installations", code: 200 })),
 ).annotate({
   identifier: "GetScmInstallationsRequest",
@@ -5760,11 +5577,13 @@ export const GetScmInstallationsResponsePagination = GetBucketKeysResponsePagina
 export interface GetScmInstallationsResponse {
   data: GetScmInstallationsResponseDataList;
   pagination: GetBucketKeysResponsePagination;
+  hint?: string;
 }
 export const GetScmInstallationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: GetScmInstallationsResponseDataList,
     pagination: GetBucketKeysResponsePagination,
+    hint: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GetScmInstallationsResponse",
@@ -5777,9 +5596,7 @@ export const GetServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/services/{serviceId}", code: 200 })),
-).annotate({
-  identifier: "GetServiceRequest",
-}) as any as S.Schema<GetServiceRequest>;
+).annotate({ identifier: "GetServiceRequest" }) as any as S.Schema<GetServiceRequest>;
 
 export type GetServiceResponseDataRegion = CreateDatabaseResponseDataRegion;
 export const GetServiceResponseDataRegion = CreateDatabaseResponseDataRegion;
@@ -5794,9 +5611,7 @@ export const GetServiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: CreateServiceResponseData,
   }),
-).annotate({
-  identifier: "GetServiceResponse",
-}) as any as S.Schema<GetServiceResponse>;
+).annotate({ identifier: "GetServiceResponse" }) as any as S.Schema<GetServiceResponse>;
 
 export interface GetServiceDeploymentsRequest {
   serviceId: string;
@@ -5808,13 +5623,7 @@ export const GetServiceDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.String.pipe(T.Label()),
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/services/{serviceId}/deployments",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/services/{serviceId}/deployments", code: 200 })),
 ).annotate({
   identifier: "GetServiceDeploymentsRequest",
 }) as any as S.Schema<GetServiceDeploymentsRequest>;
@@ -5867,16 +5676,8 @@ export interface GetServiceDomainsRequest {
 export const GetServiceDomainsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/services/{serviceId}/domains",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetServiceDomainsRequest",
-}) as any as S.Schema<GetServiceDomainsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/services/{serviceId}/domains", code: 200 })),
+).annotate({ identifier: "GetServiceDomainsRequest" }) as any as S.Schema<GetServiceDomainsRequest>;
 
 export type GetServiceDomainsResponseDataItemStatus =
   | "pending_dns"
@@ -5979,6 +5780,7 @@ export interface GetServicesRequest {
   cursor?: string;
   limit?: number;
   projectId?: string;
+  logicalId?: string;
   branchId?: string;
   branchGitName?: string;
 }
@@ -5987,12 +5789,11 @@ export const GetServicesRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     projectId: S.optional(S.String.pipe(T.Query())),
+    logicalId: S.optional(S.String.pipe(T.Query())),
     branchId: S.optional(S.String.pipe(T.Query())),
     branchGitName: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/services", code: 200 })),
-).annotate({
-  identifier: "GetServicesRequest",
-}) as any as S.Schema<GetServicesRequest>;
+).annotate({ identifier: "GetServicesRequest" }) as any as S.Schema<GetServicesRequest>;
 
 export type GetServicesResponseDataItemRegion = CreateDatabaseResponseDataRegion;
 export const GetServicesResponseDataItemRegion = CreateDatabaseResponseDataRegion;
@@ -6017,9 +5818,7 @@ export const GetServicesResponse = /*@__PURE__*/ S.suspend(() =>
     data: GetServicesResponseDataList,
     pagination: GetBucketKeysResponsePagination,
   }),
-).annotate({
-  identifier: "GetServicesResponse",
-}) as any as S.Schema<GetServicesResponse>;
+).annotate({ identifier: "GetServicesResponse" }) as any as S.Schema<GetServicesResponse>;
 
 export interface GetSourceRepositoriesRequest {
   cursor?: string;
@@ -6152,10 +5951,12 @@ export const GetSourceRepositoryResponseData = /*@__PURE__*/ S.suspend(() =>
 
 export interface GetSourceRepositoryResponse {
   data: GetSourceRepositoryResponseData;
+  hint?: string;
 }
 export const GetSourceRepositoryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: GetSourceRepositoryResponseData,
+    hint: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GetSourceRepositoryResponse",
@@ -6168,39 +5969,19 @@ export const GetWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/workspaces/{id}", code: 200 })),
-).annotate({
-  identifier: "GetWorkspaceRequest",
-}) as any as S.Schema<GetWorkspaceRequest>;
+).annotate({ identifier: "GetWorkspaceRequest" }) as any as S.Schema<GetWorkspaceRequest>;
 
-export interface GetWorkspaceResponseData {
-  id: string;
-  type: string;
-  url: string;
-  name: string;
-  createdAt: string;
-}
-export const GetWorkspaceResponseData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    type: S.String,
-    url: S.String,
-    name: S.String,
-    createdAt: S.String,
-  }),
-).annotate({
-  identifier: "GetWorkspaceResponseData",
-}) as any as S.Schema<GetWorkspaceResponseData>;
+export type GetWorkspaceResponseData = CreateWorkspaceResponseData;
+export const GetWorkspaceResponseData = CreateWorkspaceResponseData;
 
 export interface GetWorkspaceResponse {
-  data: GetWorkspaceResponseData;
+  data: CreateWorkspaceResponseData;
 }
 export const GetWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    data: GetWorkspaceResponseData,
+    data: CreateWorkspaceResponseData,
   }),
-).annotate({
-  identifier: "GetWorkspaceResponse",
-}) as any as S.Schema<GetWorkspaceResponse>;
+).annotate({ identifier: "GetWorkspaceResponse" }) as any as S.Schema<GetWorkspaceResponse>;
 
 export interface GetWorkspaceIntegrationsRequest {
   workspaceId: string;
@@ -6212,13 +5993,7 @@ export const GetWorkspaceIntegrationsRequest = /*@__PURE__*/ S.suspend(() =>
     workspaceId: S.String.pipe(T.Label()),
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/workspaces/{workspaceId}/integrations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/workspaces/{workspaceId}/integrations", code: 200 })),
 ).annotate({
   identifier: "GetWorkspaceIntegrationsRequest",
 }) as any as S.Schema<GetWorkspaceIntegrationsRequest>;
@@ -6288,16 +6063,14 @@ export const GetWorkspacesRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/workspaces", code: 200 })),
-).annotate({
-  identifier: "GetWorkspacesRequest",
-}) as any as S.Schema<GetWorkspacesRequest>;
+).annotate({ identifier: "GetWorkspacesRequest" }) as any as S.Schema<GetWorkspacesRequest>;
 
-export type GetWorkspacesResponseDataItem = GetWorkspaceResponseData;
-export const GetWorkspacesResponseDataItem = GetWorkspaceResponseData;
+export type GetWorkspacesResponseDataItem = CreateWorkspaceResponseData;
+export const GetWorkspacesResponseDataItem = CreateWorkspaceResponseData;
 
-export type GetWorkspacesResponseDataList = Array<GetWorkspaceResponseData>;
+export type GetWorkspacesResponseDataList = Array<CreateWorkspaceResponseData>;
 export const GetWorkspacesResponseDataList = /*@__PURE__*/ S.Array(
-  GetWorkspaceResponseData,
+  CreateWorkspaceResponseData,
 ) as any as S.Schema<GetWorkspacesResponseDataList>;
 
 export type GetWorkspacesResponsePagination = GetBucketKeysResponsePagination;
@@ -6312,9 +6085,7 @@ export const GetWorkspacesResponse = /*@__PURE__*/ S.suspend(() =>
     data: GetWorkspacesResponseDataList,
     pagination: GetBucketKeysResponsePagination,
   }),
-).annotate({
-  identifier: "GetWorkspacesResponse",
-}) as any as S.Schema<GetWorkspacesResponse>;
+).annotate({ identifier: "GetWorkspacesResponse" }) as any as S.Schema<GetWorkspacesResponse>;
 
 export interface GetWorkspaceServiceTokensRequest {
   workspaceId: string;
@@ -6326,13 +6097,7 @@ export const GetWorkspaceServiceTokensRequest = /*@__PURE__*/ S.suspend(() =>
     workspaceId: S.String.pipe(T.Label()),
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/workspaces/{workspaceId}/service-tokens",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/workspaces/{workspaceId}/service-tokens", code: 200 })),
 ).annotate({
   identifier: "GetWorkspaceServiceTokensRequest",
 }) as any as S.Schema<GetWorkspaceServiceTokensRequest>;
@@ -6386,13 +6151,7 @@ export interface GetWorkspaceSubscriptionRequest {
 export const GetWorkspaceSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/workspaces/{id}/subscription",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/workspaces/{id}/subscription", code: 200 })),
 ).annotate({
   identifier: "GetWorkspaceSubscriptionRequest",
 }) as any as S.Schema<GetWorkspaceSubscriptionRequest>;
@@ -6458,9 +6217,7 @@ export const PutBuildResourceRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PutBuildResourceRequest",
-}) as any as S.Schema<PutBuildResourceRequest>;
+).annotate({ identifier: "PutBuildResourceRequest" }) as any as S.Schema<PutBuildResourceRequest>;
 
 export interface PutBuildResourceResponse {}
 export const PutBuildResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6842,9 +6599,7 @@ export const UpdateBranchRequest = /*@__PURE__*/ S.suspend(() =>
     branchId: S.String.pipe(T.Label()),
     isDefault: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.Http({ method: "PATCH", uri: "/v1/branches/{branchId}", code: 200 })),
-).annotate({
-  identifier: "UpdateBranchRequest",
-}) as any as S.Schema<UpdateBranchRequest>;
+).annotate({ identifier: "UpdateBranchRequest" }) as any as S.Schema<UpdateBranchRequest>;
 
 export type UpdateBranchResponseDataRole = "production" | "preview";
 export const UpdateBranchResponseDataRole = S.String;
@@ -6877,9 +6632,7 @@ export const UpdateBranchResponseData = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.String,
     project: CreateBucketResponseDataProject,
   }),
-).annotate({
-  identifier: "UpdateBranchResponseData",
-}) as any as S.Schema<UpdateBranchResponseData>;
+).annotate({ identifier: "UpdateBranchResponseData" }) as any as S.Schema<UpdateBranchResponseData>;
 
 export interface UpdateBranchResponse {
   data: UpdateBranchResponseData;
@@ -6888,9 +6641,43 @@ export const UpdateBranchResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: UpdateBranchResponseData,
   }),
-).annotate({
-  identifier: "UpdateBranchResponse",
-}) as any as S.Schema<UpdateBranchResponse>;
+).annotate({ identifier: "UpdateBranchResponse" }) as any as S.Schema<UpdateBranchResponse>;
+
+export interface UpdateBucketRequest {
+  bucketId: string;
+  /** New display name for the bucket. A label only: the provider bucket name does not change. */
+  displayName?: string;
+  /** ID of the branch to move the bucket to. Mutually exclusive with branchGitName. */
+  branchId?: string;
+  /** Git name of the branch to move the bucket to; the branch is created when it does not exist. Mutually exclusive with branchId. */
+  branchGitName?: string;
+  /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. Send null to clear the logical id. */
+  logicalId?: string | null;
+}
+export const UpdateBucketRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bucketId: S.String.pipe(T.Label()),
+    displayName: S.optional(S.String),
+    branchId: S.optional(S.String),
+    branchGitName: S.optional(S.String),
+    logicalId: S.optional(S.NullOr(S.String)),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/buckets/{bucketId}", code: 200 })),
+).annotate({ identifier: "UpdateBucketRequest" }) as any as S.Schema<UpdateBucketRequest>;
+
+export type UpdateBucketResponseDataProject = CreateBucketResponseDataProject;
+export const UpdateBucketResponseDataProject = CreateBucketResponseDataProject;
+
+export type UpdateBucketResponseData = CreateBucketResponseData;
+export const UpdateBucketResponseData = CreateBucketResponseData;
+
+export interface UpdateBucketResponse {
+  data: CreateBucketResponseData;
+}
+export const UpdateBucketResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: CreateBucketResponseData,
+  }),
+).annotate({ identifier: "UpdateBucketResponse" }) as any as S.Schema<UpdateBucketResponse>;
 
 /** How far the run has got. */
 export type UpdateBuildRequestPhase = "queued" | "build" | "deploy";
@@ -6908,13 +6695,13 @@ export interface UpdateBuildRequest {
   failingStep?: string;
   errorMessage?: string;
   externalLogUrl?: string;
-  /** Project the build targets. Fill-only: a reporter that learns the project partway through a deploy may set it, but a value already recorded cannot be changed. */
+  /** Project the build targets. Can be set once and never changed: a reporter that learns the project partway through a deploy may set it, but a value already recorded cannot be changed. */
   projectId?: string;
-  /** Branch the build targets. Fill-only, like `projectId`. */
+  /** Branch the build targets. Can be set once and never changed, like `projectId`. */
   branchId?: string;
-  /** Where the deployed app can be reached. Fill-only, like the anchors. */
+  /** Where the deployed app can be reached. Can be set once and never changed, like `projectId`. */
   deployedUrl?: string;
-  /** Content hash of the application topology this run deploys, as submitted to the application-topology endpoint. A value match, never a reference: equal hashes identify the same graph. Fill-only, like the anchors. */
+  /** Content hash of the application topology this run deploys, as submitted to the application-topology endpoint. A value match, never a reference: equal hashes identify the same graph. Can be set once and never changed, like `projectId`. */
   applicationTopologyContentHash?: string;
 }
 export const UpdateBuildRequest = /*@__PURE__*/ S.suspend(() =>
@@ -6930,9 +6717,7 @@ export const UpdateBuildRequest = /*@__PURE__*/ S.suspend(() =>
     deployedUrl: S.optional(S.String),
     applicationTopologyContentHash: S.optional(S.String),
   }).pipe(T.Http({ method: "PATCH", uri: "/v1/builds/{buildId}", code: 200 })),
-).annotate({
-  identifier: "UpdateBuildRequest",
-}) as any as S.Schema<UpdateBuildRequest>;
+).annotate({ identifier: "UpdateBuildRequest" }) as any as S.Schema<UpdateBuildRequest>;
 
 export type UpdateBuildResponseDataSource = "webhook" | "setup" | "manual" | "ci" | "cli";
 export const UpdateBuildResponseDataSource = S.String;
@@ -6990,9 +6775,7 @@ export const UpdateBuildResponseData = /*@__PURE__*/ S.suspend(() =>
     startedAt: S.NullOr(S.String),
     finishedAt: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "UpdateBuildResponseData",
-}) as any as S.Schema<UpdateBuildResponseData>;
+).annotate({ identifier: "UpdateBuildResponseData" }) as any as S.Schema<UpdateBuildResponseData>;
 
 export interface UpdateBuildResponse {
   data: UpdateBuildResponseData;
@@ -7001,9 +6784,7 @@ export const UpdateBuildResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: UpdateBuildResponseData,
   }),
-).annotate({
-  identifier: "UpdateBuildResponse",
-}) as any as S.Schema<UpdateBuildResponse>;
+).annotate({ identifier: "UpdateBuildResponse" }) as any as S.Schema<UpdateBuildResponse>;
 
 export interface UpdateDatabaseRequest {
   databaseId: string;
@@ -7013,6 +6794,8 @@ export interface UpdateDatabaseRequest {
   branchId?: string | null;
   /** Git name of the Branch to move the database to; the Branch is created when it does not exist. Mutually exclusive with branchId. Every database belongs to a Branch, so null (detach) is rejected. */
   branchGitName?: string | null;
+  /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. Send null to clear the logical id. */
+  logicalId?: string | null;
 }
 export const UpdateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -7020,10 +6803,9 @@ export const UpdateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     branchId: S.optional(S.NullOr(S.String)),
     branchGitName: S.optional(S.NullOr(S.String)),
+    logicalId: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/v1/databases/{databaseId}", code: 200 })),
-).annotate({
-  identifier: "UpdateDatabaseRequest",
-}) as any as S.Schema<UpdateDatabaseRequest>;
+).annotate({ identifier: "UpdateDatabaseRequest" }) as any as S.Schema<UpdateDatabaseRequest>;
 
 export type UpdateDatabaseResponseDataStatus = "failure" | "provisioning" | "ready" | "recovering";
 export const UpdateDatabaseResponseDataStatus = S.String;
@@ -7135,6 +6917,7 @@ export interface UpdateDatabaseResponseData {
   region: CreateDatabaseResponseDataRegion | null;
   source: UpdateDatabaseResponseDataSource | null;
   branchId: string | null;
+  logicalId: string | null;
 }
 export const UpdateDatabaseResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -7151,6 +6934,7 @@ export const UpdateDatabaseResponseData = /*@__PURE__*/ S.suspend(() =>
     region: S.NullOr(CreateDatabaseResponseDataRegion),
     source: S.NullOr(UpdateDatabaseResponseDataSource),
     branchId: S.NullOr(S.String),
+    logicalId: S.NullOr(S.String),
   }),
 ).annotate({
   identifier: "UpdateDatabaseResponseData",
@@ -7163,9 +6947,7 @@ export const UpdateDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: UpdateDatabaseResponseData,
   }),
-).annotate({
-  identifier: "UpdateDatabaseResponse",
-}) as any as S.Schema<UpdateDatabaseResponse>;
+).annotate({ identifier: "UpdateDatabaseResponse" }) as any as S.Schema<UpdateDatabaseResponse>;
 
 export interface UpdateEnvironmentVariableRequest {
   envVarId: string;
@@ -7175,13 +6957,7 @@ export const UpdateEnvironmentVariableRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     envVarId: S.String.pipe(T.Label()),
     value: S.String,
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/environment-variables/{envVarId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/environment-variables/{envVarId}", code: 200 })),
 ).annotate({
   identifier: "UpdateEnvironmentVariableRequest",
 }) as any as S.Schema<UpdateEnvironmentVariableRequest>;
@@ -7231,9 +7007,7 @@ export const UpdateEnvironmentVariableResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateEnvironmentVariableResponse",
 }) as any as S.Schema<UpdateEnvironmentVariableResponse>;
 
-export type UpdateProjectRequestSettingsMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateProjectRequestSettingsMap = { [key: string]: unknown | undefined };
 export const UpdateProjectRequestSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -7250,9 +7024,7 @@ export const UpdateProjectRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     settings: S.optional(UpdateProjectRequestSettingsMap),
   }).pipe(T.Http({ method: "PATCH", uri: "/v1/projects/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateProjectRequest",
-}) as any as S.Schema<UpdateProjectRequest>;
+).annotate({ identifier: "UpdateProjectRequest" }) as any as S.Schema<UpdateProjectRequest>;
 
 export type UpdateProjectResponseDataWorkspace = CreateBucketResponseDataProject;
 export const UpdateProjectResponseDataWorkspace = CreateBucketResponseDataProject;
@@ -7267,9 +7039,7 @@ export const UpdateProjectResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: GetProjectResponseData,
   }),
-).annotate({
-  identifier: "UpdateProjectResponse",
-}) as any as S.Schema<UpdateProjectResponse>;
+).annotate({ identifier: "UpdateProjectResponse" }) as any as S.Schema<UpdateProjectResponse>;
 
 export interface UpdateProjectBranchAlchemyStateLeaseRequest {
   projectId: string;
@@ -7312,6 +7082,8 @@ export const UpdateProjectBranchAlchemyStateLeaseResponse = /*@__PURE__*/ S.susp
 export interface UpdateServiceRequest {
   serviceId: string;
   displayName?: string;
+  /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. Send null to clear the logical id. */
+  logicalId?: string | null;
   branchId?: string | null;
   branchGitName?: string | null;
 }
@@ -7319,12 +7091,11 @@ export const UpdateServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
     displayName: S.optional(S.String),
+    logicalId: S.optional(S.NullOr(S.String)),
     branchId: S.optional(S.NullOr(S.String)),
     branchGitName: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/v1/services/{serviceId}", code: 200 })),
-).annotate({
-  identifier: "UpdateServiceRequest",
-}) as any as S.Schema<UpdateServiceRequest>;
+).annotate({ identifier: "UpdateServiceRequest" }) as any as S.Schema<UpdateServiceRequest>;
 
 export type UpdateServiceResponseDataRegion = CreateDatabaseResponseDataRegion;
 export const UpdateServiceResponseDataRegion = CreateDatabaseResponseDataRegion;
@@ -7339,9 +7110,7 @@ export const UpdateServiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: CreateServiceResponseData,
   }),
-).annotate({
-  identifier: "UpdateServiceResponse",
-}) as any as S.Schema<UpdateServiceResponse>;
+).annotate({ identifier: "UpdateServiceResponse" }) as any as S.Schema<UpdateServiceResponse>;
 
 export type CreateAuthGithubActionsTokenError = PrismaOpError;
 /** Exchange a GitHub Actions OIDC token for a workspace service token ⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️ Verifies the GitHub Actions OIDC token and mints a short-lived workspace service token. The caller must request the token with audience `prisma-cloud`. Any verification failure returns a generic 401 — the response never reveals whether a repository is connected. */
@@ -7358,7 +7127,7 @@ export const createAuthGithubActionsToken: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateBucketError = BadRequest | Forbidden | NotFound | PrismaOpError;
+export type CreateBucketError = BadRequest | Forbidden | NotFound | Conflict | PrismaOpError;
 /** Create bucket Creates a new object-store bucket in the specified project. */
 export const createBucket: API.OperationMethod<
   CreateBucketRequest,
@@ -7368,7 +7137,7 @@ export const createBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateBucketRequest,
   output: CreateBucketResponse,
-  errors: [BadRequest, Forbidden, NotFound, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
 }));
@@ -7440,7 +7209,7 @@ export type CreateDatabaseError =
   | Conflict
   | UnprocessableEntity
   | PrismaOpError;
-/** Create database Creates a new database in the specified project. */
+/** Create database Creates a new database in the specified project. `logicalId` cannot be combined with `branchGitName`; pass `branchId` instead. */
 export const createDatabase: API.OperationMethod<
   CreateDatabaseRequest,
   CreateDatabaseResponse,
@@ -7634,7 +7403,7 @@ export type CreateScmInstallationsInstallIntentError =
   | NotFound
   | UnprocessableEntity
   | PrismaOpError;
-/** Create an SCM App installation intent ⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️ Creates an installation intent for the given workspace and returns a provider-specific URL that the user opens to install the SCM app. Currently only `github` is supported. */
+/** Create an SCM App installation intent ⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️ Creates an installation intent for the given workspace. If an existing installation can be proven to belong to the caller it is linked immediately (`alreadyLinked`); otherwise the response carries a URL the user opens to install the SCM app. Pass `repository` (owner/name) so an installation that already covers it but cannot be linked automatically is detected and explained in `hint`. Currently only `github` is supported. */
 export const createScmInstallationsInstallIntent: API.OperationMethod<
   CreateScmInstallationsInstallIntentRequest,
   CreateScmInstallationsInstallIntentResponse,
@@ -7654,7 +7423,7 @@ export type CreateServiceError =
   | Conflict
   | UnprocessableEntity
   | PrismaOpError;
-/** Create service ⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️ Creates a new service under the specified project. The `projectId` is required in the request body. The service is placed in the given region, or the project's default region if omitted (falling back to us-east-1). Returns `409 Conflict` with the existing service's id, name, and branch if a service with the same name already exists on the resolved branch. */
+/** Create service ⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️ Creates a new service under the specified project. The `projectId` is required in the request body. The service is placed in the given region, or the project's default region if omitted (falling back to us-east-1). Returns `409 Conflict` when a service already occupies the slot on the resolved branch, either by name or by `logicalId`; the body includes the existing service's id, name, branch, and logical id, and `conflict` says which attribute clashed. The name is checked first. `logicalId` cannot be combined with `branchGitName`; pass `branchId` instead. */
 export const createService: API.OperationMethod<
   CreateServiceRequest,
   CreateServiceResponse,
@@ -7764,6 +7533,21 @@ export const createSourceRepository: API.OperationMethod<
   input: CreateSourceRepositoryRequest,
   output: CreateSourceRepositoryResponse,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  protocol: PrismaProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateWorkspaceError = Forbidden | PrismaOpError;
+/** Create a workspace ⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️ Creates a new free-plan workspace owned by the authenticated user. For agent tokens the workspace is created for the agent's sponsor, and the agent's permission policy treats this as an admin action — under the default policy the sponsor approves it first. */
+export const createWorkspace: API.OperationMethod<
+  CreateWorkspaceRequest,
+  CreateWorkspaceResponse,
+  CreateWorkspaceError,
+  PrismaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateWorkspaceRequest,
+  output: CreateWorkspaceResponse,
+  errors: [Forbidden, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
 }));
@@ -8046,6 +7830,21 @@ export const deleteWorkspaceServiceToken: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetAgentApprovalError = NotFound | PrismaOpError;
+/** Poll an approval Reports where an approval stands, so an agent holding an approval_required response can wait for the sponsor's decision and retry. Only the agent the approval belongs to can read it. */
+export const getAgentApproval: API.OperationMethod<
+  GetAgentApprovalRequest,
+  GetAgentApprovalResponse,
+  GetAgentApprovalError,
+  PrismaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAgentApprovalRequest,
+  output: GetAgentApprovalResponse,
+  errors: [NotFound, UnknownPrismaError],
+  protocol: PrismaProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetBranchError = NotFound | PrismaOpError;
 /** Get a branch ⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️ Returns a single Branch by ID. Member resources are not inlined — list them via /v1/databases?branchId= and /v1/apps?branchId=. */
 export const getBranch: API.OperationMethod<
@@ -8116,21 +7915,6 @@ export const getBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBuildRequest,
   output: GetBuildResponse,
-  errors: [NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GetBuildLogsError = NotFound | PrismaOpError;
-/** Stream build logs ⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️ Streams the full build log for a build as newline-delimited JSON (`application/x-ndjson`). Each line is a JSON object discriminated by `type`: `log` (a build output line) or `terminal` (end-of-stream marker with a `cursor` for resumption). The default is a finite dump that ends once the stream is drained; pass `follow=true` to keep the connection open for an in-flight build, and `cursor` to resume from a prior terminal cursor. */
-export const getBuildLogs: API.OperationMethod<
-  GetBuildLogsRequest,
-  GetBuildLogsResponse,
-  GetBuildLogsError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GetBuildLogsRequest,
-  output: GetBuildLogsResponse,
   errors: [NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -8888,8 +8672,23 @@ export const updateBranch: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type UpdateBucketError = NotFound | Conflict | UnprocessableEntity | PrismaOpError;
+/** Update bucket Updates the display name, logical id, or branch of the bucket with the given ID. The display name is a label only: the provider bucket name, the objects, and the access keys do not change. `logicalId` cannot be combined with `branchId` or `branchGitName` in one request; move the bucket first, then set its `logicalId`. */
+export const updateBucket: API.OperationMethod<
+  UpdateBucketRequest,
+  UpdateBucketResponse,
+  UpdateBucketError,
+  PrismaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateBucketRequest,
+  output: UpdateBucketResponse,
+  errors: [NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  protocol: PrismaProtocol,
+  retry: Retry.Retry,
+}));
+
 export type UpdateBuildError = NotFound | Conflict | PrismaOpError;
-/** Update a build ⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️ Records progress on a build. Any holder of the workspace token may patch any field — the webhook, the CI run and Composer each report the part of a deploy they can see, and the token is the boundary. Reaching `running` stamps `startedAt` and reaching a terminal state stamps `finishedAt`, both only if unset, so re-reporting the same state does not move the clock. `projectId`, `branchId`, `deployedUrl` and `applicationTopologyContentHash` are fill-only: a reporter that resolves them partway through a deploy sets them here, but a value already recorded cannot be changed and the attempt is a conflict. Sending the value already recorded is accepted and changes nothing. An anchor must belong to the caller's workspace and agree with the anchors the build already carries, so a branch from another project is refused. */
+/** Update a build ⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️ Records progress on a build. Any holder of the workspace token may patch any field — the webhook, the CI run and Composer each report the part of a deploy they can see, and the token is the boundary. Reaching `running` stamps `startedAt` and reaching a terminal state stamps `finishedAt`, both only if unset, so re-reporting the same state does not move the clock. Once a build has finished, its state no longer changes: a later report updates the other fields and leaves the state as the finishing report set it. `projectId`, `branchId`, `deployedUrl` and `applicationTopologyContentHash` can each be set once and never changed: a reporter that resolves them partway through a deploy sets them here, but a value already recorded cannot be changed and the attempt is a conflict. Sending the value already recorded is accepted and changes nothing. `projectId` and `branchId` must belong to the caller's workspace, and a branch must belong to the build's project, so a branch from another project is refused. */
 export const updateBuild: API.OperationMethod<
   UpdateBuildRequest,
   UpdateBuildResponse,
@@ -8903,8 +8702,13 @@ export const updateBuild: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UpdateDatabaseError = Forbidden | NotFound | UnprocessableEntity | PrismaOpError;
-/** Update database Updates the database with the given ID. */
+export type UpdateDatabaseError =
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | PrismaOpError;
+/** Update database Updates the database with the given ID. `logicalId` cannot be combined with `branchId` or `branchGitName` in one request; move the database first, then set its `logicalId`. */
 export const updateDatabase: API.OperationMethod<
   UpdateDatabaseRequest,
   UpdateDatabaseResponse,
@@ -8913,7 +8717,7 @@ export const updateDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateDatabaseRequest,
   output: UpdateDatabaseResponse,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
 }));
@@ -8963,8 +8767,13 @@ export const updateProjectBranchAlchemyStateLease: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UpdateServiceError = Forbidden | NotFound | UnprocessableEntity | PrismaOpError;
-/** Update service ⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️ Updates the display name of a service. */
+export type UpdateServiceError =
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | PrismaOpError;
+/** Update service ⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️ Updates the display name, logical id, or branch of a service. `logicalId` cannot be combined with `branchId` or `branchGitName` in one request; move the service first, then set its `logicalId`. */
 export const updateService: API.OperationMethod<
   UpdateServiceRequest,
   UpdateServiceResponse,
@@ -8973,7 +8782,7 @@ export const updateService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateServiceRequest,
   output: UpdateServiceResponse,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
 }));

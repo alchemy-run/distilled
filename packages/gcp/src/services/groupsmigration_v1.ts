@@ -75,9 +75,7 @@ export const InsertArchiveRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://groupsmigration.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "InsertArchiveRequest",
-}) as any as S.Schema<InsertArchiveRequest>;
+).annotate({ identifier: "InsertArchiveRequest" }) as any as S.Schema<InsertArchiveRequest>;
 
 /** JSON response template for groups migration API. */
 export interface Groups {

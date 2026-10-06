@@ -37,9 +37,7 @@ export const AccountCanIResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AccountCanIResponse",
-}) as any as S.Schema<AccountCanIResponse>;
+).annotate({ identifier: "AccountCanIResponse" }) as any as S.Schema<AccountCanIResponse>;
 
 export interface ApplicationServiceManagedResourcesRequest {
   applicationName: string;
@@ -114,9 +112,7 @@ export const V1alpha1ResourceDiff = /*@__PURE__*/ S.suspend(() =>
     resourceVersion: S.optional(S.String),
     targetState: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1ResourceDiff",
-}) as any as S.Schema<V1alpha1ResourceDiff>;
+).annotate({ identifier: "V1alpha1ResourceDiff" }) as any as S.Schema<V1alpha1ResourceDiff>;
 
 export type ApplicationManagedResourcesResponseItemsList = Array<V1alpha1ResourceDiff>;
 export const ApplicationManagedResourcesResponseItemsList = /*@__PURE__*/ S.Array(
@@ -177,11 +173,7 @@ export const ApplicationServicePodLogsRequest = /*@__PURE__*/ S.suspend(() =>
     project: S.optional(S.String.pipe(T.Query())),
     matchCase: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/applications/{name}/pods/{podName}/logs",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/applications/{name}/pods/{podName}/logs", code: 200 }),
   ),
 ).annotate({
   identifier: "ApplicationServicePodLogsRequest",
@@ -218,9 +210,7 @@ export const RuntimeStreamError = /*@__PURE__*/ S.suspend(() =>
     http_status: S.optional(S.String),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RuntimeStreamError",
-}) as any as S.Schema<RuntimeStreamError>;
+).annotate({ identifier: "RuntimeStreamError" }) as any as S.Schema<RuntimeStreamError>;
 
 export interface ApplicationLogEntry {
   content?: string;
@@ -237,9 +227,7 @@ export const ApplicationLogEntry = /*@__PURE__*/ S.suspend(() =>
     timeStamp: S.optional(S.String),
     timeStampStr: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationLogEntry",
-}) as any as S.Schema<ApplicationLogEntry>;
+).annotate({ identifier: "ApplicationLogEntry" }) as any as S.Schema<ApplicationLogEntry>;
 
 export interface ApplicationServicePodLogsResponse {
   error?: RuntimeStreamError;
@@ -296,13 +284,7 @@ export const ApplicationServicePodLogs2Request = /*@__PURE__*/ S.suspend(() =>
     appNamespace: S.optional(S.String.pipe(T.Query())),
     project: S.optional(S.String.pipe(T.Query())),
     matchCase: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/applications/{name}/logs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/applications/{name}/logs", code: 200 })),
 ).annotate({
   identifier: "ApplicationServicePodLogs2Request",
 }) as any as S.Schema<ApplicationServicePodLogs2Request>;
@@ -376,9 +358,7 @@ export const V1alpha1HostResourceInfo = /*@__PURE__*/ S.suspend(() =>
     requestedByNeighbors: S.optional(S.Number),
     resourceName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1HostResourceInfo",
-}) as any as S.Schema<V1alpha1HostResourceInfo>;
+).annotate({ identifier: "V1alpha1HostResourceInfo" }) as any as S.Schema<V1alpha1HostResourceInfo>;
 
 /** ResourcesInfo provides a list of resource usage details for different resource types on this host. */
 export type V1alpha1HostInfoResourcesInfoList = Array<V1alpha1HostResourceInfo>;
@@ -394,9 +374,7 @@ export const V1NodeSwapStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     capacity: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "V1NodeSwapStatus",
-}) as any as S.Schema<V1NodeSwapStatus>;
+).annotate({ identifier: "V1NodeSwapStatus" }) as any as S.Schema<V1NodeSwapStatus>;
 
 /** NodeSystemInfo is a set of ids/uuids to uniquely identify the node. */
 export interface V1NodeSystemInfo {
@@ -415,6 +393,7 @@ export interface V1NodeSystemInfo {
   operatingSystem?: string;
   /** OS Image reported by the node from /etc/os-release (e.g. Debian GNU/Linux 7 (wheezy)). */
   osImage?: string;
+  runningInUserNamespace?: boolean;
   swap?: V1NodeSwapStatus;
   systemUUID?: string;
 }
@@ -429,12 +408,11 @@ export const V1NodeSystemInfo = /*@__PURE__*/ S.suspend(() =>
     machineID: S.optional(S.String),
     operatingSystem: S.optional(S.String),
     osImage: S.optional(S.String),
+    runningInUserNamespace: S.optional(S.Boolean),
     swap: S.optional(V1NodeSwapStatus),
     systemUUID: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1NodeSystemInfo",
-}) as any as S.Schema<V1NodeSystemInfo>;
+).annotate({ identifier: "V1NodeSystemInfo" }) as any as S.Schema<V1NodeSystemInfo>;
 
 /** HostInfo holds metadata and resource usage metrics for a specific host in the cluster. */
 export interface V1alpha1HostInfo {
@@ -453,9 +431,7 @@ export const V1alpha1HostInfo = /*@__PURE__*/ S.suspend(() =>
     resourcesInfo: S.optional(V1alpha1HostInfoResourcesInfoList),
     systemInfo: S.optional(V1NodeSystemInfo),
   }),
-).annotate({
-  identifier: "V1alpha1HostInfo",
-}) as any as S.Schema<V1alpha1HostInfo>;
+).annotate({ identifier: "V1alpha1HostInfo" }) as any as S.Schema<V1alpha1HostInfo>;
 
 /** Hosts provides a list of Kubernetes nodes that are running pods related to the application. */
 export type V1alpha1ApplicationTreeHostsList = Array<V1alpha1HostInfo>;
@@ -474,9 +450,7 @@ export const V1alpha1HealthStatus = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     status: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1HealthStatus",
-}) as any as S.Schema<V1alpha1HealthStatus>;
+).annotate({ identifier: "V1alpha1HealthStatus" }) as any as S.Schema<V1alpha1HealthStatus>;
 
 /** Images lists container images associated with the resource. This is primarily useful for pods and other workload resources. */
 export type V1alpha1ResourceNodeImagesList = Array<string>;
@@ -495,9 +469,7 @@ export const V1alpha1InfoItem = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1InfoItem",
-}) as any as S.Schema<V1alpha1InfoItem>;
+).annotate({ identifier: "V1alpha1InfoItem" }) as any as S.Schema<V1alpha1InfoItem>;
 
 /** Info provides additional metadata or annotations about the resource. */
 export type V1alpha1ResourceNodeInfoList = Array<V1alpha1InfoItem>;
@@ -543,9 +515,7 @@ export const V1LoadBalancerIngress = /*@__PURE__*/ S.suspend(() =>
     ipMode: S.optional(S.String),
     ports: S.optional(V1LoadBalancerIngressPortsList),
   }),
-).annotate({
-  identifier: "V1LoadBalancerIngress",
-}) as any as S.Schema<V1LoadBalancerIngress>;
+).annotate({ identifier: "V1LoadBalancerIngress" }) as any as S.Schema<V1LoadBalancerIngress>;
 
 /** Ingress provides information about external access points (e.g., load balancer ingress) for this resource. */
 export type V1alpha1ResourceNetworkingInfoIngressList = Array<V1LoadBalancerIngress>;
@@ -554,18 +524,14 @@ export const V1alpha1ResourceNetworkingInfoIngressList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<V1alpha1ResourceNetworkingInfoIngressList>;
 
 /** Labels holds the labels associated with this networking resource. */
-export type V1alpha1ResourceNetworkingInfoLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type V1alpha1ResourceNetworkingInfoLabelsMap = { [key: string]: string | undefined };
 export const V1alpha1ResourceNetworkingInfoLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<V1alpha1ResourceNetworkingInfoLabelsMap>;
 
 /** TargetLabels represents labels associated with the target resources that this resource communicates with. */
-export type V1alpha1ResourceNetworkingInfoTargetLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type V1alpha1ResourceNetworkingInfoTargetLabelsMap = { [key: string]: string | undefined };
 export const V1alpha1ResourceNetworkingInfoTargetLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -588,9 +554,7 @@ export const V1alpha1ResourceRef = /*@__PURE__*/ S.suspend(() =>
     uid: S.optional(S.String),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1ResourceRef",
-}) as any as S.Schema<V1alpha1ResourceRef>;
+).annotate({ identifier: "V1alpha1ResourceRef" }) as any as S.Schema<V1alpha1ResourceRef>;
 
 /** TargetRefs contains references to other resources that this resource interacts with, such as Services or Pods. */
 export type V1alpha1ResourceNetworkingInfoTargetRefsList = Array<V1alpha1ResourceRef>;
@@ -665,9 +629,7 @@ export const V1alpha1ResourceNode = /*@__PURE__*/ S.suspend(() =>
     parentRefs: S.optional(V1alpha1ResourceNodeParentRefsList),
     resourceVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1ResourceNode",
-}) as any as S.Schema<V1alpha1ResourceNode>;
+).annotate({ identifier: "V1alpha1ResourceNode" }) as any as S.Schema<V1alpha1ResourceNode>;
 
 /** Nodes contains a list of resources that are either directly managed by the application or are children of directly managed resources. */
 export type V1alpha1ApplicationTreeNodesList = Array<V1alpha1ResourceNode>;
@@ -699,9 +661,7 @@ export const V1alpha1ApplicationTree = /*@__PURE__*/ S.suspend(() =>
     orphanedNodes: S.optional(V1alpha1ApplicationTreeOrphanedNodesList),
     shardsCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "V1alpha1ApplicationTree",
-}) as any as S.Schema<V1alpha1ApplicationTree>;
+).annotate({ identifier: "V1alpha1ApplicationTree" }) as any as S.Schema<V1alpha1ApplicationTree>;
 
 export interface ApplicationServiceRevisionChartDetailsRequest {
   /** the application's name */
@@ -751,9 +711,7 @@ export const V1alpha1ChartDetails = /*@__PURE__*/ S.suspend(() =>
     home: S.optional(S.String),
     maintainers: S.optional(V1alpha1ChartDetailsMaintainersList),
   }),
-).annotate({
-  identifier: "V1alpha1ChartDetails",
-}) as any as S.Schema<V1alpha1ChartDetails>;
+).annotate({ identifier: "V1alpha1ChartDetails" }) as any as S.Schema<V1alpha1ChartDetails>;
 
 export interface ApplicationServiceRevisionMetadataRequest {
   /** the application's name */
@@ -811,9 +769,7 @@ export const V1alpha1CommitMetadata = /*@__PURE__*/ S.suspend(() =>
     sha: S.optional(S.String),
     subject: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1CommitMetadata",
-}) as any as S.Schema<V1alpha1CommitMetadata>;
+).annotate({ identifier: "V1alpha1CommitMetadata" }) as any as S.Schema<V1alpha1CommitMetadata>;
 
 /** RevisionReference contains a reference to a some information that is related in some way to another commit. For now, it supports only references to a commit. In the future, it may support other types of references. */
 export interface V1alpha1RevisionReference {
@@ -902,9 +858,7 @@ export const V1alpha1RevisionMetadata = /*@__PURE__*/ S.suspend(() =>
     sourceIntegrityResult: S.optional(V1alpha1SourceIntegrityCheckResult),
     tags: S.optional(V1alpha1RevisionMetadataTagsList),
   }),
-).annotate({
-  identifier: "V1alpha1RevisionMetadata",
-}) as any as S.Schema<V1alpha1RevisionMetadata>;
+).annotate({ identifier: "V1alpha1RevisionMetadata" }) as any as S.Schema<V1alpha1RevisionMetadata>;
 
 export interface ApplicationServiceRollbackRequest {
   name: string;
@@ -922,13 +876,7 @@ export const ApplicationServiceRollbackRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.Number),
     project: S.optional(S.String),
     prune: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/applications/{name}/rollback",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/applications/{name}/rollback", code: 200 })),
 ).annotate({
   identifier: "ApplicationServiceRollbackRequest",
 }) as any as S.Schema<ApplicationServiceRollbackRequest>;
@@ -969,7 +917,6 @@ export interface V1ManagedFieldsEntry {
   fieldsV1?: V1FieldsV1;
   /** Manager is an identifier of the workflow managing these fields. */
   manager?: string;
-  /** Operation is the type of operation which lead to this ManagedFieldsEntry being created. The only valid values for this field are 'Apply' and 'Update'. */
   operation?: string;
   /** Subresource is the name of the subresource used to update that object, or empty string if the object was updated through the main resource. The value of this field is used to distinguish between managers, even if they share the same name. For example, a status update will be distinct from a regular update using the same manager name. Note that the APIVersion field is not related to the Subresource field and it always corresponds to the version of the main resource. */
   subresource?: string;
@@ -985,18 +932,15 @@ export const V1ManagedFieldsEntry = /*@__PURE__*/ S.suspend(() =>
     subresource: S.optional(S.String),
     time: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1ManagedFieldsEntry",
-}) as any as S.Schema<V1ManagedFieldsEntry>;
+).annotate({ identifier: "V1ManagedFieldsEntry" }) as any as S.Schema<V1ManagedFieldsEntry>;
 
-/** ManagedFields maps workflow-id and version to the set of fields that are managed by that workflow. This is mostly for internal housekeeping, and users typically shouldn't need to set or understand this field. A workflow can be the user's name, a controller's name, or the name of a specific apply path like "ci-cd". The set of fields is always in the version that the workflow used when modifying the object. +optional +listType=atomic */
+/** ManagedFields maps workflow-id and version to the set of fields that are managed by that workflow. This is mostly for internal housekeeping, and users typically shouldn't need to set or understand this field. A workflow can be the user's name, a controller's name, or the name of a specific apply path like "ci-cd". The set of fields is always in the version that the workflow used when modifying the object. +optional +listType=atomic +k8s:alpha(since: "1.37")=+k8s:optional */
 export type V1ObjectMetaManagedFieldsList = Array<V1ManagedFieldsEntry>;
 export const V1ObjectMetaManagedFieldsList = /*@__PURE__*/ S.Array(
   V1ManagedFieldsEntry,
 ) as any as S.Schema<V1ObjectMetaManagedFieldsList>;
 
 export interface V1OwnerReference {
-  /** API version of the referent. */
   apiVersion?: string;
   blockOwnerDeletion?: boolean;
   controller?: boolean;
@@ -1013,9 +957,7 @@ export const V1OwnerReference = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     uid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1OwnerReference",
-}) as any as S.Schema<V1OwnerReference>;
+).annotate({ identifier: "V1OwnerReference" }) as any as S.Schema<V1OwnerReference>;
 
 export type V1ObjectMetaOwnerReferencesList = Array<V1OwnerReference>;
 export const V1ObjectMetaOwnerReferencesList = /*@__PURE__*/ S.Array(
@@ -1033,7 +975,7 @@ export interface V1ObjectMeta {
   generateName?: string;
   generation?: number;
   labels?: V1ObjectMetaLabelsMap;
-  /** ManagedFields maps workflow-id and version to the set of fields that are managed by that workflow. This is mostly for internal housekeeping, and users typically shouldn't need to set or understand this field. A workflow can be the user's name, a controller's name, or the name of a specific apply path like "ci-cd". The set of fields is always in the version that the workflow used when modifying the object. +optional +listType=atomic */
+  /** ManagedFields maps workflow-id and version to the set of fields that are managed by that workflow. This is mostly for internal housekeeping, and users typically shouldn't need to set or understand this field. A workflow can be the user's name, a controller's name, or the name of a specific apply path like "ci-cd". The set of fields is always in the version that the workflow used when modifying the object. +optional +listType=atomic +k8s:alpha(since: "1.37")=+k8s:optional */
   managedFields?: V1ObjectMetaManagedFieldsList;
   name?: string;
   /** Namespace defines the space within which each name must be unique. An empty namespace is equivalent to the "default" namespace, but "default" is the canonical representation. Not all objects are required to be scoped to a namespace - the value of this field for those objects will be empty. Must be a DNS_LABEL. Cannot be updated. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces +optional */
@@ -1042,7 +984,7 @@ export interface V1ObjectMeta {
   /** An opaque value that represents the internal version of this object that can be used by clients to determine when objects have changed. May be used for optimistic concurrency, change detection, and the watch operation on a resource or set of resources. Clients must treat these values as opaque and passed unmodified back to the server. They may only be valid for a particular resource or set of resources. Populated by the system. Read-only. Value must be treated as opaque by clients and . More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency +optional */
   resourceVersion?: string;
   selfLink?: string;
-  /** UID is the unique in time and space value for this object. It is typically generated by the server on successful creation of a resource and is not allowed to change on PUT operations. Populated by the system. Read-only. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names#uids +optional */
+  /** UID is the unique in time and space value for this object. It is typically generated by the server on successful creation of a resource and is not allowed to change on PUT operations. Populated by the system. Read-only. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names#uids +optional +k8s:alpha(since: "1.37")=+k8s:optional +k8s:alpha(since: "1.37")=+k8s:immutable */
   uid?: string;
 }
 export const V1ObjectMeta = /*@__PURE__*/ S.suspend(() =>
@@ -1106,9 +1048,7 @@ export const V1alpha1Backoff = /*@__PURE__*/ S.suspend(() =>
     factor: S.optional(S.Number),
     maxDuration: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1Backoff",
-}) as any as S.Schema<V1alpha1Backoff>;
+).annotate({ identifier: "V1alpha1Backoff" }) as any as S.Schema<V1alpha1Backoff>;
 
 export interface V1alpha1RetryStrategy {
   backoff?: V1alpha1Backoff;
@@ -1122,9 +1062,7 @@ export const V1alpha1RetryStrategy = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number),
     refresh: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "V1alpha1RetryStrategy",
-}) as any as S.Schema<V1alpha1RetryStrategy>;
+).annotate({ identifier: "V1alpha1RetryStrategy" }) as any as S.Schema<V1alpha1RetryStrategy>;
 
 export type V1alpha1SyncOperationManifestsList = Array<string>;
 export const V1alpha1SyncOperationManifestsList = /*@__PURE__*/ S.Array(
@@ -1171,9 +1109,7 @@ export const V1alpha1JsonnetVar = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1JsonnetVar",
-}) as any as S.Schema<V1alpha1JsonnetVar>;
+).annotate({ identifier: "V1alpha1JsonnetVar" }) as any as S.Schema<V1alpha1JsonnetVar>;
 
 export type V1alpha1ApplicationSourceJsonnetExtVarsList = Array<V1alpha1JsonnetVar>;
 export const V1alpha1ApplicationSourceJsonnetExtVarsList = /*@__PURE__*/ S.Array(
@@ -1260,9 +1196,7 @@ export const V1alpha1HelmParameter = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1HelmParameter",
-}) as any as S.Schema<V1alpha1HelmParameter>;
+).annotate({ identifier: "V1alpha1HelmParameter" }) as any as S.Schema<V1alpha1HelmParameter>;
 
 export type V1alpha1ApplicationSourceHelmParametersList = Array<V1alpha1HelmParameter>;
 export const V1alpha1ApplicationSourceHelmParametersList = /*@__PURE__*/ S.Array(
@@ -1274,7 +1208,7 @@ export const V1alpha1ApplicationSourceHelmValueFilesList = /*@__PURE__*/ S.Array
   S.String,
 ) as any as S.Schema<V1alpha1ApplicationSourceHelmValueFilesList>;
 
-/** RawExtension is used to hold extensions in external versions. To use this, make a field which has RawExtension as its type in your external, versioned struct, and Object in your internal struct. You also need to register your various plugin types. // Internal package: type MyAPIObject struct { runtime.TypeMeta `json:",inline"` MyPlugin runtime.Object `json:"myPlugin"` } type PluginA struct { AOption string `json:"aOption"` } // External package: type MyAPIObject struct { runtime.TypeMeta `json:",inline"` MyPlugin runtime.RawExtension `json:"myPlugin"` } type PluginA struct { AOption string `json:"aOption"` } // On the wire, the JSON will look something like this: { "kind":"MyAPIObject", "apiVersion":"v1", "myPlugin": { "kind":"PluginA", "aOption":"foo", }, } So what happens? Decode first uses json or yaml to unmarshal the serialized data into your external MyAPIObject. That causes the raw JSON to be stored, but not unpacked. The next step is to copy (using pkg/conversion) into the internal struct. The runtime package's DefaultScheme has conversion functions installed which will unpack the JSON stored in RawExtension, turning it into the correct object type, and storing it in the Object. (TODO: In the case where the object is of an unknown type, a runtime.Unknown object will be created and stored.) +k8s:deepcopy-gen=true +protobuf=true +k8s:openapi-gen=true */
+/** RawExtension is used to hold extensions in external versions. To use this, make a field which has RawExtension as its type in your external, versioned struct, and Object in your internal struct. You also need to register your various plugin types. // Internal package: type MyAPIObject struct { runtime.TypeMeta `json:""` MyPlugin runtime.Object `json:"myPlugin"` } type PluginA struct { AOption string `json:"aOption"` } // External package: type MyAPIObject struct { runtime.TypeMeta `json:""` MyPlugin runtime.RawExtension `json:"myPlugin"` } type PluginA struct { AOption string `json:"aOption"` } // On the wire, the JSON will look something like this: { "kind":"MyAPIObject", "apiVersion":"v1", "myPlugin": { "kind":"PluginA", "aOption":"foo", }, } So what happens? Decode first uses json or yaml to unmarshal the serialized data into your external MyAPIObject. That causes the raw JSON to be stored, but not unpacked. The next step is to copy (using pkg/conversion) into the internal struct. The runtime package's DefaultScheme has conversion functions installed which will unpack the JSON stored in RawExtension, turning it into the correct object type, and storing it in the Object. (TODO: In the case where the object is of an unknown type, a runtime.Unknown object will be created and stored.) +k8s:deepcopy-gen=true +protobuf=true +k8s:openapi-gen=true */
 export interface RuntimeRawExtension {
   /** Raw is the underlying serialization of this object. TODO: Determine how to detect ContentType and ContentEncoding of 'Raw' data. */
   raw?: string;
@@ -1283,9 +1217,7 @@ export const RuntimeRawExtension = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     raw: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RuntimeRawExtension",
-}) as any as S.Schema<RuntimeRawExtension>;
+).annotate({ identifier: "RuntimeRawExtension" }) as any as S.Schema<RuntimeRawExtension>;
 
 export interface V1alpha1ApplicationSourceHelm {
   /** APIVersions specifies the Kubernetes resource API versions to pass to Helm when templating manifests. By default, Argo CD uses the API versions of the target cluster. The format is [group/]version/kind. */
@@ -1362,9 +1294,7 @@ export const V1alpha1ApplicationSourceKustomizeImagesList = /*@__PURE__*/ S.Arra
   S.String,
 ) as any as S.Schema<V1alpha1ApplicationSourceKustomizeImagesList>;
 
-export type V1alpha1KustomizePatchOptionsMap = {
-  [key: string]: boolean | undefined;
-};
+export type V1alpha1KustomizePatchOptionsMap = { [key: string]: boolean | undefined };
 export const V1alpha1KustomizePatchOptionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Boolean,
@@ -1381,9 +1311,7 @@ export const V1alpha1KustomizeGvk = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(S.String),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1KustomizeGvk",
-}) as any as S.Schema<V1alpha1KustomizeGvk>;
+).annotate({ identifier: "V1alpha1KustomizeGvk" }) as any as S.Schema<V1alpha1KustomizeGvk>;
 
 export interface V1alpha1KustomizeResId {
   gvk?: V1alpha1KustomizeGvk;
@@ -1396,9 +1324,7 @@ export const V1alpha1KustomizeResId = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     namespace: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1KustomizeResId",
-}) as any as S.Schema<V1alpha1KustomizeResId>;
+).annotate({ identifier: "V1alpha1KustomizeResId" }) as any as S.Schema<V1alpha1KustomizeResId>;
 
 export interface V1alpha1KustomizeSelector {
   annotationSelector?: string;
@@ -1428,9 +1354,7 @@ export const V1alpha1KustomizePatch = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String),
     target: S.optional(V1alpha1KustomizeSelector),
   }),
-).annotate({
-  identifier: "V1alpha1KustomizePatch",
-}) as any as S.Schema<V1alpha1KustomizePatch>;
+).annotate({ identifier: "V1alpha1KustomizePatch" }) as any as S.Schema<V1alpha1KustomizePatch>;
 
 export type V1alpha1ApplicationSourceKustomizePatchesList = Array<V1alpha1KustomizePatch>;
 export const V1alpha1ApplicationSourceKustomizePatchesList = /*@__PURE__*/ S.Array(
@@ -1449,9 +1373,7 @@ export const IntstrIntOrString = /*@__PURE__*/ S.suspend(() =>
     strVal: S.optional(S.String),
     type: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "IntstrIntOrString",
-}) as any as S.Schema<IntstrIntOrString>;
+).annotate({ identifier: "IntstrIntOrString" }) as any as S.Schema<IntstrIntOrString>;
 
 export interface V1alpha1KustomizeReplica {
   count?: IntstrIntOrString;
@@ -1462,9 +1384,7 @@ export const V1alpha1KustomizeReplica = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(IntstrIntOrString),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1KustomizeReplica",
-}) as any as S.Schema<V1alpha1KustomizeReplica>;
+).annotate({ identifier: "V1alpha1KustomizeReplica" }) as any as S.Schema<V1alpha1KustomizeReplica>;
 
 export type V1alpha1ApplicationSourceKustomizeReplicasList = Array<V1alpha1KustomizeReplica>;
 export const V1alpha1ApplicationSourceKustomizeReplicasList = /*@__PURE__*/ S.Array(
@@ -1533,9 +1453,7 @@ export const V1alpha1ApplicationSourcePluginParameterArrayList = /*@__PURE__*/ S
 ) as any as S.Schema<V1alpha1ApplicationSourcePluginParameterArrayList>;
 
 /** Map is the value of a map type parameter. */
-export type V1alpha1ApplicationSourcePluginParameterMapMap = {
-  [key: string]: string | undefined;
-};
+export type V1alpha1ApplicationSourcePluginParameterMapMap = { [key: string]: string | undefined };
 export const V1alpha1ApplicationSourcePluginParameterMapMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1650,9 +1568,7 @@ export const V1alpha1SyncStrategyHook = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncStrategyApply: S.optional(V1alpha1SyncStrategyApply),
   }),
-).annotate({
-  identifier: "V1alpha1SyncStrategyHook",
-}) as any as S.Schema<V1alpha1SyncStrategyHook>;
+).annotate({ identifier: "V1alpha1SyncStrategyHook" }) as any as S.Schema<V1alpha1SyncStrategyHook>;
 
 export interface V1alpha1SyncStrategy {
   apply?: V1alpha1SyncStrategyApply;
@@ -1663,9 +1579,7 @@ export const V1alpha1SyncStrategy = /*@__PURE__*/ S.suspend(() =>
     apply: S.optional(V1alpha1SyncStrategyApply),
     hook: S.optional(V1alpha1SyncStrategyHook),
   }),
-).annotate({
-  identifier: "V1alpha1SyncStrategy",
-}) as any as S.Schema<V1alpha1SyncStrategy>;
+).annotate({ identifier: "V1alpha1SyncStrategy" }) as any as S.Schema<V1alpha1SyncStrategy>;
 
 /** SyncOperation contains details about a sync operation. */
 export interface V1alpha1SyncOperation {
@@ -1697,9 +1611,7 @@ export const V1alpha1SyncOperation = /*@__PURE__*/ S.suspend(() =>
     syncOptions: S.optional(V1alpha1SyncOperationSyncOptionsList),
     syncStrategy: S.optional(V1alpha1SyncStrategy),
   }),
-).annotate({
-  identifier: "V1alpha1SyncOperation",
-}) as any as S.Schema<V1alpha1SyncOperation>;
+).annotate({ identifier: "V1alpha1SyncOperation" }) as any as S.Schema<V1alpha1SyncOperation>;
 
 export interface V1alpha1Operation {
   info?: V1alpha1OperationInfoList;
@@ -1714,9 +1626,7 @@ export const V1alpha1Operation = /*@__PURE__*/ S.suspend(() =>
     retry: S.optional(V1alpha1RetryStrategy),
     sync: S.optional(V1alpha1SyncOperation),
   }),
-).annotate({
-  identifier: "V1alpha1Operation",
-}) as any as S.Schema<V1alpha1Operation>;
+).annotate({ identifier: "V1alpha1Operation" }) as any as S.Schema<V1alpha1Operation>;
 
 export interface V1alpha1ApplicationDestination {
   /** Name is an alternate way of specifying the target cluster by its symbolic name. This must be set if Server is not set. */
@@ -1804,9 +1714,7 @@ export const V1alpha1DrySource = /*@__PURE__*/ S.suspend(() =>
     repoURL: S.optional(S.String),
     targetRevision: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1DrySource",
-}) as any as S.Schema<V1alpha1DrySource>;
+).annotate({ identifier: "V1alpha1DrySource" }) as any as S.Schema<V1alpha1DrySource>;
 
 /** HydrateTo specifies a branch to which hydrated manifests should be pushed as a "staging area" before being moved to the SyncSource. The repository and path are inherited from SyncSource. */
 export interface V1alpha1HydrateTo {
@@ -1816,9 +1724,7 @@ export const V1alpha1HydrateTo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     targetBranch: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1HydrateTo",
-}) as any as S.Schema<V1alpha1HydrateTo>;
+).annotate({ identifier: "V1alpha1HydrateTo" }) as any as S.Schema<V1alpha1HydrateTo>;
 
 /** SyncSource specifies a location from which hydrated manifests may be synced. If RepoURL is not set, it is assumed to be the same as the associated DrySource config in the SourceHydrator. */
 export interface V1alpha1SyncSource {
@@ -1835,9 +1741,7 @@ export const V1alpha1SyncSource = /*@__PURE__*/ S.suspend(() =>
     repoURL: S.optional(S.String),
     targetBranch: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1SyncSource",
-}) as any as S.Schema<V1alpha1SyncSource>;
+).annotate({ identifier: "V1alpha1SyncSource" }) as any as S.Schema<V1alpha1SyncSource>;
 
 /** SourceHydrator specifies a dry "don't repeat yourself" source for manifests, a sync source from which to sync hydrated manifests, and an optional hydrateTo location to act as a "staging" aread for hydrated manifests. */
 export interface V1alpha1SourceHydrator {
@@ -1851,9 +1755,7 @@ export const V1alpha1SourceHydrator = /*@__PURE__*/ S.suspend(() =>
     hydrateTo: S.optional(V1alpha1HydrateTo),
     syncSource: S.optional(V1alpha1SyncSource),
   }),
-).annotate({
-  identifier: "V1alpha1SourceHydrator",
-}) as any as S.Schema<V1alpha1SourceHydrator>;
+).annotate({ identifier: "V1alpha1SourceHydrator" }) as any as S.Schema<V1alpha1SourceHydrator>;
 
 export type V1alpha1ApplicationSpecSourcesList = Array<V1alpha1ApplicationSource>;
 export const V1alpha1ApplicationSpecSourcesList = /*@__PURE__*/ S.Array(
@@ -1877,17 +1779,13 @@ export const V1alpha1SyncPolicyAutomated = /*@__PURE__*/ S.suspend(() =>
   identifier: "V1alpha1SyncPolicyAutomated",
 }) as any as S.Schema<V1alpha1SyncPolicyAutomated>;
 
-export type V1alpha1ManagedNamespaceMetadataAnnotationsMap = {
-  [key: string]: string | undefined;
-};
+export type V1alpha1ManagedNamespaceMetadataAnnotationsMap = { [key: string]: string | undefined };
 export const V1alpha1ManagedNamespaceMetadataAnnotationsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<V1alpha1ManagedNamespaceMetadataAnnotationsMap>;
 
-export type V1alpha1ManagedNamespaceMetadataLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type V1alpha1ManagedNamespaceMetadataLabelsMap = { [key: string]: string | undefined };
 export const V1alpha1ManagedNamespaceMetadataLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1924,9 +1822,7 @@ export const V1alpha1SyncPolicy = /*@__PURE__*/ S.suspend(() =>
     retry: S.optional(V1alpha1RetryStrategy),
     syncOptions: S.optional(V1alpha1SyncPolicySyncOptionsList),
   }),
-).annotate({
-  identifier: "V1alpha1SyncPolicy",
-}) as any as S.Schema<V1alpha1SyncPolicy>;
+).annotate({ identifier: "V1alpha1SyncPolicy" }) as any as S.Schema<V1alpha1SyncPolicy>;
 
 /** ApplicationSpec represents desired application state. Contains link to repository with application definition and additional parameters link definition revision. */
 export interface V1alpha1ApplicationSpec {
@@ -1954,9 +1850,7 @@ export const V1alpha1ApplicationSpec = /*@__PURE__*/ S.suspend(() =>
     sources: S.optional(V1alpha1ApplicationSpecSourcesList),
     syncPolicy: S.optional(V1alpha1SyncPolicy),
   }),
-).annotate({
-  identifier: "V1alpha1ApplicationSpec",
-}) as any as S.Schema<V1alpha1ApplicationSpec>;
+).annotate({ identifier: "V1alpha1ApplicationSpec" }) as any as S.Schema<V1alpha1ApplicationSpec>;
 
 export interface V1alpha1ApplicationCondition {
   lastTransitionTime?: string;
@@ -2012,9 +1906,7 @@ export const V1alpha1RevisionHistory = /*@__PURE__*/ S.suspend(() =>
     source: S.optional(V1alpha1ApplicationSource),
     sources: S.optional(V1alpha1RevisionHistorySourcesList),
   }),
-).annotate({
-  identifier: "V1alpha1RevisionHistory",
-}) as any as S.Schema<V1alpha1RevisionHistory>;
+).annotate({ identifier: "V1alpha1RevisionHistory" }) as any as S.Schema<V1alpha1RevisionHistory>;
 
 export type V1alpha1ApplicationStatusHistoryList = Array<V1alpha1RevisionHistory>;
 export const V1alpha1ApplicationStatusHistoryList = /*@__PURE__*/ S.Array(
@@ -2054,9 +1946,7 @@ export const V1alpha1ResourceResult = /*@__PURE__*/ S.suspend(() =>
     syncPhase: S.optional(S.String),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1ResourceResult",
-}) as any as S.Schema<V1alpha1ResourceResult>;
+).annotate({ identifier: "V1alpha1ResourceResult" }) as any as S.Schema<V1alpha1ResourceResult>;
 
 export type V1alpha1SyncOperationResultResourcesList = Array<V1alpha1ResourceResult>;
 export const V1alpha1SyncOperationResultResourcesList = /*@__PURE__*/ S.Array(
@@ -2114,9 +2004,7 @@ export const V1alpha1OperationState = /*@__PURE__*/ S.suspend(() =>
     startedAt: S.optional(S.String),
     syncResult: S.optional(V1alpha1SyncOperationResult),
   }),
-).annotate({
-  identifier: "V1alpha1OperationState",
-}) as any as S.Schema<V1alpha1OperationState>;
+).annotate({ identifier: "V1alpha1OperationState" }) as any as S.Schema<V1alpha1OperationState>;
 
 /** ResourceStatus holds the current synchronization and health status of a Kubernetes resource. */
 export interface Applicationv1alpha1ResourceStatus {
@@ -2184,9 +2072,7 @@ export const V1alpha1HydrateOperation = /*@__PURE__*/ S.suspend(() =>
     sourceHydrator: S.optional(V1alpha1SourceHydrator),
     startedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1HydrateOperation",
-}) as any as S.Schema<V1alpha1HydrateOperation>;
+).annotate({ identifier: "V1alpha1HydrateOperation" }) as any as S.Schema<V1alpha1HydrateOperation>;
 
 export interface V1alpha1SuccessfulHydrateOperation {
   drySHA?: string;
@@ -2277,9 +2163,7 @@ export const V1alpha1ComparedTo = /*@__PURE__*/ S.suspend(() =>
     source: S.optional(V1alpha1ApplicationSource),
     sources: S.optional(V1alpha1ComparedToSourcesList),
   }),
-).annotate({
-  identifier: "V1alpha1ComparedTo",
-}) as any as S.Schema<V1alpha1ComparedTo>;
+).annotate({ identifier: "V1alpha1ComparedTo" }) as any as S.Schema<V1alpha1ComparedTo>;
 
 export type V1alpha1SyncStatusRevisionsList = Array<string>;
 export const V1alpha1SyncStatusRevisionsList = /*@__PURE__*/ S.Array(
@@ -2299,9 +2183,7 @@ export const V1alpha1SyncStatus = /*@__PURE__*/ S.suspend(() =>
     revisions: S.optional(V1alpha1SyncStatusRevisionsList),
     status: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1SyncStatus",
-}) as any as S.Schema<V1alpha1SyncStatus>;
+).annotate({ identifier: "V1alpha1SyncStatus" }) as any as S.Schema<V1alpha1SyncStatus>;
 
 export interface V1alpha1ApplicationStatus {
   conditions?: V1alpha1ApplicationStatusConditionsList;
@@ -2353,9 +2235,7 @@ export const V1alpha1Application = /*@__PURE__*/ S.suspend(() =>
     spec: S.optional(V1alpha1ApplicationSpec),
     status: S.optional(V1alpha1ApplicationStatus),
   }),
-).annotate({
-  identifier: "V1alpha1Application",
-}) as any as S.Schema<V1alpha1Application>;
+).annotate({ identifier: "V1alpha1Application" }) as any as S.Schema<V1alpha1Application>;
 
 export type ApplicationServiceServerSideDiffRequestTargetManifestsList = Array<string>;
 export const ApplicationServiceServerSideDiffRequestTargetManifestsList = /*@__PURE__*/ S.Array(
@@ -2377,11 +2257,7 @@ export const ApplicationServiceServerSideDiffRequest = /*@__PURE__*/ S.suspend((
       ApplicationServiceServerSideDiffRequestTargetManifestsList.pipe(T.Query()),
     ),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/applications/{appName}/server-side-diff",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/applications/{appName}/server-side-diff", code: 200 }),
   ),
 ).annotate({
   identifier: "ApplicationServiceServerSideDiffRequest",
@@ -2415,11 +2291,7 @@ export const ApplicationSetServiceResourceTreeRequest = /*@__PURE__*/ S.suspend(
     name: S.String.pipe(T.Label()),
     appsetNamespace: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/applicationsets/{name}/resource-tree",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/applicationsets/{name}/resource-tree", code: 200 }),
   ),
 ).annotate({
   identifier: "ApplicationSetServiceResourceTreeRequest",
@@ -2516,9 +2388,7 @@ export const V1LabelSelectorMatchExpressionsList = /*@__PURE__*/ S.Array(
   V1LabelSelectorRequirement,
 ) as any as S.Schema<V1LabelSelectorMatchExpressionsList>;
 
-export type V1LabelSelectorMatchLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type V1LabelSelectorMatchLabelsMap = { [key: string]: string | undefined };
 export const V1LabelSelectorMatchLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2533,9 +2403,7 @@ export const V1LabelSelector = /*@__PURE__*/ S.suspend(() =>
     matchExpressions: S.optional(V1LabelSelectorMatchExpressionsList),
     matchLabels: S.optional(V1LabelSelectorMatchLabelsMap),
   }),
-).annotate({
-  identifier: "V1LabelSelector",
-}) as any as S.Schema<V1LabelSelector>;
+).annotate({ identifier: "V1LabelSelector" }) as any as S.Schema<V1LabelSelector>;
 
 export type V1alpha1ApplicationSetTemplateMetaAnnotationsMap = {
   [key: string]: string | undefined;
@@ -2550,9 +2418,7 @@ export const V1alpha1ApplicationSetTemplateMetaFinalizersList = /*@__PURE__*/ S.
   S.String,
 ) as any as S.Schema<V1alpha1ApplicationSetTemplateMetaFinalizersList>;
 
-export type V1alpha1ApplicationSetTemplateMetaLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type V1alpha1ApplicationSetTemplateMetaLabelsMap = { [key: string]: string | undefined };
 export const V1alpha1ApplicationSetTemplateMetaLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2590,9 +2456,7 @@ export const V1alpha1ApplicationSetTemplate = /*@__PURE__*/ S.suspend(() =>
   identifier: "V1alpha1ApplicationSetTemplate",
 }) as any as S.Schema<V1alpha1ApplicationSetTemplate>;
 
-export type V1alpha1DuckTypeGeneratorValuesMap = {
-  [key: string]: string | undefined;
-};
+export type V1alpha1DuckTypeGeneratorValuesMap = { [key: string]: string | undefined };
 export const V1alpha1DuckTypeGeneratorValuesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2620,9 +2484,7 @@ export const V1alpha1DuckTypeGenerator = /*@__PURE__*/ S.suspend(() =>
   identifier: "V1alpha1DuckTypeGenerator",
 }) as any as S.Schema<V1alpha1DuckTypeGenerator>;
 
-export type V1alpha1ClusterGeneratorValuesMap = {
-  [key: string]: string | undefined;
-};
+export type V1alpha1ClusterGeneratorValuesMap = { [key: string]: string | undefined };
 export const V1alpha1ClusterGeneratorValuesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2642,9 +2504,7 @@ export const V1alpha1ClusterGenerator = /*@__PURE__*/ S.suspend(() =>
     template: S.optional(V1alpha1ApplicationSetTemplate),
     values: S.optional(V1alpha1ClusterGeneratorValuesMap),
   }),
-).annotate({
-  identifier: "V1alpha1ClusterGenerator",
-}) as any as S.Schema<V1alpha1ClusterGenerator>;
+).annotate({ identifier: "V1alpha1ClusterGenerator" }) as any as S.Schema<V1alpha1ClusterGenerator>;
 
 export interface V1alpha1GitDirectoryGeneratorItem {
   exclude?: boolean;
@@ -2672,9 +2532,7 @@ export const V1alpha1GitGeneratorFilesList = /*@__PURE__*/ S.Array(
   V1alpha1GitDirectoryGeneratorItem,
 ) as any as S.Schema<V1alpha1GitGeneratorFilesList>;
 
-export type V1alpha1GitGeneratorValuesMap = {
-  [key: string]: string | undefined;
-};
+export type V1alpha1GitGeneratorValuesMap = { [key: string]: string | undefined };
 export const V1alpha1GitGeneratorValuesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2701,9 +2559,7 @@ export const V1alpha1GitGenerator = /*@__PURE__*/ S.suspend(() =>
     template: S.optional(V1alpha1ApplicationSetTemplate),
     values: S.optional(V1alpha1GitGeneratorValuesMap),
   }),
-).annotate({
-  identifier: "V1alpha1GitGenerator",
-}) as any as S.Schema<V1alpha1GitGenerator>;
+).annotate({ identifier: "V1alpha1GitGenerator" }) as any as S.Schema<V1alpha1GitGenerator>;
 
 /** JSON represents any valid JSON value. These types are supported: bool, int64, float64, string, []interface{}, map[string]interface{} and nil. */
 export interface V1JSON {
@@ -2731,9 +2587,52 @@ export const V1alpha1ListGenerator = /*@__PURE__*/ S.suspend(() =>
     elementsYaml: S.optional(S.String),
     template: S.optional(V1alpha1ApplicationSetTemplate),
   }),
-).annotate({
-  identifier: "V1alpha1ListGenerator",
-}) as any as S.Schema<V1alpha1ListGenerator>;
+).annotate({ identifier: "V1alpha1ListGenerator" }) as any as S.Schema<V1alpha1ListGenerator>;
+
+export type V1alpha1OciDirectoryGeneratorItem = V1alpha1GitDirectoryGeneratorItem;
+export const V1alpha1OciDirectoryGeneratorItem = V1alpha1GitDirectoryGeneratorItem;
+
+export type V1alpha1OciGeneratorDirectoriesList = Array<V1alpha1GitDirectoryGeneratorItem>;
+export const V1alpha1OciGeneratorDirectoriesList = /*@__PURE__*/ S.Array(
+  V1alpha1GitDirectoryGeneratorItem,
+) as any as S.Schema<V1alpha1OciGeneratorDirectoriesList>;
+
+export type V1alpha1OciFileGeneratorItem = V1alpha1GitDirectoryGeneratorItem;
+export const V1alpha1OciFileGeneratorItem = V1alpha1GitDirectoryGeneratorItem;
+
+export type V1alpha1OciGeneratorFilesList = Array<V1alpha1GitDirectoryGeneratorItem>;
+export const V1alpha1OciGeneratorFilesList = /*@__PURE__*/ S.Array(
+  V1alpha1GitDirectoryGeneratorItem,
+) as any as S.Schema<V1alpha1OciGeneratorFilesList>;
+
+export type V1alpha1OciGeneratorValuesMap = { [key: string]: string | undefined };
+export const V1alpha1OciGeneratorValuesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<V1alpha1OciGeneratorValuesMap>;
+
+export interface V1alpha1OciGenerator {
+  directories?: V1alpha1OciGeneratorDirectoriesList;
+  files?: V1alpha1OciGeneratorFilesList;
+  pathParamPrefix?: string;
+  repoURL?: string;
+  requeueAfterSeconds?: number;
+  revision?: string;
+  template?: V1alpha1ApplicationSetTemplate;
+  values?: V1alpha1OciGeneratorValuesMap;
+}
+export const V1alpha1OciGenerator = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    directories: S.optional(V1alpha1OciGeneratorDirectoriesList),
+    files: S.optional(V1alpha1OciGeneratorFilesList),
+    pathParamPrefix: S.optional(S.String),
+    repoURL: S.optional(S.String),
+    requeueAfterSeconds: S.optional(S.Number),
+    revision: S.optional(S.String),
+    template: S.optional(V1alpha1ApplicationSetTemplate),
+    values: S.optional(V1alpha1OciGeneratorValuesMap),
+  }),
+).annotate({ identifier: "V1alpha1OciGenerator" }) as any as S.Schema<V1alpha1OciGenerator>;
 
 export interface V1alpha1PluginConfigMapRef {
   name?: string;
@@ -2747,9 +2646,7 @@ export const V1alpha1PluginConfigMapRef = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<V1alpha1PluginConfigMapRef>;
 
 /** Parameters contains the information to pass to the plugin. It is a map. The keys must be strings, and the values can be any type. */
-export type V1alpha1PluginInputParametersMap = {
-  [key: string]: V1JSON | undefined;
-};
+export type V1alpha1PluginInputParametersMap = { [key: string]: V1JSON | undefined };
 export const V1alpha1PluginInputParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   V1JSON,
@@ -2763,14 +2660,10 @@ export const V1alpha1PluginInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parameters: S.optional(V1alpha1PluginInputParametersMap),
   }),
-).annotate({
-  identifier: "V1alpha1PluginInput",
-}) as any as S.Schema<V1alpha1PluginInput>;
+).annotate({ identifier: "V1alpha1PluginInput" }) as any as S.Schema<V1alpha1PluginInput>;
 
 /** Values contains key/value pairs which are passed directly as parameters to the template. These values will not be sent as parameters to the plugin. */
-export type V1alpha1PluginGeneratorValuesMap = {
-  [key: string]: string | undefined;
-};
+export type V1alpha1PluginGeneratorValuesMap = { [key: string]: string | undefined };
 export const V1alpha1PluginGeneratorValuesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2794,9 +2687,7 @@ export const V1alpha1PluginGenerator = /*@__PURE__*/ S.suspend(() =>
     template: S.optional(V1alpha1ApplicationSetTemplate),
     values: S.optional(V1alpha1PluginGeneratorValuesMap),
   }),
-).annotate({
-  identifier: "V1alpha1PluginGenerator",
-}) as any as S.Schema<V1alpha1PluginGenerator>;
+).annotate({ identifier: "V1alpha1PluginGenerator" }) as any as S.Schema<V1alpha1PluginGenerator>;
 
 export type V1alpha1PullRequestGeneratorAzureDevOpsLabelsList = Array<string>;
 export const V1alpha1PullRequestGeneratorAzureDevOpsLabelsList = /*@__PURE__*/ S.Array(
@@ -2813,9 +2704,7 @@ export const V1alpha1SecretRef = /*@__PURE__*/ S.suspend(() =>
     key: S.optional(S.String),
     secretName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1SecretRef",
-}) as any as S.Schema<V1alpha1SecretRef>;
+).annotate({ identifier: "V1alpha1SecretRef" }) as any as S.Schema<V1alpha1SecretRef>;
 
 /** PullRequestGeneratorAzureDevOps defines connection info specific to AzureDevOps. */
 export interface V1alpha1PullRequestGeneratorAzureDevOps {
@@ -2906,9 +2795,7 @@ export const V1alpha1ConfigMapKeyRef = /*@__PURE__*/ S.suspend(() =>
     configMapName: S.optional(S.String),
     key: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1ConfigMapKeyRef",
-}) as any as S.Schema<V1alpha1ConfigMapKeyRef>;
+).annotate({ identifier: "V1alpha1ConfigMapKeyRef" }) as any as S.Schema<V1alpha1ConfigMapKeyRef>;
 
 /** PullRequestGeneratorBitbucketServer defines connection info specific to BitbucketServer. */
 export interface V1alpha1PullRequestGeneratorBitbucketServer {
@@ -3052,9 +2939,7 @@ export const V1alpha1PullRequestGeneratorGitLab = /*@__PURE__*/ S.suspend(() =>
   identifier: "V1alpha1PullRequestGeneratorGitLab",
 }) as any as S.Schema<V1alpha1PullRequestGeneratorGitLab>;
 
-export type V1alpha1PullRequestGeneratorValuesMap = {
-  [key: string]: string | undefined;
-};
+export type V1alpha1PullRequestGeneratorValuesMap = { [key: string]: string | undefined };
 export const V1alpha1PullRequestGeneratorValuesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3104,9 +2989,7 @@ export const V1alpha1TagFilter = /*@__PURE__*/ S.suspend(() =>
     key: S.optional(S.String),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1TagFilter",
-}) as any as S.Schema<V1alpha1TagFilter>;
+).annotate({ identifier: "V1alpha1TagFilter" }) as any as S.Schema<V1alpha1TagFilter>;
 
 export type V1alpha1SCMProviderGeneratorAWSCodeCommitTagFiltersList = Array<V1alpha1TagFilter>;
 export const V1alpha1SCMProviderGeneratorAWSCodeCommitTagFiltersList = /*@__PURE__*/ S.Array(
@@ -3336,9 +3219,7 @@ export const V1alpha1SCMProviderGeneratorGitlab = /*@__PURE__*/ S.suspend(() =>
   identifier: "V1alpha1SCMProviderGeneratorGitlab",
 }) as any as S.Schema<V1alpha1SCMProviderGeneratorGitlab>;
 
-export type V1alpha1SCMProviderGeneratorValuesMap = {
-  [key: string]: string | undefined;
-};
+export type V1alpha1SCMProviderGeneratorValuesMap = { [key: string]: string | undefined };
 export const V1alpha1SCMProviderGeneratorValuesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3389,6 +3270,7 @@ export interface V1alpha1ApplicationSetNestedGenerator {
   list?: V1alpha1ListGenerator;
   matrix?: V1JSON;
   merge?: V1JSON;
+  oci?: V1alpha1OciGenerator;
   plugin?: V1alpha1PluginGenerator;
   pullRequest?: V1alpha1PullRequestGenerator;
   scmProvider?: V1alpha1SCMProviderGenerator;
@@ -3402,6 +3284,7 @@ export const V1alpha1ApplicationSetNestedGenerator = /*@__PURE__*/ S.suspend(() 
     list: S.optional(V1alpha1ListGenerator),
     matrix: S.optional(V1JSON),
     merge: S.optional(V1JSON),
+    oci: S.optional(V1alpha1OciGenerator),
     plugin: S.optional(V1alpha1PluginGenerator),
     pullRequest: S.optional(V1alpha1PullRequestGenerator),
     scmProvider: S.optional(V1alpha1SCMProviderGenerator),
@@ -3426,9 +3309,7 @@ export const V1alpha1MatrixGenerator = /*@__PURE__*/ S.suspend(() =>
     generators: S.optional(V1alpha1MatrixGeneratorGeneratorsList),
     template: S.optional(V1alpha1ApplicationSetTemplate),
   }),
-).annotate({
-  identifier: "V1alpha1MatrixGenerator",
-}) as any as S.Schema<V1alpha1MatrixGenerator>;
+).annotate({ identifier: "V1alpha1MatrixGenerator" }) as any as S.Schema<V1alpha1MatrixGenerator>;
 
 export type V1alpha1MergeGeneratorGeneratorsList = Array<V1alpha1ApplicationSetNestedGenerator>;
 export const V1alpha1MergeGeneratorGeneratorsList = /*@__PURE__*/ S.Array(
@@ -3452,9 +3333,7 @@ export const V1alpha1MergeGenerator = /*@__PURE__*/ S.suspend(() =>
     mergeKeys: S.optional(V1alpha1MergeGeneratorMergeKeysList),
     template: S.optional(V1alpha1ApplicationSetTemplate),
   }),
-).annotate({
-  identifier: "V1alpha1MergeGenerator",
-}) as any as S.Schema<V1alpha1MergeGenerator>;
+).annotate({ identifier: "V1alpha1MergeGenerator" }) as any as S.Schema<V1alpha1MergeGenerator>;
 
 /** ApplicationSetGenerator represents a generator at the top level of an ApplicationSet. */
 export interface V1alpha1ApplicationSetGenerator {
@@ -3464,6 +3343,7 @@ export interface V1alpha1ApplicationSetGenerator {
   list?: V1alpha1ListGenerator;
   matrix?: V1alpha1MatrixGenerator;
   merge?: V1alpha1MergeGenerator;
+  oci?: V1alpha1OciGenerator;
   plugin?: V1alpha1PluginGenerator;
   pullRequest?: V1alpha1PullRequestGenerator;
   scmProvider?: V1alpha1SCMProviderGenerator;
@@ -3477,6 +3357,7 @@ export const V1alpha1ApplicationSetGenerator = /*@__PURE__*/ S.suspend(() =>
     list: S.optional(V1alpha1ListGenerator),
     matrix: S.optional(V1alpha1MatrixGenerator),
     merge: S.optional(V1alpha1MergeGenerator),
+    oci: S.optional(V1alpha1OciGenerator),
     plugin: S.optional(V1alpha1PluginGenerator),
     pullRequest: S.optional(V1alpha1PullRequestGenerator),
     scmProvider: S.optional(V1alpha1SCMProviderGenerator),
@@ -3795,9 +3676,7 @@ export const V1alpha1ApplicationSet = /*@__PURE__*/ S.suspend(() =>
     spec: S.optional(V1alpha1ApplicationSetSpec),
     status: S.optional(V1alpha1ApplicationSetStatus),
   }),
-).annotate({
-  identifier: "V1alpha1ApplicationSet",
-}) as any as S.Schema<V1alpha1ApplicationSet>;
+).annotate({ identifier: "V1alpha1ApplicationSet" }) as any as S.Schema<V1alpha1ApplicationSet>;
 
 export interface V1alpha1RepositoryCertificate {
   certData?: string;
@@ -3887,9 +3766,7 @@ export const V1alpha1RepositoryCertificateList = /*@__PURE__*/ S.suspend(() =>
   identifier: "V1alpha1RepositoryCertificateList",
 }) as any as S.Schema<V1alpha1RepositoryCertificateList>;
 
-export type CreateClusterServiceRequestAnnotationsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateClusterServiceRequestAnnotationsMap = { [key: string]: string | undefined };
 export const CreateClusterServiceRequestAnnotationsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3908,18 +3785,14 @@ export const V1alpha1AWSAuthConfig = /*@__PURE__*/ S.suspend(() =>
     profile: S.optional(S.String),
     roleARN: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1AWSAuthConfig",
-}) as any as S.Schema<V1alpha1AWSAuthConfig>;
+).annotate({ identifier: "V1alpha1AWSAuthConfig" }) as any as S.Schema<V1alpha1AWSAuthConfig>;
 
 export type V1alpha1ExecProviderConfigArgsList = Array<string>;
 export const V1alpha1ExecProviderConfigArgsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<V1alpha1ExecProviderConfigArgsList>;
 
-export type V1alpha1ExecProviderConfigEnvMap = {
-  [key: string]: string | undefined;
-};
+export type V1alpha1ExecProviderConfigEnvMap = { [key: string]: string | undefined };
 export const V1alpha1ExecProviderConfigEnvMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3965,20 +3838,22 @@ export const V1alpha1TLSClientConfig = /*@__PURE__*/ S.suspend(() =>
     keyData: S.optional(S.String),
     serverName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1TLSClientConfig",
-}) as any as S.Schema<V1alpha1TLSClientConfig>;
+).annotate({ identifier: "V1alpha1TLSClientConfig" }) as any as S.Schema<V1alpha1TLSClientConfig>;
 
 /** ClusterConfig is the configuration attributes. This structure is subset of the go-client rest.Config with annotations added for marshalling. */
 export interface V1alpha1ClusterConfig {
   awsAuthConfig?: V1alpha1AWSAuthConfig;
   /** Server requires Bearer authentication. This client will not attempt to use refresh tokens for an OAuth2 flow. TODO: demonstrate an OAuth2 compatible client. */
   bearerToken?: string;
+  /** Burst allows extra queries to accumulate for a rapid burst of requests to this cluster. */
+  burst?: number;
   /** DisableCompression bypasses automatic GZip compression requests to the server. */
   disableCompression?: boolean;
   execProviderConfig?: V1alpha1ExecProviderConfig;
   password?: string | Redacted.Redacted<string>;
   proxyUrl?: string;
+  /** QPS controls the number of queries per second allowed for this cluster. */
+  qps?: number;
   tlsClientConfig?: V1alpha1TLSClientConfig;
   username?: string;
 }
@@ -3986,16 +3861,16 @@ export const V1alpha1ClusterConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     awsAuthConfig: S.optional(V1alpha1AWSAuthConfig),
     bearerToken: S.optional(S.String),
+    burst: S.optional(S.Number),
     disableCompression: S.optional(S.Boolean),
     execProviderConfig: S.optional(V1alpha1ExecProviderConfig),
     password: S.optional(S.String.pipe(T.SensitiveValue({}))),
     proxyUrl: S.optional(S.String),
+    qps: S.optional(S.Number),
     tlsClientConfig: S.optional(V1alpha1TLSClientConfig),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1ClusterConfig",
-}) as any as S.Schema<V1alpha1ClusterConfig>;
+).annotate({ identifier: "V1alpha1ClusterConfig" }) as any as S.Schema<V1alpha1ClusterConfig>;
 
 export interface V1alpha1ConnectionState {
   attemptedAt?: string;
@@ -4008,9 +3883,7 @@ export const V1alpha1ConnectionState = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     status: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1ConnectionState",
-}) as any as S.Schema<V1alpha1ConnectionState>;
+).annotate({ identifier: "V1alpha1ConnectionState" }) as any as S.Schema<V1alpha1ConnectionState>;
 
 export type V1alpha1ClusterInfoApiVersionsList = Array<string>;
 export const V1alpha1ClusterInfoApiVersionsList = /*@__PURE__*/ S.Array(
@@ -4028,9 +3901,7 @@ export const V1alpha1ClusterCacheInfo = /*@__PURE__*/ S.suspend(() =>
     lastCacheSyncTime: S.optional(S.String),
     resourcesCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "V1alpha1ClusterCacheInfo",
-}) as any as S.Schema<V1alpha1ClusterCacheInfo>;
+).annotate({ identifier: "V1alpha1ClusterCacheInfo" }) as any as S.Schema<V1alpha1ClusterCacheInfo>;
 
 export interface V1alpha1ClusterInfo {
   apiVersions?: V1alpha1ClusterInfoApiVersionsList;
@@ -4047,13 +3918,9 @@ export const V1alpha1ClusterInfo = /*@__PURE__*/ S.suspend(() =>
     connectionState: S.optional(V1alpha1ConnectionState),
     serverVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1ClusterInfo",
-}) as any as S.Schema<V1alpha1ClusterInfo>;
+).annotate({ identifier: "V1alpha1ClusterInfo" }) as any as S.Schema<V1alpha1ClusterInfo>;
 
-export type CreateClusterServiceRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateClusterServiceRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateClusterServiceRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4071,6 +3938,7 @@ export interface CreateClusterServiceRequest {
   /** Indicates if cluster level resources should be managed. This setting is used only if cluster is connected in a namespaced mode. */
   clusterResources?: boolean;
   config?: V1alpha1ClusterConfig;
+  configHash?: string;
   connectionState?: V1alpha1ConnectionState;
   info?: V1alpha1ClusterInfo;
   labels?: CreateClusterServiceRequestLabelsMap;
@@ -4090,6 +3958,7 @@ export const CreateClusterServiceRequest = /*@__PURE__*/ S.suspend(() =>
     annotations: S.optional(CreateClusterServiceRequestAnnotationsMap),
     clusterResources: S.optional(S.Boolean),
     config: S.optional(V1alpha1ClusterConfig),
+    configHash: S.optional(S.String),
     connectionState: S.optional(V1alpha1ConnectionState),
     info: S.optional(V1alpha1ClusterInfo),
     labels: S.optional(CreateClusterServiceRequestLabelsMap),
@@ -4105,9 +3974,7 @@ export const CreateClusterServiceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateClusterServiceRequest",
 }) as any as S.Schema<CreateClusterServiceRequest>;
 
-export type V1alpha1ClusterAnnotationsMap = {
-  [key: string]: string | undefined;
-};
+export type V1alpha1ClusterAnnotationsMap = { [key: string]: string | undefined };
 export const V1alpha1ClusterAnnotationsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4130,6 +3997,7 @@ export interface V1alpha1Cluster {
   /** Indicates if cluster level resources should be managed. This setting is used only if cluster is connected in a namespaced mode. */
   clusterResources?: boolean;
   config?: V1alpha1ClusterConfig;
+  configHash?: string;
   connectionState?: V1alpha1ConnectionState;
   info?: V1alpha1ClusterInfo;
   labels?: V1alpha1ClusterLabelsMap;
@@ -4148,6 +4016,7 @@ export const V1alpha1Cluster = /*@__PURE__*/ S.suspend(() =>
     annotations: S.optional(V1alpha1ClusterAnnotationsMap),
     clusterResources: S.optional(S.Boolean),
     config: S.optional(V1alpha1ClusterConfig),
+    configHash: S.optional(S.String),
     connectionState: S.optional(V1alpha1ConnectionState),
     info: S.optional(V1alpha1ClusterInfo),
     labels: S.optional(V1alpha1ClusterLabelsMap),
@@ -4159,9 +4028,7 @@ export const V1alpha1Cluster = /*@__PURE__*/ S.suspend(() =>
     serverVersion: S.optional(S.String),
     shard: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "V1alpha1Cluster",
-}) as any as S.Schema<V1alpha1Cluster>;
+).annotate({ identifier: "V1alpha1Cluster" }) as any as S.Schema<V1alpha1Cluster>;
 
 export interface CreateGPGKeyServiceRequest {
   /** Whether to upsert already existing public keys. */
@@ -4204,9 +4071,7 @@ export const V1alpha1GnuPGPublicKey = /*@__PURE__*/ S.suspend(() =>
     subType: S.optional(S.String),
     trust: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1GnuPGPublicKey",
-}) as any as S.Schema<V1alpha1GnuPGPublicKey>;
+).annotate({ identifier: "V1alpha1GnuPGPublicKey" }) as any as S.Schema<V1alpha1GnuPGPublicKey>;
 
 export type V1alpha1GnuPGPublicKeyListItemsList = Array<V1alpha1GnuPGPublicKey>;
 export const V1alpha1GnuPGPublicKeyListItemsList = /*@__PURE__*/ S.Array(
@@ -4373,9 +4238,7 @@ export const V1alpha1JWTToken = /*@__PURE__*/ S.suspend(() =>
     iat: S.optional(S.Number),
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1JWTToken",
-}) as any as S.Schema<V1alpha1JWTToken>;
+).annotate({ identifier: "V1alpha1JWTToken" }) as any as S.Schema<V1alpha1JWTToken>;
 
 export type V1alpha1ProjectRoleJwtTokensList = Array<V1alpha1JWTToken>;
 export const V1alpha1ProjectRoleJwtTokensList = /*@__PURE__*/ S.Array(
@@ -4402,9 +4265,7 @@ export const V1alpha1ProjectRole = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     policies: S.optional(V1alpha1ProjectRolePoliciesList),
   }),
-).annotate({
-  identifier: "V1alpha1ProjectRole",
-}) as any as S.Schema<V1alpha1ProjectRole>;
+).annotate({ identifier: "V1alpha1ProjectRole" }) as any as S.Schema<V1alpha1ProjectRole>;
 
 export type V1alpha1AppProjectSpecRolesList = Array<V1alpha1ProjectRole>;
 export const V1alpha1AppProjectSpecRolesList = /*@__PURE__*/ S.Array(
@@ -4419,9 +4280,7 @@ export const V1alpha1SignatureKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     keyID: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1SignatureKey",
-}) as any as S.Schema<V1alpha1SignatureKey>;
+).annotate({ identifier: "V1alpha1SignatureKey" }) as any as S.Schema<V1alpha1SignatureKey>;
 
 /** Deprecated: Use SourceIntegrity instead. SignatureKeys will be removed with the next major version. */
 export type V1alpha1AppProjectSpecSignatureKeysList = Array<V1alpha1SignatureKey>;
@@ -4503,9 +4362,7 @@ export const V1alpha1SourceIntegrity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     git: S.optional(V1alpha1SourceIntegrityGit),
   }),
-).annotate({
-  identifier: "V1alpha1SourceIntegrity",
-}) as any as S.Schema<V1alpha1SourceIntegrity>;
+).annotate({ identifier: "V1alpha1SourceIntegrity" }) as any as S.Schema<V1alpha1SourceIntegrity>;
 
 export type V1alpha1AppProjectSpecSourceNamespacesList = Array<string>;
 export const V1alpha1AppProjectSpecSourceNamespacesList = /*@__PURE__*/ S.Array(
@@ -4559,9 +4416,7 @@ export const V1alpha1InlineSyncWindow = /*@__PURE__*/ S.suspend(() =>
     syncOverrun: S.optional(S.Boolean),
     timeZone: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1InlineSyncWindow",
-}) as any as S.Schema<V1alpha1InlineSyncWindow>;
+).annotate({ identifier: "V1alpha1InlineSyncWindow" }) as any as S.Schema<V1alpha1InlineSyncWindow>;
 
 export type V1alpha1AppProjectSpecSyncWindowsList = Array<V1alpha1InlineSyncWindow>;
 export const V1alpha1AppProjectSpecSyncWindowsList = /*@__PURE__*/ S.Array(
@@ -4605,9 +4460,7 @@ export const V1alpha1AppProjectSpec = /*@__PURE__*/ S.suspend(() =>
     sourceRepos: S.optional(V1alpha1AppProjectSpecSourceReposList),
     syncWindows: S.optional(V1alpha1AppProjectSpecSyncWindowsList),
   }),
-).annotate({
-  identifier: "V1alpha1AppProjectSpec",
-}) as any as S.Schema<V1alpha1AppProjectSpec>;
+).annotate({ identifier: "V1alpha1AppProjectSpec" }) as any as S.Schema<V1alpha1AppProjectSpec>;
 
 export type V1alpha1JWTTokensItemsList = Array<V1alpha1JWTToken>;
 export const V1alpha1JWTTokensItemsList = /*@__PURE__*/ S.Array(
@@ -4621,9 +4474,7 @@ export const V1alpha1JWTTokens = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(V1alpha1JWTTokensItemsList),
   }),
-).annotate({
-  identifier: "V1alpha1JWTTokens",
-}) as any as S.Schema<V1alpha1JWTTokens>;
+).annotate({ identifier: "V1alpha1JWTTokens" }) as any as S.Schema<V1alpha1JWTTokens>;
 
 export type V1alpha1AppProjectStatusJwtTokensByRoleMap = {
   [key: string]: V1alpha1JWTTokens | undefined;
@@ -4640,9 +4491,7 @@ export const V1alpha1AppProjectStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     jwtTokensByRole: S.optional(V1alpha1AppProjectStatusJwtTokensByRoleMap),
   }),
-).annotate({
-  identifier: "V1alpha1AppProjectStatus",
-}) as any as S.Schema<V1alpha1AppProjectStatus>;
+).annotate({ identifier: "V1alpha1AppProjectStatus" }) as any as S.Schema<V1alpha1AppProjectStatus>;
 
 export interface V1alpha1AppProject {
   metadata?: V1ObjectMeta;
@@ -4655,9 +4504,7 @@ export const V1alpha1AppProject = /*@__PURE__*/ S.suspend(() =>
     spec: S.optional(V1alpha1AppProjectSpec),
     status: S.optional(V1alpha1AppProjectStatus),
   }),
-).annotate({
-  identifier: "V1alpha1AppProject",
-}) as any as S.Schema<V1alpha1AppProject>;
+).annotate({ identifier: "V1alpha1AppProject" }) as any as S.Schema<V1alpha1AppProject>;
 
 export interface CreateProjectServiceRequest {
   project?: V1alpha1AppProject;
@@ -4687,11 +4534,7 @@ export const CreateProjectServiceTokenRequest = /*@__PURE__*/ S.suspend(() =>
     expiresIn: S.optional(S.Number),
     id: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/projects/{project}/roles/{role}/token",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/projects/{project}/roles/{role}/token", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateProjectServiceTokenRequest",
@@ -4822,9 +4665,7 @@ export const V1alpha1RepoCreds = /*@__PURE__*/ S.suspend(() =>
     useAzureWorkloadIdentity: S.optional(S.Boolean),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1RepoCreds",
-}) as any as S.Schema<V1alpha1RepoCreds>;
+).annotate({ identifier: "V1alpha1RepoCreds" }) as any as S.Schema<V1alpha1RepoCreds>;
 
 export interface CreateRepoCredsServiceWriteRepositoryCredentialsRequest {
   /** Whether to create in upsert mode. */
@@ -5046,9 +4887,7 @@ export const V1alpha1Repository = /*@__PURE__*/ S.suspend(() =>
     username: S.optional(S.String),
     webhookManifestCacheWarmDisabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "V1alpha1Repository",
-}) as any as S.Schema<V1alpha1Repository>;
+).annotate({ identifier: "V1alpha1Repository" }) as any as S.Schema<V1alpha1Repository>;
 
 export interface CreateRepositoryServiceWriteRepositoryRequest {
   /** Whether to create in upsert mode. */
@@ -5158,9 +4997,7 @@ export const SessionSessionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     token: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SessionSessionResponse",
-}) as any as S.Schema<SessionSessionResponse>;
+).annotate({ identifier: "SessionSessionResponse" }) as any as S.Schema<SessionSessionResponse>;
 
 export interface DeleteAccountServiceTokenRequest {
   name: string;
@@ -5170,13 +5007,7 @@ export const DeleteAccountServiceTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/account/{name}/token/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/account/{name}/token/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteAccountServiceTokenRequest",
 }) as any as S.Schema<DeleteAccountServiceTokenRequest>;
@@ -5238,13 +5069,7 @@ export const DeleteApplicationServiceResourceRequest = /*@__PURE__*/ S.suspend((
     orphan: S.optional(S.Boolean.pipe(T.Query())),
     appNamespace: S.optional(S.String.pipe(T.Query())),
     project: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/applications/{name}/resource",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/applications/{name}/resource", code: 200 })),
 ).annotate({
   identifier: "DeleteApplicationServiceResourceRequest",
 }) as any as S.Schema<DeleteApplicationServiceResourceRequest>;
@@ -5265,13 +5090,7 @@ export const DeleteApplicationSetServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
     appsetNamespace: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/applicationsets/{name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/applicationsets/{name}", code: 200 })),
 ).annotate({
   identifier: "DeleteApplicationSetServiceRequest",
 }) as any as S.Schema<DeleteApplicationSetServiceRequest>;
@@ -5424,13 +5243,7 @@ export interface DeleteRepoCredsServiceWriteRepositoryCredentialsRequest {
 export const DeleteRepoCredsServiceWriteRepositoryCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/write-repocreds/{url}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/write-repocreds/{url}", code: 200 })),
 ).annotate({
   identifier: "DeleteRepoCredsServiceWriteRepositoryCredentialsRequest",
 }) as any as S.Schema<DeleteRepoCredsServiceWriteRepositoryCredentialsRequest>;
@@ -5455,13 +5268,7 @@ export const DeleteRepositoryServiceRepositoryRequest = /*@__PURE__*/ S.suspend(
     repo: S.String.pipe(T.Label()),
     forceRefresh: S.optional(S.Boolean.pipe(T.Query())),
     appProject: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/repositories/{repo}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/repositories/{repo}", code: 200 })),
 ).annotate({
   identifier: "DeleteRepositoryServiceRepositoryRequest",
 }) as any as S.Schema<DeleteRepositoryServiceRepositoryRequest>;
@@ -5486,13 +5293,7 @@ export const DeleteRepositoryServiceWriteRepositoryRequest = /*@__PURE__*/ S.sus
     repo: S.String.pipe(T.Label()),
     forceRefresh: S.optional(S.Boolean.pipe(T.Query())),
     appProject: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/write-repositories/{repo}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/write-repositories/{repo}", code: 200 })),
 ).annotate({
   identifier: "DeleteRepositoryServiceWriteRepositoryRequest",
 }) as any as S.Schema<DeleteRepositoryServiceWriteRepositoryRequest>;
@@ -5517,13 +5318,7 @@ export interface GenerateApplicationSetServiceRequest {
 export const GenerateApplicationSetServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applicationSet: S.optional(V1alpha1ApplicationSet),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/applicationsets/generate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/applicationsets/generate", code: 200 })),
 ).annotate({
   identifier: "GenerateApplicationSetServiceRequest",
 }) as any as S.Schema<GenerateApplicationSetServiceRequest>;
@@ -5604,6 +5399,11 @@ export const GetApplicationServiceRequestProjectList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<GetApplicationServiceRequestProjectList>;
 
+export type GetApplicationServiceRequestNamesList = Array<string>;
+export const GetApplicationServiceRequestNamesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetApplicationServiceRequestNamesList>;
+
 export interface GetApplicationServiceRequest {
   /** the application's name */
   name: string;
@@ -5621,6 +5421,8 @@ export interface GetApplicationServiceRequest {
   appNamespace?: string;
   /** the project names to restrict returned list applications (legacy name for backwards-compatibility). */
   project?: GetApplicationServiceRequestProjectList;
+  /** the application names to restrict returned list applications (used by the UI favorites filter). An entry may be qualified as 'namespace/name' to match only the application in that namespace. */
+  names?: GetApplicationServiceRequestNamesList;
 }
 export const GetApplicationServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5632,6 +5434,7 @@ export const GetApplicationServiceRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.optional(S.String.pipe(T.Query())),
     appNamespace: S.optional(S.String.pipe(T.Query())),
     project: S.optional(GetApplicationServiceRequestProjectList.pipe(T.Query())),
+    names: S.optional(GetApplicationServiceRequestNamesList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/applications/{name}", code: 200 })),
 ).annotate({
   identifier: "GetApplicationServiceRequest",
@@ -5647,13 +5450,7 @@ export const GetApplicationServiceApplicationSyncWindowsRequest = /*@__PURE__*/ 
     name: S.String.pipe(T.Label()),
     appNamespace: S.optional(S.String.pipe(T.Query())),
     project: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/applications/{name}/syncwindows",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/applications/{name}/syncwindows", code: 200 })),
 ).annotate({
   identifier: "GetApplicationServiceApplicationSyncWindowsRequest",
 }) as any as S.Schema<GetApplicationServiceApplicationSyncWindowsRequest>;
@@ -5732,13 +5529,7 @@ export const GetApplicationServiceManifestsRequest = /*@__PURE__*/ S.suspend(() 
     ),
     revisions: S.optional(GetApplicationServiceManifestsRequestRevisionsList.pipe(T.Query())),
     noCache: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/applications/{name}/manifests",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/applications/{name}/manifests", code: 200 })),
 ).annotate({
   identifier: "GetApplicationServiceManifestsRequest",
 }) as any as S.Schema<GetApplicationServiceManifestsRequest>;
@@ -5786,9 +5577,7 @@ export const ApplicationFileChunk = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     chunk: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationFileChunk",
-}) as any as S.Schema<ApplicationFileChunk>;
+).annotate({ identifier: "ApplicationFileChunk" }) as any as S.Schema<ApplicationFileChunk>;
 
 export interface ApplicationApplicationManifestQueryWithFiles {
   appNamespace?: string;
@@ -5815,13 +5604,7 @@ export const GetApplicationServiceManifestsWithFilesRequest = /*@__PURE__*/ S.su
   S.Struct({
     chunk: S.optional(ApplicationFileChunk),
     query: S.optional(ApplicationApplicationManifestQueryWithFiles),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/applications/manifestsWithFiles",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/applications/manifestsWithFiles", code: 200 })),
 ).annotate({
   identifier: "GetApplicationServiceManifestsWithFilesRequest",
 }) as any as S.Schema<GetApplicationServiceManifestsWithFilesRequest>;
@@ -5877,9 +5660,7 @@ export const V1alpha1OCIMetadata = /*@__PURE__*/ S.suspend(() =>
     sourceUrl: S.optional(S.String),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1OCIMetadata",
-}) as any as S.Schema<V1alpha1OCIMetadata>;
+).annotate({ identifier: "V1alpha1OCIMetadata" }) as any as S.Schema<V1alpha1OCIMetadata>;
 
 export interface GetApplicationServiceResourceRequest {
   name: string;
@@ -5901,13 +5682,7 @@ export const GetApplicationServiceResourceRequest = /*@__PURE__*/ S.suspend(() =
     kind: S.optional(S.String.pipe(T.Query())),
     appNamespace: S.optional(S.String.pipe(T.Query())),
     project: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/applications/{name}/resource",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/applications/{name}/resource", code: 200 })),
 ).annotate({
   identifier: "GetApplicationServiceResourceRequest",
 }) as any as S.Schema<GetApplicationServiceResourceRequest>;
@@ -5953,9 +5728,7 @@ export const GetClusterServiceRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String.pipe(T.Query())),
     id_type: S.optional(S.String.pipe(T.Query("id.type"))),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/clusters/{id_value}", code: 200 })),
-).annotate({
-  identifier: "GetClusterServiceRequest",
-}) as any as S.Schema<GetClusterServiceRequest>;
+).annotate({ identifier: "GetClusterServiceRequest" }) as any as S.Schema<GetClusterServiceRequest>;
 
 export interface GetGPGKeyServiceRequest {
   /** The GPG key ID to query for */
@@ -5965,9 +5738,7 @@ export const GetGPGKeyServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     keyID: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/gpgkeys/{keyID}", code: 200 })),
-).annotate({
-  identifier: "GetGPGKeyServiceRequest",
-}) as any as S.Schema<GetGPGKeyServiceRequest>;
+).annotate({ identifier: "GetGPGKeyServiceRequest" }) as any as S.Schema<GetGPGKeyServiceRequest>;
 
 export interface GetProjectServiceRequest {
   name: string;
@@ -5976,9 +5747,7 @@ export const GetProjectServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/projects/{name}", code: 200 })),
-).annotate({
-  identifier: "GetProjectServiceRequest",
-}) as any as S.Schema<GetProjectServiceRequest>;
+).annotate({ identifier: "GetProjectServiceRequest" }) as any as S.Schema<GetProjectServiceRequest>;
 
 export interface GetProjectServiceDetailedProjectRequest {
   name: string;
@@ -5986,13 +5755,7 @@ export interface GetProjectServiceDetailedProjectRequest {
 export const GetProjectServiceDetailedProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/projects/{name}/detailed",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/projects/{name}/detailed", code: 200 })),
 ).annotate({
   identifier: "GetProjectServiceDetailedProjectRequest",
 }) as any as S.Schema<GetProjectServiceDetailedProjectRequest>;
@@ -6035,13 +5798,7 @@ export interface GetProjectServiceGlobalProjectsRequest {
 export const GetProjectServiceGlobalProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/projects/{name}/globalprojects",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/projects/{name}/globalprojects", code: 200 })),
 ).annotate({
   identifier: "GetProjectServiceGlobalProjectsRequest",
 }) as any as S.Schema<GetProjectServiceGlobalProjectsRequest>;
@@ -6068,13 +5825,7 @@ export interface GetProjectServiceSyncWindowsStateRequest {
 export const GetProjectServiceSyncWindowsStateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/projects/{name}/syncwindows",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/projects/{name}/syncwindows", code: 200 })),
 ).annotate({
   identifier: "GetProjectServiceSyncWindowsStateRequest",
 }) as any as S.Schema<GetProjectServiceSyncWindowsStateRequest>;
@@ -6131,11 +5882,7 @@ export const GetRepositoryServiceAppDetailsRequest = /*@__PURE__*/ S.suspend(() 
     sourceIndex: S.optional(S.Number),
     versionId: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/repositories/{source_repoURL}/appdetails",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/repositories/{source_repoURL}/appdetails", code: 200 }),
   ),
 ).annotate({
   identifier: "GetRepositoryServiceAppDetailsRequest",
@@ -6171,9 +5918,7 @@ export const RepositoryHelmAppSpec = /*@__PURE__*/ S.suspend(() =>
     valueFiles: S.optional(RepositoryHelmAppSpecValueFilesList),
     values: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RepositoryHelmAppSpec",
-}) as any as S.Schema<RepositoryHelmAppSpec>;
+).annotate({ identifier: "RepositoryHelmAppSpec" }) as any as S.Schema<RepositoryHelmAppSpec>;
 
 /** images is a list of available images. */
 export type RepositoryKustomizeAppSpecImagesList = Array<string>;
@@ -6200,9 +5945,7 @@ export const RepositoryParameterAnnouncementArrayList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<RepositoryParameterAnnouncementArrayList>;
 
 /** map is the default value of the parameter if the parameter is a map. */
-export type RepositoryParameterAnnouncementMapMap = {
-  [key: string]: string | undefined;
-};
+export type RepositoryParameterAnnouncementMapMap = { [key: string]: string | undefined };
 export const RepositoryParameterAnnouncementMapMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6257,9 +6000,7 @@ export const RepositoryPluginAppSpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parametersAnnouncement: S.optional(RepositoryPluginAppSpecParametersAnnouncementList),
   }),
-).annotate({
-  identifier: "RepositoryPluginAppSpec",
-}) as any as S.Schema<RepositoryPluginAppSpec>;
+).annotate({ identifier: "RepositoryPluginAppSpec" }) as any as S.Schema<RepositoryPluginAppSpec>;
 
 export interface RepositoryRepoAppDetailsResponse {
   directory?: unknown;
@@ -6293,13 +6034,7 @@ export const GetRepositoryServiceHelmChartsRequest = /*@__PURE__*/ S.suspend(() 
     repo: S.String.pipe(T.Label()),
     forceRefresh: S.optional(S.Boolean.pipe(T.Query())),
     appProject: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/repositories/{repo}/helmcharts",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/repositories/{repo}/helmcharts", code: 200 })),
 ).annotate({
   identifier: "GetRepositoryServiceHelmChartsRequest",
 }) as any as S.Schema<GetRepositoryServiceHelmChartsRequest>;
@@ -6318,9 +6053,7 @@ export const RepositoryHelmChart = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     versions: S.optional(RepositoryHelmChartVersionsList),
   }),
-).annotate({
-  identifier: "RepositoryHelmChart",
-}) as any as S.Schema<RepositoryHelmChart>;
+).annotate({ identifier: "RepositoryHelmChart" }) as any as S.Schema<RepositoryHelmChart>;
 
 export type RepositoryHelmChartsResponseItemsList = Array<RepositoryHelmChart>;
 export const RepositoryHelmChartsResponseItemsList = /*@__PURE__*/ S.Array(
@@ -6351,13 +6084,7 @@ export const GetRepositoryServiceWriteRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     forceRefresh: S.optional(S.Boolean.pipe(T.Query())),
     appProject: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/write-repositories/{repo}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/write-repositories/{repo}", code: 200 })),
 ).annotate({
   identifier: "GetRepositoryServiceWriteRequest",
 }) as any as S.Schema<GetRepositoryServiceWriteRequest>;
@@ -6422,9 +6149,7 @@ export const V1alpha1Command = /*@__PURE__*/ S.suspend(() =>
     args: S.optional(V1alpha1CommandArgsList),
     command: S.optional(V1alpha1CommandCommandList),
   }),
-).annotate({
-  identifier: "V1alpha1Command",
-}) as any as S.Schema<V1alpha1Command>;
+).annotate({ identifier: "V1alpha1Command" }) as any as S.Schema<V1alpha1Command>;
 
 export interface V1alpha1ConfigManagementPlugin {
   generate?: V1alpha1Command;
@@ -6460,9 +6185,7 @@ export const ClusterConnector = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClusterConnector",
-}) as any as S.Schema<ClusterConnector>;
+).annotate({ identifier: "ClusterConnector" }) as any as S.Schema<ClusterConnector>;
 
 export type ClusterDexConfigConnectorsList = Array<ClusterConnector>;
 export const ClusterDexConfigConnectorsList = /*@__PURE__*/ S.Array(
@@ -6478,9 +6201,7 @@ export const ClusterDexConfig = /*@__PURE__*/ S.suspend(() =>
     connectors: S.optional(ClusterDexConfigConnectorsList),
     dexAuthConnectorID: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClusterDexConfig",
-}) as any as S.Schema<ClusterDexConfig>;
+).annotate({ identifier: "ClusterDexConfig" }) as any as S.Schema<ClusterDexConfig>;
 
 export interface ClusterGoogleAnalyticsConfig {
   anonymizeUsers?: boolean;
@@ -6525,9 +6246,7 @@ export const V1alpha1KustomizeVersion = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     path: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1KustomizeVersion",
-}) as any as S.Schema<V1alpha1KustomizeVersion>;
+).annotate({ identifier: "V1alpha1KustomizeVersion" }) as any as S.Schema<V1alpha1KustomizeVersion>;
 
 /** Versions is a list of Kustomize versions and their corresponding binary paths and build options. */
 export type V1alpha1KustomizeOptionsVersionsList = Array<V1alpha1KustomizeVersion>;
@@ -6548,9 +6267,7 @@ export const V1alpha1KustomizeOptions = /*@__PURE__*/ S.suspend(() =>
     buildOptions: S.optional(S.String),
     versions: S.optional(V1alpha1KustomizeOptionsVersionsList),
   }),
-).annotate({
-  identifier: "V1alpha1KustomizeOptions",
-}) as any as S.Schema<V1alpha1KustomizeOptions>;
+).annotate({ identifier: "V1alpha1KustomizeOptions" }) as any as S.Schema<V1alpha1KustomizeOptions>;
 
 export type ClusterSettingsKustomizeVersionsList = Array<string>;
 export const ClusterSettingsKustomizeVersionsList = /*@__PURE__*/ S.Array(
@@ -6575,9 +6292,7 @@ export const OidcClaim = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "OidcClaim" }) as any as S.Schema<OidcClaim>;
 
-export type ClusterOIDCConfigIdTokenClaimsMap = {
-  [key: string]: OidcClaim | undefined;
-};
+export type ClusterOIDCConfigIdTokenClaimsMap = { [key: string]: OidcClaim | undefined };
 export const ClusterOIDCConfigIdTokenClaimsMap = /*@__PURE__*/ S.Record(
   S.String,
   OidcClaim,
@@ -6607,9 +6322,7 @@ export const ClusterOIDCConfig = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     scopes: S.optional(ClusterOIDCConfigScopesList),
   }),
-).annotate({
-  identifier: "ClusterOIDCConfig",
-}) as any as S.Schema<ClusterOIDCConfig>;
+).annotate({ identifier: "ClusterOIDCConfig" }) as any as S.Schema<ClusterOIDCConfig>;
 
 export type ClusterPlugin = V1alpha1PluginConfigMapRef;
 export const ClusterPlugin = V1alpha1PluginConfigMapRef;
@@ -6660,9 +6373,7 @@ export const V1alpha1KnownTypeField = /*@__PURE__*/ S.suspend(() =>
     field: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V1alpha1KnownTypeField",
-}) as any as S.Schema<V1alpha1KnownTypeField>;
+).annotate({ identifier: "V1alpha1KnownTypeField" }) as any as S.Schema<V1alpha1KnownTypeField>;
 
 /** KnownTypeFields lists fields for which unit conversions should be applied. */
 export type V1alpha1ResourceOverrideKnownTypeFieldsList = Array<V1alpha1KnownTypeField>;
@@ -6691,9 +6402,7 @@ export const V1alpha1ResourceOverride = /*@__PURE__*/ S.suspend(() =>
     knownTypeFields: S.optional(V1alpha1ResourceOverrideKnownTypeFieldsList),
     useOpenLibs: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "V1alpha1ResourceOverride",
-}) as any as S.Schema<V1alpha1ResourceOverride>;
+).annotate({ identifier: "V1alpha1ResourceOverride" }) as any as S.Schema<V1alpha1ResourceOverride>;
 
 export type ClusterSettingsResourceOverridesMap = {
   [key: string]: V1alpha1ResourceOverride | undefined;
@@ -6771,9 +6480,7 @@ export const ClusterSettings = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.String),
     userLoginsDisabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ClusterSettings",
-}) as any as S.Schema<ClusterSettings>;
+).annotate({ identifier: "ClusterSettings" }) as any as S.Schema<ClusterSettings>;
 
 export interface GetSettingsServicePluginsRequest {}
 export const GetSettingsServicePluginsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -6806,11 +6513,7 @@ export const InvalidateClusterServiceCacheRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     id_value: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/clusters/{id_value}/invalidate-cache",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/clusters/{id_value}/invalidate-cache", code: 200 }),
   ),
 ).annotate({
   identifier: "InvalidateClusterServiceCacheRequest",
@@ -6835,9 +6538,7 @@ export const AccountAccountsList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(AccountAccountsListItemsList),
   }),
-).annotate({
-  identifier: "AccountAccountsList",
-}) as any as S.Schema<AccountAccountsList>;
+).annotate({ identifier: "AccountAccountsList" }) as any as S.Schema<AccountAccountsList>;
 
 export type ListApplicationServiceRequestProjectsList = Array<string>;
 export const ListApplicationServiceRequestProjectsList = /*@__PURE__*/ S.Array(
@@ -6848,6 +6549,11 @@ export type ListApplicationServiceRequestProjectList = Array<string>;
 export const ListApplicationServiceRequestProjectList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<ListApplicationServiceRequestProjectList>;
+
+export type ListApplicationServiceRequestNamesList = Array<string>;
+export const ListApplicationServiceRequestNamesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListApplicationServiceRequestNamesList>;
 
 export interface ListApplicationServiceRequest {
   /** the application's name. */
@@ -6866,6 +6572,8 @@ export interface ListApplicationServiceRequest {
   appNamespace?: string;
   /** the project names to restrict returned list applications (legacy name for backwards-compatibility). */
   project?: ListApplicationServiceRequestProjectList;
+  /** the application names to restrict returned list applications (used by the UI favorites filter). An entry may be qualified as 'namespace/name' to match only the application in that namespace. */
+  names?: ListApplicationServiceRequestNamesList;
 }
 export const ListApplicationServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6877,6 +6585,7 @@ export const ListApplicationServiceRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.optional(S.String.pipe(T.Query())),
     appNamespace: S.optional(S.String.pipe(T.Query())),
     project: S.optional(ListApplicationServiceRequestProjectList.pipe(T.Query())),
+    names: S.optional(ListApplicationServiceRequestNamesList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/applications", code: 200 })),
 ).annotate({
   identifier: "ListApplicationServiceRequest",
@@ -6896,9 +6605,7 @@ export const V1alpha1ApplicationList = /*@__PURE__*/ S.suspend(() =>
     items: S.optional(V1alpha1ApplicationListItemsList),
     metadata: S.optional(V1ListMeta),
   }),
-).annotate({
-  identifier: "V1alpha1ApplicationList",
-}) as any as S.Schema<V1alpha1ApplicationList>;
+).annotate({ identifier: "V1alpha1ApplicationList" }) as any as S.Schema<V1alpha1ApplicationList>;
 
 export interface ListApplicationServiceLinksRequest {
   name: string;
@@ -6910,13 +6617,7 @@ export const ListApplicationServiceLinksRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.Label()),
     namespace: S.optional(S.String.pipe(T.Query())),
     project: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/applications/{name}/links",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/applications/{name}/links", code: 200 })),
 ).annotate({
   identifier: "ListApplicationServiceLinksRequest",
 }) as any as S.Schema<ListApplicationServiceLinksRequest>;
@@ -6934,9 +6635,7 @@ export const ApplicationLinkInfo = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationLinkInfo",
-}) as any as S.Schema<ApplicationLinkInfo>;
+).annotate({ identifier: "ApplicationLinkInfo" }) as any as S.Schema<ApplicationLinkInfo>;
 
 export type ApplicationLinksResponseItemsList = Array<ApplicationLinkInfo>;
 export const ApplicationLinksResponseItemsList = /*@__PURE__*/ S.Array(
@@ -6950,9 +6649,7 @@ export const ApplicationLinksResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(ApplicationLinksResponseItemsList),
   }),
-).annotate({
-  identifier: "ApplicationLinksResponse",
-}) as any as S.Schema<ApplicationLinksResponse>;
+).annotate({ identifier: "ApplicationLinksResponse" }) as any as S.Schema<ApplicationLinksResponse>;
 
 export interface ListApplicationServiceResourceActionsRequest {
   name: string;
@@ -6975,11 +6672,7 @@ export const ListApplicationServiceResourceActionsRequest = /*@__PURE__*/ S.susp
     appNamespace: S.optional(S.String.pipe(T.Query())),
     project: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/applications/{name}/resource/actions",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/applications/{name}/resource/actions", code: 200 }),
   ),
 ).annotate({
   identifier: "ListApplicationServiceResourceActionsRequest",
@@ -7025,9 +6718,7 @@ export const V1alpha1ResourceAction = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     params: S.optional(V1alpha1ResourceActionParamsList),
   }),
-).annotate({
-  identifier: "V1alpha1ResourceAction",
-}) as any as S.Schema<V1alpha1ResourceAction>;
+).annotate({ identifier: "V1alpha1ResourceAction" }) as any as S.Schema<V1alpha1ResourceAction>;
 
 export type ApplicationResourceActionsListResponseActionsList = Array<V1alpha1ResourceAction>;
 export const ApplicationResourceActionsListResponseActionsList = /*@__PURE__*/ S.Array(
@@ -7061,13 +6752,7 @@ export const ListApplicationServiceResourceEventsRequest = /*@__PURE__*/ S.suspe
     resourceUID: S.optional(S.String.pipe(T.Query())),
     appNamespace: S.optional(S.String.pipe(T.Query())),
     project: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/applications/{name}/events",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/applications/{name}/events", code: 200 })),
 ).annotate({
   identifier: "ListApplicationServiceResourceEventsRequest",
 }) as any as S.Schema<ListApplicationServiceResourceEventsRequest>;
@@ -7113,9 +6798,7 @@ export const EventsObjectReference = /*@__PURE__*/ S.suspend(() =>
     resourceVersion: S.optional(S.String),
     uid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EventsObjectReference",
-}) as any as S.Schema<EventsObjectReference>;
+).annotate({ identifier: "EventsObjectReference" }) as any as S.Schema<EventsObjectReference>;
 
 /** EventSeries contain information on series of events, i.e. thing that was/is happening continuously for some time. */
 export interface EventsEventSeries {
@@ -7128,9 +6811,7 @@ export const EventsEventSeries = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     lastObservedTime: S.optional(V1MicroTime),
   }),
-).annotate({
-  identifier: "EventsEventSeries",
-}) as any as S.Schema<EventsEventSeries>;
+).annotate({ identifier: "EventsEventSeries" }) as any as S.Schema<EventsEventSeries>;
 
 /** EventSource contains information for an event. */
 export interface EventsEventSource {
@@ -7144,9 +6825,7 @@ export const EventsEventSource = /*@__PURE__*/ S.suspend(() =>
     component: S.optional(S.String),
     host: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EventsEventSource",
-}) as any as S.Schema<EventsEventSource>;
+).annotate({ identifier: "EventsEventSource" }) as any as S.Schema<EventsEventSource>;
 
 /** Event mirrors corev1.Event and exposes the fields consumed by the Argo CD API and UI. Event is a report of an event somewhere in the cluster. Events have a limited retention time and triggers and messages may evolve with time. Event consumers should not rely on the timing of an event with a given Reason reflecting a consistent underlying trigger, or the continued existence of events with that Reason. Events should be treated as informative, best-effort, supplemental data. */
 export interface EventsEvent {
@@ -7210,9 +6889,7 @@ export const EventsEventList = /*@__PURE__*/ S.suspend(() =>
     items: S.optional(EventsEventListItemsList),
     metadata: S.optional(V1ListMeta),
   }),
-).annotate({
-  identifier: "EventsEventList",
-}) as any as S.Schema<EventsEventList>;
+).annotate({ identifier: "EventsEventList" }) as any as S.Schema<EventsEventList>;
 
 export interface ListApplicationServiceResourceLinksRequest {
   name: string;
@@ -7234,13 +6911,7 @@ export const ListApplicationServiceResourceLinksRequest = /*@__PURE__*/ S.suspen
     kind: S.optional(S.String.pipe(T.Query())),
     appNamespace: S.optional(S.String.pipe(T.Query())),
     project: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/applications/{name}/resource/links",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/applications/{name}/resource/links", code: 200 })),
 ).annotate({
   identifier: "ListApplicationServiceResourceLinksRequest",
 }) as any as S.Schema<ListApplicationServiceResourceLinksRequest>;
@@ -7296,13 +6967,7 @@ export const ListApplicationSetServiceResourceEventsRequest = /*@__PURE__*/ S.su
   S.Struct({
     name: S.String.pipe(T.Label()),
     appsetNamespace: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/applicationsets/{name}/events",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/applicationsets/{name}/events", code: 200 })),
 ).annotate({
   identifier: "ListApplicationSetServiceResourceEventsRequest",
 }) as any as S.Schema<ListApplicationSetServiceResourceEventsRequest>;
@@ -7359,9 +7024,7 @@ export const V1alpha1ClusterList = /*@__PURE__*/ S.suspend(() =>
     items: S.optional(V1alpha1ClusterListItemsList),
     metadata: S.optional(V1ListMeta),
   }),
-).annotate({
-  identifier: "V1alpha1ClusterList",
-}) as any as S.Schema<V1alpha1ClusterList>;
+).annotate({ identifier: "V1alpha1ClusterList" }) as any as S.Schema<V1alpha1ClusterList>;
 
 export interface ListGPGKeyServiceRequest {
   /** The GPG key ID to query for. */
@@ -7371,19 +7034,11 @@ export const ListGPGKeyServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     keyID: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/gpgkeys", code: 200 })),
-).annotate({
-  identifier: "ListGPGKeyServiceRequest",
-}) as any as S.Schema<ListGPGKeyServiceRequest>;
+).annotate({ identifier: "ListGPGKeyServiceRequest" }) as any as S.Schema<ListGPGKeyServiceRequest>;
 
 export interface ListNotificationServiceServicesRequest {}
 export const ListNotificationServiceServicesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/notifications/services",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/notifications/services", code: 200 })),
 ).annotate({
   identifier: "ListNotificationServiceServicesRequest",
 }) as any as S.Schema<ListNotificationServiceServicesRequest>;
@@ -7403,19 +7058,11 @@ export const NotificationServiceList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(NotificationServiceListItemsList),
   }),
-).annotate({
-  identifier: "NotificationServiceList",
-}) as any as S.Schema<NotificationServiceList>;
+).annotate({ identifier: "NotificationServiceList" }) as any as S.Schema<NotificationServiceList>;
 
 export interface ListNotificationServiceTemplatesRequest {}
 export const ListNotificationServiceTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/notifications/templates",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/notifications/templates", code: 200 })),
 ).annotate({
   identifier: "ListNotificationServiceTemplatesRequest",
 }) as any as S.Schema<ListNotificationServiceTemplatesRequest>;
@@ -7435,19 +7082,11 @@ export const NotificationTemplateList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(NotificationTemplateListItemsList),
   }),
-).annotate({
-  identifier: "NotificationTemplateList",
-}) as any as S.Schema<NotificationTemplateList>;
+).annotate({ identifier: "NotificationTemplateList" }) as any as S.Schema<NotificationTemplateList>;
 
 export interface ListNotificationServiceTriggersRequest {}
 export const ListNotificationServiceTriggersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/notifications/triggers",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/notifications/triggers", code: 200 })),
 ).annotate({
   identifier: "ListNotificationServiceTriggersRequest",
 }) as any as S.Schema<ListNotificationServiceTriggersRequest>;
@@ -7467,9 +7106,7 @@ export const NotificationTriggerList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(NotificationTriggerListItemsList),
   }),
-).annotate({
-  identifier: "NotificationTriggerList",
-}) as any as S.Schema<NotificationTriggerList>;
+).annotate({ identifier: "NotificationTriggerList" }) as any as S.Schema<NotificationTriggerList>;
 
 export interface ListProjectServiceRequest {
   name?: string;
@@ -7496,9 +7133,7 @@ export const V1alpha1AppProjectList = /*@__PURE__*/ S.suspend(() =>
     items: S.optional(V1alpha1AppProjectListItemsList),
     metadata: S.optional(V1ListMeta),
   }),
-).annotate({
-  identifier: "V1alpha1AppProjectList",
-}) as any as S.Schema<V1alpha1AppProjectList>;
+).annotate({ identifier: "V1alpha1AppProjectList" }) as any as S.Schema<V1alpha1AppProjectList>;
 
 export interface ListProjectServiceEventsRequest {
   name: string;
@@ -7549,9 +7184,7 @@ export const V1alpha1RepoCredsList = /*@__PURE__*/ S.suspend(() =>
     items: S.optional(V1alpha1RepoCredsListItemsList),
     metadata: S.optional(V1ListMeta),
   }),
-).annotate({
-  identifier: "V1alpha1RepoCredsList",
-}) as any as S.Schema<V1alpha1RepoCredsList>;
+).annotate({ identifier: "V1alpha1RepoCredsList" }) as any as S.Schema<V1alpha1RepoCredsList>;
 
 export interface ListRepoCredsServiceWriteRepositoryCredentialsRequest {
   /** Repo URL for query. */
@@ -7577,13 +7210,7 @@ export const ListRepositoryServiceAppsRequest = /*@__PURE__*/ S.suspend(() =>
     revision: S.optional(S.String.pipe(T.Query())),
     appName: S.optional(S.String.pipe(T.Query())),
     appProject: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/repositories/{repo}/apps",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/repositories/{repo}/apps", code: 200 })),
 ).annotate({
   identifier: "ListRepositoryServiceAppsRequest",
 }) as any as S.Schema<ListRepositoryServiceAppsRequest>;
@@ -7597,9 +7224,7 @@ export const RepositoryAppInfo = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RepositoryAppInfo",
-}) as any as S.Schema<RepositoryAppInfo>;
+).annotate({ identifier: "RepositoryAppInfo" }) as any as S.Schema<RepositoryAppInfo>;
 
 export type RepositoryRepoAppsResponseItemsList = Array<RepositoryAppInfo>;
 export const RepositoryRepoAppsResponseItemsList = /*@__PURE__*/ S.Array(
@@ -7630,13 +7255,7 @@ export const ListRepositoryServiceOCITagsRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     forceRefresh: S.optional(S.Boolean.pipe(T.Query())),
     appProject: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/repositories/{repo}/oci-tags",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/repositories/{repo}/oci-tags", code: 200 })),
 ).annotate({
   identifier: "ListRepositoryServiceOCITagsRequest",
 }) as any as S.Schema<ListRepositoryServiceOCITagsRequest>;
@@ -7675,13 +7294,7 @@ export const ListRepositoryServiceRefsRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     forceRefresh: S.optional(S.Boolean.pipe(T.Query())),
     appProject: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/repositories/{repo}/refs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/repositories/{repo}/refs", code: 200 })),
 ).annotate({
   identifier: "ListRepositoryServiceRefsRequest",
 }) as any as S.Schema<ListRepositoryServiceRefsRequest>;
@@ -7719,9 +7332,7 @@ export const V1alpha1RepositoryList = /*@__PURE__*/ S.suspend(() =>
     items: S.optional(V1alpha1RepositoryListItemsList),
     metadata: S.optional(V1ListMeta),
   }),
-).annotate({
-  identifier: "V1alpha1RepositoryList",
-}) as any as S.Schema<V1alpha1RepositoryList>;
+).annotate({ identifier: "V1alpha1RepositoryList" }) as any as S.Schema<V1alpha1RepositoryList>;
 
 export interface ListRepositoryServiceWriteRepositoriesRequest {
   /** Repo URL for query. */
@@ -7784,13 +7395,7 @@ export const PatchApplicationServiceResourceRequest = /*@__PURE__*/ S.suspend(()
     appNamespace: S.optional(S.String.pipe(T.Query())),
     project: S.optional(S.String.pipe(T.Query())),
     body: S.String.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/applications/{name}/resource",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/applications/{name}/resource", code: 200 })),
 ).annotate({
   identifier: "PatchApplicationServiceResourceRequest",
 }) as any as S.Schema<PatchApplicationServiceResourceRequest>;
@@ -7802,13 +7407,7 @@ export interface RotateClusterServiceAuthRequest {
 export const RotateClusterServiceAuthRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id_value: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/clusters/{id_value}/rotate-auth",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/clusters/{id_value}/rotate-auth", code: 200 })),
 ).annotate({
   identifier: "RotateClusterServiceAuthRequest",
 }) as any as S.Schema<RotateClusterServiceAuthRequest>;
@@ -7843,11 +7442,7 @@ export const RunApplicationServiceResourceActionRequest = /*@__PURE__*/ S.suspen
     project: S.optional(S.String.pipe(T.Query())),
     body: S.String.pipe(T.HttpBody()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/applications/{name}/resource/actions",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/applications/{name}/resource/actions", code: 200 }),
   ),
 ).annotate({
   identifier: "RunApplicationServiceResourceActionRequest",
@@ -7897,11 +7492,7 @@ export const RunApplicationServiceResourceActionV2Request = /*@__PURE__*/ S.susp
     resourceName: S.optional(S.String),
     version: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/applications/{name}/resource/actions/v2",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/applications/{name}/resource/actions/v2", code: 200 }),
   ),
 ).annotate({
   identifier: "RunApplicationServiceResourceActionV2Request",
@@ -7951,9 +7542,7 @@ export const ApplicationSyncOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(ApplicationSyncOptionsItemsList),
   }),
-).annotate({
-  identifier: "ApplicationSyncOptions",
-}) as any as S.Schema<ApplicationSyncOptions>;
+).annotate({ identifier: "ApplicationSyncOptions" }) as any as S.Schema<ApplicationSyncOptions>;
 
 export interface SyncApplicationServiceRequest {
   name: string;
@@ -7987,13 +7576,7 @@ export const SyncApplicationServiceRequest = /*@__PURE__*/ S.suspend(() =>
     sourcePositions: S.optional(SyncApplicationServiceRequestSourcePositionsList),
     strategy: S.optional(V1alpha1SyncStrategy),
     syncOptions: S.optional(ApplicationSyncOptions),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/applications/{name}/sync",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/applications/{name}/sync", code: 200 })),
 ).annotate({
   identifier: "SyncApplicationServiceRequest",
 }) as any as S.Schema<SyncApplicationServiceRequest>;
@@ -8008,13 +7591,7 @@ export const TerminateApplicationServiceOperationRequest = /*@__PURE__*/ S.suspe
     name: S.String.pipe(T.Label()),
     appNamespace: S.optional(S.String.pipe(T.Query())),
     project: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/applications/{name}/operation",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/applications/{name}/operation", code: 200 })),
 ).annotate({
   identifier: "TerminateApplicationServiceOperationRequest",
 }) as any as S.Schema<TerminateApplicationServiceOperationRequest>;
@@ -8068,11 +7645,7 @@ export const UpdateApplicationServiceRequest = /*@__PURE__*/ S.suspend(() =>
     spec: S.optional(V1alpha1ApplicationSpec),
     status: S.optional(V1alpha1ApplicationStatus),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/applications/{application_metadata_name}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/v1/applications/{application_metadata_name}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateApplicationServiceRequest",
@@ -8123,13 +7696,7 @@ export const UpdateApplicationServiceSpecRequest = /*@__PURE__*/ S.suspend(() =>
     sourceHydrator: S.optional(V1alpha1SourceHydrator),
     sources: S.optional(UpdateApplicationServiceSpecRequestSourcesList),
     syncPolicy: S.optional(V1alpha1SyncPolicy),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/applications/{name}/spec",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/applications/{name}/spec", code: 200 })),
 ).annotate({
   identifier: "UpdateApplicationServiceSpecRequest",
 }) as any as S.Schema<UpdateApplicationServiceSpecRequest>;
@@ -8139,17 +7706,13 @@ export const UpdateClusterServiceRequestUpdatedFieldsList = /*@__PURE__*/ S.Arra
   S.String,
 ) as any as S.Schema<UpdateClusterServiceRequestUpdatedFieldsList>;
 
-export type UpdateClusterServiceRequestAnnotationsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateClusterServiceRequestAnnotationsMap = { [key: string]: string | undefined };
 export const UpdateClusterServiceRequestAnnotationsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<UpdateClusterServiceRequestAnnotationsMap>;
 
-export type UpdateClusterServiceRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateClusterServiceRequestLabelsMap = { [key: string]: string | undefined };
 export const UpdateClusterServiceRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8171,6 +7734,7 @@ export interface UpdateClusterServiceRequest {
   /** Indicates if cluster level resources should be managed. This setting is used only if cluster is connected in a namespaced mode. */
   clusterResources?: boolean;
   config?: V1alpha1ClusterConfig;
+  configHash?: string;
   connectionState?: V1alpha1ConnectionState;
   info?: V1alpha1ClusterInfo;
   labels?: UpdateClusterServiceRequestLabelsMap;
@@ -8192,6 +7756,7 @@ export const UpdateClusterServiceRequest = /*@__PURE__*/ S.suspend(() =>
     annotations: S.optional(UpdateClusterServiceRequestAnnotationsMap),
     clusterResources: S.optional(S.Boolean),
     config: S.optional(V1alpha1ClusterConfig),
+    configHash: S.optional(S.String),
     connectionState: S.optional(V1alpha1ConnectionState),
     info: S.optional(V1alpha1ClusterInfo),
     labels: S.optional(UpdateClusterServiceRequestLabelsMap),
@@ -8216,13 +7781,7 @@ export const UpdateProjectServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_metadata_name: S.String.pipe(T.Label()),
     project: S.optional(V1alpha1AppProject),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/projects/{project_metadata_name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/projects/{project_metadata_name}", code: 200 })),
 ).annotate({
   identifier: "UpdateProjectServiceRequest",
 }) as any as S.Schema<UpdateProjectServiceRequest>;
@@ -8282,13 +7841,7 @@ export const UpdateRepoCredsServiceRepositoryCredentialsRequest = /*@__PURE__*/ 
     url: S.optional(S.String),
     useAzureWorkloadIdentity: S.optional(S.Boolean),
     username: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/repocreds/{creds_url}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/repocreds/{creds_url}", code: 200 })),
 ).annotate({
   identifier: "UpdateRepoCredsServiceRepositoryCredentialsRequest",
 }) as any as S.Schema<UpdateRepoCredsServiceRepositoryCredentialsRequest>;
@@ -8348,13 +7901,7 @@ export const UpdateRepoCredsServiceWriteRepositoryCredentialsRequest = /*@__PURE
     url: S.optional(S.String),
     useAzureWorkloadIdentity: S.optional(S.Boolean),
     username: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/write-repocreds/{creds_url}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/write-repocreds/{creds_url}", code: 200 })),
 ).annotate({
   identifier: "UpdateRepoCredsServiceWriteRepositoryCredentialsRequest",
 }) as any as S.Schema<UpdateRepoCredsServiceWriteRepositoryCredentialsRequest>;
@@ -8436,13 +7983,7 @@ export const UpdateRepositoryServiceRepositoryRequest = /*@__PURE__*/ S.suspend(
     useAzureWorkloadIdentity: S.optional(S.Boolean),
     username: S.optional(S.String),
     webhookManifestCacheWarmDisabled: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/repositories/{repo_repo}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/repositories/{repo_repo}", code: 200 })),
 ).annotate({
   identifier: "UpdateRepositoryServiceRepositoryRequest",
 }) as any as S.Schema<UpdateRepositoryServiceRepositoryRequest>;
@@ -8524,13 +8065,7 @@ export const UpdateRepositoryServiceWriteRepositoryRequest = /*@__PURE__*/ S.sus
     useAzureWorkloadIdentity: S.optional(S.Boolean),
     username: S.optional(S.String),
     webhookManifestCacheWarmDisabled: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/write-repositories/{repo_repo}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/write-repositories/{repo_repo}", code: 200 })),
 ).annotate({
   identifier: "UpdateRepositoryServiceWriteRepositoryRequest",
 }) as any as S.Schema<UpdateRepositoryServiceWriteRepositoryRequest>;
@@ -8616,13 +8151,7 @@ export const ValidateRepositoryServiceAccessRequest = /*@__PURE__*/ S.suspend(()
     azureServicePrincipalTenantId: S.optional(S.String.pipe(T.Query())),
     azureActiveDirectoryEndpoint: S.optional(S.String.pipe(T.Query())),
     body: S.String.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/repositories/{repo}/validate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/repositories/{repo}/validate", code: 200 })),
 ).annotate({
   identifier: "ValidateRepositoryServiceAccessRequest",
 }) as any as S.Schema<ValidateRepositoryServiceAccessRequest>;
@@ -8715,13 +8244,7 @@ export const ValidateRepositoryServiceWriteAccessRequest = /*@__PURE__*/ S.suspe
     azureServicePrincipalTenantId: S.optional(S.String.pipe(T.Query())),
     azureActiveDirectoryEndpoint: S.optional(S.String.pipe(T.Query())),
     body: S.String.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/write-repositories/{repo}/validate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/write-repositories/{repo}/validate", code: 200 })),
 ).annotate({
   identifier: "ValidateRepositoryServiceWriteAccessRequest",
 }) as any as S.Schema<ValidateRepositoryServiceWriteAccessRequest>;
@@ -8771,9 +8294,7 @@ export const VersionVersionMessage = /*@__PURE__*/ S.suspend(() =>
     Platform: S.optional(S.String),
     Version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VersionVersionMessage",
-}) as any as S.Schema<VersionVersionMessage>;
+).annotate({ identifier: "VersionVersionMessage" }) as any as S.Schema<VersionVersionMessage>;
 
 export type WatchApplicationServiceRequestProjectsList = Array<string>;
 export const WatchApplicationServiceRequestProjectsList = /*@__PURE__*/ S.Array(
@@ -8784,6 +8305,11 @@ export type WatchApplicationServiceRequestProjectList = Array<string>;
 export const WatchApplicationServiceRequestProjectList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<WatchApplicationServiceRequestProjectList>;
+
+export type WatchApplicationServiceRequestNamesList = Array<string>;
+export const WatchApplicationServiceRequestNamesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<WatchApplicationServiceRequestNamesList>;
 
 export interface WatchApplicationServiceRequest {
   /** the application's name. */
@@ -8802,6 +8328,8 @@ export interface WatchApplicationServiceRequest {
   appNamespace?: string;
   /** the project names to restrict returned list applications (legacy name for backwards-compatibility). */
   project?: WatchApplicationServiceRequestProjectList;
+  /** the application names to restrict returned list applications (used by the UI favorites filter). An entry may be qualified as 'namespace/name' to match only the application in that namespace. */
+  names?: WatchApplicationServiceRequestNamesList;
 }
 export const WatchApplicationServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -8813,6 +8341,7 @@ export const WatchApplicationServiceRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.optional(S.String.pipe(T.Query())),
     appNamespace: S.optional(S.String.pipe(T.Query())),
     project: S.optional(WatchApplicationServiceRequestProjectList.pipe(T.Query())),
+    names: S.optional(WatchApplicationServiceRequestNamesList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/stream/applications", code: 200 })),
 ).annotate({
   identifier: "WatchApplicationServiceRequest",

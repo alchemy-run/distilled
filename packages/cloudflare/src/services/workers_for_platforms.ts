@@ -11411,6 +11411,25 @@ export const PutDispatchNamespaceScriptBindingStream = /*@__PURE__*/ S.suspend((
   identifier: "PutDispatchNamespaceScriptBindingStream",
 }) as any as S.Schema<PutDispatchNamespaceScriptBindingStream>;
 
+export type PutDispatchNamespaceScriptBindingK2Type = "k2";
+export const PutDispatchNamespaceScriptBindingK2Type = S.String;
+
+export interface PutDispatchNamespaceScriptBindingK2 {
+  name: string;
+  /** ID of a K2 stream owned by the account deploying the Worker (32 lowercase hex characters). */
+  stream: string;
+  type: PutDispatchNamespaceScriptBindingK2Type;
+}
+export const PutDispatchNamespaceScriptBindingK2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    stream: S.String,
+    type: PutDispatchNamespaceScriptBindingK2Type,
+  }),
+).annotate({
+  identifier: "PutDispatchNamespaceScriptBindingK2",
+}) as any as S.Schema<PutDispatchNamespaceScriptBindingK2>;
+
 export type PutDispatchNamespaceScriptBinding =
   | PutDispatchNamespaceScriptBindingAi
   | PutDispatchNamespaceScriptBindingAiSearch
@@ -11449,7 +11468,8 @@ export type PutDispatchNamespaceScriptBinding =
   | PutDispatchNamespaceScriptBindingVpcNetwork
   | PutDispatchNamespaceScriptBindingWorkerLoader
   | PutDispatchNamespaceScriptBindingArtifacts
-  | PutDispatchNamespaceScriptBindingStream;
+  | PutDispatchNamespaceScriptBindingStream
+  | PutDispatchNamespaceScriptBindingK2;
 export const PutDispatchNamespaceScriptBinding = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases(
     [
@@ -11505,6 +11525,7 @@ export const PutDispatchNamespaceScriptBinding = /*@__PURE__*/ S.Unknown.pipe(
       ["name", "type"],
       ["name", "namespace", "type"],
       ["name", "type"],
+      ["name", "stream", "type"],
     ],
     {
       key: "type",
@@ -11547,6 +11568,7 @@ export const PutDispatchNamespaceScriptBinding = /*@__PURE__*/ S.Unknown.pipe(
         "worker_loader",
         "artifacts",
         "stream",
+        "k2",
       ],
     },
   ),

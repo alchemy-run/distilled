@@ -91,6 +91,13 @@ export class ValidationException
   ).pipe(C.withBadRequestError) {}
 export type RegistryName = string;
 export type Description = string | redacted.Redacted<string>;
+export type KmsKeyArn = string;
+export interface EncryptionConfiguration {
+  kmsKeyArn: string;
+}
+export const EncryptionConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ kmsKeyArn: S.String }),
+).annotate({ identifier: "EncryptionConfiguration" }) as any as S.Schema<EncryptionConfiguration>;
 export type DiscoveryUrl = string;
 export type AllowedAudience = string;
 export type AllowedAudienceList = string[];
@@ -249,22 +256,65 @@ export interface ApprovalConfiguration {
 export const ApprovalConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ autoApprovalRules: S.optional(AutoApprovalRuleList) }),
 ).annotate({ identifier: "ApprovalConfiguration" }) as any as S.Schema<ApprovalConfiguration>;
+export type CustomMetadataSchemaDefinition = string | redacted.Redacted<string>;
+export type RecordType = "MCP" | "AGENT" | "CUSTOM" | "SKILL" | "GATEWAY" | (string & {});
+export const RecordType = S.String;
+
+export interface RecordTypeSchemaOverride {
+  recordType: RecordType;
+  schema: string | redacted.Redacted<string>;
+}
+export const RecordTypeSchemaOverride = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ recordType: RecordType, schema: SensitiveString }),
+).annotate({ identifier: "RecordTypeSchemaOverride" }) as any as S.Schema<RecordTypeSchemaOverride>;
+export type RecordTypeSchemaOverrideList = RecordTypeSchemaOverride[];
+export const RecordTypeSchemaOverrideList = /*@__PURE__*/ S.Array(RecordTypeSchemaOverride);
+export interface CustomMetadataSchemaConfiguration {
+  defaultSchema?: string | redacted.Redacted<string>;
+  recordTypeSchemaOverrides?: RecordTypeSchemaOverride[];
+}
+export const CustomMetadataSchemaConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    defaultSchema: S.optional(SensitiveString),
+    recordTypeSchemaOverrides: S.optional(RecordTypeSchemaOverrideList),
+  }),
+).annotate({
+  identifier: "CustomMetadataSchemaConfiguration",
+}) as any as S.Schema<CustomMetadataSchemaConfiguration>;
+export type AutoDetectionScope = "ORGANIZATION" | (string & {});
+export const AutoDetectionScope = S.String;
+
+export interface AutoDetectionConfiguration {
+  scope: AutoDetectionScope;
+  enabled: boolean;
+}
+export const AutoDetectionConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ scope: AutoDetectionScope, enabled: S.Boolean }),
+).annotate({
+  identifier: "AutoDetectionConfiguration",
+}) as any as S.Schema<AutoDetectionConfiguration>;
 export interface CreateRegistryRequest {
   name: string;
   description?: string | redacted.Redacted<string>;
+  encryptionConfiguration?: EncryptionConfiguration;
   discoveryConfiguration?: DiscoveryConfiguration;
   clientToken?: string;
   tags?: { [key: string]: string | undefined };
   approvalConfiguration?: ApprovalConfiguration;
+  customMetadataSchemaConfiguration?: CustomMetadataSchemaConfiguration;
+  autoDetectionConfiguration?: AutoDetectionConfiguration;
 }
 export const CreateRegistryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     description: S.optional(SensitiveString),
+    encryptionConfiguration: S.optional(EncryptionConfiguration),
     discoveryConfiguration: S.optional(DiscoveryConfiguration),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     tags: S.optional(TagsMap),
     approvalConfiguration: S.optional(ApprovalConfiguration),
+    customMetadataSchemaConfiguration: S.optional(CustomMetadataSchemaConfiguration),
+    autoDetectionConfiguration: S.optional(AutoDetectionConfiguration),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/registries" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "CreateRegistryRequest" }) as any as S.Schema<CreateRegistryRequest>;
 export type RegistryArn = string;
@@ -277,9 +327,6 @@ export const CreateRegistryResponse = /*@__PURE__*/ S.suspend(() =>
 export type RegistryIdentifier = string;
 export type RegistryRecordName = string;
 export type RegistryRecordDisplayName = string;
-export type RecordType = "MCP" | "AGENT" | "CUSTOM" | "SKILL" | (string & {});
-export const RecordType = S.String;
-
 export type DescriptorData = string | redacted.Redacted<string>;
 export type DataSchemaVersion = string;
 export interface McpToolsDescriptor {
@@ -449,11 +496,25 @@ export interface CustomDescriptor {
 export const CustomDescriptor = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ data: S.optional(SensitiveString) }),
 ).annotate({ identifier: "CustomDescriptor" }) as any as S.Schema<CustomDescriptor>;
+export interface HttpDescriptor {
+  source?: DescriptorSource;
+}
+export const HttpDescriptor = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ source: S.optional(DescriptorSource) }),
+).annotate({ identifier: "HttpDescriptor" }) as any as S.Schema<HttpDescriptor>;
+export interface AgUiDescriptor {
+  source?: DescriptorSource;
+}
+export const AgUiDescriptor = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ source: S.optional(DescriptorSource) }),
+).annotate({ identifier: "AgUiDescriptor" }) as any as S.Schema<AgUiDescriptor>;
 export interface Descriptors {
   mcpServer?: McpServerDescriptor;
   a2aAgentCard?: A2aAgentCardDescriptor;
   agentSkillsDefinition?: AgentSkillsDefinitionDescriptor;
   custom?: CustomDescriptor;
+  http?: HttpDescriptor;
+  agui?: AgUiDescriptor;
 }
 export const Descriptors = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -461,9 +522,95 @@ export const Descriptors = /*@__PURE__*/ S.suspend(() =>
     a2aAgentCard: S.optional(A2aAgentCardDescriptor),
     agentSkillsDefinition: S.optional(AgentSkillsDefinitionDescriptor),
     custom: S.optional(CustomDescriptor),
+    http: S.optional(HttpDescriptor),
+    agui: S.optional(AgUiDescriptor),
   }),
 ).annotate({ identifier: "Descriptors" }) as any as S.Schema<Descriptors>;
 export type RegistryRecordVersion = string;
+export type ProvenanceRelation = "DETECTED_FROM" | (string & {});
+export const ProvenanceRelation = S.String;
+
+export type SourceId = string;
+export type SourceType =
+  | "AWS::BedrockAgentCore::Runtime"
+  | "AWS::BedrockAgentCore::Gateway"
+  | (string & {});
+export const SourceType = S.String;
+
+export type AgentCoreRuntimeServerProtocol = "HTTP" | "A2A" | "MCP" | "AGUI" | (string & {});
+export const AgentCoreRuntimeServerProtocol = S.String;
+
+export interface AgentCoreRuntimeProtocolConfiguration {
+  serverProtocol?: AgentCoreRuntimeServerProtocol;
+}
+export const AgentCoreRuntimeProtocolConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ serverProtocol: S.optional(AgentCoreRuntimeServerProtocol) }),
+).annotate({
+  identifier: "AgentCoreRuntimeProtocolConfiguration",
+}) as any as S.Schema<AgentCoreRuntimeProtocolConfiguration>;
+export interface WorkloadIdentityDetails {
+  workloadIdentityArn: string;
+}
+export const WorkloadIdentityDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ workloadIdentityArn: S.String }),
+).annotate({ identifier: "WorkloadIdentityDetails" }) as any as S.Schema<WorkloadIdentityDetails>;
+export interface AgentCoreRuntimeSourceDetails {
+  protocolConfiguration?: AgentCoreRuntimeProtocolConfiguration;
+  authorizerConfiguration?: AuthorizerConfiguration;
+  workloadIdentityDetails?: WorkloadIdentityDetails;
+}
+export const AgentCoreRuntimeSourceDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    protocolConfiguration: S.optional(AgentCoreRuntimeProtocolConfiguration),
+    authorizerConfiguration: S.optional(AuthorizerConfiguration),
+    workloadIdentityDetails: S.optional(WorkloadIdentityDetails),
+  }),
+).annotate({
+  identifier: "AgentCoreRuntimeSourceDetails",
+}) as any as S.Schema<AgentCoreRuntimeSourceDetails>;
+export type AgentCoreGatewayProtocolType = "MCP" | (string & {});
+export const AgentCoreGatewayProtocolType = S.String;
+
+export interface AgentCoreGatewaySourceDetails {
+  protocolType?: AgentCoreGatewayProtocolType;
+  authorizerType?: string;
+  authorizerConfiguration?: AuthorizerConfiguration;
+  workloadIdentityDetails?: WorkloadIdentityDetails;
+}
+export const AgentCoreGatewaySourceDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    protocolType: S.optional(AgentCoreGatewayProtocolType),
+    authorizerType: S.optional(S.String),
+    authorizerConfiguration: S.optional(AuthorizerConfiguration),
+    workloadIdentityDetails: S.optional(WorkloadIdentityDetails),
+  }),
+).annotate({
+  identifier: "AgentCoreGatewaySourceDetails",
+}) as any as S.Schema<AgentCoreGatewaySourceDetails>;
+export type SourceDetails =
+  | { agentcoreRuntime: AgentCoreRuntimeSourceDetails; agentcoreGateway?: never }
+  | { agentcoreRuntime?: never; agentcoreGateway: AgentCoreGatewaySourceDetails };
+export const SourceDetails = /*@__PURE__*/ S.Union([
+  S.Struct({ agentcoreRuntime: AgentCoreRuntimeSourceDetails }),
+  S.Struct({ agentcoreGateway: AgentCoreGatewaySourceDetails }),
+]);
+export interface Provenance {
+  relation: ProvenanceRelation;
+  sourceId: string;
+  sourceType?: SourceType;
+  sourceDetails?: SourceDetails;
+}
+export const Provenance = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    relation: ProvenanceRelation,
+    sourceId: S.String,
+    sourceType: S.optional(SourceType),
+    sourceDetails: S.optional(SourceDetails),
+  }),
+).annotate({ identifier: "Provenance" }) as any as S.Schema<Provenance>;
+export type ProvenanceList = Provenance[];
+export const ProvenanceList = /*@__PURE__*/ S.Array(Provenance);
+export type CustomMetadataDocument = unknown;
 export interface CreateRegistryRecordRequest {
   registryId: string;
   name: string;
@@ -473,6 +620,8 @@ export interface CreateRegistryRecordRequest {
   descriptors: Descriptors;
   recordVersion?: string;
   clientToken?: string;
+  provenance?: Provenance[];
+  customMetadata?: any;
   tags?: { [key: string]: string | undefined };
 }
 export const CreateRegistryRecordRequest = /*@__PURE__*/ S.suspend(() =>
@@ -485,6 +634,8 @@ export const CreateRegistryRecordRequest = /*@__PURE__*/ S.suspend(() =>
     descriptors: Descriptors,
     recordVersion: S.optional(S.String),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    provenance: S.optional(ProvenanceList),
+    customMetadata: S.optional(S.Any),
     tags: S.optional(TagsMap),
   }).pipe(
     T.all(
@@ -589,15 +740,33 @@ export const GetRegistryRequest = /*@__PURE__*/ S.suspend(() =>
   ),
 ).annotate({ identifier: "GetRegistryRequest" }) as any as S.Schema<GetRegistryRequest>;
 export type RegistryId = string;
+export type AutoDetectionStatus = "ACTIVE" | "INACTIVE" | (string & {});
+export const AutoDetectionStatus = S.String;
+
+export interface AutoDetection {
+  configuration: AutoDetectionConfiguration;
+  status: AutoDetectionStatus;
+  statusReason?: string;
+}
+export const AutoDetection = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    configuration: AutoDetectionConfiguration,
+    status: AutoDetectionStatus,
+    statusReason: S.optional(S.String),
+  }),
+).annotate({ identifier: "AutoDetection" }) as any as S.Schema<AutoDetection>;
 export interface GetRegistryResponse {
   name: string;
   description?: string | redacted.Redacted<string>;
   registryId: string;
   registryArn: string;
   discoveryConfiguration?: DiscoveryConfiguration;
+  encryptionConfiguration?: EncryptionConfiguration;
   approvalConfiguration?: ApprovalConfiguration;
+  customMetadataSchemaConfiguration?: CustomMetadataSchemaConfiguration;
   status: RegistryStatus;
   statusReason?: string;
+  autoDetection?: AutoDetection;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -608,9 +777,12 @@ export const GetRegistryResponse = /*@__PURE__*/ S.suspend(() =>
     registryId: S.String,
     registryArn: S.String,
     discoveryConfiguration: S.optional(DiscoveryConfiguration),
+    encryptionConfiguration: S.optional(EncryptionConfiguration),
     approvalConfiguration: S.optional(ApprovalConfiguration),
+    customMetadataSchemaConfiguration: S.optional(CustomMetadataSchemaConfiguration),
     status: RegistryStatus,
     statusReason: S.optional(S.String),
+    autoDetection: S.optional(AutoDetection),
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
@@ -635,6 +807,10 @@ export const GetRegistryRecordRequest = /*@__PURE__*/ S.suspend(() =>
   ),
 ).annotate({ identifier: "GetRegistryRecordRequest" }) as any as S.Schema<GetRegistryRecordRequest>;
 export type RegistryRecordId = string;
+export type CreatorAccountId = string;
+export type CustomMetadataSchemaComplianceStatus = "COMPLIANT" | "NON_COMPLIANT" | (string & {});
+export const CustomMetadataSchemaComplianceStatus = S.String;
+
 export interface GetRegistryRecordResponse {
   registryArn: string;
   recordArn: string;
@@ -649,6 +825,11 @@ export interface GetRegistryRecordResponse {
   createdAt: Date;
   updatedAt: Date;
   statusReason?: string;
+  provenance?: Provenance[];
+  createdByAutoDetection?: boolean;
+  createdBy?: string;
+  customMetadata?: any;
+  customMetadataSchemaComplianceStatus?: CustomMetadataSchemaComplianceStatus;
 }
 export const GetRegistryRecordResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -665,6 +846,11 @@ export const GetRegistryRecordResponse = /*@__PURE__*/ S.suspend(() =>
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     statusReason: S.optional(S.String),
+    provenance: S.optional(ProvenanceList),
+    createdByAutoDetection: S.optional(S.Boolean),
+    createdBy: S.optional(S.String),
+    customMetadata: S.optional(S.Any),
+    customMetadataSchemaComplianceStatus: S.optional(CustomMetadataSchemaComplianceStatus),
   }),
 ).annotate({
   identifier: "GetRegistryRecordResponse",
@@ -706,6 +892,7 @@ export interface RegistrySummary {
   discoveryConfiguration?: DiscoveryConfiguration;
   status: RegistryStatus;
   statusReason?: string;
+  autoDetection?: AutoDetection;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -718,6 +905,7 @@ export const RegistrySummary = /*@__PURE__*/ S.suspend(() =>
     discoveryConfiguration: S.optional(DiscoveryConfiguration),
     status: RegistryStatus,
     statusReason: S.optional(S.String),
+    autoDetection: S.optional(AutoDetection),
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
@@ -768,6 +956,20 @@ export const ListRegistryRecordsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListRegistryRecordsRequest",
 }) as any as S.Schema<ListRegistryRecordsRequest>;
+export interface ProvenanceSummary {
+  relation: ProvenanceRelation;
+  sourceId: string;
+  sourceType?: SourceType;
+}
+export const ProvenanceSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    relation: ProvenanceRelation,
+    sourceId: S.String,
+    sourceType: S.optional(SourceType),
+  }),
+).annotate({ identifier: "ProvenanceSummary" }) as any as S.Schema<ProvenanceSummary>;
+export type ProvenanceSummaryList = ProvenanceSummary[];
+export const ProvenanceSummaryList = /*@__PURE__*/ S.Array(ProvenanceSummary);
 export interface RegistryRecordSummary {
   registryArn: string;
   recordArn: string;
@@ -780,6 +982,10 @@ export interface RegistryRecordSummary {
   status: RegistryRecordStatus;
   createdAt: Date;
   updatedAt: Date;
+  createdByAutoDetection?: boolean;
+  createdBy?: string;
+  provenanceSummaryList?: ProvenanceSummary[];
+  customMetadataSchemaComplianceStatus?: CustomMetadataSchemaComplianceStatus;
 }
 export const RegistryRecordSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -794,6 +1000,10 @@ export const RegistryRecordSummary = /*@__PURE__*/ S.suspend(() =>
     status: RegistryRecordStatus,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    createdByAutoDetection: S.optional(S.Boolean),
+    createdBy: S.optional(S.String),
+    provenanceSummaryList: S.optional(ProvenanceSummaryList),
+    customMetadataSchemaComplianceStatus: S.optional(CustomMetadataSchemaComplianceStatus),
   }),
 ).annotate({ identifier: "RegistryRecordSummary" }) as any as S.Schema<RegistryRecordSummary>;
 export type RegistryRecordSummaryList = RegistryRecordSummary[];
@@ -931,12 +1141,30 @@ export const UpdatedApprovalConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdatedApprovalConfiguration",
 }) as any as S.Schema<UpdatedApprovalConfiguration>;
+export interface UpdatedCustomMetadataSchemaConfiguration {
+  optionalValue?: CustomMetadataSchemaConfiguration;
+}
+export const UpdatedCustomMetadataSchemaConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ optionalValue: S.optional(CustomMetadataSchemaConfiguration) }),
+).annotate({
+  identifier: "UpdatedCustomMetadataSchemaConfiguration",
+}) as any as S.Schema<UpdatedCustomMetadataSchemaConfiguration>;
+export interface UpdatedAutoDetectionConfiguration {
+  optionalValue?: AutoDetectionConfiguration;
+}
+export const UpdatedAutoDetectionConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ optionalValue: S.optional(AutoDetectionConfiguration) }),
+).annotate({
+  identifier: "UpdatedAutoDetectionConfiguration",
+}) as any as S.Schema<UpdatedAutoDetectionConfiguration>;
 export interface UpdateRegistryRequest {
   registryId: string;
   name?: string;
   description?: UpdatedDescription;
   discoveryConfiguration?: UpdatedDiscoveryConfiguration;
   approvalConfiguration?: UpdatedApprovalConfiguration;
+  customMetadataSchemaConfiguration?: UpdatedCustomMetadataSchemaConfiguration;
+  autoDetectionConfiguration?: UpdatedAutoDetectionConfiguration;
 }
 export const UpdateRegistryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -945,6 +1173,8 @@ export const UpdateRegistryRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(UpdatedDescription),
     discoveryConfiguration: S.optional(UpdatedDiscoveryConfiguration),
     approvalConfiguration: S.optional(UpdatedApprovalConfiguration),
+    customMetadataSchemaConfiguration: S.optional(UpdatedCustomMetadataSchemaConfiguration),
+    autoDetectionConfiguration: S.optional(UpdatedAutoDetectionConfiguration),
   }).pipe(
     T.all(
       T.Http({ method: "PATCH", uri: "/registries/{registryId}" }),
@@ -962,9 +1192,12 @@ export interface UpdateRegistryResponse {
   registryId: string;
   registryArn: string;
   discoveryConfiguration?: DiscoveryConfiguration;
+  encryptionConfiguration?: EncryptionConfiguration;
   approvalConfiguration?: ApprovalConfiguration;
+  customMetadataSchemaConfiguration?: CustomMetadataSchemaConfiguration;
   status: RegistryStatus;
   statusReason?: string;
+  autoDetection?: AutoDetection;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -975,9 +1208,12 @@ export const UpdateRegistryResponse = /*@__PURE__*/ S.suspend(() =>
     registryId: S.String,
     registryArn: S.String,
     discoveryConfiguration: S.optional(DiscoveryConfiguration),
+    encryptionConfiguration: S.optional(EncryptionConfiguration),
     approvalConfiguration: S.optional(ApprovalConfiguration),
+    customMetadataSchemaConfiguration: S.optional(CustomMetadataSchemaConfiguration),
     status: RegistryStatus,
     statusReason: S.optional(S.String),
+    autoDetection: S.optional(AutoDetection),
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
@@ -1162,11 +1398,41 @@ export interface UpdatedCustomDescriptor {
 export const UpdatedCustomDescriptor = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ optionalValue: S.optional(UpdatedCustomDescriptorFields) }),
 ).annotate({ identifier: "UpdatedCustomDescriptor" }) as any as S.Schema<UpdatedCustomDescriptor>;
+export interface UpdatedHttpDescriptorFields {
+  source?: UpdatedDescriptorSource;
+}
+export const UpdatedHttpDescriptorFields = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ source: S.optional(UpdatedDescriptorSource) }),
+).annotate({
+  identifier: "UpdatedHttpDescriptorFields",
+}) as any as S.Schema<UpdatedHttpDescriptorFields>;
+export interface UpdatedHttpDescriptor {
+  optionalValue?: UpdatedHttpDescriptorFields;
+}
+export const UpdatedHttpDescriptor = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ optionalValue: S.optional(UpdatedHttpDescriptorFields) }),
+).annotate({ identifier: "UpdatedHttpDescriptor" }) as any as S.Schema<UpdatedHttpDescriptor>;
+export interface UpdatedAgUiDescriptorFields {
+  source?: UpdatedDescriptorSource;
+}
+export const UpdatedAgUiDescriptorFields = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ source: S.optional(UpdatedDescriptorSource) }),
+).annotate({
+  identifier: "UpdatedAgUiDescriptorFields",
+}) as any as S.Schema<UpdatedAgUiDescriptorFields>;
+export interface UpdatedAgUiDescriptor {
+  optionalValue?: UpdatedAgUiDescriptorFields;
+}
+export const UpdatedAgUiDescriptor = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ optionalValue: S.optional(UpdatedAgUiDescriptorFields) }),
+).annotate({ identifier: "UpdatedAgUiDescriptor" }) as any as S.Schema<UpdatedAgUiDescriptor>;
 export interface UpdatedDescriptorsFields {
   mcpServer?: UpdatedMcpServerDescriptor;
   a2aAgentCard?: UpdatedA2aAgentCardDescriptor;
   agentSkillsDefinition?: UpdatedAgentSkillsDefinitionDescriptor;
   custom?: UpdatedCustomDescriptor;
+  http?: UpdatedHttpDescriptor;
+  agui?: UpdatedAgUiDescriptor;
 }
 export const UpdatedDescriptorsFields = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1174,6 +1440,8 @@ export const UpdatedDescriptorsFields = /*@__PURE__*/ S.suspend(() =>
     a2aAgentCard: S.optional(UpdatedA2aAgentCardDescriptor),
     agentSkillsDefinition: S.optional(UpdatedAgentSkillsDefinitionDescriptor),
     custom: S.optional(UpdatedCustomDescriptor),
+    http: S.optional(UpdatedHttpDescriptor),
+    agui: S.optional(UpdatedAgUiDescriptor),
   }),
 ).annotate({ identifier: "UpdatedDescriptorsFields" }) as any as S.Schema<UpdatedDescriptorsFields>;
 export interface UpdatedDescriptors {
@@ -1182,6 +1450,12 @@ export interface UpdatedDescriptors {
 export const UpdatedDescriptors = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ optionalValue: S.optional(UpdatedDescriptorsFields) }),
 ).annotate({ identifier: "UpdatedDescriptors" }) as any as S.Schema<UpdatedDescriptors>;
+export interface UpdatedCustomMetadataMap {
+  optionalValue?: any;
+}
+export const UpdatedCustomMetadataMap = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ optionalValue: S.optional(S.Any) }),
+).annotate({ identifier: "UpdatedCustomMetadataMap" }) as any as S.Schema<UpdatedCustomMetadataMap>;
 export interface UpdateRegistryRecordRequest {
   registryId: string;
   recordId: string;
@@ -1191,7 +1465,9 @@ export interface UpdateRegistryRecordRequest {
   recordType?: RecordType;
   descriptors?: UpdatedDescriptors;
   recordVersion?: string;
+  customMetadata?: UpdatedCustomMetadataMap;
   triggerSynchronization?: boolean;
+  provenance?: Provenance[];
 }
 export const UpdateRegistryRecordRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1203,7 +1479,9 @@ export const UpdateRegistryRecordRequest = /*@__PURE__*/ S.suspend(() =>
     recordType: S.optional(RecordType),
     descriptors: S.optional(UpdatedDescriptors),
     recordVersion: S.optional(S.String),
+    customMetadata: S.optional(UpdatedCustomMetadataMap),
     triggerSynchronization: S.optional(S.Boolean),
+    provenance: S.optional(ProvenanceList),
   }).pipe(
     T.all(
       T.Http({ method: "PATCH", uri: "/registries/{registryId}/records/{recordId}" }),
@@ -1231,6 +1509,11 @@ export interface UpdateRegistryRecordResponse {
   createdAt: Date;
   updatedAt: Date;
   statusReason?: string;
+  provenance?: Provenance[];
+  createdByAutoDetection?: boolean;
+  createdBy?: string;
+  customMetadata?: any;
+  customMetadataSchemaComplianceStatus?: CustomMetadataSchemaComplianceStatus;
 }
 export const UpdateRegistryRecordResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1247,6 +1530,11 @@ export const UpdateRegistryRecordResponse = /*@__PURE__*/ S.suspend(() =>
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     statusReason: S.optional(S.String),
+    provenance: S.optional(ProvenanceList),
+    createdByAutoDetection: S.optional(S.Boolean),
+    createdBy: S.optional(S.String),
+    customMetadata: S.optional(S.Any),
+    customMetadataSchemaComplianceStatus: S.optional(CustomMetadataSchemaComplianceStatus),
   }),
 ).annotate({
   identifier: "UpdateRegistryRecordResponse",
@@ -1589,7 +1877,7 @@ export type ListTagsForResourceError =
   | ValidationException
   | CommonErrors;
 /**
- * List the tags on a resource
+ * Lists the tags associated with the specified Amazon Web Services Agent Registry resource. Returns the current tag key-value pairs on the resource.
  */
 export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceRequest,
@@ -1652,7 +1940,7 @@ export type TagResourceError =
   | ValidationException
   | CommonErrors;
 /**
- * Tag a resource with key-value pairs
+ * Adds or overwrites one or more tags for the specified Amazon Web Services Agent Registry resource. Tags are key-value pairs that you can use to categorize and manage Amazon Web Services resources. If a tag with the same key already exists on the resource, the service replaces its value with the value you specify.
  */
 export const tagResource: API.OperationMethod<
   TagResourceRequest,
@@ -1683,7 +1971,7 @@ export type UntagResourceError =
   | ValidationException
   | CommonErrors;
 /**
- * Remove tags from a resource by key
+ * Removes one or more tags from the specified Amazon Web Services Agent Registry resource. The operation removes only the tags whose keys you supply; other tags on the resource remain unchanged.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceRequest,

@@ -53,13 +53,7 @@ export const CreateDbaasLogChangeContactRequest = /*@__PURE__*/ S.suspend(() =>
     contactAdmin: S.optional(S.String),
     contactBilling: S.optional(S.String),
     contactTech: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dbaas/logs/{serviceName}/changeContact",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/dbaas/logs/{serviceName}/changeContact", code: 200 })),
 ).annotate({
   identifier: "CreateDbaasLogChangeContactRequest",
 }) as any as S.Schema<CreateDbaasLogChangeContactRequest>;
@@ -92,13 +86,7 @@ export const CreateDbaasLogEncryptionKeyRequest = /*@__PURE__*/ S.suspend(() =>
     content: S.String,
     fingerprint: S.String,
     title: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dbaas/logs/{serviceName}/encryptionKey",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/dbaas/logs/{serviceName}/encryptionKey", code: 200 })),
 ).annotate({
   identifier: "CreateDbaasLogEncryptionKeyRequest",
 }) as any as S.Schema<CreateDbaasLogEncryptionKeyRequest>;
@@ -169,9 +157,7 @@ export const DbaasLogsOperation = /*@__PURE__*/ S.suspend(() =>
     tokenId: S.optional(S.NullOr(S.String)),
     updatedAt: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "DbaasLogsOperation",
-}) as any as S.Schema<DbaasLogsOperation>;
+).annotate({ identifier: "DbaasLogsOperation" }) as any as S.Schema<DbaasLogsOperation>;
 
 /** IP blocks */
 export type CreateDbaasLogInputRequestAllowedNetworksList = Array<string>;
@@ -219,13 +205,7 @@ export const CreateDbaasLogInputRequest = /*@__PURE__*/ S.suspend(() =>
     scalingNotifyEnabled: S.optional(S.NullOr(S.Boolean)),
     streamId: S.String,
     title: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dbaas/logs/{serviceName}/input",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/dbaas/logs/{serviceName}/input", code: 200 })),
 ).annotate({
   identifier: "CreateDbaasLogInputRequest",
 }) as any as S.Schema<CreateDbaasLogInputRequest>;
@@ -262,11 +242,7 @@ export const CreateDbaasLogInputEndRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     inputId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dbaas/logs/{serviceName}/input/{inputId}/end",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/dbaas/logs/{serviceName}/input/{inputId}/end", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDbaasLogInputEndRequest",
@@ -402,11 +378,7 @@ export const CreateDbaasLogOutputGraylogStreamRequest = /*@__PURE__*/ S.suspend(
     title: S.String,
     webSocketEnabled: S.optional(S.NullOr(S.Boolean)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dbaas/logs/{serviceName}/output/graylog/stream",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/dbaas/logs/{serviceName}/output/graylog/stream", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDbaasLogOutputGraylogStreamRequest",
@@ -525,9 +497,7 @@ export const DbaasLogsArchiveUrl = /*@__PURE__*/ S.suspend(() =>
     expirationDate: S.optional(S.String),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DbaasLogsArchiveUrl",
-}) as any as S.Schema<DbaasLogsArchiveUrl>;
+).annotate({ identifier: "DbaasLogsArchiveUrl" }) as any as S.Schema<DbaasLogsArchiveUrl>;
 
 /** Possible values for StreamRuleOperatorEnum */
 export type DbaasLogsStreamRuleOperatorEnum =
@@ -590,11 +560,7 @@ export const CreateDbaasLogOutputMetricTenantRequest = /*@__PURE__*/ S.suspend((
     retentionId: S.String,
     title: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dbaas/logs/{serviceName}/output/metric/tenant",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/dbaas/logs/{serviceName}/output/metric/tenant", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDbaasLogOutputMetricTenantRequest",
@@ -614,11 +580,7 @@ export const CreateDbaasLogOutputOpensearchAliasRequest = /*@__PURE__*/ S.suspen
     description: S.String,
     suffix: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dbaas/logs/{serviceName}/output/opensearch/alias",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/dbaas/logs/{serviceName}/output/opensearch/alias", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDbaasLogOutputOpensearchAliasRequest",
@@ -692,11 +654,7 @@ export const CreateDbaasLogOutputOpensearchIndexRequest = /*@__PURE__*/ S.suspen
     nbShard: S.optional(S.NullOr(S.Number)),
     suffix: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dbaas/logs/{serviceName}/output/opensearch/index",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/dbaas/logs/{serviceName}/output/opensearch/index", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDbaasLogOutputOpensearchIndexRequest",
@@ -713,11 +671,7 @@ export const CreateDbaasLogOutputOpensearchOsdRequest = /*@__PURE__*/ S.suspend(
     serviceName: S.String.pipe(T.Label()),
     description: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dbaas/logs/{serviceName}/output/opensearch/osd",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/dbaas/logs/{serviceName}/output/opensearch/osd", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDbaasLogOutputOpensearchOsdRequest",
@@ -736,13 +690,7 @@ export const CreateDbaasLogRoleRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     description: S.String,
     name: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dbaas/logs/{serviceName}/role",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/dbaas/logs/{serviceName}/role", code: 200 })),
 ).annotate({
   identifier: "CreateDbaasLogRoleRequest",
 }) as any as S.Schema<CreateDbaasLogRoleRequest>;
@@ -764,11 +712,7 @@ export const CreateDbaasLogRoleMemberRequest = /*@__PURE__*/ S.suspend(() =>
     note: S.optional(S.NullOr(S.String)),
     username: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dbaas/logs/{serviceName}/role/{roleId}/member",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/dbaas/logs/{serviceName}/role/{roleId}/member", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDbaasLogRoleMemberRequest",
@@ -920,13 +864,7 @@ export const CreateDbaasLogTokenRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     clusterId: S.optional(S.NullOr(S.String)),
     name: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dbaas/logs/{serviceName}/token",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/dbaas/logs/{serviceName}/token", code: 200 })),
 ).annotate({
   identifier: "CreateDbaasLogTokenRequest",
 }) as any as S.Schema<CreateDbaasLogTokenRequest>;
@@ -942,11 +880,7 @@ export const CreateDbaasLogUserChangePasswordRequest = /*@__PURE__*/ S.suspend((
     serviceName: S.String.pipe(T.Label()),
     password: S.String.pipe(T.SensitiveValue({})),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dbaas/logs/{serviceName}/user/changePassword",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/dbaas/logs/{serviceName}/user/changePassword", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDbaasLogUserChangePasswordRequest",
@@ -984,11 +918,7 @@ export const DeleteDbaasLogInputRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     inputId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/dbaas/logs/{serviceName}/input/{inputId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/dbaas/logs/{serviceName}/input/{inputId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteDbaasLogInputRequest",
@@ -1274,13 +1204,7 @@ export const DeleteDbaasLogRoleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     roleId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/dbaas/logs/{serviceName}/role/{roleId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/dbaas/logs/{serviceName}/role/{roleId}", code: 200 })),
 ).annotate({
   identifier: "DeleteDbaasLogRoleRequest",
 }) as any as S.Schema<DeleteDbaasLogRoleRequest>;
@@ -1344,11 +1268,7 @@ export const DeleteDbaasLogTokenRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     tokenId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/dbaas/logs/{serviceName}/token/{tokenId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/dbaas/logs/{serviceName}/token/{tokenId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteDbaasLogTokenRequest",
@@ -1392,9 +1312,7 @@ export const GetDbaasLogRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}", code: 200 })),
-).annotate({
-  identifier: "GetDbaasLogRequest",
-}) as any as S.Schema<GetDbaasLogRequest>;
+).annotate({ identifier: "GetDbaasLogRequest" }) as any as S.Schema<GetDbaasLogRequest>;
 
 /** Resource tags. Tags that were internally computed are prefixed with ovh: */
 export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
@@ -1421,9 +1339,7 @@ export const IamResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(IamResourceMetadataTagsMap)),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamResourceMetadata",
-}) as any as S.Schema<IamResourceMetadata>;
+).annotate({ identifier: "IamResourceMetadata" }) as any as S.Schema<IamResourceMetadata>;
 
 /** Possible values for ServicePlanEnum */
 export type DbaasLogsServicePlanEnum = "ENTERPRISE" | "STANDARD";
@@ -1469,9 +1385,7 @@ export const DbaasLogsServiceWithIAM = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.optional(S.NullOr(S.String)),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DbaasLogsServiceWithIAM",
-}) as any as S.Schema<DbaasLogsServiceWithIAM>;
+).annotate({ identifier: "DbaasLogsServiceWithIAM" }) as any as S.Schema<DbaasLogsServiceWithIAM>;
 
 export interface GetDbaasLogClusterRequest {
   /** Service name */
@@ -1484,11 +1398,7 @@ export const GetDbaasLogClusterRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     clusterId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dbaas/logs/{serviceName}/cluster/{clusterId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/cluster/{clusterId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDbaasLogClusterRequest",
@@ -1575,9 +1485,7 @@ export const DbaasLogsCluster = /*@__PURE__*/ S.suspend(() =>
     queryAllowedNetworks: S.optional(DbaasLogsClusterQueryAllowedNetworksList),
     region: S.optional(DbaasLogsClusterRegionEnum),
   }),
-).annotate({
-  identifier: "DbaasLogsCluster",
-}) as any as S.Schema<DbaasLogsCluster>;
+).annotate({ identifier: "DbaasLogsCluster" }) as any as S.Schema<DbaasLogsCluster>;
 
 export interface GetDbaasLogClusterRetentionRequest {
   /** Service name */
@@ -1687,9 +1595,7 @@ export const DbaasLogsEncryptionKey = /*@__PURE__*/ S.suspend(() =>
     title: S.String,
     uid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DbaasLogsEncryptionKey",
-}) as any as S.Schema<DbaasLogsEncryptionKey>;
+).annotate({ identifier: "DbaasLogsEncryptionKey" }) as any as S.Schema<DbaasLogsEncryptionKey>;
 
 export interface GetDbaasLogInputRequest {
   /** Service name */
@@ -1701,16 +1607,8 @@ export const GetDbaasLogInputRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     inputId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dbaas/logs/{serviceName}/input/{inputId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDbaasLogInputRequest",
-}) as any as S.Schema<GetDbaasLogInputRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/input/{inputId}", code: 200 })),
+).annotate({ identifier: "GetDbaasLogInputRequest" }) as any as S.Schema<GetDbaasLogInputRequest>;
 
 /** IP blocks */
 export type DbaasLogsInputAllowedNetworksList = Array<string>;
@@ -1826,9 +1724,7 @@ export const DbaasLogsTestResult = /*@__PURE__*/ S.suspend(() =>
     stdout: S.optional(S.NullOr(S.String)),
     updatedAt: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "DbaasLogsTestResult",
-}) as any as S.Schema<DbaasLogsTestResult>;
+).annotate({ identifier: "DbaasLogsTestResult" }) as any as S.Schema<DbaasLogsTestResult>;
 
 export interface GetDbaasLogInputConfigurationFlowggerRequest {
   /** Service name */
@@ -1926,11 +1822,7 @@ export const GetDbaasLogInputEngineRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     engineId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dbaas/logs/{serviceName}/input/engine/{engineId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/input/engine/{engineId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDbaasLogInputEngineRequest",
@@ -1958,9 +1850,7 @@ export const DbaasLogsEngine = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(DbaasLogsEngineNameEnum),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DbaasLogsEngine",
-}) as any as S.Schema<DbaasLogsEngine>;
+).annotate({ identifier: "DbaasLogsEngine" }) as any as S.Schema<DbaasLogsEngine>;
 
 export interface GetDbaasLogInputEngineHelperRequest {
   /** Service name */
@@ -2005,9 +1895,7 @@ export const DbaasLogsHelperSection = /*@__PURE__*/ S.suspend(() =>
     content: S.optional(S.String),
     name: S.optional(DbaasLogsHelperSectionNameEnum),
   }),
-).annotate({
-  identifier: "DbaasLogsHelperSection",
-}) as any as S.Schema<DbaasLogsHelperSection>;
+).annotate({ identifier: "DbaasLogsHelperSection" }) as any as S.Schema<DbaasLogsHelperSection>;
 
 /** Helper sections */
 export type DbaasLogsHelperSectionsList = Array<DbaasLogsHelperSection>;
@@ -2036,9 +1924,7 @@ export const DbaasLogsHelper = /*@__PURE__*/ S.suspend(() =>
     sections: S.optional(DbaasLogsHelperSectionsList),
     title: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DbaasLogsHelper",
-}) as any as S.Schema<DbaasLogsHelper>;
+).annotate({ identifier: "DbaasLogsHelper" }) as any as S.Schema<DbaasLogsHelper>;
 
 export interface GetDbaasLogMetricsRequest {
   /** Service name */
@@ -2047,13 +1933,7 @@ export interface GetDbaasLogMetricsRequest {
 export const GetDbaasLogMetricsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dbaas/logs/{serviceName}/metrics",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/metrics", code: 200 })),
 ).annotate({
   identifier: "GetDbaasLogMetricsRequest",
 }) as any as S.Schema<GetDbaasLogMetricsRequest>;
@@ -2070,9 +1950,7 @@ export const DbaasLogsServiceMetric = /*@__PURE__*/ S.suspend(() =>
     host: S.optional(S.String),
     token: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DbaasLogsServiceMetric",
-}) as any as S.Schema<DbaasLogsServiceMetric>;
+).annotate({ identifier: "DbaasLogsServiceMetric" }) as any as S.Schema<DbaasLogsServiceMetric>;
 
 export interface GetDbaasLogOperationRequest {
   /** Service name */
@@ -2085,11 +1963,7 @@ export const GetDbaasLogOperationRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     operationId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dbaas/logs/{serviceName}/operation/{operationId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/operation/{operationId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDbaasLogOperationRequest",
@@ -2140,9 +2014,7 @@ export const DbaasLogsDashboard = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     updatedAt: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "DbaasLogsDashboard",
-}) as any as S.Schema<DbaasLogsDashboard>;
+).annotate({ identifier: "DbaasLogsDashboard" }) as any as S.Schema<DbaasLogsDashboard>;
 
 export interface GetDbaasLogOutputGraylogStreamRequest {
   /** Service name */
@@ -2252,9 +2124,7 @@ export const DbaasLogsStream = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.optional(S.NullOr(S.String)),
     webSocketEnabled: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "DbaasLogsStream",
-}) as any as S.Schema<DbaasLogsStream>;
+).annotate({ identifier: "DbaasLogsStream" }) as any as S.Schema<DbaasLogsStream>;
 
 export interface GetDbaasLogOutputGraylogStreamAlertRequest {
   /** Service name */
@@ -2387,9 +2257,7 @@ export const DbaasLogsArchive = /*@__PURE__*/ S.suspend(() =>
     sha256: S.optional(S.String),
     size: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DbaasLogsArchive",
-}) as any as S.Schema<DbaasLogsArchive>;
+).annotate({ identifier: "DbaasLogsArchive" }) as any as S.Schema<DbaasLogsArchive>;
 
 export interface GetDbaasLogOutputGraylogStreamRuleRequest {
   /** Service name */
@@ -2436,9 +2304,7 @@ export const DbaasLogsStreamRule = /*@__PURE__*/ S.suspend(() =>
     ruleId: S.optional(S.String),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DbaasLogsStreamRule",
-}) as any as S.Schema<DbaasLogsStreamRule>;
+).annotate({ identifier: "DbaasLogsStreamRule" }) as any as S.Schema<DbaasLogsStreamRule>;
 
 export interface GetDbaasLogOutputGraylogStreamSubscriptionRequest {
   /** Service name */
@@ -2507,9 +2373,7 @@ export const DbaasLogsLogSubscription = /*@__PURE__*/ S.suspend(() =>
     subscriptionId: S.optional(S.String),
     updatedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DbaasLogsLogSubscription",
-}) as any as S.Schema<DbaasLogsLogSubscription>;
+).annotate({ identifier: "DbaasLogsLogSubscription" }) as any as S.Schema<DbaasLogsLogSubscription>;
 
 export interface GetDbaasLogOutputMetricTenantRequest {
   /** Service name */
@@ -2566,9 +2430,7 @@ export const DbaasLogsMetricTenant = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     updatedAt: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "DbaasLogsMetricTenant",
-}) as any as S.Schema<DbaasLogsMetricTenant>;
+).annotate({ identifier: "DbaasLogsMetricTenant" }) as any as S.Schema<DbaasLogsMetricTenant>;
 
 export interface GetDbaasLogOutputMetricTenantSubscriptionRequest {
   /** Service name */
@@ -2797,16 +2659,8 @@ export const GetDbaasLogRoleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     roleId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dbaas/logs/{serviceName}/role/{roleId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDbaasLogRoleRequest",
-}) as any as S.Schema<GetDbaasLogRoleRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/role/{roleId}", code: 200 })),
+).annotate({ identifier: "GetDbaasLogRoleRequest" }) as any as S.Schema<GetDbaasLogRoleRequest>;
 
 /** Role */
 export interface DbaasLogsRole {
@@ -2876,9 +2730,7 @@ export const DbaasLogsMember = /*@__PURE__*/ S.suspend(() =>
     note: S.optional(S.NullOr(S.String)),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DbaasLogsMember",
-}) as any as S.Schema<DbaasLogsMember>;
+).annotate({ identifier: "DbaasLogsMember" }) as any as S.Schema<DbaasLogsMember>;
 
 export interface GetDbaasLogRolePermissionRequest {
   /** Service name */
@@ -2931,9 +2783,7 @@ export const DbaasLogsPermission = /*@__PURE__*/ S.suspend(() =>
     permissionType: S.optional(S.NullOr(DbaasLogsPermissionTypeEnum)),
     streamId: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "DbaasLogsPermission",
-}) as any as S.Schema<DbaasLogsPermission>;
+).annotate({ identifier: "DbaasLogsPermission" }) as any as S.Schema<DbaasLogsPermission>;
 
 export interface GetDbaasLogServiceInfosRequest {
   /** Service name */
@@ -2942,13 +2792,7 @@ export interface GetDbaasLogServiceInfosRequest {
 export const GetDbaasLogServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dbaas/logs/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "GetDbaasLogServiceInfosRequest",
 }) as any as S.Schema<GetDbaasLogServiceInfosRequest>;
@@ -2980,9 +2824,7 @@ export const ServiceRenewType = /*@__PURE__*/ S.suspend(() =>
     manualPayment: S.optional(S.NullOr(S.Boolean)),
     period: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ServiceRenewType",
-}) as any as S.Schema<ServiceRenewType>;
+).annotate({ identifier: "ServiceRenewType" }) as any as S.Schema<ServiceRenewType>;
 
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -3040,9 +2882,7 @@ export const ServicesService = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.optional(S.Number),
     status: S.optional(ServiceStateEnum),
   }),
-).annotate({
-  identifier: "ServicesService",
-}) as any as S.Schema<ServicesService>;
+).annotate({ identifier: "ServicesService" }) as any as S.Schema<ServicesService>;
 
 export interface GetDbaasLogTokenRequest {
   /** Service name */
@@ -3054,16 +2894,8 @@ export const GetDbaasLogTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     tokenId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dbaas/logs/{serviceName}/token/{tokenId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDbaasLogTokenRequest",
-}) as any as S.Schema<GetDbaasLogTokenRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/token/{tokenId}", code: 200 })),
+).annotate({ identifier: "GetDbaasLogTokenRequest" }) as any as S.Schema<GetDbaasLogTokenRequest>;
 
 /** Token */
 export interface DbaasLogsToken {
@@ -3101,13 +2933,7 @@ export const ListDbaasLogClusterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     namePattern: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dbaas/logs/{serviceName}/cluster",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/cluster", code: 200 })),
 ).annotate({
   identifier: "ListDbaasLogClusterRequest",
 }) as any as S.Schema<ListDbaasLogClusterRequest>;
@@ -3167,13 +2993,7 @@ export const ListDbaasLogEncryptionKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     titlePattern: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dbaas/logs/{serviceName}/encryptionKey",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/encryptionKey", code: 200 })),
 ).annotate({
   identifier: "ListDbaasLogEncryptionKeyRequest",
 }) as any as S.Schema<ListDbaasLogEncryptionKeyRequest>;
@@ -3200,16 +3020,8 @@ export const ListDbaasLogInputRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     titlePattern: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dbaas/logs/{serviceName}/input",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListDbaasLogInputRequest",
-}) as any as S.Schema<ListDbaasLogInputRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/input", code: 200 })),
+).annotate({ identifier: "ListDbaasLogInputRequest" }) as any as S.Schema<ListDbaasLogInputRequest>;
 
 export type ListDbaasLogInputResponseBodyList = Array<string>;
 export const ListDbaasLogInputResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3234,11 +3046,7 @@ export const ListDbaasLogInputActionRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     inputId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dbaas/logs/{serviceName}/input/{inputId}/action",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/input/{inputId}/action", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDbaasLogInputActionRequest",
@@ -3260,9 +3068,7 @@ export const DbaasLogsInputAction = /*@__PURE__*/ S.suspend(() =>
     isAllowed: S.optional(S.Boolean),
     type: S.optional(DbaasLogsInputActionTypeEnum),
   }),
-).annotate({
-  identifier: "DbaasLogsInputAction",
-}) as any as S.Schema<DbaasLogsInputAction>;
+).annotate({ identifier: "DbaasLogsInputAction" }) as any as S.Schema<DbaasLogsInputAction>;
 
 export type ListDbaasLogInputActionResponseBodyList = Array<DbaasLogsInputAction>;
 export const ListDbaasLogInputActionResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3283,13 +3089,7 @@ export interface ListDbaasLogInputEngineRequest {
 export const ListDbaasLogInputEngineRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dbaas/logs/{serviceName}/input/engine",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/input/engine", code: 200 })),
 ).annotate({
   identifier: "ListDbaasLogInputEngineRequest",
 }) as any as S.Schema<ListDbaasLogInputEngineRequest>;
@@ -3350,11 +3150,7 @@ export const ListDbaasLogInputUrlRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     inputId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dbaas/logs/{serviceName}/input/{inputId}/url",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/input/{inputId}/url", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDbaasLogInputUrlRequest",
@@ -3426,13 +3222,7 @@ export interface ListDbaasLogOperationRequest {
 export const ListDbaasLogOperationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dbaas/logs/{serviceName}/operation",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/operation", code: 200 })),
 ).annotate({
   identifier: "ListDbaasLogOperationRequest",
 }) as any as S.Schema<ListDbaasLogOperationRequest>;
@@ -3460,11 +3250,7 @@ export const ListDbaasLogOutputGraylogDashboardRequest = /*@__PURE__*/ S.suspend
     serviceName: S.String.pipe(T.Label()),
     titlePattern: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dbaas/logs/{serviceName}/output/graylog/dashboard",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/output/graylog/dashboard", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDbaasLogOutputGraylogDashboardRequest",
@@ -3528,11 +3314,7 @@ export const ListDbaasLogOutputGraylogStreamRequest = /*@__PURE__*/ S.suspend(()
     serviceName: S.String.pipe(T.Label()),
     titlePattern: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dbaas/logs/{serviceName}/output/graylog/stream",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/output/graylog/stream", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDbaasLogOutputGraylogStreamRequest",
@@ -3775,11 +3557,7 @@ export const ListDbaasLogOutputMetricTenantRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dbaas/logs/{serviceName}/output/metric/tenant",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/output/metric/tenant", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDbaasLogOutputMetricTenantRequest",
@@ -3882,11 +3660,7 @@ export const ListDbaasLogOutputOpensearchAliasRequest = /*@__PURE__*/ S.suspend(
     serviceName: S.String.pipe(T.Label()),
     namePattern: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dbaas/logs/{serviceName}/output/opensearch/alias",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/output/opensearch/alias", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDbaasLogOutputOpensearchAliasRequest",
@@ -4018,11 +3792,7 @@ export const ListDbaasLogOutputOpensearchIndexRequest = /*@__PURE__*/ S.suspend(
     serviceName: S.String.pipe(T.Label()),
     namePattern: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dbaas/logs/{serviceName}/output/opensearch/index",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/output/opensearch/index", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDbaasLogOutputOpensearchIndexRequest",
@@ -4083,11 +3853,7 @@ export const ListDbaasLogOutputOpensearchOsdRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dbaas/logs/{serviceName}/output/opensearch/osd",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/output/opensearch/osd", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDbaasLogOutputOpensearchOsdRequest",
@@ -4151,9 +3917,7 @@ export const ListDbaasLogRoleRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     namePattern: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/role", code: 200 })),
-).annotate({
-  identifier: "ListDbaasLogRoleRequest",
-}) as any as S.Schema<ListDbaasLogRoleRequest>;
+).annotate({ identifier: "ListDbaasLogRoleRequest" }) as any as S.Schema<ListDbaasLogRoleRequest>;
 
 export type ListDbaasLogRoleResponseBodyList = Array<string>;
 export const ListDbaasLogRoleResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4163,9 +3927,7 @@ export const ListDbaasLogRoleResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListDbaasLogRoleResponse = ListDbaasLogRoleResponseBodyList;
 export const ListDbaasLogRoleResponse = /*@__PURE__*/ S.suspend(() =>
   ListDbaasLogRoleResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListDbaasLogRoleResponse",
-}) as any as S.Schema<ListDbaasLogRoleResponse>;
+).annotate({ identifier: "ListDbaasLogRoleResponse" }) as any as S.Schema<ListDbaasLogRoleResponse>;
 
 export interface ListDbaasLogRoleMemberRequest {
   /** Service name */
@@ -4178,11 +3940,7 @@ export const ListDbaasLogRoleMemberRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     roleId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dbaas/logs/{serviceName}/role/{roleId}/member",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/role/{roleId}/member", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDbaasLogRoleMemberRequest",
@@ -4211,11 +3969,7 @@ export const ListDbaasLogRolePermissionRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     roleId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dbaas/logs/{serviceName}/role/{roleId}/permission",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/role/{roleId}/permission", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDbaasLogRolePermissionRequest",
@@ -4260,9 +4014,7 @@ export const ListDbaasLogsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     iamTags: S.optional(ListDbaasLogsRequestIamTagsMap.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/dbaas/logs", code: 200 })),
-).annotate({
-  identifier: "ListDbaasLogsRequest",
-}) as any as S.Schema<ListDbaasLogsRequest>;
+).annotate({ identifier: "ListDbaasLogsRequest" }) as any as S.Schema<ListDbaasLogsRequest>;
 
 export type ListDbaasLogsResponseBodyList = Array<string>;
 export const ListDbaasLogsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4272,9 +4024,7 @@ export const ListDbaasLogsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListDbaasLogsResponse = ListDbaasLogsResponseBodyList;
 export const ListDbaasLogsResponse = /*@__PURE__*/ S.suspend(() =>
   ListDbaasLogsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListDbaasLogsResponse",
-}) as any as S.Schema<ListDbaasLogsResponse>;
+).annotate({ identifier: "ListDbaasLogsResponse" }) as any as S.Schema<ListDbaasLogsResponse>;
 
 export interface ListDbaasLogTokenRequest {
   /** Service name */
@@ -4286,16 +4036,8 @@ export const ListDbaasLogTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     namePattern: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dbaas/logs/{serviceName}/token",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListDbaasLogTokenRequest",
-}) as any as S.Schema<ListDbaasLogTokenRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/token", code: 200 })),
+).annotate({ identifier: "ListDbaasLogTokenRequest" }) as any as S.Schema<ListDbaasLogTokenRequest>;
 
 export type ListDbaasLogTokenResponseBodyList = Array<string>;
 export const ListDbaasLogTokenResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4317,9 +4059,7 @@ export const ListDbaasLogUrlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/dbaas/logs/{serviceName}/url", code: 200 })),
-).annotate({
-  identifier: "ListDbaasLogUrlRequest",
-}) as any as S.Schema<ListDbaasLogUrlRequest>;
+).annotate({ identifier: "ListDbaasLogUrlRequest" }) as any as S.Schema<ListDbaasLogUrlRequest>;
 
 export type ListDbaasLogUrlResponseBodyList = Array<DbaasLogsUrl>;
 export const ListDbaasLogUrlResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4329,9 +4069,7 @@ export const ListDbaasLogUrlResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListDbaasLogUrlResponse = ListDbaasLogUrlResponseBodyList;
 export const ListDbaasLogUrlResponse = /*@__PURE__*/ S.suspend(() =>
   ListDbaasLogUrlResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListDbaasLogUrlResponse",
-}) as any as S.Schema<ListDbaasLogUrlResponse>;
+).annotate({ identifier: "ListDbaasLogUrlResponse" }) as any as S.Schema<ListDbaasLogUrlResponse>;
 
 export interface PutDbaasLogRequest {
   /** Service name */
@@ -4347,9 +4085,7 @@ export const PutDbaasLogRequest = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.NullOr(S.String)),
     enableIam: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.Http({ method: "PUT", uri: "/dbaas/logs/{serviceName}", code: 200 })),
-).annotate({
-  identifier: "PutDbaasLogRequest",
-}) as any as S.Schema<PutDbaasLogRequest>;
+).annotate({ identifier: "PutDbaasLogRequest" }) as any as S.Schema<PutDbaasLogRequest>;
 
 /** Allowed networks for ARCHIVE flow type */
 export type PutDbaasLogClusterRequestArchiveAllowedNetworksList = Array<string>;
@@ -4393,11 +4129,7 @@ export const PutDbaasLogClusterRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     queryAllowedNetworks: S.optional(S.NullOr(PutDbaasLogClusterRequestQueryAllowedNetworksList)),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/dbaas/logs/{serviceName}/cluster/{clusterId}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/dbaas/logs/{serviceName}/cluster/{clusterId}", code: 200 }),
   ),
 ).annotate({
   identifier: "PutDbaasLogClusterRequest",
@@ -4452,16 +4184,8 @@ export const PutDbaasLogInputRequest = /*@__PURE__*/ S.suspend(() =>
     scalingNotifyEnabled: S.optional(S.NullOr(S.Boolean)),
     streamId: S.String,
     title: S.String,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/dbaas/logs/{serviceName}/input/{inputId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutDbaasLogInputRequest",
-}) as any as S.Schema<PutDbaasLogInputRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/dbaas/logs/{serviceName}/input/{inputId}", code: 200 })),
+).annotate({ identifier: "PutDbaasLogInputRequest" }) as any as S.Schema<PutDbaasLogInputRequest>;
 
 export interface PutDbaasLogInputConfigurationFlowggerRequest {
   /** Service name */
@@ -4799,16 +4523,8 @@ export const PutDbaasLogRoleRequest = /*@__PURE__*/ S.suspend(() =>
     roleId: S.String.pipe(T.Label()),
     description: S.String,
     name: S.String,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/dbaas/logs/{serviceName}/role/{roleId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutDbaasLogRoleRequest",
-}) as any as S.Schema<PutDbaasLogRoleRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/dbaas/logs/{serviceName}/role/{roleId}", code: 200 })),
+).annotate({ identifier: "PutDbaasLogRoleRequest" }) as any as S.Schema<PutDbaasLogRoleRequest>;
 
 export interface PutDbaasLogRoleMemberRequest {
   /** Service name */
@@ -4847,22 +4563,14 @@ export const PutDbaasLogServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     renew: S.optional(S.NullOr(ServiceRenewType)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/dbaas/logs/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/dbaas/logs/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "PutDbaasLogServiceInfosRequest",
 }) as any as S.Schema<PutDbaasLogServiceInfosRequest>;
 
 export interface PutDbaasLogServiceInfosResponse {}
 export const PutDbaasLogServiceInfosResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "PutDbaasLogServiceInfosResponse",
-  },
+  { identifier: "PutDbaasLogServiceInfosResponse" },
 ) as any as S.Schema<PutDbaasLogServiceInfosResponse>;
 
 export interface RestartDbaasLogsInputRequest {
@@ -4876,11 +4584,7 @@ export const RestartDbaasLogsInputRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     inputId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dbaas/logs/{serviceName}/input/{inputId}/restart",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/dbaas/logs/{serviceName}/input/{inputId}/restart", code: 200 }),
   ),
 ).annotate({
   identifier: "RestartDbaasLogsInputRequest",
@@ -4897,11 +4601,7 @@ export const StartDbaasLogsInputRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     inputId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dbaas/logs/{serviceName}/input/{inputId}/start",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/dbaas/logs/{serviceName}/input/{inputId}/start", code: 200 }),
   ),
 ).annotate({
   identifier: "StartDbaasLogsInputRequest",

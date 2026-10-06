@@ -72,11 +72,7 @@ export const CreateFeatureRequestRequest = /*@__PURE__*/ S.suspend(() =>
     idempotency_key: S.String,
     evidence: S.optional(S.NullOr(FeatureRequestEvidencePayload)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/feature_requests/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/feature_requests/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateFeatureRequestRequest",
@@ -106,9 +102,7 @@ export const FeatureRequestAccount = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "FeatureRequestAccount",
-}) as any as S.Schema<FeatureRequestAccount>;
+).annotate({ identifier: "FeatureRequestAccount" }) as any as S.Schema<FeatureRequestAccount>;
 
 /** Uploaded image IDs attached to this evidence item, in display order. */
 export type FeatureRequestEvidenceImageIdsList = Array<string>;
@@ -154,9 +148,7 @@ export const FeatureRequestEvidence = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "FeatureRequestEvidence",
-}) as any as S.Schema<FeatureRequestEvidence>;
+).annotate({ identifier: "FeatureRequestEvidence" }) as any as S.Schema<FeatureRequestEvidence>;
 
 /** Evidence recorded for this account and request. List responses omit these items. */
 export type FeatureRequestAccountLinkEvidenceList = Array<FeatureRequestEvidence>;
@@ -230,6 +222,41 @@ export const FeatureRequestProductAreasList = /*@__PURE__*/ S.Array(
   FeatureRequestProductArea,
 ) as any as S.Schema<FeatureRequestProductAreasList>;
 
+/** * `open` - open * `closed` - closed */
+export type IssueStateEnum = "open" | "closed";
+export const IssueStateEnum = S.String;
+
+export interface FeatureRequestGitHubLink {
+  /** Stable GitHub link ID. */
+  id: string;
+  /** Canonical GitHub issue URL. */
+  issue_url: string;
+  /** Canonical owner and repository name. */
+  repository: string;
+  /** GitHub issue number. */
+  issue_number: number;
+  /** Latest GitHub issue title. */
+  issue_title: string;
+  /** Latest GitHub issue state. * `open` - open * `closed` - closed */
+  issue_state: IssueStateEnum;
+  /** Whether GitHub issue changes update this request. */
+  sync_enabled: boolean;
+  /** When GitHub last updated this link. */
+  last_synced_at: string | null;
+}
+export const FeatureRequestGitHubLink = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    issue_url: S.String,
+    repository: S.String,
+    issue_number: S.Number,
+    issue_title: S.String,
+    issue_state: IssueStateEnum,
+    sync_enabled: S.Boolean,
+    last_synced_at: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "FeatureRequestGitHubLink" }) as any as S.Schema<FeatureRequestGitHubLink>;
+
 export interface FeatureRequest {
   /** Stable feature request ID. */
   id: string;
@@ -259,6 +286,8 @@ export interface FeatureRequest {
   evidence_count: number;
   /** Product areas affected by this request. */
   product_areas: FeatureRequestProductAreasList;
+  /** Linked GitHub issue, or null when no issue is linked. */
+  github_link: FeatureRequestGitHubLink | null;
   /** ID of the user who created the request. */
   created_by: number | null;
   /** ID of the last user to update the request. */
@@ -284,12 +313,65 @@ export const FeatureRequest = /*@__PURE__*/ S.suspend(() =>
     account_links: FeatureRequestAccountLinksList,
     evidence_count: S.Number,
     product_areas: FeatureRequestProductAreasList,
+    github_link: S.NullOr(FeatureRequestGitHubLink),
     created_by: S.NullOr(S.Number),
     updated_by: S.NullOr(S.Number),
     created_at: S.String,
     updated_at: S.String,
   }),
 ).annotate({ identifier: "FeatureRequest" }) as any as S.Schema<FeatureRequest>;
+
+export interface CreateFeatureRequestsLinkGithubRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+  /** GitHub integration ID connected to this project. */
+  integration_id: number;
+  /** GitHub issue URL. Pull request URLs are not supported. */
+  issue_url: string;
+  /** Request version loaded by the editor. Stale versions return 409 Conflict. */
+  expected_version: number;
+}
+export const CreateFeatureRequestsLinkGithubRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    integration_id: S.Number,
+    issue_url: S.String,
+    expected_version: S.Number,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/feature_requests/{id}/link_github/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateFeatureRequestsLinkGithubRequest",
+}) as any as S.Schema<CreateFeatureRequestsLinkGithubRequest>;
+
+export interface CreateFeatureRequestsPauseGithubRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+  /** Request version loaded by the editor. Stale versions return 409 Conflict. */
+  expected_version: number;
+}
+export const CreateFeatureRequestsPauseGithubRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    expected_version: S.Number,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/feature_requests/{id}/pause_github/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateFeatureRequestsPauseGithubRequest",
+}) as any as S.Schema<CreateFeatureRequestsPauseGithubRequest>;
 
 export interface FeatureRequestsAddAccountCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -442,6 +524,52 @@ export const FeatureRequestsRestoreCreateRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "FeatureRequestsRestoreCreateRequest",
 }) as any as S.Schema<FeatureRequestsRestoreCreateRequest>;
 
+export interface FeatureRequestsResumeGithubCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+  /** Request version loaded by the editor. Stale versions return 409 Conflict. */
+  expected_version: number;
+}
+export const FeatureRequestsResumeGithubCreateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    expected_version: S.Number,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/feature_requests/{id}/resume_github/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "FeatureRequestsResumeGithubCreateRequest",
+}) as any as S.Schema<FeatureRequestsResumeGithubCreateRequest>;
+
+export interface FeatureRequestsUnlinkGithubCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+  /** Request version loaded by the editor. Stale versions return 409 Conflict. */
+  expected_version: number;
+}
+export const FeatureRequestsUnlinkGithubCreateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    expected_version: S.Number,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/feature_requests/{id}/unlink_github/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "FeatureRequestsUnlinkGithubCreateRequest",
+}) as any as S.Schema<FeatureRequestsUnlinkGithubCreateRequest>;
+
 /** Uploaded image IDs from this project to attach in display order. */
 export type FeatureRequestsUpdateEvidenceCreateRequestImageIdsList = Array<string>;
 export const FeatureRequestsUpdateEvidenceCreateRequestImageIdsList = /*@__PURE__*/ S.Array(
@@ -502,15 +630,9 @@ export const GetFeatureRequestRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/feature_requests/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/feature_requests/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetFeatureRequestRequest",
-}) as any as S.Schema<GetFeatureRequestRequest>;
+).annotate({ identifier: "GetFeatureRequestRequest" }) as any as S.Schema<GetFeatureRequestRequest>;
 
 export type ListFeatureRequestsRequestAccountIdsList = Array<string>;
 export const ListFeatureRequestsRequestAccountIdsList = /*@__PURE__*/ S.Array(
@@ -616,11 +738,7 @@ export const ListFeatureRequestsRequest = /*@__PURE__*/ S.suspend(() =>
     search: S.optional(S.String.pipe(T.Query())),
     statuses: S.optional(ListFeatureRequestsRequestStatusesList.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/feature_requests/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/feature_requests/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListFeatureRequestsRequest",
@@ -668,150 +786,208 @@ export const ListFeatureRequestsHistoryRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListFeatureRequestsHistoryRequest",
 }) as any as S.Schema<ListFeatureRequestsHistoryRequest>;
 
-/** * `status` - Status * `priority` - Priority * `account` - Account * `accounts` - Accounts * `evidence` - Evidence * `product_areas` - Product areas */
+/** * `status` - Status * `priority` - Priority * `account` - Account * `accounts` - Accounts * `evidence` - Evidence * `product_areas` - Product areas * `github_link` - GitHub link * `github_sync` - GitHub sync */
 export type FeatureRequestHistoryChangeFieldEnum =
   | "status"
   | "priority"
   | "account"
   | "accounts"
   | "evidence"
-  | "product_areas";
+  | "product_areas"
+  | "github_link"
+  | "github_sync";
 export const FeatureRequestHistoryChangeFieldEnum = S.String;
 
-export interface FeatureRequestHistoryChangeBeforeCase1 {
+export type FeatureRequestHistoryChangeBeforeCase2IssueState = "open" | "closed";
+export const FeatureRequestHistoryChangeBeforeCase2IssueState = S.String;
+
+export interface FeatureRequestHistoryChangeBeforeCase2 {
+  id: string;
+  issue_url: string;
+  repository: string;
+  issue_number: number;
+  issue_title: string;
+  issue_state: FeatureRequestHistoryChangeBeforeCase2IssueState;
+  sync_enabled: boolean;
+}
+export const FeatureRequestHistoryChangeBeforeCase2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    issue_url: S.String,
+    repository: S.String,
+    issue_number: S.Number,
+    issue_title: S.String,
+    issue_state: FeatureRequestHistoryChangeBeforeCase2IssueState,
+    sync_enabled: S.Boolean,
+  }),
+).annotate({
+  identifier: "FeatureRequestHistoryChangeBeforeCase2",
+}) as any as S.Schema<FeatureRequestHistoryChangeBeforeCase2>;
+
+export interface FeatureRequestHistoryChangeBeforeCase3 {
   id: string | null;
   name: string;
 }
-export const FeatureRequestHistoryChangeBeforeCase1 = /*@__PURE__*/ S.suspend(() =>
+export const FeatureRequestHistoryChangeBeforeCase3 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.NullOr(S.String),
     name: S.String,
   }),
 ).annotate({
-  identifier: "FeatureRequestHistoryChangeBeforeCase1",
-}) as any as S.Schema<FeatureRequestHistoryChangeBeforeCase1>;
+  identifier: "FeatureRequestHistoryChangeBeforeCase3",
+}) as any as S.Schema<FeatureRequestHistoryChangeBeforeCase3>;
 
-export interface FeatureRequestHistoryChangeBeforeCase2Item {
+export interface FeatureRequestHistoryChangeBeforeCase4Item {
   id: string;
   name: string;
 }
-export const FeatureRequestHistoryChangeBeforeCase2Item = /*@__PURE__*/ S.suspend(() =>
+export const FeatureRequestHistoryChangeBeforeCase4Item = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     name: S.String,
   }),
 ).annotate({
-  identifier: "FeatureRequestHistoryChangeBeforeCase2Item",
-}) as any as S.Schema<FeatureRequestHistoryChangeBeforeCase2Item>;
+  identifier: "FeatureRequestHistoryChangeBeforeCase4Item",
+}) as any as S.Schema<FeatureRequestHistoryChangeBeforeCase4Item>;
 
-export type FeatureRequestHistoryChangeBeforeCase2List =
-  Array<FeatureRequestHistoryChangeBeforeCase2Item>;
-export const FeatureRequestHistoryChangeBeforeCase2List = /*@__PURE__*/ S.Array(
-  FeatureRequestHistoryChangeBeforeCase2Item,
-) as any as S.Schema<FeatureRequestHistoryChangeBeforeCase2List>;
+export type FeatureRequestHistoryChangeBeforeCase4List =
+  Array<FeatureRequestHistoryChangeBeforeCase4Item>;
+export const FeatureRequestHistoryChangeBeforeCase4List = /*@__PURE__*/ S.Array(
+  FeatureRequestHistoryChangeBeforeCase4Item,
+) as any as S.Schema<FeatureRequestHistoryChangeBeforeCase4List>;
 
-export type FeatureRequestHistoryChangeBeforeCase3Account =
-  FeatureRequestHistoryChangeBeforeCase2Item;
-export const FeatureRequestHistoryChangeBeforeCase3Account =
-  FeatureRequestHistoryChangeBeforeCase2Item;
+export type FeatureRequestHistoryChangeBeforeCase5Account =
+  FeatureRequestHistoryChangeBeforeCase4Item;
+export const FeatureRequestHistoryChangeBeforeCase5Account =
+  FeatureRequestHistoryChangeBeforeCase4Item;
 
-export type FeatureRequestHistoryChangeBeforeCase3ImageIdsList = Array<string>;
-export const FeatureRequestHistoryChangeBeforeCase3ImageIdsList = /*@__PURE__*/ S.Array(
+export type FeatureRequestHistoryChangeBeforeCase5ImageIdsList = Array<string>;
+export const FeatureRequestHistoryChangeBeforeCase5ImageIdsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<FeatureRequestHistoryChangeBeforeCase3ImageIdsList>;
+) as any as S.Schema<FeatureRequestHistoryChangeBeforeCase5ImageIdsList>;
 
-export interface FeatureRequestHistoryChangeBeforeCase3 {
+export interface FeatureRequestHistoryChangeBeforeCase5 {
   id: string;
-  account: FeatureRequestHistoryChangeBeforeCase2Item;
+  account: FeatureRequestHistoryChangeBeforeCase4Item;
   summary: string;
   customer_quote: string;
   source: string;
   source_url: string;
   requested_on: string | null;
-  image_ids?: FeatureRequestHistoryChangeBeforeCase3ImageIdsList;
+  image_ids?: FeatureRequestHistoryChangeBeforeCase5ImageIdsList;
 }
-export const FeatureRequestHistoryChangeBeforeCase3 = /*@__PURE__*/ S.suspend(() =>
+export const FeatureRequestHistoryChangeBeforeCase5 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
-    account: FeatureRequestHistoryChangeBeforeCase2Item,
+    account: FeatureRequestHistoryChangeBeforeCase4Item,
     summary: S.String,
     customer_quote: S.String,
     source: S.String,
     source_url: S.String,
     requested_on: S.NullOr(S.String),
-    image_ids: S.optional(FeatureRequestHistoryChangeBeforeCase3ImageIdsList),
+    image_ids: S.optional(FeatureRequestHistoryChangeBeforeCase5ImageIdsList),
   }),
 ).annotate({
-  identifier: "FeatureRequestHistoryChangeBeforeCase3",
-}) as any as S.Schema<FeatureRequestHistoryChangeBeforeCase3>;
+  identifier: "FeatureRequestHistoryChangeBeforeCase5",
+}) as any as S.Schema<FeatureRequestHistoryChangeBeforeCase5>;
 
 /** Value before the update, including relation snapshots. */
 export type FeatureRequestHistoryChangeBefore =
   | string
-  | FeatureRequestHistoryChangeBeforeCase1
-  | FeatureRequestHistoryChangeBeforeCase2List
-  | FeatureRequestHistoryChangeBeforeCase3;
+  | boolean
+  | FeatureRequestHistoryChangeBeforeCase2
+  | FeatureRequestHistoryChangeBeforeCase3
+  | FeatureRequestHistoryChangeBeforeCase4List
+  | FeatureRequestHistoryChangeBeforeCase5;
 export const FeatureRequestHistoryChangeBefore =
   S.Unknown as any as S.Schema<FeatureRequestHistoryChangeBefore>;
 
-export type FeatureRequestHistoryChangeAfterCase1 = FeatureRequestHistoryChangeBeforeCase1;
-export const FeatureRequestHistoryChangeAfterCase1 = FeatureRequestHistoryChangeBeforeCase1;
+export type FeatureRequestHistoryChangeAfterCase2IssueState = "open" | "closed";
+export const FeatureRequestHistoryChangeAfterCase2IssueState = S.String;
 
-export type FeatureRequestHistoryChangeAfterCase2Item = FeatureRequestHistoryChangeBeforeCase2Item;
-export const FeatureRequestHistoryChangeAfterCase2Item = FeatureRequestHistoryChangeBeforeCase2Item;
-
-export type FeatureRequestHistoryChangeAfterCase2List =
-  Array<FeatureRequestHistoryChangeBeforeCase2Item>;
-export const FeatureRequestHistoryChangeAfterCase2List = /*@__PURE__*/ S.Array(
-  FeatureRequestHistoryChangeBeforeCase2Item,
-) as any as S.Schema<FeatureRequestHistoryChangeAfterCase2List>;
-
-export type FeatureRequestHistoryChangeAfterCase3Account =
-  FeatureRequestHistoryChangeBeforeCase2Item;
-export const FeatureRequestHistoryChangeAfterCase3Account =
-  FeatureRequestHistoryChangeBeforeCase2Item;
-
-export type FeatureRequestHistoryChangeAfterCase3ImageIdsList = Array<string>;
-export const FeatureRequestHistoryChangeAfterCase3ImageIdsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<FeatureRequestHistoryChangeAfterCase3ImageIdsList>;
-
-export interface FeatureRequestHistoryChangeAfterCase3 {
+export interface FeatureRequestHistoryChangeAfterCase2 {
   id: string;
-  account: FeatureRequestHistoryChangeBeforeCase2Item;
+  issue_url: string;
+  repository: string;
+  issue_number: number;
+  issue_title: string;
+  issue_state: FeatureRequestHistoryChangeAfterCase2IssueState;
+  sync_enabled: boolean;
+}
+export const FeatureRequestHistoryChangeAfterCase2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    issue_url: S.String,
+    repository: S.String,
+    issue_number: S.Number,
+    issue_title: S.String,
+    issue_state: FeatureRequestHistoryChangeAfterCase2IssueState,
+    sync_enabled: S.Boolean,
+  }),
+).annotate({
+  identifier: "FeatureRequestHistoryChangeAfterCase2",
+}) as any as S.Schema<FeatureRequestHistoryChangeAfterCase2>;
+
+export type FeatureRequestHistoryChangeAfterCase3 = FeatureRequestHistoryChangeBeforeCase3;
+export const FeatureRequestHistoryChangeAfterCase3 = FeatureRequestHistoryChangeBeforeCase3;
+
+export type FeatureRequestHistoryChangeAfterCase4Item = FeatureRequestHistoryChangeBeforeCase4Item;
+export const FeatureRequestHistoryChangeAfterCase4Item = FeatureRequestHistoryChangeBeforeCase4Item;
+
+export type FeatureRequestHistoryChangeAfterCase4List =
+  Array<FeatureRequestHistoryChangeBeforeCase4Item>;
+export const FeatureRequestHistoryChangeAfterCase4List = /*@__PURE__*/ S.Array(
+  FeatureRequestHistoryChangeBeforeCase4Item,
+) as any as S.Schema<FeatureRequestHistoryChangeAfterCase4List>;
+
+export type FeatureRequestHistoryChangeAfterCase5Account =
+  FeatureRequestHistoryChangeBeforeCase4Item;
+export const FeatureRequestHistoryChangeAfterCase5Account =
+  FeatureRequestHistoryChangeBeforeCase4Item;
+
+export type FeatureRequestHistoryChangeAfterCase5ImageIdsList = Array<string>;
+export const FeatureRequestHistoryChangeAfterCase5ImageIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<FeatureRequestHistoryChangeAfterCase5ImageIdsList>;
+
+export interface FeatureRequestHistoryChangeAfterCase5 {
+  id: string;
+  account: FeatureRequestHistoryChangeBeforeCase4Item;
   summary: string;
   customer_quote: string;
   source: string;
   source_url: string;
   requested_on: string | null;
-  image_ids?: FeatureRequestHistoryChangeAfterCase3ImageIdsList;
+  image_ids?: FeatureRequestHistoryChangeAfterCase5ImageIdsList;
 }
-export const FeatureRequestHistoryChangeAfterCase3 = /*@__PURE__*/ S.suspend(() =>
+export const FeatureRequestHistoryChangeAfterCase5 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
-    account: FeatureRequestHistoryChangeBeforeCase2Item,
+    account: FeatureRequestHistoryChangeBeforeCase4Item,
     summary: S.String,
     customer_quote: S.String,
     source: S.String,
     source_url: S.String,
     requested_on: S.NullOr(S.String),
-    image_ids: S.optional(FeatureRequestHistoryChangeAfterCase3ImageIdsList),
+    image_ids: S.optional(FeatureRequestHistoryChangeAfterCase5ImageIdsList),
   }),
 ).annotate({
-  identifier: "FeatureRequestHistoryChangeAfterCase3",
-}) as any as S.Schema<FeatureRequestHistoryChangeAfterCase3>;
+  identifier: "FeatureRequestHistoryChangeAfterCase5",
+}) as any as S.Schema<FeatureRequestHistoryChangeAfterCase5>;
 
 /** Value after the update, including relation snapshots. */
 export type FeatureRequestHistoryChangeAfter =
   | string
-  | FeatureRequestHistoryChangeBeforeCase1
-  | FeatureRequestHistoryChangeAfterCase2List
-  | FeatureRequestHistoryChangeAfterCase3;
+  | boolean
+  | FeatureRequestHistoryChangeAfterCase2
+  | FeatureRequestHistoryChangeBeforeCase3
+  | FeatureRequestHistoryChangeAfterCase4List
+  | FeatureRequestHistoryChangeAfterCase5;
 export const FeatureRequestHistoryChangeAfter =
   S.Unknown as any as S.Schema<FeatureRequestHistoryChangeAfter>;
 
 export interface FeatureRequestHistoryChange {
-  /** Request field represented by this change. * `status` - Status * `priority` - Priority * `account` - Account * `accounts` - Accounts * `evidence` - Evidence * `product_areas` - Product areas */
+  /** Request field represented by this change. * `status` - Status * `priority` - Priority * `account` - Account * `accounts` - Accounts * `evidence` - Evidence * `product_areas` - Product areas * `github_link` - GitHub link * `github_sync` - GitHub sync */
   field: FeatureRequestHistoryChangeFieldEnum;
   /** Value before the update, including relation snapshots. */
   before: FeatureRequestHistoryChangeBefore | null;
@@ -834,8 +1010,8 @@ export const FeatureRequestHistoryChangesList = /*@__PURE__*/ S.Array(
   FeatureRequestHistoryChange,
 ) as any as S.Schema<FeatureRequestHistoryChangesList>;
 
-/** * `manual` - Manual */
-export type FeatureRequestHistorySourceEnum = "manual";
+/** * `manual` - Manual * `github` - GitHub */
+export type FeatureRequestHistorySourceEnum = "manual" | "github";
 export const FeatureRequestHistorySourceEnum = S.String;
 
 export interface FeatureRequestHistory {
@@ -845,7 +1021,7 @@ export interface FeatureRequestHistory {
   changes: FeatureRequestHistoryChangesList;
   /** Whether this entry records the request's initial values. */
   is_initial: boolean;
-  /** System that recorded the request change. * `manual` - Manual */
+  /** System that recorded the request change. * `manual` - Manual * `github` - GitHub */
   change_source: FeatureRequestHistorySourceEnum;
   /** ID of the user who changed the request, if known. */
   actor_id: number | null;
@@ -864,9 +1040,7 @@ export const FeatureRequestHistory = /*@__PURE__*/ S.suspend(() =>
     actor_name: S.NullOr(S.String),
     changed_at: S.String,
   }),
-).annotate({
-  identifier: "FeatureRequestHistory",
-}) as any as S.Schema<FeatureRequestHistory>;
+).annotate({ identifier: "FeatureRequestHistory" }) as any as S.Schema<FeatureRequestHistory>;
 
 export type ListFeatureRequestsHistoryResponseBodyList = Array<FeatureRequestHistory>;
 export const ListFeatureRequestsHistoryResponseBodyList = /*@__PURE__*/ S.Array(
@@ -907,7 +1081,7 @@ export interface FeatureRequestStatusHistory {
   previous_status: FeatureRequestStatusEnum | null;
   /** Status after this change. * `requested` - Requested * `planned` - Planned * `completed` - Completed * `wont_fix` - Won't fix * `duplicate` - Duplicate */
   request_status: FeatureRequestStatusEnum;
-  /** System that recorded the status change. * `manual` - Manual */
+  /** System that recorded the status change. * `manual` - Manual * `github` - GitHub */
   change_source: FeatureRequestHistorySourceEnum;
   /** ID of the user who changed the status, if known. */
   actor_id: number | null;
@@ -989,11 +1163,7 @@ export const UpdateFeatureRequestRequest = /*@__PURE__*/ S.suspend(() =>
     request_status: S.optional(FeatureRequestStatusEnum),
     request_priority: S.optional(S.NullOr(FeatureRequestPriorityEnum)),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/feature_requests/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/projects/{project_id}/feature_requests/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateFeatureRequestRequest",
@@ -1069,6 +1239,34 @@ export const createFeatureRequest: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateFeatureRequestsLinkGithubError = PosthogOpError;
+export const createFeatureRequestsLinkGithub: API.OperationMethod<
+  CreateFeatureRequestsLinkGithubRequest,
+  FeatureRequest,
+  CreateFeatureRequestsLinkGithubError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateFeatureRequestsLinkGithubRequest,
+  output: FeatureRequest,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateFeatureRequestsPauseGithubError = PosthogOpError;
+export const createFeatureRequestsPauseGithub: API.OperationMethod<
+  CreateFeatureRequestsPauseGithubRequest,
+  FeatureRequest,
+  CreateFeatureRequestsPauseGithubError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateFeatureRequestsPauseGithubRequest,
+  output: FeatureRequest,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type FeatureRequestsAddAccountCreateError = PosthogOpError;
 export const featureRequestsAddAccountCreate: API.OperationMethod<
   FeatureRequestsAddAccountCreateRequest,
@@ -1133,6 +1331,34 @@ export const featureRequestsRestoreCreate: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: FeatureRequestsRestoreCreateRequest,
+  output: FeatureRequest,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type FeatureRequestsResumeGithubCreateError = PosthogOpError;
+export const featureRequestsResumeGithubCreate: API.OperationMethod<
+  FeatureRequestsResumeGithubCreateRequest,
+  FeatureRequest,
+  FeatureRequestsResumeGithubCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: FeatureRequestsResumeGithubCreateRequest,
+  output: FeatureRequest,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type FeatureRequestsUnlinkGithubCreateError = PosthogOpError;
+export const featureRequestsUnlinkGithubCreate: API.OperationMethod<
+  FeatureRequestsUnlinkGithubCreateRequest,
+  FeatureRequest,
+  FeatureRequestsUnlinkGithubCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: FeatureRequestsUnlinkGithubCreateRequest,
   output: FeatureRequest,
   errors: [],
   protocol: PosthogProtocol,

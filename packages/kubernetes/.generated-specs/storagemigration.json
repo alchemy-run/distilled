@@ -446,19 +446,20 @@
         "metadata": {
           "target": "com.kubernetes.storagemigration#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
           "target": "com.kubernetes.storagemigration#IoK8sApiStoragemigrationV1StorageVersionMigrationSpec",
           "traits": {
-            "smithy.api#documentation": "Specification of the migration."
+            "smithy.api#documentation": "spec is the specification of the migration.",
+            "smithy.api#required": {}
           }
         },
         "status": {
           "target": "com.kubernetes.storagemigration#IoK8sApiStoragemigrationV1StorageVersionMigrationStatus",
           "traits": {
-            "smithy.api#documentation": "Status of the migration."
+            "smithy.api#documentation": "status is the status of the migration."
           }
         }
       },
@@ -719,7 +720,7 @@
         "resource": {
           "target": "com.kubernetes.storagemigration#IoK8sApimachineryPkgApisMetaV1GroupResource",
           "traits": {
-            "smithy.api#documentation": "The resource that is being migrated. The migrator sends requests to the endpoint serving the resource. Immutable.",
+            "smithy.api#documentation": "resource is the resource that is being migrated. The migrator sends requests to the endpoint serving the resource. Immutable.",
             "smithy.api#required": {}
           }
         }
@@ -754,13 +755,13 @@
         "conditions": {
           "target": "com.kubernetes.storagemigration#IoK8sApiStoragemigrationV1StorageVersionMigrationStatusConditionsList",
           "traits": {
-            "smithy.api#documentation": "The latest available observations of the migration's current state."
+            "smithy.api#documentation": "conditions is the latest available observations of the migration's current state."
           }
         },
         "resourceVersion": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "ResourceVersion to compare with the GC cache for performing the migration. This is the current resource version of given group, version and resource when kube-controller-manager first observes this StorageVersionMigration resource."
+            "smithy.api#documentation": "resourceVersion is the resource version to compare with the GC cache for performing the migration. This is the current resource version of given group, version and resource when kube-controller-manager first observes this StorageVersionMigration resource."
           }
         }
       },
@@ -822,7 +823,7 @@
         "target": "com.kubernetes.storagemigration#IoK8sApimachineryPkgApisMetaV1Condition"
       },
       "traits": {
-        "smithy.api#documentation": "The latest available observations of the migration's current state."
+        "smithy.api#documentation": "conditions is the latest available observations of the migration's current state."
       }
     },
     "com.kubernetes.storagemigration#IoK8sApiStoragemigrationV1StorageVersionMigrationListItemsList": {
@@ -950,19 +951,20 @@
         "metadata": {
           "target": "com.kubernetes.storagemigration#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
           "target": "com.kubernetes.storagemigration#IoK8sApiStoragemigrationV1StorageVersionMigrationSpec",
           "traits": {
-            "smithy.api#documentation": "Specification of the migration."
+            "smithy.api#documentation": "spec is the specification of the migration.",
+            "smithy.api#required": {}
           }
         },
         "status": {
           "target": "com.kubernetes.storagemigration#IoK8sApiStoragemigrationV1StorageVersionMigrationStatus",
           "traits": {
-            "smithy.api#documentation": "Status of the migration."
+            "smithy.api#documentation": "status is the status of the migration."
           }
         }
       },
@@ -1393,19 +1395,20 @@
         "metadata": {
           "target": "com.kubernetes.storagemigration#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
           "target": "com.kubernetes.storagemigration#IoK8sApiStoragemigrationV1StorageVersionMigrationSpec",
           "traits": {
-            "smithy.api#documentation": "Specification of the migration."
+            "smithy.api#documentation": "spec is the specification of the migration.",
+            "smithy.api#required": {}
           }
         },
         "status": {
           "target": "com.kubernetes.storagemigration#IoK8sApiStoragemigrationV1StorageVersionMigrationStatus",
           "traits": {
-            "smithy.api#documentation": "Status of the migration."
+            "smithy.api#documentation": "status is the status of the migration."
           }
         }
       },
@@ -1694,19 +1697,20 @@
         "metadata": {
           "target": "com.kubernetes.storagemigration#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
           "target": "com.kubernetes.storagemigration#IoK8sApiStoragemigrationV1StorageVersionMigrationSpec",
           "traits": {
-            "smithy.api#documentation": "Specification of the migration."
+            "smithy.api#documentation": "spec is the specification of the migration.",
+            "smithy.api#required": {}
           }
         },
         "status": {
           "target": "com.kubernetes.storagemigration#IoK8sApiStoragemigrationV1StorageVersionMigrationStatus",
           "traits": {
-            "smithy.api#documentation": "Status of the migration."
+            "smithy.api#documentation": "status is the status of the migration."
           }
         }
       },
@@ -2206,19 +2210,20 @@
         "metadata": {
           "target": "com.kubernetes.storagemigration#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
           "target": "com.kubernetes.storagemigration#IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec",
           "traits": {
-            "smithy.api#documentation": "Specification of the migration."
+            "smithy.api#documentation": "spec is the specification of the migration.",
+            "smithy.api#required": {}
           }
         },
         "status": {
           "target": "com.kubernetes.storagemigration#IoK8sApiStoragemigrationV1beta1StorageVersionMigrationStatus",
           "traits": {
-            "smithy.api#documentation": "Status of the migration."
+            "smithy.api#documentation": "status is the status of the migration."
           }
         }
       },
@@ -2232,7 +2237,7 @@
         "resource": {
           "target": "com.kubernetes.storagemigration#IoK8sApimachineryPkgApisMetaV1GroupResource",
           "traits": {
-            "smithy.api#documentation": "The resource that is being migrated. The migrator sends requests to the endpoint serving the resource. Immutable.",
+            "smithy.api#documentation": "resource is the resource that is being migrated. The migrator sends requests to the endpoint serving the resource. Immutable.",
             "smithy.api#required": {}
           }
         }
@@ -2247,13 +2252,13 @@
         "conditions": {
           "target": "com.kubernetes.storagemigration#IoK8sApiStoragemigrationV1beta1StorageVersionMigrationStatusConditionsList",
           "traits": {
-            "smithy.api#documentation": "The latest available observations of the migration's current state."
+            "smithy.api#documentation": "conditions is the latest available observations of the migration's current state."
           }
         },
         "resourceVersion": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "ResourceVersion to compare with the GC cache for performing the migration. This is the current resource version of given group, version and resource when kube-controller-manager first observes this StorageVersionMigration resource."
+            "smithy.api#documentation": "resourceVersion is the resource version to compare with the GC cache for performing the migration. This is the current resource version of given group, version and resource when kube-controller-manager first observes this StorageVersionMigration resource."
           }
         }
       },
@@ -2267,7 +2272,7 @@
         "target": "com.kubernetes.storagemigration#IoK8sApimachineryPkgApisMetaV1Condition"
       },
       "traits": {
-        "smithy.api#documentation": "The latest available observations of the migration's current state."
+        "smithy.api#documentation": "conditions is the latest available observations of the migration's current state."
       }
     },
     "com.kubernetes.storagemigration#IoK8sApiStoragemigrationV1beta1StorageVersionMigrationListItemsList": {
@@ -2342,19 +2347,20 @@
         "metadata": {
           "target": "com.kubernetes.storagemigration#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
           "target": "com.kubernetes.storagemigration#IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec",
           "traits": {
-            "smithy.api#documentation": "Specification of the migration."
+            "smithy.api#documentation": "spec is the specification of the migration.",
+            "smithy.api#required": {}
           }
         },
         "status": {
           "target": "com.kubernetes.storagemigration#IoK8sApiStoragemigrationV1beta1StorageVersionMigrationStatus",
           "traits": {
-            "smithy.api#documentation": "Status of the migration."
+            "smithy.api#documentation": "status is the status of the migration."
           }
         }
       },
@@ -2643,19 +2649,20 @@
         "metadata": {
           "target": "com.kubernetes.storagemigration#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
           "target": "com.kubernetes.storagemigration#IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec",
           "traits": {
-            "smithy.api#documentation": "Specification of the migration."
+            "smithy.api#documentation": "spec is the specification of the migration.",
+            "smithy.api#required": {}
           }
         },
         "status": {
           "target": "com.kubernetes.storagemigration#IoK8sApiStoragemigrationV1beta1StorageVersionMigrationStatus",
           "traits": {
-            "smithy.api#documentation": "Status of the migration."
+            "smithy.api#documentation": "status is the status of the migration."
           }
         }
       },
@@ -2979,19 +2986,20 @@
         "metadata": {
           "target": "com.kubernetes.storagemigration#IoK8sApimachineryPkgApisMetaV1ObjectMeta",
           "traits": {
-            "smithy.api#documentation": "Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+            "smithy.api#documentation": "metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
           }
         },
         "spec": {
           "target": "com.kubernetes.storagemigration#IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec",
           "traits": {
-            "smithy.api#documentation": "Specification of the migration."
+            "smithy.api#documentation": "spec is the specification of the migration.",
+            "smithy.api#required": {}
           }
         },
         "status": {
           "target": "com.kubernetes.storagemigration#IoK8sApiStoragemigrationV1beta1StorageVersionMigrationStatus",
           "traits": {
-            "smithy.api#documentation": "Status of the migration."
+            "smithy.api#documentation": "status is the status of the migration."
           }
         }
       },

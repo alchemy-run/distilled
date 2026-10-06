@@ -17,9 +17,7 @@ export const DeleteImageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/images/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteImageRequest",
-}) as any as S.Schema<DeleteImageRequest>;
+).annotate({ identifier: "DeleteImageRequest" }) as any as S.Schema<DeleteImageRequest>;
 
 export interface DeleteImageResponse {}
 export const DeleteImageResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -34,9 +32,7 @@ export const GetImageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/images/{id}", code: 200 })),
-).annotate({
-  identifier: "GetImageRequest",
-}) as any as S.Schema<GetImageRequest>;
+).annotate({ identifier: "GetImageRequest" }) as any as S.Schema<GetImageRequest>;
 
 /** Type of the Image. */
 export type GetImageResponseImageType = "system" | "app" | "snapshot" | "backup";
@@ -87,10 +83,24 @@ export const GetImageResponseImageProtection = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetImageResponseImageProtection",
 }) as any as S.Schema<GetImageResponseImageProtection>;
 
+/** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
+export interface GetImageResponseImageDeprecation {
+  /** Date of the deprecated resource removal. Once this date is reached, the resource will not be returned by resource type "list" endpoint, and the resource can not be used to create new resources. For example, if this is an image, you can not create new servers with this image after the mentioned date. */
+  unavailable_after: string;
+  /** Date of the deprecation announcement. */
+  announced: string;
+}
+export const GetImageResponseImageDeprecation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    unavailable_after: S.String,
+    announced: S.String,
+  }),
+).annotate({
+  identifier: "GetImageResponseImageDeprecation",
+}) as any as S.Schema<GetImageResponseImageDeprecation>;
+
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type GetImageResponseImageLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type GetImageResponseImageLabelsMap = { [key: string]: string | undefined };
 export const GetImageResponseImageLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -129,8 +139,10 @@ export interface GetImageResponseImage {
   rapid_deploy?: boolean;
   /** Protection configuration for the Resource. */
   protection: GetImageResponseImageProtection;
-  /** Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
+  /** **Deprecated:** This field is deprecated, use the deprecation object instead. Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
   deprecated: string | null;
+  /** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
+  deprecation: GetImageResponseImageDeprecation | null;
   /** Point in time where the Image was deleted (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
   deleted: string | null;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
@@ -155,13 +167,12 @@ export const GetImageResponseImage = /*@__PURE__*/ S.suspend(() =>
     rapid_deploy: S.optional(S.Boolean),
     protection: GetImageResponseImageProtection,
     deprecated: S.NullOr(S.String),
+    deprecation: S.NullOr(GetImageResponseImageDeprecation),
     deleted: S.NullOr(S.String),
     labels: GetImageResponseImageLabelsMap,
     architecture: GetImageResponseImageArchitecture,
   }),
-).annotate({
-  identifier: "GetImageResponseImage",
-}) as any as S.Schema<GetImageResponseImage>;
+).annotate({ identifier: "GetImageResponseImage" }) as any as S.Schema<GetImageResponseImage>;
 
 export interface GetImageResponse {
   image?: GetImageResponseImage;
@@ -170,9 +181,7 @@ export const GetImageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     image: S.optional(GetImageResponseImage),
   }),
-).annotate({
-  identifier: "GetImageResponse",
-}) as any as S.Schema<GetImageResponse>;
+).annotate({ identifier: "GetImageResponse" }) as any as S.Schema<GetImageResponse>;
 
 export type ListImagesRequestSortItem =
   | "id"
@@ -253,9 +262,7 @@ export const ListImagesRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/images", code: 200 })),
-).annotate({
-  identifier: "ListImagesRequest",
-}) as any as S.Schema<ListImagesRequest>;
+).annotate({ identifier: "ListImagesRequest" }) as any as S.Schema<ListImagesRequest>;
 
 /** Type of the Image. */
 export type ListImagesResponseImagesItemType = "system" | "app" | "snapshot" | "backup";
@@ -285,10 +292,12 @@ export const ListImagesResponseImagesItemOsFlavor = S.String;
 export type ListImagesResponseImagesItemProtection = GetImageResponseImageProtection;
 export const ListImagesResponseImagesItemProtection = GetImageResponseImageProtection;
 
+/** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
+export type ListImagesResponseImagesItemDeprecation = GetImageResponseImageDeprecation;
+export const ListImagesResponseImagesItemDeprecation = GetImageResponseImageDeprecation;
+
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type ListImagesResponseImagesItemLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type ListImagesResponseImagesItemLabelsMap = { [key: string]: string | undefined };
 export const ListImagesResponseImagesItemLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -327,8 +336,10 @@ export interface ListImagesResponseImagesItem {
   rapid_deploy?: boolean;
   /** Protection configuration for the Resource. */
   protection: GetImageResponseImageProtection;
-  /** Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
+  /** **Deprecated:** This field is deprecated, use the deprecation object instead. Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
   deprecated: string | null;
+  /** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
+  deprecation: GetImageResponseImageDeprecation | null;
   /** Point in time where the Image was deleted (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
   deleted: string | null;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
@@ -353,6 +364,7 @@ export const ListImagesResponseImagesItem = /*@__PURE__*/ S.suspend(() =>
     rapid_deploy: S.optional(S.Boolean),
     protection: GetImageResponseImageProtection,
     deprecated: S.NullOr(S.String),
+    deprecation: S.NullOr(GetImageResponseImageDeprecation),
     deleted: S.NullOr(S.String),
     labels: ListImagesResponseImagesItemLabelsMap,
     architecture: ListImagesResponseImagesItemArchitecture,
@@ -402,9 +414,7 @@ export const ListImagesResponseMeta = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pagination: ListImagesResponseMetaPagination,
   }),
-).annotate({
-  identifier: "ListImagesResponseMeta",
-}) as any as S.Schema<ListImagesResponseMeta>;
+).annotate({ identifier: "ListImagesResponseMeta" }) as any as S.Schema<ListImagesResponseMeta>;
 
 export interface ListImagesResponse {
   images: ListImagesResponseImagesList;
@@ -415,9 +425,7 @@ export const ListImagesResponse = /*@__PURE__*/ S.suspend(() =>
     images: ListImagesResponseImagesList,
     meta: ListImagesResponseMeta,
   }),
-).annotate({
-  identifier: "ListImagesResponse",
-}) as any as S.Schema<ListImagesResponse>;
+).annotate({ identifier: "ListImagesResponse" }) as any as S.Schema<ListImagesResponse>;
 
 /** Destination Image type to convert to. */
 export type UpdateImageRequestType = "snapshot";
@@ -447,9 +455,7 @@ export const UpdateImageRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(UpdateImageRequestType),
     labels: S.optional(UpdateImageRequestLabelsMap),
   }).pipe(T.Http({ method: "PUT", uri: "/images/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateImageRequest",
-}) as any as S.Schema<UpdateImageRequest>;
+).annotate({ identifier: "UpdateImageRequest" }) as any as S.Schema<UpdateImageRequest>;
 
 /** Type of the Image. */
 export type UpdateImageResponseImageType = "system" | "app" | "snapshot" | "backup";
@@ -479,10 +485,12 @@ export const UpdateImageResponseImageOsFlavor = S.String;
 export type UpdateImageResponseImageProtection = GetImageResponseImageProtection;
 export const UpdateImageResponseImageProtection = GetImageResponseImageProtection;
 
+/** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
+export type UpdateImageResponseImageDeprecation = GetImageResponseImageDeprecation;
+export const UpdateImageResponseImageDeprecation = GetImageResponseImageDeprecation;
+
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-export type UpdateImageResponseImageLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateImageResponseImageLabelsMap = { [key: string]: string | undefined };
 export const UpdateImageResponseImageLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -521,8 +529,10 @@ export interface UpdateImageResponseImage {
   rapid_deploy?: boolean;
   /** Protection configuration for the Resource. */
   protection: GetImageResponseImageProtection;
-  /** Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
+  /** **Deprecated:** This field is deprecated, use the deprecation object instead. Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
   deprecated: string | null;
+  /** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
+  deprecation: GetImageResponseImageDeprecation | null;
   /** Point in time where the Image was deleted (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
   deleted: string | null;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
@@ -547,13 +557,12 @@ export const UpdateImageResponseImage = /*@__PURE__*/ S.suspend(() =>
     rapid_deploy: S.optional(S.Boolean),
     protection: GetImageResponseImageProtection,
     deprecated: S.NullOr(S.String),
+    deprecation: S.NullOr(GetImageResponseImageDeprecation),
     deleted: S.NullOr(S.String),
     labels: UpdateImageResponseImageLabelsMap,
     architecture: UpdateImageResponseImageArchitecture,
   }),
-).annotate({
-  identifier: "UpdateImageResponseImage",
-}) as any as S.Schema<UpdateImageResponseImage>;
+).annotate({ identifier: "UpdateImageResponseImage" }) as any as S.Schema<UpdateImageResponseImage>;
 
 export interface UpdateImageResponse {
   image?: UpdateImageResponseImage;
@@ -562,9 +571,7 @@ export const UpdateImageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     image: S.optional(UpdateImageResponseImage),
   }),
-).annotate({
-  identifier: "UpdateImageResponse",
-}) as any as S.Schema<UpdateImageResponse>;
+).annotate({ identifier: "UpdateImageResponse" }) as any as S.Schema<UpdateImageResponse>;
 
 export type DeleteImageError = HetznerOpError;
 /** Delete an Image Deletes an Image. Only Images of type `snapshot` and `backup` can be deleted. */

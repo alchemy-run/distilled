@@ -58,35 +58,35 @@ export const FetchMultiDailyMetricsTimeSeriesLocationsDailyMetricsEnumList = /*@
 ) as any as S.Schema<FetchMultiDailyMetricsTimeSeriesLocationsDailyMetricsEnumList>;
 
 export interface FetchMultiDailyMetricsTimeSeriesLocationsRequest {
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "dailyRange.startDate.year"?: number;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "dailyRange.endDate.year"?: number;
-  /** Required. The location for which the time series should be fetched. Format: locations/{location_id} where location_id is an unobfuscated listing id. */
-  location: string;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
   "dailyRange.endDate.month"?: number;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
   "dailyRange.endDate.day"?: number;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  "dailyRange.endDate.year"?: number;
+  /** Required. The location for which the time series should be fetched. Format: locations/{location_id} where location_id is an unobfuscated listing id. */
+  location: string;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  "dailyRange.startDate.year"?: number;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  "dailyRange.startDate.month"?: number;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
   "dailyRange.startDate.day"?: number;
   /** Required. The metrics to retrieve time series for. */
   dailyMetrics?: FetchMultiDailyMetricsTimeSeriesLocationsDailyMetricsEnumList;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "dailyRange.startDate.month"?: number;
 }
 export const FetchMultiDailyMetricsTimeSeriesLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    "dailyRange.startDate.year": S.optional(S.Number.pipe(T.Query())),
-    "dailyRange.endDate.year": S.optional(S.Number.pipe(T.Query())),
-    location: S.String.pipe(T.Label()),
     "dailyRange.endDate.month": S.optional(S.Number.pipe(T.Query())),
     "dailyRange.endDate.day": S.optional(S.Number.pipe(T.Query())),
+    "dailyRange.endDate.year": S.optional(S.Number.pipe(T.Query())),
+    location: S.String.pipe(T.Label()),
+    "dailyRange.startDate.year": S.optional(S.Number.pipe(T.Query())),
+    "dailyRange.startDate.month": S.optional(S.Number.pipe(T.Query())),
     "dailyRange.startDate.day": S.optional(S.Number.pipe(T.Query())),
     dailyMetrics: S.optional(
       FetchMultiDailyMetricsTimeSeriesLocationsDailyMetricsEnumList.pipe(T.Query()),
     ),
-    "dailyRange.startDate.month": S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -100,18 +100,18 @@ export const FetchMultiDailyMetricsTimeSeriesLocationsRequest = /*@__PURE__*/ S.
 
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Businessprofileperformance_Date {
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
   month?: number;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
   day?: number;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
 }
 export const Businessprofileperformance_Date = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    year: S.optional(S.Number),
     month: S.optional(S.Number),
     day: S.optional(S.Number),
-    year: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "Businessprofileperformance_Date",
@@ -158,21 +158,21 @@ export const DailySubEntityTypeDayOfWeekEnum = S.String;
 
 /** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
 export interface TimeOfDay {
-  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number;
-  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number;
   /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
   minutes?: number;
   /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
   nanos?: number;
+  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
+  seconds?: number;
+  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
+  hours?: number;
 }
 export const TimeOfDay = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    seconds: S.optional(S.Number),
-    hours: S.optional(S.Number),
     minutes: S.optional(S.Number),
     nanos: S.optional(S.Number),
+    seconds: S.optional(S.Number),
+    hours: S.optional(S.Number),
   }),
 ).annotate({ identifier: "TimeOfDay" }) as any as S.Schema<TimeOfDay>;
 
@@ -188,9 +188,7 @@ export const DailySubEntityType = /*@__PURE__*/ S.suspend(() =>
     dayOfWeek: S.optional(DailySubEntityTypeDayOfWeekEnum),
     timeOfDay: S.optional(TimeOfDay),
   }),
-).annotate({
-  identifier: "DailySubEntityType",
-}) as any as S.Schema<DailySubEntityType>;
+).annotate({ identifier: "DailySubEntityType" }) as any as S.Schema<DailySubEntityType>;
 
 export type DailyMetricTimeSeriesDailyMetricEnum =
   | "DAILY_METRIC_UNKNOWN"
@@ -222,9 +220,7 @@ export const DailyMetricTimeSeries = /*@__PURE__*/ S.suspend(() =>
     dailySubEntityType: S.optional(DailySubEntityType),
     dailyMetric: S.optional(DailyMetricTimeSeriesDailyMetricEnum),
   }),
-).annotate({
-  identifier: "DailyMetricTimeSeries",
-}) as any as S.Schema<DailyMetricTimeSeries>;
+).annotate({ identifier: "DailyMetricTimeSeries" }) as any as S.Schema<DailyMetricTimeSeries>;
 
 export type DailyMetricTimeSeriesList = Array<DailyMetricTimeSeries>;
 export const DailyMetricTimeSeriesList = /*@__PURE__*/ S.Array(
@@ -262,6 +258,17 @@ export const FetchMultiDailyMetricsTimeSeriesResponse = /*@__PURE__*/ S.suspend(
   identifier: "FetchMultiDailyMetricsTimeSeriesResponse",
 }) as any as S.Schema<FetchMultiDailyMetricsTimeSeriesResponse>;
 
+export type GetDailyMetricsTimeSeriesLocationsDailySubEntityType_dayOfWeekEnum =
+  | "DAY_OF_WEEK_UNSPECIFIED"
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
+export const GetDailyMetricsTimeSeriesLocationsDailySubEntityType_dayOfWeekEnum = S.String;
+
 export type GetDailyMetricsTimeSeriesLocationsDailyMetricEnum =
   | "DAILY_METRIC_UNKNOWN"
   | "BUSINESS_IMPRESSIONS_DESKTOP_MAPS"
@@ -277,64 +284,53 @@ export type GetDailyMetricsTimeSeriesLocationsDailyMetricEnum =
   | "BUSINESS_FOOD_MENU_CLICKS";
 export const GetDailyMetricsTimeSeriesLocationsDailyMetricEnum = S.String;
 
-export type GetDailyMetricsTimeSeriesLocationsDailySubEntityType_dayOfWeekEnum =
-  | "DAY_OF_WEEK_UNSPECIFIED"
-  | "MONDAY"
-  | "TUESDAY"
-  | "WEDNESDAY"
-  | "THURSDAY"
-  | "FRIDAY"
-  | "SATURDAY"
-  | "SUNDAY";
-export const GetDailyMetricsTimeSeriesLocationsDailySubEntityType_dayOfWeekEnum = S.String;
-
 export interface GetDailyMetricsTimeSeriesLocationsRequest {
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "dailyRange.startDate.month"?: number;
-  /** Required. The metric to retrieve time series. */
-  dailyMetric?: GetDailyMetricsTimeSeriesLocationsDailyMetricEnum | (string & {});
-  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  "dailySubEntityType.timeOfDay.hours"?: number;
-  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
-  "dailySubEntityType.timeOfDay.nanos"?: number;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "dailyRange.startDate.day"?: number;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "dailyRange.endDate.month"?: number;
+  "dailyRange.endDate.day"?: number;
   /** Represents the day of the week. Eg: MONDAY. Currently supported DailyMetrics = NONE. */
   "dailySubEntityType.dayOfWeek"?:
     | GetDailyMetricsTimeSeriesLocationsDailySubEntityType_dayOfWeekEnum
     | (string & {});
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "dailyRange.startDate.year"?: number;
-  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
-  "dailySubEntityType.timeOfDay.seconds"?: number;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "dailyRange.endDate.year"?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "dailyRange.endDate.day"?: number;
-  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
-  "dailySubEntityType.timeOfDay.minutes"?: number;
   /** Required. The location for which the time series should be fetched. Format: locations/{location_id} where location_id is an unobfuscated listing id. */
   name: string;
+  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
+  "dailySubEntityType.timeOfDay.nanos"?: number;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  "dailyRange.startDate.year"?: number;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  "dailyRange.endDate.year"?: number;
+  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
+  "dailySubEntityType.timeOfDay.seconds"?: number;
+  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
+  "dailySubEntityType.timeOfDay.hours"?: number;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  "dailyRange.startDate.month"?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  "dailyRange.startDate.day"?: number;
+  /** Required. The metric to retrieve time series. */
+  dailyMetric?: GetDailyMetricsTimeSeriesLocationsDailyMetricEnum | (string & {});
+  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
+  "dailySubEntityType.timeOfDay.minutes"?: number;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  "dailyRange.endDate.month"?: number;
 }
 export const GetDailyMetricsTimeSeriesLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    "dailyRange.startDate.month": S.optional(S.Number.pipe(T.Query())),
-    dailyMetric: S.optional(GetDailyMetricsTimeSeriesLocationsDailyMetricEnum.pipe(T.Query())),
-    "dailySubEntityType.timeOfDay.hours": S.optional(S.Number.pipe(T.Query())),
-    "dailySubEntityType.timeOfDay.nanos": S.optional(S.Number.pipe(T.Query())),
-    "dailyRange.startDate.day": S.optional(S.Number.pipe(T.Query())),
-    "dailyRange.endDate.month": S.optional(S.Number.pipe(T.Query())),
+    "dailyRange.endDate.day": S.optional(S.Number.pipe(T.Query())),
     "dailySubEntityType.dayOfWeek": S.optional(
       GetDailyMetricsTimeSeriesLocationsDailySubEntityType_dayOfWeekEnum.pipe(T.Query()),
     ),
-    "dailyRange.startDate.year": S.optional(S.Number.pipe(T.Query())),
-    "dailySubEntityType.timeOfDay.seconds": S.optional(S.Number.pipe(T.Query())),
-    "dailyRange.endDate.year": S.optional(S.Number.pipe(T.Query())),
-    "dailyRange.endDate.day": S.optional(S.Number.pipe(T.Query())),
-    "dailySubEntityType.timeOfDay.minutes": S.optional(S.Number.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    "dailySubEntityType.timeOfDay.nanos": S.optional(S.Number.pipe(T.Query())),
+    "dailyRange.startDate.year": S.optional(S.Number.pipe(T.Query())),
+    "dailyRange.endDate.year": S.optional(S.Number.pipe(T.Query())),
+    "dailySubEntityType.timeOfDay.seconds": S.optional(S.Number.pipe(T.Query())),
+    "dailySubEntityType.timeOfDay.hours": S.optional(S.Number.pipe(T.Query())),
+    "dailyRange.startDate.month": S.optional(S.Number.pipe(T.Query())),
+    "dailyRange.startDate.day": S.optional(S.Number.pipe(T.Query())),
+    dailyMetric: S.optional(GetDailyMetricsTimeSeriesLocationsDailyMetricEnum.pipe(T.Query())),
+    "dailySubEntityType.timeOfDay.minutes": S.optional(S.Number.pipe(T.Query())),
+    "dailyRange.endDate.month": S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -361,35 +357,35 @@ export const GetDailyMetricsTimeSeriesResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface ListLocationsSearchkeywordsImpressionsMonthlyRequest {
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "monthlyRange.endMonth.year"?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "monthlyRange.startMonth.day"?: number;
+  "monthlyRange.startMonth.year"?: number;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
   "monthlyRange.endMonth.day"?: number;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  "monthlyRange.endMonth.year"?: number;
   /** Optional. The number of results requested. The default page size is 100. Page size can be set to a maximum of 100. */
   pageSize?: number;
-  /** Optional. A token indicating the next paginated result to be returned. */
-  pageToken?: string;
-  /** Required. The location for which the time series should be fetched. Format: locations/{location_id} where location_id is an unobfuscated listing id. */
-  parent: string;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
   "monthlyRange.startMonth.month"?: number;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "monthlyRange.startMonth.year"?: number;
+  /** Required. The location for which the time series should be fetched. Format: locations/{location_id} where location_id is an unobfuscated listing id. */
+  parent: string;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  "monthlyRange.startMonth.day"?: number;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
   "monthlyRange.endMonth.month"?: number;
+  /** Optional. A token indicating the next paginated result to be returned. */
+  pageToken?: string;
 }
 export const ListLocationsSearchkeywordsImpressionsMonthlyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    "monthlyRange.endMonth.year": S.optional(S.Number.pipe(T.Query())),
-    "monthlyRange.startMonth.day": S.optional(S.Number.pipe(T.Query())),
-    "monthlyRange.endMonth.day": S.optional(S.Number.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    "monthlyRange.startMonth.month": S.optional(S.Number.pipe(T.Query())),
     "monthlyRange.startMonth.year": S.optional(S.Number.pipe(T.Query())),
+    "monthlyRange.endMonth.day": S.optional(S.Number.pipe(T.Query())),
+    "monthlyRange.endMonth.year": S.optional(S.Number.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    "monthlyRange.startMonth.month": S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    "monthlyRange.startMonth.day": S.optional(S.Number.pipe(T.Query())),
     "monthlyRange.endMonth.month": S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -403,15 +399,15 @@ export const ListLocationsSearchkeywordsImpressionsMonthlyRequest = /*@__PURE__*
 
 /** Represents an insights value. */
 export interface InsightsValue {
-  /** Represents the actual value. */
-  value?: string;
   /** Represents the threshold below which the actual value falls. */
   threshold?: string;
+  /** Represents the actual value. */
+  value?: string;
 }
 export const InsightsValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    value: S.optional(S.String),
     threshold: S.optional(S.String),
+    value: S.optional(S.String),
   }),
 ).annotate({ identifier: "InsightsValue" }) as any as S.Schema<InsightsValue>;
 
@@ -427,9 +423,7 @@ export const SearchKeywordCount = /*@__PURE__*/ S.suspend(() =>
     searchKeyword: S.optional(S.String),
     insightsValue: S.optional(InsightsValue),
   }),
-).annotate({
-  identifier: "SearchKeywordCount",
-}) as any as S.Schema<SearchKeywordCount>;
+).annotate({ identifier: "SearchKeywordCount" }) as any as S.Schema<SearchKeywordCount>;
 
 export type SearchKeywordCountList = Array<SearchKeywordCount>;
 export const SearchKeywordCountList = /*@__PURE__*/ S.Array(
@@ -496,8 +490,5 @@ export const listLocationsSearchkeywordsImpressionsMonthly: API.PaginatedOperati
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;

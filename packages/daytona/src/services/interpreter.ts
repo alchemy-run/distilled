@@ -36,9 +36,7 @@ export const InterpreterContext = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     language: S.String,
   }),
-).annotate({
-  identifier: "InterpreterContext",
-}) as any as S.Schema<InterpreterContext>;
+).annotate({ identifier: "InterpreterContext" }) as any as S.Schema<InterpreterContext>;
 
 export interface DeleteInterpreterContextRequest {
   /** Context ID */
@@ -47,20 +45,12 @@ export interface DeleteInterpreterContextRequest {
 export const DeleteInterpreterContextRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/process/interpreter/context/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/process/interpreter/context/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteInterpreterContextRequest",
 }) as any as S.Schema<DeleteInterpreterContextRequest>;
 
-export type DeleteInterpreterContextResponseBodyMap = {
-  [key: string]: string | undefined;
-};
+export type DeleteInterpreterContextResponseBodyMap = { [key: string]: string | undefined };
 export const DeleteInterpreterContextResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -104,9 +94,7 @@ export const ListContextsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contexts: ListContextsResponseContextsList,
   }),
-).annotate({
-  identifier: "ListContextsResponse",
-}) as any as S.Schema<ListContextsResponse>;
+).annotate({ identifier: "ListContextsResponse" }) as any as S.Schema<ListContextsResponse>;
 
 export type CreateInterpreterContextError = DaytonaOpError;
 /** Create a new interpreter context Creates a new isolated interpreter context with optional working directory and language */

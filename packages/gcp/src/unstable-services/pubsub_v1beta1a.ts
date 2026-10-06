@@ -76,9 +76,7 @@ export const AcknowledgeRequest = /*@__PURE__*/ S.suspend(() =>
     ackId: S.optional(StringList),
     subscription: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AcknowledgeRequest",
-}) as any as S.Schema<AcknowledgeRequest>;
+).annotate({ identifier: "AcknowledgeRequest" }) as any as S.Schema<AcknowledgeRequest>;
 
 export interface AcknowledgeSubscriptionsRequest {
   /** Request body */
@@ -117,21 +115,21 @@ export const PushConfig = /*@__PURE__*/ S.suspend(() =>
 
 /** A subscription resource. */
 export interface Subscription {
-  /** The name of the topic from which this subscription is receiving messages. */
-  topic?: string;
-  /** Name of the subscription. */
-  name?: string;
   /** If push delivery is used with this subscription, this field is used to configure it. */
   pushConfig?: PushConfig;
+  /** Name of the subscription. */
+  name?: string;
   /** For either push or pull delivery, the value is the maximum time after a subscriber receives a message before the subscriber should acknowledge or Nack the message. If the Ack deadline for a message passes without an Ack or a Nack, the Pub/Sub system will eventually redeliver the message. If a subscriber acknowledges after the deadline, the Pub/Sub system may accept the Ack, but it is possible that the message has been already delivered again. Multiple Acks to the message are allowed and will succeed. For push delivery, this value is used to set the request timeout for the call to the push endpoint. For pull delivery, this value is used as the initial value for the Ack deadline. It may be overridden for each message using its corresponding ack_id with ModifyAckDeadline. While a message is outstanding (i.e. it has been delivered to a pull subscriber and the subscriber has not yet Acked or Nacked), the Pub/Sub system will not deliver that message to another pull subscriber (on a best-effort basis). */
   ackDeadlineSeconds?: number;
+  /** The name of the topic from which this subscription is receiving messages. */
+  topic?: string;
 }
 export const Subscription = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    topic: S.optional(S.String),
-    name: S.optional(S.String),
     pushConfig: S.optional(PushConfig),
+    name: S.optional(S.String),
     ackDeadlineSeconds: S.optional(S.Number),
+    topic: S.optional(S.String),
   }),
 ).annotate({ identifier: "Subscription" }) as any as S.Schema<Subscription>;
 
@@ -172,15 +170,9 @@ export const CreateTopicsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: S.optional(Topic.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "v1beta1a/topics",
-      baseUrl: "https://pubsub.googleapis.com/",
-    }),
+    T.Http({ method: "POST", uri: "v1beta1a/topics", baseUrl: "https://pubsub.googleapis.com/" }),
   ),
-).annotate({
-  identifier: "CreateTopicsRequest",
-}) as any as S.Schema<CreateTopicsRequest>;
+).annotate({ identifier: "CreateTopicsRequest" }) as any as S.Schema<CreateTopicsRequest>;
 
 export interface DeleteSubscriptionsRequest {
   /** The subscription to delete. */
@@ -214,9 +206,7 @@ export const DeleteTopicsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://pubsub.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "DeleteTopicsRequest",
-}) as any as S.Schema<DeleteTopicsRequest>;
+).annotate({ identifier: "DeleteTopicsRequest" }) as any as S.Schema<DeleteTopicsRequest>;
 
 export interface GetSubscriptionsRequest {
   /** The name of the subscription to get. */
@@ -232,9 +222,7 @@ export const GetSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://pubsub.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetSubscriptionsRequest",
-}) as any as S.Schema<GetSubscriptionsRequest>;
+).annotate({ identifier: "GetSubscriptionsRequest" }) as any as S.Schema<GetSubscriptionsRequest>;
 
 export interface GetTopicsRequest {
   /** The name of the topic to get. */
@@ -250,23 +238,21 @@ export const GetTopicsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://pubsub.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetTopicsRequest",
-}) as any as S.Schema<GetTopicsRequest>;
+).annotate({ identifier: "GetTopicsRequest" }) as any as S.Schema<GetTopicsRequest>;
 
 export interface ListSubscriptionsRequest {
   /** A valid label query expression. */
   query?: string;
-  /** Maximum number of subscriptions to return. */
-  maxResults?: number;
   /** The value obtained in the last ListSubscriptionsResponse for continuation. */
   pageToken?: string;
+  /** Maximum number of subscriptions to return. */
+  maxResults?: number;
 }
 export const ListSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     query: S.optional(S.String.pipe(T.Query())),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -274,9 +260,7 @@ export const ListSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://pubsub.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListSubscriptionsRequest",
-}) as any as S.Schema<ListSubscriptionsRequest>;
+).annotate({ identifier: "ListSubscriptionsRequest" }) as any as S.Schema<ListSubscriptionsRequest>;
 
 export type SubscriptionList = Array<Subscription>;
 export const SubscriptionList = /*@__PURE__*/ S.Array(
@@ -300,69 +284,59 @@ export const ListSubscriptionsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListSubscriptionsResponse>;
 
 export interface ListTopicsRequest {
-  /** A valid label query expression. */
-  query?: string;
-  /** The value obtained in the last ListTopicsResponse for continuation. */
-  pageToken?: string;
   /** Maximum number of topics to return. */
   maxResults?: number;
+  /** The value obtained in the last ListTopicsResponse for continuation. */
+  pageToken?: string;
+  /** A valid label query expression. */
+  query?: string;
 }
 export const ListTopicsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    query: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     maxResults: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    query: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1beta1a/topics",
-      baseUrl: "https://pubsub.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1beta1a/topics", baseUrl: "https://pubsub.googleapis.com/" }),
   ),
-).annotate({
-  identifier: "ListTopicsRequest",
-}) as any as S.Schema<ListTopicsRequest>;
+).annotate({ identifier: "ListTopicsRequest" }) as any as S.Schema<ListTopicsRequest>;
 
 export type TopicList = Array<Topic>;
 export const TopicList = /*@__PURE__*/ S.Array(Topic) as any as S.Schema<TopicList>;
 
 /** Response for the ListTopics method. */
 export interface ListTopicsResponse {
-  /** The resulting topics. */
-  topic?: TopicList;
   /** If not empty, indicates that there are more topics that match the request, and this value should be passed to the next ListTopicsRequest to continue. */
   nextPageToken?: string;
+  /** The resulting topics. */
+  topic?: TopicList;
 }
 export const ListTopicsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    topic: S.optional(TopicList),
     nextPageToken: S.optional(S.String),
+    topic: S.optional(TopicList),
   }),
-).annotate({
-  identifier: "ListTopicsResponse",
-}) as any as S.Schema<ListTopicsResponse>;
+).annotate({ identifier: "ListTopicsResponse" }) as any as S.Schema<ListTopicsResponse>;
 
 /** Request for the ModifyAckDeadline method. */
 export interface ModifyAckDeadlineRequest {
-  /** The new ack deadline with respect to the time this request was sent to the Pub/Sub system. Must be >= 0. For example, if the value is 10, the new ack deadline will expire 10 seconds after the ModifyAckDeadline call was made. Specifying zero may immediately make the message available for another pull request. */
-  ackDeadlineSeconds?: number;
   /** Next Index: 5 The name of the subscription from which messages are being pulled. */
   subscription?: string;
   /** The acknowledgment ID. Either this or ack_ids must be populated, not both. */
   ackId?: string;
+  /** The new ack deadline with respect to the time this request was sent to the Pub/Sub system. Must be >= 0. For example, if the value is 10, the new ack deadline will expire 10 seconds after the ModifyAckDeadline call was made. Specifying zero may immediately make the message available for another pull request. */
+  ackDeadlineSeconds?: number;
   /** List of acknowledgment IDs. Either this field or ack_id should be populated, not both. */
   ackIds?: StringList;
 }
 export const ModifyAckDeadlineRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ackDeadlineSeconds: S.optional(S.Number),
     subscription: S.optional(S.String),
     ackId: S.optional(S.String),
+    ackDeadlineSeconds: S.optional(S.Number),
     ackIds: S.optional(StringList),
   }),
-).annotate({
-  identifier: "ModifyAckDeadlineRequest",
-}) as any as S.Schema<ModifyAckDeadlineRequest>;
+).annotate({ identifier: "ModifyAckDeadlineRequest" }) as any as S.Schema<ModifyAckDeadlineRequest>;
 
 export interface ModifyAckDeadlineSubscriptionsRequest {
   /** Request body */
@@ -384,19 +358,17 @@ export const ModifyAckDeadlineSubscriptionsRequest = /*@__PURE__*/ S.suspend(() 
 
 /** Request for the ModifyPushConfig method. */
 export interface ModifyPushConfigRequest {
-  /** An empty push_config indicates that the Pub/Sub system should pause pushing messages from the given subscription. */
-  pushConfig?: PushConfig;
   /** The name of the subscription. */
   subscription?: string;
+  /** An empty push_config indicates that the Pub/Sub system should pause pushing messages from the given subscription. */
+  pushConfig?: PushConfig;
 }
 export const ModifyPushConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pushConfig: S.optional(PushConfig),
     subscription: S.optional(S.String),
+    pushConfig: S.optional(PushConfig),
   }),
-).annotate({
-  identifier: "ModifyPushConfigRequest",
-}) as any as S.Schema<ModifyPushConfigRequest>;
+).annotate({ identifier: "ModifyPushConfigRequest" }) as any as S.Schema<ModifyPushConfigRequest>;
 
 export interface ModifyPushConfigSubscriptionsRequest {
   /** Request body */
@@ -418,18 +390,18 @@ export const ModifyPushConfigSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =
 
 /** A key-value pair applied to a given object. */
 export interface Label {
-  /** A string value. */
-  strValue?: string;
   /** An integer value. */
   numValue?: string;
   /** The key of a label is a syntactically valid URL (as per RFC 1738) with the "scheme" and initial slashes omitted and with the additional restrictions noted below. Each key should be globally unique. The "host" portion is called the "namespace" and is not necessarily resolvable to a network endpoint. Instead, the namespace indicates what system or entity defines the semantics of the label. Namespaces do not restrict the set of objects to which a label may be associated. Keys are defined by the following grammar: key = hostname "/" kpath kpath = ksegment *[ "/" ksegment ] ksegment = alphadigit | *[ alphadigit | "-" | "_" | "." ] where "hostname" and "alphadigit" are defined as in RFC 1738. Example key: spanner.google.com/universe */
   key?: string;
+  /** A string value. */
+  strValue?: string;
 }
 export const Label = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    strValue: S.optional(S.String),
     numValue: S.optional(S.String),
     key: S.optional(S.String),
+    strValue: S.optional(S.String),
   }),
 ).annotate({ identifier: "Label" }) as any as S.Schema<Label>;
 
@@ -438,20 +410,20 @@ export const LabelList = /*@__PURE__*/ S.Array(Label) as any as S.Schema<LabelLi
 
 /** A message data and its labels. */
 export interface PubsubMessage {
+  /** Optional list of labels for this message. Keys in this collection must be unique. */
+  label?: LabelList;
   /** The time at which the message was published. The time is milliseconds since the UNIX epoch. */
   publishTime?: string;
   /** ID of this message assigned by the server at publication time. Guaranteed to be unique within the topic. This value may be read by a subscriber that receives a PubsubMessage via a Pull call or a push delivery. It must not be populated by a publisher in a Publish call. */
   messageId?: string;
-  /** Optional list of labels for this message. Keys in this collection must be unique. */
-  label?: LabelList;
   /** The message payload. */
   data?: string;
 }
 export const PubsubMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    label: S.optional(LabelList),
     publishTime: S.optional(S.String),
     messageId: S.optional(S.String),
-    label: S.optional(LabelList),
     data: S.optional(S.String),
   }),
 ).annotate({ identifier: "PubsubMessage" }) as any as S.Schema<PubsubMessage>;
@@ -473,9 +445,7 @@ export const PublishBatchRequest = /*@__PURE__*/ S.suspend(() =>
     topic: S.optional(S.String),
     messages: S.optional(PubsubMessageList),
   }),
-).annotate({
-  identifier: "PublishBatchRequest",
-}) as any as S.Schema<PublishBatchRequest>;
+).annotate({ identifier: "PublishBatchRequest" }) as any as S.Schema<PublishBatchRequest>;
 
 export interface PublishBatchTopicsRequest {
   /** Request body */
@@ -504,9 +474,7 @@ export const PublishBatchResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     messageIds: S.optional(StringList),
   }),
-).annotate({
-  identifier: "PublishBatchResponse",
-}) as any as S.Schema<PublishBatchResponse>;
+).annotate({ identifier: "PublishBatchResponse" }) as any as S.Schema<PublishBatchResponse>;
 
 /** Request for the Publish method. */
 export interface PublishRequest {
@@ -536,9 +504,7 @@ export const PublishTopicsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://pubsub.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "PublishTopicsRequest",
-}) as any as S.Schema<PublishTopicsRequest>;
+).annotate({ identifier: "PublishTopicsRequest" }) as any as S.Schema<PublishTopicsRequest>;
 
 /** Request for the PullBatch method. */
 export interface PullBatchRequest {
@@ -555,9 +521,7 @@ export const PullBatchRequest = /*@__PURE__*/ S.suspend(() =>
     maxEvents: S.optional(S.Number),
     subscription: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PullBatchRequest",
-}) as any as S.Schema<PullBatchRequest>;
+).annotate({ identifier: "PullBatchRequest" }) as any as S.Schema<PullBatchRequest>;
 
 export interface PullBatchSubscriptionsRequest {
   /** Request body */
@@ -579,20 +543,20 @@ export const PullBatchSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** An event indicating a received message or truncation event. */
 export interface PubsubEvent {
-  /** A received message. */
-  message?: PubsubMessage;
-  /** The subscription that received the event. */
-  subscription?: string;
   /** Indicates that this subscription has been deleted. (Note that pull subscribers will always receive NOT_FOUND in response in their pull request on the subscription, rather than seeing this boolean.) */
   deleted?: boolean;
+  /** The subscription that received the event. */
+  subscription?: string;
+  /** A received message. */
+  message?: PubsubMessage;
   /** Indicates that this subscription has been truncated. */
   truncated?: boolean;
 }
 export const PubsubEvent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    message: S.optional(PubsubMessage),
-    subscription: S.optional(S.String),
     deleted: S.optional(S.Boolean),
+    subscription: S.optional(S.String),
+    message: S.optional(PubsubMessage),
     truncated: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "PubsubEvent" }) as any as S.Schema<PubsubEvent>;
@@ -625,21 +589,19 @@ export const PullBatchResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pullResponses: S.optional(PullResponseList),
   }),
-).annotate({
-  identifier: "PullBatchResponse",
-}) as any as S.Schema<PullBatchResponse>;
+).annotate({ identifier: "PullBatchResponse" }) as any as S.Schema<PullBatchResponse>;
 
 /** Request for the Pull method. */
 export interface PullRequest {
-  /** The subscription from which a message should be pulled. */
-  subscription?: string;
   /** If this is specified as true the system will respond immediately even if it is not able to return a message in the Pull response. Otherwise the system is allowed to wait until at least one message is available rather than returning FAILED_PRECONDITION. The client may cancel the request if it does not wish to wait any longer for the response. */
   returnImmediately?: boolean;
+  /** The subscription from which a message should be pulled. */
+  subscription?: string;
 }
 export const PullRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    subscription: S.optional(S.String),
     returnImmediately: S.optional(S.Boolean),
+    subscription: S.optional(S.String),
   }),
 ).annotate({ identifier: "PullRequest" }) as any as S.Schema<PullRequest>;
 
@@ -657,9 +619,7 @@ export const PullSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://pubsub.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "PullSubscriptionsRequest",
-}) as any as S.Schema<PullSubscriptionsRequest>;
+).annotate({ identifier: "PullSubscriptionsRequest" }) as any as S.Schema<PullSubscriptionsRequest>;
 
 export type AcknowledgeSubscriptionsError =
   | NotFound
@@ -781,10 +741,7 @@ export const listSubscriptions: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListTopicsError = NotFound | Forbidden | GcpOpError;
@@ -801,10 +758,7 @@ export const listTopics: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ModifyAckDeadlineSubscriptionsError =

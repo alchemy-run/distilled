@@ -34,15 +34,9 @@ export const DeletePackageRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.Label()),
     version: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/packages/{owner}/{type}/{name}/{version}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/packages/{owner}/{type}/{name}/{version}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeletePackageRequest",
-}) as any as S.Schema<DeletePackageRequest>;
+).annotate({ identifier: "DeletePackageRequest" }) as any as S.Schema<DeletePackageRequest>;
 
 export interface DeletePackageResponse {}
 export const DeletePackageResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -65,16 +59,8 @@ export const GetPackageRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
     version: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/packages/{owner}/{type}/{name}/{version}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetPackageRequest",
-}) as any as S.Schema<GetPackageRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/packages/{owner}/{type}/{name}/{version}", code: 200 })),
+).annotate({ identifier: "GetPackageRequest" }) as any as S.Schema<GetPackageRequest>;
 
 /** User represents a user */
 export interface User {
@@ -166,9 +152,7 @@ export const ExternalTracker = /*@__PURE__*/ S.suspend(() =>
     external_tracker_style: S.optional(S.String),
     external_tracker_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExternalTracker",
-}) as any as S.Schema<ExternalTracker>;
+).annotate({ identifier: "ExternalTracker" }) as any as S.Schema<ExternalTracker>;
 
 /** ExternalWiki represents setting for external wiki */
 export interface ExternalWiki {
@@ -196,9 +180,7 @@ export const InternalTracker = /*@__PURE__*/ S.suspend(() =>
     enable_issue_dependencies: S.optional(S.Boolean),
     enable_time_tracker: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "InternalTracker",
-}) as any as S.Schema<InternalTracker>;
+).annotate({ identifier: "InternalTracker" }) as any as S.Schema<InternalTracker>;
 
 /** ObjectFormatName of the underlying git repository */
 export type RepositoryObjectFormatName = "sha1" | "sha256";
@@ -505,9 +487,7 @@ export const LinkPackageRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "LinkPackageRequest",
-}) as any as S.Schema<LinkPackageRequest>;
+).annotate({ identifier: "LinkPackageRequest" }) as any as S.Schema<LinkPackageRequest>;
 
 export interface LinkPackageResponse {}
 export const LinkPackageResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -531,15 +511,9 @@ export const ListPackageFilesRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.Label()),
     version: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/packages/{owner}/{type}/{name}/{version}/files",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/packages/{owner}/{type}/{name}/{version}/files", code: 200 }),
   ),
-).annotate({
-  identifier: "ListPackageFilesRequest",
-}) as any as S.Schema<ListPackageFilesRequest>;
+).annotate({ identifier: "ListPackageFilesRequest" }) as any as S.Schema<ListPackageFilesRequest>;
 
 /** PackageFile represents a package file */
 export interface PackageFile {
@@ -571,9 +545,7 @@ export const ListPackageFilesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListPackageFilesResponse = ListPackageFilesResponseBodyList;
 export const ListPackageFilesResponse = /*@__PURE__*/ S.suspend(() =>
   ListPackageFilesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListPackageFilesResponse",
-}) as any as S.Schema<ListPackageFilesResponse>;
+).annotate({ identifier: "ListPackageFilesResponse" }) as any as S.Schema<ListPackageFilesResponse>;
 
 export type ListPackagesRequestType =
   | "alpine"
@@ -619,9 +591,7 @@ export const ListPackagesRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ListPackagesRequestType.pipe(T.Query())),
     q: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/packages/{owner}", code: 200 })),
-).annotate({
-  identifier: "ListPackagesRequest",
-}) as any as S.Schema<ListPackagesRequest>;
+).annotate({ identifier: "ListPackagesRequest" }) as any as S.Schema<ListPackagesRequest>;
 
 export type ListPackagesResponseBodyList = Array<Package>;
 export const ListPackagesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -631,9 +601,7 @@ export const ListPackagesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListPackagesResponse = ListPackagesResponseBodyList;
 export const ListPackagesResponse = /*@__PURE__*/ S.suspend(() =>
   ListPackagesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListPackagesResponse",
-}) as any as S.Schema<ListPackagesResponse>;
+).annotate({ identifier: "ListPackagesResponse" }) as any as S.Schema<ListPackagesResponse>;
 
 export interface UnlinkPackageRequest {
   /** owner of the package */
@@ -648,16 +616,8 @@ export const UnlinkPackageRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     type: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/packages/{owner}/{type}/{name}/-/unlink",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UnlinkPackageRequest",
-}) as any as S.Schema<UnlinkPackageRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/packages/{owner}/{type}/{name}/-/unlink", code: 200 })),
+).annotate({ identifier: "UnlinkPackageRequest" }) as any as S.Schema<UnlinkPackageRequest>;
 
 export interface UnlinkPackageResponse {}
 export const UnlinkPackageResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

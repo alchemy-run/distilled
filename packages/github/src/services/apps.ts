@@ -83,16 +83,8 @@ export const CheckTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     client_id: S.String.pipe(T.Label()),
     access_token: S.String.pipe(T.SensitiveValue({})),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/applications/{client_id}/token",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CheckTokenRequest",
-}) as any as S.Schema<CheckTokenRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/applications/{client_id}/token", code: 200 })),
+).annotate({ identifier: "CheckTokenRequest" }) as any as S.Schema<CheckTokenRequest>;
 
 /** A list of scopes that this authorization is in. */
 export type AuthorizationScopesList = Array<string>;
@@ -111,9 +103,7 @@ export const AuthorizationApp = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     url: S.String,
   }),
-).annotate({
-  identifier: "AuthorizationApp",
-}) as any as S.Schema<AuthorizationApp>;
+).annotate({ identifier: "AuthorizationApp" }) as any as S.Schema<AuthorizationApp>;
 
 /** A GitHub user. */
 export interface NullableSimpleUser {
@@ -165,9 +155,7 @@ export const NullableSimpleUser = /*@__PURE__*/ S.suspend(() =>
     starred_at: S.optional(S.String),
     user_view_type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NullableSimpleUser",
-}) as any as S.Schema<NullableSimpleUser>;
+).annotate({ identifier: "NullableSimpleUser" }) as any as S.Schema<NullableSimpleUser>;
 
 /** The level of permission to grant the access token for GitHub Actions workflows, workflow runs, and artifacts. */
 export type AppPermissionsActions = "read" | "write";
@@ -312,6 +300,10 @@ export const AppPermissionsOrganizationCopilotSeatManagement = S.String;
 /** The level of permission to grant the access token to view and manage Copilot cloud agent settings for an organization. */
 export type AppPermissionsOrganizationCopilotAgentSettings = "read" | "write";
 export const AppPermissionsOrganizationCopilotAgentSettings = S.String;
+
+/** The level of permission to grant the access token for managing external custom properties for repositories in an organization. */
+export type AppPermissionsOrganizationExternalPropertiesForRepos = "read" | "write" | "admin";
+export const AppPermissionsOrganizationExternalPropertiesForRepos = S.String;
 
 /** The level of permission to grant the access token to view and manage announcement banners for an organization. */
 export type AppPermissionsOrganizationAnnouncementBanners = "read" | "write";
@@ -469,6 +461,10 @@ export interface AppPermissions {
   organization_copilot_agent_settings?:
     | AppPermissionsOrganizationCopilotAgentSettings
     | (string & {});
+  /** The level of permission to grant the access token for managing external custom properties for repositories in an organization. */
+  organization_external_properties_for_repos?:
+    | AppPermissionsOrganizationExternalPropertiesForRepos
+    | (string & {});
   /** The level of permission to grant the access token to view and manage announcement banners for an organization. */
   organization_announcement_banners?: AppPermissionsOrganizationAnnouncementBanners | (string & {});
   /** The level of permission to grant the access token to view events triggered by an activity in an organization. */
@@ -554,6 +550,9 @@ export const AppPermissions = /*@__PURE__*/ S.suspend(() =>
       AppPermissionsOrganizationCopilotSeatManagement,
     ),
     organization_copilot_agent_settings: S.optional(AppPermissionsOrganizationCopilotAgentSettings),
+    organization_external_properties_for_repos: S.optional(
+      AppPermissionsOrganizationExternalPropertiesForRepos,
+    ),
     organization_announcement_banners: S.optional(AppPermissionsOrganizationAnnouncementBanners),
     organization_events: S.optional(AppPermissionsOrganizationEvents),
     organization_hooks: S.optional(AppPermissionsOrganizationHooks),
@@ -662,13 +661,7 @@ export interface CreateFromManifestRequest {
 export const CreateFromManifestRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     code: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/app-manifests/{code}/conversions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/app-manifests/{code}/conversions", code: 200 })),
 ).annotate({
   identifier: "CreateFromManifestRequest",
 }) as any as S.Schema<CreateFromManifestRequest>;
@@ -844,9 +837,7 @@ export const NullableLicenseSimple = /*@__PURE__*/ S.suspend(() =>
     node_id: S.String,
     html_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NullableLicenseSimple",
-}) as any as S.Schema<NullableLicenseSimple>;
+).annotate({ identifier: "NullableLicenseSimple" }) as any as S.Schema<NullableLicenseSimple>;
 
 export interface RepositoryPermissions {
   admin: boolean;
@@ -863,9 +854,7 @@ export const RepositoryPermissions = /*@__PURE__*/ S.suspend(() =>
     push: S.Boolean,
     maintain: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RepositoryPermissions",
-}) as any as S.Schema<RepositoryPermissions>;
+).annotate({ identifier: "RepositoryPermissions" }) as any as S.Schema<RepositoryPermissions>;
 
 export type RepositoryTopicsList = Array<string>;
 export const RepositoryTopicsList = /*@__PURE__*/ S.Array(
@@ -1173,9 +1162,7 @@ export const InstallationToken = /*@__PURE__*/ S.suspend(() =>
     has_multiple_single_files: S.optional(S.Boolean),
     single_file_paths: S.optional(InstallationTokenSingleFilePathsList),
   }),
-).annotate({
-  identifier: "InstallationToken",
-}) as any as S.Schema<InstallationToken>;
+).annotate({ identifier: "InstallationToken" }) as any as S.Schema<InstallationToken>;
 
 export interface DeleteAuthorizationRequest {
   /** The client ID of the GitHub app. */
@@ -1187,13 +1174,7 @@ export const DeleteAuthorizationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     client_id: S.String.pipe(T.Label()),
     access_token: S.String.pipe(T.SensitiveValue({})),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/applications/{client_id}/grant",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/applications/{client_id}/grant", code: 200 })),
 ).annotate({
   identifier: "DeleteAuthorizationRequest",
 }) as any as S.Schema<DeleteAuthorizationRequest>;
@@ -1210,13 +1191,7 @@ export interface DeleteInstallationRequest {
 export const DeleteInstallationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     installation_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/app/installations/{installation_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/app/installations/{installation_id}", code: 200 })),
 ).annotate({
   identifier: "DeleteInstallationRequest",
 }) as any as S.Schema<DeleteInstallationRequest>;
@@ -1236,16 +1211,8 @@ export const DeleteTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     client_id: S.String.pipe(T.Label()),
     access_token: S.String.pipe(T.SensitiveValue({})),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/applications/{client_id}/token",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteTokenRequest",
-}) as any as S.Schema<DeleteTokenRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/applications/{client_id}/token", code: 200 })),
+).annotate({ identifier: "DeleteTokenRequest" }) as any as S.Schema<DeleteTokenRequest>;
 
 export interface DeleteTokenResponse {}
 export const DeleteTokenResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1255,9 +1222,7 @@ export const DeleteTokenResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).a
 export interface GetAuthenticatedRequest {}
 export const GetAuthenticatedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/app", code: 200 })),
-).annotate({
-  identifier: "GetAuthenticatedRequest",
-}) as any as S.Schema<GetAuthenticatedRequest>;
+).annotate({ identifier: "GetAuthenticatedRequest" }) as any as S.Schema<GetAuthenticatedRequest>;
 
 export type IntegrationOwner = NullableSimpleUser | Enterprise;
 export const IntegrationOwner = S.Unknown as any as S.Schema<IntegrationOwner>;
@@ -1321,9 +1286,7 @@ export const GetBySlugRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_slug: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/apps/{app_slug}", code: 200 })),
-).annotate({
-  identifier: "GetBySlugRequest",
-}) as any as S.Schema<GetBySlugRequest>;
+).annotate({ identifier: "GetBySlugRequest" }) as any as S.Schema<GetBySlugRequest>;
 
 export interface GetInstallationRequest {
   /** The unique identifier of the installation. */
@@ -1332,16 +1295,8 @@ export interface GetInstallationRequest {
 export const GetInstallationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     installation_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/app/installations/{installation_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetInstallationRequest",
-}) as any as S.Schema<GetInstallationRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/app/installations/{installation_id}", code: 200 })),
+).annotate({ identifier: "GetInstallationRequest" }) as any as S.Schema<GetInstallationRequest>;
 
 export type InstallationAccount = NullableSimpleUser | Enterprise;
 export const InstallationAccount = S.Unknown as any as S.Schema<InstallationAccount>;
@@ -1435,13 +1390,7 @@ export const GetRepoInstallationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/installation",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/installation", code: 200 })),
 ).annotate({
   identifier: "GetRepoInstallationRequest",
 }) as any as S.Schema<GetRepoInstallationRequest>;
@@ -1453,13 +1402,7 @@ export interface GetSubscriptionPlanForAccountRequest {
 export const GetSubscriptionPlanForAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     account_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/marketplace_listing/accounts/{account_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/marketplace_listing/accounts/{account_id}", code: 200 })),
 ).annotate({
   identifier: "GetSubscriptionPlanForAccountRequest",
 }) as any as S.Schema<GetSubscriptionPlanForAccountRequest>;
@@ -1504,9 +1447,7 @@ export const MarketplaceListingPlan = /*@__PURE__*/ S.suspend(() =>
     state: S.String,
     bullets: MarketplaceListingPlanBulletsList,
   }),
-).annotate({
-  identifier: "MarketplaceListingPlan",
-}) as any as S.Schema<MarketplaceListingPlan>;
+).annotate({ identifier: "MarketplaceListingPlan" }) as any as S.Schema<MarketplaceListingPlan>;
 
 export interface MarketplacePurchaseMarketplacePendingChange {
   is_installed?: boolean;
@@ -1574,9 +1515,7 @@ export const MarketplacePurchase = /*@__PURE__*/ S.suspend(() =>
     marketplace_pending_change: S.optional(S.NullOr(MarketplacePurchaseMarketplacePendingChange)),
     marketplace_purchase: MarketplacePurchaseMarketplacePurchase,
   }),
-).annotate({
-  identifier: "MarketplacePurchase",
-}) as any as S.Schema<MarketplacePurchase>;
+).annotate({ identifier: "MarketplacePurchase" }) as any as S.Schema<MarketplacePurchase>;
 
 export interface GetSubscriptionPlanForAccountStubbedRequest {
   /** account_id parameter */
@@ -1586,11 +1525,7 @@ export const GetSubscriptionPlanForAccountStubbedRequest = /*@__PURE__*/ S.suspe
   S.Struct({
     account_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/marketplace_listing/stubbed/accounts/{account_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/marketplace_listing/stubbed/accounts/{account_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetSubscriptionPlanForAccountStubbedRequest",
@@ -1640,30 +1575,20 @@ export interface GetWebhookDeliveryRequest {
 export const GetWebhookDeliveryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     delivery_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/app/hook/deliveries/{delivery_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/app/hook/deliveries/{delivery_id}", code: 200 })),
 ).annotate({
   identifier: "GetWebhookDeliveryRequest",
 }) as any as S.Schema<GetWebhookDeliveryRequest>;
 
 /** The request headers sent with the webhook delivery. */
-export type HookDeliveryRequestHeadersMap = {
-  [key: string]: unknown | undefined;
-};
+export type HookDeliveryRequestHeadersMap = { [key: string]: unknown | undefined };
 export const HookDeliveryRequestHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<HookDeliveryRequestHeadersMap>;
 
 /** The webhook payload. */
-export type HookDeliveryRequestPayloadMap = {
-  [key: string]: unknown | undefined;
-};
+export type HookDeliveryRequestPayloadMap = { [key: string]: unknown | undefined };
 export const HookDeliveryRequestPayloadMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1680,23 +1605,17 @@ export const HookDeliveryRequest = /*@__PURE__*/ S.suspend(() =>
     headers: S.NullOr(HookDeliveryRequestHeadersMap),
     payload: S.NullOr(HookDeliveryRequestPayloadMap),
   }),
-).annotate({
-  identifier: "HookDeliveryRequest",
-}) as any as S.Schema<HookDeliveryRequest>;
+).annotate({ identifier: "HookDeliveryRequest" }) as any as S.Schema<HookDeliveryRequest>;
 
 /** The response headers received when the delivery was made. */
-export type HookDeliveryResponseHeadersMap = {
-  [key: string]: unknown | undefined;
-};
+export type HookDeliveryResponseHeadersMap = { [key: string]: unknown | undefined };
 export const HookDeliveryResponseHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<HookDeliveryResponseHeadersMap>;
 
 /** The response payload received. */
-export type HookDeliveryResponsePayloadMap = {
-  [key: string]: unknown | undefined;
-};
+export type HookDeliveryResponsePayloadMap = { [key: string]: unknown | undefined };
 export const HookDeliveryResponsePayloadMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1713,9 +1632,7 @@ export const HookDeliveryResponse = /*@__PURE__*/ S.suspend(() =>
     headers: S.NullOr(HookDeliveryResponseHeadersMap),
     payload: S.NullOr(HookDeliveryResponsePayloadMap),
   }),
-).annotate({
-  identifier: "HookDeliveryResponse",
-}) as any as S.Schema<HookDeliveryResponse>;
+).annotate({ identifier: "HookDeliveryResponse" }) as any as S.Schema<HookDeliveryResponse>;
 
 /** Delivery made by a webhook. */
 export interface HookDelivery {
@@ -1794,11 +1711,7 @@ export const ListAccountsForPlanRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/marketplace_listing/plans/{plan_id}/accounts",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/marketplace_listing/plans/{plan_id}/accounts", code: 200 }),
   ),
 ).annotate({
   identifier: "ListAccountsForPlanRequest",
@@ -1878,11 +1791,7 @@ export const ListInstallationReposForAuthenticatedUserRequest = /*@__PURE__*/ S.
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/user/installations/{installation_id}/repositories",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/user/installations/{installation_id}/repositories", code: 200 }),
   ),
 ).annotate({
   identifier: "ListInstallationReposForAuthenticatedUserRequest",
@@ -2299,9 +2208,7 @@ export const ListInstallationsRequest = /*@__PURE__*/ S.suspend(() =>
     since: S.optional(S.String.pipe(T.Query())),
     outdated: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/app/installations", code: 200 })),
-).annotate({
-  identifier: "ListInstallationsRequest",
-}) as any as S.Schema<ListInstallationsRequest>;
+).annotate({ identifier: "ListInstallationsRequest" }) as any as S.Schema<ListInstallationsRequest>;
 
 export type ListInstallationsResponseBodyList = Array<Installation>;
 export const ListInstallationsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2359,9 +2266,7 @@ export const ListPlansRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/marketplace_listing/plans", code: 200 })),
-).annotate({
-  identifier: "ListPlansRequest",
-}) as any as S.Schema<ListPlansRequest>;
+).annotate({ identifier: "ListPlansRequest" }) as any as S.Schema<ListPlansRequest>;
 
 export type ListPlansResponseBodyList = Array<MarketplaceListingPlan>;
 export const ListPlansResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2371,9 +2276,7 @@ export const ListPlansResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListPlansResponse = ListPlansResponseBodyList;
 export const ListPlansResponse = /*@__PURE__*/ S.suspend(() =>
   ListPlansResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListPlansResponse",
-}) as any as S.Schema<ListPlansResponse>;
+).annotate({ identifier: "ListPlansResponse" }) as any as S.Schema<ListPlansResponse>;
 
 export interface ListPlansStubbedRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
@@ -2385,16 +2288,8 @@ export const ListPlansStubbedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/marketplace_listing/stubbed/plans",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListPlansStubbedRequest",
-}) as any as S.Schema<ListPlansStubbedRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/marketplace_listing/stubbed/plans", code: 200 })),
+).annotate({ identifier: "ListPlansStubbedRequest" }) as any as S.Schema<ListPlansStubbedRequest>;
 
 export type ListPlansStubbedResponseBodyList = Array<MarketplaceListingPlan>;
 export const ListPlansStubbedResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2404,9 +2299,7 @@ export const ListPlansStubbedResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListPlansStubbedResponse = ListPlansStubbedResponseBodyList;
 export const ListPlansStubbedResponse = /*@__PURE__*/ S.suspend(() =>
   ListPlansStubbedResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListPlansStubbedResponse",
-}) as any as S.Schema<ListPlansStubbedResponse>;
+).annotate({ identifier: "ListPlansStubbedResponse" }) as any as S.Schema<ListPlansStubbedResponse>;
 
 export interface ListReposAccessibleToInstallationRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
@@ -2792,9 +2685,7 @@ export const MarketplaceAccount = /*@__PURE__*/ S.suspend(() =>
     email: S.optional(S.NullOr(S.String)),
     organization_billing_email: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "MarketplaceAccount",
-}) as any as S.Schema<MarketplaceAccount>;
+).annotate({ identifier: "MarketplaceAccount" }) as any as S.Schema<MarketplaceAccount>;
 
 /** User Marketplace Purchase */
 export interface UserMarketplacePurchase {
@@ -2818,9 +2709,7 @@ export const UserMarketplacePurchase = /*@__PURE__*/ S.suspend(() =>
     account: MarketplaceAccount,
     plan: MarketplaceListingPlan,
   }),
-).annotate({
-  identifier: "UserMarketplacePurchase",
-}) as any as S.Schema<UserMarketplacePurchase>;
+).annotate({ identifier: "UserMarketplacePurchase" }) as any as S.Schema<UserMarketplacePurchase>;
 
 export type ListSubscriptionsForAuthenticatedUserResponseBodyList = Array<UserMarketplacePurchase>;
 export const ListSubscriptionsForAuthenticatedUserResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2845,13 +2734,7 @@ export const ListSubscriptionsForAuthenticatedUserStubbedRequest = /*@__PURE__*/
   S.Struct({
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/user/marketplace_purchases/stubbed",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/user/marketplace_purchases/stubbed", code: 200 })),
 ).annotate({
   identifier: "ListSubscriptionsForAuthenticatedUserStubbedRequest",
 }) as any as S.Schema<ListSubscriptionsForAuthenticatedUserStubbedRequest>;
@@ -2933,9 +2816,7 @@ export const HookDeliveryItem = /*@__PURE__*/ S.suspend(() =>
     repository_id: S.NullOr(S.Number),
     throttled_at: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "HookDeliveryItem",
-}) as any as S.Schema<HookDeliveryItem>;
+).annotate({ identifier: "HookDeliveryItem" }) as any as S.Schema<HookDeliveryItem>;
 
 export type ListWebhookDeliveriesResponseBodyList = Array<HookDeliveryItem>;
 export const ListWebhookDeliveriesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2956,11 +2837,7 @@ export const RedeliverWebhookDeliveryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     delivery_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/app/hook/deliveries/{delivery_id}/attempts",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/app/hook/deliveries/{delivery_id}/attempts", code: 200 }),
   ),
 ).annotate({
   identifier: "RedeliverWebhookDeliveryRequest",
@@ -3011,16 +2888,8 @@ export const ResetTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     client_id: S.String.pipe(T.Label()),
     access_token: S.String.pipe(T.SensitiveValue({})),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/applications/{client_id}/token",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ResetTokenRequest",
-}) as any as S.Schema<ResetTokenRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/applications/{client_id}/token", code: 200 })),
+).annotate({ identifier: "ResetTokenRequest" }) as any as S.Schema<ResetTokenRequest>;
 
 export interface RevokeInstallationAccessTokenRequest {}
 export const RevokeInstallationAccessTokenRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3072,16 +2941,8 @@ export const ScopeTokenRequest = /*@__PURE__*/ S.suspend(() =>
     repositories: S.optional(ScopeTokenRequestRepositoriesList),
     repository_ids: S.optional(ScopeTokenRequestRepositoryIdsList),
     permissions: S.optional(AppPermissions),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/applications/{client_id}/token/scoped",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ScopeTokenRequest",
-}) as any as S.Schema<ScopeTokenRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/applications/{client_id}/token/scoped", code: 200 })),
+).annotate({ identifier: "ScopeTokenRequest" }) as any as S.Schema<ScopeTokenRequest>;
 
 export interface SuspendInstallationRequest {
   /** The unique identifier of the installation. */
@@ -3091,11 +2952,7 @@ export const SuspendInstallationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     installation_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/app/installations/{installation_id}/suspended",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/app/installations/{installation_id}/suspended", code: 200 }),
   ),
 ).annotate({
   identifier: "SuspendInstallationRequest",
@@ -3114,11 +2971,7 @@ export const UnsuspendInstallationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     installation_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/app/installations/{installation_id}/suspended",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/app/installations/{installation_id}/suspended", code: 200 }),
   ),
 ).annotate({
   identifier: "UnsuspendInstallationRequest",
@@ -3147,7 +3000,7 @@ export const UpdateWebhookConfigForAppRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateWebhookConfigForAppRequest>;
 
 export type AddRepoToInstallationForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
-/** Add a repository to an app installation Add a single repository to an installation. The authenticated user must have admin access to the repository. This endpoint only works for PATs (classic) with the `repo` scope. */
+/** Add a repository to an app installation Add a single repository to an installation. The authenticated user must have admin access to the repository. */
 export const addRepoToInstallationForAuthenticatedUser: API.OperationMethod<
   AddRepoToInstallationForAuthenticatedUserRequest,
   AddRepoToInstallationForAuthenticatedUserResponse,
@@ -3605,7 +3458,7 @@ export type RemoveRepoFromInstallationForAuthenticatedUserError =
   | NotFound
   | UnprocessableEntity
   | GithubOpError;
-/** Remove a repository from an app installation Remove a single repository from an installation. The authenticated user must have admin access to the repository. The installation must have the `repository_selection` of `selected`. This endpoint only works for PATs (classic) with the `repo` scope. */
+/** Remove a repository from an app installation Remove a single repository from an installation. The authenticated user must have admin access to the repository. The installation must have the `repository_selection` of `selected`. To use a PAT (classic) with this endpoint, the `repo` scope is required */
 export const removeRepoFromInstallationForAuthenticatedUser: API.OperationMethod<
   RemoveRepoFromInstallationForAuthenticatedUserRequest,
   RemoveRepoFromInstallationForAuthenticatedUserResponse,

@@ -16,7 +16,7 @@ import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as DigitalOcean from "@distilled.cloud/digitalocean";
 
 const program = Effect.gen(function* () {
-  const result = yield* DigitalOcean.accountGet({});
+  const result = yield* DigitalOcean.getAccount({});
   return result;
 });
 

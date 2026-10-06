@@ -123,9 +123,7 @@ export const BlockUserRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "PUT", uri: "/orgs/{org}/blocks/{username}", code: 200 })),
-).annotate({
-  identifier: "BlockUserRequest",
-}) as any as S.Schema<BlockUserRequest>;
+).annotate({ identifier: "BlockUserRequest" }) as any as S.Schema<BlockUserRequest>;
 
 export interface BlockUserResponse {}
 export const BlockUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -158,13 +156,7 @@ export const BulkReviewPatGrantRequestsInRequest = /*@__PURE__*/ S.suspend(() =>
     pat_request_ids: S.optional(BulkReviewPatGrantRequestsInRequestPatRequestIdsList),
     action: BulkReviewPatGrantRequestsInRequestAction,
     reason: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/personal-access-token-requests",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/personal-access-token-requests", code: 200 })),
 ).annotate({
   identifier: "BulkReviewPatGrantRequestsInRequest",
 }) as any as S.Schema<BulkReviewPatGrantRequestsInRequest>;
@@ -186,16 +178,8 @@ export const CancelInvitationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     invitation_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/invitations/{invitation_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CancelInvitationRequest",
-}) as any as S.Schema<CancelInvitationRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/orgs/{org}/invitations/{invitation_id}", code: 200 })),
+).annotate({ identifier: "CancelInvitationRequest" }) as any as S.Schema<CancelInvitationRequest>;
 
 export interface CancelInvitationResponse {}
 export const CancelInvitationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -213,9 +197,7 @@ export const CheckBlockedUserRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/blocks/{username}", code: 200 })),
-).annotate({
-  identifier: "CheckBlockedUserRequest",
-}) as any as S.Schema<CheckBlockedUserRequest>;
+).annotate({ identifier: "CheckBlockedUserRequest" }) as any as S.Schema<CheckBlockedUserRequest>;
 
 export interface CheckBlockedUserResponse {}
 export const CheckBlockedUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -252,13 +234,7 @@ export const CheckPublicMembershipForUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/public_members/{username}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/public_members/{username}", code: 200 })),
 ).annotate({
   identifier: "CheckPublicMembershipForUserRequest",
 }) as any as S.Schema<CheckPublicMembershipForUserRequest>;
@@ -284,11 +260,7 @@ export const ConvertMemberToOutsideCollaboratorRequest = /*@__PURE__*/ S.suspend
     username: S.String.pipe(T.Label()),
     async: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/orgs/{org}/outside_collaborators/{username}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/orgs/{org}/outside_collaborators/{username}", code: 200 }),
   ),
 ).annotate({
   identifier: "ConvertMemberToOutsideCollaboratorRequest",
@@ -306,9 +278,7 @@ export type CreateArtifactDeploymentRecordRequestStatus = "deployed" | "decommis
 export const CreateArtifactDeploymentRecordRequestStatus = S.String;
 
 /** The tags associated with the deployment. */
-export type CreateArtifactDeploymentRecordRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateArtifactDeploymentRecordRequestTagsMap = { [key: string]: string | undefined };
 export const CreateArtifactDeploymentRecordRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -373,19 +343,13 @@ export const CreateArtifactDeploymentRecordRequest = /*@__PURE__*/ S.suspend(() 
     github_repository: S.optional(S.String),
     return_records: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/artifacts/metadata/deployment-record",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/orgs/{org}/artifacts/metadata/deployment-record", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateArtifactDeploymentRecordRequest",
 }) as any as S.Schema<CreateArtifactDeploymentRecordRequest>;
 
-export type ArtifactDeploymentRecordTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ArtifactDeploymentRecordTagsMap = { [key: string]: string | undefined };
 export const ArtifactDeploymentRecordTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -435,9 +399,7 @@ export const ArtifactDeploymentRecord = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.optional(S.String),
     attestation_id: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ArtifactDeploymentRecord",
-}) as any as S.Schema<ArtifactDeploymentRecord>;
+).annotate({ identifier: "ArtifactDeploymentRecord" }) as any as S.Schema<ArtifactDeploymentRecord>;
 
 export type CreateArtifactDeploymentRecordResponseDeploymentRecordsList =
   Array<ArtifactDeploymentRecord>;
@@ -501,11 +463,7 @@ export const CreateArtifactStorageRecordRequest = /*@__PURE__*/ S.suspend(() =>
     github_repository: S.optional(S.String),
     return_records: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/artifacts/metadata/storage-record",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/orgs/{org}/artifacts/metadata/storage-record", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateArtifactStorageRecordRequest",
@@ -702,9 +660,7 @@ export const CreateInvitationRequest = /*@__PURE__*/ S.suspend(() =>
     role: S.optional(CreateInvitationRequestRole),
     team_ids: S.optional(CreateInvitationRequestTeamIdsList),
   }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/invitations", code: 200 })),
-).annotate({
-  identifier: "CreateInvitationRequest",
-}) as any as S.Schema<CreateInvitationRequest>;
+).annotate({ identifier: "CreateInvitationRequest" }) as any as S.Schema<CreateInvitationRequest>;
 
 /** A GitHub user. */
 export interface SimpleUser {
@@ -788,9 +744,7 @@ export const OrganizationInvitation = /*@__PURE__*/ S.suspend(() =>
     invitation_teams_url: S.String,
     invitation_source: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OrganizationInvitation",
-}) as any as S.Schema<OrganizationInvitation>;
+).annotate({ identifier: "OrganizationInvitation" }) as any as S.Schema<OrganizationInvitation>;
 
 /** The data type of the issue field. */
 export type CreateIssueFieldRequestDataType =
@@ -867,9 +821,7 @@ export const CreateIssueFieldRequest = /*@__PURE__*/ S.suspend(() =>
     visibility: S.optional(CreateIssueFieldRequestVisibility),
     options: S.optional(S.NullOr(CreateIssueFieldRequestOptionsList)),
   }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/issue-fields", code: 200 })),
-).annotate({
-  identifier: "CreateIssueFieldRequest",
-}) as any as S.Schema<CreateIssueFieldRequest>;
+).annotate({ identifier: "CreateIssueFieldRequest" }) as any as S.Schema<CreateIssueFieldRequest>;
 
 /** The data type of the issue field. */
 export type IssueFieldDataType = "text" | "date" | "single_select" | "multi_select" | "number";
@@ -917,9 +869,7 @@ export const IssueFieldOptionsItem = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     updated_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IssueFieldOptionsItem",
-}) as any as S.Schema<IssueFieldOptionsItem>;
+).annotate({ identifier: "IssueFieldOptionsItem" }) as any as S.Schema<IssueFieldOptionsItem>;
 
 /** Available options for single select and multi select fields. */
 export type IssueFieldOptionsList = Array<IssueFieldOptionsItem>;
@@ -994,9 +944,7 @@ export const CreateIssueTypeRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.NullOr(S.String)),
     color: S.optional(S.NullOr(CreateIssueTypeRequestColor)),
   }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/issue-types", code: 200 })),
-).annotate({
-  identifier: "CreateIssueTypeRequest",
-}) as any as S.Schema<CreateIssueTypeRequest>;
+).annotate({ identifier: "CreateIssueTypeRequest" }) as any as S.Schema<CreateIssueTypeRequest>;
 
 /** The color of the issue type. */
 export type IssueTypeColor =
@@ -1093,9 +1041,7 @@ export const CreateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     events: S.optional(CreateWebhookRequestEventsList),
     active: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/hooks", code: 200 })),
-).annotate({
-  identifier: "CreateWebhookRequest",
-}) as any as S.Schema<CreateWebhookRequest>;
+).annotate({ identifier: "CreateWebhookRequest" }) as any as S.Schema<CreateWebhookRequest>;
 
 export type OrgHookEventsList = Array<string>;
 export const OrgHookEventsList = /*@__PURE__*/ S.Array(
@@ -1334,13 +1280,7 @@ export const CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionsReques
       org: S.String.pipe(T.Label()),
       properties:
         CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionsRequestPropertiesList,
-    }).pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/orgs/{org}/properties/schema",
-        code: 200,
-      }),
-    ),
+    }).pipe(T.Http({ method: "PATCH", uri: "/orgs/{org}/properties/schema", code: 200 })),
   ).annotate({
     identifier: "CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionsRequest",
   }) as any as S.Schema<CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionsRequest>;
@@ -1392,9 +1332,7 @@ export const CustomPropertyValue = /*@__PURE__*/ S.suspend(() =>
     property_name: S.String,
     value: S.NullOr(CustomPropertyValueValue),
   }),
-).annotate({
-  identifier: "CustomPropertyValue",
-}) as any as S.Schema<CustomPropertyValue>;
+).annotate({ identifier: "CustomPropertyValue" }) as any as S.Schema<CustomPropertyValue>;
 
 /** List of custom property names and associated values to apply to the repositories. */
 export type CustomPropertiesForReposCreateOrUpdateOrganizationValuesRequestPropertiesList =
@@ -1419,13 +1357,7 @@ export const CustomPropertiesForReposCreateOrUpdateOrganizationValuesRequest =
       repository_names:
         CustomPropertiesForReposCreateOrUpdateOrganizationValuesRequestRepositoryNamesList,
       properties: CustomPropertiesForReposCreateOrUpdateOrganizationValuesRequestPropertiesList,
-    }).pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/orgs/{org}/properties/values",
-        code: 200,
-      }),
-    ),
+    }).pipe(T.Http({ method: "PATCH", uri: "/orgs/{org}/properties/values", code: 200 })),
   ).annotate({
     identifier: "CustomPropertiesForReposCreateOrUpdateOrganizationValuesRequest",
   }) as any as S.Schema<CustomPropertiesForReposCreateOrUpdateOrganizationValuesRequest>;
@@ -1495,13 +1427,7 @@ export const CustomPropertiesForReposGetOrganizationDefinitionsRequest = /*@__PU
   () =>
     S.Struct({
       org: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/orgs/{org}/properties/schema",
-        code: 200,
-      }),
-    ),
+    }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/properties/schema", code: 200 })),
 ).annotate({
   identifier: "CustomPropertiesForReposGetOrganizationDefinitionsRequest",
 }) as any as S.Schema<CustomPropertiesForReposGetOrganizationDefinitionsRequest>;
@@ -1538,13 +1464,7 @@ export const CustomPropertiesForReposGetOrganizationValuesRequest = /*@__PURE__*
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     repository_query: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/properties/values",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/properties/values", code: 200 })),
 ).annotate({
   identifier: "CustomPropertiesForReposGetOrganizationValuesRequest",
 }) as any as S.Schema<CustomPropertiesForReposGetOrganizationValuesRequest>;
@@ -1655,13 +1575,7 @@ export const DeleteAttestationsBulkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     body: DeleteAttestationsBulkRequestBody.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/attestations/delete-request",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/attestations/delete-request", code: 200 })),
 ).annotate({
   identifier: "DeleteAttestationsBulkRequest",
 }) as any as S.Schema<DeleteAttestationsBulkRequest>;
@@ -1682,11 +1596,7 @@ export const DeleteAttestationsByIdRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     attestation_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/attestations/{attestation_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/orgs/{org}/attestations/{attestation_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteAttestationsByIdRequest",
@@ -1736,15 +1646,9 @@ export const DeleteIssueFieldRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     issue_field_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/issue-fields/{issue_field_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/orgs/{org}/issue-fields/{issue_field_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteIssueFieldRequest",
-}) as any as S.Schema<DeleteIssueFieldRequest>;
+).annotate({ identifier: "DeleteIssueFieldRequest" }) as any as S.Schema<DeleteIssueFieldRequest>;
 
 export interface DeleteIssueFieldResponse {}
 export const DeleteIssueFieldResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1761,16 +1665,8 @@ export const DeleteIssueTypeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     issue_type_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/issue-types/{issue_type_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteIssueTypeRequest",
-}) as any as S.Schema<DeleteIssueTypeRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/orgs/{org}/issue-types/{issue_type_id}", code: 200 })),
+).annotate({ identifier: "DeleteIssueTypeRequest" }) as any as S.Schema<DeleteIssueTypeRequest>;
 
 export interface DeleteIssueTypeResponse {}
 export const DeleteIssueTypeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1788,9 +1684,7 @@ export const DeleteWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     hook_id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/orgs/{org}/hooks/{hook_id}", code: 200 })),
-).annotate({
-  identifier: "DeleteWebhookRequest",
-}) as any as S.Schema<DeleteWebhookRequest>;
+).annotate({ identifier: "DeleteWebhookRequest" }) as any as S.Schema<DeleteWebhookRequest>;
 
 export interface DeleteWebhookResponse {}
 export const DeleteWebhookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1853,6 +1747,256 @@ export const EnableSelectedRepositoryImmutableReleasesOrganizationResponse =
     identifier: "EnableSelectedRepositoryImmutableReleasesOrganizationResponse",
   }) as any as S.Schema<EnableSelectedRepositoryImmutableReleasesOrganizationResponse>;
 
+/** The names of repositories that the external custom property values will be applied to. */
+export type ExternalPropertiesForReposCreateOrUpdateOrganizationValuesRequestRepositoryNamesList =
+  Array<string>;
+export const ExternalPropertiesForReposCreateOrUpdateOrganizationValuesRequestRepositoryNamesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ExternalPropertiesForReposCreateOrUpdateOrganizationValuesRequestRepositoryNamesList>;
+
+/** List of external custom property names and associated values to apply to the repositories. */
+export type ExternalPropertiesForReposCreateOrUpdateOrganizationValuesRequestPropertiesList =
+  Array<CustomPropertyValue>;
+export const ExternalPropertiesForReposCreateOrUpdateOrganizationValuesRequestPropertiesList =
+  /*@__PURE__*/ S.Array(
+    CustomPropertyValue,
+  ) as any as S.Schema<ExternalPropertiesForReposCreateOrUpdateOrganizationValuesRequestPropertiesList>;
+
+export interface ExternalPropertiesForReposCreateOrUpdateOrganizationValuesRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** The names of repositories that the external custom property values will be applied to. */
+  repository_names: ExternalPropertiesForReposCreateOrUpdateOrganizationValuesRequestRepositoryNamesList;
+  /** List of external custom property names and associated values to apply to the repositories. */
+  properties: ExternalPropertiesForReposCreateOrUpdateOrganizationValuesRequestPropertiesList;
+}
+export const ExternalPropertiesForReposCreateOrUpdateOrganizationValuesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      org: S.String.pipe(T.Label()),
+      repository_names:
+        ExternalPropertiesForReposCreateOrUpdateOrganizationValuesRequestRepositoryNamesList,
+      properties: ExternalPropertiesForReposCreateOrUpdateOrganizationValuesRequestPropertiesList,
+    }).pipe(
+      T.Http({ method: "PATCH", uri: "/orgs/{org}/properties/installations/values", code: 200 }),
+    ),
+  ).annotate({
+    identifier: "ExternalPropertiesForReposCreateOrUpdateOrganizationValuesRequest",
+  }) as any as S.Schema<ExternalPropertiesForReposCreateOrUpdateOrganizationValuesRequest>;
+
+export interface ExternalPropertiesForReposCreateOrUpdateOrganizationValuesResponse {}
+export const ExternalPropertiesForReposCreateOrUpdateOrganizationValuesResponse =
+  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "ExternalPropertiesForReposCreateOrUpdateOrganizationValuesResponse",
+  }) as any as S.Schema<ExternalPropertiesForReposCreateOrUpdateOrganizationValuesResponse>;
+
+/** Repository name and associated external custom property value */
+export interface RepositoryExternalPropertyPayload {
+  /** The name of the repository */
+  repository_name: string;
+  /** The value assigned to the repository. Set to `null` to unset the value for this repository. */
+  value: string | null;
+}
+export const RepositoryExternalPropertyPayload = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    repository_name: S.String,
+    value: S.NullOr(S.String),
+  }),
+).annotate({
+  identifier: "RepositoryExternalPropertyPayload",
+}) as any as S.Schema<RepositoryExternalPropertyPayload>;
+
+/** The names of repositories and the values that the named external custom property will be set to. */
+export type ExternalPropertiesForReposCreateOrUpdateValuesForOrganizationPropertyRequestRepositoryValuesList =
+  Array<RepositoryExternalPropertyPayload>;
+export const ExternalPropertiesForReposCreateOrUpdateValuesForOrganizationPropertyRequestRepositoryValuesList =
+  /*@__PURE__*/ S.Array(
+    RepositoryExternalPropertyPayload,
+  ) as any as S.Schema<ExternalPropertiesForReposCreateOrUpdateValuesForOrganizationPropertyRequestRepositoryValuesList>;
+
+export interface ExternalPropertiesForReposCreateOrUpdateValuesForOrganizationPropertyRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** The name of the external custom property */
+  property_name: string;
+  /** The names of repositories and the values that the named external custom property will be set to. */
+  repository_values: ExternalPropertiesForReposCreateOrUpdateValuesForOrganizationPropertyRequestRepositoryValuesList;
+}
+export const ExternalPropertiesForReposCreateOrUpdateValuesForOrganizationPropertyRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      org: S.String.pipe(T.Label()),
+      property_name: S.String.pipe(T.Label()),
+      repository_values:
+        ExternalPropertiesForReposCreateOrUpdateValuesForOrganizationPropertyRequestRepositoryValuesList,
+    }).pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/orgs/{org}/properties/installations/values/{property_name}",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "ExternalPropertiesForReposCreateOrUpdateValuesForOrganizationPropertyRequest",
+  }) as any as S.Schema<ExternalPropertiesForReposCreateOrUpdateValuesForOrganizationPropertyRequest>;
+
+export interface ExternalPropertiesForReposCreateOrUpdateValuesForOrganizationPropertyResponse {}
+export const ExternalPropertiesForReposCreateOrUpdateValuesForOrganizationPropertyResponse =
+  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "ExternalPropertiesForReposCreateOrUpdateValuesForOrganizationPropertyResponse",
+  }) as any as S.Schema<ExternalPropertiesForReposCreateOrUpdateValuesForOrganizationPropertyResponse>;
+
+export interface ExternalPropertiesForReposDeleteOrganizationValuesRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** The name of the external custom property */
+  property_name: string;
+}
+export const ExternalPropertiesForReposDeleteOrganizationValuesRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      org: S.String.pipe(T.Label()),
+      property_name: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/orgs/{org}/properties/installations/values/{property_name}",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "ExternalPropertiesForReposDeleteOrganizationValuesRequest",
+}) as any as S.Schema<ExternalPropertiesForReposDeleteOrganizationValuesRequest>;
+
+export interface ExternalPropertiesForReposDeleteOrganizationValuesResponse {}
+export const ExternalPropertiesForReposDeleteOrganizationValuesResponse = /*@__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
+  identifier: "ExternalPropertiesForReposDeleteOrganizationValuesResponse",
+}) as any as S.Schema<ExternalPropertiesForReposDeleteOrganizationValuesResponse>;
+
+export interface ExternalPropertiesForReposGetOrganizationAppInstallationsRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+}
+export const ExternalPropertiesForReposGetOrganizationAppInstallationsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      org: S.String.pipe(T.Label()),
+    }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/properties/installations", code: 200 })),
+  ).annotate({
+    identifier: "ExternalPropertiesForReposGetOrganizationAppInstallationsRequest",
+  }) as any as S.Schema<ExternalPropertiesForReposGetOrganizationAppInstallationsRequest>;
+
+/** The GitHub App installation that was registered. */
+export interface OrganizationExternalPropertyInstallationInstallation {
+  /** The unique identifier of the GitHub App installation. */
+  id: number;
+}
+export const OrganizationExternalPropertyInstallationInstallation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.Number,
+  }),
+).annotate({
+  identifier: "OrganizationExternalPropertyInstallationInstallation",
+}) as any as S.Schema<OrganizationExternalPropertyInstallationInstallation>;
+
+/** A GitHub App installation that has been registered to read and write an organization's external custom properties, together with the display name assigned to it. */
+export interface OrganizationExternalPropertyInstallation {
+  /** The display name assigned to the app installation's external custom properties in the organization. */
+  display_name: string;
+  /** The GitHub App installation that was registered. */
+  installation: OrganizationExternalPropertyInstallationInstallation;
+}
+export const OrganizationExternalPropertyInstallation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    display_name: S.String,
+    installation: OrganizationExternalPropertyInstallationInstallation,
+  }),
+).annotate({
+  identifier: "OrganizationExternalPropertyInstallation",
+}) as any as S.Schema<OrganizationExternalPropertyInstallation>;
+
+export type ExternalPropertiesForReposGetOrganizationAppInstallationsResponseBodyList =
+  Array<OrganizationExternalPropertyInstallation>;
+export const ExternalPropertiesForReposGetOrganizationAppInstallationsResponseBodyList =
+  /*@__PURE__*/ S.Array(
+    OrganizationExternalPropertyInstallation,
+  ) as any as S.Schema<ExternalPropertiesForReposGetOrganizationAppInstallationsResponseBodyList>;
+
+export type ExternalPropertiesForReposGetOrganizationAppInstallationsResponse =
+  ExternalPropertiesForReposGetOrganizationAppInstallationsResponseBodyList;
+export const ExternalPropertiesForReposGetOrganizationAppInstallationsResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    ExternalPropertiesForReposGetOrganizationAppInstallationsResponseBodyList.pipe(
+      T.RawResponseRoot(),
+    ),
+  ).annotate({
+    identifier: "ExternalPropertiesForReposGetOrganizationAppInstallationsResponse",
+  }) as any as S.Schema<ExternalPropertiesForReposGetOrganizationAppInstallationsResponse>;
+
+export interface ExternalPropertiesForReposGetOrganizationDefinitionsRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+}
+export const ExternalPropertiesForReposGetOrganizationDefinitionsRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      org: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({ method: "GET", uri: "/orgs/{org}/properties/installations/schema", code: 200 }),
+    ),
+).annotate({
+  identifier: "ExternalPropertiesForReposGetOrganizationDefinitionsRequest",
+}) as any as S.Schema<ExternalPropertiesForReposGetOrganizationDefinitionsRequest>;
+
+/** External custom property defined for a GitHub App installation */
+export interface ExternalProperty {
+  /** The name of the external property */
+  property_name: string;
+}
+export const ExternalProperty = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    property_name: S.String,
+  }),
+).annotate({ identifier: "ExternalProperty" }) as any as S.Schema<ExternalProperty>;
+
+export type ExternalPropertiesForReposGetOrganizationDefinitionsResponseBodyList =
+  Array<ExternalProperty>;
+export const ExternalPropertiesForReposGetOrganizationDefinitionsResponseBodyList =
+  /*@__PURE__*/ S.Array(
+    ExternalProperty,
+  ) as any as S.Schema<ExternalPropertiesForReposGetOrganizationDefinitionsResponseBodyList>;
+
+export type ExternalPropertiesForReposGetOrganizationDefinitionsResponse =
+  ExternalPropertiesForReposGetOrganizationDefinitionsResponseBodyList;
+export const ExternalPropertiesForReposGetOrganizationDefinitionsResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    ExternalPropertiesForReposGetOrganizationDefinitionsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ExternalPropertiesForReposGetOrganizationDefinitionsResponse",
+}) as any as S.Schema<ExternalPropertiesForReposGetOrganizationDefinitionsResponse>;
+
+export interface ExternalPropertiesForReposRegisterOrganizationAppInstallationRequest {
+  /** The organization name. The name is not case sensitive. */
+  org: string;
+  /** The unique identifier of the GitHub App installation to register for managing external custom properties. When authenticating as a GitHub App installation, this defaults to the authenticated installation and can be omitted. It is required for all other callers (users and fine-grained personal access tokens). */
+  installation_id?: number;
+  /** The display name for this app installation's external custom properties in the organization. Must be 1 to 15 characters and contain only letters and numbers. Capitalization is preserved as entered. This can't be changed after the app installation is registered. */
+  display_name: string;
+}
+export const ExternalPropertiesForReposRegisterOrganizationAppInstallationRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      org: S.String.pipe(T.Label()),
+      installation_id: S.optional(S.Number),
+      display_name: S.String,
+    }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/properties/installations", code: 200 })),
+  ).annotate({
+    identifier: "ExternalPropertiesForReposRegisterOrganizationAppInstallationRequest",
+  }) as any as S.Schema<ExternalPropertiesForReposRegisterOrganizationAppInstallationRequest>;
+
 export interface GetRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -1878,9 +2022,7 @@ export const OrganizationFullPlan = /*@__PURE__*/ S.suspend(() =>
     filled_seats: S.optional(S.Number),
     seats: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "OrganizationFullPlan",
-}) as any as S.Schema<OrganizationFullPlan>;
+).annotate({ identifier: "OrganizationFullPlan" }) as any as S.Schema<OrganizationFullPlan>;
 
 /** Organization Full */
 export interface OrganizationFull {
@@ -2033,9 +2175,7 @@ export const OrganizationFull = /*@__PURE__*/ S.suspend(() =>
     archived_at: S.NullOr(S.String),
     deploy_keys_enabled_for_repositories: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "OrganizationFull",
-}) as any as S.Schema<OrganizationFull>;
+).annotate({ identifier: "OrganizationFull" }) as any as S.Schema<OrganizationFull>;
 
 export type GetApiInsightRouteStatsByActorRequestActorType =
   | "installation"
@@ -2193,13 +2333,7 @@ export const GetApiInsightSubjectStatsRequest = /*@__PURE__*/ S.suspend(() =>
     direction: S.optional(GetApiInsightSubjectStatsRequestDirection.pipe(T.Query())),
     sort: S.optional(GetApiInsightSubjectStatsRequestSortList.pipe(T.Query())),
     subject_name_substring: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/insights/api/subject-stats",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/insights/api/subject-stats", code: 200 })),
 ).annotate({
   identifier: "GetApiInsightSubjectStatsRequest",
 }) as any as S.Schema<GetApiInsightSubjectStatsRequest>;
@@ -2253,13 +2387,7 @@ export const GetApiInsightSummaryStatsRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     min_timestamp: S.String.pipe(T.Query()),
     max_timestamp: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/insights/api/summary-stats",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/insights/api/summary-stats", code: 200 })),
 ).annotate({
   identifier: "GetApiInsightSummaryStatsRequest",
 }) as any as S.Schema<GetApiInsightSummaryStatsRequest>;
@@ -2276,9 +2404,7 @@ export const ApiInsightsSummaryStats = /*@__PURE__*/ S.suspend(() =>
     total_request_count: S.optional(S.Number),
     rate_limited_request_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ApiInsightsSummaryStats",
-}) as any as S.Schema<ApiInsightsSummaryStats>;
+).annotate({ identifier: "ApiInsightsSummaryStats" }) as any as S.Schema<ApiInsightsSummaryStats>;
 
 export type GetApiInsightSummaryStatsByActorRequestActorType =
   | "installation"
@@ -2361,13 +2487,7 @@ export const GetApiInsightTimeStatsRequest = /*@__PURE__*/ S.suspend(() =>
     min_timestamp: S.String.pipe(T.Query()),
     max_timestamp: S.optional(S.String.pipe(T.Query())),
     timestamp_increment: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/insights/api/time-stats",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/insights/api/time-stats", code: 200 })),
 ).annotate({
   identifier: "GetApiInsightTimeStatsRequest",
 }) as any as S.Schema<GetApiInsightTimeStatsRequest>;
@@ -2383,9 +2503,7 @@ export const ApiInsightsTimeStatsItem = /*@__PURE__*/ S.suspend(() =>
     total_request_count: S.optional(S.Number),
     rate_limited_request_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ApiInsightsTimeStatsItem",
-}) as any as S.Schema<ApiInsightsTimeStatsItem>;
+).annotate({ identifier: "ApiInsightsTimeStatsItem" }) as any as S.Schema<ApiInsightsTimeStatsItem>;
 
 /** API Insights usage time stats for an organization */
 export type ApiInsightsTimeStats = Array<ApiInsightsTimeStatsItem>;
@@ -2535,11 +2653,7 @@ export const GetApiInsightUserStatsRequest = /*@__PURE__*/ S.suspend(() =>
     sort: S.optional(GetApiInsightUserStatsRequestSortList.pipe(T.Query())),
     actor_name_substring: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/insights/api/user-stats/{user_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/insights/api/user-stats/{user_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetApiInsightUserStatsRequest",
@@ -2568,9 +2682,7 @@ export const ApiInsightsUserStatsItem = /*@__PURE__*/ S.suspend(() =>
     last_rate_limited_timestamp: S.optional(S.NullOr(S.String)),
     last_request_timestamp: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiInsightsUserStatsItem",
-}) as any as S.Schema<ApiInsightsUserStatsItem>;
+).annotate({ identifier: "ApiInsightsUserStatsItem" }) as any as S.Schema<ApiInsightsUserStatsItem>;
 
 /** API Insights usage stats for a user */
 export type ApiInsightsUserStats = Array<ApiInsightsUserStatsItem>;
@@ -2654,13 +2766,7 @@ export interface GetImmutableReleasesSettingsRequest {
 export const GetImmutableReleasesSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/settings/immutable-releases",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/settings/immutable-releases", code: 200 })),
 ).annotate({
   identifier: "GetImmutableReleasesSettingsRequest",
 }) as any as S.Schema<GetImmutableReleasesSettingsRequest>;
@@ -2770,9 +2876,7 @@ export const MinimalRepositoryLicense = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.NullOr(S.String)),
     node_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MinimalRepositoryLicense",
-}) as any as S.Schema<MinimalRepositoryLicense>;
+).annotate({ identifier: "MinimalRepositoryLicense" }) as any as S.Schema<MinimalRepositoryLicense>;
 
 export type SecurityAndAnalysisAdvancedSecurityStatus = "enabled" | "disabled";
 export const SecurityAndAnalysisAdvancedSecurityStatus = S.String;
@@ -2991,14 +3095,10 @@ export const SecurityAndAnalysis = /*@__PURE__*/ S.suspend(() =>
       SecurityAndAnalysisSecretScanningDelegatedBypassOptions,
     ),
   }),
-).annotate({
-  identifier: "SecurityAndAnalysis",
-}) as any as S.Schema<SecurityAndAnalysis>;
+).annotate({ identifier: "SecurityAndAnalysis" }) as any as S.Schema<SecurityAndAnalysis>;
 
 /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
-export type MinimalRepositoryCustomPropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type MinimalRepositoryCustomPropertiesMap = { [key: string]: unknown | undefined };
 export const MinimalRepositoryCustomPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3193,9 +3293,7 @@ export const MinimalRepository = /*@__PURE__*/ S.suspend(() =>
     security_and_analysis: S.optional(S.NullOr(SecurityAndAnalysis)),
     custom_properties: S.optional(MinimalRepositoryCustomPropertiesMap),
   }),
-).annotate({
-  identifier: "MinimalRepository",
-}) as any as S.Schema<MinimalRepository>;
+).annotate({ identifier: "MinimalRepository" }) as any as S.Schema<MinimalRepository>;
 
 export type GetImmutableReleasesSettingsRepositoriesResponseRepositoriesList =
   Array<MinimalRepository>;
@@ -3273,9 +3371,7 @@ export const OrganizationSimple = /*@__PURE__*/ S.suspend(() =>
     avatar_url: S.String,
     description: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "OrganizationSimple",
-}) as any as S.Schema<OrganizationSimple>;
+).annotate({ identifier: "OrganizationSimple" }) as any as S.Schema<OrganizationSimple>;
 
 /** A GitHub user. */
 export type NullableSimpleUser = SimpleUser;
@@ -3288,9 +3384,7 @@ export const OrgMembershipPermissions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     can_create_repository: S.Boolean,
   }),
-).annotate({
-  identifier: "OrgMembershipPermissions",
-}) as any as S.Schema<OrgMembershipPermissions>;
+).annotate({ identifier: "OrgMembershipPermissions" }) as any as S.Schema<OrgMembershipPermissions>;
 
 /** Org Membership */
 export interface OrgMembership {
@@ -3334,13 +3428,7 @@ export const GetMembershipForUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/memberships/{username}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/memberships/{username}", code: 200 })),
 ).annotate({
   identifier: "GetMembershipForUserRequest",
 }) as any as S.Schema<GetMembershipForUserRequest>;
@@ -3355,16 +3443,8 @@ export const GetOrgRoleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     role_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/organization-roles/{role_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetOrgRoleRequest",
-}) as any as S.Schema<GetOrgRoleRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/organization-roles/{role_id}", code: 200 })),
+).annotate({ identifier: "GetOrgRoleRequest" }) as any as S.Schema<GetOrgRoleRequest>;
 
 /** The system role from which this role inherits permissions. */
 export type OrganizationRoleBaseRole = "read" | "triage" | "write" | "maintain" | "admin";
@@ -3412,9 +3492,7 @@ export const OrganizationRole = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "OrganizationRole",
-}) as any as S.Schema<OrganizationRole>;
+).annotate({ identifier: "OrganizationRole" }) as any as S.Schema<OrganizationRole>;
 
 export interface GetOrgRulesetHistoryRequest {
   /** The organization name. The name is not case sensitive. */
@@ -3432,13 +3510,7 @@ export const GetOrgRulesetHistoryRequest = /*@__PURE__*/ S.suspend(() =>
     ruleset_id: S.Number.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/rulesets/{ruleset_id}/history",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/rulesets/{ruleset_id}/history", code: 200 })),
 ).annotate({
   identifier: "GetOrgRulesetHistoryRequest",
 }) as any as S.Schema<GetOrgRulesetHistoryRequest>;
@@ -3453,9 +3525,7 @@ export const RulesetVersionActor = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.Number),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RulesetVersionActor",
-}) as any as S.Schema<RulesetVersionActor>;
+).annotate({ identifier: "RulesetVersionActor" }) as any as S.Schema<RulesetVersionActor>;
 
 /** The historical version of a ruleset */
 export interface RulesetVersion {
@@ -3544,9 +3614,7 @@ export const GetWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     hook_id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/hooks/{hook_id}", code: 200 })),
-).annotate({
-  identifier: "GetWebhookRequest",
-}) as any as S.Schema<GetWebhookRequest>;
+).annotate({ identifier: "GetWebhookRequest" }) as any as S.Schema<GetWebhookRequest>;
 
 export interface GetWebhookConfigForOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -3558,13 +3626,7 @@ export const GetWebhookConfigForOrgRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     hook_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/hooks/{hook_id}/config",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/hooks/{hook_id}/config", code: 200 })),
 ).annotate({
   identifier: "GetWebhookConfigForOrgRequest",
 }) as any as S.Schema<GetWebhookConfigForOrgRequest>;
@@ -3609,18 +3671,14 @@ export const GetWebhookDeliveryRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetWebhookDeliveryRequest>;
 
 /** The request headers sent with the webhook delivery. */
-export type HookDeliveryRequestHeadersMap = {
-  [key: string]: unknown | undefined;
-};
+export type HookDeliveryRequestHeadersMap = { [key: string]: unknown | undefined };
 export const HookDeliveryRequestHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<HookDeliveryRequestHeadersMap>;
 
 /** The webhook payload. */
-export type HookDeliveryRequestPayloadMap = {
-  [key: string]: unknown | undefined;
-};
+export type HookDeliveryRequestPayloadMap = { [key: string]: unknown | undefined };
 export const HookDeliveryRequestPayloadMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3637,23 +3695,17 @@ export const HookDeliveryRequest = /*@__PURE__*/ S.suspend(() =>
     headers: S.NullOr(HookDeliveryRequestHeadersMap),
     payload: S.NullOr(HookDeliveryRequestPayloadMap),
   }),
-).annotate({
-  identifier: "HookDeliveryRequest",
-}) as any as S.Schema<HookDeliveryRequest>;
+).annotate({ identifier: "HookDeliveryRequest" }) as any as S.Schema<HookDeliveryRequest>;
 
 /** The response headers received when the delivery was made. */
-export type HookDeliveryResponseHeadersMap = {
-  [key: string]: unknown | undefined;
-};
+export type HookDeliveryResponseHeadersMap = { [key: string]: unknown | undefined };
 export const HookDeliveryResponseHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<HookDeliveryResponseHeadersMap>;
 
 /** The response payload received. */
-export type HookDeliveryResponsePayloadMap = {
-  [key: string]: unknown | undefined;
-};
+export type HookDeliveryResponsePayloadMap = { [key: string]: unknown | undefined };
 export const HookDeliveryResponsePayloadMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3670,9 +3722,7 @@ export const HookDeliveryResponse = /*@__PURE__*/ S.suspend(() =>
     headers: S.NullOr(HookDeliveryResponseHeadersMap),
     payload: S.NullOr(HookDeliveryResponsePayloadMap),
   }),
-).annotate({
-  identifier: "HookDeliveryResponse",
-}) as any as S.Schema<HookDeliveryResponse>;
+).annotate({ identifier: "HookDeliveryResponse" }) as any as S.Schema<HookDeliveryResponse>;
 
 /** Delivery made by a webhook. */
 export interface HookDelivery {
@@ -3950,6 +4000,10 @@ export const AppPermissionsOrganizationCopilotSeatManagement = S.String;
 export type AppPermissionsOrganizationCopilotAgentSettings = "read" | "write";
 export const AppPermissionsOrganizationCopilotAgentSettings = S.String;
 
+/** The level of permission to grant the access token for managing external custom properties for repositories in an organization. */
+export type AppPermissionsOrganizationExternalPropertiesForRepos = "read" | "write" | "admin";
+export const AppPermissionsOrganizationExternalPropertiesForRepos = S.String;
+
 /** The level of permission to grant the access token to view and manage announcement banners for an organization. */
 export type AppPermissionsOrganizationAnnouncementBanners = "read" | "write";
 export const AppPermissionsOrganizationAnnouncementBanners = S.String;
@@ -4100,6 +4154,8 @@ export interface AppPermissions {
   organization_copilot_seat_management?: AppPermissionsOrganizationCopilotSeatManagement;
   /** The level of permission to grant the access token to view and manage Copilot cloud agent settings for an organization. */
   organization_copilot_agent_settings?: AppPermissionsOrganizationCopilotAgentSettings;
+  /** The level of permission to grant the access token for managing external custom properties for repositories in an organization. */
+  organization_external_properties_for_repos?: AppPermissionsOrganizationExternalPropertiesForRepos;
   /** The level of permission to grant the access token to view and manage announcement banners for an organization. */
   organization_announcement_banners?: AppPermissionsOrganizationAnnouncementBanners;
   /** The level of permission to grant the access token to view events triggered by an activity in an organization. */
@@ -4179,6 +4235,9 @@ export const AppPermissions = /*@__PURE__*/ S.suspend(() =>
       AppPermissionsOrganizationCopilotSeatManagement,
     ),
     organization_copilot_agent_settings: S.optional(AppPermissionsOrganizationCopilotAgentSettings),
+    organization_external_properties_for_repos: S.optional(
+      AppPermissionsOrganizationExternalPropertiesForRepos,
+    ),
     organization_announcement_banners: S.optional(AppPermissionsOrganizationAnnouncementBanners),
     organization_events: S.optional(AppPermissionsOrganizationEvents),
     organization_hooks: S.optional(AppPermissionsOrganizationHooks),
@@ -4414,13 +4473,7 @@ export const ListAttestationRepositoriesRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     after: S.optional(S.String.pipe(T.Query())),
     predicate_type: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/attestations/repositories",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/attestations/repositories", code: 200 })),
 ).annotate({
   identifier: "ListAttestationRepositoriesRequest",
 }) as any as S.Schema<ListAttestationRepositoriesRequest>;
@@ -4473,16 +4526,8 @@ export const ListAttestationsRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     after: S.optional(S.String.pipe(T.Query())),
     predicate_type: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/attestations/{subject_digest}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListAttestationsRequest",
-}) as any as S.Schema<ListAttestationsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/attestations/{subject_digest}", code: 200 })),
+).annotate({ identifier: "ListAttestationsRequest" }) as any as S.Schema<ListAttestationsRequest>;
 
 export type ListAttestationsResponseAttestationsItemBundleVerificationMaterialMap = {
   [key: string]: unknown | undefined;
@@ -4550,9 +4595,7 @@ export const ListAttestationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     attestations: S.optional(ListAttestationsResponseAttestationsList),
   }),
-).annotate({
-  identifier: "ListAttestationsResponse",
-}) as any as S.Schema<ListAttestationsResponse>;
+).annotate({ identifier: "ListAttestationsResponse" }) as any as S.Schema<ListAttestationsResponse>;
 
 /** List of subject digests to fetch attestations for. */
 export type ListAttestationsBulkRequestSubjectDigestsList = Array<string>;
@@ -4582,13 +4625,7 @@ export const ListAttestationsBulkRequest = /*@__PURE__*/ S.suspend(() =>
     after: S.optional(S.String.pipe(T.Query())),
     subject_digests: ListAttestationsBulkRequestSubjectDigestsList,
     predicate_type: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/attestations/bulk-list",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/attestations/bulk-list", code: 200 })),
 ).annotate({
   identifier: "ListAttestationsBulkRequest",
 }) as any as S.Schema<ListAttestationsBulkRequest>;
@@ -4717,9 +4754,7 @@ export const ListBlockedUsersRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/blocks", code: 200 })),
-).annotate({
-  identifier: "ListBlockedUsersRequest",
-}) as any as S.Schema<ListBlockedUsersRequest>;
+).annotate({ identifier: "ListBlockedUsersRequest" }) as any as S.Schema<ListBlockedUsersRequest>;
 
 export type ListBlockedUsersResponseBodyList = Array<SimpleUser>;
 export const ListBlockedUsersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4729,9 +4764,7 @@ export const ListBlockedUsersResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListBlockedUsersResponse = ListBlockedUsersResponseBodyList;
 export const ListBlockedUsersResponse = /*@__PURE__*/ S.suspend(() =>
   ListBlockedUsersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListBlockedUsersResponse",
-}) as any as S.Schema<ListBlockedUsersResponse>;
+).annotate({ identifier: "ListBlockedUsersResponse" }) as any as S.Schema<ListBlockedUsersResponse>;
 
 export interface ListFailedInvitationsRequest {
   /** The organization name. The name is not case sensitive. */
@@ -4804,9 +4837,7 @@ export const ListForUserRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/users/{username}/orgs", code: 200 })),
-).annotate({
-  identifier: "ListForUserRequest",
-}) as any as S.Schema<ListForUserRequest>;
+).annotate({ identifier: "ListForUserRequest" }) as any as S.Schema<ListForUserRequest>;
 
 export type ListForUserResponseBodyList = Array<OrganizationSimple>;
 export const ListForUserResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4816,9 +4847,7 @@ export const ListForUserResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListForUserResponse = ListForUserResponseBodyList;
 export const ListForUserResponse = /*@__PURE__*/ S.suspend(() =>
   ListForUserResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListForUserResponse",
-}) as any as S.Schema<ListForUserResponse>;
+).annotate({ identifier: "ListForUserResponse" }) as any as S.Schema<ListForUserResponse>;
 
 export interface ListInvitationTeamsRequest {
   /** The organization name. The name is not case sensitive. */
@@ -4837,11 +4866,7 @@ export const ListInvitationTeamsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/invitations/{invitation_id}/teams",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/invitations/{invitation_id}/teams", code: 200 }),
   ),
 ).annotate({
   identifier: "ListInvitationTeamsRequest",
@@ -4862,9 +4887,7 @@ export const TeamPermissions = /*@__PURE__*/ S.suspend(() =>
     maintain: S.Boolean,
     admin: S.Boolean,
   }),
-).annotate({
-  identifier: "TeamPermissions",
-}) as any as S.Schema<TeamPermissions>;
+).annotate({ identifier: "TeamPermissions" }) as any as S.Schema<TeamPermissions>;
 
 /** The ownership type of the team */
 export type TeamType = "enterprise" | "organization";
@@ -4927,9 +4950,7 @@ export const NullableTeamSimple = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.optional(S.Number),
     enterprise_id: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NullableTeamSimple",
-}) as any as S.Schema<NullableTeamSimple>;
+).annotate({ identifier: "NullableTeamSimple" }) as any as S.Schema<NullableTeamSimple>;
 
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface Team {
@@ -4999,9 +5020,7 @@ export const ListIssueFieldsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/issue-fields", code: 200 })),
-).annotate({
-  identifier: "ListIssueFieldsRequest",
-}) as any as S.Schema<ListIssueFieldsRequest>;
+).annotate({ identifier: "ListIssueFieldsRequest" }) as any as S.Schema<ListIssueFieldsRequest>;
 
 export type ListIssueFieldsResponseBodyList = Array<IssueField | null>;
 export const ListIssueFieldsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -5011,9 +5030,7 @@ export const ListIssueFieldsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListIssueFieldsResponse = ListIssueFieldsResponseBodyList;
 export const ListIssueFieldsResponse = /*@__PURE__*/ S.suspend(() =>
   ListIssueFieldsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListIssueFieldsResponse",
-}) as any as S.Schema<ListIssueFieldsResponse>;
+).annotate({ identifier: "ListIssueFieldsResponse" }) as any as S.Schema<ListIssueFieldsResponse>;
 
 export interface ListIssueTypesRequest {
   /** The organization name. The name is not case sensitive. */
@@ -5023,9 +5040,7 @@ export const ListIssueTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/issue-types", code: 200 })),
-).annotate({
-  identifier: "ListIssueTypesRequest",
-}) as any as S.Schema<ListIssueTypesRequest>;
+).annotate({ identifier: "ListIssueTypesRequest" }) as any as S.Schema<ListIssueTypesRequest>;
 
 export type ListIssueTypesResponseBodyList = Array<IssueType | null>;
 export const ListIssueTypesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -5035,9 +5050,7 @@ export const ListIssueTypesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListIssueTypesResponse = ListIssueTypesResponseBodyList;
 export const ListIssueTypesResponse = /*@__PURE__*/ S.suspend(() =>
   ListIssueTypesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListIssueTypesResponse",
-}) as any as S.Schema<ListIssueTypesResponse>;
+).annotate({ identifier: "ListIssueTypesResponse" }) as any as S.Schema<ListIssueTypesResponse>;
 
 export type ListMembersRequestFilter = "2fa_disabled" | "2fa_insecure" | "all";
 export const ListMembersRequestFilter = S.String;
@@ -5065,9 +5078,7 @@ export const ListMembersRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/members", code: 200 })),
-).annotate({
-  identifier: "ListMembersRequest",
-}) as any as S.Schema<ListMembersRequest>;
+).annotate({ identifier: "ListMembersRequest" }) as any as S.Schema<ListMembersRequest>;
 
 export type ListMembersResponseBodyList = Array<SimpleUser>;
 export const ListMembersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -5077,9 +5088,7 @@ export const ListMembersResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMembersResponse = ListMembersResponseBodyList;
 export const ListMembersResponse = /*@__PURE__*/ S.suspend(() =>
   ListMembersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMembersResponse",
-}) as any as S.Schema<ListMembersResponse>;
+).annotate({ identifier: "ListMembersResponse" }) as any as S.Schema<ListMembersResponse>;
 
 export type ListMembershipsForAuthenticatedUserRequestState = "active" | "pending";
 export const ListMembershipsForAuthenticatedUserRequestState = S.String;
@@ -5123,9 +5132,7 @@ export const ListOrgRolesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/organization-roles", code: 200 })),
-).annotate({
-  identifier: "ListOrgRolesRequest",
-}) as any as S.Schema<ListOrgRolesRequest>;
+).annotate({ identifier: "ListOrgRolesRequest" }) as any as S.Schema<ListOrgRolesRequest>;
 
 /** The list of organization roles available to the organization. */
 export type ListOrgRolesResponseRolesList = Array<OrganizationRole>;
@@ -5144,9 +5151,7 @@ export const ListOrgRolesResponse = /*@__PURE__*/ S.suspend(() =>
     total_count: S.optional(S.Number),
     roles: S.optional(ListOrgRolesResponseRolesList),
   }),
-).annotate({
-  identifier: "ListOrgRolesResponse",
-}) as any as S.Schema<ListOrgRolesResponse>;
+).annotate({ identifier: "ListOrgRolesResponse" }) as any as S.Schema<ListOrgRolesResponse>;
 
 export interface ListOrgRoleTeamsRequest {
   /** The organization name. The name is not case sensitive. */
@@ -5165,15 +5170,9 @@ export const ListOrgRoleTeamsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/organization-roles/{role_id}/teams",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/organization-roles/{role_id}/teams", code: 200 }),
   ),
-).annotate({
-  identifier: "ListOrgRoleTeamsRequest",
-}) as any as S.Schema<ListOrgRoleTeamsRequest>;
+).annotate({ identifier: "ListOrgRoleTeamsRequest" }) as any as S.Schema<ListOrgRoleTeamsRequest>;
 
 /** Determines if the team has a direct, indirect, or mixed relationship to a role */
 export type TeamRoleAssignmentAssignment = "direct" | "indirect" | "mixed";
@@ -5232,9 +5231,7 @@ export const TeamRoleAssignment = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.optional(S.Number),
     enterprise_id: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TeamRoleAssignment",
-}) as any as S.Schema<TeamRoleAssignment>;
+).annotate({ identifier: "TeamRoleAssignment" }) as any as S.Schema<TeamRoleAssignment>;
 
 /** List of teams assigned to the organization role */
 export type ListOrgRoleTeamsResponseBodyList = Array<TeamRoleAssignment>;
@@ -5245,9 +5242,7 @@ export const ListOrgRoleTeamsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListOrgRoleTeamsResponse = ListOrgRoleTeamsResponseBodyList;
 export const ListOrgRoleTeamsResponse = /*@__PURE__*/ S.suspend(() =>
   ListOrgRoleTeamsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListOrgRoleTeamsResponse",
-}) as any as S.Schema<ListOrgRoleTeamsResponse>;
+).annotate({ identifier: "ListOrgRoleTeamsResponse" }) as any as S.Schema<ListOrgRoleTeamsResponse>;
 
 export interface ListOrgRoleUsersRequest {
   /** The organization name. The name is not case sensitive. */
@@ -5266,15 +5261,9 @@ export const ListOrgRoleUsersRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/organization-roles/{role_id}/users",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/organization-roles/{role_id}/users", code: 200 }),
   ),
-).annotate({
-  identifier: "ListOrgRoleUsersRequest",
-}) as any as S.Schema<ListOrgRoleUsersRequest>;
+).annotate({ identifier: "ListOrgRoleUsersRequest" }) as any as S.Schema<ListOrgRoleUsersRequest>;
 
 /** Determines if the user has a direct, indirect, or mixed relationship to a role */
 export type UserRoleAssignmentAssignment = "direct" | "indirect" | "mixed";
@@ -5397,9 +5386,7 @@ export const UserRoleAssignment = /*@__PURE__*/ S.suspend(() =>
     starred_at: S.optional(S.String),
     user_view_type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserRoleAssignment",
-}) as any as S.Schema<UserRoleAssignment>;
+).annotate({ identifier: "UserRoleAssignment" }) as any as S.Schema<UserRoleAssignment>;
 
 /** List of users assigned to the organization role */
 export type ListOrgRoleUsersResponseBodyList = Array<UserRoleAssignment>;
@@ -5410,9 +5397,7 @@ export const ListOrgRoleUsersResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListOrgRoleUsersResponse = ListOrgRoleUsersResponseBodyList;
 export const ListOrgRoleUsersResponse = /*@__PURE__*/ S.suspend(() =>
   ListOrgRoleUsersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListOrgRoleUsersResponse",
-}) as any as S.Schema<ListOrgRoleUsersResponse>;
+).annotate({ identifier: "ListOrgRoleUsersResponse" }) as any as S.Schema<ListOrgRoleUsersResponse>;
 
 export type ListOutsideCollaboratorsRequestFilter = "2fa_disabled" | "2fa_insecure" | "all";
 export const ListOutsideCollaboratorsRequestFilter = S.String;
@@ -5433,13 +5418,7 @@ export const ListOutsideCollaboratorsRequest = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(ListOutsideCollaboratorsRequestFilter.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/outside_collaborators",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/outside_collaborators", code: 200 })),
 ).annotate({
   identifier: "ListOutsideCollaboratorsRequest",
 }) as any as S.Schema<ListOutsideCollaboratorsRequest>;
@@ -5588,13 +5567,7 @@ export const ListPatGrantRequestsRequest = /*@__PURE__*/ S.suspend(() =>
     last_used_before: S.optional(S.String.pipe(T.Query())),
     last_used_after: S.optional(S.String.pipe(T.Query())),
     token_id: S.optional(ListPatGrantRequestsRequestTokenIdList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/personal-access-token-requests",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/personal-access-token-requests", code: 200 })),
 ).annotate({
   identifier: "ListPatGrantRequestsRequest",
 }) as any as S.Schema<ListPatGrantRequestsRequest>;
@@ -5759,16 +5732,8 @@ export const ListPatGrantsRequest = /*@__PURE__*/ S.suspend(() =>
     last_used_before: S.optional(S.String.pipe(T.Query())),
     last_used_after: S.optional(S.String.pipe(T.Query())),
     token_id: S.optional(ListPatGrantsRequestTokenIdList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/personal-access-tokens",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListPatGrantsRequest",
-}) as any as S.Schema<ListPatGrantsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/personal-access-tokens", code: 200 })),
+).annotate({ identifier: "ListPatGrantsRequest" }) as any as S.Schema<ListPatGrantsRequest>;
 
 /** Type of repository selection requested. */
 export type OrganizationProgrammaticAccessGrantRepositorySelection = "none" | "all" | "subset";
@@ -5864,9 +5829,7 @@ export const ListPatGrantsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListPatGrantsResponse = ListPatGrantsResponseBodyList;
 export const ListPatGrantsResponse = /*@__PURE__*/ S.suspend(() =>
   ListPatGrantsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListPatGrantsResponse",
-}) as any as S.Schema<ListPatGrantsResponse>;
+).annotate({ identifier: "ListPatGrantsResponse" }) as any as S.Schema<ListPatGrantsResponse>;
 
 export type ListPendingInvitationsRequestRole =
   | "all"
@@ -5929,9 +5892,7 @@ export const ListPublicMembersRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/public_members", code: 200 })),
-).annotate({
-  identifier: "ListPublicMembersRequest",
-}) as any as S.Schema<ListPublicMembersRequest>;
+).annotate({ identifier: "ListPublicMembersRequest" }) as any as S.Schema<ListPublicMembersRequest>;
 
 export type ListPublicMembersResponseBodyList = Array<SimpleUser>;
 export const ListPublicMembersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -5967,13 +5928,7 @@ export const ListWebhookDeliveriesRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     cursor: S.optional(S.String.pipe(T.Query())),
     status: S.optional(ListWebhookDeliveriesRequestStatus.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/hooks/{hook_id}/deliveries",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/hooks/{hook_id}/deliveries", code: 200 })),
 ).annotate({
   identifier: "ListWebhookDeliveriesRequest",
 }) as any as S.Schema<ListWebhookDeliveriesRequest>;
@@ -6020,9 +5975,7 @@ export const HookDeliveryItem = /*@__PURE__*/ S.suspend(() =>
     repository_id: S.NullOr(S.Number),
     throttled_at: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "HookDeliveryItem",
-}) as any as S.Schema<HookDeliveryItem>;
+).annotate({ identifier: "HookDeliveryItem" }) as any as S.Schema<HookDeliveryItem>;
 
 export type ListWebhookDeliveriesResponseBodyList = Array<HookDeliveryItem>;
 export const ListWebhookDeliveriesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -6050,9 +6003,7 @@ export const ListWebhooksRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/hooks", code: 200 })),
-).annotate({
-  identifier: "ListWebhooksRequest",
-}) as any as S.Schema<ListWebhooksRequest>;
+).annotate({ identifier: "ListWebhooksRequest" }) as any as S.Schema<ListWebhooksRequest>;
 
 export type ListWebhooksResponseBodyList = Array<OrgHook>;
 export const ListWebhooksResponseBodyList = /*@__PURE__*/ S.Array(
@@ -6062,9 +6013,7 @@ export const ListWebhooksResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListWebhooksResponse = ListWebhooksResponseBodyList;
 export const ListWebhooksResponse = /*@__PURE__*/ S.suspend(() =>
   ListWebhooksResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListWebhooksResponse",
-}) as any as S.Schema<ListWebhooksResponse>;
+).annotate({ identifier: "ListWebhooksResponse" }) as any as S.Schema<ListWebhooksResponse>;
 
 export interface PingWebhookRequest {
   /** The organization name. The name is not case sensitive. */
@@ -6076,16 +6025,8 @@ export const PingWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     hook_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/hooks/{hook_id}/pings",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PingWebhookRequest",
-}) as any as S.Schema<PingWebhookRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/hooks/{hook_id}/pings", code: 200 })),
+).annotate({ identifier: "PingWebhookRequest" }) as any as S.Schema<PingWebhookRequest>;
 
 export interface PingWebhookResponse {}
 export const PingWebhookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6132,16 +6073,8 @@ export const RemoveMemberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/members/{username}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RemoveMemberRequest",
-}) as any as S.Schema<RemoveMemberRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/orgs/{org}/members/{username}", code: 200 })),
+).annotate({ identifier: "RemoveMemberRequest" }) as any as S.Schema<RemoveMemberRequest>;
 
 export interface RemoveMemberResponse {}
 export const RemoveMemberResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6158,22 +6091,14 @@ export const RemoveMembershipForUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/memberships/{username}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/orgs/{org}/memberships/{username}", code: 200 })),
 ).annotate({
   identifier: "RemoveMembershipForUserRequest",
 }) as any as S.Schema<RemoveMembershipForUserRequest>;
 
 export interface RemoveMembershipForUserResponse {}
 export const RemoveMembershipForUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "RemoveMembershipForUserResponse",
-  },
+  { identifier: "RemoveMembershipForUserResponse" },
 ) as any as S.Schema<RemoveMembershipForUserResponse>;
 
 export interface RemoveOutsideCollaboratorRequest {
@@ -6187,11 +6112,7 @@ export const RemoveOutsideCollaboratorRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/outside_collaborators/{username}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/orgs/{org}/outside_collaborators/{username}", code: 200 }),
   ),
 ).annotate({
   identifier: "RemoveOutsideCollaboratorRequest",
@@ -6214,13 +6135,7 @@ export const RemovePublicMembershipForAuthenticatedUserRequest = /*@__PURE__*/ S
   S.Struct({
     org: S.String.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/public_members/{username}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/orgs/{org}/public_members/{username}", code: 200 })),
 ).annotate({
   identifier: "RemovePublicMembershipForAuthenticatedUserRequest",
 }) as any as S.Schema<RemovePublicMembershipForAuthenticatedUserRequest>;
@@ -6305,11 +6220,7 @@ export const RevokeAllOrgRolesUserRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/organization-roles/users/{username}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/orgs/{org}/organization-roles/users/{username}", code: 200 }),
   ),
 ).annotate({
   identifier: "RevokeAllOrgRolesUserRequest",
@@ -6340,9 +6251,7 @@ export const RevokeOrgRoleTeamRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "RevokeOrgRoleTeamRequest",
-}) as any as S.Schema<RevokeOrgRoleTeamRequest>;
+).annotate({ identifier: "RevokeOrgRoleTeamRequest" }) as any as S.Schema<RevokeOrgRoleTeamRequest>;
 
 export interface RevokeOrgRoleTeamResponse {}
 export const RevokeOrgRoleTeamResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6369,9 +6278,7 @@ export const RevokeOrgRoleUserRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "RevokeOrgRoleUserRequest",
-}) as any as S.Schema<RevokeOrgRoleUserRequest>;
+).annotate({ identifier: "RevokeOrgRoleUserRequest" }) as any as S.Schema<RevokeOrgRoleUserRequest>;
 
 export interface RevokeOrgRoleUserResponse {}
 export const RevokeOrgRoleUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6528,13 +6435,7 @@ export const SetImmutableReleasesSettingsRequest = /*@__PURE__*/ S.suspend(() =>
     selected_repository_ids: S.optional(
       SetImmutableReleasesSettingsRequestSelectedRepositoryIdsList,
     ),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/orgs/{org}/settings/immutable-releases",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/orgs/{org}/settings/immutable-releases", code: 200 })),
 ).annotate({
   identifier: "SetImmutableReleasesSettingsRequest",
 }) as any as S.Schema<SetImmutableReleasesSettingsRequest>;
@@ -6600,13 +6501,7 @@ export const SetMembershipForUserRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
     role: S.optional(SetMembershipForUserRequestRole),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/orgs/{org}/memberships/{username}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/orgs/{org}/memberships/{username}", code: 200 })),
 ).annotate({
   identifier: "SetMembershipForUserRequest",
 }) as any as S.Schema<SetMembershipForUserRequest>;
@@ -6621,13 +6516,7 @@ export const SetPublicMembershipForAuthenticatedUserRequest = /*@__PURE__*/ S.su
   S.Struct({
     org: S.String.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/orgs/{org}/public_members/{username}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/orgs/{org}/public_members/{username}", code: 200 })),
 ).annotate({
   identifier: "SetPublicMembershipForAuthenticatedUserRequest",
 }) as any as S.Schema<SetPublicMembershipForAuthenticatedUserRequest>;
@@ -6649,16 +6538,8 @@ export const UnblockUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/blocks/{username}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UnblockUserRequest",
-}) as any as S.Schema<UnblockUserRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/orgs/{org}/blocks/{username}", code: 200 })),
+).annotate({ identifier: "UnblockUserRequest" }) as any as S.Schema<UnblockUserRequest>;
 
 export interface UnblockUserResponse {}
 export const UnblockUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6844,16 +6725,8 @@ export const UpdateIssueFieldRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.NullOr(S.String)),
     visibility: S.optional(UpdateIssueFieldRequestVisibility),
     options: S.optional(UpdateIssueFieldRequestOptionsList),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/orgs/{org}/issue-fields/{issue_field_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateIssueFieldRequest",
-}) as any as S.Schema<UpdateIssueFieldRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/orgs/{org}/issue-fields/{issue_field_id}", code: 200 })),
+).annotate({ identifier: "UpdateIssueFieldRequest" }) as any as S.Schema<UpdateIssueFieldRequest>;
 
 /** Color for the issue type. */
 export type UpdateIssueTypeRequestColor =
@@ -6889,16 +6762,8 @@ export const UpdateIssueTypeRequest = /*@__PURE__*/ S.suspend(() =>
     is_enabled: S.Boolean,
     description: S.optional(S.NullOr(S.String)),
     color: S.optional(S.NullOr(UpdateIssueTypeRequestColor)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/orgs/{org}/issue-types/{issue_type_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateIssueTypeRequest",
-}) as any as S.Schema<UpdateIssueTypeRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/orgs/{org}/issue-types/{issue_type_id}", code: 200 })),
+).annotate({ identifier: "UpdateIssueTypeRequest" }) as any as S.Schema<UpdateIssueTypeRequest>;
 
 /** The state that the membership should be in. Only `"active"` will be accepted. */
 export type UpdateMembershipForAuthenticatedUserRequestState = "active";
@@ -6914,13 +6779,7 @@ export const UpdateMembershipForAuthenticatedUserRequest = /*@__PURE__*/ S.suspe
   S.Struct({
     org: S.String.pipe(T.Label()),
     state: UpdateMembershipForAuthenticatedUserRequestState,
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/user/memberships/orgs/{org}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/user/memberships/orgs/{org}", code: 200 })),
 ).annotate({
   identifier: "UpdateMembershipForAuthenticatedUserRequest",
 }) as any as S.Schema<UpdateMembershipForAuthenticatedUserRequest>;
@@ -6943,15 +6802,9 @@ export const UpdatePatAccessRequest = /*@__PURE__*/ S.suspend(() =>
     pat_id: S.Number.pipe(T.Label()),
     action: UpdatePatAccessRequestAction,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/personal-access-tokens/{pat_id}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/orgs/{org}/personal-access-tokens/{pat_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdatePatAccessRequest",
-}) as any as S.Schema<UpdatePatAccessRequest>;
+).annotate({ identifier: "UpdatePatAccessRequest" }) as any as S.Schema<UpdatePatAccessRequest>;
 
 export interface UpdatePatAccessResponse {}
 export const UpdatePatAccessResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6981,16 +6834,8 @@ export const UpdatePatAccessesRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     action: UpdatePatAccessesRequestAction,
     pat_ids: UpdatePatAccessesRequestPatIdsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/personal-access-tokens",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdatePatAccessesRequest",
-}) as any as S.Schema<UpdatePatAccessesRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/personal-access-tokens", code: 200 })),
+).annotate({ identifier: "UpdatePatAccessesRequest" }) as any as S.Schema<UpdatePatAccessesRequest>;
 
 export interface UpdatePatAccessesResponse {}
 export const UpdatePatAccessesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7043,9 +6888,7 @@ export const UpdateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     active: S.optional(S.Boolean),
     name: S.optional(S.String),
   }).pipe(T.Http({ method: "PATCH", uri: "/orgs/{org}/hooks/{hook_id}", code: 200 })),
-).annotate({
-  identifier: "UpdateWebhookRequest",
-}) as any as S.Schema<UpdateWebhookRequest>;
+).annotate({ identifier: "UpdateWebhookRequest" }) as any as S.Schema<UpdateWebhookRequest>;
 
 export interface UpdateWebhookConfigForOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -7065,13 +6908,7 @@ export const UpdateWebhookConfigForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     content_type: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     insecure_ssl: S.optional(WebhookConfigInsecureSsl),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/orgs/{org}/hooks/{hook_id}/config",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/orgs/{org}/hooks/{hook_id}/config", code: 200 })),
 ).annotate({
   identifier: "UpdateWebhookConfigForOrgRequest",
 }) as any as S.Schema<UpdateWebhookConfigForOrgRequest>;
@@ -7583,6 +7420,120 @@ export const enableSelectedRepositoryImmutableReleasesOrganization: API.Operatio
   input: EnableSelectedRepositoryImmutableReleasesOrganizationRequest,
   output: EnableSelectedRepositoryImmutableReleasesOrganizationResponse,
   errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ExternalPropertiesForReposCreateOrUpdateOrganizationValuesError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | GithubOpError;
+/** Create or update external custom property values for organization repositories Create new or update existing external custom property values for repositories in a batch that belong to an organization. Each target repository will have its external custom property values updated to match the values provided in the request. A maximum of 30 repositories can be updated in a single request. Using a value of `null` for an external custom property will remove or 'unset' the property value from the repository. To use this endpoint, the authenticated GitHub App must have the `organization_external_properties_for_repos:write` permission. */
+export const externalPropertiesForReposCreateOrUpdateOrganizationValues: API.OperationMethod<
+  ExternalPropertiesForReposCreateOrUpdateOrganizationValuesRequest,
+  ExternalPropertiesForReposCreateOrUpdateOrganizationValuesResponse,
+  ExternalPropertiesForReposCreateOrUpdateOrganizationValuesError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ExternalPropertiesForReposCreateOrUpdateOrganizationValuesRequest,
+  output: ExternalPropertiesForReposCreateOrUpdateOrganizationValuesResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ExternalPropertiesForReposCreateOrUpdateValuesForOrganizationPropertyError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | GithubOpError;
+/** Create or update external custom property values for a property across organization repositories Create new or update existing external custom property values for a single named property across repositories that belong to an organization. Up to 100 repository values can be updated in a single request. Repositories not included in the request are left unchanged. Using a value of `null` for a repository will remove or 'unset' the property value for that repository. A request that only contains `null` values for a property that does not yet exist is a no-op. To use this endpoint, the authenticated GitHub App must have the `organization_external_properties_for_repos:write` permission. */
+export const externalPropertiesForReposCreateOrUpdateValuesForOrganizationProperty: API.OperationMethod<
+  ExternalPropertiesForReposCreateOrUpdateValuesForOrganizationPropertyRequest,
+  ExternalPropertiesForReposCreateOrUpdateValuesForOrganizationPropertyResponse,
+  ExternalPropertiesForReposCreateOrUpdateValuesForOrganizationPropertyError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ExternalPropertiesForReposCreateOrUpdateValuesForOrganizationPropertyRequest,
+  output: ExternalPropertiesForReposCreateOrUpdateValuesForOrganizationPropertyResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ExternalPropertiesForReposDeleteOrganizationValuesError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | GithubOpError;
+/** Remove all external custom property values for a property across all organization repositories Removes all external custom property values for a specified property name across all repositories that belong to an organization. To use this endpoint, the authenticated GitHub App must have the `organization_external_properties_for_repos:write` permission. */
+export const externalPropertiesForReposDeleteOrganizationValues: API.OperationMethod<
+  ExternalPropertiesForReposDeleteOrganizationValuesRequest,
+  ExternalPropertiesForReposDeleteOrganizationValuesResponse,
+  ExternalPropertiesForReposDeleteOrganizationValuesError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ExternalPropertiesForReposDeleteOrganizationValuesRequest,
+  output: ExternalPropertiesForReposDeleteOrganizationValuesResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ExternalPropertiesForReposGetOrganizationAppInstallationsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | GithubOpError;
+/** Get registered app installations for external custom properties Gets the registered GitHub App installations used to read and write external custom properties for an organization. A GitHub App installation token will only be able to see its own registration info, whereas an authenticated user will be able to see all registrations for the organization. To use this endpoint, the authenticated caller must have the `organization_external_properties_for_repos:admin` permission. */
+export const externalPropertiesForReposGetOrganizationAppInstallations: API.OperationMethod<
+  ExternalPropertiesForReposGetOrganizationAppInstallationsRequest,
+  ExternalPropertiesForReposGetOrganizationAppInstallationsResponse,
+  ExternalPropertiesForReposGetOrganizationAppInstallationsError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ExternalPropertiesForReposGetOrganizationAppInstallationsRequest,
+  output: ExternalPropertiesForReposGetOrganizationAppInstallationsResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ExternalPropertiesForReposGetOrganizationDefinitionsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | GithubOpError;
+/** Get all external custom properties for a GitHub App installation in an organization Gets all external custom properties defined for the authenticated GitHub App installation on an organization. To use this endpoint, the authenticated GitHub App must have the `organization_external_properties_for_repos:read` permission. */
+export const externalPropertiesForReposGetOrganizationDefinitions: API.OperationMethod<
+  ExternalPropertiesForReposGetOrganizationDefinitionsRequest,
+  ExternalPropertiesForReposGetOrganizationDefinitionsResponse,
+  ExternalPropertiesForReposGetOrganizationDefinitionsError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ExternalPropertiesForReposGetOrganizationDefinitionsRequest,
+  output: ExternalPropertiesForReposGetOrganizationDefinitionsResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ExternalPropertiesForReposRegisterOrganizationAppInstallationError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | GithubOpError;
+/** Register an app installation for external custom properties Registers a GitHub App installation so it can read and write external custom properties for an organization, and assigns it a display name. The display name must be 1 to 15 characters and contain only letters and numbers. Capitalization is preserved as entered. An app installation can only be registered once, and its display name can't be changed afterward. Calling with an app installation that has already been registered returns a `422` response with an `already_exists` error code for `installation_id`. If the display name is already in use by another app installation in the organization, the response is `422` with an `already_exists` error code for `display_name`. An invalid display name also returns `422`. The app installation being registered must have write or admin permission for organization external custom properties for repositories. If it doesn't, the response is `422`. This is the permission of the installation being registered, which isn't necessarily the caller. Uninstalling the GitHub App unregisters it, and removes the external custom properties it created. To use this endpoint, the authenticated caller must have the `organization_external_properties_for_repos:admin` permission. */
+export const externalPropertiesForReposRegisterOrganizationAppInstallation: API.OperationMethod<
+  ExternalPropertiesForReposRegisterOrganizationAppInstallationRequest,
+  OrganizationExternalPropertyInstallation,
+  ExternalPropertiesForReposRegisterOrganizationAppInstallationError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ExternalPropertiesForReposRegisterOrganizationAppInstallationRequest,
+  output: OrganizationExternalPropertyInstallation,
+  errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));

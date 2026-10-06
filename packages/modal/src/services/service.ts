@@ -11,15 +11,9 @@ export type { ModalOpError, ModalOpContext };
 export interface ListServiceUserRequest {}
 export const ListServiceUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/ServiceUserList",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/ServiceUserList", code: 200 }),
   ),
-).annotate({
-  identifier: "ListServiceUserRequest",
-}) as any as S.Schema<ListServiceUserRequest>;
+).annotate({ identifier: "ListServiceUserRequest" }) as any as S.Schema<ListServiceUserRequest>;
 
 export interface ServiceUser {
   name?: string;
@@ -54,9 +48,7 @@ export const ListServiceUserResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceUsers: S.optional(ServiceUserList2),
   }),
-).annotate({
-  identifier: "ListServiceUserResponse",
-}) as any as S.Schema<ListServiceUserResponse>;
+).annotate({ identifier: "ListServiceUserResponse" }) as any as S.Schema<ListServiceUserResponse>;
 
 export type ListServiceUserError = ModalOpError;
 /** Service users */

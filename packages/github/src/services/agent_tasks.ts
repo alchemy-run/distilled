@@ -72,16 +72,8 @@ export const CreateTaskInRepoRequest = /*@__PURE__*/ S.suspend(() =>
     create_pull_request: S.optional(S.Boolean),
     base_ref: S.optional(S.String),
     head_ref: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/agents/repos/{owner}/{repo}/tasks",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateTaskInRepoRequest",
-}) as any as S.Schema<CreateTaskInRepoRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/agents/repos/{owner}/{repo}/tasks", code: 200 })),
+).annotate({ identifier: "CreateTaskInRepoRequest" }) as any as S.Schema<CreateTaskInRepoRequest>;
 
 /** A GitHub user */
 export interface CreateTaskInRepoResponseCreator {
@@ -277,9 +269,7 @@ export const CreateTaskInRepoResponse = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     custom_agent: S.optional(CreateTaskInRepoResponseCustomAgent),
   }),
-).annotate({
-  identifier: "CreateTaskInRepoResponse",
-}) as any as S.Schema<CreateTaskInRepoResponse>;
+).annotate({ identifier: "CreateTaskInRepoResponse" }) as any as S.Schema<CreateTaskInRepoResponse>;
 
 export interface GetTaskByIdRequest {
   /** The unique identifier of the task. */
@@ -289,9 +279,7 @@ export const GetTaskByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     task_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/agents/tasks/{task_id}", code: 200 })),
-).annotate({
-  identifier: "GetTaskByIdRequest",
-}) as any as S.Schema<GetTaskByIdRequest>;
+).annotate({ identifier: "GetTaskByIdRequest" }) as any as S.Schema<GetTaskByIdRequest>;
 
 /** A GitHub user */
 export type GetTaskByIdResponseCreator = CreateTaskInRepoResponseCreator;
@@ -564,9 +552,7 @@ export const GetTaskByIdResponse = /*@__PURE__*/ S.suspend(() =>
     custom_agent: S.optional(CreateTaskInRepoResponseCustomAgent),
     sessions: S.optional(GetTaskByIdResponseSessionsList),
   }),
-).annotate({
-  identifier: "GetTaskByIdResponse",
-}) as any as S.Schema<GetTaskByIdResponse>;
+).annotate({ identifier: "GetTaskByIdResponse" }) as any as S.Schema<GetTaskByIdResponse>;
 
 export interface GetTaskByRepoAndIdRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -582,11 +568,7 @@ export const GetTaskByRepoAndIdRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     task_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/agents/repos/{owner}/{repo}/tasks/{task_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/agents/repos/{owner}/{repo}/tasks/{task_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetTaskByRepoAndIdRequest",
@@ -892,9 +874,7 @@ export const ListTasksRequest = /*@__PURE__*/ S.suspend(() =>
     is_archived: S.optional(S.Boolean.pipe(T.Query())),
     since: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/agents/tasks", code: 200 })),
-).annotate({
-  identifier: "ListTasksRequest",
-}) as any as S.Schema<ListTasksRequest>;
+).annotate({ identifier: "ListTasksRequest" }) as any as S.Schema<ListTasksRequest>;
 
 /** A GitHub user */
 export type ListTasksResponseTasksItemCreator = CreateTaskInRepoResponseCreator;
@@ -1069,9 +1049,7 @@ export const ListTasksResponse = /*@__PURE__*/ S.suspend(() =>
     total_active_count: S.optional(S.Number),
     total_archived_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ListTasksResponse",
-}) as any as S.Schema<ListTasksResponse>;
+).annotate({ identifier: "ListTasksResponse" }) as any as S.Schema<ListTasksResponse>;
 
 export type ListTasksForRepoRequestSort = "updated_at" | "created_at";
 export const ListTasksForRepoRequestSort = S.String;
@@ -1118,16 +1096,8 @@ export const ListTasksForRepoRequest = /*@__PURE__*/ S.suspend(() =>
     is_archived: S.optional(S.Boolean.pipe(T.Query())),
     since: S.optional(S.String.pipe(T.Query())),
     creator_id: S.optional(ListTasksForRepoRequestCreatorIdList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/agents/repos/{owner}/{repo}/tasks",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListTasksForRepoRequest",
-}) as any as S.Schema<ListTasksForRepoRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/agents/repos/{owner}/{repo}/tasks", code: 200 })),
+).annotate({ identifier: "ListTasksForRepoRequest" }) as any as S.Schema<ListTasksForRepoRequest>;
 
 /** A GitHub user */
 export type ListTasksForRepoResponseTasksItemCreator = CreateTaskInRepoResponseCreator;
@@ -1304,9 +1274,7 @@ export const ListTasksForRepoResponse = /*@__PURE__*/ S.suspend(() =>
     total_active_count: S.optional(S.Number),
     total_archived_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ListTasksForRepoResponse",
-}) as any as S.Schema<ListTasksForRepoResponse>;
+).annotate({ identifier: "ListTasksForRepoResponse" }) as any as S.Schema<ListTasksForRepoResponse>;
 
 export type CreateTaskInRepoError = BadRequest | Forbidden | UnprocessableEntity | GithubOpError;
 /** Start a task > [!NOTE] > This endpoint is in public preview and is subject to change. Starts a new Copilot cloud agent task for a repository. This endpoint is only available to users with a Copilot Business or Copilot Enterprise subscription. **Fine-grained access tokens for "Start a task"** This endpoint works with the following fine-grained token types: * [GitHub App user access tokens](https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app) * [Fine-grained personal access tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token) The fine-grained token must have the following permission set: * "Agent tasks" repository permissions (read and write) GitHub App installation access tokens are not supported for this endpoint. */

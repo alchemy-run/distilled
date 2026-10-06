@@ -151,9 +151,7 @@ export const NeonAuthOauthProvider = /*@__PURE__*/ S.suspend(() =>
       ),
     ),
   }),
-).annotate({
-  identifier: "NeonAuthOauthProvider",
-}) as any as S.Codec<NeonAuthOauthProvider>;
+).annotate({ identifier: "NeonAuthOauthProvider" }) as any as S.Codec<NeonAuthOauthProvider>;
 
 /** Authentication provider integrated with this Neon Auth configuration. `better_auth` integrates with Better Auth (the current, recommended provider). `stack` integrates with Stack Auth (deprecated). `mock` is a simulated provider for local development and testing only. */
 export type NeonAuthSupportedAuthProvider = "mock" | "stack" | "better_auth";
@@ -224,9 +222,7 @@ export const AddProjectJWKSRequest = /*@__PURE__*/ S.suspend(() =>
     role_names: S.optional(AddProjectJWKSRequestRoleNamesList),
     skip_role_creation: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/projects/{project_id}/jwks", code: 200 })),
-).annotate({
-  identifier: "AddProjectJWKSRequest",
-}) as any as S.Codec<AddProjectJWKSRequest>;
+).annotate({ identifier: "AddProjectJWKSRequest" }) as any as S.Codec<AddProjectJWKSRequest>;
 
 /** Database role names that are permitted to authenticate using this JWKS configuration. */
 export type JWKSRoleNamesList = Array<string>;
@@ -378,9 +374,7 @@ export const AddProjectJWKSResponse = /*@__PURE__*/ S.suspend(() =>
     jwks: JWKS,
     operations: AddProjectJWKSResponseOperationsList,
   }),
-).annotate({
-  identifier: "AddProjectJWKSResponse",
-}) as any as S.Codec<AddProjectJWKSResponse>;
+).annotate({ identifier: "AddProjectJWKSResponse" }) as any as S.Codec<AddProjectJWKSResponse>;
 
 export interface AssignOrganizationVPCEndpointRequest {
   /** The Neon organization ID */
@@ -457,13 +451,7 @@ export const CountProjectBranchesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     search: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/projects/{project_id}/branches/count",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/branches/count", code: 200 })),
 ).annotate({
   identifier: "CountProjectBranchesRequest",
 }) as any as S.Codec<CountProjectBranchesRequest>;
@@ -488,9 +476,7 @@ export const CreateApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     key_name: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/api_keys", code: 200 })),
-).annotate({
-  identifier: "CreateApiKeyRequest",
-}) as any as S.Codec<CreateApiKeyRequest>;
+).annotate({ identifier: "CreateApiKeyRequest" }) as any as S.Codec<CreateApiKeyRequest>;
 
 export interface ApiKeyCreateResponse {
   /** The API key's unique numeric ID. Distinct from the API key token (`key`). */
@@ -514,9 +500,7 @@ export const ApiKeyCreateResponse = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     created_by: S.String,
   }),
-).annotate({
-  identifier: "ApiKeyCreateResponse",
-}) as any as S.Codec<ApiKeyCreateResponse>;
+).annotate({ identifier: "ApiKeyCreateResponse" }) as any as S.Codec<ApiKeyCreateResponse>;
 
 export interface CreateBranchNeonAuthNewUserRequest {
   /** The Neon project ID */
@@ -599,9 +583,7 @@ export const CreateCredentialRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateCredentialRequest",
-}) as any as S.Codec<CreateCredentialRequest>;
+).annotate({ identifier: "CreateCredentialRequest" }) as any as S.Codec<CreateCredentialRequest>;
 
 /** A single capability a credential actually carries, as reported by responses that describe an existing credential. This set is a superset of `CredentialScope` (the requestable set) because a credential's scopes are not limited to what this API offers: the platform accepts additional scopes for customer-managed (`user`) credentials, so one may exist on your branch that was not issued through this endpoint. Responses must be able to report such a credential rather than fail to describe it — a client that rejected the value would, on rotate, discard the replacement secret after the rotation had already committed. Treat unknown values as opaque. */
 export type GrantedCredentialScope =
@@ -651,9 +633,7 @@ export const CreateCredentialResponse = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     expires_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateCredentialResponse",
-}) as any as S.Codec<CreateCredentialResponse>;
+).annotate({ identifier: "CreateCredentialResponse" }) as any as S.Codec<CreateCredentialResponse>;
 
 export interface CreateNeonAuthRequest {
   /** The Neon project ID */
@@ -671,15 +651,9 @@ export const CreateNeonAuthRequest = /*@__PURE__*/ S.suspend(() =>
     auth_provider: NeonAuthSupportedAuthProvider,
     database_name: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/projects/{project_id}/branches/{branch_id}/auth",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/projects/{project_id}/branches/{branch_id}/auth", code: 200 }),
   ),
-).annotate({
-  identifier: "CreateNeonAuthRequest",
-}) as any as S.Codec<CreateNeonAuthRequest>;
+).annotate({ identifier: "CreateNeonAuthRequest" }) as any as S.Codec<CreateNeonAuthRequest>;
 
 export interface NeonAuthCreateIntegrationResponse {
   auth_provider: NeonAuthSupportedAuthProvider;
@@ -762,13 +736,7 @@ export const CreateOrganizationInvitationsRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     org_id: S.String.pipe(T.Label()),
     invitations: CreateOrganizationInvitationsRequestInvitationsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/organizations/{org_id}/invitations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/organizations/{org_id}/invitations", code: 200 })),
 ).annotate({
   identifier: "CreateOrganizationInvitationsRequest",
 }) as any as S.Codec<CreateOrganizationInvitationsRequest>;
@@ -828,16 +796,8 @@ export const CreateOrgApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
     org_id: S.String.pipe(T.Label()),
     key_name: S.String,
     project_id: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/organizations/{org_id}/api_keys",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateOrgApiKeyRequest",
-}) as any as S.Codec<CreateOrgApiKeyRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/organizations/{org_id}/api_keys", code: 200 })),
+).annotate({ identifier: "CreateOrgApiKeyRequest" }) as any as S.Codec<CreateOrgApiKeyRequest>;
 
 export interface CreateOrgApiKeyResponse {
   /** The API key's unique numeric ID. Distinct from the API key token (`key`). */
@@ -864,9 +824,7 @@ export const CreateOrgApiKeyResponse = /*@__PURE__*/ S.suspend(() =>
     created_by: S.String,
     project_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateOrgApiKeyResponse",
-}) as any as S.Codec<CreateOrgApiKeyResponse>;
+).annotate({ identifier: "CreateOrgApiKeyResponse" }) as any as S.Codec<CreateOrgApiKeyResponse>;
 
 /** Per-project consumption quotas. If a quota is exceeded, all active computes are automatically suspended and cannot be started via API calls or incoming connections. The exception is `logical_size_bytes`, which is enforced per branch. If a branch exceeds its `logical_size_bytes` quota, computes can still be started, but write operations will fail—allowing data to be deleted to free up space. Computes on other branches are not affected. Setting `logical_size_bytes` overrides any lower value set by the `neon.max_cluster_size` Postgres setting. Quotas are enforced using per-project consumption metrics with the same names. These metrics reset at the start of each billing period. `logical_size_bytes` is also an exception—it reflects the total data stored in a branch and does not reset. A zero or empty quota value means “unlimited.” */
 export interface ProjectQuota {
@@ -932,9 +890,7 @@ export const MaintenanceWindow = /*@__PURE__*/ S.suspend(() =>
     start_time: S.String,
     end_time: S.String,
   }),
-).annotate({
-  identifier: "MaintenanceWindow",
-}) as any as S.Codec<MaintenanceWindow>;
+).annotate({ identifier: "MaintenanceWindow" }) as any as S.Codec<MaintenanceWindow>;
 
 export type ProjectAuditLogLevel = "base" | "extended" | "full";
 export const ProjectAuditLogLevel = S.String;
@@ -957,9 +913,7 @@ export const PreloadLibraries = /*@__PURE__*/ S.suspend(() =>
     use_defaults: S.optional(S.Boolean),
     enabled_libraries: S.optional(PreloadLibrariesEnabledLibrariesList),
   }),
-).annotate({
-  identifier: "PreloadLibraries",
-}) as any as S.Codec<PreloadLibraries>;
+).annotate({ identifier: "PreloadLibraries" }) as any as S.Codec<PreloadLibraries>;
 
 export interface ProjectSettingsData {
   quota?: ProjectQuota;
@@ -989,9 +943,7 @@ export const ProjectSettingsData = /*@__PURE__*/ S.suspend(() =>
     hipaa: S.optional(S.Boolean),
     preload_libraries: S.optional(PreloadLibraries),
   }),
-).annotate({
-  identifier: "ProjectSettingsData",
-}) as any as S.Codec<ProjectSettingsData>;
+).annotate({ identifier: "ProjectSettingsData" }) as any as S.Codec<ProjectSettingsData>;
 
 /** A free-form map of string key-value pairs for attaching metadata to a resource (for example, a git commit reference). Maximum 50 entries. */
 export type AnnotationValueData = { [key: string]: string | undefined };
@@ -1056,9 +1008,7 @@ export const DefaultEndpointSettings = /*@__PURE__*/ S.suspend(() =>
     autoscaling_limit_max_cu: S.optional(S.Number),
     suspend_timeout_seconds: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DefaultEndpointSettings",
-}) as any as S.Codec<DefaultEndpointSettings>;
+).annotate({ identifier: "DefaultEndpointSettings" }) as any as S.Codec<DefaultEndpointSettings>;
 
 /** Configuration for the new project, including name, region, and Postgres compute and storage settings. */
 export interface CreateProjectRequestProject {
@@ -1112,9 +1062,7 @@ export const CreateProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project: CreateProjectRequestProject,
   }).pipe(T.Http({ method: "POST", uri: "/projects", code: 200 })),
-).annotate({
-  identifier: "CreateProjectRequest",
-}) as any as S.Codec<CreateProjectRequest>;
+).annotate({ identifier: "CreateProjectRequest" }) as any as S.Codec<CreateProjectRequest>;
 
 /** Type of subscription to Neon Cloud. Notice that for users without billing account this will be "UNKNOWN" */
 export type BillingSubscriptionType =
@@ -1148,16 +1096,14 @@ export const ProjectOwnerData = /*@__PURE__*/ S.suspend(() =>
     branches_limit: S.Number,
     subscription_type: BillingSubscriptionType,
   }),
-).annotate({
-  identifier: "ProjectOwnerData",
-}) as any as S.Codec<ProjectOwnerData>;
+).annotate({ identifier: "ProjectOwnerData" }) as any as S.Codec<ProjectOwnerData>;
 
 /** The caller's effective permission for a project when per-project permissions are enabled. `VIEWER` grants read access, `EDITOR` adds update access, and `ADMIN` grants full management. Omitted for personal projects, flag-off organizations, and non-user subjects. */
 export type ProjectPermissionLevel = "VIEWER" | "EDITOR" | "ADMIN";
 export const ProjectPermissionLevel = S.String;
 
 export interface Project {
-  /** Bytes-Hour. Project consumed that much Postgres storage hourly during the billing period. The value has some lag. The value is reset at the beginning of each billing period. */
+  /** Deprecated: always returns 0. Use the consumption history v2 endpoints (`/consumption_history/v2/projects`, `/consumption_history/v2/branches`) instead. Bytes-Hour. Project consumed that much Postgres storage hourly during the billing period. The value has some lag. The value is reset at the beginning of each billing period. */
   data_storage_bytes_hour: number;
   /** Bytes. Egress traffic from the Neon cloud to the client for given project over the billing period. Includes deleted endpoints. The value has some lag. The value is reset at the beginning of each billing period. */
   data_transfer_bytes: number;
@@ -1284,9 +1230,7 @@ export const ConnectionParameters = /*@__PURE__*/ S.suspend(() =>
     host: S.String,
     pooler_host: S.String,
   }),
-).annotate({
-  identifier: "ConnectionParameters",
-}) as any as S.Codec<ConnectionParameters>;
+).annotate({ identifier: "ConnectionParameters" }) as any as S.Codec<ConnectionParameters>;
 
 export interface ConnectionDetails {
   /** The connection URI is defined as specified here: [Connection URIs](https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNSTRING-URIS) The connection URI can be used to connect to a Postgres database with psql or defined in a DATABASE_URL environment variable. When creating a branch from a parent with more than one role or database, the response body does not include a connection URI. */
@@ -1301,9 +1245,7 @@ export const ConnectionDetails = /*@__PURE__*/ S.suspend(() =>
     ),
     connection_parameters: ConnectionParameters,
   }),
-).annotate({
-  identifier: "ConnectionDetails",
-}) as any as S.Codec<ConnectionDetails>;
+).annotate({ identifier: "ConnectionDetails" }) as any as S.Codec<ConnectionDetails>;
 
 /** Connection URIs for the project. Each entry contains credentials and should be treated as sensitive. */
 export type CreateProjectResponseConnectionUrisList = Array<ConnectionDetails>;
@@ -1397,9 +1339,7 @@ export const BranchCreatedBy = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     image: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BranchCreatedBy",
-}) as any as S.Codec<BranchCreatedBy>;
+).annotate({ identifier: "BranchCreatedBy" }) as any as S.Codec<BranchCreatedBy>;
 
 /** An action that is currently restricted for the branch and the reason why. */
 export interface BranchRestrictedAction {
@@ -1413,9 +1353,7 @@ export const BranchRestrictedAction = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     reason: S.String,
   }),
-).annotate({
-  identifier: "BranchRestrictedAction",
-}) as any as S.Codec<BranchRestrictedAction>;
+).annotate({ identifier: "BranchRestrictedAction" }) as any as S.Codec<BranchRestrictedAction>;
 
 /** A list of actions that are currently restricted for this branch and the reason why. */
 export type BranchRestrictedActionsList = Array<BranchRestrictedAction>;
@@ -1442,9 +1380,7 @@ export const BranchRecoveryInfo = /*@__PURE__*/ S.suspend(() =>
     recoverable_until: S.String,
     deletion_method: BranchRecoveryInfoDeletionMethod,
   }),
-).annotate({
-  identifier: "BranchRecoveryInfo",
-}) as any as S.Codec<BranchRecoveryInfo>;
+).annotate({ identifier: "BranchRecoveryInfo" }) as any as S.Codec<BranchRecoveryInfo>;
 
 export interface Branch {
   /** The branch ID. This value is generated when a branch is created. A `branch_id` value has a `br` prefix. For example: `br-small-term-683261`. */
@@ -1563,9 +1499,7 @@ export const EndpointSettingsData = /*@__PURE__*/ S.suspend(() =>
     pgbouncer_settings: S.optional(PgbouncerSettingsData),
     preload_libraries: S.optional(PreloadLibraries),
   }),
-).annotate({
-  identifier: "EndpointSettingsData",
-}) as any as S.Codec<EndpointSettingsData>;
+).annotate({ identifier: "EndpointSettingsData" }) as any as S.Codec<EndpointSettingsData>;
 
 /** Deprecated. The connection pooler mode. Neon supports PgBouncer in `transaction` mode only. Removal scheduled for June 20, 2026. */
 export type EndpointPoolerMode = "transaction";
@@ -1684,9 +1618,7 @@ export const CreateProjectResponse = /*@__PURE__*/ S.suspend(() =>
     branch: Branch,
     endpoints: CreateProjectResponseEndpointsList,
   }),
-).annotate({
-  identifier: "CreateProjectResponse",
-}) as any as S.Codec<CreateProjectResponse>;
+).annotate({ identifier: "CreateProjectResponse" }) as any as S.Codec<CreateProjectResponse>;
 
 export interface BranchCreateRequestEndpointOptions {
   type: EndpointType | (string & {});
@@ -1769,13 +1701,7 @@ export const CreateProjectBranchRequest = /*@__PURE__*/ S.suspend(() =>
     endpoints: S.optional(CreateProjectBranchRequestEndpointsList),
     branch: S.optional(CreateProjectBranchRequestBranch),
     annotation_value: S.optional(AnnotationValueData),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/projects/{project_id}/branches",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/projects/{project_id}/branches", code: 200 })),
 ).annotate({
   identifier: "CreateProjectBranchRequest",
 }) as any as S.Codec<CreateProjectBranchRequest>;
@@ -1856,9 +1782,7 @@ export const BranchCreateRequest = /*@__PURE__*/ S.suspend(() =>
     endpoints: S.optional(BranchCreateRequestEndpointsList),
     branch: S.optional(CreateProjectBranchRequestBranch),
   }),
-).annotate({
-  identifier: "BranchCreateRequest",
-}) as any as S.Codec<BranchCreateRequest>;
+).annotate({ identifier: "BranchCreateRequest" }) as any as S.Codec<BranchCreateRequest>;
 
 export interface MaskingRule {
   /** The name of the database containing the table to be masked */
@@ -1908,13 +1832,7 @@ export const CreateProjectBranchAnonymizedRequest = /*@__PURE__*/ S.suspend(() =
     branch_create: S.optional(BranchCreateRequest),
     masking_rules: S.optional(CreateProjectBranchAnonymizedRequestMaskingRulesList),
     start_anonymization: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/projects/{project_id}/branch_anonymized",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/projects/{project_id}/branch_anonymized", code: 200 })),
 ).annotate({
   identifier: "CreateProjectBranchAnonymizedRequest",
 }) as any as S.Codec<CreateProjectBranchAnonymizedRequest>;
@@ -2079,9 +1997,7 @@ export const DataAPISettings = /*@__PURE__*/ S.suspend(() =>
     server_cors_allowed_origins: S.optional(S.String),
     server_timing_enabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DataAPISettings",
-}) as any as S.Codec<DataAPISettings>;
+).annotate({ identifier: "DataAPISettings" }) as any as S.Codec<DataAPISettings>;
 
 export interface CreateProjectBranchDataAPIRequest {
   /** The Neon project ID */
@@ -2137,9 +2053,7 @@ export const DataAPICreateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.String,
   }),
-).annotate({
-  identifier: "DataAPICreateResponse",
-}) as any as S.Codec<DataAPICreateResponse>;
+).annotate({ identifier: "DataAPICreateResponse" }) as any as S.Codec<DataAPICreateResponse>;
 
 /** Configuration for the new Postgres database. */
 export interface CreateProjectBranchDatabaseRequestDatabase {
@@ -2275,9 +2189,7 @@ export const NeonFunctionDeployment = /*@__PURE__*/ S.suspend(() =>
     environment: S.optional(S.NullOr(NeonFunctionDeploymentEnvironmentList)),
     error: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "NeonFunctionDeployment",
-}) as any as S.Codec<NeonFunctionDeployment>;
+).annotate({ identifier: "NeonFunctionDeployment" }) as any as S.Codec<NeonFunctionDeployment>;
 
 export interface NeonFunctionDeploymentResponse {
   deployment: NeonFunctionDeployment;
@@ -2320,11 +2232,7 @@ export const CreateProjectBranchRoleRequest = /*@__PURE__*/ S.suspend(() =>
     branch_id: S.String.pipe(T.Label()),
     role: CreateProjectBranchRoleRequestRole,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/projects/{project_id}/branches/{branch_id}/roles",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/projects/{project_id}/branches/{branch_id}/roles", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateProjectBranchRoleRequest",
@@ -2361,9 +2269,7 @@ export const FunctionTriggerSchedule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cron: S.String,
   }),
-).annotate({
-  identifier: "FunctionTriggerSchedule",
-}) as any as S.Codec<FunctionTriggerSchedule>;
+).annotate({ identifier: "FunctionTriggerSchedule" }) as any as S.Codec<FunctionTriggerSchedule>;
 
 export interface ScheduleTriggerCreateRequest {
   /** Trigger type discriminator. */
@@ -2503,9 +2409,7 @@ export const ScheduleTrigger = /*@__PURE__*/ S.suspend(() =>
     next_run_at: S.NullOr(S.String),
     inherited: S.Boolean,
   }),
-).annotate({
-  identifier: "ScheduleTrigger",
-}) as any as S.Codec<ScheduleTrigger>;
+).annotate({ identifier: "ScheduleTrigger" }) as any as S.Codec<ScheduleTrigger>;
 
 /** Trigger type discriminator. */
 export type StorageObjectCreatedTriggerType = "storage_object_created";
@@ -2557,9 +2461,7 @@ export const TriggerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     trigger: Trigger,
   }),
-).annotate({
-  identifier: "TriggerResponse",
-}) as any as S.Codec<TriggerResponse>;
+).annotate({ identifier: "TriggerResponse" }) as any as S.Codec<TriggerResponse>;
 
 /** Configuration for the compute endpoint to create. */
 export interface CreateProjectEndpointRequestEndpoint {
@@ -2618,13 +2520,7 @@ export const CreateProjectEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     endpoint: CreateProjectEndpointRequestEndpoint,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/projects/{project_id}/endpoints",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/projects/{project_id}/endpoints", code: 200 })),
 ).annotate({
   identifier: "CreateProjectEndpointRequest",
 }) as any as S.Codec<CreateProjectEndpointRequest>;
@@ -2658,13 +2554,7 @@ export const CreateProjectTransferRequestRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     ttl_seconds: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/projects/{project_id}/transfer_requests",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/projects/{project_id}/transfer_requests", code: 200 })),
 ).annotate({
   identifier: "CreateProjectTransferRequestRequest",
 }) as any as S.Codec<CreateProjectTransferRequestRequest>;
@@ -2719,9 +2609,7 @@ export const CreateSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateSnapshotRequest",
-}) as any as S.Codec<CreateSnapshotRequest>;
+).annotate({ identifier: "CreateSnapshotRequest" }) as any as S.Codec<CreateSnapshotRequest>;
 
 export interface Snapshot {
   /** The snapshot ID. */
@@ -2774,9 +2662,7 @@ export const CreateSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
     snapshot: Snapshot,
     operations: CreateSnapshotResponseOperationsList,
   }),
-).annotate({
-  identifier: "CreateSnapshotResponse",
-}) as any as S.Codec<CreateSnapshotResponse>;
+).annotate({ identifier: "CreateSnapshotResponse" }) as any as S.Codec<CreateSnapshotResponse>;
 
 export type DeleteBranchNeonAuthOauthProviderRequestOauthProviderId =
   | "google"
@@ -2907,11 +2793,7 @@ export const DeleteOrganizationSpendingLimitRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     org_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/organizations/{org_id}/billing/spending_limit",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/organizations/{org_id}/billing/spending_limit", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteOrganizationSpendingLimitRequest",
@@ -2963,9 +2845,7 @@ export const DeleteProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/projects/{project_id}", code: 200 })),
-).annotate({
-  identifier: "DeleteProjectRequest",
-}) as any as S.Codec<DeleteProjectRequest>;
+).annotate({ identifier: "DeleteProjectRequest" }) as any as S.Codec<DeleteProjectRequest>;
 
 export interface ProjectResponse {
   /** Full details of the project, including configuration, consumption metrics, and ownership. */
@@ -2975,9 +2855,7 @@ export const ProjectResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project: Project,
   }),
-).annotate({
-  identifier: "ProjectResponse",
-}) as any as S.Codec<ProjectResponse>;
+).annotate({ identifier: "ProjectResponse" }) as any as S.Codec<ProjectResponse>;
 
 export interface DeleteProjectBranchRequest {
   /** The Neon project ID */
@@ -2993,11 +2871,7 @@ export const DeleteProjectBranchRequest = /*@__PURE__*/ S.suspend(() =>
     branch_id: S.String.pipe(T.Label()),
     hard_delete: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/projects/{project_id}/branches/{branch_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/projects/{project_id}/branches/{branch_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteProjectBranchRequest",
@@ -3347,11 +3221,7 @@ export const DeleteProjectEndpointRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     endpoint_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/projects/{project_id}/endpoints/{endpoint_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/projects/{project_id}/endpoints/{endpoint_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteProjectEndpointRequest",
@@ -3386,16 +3256,8 @@ export const DeleteProjectJWKSRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     jwks_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/projects/{project_id}/jwks/{jwks_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteProjectJWKSRequest",
-}) as any as S.Codec<DeleteProjectJWKSRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/projects/{project_id}/jwks/{jwks_id}", code: 200 })),
+).annotate({ identifier: "DeleteProjectJWKSRequest" }) as any as S.Codec<DeleteProjectJWKSRequest>;
 
 export interface DeleteProjectVPCEndpointRequest {
   /** The Neon project ID */
@@ -3436,15 +3298,9 @@ export const DeleteSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     snapshot_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/projects/{project_id}/snapshots/{snapshot_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/projects/{project_id}/snapshots/{snapshot_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteSnapshotRequest",
-}) as any as S.Codec<DeleteSnapshotRequest>;
+).annotate({ identifier: "DeleteSnapshotRequest" }) as any as S.Codec<DeleteSnapshotRequest>;
 
 export interface DeleteSnapshotResponse {}
 export const DeleteSnapshotResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3471,9 +3327,7 @@ export const DisableNeonAuthRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DisableNeonAuthRequest",
-}) as any as S.Codec<DisableNeonAuthRequest>;
+).annotate({ identifier: "DisableNeonAuthRequest" }) as any as S.Codec<DisableNeonAuthRequest>;
 
 export interface DisableNeonAuthResponse {}
 export const DisableNeonAuthResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3516,9 +3370,7 @@ export const OperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     operations: OperationsResponseOperationsList,
   }),
-).annotate({
-  identifier: "OperationsResponse",
-}) as any as S.Codec<OperationsResponse>;
+).annotate({ identifier: "OperationsResponse" }) as any as S.Codec<OperationsResponse>;
 
 export interface GetActiveRegionsRequest {
   /** Organization ID. When provided, returns only regions available to this organization. Recommended for accurate region availability. */
@@ -3528,9 +3380,7 @@ export const GetActiveRegionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/regions", code: 200 })),
-).annotate({
-  identifier: "GetActiveRegionsRequest",
-}) as any as S.Codec<GetActiveRegionsRequest>;
+).annotate({ identifier: "GetActiveRegionsRequest" }) as any as S.Codec<GetActiveRegionsRequest>;
 
 export interface RegionResponse {
   /** Cloud region where the resource's Postgres compute and storage reside (for example, `aws-us-east-1`). Valid values are returned by `GET /regions`. */
@@ -3568,9 +3418,7 @@ export const ActiveRegionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     regions: ActiveRegionsResponseRegionsList,
   }),
-).annotate({
-  identifier: "ActiveRegionsResponse",
-}) as any as S.Codec<ActiveRegionsResponse>;
+).annotate({ identifier: "ActiveRegionsResponse" }) as any as S.Codec<ActiveRegionsResponse>;
 
 export interface GetAnonymizedBranchStatusRequest {
   /** The Neon project ID */
@@ -3614,9 +3462,7 @@ export const AnonymizationRunMetadata = /*@__PURE__*/ S.suspend(() =>
     triggered_by_username: S.optional(S.String),
     masked_columns: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AnonymizationRunMetadata",
-}) as any as S.Codec<AnonymizationRunMetadata>;
+).annotate({ identifier: "AnonymizationRunMetadata" }) as any as S.Codec<AnonymizationRunMetadata>;
 
 export interface AnonymizedBranchStatusResponse {
   /** The ID of the project this branch belongs to. */
@@ -3653,9 +3499,7 @@ export const AnonymizedBranchStatusResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetAuthDetailsRequest {}
 export const GetAuthDetailsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/auth", code: 200 })),
-).annotate({
-  identifier: "GetAuthDetailsRequest",
-}) as any as S.Codec<GetAuthDetailsRequest>;
+).annotate({ identifier: "GetAuthDetailsRequest" }) as any as S.Codec<GetAuthDetailsRequest>;
 
 /** Authentication method used for the request: - `keycloak`: Keycloak identity provider authentication. - `session_cookie`: Browser session cookie authentication. - `api_key_user`: API key scoped to a user account. - `api_key_org`: API key scoped to an organization. - `oauth`: OAuth-based authentication. */
 export type AuthDetailsResponseAuthMethod =
@@ -3679,9 +3523,7 @@ export const AuthDetailsResponse = /*@__PURE__*/ S.suspend(() =>
     auth_method: AuthDetailsResponseAuthMethod,
     auth_data: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AuthDetailsResponse",
-}) as any as S.Codec<AuthDetailsResponse>;
+).annotate({ identifier: "AuthDetailsResponse" }) as any as S.Codec<AuthDetailsResponse>;
 
 export interface GetAvailablePreloadLibrariesRequest {
   project_id: string;
@@ -3690,11 +3532,7 @@ export const GetAvailablePreloadLibrariesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/projects/{project_id}/available_preload_libraries",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/projects/{project_id}/available_preload_libraries", code: 200 }),
   ),
 ).annotate({
   identifier: "GetAvailablePreloadLibrariesRequest",
@@ -3720,9 +3558,7 @@ export const AvailablePreloadLibrary = /*@__PURE__*/ S.suspend(() =>
     is_experimental: S.Boolean,
     version: S.String,
   }),
-).annotate({
-  identifier: "AvailablePreloadLibrary",
-}) as any as S.Codec<AvailablePreloadLibrary>;
+).annotate({ identifier: "AvailablePreloadLibrary" }) as any as S.Codec<AvailablePreloadLibrary>;
 
 /** Preload libraries available for the project's Postgres version. Each entry includes `library_name`, `description`, `is_default`, `is_experimental`, and `version`. */
 export type AvailablePreloadLibrariesLibrariesList = Array<AvailablePreloadLibrary>;
@@ -3764,16 +3600,8 @@ export const GetConnectionURIRequest = /*@__PURE__*/ S.suspend(() =>
     database_name: S.String.pipe(T.Query()),
     role_name: S.String.pipe(T.Query()),
     pooled: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/projects/{project_id}/connection_uri",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetConnectionURIRequest",
-}) as any as S.Codec<GetConnectionURIRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/connection_uri", code: 200 })),
+).annotate({ identifier: "GetConnectionURIRequest" }) as any as S.Codec<GetConnectionURIRequest>;
 
 export interface ConnectionURIResponse {
   /** The connection URI. */
@@ -3783,9 +3611,7 @@ export const ConnectionURIResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uri: S.String,
   }),
-).annotate({
-  identifier: "ConnectionURIResponse",
-}) as any as S.Codec<ConnectionURIResponse>;
+).annotate({ identifier: "ConnectionURIResponse" }) as any as S.Codec<ConnectionURIResponse>;
 
 export type GetConsumptionHistoryPerBranchV2RequestProjectIdsList = Array<string>;
 export const GetConsumptionHistoryPerBranchV2RequestProjectIdsList = /*@__PURE__*/ S.Array(
@@ -3836,13 +3662,7 @@ export const GetConsumptionHistoryPerBranchV2Request = /*@__PURE__*/ S.suspend((
     granularity: ConsumptionHistoryGranularity.pipe(T.Query()),
     org_id: S.String.pipe(T.Query()),
     metrics: ConsumptionHistoryQueryMetrics.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/consumption_history/v2/branches",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/consumption_history/v2/branches", code: 200 })),
 ).annotate({
   identifier: "GetConsumptionHistoryPerBranchV2Request",
 }) as any as S.Codec<GetConsumptionHistoryPerBranchV2Request>;
@@ -3858,9 +3678,7 @@ export const ConsumptionMetricValue = /*@__PURE__*/ S.suspend(() =>
     metric_name: S.String,
     value: S.Number,
   }),
-).annotate({
-  identifier: "ConsumptionMetricValue",
-}) as any as S.Codec<ConsumptionMetricValue>;
+).annotate({ identifier: "ConsumptionMetricValue" }) as any as S.Codec<ConsumptionMetricValue>;
 
 /** Consumption metric values recorded for the timeframe. */
 export type ConsumptionHistoryPerTimeframeV2MetricsList = Array<ConsumptionMetricValue>;
@@ -3992,9 +3810,9 @@ export interface GetConsumptionHistoryPerProjectRequest {
   granularity: ConsumptionHistoryGranularity | (string & {});
   /** Specify the organization for which the project consumption metrics should be returned. If this parameter is not provided, the endpoint will return the metrics for the authenticated user's projects. */
   org_id?: string;
-  /** The field is deprecated. Please use `metrics` instead. If `metrics` is specified, this field is ignored. Include metrics utilized in previous pricing models. - **data_storage_bytes_hour**: The sum of the maximum observed storage values for each hour, which never decreases. */
+  /** The field is deprecated and no longer has any effect: the only metric it used to add (`data_storage_bytes_hour`) is retired and always returns 0. Please use `metrics` instead. If `metrics` is specified, this field is ignored. */
   include_v1_metrics?: boolean;
-  /** Specify a list of metrics to include in the response. If omitted, active_time, compute_time, written_data, synthetic_storage_size are returned. Possible values: - `active_time_seconds` - `compute_time_seconds` - `written_data_bytes` - `synthetic_storage_size_bytes` - `data_storage_bytes_hour` - `logical_size_bytes` - `logical_size_bytes_hour` A list of metrics can be specified as an array of parameter values or as a comma-separated list in a single parameter value. - As an array of parameter values: `metrics=cpu_seconds&metrics=ram_bytes` - As a comma-separated list in a single parameter value: `metrics=cpu_seconds,ram_bytes` */
+  /** Specify a list of metrics to include in the response. If omitted, active_time, compute_time, written_data are returned. Possible values: - `active_time_seconds` - `compute_time_seconds` - `written_data_bytes` - `synthetic_storage_size_bytes` (deprecated: always returns 0; use the consumption history v2 endpoints instead) - `data_storage_bytes_hour` (deprecated: always returns 0; use the consumption history v2 endpoints instead) - `logical_size_bytes` - `logical_size_bytes_hour` A list of metrics can be specified as an array of parameter values or as a comma-separated list in a single parameter value. - As an array of parameter values: `metrics=cpu_seconds&metrics=ram_bytes` - As a comma-separated list in a single parameter value: `metrics=cpu_seconds,ram_bytes` */
   metrics?: ConsumptionHistoryQueryMetrics;
 }
 export const GetConsumptionHistoryPerProjectRequest = /*@__PURE__*/ S.suspend(() =>
@@ -4008,13 +3826,7 @@ export const GetConsumptionHistoryPerProjectRequest = /*@__PURE__*/ S.suspend(()
     org_id: S.optional(S.String.pipe(T.Query())),
     include_v1_metrics: S.optional(S.Boolean.pipe(T.Query())),
     metrics: S.optional(ConsumptionHistoryQueryMetrics.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/consumption_history/projects",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/consumption_history/projects", code: 200 })),
 ).annotate({
   identifier: "GetConsumptionHistoryPerProjectRequest",
 }) as any as S.Codec<GetConsumptionHistoryPerProjectRequest>;
@@ -4030,10 +3842,10 @@ export interface ConsumptionHistoryPerTimeframe {
   compute_time_seconds: number;
   /** Bytes. The amount of written data for all branches. */
   written_data_bytes: number;
-  /** Bytes. The space occupied in Postgres storage. Synthetic Postgres storage size combines the logical data size and Write-Ahead Log (WAL) size for all branches. */
+  /** Deprecated: always returns 0. Use the consumption history v2 endpoints (`/consumption_history/v2/projects`, `/consumption_history/v2/branches`) instead. Bytes. The space occupied in Postgres storage. Synthetic Postgres storage size combines the logical data size and Write-Ahead Log (WAL) size for all branches. */
   synthetic_storage_size_bytes: number;
-  /** Bytes-Hour. The amount of Postgres storage consumed hourly. */
-  data_storage_bytes_hour?: number;
+  /** Deprecated: always returns 0. Use the consumption history v2 endpoints (`/consumption_history/v2/projects`, `/consumption_history/v2/branches`) instead. Bytes-Hour. The amount of Postgres storage consumed hourly. */
+  data_storage_bytes_hour: number;
   /** Bytes. The amount of logical size consumed. */
   logical_size_bytes?: number;
   /** Bytes-Hour. The amount of logical size consumed hourly. */
@@ -4047,7 +3859,7 @@ export const ConsumptionHistoryPerTimeframe = /*@__PURE__*/ S.suspend(() =>
     compute_time_seconds: S.Number,
     written_data_bytes: S.Number,
     synthetic_storage_size_bytes: S.Number,
-    data_storage_bytes_hour: S.optional(S.Number),
+    data_storage_bytes_hour: S.Number,
     logical_size_bytes: S.optional(S.Number),
     logical_size_bytes_hour: S.optional(S.Number),
   }),
@@ -4160,13 +3972,7 @@ export const GetConsumptionHistoryPerProjectV2Request = /*@__PURE__*/ S.suspend(
     granularity: ConsumptionHistoryGranularity.pipe(T.Query()),
     org_id: S.String.pipe(T.Query()),
     metrics: ConsumptionHistoryQueryMetrics.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/consumption_history/v2/projects",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/consumption_history/v2/projects", code: 200 })),
 ).annotate({
   identifier: "GetConsumptionHistoryPerProjectV2Request",
 }) as any as S.Codec<GetConsumptionHistoryPerProjectV2Request>;
@@ -4253,9 +4059,7 @@ export const PaymentSourceBankCard = /*@__PURE__*/ S.suspend(() =>
     exp_month: S.optional(S.Number),
     exp_year: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PaymentSourceBankCard",
-}) as any as S.Codec<PaymentSourceBankCard>;
+).annotate({ identifier: "PaymentSourceBankCard" }) as any as S.Codec<PaymentSourceBankCard>;
 
 export interface PaymentSource {
   /** Type of payment source. E.g. "card". */
@@ -4401,9 +4205,7 @@ export const CurrentUserAuthAccount = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     provider: IdentityProviderId,
   }),
-).annotate({
-  identifier: "CurrentUserAuthAccount",
-}) as any as S.Codec<CurrentUserAuthAccount>;
+).annotate({ identifier: "CurrentUserAuthAccount" }) as any as S.Codec<CurrentUserAuthAccount>;
 
 /** Authentication provider accounts linked to the current user. */
 export type CurrentUserInfoResponseAuthAccountsList = Array<CurrentUserAuthAccount>;
@@ -4458,9 +4260,7 @@ export const CurrentUserInfoResponse = /*@__PURE__*/ S.suspend(() =>
     compute_seconds_limit: S.optional(S.Number),
     plan: S.String,
   }),
-).annotate({
-  identifier: "CurrentUserInfoResponse",
-}) as any as S.Codec<CurrentUserInfoResponse>;
+).annotate({ identifier: "CurrentUserInfoResponse" }) as any as S.Codec<CurrentUserInfoResponse>;
 
 export interface GetCurrentUserOrganizationsRequest {}
 export const GetCurrentUserOrganizationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -4517,9 +4317,7 @@ export const OrganizationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organizations: OrganizationsResponseOrganizationsList,
   }),
-).annotate({
-  identifier: "OrganizationsResponse",
-}) as any as S.Codec<OrganizationsResponse>;
+).annotate({ identifier: "OrganizationsResponse" }) as any as S.Codec<OrganizationsResponse>;
 
 export interface GetMaskingRulesRequest {
   /** The Neon project ID */
@@ -4538,9 +4336,7 @@ export const GetMaskingRulesRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetMaskingRulesRequest",
-}) as any as S.Codec<GetMaskingRulesRequest>;
+).annotate({ identifier: "GetMaskingRulesRequest" }) as any as S.Codec<GetMaskingRulesRequest>;
 
 /** List of masking rules for the branch */
 export type MaskingRulesResponseMaskingRulesList = Array<MaskingRule>;
@@ -4556,9 +4352,7 @@ export const MaskingRulesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     masking_rules: MaskingRulesResponseMaskingRulesList,
   }),
-).annotate({
-  identifier: "MaskingRulesResponse",
-}) as any as S.Codec<MaskingRulesResponse>;
+).annotate({ identifier: "MaskingRulesResponse" }) as any as S.Codec<MaskingRulesResponse>;
 
 export interface GetNeonAuthRequest {
   /** The Neon project ID */
@@ -4571,15 +4365,9 @@ export const GetNeonAuthRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     branch_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/projects/{project_id}/branches/{branch_id}/auth",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/projects/{project_id}/branches/{branch_id}/auth", code: 200 }),
   ),
-).annotate({
-  identifier: "GetNeonAuthRequest",
-}) as any as S.Codec<GetNeonAuthRequest>;
+).annotate({ identifier: "GetNeonAuthRequest" }) as any as S.Codec<GetNeonAuthRequest>;
 
 export type NeonAuthProviderProjectOwnedBy = "user" | "neon";
 export const NeonAuthProviderProjectOwnedBy = S.String;
@@ -4621,9 +4409,7 @@ export const NeonAuthIntegration = /*@__PURE__*/ S.suspend(() =>
     base_url: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NeonAuthIntegration",
-}) as any as S.Codec<NeonAuthIntegration>;
+).annotate({ identifier: "NeonAuthIntegration" }) as any as S.Codec<NeonAuthIntegration>;
 
 export interface GetNeonAuthAllowLocalhostRequest {
   /** The Neon project ID */
@@ -4786,9 +4572,7 @@ export const SharedEmailServer = /*@__PURE__*/ S.suspend(() =>
     sender_name: S.optional(S.String),
     type: SharedEmailServerType,
   }),
-).annotate({
-  identifier: "SharedEmailServer",
-}) as any as S.Codec<SharedEmailServer>;
+).annotate({ identifier: "SharedEmailServer" }) as any as S.Codec<SharedEmailServer>;
 
 export type NeonAuthEmailServerConfigResponse = StandardEmailServerResponse | SharedEmailServer;
 export const NeonAuthEmailServerConfigResponse = S.suspend(() =>
@@ -4901,9 +4685,7 @@ export const NeonAuthMagicLinkConfig = /*@__PURE__*/ S.suspend(() =>
     expires_in: S.Number,
     disable_sign_up: S.Boolean,
   }),
-).annotate({
-  identifier: "NeonAuthMagicLinkConfig",
-}) as any as S.Codec<NeonAuthMagicLinkConfig>;
+).annotate({ identifier: "NeonAuthMagicLinkConfig" }) as any as S.Codec<NeonAuthMagicLinkConfig>;
 
 /** OAuth provider configurations enabled for this auth setup. */
 export type NeonAuthPluginConfigsOauthProvidersList = Array<NeonAuthOauthProvider>;
@@ -4938,9 +4720,7 @@ export const NeonAuthPluginConfigs = /*@__PURE__*/ S.suspend(() =>
     oauth_providers: S.optional(NeonAuthPluginConfigsOauthProvidersList),
     allow_localhost: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "NeonAuthPluginConfigs",
-}) as any as S.Codec<NeonAuthPluginConfigs>;
+).annotate({ identifier: "NeonAuthPluginConfigs" }) as any as S.Codec<NeonAuthPluginConfigs>;
 
 export interface GetNeonAuthWebhookConfigRequest {
   /** The Neon project ID */
@@ -4996,9 +4776,7 @@ export const NeonAuthWebhookConfig = /*@__PURE__*/ S.suspend(() =>
     enabled_events: S.optional(NeonAuthWebhookConfigEnabledEventsList),
     timeout_seconds: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NeonAuthWebhookConfig",
-}) as any as S.Codec<NeonAuthWebhookConfig>;
+).annotate({ identifier: "NeonAuthWebhookConfig" }) as any as S.Codec<NeonAuthWebhookConfig>;
 
 export interface GetOrganizationRequest {
   /** The Neon organization ID */
@@ -5008,9 +4786,7 @@ export const GetOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/organizations/{org_id}", code: 200 })),
-).annotate({
-  identifier: "GetOrganizationRequest",
-}) as any as S.Codec<GetOrganizationRequest>;
+).annotate({ identifier: "GetOrganizationRequest" }) as any as S.Codec<GetOrganizationRequest>;
 
 export interface GetOrganizationInvitationsRequest {
   /** The Neon organization ID */
@@ -5019,13 +4795,7 @@ export interface GetOrganizationInvitationsRequest {
 export const GetOrganizationInvitationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{org_id}/invitations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{org_id}/invitations", code: 200 })),
 ).annotate({
   identifier: "GetOrganizationInvitationsRequest",
 }) as any as S.Codec<GetOrganizationInvitationsRequest>;
@@ -5040,13 +4810,7 @@ export const GetOrganizationMemberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org_id: S.String.pipe(T.Label()),
     member_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{org_id}/members/{member_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{org_id}/members/{member_id}", code: 200 })),
 ).annotate({
   identifier: "GetOrganizationMemberRequest",
 }) as any as S.Codec<GetOrganizationMemberRequest>;
@@ -5097,13 +4861,7 @@ export const GetOrganizationMembersRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     sort_order: S.optional(GetOrganizationMembersRequestSortOrder.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{org_id}/members",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{org_id}/members", code: 200 })),
 ).annotate({
   identifier: "GetOrganizationMembersRequest",
 }) as any as S.Codec<GetOrganizationMembersRequest>;
@@ -5158,9 +4916,7 @@ export const CursorPagination = /*@__PURE__*/ S.suspend(() =>
     sort_by: S.optional(S.String),
     sort_order: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CursorPagination",
-}) as any as S.Codec<CursorPagination>;
+).annotate({ identifier: "CursorPagination" }) as any as S.Codec<CursorPagination>;
 
 export interface GetOrganizationMembersResponse {
   /** Members of the organization, each combining membership details (role, status) with the associated user's identity. */
@@ -5184,11 +4940,7 @@ export const GetOrganizationSpendingLimitRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{org_id}/billing/spending_limit",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/organizations/{org_id}/billing/spending_limit", code: 200 }),
   ),
 ).annotate({
   identifier: "GetOrganizationSpendingLimitRequest",
@@ -5202,9 +4954,7 @@ export const SpendingLimitResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     spending_limit_cents: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "SpendingLimitResponse",
-}) as any as S.Codec<SpendingLimitResponse>;
+).annotate({ identifier: "SpendingLimitResponse" }) as any as S.Codec<SpendingLimitResponse>;
 
 export interface GetOrganizationVPCEndpointDetailsRequest {
   /** The Neon organization ID */
@@ -5256,9 +5006,7 @@ export const VPCEndpointDetails = /*@__PURE__*/ S.suspend(() =>
     num_restricted_projects: S.Number,
     example_restricted_projects: VPCEndpointDetailsExampleRestrictedProjectsList,
   }),
-).annotate({
-  identifier: "VPCEndpointDetails",
-}) as any as S.Codec<VPCEndpointDetails>;
+).annotate({ identifier: "VPCEndpointDetails" }) as any as S.Codec<VPCEndpointDetails>;
 
 export interface GetProjectRequest {
   /** The Neon project ID */
@@ -5268,9 +5016,7 @@ export const GetProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}", code: 200 })),
-).annotate({
-  identifier: "GetProjectRequest",
-}) as any as S.Codec<GetProjectRequest>;
+).annotate({ identifier: "GetProjectRequest" }) as any as S.Codec<GetProjectRequest>;
 
 /** Category of an advisor issue */
 export type AdvisorCategory = "SECURITY" | "PERFORMANCE";
@@ -5298,13 +5044,7 @@ export const GetProjectAdvisorSecurityIssuesRequest = /*@__PURE__*/ S.suspend(()
     database_name: S.optional(S.String.pipe(T.Query())),
     category: S.optional(AdvisorCategory.pipe(T.Query())),
     min_severity: S.optional(GetProjectAdvisorSecurityIssuesRequestMinSeverity.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/projects/{project_id}/advisors",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/advisors", code: 200 })),
 ).annotate({
   identifier: "GetProjectAdvisorSecurityIssuesRequest",
 }) as any as S.Codec<GetProjectAdvisorSecurityIssuesRequest>;
@@ -5389,16 +5129,8 @@ export const GetProjectBranchRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     branch_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/projects/{project_id}/branches/{branch_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetProjectBranchRequest",
-}) as any as S.Codec<GetProjectBranchRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/branches/{branch_id}", code: 200 })),
+).annotate({ identifier: "GetProjectBranchRequest" }) as any as S.Codec<GetProjectBranchRequest>;
 
 export interface AnnotationObjectData {
   /** Kind of resource the annotation is attached to, for example "branch" or "endpoint". */
@@ -5411,9 +5143,7 @@ export const AnnotationObjectData = /*@__PURE__*/ S.suspend(() =>
     type: S.String,
     id: S.String,
   }),
-).annotate({
-  identifier: "AnnotationObjectData",
-}) as any as S.Codec<AnnotationObjectData>;
+).annotate({ identifier: "AnnotationObjectData" }) as any as S.Codec<AnnotationObjectData>;
 
 export interface AnnotationData {
   /** Resource that this annotation is attached to. */
@@ -5444,9 +5174,7 @@ export const GetProjectBranchResponse = /*@__PURE__*/ S.suspend(() =>
     branch: Branch,
     annotation: AnnotationData,
   }),
-).annotate({
-  identifier: "GetProjectBranchResponse",
-}) as any as S.Codec<GetProjectBranchResponse>;
+).annotate({ identifier: "GetProjectBranchResponse" }) as any as S.Codec<GetProjectBranchResponse>;
 
 export interface GetProjectBranchAiGatewayRequest {
   /** The Neon project ID */
@@ -5480,9 +5208,7 @@ export const BranchAiGateway = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     base_url: S.String,
   }),
-).annotate({
-  identifier: "BranchAiGateway",
-}) as any as S.Codec<BranchAiGateway>;
+).annotate({ identifier: "BranchAiGateway" }) as any as S.Codec<BranchAiGateway>;
 
 export interface GetProjectBranchBucketObjectRequest {
   /** The Neon project ID */
@@ -5597,9 +5323,7 @@ export const DatabaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     database: Database,
   }),
-).annotate({
-  identifier: "DatabaseResponse",
-}) as any as S.Codec<DatabaseResponse>;
+).annotate({ identifier: "DatabaseResponse" }) as any as S.Codec<DatabaseResponse>;
 
 export interface GetProjectBranchFunctionRequest {
   /** The Neon project ID */
@@ -5659,9 +5383,7 @@ export const NeonFunctionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     function: NeonFunction,
   }),
-).annotate({
-  identifier: "NeonFunctionResponse",
-}) as any as S.Codec<NeonFunctionResponse>;
+).annotate({ identifier: "NeonFunctionResponse" }) as any as S.Codec<NeonFunctionResponse>;
 
 export interface GetProjectBranchRoleRequest {
   /** The Neon project ID */
@@ -5731,9 +5453,7 @@ export const RolePasswordResponse = /*@__PURE__*/ S.suspend(() =>
       T.SensitiveValue({}),
     ),
   }),
-).annotate({
-  identifier: "RolePasswordResponse",
-}) as any as S.Codec<RolePasswordResponse>;
+).annotate({ identifier: "RolePasswordResponse" }) as any as S.Codec<RolePasswordResponse>;
 
 export interface GetProjectBranchSchemaRequest {
   /** The Neon project ID */
@@ -5758,11 +5478,7 @@ export const GetProjectBranchSchemaRequest = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.optional(S.String.pipe(T.Query())),
     format: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/projects/{project_id}/branches/{branch_id}/schema",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/projects/{project_id}/branches/{branch_id}/schema", code: 200 }),
   ),
 ).annotate({
   identifier: "GetProjectBranchSchemaRequest",
@@ -5891,9 +5607,7 @@ export const BranchSchemaJSON = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tables: BranchSchemaJSONTablesList,
   }),
-).annotate({
-  identifier: "BranchSchemaJSON",
-}) as any as S.Codec<BranchSchemaJSON>;
+).annotate({ identifier: "BranchSchemaJSON" }) as any as S.Codec<BranchSchemaJSON>;
 
 export interface BranchSchemaResponse {
   /** Branch schema expressed as SQL DDL statements. */
@@ -5906,9 +5620,7 @@ export const BranchSchemaResponse = /*@__PURE__*/ S.suspend(() =>
     sql: S.optional(S.String),
     json: S.optional(BranchSchemaJSON),
   }),
-).annotate({
-  identifier: "BranchSchemaResponse",
-}) as any as S.Codec<BranchSchemaResponse>;
+).annotate({ identifier: "BranchSchemaResponse" }) as any as S.Codec<BranchSchemaResponse>;
 
 export interface GetProjectBranchSchemaComparisonRequest {
   /** The Neon project ID */
@@ -6036,11 +5748,7 @@ export const GetProjectEndpointRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     endpoint_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/projects/{project_id}/endpoints/{endpoint_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/projects/{project_id}/endpoints/{endpoint_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetProjectEndpointRequest",
@@ -6054,9 +5762,7 @@ export const EndpointResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endpoint: Endpoint,
   }),
-).annotate({
-  identifier: "EndpointResponse",
-}) as any as S.Codec<EndpointResponse>;
+).annotate({ identifier: "EndpointResponse" }) as any as S.Codec<EndpointResponse>;
 
 export interface GetProjectJWKSRequest {
   /** The Neon project ID */
@@ -6066,9 +5772,7 @@ export const GetProjectJWKSRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/jwks", code: 200 })),
-).annotate({
-  identifier: "GetProjectJWKSRequest",
-}) as any as S.Codec<GetProjectJWKSRequest>;
+).annotate({ identifier: "GetProjectJWKSRequest" }) as any as S.Codec<GetProjectJWKSRequest>;
 
 /** JWKS configurations associated with the project. */
 export type ProjectJWKSResponseJwksList = Array<JWKS>;
@@ -6085,9 +5789,7 @@ export const ProjectJWKSResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     jwks: ProjectJWKSResponseJwksList,
   }),
-).annotate({
-  identifier: "ProjectJWKSResponse",
-}) as any as S.Codec<ProjectJWKSResponse>;
+).annotate({ identifier: "ProjectJWKSResponse" }) as any as S.Codec<ProjectJWKSResponse>;
 
 export interface GetProjectOperationRequest {
   /** The Neon project ID */
@@ -6100,11 +5802,7 @@ export const GetProjectOperationRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     operation_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/projects/{project_id}/operations/{operation_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/projects/{project_id}/operations/{operation_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetProjectOperationRequest",
@@ -6117,9 +5815,7 @@ export const OperationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     operation: Operation,
   }),
-).annotate({
-  identifier: "OperationResponse",
-}) as any as S.Codec<OperationResponse>;
+).annotate({ identifier: "OperationResponse" }) as any as S.Codec<OperationResponse>;
 
 export interface GetSnapshotScheduleRequest {
   /** The Neon project ID */
@@ -6162,9 +5858,7 @@ export const BackupScheduleItem = /*@__PURE__*/ S.suspend(() =>
     month: S.optional(S.Number),
     retention_seconds: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "BackupScheduleItem",
-}) as any as S.Codec<BackupScheduleItem>;
+).annotate({ identifier: "BackupScheduleItem" }) as any as S.Codec<BackupScheduleItem>;
 
 /** List of schedule entries defining the backup frequency. At least one entry is required. */
 export type BackupScheduleScheduleList = Array<BackupScheduleItem>;
@@ -6191,13 +5885,7 @@ export const GrantPermissionToProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     email: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/projects/{project_id}/permissions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/projects/{project_id}/permissions", code: 200 })),
 ).annotate({
   identifier: "GrantPermissionToProjectRequest",
 }) as any as S.Codec<GrantPermissionToProjectRequest>;
@@ -6219,16 +5907,12 @@ export const ProjectPermission = /*@__PURE__*/ S.suspend(() =>
     granted_at: S.String,
     revoked_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProjectPermission",
-}) as any as S.Codec<ProjectPermission>;
+).annotate({ identifier: "ProjectPermission" }) as any as S.Codec<ProjectPermission>;
 
 export interface ListApiKeysRequest {}
 export const ListApiKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api_keys", code: 200 })),
-).annotate({
-  identifier: "ListApiKeysRequest",
-}) as any as S.Codec<ListApiKeysRequest>;
+).annotate({ identifier: "ListApiKeysRequest" }) as any as S.Codec<ListApiKeysRequest>;
 
 /** The user data of the user that created this API key. */
 export interface ApiKeyCreatorData {
@@ -6245,9 +5929,7 @@ export const ApiKeyCreatorData = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     image: S.String,
   }),
-).annotate({
-  identifier: "ApiKeyCreatorData",
-}) as any as S.Codec<ApiKeyCreatorData>;
+).annotate({ identifier: "ApiKeyCreatorData" }) as any as S.Codec<ApiKeyCreatorData>;
 
 export interface ApiKeysListResponseItem {
   /** The API key's unique numeric ID. Distinct from the API key token (`key`). */
@@ -6271,9 +5953,7 @@ export const ApiKeysListResponseItem = /*@__PURE__*/ S.suspend(() =>
     last_used_at: S.optional(S.NullOr(S.String)),
     last_used_from_addr: S.String,
   }),
-).annotate({
-  identifier: "ApiKeysListResponseItem",
-}) as any as S.Codec<ApiKeysListResponseItem>;
+).annotate({ identifier: "ApiKeysListResponseItem" }) as any as S.Codec<ApiKeysListResponseItem>;
 
 export type ListApiKeysResponseBodyList = Array<ApiKeysListResponseItem>;
 export const ListApiKeysResponseBodyList = /*@__PURE__*/ S.Array(
@@ -6283,9 +5963,7 @@ export const ListApiKeysResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListApiKeysResponse = ListApiKeysResponseBodyList;
 export const ListApiKeysResponse = /*@__PURE__*/ S.suspend(() =>
   ListApiKeysResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListApiKeysResponse",
-}) as any as S.Codec<ListApiKeysResponse>;
+).annotate({ identifier: "ListApiKeysResponse" }) as any as S.Codec<ListApiKeysResponse>;
 
 export interface ListBranchNeonAuthOauthProvidersRequest {
   /** The Neon project ID */
@@ -6397,9 +6075,7 @@ export const ListCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListCredentialsRequest",
-}) as any as S.Codec<ListCredentialsRequest>;
+).annotate({ identifier: "ListCredentialsRequest" }) as any as S.Codec<ListCredentialsRequest>;
 
 export type CredentialMetaScopesList = Array<GrantedCredentialScope>;
 export const CredentialMetaScopesList = /*@__PURE__*/ S.Array(
@@ -6450,9 +6126,7 @@ export const ListCredentialsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     credentials: ListCredentialsResponseCredentialsList,
   }),
-).annotate({
-  identifier: "ListCredentialsResponse",
-}) as any as S.Codec<ListCredentialsResponse>;
+).annotate({ identifier: "ListCredentialsResponse" }) as any as S.Codec<ListCredentialsResponse>;
 
 export interface ListOrganizationVPCEndpointsRequest {
   /** The Neon organization ID */
@@ -6502,9 +6176,7 @@ export const VPCEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endpoints: VPCEndpointsResponseEndpointsList,
   }),
-).annotate({
-  identifier: "VPCEndpointsResponse",
-}) as any as S.Codec<VPCEndpointsResponse>;
+).annotate({ identifier: "VPCEndpointsResponse" }) as any as S.Codec<VPCEndpointsResponse>;
 
 export interface ListOrganizationVPCEndpointsAllRegionsRequest {
   /** The Neon organization ID */
@@ -6513,13 +6185,7 @@ export interface ListOrganizationVPCEndpointsAllRegionsRequest {
 export const ListOrganizationVPCEndpointsAllRegionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{org_id}/vpc/vpc_endpoints",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{org_id}/vpc/vpc_endpoints", code: 200 })),
 ).annotate({
   identifier: "ListOrganizationVPCEndpointsAllRegionsRequest",
 }) as any as S.Codec<ListOrganizationVPCEndpointsAllRegionsRequest>;
@@ -6538,9 +6204,7 @@ export const VPCEndpointWithRegion = /*@__PURE__*/ S.suspend(() =>
     label: S.String,
     region_id: S.String,
   }),
-).annotate({
-  identifier: "VPCEndpointWithRegion",
-}) as any as S.Codec<VPCEndpointWithRegion>;
+).annotate({ identifier: "VPCEndpointWithRegion" }) as any as S.Codec<VPCEndpointWithRegion>;
 
 /** VPC endpoints associated with the region. */
 export type VPCEndpointsWithRegionResponseEndpointsList = Array<VPCEndpointWithRegion>;
@@ -6567,16 +6231,8 @@ export interface ListOrgApiKeysRequest {
 export const ListOrgApiKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{org_id}/api_keys",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListOrgApiKeysRequest",
-}) as any as S.Codec<ListOrgApiKeysRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{org_id}/api_keys", code: 200 })),
+).annotate({ identifier: "ListOrgApiKeysRequest" }) as any as S.Codec<ListOrgApiKeysRequest>;
 
 export interface OrgApiKeysListResponseItem {
   /** The API key's unique numeric ID. Distinct from the API key token (`key`). */
@@ -6615,9 +6271,7 @@ export const ListOrgApiKeysResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListOrgApiKeysResponse = ListOrgApiKeysResponseBodyList;
 export const ListOrgApiKeysResponse = /*@__PURE__*/ S.suspend(() =>
   ListOrgApiKeysResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListOrgApiKeysResponse",
-}) as any as S.Codec<ListOrgApiKeysResponse>;
+).annotate({ identifier: "ListOrgApiKeysResponse" }) as any as S.Codec<ListOrgApiKeysResponse>;
 
 export interface ListProjectBranchBucketObjectsRequest {
   /** The Neon project ID */
@@ -6743,9 +6397,7 @@ export const BucketsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     buckets: BucketsListResponseBucketsList,
   }),
-).annotate({
-  identifier: "BucketsListResponse",
-}) as any as S.Codec<BucketsListResponse>;
+).annotate({ identifier: "BucketsListResponse" }) as any as S.Codec<BucketsListResponse>;
 
 export interface ListProjectBranchCustomDomainsRequest {
   /** The Neon project ID */
@@ -6858,9 +6510,7 @@ export const DatabasesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     databases: DatabasesResponseDatabasesList,
   }),
-).annotate({
-  identifier: "DatabasesResponse",
-}) as any as S.Codec<DatabasesResponse>;
+).annotate({ identifier: "DatabasesResponse" }) as any as S.Codec<DatabasesResponse>;
 
 export interface ListProjectBranchEndpointsRequest {
   /** The Neon project ID */
@@ -6897,9 +6547,7 @@ export const EndpointsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endpoints: EndpointsResponseEndpointsList,
   }),
-).annotate({
-  identifier: "EndpointsResponse",
-}) as any as S.Codec<EndpointsResponse>;
+).annotate({ identifier: "EndpointsResponse" }) as any as S.Codec<EndpointsResponse>;
 
 export type ListProjectBranchesRequestSortBy = "name" | "created_at" | "updated_at";
 export const ListProjectBranchesRequestSortBy = S.String;
@@ -6932,13 +6580,7 @@ export const ListProjectBranchesRequest = /*@__PURE__*/ S.suspend(() =>
     sort_order: S.optional(ListProjectBranchesRequestSortOrder.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     include_deleted: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/projects/{project_id}/branches",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/branches", code: 200 })),
 ).annotate({
   identifier: "ListProjectBranchesRequest",
 }) as any as S.Codec<ListProjectBranchesRequest>;
@@ -7132,11 +6774,7 @@ export const ListProjectBranchRolesRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     branch_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/projects/{project_id}/branches/{branch_id}/roles",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/projects/{project_id}/branches/{branch_id}/roles", code: 200 }),
   ),
 ).annotate({
   identifier: "ListProjectBranchRolesRequest",
@@ -7191,9 +6829,7 @@ export const TriggersListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     triggers: TriggersListResponseTriggersList,
   }),
-).annotate({
-  identifier: "TriggersListResponse",
-}) as any as S.Codec<TriggersListResponse>;
+).annotate({ identifier: "TriggersListResponse" }) as any as S.Codec<TriggersListResponse>;
 
 export interface ListProjectEndpointsRequest {
   /** The Neon project ID */
@@ -7202,13 +6838,7 @@ export interface ListProjectEndpointsRequest {
 export const ListProjectEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/projects/{project_id}/endpoints",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/endpoints", code: 200 })),
 ).annotate({
   identifier: "ListProjectEndpointsRequest",
 }) as any as S.Codec<ListProjectEndpointsRequest>;
@@ -7306,13 +6936,7 @@ export const ListProjectOperationsRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/projects/{project_id}/operations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/operations", code: 200 })),
 ).annotate({
   identifier: "ListProjectOperationsRequest",
 }) as any as S.Codec<ListProjectOperationsRequest>;
@@ -7341,13 +6965,7 @@ export interface ListProjectPermissionsRequest {
 export const ListProjectPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/projects/{project_id}/permissions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/permissions", code: 200 })),
 ).annotate({
   identifier: "ListProjectPermissionsRequest",
 }) as any as S.Codec<ListProjectPermissionsRequest>;
@@ -7364,9 +6982,7 @@ export const ProjectPermissions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_permissions: ProjectPermissionsProjectPermissionsList,
   }),
-).annotate({
-  identifier: "ProjectPermissions",
-}) as any as S.Codec<ProjectPermissions>;
+).annotate({ identifier: "ProjectPermissions" }) as any as S.Codec<ProjectPermissions>;
 
 export interface ListProjectsRequest {
   /** Specify the cursor value from the previous response to retrieve the next batch of projects. */
@@ -7391,9 +7007,7 @@ export const ListProjectsRequest = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(S.Number.pipe(T.Query())),
     recoverable: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/projects", code: 200 })),
-).annotate({
-  identifier: "ListProjectsRequest",
-}) as any as S.Codec<ListProjectsRequest>;
+).annotate({ identifier: "ListProjectsRequest" }) as any as S.Codec<ListProjectsRequest>;
 
 /** Essential data about the project. Full data is available at `GET /projects/{project_id}`. */
 export interface ProjectListItem {
@@ -7485,9 +7099,7 @@ export const ProjectListItem = /*@__PURE__*/ S.suspend(() =>
     recoverable_until: S.optional(S.String),
     effective_project_permission: S.optional(S.NullOr(ProjectPermissionLevel)),
   }),
-).annotate({
-  identifier: "ProjectListItem",
-}) as any as S.Codec<ProjectListItem>;
+).annotate({ identifier: "ProjectListItem" }) as any as S.Codec<ProjectListItem>;
 
 /** List of projects accessible to the caller. Projects that exist but could not be retrieved are identified in `unavailable_project_ids`. */
 export type ListProjectsResponseProjectsList = Array<ProjectListItem>;
@@ -7552,9 +7164,7 @@ export const ListProjectsResponse = /*@__PURE__*/ S.suspend(() =>
     applications: ListProjectsResponseApplicationsMap,
     integrations: ListProjectsResponseIntegrationsMap,
   }),
-).annotate({
-  identifier: "ListProjectsResponse",
-}) as any as S.Codec<ListProjectsResponse>;
+).annotate({ identifier: "ListProjectsResponse" }) as any as S.Codec<ListProjectsResponse>;
 
 export interface ListProjectVPCEndpointsRequest {
   /** The Neon project ID */
@@ -7563,13 +7173,7 @@ export interface ListProjectVPCEndpointsRequest {
 export const ListProjectVPCEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/projects/{project_id}/vpc_endpoints",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/vpc_endpoints", code: 200 })),
 ).annotate({
   identifier: "ListProjectVPCEndpointsRequest",
 }) as any as S.Codec<ListProjectVPCEndpointsRequest>;
@@ -7631,16 +7235,8 @@ export interface ListSnapshotsRequest {
 export const ListSnapshotsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/projects/{project_id}/snapshots",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListSnapshotsRequest",
-}) as any as S.Codec<ListSnapshotsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/snapshots", code: 200 })),
+).annotate({ identifier: "ListSnapshotsRequest" }) as any as S.Codec<ListSnapshotsRequest>;
 
 export type ListSnapshotsResponseSnapshotsList = Array<Snapshot>;
 export const ListSnapshotsResponseSnapshotsList = /*@__PURE__*/ S.Array(
@@ -7654,9 +7250,7 @@ export const ListSnapshotsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     snapshots: ListSnapshotsResponseSnapshotsList,
   }),
-).annotate({
-  identifier: "ListSnapshotsResponse",
-}) as any as S.Codec<ListSnapshotsResponse>;
+).annotate({ identifier: "ListSnapshotsResponse" }) as any as S.Codec<ListSnapshotsResponse>;
 
 /** The transfer direction. `upload` returns a presigned `PUT` URL; `download` returns a presigned `GET` URL. */
 export type PresignProjectBranchBucketObjectRequestOperation = "upload" | "download";
@@ -7724,9 +7318,7 @@ export const PresignResponse = /*@__PURE__*/ S.suspend(() =>
     headers: PresignResponseHeadersMap,
     expires_at: S.String,
   }),
-).annotate({
-  identifier: "PresignResponse",
-}) as any as S.Codec<PresignResponse>;
+).annotate({ identifier: "PresignResponse" }) as any as S.Codec<PresignResponse>;
 
 /** Order matching records by timestamp. `desc`, the default, returns the newest records first. */
 export type QueryProjectBranchLogsRequestSortOrder = "asc" | "desc";
@@ -7798,9 +7390,7 @@ export const QueryProjectBranchLogsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Codec<QueryProjectBranchLogsRequest>;
 
 /** Customer-defined OpenTelemetry log and resource attributes. */
-export type ProjectBranchLogRecordAttributesMap = {
-  [key: string]: unknown | undefined;
-};
+export type ProjectBranchLogRecordAttributesMap = { [key: string]: unknown | undefined };
 export const ProjectBranchLogRecordAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -7843,9 +7433,7 @@ export const ProjectBranchLogRecord = /*@__PURE__*/ S.suspend(() =>
     span_id: S.optional(S.String),
     attributes: ProjectBranchLogRecordAttributesMap,
   }),
-).annotate({
-  identifier: "ProjectBranchLogRecord",
-}) as any as S.Codec<ProjectBranchLogRecord>;
+).annotate({ identifier: "ProjectBranchLogRecord" }) as any as S.Codec<ProjectBranchLogRecord>;
 
 export type ProjectBranchLogsQueryResponseLogsList = Array<ProjectBranchLogRecord>;
 export const ProjectBranchLogsQueryResponseLogsList = /*@__PURE__*/ S.Array(
@@ -7876,16 +7464,8 @@ export interface RecoverProjectRequest {
 export const RecoverProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/projects/{project_id}/recover",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RecoverProjectRequest",
-}) as any as S.Codec<RecoverProjectRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/projects/{project_id}/recover", code: 200 })),
+).annotate({ identifier: "RecoverProjectRequest" }) as any as S.Codec<RecoverProjectRequest>;
 
 /** Branches in the project. Each includes `id`, `name`, `current_state`, and `created_at`. */
 export type RecoverProjectResponseBranchesList = Array<Branch>;
@@ -7904,9 +7484,7 @@ export const RecoverProjectResponse = /*@__PURE__*/ S.suspend(() =>
     project: Project,
     branches: RecoverProjectResponseBranchesList,
   }),
-).annotate({
-  identifier: "RecoverProjectResponse",
-}) as any as S.Codec<RecoverProjectResponse>;
+).annotate({ identifier: "RecoverProjectResponse" }) as any as S.Codec<RecoverProjectResponse>;
 
 export interface RegisterProjectBranchCustomDomainRequest {
   /** The Neon project ID */
@@ -7949,11 +7527,7 @@ export const RemoveOrganizationMemberRequest = /*@__PURE__*/ S.suspend(() =>
     org_id: S.String.pipe(T.Label()),
     member_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/organizations/{org_id}/members/{member_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/organizations/{org_id}/members/{member_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "RemoveOrganizationMemberRequest",
@@ -7977,11 +7551,7 @@ export const RemoveProjectMemberRoleRequest = /*@__PURE__*/ S.suspend(() =>
     member_id: S.String.pipe(T.Label()),
     confirm_self_lockout: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/projects/{project_id}/members/{member_id}/role",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/projects/{project_id}/members/{member_id}/role", code: 200 }),
   ),
 ).annotate({
   identifier: "RemoveProjectMemberRoleRequest",
@@ -8186,9 +7756,7 @@ export const RestoreSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "RestoreSnapshotRequest",
-}) as any as S.Codec<RestoreSnapshotRequest>;
+).annotate({ identifier: "RestoreSnapshotRequest" }) as any as S.Codec<RestoreSnapshotRequest>;
 
 /** Compute endpoints associated with the project. */
 export type RestoreSnapshotResponseEndpointsList = Array<Endpoint>;
@@ -8214,9 +7782,7 @@ export const RestoreSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
     endpoints: S.optional(RestoreSnapshotResponseEndpointsList),
     operations: RestoreSnapshotResponseOperationsList,
   }),
-).annotate({
-  identifier: "RestoreSnapshotResponse",
-}) as any as S.Codec<RestoreSnapshotResponse>;
+).annotate({ identifier: "RestoreSnapshotResponse" }) as any as S.Codec<RestoreSnapshotResponse>;
 
 export interface RevealCredentialRequest {
   /** The Neon project ID */
@@ -8238,9 +7804,7 @@ export const RevealCredentialRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "RevealCredentialRequest",
-}) as any as S.Codec<RevealCredentialRequest>;
+).annotate({ identifier: "RevealCredentialRequest" }) as any as S.Codec<RevealCredentialRequest>;
 
 /** The live secrets of an existing credential, recovered on demand by the reveal endpoint. `api_token` and `s3_secret_access_key` are the same values handed back once at issuance. The field set is deliberately narrower than `CreateCredentialResponse`: it carries only what reveal can actually recover. `token_id_short`, `scopes`, `principal_type`, `created_at` and `expires_at` are metadata, not secrets — read them from the list endpoint instead. No `branch_id` is returned. Reveal is scoped by `(project_id, token_id)`, so the branch in the request path authorizes the call but is not proven to be the branch the credential was issued on. Echoing it back would assert an anchor this endpoint never verified. For a credential's true anchor branch, read `branch_id` from the list endpoint, which is branch-exact. */
 export interface CredentialSecret {
@@ -8262,9 +7826,7 @@ export const CredentialSecret = /*@__PURE__*/ S.suspend(() =>
       S.Redacted(S.String, { disallowJsonEncode: true }),
     ]).pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "CredentialSecret",
-}) as any as S.Codec<CredentialSecret>;
+).annotate({ identifier: "CredentialSecret" }) as any as S.Codec<CredentialSecret>;
 
 export interface RevokeApiKeyRequest {
   /** The API key ID */
@@ -8274,9 +7836,7 @@ export const RevokeApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     key_id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/api_keys/{key_id}", code: 200 })),
-).annotate({
-  identifier: "RevokeApiKeyRequest",
-}) as any as S.Codec<RevokeApiKeyRequest>;
+).annotate({ identifier: "RevokeApiKeyRequest" }) as any as S.Codec<RevokeApiKeyRequest>;
 
 export interface ApiKeyRevokeResponse {
   /** The API key's unique numeric ID. Distinct from the API key token (`key`). */
@@ -8304,9 +7864,7 @@ export const ApiKeyRevokeResponse = /*@__PURE__*/ S.suspend(() =>
     last_used_from_addr: S.String,
     revoked: S.Boolean,
   }),
-).annotate({
-  identifier: "ApiKeyRevokeResponse",
-}) as any as S.Codec<ApiKeyRevokeResponse>;
+).annotate({ identifier: "ApiKeyRevokeResponse" }) as any as S.Codec<ApiKeyRevokeResponse>;
 
 export interface RevokeCredentialRequest {
   /** The Neon project ID */
@@ -8328,9 +7886,7 @@ export const RevokeCredentialRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "RevokeCredentialRequest",
-}) as any as S.Codec<RevokeCredentialRequest>;
+).annotate({ identifier: "RevokeCredentialRequest" }) as any as S.Codec<RevokeCredentialRequest>;
 
 export interface RevokeCredentialResponse {}
 export const RevokeCredentialResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8348,15 +7904,9 @@ export const RevokeOrgApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
     org_id: S.String.pipe(T.Label()),
     key_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/organizations/{org_id}/api_keys/{key_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/organizations/{org_id}/api_keys/{key_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "RevokeOrgApiKeyRequest",
-}) as any as S.Codec<RevokeOrgApiKeyRequest>;
+).annotate({ identifier: "RevokeOrgApiKeyRequest" }) as any as S.Codec<RevokeOrgApiKeyRequest>;
 
 export interface RevokeOrgApiKeyResponse {
   /** The API key's unique numeric ID. Distinct from the API key token (`key`). */
@@ -8387,9 +7937,7 @@ export const RevokeOrgApiKeyResponse = /*@__PURE__*/ S.suspend(() =>
     revoked: S.Boolean,
     project_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RevokeOrgApiKeyResponse",
-}) as any as S.Codec<RevokeOrgApiKeyResponse>;
+).annotate({ identifier: "RevokeOrgApiKeyResponse" }) as any as S.Codec<RevokeOrgApiKeyResponse>;
 
 export interface RevokePermissionFromProjectRequest {
   project_id: string;
@@ -8430,9 +7978,7 @@ export const RotateCredentialRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "RotateCredentialRequest",
-}) as any as S.Codec<RotateCredentialRequest>;
+).annotate({ identifier: "RotateCredentialRequest" }) as any as S.Codec<RotateCredentialRequest>;
 
 export type RotateCredentialResponseScopesList = Array<GrantedCredentialScope>;
 export const RotateCredentialResponseScopesList = /*@__PURE__*/ S.Array(
@@ -8482,9 +8028,7 @@ export const RotateCredentialResponse = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     expires_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RotateCredentialResponse",
-}) as any as S.Codec<RotateCredentialResponse>;
+).annotate({ identifier: "RotateCredentialResponse" }) as any as S.Codec<RotateCredentialResponse>;
 
 export interface SendNeonAuthEmailProviderTestRequest {
   /** The Neon project ID */
@@ -8576,11 +8120,7 @@ export const SetOrganizationSpendingLimitRequest = /*@__PURE__*/ S.suspend(() =>
     org_id: S.String.pipe(T.Label()),
     spending_limit_cents: S.Number,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/organizations/{org_id}/billing/spending_limit",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/organizations/{org_id}/billing/spending_limit", code: 200 }),
   ),
 ).annotate({
   identifier: "SetOrganizationSpendingLimitRequest",
@@ -8599,11 +8139,7 @@ export const SetProjectMemberRoleRequest = /*@__PURE__*/ S.suspend(() =>
     confirm_self_demotion: S.optional(S.Boolean.pipe(T.Query())),
     role: ProjectRole,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/projects/{project_id}/members/{member_id}/role",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/projects/{project_id}/members/{member_id}/role", code: 200 }),
   ),
 ).annotate({
   identifier: "SetProjectMemberRoleRequest",
@@ -8756,13 +8292,7 @@ export const TransferNeonAuthProviderProjectRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     project_id: S.String,
     auth_provider: NeonAuthSupportedAuthProvider,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/projects/auth/transfer_ownership",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/projects/auth/transfer_ownership", code: 200 })),
 ).annotate({
   identifier: "TransferNeonAuthProviderProjectRequest",
 }) as any as S.Codec<TransferNeonAuthProviderProjectRequest>;
@@ -8799,11 +8329,7 @@ export const TransferProjectsFromOrgToOrgRequest = /*@__PURE__*/ S.suspend(() =>
     destination_org_id: S.String,
     project_ids: TransferProjectsFromOrgToOrgRequestProjectIdsList,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/organizations/{source_org_id}/projects/transfer",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/organizations/{source_org_id}/projects/transfer", code: 200 }),
   ),
 ).annotate({
   identifier: "TransferProjectsFromOrgToOrgRequest",
@@ -8946,9 +8472,7 @@ export const NeonAuthConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
   }),
-).annotate({
-  identifier: "NeonAuthConfigResponse",
-}) as any as S.Codec<NeonAuthConfigResponse>;
+).annotate({ identifier: "NeonAuthConfigResponse" }) as any as S.Codec<NeonAuthConfigResponse>;
 
 export interface UpdateNeonAuthEmailAndPasswordConfigRequest {
   /** The Neon project ID */
@@ -9025,9 +8549,7 @@ export const StandardEmailServer = /*@__PURE__*/ S.suspend(() =>
     sender_name: S.optional(S.String),
     type: StandardEmailServerType,
   }),
-).annotate({
-  identifier: "StandardEmailServer",
-}) as any as S.Codec<StandardEmailServer>;
+).annotate({ identifier: "StandardEmailServer" }) as any as S.Codec<StandardEmailServer>;
 
 export type NeonAuthEmailServerConfig = StandardEmailServer | SharedEmailServer;
 export const NeonAuthEmailServerConfig = S.suspend(() =>
@@ -9270,11 +8792,7 @@ export const UpdateOrganizationMemberRequest = /*@__PURE__*/ S.suspend(() =>
     member_id: S.String.pipe(T.Label()),
     role: MemberRole,
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/organizations/{org_id}/members/{member_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/organizations/{org_id}/members/{member_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateOrganizationMemberRequest",
@@ -9310,9 +8828,7 @@ export const UpdateProjectRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     project: UpdateProjectRequestProject,
   }).pipe(T.Http({ method: "PATCH", uri: "/projects/{project_id}", code: 200 })),
-).annotate({
-  identifier: "UpdateProjectRequest",
-}) as any as S.Codec<UpdateProjectRequest>;
+).annotate({ identifier: "UpdateProjectRequest" }) as any as S.Codec<UpdateProjectRequest>;
 
 export type UpdateProjectResponseOperationsList = Array<Operation>;
 export const UpdateProjectResponseOperationsList = /*@__PURE__*/ S.Array(
@@ -9329,9 +8845,7 @@ export const UpdateProjectResponse = /*@__PURE__*/ S.suspend(() =>
     project: Project,
     operations: UpdateProjectResponseOperationsList,
   }),
-).annotate({
-  identifier: "UpdateProjectResponse",
-}) as any as S.Codec<UpdateProjectResponse>;
+).annotate({ identifier: "UpdateProjectResponse" }) as any as S.Codec<UpdateProjectResponse>;
 
 /** Branch attributes to update. Supply only the fields you want to change, for example `name` or `protected`. */
 export interface UpdateProjectBranchRequestBranch {
@@ -9366,11 +8880,7 @@ export const UpdateProjectBranchRequest = /*@__PURE__*/ S.suspend(() =>
     branch_id: S.String.pipe(T.Label()),
     branch: UpdateProjectBranchRequestBranch,
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/projects/{project_id}/branches/{branch_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/projects/{project_id}/branches/{branch_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateProjectBranchRequest",
@@ -9662,11 +9172,7 @@ export const UpdateProjectEndpointRequest = /*@__PURE__*/ S.suspend(() =>
     endpoint_id: S.String.pipe(T.Label()),
     endpoint: UpdateProjectEndpointRequestEndpoint,
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/projects/{project_id}/endpoints/{endpoint_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/projects/{project_id}/endpoints/{endpoint_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateProjectEndpointRequest",
@@ -9721,15 +9227,9 @@ export const UpdateSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     snapshot_id: S.String.pipe(T.Label()),
     snapshot: UpdateSnapshotRequestSnapshot,
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/projects/{project_id}/snapshots/{snapshot_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/projects/{project_id}/snapshots/{snapshot_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateSnapshotRequest",
-}) as any as S.Codec<UpdateSnapshotRequest>;
+).annotate({ identifier: "UpdateSnapshotRequest" }) as any as S.Codec<UpdateSnapshotRequest>;
 
 export interface UpdateSnapshotResponse {
   snapshot: Snapshot;
@@ -9738,9 +9238,7 @@ export const UpdateSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     snapshot: Snapshot,
   }),
-).annotate({
-  identifier: "UpdateSnapshotResponse",
-}) as any as S.Codec<UpdateSnapshotResponse>;
+).annotate({ identifier: "UpdateSnapshotResponse" }) as any as S.Codec<UpdateSnapshotResponse>;
 
 export type AcceptProjectTransferRequestError = NeonOpError;
 /** Accept a project transfer request Accepts a transfer request for the specified project, transferring it to the specified organization or user. If org_id is not passed, the project will be transferred to the current user or organization account. */

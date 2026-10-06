@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "ARC Region switch",
-  serviceShapeName: "ArcRegionSwitch",
-});
+const svc = T.AwsApiService({ sdkId: "ARC Region switch", serviceShapeName: "ArcRegionSwitch" });
 const auth = T.AwsAuthSigv4({ name: "arc-region-switch" });
 const ver = T.ServiceVersion("2022-07-26");
 const proto = T.AwsProtocolsAwsJson1_0();
@@ -49,11 +46,7 @@ const rules = T.EndpointResolver((p, _) => {
         `https://arc-region-switch-control-plane.cn-north-1.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
         {
           authSchemes: [
-            {
-              name: "sigv4",
-              signingName: "arc-region-switch",
-              signingRegion: "cn-north-1",
-            },
+            { name: "sigv4", signingName: "arc-region-switch", signingRegion: "cn-north-1" },
           ],
         },
         {},
@@ -200,11 +193,9 @@ export interface CancelPlanExecutionRequest {
   comment?: string;
 }
 export const CancelPlanExecutionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    planArn: S.String,
-    executionId: S.String,
-    comment: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ planArn: S.String, executionId: S.String, comment: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "CancelPlanExecutionRequest",
 }) as any as S.Schema<CancelPlanExecutionRequest>;
@@ -244,9 +235,7 @@ export interface LambdaUngraceful {
 }
 export const LambdaUngraceful = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ behavior: S.optional(LambdaUngracefulBehavior) }),
-).annotate({
-  identifier: "LambdaUngraceful",
-}) as any as S.Schema<LambdaUngraceful>;
+).annotate({ identifier: "LambdaUngraceful" }) as any as S.Schema<LambdaUngraceful>;
 export interface CustomActionLambdaConfiguration {
   timeoutMinutes?: number;
   lambdas: Lambdas[];
@@ -292,12 +281,16 @@ export type Ec2AsgCapacityMonitoringApproach =
   | (string & {});
 export const Ec2AsgCapacityMonitoringApproach = S.String;
 
+export type WaitELBTargetGroupHealthy = "enabled" | "disabled" | (string & {});
+export const WaitELBTargetGroupHealthy = S.String;
+
 export interface Ec2AsgCapacityIncreaseConfiguration {
   timeoutMinutes?: number;
   asgs: Asg[];
   ungraceful?: Ec2Ungraceful;
   targetPercent?: number;
   capacityMonitoringApproach?: Ec2AsgCapacityMonitoringApproach;
+  waitELBTargetGroupHealthy?: WaitELBTargetGroupHealthy;
 }
 export const Ec2AsgCapacityIncreaseConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -306,6 +299,7 @@ export const Ec2AsgCapacityIncreaseConfiguration = /*@__PURE__*/ S.suspend(() =>
     ungraceful: S.optional(Ec2Ungraceful),
     targetPercent: S.optional(S.Number),
     capacityMonitoringApproach: S.optional(Ec2AsgCapacityMonitoringApproach),
+    waitELBTargetGroupHealthy: S.optional(WaitELBTargetGroupHealthy),
   }),
 ).annotate({
   identifier: "Ec2AsgCapacityIncreaseConfiguration",
@@ -330,14 +324,10 @@ export interface ArcRoutingControlState {
 }
 export const ArcRoutingControlState = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ routingControlArn: S.String, state: RoutingControlStateChange }),
-).annotate({
-  identifier: "ArcRoutingControlState",
-}) as any as S.Schema<ArcRoutingControlState>;
+).annotate({ identifier: "ArcRoutingControlState" }) as any as S.Schema<ArcRoutingControlState>;
 export type ArcRoutingControlStates = ArcRoutingControlState[];
 export const ArcRoutingControlStates = /*@__PURE__*/ S.Array(ArcRoutingControlState);
-export type RegionAndRoutingControls = {
-  [key: string]: ArcRoutingControlState[] | undefined;
-};
+export type RegionAndRoutingControls = { [key: string]: ArcRoutingControlState[] | undefined };
 export const RegionAndRoutingControls = /*@__PURE__*/ S.Record(
   S.String,
   ArcRoutingControlStates.pipe(S.optional),
@@ -346,9 +336,7 @@ export interface ArcRoutingControlConfiguration {
   timeoutMinutes?: number;
   crossAccountRole?: string;
   externalId?: string;
-  regionAndRoutingControls: {
-    [key: string]: ArcRoutingControlState[] | undefined;
-  };
+  regionAndRoutingControls: { [key: string]: ArcRoutingControlState[] | undefined };
 }
 export const ArcRoutingControlConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -371,9 +359,7 @@ export interface GlobalAuroraUngraceful {
 }
 export const GlobalAuroraUngraceful = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ungraceful: S.optional(GlobalAuroraUngracefulBehavior) }),
-).annotate({
-  identifier: "GlobalAuroraUngraceful",
-}) as any as S.Schema<GlobalAuroraUngraceful>;
+).annotate({ identifier: "GlobalAuroraUngraceful" }) as any as S.Schema<GlobalAuroraUngraceful>;
 export type GlobalClusterIdentifier = string;
 export type AuroraClusterArn = string;
 export type AuroraClusterArns = string[];
@@ -458,6 +444,7 @@ export interface EcsCapacityIncreaseConfiguration {
   ungraceful?: EcsUngraceful;
   targetPercent?: number;
   capacityMonitoringApproach?: EcsCapacityMonitoringApproach;
+  waitELBTargetGroupHealthy?: WaitELBTargetGroupHealthy;
 }
 export const EcsCapacityIncreaseConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -466,6 +453,7 @@ export const EcsCapacityIncreaseConfiguration = /*@__PURE__*/ S.suspend(() =>
     ungraceful: S.optional(EcsUngraceful),
     targetPercent: S.optional(S.Number),
     capacityMonitoringApproach: S.optional(EcsCapacityMonitoringApproach),
+    waitELBTargetGroupHealthy: S.optional(WaitELBTargetGroupHealthy),
   }),
 ).annotate({
   identifier: "EcsCapacityIncreaseConfiguration",
@@ -476,9 +464,7 @@ export interface KubernetesResourceType {
 }
 export const KubernetesResourceType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ apiVersion: S.String, kind: S.String }),
-).annotate({
-  identifier: "KubernetesResourceType",
-}) as any as S.Schema<KubernetesResourceType>;
+).annotate({ identifier: "KubernetesResourceType" }) as any as S.Schema<KubernetesResourceType>;
 export type Region = string;
 export type KubernetesNamespace = string;
 export interface KubernetesScalingResource {
@@ -487,17 +473,11 @@ export interface KubernetesScalingResource {
   hpaName?: string;
 }
 export const KubernetesScalingResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    namespace: S.String,
-    name: S.String,
-    hpaName: S.optional(S.String),
-  }),
+  S.Struct({ namespace: S.String, name: S.String, hpaName: S.optional(S.String) }),
 ).annotate({
   identifier: "KubernetesScalingResource",
 }) as any as S.Schema<KubernetesScalingResource>;
-export type RegionalScalingResource = {
-  [key: string]: KubernetesScalingResource | undefined;
-};
+export type RegionalScalingResource = { [key: string]: KubernetesScalingResource | undefined };
 export const RegionalScalingResource = /*@__PURE__*/ S.Record(
   S.String,
   KubernetesScalingResource.pipe(S.optional),
@@ -571,13 +551,8 @@ export interface Route53ResourceRecordSet {
   region?: string;
 }
 export const Route53ResourceRecordSet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recordSetIdentifier: S.optional(S.String),
-    region: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "Route53ResourceRecordSet",
-}) as any as S.Schema<Route53ResourceRecordSet>;
+  S.Struct({ recordSetIdentifier: S.optional(S.String), region: S.optional(S.String) }),
+).annotate({ identifier: "Route53ResourceRecordSet" }) as any as S.Schema<Route53ResourceRecordSet>;
 export type Route53ResourceRecordSetList = Route53ResourceRecordSet[];
 export const Route53ResourceRecordSetList = /*@__PURE__*/ S.Array(Route53ResourceRecordSet);
 export interface Route53HealthCheckConfiguration {
@@ -611,9 +586,7 @@ export interface DocumentDbUngraceful {
 }
 export const DocumentDbUngraceful = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ungraceful: S.optional(DocumentDbUngracefulBehavior) }),
-).annotate({
-  identifier: "DocumentDbUngraceful",
-}) as any as S.Schema<DocumentDbUngraceful>;
+).annotate({ identifier: "DocumentDbUngraceful" }) as any as S.Schema<DocumentDbUngraceful>;
 export type DocumentDbGlobalClusterIdentifier = string;
 export type DocumentDbClusterArn = string;
 export type DocumentDbClusterArns = string[];
@@ -637,9 +610,7 @@ export const DocumentDbConfiguration = /*@__PURE__*/ S.suspend(() =>
     globalClusterIdentifier: S.String,
     databaseClusterArns: DocumentDbClusterArns,
   }),
-).annotate({
-  identifier: "DocumentDbConfiguration",
-}) as any as S.Schema<DocumentDbConfiguration>;
+).annotate({ identifier: "DocumentDbConfiguration" }) as any as S.Schema<DocumentDbConfiguration>;
 export type RdsDbInstanceArn = string;
 export type RdsDbInstanceArnMap = { [key: string]: string | undefined };
 export const RdsDbInstanceArnMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
@@ -690,12 +661,8 @@ export const EventSourceMapping = /*@__PURE__*/ S.suspend(() =>
     externalId: S.optional(S.String),
     arn: S.String,
   }),
-).annotate({
-  identifier: "EventSourceMapping",
-}) as any as S.Schema<EventSourceMapping>;
-export type RegionEventSourceMappingMap = {
-  [key: string]: EventSourceMapping | undefined;
-};
+).annotate({ identifier: "EventSourceMapping" }) as any as S.Schema<EventSourceMapping>;
+export type RegionEventSourceMappingMap = { [key: string]: EventSourceMapping | undefined };
 export const RegionEventSourceMappingMap = /*@__PURE__*/ S.Record(
   S.String,
   EventSourceMapping.pipe(S.optional),
@@ -707,9 +674,7 @@ export interface LambdaEventSourceMappingUngraceful {
   behavior?: LambdaEventSourceMappingUngracefulBehavior;
 }
 export const LambdaEventSourceMappingUngraceful = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    behavior: S.optional(LambdaEventSourceMappingUngracefulBehavior),
-  }),
+  S.Struct({ behavior: S.optional(LambdaEventSourceMappingUngracefulBehavior) }),
 ).annotate({
   identifier: "LambdaEventSourceMappingUngraceful",
 }) as any as S.Schema<LambdaEventSourceMappingUngraceful>;
@@ -788,9 +753,7 @@ export interface NeptuneUngraceful {
 }
 export const NeptuneUngraceful = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ungraceful: S.optional(NeptuneUngracefulBehavior) }),
-).annotate({
-  identifier: "NeptuneUngraceful",
-}) as any as S.Schema<NeptuneUngraceful>;
+).annotate({ identifier: "NeptuneUngraceful" }) as any as S.Schema<NeptuneUngraceful>;
 export type NeptuneGlobalClusterIdentifier = string;
 export type NeptuneClusterArn = string;
 export type RegionNeptuneClusterArnMap = { [key: string]: string | undefined };
@@ -1210,9 +1173,7 @@ export type ExecutionBlockConfiguration =
     };
 export const ExecutionBlockConfiguration = /*@__PURE__*/ S.Union([
   S.Struct({ customActionLambdaConfig: CustomActionLambdaConfiguration }),
-  S.Struct({
-    ec2AsgCapacityIncreaseConfig: Ec2AsgCapacityIncreaseConfiguration,
-  }),
+  S.Struct({ ec2AsgCapacityIncreaseConfig: Ec2AsgCapacityIncreaseConfiguration }),
   S.Struct({ executionApprovalConfig: ExecutionApprovalConfiguration }),
   S.Struct({ arcRoutingControlConfig: ArcRoutingControlConfiguration }),
   S.Struct({ globalAuroraConfig: GlobalAuroraConfiguration }),
@@ -1227,22 +1188,12 @@ export const ExecutionBlockConfiguration = /*@__PURE__*/ S.Union([
   S.Struct({ route53HealthCheckConfig: Route53HealthCheckConfiguration }),
   S.Struct({ documentDbConfig: DocumentDbConfiguration }),
   S.Struct({ rdsPromoteReadReplicaConfig: RdsPromoteReadReplicaConfiguration }),
-  S.Struct({
-    rdsCreateCrossRegionReadReplicaConfig: RdsCreateCrossRegionReplicaConfiguration,
-  }),
-  S.Struct({
-    lambdaEventSourceMappingConfig: LambdaEventSourceMappingConfiguration,
-  }),
-  S.Struct({
-    auroraServerlessScalingConfig: AuroraServerlessScalingConfiguration,
-  }),
-  S.Struct({
-    auroraProvisionedScalingConfig: AuroraProvisionedScalingConfiguration,
-  }),
+  S.Struct({ rdsCreateCrossRegionReadReplicaConfig: RdsCreateCrossRegionReplicaConfiguration }),
+  S.Struct({ lambdaEventSourceMappingConfig: LambdaEventSourceMappingConfiguration }),
+  S.Struct({ auroraServerlessScalingConfig: AuroraServerlessScalingConfiguration }),
+  S.Struct({ auroraProvisionedScalingConfig: AuroraProvisionedScalingConfiguration }),
   S.Struct({ neptuneGlobalDatabaseConfig: NeptuneGlobalDatabaseConfiguration }),
-  S.Struct({
-    rdsSwitchoverReadReplicaConfig: RdsSwitchoverReadReplicaConfiguration,
-  }),
+  S.Struct({ rdsSwitchoverReadReplicaConfig: RdsSwitchoverReadReplicaConfiguration }),
 ]) as any as S.Schema<ExecutionBlockConfiguration>;
 export type ExecutionBlockType =
   | "CustomActionLambda"
@@ -1321,9 +1272,7 @@ export const AssociatedAlarm = /*@__PURE__*/ S.suspend(() =>
     resourceIdentifier: S.String,
     alarmType: AlarmType,
   }),
-).annotate({
-  identifier: "AssociatedAlarm",
-}) as any as S.Schema<AssociatedAlarm>;
+).annotate({ identifier: "AssociatedAlarm" }) as any as S.Schema<AssociatedAlarm>;
 export type AssociatedAlarmMap = { [key: string]: AssociatedAlarm | undefined };
 export const AssociatedAlarmMap = /*@__PURE__*/ S.Record(
   S.String,
@@ -1338,9 +1287,7 @@ export interface TriggerCondition {
 }
 export const TriggerCondition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ associatedAlarmName: S.String, condition: AlarmCondition }),
-).annotate({
-  identifier: "TriggerCondition",
-}) as any as S.Schema<TriggerCondition>;
+).annotate({ identifier: "TriggerCondition" }) as any as S.Schema<TriggerCondition>;
 export type TriggerConditionList = TriggerCondition[];
 export const TriggerConditionList = /*@__PURE__*/ S.Array(TriggerCondition);
 export interface Trigger {
@@ -1367,16 +1314,11 @@ export interface S3ReportOutputConfiguration {
   bucketOwner?: string;
 }
 export const S3ReportOutputConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bucketPath: S.optional(S.String),
-    bucketOwner: S.optional(S.String),
-  }),
+  S.Struct({ bucketPath: S.optional(S.String), bucketOwner: S.optional(S.String) }),
 ).annotate({
   identifier: "S3ReportOutputConfiguration",
 }) as any as S.Schema<S3ReportOutputConfiguration>;
-export type ReportOutputConfiguration = {
-  s3Configuration: S3ReportOutputConfiguration;
-};
+export type ReportOutputConfiguration = { s3Configuration: S3ReportOutputConfiguration };
 export const ReportOutputConfiguration = /*@__PURE__*/ S.Union([
   S.Struct({ s3Configuration: S3ReportOutputConfiguration }),
 ]);
@@ -1387,9 +1329,7 @@ export interface ReportConfiguration {
 }
 export const ReportConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ reportOutput: S.optional(ReportOutputList) }),
-).annotate({
-  identifier: "ReportConfiguration",
-}) as any as S.Schema<ReportConfiguration>;
+).annotate({ identifier: "ReportConfiguration" }) as any as S.Schema<ReportConfiguration>;
 export type PlanName = string;
 export type RegionList = string[];
 export const RegionList = /*@__PURE__*/ S.Array(S.String);
@@ -1408,6 +1348,7 @@ export interface CreatePlanRequest {
   associatedAlarms?: { [key: string]: AssociatedAlarm | undefined };
   triggers?: Trigger[];
   reportConfiguration?: ReportConfiguration;
+  serviceQuotaChecksEnabled?: boolean;
   name: string;
   regions: string[];
   recoveryApproach: RecoveryApproach;
@@ -1423,6 +1364,7 @@ export const CreatePlanRequest = /*@__PURE__*/ S.suspend(() =>
     associatedAlarms: S.optional(AssociatedAlarmMap),
     triggers: S.optional(TriggerList),
     reportConfiguration: S.optional(ReportConfiguration),
+    serviceQuotaChecksEnabled: S.optional(S.Boolean),
     name: S.String,
     regions: RegionList,
     recoveryApproach: RecoveryApproach,
@@ -1439,9 +1381,7 @@ export const CreatePlanRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "CreatePlanRequest",
-}) as any as S.Schema<CreatePlanRequest>;
+).annotate({ identifier: "CreatePlanRequest" }) as any as S.Schema<CreatePlanRequest>;
 export interface Plan {
   arn: string;
   description?: string;
@@ -1451,6 +1391,7 @@ export interface Plan {
   associatedAlarms?: { [key: string]: AssociatedAlarm | undefined };
   triggers?: Trigger[];
   reportConfiguration?: ReportConfiguration;
+  serviceQuotaChecksEnabled?: boolean;
   name: string;
   regions: string[];
   recoveryApproach: RecoveryApproach;
@@ -1469,6 +1410,7 @@ export const Plan = /*@__PURE__*/ S.suspend(() =>
     associatedAlarms: S.optional(AssociatedAlarmMap),
     triggers: S.optional(TriggerList),
     reportConfiguration: S.optional(ReportConfiguration),
+    serviceQuotaChecksEnabled: S.optional(S.Boolean),
     name: S.String,
     regions: RegionList,
     recoveryApproach: RecoveryApproach,
@@ -1483,9 +1425,7 @@ export interface CreatePlanResponse {
 }
 export const CreatePlanResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ plan: S.optional(Plan) }),
-).annotate({
-  identifier: "CreatePlanResponse",
-}) as any as S.Schema<CreatePlanResponse>;
+).annotate({ identifier: "CreatePlanResponse" }) as any as S.Schema<CreatePlanResponse>;
 export interface DeletePlanRequest {
   arn: string;
 }
@@ -1501,9 +1441,7 @@ export const DeletePlanRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "DeletePlanRequest",
-}) as any as S.Schema<DeletePlanRequest>;
+).annotate({ identifier: "DeletePlanRequest" }) as any as S.Schema<DeletePlanRequest>;
 export interface DeletePlanResponse {}
 export const DeletePlanResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeletePlanResponse",
@@ -1529,9 +1467,7 @@ export interface GetPlanResponse {
 }
 export const GetPlanResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ plan: S.optional(Plan) }),
-).annotate({
-  identifier: "GetPlanResponse",
-}) as any as S.Schema<GetPlanResponse>;
+).annotate({ identifier: "GetPlanResponse" }) as any as S.Schema<GetPlanResponse>;
 export type MaxResults = number;
 export type NextToken = string;
 export interface GetPlanEvaluationStatusRequest {
@@ -1565,9 +1501,7 @@ export interface MinimalWorkflow {
 }
 export const MinimalWorkflow = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ action: S.optional(ExecutionAction), name: S.optional(S.String) }),
-).annotate({
-  identifier: "MinimalWorkflow",
-}) as any as S.Schema<MinimalWorkflow>;
+).annotate({ identifier: "MinimalWorkflow" }) as any as S.Schema<MinimalWorkflow>;
 export type ResourceArn = string;
 export type ResourceWarningStatus = "active" | "resolved" | (string & {});
 export const ResourceWarningStatus = S.String;
@@ -1591,9 +1525,7 @@ export const ResourceWarning = /*@__PURE__*/ S.suspend(() =>
     warningUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     warningMessage: S.String,
   }),
-).annotate({
-  identifier: "ResourceWarning",
-}) as any as S.Schema<ResourceWarning>;
+).annotate({ identifier: "ResourceWarning" }) as any as S.Schema<ResourceWarning>;
 export type PlanWarnings = ResourceWarning[];
 export const PlanWarnings = /*@__PURE__*/ S.Array(ResourceWarning);
 export interface GetPlanEvaluationStatusResponse {
@@ -1632,9 +1564,7 @@ export const GetPlanExecutionRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetPlanExecutionRequest",
-}) as any as S.Schema<GetPlanExecutionRequest>;
+).annotate({ identifier: "GetPlanExecutionRequest" }) as any as S.Schema<GetPlanExecutionRequest>;
 export type ExecutionMode = "graceful" | "ungraceful" | (string & {});
 export const ExecutionMode = S.String;
 
@@ -1701,13 +1631,8 @@ export interface FailedReportOutput {
   errorMessage?: string;
 }
 export const FailedReportOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    errorCode: S.optional(FailedReportErrorCode),
-    errorMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "FailedReportOutput",
-}) as any as S.Schema<FailedReportOutput>;
+  S.Struct({ errorCode: S.optional(FailedReportErrorCode), errorMessage: S.optional(S.String) }),
+).annotate({ identifier: "FailedReportOutput" }) as any as S.Schema<FailedReportOutput>;
 export type ReportOutput =
   | { s3ReportOutput: S3ReportOutput; failedReportOutput?: never }
   | { s3ReportOutput?: never; failedReportOutput: FailedReportOutput };
@@ -1724,9 +1649,7 @@ export const GeneratedReport = /*@__PURE__*/ S.suspend(() =>
     reportGenerationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     reportOutput: S.optional(ReportOutput),
   }),
-).annotate({
-  identifier: "GeneratedReport",
-}) as any as S.Schema<GeneratedReport>;
+).annotate({ identifier: "GeneratedReport" }) as any as S.Schema<GeneratedReport>;
 export type GeneratedReportDetails = GeneratedReport[];
 export const GeneratedReportDetails = /*@__PURE__*/ S.Array(GeneratedReport);
 export interface GetPlanExecutionResponse {
@@ -1768,9 +1691,7 @@ export const GetPlanExecutionResponse = /*@__PURE__*/ S.suspend(() =>
     generatedReportDetails: S.optional(GeneratedReportDetails),
     nextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetPlanExecutionResponse",
-}) as any as S.Schema<GetPlanExecutionResponse>;
+).annotate({ identifier: "GetPlanExecutionResponse" }) as any as S.Schema<GetPlanExecutionResponse>;
 export interface GetPlanInRegionRequest {
   arn: string;
 }
@@ -1778,17 +1699,13 @@ export const GetPlanInRegionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetPlanInRegionRequest",
-}) as any as S.Schema<GetPlanInRegionRequest>;
+).annotate({ identifier: "GetPlanInRegionRequest" }) as any as S.Schema<GetPlanInRegionRequest>;
 export interface GetPlanInRegionResponse {
   plan?: Plan;
 }
 export const GetPlanInRegionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ plan: S.optional(Plan) }),
-).annotate({
-  identifier: "GetPlanInRegionResponse",
-}) as any as S.Schema<GetPlanInRegionResponse>;
+).annotate({ identifier: "GetPlanInRegionResponse" }) as any as S.Schema<GetPlanInRegionResponse>;
 export type ListExecutionEventsMaxResults = number;
 export interface ListPlanExecutionEventsRequest {
   planArn: string;
@@ -1871,10 +1788,7 @@ export interface ListPlanExecutionEventsResponse {
   nextToken?: string;
 }
 export const ListPlanExecutionEventsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(ExecutionEventList),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ items: S.optional(ExecutionEventList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListPlanExecutionEventsResponse",
 }) as any as S.Schema<ListPlanExecutionEventsResponse>;
@@ -1926,9 +1840,7 @@ export const AbbreviatedExecution = /*@__PURE__*/ S.suspend(() =>
     recoveryExecutionId: S.optional(S.String),
     actualRecoveryTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AbbreviatedExecution",
-}) as any as S.Schema<AbbreviatedExecution>;
+).annotate({ identifier: "AbbreviatedExecution" }) as any as S.Schema<AbbreviatedExecution>;
 export type AbbreviatedExecutionsList = AbbreviatedExecution[];
 export const AbbreviatedExecutionsList = /*@__PURE__*/ S.Array(AbbreviatedExecution);
 export interface ListPlanExecutionsResponse {
@@ -1936,10 +1848,7 @@ export interface ListPlanExecutionsResponse {
   nextToken?: string;
 }
 export const ListPlanExecutionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(AbbreviatedExecutionsList),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ items: S.optional(AbbreviatedExecutionsList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListPlanExecutionsResponse",
 }) as any as S.Schema<ListPlanExecutionsResponse>;
@@ -1948,10 +1857,7 @@ export interface ListPlansRequest {
   nextToken?: string;
 }
 export const ListPlansRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
+  S.Struct({ maxResults: S.optional(S.Number), nextToken: S.optional(S.String) }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/" }),
       svc,
@@ -1962,9 +1868,7 @@ export const ListPlansRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "ListPlansRequest",
-}) as any as S.Schema<ListPlansRequest>;
+).annotate({ identifier: "ListPlansRequest" }) as any as S.Schema<ListPlansRequest>;
 export interface AbbreviatedPlan {
   arn: string;
   owner: string;
@@ -1994,9 +1898,7 @@ export const AbbreviatedPlan = /*@__PURE__*/ S.suspend(() =>
     activePlanExecution: S.optional(S.String),
     recoveryTimeObjectiveMinutes: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AbbreviatedPlan",
-}) as any as S.Schema<AbbreviatedPlan>;
+).annotate({ identifier: "AbbreviatedPlan" }) as any as S.Schema<AbbreviatedPlan>;
 export type PlanList = AbbreviatedPlan[];
 export const PlanList = /*@__PURE__*/ S.Array(AbbreviatedPlan);
 export interface ListPlansResponse {
@@ -2005,21 +1907,16 @@ export interface ListPlansResponse {
 }
 export const ListPlansResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ plans: S.optional(PlanList), nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListPlansResponse",
-}) as any as S.Schema<ListPlansResponse>;
+).annotate({ identifier: "ListPlansResponse" }) as any as S.Schema<ListPlansResponse>;
 export interface ListPlansInRegionRequest {
   maxResults?: number;
   nextToken?: string;
 }
 export const ListPlansInRegionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListPlansInRegionRequest",
-}) as any as S.Schema<ListPlansInRegionRequest>;
+  S.Struct({ maxResults: S.optional(S.Number), nextToken: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "ListPlansInRegionRequest" }) as any as S.Schema<ListPlansInRegionRequest>;
 export interface ListPlansInRegionResponse {
   plans?: AbbreviatedPlan[];
   nextToken?: string;
@@ -2076,9 +1973,7 @@ export const Route53HealthCheck = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(Route53HealthCheckStatus),
     region: S.String,
   }),
-).annotate({
-  identifier: "Route53HealthCheck",
-}) as any as S.Schema<Route53HealthCheck>;
+).annotate({ identifier: "Route53HealthCheck" }) as any as S.Schema<Route53HealthCheck>;
 export type Route53HealthCheckList = Route53HealthCheck[];
 export const Route53HealthCheckList = /*@__PURE__*/ S.Array(Route53HealthCheck);
 export interface ListRoute53HealthChecksResponse {
@@ -2086,10 +1981,7 @@ export interface ListRoute53HealthChecksResponse {
   nextToken?: string;
 }
 export const ListRoute53HealthChecksResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    healthChecks: S.optional(Route53HealthCheckList),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ healthChecks: S.optional(Route53HealthCheckList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListRoute53HealthChecksResponse",
 }) as any as S.Schema<ListRoute53HealthChecksResponse>;
@@ -2116,13 +2008,81 @@ export interface ListRoute53HealthChecksInRegionResponse {
   nextToken?: string;
 }
 export const ListRoute53HealthChecksInRegionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    healthChecks: S.optional(Route53HealthCheckList),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ healthChecks: S.optional(Route53HealthCheckList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListRoute53HealthChecksInRegionResponse",
 }) as any as S.Schema<ListRoute53HealthChecksInRegionResponse>;
+export type PlanArnList = string[];
+export const PlanArnList = /*@__PURE__*/ S.Array(S.String);
+export interface ListServiceQuotaWarningsRequest {
+  planArns?: string[];
+  maxResults?: number;
+  nextToken?: string;
+}
+export const ListServiceQuotaWarningsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    planArns: S.optional(PlanArnList),
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "ListServiceQuotaWarningsRequest",
+}) as any as S.Schema<ListServiceQuotaWarningsRequest>;
+export type ServiceQuotaWarningStatus =
+  | "pending"
+  | "denied"
+  | "insufficientPermissions"
+  | "maxRegionSwitchRequestsExceeded"
+  | "maxAccountRequestsExceeded"
+  | (string & {});
+export const ServiceQuotaWarningStatus = S.String;
+
+export interface ServiceQuotaWarningSummary {
+  accountId: string;
+  quotaRegion: string;
+  serviceCode?: string;
+  quotaCode?: string;
+  quotaName?: string;
+  status: ServiceQuotaWarningStatus;
+  planArn: string;
+  requestId?: string;
+  caseId?: string;
+  warningMessage?: string;
+  lastCheckedAt?: Date;
+  warningCreatedAt?: Date;
+}
+export const ServiceQuotaWarningSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String,
+    quotaRegion: S.String,
+    serviceCode: S.optional(S.String),
+    quotaCode: S.optional(S.String),
+    quotaName: S.optional(S.String),
+    status: ServiceQuotaWarningStatus,
+    planArn: S.String,
+    requestId: S.optional(S.String),
+    caseId: S.optional(S.String),
+    warningMessage: S.optional(S.String),
+    lastCheckedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    warningCreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "ServiceQuotaWarningSummary",
+}) as any as S.Schema<ServiceQuotaWarningSummary>;
+export type ServiceQuotaWarningSummaryList = ServiceQuotaWarningSummary[];
+export const ServiceQuotaWarningSummaryList = /*@__PURE__*/ S.Array(ServiceQuotaWarningSummary);
+export interface ListServiceQuotaWarningsResponse {
+  serviceQuotaWarningSummaries: ServiceQuotaWarningSummary[];
+  nextToken?: string;
+}
+export const ListServiceQuotaWarningsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serviceQuotaWarningSummaries: ServiceQuotaWarningSummaryList,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListServiceQuotaWarningsResponse",
+}) as any as S.Schema<ListServiceQuotaWarningsResponse>;
 export interface ListTagsForResourceRequest {
   arn: string;
 }
@@ -2208,9 +2168,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -2233,9 +2191,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -2249,6 +2205,7 @@ export interface UpdatePlanRequest {
   associatedAlarms?: { [key: string]: AssociatedAlarm | undefined };
   triggers?: Trigger[];
   reportConfiguration?: ReportConfiguration;
+  serviceQuotaChecksEnabled?: boolean;
 }
 export const UpdatePlanRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2260,6 +2217,7 @@ export const UpdatePlanRequest = /*@__PURE__*/ S.suspend(() =>
     associatedAlarms: S.optional(AssociatedAlarmMap),
     triggers: S.optional(TriggerList),
     reportConfiguration: S.optional(ReportConfiguration),
+    serviceQuotaChecksEnabled: S.optional(S.Boolean),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/" }),
@@ -2271,17 +2229,13 @@ export const UpdatePlanRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ UseControlPlaneEndpoint: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "UpdatePlanRequest",
-}) as any as S.Schema<UpdatePlanRequest>;
+).annotate({ identifier: "UpdatePlanRequest" }) as any as S.Schema<UpdatePlanRequest>;
 export interface UpdatePlanResponse {
   plan?: Plan;
 }
 export const UpdatePlanResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ plan: S.optional(Plan) }),
-).annotate({
-  identifier: "UpdatePlanResponse",
-}) as any as S.Schema<UpdatePlanResponse>;
+).annotate({ identifier: "UpdatePlanResponse" }) as any as S.Schema<UpdatePlanResponse>;
 export type UpdatePlanExecutionAction =
   | "switchToGraceful"
   | "switchToUngraceful"
@@ -2333,9 +2287,7 @@ export const UpdatePlanExecutionStepRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdatePlanExecutionStepRequest>;
 export interface UpdatePlanExecutionStepResponse {}
 export const UpdatePlanExecutionStepResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "UpdatePlanExecutionStepResponse",
-  },
+  { identifier: "UpdatePlanExecutionStepResponse" },
 ) as any as S.Schema<UpdatePlanExecutionStepResponse>;
 export type ApprovePlanExecutionStepError =
   | AccessDeniedException
@@ -2687,6 +2639,36 @@ export const listRoute53HealthChecksInRegion: API.PaginatedOperationMethod<
     inputToken: "nextToken",
     outputToken: "nextToken",
     items: "healthChecks",
+    pageSize: "maxResults",
+  } as const,
+})) as any;
+
+export type ListServiceQuotaWarningsError =
+  | AccessDeniedException
+  | InternalServerException
+  | CommonErrors;
+/**
+ * Lists the service quota warnings for the plans that you can access. Region switch creates a warning when the applied quota value in one Region of a plan is lower than the value required for the matching resource in another Region or account in the plan.
+ *
+ * Returns the warnings for the plans that you own and for plans that are shared with your account through AWS Resource Access Manager (AWS RAM). To return warnings for specific plans, provide a list of plan Amazon Resource Names (ARNs). Region switch ignores any plan ARN that you can't access. If you don't provide any plan ARNs, Region switch returns the warnings for all of your accessible plans.
+ */
+export const listServiceQuotaWarnings: API.PaginatedOperationMethod<
+  ListServiceQuotaWarningsRequest,
+  ListServiceQuotaWarningsResponse,
+  ListServiceQuotaWarningsError,
+  Credentials | HttpClient.HttpClient,
+  ServiceQuotaWarningSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListServiceQuotaWarningsRequest,
+  output: ListServiceQuotaWarningsResponse,
+  errors: [AccessDeniedException, InternalServerException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListServiceQuotaWarnings",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "serviceQuotaWarningSummaries",
     pageSize: "maxResults",
   } as const,
 })) as any;

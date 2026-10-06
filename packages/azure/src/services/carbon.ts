@@ -179,9 +179,7 @@ export const CarbonEmissionData = /*@__PURE__*/ S.suspend(() =>
     monthOverMonthEmissionsChangeRatio: S.optional(S.Number),
     monthlyEmissionsChangeValue: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CarbonEmissionData",
-}) as any as S.Schema<CarbonEmissionData>;
+).annotate({ identifier: "CarbonEmissionData" }) as any as S.Schema<CarbonEmissionData>;
 
 /** The CarbonEmissionData items on this page */
 export type CarbonEmissionDataListResultValueList = Array<CarbonEmissionData>;
@@ -250,9 +248,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -272,9 +268,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -324,9 +318,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export type CarbonServiceQueryCarbonEmissionDataAvailableDateRangeError = AzureOpError;
 /** API for query carbon emission data available date range */

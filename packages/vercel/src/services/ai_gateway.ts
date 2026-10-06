@@ -44,6 +44,117 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** The budget scope to archive. */
+export type ArchiveAiGatewayBudgetRequestScopeType = "team" | "project" | "user";
+export const ArchiveAiGatewayBudgetRequestScopeType = S.String;
+
+export interface ArchiveAiGatewayBudgetRequest {
+  /** The budget scope to archive. */
+  scopeType: ArchiveAiGatewayBudgetRequestScopeType | (string & {});
+  /** Required when scopeType is "project". */
+  projectId?: string;
+  /** Required when scopeType is "user". */
+  userId?: string;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string;
+}
+export const ArchiveAiGatewayBudgetRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scopeType: ArchiveAiGatewayBudgetRequestScopeType.pipe(T.Query()),
+    projectId: S.optional(S.String.pipe(T.Query())),
+    userId: S.optional(S.String.pipe(T.Query())),
+    teamId: S.optional(S.String.pipe(T.Query())),
+    slug: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "DELETE", uri: "/ai-gateway/budgets", code: 200 })),
+).annotate({
+  identifier: "ArchiveAiGatewayBudgetRequest",
+}) as any as S.Schema<ArchiveAiGatewayBudgetRequest>;
+
+export type AiGatewayBudgetAlertThresholdsList = Array<number>;
+export const AiGatewayBudgetAlertThresholdsList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<AiGatewayBudgetAlertThresholdsList>;
+
+export type AiGatewayBudgetRefreshPeriod = "daily" | "monthly" | "none" | "weekly";
+export const AiGatewayBudgetRefreshPeriod = S.String;
+
+export type AiGatewayBudgetScopeType = "api-key" | "project" | "team" | "user";
+export const AiGatewayBudgetScopeType = S.String;
+
+/** Set when the row is inherited from the team's budget default. */
+export type AiGatewayBudgetSource = "default";
+export const AiGatewayBudgetSource = S.String;
+
+export interface AiGatewayBudget {
+  active: boolean;
+  alertThresholds?: AiGatewayBudgetAlertThresholdsList;
+  archived: boolean;
+  createdAt: number;
+  currentByokSpend: number;
+  currentSpend: number;
+  includeByokInQuota: boolean;
+  limitAmount: number;
+  name?: string;
+  quotaEntityId: string;
+  refreshPeriod: AiGatewayBudgetRefreshPeriod;
+  /** The native Vercel id of the scoped entity. Team/project ids already carry their prefix, so this equals `quotaEntityId` (`team_…` / `prj_…`); for the api-key scope it is the api key id (the `api_key_id_` prefix stripped). */
+  scopeId: string;
+  scopeType: AiGatewayBudgetScopeType;
+  /** Set when the row is inherited from the team's budget default. */
+  source?: AiGatewayBudgetSource;
+  updatedAt: number;
+}
+export const AiGatewayBudget = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    active: S.Boolean,
+    alertThresholds: S.optional(AiGatewayBudgetAlertThresholdsList),
+    archived: S.Boolean,
+    createdAt: S.Number,
+    currentByokSpend: S.Number,
+    currentSpend: S.Number,
+    includeByokInQuota: S.Boolean,
+    limitAmount: S.Number,
+    name: S.optional(S.String),
+    quotaEntityId: S.String,
+    refreshPeriod: AiGatewayBudgetRefreshPeriod,
+    scopeId: S.String,
+    scopeType: AiGatewayBudgetScopeType,
+    source: S.optional(AiGatewayBudgetSource),
+    updatedAt: S.Number,
+  }),
+).annotate({ identifier: "AiGatewayBudget" }) as any as S.Schema<AiGatewayBudget>;
+
+/** The budget default scope to delete. */
+export type ArchiveAiGatewayBudgetDefaultRequestScopeType = "team" | "project" | "api-key" | "user";
+export const ArchiveAiGatewayBudgetDefaultRequestScopeType = S.String;
+
+export interface ArchiveAiGatewayBudgetDefaultRequest {
+  /** The budget default scope to delete. */
+  scopeType: ArchiveAiGatewayBudgetDefaultRequestScopeType | (string & {});
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string;
+}
+export const ArchiveAiGatewayBudgetDefaultRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scopeType: ArchiveAiGatewayBudgetDefaultRequestScopeType.pipe(T.Query()),
+    teamId: S.optional(S.String.pipe(T.Query())),
+    slug: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "DELETE", uri: "/ai-gateway/budgets/defaults", code: 200 })),
+).annotate({
+  identifier: "ArchiveAiGatewayBudgetDefaultRequest",
+}) as any as S.Schema<ArchiveAiGatewayBudgetDefaultRequest>;
+
+export interface ArchiveAiGatewayBudgetDefaultResponse {}
+export const ArchiveAiGatewayBudgetDefaultResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "ArchiveAiGatewayBudgetDefaultResponse",
+}) as any as S.Schema<ArchiveAiGatewayBudgetDefaultResponse>;
+
 export interface CreateAiGatewayRuleRequest {
   /** The Team identifier to perform the request on behalf of. */
   teamId?: string;
@@ -54,13 +165,21 @@ export const CreateAiGatewayRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(T.Http({ method: "POST", uri: "/v1/ai-gateway/rules", code: 200 })),
+  }).pipe(T.Http({ method: "POST", uri: "/ai-gateway/rules", code: 200 })),
 ).annotate({
   identifier: "CreateAiGatewayRuleRequest",
 }) as any as S.Schema<CreateAiGatewayRuleRequest>;
 
-export type AiGatewayRuleType = "deny" | "rewrite";
-export const AiGatewayRuleType = S.String;
+export interface AiGatewayRuleAction {
+  reason?: string;
+  rewriteModel?: string;
+}
+export const AiGatewayRuleAction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reason: S.optional(S.String),
+    rewriteModel: S.optional(S.String),
+  }),
+).annotate({ identifier: "AiGatewayRuleAction" }) as any as S.Schema<AiGatewayRuleAction>;
 
 export interface AiGatewayRuleMatch {
   model?: string;
@@ -69,54 +188,504 @@ export const AiGatewayRuleMatch = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     model: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AiGatewayRuleMatch",
-}) as any as S.Schema<AiGatewayRuleMatch>;
+).annotate({ identifier: "AiGatewayRuleMatch" }) as any as S.Schema<AiGatewayRuleMatch>;
 
-export interface AiGatewayRuleAction {
-  rewriteModel?: string;
-  reason?: string;
-}
-export const AiGatewayRuleAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    rewriteModel: S.optional(S.String),
-    reason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AiGatewayRuleAction",
-}) as any as S.Schema<AiGatewayRuleAction>;
+export type AiGatewayRuleType = "deny" | "rewrite";
+export const AiGatewayRuleType = S.String;
 
 /** Public response shape for AI Gateway routing rules. Used so OpenAPI generation can avoid ElectroDB's recursive EntityItem types. */
 export interface AiGatewayRule {
+  action?: AiGatewayRuleAction;
+  createdAt: number;
+  createdBy?: string;
+  deleted?: boolean;
+  description?: string;
+  enabled: boolean;
+  match?: AiGatewayRuleMatch;
   ownerId: string;
   ruleId: string;
   type: AiGatewayRuleType;
-  match?: AiGatewayRuleMatch;
-  action?: AiGatewayRuleAction;
-  enabled: boolean;
-  deleted?: boolean;
-  description?: string;
-  createdBy?: string;
-  updatedBy?: string;
-  createdAt: number;
   updatedAt: number;
+  updatedBy?: string;
 }
 export const AiGatewayRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    action: S.optional(AiGatewayRuleAction),
+    createdAt: S.Number,
+    createdBy: S.optional(S.String),
+    deleted: S.optional(S.Boolean),
+    description: S.optional(S.String),
+    enabled: S.Boolean,
+    match: S.optional(AiGatewayRuleMatch),
     ownerId: S.String,
     ruleId: S.String,
     type: AiGatewayRuleType,
-    match: S.optional(AiGatewayRuleMatch),
-    action: S.optional(AiGatewayRuleAction),
-    enabled: S.Boolean,
-    deleted: S.optional(S.Boolean),
-    description: S.optional(S.String),
-    createdBy: S.optional(S.String),
-    updatedBy: S.optional(S.String),
-    createdAt: S.Number,
     updatedAt: S.Number,
+    updatedBy: S.optional(S.String),
   }),
 ).annotate({ identifier: "AiGatewayRule" }) as any as S.Schema<AiGatewayRule>;
+
+export interface CreateAiGatewayVirtualModelConfigRequest {
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string;
+}
+export const CreateAiGatewayVirtualModelConfigRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    teamId: S.optional(S.String.pipe(T.Query())),
+    slug: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "POST", uri: "/ai-gateway/virtual-model-configs", code: 200 })),
+).annotate({
+  identifier: "CreateAiGatewayVirtualModelConfigRequest",
+}) as any as S.Schema<CreateAiGatewayVirtualModelConfigRequest>;
+
+/** BYOK credential IDs allowed for this VMC. */
+export type AiGatewayVirtualModelConfigByokCredentialIdsList = Array<string>;
+export const AiGatewayVirtualModelConfigByokCredentialIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AiGatewayVirtualModelConfigByokCredentialIdsList>;
+
+/** Use caching if available. */
+export type AiGatewayVirtualModelConfigCaching = "auto";
+export const AiGatewayVirtualModelConfigCaching = S.String;
+
+/** Limit providers to those with these features. */
+export type AiGatewayVirtualModelConfigHasItem =
+  | "implicit-caching"
+  | "reasoning"
+  | "structured-output"
+  | "tool-use"
+  | "vision";
+export const AiGatewayVirtualModelConfigHasItem = S.String;
+
+/** Limit providers to those with these features. */
+export type AiGatewayVirtualModelConfigHasList = Array<AiGatewayVirtualModelConfigHasItem>;
+export const AiGatewayVirtualModelConfigHasList = /*@__PURE__*/ S.Array(
+  AiGatewayVirtualModelConfigHasItem,
+) as any as S.Schema<AiGatewayVirtualModelConfigHasList>;
+
+/** Pin scope: `specific` (one provider region), `zone` (geo zone), or `global`. */
+export type AiGatewayVirtualModelConfigInferenceRegionProvidersValueScope =
+  | "global"
+  | "specific"
+  | "zone";
+export const AiGatewayVirtualModelConfigInferenceRegionProvidersValueScope = S.String;
+
+/** Per-provider region overrides keyed by provider slug. */
+export interface AiGatewayVirtualModelConfigInferenceRegionProvidersValue {
+  /** Geo zone (e.g. "us", "eu"). */
+  geoRegion?: string;
+  /** Provider-specific region identifier. */
+  providerRegion?: string;
+  /** Pin scope: `specific` (one provider region), `zone` (geo zone), or `global`. */
+  scope?: AiGatewayVirtualModelConfigInferenceRegionProvidersValueScope;
+}
+export const AiGatewayVirtualModelConfigInferenceRegionProvidersValue = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      geoRegion: S.optional(S.String),
+      providerRegion: S.optional(S.String),
+      scope: S.optional(AiGatewayVirtualModelConfigInferenceRegionProvidersValueScope),
+    }),
+).annotate({
+  identifier: "AiGatewayVirtualModelConfigInferenceRegionProvidersValue",
+}) as any as S.Schema<AiGatewayVirtualModelConfigInferenceRegionProvidersValue>;
+
+/** Per-provider region overrides keyed by provider slug. */
+export type AiGatewayVirtualModelConfigInferenceRegionProvidersMap = {
+  [key: string]: AiGatewayVirtualModelConfigInferenceRegionProvidersValue | null | undefined;
+};
+export const AiGatewayVirtualModelConfigInferenceRegionProvidersMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.NullOr(AiGatewayVirtualModelConfigInferenceRegionProvidersValue),
+) as any as S.Schema<AiGatewayVirtualModelConfigInferenceRegionProvidersMap>;
+
+/** Pin scope: `specific` (one provider region), `zone` (geo zone), or `global`. */
+export type AiGatewayVirtualModelConfigInferenceRegionScope = "global" | "specific" | "zone";
+export const AiGatewayVirtualModelConfigInferenceRegionScope = S.String;
+
+/** Region pinned on the VMC for system-credential routing (alias/router only). */
+export interface AiGatewayVirtualModelConfigInferenceRegion {
+  /** Geo zone (e.g. "us", "eu"). */
+  geoRegion?: string;
+  /** Provider-specific region identifier. */
+  providerRegion?: string;
+  /** Per-provider region overrides keyed by provider slug. */
+  providers?: AiGatewayVirtualModelConfigInferenceRegionProvidersMap;
+  /** Pin scope: `specific` (one provider region), `zone` (geo zone), or `global`. */
+  scope?: AiGatewayVirtualModelConfigInferenceRegionScope;
+}
+export const AiGatewayVirtualModelConfigInferenceRegion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    geoRegion: S.optional(S.String),
+    providerRegion: S.optional(S.String),
+    providers: S.optional(AiGatewayVirtualModelConfigInferenceRegionProvidersMap),
+    scope: S.optional(AiGatewayVirtualModelConfigInferenceRegionScope),
+  }),
+).annotate({
+  identifier: "AiGatewayVirtualModelConfigInferenceRegion",
+}) as any as S.Schema<AiGatewayVirtualModelConfigInferenceRegion>;
+
+/** For kind=router: ordered candidates, bare slugs/references or `{ slug, ...attributes }`. For kind=alias: ordered fallback model slugs, optionally led by one conditional `{ model, when }` entry, used when the primary model's answers match `when`. */
+export interface AiGatewayVirtualModelConfigModelsItemCase1 {
+  /** Highest task level the member handles, in [0, 1]. Read by the intelligence selector. */
+  intelligence?: number;
+  slug: string;
+}
+export const AiGatewayVirtualModelConfigModelsItemCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    intelligence: S.optional(S.Number),
+    slug: S.String,
+  }),
+).annotate({
+  identifier: "AiGatewayVirtualModelConfigModelsItemCase1",
+}) as any as S.Schema<AiGatewayVirtualModelConfigModelsItemCase1>;
+
+/** Without a question, checks every Choice and Score question. */
+export interface AiGatewayEvaluationFallbackConditionCase0 {
+  confidenceBelow: number;
+  question?: string;
+}
+export const AiGatewayEvaluationFallbackConditionCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    confidenceBelow: S.Number,
+    question: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AiGatewayEvaluationFallbackConditionCase0",
+}) as any as S.Schema<AiGatewayEvaluationFallbackConditionCase0>;
+
+export type AiGatewayEvaluationFallbackConditionCase1ProbabilityBetweenList = Array<number>;
+export const AiGatewayEvaluationFallbackConditionCase1ProbabilityBetweenList =
+  /*@__PURE__*/ S.Array(
+    S.Number,
+  ) as any as S.Schema<AiGatewayEvaluationFallbackConditionCase1ProbabilityBetweenList>;
+
+/** Without a question, checks every Boolean question. */
+export interface AiGatewayEvaluationFallbackConditionCase1 {
+  probabilityBetween: AiGatewayEvaluationFallbackConditionCase1ProbabilityBetweenList;
+  question?: string;
+}
+export const AiGatewayEvaluationFallbackConditionCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    probabilityBetween: AiGatewayEvaluationFallbackConditionCase1ProbabilityBetweenList,
+    question: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AiGatewayEvaluationFallbackConditionCase1",
+}) as any as S.Schema<AiGatewayEvaluationFallbackConditionCase1>;
+
+export type AiGatewayEvaluationFallbackConditionCase2AnyList =
+  Array<AiGatewayEvaluationFallbackCondition>;
+export const AiGatewayEvaluationFallbackConditionCase2AnyList = /*@__PURE__*/ S.Array(
+  S.suspend(() => AiGatewayEvaluationFallbackCondition),
+) as any as S.Schema<AiGatewayEvaluationFallbackConditionCase2AnyList>;
+
+export interface AiGatewayEvaluationFallbackConditionCase2 {
+  any: AiGatewayEvaluationFallbackConditionCase2AnyList;
+}
+export const AiGatewayEvaluationFallbackConditionCase2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    any: AiGatewayEvaluationFallbackConditionCase2AnyList,
+  }),
+).annotate({
+  identifier: "AiGatewayEvaluationFallbackConditionCase2",
+}) as any as S.Schema<AiGatewayEvaluationFallbackConditionCase2>;
+
+export type AiGatewayEvaluationFallbackConditionCase3AllList =
+  Array<AiGatewayEvaluationFallbackCondition>;
+export const AiGatewayEvaluationFallbackConditionCase3AllList = /*@__PURE__*/ S.Array(
+  S.suspend(() => AiGatewayEvaluationFallbackCondition),
+) as any as S.Schema<AiGatewayEvaluationFallbackConditionCase3AllList>;
+
+export interface AiGatewayEvaluationFallbackConditionCase3 {
+  all: AiGatewayEvaluationFallbackConditionCase3AllList;
+}
+export const AiGatewayEvaluationFallbackConditionCase3 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    all: AiGatewayEvaluationFallbackConditionCase3AllList,
+  }),
+).annotate({
+  identifier: "AiGatewayEvaluationFallbackConditionCase3",
+}) as any as S.Schema<AiGatewayEvaluationFallbackConditionCase3>;
+
+export type AiGatewayEvaluationFallbackConditionCase4AtLeastConditionsList =
+  Array<AiGatewayEvaluationFallbackCondition>;
+export const AiGatewayEvaluationFallbackConditionCase4AtLeastConditionsList = /*@__PURE__*/ S.Array(
+  S.suspend(() => AiGatewayEvaluationFallbackCondition),
+) as any as S.Schema<AiGatewayEvaluationFallbackConditionCase4AtLeastConditionsList>;
+
+export interface AiGatewayEvaluationFallbackConditionCase4AtLeast {
+  conditions: AiGatewayEvaluationFallbackConditionCase4AtLeastConditionsList;
+  count: number;
+}
+export const AiGatewayEvaluationFallbackConditionCase4AtLeast = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    conditions: AiGatewayEvaluationFallbackConditionCase4AtLeastConditionsList,
+    count: S.Number,
+  }),
+).annotate({
+  identifier: "AiGatewayEvaluationFallbackConditionCase4AtLeast",
+}) as any as S.Schema<AiGatewayEvaluationFallbackConditionCase4AtLeast>;
+
+export interface AiGatewayEvaluationFallbackConditionCase4 {
+  atLeast: AiGatewayEvaluationFallbackConditionCase4AtLeast;
+}
+export const AiGatewayEvaluationFallbackConditionCase4 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    atLeast: AiGatewayEvaluationFallbackConditionCase4AtLeast,
+  }),
+).annotate({
+  identifier: "AiGatewayEvaluationFallbackConditionCase4",
+}) as any as S.Schema<AiGatewayEvaluationFallbackConditionCase4>;
+
+export type AiGatewayEvaluationFallbackCondition =
+  | AiGatewayEvaluationFallbackConditionCase0
+  | AiGatewayEvaluationFallbackConditionCase1
+  | AiGatewayEvaluationFallbackConditionCase2
+  | AiGatewayEvaluationFallbackConditionCase3
+  | AiGatewayEvaluationFallbackConditionCase4;
+export const AiGatewayEvaluationFallbackCondition =
+  S.Unknown as any as S.Schema<AiGatewayEvaluationFallbackCondition>;
+
+/** For kind=router: ordered candidates, bare slugs/references or `{ slug, ...attributes }`. For kind=alias: ordered fallback model slugs, optionally led by one conditional `{ model, when }` entry, used when the primary model's answers match `when`. */
+export interface AiGatewayVirtualModelConfigModelsItemCase2 {
+  model: string;
+  when: AiGatewayEvaluationFallbackCondition;
+}
+export const AiGatewayVirtualModelConfigModelsItemCase2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    model: S.String,
+    when: AiGatewayEvaluationFallbackCondition,
+  }),
+).annotate({
+  identifier: "AiGatewayVirtualModelConfigModelsItemCase2",
+}) as any as S.Schema<AiGatewayVirtualModelConfigModelsItemCase2>;
+
+export type AiGatewayVirtualModelConfigModelsItem =
+  | string
+  | AiGatewayVirtualModelConfigModelsItemCase1
+  | AiGatewayVirtualModelConfigModelsItemCase2;
+export const AiGatewayVirtualModelConfigModelsItem =
+  S.Unknown as any as S.Schema<AiGatewayVirtualModelConfigModelsItem>;
+
+/** For kind=router: ordered candidates, bare slugs/references or `{ slug, ...attributes }`. For kind=alias: ordered fallback model slugs, optionally led by one conditional `{ model, when }` entry, used when the primary model's answers match `when`. */
+export type AiGatewayVirtualModelConfigModelsList = Array<AiGatewayVirtualModelConfigModelsItem>;
+export const AiGatewayVirtualModelConfigModelsList = /*@__PURE__*/ S.Array(
+  AiGatewayVirtualModelConfigModelsItem,
+) as any as S.Schema<AiGatewayVirtualModelConfigModelsList>;
+
+/** Observability tags attached to requests through this VMC. */
+export type AiGatewayVirtualModelConfigObservabilityTagsList = Array<string>;
+export const AiGatewayVirtualModelConfigObservabilityTagsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AiGatewayVirtualModelConfigObservabilityTagsList>;
+
+/** Restrict routing to only these providers. */
+export type AiGatewayVirtualModelConfigProviderOnlyList = Array<string>;
+export const AiGatewayVirtualModelConfigProviderOnlyList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AiGatewayVirtualModelConfigProviderOnlyList>;
+
+/** Arbitrary per-provider AI SDK options, keyed by gateway provider slug. */
+export type AiGatewayProviderOptionBag = { [key: string]: unknown | undefined };
+export const AiGatewayProviderOptionBag = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<AiGatewayProviderOptionBag>;
+
+/** Arbitrary per-provider AI SDK options, keyed by gateway provider slug. */
+export type AiGatewayVirtualModelConfigProviderOptionsMap = {
+  [key: string]: AiGatewayProviderOptionBag | undefined;
+};
+export const AiGatewayVirtualModelConfigProviderOptionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  AiGatewayProviderOptionBag,
+) as any as S.Schema<AiGatewayVirtualModelConfigProviderOptionsMap>;
+
+/** Ordered list of providers to try as fallbacks on failure. */
+export type AiGatewayVirtualModelConfigProviderOrderList = Array<string>;
+export const AiGatewayVirtualModelConfigProviderOrderList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AiGatewayVirtualModelConfigProviderOrderList>;
+
+export type AiGatewayVirtualModelConfigProviderTimeoutsByokMap = {
+  [key: string]: number | undefined;
+};
+export const AiGatewayVirtualModelConfigProviderTimeoutsByokMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Number,
+) as any as S.Schema<AiGatewayVirtualModelConfigProviderTimeoutsByokMap>;
+
+/** Per-request provider timeouts in ms, keyed by provider slug for BYOK credentials. */
+export interface AiGatewayVirtualModelConfigProviderTimeouts {
+  byok?: AiGatewayVirtualModelConfigProviderTimeoutsByokMap;
+}
+export const AiGatewayVirtualModelConfigProviderTimeouts = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    byok: S.optional(AiGatewayVirtualModelConfigProviderTimeoutsByokMap),
+  }),
+).annotate({
+  identifier: "AiGatewayVirtualModelConfigProviderTimeouts",
+}) as any as S.Schema<AiGatewayVirtualModelConfigProviderTimeouts>;
+
+/** For kind=router: how to order candidates. Absent means declared order. */
+export type AiGatewayVirtualModelConfigSelector = "cost" | "tps" | "ttft";
+export const AiGatewayVirtualModelConfigSelector = S.String;
+
+/** For kind=router: option slices keyed by selector name; each selector owns its slice's shape. */
+export type AiGatewayRouterSelectorOptionBag = { [key: string]: unknown | undefined };
+export const AiGatewayRouterSelectorOptionBag = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<AiGatewayRouterSelectorOptionBag>;
+
+/** For kind=router: option slices keyed by selector name; each selector owns its slice's shape. */
+export interface AiGatewayVirtualModelConfigSelectorOptions {
+  cost?: AiGatewayRouterSelectorOptionBag;
+  tps?: AiGatewayRouterSelectorOptionBag;
+  ttft?: AiGatewayRouterSelectorOptionBag;
+}
+export const AiGatewayVirtualModelConfigSelectorOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cost: S.optional(AiGatewayRouterSelectorOptionBag),
+    tps: S.optional(AiGatewayRouterSelectorOptionBag),
+    ttft: S.optional(AiGatewayRouterSelectorOptionBag),
+  }),
+).annotate({
+  identifier: "AiGatewayVirtualModelConfigSelectorOptions",
+}) as any as S.Schema<AiGatewayVirtualModelConfigSelectorOptions>;
+
+/** Service tier for providers that support it. */
+export type AiGatewayVirtualModelConfigServiceTier = "fast" | "flex" | "priority";
+export const AiGatewayVirtualModelConfigServiceTier = S.String;
+
+/** Rank eligible providers by an attribute. */
+export type AiGatewayVirtualModelConfigSort =
+  | "cost"
+  | "latency"
+  | "price"
+  | "throughput"
+  | "tps"
+  | "ttft";
+export const AiGatewayVirtualModelConfigSort = S.String;
+
+/** Only use fastest providers with short timeouts. */
+export type AiGatewayVirtualModelConfigSpeed = "fast";
+export const AiGatewayVirtualModelConfigSpeed = S.String;
+
+/** Public response shape for virtual model configs. Used so OpenAPI generation can avoid ElectroDB's recursive EntityItem types. */
+export interface AiGatewayVirtualModelConfig {
+  /** Allow fallback from fast to standard providers on failure. */
+  allowFallbackFromFast?: boolean;
+  /** For kind=relay: URL the gateway forwards requests to as a transparent proxy. */
+  baseUrl?: string;
+  /** BYOK credential IDs allowed for this VMC. */
+  byokCredentialIds?: AiGatewayVirtualModelConfigByokCredentialIdsList;
+  /** Use caching if available. */
+  caching?: AiGatewayVirtualModelConfigCaching;
+  /** Creation timestamp (epoch ms). */
+  createdAt: number;
+  /** User or app id that created this VMC. */
+  createdBy?: string;
+  /** Whether this VMC is soft-deleted. */
+  deleted: boolean;
+  /** Optional description for UI. */
+  description?: string;
+  /** Only use providers that will not train on your prompts. */
+  disallowPromptTraining?: boolean;
+  /** Human-readable name for UI. */
+  displayName?: string;
+  /** Limit providers to those with these features. */
+  has?: AiGatewayVirtualModelConfigHasList;
+  /** Only use HIPAA-compliant providers. */
+  hipaaCompliant?: boolean;
+  /** Region pinned on the VMC for system-credential routing (alias/router only). */
+  inferenceRegion?: AiGatewayVirtualModelConfigInferenceRegion;
+  /** The concrete model-provider instance this VMC resolves to. */
+  instanceId?: string;
+  /** VMC kind: alias, relay, or router. */
+  kind: string;
+  /** For kind=router: ordered candidates, bare slugs/references or `{ slug, ...attributes }`. For kind=alias: ordered fallback model slugs, optionally led by one conditional `{ model, when }` entry, used when the primary model's answers match `when`. */
+  models?: AiGatewayVirtualModelConfigModelsList;
+  /** Canonical model slug this VMC maps to (e.g. "creator/model"). Not used by kind=router. */
+  modelSlug?: string;
+  /** Observability tags attached to requests through this VMC. */
+  observabilityTags?: AiGatewayVirtualModelConfigObservabilityTagsList;
+  /** Team (owner) that owns this VMC. */
+  ownerId: string;
+  /** Restrict routing to only these providers. */
+  providerOnly?: AiGatewayVirtualModelConfigProviderOnlyList;
+  /** Arbitrary per-provider AI SDK options, keyed by gateway provider slug. */
+  providerOptions?: AiGatewayVirtualModelConfigProviderOptionsMap;
+  /** Ordered list of providers to try as fallbacks on failure. */
+  providerOrder?: AiGatewayVirtualModelConfigProviderOrderList;
+  /** Per-request provider timeouts in ms, keyed by provider slug for BYOK credentials. */
+  providerTimeouts?: AiGatewayVirtualModelConfigProviderTimeouts;
+  /** For kind=router: how to order candidates. Absent means declared order. */
+  selector?: AiGatewayVirtualModelConfigSelector;
+  /** For kind=router: option slices keyed by selector name; each selector owns its slice's shape. */
+  selectorOptions?: AiGatewayVirtualModelConfigSelectorOptions;
+  /** Service tier for providers that support it. */
+  serviceTier?: AiGatewayVirtualModelConfigServiceTier;
+  /** Rank eligible providers by an attribute. */
+  sort?: AiGatewayVirtualModelConfigSort;
+  /** Only use fastest providers with short timeouts. */
+  speed?: AiGatewayVirtualModelConfigSpeed;
+  /** UI lifecycle status: draft, active, or archived. */
+  status: string;
+  /** Last update timestamp (epoch ms). */
+  updatedAt: number;
+  /** User or app id that last updated this VMC. */
+  updatedBy?: string;
+  /** Client-facing alias used as the model slug in Gateway calls. */
+  virtualModelSlug: string;
+  /** Visibility in listings: public, internal, or stealth. */
+  visibility?: string;
+  /** Only use providers with zero data retention. */
+  zeroDataRetention?: boolean;
+}
+export const AiGatewayVirtualModelConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allowFallbackFromFast: S.optional(S.Boolean),
+    baseUrl: S.optional(S.String),
+    byokCredentialIds: S.optional(AiGatewayVirtualModelConfigByokCredentialIdsList),
+    caching: S.optional(AiGatewayVirtualModelConfigCaching),
+    createdAt: S.Number,
+    createdBy: S.optional(S.String),
+    deleted: S.Boolean,
+    description: S.optional(S.String),
+    disallowPromptTraining: S.optional(S.Boolean),
+    displayName: S.optional(S.String),
+    has: S.optional(AiGatewayVirtualModelConfigHasList),
+    hipaaCompliant: S.optional(S.Boolean),
+    inferenceRegion: S.optional(AiGatewayVirtualModelConfigInferenceRegion),
+    instanceId: S.optional(S.String),
+    kind: S.String,
+    models: S.optional(AiGatewayVirtualModelConfigModelsList),
+    modelSlug: S.optional(S.String),
+    observabilityTags: S.optional(AiGatewayVirtualModelConfigObservabilityTagsList),
+    ownerId: S.String,
+    providerOnly: S.optional(AiGatewayVirtualModelConfigProviderOnlyList),
+    providerOptions: S.optional(AiGatewayVirtualModelConfigProviderOptionsMap),
+    providerOrder: S.optional(AiGatewayVirtualModelConfigProviderOrderList),
+    providerTimeouts: S.optional(AiGatewayVirtualModelConfigProviderTimeouts),
+    selector: S.optional(AiGatewayVirtualModelConfigSelector),
+    selectorOptions: S.optional(AiGatewayVirtualModelConfigSelectorOptions),
+    serviceTier: S.optional(AiGatewayVirtualModelConfigServiceTier),
+    sort: S.optional(AiGatewayVirtualModelConfigSort),
+    speed: S.optional(AiGatewayVirtualModelConfigSpeed),
+    status: S.String,
+    updatedAt: S.Number,
+    updatedBy: S.optional(S.String),
+    virtualModelSlug: S.String,
+    visibility: S.optional(S.String),
+    zeroDataRetention: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "AiGatewayVirtualModelConfig",
+}) as any as S.Schema<AiGatewayVirtualModelConfig>;
 
 export interface DeleteAiGatewayRuleRequest {
   ruleId: string;
@@ -130,7 +699,7 @@ export const DeleteAiGatewayRuleRequest = /*@__PURE__*/ S.suspend(() =>
     ruleId: S.String.pipe(T.Query()),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(T.Http({ method: "DELETE", uri: "/v1/ai-gateway/rules", code: 200 })),
+  }).pipe(T.Http({ method: "DELETE", uri: "/ai-gateway/rules", code: 200 })),
 ).annotate({
   identifier: "DeleteAiGatewayRuleRequest",
 }) as any as S.Schema<DeleteAiGatewayRuleRequest>;
@@ -141,6 +710,248 @@ export const DeleteAiGatewayRuleResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeleteAiGatewayRuleResponse",
 }) as any as S.Schema<DeleteAiGatewayRuleResponse>;
+
+export interface DeleteAiGatewayVirtualModelConfigRequest {
+  ownerId?: string;
+  virtualModelSlug: string;
+  updatedBy?: string;
+  actingIp?: string;
+  actingUserAgent?: string;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string;
+}
+export const DeleteAiGatewayVirtualModelConfigRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ownerId: S.optional(S.String.pipe(T.Query())),
+    virtualModelSlug: S.String.pipe(T.Query()),
+    updatedBy: S.optional(S.String.pipe(T.Query())),
+    actingIp: S.optional(S.String.pipe(T.Query())),
+    actingUserAgent: S.optional(S.String.pipe(T.Query())),
+    teamId: S.optional(S.String.pipe(T.Query())),
+    slug: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "DELETE", uri: "/ai-gateway/virtual-model-configs", code: 200 })),
+).annotate({
+  identifier: "DeleteAiGatewayVirtualModelConfigRequest",
+}) as any as S.Schema<DeleteAiGatewayVirtualModelConfigRequest>;
+
+export type DeleteAiGatewayVirtualModelConfigResponse = unknown;
+export const DeleteAiGatewayVirtualModelConfigResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "DeleteAiGatewayVirtualModelConfigResponse",
+}) as any as S.Schema<DeleteAiGatewayVirtualModelConfigResponse>;
+
+export interface DeleteAiGatewayVirtualModelConfigBySlugRequest {
+  vmcSlug: string;
+  ownerId?: string;
+  updatedBy?: string;
+  actingIp?: string;
+  actingUserAgent?: string;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string;
+}
+export const DeleteAiGatewayVirtualModelConfigBySlugRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vmcSlug: S.String.pipe(T.Label()),
+    ownerId: S.optional(S.String.pipe(T.Query())),
+    updatedBy: S.optional(S.String.pipe(T.Query())),
+    actingIp: S.optional(S.String.pipe(T.Query())),
+    actingUserAgent: S.optional(S.String.pipe(T.Query())),
+    teamId: S.optional(S.String.pipe(T.Query())),
+    slug: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "DELETE", uri: "/ai-gateway/virtual-model-configs/{vmcSlug}", code: 200 }),
+  ),
+).annotate({
+  identifier: "DeleteAiGatewayVirtualModelConfigBySlugRequest",
+}) as any as S.Schema<DeleteAiGatewayVirtualModelConfigBySlugRequest>;
+
+export type DeleteAiGatewayVirtualModelConfigBySlugResponse = unknown;
+export const DeleteAiGatewayVirtualModelConfigBySlugResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "DeleteAiGatewayVirtualModelConfigBySlugResponse",
+}) as any as S.Schema<DeleteAiGatewayVirtualModelConfigBySlugResponse>;
+
+export interface GetAiGatewayVirtualModelConfigRequest {
+  ownerId?: string;
+  virtualModelSlug?: string;
+  limit?: number;
+  cursor?: string;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string;
+}
+export const GetAiGatewayVirtualModelConfigRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ownerId: S.optional(S.String.pipe(T.Query())),
+    virtualModelSlug: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    teamId: S.optional(S.String.pipe(T.Query())),
+    slug: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/ai-gateway/virtual-model-configs", code: 200 })),
+).annotate({
+  identifier: "GetAiGatewayVirtualModelConfigRequest",
+}) as any as S.Schema<GetAiGatewayVirtualModelConfigRequest>;
+
+/** The page of VMCs. */
+export type AiGatewayVirtualModelConfigListVirtualModelConfigsList =
+  Array<AiGatewayVirtualModelConfig>;
+export const AiGatewayVirtualModelConfigListVirtualModelConfigsList = /*@__PURE__*/ S.Array(
+  AiGatewayVirtualModelConfig,
+) as any as S.Schema<AiGatewayVirtualModelConfigListVirtualModelConfigsList>;
+
+export interface AiGatewayVirtualModelConfigList {
+  /** Cursor for the next page, or null when no more pages remain. */
+  cursor: string | null;
+  /** The page of VMCs. */
+  virtualModelConfigs: AiGatewayVirtualModelConfigListVirtualModelConfigsList;
+}
+export const AiGatewayVirtualModelConfigList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cursor: S.NullOr(S.String),
+    virtualModelConfigs: AiGatewayVirtualModelConfigListVirtualModelConfigsList,
+  }),
+).annotate({
+  identifier: "AiGatewayVirtualModelConfigList",
+}) as any as S.Schema<AiGatewayVirtualModelConfigList>;
+
+export type GetAiGatewayVirtualModelConfigResponseBody =
+  | AiGatewayVirtualModelConfig
+  | AiGatewayVirtualModelConfigList;
+export const GetAiGatewayVirtualModelConfigResponseBody =
+  S.Unknown as any as S.Schema<GetAiGatewayVirtualModelConfigResponseBody>;
+
+export type GetAiGatewayVirtualModelConfigResponse = GetAiGatewayVirtualModelConfigResponseBody;
+export const GetAiGatewayVirtualModelConfigResponse = /*@__PURE__*/ S.suspend(() =>
+  GetAiGatewayVirtualModelConfigResponseBody.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetAiGatewayVirtualModelConfigResponse",
+}) as any as S.Schema<GetAiGatewayVirtualModelConfigResponse>;
+
+export interface GetAiGatewayVirtualModelConfigBySlugRequest {
+  vmcSlug: string;
+  ownerId?: string;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string;
+}
+export const GetAiGatewayVirtualModelConfigBySlugRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vmcSlug: S.String.pipe(T.Label()),
+    ownerId: S.optional(S.String.pipe(T.Query())),
+    teamId: S.optional(S.String.pipe(T.Query())),
+    slug: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/ai-gateway/virtual-model-configs/{vmcSlug}", code: 200 })),
+).annotate({
+  identifier: "GetAiGatewayVirtualModelConfigBySlugRequest",
+}) as any as S.Schema<GetAiGatewayVirtualModelConfigBySlugRequest>;
+
+export interface ListAiGatewayBudgetDefaultsRequest {
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string;
+}
+export const ListAiGatewayBudgetDefaultsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    teamId: S.optional(S.String.pipe(T.Query())),
+    slug: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/ai-gateway/budgets/defaults/list", code: 200 })),
+).annotate({
+  identifier: "ListAiGatewayBudgetDefaultsRequest",
+}) as any as S.Schema<ListAiGatewayBudgetDefaultsRequest>;
+
+export type AiGatewayBudgetDefaultAlertThresholdsList = Array<number>;
+export const AiGatewayBudgetDefaultAlertThresholdsList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<AiGatewayBudgetDefaultAlertThresholdsList>;
+
+export type AiGatewayBudgetDefaultRefreshPeriod = "daily" | "monthly" | "none" | "weekly";
+export const AiGatewayBudgetDefaultRefreshPeriod = S.String;
+
+export type AiGatewayBudgetDefaultScopeType = "api-key" | "project" | "team" | "user";
+export const AiGatewayBudgetDefaultScopeType = S.String;
+
+export interface AiGatewayBudgetDefault {
+  active: boolean;
+  alertThresholds?: AiGatewayBudgetDefaultAlertThresholdsList;
+  createdAt: number;
+  limitAmount: number;
+  refreshPeriod: AiGatewayBudgetDefaultRefreshPeriod;
+  scopeType: AiGatewayBudgetDefaultScopeType;
+  updatedAt: number;
+}
+export const AiGatewayBudgetDefault = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    active: S.Boolean,
+    alertThresholds: S.optional(AiGatewayBudgetDefaultAlertThresholdsList),
+    createdAt: S.Number,
+    limitAmount: S.Number,
+    refreshPeriod: AiGatewayBudgetDefaultRefreshPeriod,
+    scopeType: AiGatewayBudgetDefaultScopeType,
+    updatedAt: S.Number,
+  }),
+).annotate({ identifier: "AiGatewayBudgetDefault" }) as any as S.Schema<AiGatewayBudgetDefault>;
+
+export type AiGatewayBudgetDefaultListDefaultsList = Array<AiGatewayBudgetDefault>;
+export const AiGatewayBudgetDefaultListDefaultsList = /*@__PURE__*/ S.Array(
+  AiGatewayBudgetDefault,
+) as any as S.Schema<AiGatewayBudgetDefaultListDefaultsList>;
+
+export interface AiGatewayBudgetDefaultList {
+  defaults: AiGatewayBudgetDefaultListDefaultsList;
+}
+export const AiGatewayBudgetDefaultList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    defaults: AiGatewayBudgetDefaultListDefaultsList,
+  }),
+).annotate({
+  identifier: "AiGatewayBudgetDefaultList",
+}) as any as S.Schema<AiGatewayBudgetDefaultList>;
+
+/** Restrict the list to a single budget scope. */
+export type ListAiGatewayBudgetsRequestScopeType = "team" | "project" | "user" | "api-key";
+export const ListAiGatewayBudgetsRequestScopeType = S.String;
+
+export interface ListAiGatewayBudgetsRequest {
+  /** Restrict the list to a single budget scope. */
+  scopeType?: ListAiGatewayBudgetsRequestScopeType | (string & {});
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string;
+}
+export const ListAiGatewayBudgetsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scopeType: S.optional(ListAiGatewayBudgetsRequestScopeType.pipe(T.Query())),
+    teamId: S.optional(S.String.pipe(T.Query())),
+    slug: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/ai-gateway/budgets/list", code: 200 })),
+).annotate({
+  identifier: "ListAiGatewayBudgetsRequest",
+}) as any as S.Schema<ListAiGatewayBudgetsRequest>;
+
+export type AiGatewayBudgetListBudgetsList = Array<AiGatewayBudget>;
+export const AiGatewayBudgetListBudgetsList = /*@__PURE__*/ S.Array(
+  AiGatewayBudget,
+) as any as S.Schema<AiGatewayBudgetListBudgetsList>;
+
+export interface AiGatewayBudgetList {
+  budgets: AiGatewayBudgetListBudgetsList;
+}
+export const AiGatewayBudgetList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    budgets: AiGatewayBudgetListBudgetsList,
+  }),
+).annotate({ identifier: "AiGatewayBudgetList" }) as any as S.Schema<AiGatewayBudgetList>;
 
 export interface ListAiGatewayRulesRequest {
   includeDisabled?: boolean;
@@ -154,7 +965,7 @@ export const ListAiGatewayRulesRequest = /*@__PURE__*/ S.suspend(() =>
     includeDisabled: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(T.Http({ method: "GET", uri: "/v1/ai-gateway/rules", code: 200 })),
+  }).pipe(T.Http({ method: "GET", uri: "/ai-gateway/rules", code: 200 })),
 ).annotate({
   identifier: "ListAiGatewayRulesRequest",
 }) as any as S.Schema<ListAiGatewayRulesRequest>;
@@ -171,9 +982,28 @@ export const AiGatewayRuleList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rules: AiGatewayRuleListRulesList,
   }),
+).annotate({ identifier: "AiGatewayRuleList" }) as any as S.Schema<AiGatewayRuleList>;
+
+export interface ListAiGatewayVirtualModelConfigsRequest {
+  ownerId?: string;
+  limit?: number;
+  cursor?: string;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string;
+}
+export const ListAiGatewayVirtualModelConfigsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ownerId: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    teamId: S.optional(S.String.pipe(T.Query())),
+    slug: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/ai-gateway/virtual-model-configs/list", code: 200 })),
 ).annotate({
-  identifier: "AiGatewayRuleList",
-}) as any as S.Schema<AiGatewayRuleList>;
+  identifier: "ListAiGatewayVirtualModelConfigsRequest",
+}) as any as S.Schema<ListAiGatewayVirtualModelConfigsRequest>;
 
 export interface UpdateAiGatewayRuleRequest {
   /** The Team identifier to perform the request on behalf of. */
@@ -185,12 +1015,169 @@ export const UpdateAiGatewayRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(T.Http({ method: "PATCH", uri: "/v1/ai-gateway/rules", code: 200 })),
+  }).pipe(T.Http({ method: "PATCH", uri: "/ai-gateway/rules", code: 200 })),
 ).annotate({
   identifier: "UpdateAiGatewayRuleRequest",
 }) as any as S.Schema<UpdateAiGatewayRuleRequest>;
 
-export type CreateAiGatewayRuleError = BadRequest | Forbidden | Conflict | VercelOpError;
+export interface UpdateAiGatewayVirtualModelConfigRequest {
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string;
+}
+export const UpdateAiGatewayVirtualModelConfigRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    teamId: S.optional(S.String.pipe(T.Query())),
+    slug: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "PATCH", uri: "/ai-gateway/virtual-model-configs", code: 200 })),
+).annotate({
+  identifier: "UpdateAiGatewayVirtualModelConfigRequest",
+}) as any as S.Schema<UpdateAiGatewayVirtualModelConfigRequest>;
+
+export interface UpdateAiGatewayVirtualModelConfigBySlugRequest {
+  vmcSlug: string;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string;
+}
+export const UpdateAiGatewayVirtualModelConfigBySlugRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vmcSlug: S.String.pipe(T.Label()),
+    teamId: S.optional(S.String.pipe(T.Query())),
+    slug: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "PATCH", uri: "/ai-gateway/virtual-model-configs/{vmcSlug}", code: 200 }),
+  ),
+).annotate({
+  identifier: "UpdateAiGatewayVirtualModelConfigBySlugRequest",
+}) as any as S.Schema<UpdateAiGatewayVirtualModelConfigBySlugRequest>;
+
+export type UpsertAiGatewayBudgetRequestScopeType = "team" | "project" | "user";
+export const UpsertAiGatewayBudgetRequestScopeType = S.String;
+
+export type UpsertAiGatewayBudgetRequestRefreshPeriod = "daily" | "weekly" | "monthly" | "none";
+export const UpsertAiGatewayBudgetRequestRefreshPeriod = S.String;
+
+export type UpsertAiGatewayBudgetRequestAlertThresholdsItem = 50 | 75 | 100;
+export const UpsertAiGatewayBudgetRequestAlertThresholdsItem = S.Number;
+
+export type UpsertAiGatewayBudgetRequestAlertThresholdsList = Array<
+  UpsertAiGatewayBudgetRequestAlertThresholdsItem | (number & {})
+>;
+export const UpsertAiGatewayBudgetRequestAlertThresholdsList = /*@__PURE__*/ S.Array(
+  UpsertAiGatewayBudgetRequestAlertThresholdsItem,
+) as any as S.Schema<UpsertAiGatewayBudgetRequestAlertThresholdsList>;
+
+export interface UpsertAiGatewayBudgetRequest {
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string;
+  scopeType: UpsertAiGatewayBudgetRequestScopeType | (string & {});
+  /** Required when scopeType is "project". */
+  projectId?: string;
+  /** Required when scopeType is "user". */
+  userId?: string;
+  /** Budget limit in dollars. */
+  limitAmount: number;
+  refreshPeriod?: UpsertAiGatewayBudgetRequestRefreshPeriod | (string & {});
+  /** Whether BYOK usage counts toward this budget. */
+  includeByokInQuota?: boolean;
+  alertThresholds?: UpsertAiGatewayBudgetRequestAlertThresholdsList;
+}
+export const UpsertAiGatewayBudgetRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    teamId: S.optional(S.String.pipe(T.Query())),
+    slug: S.optional(S.String.pipe(T.Query())),
+    scopeType: UpsertAiGatewayBudgetRequestScopeType,
+    projectId: S.optional(S.String),
+    userId: S.optional(S.String),
+    limitAmount: S.Number,
+    refreshPeriod: S.optional(UpsertAiGatewayBudgetRequestRefreshPeriod),
+    includeByokInQuota: S.optional(S.Boolean),
+    alertThresholds: S.optional(UpsertAiGatewayBudgetRequestAlertThresholdsList),
+  }).pipe(T.Http({ method: "PUT", uri: "/ai-gateway/budgets", code: 200 })),
+).annotate({
+  identifier: "UpsertAiGatewayBudgetRequest",
+}) as any as S.Schema<UpsertAiGatewayBudgetRequest>;
+
+export type UpsertAiGatewayBudgetDefaultRequestScopeType = "team" | "project" | "api-key" | "user";
+export const UpsertAiGatewayBudgetDefaultRequestScopeType = S.String;
+
+export type UpsertAiGatewayBudgetDefaultRequestRefreshPeriod =
+  | "daily"
+  | "weekly"
+  | "monthly"
+  | "none";
+export const UpsertAiGatewayBudgetDefaultRequestRefreshPeriod = S.String;
+
+export type UpsertAiGatewayBudgetDefaultRequestAlertThresholdsItem = 50 | 75 | 100;
+export const UpsertAiGatewayBudgetDefaultRequestAlertThresholdsItem = S.Number;
+
+export type UpsertAiGatewayBudgetDefaultRequestAlertThresholdsList = Array<
+  UpsertAiGatewayBudgetDefaultRequestAlertThresholdsItem | (number & {})
+>;
+export const UpsertAiGatewayBudgetDefaultRequestAlertThresholdsList = /*@__PURE__*/ S.Array(
+  UpsertAiGatewayBudgetDefaultRequestAlertThresholdsItem,
+) as any as S.Schema<UpsertAiGatewayBudgetDefaultRequestAlertThresholdsList>;
+
+export interface UpsertAiGatewayBudgetDefaultRequest {
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string;
+  scopeType: UpsertAiGatewayBudgetDefaultRequestScopeType | (string & {});
+  /** Default budget limit in dollars. */
+  limitAmount: number;
+  refreshPeriod?: UpsertAiGatewayBudgetDefaultRequestRefreshPeriod | (string & {});
+  alertThresholds?: UpsertAiGatewayBudgetDefaultRequestAlertThresholdsList;
+}
+export const UpsertAiGatewayBudgetDefaultRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    teamId: S.optional(S.String.pipe(T.Query())),
+    slug: S.optional(S.String.pipe(T.Query())),
+    scopeType: UpsertAiGatewayBudgetDefaultRequestScopeType,
+    limitAmount: S.Number,
+    refreshPeriod: S.optional(UpsertAiGatewayBudgetDefaultRequestRefreshPeriod),
+    alertThresholds: S.optional(UpsertAiGatewayBudgetDefaultRequestAlertThresholdsList),
+  }).pipe(T.Http({ method: "PUT", uri: "/ai-gateway/budgets/defaults", code: 200 })),
+).annotate({
+  identifier: "UpsertAiGatewayBudgetDefaultRequest",
+}) as any as S.Schema<UpsertAiGatewayBudgetDefaultRequest>;
+
+export type ArchiveAiGatewayBudgetError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** Archive AI Gateway budget Archive a team-, project-, or user-scope AI Gateway budget. */
+export const archiveAiGatewayBudget: API.OperationMethod<
+  ArchiveAiGatewayBudgetRequest,
+  AiGatewayBudget,
+  ArchiveAiGatewayBudgetError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ArchiveAiGatewayBudgetRequest,
+  output: AiGatewayBudget,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ArchiveAiGatewayBudgetDefaultError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** Archive AI Gateway budget default Delete an AI Gateway budget default for one scope. Team-level authority only (owners/admins). */
+export const archiveAiGatewayBudgetDefault: API.OperationMethod<
+  ArchiveAiGatewayBudgetDefaultRequest,
+  ArchiveAiGatewayBudgetDefaultResponse,
+  ArchiveAiGatewayBudgetDefaultError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ArchiveAiGatewayBudgetDefaultRequest,
+  output: ArchiveAiGatewayBudgetDefaultResponse,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateAiGatewayRuleError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
 /** Create rule Create a routing rule */
 export const createAiGatewayRule: API.OperationMethod<
   CreateAiGatewayRuleRequest,
@@ -200,7 +1187,27 @@ export const createAiGatewayRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAiGatewayRuleRequest,
   output: AiGatewayRule,
-  errors: [BadRequest, Forbidden, Conflict],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateAiGatewayVirtualModelConfigError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | VercelOpError;
+/** Create virtual model config Create a virtual model config (VMC) */
+export const createAiGatewayVirtualModelConfig: API.OperationMethod<
+  CreateAiGatewayVirtualModelConfigRequest,
+  AiGatewayVirtualModelConfig,
+  CreateAiGatewayVirtualModelConfigError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateAiGatewayVirtualModelConfigRequest,
+  output: AiGatewayVirtualModelConfig,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
@@ -220,7 +1227,109 @@ export const deleteAiGatewayRule: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ListAiGatewayRulesError = BadRequest | Forbidden | VercelOpError;
+export type DeleteAiGatewayVirtualModelConfigError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | VercelOpError;
+/** Delete virtual model config Delete a virtual model config (soft delete) */
+export const deleteAiGatewayVirtualModelConfig: API.OperationMethod<
+  DeleteAiGatewayVirtualModelConfigRequest,
+  DeleteAiGatewayVirtualModelConfigResponse,
+  DeleteAiGatewayVirtualModelConfigError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteAiGatewayVirtualModelConfigRequest,
+  output: DeleteAiGatewayVirtualModelConfigResponse,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteAiGatewayVirtualModelConfigBySlugError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | VercelOpError;
+/** Delete virtual model config Delete a virtual model config by path slug (soft delete) */
+export const deleteAiGatewayVirtualModelConfigBySlug: API.OperationMethod<
+  DeleteAiGatewayVirtualModelConfigBySlugRequest,
+  DeleteAiGatewayVirtualModelConfigBySlugResponse,
+  DeleteAiGatewayVirtualModelConfigBySlugError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteAiGatewayVirtualModelConfigBySlugRequest,
+  output: DeleteAiGatewayVirtualModelConfigBySlugResponse,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetAiGatewayVirtualModelConfigError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** Get virtual model config Get a virtual model config */
+export const getAiGatewayVirtualModelConfig: API.OperationMethod<
+  GetAiGatewayVirtualModelConfigRequest,
+  GetAiGatewayVirtualModelConfigResponse,
+  GetAiGatewayVirtualModelConfigError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAiGatewayVirtualModelConfigRequest,
+  output: GetAiGatewayVirtualModelConfigResponse,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetAiGatewayVirtualModelConfigBySlugError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | VercelOpError;
+/** Get virtual model config Get a virtual model config by path slug */
+export const getAiGatewayVirtualModelConfigBySlug: API.OperationMethod<
+  GetAiGatewayVirtualModelConfigBySlugRequest,
+  AiGatewayVirtualModelConfig,
+  GetAiGatewayVirtualModelConfigBySlugError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAiGatewayVirtualModelConfigBySlugRequest,
+  output: AiGatewayVirtualModelConfig,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListAiGatewayBudgetDefaultsError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** List AI Gateway budget defaults List the team's AI Gateway budget defaults as a flat per-scope list (one row per team/project/api-key/user scope with a default set). An empty list is a normal state for the dashboard. */
+export const listAiGatewayBudgetDefaults: API.OperationMethod<
+  ListAiGatewayBudgetDefaultsRequest,
+  AiGatewayBudgetDefaultList,
+  ListAiGatewayBudgetDefaultsError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListAiGatewayBudgetDefaultsRequest,
+  output: AiGatewayBudgetDefaultList,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListAiGatewayBudgetsError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** List AI Gateway budgets List the team's AI Gateway budgets (team/project/user scopes, plus default-covered api-key spend) as a flat list, optionally filtered by scope. */
+export const listAiGatewayBudgets: API.OperationMethod<
+  ListAiGatewayBudgetsRequest,
+  AiGatewayBudgetList,
+  ListAiGatewayBudgetsError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListAiGatewayBudgetsRequest,
+  output: AiGatewayBudgetList,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListAiGatewayRulesError = BadRequest | Forbidden | NotFound | VercelOpError;
 /** List rules List the authenticated team's routing rules */
 export const listAiGatewayRules: API.OperationMethod<
   ListAiGatewayRulesRequest,
@@ -230,7 +1339,26 @@ export const listAiGatewayRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListAiGatewayRulesRequest,
   output: AiGatewayRuleList,
-  errors: [BadRequest, Forbidden],
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListAiGatewayVirtualModelConfigsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | VercelOpError;
+/** List virtual model configs List virtual model configs. With `ownerId`, returns all of that team's VMCs. Without it, pages through VMCs across all teams (newest-first, `limit`/`cursor`). */
+export const listAiGatewayVirtualModelConfigs: API.OperationMethod<
+  ListAiGatewayVirtualModelConfigsRequest,
+  AiGatewayVirtualModelConfigList,
+  ListAiGatewayVirtualModelConfigsError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListAiGatewayVirtualModelConfigsRequest,
+  output: AiGatewayVirtualModelConfigList,
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
@@ -245,6 +1373,74 @@ export const updateAiGatewayRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAiGatewayRuleRequest,
   output: AiGatewayRule,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateAiGatewayVirtualModelConfigError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | VercelOpError;
+/** Update virtual model config Update a virtual model config */
+export const updateAiGatewayVirtualModelConfig: API.OperationMethod<
+  UpdateAiGatewayVirtualModelConfigRequest,
+  AiGatewayVirtualModelConfig,
+  UpdateAiGatewayVirtualModelConfigError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateAiGatewayVirtualModelConfigRequest,
+  output: AiGatewayVirtualModelConfig,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateAiGatewayVirtualModelConfigBySlugError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | VercelOpError;
+/** Update virtual model config Update a virtual model config by path slug */
+export const updateAiGatewayVirtualModelConfigBySlug: API.OperationMethod<
+  UpdateAiGatewayVirtualModelConfigBySlugRequest,
+  AiGatewayVirtualModelConfig,
+  UpdateAiGatewayVirtualModelConfigBySlugError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateAiGatewayVirtualModelConfigBySlugRequest,
+  output: AiGatewayVirtualModelConfig,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpsertAiGatewayBudgetError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** Upsert AI Gateway budget Create or update a team-, project-, or user-scope AI Gateway budget. */
+export const upsertAiGatewayBudget: API.OperationMethod<
+  UpsertAiGatewayBudgetRequest,
+  AiGatewayBudget,
+  UpsertAiGatewayBudgetError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpsertAiGatewayBudgetRequest,
+  output: AiGatewayBudget,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpsertAiGatewayBudgetDefaultError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** Upsert AI Gateway budget default Create or update an AI Gateway budget default for one scope. Team-level authority only (owners/admins). */
+export const upsertAiGatewayBudgetDefault: API.OperationMethod<
+  UpsertAiGatewayBudgetDefaultRequest,
+  AiGatewayBudgetDefault,
+  UpsertAiGatewayBudgetDefaultError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpsertAiGatewayBudgetDefaultRequest,
+  output: AiGatewayBudgetDefault,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,

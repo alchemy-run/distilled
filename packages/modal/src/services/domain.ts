@@ -14,16 +14,8 @@ export interface CreateDomainRequest {
 export const CreateDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domainName: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/DomainCreate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateDomainRequest",
-}) as any as S.Schema<CreateDomainRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/DomainCreate", code: 200 })),
+).annotate({ identifier: "CreateDomainRequest" }) as any as S.Schema<CreateDomainRequest>;
 
 /** now unused internal experimental values */
 export type DNSRecordType = "DNS_RECORD_TYPE_A" | "DNS_RECORD_TYPE_TXT" | "DNS_RECORD_TYPE_CNAME";
@@ -54,22 +46,14 @@ export const CreateDomainResponse = /*@__PURE__*/ S.suspend(() =>
     domainId: S.optional(S.String),
     dnsRecords: S.optional(DNSRecordList),
   }),
-).annotate({
-  identifier: "CreateDomainResponse",
-}) as any as S.Schema<CreateDomainResponse>;
+).annotate({ identifier: "CreateDomainResponse" }) as any as S.Schema<CreateDomainResponse>;
 
 export interface ListDomainRequest {}
 export const ListDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/DomainList",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/DomainList", code: 200 }),
   ),
-).annotate({
-  identifier: "ListDomainRequest",
-}) as any as S.Schema<ListDomainRequest>;
+).annotate({ identifier: "ListDomainRequest" }) as any as S.Schema<ListDomainRequest>;
 
 export type CertificateStatus =
   | "CERTIFICATE_STATUS_PENDING"
@@ -105,9 +89,7 @@ export const ListDomainResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domains: S.optional(DomainList2),
   }),
-).annotate({
-  identifier: "ListDomainResponse",
-}) as any as S.Schema<ListDomainResponse>;
+).annotate({ identifier: "ListDomainResponse" }) as any as S.Schema<ListDomainResponse>;
 
 export interface VerifyDomainCertificateRequest {
   domainId?: string;
@@ -116,11 +98,7 @@ export const VerifyDomainCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domainId: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/DomainCertificateVerify",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/DomainCertificateVerify", code: 200 }),
   ),
 ).annotate({
   identifier: "VerifyDomainCertificateRequest",

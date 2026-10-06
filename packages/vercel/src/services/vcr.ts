@@ -55,6 +55,7 @@ export class PaymentRequired
 
 export interface AddRepositoryPermissionRequest {
   idOrName: string;
+  /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
   teamId?: string;
@@ -70,38 +71,30 @@ export const AddRepositoryPermissionRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
     teamSlug: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/vcr/repository/{idOrName}/permissions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/vcr/repository/{idOrName}/permissions", code: 200 })),
 ).annotate({
   identifier: "AddRepositoryPermissionRequest",
 }) as any as S.Schema<AddRepositoryPermissionRequest>;
 
 /** A team's access grant to a Vercel Container Registry repository. */
 export interface VcrRepositoryPermission {
+  /** ISO 8601 timestamp of when the permission was created. */
+  createdAt: string;
   /** Identifier of the repository the permission grants access to. */
   repositoryId: string;
   /** Identifier of the team that is granted access to the repository. */
   teamId: string;
   /** Slug of the team that is granted access to the repository. */
   teamSlug: string;
-  /** ISO 8601 timestamp of when the permission was created. */
-  createdAt: string;
 }
 export const VcrRepositoryPermission = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    createdAt: S.String,
     repositoryId: S.String,
     teamId: S.String,
     teamSlug: S.String,
-    createdAt: S.String,
   }),
-).annotate({
-  identifier: "VcrRepositoryPermission",
-}) as any as S.Schema<VcrRepositoryPermission>;
+).annotate({ identifier: "VcrRepositoryPermission" }) as any as S.Schema<VcrRepositoryPermission>;
 
 export interface AddRepositoryPermissionResponse {
   permission: VcrRepositoryPermission;
@@ -116,6 +109,7 @@ export const AddRepositoryPermissionResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface ClearRepositoryPermissionsRequest {
   idOrName: string;
+  /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
   teamId?: string;
@@ -129,11 +123,7 @@ export const ClearRepositoryPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/vcr/repository/{idOrName}/permissions/all",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/v1/vcr/repository/{idOrName}/permissions/all", code: 200 }),
   ),
 ).annotate({
   identifier: "ClearRepositoryPermissionsRequest",
@@ -188,6 +178,7 @@ export interface CreateRepositoryRequest {
   teamId?: string;
   /** The Team slug to perform the request on behalf of. */
   slug?: string;
+  /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
   /** Single Docker repository name component. */
   name: string;
@@ -199,32 +190,30 @@ export const CreateRepositoryRequest = /*@__PURE__*/ S.suspend(() =>
     projectId: S.String,
     name: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v1/vcr/repository", code: 200 })),
-).annotate({
-  identifier: "CreateRepositoryRequest",
-}) as any as S.Schema<CreateRepositoryRequest>;
+).annotate({ identifier: "CreateRepositoryRequest" }) as any as S.Schema<CreateRepositoryRequest>;
 
 /** A Vercel Container Registry repository. */
 export interface VcrRepository {
-  /** Unique identifier of the repository. */
-  id: string;
-  /** Identifier of the project the repository belongs to. */
-  projectId: string;
-  /** Name of the repository. */
-  name: string;
-  /** Whether the repository is public. Images in public repositories can be pulled by anyone. Defaults to `false` (private). */
-  public: boolean;
   /** ISO 8601 timestamp of when the repository was created. */
   createdAt: string;
+  /** Unique identifier of the repository. */
+  id: string;
+  /** Name of the repository. */
+  name: string;
+  /** Identifier of the project the repository belongs to. */
+  projectId: string;
+  /** Whether the repository is public. Images in public repositories can be pulled by anyone. Defaults to `false` (private). */
+  public: boolean;
   /** ISO 8601 timestamp of when the repository was last updated. */
   updatedAt: string;
 }
 export const VcrRepository = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
-    projectId: S.String,
-    name: S.String,
-    public: S.Boolean,
     createdAt: S.String,
+    id: S.String,
+    name: S.String,
+    projectId: S.String,
+    public: S.Boolean,
     updatedAt: S.String,
   }),
 ).annotate({ identifier: "VcrRepository" }) as any as S.Schema<VcrRepository>;
@@ -236,9 +225,7 @@ export const CreateRepositoryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     repository: VcrRepository,
   }),
-).annotate({
-  identifier: "CreateRepositoryResponse",
-}) as any as S.Schema<CreateRepositoryResponse>;
+).annotate({ identifier: "CreateRepositoryResponse" }) as any as S.Schema<CreateRepositoryResponse>;
 
 export interface DeleteBlobRequest {
   /** Single Docker repository team slug component. */
@@ -263,9 +250,7 @@ export const DeleteBlobRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteBlobRequest",
-}) as any as S.Schema<DeleteBlobRequest>;
+).annotate({ identifier: "DeleteBlobRequest" }) as any as S.Schema<DeleteBlobRequest>;
 
 export interface DeleteBlobResponse {}
 export const DeleteBlobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -295,9 +280,7 @@ export const DeleteBlobsUploadRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteBlobsUploadRequest",
-}) as any as S.Schema<DeleteBlobsUploadRequest>;
+).annotate({ identifier: "DeleteBlobsUploadRequest" }) as any as S.Schema<DeleteBlobsUploadRequest>;
 
 export type DeleteBlobsUploadResponse = unknown;
 export const DeleteBlobsUploadResponse = /*@__PURE__*/ S.suspend(() =>
@@ -329,19 +312,16 @@ export const DeleteManifestRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteManifestRequest",
-}) as any as S.Schema<DeleteManifestRequest>;
+).annotate({ identifier: "DeleteManifestRequest" }) as any as S.Schema<DeleteManifestRequest>;
 
 export type DeleteManifestResponse = unknown;
 export const DeleteManifestResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteManifestResponse",
-}) as any as S.Schema<DeleteManifestResponse>;
+).annotate({ identifier: "DeleteManifestResponse" }) as any as S.Schema<DeleteManifestResponse>;
 
 export interface DeleteRepositoryRequest {
   idOrName: string;
+  /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
   teamId?: string;
@@ -354,27 +334,18 @@ export const DeleteRepositoryRequest = /*@__PURE__*/ S.suspend(() =>
     projectId: S.String.pipe(T.Query()),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/vcr/repository/{idOrName}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteRepositoryRequest",
-}) as any as S.Schema<DeleteRepositoryRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/vcr/repository/{idOrName}", code: 200 })),
+).annotate({ identifier: "DeleteRepositoryRequest" }) as any as S.Schema<DeleteRepositoryRequest>;
 
 export type DeleteRepositoryResponse = unknown;
 export const DeleteRepositoryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteRepositoryResponse",
-}) as any as S.Schema<DeleteRepositoryResponse>;
+).annotate({ identifier: "DeleteRepositoryResponse" }) as any as S.Schema<DeleteRepositoryResponse>;
 
 export interface DeleteRepositoryImageRequest {
   idOrName: string;
   imageId: string;
+  /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
   teamId?: string;
@@ -389,11 +360,7 @@ export const DeleteRepositoryImageRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/vcr/repository/{idOrName}/images/{imageId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/v1/vcr/repository/{idOrName}/images/{imageId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteRepositoryImageRequest",
@@ -459,16 +426,12 @@ export const GetBlobsUploadRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetBlobsUploadRequest",
-}) as any as S.Schema<GetBlobsUploadRequest>;
+).annotate({ identifier: "GetBlobsUploadRequest" }) as any as S.Schema<GetBlobsUploadRequest>;
 
 export type GetBlobsUploadResponse = unknown;
 export const GetBlobsUploadResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetBlobsUploadResponse",
-}) as any as S.Schema<GetBlobsUploadResponse>;
+).annotate({ identifier: "GetBlobsUploadResponse" }) as any as S.Schema<GetBlobsUploadResponse>;
 
 export interface GetManifestRequest {
   /** Single Docker repository team slug component. */
@@ -493,9 +456,7 @@ export const GetManifestRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetManifestRequest",
-}) as any as S.Schema<GetManifestRequest>;
+).annotate({ identifier: "GetManifestRequest" }) as any as S.Schema<GetManifestRequest>;
 
 export interface GetManifestResponse {}
 export const GetManifestResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -504,6 +465,7 @@ export const GetManifestResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).a
 
 export interface GetRepositoryRequest {
   idOrName: string;
+  /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
   teamId?: string;
@@ -517,9 +479,7 @@ export const GetRepositoryRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/vcr/repository/{idOrName}", code: 200 })),
-).annotate({
-  identifier: "GetRepositoryRequest",
-}) as any as S.Schema<GetRepositoryRequest>;
+).annotate({ identifier: "GetRepositoryRequest" }) as any as S.Schema<GetRepositoryRequest>;
 
 export interface GetRepositoryResponse {
   repository: VcrRepository;
@@ -528,14 +488,13 @@ export const GetRepositoryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     repository: VcrRepository,
   }),
-).annotate({
-  identifier: "GetRepositoryResponse",
-}) as any as S.Schema<GetRepositoryResponse>;
+).annotate({ identifier: "GetRepositoryResponse" }) as any as S.Schema<GetRepositoryResponse>;
 
 export interface GetRepositoryImageRequest {
   idOrName: string;
   /** The internal image id (`image_...`) or the image manifest digest (`sha256:...`). */
   imageIdOrDigest: string;
+  /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
   teamId?: string;
@@ -560,6 +519,10 @@ export const GetRepositoryImageRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetRepositoryImageRequest",
 }) as any as S.Schema<GetRepositoryImageRequest>;
 
+/** Whether the manifest is a multi-platform image index, a single-platform image manifest or an attestation. */
+export type VcrImageDetailKind = "attestation" | "index" | "manifest";
+export const VcrImageDetailKind = S.String;
+
 /** Docker/OCI build instruction associated with an image layer. */
 export type VcrImageLayerCase0Operation =
   | "ADD"
@@ -582,13 +545,13 @@ export type VcrImageLayerCase0Operation =
   | "WORKDIR";
 export const VcrImageLayerCase0Operation = S.String;
 
-export type VcrImageLayerCase0Type = "FROM";
-export const VcrImageLayerCase0Type = S.String;
-
 export type VcrImageLayerCase0CollapsedDigestsList = Array<string>;
 export const VcrImageLayerCase0CollapsedDigestsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<VcrImageLayerCase0CollapsedDigestsList>;
+
+export type VcrImageLayerCase0Type = "FROM";
+export const VcrImageLayerCase0Type = S.String;
 
 export interface VcrImageLayerCase0 {
   createdBy: string | null;
@@ -596,10 +559,10 @@ export interface VcrImageLayerCase0 {
   /** Docker/OCI build instruction associated with an image layer. */
   operation: VcrImageLayerCase0Operation;
   sizeBytes: number | null;
-  type: VcrImageLayerCase0Type;
   baseImage: string | null;
   collapsedDigests: VcrImageLayerCase0CollapsedDigestsList;
   collapsedLayerCount: number;
+  type: VcrImageLayerCase0Type;
 }
 export const VcrImageLayerCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -607,14 +570,12 @@ export const VcrImageLayerCase0 = /*@__PURE__*/ S.suspend(() =>
     digest: S.NullOr(S.String),
     operation: VcrImageLayerCase0Operation,
     sizeBytes: S.NullOr(S.Number),
-    type: VcrImageLayerCase0Type,
     baseImage: S.NullOr(S.String),
     collapsedDigests: VcrImageLayerCase0CollapsedDigestsList,
     collapsedLayerCount: S.Number,
+    type: VcrImageLayerCase0Type,
   }),
-).annotate({
-  identifier: "VcrImageLayerCase0",
-}) as any as S.Schema<VcrImageLayerCase0>;
+).annotate({ identifier: "VcrImageLayerCase0" }) as any as S.Schema<VcrImageLayerCase0>;
 
 /** Docker/OCI build instruction associated with an image layer. */
 export type VcrImageLayerCase1Operation =
@@ -647,8 +608,8 @@ export interface VcrImageLayerCase1 {
   /** Docker/OCI build instruction associated with an image layer. */
   operation: VcrImageLayerCase1Operation;
   sizeBytes: number | null;
-  type: VcrImageLayerCase1Type;
   command: string | null;
+  type: VcrImageLayerCase1Type;
 }
 export const VcrImageLayerCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -656,12 +617,10 @@ export const VcrImageLayerCase1 = /*@__PURE__*/ S.suspend(() =>
     digest: S.NullOr(S.String),
     operation: VcrImageLayerCase1Operation,
     sizeBytes: S.NullOr(S.Number),
-    type: VcrImageLayerCase1Type,
     command: S.NullOr(S.String),
+    type: VcrImageLayerCase1Type,
   }),
-).annotate({
-  identifier: "VcrImageLayerCase1",
-}) as any as S.Schema<VcrImageLayerCase1>;
+).annotate({ identifier: "VcrImageLayerCase1" }) as any as S.Schema<VcrImageLayerCase1>;
 
 /** Docker/OCI build instruction associated with an image layer. */
 export type VcrImageLayerCase2Operation =
@@ -694,8 +653,8 @@ export interface VcrImageLayerCase2 {
   /** Docker/OCI build instruction associated with an image layer. */
   operation: VcrImageLayerCase2Operation;
   sizeBytes: number | null;
-  type: VcrImageLayerCase2Type;
   env: string | null;
+  type: VcrImageLayerCase2Type;
 }
 export const VcrImageLayerCase2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -703,12 +662,10 @@ export const VcrImageLayerCase2 = /*@__PURE__*/ S.suspend(() =>
     digest: S.NullOr(S.String),
     operation: VcrImageLayerCase2Operation,
     sizeBytes: S.NullOr(S.Number),
-    type: VcrImageLayerCase2Type,
     env: S.NullOr(S.String),
+    type: VcrImageLayerCase2Type,
   }),
-).annotate({
-  identifier: "VcrImageLayerCase2",
-}) as any as S.Schema<VcrImageLayerCase2>;
+).annotate({ identifier: "VcrImageLayerCase2" }) as any as S.Schema<VcrImageLayerCase2>;
 
 /** Docker/OCI build instruction associated with an image layer. */
 export type VcrImageLayerCase3Operation =
@@ -768,9 +725,7 @@ export const VcrImageLayerCase3 = /*@__PURE__*/ S.suspend(() =>
     type: VcrImageLayerCase3Type,
     value: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "VcrImageLayerCase3",
-}) as any as S.Schema<VcrImageLayerCase3>;
+).annotate({ identifier: "VcrImageLayerCase3" }) as any as S.Schema<VcrImageLayerCase3>;
 
 export type VcrImageLayer =
   | VcrImageLayerCase0
@@ -784,60 +739,56 @@ export const VcrImageDetailLayersList = /*@__PURE__*/ S.Array(
   VcrImageLayer,
 ) as any as S.Schema<VcrImageDetailLayersList>;
 
+/** VHS-readiness status, or `null` for a multi-platform index. */
+export type VcrImageDetailStatus = "errored" | "preparing" | "ready" | "unoptimized";
+export const VcrImageDetailStatus = S.String;
+
 /** Tags pointing at this image's manifest. */
 export type VcrImageDetailTagsList = Array<string>;
 export const VcrImageDetailTagsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<VcrImageDetailTagsList>;
 
-/** Whether the manifest is a multi-platform image index, a single-platform image manifest or an attestation. */
-export type VcrImageDetailKind = "attestation" | "index" | "manifest";
-export const VcrImageDetailKind = S.String;
-
-/** VHS-readiness status, or `null` for a multi-platform index. */
-export type VcrImageDetailStatus = "preparing" | "ready" | "unoptimized";
-export const VcrImageDetailStatus = S.String;
-
 /** A single image with its tags, status and resolved Dockerfile layer history. */
 export interface VcrImageDetail {
-  layers: VcrImageDetailLayersList;
-  /** Tags pointing at this image's manifest. */
-  tags: VcrImageDetailTagsList;
-  /** Internal identifier of the image. */
-  id: string;
-  /** Identifier of the repository the image belongs to. */
-  repositoryId: string;
-  /** SHA-256 digest of the image manifest. */
-  manifestDigest: string;
-  /** Whether the manifest is a multi-platform image index, a single-platform image manifest or an attestation. */
-  kind: VcrImageDetailKind;
-  /** Operating system the manifest targets. Only present for single-platform manifests. */
-  platform?: string;
   /** CPU architecture the manifest targets. Only present for single-platform manifests. */
   arch?: string;
+  /** ISO 8601 timestamp of when the image was created. */
+  createdAt: string;
+  /** Internal identifier of the image. */
+  id: string;
+  /** Whether the manifest is a multi-platform image index, a single-platform image manifest or an attestation. */
+  kind: VcrImageDetailKind;
+  layers: VcrImageDetailLayersList;
+  /** SHA-256 digest of the image manifest. */
+  manifestDigest: string;
+  /** Operating system the manifest targets. Only present for single-platform manifests. */
+  platform?: string;
   /** Identifier of the actor that pushed the image. */
   pushedBy?: string;
+  /** Identifier of the repository the image belongs to. */
+  repositoryId: string;
   /** Total size in bytes of the image's resources (manifest, config and layer blobs) stored by the registry. */
   sizeInBytes: number;
   /** VHS-readiness status, or `null` for a multi-platform index. */
   status: VcrImageDetailStatus | null;
-  /** ISO 8601 timestamp of when the image was created. */
-  createdAt: string;
+  /** Tags pointing at this image's manifest. */
+  tags: VcrImageDetailTagsList;
 }
 export const VcrImageDetail = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    layers: VcrImageDetailLayersList,
-    tags: VcrImageDetailTagsList,
-    id: S.String,
-    repositoryId: S.String,
-    manifestDigest: S.String,
-    kind: VcrImageDetailKind,
-    platform: S.optional(S.String),
     arch: S.optional(S.String),
+    createdAt: S.String,
+    id: S.String,
+    kind: VcrImageDetailKind,
+    layers: VcrImageDetailLayersList,
+    manifestDigest: S.String,
+    platform: S.optional(S.String),
     pushedBy: S.optional(S.String),
+    repositoryId: S.String,
     sizeInBytes: S.Number,
     status: S.NullOr(VcrImageDetailStatus),
-    createdAt: S.String,
+    tags: VcrImageDetailTagsList,
   }),
 ).annotate({ identifier: "VcrImageDetail" }) as any as S.Schema<VcrImageDetail>;
 
@@ -855,6 +806,7 @@ export const GetRepositoryImageResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetRepositoryTagRequest {
   idOrName: string;
   tag: string;
+  /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
   teamId?: string;
@@ -868,62 +820,54 @@ export const GetRepositoryTagRequest = /*@__PURE__*/ S.suspend(() =>
     projectId: S.String.pipe(T.Query()),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/vcr/repository/{idOrName}/tags/{tag}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetRepositoryTagRequest",
-}) as any as S.Schema<GetRepositoryTagRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/vcr/repository/{idOrName}/tags/{tag}", code: 200 })),
+).annotate({ identifier: "GetRepositoryTagRequest" }) as any as S.Schema<GetRepositoryTagRequest>;
 
 /** Whether the manifest is a multi-platform image index, a single-platform image manifest or an attestation. */
 export type VcrTagKind = "attestation" | "index" | "manifest";
 export const VcrTagKind = S.String;
 
 /** VHS-readiness status, or `null` for a multi-platform index. */
-export type VcrTagStatus = "preparing" | "ready" | "unoptimized";
+export type VcrTagStatus = "errored" | "preparing" | "ready" | "unoptimized";
 export const VcrTagStatus = S.String;
 
 /** A tag pointing at an image in a Vercel Container Registry repository, enriched with the backing image's metadata and VHS-readiness status. */
 export interface VcrTag {
-  /** The tag name. */
-  tag: string;
-  /** SHA-256 digest of the image manifest the tag points at. */
-  manifestDigest: string;
+  /** CPU architecture the manifest targets. Only present for single-platform manifests. */
+  arch?: string;
+  /** ISO 8601 timestamp of when the tag was created. */
+  createdAt: string;
   /** Internal identifier of the image the tag points at. */
   imageId: string;
   /** Whether the manifest is a multi-platform image index, a single-platform image manifest or an attestation. */
   kind: VcrTagKind;
+  /** SHA-256 digest of the image manifest the tag points at. */
+  manifestDigest: string;
   /** Operating system the manifest targets. Only present for single-platform manifests. */
   platform?: string;
-  /** CPU architecture the manifest targets. Only present for single-platform manifests. */
-  arch?: string;
   /** Identifier of the actor that pushed the image. */
   pushedBy?: string;
-  /** VHS-readiness status, or `null` for a multi-platform index. */
-  status: VcrTagStatus | null;
   /** Total size in bytes of the image's resources (manifest, config and layer blobs) stored by the registry. */
   sizeInBytes: number;
-  /** ISO 8601 timestamp of when the tag was created. */
-  createdAt: string;
+  /** VHS-readiness status, or `null` for a multi-platform index. */
+  status: VcrTagStatus | null;
+  /** The tag name. */
+  tag: string;
   /** ISO 8601 timestamp of when the tag was last updated. */
   updatedAt: string;
 }
 export const VcrTag = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tag: S.String,
-    manifestDigest: S.String,
+    arch: S.optional(S.String),
+    createdAt: S.String,
     imageId: S.String,
     kind: VcrTagKind,
+    manifestDigest: S.String,
     platform: S.optional(S.String),
-    arch: S.optional(S.String),
     pushedBy: S.optional(S.String),
-    status: S.NullOr(VcrTagStatus),
     sizeInBytes: S.Number,
-    createdAt: S.String,
+    status: S.NullOr(VcrTagStatus),
+    tag: S.String,
     updatedAt: S.String,
   }),
 ).annotate({ identifier: "VcrTag" }) as any as S.Schema<VcrTag>;
@@ -935,9 +879,7 @@ export const GetRepositoryTagResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tag: VcrTag,
   }),
-).annotate({
-  identifier: "GetRepositoryTagResponse",
-}) as any as S.Schema<GetRepositoryTagResponse>;
+).annotate({ identifier: "GetRepositoryTagResponse" }) as any as S.Schema<GetRepositoryTagResponse>;
 
 export interface GetRootRequest {}
 export const GetRootRequest = /*@__PURE__*/ S.suspend(() =>
@@ -947,9 +889,7 @@ export const GetRootRequest = /*@__PURE__*/ S.suspend(() =>
 export type GetRootResponse = unknown;
 export const GetRootResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetRootResponse",
-}) as any as S.Schema<GetRootResponse>;
+).annotate({ identifier: "GetRootResponse" }) as any as S.Schema<GetRootResponse>;
 
 export interface GetTagsListRequest {
   /** Single Docker repository team slug component. */
@@ -976,9 +916,7 @@ export const GetTagsListRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetTagsListRequest",
-}) as any as S.Schema<GetTagsListRequest>;
+).annotate({ identifier: "GetTagsListRequest" }) as any as S.Schema<GetTagsListRequest>;
 
 export type GetTagsListResponseTagsList = Array<string>;
 export const GetTagsListResponseTagsList = /*@__PURE__*/ S.Array(
@@ -994,9 +932,7 @@ export const GetTagsListResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     tags: GetTagsListResponseTagsList,
   }),
-).annotate({
-  identifier: "GetTagsListResponse",
-}) as any as S.Schema<GetTagsListResponse>;
+).annotate({ identifier: "GetTagsListResponse" }) as any as S.Schema<GetTagsListResponse>;
 
 export interface HeadBlobRequest {
   /** Single Docker repository team slug component. */
@@ -1021,9 +957,7 @@ export const HeadBlobRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "HeadBlobRequest",
-}) as any as S.Schema<HeadBlobRequest>;
+).annotate({ identifier: "HeadBlobRequest" }) as any as S.Schema<HeadBlobRequest>;
 
 export interface HeadBlobResponse {}
 export const HeadBlobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1053,9 +987,7 @@ export const HeadManifestRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "HeadManifestRequest",
-}) as any as S.Schema<HeadManifestRequest>;
+).annotate({ identifier: "HeadManifestRequest" }) as any as S.Schema<HeadManifestRequest>;
 
 export interface HeadManifestResponse {}
 export const HeadManifestResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1063,6 +995,7 @@ export const HeadManifestResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).
 }) as any as S.Schema<HeadManifestResponse>;
 
 export interface ListRepositoriesRequest {
+  /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
   limit?: number;
   /** Opaque pagination cursor returned by a previous list response. */
@@ -1080,9 +1013,7 @@ export const ListRepositoriesRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/vcr/repository", code: 200 })),
-).annotate({
-  identifier: "ListRepositoriesRequest",
-}) as any as S.Schema<ListRepositoriesRequest>;
+).annotate({ identifier: "ListRepositoriesRequest" }) as any as S.Schema<ListRepositoriesRequest>;
 
 export type VcrRepositoryListRepositoriesList = Array<VcrRepository>;
 export const VcrRepositoryListRepositoriesList = /*@__PURE__*/ S.Array(
@@ -1091,21 +1022,20 @@ export const VcrRepositoryListRepositoriesList = /*@__PURE__*/ S.Array(
 
 /** A paginated list of Vercel Container Registry repositories. */
 export interface VcrRepositoryList {
-  repositories: VcrRepositoryListRepositoriesList;
   /** Cursor to fetch the next page of results, when more are available. */
   nextCursor?: string;
+  repositories: VcrRepositoryListRepositoriesList;
 }
 export const VcrRepositoryList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    repositories: VcrRepositoryListRepositoriesList,
     nextCursor: S.optional(S.String),
+    repositories: VcrRepositoryListRepositoriesList,
   }),
-).annotate({
-  identifier: "VcrRepositoryList",
-}) as any as S.Schema<VcrRepositoryList>;
+).annotate({ identifier: "VcrRepositoryList" }) as any as S.Schema<VcrRepositoryList>;
 
 export interface ListRepositoryImagesRequest {
   idOrName: string;
+  /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
   limit?: number;
   /** Opaque pagination cursor returned by a previous list response. */
@@ -1125,16 +1055,18 @@ export const ListRepositoryImagesRequest = /*@__PURE__*/ S.suspend(() =>
     untagged: S.optional(S.Boolean.pipe(T.Query())),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/vcr/repository/{idOrName}/images",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/vcr/repository/{idOrName}/images", code: 200 })),
 ).annotate({
   identifier: "ListRepositoryImagesRequest",
 }) as any as S.Schema<ListRepositoryImagesRequest>;
+
+/** Whether the manifest is a multi-platform image index, a single-platform image manifest or an attestation. */
+export type VcrImageListItemKind = "attestation" | "index" | "manifest";
+export const VcrImageListItemKind = S.String;
+
+/** VHS-readiness status, or `null` for a multi-platform index. */
+export type VcrImageListItemStatus = "errored" | "preparing" | "ready" | "unoptimized";
+export const VcrImageListItemStatus = S.String;
 
 /** Tags pointing at this image's manifest. */
 export type VcrImageListItemTagsList = Array<string>;
@@ -1142,56 +1074,46 @@ export const VcrImageListItemTagsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<VcrImageListItemTagsList>;
 
-/** Whether the manifest is a multi-platform image index, a single-platform image manifest or an attestation. */
-export type VcrImageListItemKind = "attestation" | "index" | "manifest";
-export const VcrImageListItemKind = S.String;
-
-/** VHS-readiness status, or `null` for a multi-platform index. */
-export type VcrImageListItemStatus = "preparing" | "ready" | "unoptimized";
-export const VcrImageListItemStatus = S.String;
-
 /** An image enriched with its tags and VHS-readiness status, as returned when listing a repository's images. */
 export interface VcrImageListItem {
-  /** Tags pointing at this image's manifest. */
-  tags: VcrImageListItemTagsList;
-  /** Internal identifier of the image. */
-  id: string;
-  /** Identifier of the repository the image belongs to. */
-  repositoryId: string;
-  /** SHA-256 digest of the image manifest. */
-  manifestDigest: string;
-  /** Whether the manifest is a multi-platform image index, a single-platform image manifest or an attestation. */
-  kind: VcrImageListItemKind;
-  /** Operating system the manifest targets. Only present for single-platform manifests. */
-  platform?: string;
   /** CPU architecture the manifest targets. Only present for single-platform manifests. */
   arch?: string;
+  /** ISO 8601 timestamp of when the image was created. */
+  createdAt: string;
+  /** Internal identifier of the image. */
+  id: string;
+  /** Whether the manifest is a multi-platform image index, a single-platform image manifest or an attestation. */
+  kind: VcrImageListItemKind;
+  /** SHA-256 digest of the image manifest. */
+  manifestDigest: string;
+  /** Operating system the manifest targets. Only present for single-platform manifests. */
+  platform?: string;
   /** Identifier of the actor that pushed the image. */
   pushedBy?: string;
+  /** Identifier of the repository the image belongs to. */
+  repositoryId: string;
   /** Total size in bytes of the image's resources (manifest, config and layer blobs) stored by the registry. */
   sizeInBytes: number;
   /** VHS-readiness status, or `null` for a multi-platform index. */
   status: VcrImageListItemStatus | null;
-  /** ISO 8601 timestamp of when the image was created. */
-  createdAt: string;
+  /** Tags pointing at this image's manifest. */
+  tags: VcrImageListItemTagsList;
 }
 export const VcrImageListItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tags: VcrImageListItemTagsList,
-    id: S.String,
-    repositoryId: S.String,
-    manifestDigest: S.String,
-    kind: VcrImageListItemKind,
-    platform: S.optional(S.String),
     arch: S.optional(S.String),
+    createdAt: S.String,
+    id: S.String,
+    kind: VcrImageListItemKind,
+    manifestDigest: S.String,
+    platform: S.optional(S.String),
     pushedBy: S.optional(S.String),
+    repositoryId: S.String,
     sizeInBytes: S.Number,
     status: S.NullOr(VcrImageListItemStatus),
-    createdAt: S.String,
+    tags: VcrImageListItemTagsList,
   }),
-).annotate({
-  identifier: "VcrImageListItem",
-}) as any as S.Schema<VcrImageListItem>;
+).annotate({ identifier: "VcrImageListItem" }) as any as S.Schema<VcrImageListItem>;
 
 export type VcrImageListImagesList = Array<VcrImageListItem>;
 export const VcrImageListImagesList = /*@__PURE__*/ S.Array(
@@ -1213,6 +1135,7 @@ export const VcrImageList = /*@__PURE__*/ S.suspend(() =>
 
 export interface ListRepositoryPermissionsRequest {
   idOrName: string;
+  /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
   limit?: number;
   /** Opaque pagination cursor returned by a previous list response. */
@@ -1230,13 +1153,7 @@ export const ListRepositoryPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/vcr/repository/{idOrName}/permissions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/vcr/repository/{idOrName}/permissions", code: 200 })),
 ).annotate({
   identifier: "ListRepositoryPermissionsRequest",
 }) as any as S.Schema<ListRepositoryPermissionsRequest>;
@@ -1248,14 +1165,14 @@ export const VcrRepositoryPermissionListPermissionsList = /*@__PURE__*/ S.Array(
 
 /** A paginated list of Vercel Container Registry repository permissions. */
 export interface VcrRepositoryPermissionList {
-  permissions: VcrRepositoryPermissionListPermissionsList;
   /** Cursor to fetch the next page of results, when more are available. */
   nextCursor?: string;
+  permissions: VcrRepositoryPermissionListPermissionsList;
 }
 export const VcrRepositoryPermissionList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    permissions: VcrRepositoryPermissionListPermissionsList,
     nextCursor: S.optional(S.String),
+    permissions: VcrRepositoryPermissionListPermissionsList,
   }),
 ).annotate({
   identifier: "VcrRepositoryPermissionList",
@@ -1271,6 +1188,7 @@ export const ListRepositoryTagsRequestSortOrder = S.String;
 
 export interface ListRepositoryTagsRequest {
   idOrName: string;
+  /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
   limit?: number;
   cursor?: string;
@@ -1293,13 +1211,7 @@ export const ListRepositoryTagsRequest = /*@__PURE__*/ S.suspend(() =>
     sortOrder: S.optional(ListRepositoryTagsRequestSortOrder.pipe(T.Query())),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/vcr/repository/{idOrName}/tags",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/vcr/repository/{idOrName}/tags", code: 200 })),
 ).annotate({
   identifier: "ListRepositoryTagsRequest",
 }) as any as S.Schema<ListRepositoryTagsRequest>;
@@ -1307,34 +1219,38 @@ export const ListRepositoryTagsRequest = /*@__PURE__*/ S.suspend(() =>
 export type ListRepositoryTagsResponseTagsItemKind = "attestation" | "index" | "manifest";
 export const ListRepositoryTagsResponseTagsItemKind = S.String;
 
-export type ListRepositoryTagsResponseTagsItemStatus = "preparing" | "ready" | "unoptimized";
+export type ListRepositoryTagsResponseTagsItemStatus =
+  | "errored"
+  | "preparing"
+  | "ready"
+  | "unoptimized";
 export const ListRepositoryTagsResponseTagsItemStatus = S.String;
 
 export interface ListRepositoryTagsResponseTagsItem {
-  tag: string;
-  manifestDigest: string;
+  arch?: string;
+  createdAt: string;
   imageId: string;
   kind: ListRepositoryTagsResponseTagsItemKind;
+  manifestDigest: string;
   platform?: string;
-  arch?: string;
   pushedBy?: string;
-  status: ListRepositoryTagsResponseTagsItemStatus | null;
   sizeInBytes: number;
-  createdAt: string;
+  status: ListRepositoryTagsResponseTagsItemStatus | null;
+  tag: string;
   updatedAt: string;
 }
 export const ListRepositoryTagsResponseTagsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tag: S.String,
-    manifestDigest: S.String,
+    arch: S.optional(S.String),
+    createdAt: S.String,
     imageId: S.String,
     kind: ListRepositoryTagsResponseTagsItemKind,
+    manifestDigest: S.String,
     platform: S.optional(S.String),
-    arch: S.optional(S.String),
     pushedBy: S.optional(S.String),
-    status: S.NullOr(ListRepositoryTagsResponseTagsItemStatus),
     sizeInBytes: S.Number,
-    createdAt: S.String,
+    status: S.NullOr(ListRepositoryTagsResponseTagsItemStatus),
+    tag: S.String,
     updatedAt: S.String,
   }),
 ).annotate({
@@ -1347,13 +1263,13 @@ export const ListRepositoryTagsResponseTagsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ListRepositoryTagsResponseTagsList>;
 
 export interface ListRepositoryTagsResponse {
-  tags: ListRepositoryTagsResponseTagsList;
   nextCursor?: string;
+  tags: ListRepositoryTagsResponseTagsList;
 }
 export const ListRepositoryTagsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tags: ListRepositoryTagsResponseTagsList,
     nextCursor: S.optional(S.String),
+    tags: ListRepositoryTagsResponseTagsList,
   }),
 ).annotate({
   identifier: "ListRepositoryTagsResponse",
@@ -1361,6 +1277,7 @@ export const ListRepositoryTagsResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface RemoveRepositoryPermissionRequest {
   idOrName: string;
+  /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
   teamId?: string;
@@ -1377,11 +1294,7 @@ export const RemoveRepositoryPermissionRequest = /*@__PURE__*/ S.suspend(() =>
     slug: S.optional(S.String.pipe(T.Query())),
     teamSlug: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/vcr/repository/{idOrName}/permissions",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/v1/vcr/repository/{idOrName}/permissions", code: 200 }),
   ),
 ).annotate({
   identifier: "RemoveRepositoryPermissionRequest",
@@ -1766,7 +1679,7 @@ export const getRoot: API.OperationMethod<
 }));
 
 export type GetTagsListError = BadRequest | PaymentRequired | Forbidden | NotFound | VercelOpError;
-/** List image tags GET /v2/:teamSlug/:projectSlug/:repositoryName/tags/list List the tags in a repository. */
+/** List image tags GET /v2/:teamSlug/:projectSlug/:repositoryName/tags/list List the tags in a repository. The `last` parameter accepts the opaque cursor from a previous response's `Link` header. Unparseable cursors return HTTP 400 with code `invalid_cursor`. */
 export const getTagsList: API.OperationMethod<
   GetTagsListRequest,
   GetTagsListResponse,

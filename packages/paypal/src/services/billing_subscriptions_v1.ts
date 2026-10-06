@@ -52,16 +52,8 @@ export interface ActivatePlanRequest {
 export const ActivatePlanRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/billing/plans/{id}/activate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ActivatePlanRequest",
-}) as any as S.Schema<ActivatePlanRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v1/billing/plans/{id}/activate", code: 200 })),
+).annotate({ identifier: "ActivatePlanRequest" }) as any as S.Schema<ActivatePlanRequest>;
 
 export interface ActivatePlanResponse {}
 export const ActivatePlanResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -78,13 +70,7 @@ export const ActivateSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     reason: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/billing/subscriptions/{id}/activate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/billing/subscriptions/{id}/activate", code: 200 })),
 ).annotate({
   identifier: "ActivateSubscriptionRequest",
 }) as any as S.Schema<ActivateSubscriptionRequest>;
@@ -104,13 +90,7 @@ export const CancelSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     reason: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/billing/subscriptions/{id}/cancel",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/billing/subscriptions/{id}/cancel", code: 200 })),
 ).annotate({
   identifier: "CancelSubscriptionRequest",
 }) as any as S.Schema<CancelSubscriptionRequest>;
@@ -156,13 +136,7 @@ export const CaptureSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
     note: S.String,
     capture_type: CaptureSubscriptionRequestCaptureType,
     amount: Money,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/billing/subscriptions/{id}/capture",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/billing/subscriptions/{id}/capture", code: 200 })),
 ).annotate({
   identifier: "CaptureSubscriptionRequest",
 }) as any as S.Schema<CaptureSubscriptionRequest>;
@@ -201,9 +175,7 @@ export const AmountWithBreakdown = /*@__PURE__*/ S.suspend(() =>
     tax_amount: S.optional(Money),
     net_amount: S.optional(Money),
   }),
-).annotate({
-  identifier: "AmountWithBreakdown",
-}) as any as S.Schema<AmountWithBreakdown>;
+).annotate({ identifier: "AmountWithBreakdown" }) as any as S.Schema<AmountWithBreakdown>;
 
 /** The name of the party. */
 export interface Name {
@@ -301,9 +273,7 @@ export const PricingSchemeInput = /*@__PURE__*/ S.suspend(() =>
     pricing_model: S.optional(PricingSchemeInputPricingModel),
     tiers: S.optional(PricingTierList),
   }),
-).annotate({
-  identifier: "PricingSchemeInput",
-}) as any as S.Schema<PricingSchemeInput>;
+).annotate({ identifier: "PricingSchemeInput" }) as any as S.Schema<PricingSchemeInput>;
 
 /** The interval at which the subscription is charged or billed. */
 export type FrequencyIntervalUnit = "DAY" | "WEEK" | "MONTH" | "YEAR";
@@ -348,9 +318,7 @@ export const BillingCycleInput = /*@__PURE__*/ S.suspend(() =>
     sequence: S.Number,
     total_cycles: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "BillingCycleInput",
-}) as any as S.Schema<BillingCycleInput>;
+).annotate({ identifier: "BillingCycleInput" }) as any as S.Schema<BillingCycleInput>;
 
 /** An array of billing cycles for trial billing and regular billing. A plan can have at most two trial cycles and only one regular cycle. */
 export type BillingCycleListInput = Array<BillingCycleInput>;
@@ -380,9 +348,7 @@ export const PaymentPreferences = /*@__PURE__*/ S.suspend(() =>
     setup_fee_failure_action: S.optional(PaymentPreferencesSetupFeeFailureAction),
     payment_failure_threshold: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PaymentPreferences",
-}) as any as S.Schema<PaymentPreferences>;
+).annotate({ identifier: "PaymentPreferences" }) as any as S.Schema<PaymentPreferences>;
 
 /** The tax details. */
 export interface Taxes {
@@ -430,9 +396,7 @@ export const CreatePlanRequest = /*@__PURE__*/ S.suspend(() =>
     taxes: S.optional(Taxes),
     quantity_supported: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/v1/billing/plans", code: 200 })),
-).annotate({
-  identifier: "CreatePlanRequest",
-}) as any as S.Schema<CreatePlanRequest>;
+).annotate({ identifier: "CreatePlanRequest" }) as any as S.Schema<CreatePlanRequest>;
 
 /** The plan status. */
 export type PlanStatus = "CREATED" | "INACTIVE" | "ACTIVE";
@@ -527,9 +491,7 @@ export const LinkDescription = /*@__PURE__*/ S.suspend(() =>
     rel: S.String,
     method: S.optional(LinkDescriptionMethod),
   }),
-).annotate({
-  identifier: "LinkDescription",
-}) as any as S.Schema<LinkDescription>;
+).annotate({ identifier: "LinkDescription" }) as any as S.Schema<LinkDescription>;
 
 /** An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type LinkDescriptionList = Array<LinkDescription>;
@@ -589,9 +551,7 @@ export const SubscriberRequestName = /*@__PURE__*/ S.suspend(() =>
     given_name: S.optional(S.String),
     surname: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SubscriberRequestName",
-}) as any as S.Schema<SubscriberRequestName>;
+).annotate({ identifier: "SubscriberRequestName" }) as any as S.Schema<SubscriberRequestName>;
 
 /** The phone type. */
 export type PhoneType = "FAX" | "HOME" | "MOBILE" | "OTHER" | "PAGER";
@@ -606,9 +566,7 @@ export const PhoneWithTypePhoneNumber = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     national_number: S.String,
   }),
-).annotate({
-  identifier: "PhoneWithTypePhoneNumber",
-}) as any as S.Schema<PhoneWithTypePhoneNumber>;
+).annotate({ identifier: "PhoneWithTypePhoneNumber" }) as any as S.Schema<PhoneWithTypePhoneNumber>;
 
 /** The phone information. */
 export interface PhoneWithType {
@@ -632,9 +590,7 @@ export const ShippingDetailName = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     full_name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ShippingDetailName",
-}) as any as S.Schema<ShippingDetailName>;
+).annotate({ identifier: "ShippingDetailName" }) as any as S.Schema<ShippingDetailName>;
 
 /** A classification for the method of purchase fulfillment (e.g shipping, in-store pickup, etc). Either `type` or `options` may be present, but not both. */
 export type ShippingDetailType =
@@ -700,9 +656,7 @@ export const ShippingDetailAddress = /*@__PURE__*/ S.suspend(() =>
     postal_code: S.optional(S.String),
     country_code: S.String,
   }),
-).annotate({
-  identifier: "ShippingDetailAddress",
-}) as any as S.Schema<ShippingDetailAddress>;
+).annotate({ identifier: "ShippingDetailAddress" }) as any as S.Schema<ShippingDetailAddress>;
 
 /** The shipping details. */
 export interface ShippingDetail {
@@ -787,9 +741,7 @@ export const VaultInstructionBase = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     store_in_vault: S.optional(StoreInVaultInstruction),
   }),
-).annotate({
-  identifier: "VaultInstructionBase",
-}) as any as S.Schema<VaultInstructionBase>;
+).annotate({ identifier: "VaultInstructionBase" }) as any as S.Schema<VaultInstructionBase>;
 
 /** The method used for card verification. */
 export type CardVerificationMethod = "SCA_ALWAYS" | "SCA_WHEN_REQUIRED" | "3D_SECURE" | "AVS_CVV";
@@ -804,9 +756,7 @@ export const CardVerification = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     method: S.optional(CardVerificationMethod),
   }),
-).annotate({
-  identifier: "CardVerification",
-}) as any as S.Schema<CardVerification>;
+).annotate({ identifier: "CardVerification" }) as any as S.Schema<CardVerification>;
 
 /** Additional attributes associated with the use of this card. */
 export interface CardAttributes {
@@ -854,9 +804,7 @@ export const PaymentSourceCard = /*@__PURE__*/ S.suspend(() =>
     billing_address: S.optional(ShippingDetailAddress),
     attributes: S.optional(CardAttributes),
   }),
-).annotate({
-  identifier: "PaymentSourceCard",
-}) as any as S.Schema<PaymentSourceCard>;
+).annotate({ identifier: "PaymentSourceCard" }) as any as S.Schema<PaymentSourceCard>;
 
 /** The payment source definition. To be eligible to create subscription using debit or credit card, you will need to sign up here (https://www.paypal.com/bizsignup/entry/product/ppcp). Please note, its available only for non-3DS cards and for merchants in US and AU regions. */
 export interface PaymentSource {
@@ -887,9 +835,7 @@ export const SubscriberRequest = /*@__PURE__*/ S.suspend(() =>
     shipping_address: S.optional(ShippingDetail),
     payment_source: S.optional(PaymentSource),
   }),
-).annotate({
-  identifier: "SubscriberRequest",
-}) as any as S.Schema<SubscriberRequest>;
+).annotate({ identifier: "SubscriberRequest" }) as any as S.Schema<SubscriberRequest>;
 
 /** The location from which the shipping address is derived. */
 export type ApplicationContextShippingPreference =
@@ -945,9 +891,7 @@ export const ApplicationContext = /*@__PURE__*/ S.suspend(() =>
     return_url: S.String,
     cancel_url: S.String,
   }),
-).annotate({
-  identifier: "ApplicationContext",
-}) as any as S.Schema<ApplicationContext>;
+).annotate({ identifier: "ApplicationContext" }) as any as S.Schema<ApplicationContext>;
 
 /** The billing cycle details to override at subscription level. The subscription billing cycle definition has to adhere to the plan billing cycle definition. */
 export interface BillingCycleOverrideInput {
@@ -1026,9 +970,7 @@ export const PlanOverrideInput = /*@__PURE__*/ S.suspend(() =>
     payment_preferences: S.optional(PaymentPreferencesOverride),
     taxes: S.optional(TaxesOverride),
   }),
-).annotate({
-  identifier: "PlanOverrideInput",
-}) as any as S.Schema<PlanOverrideInput>;
+).annotate({ identifier: "PlanOverrideInput" }) as any as S.Schema<PlanOverrideInput>;
 
 export interface CreateSubscriptionRequest {
   /** The preferred server response upon successful completion of the request. Value is:<ul><li><code>return=minimal</code>. The server returns a minimal response to optimize communication between the API caller and the server. A minimal response includes the <code>id</code>, <code>status</code> and HATEOAS links.</li><li><code>return=representation</code>. The server returns a complete resource representation, including the current state of the resource.</li></ul> */
@@ -1129,9 +1071,7 @@ export const AuthenticationResponse = /*@__PURE__*/ S.suspend(() =>
     liability_shift: S.optional(LiabilityShift),
     three_d_secure: S.optional(ThreeDSecureAuthenticationResponse),
   }),
-).annotate({
-  identifier: "AuthenticationResponse",
-}) as any as S.Schema<AuthenticationResponse>;
+).annotate({ identifier: "AuthenticationResponse" }) as any as S.Schema<AuthenticationResponse>;
 
 /** The vault status. */
 export type VaultResponseStatus = "VAULTED" | "CREATED" | "APPROVED";
@@ -1145,9 +1085,7 @@ export const VaultResponseCustomer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VaultResponseCustomer",
-}) as any as S.Schema<VaultResponseCustomer>;
+).annotate({ identifier: "VaultResponseCustomer" }) as any as S.Schema<VaultResponseCustomer>;
 
 /** An array of request-related HATEOAS links. */
 export type DefinitionsLinkDescriptionList = Array<LinkDescription>;
@@ -1182,9 +1120,7 @@ export const CardAttributesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vault: S.optional(VaultResponse),
   }),
-).annotate({
-  identifier: "CardAttributesResponse",
-}) as any as S.Schema<CardAttributesResponse>;
+).annotate({ identifier: "CardAttributesResponse" }) as any as S.Schema<CardAttributesResponse>;
 
 /** Representation of card details as received in the request. */
 export interface CardFromRequest {
@@ -1198,9 +1134,7 @@ export const CardFromRequest = /*@__PURE__*/ S.suspend(() =>
     expiry: S.optional(S.String),
     last_digits: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CardFromRequest",
-}) as any as S.Schema<CardFromRequest>;
+).annotate({ identifier: "CardFromRequest" }) as any as S.Schema<CardFromRequest>;
 
 /** The type of card product assigned to the BIN by the issuer. These values are defined by the issuer and may change over time. Some examples include: PREPAID_GIFT, CONSUMER, CORPORATE. */
 export type ProductsList = Array<string>;
@@ -1278,9 +1212,7 @@ export const PaymentSourceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     card: S.optional(CardResponseWithBillingAddress),
   }),
-).annotate({
-  identifier: "PaymentSourceResponse",
-}) as any as S.Schema<PaymentSourceResponse>;
+).annotate({ identifier: "PaymentSourceResponse" }) as any as S.Schema<PaymentSourceResponse>;
 
 export interface Subscriber {
   /** The email address of the payer. */
@@ -1352,9 +1284,7 @@ export const LastPaymentDetails = /*@__PURE__*/ S.suspend(() =>
     amount: S.optional(Money),
     time: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LastPaymentDetails",
-}) as any as S.Schema<LastPaymentDetails>;
+).annotate({ identifier: "LastPaymentDetails" }) as any as S.Schema<LastPaymentDetails>;
 
 /** The reason code for the payment failure. */
 export type FailedPaymentDetailsReasonCode =
@@ -1386,9 +1316,7 @@ export const FailedPaymentDetails = /*@__PURE__*/ S.suspend(() =>
     reason_code: S.optional(FailedPaymentDetailsReasonCode),
     next_payment_retry_time: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FailedPaymentDetails",
-}) as any as S.Schema<FailedPaymentDetails>;
+).annotate({ identifier: "FailedPaymentDetails" }) as any as S.Schema<FailedPaymentDetails>;
 
 /** The billing details for the subscription. If the subscription was or is active, these fields are populated. */
 export interface SubscriptionBillingInfo {
@@ -1416,9 +1344,7 @@ export const SubscriptionBillingInfo = /*@__PURE__*/ S.suspend(() =>
     failed_payments_count: S.Number,
     last_failed_payment: S.optional(FailedPaymentDetails),
   }),
-).annotate({
-  identifier: "SubscriptionBillingInfo",
-}) as any as S.Schema<SubscriptionBillingInfo>;
+).annotate({ identifier: "SubscriptionBillingInfo" }) as any as S.Schema<SubscriptionBillingInfo>;
 
 /** The plan details. */
 export interface CreateSubscriptionResponsePlan {
@@ -1504,16 +1430,8 @@ export interface DeactivatePlanRequest {
 export const DeactivatePlanRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/billing/plans/{id}/deactivate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeactivatePlanRequest",
-}) as any as S.Schema<DeactivatePlanRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v1/billing/plans/{id}/deactivate", code: 200 })),
+).annotate({ identifier: "DeactivatePlanRequest" }) as any as S.Schema<DeactivatePlanRequest>;
 
 export interface DeactivatePlanResponse {}
 export const DeactivatePlanResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1541,9 +1459,7 @@ export const GetSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     fields: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/billing/subscriptions/{id}", code: 200 })),
-).annotate({
-  identifier: "GetSubscriptionRequest",
-}) as any as S.Schema<GetSubscriptionRequest>;
+).annotate({ identifier: "GetSubscriptionRequest" }) as any as S.Schema<GetSubscriptionRequest>;
 
 /** The status of the subscription. */
 export type GetSubscriptionResponseStatus =
@@ -1604,9 +1520,7 @@ export const GetSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
     plan: S.optional(CreateSubscriptionResponsePlan),
     links: S.optional(LinkDescriptionList),
   }),
-).annotate({
-  identifier: "GetSubscriptionResponse",
-}) as any as S.Schema<GetSubscriptionResponse>;
+).annotate({ identifier: "GetSubscriptionResponse" }) as any as S.Schema<GetSubscriptionResponse>;
 
 export interface ListPlansRequest {
   /** Filters the response by a Product ID. */
@@ -1628,9 +1542,7 @@ export const ListPlansRequest = /*@__PURE__*/ S.suspend(() =>
     total_required: S.optional(S.Boolean.pipe(T.Query())),
     prefer: S.optional(S.String.pipe(T.Header("Prefer"))),
   }).pipe(T.Http({ method: "GET", uri: "/v1/billing/plans", code: 200 })),
-).annotate({
-  identifier: "ListPlansRequest",
-}) as any as S.Schema<ListPlansRequest>;
+).annotate({ identifier: "ListPlansRequest" }) as any as S.Schema<ListPlansRequest>;
 
 /** An array of plans. */
 export type PlanList = Array<Plan>;
@@ -1692,9 +1604,7 @@ export const PatchPlanRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     body: S.optional(PatchRequest.pipe(T.HttpBody())),
   }).pipe(T.Http({ method: "PATCH", uri: "/v1/billing/plans/{id}", code: 200 })),
-).annotate({
-  identifier: "PatchPlanRequest",
-}) as any as S.Schema<PatchPlanRequest>;
+).annotate({ identifier: "PatchPlanRequest" }) as any as S.Schema<PatchPlanRequest>;
 
 export interface PatchPlanResponse {}
 export const PatchPlanResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1710,16 +1620,8 @@ export const PatchSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     body: S.optional(PatchRequest.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/billing/subscriptions/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PatchSubscriptionRequest",
-}) as any as S.Schema<PatchSubscriptionRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/billing/subscriptions/{id}", code: 200 })),
+).annotate({ identifier: "PatchSubscriptionRequest" }) as any as S.Schema<PatchSubscriptionRequest>;
 
 export interface PatchSubscriptionResponse {}
 export const PatchSubscriptionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1757,11 +1659,7 @@ export const PlansUpdatePricingSchemesRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     pricing_schemes: UpdatePricingSchemeRequestListInput,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/billing/plans/{id}/update-pricing-schemes",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/billing/plans/{id}/update-pricing-schemes", code: 200 }),
   ),
 ).annotate({
   identifier: "PlansUpdatePricingSchemesRequest",
@@ -1842,13 +1740,7 @@ export const SubscriptionsReviseRequest = /*@__PURE__*/ S.suspend(() =>
     shipping_address: S.optional(ShippingDetail),
     application_context: S.optional(SubscriptionsReviseRequestApplicationContext),
     plan: S.optional(PlanOverrideInput),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/billing/subscriptions/{id}/revise",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/billing/subscriptions/{id}/revise", code: 200 })),
 ).annotate({
   identifier: "SubscriptionsReviseRequest",
 }) as any as S.Schema<SubscriptionsReviseRequest>;
@@ -1868,9 +1760,7 @@ export const BillingCycleOverride = /*@__PURE__*/ S.suspend(() =>
     sequence: S.Number,
     total_cycles: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "BillingCycleOverride",
-}) as any as S.Schema<BillingCycleOverride>;
+).annotate({ identifier: "BillingCycleOverride" }) as any as S.Schema<BillingCycleOverride>;
 
 /** An array of billing cycles for trial billing and regular billing. The subscription billing cycle definition has to adhere to the plan billing cycle definition. */
 export type BillingCycleOverrideList = Array<BillingCycleOverride>;
@@ -1941,13 +1831,7 @@ export const SubscriptionsTransactionsRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     start_time: S.String.pipe(T.Query()),
     end_time: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/billing/subscriptions/{id}/transactions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/billing/subscriptions/{id}/transactions", code: 200 })),
 ).annotate({
   identifier: "SubscriptionsTransactionsRequest",
 }) as any as S.Schema<SubscriptionsTransactionsRequest>;
@@ -1974,9 +1858,7 @@ export const TransactionsList = /*@__PURE__*/ S.suspend(() =>
     total_pages: S.optional(S.Number),
     links: S.optional(LinkDescriptionList),
   }),
-).annotate({
-  identifier: "TransactionsList",
-}) as any as S.Schema<TransactionsList>;
+).annotate({ identifier: "TransactionsList" }) as any as S.Schema<TransactionsList>;
 
 export interface SuspendSubscriptionRequest {
   /** The ID of the subscription. */
@@ -1988,13 +1870,7 @@ export const SuspendSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     reason: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/billing/subscriptions/{id}/suspend",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/billing/subscriptions/{id}/suspend", code: 200 })),
 ).annotate({
   identifier: "SuspendSubscriptionRequest",
 }) as any as S.Schema<SuspendSubscriptionRequest>;

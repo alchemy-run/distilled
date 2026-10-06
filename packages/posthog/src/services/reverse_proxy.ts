@@ -52,9 +52,7 @@ export const CreateProxyRecordRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateProxyRecordRequest",
-}) as any as S.Schema<CreateProxyRecordRequest>;
+).annotate({ identifier: "CreateProxyRecordRequest" }) as any as S.Schema<CreateProxyRecordRequest>;
 
 /** * `waiting` - Waiting * `issuing` - Issuing * `valid` - Valid * `warning` - Warning * `erroring` - Erroring * `deleting` - Deleting * `timed_out` - Timed Out */
 export type ProxyRecordStatusEnum =
@@ -143,9 +141,7 @@ export const DiagnosticReportSummary = /*@__PURE__*/ S.suspend(() =>
     primary_issue: S.NullOr(S.String),
     next_action: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "DiagnosticReportSummary",
-}) as any as S.Schema<DiagnosticReportSummary>;
+).annotate({ identifier: "DiagnosticReportSummary" }) as any as S.Schema<DiagnosticReportSummary>;
 
 /** * `passed` - passed * `warned` - warned * `failed` - failed * `skipped` - skipped */
 export type DiagnosticCheckResultStatusEnum = "passed" | "warned" | "failed" | "skipped";
@@ -169,9 +165,7 @@ export const DiagnosticDnsRecord = /*@__PURE__*/ S.suspend(() =>
     type: S.String,
     value: S.String,
   }),
-).annotate({
-  identifier: "DiagnosticDnsRecord",
-}) as any as S.Schema<DiagnosticDnsRecord>;
+).annotate({ identifier: "DiagnosticDnsRecord" }) as any as S.Schema<DiagnosticDnsRecord>;
 
 /** DNS records the customer should add (empty when remediation is not DNS-based). */
 export type DiagnosticRemediationRecordsList = Array<DiagnosticDnsRecord>;
@@ -193,9 +187,7 @@ export const DiagnosticRemediation = /*@__PURE__*/ S.suspend(() =>
     summary: S.String,
     records: DiagnosticRemediationRecordsList,
   }),
-).annotate({
-  identifier: "DiagnosticRemediation",
-}) as any as S.Schema<DiagnosticRemediation>;
+).annotate({ identifier: "DiagnosticRemediation" }) as any as S.Schema<DiagnosticRemediation>;
 
 export interface DiagnosticCheckResult {
   /** Stable identifier for the check (e.g. cname, cloudflare, caa, http_challenge, live_event, cert_expiry). */
@@ -217,9 +209,7 @@ export const DiagnosticCheckResult = /*@__PURE__*/ S.suspend(() =>
     detail: S.String,
     remediation: S.optional(S.NullOr(DiagnosticRemediation)),
   }),
-).annotate({
-  identifier: "DiagnosticCheckResult",
-}) as any as S.Schema<DiagnosticCheckResult>;
+).annotate({ identifier: "DiagnosticCheckResult" }) as any as S.Schema<DiagnosticCheckResult>;
 
 /** Per-check results in execution order. */
 export type DiagnosticReportChecksList = Array<DiagnosticCheckResult>;
@@ -241,9 +231,7 @@ export const DiagnosticReport = /*@__PURE__*/ S.suspend(() =>
     summary: DiagnosticReportSummary,
     checks: DiagnosticReportChecksList,
   }),
-).annotate({
-  identifier: "DiagnosticReport",
-}) as any as S.Schema<DiagnosticReport>;
+).annotate({ identifier: "DiagnosticReport" }) as any as S.Schema<DiagnosticReport>;
 
 export interface GetProxyRecordRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -262,9 +250,7 @@ export const GetProxyRecordRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetProxyRecordRequest",
-}) as any as S.Schema<GetProxyRecordRequest>;
+).annotate({ identifier: "GetProxyRecordRequest" }) as any as S.Schema<GetProxyRecordRequest>;
 
 export interface ListProxyRecordsRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -280,9 +266,7 @@ export const ListProxyRecordsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListProxyRecordsRequest",
-}) as any as S.Schema<ListProxyRecordsRequest>;
+).annotate({ identifier: "ListProxyRecordsRequest" }) as any as S.Schema<ListProxyRecordsRequest>;
 
 export type ProxyRecordListResponseResultsList = Array<ProxyRecord>;
 export const ProxyRecordListResponseResultsList = /*@__PURE__*/ S.Array(
@@ -299,9 +283,7 @@ export const ProxyRecordListResponse = /*@__PURE__*/ S.suspend(() =>
     results: S.optional(ProxyRecordListResponseResultsList),
     max_proxy_records: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ProxyRecordListResponse",
-}) as any as S.Schema<ProxyRecordListResponse>;
+).annotate({ identifier: "ProxyRecordListResponse" }) as any as S.Schema<ProxyRecordListResponse>;
 
 export interface ProxyRecordsDestroyRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */

@@ -97,9 +97,7 @@ export const QueryOptions = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "QueryOptions" }) as any as S.Schema<QueryOptions>;
 
 /** Variables is an optional set of additional variables that are inserted into the APL */
-export type QueryAplRequestVariablesMap = {
-  [key: string]: unknown | undefined;
-};
+export type QueryAplRequestVariablesMap = { [key: string]: unknown | undefined };
 export const QueryAplRequestVariablesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -164,16 +162,12 @@ export const QueryAplRequest = /*@__PURE__*/ S.suspend(() =>
     startTime: S.optional(S.String),
     variables: S.optional(QueryAplRequestVariablesMap),
   }).pipe(T.Http({ method: "POST", uri: "/v1/datasets/_apl", code: 200 })),
-).annotate({
-  identifier: "QueryAplRequest",
-}) as any as S.Schema<QueryAplRequest>;
+).annotate({ identifier: "QueryAplRequest" }) as any as S.Schema<QueryAplRequest>;
 
 export type QueryAplResponse = unknown;
 export const QueryAplResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "QueryAplResponse",
-}) as any as S.Schema<QueryAplResponse>;
+).annotate({ identifier: "QueryAplResponse" }) as any as S.Schema<QueryAplResponse>;
 
 export type QueryAplError = AxiomOpError;
 export const queryApl: API.OperationMethod<

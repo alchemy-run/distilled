@@ -58,16 +58,8 @@ export interface GetSessionsValueRequest {
 export const GetSessionsValueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/sessions/values/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSessionsValueRequest",
-}) as any as S.Schema<GetSessionsValueRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/sessions/values/", code: 200 })),
+).annotate({ identifier: "GetSessionsValueRequest" }) as any as S.Schema<GetSessionsValueRequest>;
 
 export interface GetSessionsValueResponse {}
 export const GetSessionsValueResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

@@ -47,11 +47,7 @@ export const CreateDataColorThemeRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     colors: S.optional(S.Unknown),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/data_color_themes/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/data_color_themes/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDataColorThemeRequest",
@@ -164,15 +160,9 @@ export const GetDataColorThemeRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/data_color_themes/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/data_color_themes/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetDataColorThemeRequest",
-}) as any as S.Schema<GetDataColorThemeRequest>;
+).annotate({ identifier: "GetDataColorThemeRequest" }) as any as S.Schema<GetDataColorThemeRequest>;
 
 export interface ListDataColorThemesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -188,11 +178,7 @@ export const ListDataColorThemesRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/data_color_themes/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/data_color_themes/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDataColorThemesRequest",
@@ -235,11 +221,7 @@ export const UpdateDataColorThemeRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     colors: S.optional(S.Unknown),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/data_color_themes/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/projects/{project_id}/data_color_themes/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateDataColorThemeRequest",

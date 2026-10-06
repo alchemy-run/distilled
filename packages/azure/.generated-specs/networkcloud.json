@@ -5596,17 +5596,17 @@
     "com.azure.networkcloud#StorageApplianceProperties": {
       "type": "structure",
       "members": {
+        "administratorCredentials": {
+          "target": "com.azure.networkcloud#AdministrativeCredentials",
+          "traits": {
+            "smithy.api#documentation": "The credentials of the administrative interface on this storage appliance.",
+            "smithy.api#required": {}
+          }
+        },
         "rackId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The resource ID of the rack where this storage appliance resides.",
-            "smithy.api#required": {}
-          }
-        },
-        "storageApplianceSkuId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The SKU for the storage appliance.",
             "smithy.api#required": {}
           }
         },
@@ -5624,10 +5624,10 @@
             "smithy.api#required": {}
           }
         },
-        "administratorCredentials": {
-          "target": "com.azure.networkcloud#AdministrativeCredentials",
+        "storageApplianceSkuId": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The credentials of the administrative interface on this storage appliance.",
+            "smithy.api#documentation": "The SKU for the storage appliance.",
             "smithy.api#required": {}
           }
         },
@@ -6299,17 +6299,17 @@
     "com.azure.networkcloud#StorageAppliancePropertiesInput": {
       "type": "structure",
       "members": {
+        "administratorCredentials": {
+          "target": "com.azure.networkcloud#AdministrativeCredentials",
+          "traits": {
+            "smithy.api#documentation": "The credentials of the administrative interface on this storage appliance.",
+            "smithy.api#required": {}
+          }
+        },
         "rackId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The resource ID of the rack where this storage appliance resides.",
-            "smithy.api#required": {}
-          }
-        },
-        "storageApplianceSkuId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The SKU for the storage appliance.",
             "smithy.api#required": {}
           }
         },
@@ -6327,10 +6327,10 @@
             "smithy.api#required": {}
           }
         },
-        "administratorCredentials": {
-          "target": "com.azure.networkcloud#AdministrativeCredentials",
+        "storageApplianceSkuId": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The credentials of the administrative interface on this storage appliance.",
+            "smithy.api#documentation": "The SKU for the storage appliance.",
             "smithy.api#required": {}
           }
         }
@@ -19014,7 +19014,7 @@
         "strategyType": {
           "target": "com.azure.networkcloud#ClusterUpdateStrategyType",
           "traits": {
-            "smithy.api#documentation": "The mode of operation for runtime protection.",
+            "smithy.api#documentation": "The strategy for updating the cluster.",
             "smithy.api#required": {}
           }
         },
@@ -19080,7 +19080,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "The mode of operation for runtime protection."
+        "smithy.api#documentation": "The strategy for updating the cluster."
       }
     },
     "com.azure.networkcloud#SecretArchiveSettings": {
@@ -19095,7 +19095,7 @@
         "vaultUri": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The URI for the key vault used as the secret archive."
+            "smithy.api#documentation": "The URI of the secret archive endpoint. The URI must use the `https://` scheme."
           }
         }
       },
@@ -19869,7 +19869,7 @@
         "strategyType": {
           "target": "com.azure.networkcloud#ClusterUpdateStrategyType",
           "traits": {
-            "smithy.api#documentation": "The mode of operation for runtime protection."
+            "smithy.api#documentation": "The strategy for updating the cluster."
           }
         },
         "thresholdType": {

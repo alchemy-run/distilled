@@ -125,9 +125,7 @@ export const CompleteRolloutRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/complete-rollout" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CompleteRolloutRequest",
-}) as any as S.Schema<CompleteRolloutRequest>;
+).annotate({ identifier: "CompleteRolloutRequest" }) as any as S.Schema<CompleteRolloutRequest>;
 export interface CompleteRolloutResponse {}
 export const CompleteRolloutResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CompleteRolloutResponse",
@@ -204,9 +202,7 @@ export const UpdateRewardRequest = /*@__PURE__*/ S.suspend(() =>
     Rewards: DoubleList,
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/update-reward" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateRewardRequest",
-}) as any as S.Schema<UpdateRewardRequest>;
+).annotate({ identifier: "UpdateRewardRequest" }) as any as S.Schema<UpdateRewardRequest>;
 export interface UpdateRewardResponse {}
 export const UpdateRewardResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateRewardResponse",

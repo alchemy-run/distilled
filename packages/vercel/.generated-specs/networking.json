@@ -310,6 +310,9 @@
         },
         {
           "target": "com.vercel.networking#Forbidden"
+        },
+        {
+          "target": "com.vercel.networking#NotFound"
         }
       ],
       "traits": {
@@ -393,6 +396,9 @@
           "target": "com.vercel.networking#Forbidden"
         },
         {
+          "target": "com.vercel.networking#NotFound"
+        },
+        {
           "target": "com.vercel.networking#Conflict"
         }
       ],
@@ -449,6 +455,9 @@
         },
         {
           "target": "com.vercel.networking#Forbidden"
+        },
+        {
+          "target": "com.vercel.networking#NotFound"
         }
       ],
       "traits": {
@@ -511,6 +520,9 @@
         },
         {
           "target": "com.vercel.networking#Forbidden"
+        },
+        {
+          "target": "com.vercel.networking#NotFound"
         }
       ],
       "traits": {
@@ -571,6 +583,9 @@
           "target": "com.vercel.networking#Forbidden"
         },
         {
+          "target": "com.vercel.networking#NotFound"
+        },
+        {
           "target": "com.vercel.networking#Conflict"
         }
       ],
@@ -616,6 +631,26 @@
     "com.vercel.networking#PrivateLinkEndpoint": {
       "type": "structure",
       "members": {
+        "awsDnsEntries": {
+          "target": "com.vercel.networking#PrivateLinkEndpointAwsDnsEntriesList",
+          "traits": {
+            "smithy.api#documentation": "The regional DNS names assigned to the endpoint by AWS. Use these to reach the service when private DNS is not enabled."
+          }
+        },
+        "awsServiceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The AWS VPC endpoint service the endpoint connects to.",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Timestamp in milliseconds since the UNIX epoch for when the endpoint was created.",
+            "smithy.api#required": {}
+          }
+        },
         "endpointId": {
           "target": "smithy.api#String",
           "traits": {
@@ -630,11 +665,10 @@
             "smithy.api#required": {}
           }
         },
-        "teamId": {
-          "target": "smithy.api#String",
+        "privateDnsNames": {
+          "target": "com.vercel.networking#PrivateLinkEndpointPrivateDnsNamesList",
           "traits": {
-            "smithy.api#documentation": "The identifier of the team that owns the PrivateLink endpoint.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The private DNS names of the endpoint service, populated when private DNS is enabled for the endpoint."
           }
         },
         "projectId": {
@@ -642,38 +676,6 @@
           "traits": {
             "smithy.api#documentation": "The identifier of the project the PrivateLink endpoint belongs to.",
             "smithy.api#required": {}
-          }
-        },
-        "vercelRegion": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The Vercel region the endpoint is provisioned in.",
-            "smithy.api#required": {}
-          }
-        },
-        "awsServiceName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The AWS VPC endpoint service the endpoint connects to.",
-            "smithy.api#required": {}
-          }
-        },
-        "vpcEndpointId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The identifier of the underlying AWS VPC endpoint. Absent until AWS has created the endpoint."
-          }
-        },
-        "awsDnsEntries": {
-          "target": "com.vercel.networking#PrivateLinkEndpointAwsDnsEntriesList",
-          "traits": {
-            "smithy.api#documentation": "The regional DNS names assigned to the endpoint by AWS. Use these to reach the service when private DNS is not enabled."
-          }
-        },
-        "privateDnsNames": {
-          "target": "com.vercel.networking#PrivateLinkEndpointPrivateDnsNamesList",
-          "traits": {
-            "smithy.api#documentation": "The private DNS names of the endpoint service, populated when private DNS is enabled for the endpoint."
           }
         },
         "status": {
@@ -689,10 +691,10 @@
             "smithy.api#documentation": "A human-readable explanation of why the endpoint could not be provisioned. Only set when `status` is `failed`, and absent for every other status including `rejected`, since AWS does not report a rejection reason."
           }
         },
-        "createdAt": {
-          "target": "smithy.api#Double",
+        "teamId": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Timestamp in milliseconds since the UNIX epoch for when the endpoint was created.",
+            "smithy.api#documentation": "The identifier of the team that owns the PrivateLink endpoint.",
             "smithy.api#required": {}
           }
         },
@@ -701,6 +703,19 @@
           "traits": {
             "smithy.api#documentation": "Timestamp in milliseconds since the UNIX epoch for when the endpoint was last updated.",
             "smithy.api#required": {}
+          }
+        },
+        "vercelRegion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Vercel region the endpoint is provisioned in.",
+            "smithy.api#required": {}
+          }
+        },
+        "vpcEndpointId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier of the underlying AWS VPC endpoint. Absent until AWS has created the endpoint."
           }
         }
       },
@@ -1191,6 +1206,28 @@
         "smithy.api#input": {}
       }
     },
+    "com.vercel.networking#UpdateStaticIpsResponseBodyItemAwsSubnetIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.networking#UpdateStaticIpsResponseBodyItemAws": {
+      "type": "structure",
+      "members": {
+        "securityGroupId": {
+          "target": "smithy.api#String"
+        },
+        "subnetIds": {
+          "target": "com.vercel.networking#UpdateStaticIpsResponseBodyItemAwsSubnetIdsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.networking#UpdateStaticIpsResponseBodyItemEnvIdCase1": {
       "type": "enum",
       "members": {
@@ -1221,33 +1258,14 @@
       },
       "traits": {}
     },
-    "com.vercel.networking#UpdateStaticIpsResponseBodyItemAwsSubnetIdsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.networking#UpdateStaticIpsResponseBodyItemAws": {
-      "type": "structure",
-      "members": {
-        "subnetIds": {
-          "target": "com.vercel.networking#UpdateStaticIpsResponseBodyItemAwsSubnetIdsList",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "securityGroupId": {
-          "target": "smithy.api#String"
-        }
-      },
-      "traits": {}
-    },
     "com.vercel.networking#UpdateStaticIpsResponseBodyItem": {
       "type": "structure",
       "members": {
-        "envId": {
-          "target": "com.vercel.networking#UpdateStaticIpsResponseBodyItemEnvId",
+        "aws": {
+          "target": "com.vercel.networking#UpdateStaticIpsResponseBodyItemAws"
+        },
+        "buildsEnabled": {
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1258,26 +1276,23 @@
             "smithy.api#required": {}
           }
         },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "dc": {
           "target": "smithy.api#String"
         },
+        "envId": {
+          "target": "com.vercel.networking#UpdateStaticIpsResponseBodyItemEnvId",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "passive": {
           "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "buildsEnabled": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "aws": {
-          "target": "com.vercel.networking#UpdateStaticIpsResponseBodyItemAws"
-        },
-        "createdAt": {
-          "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1373,6 +1388,19 @@
         ]
       }
     },
+    "com.vercel.networking#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
     "com.vercel.networking#PaymentRequired": {
       "type": "structure",
       "members": {},
@@ -1395,19 +1423,6 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 409
-          }
-        ]
-      }
-    },
-    "com.vercel.networking#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
           }
         ]
       }

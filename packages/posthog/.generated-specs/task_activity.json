@@ -103,7 +103,8 @@
         "task_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         },
         "task_title": {
@@ -343,8 +344,8 @@
         "task_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Task whose displayed activity should be marked read.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Task whose displayed activity should be marked read. Optional when activity_id is set.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "activity_id": {

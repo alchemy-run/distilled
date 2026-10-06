@@ -63,22 +63,20 @@ export class NotFound
 
 /** Activates the latest revision of the specified Consent by committing a new revision with `state` updated to `ACTIVE`. If the latest revision of the given Consent is in the `ACTIVE` state, no new revision is committed. A FAILED_PRECONDITION error occurs if the latest revision of the given consent is in the `REJECTED` or `REVOKED` state. */
 export interface ActivateConsentRequest {
-  /** Required. The resource name of the Consent artifact that contains documentation of the user's consent, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consentArtifacts/{consent_artifact_id}`. If the draft Consent had a Consent artifact, this Consent artifact overwrites it. */
-  consentArtifact?: string;
   /** Timestamp in UTC of when this Consent is considered expired. */
   expireTime?: string;
   /** The time to live for this Consent from when it is marked as active. */
   ttl?: string;
+  /** Required. The resource name of the Consent artifact that contains documentation of the user's consent, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consentArtifacts/{consent_artifact_id}`. If the draft Consent had a Consent artifact, this Consent artifact overwrites it. */
+  consentArtifact?: string;
 }
 export const ActivateConsentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    consentArtifact: S.optional(S.String),
     expireTime: S.optional(S.String),
     ttl: S.optional(S.String),
+    consentArtifact: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ActivateConsentRequest",
-}) as any as S.Schema<ActivateConsentRequest>;
+).annotate({ identifier: "ActivateConsentRequest" }) as any as S.Schema<ActivateConsentRequest>;
 
 export interface ActivateProjectsLocationsDatasetsConsentStoresConsentsRequest {
   /** Required. The resource name of the Consent to activate, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. An INVALID_ARGUMENT error occurs if `revision_id` is specified in the name. */
@@ -102,17 +100,25 @@ export const ActivateProjectsLocationsDatasetsConsentStoresConsentsRequest =
     identifier: "ActivateProjectsLocationsDatasetsConsentStoresConsentsRequest",
   }) as any as S.Schema<ActivateProjectsLocationsDatasetsConsentStoresConsentsRequest>;
 
-export type ConsentStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "ARCHIVED"
-  | "REVOKED"
-  | "DRAFT"
-  | "REJECTED";
-export const ConsentStateEnum = S.String;
-
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
+export interface Expr {
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
+}
+export const Expr = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    title: S.optional(S.String),
+    description: S.optional(S.String),
+    location: S.optional(S.String),
+    expression: S.optional(S.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
 
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
@@ -134,37 +140,17 @@ export const Attribute = /*@__PURE__*/ S.suspend(() =>
 export type AttributeList = Array<Attribute>;
 export const AttributeList = /*@__PURE__*/ S.Array(Attribute) as any as S.Schema<AttributeList>;
 
-/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
-export interface Expr {
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
-}
-export const Expr = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    title: S.optional(S.String),
-    description: S.optional(S.String),
-    location: S.optional(S.String),
-    expression: S.optional(S.String),
-  }),
-).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
-
 /** Represents a user's consent in terms of the resources that can be accessed and under what conditions. */
 export interface GoogleCloudHealthcareV1beta1ConsentPolicy {
-  /** The resources that this policy applies to. A resource is a match if it matches all the attributes listed here. If empty, this policy applies to all User data mappings for the given user. */
-  resourceAttributes?: AttributeList;
   /** Required. The request conditions to meet to grant access. In addition to any supported comparison operators, authorization rules may have `IN` operator as well as at most 10 logical operators that are limited to `AND` (`&&`), `OR` (`||`). */
   authorizationRule?: Expr;
+  /** The resources that this policy applies to. A resource is a match if it matches all the attributes listed here. If empty, this policy applies to all User data mappings for the given user. */
+  resourceAttributes?: AttributeList;
 }
 export const GoogleCloudHealthcareV1beta1ConsentPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resourceAttributes: S.optional(AttributeList),
     authorizationRule: S.optional(Expr),
+    resourceAttributes: S.optional(AttributeList),
   }),
 ).annotate({
   identifier: "GoogleCloudHealthcareV1beta1ConsentPolicy",
@@ -176,48 +162,55 @@ export const GoogleCloudHealthcareV1beta1ConsentPolicyList = /*@__PURE__*/ S.Arr
   GoogleCloudHealthcareV1beta1ConsentPolicy,
 ) as any as S.Schema<GoogleCloudHealthcareV1beta1ConsentPolicyList>;
 
+export type ConsentStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "ARCHIVED"
+  | "REVOKED"
+  | "DRAFT"
+  | "REJECTED";
+export const ConsentStateEnum = S.String;
+
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+
 /** Represents a user's consent. */
 export interface Consent {
-  /** Required. Indicates the current state of this Consent. */
-  state?: ConsentStateEnum | (string & {});
+  /** Identifier. Resource name of the Consent, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. Cannot be changed after creation. */
+  name?: string;
+  /** Input only. The time to live for this Consent from when it is created. */
+  ttl?: string;
+  /** Output only. The revision ID of the Consent. The format is an 8-character hexadecimal string. Refer to a specific revision of a Consent by appending `@{revision_id}` to the Consent's resource name. */
+  revisionId?: string;
   /** Output only. The timestamp that the revision was created. */
   revisionCreateTime?: string;
   /** Required. The resource name of the Consent artifact that contains proof of the end user's consent, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consentArtifacts/{consent_artifact_id}`. */
   consentArtifact?: string;
-  /** Timestamp in UTC of when this Consent is considered expired. */
-  expireTime?: string;
-  /** Input only. The time to live for this Consent from when it is created. */
-  ttl?: string;
   /** Required. User's UUID provided by the client. */
   userId?: string;
-  /** Identifier. Resource name of the Consent, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. Cannot be changed after creation. */
-  name?: string;
-  /** Optional. User-supplied key-value pairs used to organize Consent resources. Metadata keys must: - be between 1 and 63 characters long - have a UTF-8 encoding of maximum 128 bytes - begin with a letter - consist of up to 63 characters including lowercase letters, numeric characters, underscores, and dashes Metadata values must be: - be between 1 and 63 characters long - have a UTF-8 encoding of maximum 128 bytes - consist of up to 63 characters including lowercase letters, numeric characters, underscores, and dashes No more than 64 metadata entries can be associated with a given consent. */
-  metadata?: StringMap;
-  /** Output only. The revision ID of the Consent. The format is an 8-character hexadecimal string. Refer to a specific revision of a Consent by appending `@{revision_id}` to the Consent's resource name. */
-  revisionId?: string;
+  /** Timestamp in UTC of when this Consent is considered expired. */
+  expireTime?: string;
   /** Optional. Represents a user's consent in terms of the resources that can be accessed and under what conditions. */
   policies?: GoogleCloudHealthcareV1beta1ConsentPolicyList;
+  /** Required. Indicates the current state of this Consent. */
+  state?: ConsentStateEnum | (string & {});
+  /** Optional. User-supplied key-value pairs used to organize Consent resources. Metadata keys must: - be between 1 and 63 characters long - have a UTF-8 encoding of maximum 128 bytes - begin with a letter - consist of up to 63 characters including lowercase letters, numeric characters, underscores, and dashes Metadata values must be: - be between 1 and 63 characters long - have a UTF-8 encoding of maximum 128 bytes - consist of up to 63 characters including lowercase letters, numeric characters, underscores, and dashes No more than 64 metadata entries can be associated with a given consent. */
+  metadata?: StringMap;
 }
 export const Consent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    state: S.optional(ConsentStateEnum),
+    name: S.optional(S.String),
+    ttl: S.optional(S.String),
+    revisionId: S.optional(S.String),
     revisionCreateTime: S.optional(S.String),
     consentArtifact: S.optional(S.String),
-    expireTime: S.optional(S.String),
-    ttl: S.optional(S.String),
     userId: S.optional(S.String),
-    name: S.optional(S.String),
-    metadata: S.optional(StringMap),
-    revisionId: S.optional(S.String),
+    expireTime: S.optional(S.String),
     policies: S.optional(GoogleCloudHealthcareV1beta1ConsentPolicyList),
+    state: S.optional(ConsentStateEnum),
+    metadata: S.optional(StringMap),
   }),
 ).annotate({ identifier: "Consent" }) as any as S.Schema<Consent>;
-
-export type AnalyzeEntitiesRequestAlternativeOutputFormatEnum =
-  | "ALTERNATIVE_OUTPUT_FORMAT_UNSPECIFIED"
-  | "FHIR_BUNDLE";
-export const AnalyzeEntitiesRequestAlternativeOutputFormatEnum = S.String;
 
 export type AnalyzeEntitiesRequestLicensedVocabulariesItemEnum =
   | "LICENSED_VOCABULARY_UNSPECIFIED"
@@ -232,24 +225,27 @@ export const AnalyzeEntitiesRequestLicensedVocabulariesItemEnumList = /*@__PURE_
   AnalyzeEntitiesRequestLicensedVocabulariesItemEnum,
 ) as any as S.Schema<AnalyzeEntitiesRequestLicensedVocabulariesItemEnumList>;
 
+export type AnalyzeEntitiesRequestAlternativeOutputFormatEnum =
+  | "ALTERNATIVE_OUTPUT_FORMAT_UNSPECIFIED"
+  | "FHIR_BUNDLE";
+export const AnalyzeEntitiesRequestAlternativeOutputFormatEnum = S.String;
+
 /** The request to analyze healthcare entities in a document. */
 export interface AnalyzeEntitiesRequest {
   /** document_content is a document to be annotated. */
   documentContent?: string;
-  /** Optional. Alternative output format to be generated based on the results of analysis. */
-  alternativeOutputFormat?: AnalyzeEntitiesRequestAlternativeOutputFormatEnum | (string & {});
   /** A list of licensed vocabularies to use in the request, in addition to the default unlicensed vocabularies. */
   licensedVocabularies?: AnalyzeEntitiesRequestLicensedVocabulariesItemEnumList;
+  /** Optional. Alternative output format to be generated based on the results of analysis. */
+  alternativeOutputFormat?: AnalyzeEntitiesRequestAlternativeOutputFormatEnum | (string & {});
 }
 export const AnalyzeEntitiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     documentContent: S.optional(S.String),
-    alternativeOutputFormat: S.optional(AnalyzeEntitiesRequestAlternativeOutputFormatEnum),
     licensedVocabularies: S.optional(AnalyzeEntitiesRequestLicensedVocabulariesItemEnumList),
+    alternativeOutputFormat: S.optional(AnalyzeEntitiesRequestAlternativeOutputFormatEnum),
   }),
-).annotate({
-  identifier: "AnalyzeEntitiesRequest",
-}) as any as S.Schema<AnalyzeEntitiesRequest>;
+).annotate({ identifier: "AnalyzeEntitiesRequest" }) as any as S.Schema<AnalyzeEntitiesRequest>;
 
 export interface AnalyzeEntitiesProjectsLocationsServicesNlpRequest {
   /** The resource name of the service of the form: "projects/{project_id}/locations/{location_id}/services/nlp". */
@@ -272,57 +268,6 @@ export const AnalyzeEntitiesProjectsLocationsServicesNlpRequest = /*@__PURE__*/ 
   identifier: "AnalyzeEntitiesProjectsLocationsServicesNlpRequest",
 }) as any as S.Schema<AnalyzeEntitiesProjectsLocationsServicesNlpRequest>;
 
-/** The candidate entities that an entity mention could link to. */
-export interface Entity {
-  /** Vocabulary codes are first-class fields and differentiated from the concept unique identifier (entity_id). vocabulary_codes contains the representation of this concept in particular vocabularies, such as ICD-10, SNOMED-CT and RxNORM. These are prefixed by the name of the vocabulary, followed by the unique code within that vocabulary. For example, "RXNORM/A10334543". */
-  vocabularyCodes?: StringList;
-  /** preferred_term is the preferred term for this concept. For example, "Acetaminophen". For ad hoc entities formed by normalization, this is the most popular unnormalized string. */
-  preferredTerm?: string;
-  /** entity_id is a first class field entity_id uniquely identifies this concept and its meta-vocabulary. For example, "UMLS/C0000970". */
-  entityId?: string;
-}
-export const Entity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vocabularyCodes: S.optional(StringList),
-    preferredTerm: S.optional(S.String),
-    entityId: S.optional(S.String),
-  }),
-).annotate({ identifier: "Entity" }) as any as S.Schema<Entity>;
-
-export type EntityList = Array<Entity>;
-export const EntityList = /*@__PURE__*/ S.Array(Entity) as any as S.Schema<EntityList>;
-
-/** A span of text in the provided document. */
-export interface TextSpan {
-  /** The unicode codepoint index of the beginning of this span. */
-  beginOffset?: number;
-  /** The original text contained in this span. */
-  content?: string;
-}
-export const TextSpan = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    beginOffset: S.optional(S.Number),
-    content: S.optional(S.String),
-  }),
-).annotate({ identifier: "TextSpan" }) as any as S.Schema<TextSpan>;
-
-/** A feature of an entity mention. */
-export interface Feature {
-  /** The model's confidence in this feature annotation. A number between 0 and 1. */
-  confidence?: number;
-  /** The value of this feature annotation. Its range depends on the type of the feature. */
-  value?: string;
-}
-export const Feature = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    confidence: S.optional(S.Number),
-    value: S.optional(S.String),
-  }),
-).annotate({ identifier: "Feature" }) as any as S.Schema<Feature>;
-
-export type FeatureList = Array<Feature>;
-export const FeatureList = /*@__PURE__*/ S.Array(Feature) as any as S.Schema<FeatureList>;
-
 /** EntityMentions can be linked to multiple entities using a LinkedEntity message lets us add other fields, e.g. confidence. */
 export interface LinkedEntity {
   /** entity_id is a concept unique identifier. These are prefixed by a string that identifies the entity coding system, followed by the unique identifier within that system. For example, "UMLS/C0000970". This also supports ad hoc entities, which are formed by normalizing entity mention content. */
@@ -339,38 +284,69 @@ export const LinkedEntityList = /*@__PURE__*/ S.Array(
   LinkedEntity,
 ) as any as S.Schema<LinkedEntityList>;
 
+/** A feature of an entity mention. */
+export interface Feature {
+  /** The value of this feature annotation. Its range depends on the type of the feature. */
+  value?: string;
+  /** The model's confidence in this feature annotation. A number between 0 and 1. */
+  confidence?: number;
+}
+export const Feature = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.optional(S.String),
+    confidence: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Feature" }) as any as S.Schema<Feature>;
+
+export type FeatureList = Array<Feature>;
+export const FeatureList = /*@__PURE__*/ S.Array(Feature) as any as S.Schema<FeatureList>;
+
+/** A span of text in the provided document. */
+export interface TextSpan {
+  /** The unicode codepoint index of the beginning of this span. */
+  beginOffset?: number;
+  /** The original text contained in this span. */
+  content?: string;
+}
+export const TextSpan = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    beginOffset: S.optional(S.Number),
+    content: S.optional(S.String),
+  }),
+).annotate({ identifier: "TextSpan" }) as any as S.Schema<TextSpan>;
+
 /** An entity mention in the document. */
 export interface EntityMention {
-  /** mention_id uniquely identifies each entity mention in a single response. */
-  mentionId?: string;
-  /** text is the location of the entity mention in the document. */
-  text?: TextSpan;
-  /** The semantic type of the entity: UNKNOWN_ENTITY_TYPE, ALONE, ANATOMICAL_STRUCTURE, ASSISTED_LIVING, BF_RESULT, BM_RESULT, BM_UNIT, BM_VALUE, BODY_FUNCTION, BODY_MEASUREMENT, COMPLIANT, DOESNOT_FOLLOWUP, FAMILY, FOLLOWSUP, LABORATORY_DATA, LAB_RESULT, LAB_UNIT, LAB_VALUE, MEDICAL_DEVICE, MEDICINE, MED_DOSE, MED_DURATION, MED_FORM, MED_FREQUENCY, MED_ROUTE, MED_STATUS, MED_STRENGTH, MED_TOTALDOSE, MED_UNIT, NON_COMPLIANT, OTHER_LIVINGSTATUS, PROBLEM, PROCEDURE, PROCEDURE_RESULT, PROC_METHOD, REASON_FOR_NONCOMPLIANCE, SEVERITY, SUBSTANCE_ABUSE, UNCLEAR_FOLLOWUP. */
-  type?: string;
-  /** How this entity mention relates to the subject temporally. Its value is one of: CURRENT, CLINICAL_HISTORY, FAMILY_HISTORY, UPCOMING, ALLERGY */
-  temporalAssessment?: Feature;
-  /** Additional information about the entity mention. For example, for an entity mention of type `DATE` this can be its more specific date types from the following list: `ADMISSION_DATE`, `CONSULTATION_DATE`, `DISCHARGE_DATE`, `SERVICE_DATE`, `VISIT_DATE`, `DIAGNOSIS_DATE`, `MED_STARTED_DATE`, `MED_ENDED_DATE`, `NOTE_DATE`, `PROCEDURE_DATE`, `RADIATION_STARTED_DATE`, `RADIATION_ENDED_DATE`, `STAGE_DATE` */
-  additionalInfo?: FeatureList;
   /** linked_entities are candidate ontological concepts that this entity mention may refer to. They are sorted by decreasing confidence. */
   linkedEntities?: LinkedEntityList;
-  /** The certainty assessment of the entity mention. Its value is one of: LIKELY, SOMEWHAT_LIKELY, UNCERTAIN, SOMEWHAT_UNLIKELY, UNLIKELY, CONDITIONAL */
-  certaintyAssessment?: Feature;
+  /** Additional information about the entity mention. For example, for an entity mention of type `DATE` this can be its more specific date types from the following list: `ADMISSION_DATE`, `CONSULTATION_DATE`, `DISCHARGE_DATE`, `SERVICE_DATE`, `VISIT_DATE`, `DIAGNOSIS_DATE`, `MED_STARTED_DATE`, `MED_ENDED_DATE`, `NOTE_DATE`, `PROCEDURE_DATE`, `RADIATION_STARTED_DATE`, `RADIATION_ENDED_DATE`, `STAGE_DATE` */
+  additionalInfo?: FeatureList;
+  /** mention_id uniquely identifies each entity mention in a single response. */
+  mentionId?: string;
   /** The model's confidence in this entity mention annotation. A number between 0 and 1. */
   confidence?: number;
+  /** The certainty assessment of the entity mention. Its value is one of: LIKELY, SOMEWHAT_LIKELY, UNCERTAIN, SOMEWHAT_UNLIKELY, UNLIKELY, CONDITIONAL */
+  certaintyAssessment?: Feature;
+  /** How this entity mention relates to the subject temporally. Its value is one of: CURRENT, CLINICAL_HISTORY, FAMILY_HISTORY, UPCOMING, ALLERGY */
+  temporalAssessment?: Feature;
   /** The subject this entity mention relates to. Its value is one of: PATIENT, FAMILY_MEMBER, OTHER */
   subject?: Feature;
+  /** The semantic type of the entity: UNKNOWN_ENTITY_TYPE, ALONE, ANATOMICAL_STRUCTURE, ASSISTED_LIVING, BF_RESULT, BM_RESULT, BM_UNIT, BM_VALUE, BODY_FUNCTION, BODY_MEASUREMENT, COMPLIANT, DOESNOT_FOLLOWUP, FAMILY, FOLLOWSUP, LABORATORY_DATA, LAB_RESULT, LAB_UNIT, LAB_VALUE, MEDICAL_DEVICE, MEDICINE, MED_DOSE, MED_DURATION, MED_FORM, MED_FREQUENCY, MED_ROUTE, MED_STATUS, MED_STRENGTH, MED_TOTALDOSE, MED_UNIT, NON_COMPLIANT, OTHER_LIVINGSTATUS, PROBLEM, PROCEDURE, PROCEDURE_RESULT, PROC_METHOD, REASON_FOR_NONCOMPLIANCE, SEVERITY, SUBSTANCE_ABUSE, UNCLEAR_FOLLOWUP. */
+  type?: string;
+  /** text is the location of the entity mention in the document. */
+  text?: TextSpan;
 }
 export const EntityMention = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mentionId: S.optional(S.String),
-    text: S.optional(TextSpan),
-    type: S.optional(S.String),
-    temporalAssessment: S.optional(Feature),
-    additionalInfo: S.optional(FeatureList),
     linkedEntities: S.optional(LinkedEntityList),
-    certaintyAssessment: S.optional(Feature),
+    additionalInfo: S.optional(FeatureList),
+    mentionId: S.optional(S.String),
     confidence: S.optional(S.Number),
+    certaintyAssessment: S.optional(Feature),
+    temporalAssessment: S.optional(Feature),
     subject: S.optional(Feature),
+    type: S.optional(S.String),
+    text: S.optional(TextSpan),
   }),
 ).annotate({ identifier: "EntityMention" }) as any as S.Schema<EntityMention>;
 
@@ -381,18 +357,18 @@ export const EntityMentionList = /*@__PURE__*/ S.Array(
 
 /** Defines directed relationship from one entity mention to another. */
 export interface EntityMentionRelationship {
-  /** object_id is the id of the object entity mention. */
-  objectId?: string;
-  /** The model's confidence in this annotation. A number between 0 and 1. */
-  confidence?: number;
   /** subject_id is the id of the subject entity mention. */
   subjectId?: string;
+  /** The model's confidence in this annotation. A number between 0 and 1. */
+  confidence?: number;
+  /** object_id is the id of the object entity mention. */
+  objectId?: string;
 }
 export const EntityMentionRelationship = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    objectId: S.optional(S.String),
-    confidence: S.optional(S.Number),
     subjectId: S.optional(S.String),
+    confidence: S.optional(S.Number),
+    objectId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "EntityMentionRelationship",
@@ -403,27 +379,45 @@ export const EntityMentionRelationshipList = /*@__PURE__*/ S.Array(
   EntityMentionRelationship,
 ) as any as S.Schema<EntityMentionRelationshipList>;
 
+/** The candidate entities that an entity mention could link to. */
+export interface Entity {
+  /** Vocabulary codes are first-class fields and differentiated from the concept unique identifier (entity_id). vocabulary_codes contains the representation of this concept in particular vocabularies, such as ICD-10, SNOMED-CT and RxNORM. These are prefixed by the name of the vocabulary, followed by the unique code within that vocabulary. For example, "RXNORM/A10334543". */
+  vocabularyCodes?: StringList;
+  /** entity_id is a first class field entity_id uniquely identifies this concept and its meta-vocabulary. For example, "UMLS/C0000970". */
+  entityId?: string;
+  /** preferred_term is the preferred term for this concept. For example, "Acetaminophen". For ad hoc entities formed by normalization, this is the most popular unnormalized string. */
+  preferredTerm?: string;
+}
+export const Entity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vocabularyCodes: S.optional(StringList),
+    entityId: S.optional(S.String),
+    preferredTerm: S.optional(S.String),
+  }),
+).annotate({ identifier: "Entity" }) as any as S.Schema<Entity>;
+
+export type EntityList = Array<Entity>;
+export const EntityList = /*@__PURE__*/ S.Array(Entity) as any as S.Schema<EntityList>;
+
 /** Includes recognized entity mentions and relationships between them. */
 export interface AnalyzeEntitiesResponse {
-  /** The union of all the candidate entities that the entity_mentions in this response could link to. These are UMLS concepts or normalized mention content. */
-  entities?: EntityList;
-  /** The `entity_mentions` field contains all the annotated medical entities that were mentioned in the provided document. */
-  entityMentions?: EntityMentionList;
   /** The FHIR bundle ([`R4`](http://hl7.org/fhir/R4/bundle.html)) that includes all the entities, the entity mentions, and the relationships in JSON format. */
   fhirBundle?: string;
+  /** The `entity_mentions` field contains all the annotated medical entities that were mentioned in the provided document. */
+  entityMentions?: EntityMentionList;
   /** relationships contains all the binary relationships that were identified between entity mentions within the provided document. */
   relationships?: EntityMentionRelationshipList;
+  /** The union of all the candidate entities that the entity_mentions in this response could link to. These are UMLS concepts or normalized mention content. */
+  entities?: EntityList;
 }
 export const AnalyzeEntitiesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entities: S.optional(EntityList),
-    entityMentions: S.optional(EntityMentionList),
     fhirBundle: S.optional(S.String),
+    entityMentions: S.optional(EntityMentionList),
     relationships: S.optional(EntityMentionRelationshipList),
+    entities: S.optional(EntityList),
   }),
-).annotate({
-  identifier: "AnalyzeEntitiesResponse",
-}) as any as S.Schema<AnalyzeEntitiesResponse>;
+).annotate({ identifier: "AnalyzeEntitiesResponse" }) as any as S.Schema<AnalyzeEntitiesResponse>;
 
 /** List of admin Consent resources to be applied. */
 export interface AdminConsents {
@@ -487,57 +481,43 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    code: S.optional(S.Number),
-    message: S.optional(S.String),
     details: S.optional(DocumentMapList),
+    message: S.optional(S.String),
+    code: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metadata: S.optional(DocumentMap),
     name: S.optional(S.String),
-    error: S.optional(Status),
-    done: S.optional(S.Boolean),
     response: S.optional(DocumentMap),
+    done: S.optional(S.Boolean),
+    metadata: S.optional(DocumentMap),
+    error: S.optional(Status),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
-
-/** Apply consents given by patients whose most recent consent changes are in the time range. Note that after identifying these patients, the server applies all Consent resources given by those patients, not just the Consent resources within the timestamp in the range. */
-export interface TimeRange {
-  /** Optional. The latest consent change time, in format YYYY-MM-DDThh:mm:ss.sss+zz:zz If not specified, the system uses the time when ApplyConsents was called. */
-  end?: string;
-  /** Optional. The earliest consent change time, in format YYYY-MM-DDThh:mm:ss.sss+zz:zz If not specified, the system uses the FHIR store creation time. */
-  start?: string;
-}
-export const TimeRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    end: S.optional(S.String),
-    start: S.optional(S.String),
-  }),
-).annotate({ identifier: "TimeRange" }) as any as S.Schema<TimeRange>;
 
 /** Apply consents given by a list of patients. */
 export interface PatientScope {
@@ -550,24 +530,36 @@ export const PatientScope = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "PatientScope" }) as any as S.Schema<PatientScope>;
 
+/** Apply consents given by patients whose most recent consent changes are in the time range. Note that after identifying these patients, the server applies all Consent resources given by those patients, not just the Consent resources within the timestamp in the range. */
+export interface TimeRange {
+  /** Optional. The earliest consent change time, in format YYYY-MM-DDThh:mm:ss.sss+zz:zz If not specified, the system uses the FHIR store creation time. */
+  start?: string;
+  /** Optional. The latest consent change time, in format YYYY-MM-DDThh:mm:ss.sss+zz:zz If not specified, the system uses the time when ApplyConsents was called. */
+  end?: string;
+}
+export const TimeRange = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    start: S.optional(S.String),
+    end: S.optional(S.String),
+  }),
+).annotate({ identifier: "TimeRange" }) as any as S.Schema<TimeRange>;
+
 /** Request to apply the Consent resources for the specified FHIR store. */
 export interface ApplyConsentsRequest {
-  /** Optional. Scope down to patients whose most recent consent changes are in the time range. Can only be used with a versioning store (i.e. when disable_resource_versioning is set to false). */
-  timeRange?: TimeRange;
-  /** Optional. If true, the method only validates Consent resources to make sure they are supported. When the operation completes, ApplyConsentsResponse is returned where `consent_apply_success` and `consent_apply_failure` indicate supported and unsupported (or invalid) Consent resources, respectively. Otherwise, the method propagates the aggregate consensual information to the patient's resources. Upon success, `affected_resources` in the ApplyConsentsResponse indicates the number of resources that may have consensual access changed. */
-  validateOnly?: boolean;
   /** Optional. Scope down to a list of patients. */
   patientScope?: PatientScope;
+  /** Optional. If true, the method only validates Consent resources to make sure they are supported. When the operation completes, ApplyConsentsResponse is returned where `consent_apply_success` and `consent_apply_failure` indicate supported and unsupported (or invalid) Consent resources, respectively. Otherwise, the method propagates the aggregate consensual information to the patient's resources. Upon success, `affected_resources` in the ApplyConsentsResponse indicates the number of resources that may have consensual access changed. */
+  validateOnly?: boolean;
+  /** Optional. Scope down to patients whose most recent consent changes are in the time range. Can only be used with a versioning store (i.e. when disable_resource_versioning is set to false). */
+  timeRange?: TimeRange;
 }
 export const ApplyConsentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    timeRange: S.optional(TimeRange),
-    validateOnly: S.optional(S.Boolean),
     patientScope: S.optional(PatientScope),
+    validateOnly: S.optional(S.Boolean),
+    timeRange: S.optional(TimeRange),
   }),
-).annotate({
-  identifier: "ApplyConsentsRequest",
-}) as any as S.Schema<ApplyConsentsRequest>;
+).annotate({ identifier: "ApplyConsentsRequest" }) as any as S.Schema<ApplyConsentsRequest>;
 
 export interface ApplyConsentsProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. The name of the FHIR store to enforce, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
@@ -634,21 +626,21 @@ export type BatchGetProjectsLocationsDatasetsHl7V2StoresMessagesViewEnum =
 export const BatchGetProjectsLocationsDatasetsHl7V2StoresMessagesViewEnum = S.String;
 
 export interface BatchGetProjectsLocationsDatasetsHl7V2StoresMessagesRequest {
-  /** Required. Name of the HL7v2 store to retrieve messages from, in the format: `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7v2Stores/{hl7v2_store_id}`. */
-  parent: string;
-  /** The resource id of the HL7v2 messages to retrieve in the format: `{message_id}`, where the full resource name is `{parent}/messages/{message_id}` A maximum of 100 messages can be retrieved in a batch. All 'ids' have to be under parent. */
-  ids?: StringList;
   /** Specifies the parts of the Messages resource to return in the response. When unspecified, equivalent to BASIC. */
   view?: BatchGetProjectsLocationsDatasetsHl7V2StoresMessagesViewEnum | (string & {});
+  /** The resource id of the HL7v2 messages to retrieve in the format: `{message_id}`, where the full resource name is `{parent}/messages/{message_id}` A maximum of 100 messages can be retrieved in a batch. All 'ids' have to be under parent. */
+  ids?: StringList;
+  /** Required. Name of the HL7v2 store to retrieve messages from, in the format: `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7v2Stores/{hl7v2_store_id}`. */
+  parent: string;
 }
 export const BatchGetProjectsLocationsDatasetsHl7V2StoresMessagesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
-      ids: S.optional(StringList.pipe(T.Query())),
       view: S.optional(
         BatchGetProjectsLocationsDatasetsHl7V2StoresMessagesViewEnum.pipe(T.Query()),
       ),
+      ids: S.optional(StringList.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -660,36 +652,20 @@ export const BatchGetProjectsLocationsDatasetsHl7V2StoresMessagesRequest = /*@__
   identifier: "BatchGetProjectsLocationsDatasetsHl7V2StoresMessagesRequest",
 }) as any as S.Schema<BatchGetProjectsLocationsDatasetsHl7V2StoresMessagesRequest>;
 
-/** The content of an HL7v2 message in a structured format as specified by a schema. */
-export interface SchematizedData {
-  /** JSON output of the parser. */
-  data?: string;
-  /** The error output of the parser. */
-  error?: string;
-}
-export const SchematizedData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    data: S.optional(S.String),
-    error: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SchematizedData",
-}) as any as S.Schema<SchematizedData>;
-
 /** A segment in a structured format. */
 export interface Segment {
-  /** A mapping from the positional location to the value. The key string uses zero-based indexes separated by dots to identify Fields, components and sub-components. A bracket notation is also used to identify different instances of a repeated field. Regex for key: (\d+)(\[\d+\])?(.\d+)?(.\d+)? Examples of (key, value) pairs: * (0.1, "hemoglobin") denotes that the first component of Field 0 has the value "hemoglobin". * (1.1.2, "CBC") denotes that the second sub-component of the first component of Field 1 has the value "CBC". * (1[0].1, "HbA1c") denotes that the first component of the first Instance of Field 1, which is repeated, has the value "HbA1c". */
-  fields?: StringMap;
   /** Set ID for segments that can be in a set. This can be empty if it's missing or isn't applicable. */
   setId?: string;
   /** A string that indicates the type of segment. For example, EVN or PID. */
   segmentId?: string;
+  /** A mapping from the positional location to the value. The key string uses zero-based indexes separated by dots to identify Fields, components and sub-components. A bracket notation is also used to identify different instances of a repeated field. Regex for key: (\d+)(\[\d+\])?(.\d+)?(.\d+)? Examples of (key, value) pairs: * (0.1, "hemoglobin") denotes that the first component of Field 0 has the value "hemoglobin". * (1.1.2, "CBC") denotes that the second sub-component of the first component of Field 1 has the value "CBC". * (1[0].1, "HbA1c") denotes that the first component of the first Instance of Field 1, which is repeated, has the value "HbA1c". */
+  fields?: StringMap;
 }
 export const Segment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fields: S.optional(StringMap),
     setId: S.optional(S.String),
     segmentId: S.optional(S.String),
+    fields: S.optional(StringMap),
   }),
 ).annotate({ identifier: "Segment" }) as any as S.Schema<Segment>;
 
@@ -708,56 +684,70 @@ export const ParsedData = /*@__PURE__*/ S.suspend(() =>
 
 /** A patient identifier and associated type. */
 export interface PatientId {
-  /** The patient's unique identifier. */
-  value?: string;
   /** ID type. For example, MRN or NHS. */
   type?: string;
+  /** The patient's unique identifier. */
+  value?: string;
 }
 export const PatientId = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    value: S.optional(S.String),
     type: S.optional(S.String),
+    value: S.optional(S.String),
   }),
 ).annotate({ identifier: "PatientId" }) as any as S.Schema<PatientId>;
 
 export type PatientIdList = Array<PatientId>;
 export const PatientIdList = /*@__PURE__*/ S.Array(PatientId) as any as S.Schema<PatientIdList>;
 
+/** The content of an HL7v2 message in a structured format as specified by a schema. */
+export interface SchematizedData {
+  /** JSON output of the parser. */
+  data?: string;
+  /** The error output of the parser. */
+  error?: string;
+}
+export const SchematizedData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(S.String),
+    error: S.optional(S.String),
+  }),
+).annotate({ identifier: "SchematizedData" }) as any as S.Schema<SchematizedData>;
+
 /** A complete HL7v2 message. See [Introduction to HL7 Standards] (https://www.hl7.org/implement/standards/index.cfm?ref=common) for details on the standard. */
 export interface Message {
-  /** Required. Raw message bytes. */
-  data?: string;
-  /** Output only. Resource name of the Message, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7V2Stores/{hl7_v2_store_id}/messages/{message_id}`. Assigned by the server. */
-  name?: string;
-  /** The datetime the sending application sent this message. MSH-7. */
-  sendTime?: string;
-  /** Output only. The datetime when the message was created. Set by the server. */
-  createTime?: string;
-  /** The message type for this message. MSH-9.1. */
-  messageType?: string;
-  /** The parsed version of the raw message data schematized according to this store's schemas and type definitions. */
-  schematizedData?: SchematizedData;
-  /** User-supplied key-value pairs used to organize HL7v2 stores. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62} Label values are optional, must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63} No more than 64 labels can be associated with a given store. */
-  labels?: StringMap;
-  /** The hospital that this message came from. MSH-4. */
-  sendFacility?: string;
   /** Output only. The parsed version of the raw message data. */
   parsedData?: ParsedData;
+  /** User-supplied key-value pairs used to organize HL7v2 stores. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62} Label values are optional, must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63} No more than 64 labels can be associated with a given store. */
+  labels?: StringMap;
+  /** Required. Raw message bytes. */
+  data?: string;
   /** All patient IDs listed in the PID-2, PID-3, and PID-4 segments of this message. */
   patientIds?: PatientIdList;
+  /** Output only. Resource name of the Message, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7V2Stores/{hl7_v2_store_id}/messages/{message_id}`. Assigned by the server. */
+  name?: string;
+  /** The message type for this message. MSH-9.1. */
+  messageType?: string;
+  /** The hospital that this message came from. MSH-4. */
+  sendFacility?: string;
+  /** The parsed version of the raw message data schematized according to this store's schemas and type definitions. */
+  schematizedData?: SchematizedData;
+  /** Output only. The datetime when the message was created. Set by the server. */
+  createTime?: string;
+  /** The datetime the sending application sent this message. MSH-7. */
+  sendTime?: string;
 }
 export const Message = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    data: S.optional(S.String),
-    name: S.optional(S.String),
-    sendTime: S.optional(S.String),
-    createTime: S.optional(S.String),
-    messageType: S.optional(S.String),
-    schematizedData: S.optional(SchematizedData),
-    labels: S.optional(StringMap),
-    sendFacility: S.optional(S.String),
     parsedData: S.optional(ParsedData),
+    labels: S.optional(StringMap),
+    data: S.optional(S.String),
     patientIds: S.optional(PatientIdList),
+    name: S.optional(S.String),
+    messageType: S.optional(S.String),
+    sendFacility: S.optional(S.String),
+    schematizedData: S.optional(SchematizedData),
+    createTime: S.optional(S.String),
+    sendTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Message" }) as any as S.Schema<Message>;
 
@@ -773,89 +763,7 @@ export const BatchGetMessagesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     messages: S.optional(MessageList),
   }),
-).annotate({
-  identifier: "BatchGetMessagesResponse",
-}) as any as S.Schema<BatchGetMessagesResponse>;
-
-/** Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page. This message can be used both in streaming and non-streaming API methods in the request as well as the response. It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body. Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged. */
-export interface HttpBody {
-  /** The HTTP request/response body as raw binary. */
-  data?: string;
-  /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string;
-  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList;
-}
-export const HttpBody = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    data: S.optional(S.String),
-    contentType: S.optional(S.String),
-    extensions: S.optional(DocumentMapList),
-  }),
-).annotate({ identifier: "HttpBody" }) as any as S.Schema<HttpBody>;
-
-export interface Binary_createProjectsLocationsDatasetsFhirStoresFhirRequest {
-  /** Required. The name of the FHIR store this resource belongs to. */
-  parent: string;
-  /** Request body */
-  body?: HttpBody;
-}
-export const Binary_createProjectsLocationsDatasetsFhirStoresFhirRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      parent: S.String.pipe(T.Label()),
-      body: S.optional(HttpBody.pipe(T.HttpBody())),
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "v1beta1/{+parent}/fhir/Binary",
-        baseUrl: "https://healthcare.googleapis.com/",
-      }),
-    ),
-).annotate({
-  identifier: "Binary_createProjectsLocationsDatasetsFhirStoresFhirRequest",
-}) as any as S.Schema<Binary_createProjectsLocationsDatasetsFhirStoresFhirRequest>;
-
-export interface Binary_readProjectsLocationsDatasetsFhirStoresFhirRequest {
-  /** Required. The name of the Binary resource to retrieve. */
-  name: string;
-}
-export const Binary_readProjectsLocationsDatasetsFhirStoresFhirRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1beta1/{+name}",
-        baseUrl: "https://healthcare.googleapis.com/",
-      }),
-    ),
-).annotate({
-  identifier: "Binary_readProjectsLocationsDatasetsFhirStoresFhirRequest",
-}) as any as S.Schema<Binary_readProjectsLocationsDatasetsFhirStoresFhirRequest>;
-
-export interface Binary_updateProjectsLocationsDatasetsFhirStoresFhirRequest {
-  /** Required. The name of the resource to update. */
-  name: string;
-  /** Request body */
-  body?: HttpBody;
-}
-export const Binary_updateProjectsLocationsDatasetsFhirStoresFhirRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.String.pipe(T.Label()),
-      body: S.optional(HttpBody.pipe(T.HttpBody())),
-    }).pipe(
-      T.Http({
-        method: "PUT",
-        uri: "v1beta1/{+name}",
-        baseUrl: "https://healthcare.googleapis.com/",
-      }),
-    ),
-).annotate({
-  identifier: "Binary_updateProjectsLocationsDatasetsFhirStoresFhirRequest",
-}) as any as S.Schema<Binary_updateProjectsLocationsDatasetsFhirStoresFhirRequest>;
+).annotate({ identifier: "BatchGetMessagesResponse" }) as any as S.Schema<BatchGetMessagesResponse>;
 
 export interface Binary_vreadProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The name of the Binary resource version to retrieve. */
@@ -876,77 +784,22 @@ export const Binary_vreadProjectsLocationsDatasetsFhirStoresFhirRequest = /*@__P
   identifier: "Binary_vreadProjectsLocationsDatasetsFhirStoresFhirRequest",
 }) as any as S.Schema<Binary_vreadProjectsLocationsDatasetsFhirStoresFhirRequest>;
 
-export interface Bulk_export_groupProjectsLocationsDatasetsFhirStoresRequest {
-  /** Required. The FHIR resource type used to organize exported resources. Only supports "Patient". When organized by Patient resource, output files are grouped as follows: * Patient file(s) containing the Patient resources. Each Patient is sequentially followed by all resources the Patient references, and all resources that reference the Patient (equivalent to a GetPatientEverything request). * Individual files grouped by resource type for resources in the Group's member field and the Group resource itself. Resources may be duplicated across multiple Patients. For example, if two Patient resources reference the same Organization resource, it will appear twice, once after each Patient. The Group resource from the request does not appear in the Patient files. */
-  organizeOutputBy?: string;
-  /** Optional. If provided, only resources updated after this time are exported. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
-  _since?: string;
-  /** Optional. String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) are exported. */
-  _type?: string;
-  /** Optional. Output format of the export. This field is optional and only `application/fhir+ndjson` is supported. */
-  outputFormat?: string;
-  /** Required. Name of the `Group` resource that is exported, in format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Group/{group_id}`. */
-  name: string;
+/** Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page. This message can be used both in streaming and non-streaming API methods in the request as well as the response. It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body. Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged. */
+export interface HttpBody {
+  /** Application specific response metadata. Must be set in the first response for streaming APIs. */
+  extensions?: DocumentMapList;
+  /** The HTTP request/response body as raw binary. */
+  data?: string;
+  /** The HTTP Content-Type header value specifying the content type of the body. */
+  contentType?: string;
 }
-export const Bulk_export_groupProjectsLocationsDatasetsFhirStoresRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      organizeOutputBy: S.optional(S.String.pipe(T.Query())),
-      _since: S.optional(S.String.pipe(T.Query())),
-      _type: S.optional(S.String.pipe(T.Query())),
-      outputFormat: S.optional(S.String.pipe(T.Query())),
-      name: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1beta1/{+name}/$export",
-        baseUrl: "https://healthcare.googleapis.com/",
-      }),
-    ),
-).annotate({
-  identifier: "Bulk_export_groupProjectsLocationsDatasetsFhirStoresRequest",
-}) as any as S.Schema<Bulk_export_groupProjectsLocationsDatasetsFhirStoresRequest>;
-
-export interface Bulk_exportProjectsLocationsDatasetsFhirStoresFhirRequest {
-  /** Optional. Output format of the export. This field is optional and only `application/fhir+ndjson` is supported. */
-  outputFormat?: string;
-  /** Required. The name of the FHIR store to export resources from, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
-  name: string;
-  /** Optional. If provided, only resources updated after this time are exported. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
-  _since?: string;
-  /** Optional. String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) are exported. */
-  _type?: string;
-}
-export const Bulk_exportProjectsLocationsDatasetsFhirStoresFhirRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      outputFormat: S.optional(S.String.pipe(T.Query())),
-      name: S.String.pipe(T.Label()),
-      _since: S.optional(S.String.pipe(T.Query())),
-      _type: S.optional(S.String.pipe(T.Query())),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1beta1/{+name}/fhir/$export",
-        baseUrl: "https://healthcare.googleapis.com/",
-      }),
-    ),
-).annotate({
-  identifier: "Bulk_exportProjectsLocationsDatasetsFhirStoresFhirRequest",
-}) as any as S.Schema<Bulk_exportProjectsLocationsDatasetsFhirStoresFhirRequest>;
-
-/** Specifies the configuration for importing data from Cloud Storage. */
-export interface GoogleCloudHealthcareV1beta1FhirGcsSource {
-  /** Required. Points to a Cloud Storage URI containing file(s) to import. The URI must be in the following format: `gs://{bucket_id}/{object_id}`. The URI can include wildcards in `object_id` and thus identify multiple files. Supported wildcards: * `*` to match 0 or more non-separator characters * `**` to match 0 or more characters (including separators). Must be used at the end of a path and with no other wildcards in the path. Can also be used with a file extension (such as .ndjson), which imports all files with the extension in the specified directory and its sub-directories. For example, `gs://my-bucket/my-directory/**.ndjson` imports all files with `.ndjson` extensions in `my-directory/` and its sub-directories. * `?` to match 1 character Files matching the wildcard are expected to contain content only, no metadata. */
-  uri?: string;
-}
-export const GoogleCloudHealthcareV1beta1FhirGcsSource = /*@__PURE__*/ S.suspend(() =>
+export const HttpBody = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    uri: S.optional(S.String),
+    extensions: S.optional(DocumentMapList),
+    data: S.optional(S.String),
+    contentType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GoogleCloudHealthcareV1beta1FhirGcsSource",
-}) as any as S.Schema<GoogleCloudHealthcareV1beta1FhirGcsSource>;
+).annotate({ identifier: "HttpBody" }) as any as S.Schema<HttpBody>;
 
 /** The configuration for exporting to Cloud Storage. */
 export interface GoogleCloudHealthcareV1beta1FhirGcsDestination {
@@ -961,6 +814,19 @@ export const GoogleCloudHealthcareV1beta1FhirGcsDestination = /*@__PURE__*/ S.su
   identifier: "GoogleCloudHealthcareV1beta1FhirGcsDestination",
 }) as any as S.Schema<GoogleCloudHealthcareV1beta1FhirGcsDestination>;
 
+/** Specifies the configuration for importing data from Cloud Storage. */
+export interface GoogleCloudHealthcareV1beta1FhirGcsSource {
+  /** Required. Points to a Cloud Storage URI containing file(s) to import. The URI must be in the following format: `gs://{bucket_id}/{object_id}`. The URI can include wildcards in `object_id` and thus identify multiple files. Supported wildcards: * `*` to match 0 or more non-separator characters * `**` to match 0 or more characters (including separators). Must be used at the end of a path and with no other wildcards in the path. Can also be used with a file extension (such as .ndjson), which imports all files with the extension in the specified directory and its sub-directories. For example, `gs://my-bucket/my-directory/**.ndjson` imports all files with `.ndjson` extensions in `my-directory/` and its sub-directories. * `?` to match 1 character Files matching the wildcard are expected to contain content only, no metadata. */
+  uri?: string;
+}
+export const GoogleCloudHealthcareV1beta1FhirGcsSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uri: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudHealthcareV1beta1FhirGcsSource",
+}) as any as S.Schema<GoogleCloudHealthcareV1beta1FhirGcsSource>;
+
 export type BulkDeleteResourcesRequestVersionConfigEnum =
   | "VERSION_CONFIG_UNSPECIFIED"
   | "ALL"
@@ -970,26 +836,26 @@ export const BulkDeleteResourcesRequestVersionConfigEnum = S.String;
 
 /** Request to bulk delete FHIR resources. */
 export interface BulkDeleteResourcesRequest {
-  /** Optional. If provided, only resources updated before or atthis time are deleted. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
-  until?: string;
   /** Optional. String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) will be deleted. */
   type?: string;
-  /** Optional. Specifies the Cloud Storage source data location containing the list of resource IDs to delete. Each file inside `gcs_source` must contain newline-delimited strings in the format `{resourceType}/{resourceId}`. This field is mutually exclusive with filter parameters such as `type` and `until`. */
-  gcsSource?: GoogleCloudHealthcareV1beta1FhirGcsSource;
+  /** Optional. If provided, only resources updated before or atthis time are deleted. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
+  until?: string;
+  /** Optional. If set to `true`, the request will only perform a dry run. By default this will default to `false`. */
+  validateOnly?: boolean;
   /** Optional. The Cloud Storage output destination. The Healthcare Service Agent account requires the `roles/storage.objectAdmin` role on the Cloud Storage location. The deleted resources outputs are organized by FHIR resource types. The server creates one or more objects per resource type. Each object contains newline delimited strings in the format {resourceType}/{resourceId}. */
   gcsDestination?: GoogleCloudHealthcareV1beta1FhirGcsDestination;
-  /** Optional. If set to true, the request will only perform a dry run. By default (once the behavior change is fully rolled out), this will default to true. During the transition period, the default depends on the Mendel flag status for the project. */
-  validateOnly?: boolean;
+  /** Optional. Specifies the Cloud Storage source data location containing the list of resource IDs to delete. Each file inside `gcs_source` must contain newline-delimited strings in the format `{resourceType}/{resourceId}`. This field is mutually exclusive with filter parameters such as `type` and `until`. */
+  gcsSource?: GoogleCloudHealthcareV1beta1FhirGcsSource;
   /** Optional. Specifies which version of the resources to delete. */
   versionConfig?: BulkDeleteResourcesRequestVersionConfigEnum | (string & {});
 }
 export const BulkDeleteResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    until: S.optional(S.String),
     type: S.optional(S.String),
-    gcsSource: S.optional(GoogleCloudHealthcareV1beta1FhirGcsSource),
-    gcsDestination: S.optional(GoogleCloudHealthcareV1beta1FhirGcsDestination),
+    until: S.optional(S.String),
     validateOnly: S.optional(S.Boolean),
+    gcsDestination: S.optional(GoogleCloudHealthcareV1beta1FhirGcsDestination),
+    gcsSource: S.optional(GoogleCloudHealthcareV1beta1FhirGcsSource),
     versionConfig: S.optional(BulkDeleteResourcesRequestVersionConfigEnum),
   }),
 ).annotate({
@@ -1016,6 +882,99 @@ export const BulkDeleteProjectsLocationsDatasetsFhirStoresRequest = /*@__PURE__*
 ).annotate({
   identifier: "BulkDeleteProjectsLocationsDatasetsFhirStoresRequest",
 }) as any as S.Schema<BulkDeleteProjectsLocationsDatasetsFhirStoresRequest>;
+
+export interface BulkExportGroupPostProjectsLocationsDatasetsFhirStoresRequest {
+  /** Optional. If provided, only resources updated after this time are exported. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
+  _since?: string;
+  /** Required. The FHIR resource type used to organize exported resources. Only supports "Patient". When organized by Patient resource, output files are grouped as follows: * Patient file(s) containing the Patient resources. Each Patient is sequentially followed by all resources the Patient references, and all resources that reference the Patient (equivalent to a GetPatientEverything request). * Individual files grouped by resource type for resources in the Group's member field and the Group resource itself. Resources may be duplicated across multiple Patients. For example, if two Patient resources reference the same Organization resource, it will appear twice, once after each Patient. The Group resource from the request does not appear in the Patient files. */
+  organizeOutputBy?: string;
+  /** Optional. Output format of the export. This field is optional and only `application/fhir+ndjson` is supported. */
+  outputFormat?: string;
+  /** Required. Name of the `Group` resource that is exported, in format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Group/{group_id}`. */
+  name: string;
+  /** Optional. String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) are exported. */
+  _type?: string;
+  /** Request body */
+  body?: HttpBody;
+}
+export const BulkExportGroupPostProjectsLocationsDatasetsFhirStoresRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      _since: S.optional(S.String.pipe(T.Query())),
+      organizeOutputBy: S.optional(S.String.pipe(T.Query())),
+      outputFormat: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
+      _type: S.optional(S.String.pipe(T.Query())),
+      body: S.optional(HttpBody.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "v1beta1/{+name}/$export",
+        baseUrl: "https://healthcare.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "BulkExportGroupPostProjectsLocationsDatasetsFhirStoresRequest",
+  }) as any as S.Schema<BulkExportGroupPostProjectsLocationsDatasetsFhirStoresRequest>;
+
+export interface BulkExportGroupProjectsLocationsDatasetsFhirStoresRequest {
+  /** Optional. If provided, only resources updated after this time are exported. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
+  _since?: string;
+  /** Optional. Output format of the export. This field is optional and only `application/fhir+ndjson` is supported. */
+  outputFormat?: string;
+  /** Optional. String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) are exported. */
+  _type?: string;
+  /** Required. Name of the `Group` resource that is exported, in format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Group/{group_id}`. */
+  name: string;
+  /** Required. The FHIR resource type used to organize exported resources. Only supports "Patient". When organized by Patient resource, output files are grouped as follows: * Patient file(s) containing the Patient resources. Each Patient is sequentially followed by all resources the Patient references, and all resources that reference the Patient (equivalent to a GetPatientEverything request). * Individual files grouped by resource type for resources in the Group's member field and the Group resource itself. Resources may be duplicated across multiple Patients. For example, if two Patient resources reference the same Organization resource, it will appear twice, once after each Patient. The Group resource from the request does not appear in the Patient files. */
+  organizeOutputBy?: string;
+}
+export const BulkExportGroupProjectsLocationsDatasetsFhirStoresRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      _since: S.optional(S.String.pipe(T.Query())),
+      outputFormat: S.optional(S.String.pipe(T.Query())),
+      _type: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
+      organizeOutputBy: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1beta1/{+name}/$export",
+        baseUrl: "https://healthcare.googleapis.com/",
+      }),
+    ),
+).annotate({
+  identifier: "BulkExportGroupProjectsLocationsDatasetsFhirStoresRequest",
+}) as any as S.Schema<BulkExportGroupProjectsLocationsDatasetsFhirStoresRequest>;
+
+export interface BulkExportProjectsLocationsDatasetsFhirStoresFhirRequest {
+  /** Optional. Output format of the export. This field is optional and only `application/fhir+ndjson` is supported. */
+  outputFormat?: string;
+  /** Optional. String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) are exported. */
+  _type?: string;
+  /** Optional. If provided, only resources updated after this time are exported. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
+  _since?: string;
+  /** Required. The name of the FHIR store to export resources from, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
+  name: string;
+}
+export const BulkExportProjectsLocationsDatasetsFhirStoresFhirRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      outputFormat: S.optional(S.String.pipe(T.Query())),
+      _type: S.optional(S.String.pipe(T.Query())),
+      _since: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1beta1/{+name}/fhir/$export",
+        baseUrl: "https://healthcare.googleapis.com/",
+      }),
+    ),
+).annotate({
+  identifier: "BulkExportProjectsLocationsDatasetsFhirStoresFhirRequest",
+}) as any as S.Schema<BulkExportProjectsLocationsDatasetsFhirStoresFhirRequest>;
 
 /** The request message for Operations.CancelOperation. */
 export type CancelOperationRequest = ArchiveUserDataMappingRequest;
@@ -1067,6 +1026,9 @@ export const CapabilitiesProjectsLocationsDatasetsFhirStoresFhirRequest = /*@__P
   identifier: "CapabilitiesProjectsLocationsDatasetsFhirStoresFhirRequest",
 }) as any as S.Schema<CapabilitiesProjectsLocationsDatasetsFhirStoresFhirRequest>;
 
+export type CheckDataAccessRequestResponseViewEnum = "RESPONSE_VIEW_UNSPECIFIED" | "BASIC" | "FULL";
+export const CheckDataAccessRequestResponseViewEnum = S.String;
+
 /** List of resource names of Consent resources. */
 export interface ConsentList {
   /** The resource names of the Consents to evaluate against, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. */
@@ -1078,30 +1040,25 @@ export const ConsentList = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ConsentList" }) as any as S.Schema<ConsentList>;
 
-export type CheckDataAccessRequestResponseViewEnum = "RESPONSE_VIEW_UNSPECIFIED" | "BASIC" | "FULL";
-export const CheckDataAccessRequestResponseViewEnum = S.String;
-
 /** Checks if a particular data_id of a User data mapping in the given consent store is consented for a given use. */
 export interface CheckDataAccessRequest {
-  /** Optional. Specific Consents to evaluate the access request against. These Consents must have the same `user_id` as the evaluated User data mapping, must exist in the current `consent_store`, and have a `state` of either `ACTIVE` or `DRAFT`. A maximum of 100 Consents can be provided here. If no selection is specified, the access request is evaluated against all `ACTIVE` unexpired Consents with the same `user_id` as the evaluated User data mapping. */
-  consentList?: ConsentList;
   /** Optional. The view for CheckDataAccessResponse. If unspecified, defaults to `BASIC` and returns `consented` as `TRUE` or `FALSE`. */
   responseView?: CheckDataAccessRequestResponseViewEnum | (string & {});
-  /** Required. The unique identifier of the resource to check access for. This identifier must correspond to a User data mapping in the given consent store. */
-  dataId?: string;
   /** The values of request attributes associated with this access request. */
   requestAttributes?: StringMap;
+  /** Required. The unique identifier of the resource to check access for. This identifier must correspond to a User data mapping in the given consent store. */
+  dataId?: string;
+  /** Optional. Specific Consents to evaluate the access request against. These Consents must have the same `user_id` as the evaluated User data mapping, must exist in the current `consent_store`, and have a `state` of either `ACTIVE` or `DRAFT`. A maximum of 100 Consents can be provided here. If no selection is specified, the access request is evaluated against all `ACTIVE` unexpired Consents with the same `user_id` as the evaluated User data mapping. */
+  consentList?: ConsentList;
 }
 export const CheckDataAccessRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    consentList: S.optional(ConsentList),
     responseView: S.optional(CheckDataAccessRequestResponseViewEnum),
-    dataId: S.optional(S.String),
     requestAttributes: S.optional(StringMap),
+    dataId: S.optional(S.String),
+    consentList: S.optional(ConsentList),
   }),
-).annotate({
-  identifier: "CheckDataAccessRequest",
-}) as any as S.Schema<CheckDataAccessRequest>;
+).annotate({ identifier: "CheckDataAccessRequest" }) as any as S.Schema<CheckDataAccessRequest>;
 
 export interface CheckDataAccessProjectsLocationsDatasetsConsentStoresRequest {
   /** Required. Name of the consent store where the requested data_id is stored, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}`. */
@@ -1142,13 +1099,9 @@ export const ConsentEvaluation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     evaluationResult: S.optional(ConsentEvaluationEvaluationResultEnum),
   }),
-).annotate({
-  identifier: "ConsentEvaluation",
-}) as any as S.Schema<ConsentEvaluation>;
+).annotate({ identifier: "ConsentEvaluation" }) as any as S.Schema<ConsentEvaluation>;
 
-export type ConsentEvaluationMap = {
-  [key: string]: ConsentEvaluation | undefined;
-};
+export type ConsentEvaluationMap = { [key: string]: ConsentEvaluation | undefined };
 export const ConsentEvaluationMap = /*@__PURE__*/ S.Record(
   S.String,
   ConsentEvaluation,
@@ -1166,64 +1119,25 @@ export const CheckDataAccessResponse = /*@__PURE__*/ S.suspend(() =>
     consentDetails: S.optional(ConsentEvaluationMap),
     consented: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "CheckDataAccessResponse",
-}) as any as S.Schema<CheckDataAccessResponse>;
-
-export interface ConceptMap_search_translateProjectsLocationsDatasetsFhirStoresFhirRequest {
-  /** The canonical url of the concept map to use. If unset, the source and target is used to search for concept maps. */
-  url?: string;
-  /** Required. The name for the FHIR store containing the concept map(s) to use for the translation. */
-  parent: string;
-  /** Required. The system for the code to be translated. */
-  system?: string;
-  /** The version of the concept map to use. If unset, the most current version is used. */
-  conceptMapVersion?: string;
-  /** Required. The code to translate. */
-  code?: string;
-  /** The source value set of the concept map to be used. If unset, target is used to search for concept maps. */
-  source?: string;
-  /** The target value set of the concept map to be used. If unset, source is used to search for concept maps. */
-  target?: string;
-}
-export const ConceptMap_search_translateProjectsLocationsDatasetsFhirStoresFhirRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      url: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
-      system: S.optional(S.String.pipe(T.Query())),
-      conceptMapVersion: S.optional(S.String.pipe(T.Query())),
-      code: S.optional(S.String.pipe(T.Query())),
-      source: S.optional(S.String.pipe(T.Query())),
-      target: S.optional(S.String.pipe(T.Query())),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1beta1/{+parent}/fhir/ConceptMap/$translate",
-        baseUrl: "https://healthcare.googleapis.com/",
-      }),
-    ),
-  ).annotate({
-    identifier: "ConceptMap_search_translateProjectsLocationsDatasetsFhirStoresFhirRequest",
-  }) as any as S.Schema<ConceptMap_search_translateProjectsLocationsDatasetsFhirStoresFhirRequest>;
+).annotate({ identifier: "CheckDataAccessResponse" }) as any as S.Schema<CheckDataAccessResponse>;
 
 export interface ConceptMap_translateProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The URL for the concept map to use for the translation. */
   name: string;
-  /** Required. The code to translate. */
-  code?: string;
   /** Required. The system for the code to be translated. */
   system?: string;
   /** The version of the concept map to use. If unset, the most current version is used. */
   conceptMapVersion?: string;
+  /** Required. The code to translate. */
+  code?: string;
 }
 export const ConceptMap_translateProjectsLocationsDatasetsFhirStoresFhirRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       name: S.String.pipe(T.Label()),
-      code: S.optional(S.String.pipe(T.Query())),
       system: S.optional(S.String.pipe(T.Query())),
       conceptMapVersion: S.optional(S.String.pipe(T.Query())),
+      code: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1236,16 +1150,16 @@ export const ConceptMap_translateProjectsLocationsDatasetsFhirStoresFhirRequest 
   }) as any as S.Schema<ConceptMap_translateProjectsLocationsDatasetsFhirStoresFhirRequest>;
 
 export interface ConditionalDeleteProjectsLocationsDatasetsFhirStoresFhirRequest {
-  /** Required. The name of the FHIR store this resource belongs to. */
-  parent: string;
   /** Required. The FHIR resource type to delete, such as Patient or Observation. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html), [R5](https://hl7.org/fhir/R5/resourcelist.html)). */
   type: string;
+  /** Required. The name of the FHIR store this resource belongs to. */
+  parent: string;
 }
 export const ConditionalDeleteProjectsLocationsDatasetsFhirStoresFhirRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       type: S.String.pipe(T.Label()),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -1283,18 +1197,18 @@ export const ConditionalPatchProjectsLocationsDatasetsFhirStoresFhirRequest =
   }) as any as S.Schema<ConditionalPatchProjectsLocationsDatasetsFhirStoresFhirRequest>;
 
 export interface ConditionalUpdateProjectsLocationsDatasetsFhirStoresFhirRequest {
-  /** Required. The name of the FHIR store this resource belongs to. */
-  parent: string;
   /** Required. The FHIR resource type to update, such as Patient or Observation. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html), [R5](https://hl7.org/fhir/R5/resourcelist.html)). Must match the resource type in the provided content. */
   type: string;
+  /** Required. The name of the FHIR store this resource belongs to. */
+  parent: string;
   /** Request body */
   body?: HttpBody;
 }
 export const ConditionalUpdateProjectsLocationsDatasetsFhirStoresFhirRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       type: S.String.pipe(T.Label()),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(HttpBody.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1319,9 +1233,7 @@ export const ConfigureSearchRequest = /*@__PURE__*/ S.suspend(() =>
     canonicalUrls: S.optional(StringList),
     validateOnly: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ConfigureSearchRequest",
-}) as any as S.Schema<ConfigureSearchRequest>;
+).annotate({ identifier: "ConfigureSearchRequest" }) as any as S.Schema<ConfigureSearchRequest>;
 
 export interface ConfigureSearchProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. The name of the FHIR store to configure, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
@@ -1364,6 +1276,28 @@ export const Consent_enforcement_statusProjectsLocationsDatasetsFhirStoresFhirRe
     identifier: "Consent_enforcement_statusProjectsLocationsDatasetsFhirStoresFhirRequest",
   }) as any as S.Schema<Consent_enforcement_statusProjectsLocationsDatasetsFhirStoresFhirRequest>;
 
+export interface CreateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest {
+  /** Required. The name of the FHIR store this resource belongs to. */
+  parent: string;
+  /** Request body */
+  body?: HttpBody;
+}
+export const CreateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      parent: S.String.pipe(T.Label()),
+      body: S.optional(HttpBody.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "v1beta1/{+parent}/fhir/Binary",
+        baseUrl: "https://healthcare.googleapis.com/",
+      }),
+    ),
+).annotate({
+  identifier: "CreateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest",
+}) as any as S.Schema<CreateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest>;
+
 /** Represents a customer-managed encryption key spec that can be applied to a resource. */
 export interface EncryptionSpec {
   /** Required. The resource name of customer-managed encryption key that is used to secure a resource and its sub-resources. Only the key in the same location as this dataset is allowed to be used for encryption. Format is: `projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{key}` */
@@ -1377,24 +1311,24 @@ export const EncryptionSpec = /*@__PURE__*/ S.suspend(() =>
 
 /** A message representing a health dataset. A health dataset represents a collection of healthcare data pertaining to one or more patients. This may include multiple modalities of healthcare data, such as electronic medical records or medical imaging data. */
 export interface Dataset {
-  /** Customer-managed encryption key spec for a Dataset. If set, this Dataset and all of its sub-resources will be secured by this key. If empty, the Dataset is secured by the default Google encryption key. */
-  encryptionSpec?: EncryptionSpec;
-  /** Identifier. Resource name of the dataset, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}`. */
-  name?: string;
-  /** Output only. Whether the dataset satisfies zone isolation. */
-  satisfiesPzi?: boolean;
   /** The default timezone used by this dataset. Must be a either a valid IANA time zone name such as "America/New_York" or empty, which defaults to UTC. This is used for parsing times in resources, such as HL7 messages, where no explicit timezone is specified. */
   timeZone?: string;
+  /** Output only. Whether the dataset satisfies zone isolation. */
+  satisfiesPzi?: boolean;
   /** Output only. Whether the dataset satisfies zone separation. */
   satisfiesPzs?: boolean;
+  /** Identifier. Resource name of the dataset, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}`. */
+  name?: string;
+  /** Customer-managed encryption key spec for a Dataset. If set, this Dataset and all of its sub-resources will be secured by this key. If empty, the Dataset is secured by the default Google encryption key. */
+  encryptionSpec?: EncryptionSpec;
 }
 export const Dataset = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    encryptionSpec: S.optional(EncryptionSpec),
-    name: S.optional(S.String),
-    satisfiesPzi: S.optional(S.Boolean),
     timeZone: S.optional(S.String),
+    satisfiesPzi: S.optional(S.Boolean),
     satisfiesPzs: S.optional(S.Boolean),
+    name: S.optional(S.String),
+    encryptionSpec: S.optional(EncryptionSpec),
   }),
 ).annotate({ identifier: "Dataset" }) as any as S.Schema<Dataset>;
 
@@ -1424,21 +1358,21 @@ export const CreateProjectsLocationsDatasetsRequest = /*@__PURE__*/ S.suspend(()
 
 /** Represents a consent store. */
 export interface ConsentStore {
-  /** Optional. If `true`, UpdateConsent creates the Consent if it does not already exist. If unspecified, defaults to `false`. */
-  enableConsentCreateOnUpdate?: boolean;
-  /** Resource name of the consent store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}`. Cannot be changed after creation. */
-  name?: string;
   /** Optional. Default time to live for Consents created in this store. Must be at least 24 hours. Updating this field will not affect the expiration time of existing consents. */
   defaultConsentTtl?: string;
+  /** Resource name of the consent store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}`. Cannot be changed after creation. */
+  name?: string;
   /** Optional. User-supplied key-value pairs used to organize consent stores. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62}. Label values must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63}. No more than 64 labels can be associated with a given store. For more information: https://cloud.google.com/healthcare/docs/how-tos/labeling-resources */
   labels?: StringMap;
+  /** Optional. If `true`, UpdateConsent creates the Consent if it does not already exist. If unspecified, defaults to `false`. */
+  enableConsentCreateOnUpdate?: boolean;
 }
 export const ConsentStore = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    enableConsentCreateOnUpdate: S.optional(S.Boolean),
-    name: S.optional(S.String),
     defaultConsentTtl: S.optional(S.String),
+    name: S.optional(S.String),
     labels: S.optional(StringMap),
+    enableConsentCreateOnUpdate: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "ConsentStore" }) as any as S.Schema<ConsentStore>;
 
@@ -1473,29 +1407,27 @@ export const AttributeDefinitionCategoryEnum = S.String;
 export interface AttributeDefinition {
   /** Optional. Default value of the attribute in User data mappings. If no default value is specified, it defaults to an empty value. This field is only applicable to attributes of the category `RESOURCE`. */
   dataMappingDefaultValue?: string;
+  /** Optional. A description of the attribute. */
+  description?: string;
+  /** Optional. Default values of the attribute in Consents. If no default values are specified, it defaults to an empty value. */
+  consentDefaultValues?: StringList;
   /** Identifier. Resource name of the Attribute definition, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/attributeDefinitions/{attribute_definition_id}`. Cannot be changed after creation. */
   name?: string;
   /** Required. The category of the attribute. The value of this field cannot be changed after creation. */
   category?: AttributeDefinitionCategoryEnum | (string & {});
-  /** Optional. A description of the attribute. */
-  description?: string;
   /** Required. Possible values for the attribute. The number of allowed values must not exceed 500. An empty list is invalid. The list can only be expanded after creation. */
   allowedValues?: StringList;
-  /** Optional. Default values of the attribute in Consents. If no default values are specified, it defaults to an empty value. */
-  consentDefaultValues?: StringList;
 }
 export const AttributeDefinition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dataMappingDefaultValue: S.optional(S.String),
+    description: S.optional(S.String),
+    consentDefaultValues: S.optional(StringList),
     name: S.optional(S.String),
     category: S.optional(AttributeDefinitionCategoryEnum),
-    description: S.optional(S.String),
     allowedValues: S.optional(StringList),
-    consentDefaultValues: S.optional(StringList),
   }),
-).annotate({
-  identifier: "AttributeDefinition",
-}) as any as S.Schema<AttributeDefinition>;
+).annotate({ identifier: "AttributeDefinition" }) as any as S.Schema<AttributeDefinition>;
 
 export interface CreateProjectsLocationsDatasetsConsentStoresAttributeDefinitionsRequest {
   /** Required. The name of the consent store that this Attribute definition belongs to. */
@@ -1524,17 +1456,20 @@ export const CreateProjectsLocationsDatasetsConsentStoresAttributeDefinitionsReq
 
 /** Raw bytes representing consent artifact content. */
 export interface Image {
-  /** Consent artifact content represented as a stream of bytes. This field is populated when returned in GetConsentArtifact response, but not included in CreateConsentArtifact and ListConsentArtifact response. */
-  rawBytes?: string;
   /** Input only. Points to a Cloud Storage URI containing the consent artifact content. The URI must be in the following format: `gs://{bucket_id}/{object_id}`. The Cloud Healthcare API service account must have the `roles/storage.objectViewer` Cloud IAM role for this Cloud Storage location. The consent artifact content at this URI is copied to a Cloud Storage location managed by the Cloud Healthcare API. Responses to fetching requests return the consent artifact content in raw_bytes. */
   gcsUri?: string;
+  /** Consent artifact content represented as a stream of bytes. This field is populated when returned in GetConsentArtifact response, but not included in CreateConsentArtifact and ListConsentArtifact response. */
+  rawBytes?: string;
 }
 export const Image = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    rawBytes: S.optional(S.String),
     gcsUri: S.optional(S.String),
+    rawBytes: S.optional(S.String),
   }),
 ).annotate({ identifier: "Image" }) as any as S.Schema<Image>;
+
+export type ImageList = Array<Image>;
+export const ImageList = /*@__PURE__*/ S.Array(Image) as any as S.Schema<ImageList>;
 
 /** User signature. */
 export interface Signature {
@@ -1556,42 +1491,37 @@ export const Signature = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Signature" }) as any as S.Schema<Signature>;
 
-export type ImageList = Array<Image>;
-export const ImageList = /*@__PURE__*/ S.Array(Image) as any as S.Schema<ImageList>;
-
 /** Documentation of a user's consent. */
 export interface ConsentArtifact {
-  /** Optional. A signature from a witness. */
-  witnessSignature?: Signature;
-  /** Identifier. Resource name of the Consent artifact, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consentArtifacts/{consent_artifact_id}`. Cannot be changed after creation. */
-  name?: string;
-  /** Optional. Metadata associated with the Consent artifact. For example, the consent locale or user agent version. */
-  metadata?: StringMap;
   /** Optional. Screenshots, PDFs, or other binary information documenting the user's consent. */
   consentContentScreenshots?: ImageList;
-  /** Optional. An string indicating the version of the consent information shown to the user. */
-  consentContentVersion?: string;
   /** Optional. A signature from a guardian. */
   guardianSignature?: Signature;
-  /** Optional. User's signature. */
-  userSignature?: Signature;
   /** Required. User's UUID provided by the client. */
   userId?: string;
+  /** Identifier. Resource name of the Consent artifact, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consentArtifacts/{consent_artifact_id}`. Cannot be changed after creation. */
+  name?: string;
+  /** Optional. User's signature. */
+  userSignature?: Signature;
+  /** Optional. A signature from a witness. */
+  witnessSignature?: Signature;
+  /** Optional. An string indicating the version of the consent information shown to the user. */
+  consentContentVersion?: string;
+  /** Optional. Metadata associated with the Consent artifact. For example, the consent locale or user agent version. */
+  metadata?: StringMap;
 }
 export const ConsentArtifact = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    witnessSignature: S.optional(Signature),
-    name: S.optional(S.String),
-    metadata: S.optional(StringMap),
     consentContentScreenshots: S.optional(ImageList),
-    consentContentVersion: S.optional(S.String),
     guardianSignature: S.optional(Signature),
-    userSignature: S.optional(Signature),
     userId: S.optional(S.String),
+    name: S.optional(S.String),
+    userSignature: S.optional(Signature),
+    witnessSignature: S.optional(Signature),
+    consentContentVersion: S.optional(S.String),
+    metadata: S.optional(StringMap),
   }),
-).annotate({
-  identifier: "ConsentArtifact",
-}) as any as S.Schema<ConsentArtifact>;
+).annotate({ identifier: "ConsentArtifact" }) as any as S.Schema<ConsentArtifact>;
 
 export interface CreateProjectsLocationsDatasetsConsentStoresConsentArtifactsRequest {
   /** Required. The name of the consent store this Consent artifact belongs to. */
@@ -1639,31 +1569,29 @@ export const CreateProjectsLocationsDatasetsConsentStoresConsentsRequest = /*@__
 
 /** Maps a resource to the associated user and Attributes. */
 export interface UserDataMapping {
-  /** Resource name of the User data mapping, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/userDataMappings/{user_data_mapping_id}`. */
-  name?: string;
+  /** Attributes of the resource. Only explicitly set attributes are displayed here. Attribute definitions with defaults set implicitly apply to these User data mappings. Attributes listed here must be single valued, that is, exactly one value is specified for the field "values" in each Attribute. */
+  resourceAttributes?: AttributeList;
+  /** Output only. Indicates the time when this mapping was archived. */
+  archiveTime?: string;
   /** Required. A unique identifier for the mapped resource. */
   dataId?: string;
   /** Required. User's UUID provided by the client. */
   userId?: string;
-  /** Attributes of the resource. Only explicitly set attributes are displayed here. Attribute definitions with defaults set implicitly apply to these User data mappings. Attributes listed here must be single valued, that is, exactly one value is specified for the field "values" in each Attribute. */
-  resourceAttributes?: AttributeList;
   /** Output only. Indicates whether this mapping is archived. */
   archived?: boolean;
-  /** Output only. Indicates the time when this mapping was archived. */
-  archiveTime?: string;
+  /** Resource name of the User data mapping, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/userDataMappings/{user_data_mapping_id}`. */
+  name?: string;
 }
 export const UserDataMapping = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
+    resourceAttributes: S.optional(AttributeList),
+    archiveTime: S.optional(S.String),
     dataId: S.optional(S.String),
     userId: S.optional(S.String),
-    resourceAttributes: S.optional(AttributeList),
     archived: S.optional(S.Boolean),
-    archiveTime: S.optional(S.String),
+    name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserDataMapping",
-}) as any as S.Schema<UserDataMapping>;
+).annotate({ identifier: "UserDataMapping" }) as any as S.Schema<UserDataMapping>;
 
 export interface CreateProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest {
   /** Required. Name of the consent store. */
@@ -1687,44 +1615,6 @@ export const CreateProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest
     identifier: "CreateProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest",
   }) as any as S.Schema<CreateProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest>;
 
-/** Contains the configuration for DICOM notifications. */
-export interface DicomNotificationConfig {
-  /** Required. The [Pub/Sub](https://cloud.google.com/pubsub/docs/) topic that notifications of changes are published on. Supplied by the client. The notification is a `PubsubMessage` with the following fields: * `PubsubMessage.Data` contains the resource name. * `PubsubMessage.MessageId` is the ID of this notification. It is guaranteed to be unique within the topic. * `PubsubMessage.PublishTime` is the time when the message was published. * `PubsubMessage.Attributes` contains the following attributes: * `action`: The name of the endpoint that generated the notification. Possible values are `StoreInstances`, `SetBlobSettings`, `ImportDicomData`, etc. * `lastUpdatedTime`: The latest timestamp when the DICOM instance was updated. * `storeName`: The resource name of the DICOM store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. * `studyInstanceUID`: The study UID of the DICOM instance that was changed. * `seriesInstanceUID`: The series UID of the DICOM instance that was changed. * `sopInstanceUID`: The instance UID of the DICOM instance that was changed. * `versionId`: The version ID of the DICOM instance that was changed. * `modality`: The modality tag of the DICOM instance that was changed. * `previousStorageClass`: The storage class where the DICOM instance was previously stored if the storage class was changed. * `storageClass`: The storage class where the DICOM instance is currently stored. Note that notifications are only sent if the topic is non-empty. [Topic names](https://cloud.google.com/pubsub/docs/overview#names) must be scoped to a project. The Cloud Healthcare API service account, service-@gcp-sa-healthcare.iam.gserviceaccount.com, must have the `pubsub.topics.publish` permission (which is typically included in `roles/pubsub.publisher` role) on the given Pub/Sub topic. Not having adequate permissions causes the calls that send notifications to fail (https://cloud.google.com/healthcare-api/docs/permissions-healthcare-api-gcp-products#dicom_fhir_and_hl7v2_store_cloud_pubsub_permissions). If a notification can't be published to Pub/Sub, errors are logged to Cloud Logging. For more information, see [Viewing error logs in Cloud Logging](https://cloud.google.com/healthcare-api/docs/how-tos/logging). */
-  pubsubTopic?: string;
-}
-export const DicomNotificationConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pubsubTopic: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DicomNotificationConfig",
-}) as any as S.Schema<DicomNotificationConfig>;
-
-export type DicomNotificationConfigList = Array<DicomNotificationConfig>;
-export const DicomNotificationConfigList = /*@__PURE__*/ S.Array(
-  DicomNotificationConfig,
-) as any as S.Schema<DicomNotificationConfigList>;
-
-/** Specifies where to send notifications upon changes to a data store. */
-export interface NotificationConfig {
-  /** The [Pub/Sub](https://cloud.google.com/pubsub/docs/) topic that notifications of changes are published on. Supplied by the client. PubsubMessage.Data contains the resource name. PubsubMessage.MessageId is the ID of this message. It is guaranteed to be unique within the topic. PubsubMessage.PublishTime is the time at which the message was published. Notifications are only sent if the topic is non-empty. [Topic names](https://cloud.google.com/pubsub/docs/overview#names) must be scoped to a project. Cloud Healthcare API service account must have publisher permissions on the given Pub/Sub topic. Not having adequate permissions causes the calls that send notifications to fail. If a notification can't be published to Pub/Sub, errors are logged to Cloud Logging (see [Viewing error logs in Cloud Logging](https://cloud.google.com/healthcare/docs/how-tos/logging)). If the number of errors exceeds a certain rate, some aren't submitted. Note that not all operations trigger notifications, see [Configuring Pub/Sub notifications](https://cloud.google.com/healthcare/docs/how-tos/pubsub) for specific details. */
-  pubsubTopic?: string;
-  /** Indicates whether or not to send Pub/Sub notifications on bulk import. Only supported for DICOM imports. */
-  sendForBulkImport?: boolean;
-}
-export const NotificationConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pubsubTopic: S.optional(S.String),
-    sendForBulkImport: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "NotificationConfig",
-}) as any as S.Schema<NotificationConfig>;
-
-/** Using this field will flatten the DICOM instances into a BigQuery table. The table will have one column for each DICOM tag. The column name will be the DICOM tag's textual representation. */
-export type SchemaFlattened = ArchiveUserDataMappingRequest;
-export const SchemaFlattened = ArchiveUserDataMappingRequest;
-
 export type GoogleCloudHealthcareV1beta1DicomBigQueryDestinationWriteDispositionEnum =
   | "WRITE_DISPOSITION_UNSPECIFIED"
   | "WRITE_EMPTY"
@@ -1742,36 +1632,40 @@ export type GoogleCloudHealthcareV1beta1DicomChangeDataCaptureConfig =
 export const GoogleCloudHealthcareV1beta1DicomChangeDataCaptureConfig =
   ArchiveUserDataMappingRequest;
 
+/** Using this field will flatten the DICOM instances into a BigQuery table. The table will have one column for each DICOM tag. The column name will be the DICOM tag's textual representation. */
+export type SchemaFlattened = ArchiveUserDataMappingRequest;
+export const SchemaFlattened = ArchiveUserDataMappingRequest;
+
 /** The BigQuery table where the server writes output. */
 export interface GoogleCloudHealthcareV1beta1DicomBigQueryDestination {
-  /** Use `write_disposition` instead. If `write_disposition` is specified, this parameter is ignored. force=false is equivalent to write_disposition=WRITE_EMPTY and force=true is equivalent to write_disposition=WRITE_TRUNCATE. */
-  force?: boolean;
-  /** Optional. Setting this field will use flattened DICOM instances schema for the BigQuery table. The flattened schema will have one column for each DICOM tag. */
-  schemaFlattened?: ArchiveUserDataMappingRequest;
+  /** BigQuery URI to a table, up to 2000 characters long, in the format `bq://projectId.bqDatasetId.tableId` */
+  tableUri?: string;
   /** Determines whether the existing table in the destination is to be overwritten or appended to. If a write_disposition is specified, the `force` parameter is ignored. */
   writeDisposition?:
     | GoogleCloudHealthcareV1beta1DicomBigQueryDestinationWriteDispositionEnum
     | (string & {});
   /** Optional. Setting this field will store all the DICOM tags as a JSON type in a single column. */
   schemaJson?: ArchiveUserDataMappingRequest;
+  /** Use `write_disposition` instead. If `write_disposition` is specified, this parameter is ignored. force=false is equivalent to write_disposition=WRITE_EMPTY and force=true is equivalent to write_disposition=WRITE_TRUNCATE. */
+  force?: boolean;
   /** Optional. Setting this field will enable BigQuery's Change Data Capture (CDC) on the destination tables with JSON schema. Set this field if you want to only keep the latest version of each instance. Updates and deletes to an existing' instance will overwrite the corresponding row. See https://cloud.google.com/bigquery/docs/change-data-capture for details. Note that this field is only supported with the SchemaJSON option. The SchemaFlattened option is not compatible with CDC. */
   changeDataCaptureConfig?: ArchiveUserDataMappingRequest;
-  /** BigQuery URI to a table, up to 2000 characters long, in the format `bq://projectId.bqDatasetId.tableId` */
-  tableUri?: string;
   /** Optional. If true, the source store name will be included as a column in the BigQuery schema. */
   includeSourceStore?: boolean;
+  /** Optional. Setting this field will use flattened DICOM instances schema for the BigQuery table. The flattened schema will have one column for each DICOM tag. */
+  schemaFlattened?: ArchiveUserDataMappingRequest;
 }
 export const GoogleCloudHealthcareV1beta1DicomBigQueryDestination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    force: S.optional(S.Boolean),
-    schemaFlattened: S.optional(ArchiveUserDataMappingRequest),
+    tableUri: S.optional(S.String),
     writeDisposition: S.optional(
       GoogleCloudHealthcareV1beta1DicomBigQueryDestinationWriteDispositionEnum,
     ),
     schemaJson: S.optional(ArchiveUserDataMappingRequest),
+    force: S.optional(S.Boolean),
     changeDataCaptureConfig: S.optional(ArchiveUserDataMappingRequest),
-    tableUri: S.optional(S.String),
     includeSourceStore: S.optional(S.Boolean),
+    schemaFlattened: S.optional(ArchiveUserDataMappingRequest),
   }),
 ).annotate({
   identifier: "GoogleCloudHealthcareV1beta1DicomBigQueryDestination",
@@ -1796,25 +1690,55 @@ export const GoogleCloudHealthcareV1beta1DicomStreamConfigList = /*@__PURE__*/ S
   GoogleCloudHealthcareV1beta1DicomStreamConfig,
 ) as any as S.Schema<GoogleCloudHealthcareV1beta1DicomStreamConfigList>;
 
+/** Specifies where to send notifications upon changes to a data store. */
+export interface NotificationConfig {
+  /** Indicates whether or not to send Pub/Sub notifications on bulk import. Only supported for DICOM imports. */
+  sendForBulkImport?: boolean;
+  /** The [Pub/Sub](https://cloud.google.com/pubsub/docs/) topic that notifications of changes are published on. Supplied by the client. PubsubMessage.Data contains the resource name. PubsubMessage.MessageId is the ID of this message. It is guaranteed to be unique within the topic. PubsubMessage.PublishTime is the time at which the message was published. Notifications are only sent if the topic is non-empty. [Topic names](https://cloud.google.com/pubsub/docs/overview#names) must be scoped to a project. Cloud Healthcare API service account must have publisher permissions on the given Pub/Sub topic. Not having adequate permissions causes the calls that send notifications to fail. If a notification can't be published to Pub/Sub, errors are logged to Cloud Logging (see [Viewing error logs in Cloud Logging](https://cloud.google.com/healthcare/docs/how-tos/logging)). If the number of errors exceeds a certain rate, some aren't submitted. Note that not all operations trigger notifications, see [Configuring Pub/Sub notifications](https://cloud.google.com/healthcare/docs/how-tos/pubsub) for specific details. */
+  pubsubTopic?: string;
+}
+export const NotificationConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sendForBulkImport: S.optional(S.Boolean),
+    pubsubTopic: S.optional(S.String),
+  }),
+).annotate({ identifier: "NotificationConfig" }) as any as S.Schema<NotificationConfig>;
+
+/** Contains the configuration for DICOM notifications. */
+export interface DicomNotificationConfig {
+  /** Required. The [Pub/Sub](https://cloud.google.com/pubsub/docs/) topic that notifications of changes are published on. Supplied by the client. The notification is a `PubsubMessage` with the following fields: * `PubsubMessage.Data` contains the resource name. * `PubsubMessage.MessageId` is the ID of this notification. It is guaranteed to be unique within the topic. * `PubsubMessage.PublishTime` is the time when the message was published. * `PubsubMessage.Attributes` contains the following attributes: * `action`: The name of the endpoint that generated the notification. Possible values are `StoreInstances`, `SetBlobSettings`, `ImportDicomData`, etc. * `lastUpdatedTime`: The latest timestamp when the DICOM instance was updated. * `storeName`: The resource name of the DICOM store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. * `studyInstanceUID`: The study UID of the DICOM instance that was changed. * `seriesInstanceUID`: The series UID of the DICOM instance that was changed. * `sopInstanceUID`: The instance UID of the DICOM instance that was changed. * `versionId`: The version ID of the DICOM instance that was changed. * `modality`: The modality tag of the DICOM instance that was changed. * `previousStorageClass`: The storage class where the DICOM instance was previously stored if the storage class was changed. * `storageClass`: The storage class where the DICOM instance is currently stored. Note that notifications are only sent if the topic is non-empty. [Topic names](https://cloud.google.com/pubsub/docs/overview#names) must be scoped to a project. The Cloud Healthcare API service account, service-@gcp-sa-healthcare.iam.gserviceaccount.com, must have the `pubsub.topics.publish` permission (which is typically included in `roles/pubsub.publisher` role) on the given Pub/Sub topic. Not having adequate permissions causes the calls that send notifications to fail (https://cloud.google.com/healthcare-api/docs/permissions-healthcare-api-gcp-products#dicom_fhir_and_hl7v2_store_cloud_pubsub_permissions). If a notification can't be published to Pub/Sub, errors are logged to Cloud Logging. For more information, see [Viewing error logs in Cloud Logging](https://cloud.google.com/healthcare-api/docs/how-tos/logging). */
+  pubsubTopic?: string;
+}
+export const DicomNotificationConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pubsubTopic: S.optional(S.String),
+  }),
+).annotate({ identifier: "DicomNotificationConfig" }) as any as S.Schema<DicomNotificationConfig>;
+
+export type DicomNotificationConfigList = Array<DicomNotificationConfig>;
+export const DicomNotificationConfigList = /*@__PURE__*/ S.Array(
+  DicomNotificationConfig,
+) as any as S.Schema<DicomNotificationConfigList>;
+
 /** Represents a DICOM store. */
 export interface DicomStore {
-  /** Optional. Specifies where and whether to send notifications upon changes to a DICOM store. */
-  notificationConfigs?: DicomNotificationConfigList;
-  /** Identifier. Resource name of the DICOM store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
-  name?: string;
-  /** Notification destination for new DICOM instances. Supplied by the client. */
-  notificationConfig?: NotificationConfig;
   /** Optional. A list of streaming configs used to configure the destination of streaming exports for every DICOM instance insertion in this DICOM store. After a new config is added to `stream_configs`, DICOM instance insertions are streamed to the new destination. When a config is removed from `stream_configs`, the server stops streaming to that destination. Each config must contain a unique destination. */
   streamConfigs?: GoogleCloudHealthcareV1beta1DicomStreamConfigList;
+  /** Notification destination for new DICOM instances. Supplied by the client. */
+  notificationConfig?: NotificationConfig;
+  /** Identifier. Resource name of the DICOM store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
+  name?: string;
+  /** Optional. Specifies where and whether to send notifications upon changes to a DICOM store. */
+  notificationConfigs?: DicomNotificationConfigList;
   /** User-supplied key-value pairs used to organize DICOM stores. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62} Label values are optional, must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63} No more than 64 labels can be associated with a given store. */
   labels?: StringMap;
 }
 export const DicomStore = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    notificationConfigs: S.optional(DicomNotificationConfigList),
-    name: S.optional(S.String),
-    notificationConfig: S.optional(NotificationConfig),
     streamConfigs: S.optional(GoogleCloudHealthcareV1beta1DicomStreamConfigList),
+    notificationConfig: S.optional(NotificationConfig),
+    name: S.optional(S.String),
+    notificationConfigs: S.optional(DicomNotificationConfigList),
     labels: S.optional(StringMap),
   }),
 ).annotate({ identifier: "DicomStore" }) as any as S.Schema<DicomStore>;
@@ -1843,53 +1767,16 @@ export const CreateProjectsLocationsDatasetsDicomStoresRequest = /*@__PURE__*/ S
   identifier: "CreateProjectsLocationsDatasetsDicomStoresRequest",
 }) as any as S.Schema<CreateProjectsLocationsDatasetsDicomStoresRequest>;
 
-export type SchemaConfigSchemaTypeEnum =
-  | "SCHEMA_TYPE_UNSPECIFIED"
-  | "LOSSLESS"
-  | "ANALYTICS"
-  | "ANALYTICS_V2";
-export const SchemaConfigSchemaTypeEnum = S.String;
-
-export type TimePartitioningTypeEnum =
-  | "PARTITION_TYPE_UNSPECIFIED"
-  | "HOUR"
-  | "DAY"
-  | "MONTH"
-  | "YEAR";
-export const TimePartitioningTypeEnum = S.String;
-
-/** Configuration for FHIR BigQuery time-partitioned tables. */
-export interface TimePartitioning {
-  /** Type of partitioning. */
-  type?: TimePartitioningTypeEnum | (string & {});
-  /** Number of milliseconds for which to keep the storage for a partition. */
-  expirationMs?: string;
+/** The configuration for exporting to Cloud Storage using the bulk export API. */
+export interface BulkExportGcsDestination {
+  /** Optional. URI for a Cloud Storage directory where the server writes result files, in the format `gs://{bucket-id}/{path/to/destination/dir}`. If there is no trailing slash, the service appends one when composing the object path. The user is responsible for creating the Cloud Storage bucket referenced in `uri_prefix`. */
+  uriPrefix?: string;
 }
-export const TimePartitioning = /*@__PURE__*/ S.suspend(() =>
+export const BulkExportGcsDestination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.optional(TimePartitioningTypeEnum),
-    expirationMs: S.optional(S.String),
+    uriPrefix: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TimePartitioning",
-}) as any as S.Schema<TimePartitioning>;
-
-/** Configuration for the FHIR BigQuery schema. Determines how the server generates the schema. */
-export interface SchemaConfig {
-  /** Specifies the output schema type. Schema type is required. */
-  schemaType?: SchemaConfigSchemaTypeEnum | (string & {});
-  /** The configuration for exported BigQuery tables to be partitioned by FHIR resource's last updated time column. */
-  lastUpdatedPartitionConfig?: TimePartitioning;
-  /** The depth for all recursive structures in the output analytics schema. For example, `concept` in the CodeSystem resource is a recursive structure; when the depth is 2, the CodeSystem table will have a column called `concept.concept` but not `concept.concept.concept`. If not specified or set to 0, the server will use the default value 2. The maximum depth allowed is 5. */
-  recursiveStructureDepth?: string;
-}
-export const SchemaConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    schemaType: S.optional(SchemaConfigSchemaTypeEnum),
-    lastUpdatedPartitionConfig: S.optional(TimePartitioning),
-    recursiveStructureDepth: S.optional(S.String),
-  }),
-).annotate({ identifier: "SchemaConfig" }) as any as S.Schema<SchemaConfig>;
+).annotate({ identifier: "BulkExportGcsDestination" }) as any as S.Schema<BulkExportGcsDestination>;
 
 export type GoogleCloudHealthcareV1beta1FhirChangeDataCaptureConfigHistoryModeEnum =
   | "HISTORY_MODE_UNSPECIFIED"
@@ -1919,74 +1806,245 @@ export type GoogleCloudHealthcareV1beta1FhirBigQueryDestinationWriteDispositionE
   | "WRITE_APPEND";
 export const GoogleCloudHealthcareV1beta1FhirBigQueryDestinationWriteDispositionEnum = S.String;
 
+export type SchemaConfigSchemaTypeEnum =
+  | "SCHEMA_TYPE_UNSPECIFIED"
+  | "LOSSLESS"
+  | "ANALYTICS"
+  | "ANALYTICS_V2";
+export const SchemaConfigSchemaTypeEnum = S.String;
+
+export type TimePartitioningTypeEnum =
+  | "PARTITION_TYPE_UNSPECIFIED"
+  | "HOUR"
+  | "DAY"
+  | "MONTH"
+  | "YEAR";
+export const TimePartitioningTypeEnum = S.String;
+
+/** Configuration for FHIR BigQuery time-partitioned tables. */
+export interface TimePartitioning {
+  /** Number of milliseconds for which to keep the storage for a partition. */
+  expirationMs?: string;
+  /** Type of partitioning. */
+  type?: TimePartitioningTypeEnum | (string & {});
+}
+export const TimePartitioning = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    expirationMs: S.optional(S.String),
+    type: S.optional(TimePartitioningTypeEnum),
+  }),
+).annotate({ identifier: "TimePartitioning" }) as any as S.Schema<TimePartitioning>;
+
+/** Configuration for the FHIR BigQuery schema. Determines how the server generates the schema. */
+export interface SchemaConfig {
+  /** The depth for all recursive structures in the output analytics schema. For example, `concept` in the CodeSystem resource is a recursive structure; when the depth is 2, the CodeSystem table will have a column called `concept.concept` but not `concept.concept.concept`. If not specified or set to 0, the server will use the default value 2. The maximum depth allowed is 5. */
+  recursiveStructureDepth?: string;
+  /** Specifies the output schema type. Schema type is required. */
+  schemaType?: SchemaConfigSchemaTypeEnum | (string & {});
+  /** The configuration for exported BigQuery tables to be partitioned by FHIR resource's last updated time column. */
+  lastUpdatedPartitionConfig?: TimePartitioning;
+}
+export const SchemaConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recursiveStructureDepth: S.optional(S.String),
+    schemaType: S.optional(SchemaConfigSchemaTypeEnum),
+    lastUpdatedPartitionConfig: S.optional(TimePartitioning),
+  }),
+).annotate({ identifier: "SchemaConfig" }) as any as S.Schema<SchemaConfig>;
+
 /** The configuration for exporting to BigQuery. */
 export interface GoogleCloudHealthcareV1beta1FhirBigQueryDestination {
-  /** The configuration for the exported BigQuery schema. */
-  schemaConfig?: SchemaConfig;
-  /** Optional. Setting this field will enable BigQuery's Change Data Capture (CDC) on the destination tables. Use this field if you: - Want to only keep the latest version of each resource. Updates and deletes to an existing resource will overwrite the corresponding row. - Have a store with enabled history modifications and want to keep the entire history of resource versions but want the history to be mutable. Updates and deletes to a specific resource version will overwrite the corresponding row. See https://cloud.google.com/bigquery/docs/change-data-capture for details. */
-  changeDataCaptureConfig?: GoogleCloudHealthcareV1beta1FhirChangeDataCaptureConfig;
-  /** BigQuery URI to an existing dataset, up to 2000 characters long, in the format `bq://projectId.bqDatasetId`. */
-  datasetUri?: string;
   /** Use `write_disposition` instead. If `write_disposition` is specified, this parameter is ignored. force=false is equivalent to write_disposition=WRITE_EMPTY and force=true is equivalent to write_disposition=WRITE_TRUNCATE. */
   force?: boolean;
+  /** Optional. Setting this field will enable BigQuery's Change Data Capture (CDC) on the destination tables. Use this field if you: - Want to only keep the latest version of each resource. Updates and deletes to an existing resource will overwrite the corresponding row. - Have a store with enabled history modifications and want to keep the entire history of resource versions but want the history to be mutable. Updates and deletes to a specific resource version will overwrite the corresponding row. See https://cloud.google.com/bigquery/docs/change-data-capture for details. */
+  changeDataCaptureConfig?: GoogleCloudHealthcareV1beta1FhirChangeDataCaptureConfig;
   /** Determines if existing data in the destination dataset is overwritten, appended to, or not written if the tables contain data. If a write_disposition is specified, the `force` parameter is ignored. */
   writeDisposition?:
     | GoogleCloudHealthcareV1beta1FhirBigQueryDestinationWriteDispositionEnum
     | (string & {});
+  /** The configuration for the exported BigQuery schema. */
+  schemaConfig?: SchemaConfig;
+  /** BigQuery URI to an existing dataset, up to 2000 characters long, in the format `bq://projectId.bqDatasetId`. */
+  datasetUri?: string;
 }
 export const GoogleCloudHealthcareV1beta1FhirBigQueryDestination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    schemaConfig: S.optional(SchemaConfig),
-    changeDataCaptureConfig: S.optional(GoogleCloudHealthcareV1beta1FhirChangeDataCaptureConfig),
-    datasetUri: S.optional(S.String),
     force: S.optional(S.Boolean),
+    changeDataCaptureConfig: S.optional(GoogleCloudHealthcareV1beta1FhirChangeDataCaptureConfig),
     writeDisposition: S.optional(
       GoogleCloudHealthcareV1beta1FhirBigQueryDestinationWriteDispositionEnum,
     ),
+    schemaConfig: S.optional(SchemaConfig),
+    datasetUri: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudHealthcareV1beta1FhirBigQueryDestination",
 }) as any as S.Schema<GoogleCloudHealthcareV1beta1FhirBigQueryDestination>;
 
-export type FieldMetadataActionEnum =
-  | "ACTION_UNSPECIFIED"
-  | "TRANSFORM"
-  | "INSPECT_AND_TRANSFORM"
-  | "DO_NOT_TRANSFORM";
-export const FieldMetadataActionEnum = S.String;
-
-/** Specifies FHIR paths to match, and how to handle de-identification of matching fields. */
-export interface FieldMetadata {
-  /** Deidentify action for one field. */
-  action?: FieldMetadataActionEnum | (string & {});
-  /** List of paths to FHIR fields to redact. Each path is a period-separated list where each component is either a field name or FHIR type name. All types begin with an upper case letter. For example, the resource field "Patient.Address.city", which uses a string type, can be matched by "Patient.Address.String". Path also supports partial matching. For example, "Patient.Address.city" can be matched by "Address.city" (Patient omitted). Partial matching and type matching can be combined. For example, "Patient.Address.city" can be matched by "Address.String". For "choice" types (those defined in the FHIR spec with the form: field[x]), use two separate components. For example, "deceasedAge.unit" is matched by "Deceased.Age.unit". Supported types are: AdministrativeGenderCode, Base64Binary, Boolean, Code, Date, DateTime, Decimal, HumanName, Id, Instant, Integer, LanguageCode, Markdown, Oid, PositiveInt, String, UnsignedInt, Uri, Uuid, Xhtml. The sub-type for HumanName(for example HumanName.given, HumanName.family) can be omitted. */
-  paths?: StringList;
+/** Include to use an existing data crypto key wrapped by KMS. The wrapped key must be a 128-, 192-, or 256-bit key. The key must grant the Cloud IAM permission `cloudkms.cryptoKeyVersions.useToDecrypt` to the project's Cloud Healthcare Service Agent service account. For more information, see [Creating a wrapped key] (https://cloud.google.com/dlp/docs/create-wrapped-key). */
+export interface KmsWrappedCryptoKey {
+  /** Required. The resource name of the KMS CryptoKey to use for unwrapping. For example, `projects/{project_id}/locations/{location_id}/keyRings/{keyring}/cryptoKeys/{key}`. */
+  cryptoKey?: string;
+  /** Required. The wrapped data crypto key. */
+  wrappedKey?: string;
 }
-export const FieldMetadata = /*@__PURE__*/ S.suspend(() =>
+export const KmsWrappedCryptoKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    action: S.optional(FieldMetadataActionEnum),
-    paths: S.optional(StringList),
+    cryptoKey: S.optional(S.String),
+    wrappedKey: S.optional(S.String),
   }),
-).annotate({ identifier: "FieldMetadata" }) as any as S.Schema<FieldMetadata>;
+).annotate({ identifier: "KmsWrappedCryptoKey" }) as any as S.Schema<KmsWrappedCryptoKey>;
 
-export type FieldMetadataList = Array<FieldMetadata>;
-export const FieldMetadataList = /*@__PURE__*/ S.Array(
-  FieldMetadata,
-) as any as S.Schema<FieldMetadataList>;
-
-/** Specifies how to handle de-identification of a FHIR store. */
-export interface FhirConfig {
-  /** Specifies FHIR paths to match and how to transform them. Any field that is not matched by a FieldMetadata is passed through to the output dataset unmodified. All extensions will be processed according to `default_keep_extensions`. If a field can be matched by more than one FieldMetadata, the first FieldMetadata.Action is applied. */
-  fieldMetadataList?: FieldMetadataList;
-  /** The behaviour for handling FHIR extensions that aren't otherwise specified for de-identification. If true, all extensions are preserved during de-identification by default. If false or unspecified, all extensions are removed during de-identification by default. */
-  defaultKeepExtensions?: boolean;
+/** Pseudonymization method that generates surrogates via cryptographic hashing. Uses SHA-256. Outputs a base64-encoded representation of the hashed output. For example, `L7k0BHmF1ha5U3NfGykjro4xWi1MPVQPjhMAZbSV9mM=`. */
+export interface CryptoHashConfig {
+  /** An AES 128/192/256 bit key. Causes the hash to be computed based on this key. A default key is generated for each Deidentify operation and is used when neither crypto_key nor kms_wrapped is specified. Must not be set if kms_wrapped is set. */
+  cryptoKey?: string;
+  /** KMS wrapped key. Must not be set if crypto_key is set. */
+  kmsWrapped?: KmsWrappedCryptoKey;
 }
-export const FhirConfig = /*@__PURE__*/ S.suspend(() =>
+export const CryptoHashConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fieldMetadataList: S.optional(FieldMetadataList),
-    defaultKeepExtensions: S.optional(S.Boolean),
+    cryptoKey: S.optional(S.String),
+    kmsWrapped: S.optional(KmsWrappedCryptoKey),
   }),
-).annotate({ identifier: "FhirConfig" }) as any as S.Schema<FhirConfig>;
+).annotate({ identifier: "CryptoHashConfig" }) as any as S.Schema<CryptoHashConfig>;
+
+/** Define how to redact sensitive values. Default behaviour is erase. For example, "My name is Jane." becomes "My name is ." */
+export type RedactConfig = ArchiveUserDataMappingRequest;
+export const RedactConfig = ArchiveUserDataMappingRequest;
+
+/** Mask a string by replacing its characters with a fixed character. */
+export interface CharacterMaskConfig {
+  /** Character to mask the sensitive values. If not supplied, defaults to "*". */
+  maskingCharacter?: string;
+}
+export const CharacterMaskConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maskingCharacter: S.optional(S.String),
+  }),
+).annotate({ identifier: "CharacterMaskConfig" }) as any as S.Schema<CharacterMaskConfig>;
+
+/** When using the INSPECT_AND_TRANSFORM action, each match is replaced with the name of the info_type. For example, "My name is Jane" becomes "My name is [PERSON_NAME]." The TRANSFORM action is equivalent to redacting. */
+export type ReplaceWithInfoTypeConfig = ArchiveUserDataMappingRequest;
+export const ReplaceWithInfoTypeConfig = ArchiveUserDataMappingRequest;
+
+/** Shift a date forward or backward in time by a random amount which is consistent for a given patient and crypto key combination. */
+export interface DateShiftConfig {
+  /** An AES 128/192/256 bit key. The date shift is computed based on this key and the patient ID. If the patient ID is empty for a DICOM resource, the date shift is computed based on this key and the study instance UID. If crypto_key is not set, then kms_wrapped is used to calculate the date shift. If neither is set, a default key is generated for each de-identify operation. Must not be set if kms_wrapped is set. */
+  cryptoKey?: string;
+  /** KMS wrapped key. If kms_wrapped is not set, then crypto_key is used to calculate the date shift. If neither is set, a default key is generated for each de-identify operation. Must not be set if crypto_key is set. */
+  kmsWrapped?: KmsWrappedCryptoKey;
+}
+export const DateShiftConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cryptoKey: S.optional(S.String),
+    kmsWrapped: S.optional(KmsWrappedCryptoKey),
+  }),
+).annotate({ identifier: "DateShiftConfig" }) as any as S.Schema<DateShiftConfig>;
+
+/** A transformation to apply to text that is identified as a specific info_type. */
+export interface InfoTypeTransformation {
+  /** Config for crypto hash. */
+  cryptoHashConfig?: CryptoHashConfig;
+  /** Config for text redaction. */
+  redactConfig?: ArchiveUserDataMappingRequest;
+  /** Config for character mask. */
+  characterMaskConfig?: CharacterMaskConfig;
+  /** Config for replace with InfoType. */
+  replaceWithInfoTypeConfig?: ArchiveUserDataMappingRequest;
+  /** `InfoTypes` to apply this transformation to. If this is not specified, this transformation becomes the default transformation, and is used for any `info_type` that is not specified in another transformation. */
+  infoTypes?: StringList;
+  /** Config for date shift. */
+  dateShiftConfig?: DateShiftConfig;
+}
+export const InfoTypeTransformation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cryptoHashConfig: S.optional(CryptoHashConfig),
+    redactConfig: S.optional(ArchiveUserDataMappingRequest),
+    characterMaskConfig: S.optional(CharacterMaskConfig),
+    replaceWithInfoTypeConfig: S.optional(ArchiveUserDataMappingRequest),
+    infoTypes: S.optional(StringList),
+    dateShiftConfig: S.optional(DateShiftConfig),
+  }),
+).annotate({ identifier: "InfoTypeTransformation" }) as any as S.Schema<InfoTypeTransformation>;
+
+export type InfoTypeTransformationList = Array<InfoTypeTransformation>;
+export const InfoTypeTransformationList = /*@__PURE__*/ S.Array(
+  InfoTypeTransformation,
+) as any as S.Schema<InfoTypeTransformationList>;
+
+export type TextConfigProfileTypeEnum = "PROFILE_TYPE_UNSPECIFIED" | "EMPTY" | "BASIC";
+export const TextConfigProfileTypeEnum = S.String;
+
+/** Configures how to transform sensitive text `InfoTypes`. */
+export interface TextConfig {
+  /** Additional transformations to apply to the detected data, overriding `profile`. */
+  additionalTransformations?: InfoTypeTransformationList;
+  /** InfoTypes to skip transforming, overriding `profile`. */
+  excludeInfoTypes?: StringList;
+  /** The transformations to apply to the detected data. Deprecated. Use `additional_transformations` instead. */
+  transformations?: InfoTypeTransformationList;
+  /** Base profile type for text transformation. */
+  profileType?: TextConfigProfileTypeEnum | (string & {});
+}
+export const TextConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    additionalTransformations: S.optional(InfoTypeTransformationList),
+    excludeInfoTypes: S.optional(StringList),
+    transformations: S.optional(InfoTypeTransformationList),
+    profileType: S.optional(TextConfigProfileTypeEnum),
+  }),
+).annotate({ identifier: "TextConfig" }) as any as S.Schema<TextConfig>;
+
+export type ImageConfigTextRedactionModeEnum =
+  | "TEXT_REDACTION_MODE_UNSPECIFIED"
+  | "REDACT_ALL_TEXT"
+  | "REDACT_SENSITIVE_TEXT"
+  | "REDACT_NO_TEXT"
+  | "REDACT_SENSITIVE_TEXT_CLEAN_DESCRIPTORS";
+export const ImageConfigTextRedactionModeEnum = S.String;
+
+export type IntegerList = Array<number>;
+export const IntegerList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<IntegerList>;
+
+/** Defines a custom regular expression pattern to detect and redact in the image. */
+export interface CustomRegex {
+  /** Optional. The capturing group indexes to redact. skip_request_analyics: true */
+  groupIndexes?: IntegerList;
+  /** Optional. The regular expression pattern to match. */
+  pattern?: string;
+}
+export const CustomRegex = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    groupIndexes: S.optional(IntegerList),
+    pattern: S.optional(S.String),
+  }),
+).annotate({ identifier: "CustomRegex" }) as any as S.Schema<CustomRegex>;
+
+export type CustomRegexList = Array<CustomRegex>;
+export const CustomRegexList = /*@__PURE__*/ S.Array(
+  CustomRegex,
+) as any as S.Schema<CustomRegexList>;
+
+/** Specifies how to handle de-identification of image pixels. */
+export interface ImageConfig {
+  /** InfoTypes to skip redacting, overriding those used by `text_redaction_mode`. Can only be used when `text_redaction_mode` is set to `REDACT_SENSITIVE_TEXT` or `REDACT_SENSITIVE_TEXT_CLEAN_DESCRIPTORS`. */
+  excludeInfoTypes?: StringList;
+  /** Additional InfoTypes to redact in the images in addition to those used by `text_redaction_mode`. Can only be used when `text_redaction_mode` is set to `REDACT_SENSITIVE_TEXT`, `REDACT_SENSITIVE_TEXT_CLEAN_DESCRIPTORS` or `TEXT_REDACTION_MODE_UNSPECIFIED`. */
+  additionalInfoTypes?: StringList;
+  /** Determines how to redact text from image. */
+  textRedactionMode?: ImageConfigTextRedactionModeEnum | (string & {});
+  /** Optional. Custom regex patterns to redact from the image. */
+  customRegexes?: CustomRegexList;
+}
+export const ImageConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    excludeInfoTypes: S.optional(StringList),
+    additionalInfoTypes: S.optional(StringList),
+    textRedactionMode: S.optional(ImageConfigTextRedactionModeEnum),
+    customRegexes: S.optional(CustomRegexList),
+  }),
+).annotate({ identifier: "ImageConfig" }) as any as S.Schema<ImageConfig>;
 
 /** Details about the FHIR store to write the output to. */
 export interface FhirOutput {
@@ -2012,170 +2070,163 @@ export const DeidentifyOperationMetadata = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeidentifyOperationMetadata",
 }) as any as S.Schema<DeidentifyOperationMetadata>;
 
-/** Replace with empty tag. */
-export type RemoveTag = ArchiveUserDataMappingRequest;
-export const RemoveTag = ArchiveUserDataMappingRequest;
-
-/** Reset tag to a placeholder value. */
-export type ResetTag = ArchiveUserDataMappingRequest;
-export const ResetTag = ArchiveUserDataMappingRequest;
-
-export type ImageConfigTextRedactionModeEnum =
-  | "TEXT_REDACTION_MODE_UNSPECIFIED"
-  | "REDACT_ALL_TEXT"
-  | "REDACT_SENSITIVE_TEXT"
-  | "REDACT_NO_TEXT"
-  | "REDACT_SENSITIVE_TEXT_CLEAN_DESCRIPTORS";
-export const ImageConfigTextRedactionModeEnum = S.String;
-
-export type IntegerList = Array<number>;
-export const IntegerList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<IntegerList>;
-
-/** Defines a custom regular expression pattern to detect and redact in the image. */
-export interface CustomRegex {
-  /** Optional. The regular expression pattern to match. */
-  pattern?: string;
-  /** Optional. The capturing group indexes to redact. skip_request_analyics: true */
-  groupIndexes?: IntegerList;
-}
-export const CustomRegex = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pattern: S.optional(S.String),
-    groupIndexes: S.optional(IntegerList),
-  }),
-).annotate({ identifier: "CustomRegex" }) as any as S.Schema<CustomRegex>;
-
-export type CustomRegexList = Array<CustomRegex>;
-export const CustomRegexList = /*@__PURE__*/ S.Array(
-  CustomRegex,
-) as any as S.Schema<CustomRegexList>;
-
-/** Specifies how to handle de-identification of image pixels. */
-export interface ImageConfig {
-  /** Determines how to redact text from image. */
-  textRedactionMode?: ImageConfigTextRedactionModeEnum | (string & {});
-  /** InfoTypes to skip redacting, overriding those used by `text_redaction_mode`. Can only be used when `text_redaction_mode` is set to `REDACT_SENSITIVE_TEXT` or `REDACT_SENSITIVE_TEXT_CLEAN_DESCRIPTORS`. */
-  excludeInfoTypes?: StringList;
-  /** Additional InfoTypes to redact in the images in addition to those used by `text_redaction_mode`. Can only be used when `text_redaction_mode` is set to `REDACT_SENSITIVE_TEXT`, `REDACT_SENSITIVE_TEXT_CLEAN_DESCRIPTORS` or `TEXT_REDACTION_MODE_UNSPECIFIED`. */
-  additionalInfoTypes?: StringList;
-  /** Optional. Custom regex patterns to redact from the image. */
-  customRegexes?: CustomRegexList;
-}
-export const ImageConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    textRedactionMode: S.optional(ImageConfigTextRedactionModeEnum),
-    excludeInfoTypes: S.optional(StringList),
-    additionalInfoTypes: S.optional(StringList),
-    customRegexes: S.optional(CustomRegexList),
-  }),
-).annotate({ identifier: "ImageConfig" }) as any as S.Schema<ImageConfig>;
-
-/** Inspect text and transform sensitive text. Configurable using TextConfig. Supported [Value Representations] (https://dicom.nema.org/medical/dicom/2018e/output/chtml/part05/sect_6.2.html#table_6.2-1): AE, LO, LT, PN, SH, ST, UC, UT, DA, DT, AS */
-export type CleanTextTag = ArchiveUserDataMappingRequest;
-export const CleanTextTag = ArchiveUserDataMappingRequest;
-
-/** Replace UID with a new generated UID. Supported [Value Representation] (https://dicom.nema.org/medical/dicom/2018e/output/chtml/part05/sect_6.2.html#table_6.2-1): UI */
-export type RegenUidTag = ArchiveUserDataMappingRequest;
-export const RegenUidTag = ArchiveUserDataMappingRequest;
-
-/** Recursively apply DICOM de-id to tags nested in a sequence. Supported [Value Representation] (https://dicom.nema.org/medical/dicom/2018e/output/chtml/part05/sect_6.2.html#table_6.2-1): SQ */
-export type RecurseTag = ArchiveUserDataMappingRequest;
-export const RecurseTag = ArchiveUserDataMappingRequest;
-
-/** Keep tag unchanged. */
-export type KeepTag = ArchiveUserDataMappingRequest;
-export const KeepTag = ArchiveUserDataMappingRequest;
-
-/** Delete tag. */
-export type DeleteTag = ArchiveUserDataMappingRequest;
-export const DeleteTag = ArchiveUserDataMappingRequest;
-
-/** Specifies a selection of tags and an `Action` to apply to each one. */
-export interface Action {
-  /** Replace with empty tag. */
-  removeTag?: ArchiveUserDataMappingRequest;
-  /** Reset tag to a placeholder value. */
-  resetTag?: ArchiveUserDataMappingRequest;
-  /** Inspect image and transform sensitive burnt-in text. Doesn't apply to elements nested in a sequence, which revert to `Keep`. Supported [tags](https://dicom.nema.org/medical/dicom/2018e/output/chtml/part06/chapter_6.html): PixelData */
-  cleanImageTag?: ImageConfig;
-  /** Inspect text and transform sensitive text. Configurable via TextConfig. Supported Value Representations: AE, LO, LT, PN, SH, ST, UC, UT, DA, DT, AS */
-  cleanTextTag?: ArchiveUserDataMappingRequest;
-  /** Replace UID with a new generated UID. Supported [Value Representation] (https://dicom.nema.org/medical/dicom/2018e/output/chtml/part05/sect_6.2.html#table_6.2-1): UI */
-  regenUidTag?: ArchiveUserDataMappingRequest;
-  /** Recursively apply DICOM de-id to tags nested in a sequence. Supported [Value Representation] (https://dicom.nema.org/medical/dicom/2018e/output/chtml/part05/sect_6.2.html#table_6.2-1): SQ */
-  recurseTag?: ArchiveUserDataMappingRequest;
-  /** Select all tags with the listed tag IDs, names, or Value Representations (VRs). Examples: ID: "00100010" Keyword: "PatientName" VR: "PN" */
-  queries?: StringList;
-  /** Keep tag unchanged. */
-  keepTag?: ArchiveUserDataMappingRequest;
-  /** Delete tag. */
-  deleteTag?: ArchiveUserDataMappingRequest;
-}
-export const Action = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    removeTag: S.optional(ArchiveUserDataMappingRequest),
-    resetTag: S.optional(ArchiveUserDataMappingRequest),
-    cleanImageTag: S.optional(ImageConfig),
-    cleanTextTag: S.optional(ArchiveUserDataMappingRequest),
-    regenUidTag: S.optional(ArchiveUserDataMappingRequest),
-    recurseTag: S.optional(ArchiveUserDataMappingRequest),
-    queries: S.optional(StringList),
-    keepTag: S.optional(ArchiveUserDataMappingRequest),
-    deleteTag: S.optional(ArchiveUserDataMappingRequest),
-  }),
-).annotate({ identifier: "Action" }) as any as S.Schema<Action>;
-
-export type ActionList = Array<Action>;
-export const ActionList = /*@__PURE__*/ S.Array(Action) as any as S.Schema<ActionList>;
-
-export type OptionsPrimaryIdsEnum = "PRIMARY_IDS_OPTION_UNSPECIFIED" | "KEEP" | "REGEN";
-export const OptionsPrimaryIdsEnum = S.String;
-
-/** This option is based on the DICOM Standard's [Clean Descriptors Option](https://dicom.nema.org/medical/dicom/2018e/output/chtml/part15/sect_E.3.5.html), and the `CleanText` `Action` is applied to all the specified fields. When cleaning text, the process attempts to transform phrases matching any of the tags marked for removal (action codes D, Z, X, and U) in the [Basic Profile](https://dicom.nema.org/medical/dicom/2018e/output/chtml/part15/chapter_E.html). These contextual phrases are replaced with the token "[CTX]". This option uses an additional infoType during inspection. */
-export type CleanDescriptorsOption = ArchiveUserDataMappingRequest;
-export const CleanDescriptorsOption = ArchiveUserDataMappingRequest;
-
-/** Specifies additional options to apply to the base profile. */
-export interface Options {
-  /** Set `Action` for [`StudyInstanceUID`, `SeriesInstanceUID`, `SOPInstanceUID`, and `MediaStorageSOPInstanceUID`](https://dicom.nema.org/medical/dicom/2018e/output/chtml/part06/chapter_6.html). */
-  primaryIds?: OptionsPrimaryIdsEnum | (string & {});
-  /** Apply `Action.clean_image` to [`PixelData`](https://dicom.nema.org/medical/dicom/2018e/output/chtml/part06/chapter_6.html) as configured. */
-  cleanImage?: ImageConfig;
-  /** Set Clean Descriptors Option. */
-  cleanDescriptors?: ArchiveUserDataMappingRequest;
-}
-export const Options = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    primaryIds: S.optional(OptionsPrimaryIdsEnum),
-    cleanImage: S.optional(ImageConfig),
-    cleanDescriptors: S.optional(ArchiveUserDataMappingRequest),
-  }),
-).annotate({ identifier: "Options" }) as any as S.Schema<Options>;
-
-export type DicomTagConfigProfileTypeEnum =
+export type FhirFieldConfigProfileTypeEnum =
   | "PROFILE_TYPE_UNSPECIFIED"
-  | "MINIMAL_KEEP_LIST_PROFILE"
-  | "ATTRIBUTE_CONFIDENTIALITY_BASIC_PROFILE"
-  | "KEEP_ALL_PROFILE"
-  | "DEIDENTIFY_TAG_CONTENTS";
-export const DicomTagConfigProfileTypeEnum = S.String;
+  | "KEEP_ALL"
+  | "BASIC"
+  | "CLEAN_ALL";
+export const FhirFieldConfigProfileTypeEnum = S.String;
 
-/** Specifies the parameters needed for the de-identification of DICOM stores. */
-export interface DicomTagConfig {
-  /** Specifies custom tag selections and `Actions` to apply to them. Overrides `options` and `profile`. Conflicting `Actions` are applied in the order given. */
-  actions?: ActionList;
-  /** Specifies additional options to apply, overriding the base `profile`. */
-  options?: Options;
-  /** Base profile type for handling DICOM tags. */
-  profileType?: DicomTagConfigProfileTypeEnum | (string & {});
+/** Inspect text and transform sensitive text. Configure using TextConfig. Supported [types](https://www.hl7.org/fhir/datatypes.html): Code, Date, DateTime, Decimal, HumanName, Id, LanguageCode, Markdown, Oid, String, Uri, Uuid, Xhtml. */
+export type CleanTextField = ArchiveUserDataMappingRequest;
+export const CleanTextField = ArchiveUserDataMappingRequest;
+
+/** Remove field. */
+export type RemoveField = ArchiveUserDataMappingRequest;
+export const RemoveField = ArchiveUserDataMappingRequest;
+
+/** Shift the date by a randomized number of days. See [date shifting](https://cloud.google.com/dlp/docs/concepts-date-shifting) for more information. Supported [types](https://www.hl7.org/fhir/datatypes.html): Date, DateTime. */
+export type DateShiftField = ArchiveUserDataMappingRequest;
+export const DateShiftField = ArchiveUserDataMappingRequest;
+
+/** Keep field unchanged. */
+export type KeepField = ArchiveUserDataMappingRequest;
+export const KeepField = ArchiveUserDataMappingRequest;
+
+/** Replace field value with masking character. Supported [types](https://www.hl7.org/fhir/datatypes.html): Code, Decimal, HumanName, Id, LanguageCode, Markdown, Oid, String, Uri, Uuid, Xhtml. */
+export type CharacterMaskField = ArchiveUserDataMappingRequest;
+export const CharacterMaskField = ArchiveUserDataMappingRequest;
+
+/** Replace field value with a hash of that value. Supported [types](https://www.hl7.org/fhir/datatypes.html): Code, Decimal, HumanName, Id, LanguageCode, Markdown, Oid, String, Uri, Uuid, Xhtml. */
+export type CryptoHashField = ArchiveUserDataMappingRequest;
+export const CryptoHashField = ArchiveUserDataMappingRequest;
+
+/** Specifies the FHIR paths to match and how to handle the de-identification of matching fields. */
+export interface GoogleCloudHealthcareV1beta1DeidentifyFieldMetadata {
+  /** List of paths to FHIR fields to redact. Each path is a period-separated list where each component is either a field name or FHIR [type](https://www.hl7.org/fhir/datatypes.html) name. All types begin with an upper case letter. For example, the resource field `Patient.Address.city`, which uses a [string](https://www.hl7.org/fhir/datatypes-definitions.html#Address.city) type, can be matched by `Patient.Address.String`. Partial matching is supported. For example, `Patient.Address.city` can be matched by `Address.city` (with `Patient` omitted). Partial matching and type matching can be combined, for example `Patient.Address.city` can be matched by `Address.String`. For "choice" types (those defined in the FHIR spec with the format `field[x]`), use two separate components. For example, `deceasedAge.unit` is matched by `Deceased.Age.unit`. The following types are supported: AdministrativeGenderCode, Base64Binary, Boolean, Code, Date, DateTime, Decimal, HumanName, Id, Instant, Integer, LanguageCode, Markdown, Oid, PositiveInt, String, UnsignedInt, Uri, Uuid, Xhtml. The sub-type for HumanName (for example `HumanName.given`, `HumanName.family`) can be omitted. */
+  paths?: StringList;
+  /** Inspect the field's text and transform sensitive text. Configure using TextConfig. Supported [types](https://www.hl7.org/fhir/datatypes.html): Code, Date, DateTime, Decimal, HumanName, Id, LanguageCode, Markdown, Oid, String, Uri, Uuid, Xhtml. */
+  cleanTextField?: ArchiveUserDataMappingRequest;
+  /** Remove the field. */
+  removeField?: ArchiveUserDataMappingRequest;
+  /** Shift the date by a randomized number of days. See [date shifting](https://cloud.google.com/dlp/docs/concepts-date-shifting) for more information. Supported [types](https://www.hl7.org/fhir/datatypes.html): Date, DateTime. */
+  dateShiftField?: ArchiveUserDataMappingRequest;
+  /** Keep the field unchanged. */
+  keepField?: ArchiveUserDataMappingRequest;
+  /** Replace the field's value with a masking character. Supported [types](https://www.hl7.org/fhir/datatypes.html): Code, Decimal, HumanName, Id, LanguageCode, Markdown, Oid, String, Uri, Uuid, Xhtml. */
+  characterMaskField?: ArchiveUserDataMappingRequest;
+  /** Replace field value with a hash of that value. Supported [types](https://www.hl7.org/fhir/datatypes.html): Code, Decimal, HumanName, Id, LanguageCode, Markdown, Oid, String, Uri, Uuid, Xhtml. */
+  cryptoHashField?: ArchiveUserDataMappingRequest;
 }
-export const DicomTagConfig = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudHealthcareV1beta1DeidentifyFieldMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    actions: S.optional(ActionList),
-    options: S.optional(Options),
-    profileType: S.optional(DicomTagConfigProfileTypeEnum),
+    paths: S.optional(StringList),
+    cleanTextField: S.optional(ArchiveUserDataMappingRequest),
+    removeField: S.optional(ArchiveUserDataMappingRequest),
+    dateShiftField: S.optional(ArchiveUserDataMappingRequest),
+    keepField: S.optional(ArchiveUserDataMappingRequest),
+    characterMaskField: S.optional(ArchiveUserDataMappingRequest),
+    cryptoHashField: S.optional(ArchiveUserDataMappingRequest),
   }),
-).annotate({ identifier: "DicomTagConfig" }) as any as S.Schema<DicomTagConfig>;
+).annotate({
+  identifier: "GoogleCloudHealthcareV1beta1DeidentifyFieldMetadata",
+}) as any as S.Schema<GoogleCloudHealthcareV1beta1DeidentifyFieldMetadata>;
+
+export type GoogleCloudHealthcareV1beta1DeidentifyFieldMetadataList =
+  Array<GoogleCloudHealthcareV1beta1DeidentifyFieldMetadata>;
+export const GoogleCloudHealthcareV1beta1DeidentifyFieldMetadataList = /*@__PURE__*/ S.Array(
+  GoogleCloudHealthcareV1beta1DeidentifyFieldMetadata,
+) as any as S.Schema<GoogleCloudHealthcareV1beta1DeidentifyFieldMetadataList>;
+
+/** Fields that don't match a KeepField or CleanTextField `action` in the BASIC profile are collected into a contextual phrase list. For fields that match a CleanTextField `action` in FieldMetadata or ProfileType, the process attempts to transform phrases matching these contextual entries. These contextual phrases are replaced with the token "[CTX]". This feature uses an additional InfoType during inspection. */
+export type ContextualDeidConfig = ArchiveUserDataMappingRequest;
+export const ContextualDeidConfig = ArchiveUserDataMappingRequest;
+
+/** The behavior for handling FHIR extensions that aren't otherwise specified for de-identification. If provided, all extensions are preserved during de-identification by default. If unspecified, all extensions are removed during de-identification by default. */
+export type KeepExtensionsConfig = ArchiveUserDataMappingRequest;
+export const KeepExtensionsConfig = ArchiveUserDataMappingRequest;
+
+/** Specifies additional options to apply to the base ProfileType. */
+export interface GoogleCloudHealthcareV1beta1DeidentifyOptions {
+  /** Date shifting config for CharacterMaskField. */
+  dateShiftConfig?: DateShiftConfig;
+  /** Character mask config for CharacterMaskField. */
+  characterMaskConfig?: CharacterMaskConfig;
+  /** Configure contextual de-id. */
+  contextualDeid?: ArchiveUserDataMappingRequest;
+  /** Crypto hash config for CharacterMaskField. */
+  cryptoHashConfig?: CryptoHashConfig;
+  /** Configure keeping extensions by default. */
+  keepExtensions?: ArchiveUserDataMappingRequest;
+}
+export const GoogleCloudHealthcareV1beta1DeidentifyOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dateShiftConfig: S.optional(DateShiftConfig),
+    characterMaskConfig: S.optional(CharacterMaskConfig),
+    contextualDeid: S.optional(ArchiveUserDataMappingRequest),
+    cryptoHashConfig: S.optional(CryptoHashConfig),
+    keepExtensions: S.optional(ArchiveUserDataMappingRequest),
+  }),
+).annotate({
+  identifier: "GoogleCloudHealthcareV1beta1DeidentifyOptions",
+}) as any as S.Schema<GoogleCloudHealthcareV1beta1DeidentifyOptions>;
+
+/** Specifies how to handle the de-identification of a FHIR store. */
+export interface FhirFieldConfig {
+  /** Base profile type for handling FHIR fields. */
+  profileType?: FhirFieldConfigProfileTypeEnum | (string & {});
+  /** Specifies FHIR paths to match and how to transform them. Any field that is not matched by a FieldMetadata `action` is passed through to the output dataset unmodified. All extensions will be processed according to keep_extensions. If a field can be matched by more than one FieldMetadata `action`, the first `action` option is applied. Overrides options and the union field `profile` in FhirFieldConfig. */
+  fieldMetadataList?: GoogleCloudHealthcareV1beta1DeidentifyFieldMetadataList;
+  /** Specifies additional options, overriding the base ProfileType. */
+  options?: GoogleCloudHealthcareV1beta1DeidentifyOptions;
+}
+export const FhirFieldConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    profileType: S.optional(FhirFieldConfigProfileTypeEnum),
+    fieldMetadataList: S.optional(GoogleCloudHealthcareV1beta1DeidentifyFieldMetadataList),
+    options: S.optional(GoogleCloudHealthcareV1beta1DeidentifyOptions),
+  }),
+).annotate({ identifier: "FhirFieldConfig" }) as any as S.Schema<FhirFieldConfig>;
+
+export type FieldMetadataActionEnum =
+  | "ACTION_UNSPECIFIED"
+  | "TRANSFORM"
+  | "INSPECT_AND_TRANSFORM"
+  | "DO_NOT_TRANSFORM";
+export const FieldMetadataActionEnum = S.String;
+
+/** Specifies FHIR paths to match, and how to handle de-identification of matching fields. */
+export interface FieldMetadata {
+  /** List of paths to FHIR fields to redact. Each path is a period-separated list where each component is either a field name or FHIR type name. All types begin with an upper case letter. For example, the resource field "Patient.Address.city", which uses a string type, can be matched by "Patient.Address.String". Path also supports partial matching. For example, "Patient.Address.city" can be matched by "Address.city" (Patient omitted). Partial matching and type matching can be combined. For example, "Patient.Address.city" can be matched by "Address.String". For "choice" types (those defined in the FHIR spec with the form: field[x]), use two separate components. For example, "deceasedAge.unit" is matched by "Deceased.Age.unit". Supported types are: AdministrativeGenderCode, Base64Binary, Boolean, Code, Date, DateTime, Decimal, HumanName, Id, Instant, Integer, LanguageCode, Markdown, Oid, PositiveInt, String, UnsignedInt, Uri, Uuid, Xhtml. The sub-type for HumanName(for example HumanName.given, HumanName.family) can be omitted. */
+  paths?: StringList;
+  /** Deidentify action for one field. */
+  action?: FieldMetadataActionEnum | (string & {});
+}
+export const FieldMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    paths: S.optional(StringList),
+    action: S.optional(FieldMetadataActionEnum),
+  }),
+).annotate({ identifier: "FieldMetadata" }) as any as S.Schema<FieldMetadata>;
+
+export type FieldMetadataList = Array<FieldMetadata>;
+export const FieldMetadataList = /*@__PURE__*/ S.Array(
+  FieldMetadata,
+) as any as S.Schema<FieldMetadataList>;
+
+/** Specifies how to handle de-identification of a FHIR store. */
+export interface FhirConfig {
+  /** Specifies FHIR paths to match and how to transform them. Any field that is not matched by a FieldMetadata is passed through to the output dataset unmodified. All extensions will be processed according to `default_keep_extensions`. If a field can be matched by more than one FieldMetadata, the first FieldMetadata.Action is applied. */
+  fieldMetadataList?: FieldMetadataList;
+  /** The behaviour for handling FHIR extensions that aren't otherwise specified for de-identification. If true, all extensions are preserved during de-identification by default. If false or unspecified, all extensions are removed during de-identification by default. */
+  defaultKeepExtensions?: boolean;
+}
+export const FhirConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fieldMetadataList: S.optional(FieldMetadataList),
+    defaultKeepExtensions: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "FhirConfig" }) as any as S.Schema<FhirConfig>;
 
 /** List of tags to be filtered. */
 export interface TagFilterList {
@@ -2200,300 +2251,168 @@ export const DicomConfigFilterProfileEnum = S.String;
 export interface DicomConfig {
   /** If true, skip replacing StudyInstanceUID, SeriesInstanceUID, SOPInstanceUID, and MediaStorageSOPInstanceUID and leave them untouched. The Cloud Healthcare API regenerates these UIDs by default based on the DICOM Standard's reasoning: "Whilst these UIDs cannot be mapped directly to an individual out of context, given access to the original images, or to a database of the original images containing the UIDs, it would be possible to recover the individual's identity." https://dicom.nema.org/medical/dicom/current/output/chtml/part15/sect_E.3.9.html */
   skipIdRedaction?: boolean;
-  /** List of tags to keep. Remove all other tags. */
-  keepList?: TagFilterList;
-  /** Tag filtering profile that determines which tags to keep/remove. */
-  filterProfile?: DicomConfigFilterProfileEnum | (string & {});
   /** List of tags to remove. Keep all other tags. */
   removeList?: TagFilterList;
+  /** Tag filtering profile that determines which tags to keep/remove. */
+  filterProfile?: DicomConfigFilterProfileEnum | (string & {});
+  /** List of tags to keep. Remove all other tags. */
+  keepList?: TagFilterList;
 }
 export const DicomConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     skipIdRedaction: S.optional(S.Boolean),
-    keepList: S.optional(TagFilterList),
-    filterProfile: S.optional(DicomConfigFilterProfileEnum),
     removeList: S.optional(TagFilterList),
+    filterProfile: S.optional(DicomConfigFilterProfileEnum),
+    keepList: S.optional(TagFilterList),
   }),
 ).annotate({ identifier: "DicomConfig" }) as any as S.Schema<DicomConfig>;
 
-/** Replace field value with a hash of that value. Supported [types](https://www.hl7.org/fhir/datatypes.html): Code, Decimal, HumanName, Id, LanguageCode, Markdown, Oid, String, Uri, Uuid, Xhtml. */
-export type CryptoHashField = ArchiveUserDataMappingRequest;
-export const CryptoHashField = ArchiveUserDataMappingRequest;
+export type OptionsPrimaryIdsEnum = "PRIMARY_IDS_OPTION_UNSPECIFIED" | "KEEP" | "REGEN";
+export const OptionsPrimaryIdsEnum = S.String;
 
-/** Keep field unchanged. */
-export type KeepField = ArchiveUserDataMappingRequest;
-export const KeepField = ArchiveUserDataMappingRequest;
+/** This option is based on the DICOM Standard's [Clean Descriptors Option](https://dicom.nema.org/medical/dicom/2018e/output/chtml/part15/sect_E.3.5.html), and the `CleanText` `Action` is applied to all the specified fields. When cleaning text, the process attempts to transform phrases matching any of the tags marked for removal (action codes D, Z, X, and U) in the [Basic Profile](https://dicom.nema.org/medical/dicom/2018e/output/chtml/part15/chapter_E.html). These contextual phrases are replaced with the token "[CTX]". This option uses an additional infoType during inspection. */
+export type CleanDescriptorsOption = ArchiveUserDataMappingRequest;
+export const CleanDescriptorsOption = ArchiveUserDataMappingRequest;
 
-/** Replace field value with masking character. Supported [types](https://www.hl7.org/fhir/datatypes.html): Code, Decimal, HumanName, Id, LanguageCode, Markdown, Oid, String, Uri, Uuid, Xhtml. */
-export type CharacterMaskField = ArchiveUserDataMappingRequest;
-export const CharacterMaskField = ArchiveUserDataMappingRequest;
-
-/** Shift the date by a randomized number of days. See [date shifting](https://cloud.google.com/dlp/docs/concepts-date-shifting) for more information. Supported [types](https://www.hl7.org/fhir/datatypes.html): Date, DateTime. */
-export type DateShiftField = ArchiveUserDataMappingRequest;
-export const DateShiftField = ArchiveUserDataMappingRequest;
-
-/** Inspect text and transform sensitive text. Configure using TextConfig. Supported [types](https://www.hl7.org/fhir/datatypes.html): Code, Date, DateTime, Decimal, HumanName, Id, LanguageCode, Markdown, Oid, String, Uri, Uuid, Xhtml. */
-export type CleanTextField = ArchiveUserDataMappingRequest;
-export const CleanTextField = ArchiveUserDataMappingRequest;
-
-/** Remove field. */
-export type RemoveField = ArchiveUserDataMappingRequest;
-export const RemoveField = ArchiveUserDataMappingRequest;
-
-/** Specifies the FHIR paths to match and how to handle the de-identification of matching fields. */
-export interface GoogleCloudHealthcareV1beta1DeidentifyFieldMetadata {
-  /** Replace field value with a hash of that value. Supported [types](https://www.hl7.org/fhir/datatypes.html): Code, Decimal, HumanName, Id, LanguageCode, Markdown, Oid, String, Uri, Uuid, Xhtml. */
-  cryptoHashField?: ArchiveUserDataMappingRequest;
-  /** List of paths to FHIR fields to redact. Each path is a period-separated list where each component is either a field name or FHIR [type](https://www.hl7.org/fhir/datatypes.html) name. All types begin with an upper case letter. For example, the resource field `Patient.Address.city`, which uses a [string](https://www.hl7.org/fhir/datatypes-definitions.html#Address.city) type, can be matched by `Patient.Address.String`. Partial matching is supported. For example, `Patient.Address.city` can be matched by `Address.city` (with `Patient` omitted). Partial matching and type matching can be combined, for example `Patient.Address.city` can be matched by `Address.String`. For "choice" types (those defined in the FHIR spec with the format `field[x]`), use two separate components. For example, `deceasedAge.unit` is matched by `Deceased.Age.unit`. The following types are supported: AdministrativeGenderCode, Base64Binary, Boolean, Code, Date, DateTime, Decimal, HumanName, Id, Instant, Integer, LanguageCode, Markdown, Oid, PositiveInt, String, UnsignedInt, Uri, Uuid, Xhtml. The sub-type for HumanName (for example `HumanName.given`, `HumanName.family`) can be omitted. */
-  paths?: StringList;
-  /** Keep the field unchanged. */
-  keepField?: ArchiveUserDataMappingRequest;
-  /** Replace the field's value with a masking character. Supported [types](https://www.hl7.org/fhir/datatypes.html): Code, Decimal, HumanName, Id, LanguageCode, Markdown, Oid, String, Uri, Uuid, Xhtml. */
-  characterMaskField?: ArchiveUserDataMappingRequest;
-  /** Shift the date by a randomized number of days. See [date shifting](https://cloud.google.com/dlp/docs/concepts-date-shifting) for more information. Supported [types](https://www.hl7.org/fhir/datatypes.html): Date, DateTime. */
-  dateShiftField?: ArchiveUserDataMappingRequest;
-  /** Inspect the field's text and transform sensitive text. Configure using TextConfig. Supported [types](https://www.hl7.org/fhir/datatypes.html): Code, Date, DateTime, Decimal, HumanName, Id, LanguageCode, Markdown, Oid, String, Uri, Uuid, Xhtml. */
-  cleanTextField?: ArchiveUserDataMappingRequest;
-  /** Remove the field. */
-  removeField?: ArchiveUserDataMappingRequest;
+/** Specifies additional options to apply to the base profile. */
+export interface Options {
+  /** Apply `Action.clean_image` to [`PixelData`](https://dicom.nema.org/medical/dicom/2018e/output/chtml/part06/chapter_6.html) as configured. */
+  cleanImage?: ImageConfig;
+  /** Set `Action` for [`StudyInstanceUID`, `SeriesInstanceUID`, `SOPInstanceUID`, and `MediaStorageSOPInstanceUID`](https://dicom.nema.org/medical/dicom/2018e/output/chtml/part06/chapter_6.html). */
+  primaryIds?: OptionsPrimaryIdsEnum | (string & {});
+  /** Set Clean Descriptors Option. */
+  cleanDescriptors?: ArchiveUserDataMappingRequest;
 }
-export const GoogleCloudHealthcareV1beta1DeidentifyFieldMetadata = /*@__PURE__*/ S.suspend(() =>
+export const Options = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cryptoHashField: S.optional(ArchiveUserDataMappingRequest),
-    paths: S.optional(StringList),
-    keepField: S.optional(ArchiveUserDataMappingRequest),
-    characterMaskField: S.optional(ArchiveUserDataMappingRequest),
-    dateShiftField: S.optional(ArchiveUserDataMappingRequest),
-    cleanTextField: S.optional(ArchiveUserDataMappingRequest),
-    removeField: S.optional(ArchiveUserDataMappingRequest),
+    cleanImage: S.optional(ImageConfig),
+    primaryIds: S.optional(OptionsPrimaryIdsEnum),
+    cleanDescriptors: S.optional(ArchiveUserDataMappingRequest),
   }),
-).annotate({
-  identifier: "GoogleCloudHealthcareV1beta1DeidentifyFieldMetadata",
-}) as any as S.Schema<GoogleCloudHealthcareV1beta1DeidentifyFieldMetadata>;
+).annotate({ identifier: "Options" }) as any as S.Schema<Options>;
 
-export type GoogleCloudHealthcareV1beta1DeidentifyFieldMetadataList =
-  Array<GoogleCloudHealthcareV1beta1DeidentifyFieldMetadata>;
-export const GoogleCloudHealthcareV1beta1DeidentifyFieldMetadataList = /*@__PURE__*/ S.Array(
-  GoogleCloudHealthcareV1beta1DeidentifyFieldMetadata,
-) as any as S.Schema<GoogleCloudHealthcareV1beta1DeidentifyFieldMetadataList>;
-
-export type FhirFieldConfigProfileTypeEnum =
+export type DicomTagConfigProfileTypeEnum =
   | "PROFILE_TYPE_UNSPECIFIED"
-  | "KEEP_ALL"
-  | "BASIC"
-  | "CLEAN_ALL";
-export const FhirFieldConfigProfileTypeEnum = S.String;
+  | "MINIMAL_KEEP_LIST_PROFILE"
+  | "ATTRIBUTE_CONFIDENTIALITY_BASIC_PROFILE"
+  | "KEEP_ALL_PROFILE"
+  | "DEIDENTIFY_TAG_CONTENTS";
+export const DicomTagConfigProfileTypeEnum = S.String;
 
-/** Include to use an existing data crypto key wrapped by KMS. The wrapped key must be a 128-, 192-, or 256-bit key. The key must grant the Cloud IAM permission `cloudkms.cryptoKeyVersions.useToDecrypt` to the project's Cloud Healthcare Service Agent service account. For more information, see [Creating a wrapped key] (https://cloud.google.com/dlp/docs/create-wrapped-key). */
-export interface KmsWrappedCryptoKey {
-  /** Required. The wrapped data crypto key. */
-  wrappedKey?: string;
-  /** Required. The resource name of the KMS CryptoKey to use for unwrapping. For example, `projects/{project_id}/locations/{location_id}/keyRings/{keyring}/cryptoKeys/{key}`. */
-  cryptoKey?: string;
+/** Reset tag to a placeholder value. */
+export type ResetTag = ArchiveUserDataMappingRequest;
+export const ResetTag = ArchiveUserDataMappingRequest;
+
+/** Replace with empty tag. */
+export type RemoveTag = ArchiveUserDataMappingRequest;
+export const RemoveTag = ArchiveUserDataMappingRequest;
+
+/** Delete tag. */
+export type DeleteTag = ArchiveUserDataMappingRequest;
+export const DeleteTag = ArchiveUserDataMappingRequest;
+
+/** Recursively apply DICOM de-id to tags nested in a sequence. Supported [Value Representation] (https://dicom.nema.org/medical/dicom/2018e/output/chtml/part05/sect_6.2.html#table_6.2-1): SQ */
+export type RecurseTag = ArchiveUserDataMappingRequest;
+export const RecurseTag = ArchiveUserDataMappingRequest;
+
+/** Keep tag unchanged. */
+export type KeepTag = ArchiveUserDataMappingRequest;
+export const KeepTag = ArchiveUserDataMappingRequest;
+
+/** Inspect text and transform sensitive text. Configurable using TextConfig. Supported [Value Representations] (https://dicom.nema.org/medical/dicom/2018e/output/chtml/part05/sect_6.2.html#table_6.2-1): AE, LO, LT, PN, SH, ST, UC, UT, DA, DT, AS */
+export type CleanTextTag = ArchiveUserDataMappingRequest;
+export const CleanTextTag = ArchiveUserDataMappingRequest;
+
+/** Replace UID with a new generated UID. Supported [Value Representation] (https://dicom.nema.org/medical/dicom/2018e/output/chtml/part05/sect_6.2.html#table_6.2-1): UI */
+export type RegenUidTag = ArchiveUserDataMappingRequest;
+export const RegenUidTag = ArchiveUserDataMappingRequest;
+
+/** Specifies a selection of tags and an `Action` to apply to each one. */
+export interface Action {
+  /** Reset tag to a placeholder value. */
+  resetTag?: ArchiveUserDataMappingRequest;
+  /** Replace with empty tag. */
+  removeTag?: ArchiveUserDataMappingRequest;
+  /** Delete tag. */
+  deleteTag?: ArchiveUserDataMappingRequest;
+  /** Recursively apply DICOM de-id to tags nested in a sequence. Supported [Value Representation] (https://dicom.nema.org/medical/dicom/2018e/output/chtml/part05/sect_6.2.html#table_6.2-1): SQ */
+  recurseTag?: ArchiveUserDataMappingRequest;
+  /** Keep tag unchanged. */
+  keepTag?: ArchiveUserDataMappingRequest;
+  /** Inspect image and transform sensitive burnt-in text. Doesn't apply to elements nested in a sequence, which revert to `Keep`. Supported [tags](https://dicom.nema.org/medical/dicom/2018e/output/chtml/part06/chapter_6.html): PixelData */
+  cleanImageTag?: ImageConfig;
+  /** Inspect text and transform sensitive text. Configurable via TextConfig. Supported Value Representations: AE, LO, LT, PN, SH, ST, UC, UT, DA, DT, AS */
+  cleanTextTag?: ArchiveUserDataMappingRequest;
+  /** Replace UID with a new generated UID. Supported [Value Representation] (https://dicom.nema.org/medical/dicom/2018e/output/chtml/part05/sect_6.2.html#table_6.2-1): UI */
+  regenUidTag?: ArchiveUserDataMappingRequest;
+  /** Select all tags with the listed tag IDs, names, or Value Representations (VRs). Examples: ID: "00100010" Keyword: "PatientName" VR: "PN" */
+  queries?: StringList;
 }
-export const KmsWrappedCryptoKey = /*@__PURE__*/ S.suspend(() =>
+export const Action = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    wrappedKey: S.optional(S.String),
-    cryptoKey: S.optional(S.String),
+    resetTag: S.optional(ArchiveUserDataMappingRequest),
+    removeTag: S.optional(ArchiveUserDataMappingRequest),
+    deleteTag: S.optional(ArchiveUserDataMappingRequest),
+    recurseTag: S.optional(ArchiveUserDataMappingRequest),
+    keepTag: S.optional(ArchiveUserDataMappingRequest),
+    cleanImageTag: S.optional(ImageConfig),
+    cleanTextTag: S.optional(ArchiveUserDataMappingRequest),
+    regenUidTag: S.optional(ArchiveUserDataMappingRequest),
+    queries: S.optional(StringList),
   }),
-).annotate({
-  identifier: "KmsWrappedCryptoKey",
-}) as any as S.Schema<KmsWrappedCryptoKey>;
+).annotate({ identifier: "Action" }) as any as S.Schema<Action>;
 
-/** Shift a date forward or backward in time by a random amount which is consistent for a given patient and crypto key combination. */
-export interface DateShiftConfig {
-  /** An AES 128/192/256 bit key. The date shift is computed based on this key and the patient ID. If the patient ID is empty for a DICOM resource, the date shift is computed based on this key and the study instance UID. If crypto_key is not set, then kms_wrapped is used to calculate the date shift. If neither is set, a default key is generated for each de-identify operation. Must not be set if kms_wrapped is set. */
-  cryptoKey?: string;
-  /** KMS wrapped key. If kms_wrapped is not set, then crypto_key is used to calculate the date shift. If neither is set, a default key is generated for each de-identify operation. Must not be set if crypto_key is set. */
-  kmsWrapped?: KmsWrappedCryptoKey;
+export type ActionList = Array<Action>;
+export const ActionList = /*@__PURE__*/ S.Array(Action) as any as S.Schema<ActionList>;
+
+/** Specifies the parameters needed for the de-identification of DICOM stores. */
+export interface DicomTagConfig {
+  /** Specifies additional options to apply, overriding the base `profile`. */
+  options?: Options;
+  /** Base profile type for handling DICOM tags. */
+  profileType?: DicomTagConfigProfileTypeEnum | (string & {});
+  /** Specifies custom tag selections and `Actions` to apply to them. Overrides `options` and `profile`. Conflicting `Actions` are applied in the order given. */
+  actions?: ActionList;
 }
-export const DateShiftConfig = /*@__PURE__*/ S.suspend(() =>
+export const DicomTagConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cryptoKey: S.optional(S.String),
-    kmsWrapped: S.optional(KmsWrappedCryptoKey),
+    options: S.optional(Options),
+    profileType: S.optional(DicomTagConfigProfileTypeEnum),
+    actions: S.optional(ActionList),
   }),
-).annotate({
-  identifier: "DateShiftConfig",
-}) as any as S.Schema<DateShiftConfig>;
-
-/** Fields that don't match a KeepField or CleanTextField `action` in the BASIC profile are collected into a contextual phrase list. For fields that match a CleanTextField `action` in FieldMetadata or ProfileType, the process attempts to transform phrases matching these contextual entries. These contextual phrases are replaced with the token "[CTX]". This feature uses an additional InfoType during inspection. */
-export type ContextualDeidConfig = ArchiveUserDataMappingRequest;
-export const ContextualDeidConfig = ArchiveUserDataMappingRequest;
-
-/** Pseudonymization method that generates surrogates via cryptographic hashing. Uses SHA-256. Outputs a base64-encoded representation of the hashed output. For example, `L7k0BHmF1ha5U3NfGykjro4xWi1MPVQPjhMAZbSV9mM=`. */
-export interface CryptoHashConfig {
-  /** An AES 128/192/256 bit key. Causes the hash to be computed based on this key. A default key is generated for each Deidentify operation and is used when neither crypto_key nor kms_wrapped is specified. Must not be set if kms_wrapped is set. */
-  cryptoKey?: string;
-  /** KMS wrapped key. Must not be set if crypto_key is set. */
-  kmsWrapped?: KmsWrappedCryptoKey;
-}
-export const CryptoHashConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cryptoKey: S.optional(S.String),
-    kmsWrapped: S.optional(KmsWrappedCryptoKey),
-  }),
-).annotate({
-  identifier: "CryptoHashConfig",
-}) as any as S.Schema<CryptoHashConfig>;
-
-/** The behavior for handling FHIR extensions that aren't otherwise specified for de-identification. If provided, all extensions are preserved during de-identification by default. If unspecified, all extensions are removed during de-identification by default. */
-export type KeepExtensionsConfig = ArchiveUserDataMappingRequest;
-export const KeepExtensionsConfig = ArchiveUserDataMappingRequest;
-
-/** Mask a string by replacing its characters with a fixed character. */
-export interface CharacterMaskConfig {
-  /** Character to mask the sensitive values. If not supplied, defaults to "*". */
-  maskingCharacter?: string;
-}
-export const CharacterMaskConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maskingCharacter: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CharacterMaskConfig",
-}) as any as S.Schema<CharacterMaskConfig>;
-
-/** Specifies additional options to apply to the base ProfileType. */
-export interface GoogleCloudHealthcareV1beta1DeidentifyOptions {
-  /** Date shifting config for CharacterMaskField. */
-  dateShiftConfig?: DateShiftConfig;
-  /** Configure contextual de-id. */
-  contextualDeid?: ArchiveUserDataMappingRequest;
-  /** Crypto hash config for CharacterMaskField. */
-  cryptoHashConfig?: CryptoHashConfig;
-  /** Configure keeping extensions by default. */
-  keepExtensions?: ArchiveUserDataMappingRequest;
-  /** Character mask config for CharacterMaskField. */
-  characterMaskConfig?: CharacterMaskConfig;
-}
-export const GoogleCloudHealthcareV1beta1DeidentifyOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dateShiftConfig: S.optional(DateShiftConfig),
-    contextualDeid: S.optional(ArchiveUserDataMappingRequest),
-    cryptoHashConfig: S.optional(CryptoHashConfig),
-    keepExtensions: S.optional(ArchiveUserDataMappingRequest),
-    characterMaskConfig: S.optional(CharacterMaskConfig),
-  }),
-).annotate({
-  identifier: "GoogleCloudHealthcareV1beta1DeidentifyOptions",
-}) as any as S.Schema<GoogleCloudHealthcareV1beta1DeidentifyOptions>;
-
-/** Specifies how to handle the de-identification of a FHIR store. */
-export interface FhirFieldConfig {
-  /** Specifies FHIR paths to match and how to transform them. Any field that is not matched by a FieldMetadata `action` is passed through to the output dataset unmodified. All extensions will be processed according to keep_extensions. If a field can be matched by more than one FieldMetadata `action`, the first `action` option is applied. Overrides options and the union field `profile` in FhirFieldConfig. */
-  fieldMetadataList?: GoogleCloudHealthcareV1beta1DeidentifyFieldMetadataList;
-  /** Base profile type for handling FHIR fields. */
-  profileType?: FhirFieldConfigProfileTypeEnum | (string & {});
-  /** Specifies additional options, overriding the base ProfileType. */
-  options?: GoogleCloudHealthcareV1beta1DeidentifyOptions;
-}
-export const FhirFieldConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fieldMetadataList: S.optional(GoogleCloudHealthcareV1beta1DeidentifyFieldMetadataList),
-    profileType: S.optional(FhirFieldConfigProfileTypeEnum),
-    options: S.optional(GoogleCloudHealthcareV1beta1DeidentifyOptions),
-  }),
-).annotate({
-  identifier: "FhirFieldConfig",
-}) as any as S.Schema<FhirFieldConfig>;
-
-export type TextConfigProfileTypeEnum = "PROFILE_TYPE_UNSPECIFIED" | "EMPTY" | "BASIC";
-export const TextConfigProfileTypeEnum = S.String;
-
-/** When using the INSPECT_AND_TRANSFORM action, each match is replaced with the name of the info_type. For example, "My name is Jane" becomes "My name is [PERSON_NAME]." The TRANSFORM action is equivalent to redacting. */
-export type ReplaceWithInfoTypeConfig = ArchiveUserDataMappingRequest;
-export const ReplaceWithInfoTypeConfig = ArchiveUserDataMappingRequest;
-
-/** Define how to redact sensitive values. Default behaviour is erase. For example, "My name is Jane." becomes "My name is ." */
-export type RedactConfig = ArchiveUserDataMappingRequest;
-export const RedactConfig = ArchiveUserDataMappingRequest;
-
-/** A transformation to apply to text that is identified as a specific info_type. */
-export interface InfoTypeTransformation {
-  /** Config for date shift. */
-  dateShiftConfig?: DateShiftConfig;
-  /** Config for crypto hash. */
-  cryptoHashConfig?: CryptoHashConfig;
-  /** Config for replace with InfoType. */
-  replaceWithInfoTypeConfig?: ArchiveUserDataMappingRequest;
-  /** `InfoTypes` to apply this transformation to. If this is not specified, this transformation becomes the default transformation, and is used for any `info_type` that is not specified in another transformation. */
-  infoTypes?: StringList;
-  /** Config for text redaction. */
-  redactConfig?: ArchiveUserDataMappingRequest;
-  /** Config for character mask. */
-  characterMaskConfig?: CharacterMaskConfig;
-}
-export const InfoTypeTransformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dateShiftConfig: S.optional(DateShiftConfig),
-    cryptoHashConfig: S.optional(CryptoHashConfig),
-    replaceWithInfoTypeConfig: S.optional(ArchiveUserDataMappingRequest),
-    infoTypes: S.optional(StringList),
-    redactConfig: S.optional(ArchiveUserDataMappingRequest),
-    characterMaskConfig: S.optional(CharacterMaskConfig),
-  }),
-).annotate({
-  identifier: "InfoTypeTransformation",
-}) as any as S.Schema<InfoTypeTransformation>;
-
-export type InfoTypeTransformationList = Array<InfoTypeTransformation>;
-export const InfoTypeTransformationList = /*@__PURE__*/ S.Array(
-  InfoTypeTransformation,
-) as any as S.Schema<InfoTypeTransformationList>;
-
-/** Configures how to transform sensitive text `InfoTypes`. */
-export interface TextConfig {
-  /** Base profile type for text transformation. */
-  profileType?: TextConfigProfileTypeEnum | (string & {});
-  /** InfoTypes to skip transforming, overriding `profile`. */
-  excludeInfoTypes?: StringList;
-  /** Additional transformations to apply to the detected data, overriding `profile`. */
-  additionalTransformations?: InfoTypeTransformationList;
-  /** The transformations to apply to the detected data. Deprecated. Use `additional_transformations` instead. */
-  transformations?: InfoTypeTransformationList;
-}
-export const TextConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    profileType: S.optional(TextConfigProfileTypeEnum),
-    excludeInfoTypes: S.optional(StringList),
-    additionalTransformations: S.optional(InfoTypeTransformationList),
-    transformations: S.optional(InfoTypeTransformationList),
-  }),
-).annotate({ identifier: "TextConfig" }) as any as S.Schema<TextConfig>;
+).annotate({ identifier: "DicomTagConfig" }) as any as S.Schema<DicomTagConfig>;
 
 /** Configures de-id options specific to different types of content. Each submessage customizes the handling of an https://tools.ietf.org/html/rfc6838 media type or subtype. Configs are applied in a nested manner at runtime. */
 export interface DeidentifyConfig {
-  /** Configures de-id of application/FHIR content. Deprecated. Use `fhir_field_config` instead. */
-  fhir?: FhirConfig;
-  /** Details about the work the de-identify operation performed. */
-  operationMetadata?: DeidentifyOperationMetadata;
-  /** Configures de-id of application/DICOM content. */
-  dicomTagConfig?: DicomTagConfig;
+  /** Configures de-identification of text wherever it is found in the source_dataset. */
+  text?: TextConfig;
   /** Configures the de-identification of image pixels in the source_dataset. Deprecated. Use `dicom_tag_config.options.clean_image` instead. */
   image?: ImageConfig;
+  /** Details about the work the de-identify operation performed. */
+  operationMetadata?: DeidentifyOperationMetadata;
+  /** Configures de-id of application/FHIR content. */
+  fhirFieldConfig?: FhirFieldConfig;
+  /** Configures de-id of application/FHIR content. Deprecated. Use `fhir_field_config` instead. */
+  fhir?: FhirConfig;
   /** Configures de-id of application/DICOM content. Deprecated. Use `dicom_tag_config` instead. */
   dicom?: DicomConfig;
   /** Ensures in-flight data remains in the region of origin during de-identification. The default value is false. Using this option results in a significant reduction of throughput, and is not compatible with `LOCATION` or `ORGANIZATION_NAME` infoTypes. If the deprecated DicomConfig or FhirConfig are used, then `LOCATION` must be excluded within TextConfig, and must also be excluded within ImageConfig if image redaction is required. */
   useRegionalDataProcessing?: boolean;
-  /** Configures de-id of application/FHIR content. */
-  fhirFieldConfig?: FhirFieldConfig;
-  /** Configures de-identification of text wherever it is found in the source_dataset. */
-  text?: TextConfig;
+  /** Configures de-id of application/DICOM content. */
+  dicomTagConfig?: DicomTagConfig;
 }
 export const DeidentifyConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fhir: S.optional(FhirConfig),
-    operationMetadata: S.optional(DeidentifyOperationMetadata),
-    dicomTagConfig: S.optional(DicomTagConfig),
+    text: S.optional(TextConfig),
     image: S.optional(ImageConfig),
+    operationMetadata: S.optional(DeidentifyOperationMetadata),
+    fhirFieldConfig: S.optional(FhirFieldConfig),
+    fhir: S.optional(FhirConfig),
     dicom: S.optional(DicomConfig),
     useRegionalDataProcessing: S.optional(S.Boolean),
-    fhirFieldConfig: S.optional(FhirFieldConfig),
-    text: S.optional(TextConfig),
+    dicomTagConfig: S.optional(DicomTagConfig),
   }),
-).annotate({
-  identifier: "DeidentifyConfig",
-}) as any as S.Schema<DeidentifyConfig>;
+).annotate({ identifier: "DeidentifyConfig" }) as any as S.Schema<DeidentifyConfig>;
 
 /** Contains configuration for streaming de-identified FHIR export. */
 export interface DeidentifiedStoreDestination {
@@ -2515,16 +2434,16 @@ export const DeidentifiedStoreDestination = /*@__PURE__*/ S.suspend(() =>
 export interface StreamConfig {
   /** The destination BigQuery structure that contains both the dataset location and corresponding schema config. The output is organized in one table per resource type. The server reuses the existing tables (if any) that are named after the resource types, e.g. "Patient", "Observation". When there is no existing table for a given resource type, the server attempts to create one. When a table schema doesn't align with the schema config, either because of existing incompatible schema or out of band incompatible modification, the server does not stream in new data. One resolution in this case is to delete the incompatible table and let the server recreate one, though the newly created table only contains data after the table recreation. BigQuery imposes a 1 MB limit on streaming insert row size, therefore any resource mutation that generates more than 1 MB of BigQuery data will not be streamed. Results are written to BigQuery tables according to the parameters in BigQueryDestination.WriteDisposition. Different versions of the same resource are distinguishable by the meta.versionId and meta.lastUpdated columns. The operation (CREATE/UPDATE/DELETE) that results in the new version is recorded in the meta.tag. The tables contain all historical resource versions since streaming was enabled. For query convenience, the server also creates one view per table of the same name containing only the current resource version. The streamed data in the BigQuery dataset is not guaranteed to be completely unique. The combination of the id and meta.versionId columns should ideally identify a single unique row. But in rare cases, duplicates may exist. At query time, users may use the SQL select statement to keep only one of the duplicate rows given an id and meta.versionId pair. Alternatively, the server created view mentioned above also filters out duplicates. If a resource mutation cannot be streamed to BigQuery, errors will be logged to Cloud Logging (see [Viewing error logs in Cloud Logging](https://cloud.google.com/healthcare/docs/how-tos/logging)). */
   bigqueryDestination?: GoogleCloudHealthcareV1beta1FhirBigQueryDestination;
-  /** The destination FHIR store for de-identified resources. After this field is added, all subsequent creates/updates/patches to the source store will be de-identified using the provided configuration and applied to the destination store. Resources deleted from the source store will be deleted from the destination store. Importing resources to the source store will not trigger the streaming. If the source store already contains resources when this option is enabled, those resources will not be copied to the destination store unless they are subsequently updated. This may result in invalid references in the destination store. Before adding this config, you must grant the healthcare.fhirResources.update permission on the destination store to your project's **Cloud Healthcare Service Agent** [service account](https://cloud.google.com/healthcare/docs/how-tos/permissions-healthcare-api-gcp-products#the_cloud_healthcare_service_agent). The destination store must set enable_update_create to true. The destination store must have disable_referential_integrity set to true. If a resource cannot be de-identified, errors will be logged to Cloud Logging (see [Viewing error logs in Cloud Logging](https://cloud.google.com/healthcare/docs/how-tos/logging)). Not supported for R5 stores. */
-  deidentifiedStoreDestination?: DeidentifiedStoreDestination;
   /** Supply a FHIR resource type (such as "Patient" or "Observation"). See https://www.hl7.org/fhir/valueset-resource-types.html for a list of all FHIR resource types. The server treats an empty list as an intent to stream all the supported resource types in this FHIR store. */
   resourceTypes?: StringList;
+  /** The destination FHIR store for de-identified resources. After this field is added, all subsequent creates/updates/patches to the source store will be de-identified using the provided configuration and applied to the destination store. Resources deleted from the source store will be deleted from the destination store. Importing resources to the source store will not trigger the streaming. If the source store already contains resources when this option is enabled, those resources will not be copied to the destination store unless they are subsequently updated. This may result in invalid references in the destination store. Before adding this config, you must grant the healthcare.fhirResources.update permission on the destination store to your project's **Cloud Healthcare Service Agent** [service account](https://cloud.google.com/healthcare/docs/how-tos/permissions-healthcare-api-gcp-products#the_cloud_healthcare_service_agent). The destination store must set enable_update_create to true. The destination store must have disable_referential_integrity set to true. If a resource cannot be de-identified, errors will be logged to Cloud Logging (see [Viewing error logs in Cloud Logging](https://cloud.google.com/healthcare/docs/how-tos/logging)). Not supported for R5 stores. */
+  deidentifiedStoreDestination?: DeidentifiedStoreDestination;
 }
 export const StreamConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     bigqueryDestination: S.optional(GoogleCloudHealthcareV1beta1FhirBigQueryDestination),
-    deidentifiedStoreDestination: S.optional(DeidentifiedStoreDestination),
     resourceTypes: S.optional(StringList),
+    deidentifiedStoreDestination: S.optional(DeidentifiedStoreDestination),
   }),
 ).annotate({ identifier: "StreamConfig" }) as any as S.Schema<StreamConfig>;
 
@@ -2533,98 +2452,25 @@ export const StreamConfigList = /*@__PURE__*/ S.Array(
   StreamConfig,
 ) as any as S.Schema<StreamConfigList>;
 
-/** Contains the configuration for FHIR profiles and validation. */
-export interface ValidationConfig {
-  /** Whether to disable profile validation for this FHIR store. The default value is false. Set this to true to disable checking incoming resources for conformance against StructureDefinitions in this FHIR store. */
-  disableProfileValidation?: boolean;
-  /** Whether to disable required fields validation for incoming resources. The default value is false. Set this to true to disable checking incoming resources for conformance against required fields requirement defined in the FHIR specification. This property only affects resource types that do not have profiles configured for them, any rules in enabled implementation guides will still be enforced. */
-  disableRequiredFieldValidation?: boolean;
-  /** A list of ImplementationGuide URLs in this FHIR store that are used to configure the profiles to use for validation. For example, to use the US Core profiles for validation, set `enabled_implementation_guides` to `["http://hl7.org/fhir/us/core/ImplementationGuide/ig"]`. If `enabled_implementation_guides` is empty or omitted, then incoming resources are only required to conform to the base FHIR profiles. Otherwise, a resource must conform to at least one profile listed in the `global` property of one of the enabled ImplementationGuides. The Cloud Healthcare API does not currently enforce all of the rules in a StructureDefinition. The following rules are supported: - min/max - minValue/maxValue - maxLength - type - fixed[x] - pattern[x] on simple types - slicing, when using "value" as the discriminator type - FHIRPath constraints (only when `enable_fhirpath_profile_validation` is true) When a URL cannot be resolved (for example, in a type assertion), the server does not return an error. */
-  enabledImplementationGuides?: StringList;
-  /** Whether to disable reference type validation for incoming resources. The default value is false. Set this to true to disable checking incoming resources for conformance against reference type requirement defined in the FHIR specification. This property only affects resource types that do not have profiles configured for them, any rules in enabled implementation guides will still be enforced. */
-  disableReferenceTypeValidation?: boolean;
-  /** Whether to disable FHIRPath validation for incoming resources. The default value is false. Set this to true to disable checking incoming resources for conformance against FHIRPath requirement defined in the FHIR specification. This property only affects resource types that do not have profiles configured for them, any rules in enabled implementation guides will still be enforced. */
-  disableFhirpathValidation?: boolean;
-  /** Optional. Whether to enable FHIRPath validation for incoming resource types that have profiles configured for them in the `enabled_implementation_guides` list. Set this to true to enable checking incoming resources for conformance against FHIRPath requirements defined in the configured profiles. */
-  enableFhirpathProfileValidation?: boolean;
+export type ConsentHeaderHandlingProfileEnum =
+  | "SCOPE_PROFILE_UNSPECIFIED"
+  | "PERMIT_EMPTY_SCOPE"
+  | "REQUIRED_ON_READ";
+export const ConsentHeaderHandlingProfileEnum = S.String;
+
+/** How the server handles the consent header. */
+export interface ConsentHeaderHandling {
+  /** Optional. Specifies the default server behavior when the header is empty. If not specified, the `ScopeProfile.PERMIT_EMPTY_SCOPE` option is used. */
+  profile?: ConsentHeaderHandlingProfileEnum | (string & {});
 }
-export const ValidationConfig = /*@__PURE__*/ S.suspend(() =>
+export const ConsentHeaderHandling = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    disableProfileValidation: S.optional(S.Boolean),
-    disableRequiredFieldValidation: S.optional(S.Boolean),
-    enabledImplementationGuides: S.optional(StringList),
-    disableReferenceTypeValidation: S.optional(S.Boolean),
-    disableFhirpathValidation: S.optional(S.Boolean),
-    enableFhirpathProfileValidation: S.optional(S.Boolean),
+    profile: S.optional(ConsentHeaderHandlingProfileEnum),
   }),
-).annotate({
-  identifier: "ValidationConfig",
-}) as any as S.Schema<ValidationConfig>;
+).annotate({ identifier: "ConsentHeaderHandling" }) as any as S.Schema<ConsentHeaderHandling>;
 
-export type FhirStoreVersionEnum = "VERSION_UNSPECIFIED" | "DSTU2" | "STU3" | "R4" | "R5";
-export const FhirStoreVersionEnum = S.String;
-
-/** Contains the configuration for FHIR notifications. */
-export interface FhirNotificationConfig {
-  /** Whether to send full FHIR resource to this Pub/Sub topic for deleting FHIR resource. The default value is false. Note that setting this to true does not guarantee that all previous resources will be sent in the format of full FHIR resource. When a resource change is too large or during heavy traffic, only the resource name will be sent. Clients should always check the "payloadType" label from a Pub/Sub message to determine whether it needs to fetch the full previous resource as a separate operation. */
-  sendPreviousResourceOnDelete?: boolean;
-  /** The [Pub/Sub](https://cloud.google.com/pubsub/docs/) topic that notifications of changes are published on. Supplied by the client. The notification is a `PubsubMessage` with the following fields: * `PubsubMessage.Data` contains the resource name. * `PubsubMessage.MessageId` is the ID of this notification. It is guaranteed to be unique within the topic. * `PubsubMessage.PublishTime` is the time when the message was published. Note that notifications are only sent if the topic is non-empty. [Topic names](https://cloud.google.com/pubsub/docs/overview#names) must be scoped to a project. The Cloud Healthcare API service account, service-@gcp-sa-healthcare.iam.gserviceaccount.com, must have publisher permissions on the given Pub/Sub topic. Not having adequate permissions causes the calls that send notifications to fail (https://cloud.google.com/healthcare-api/docs/permissions-healthcare-api-gcp-products#dicom_fhir_and_hl7v2_store_cloud_pubsub_permissions). If a notification can't be published to Pub/Sub, errors are logged to Cloud Logging. For more information, see [Viewing error logs in Cloud Logging](https://cloud.google.com/healthcare-api/docs/how-tos/logging). */
-  pubsubTopic?: string;
-  /** Whether to send full FHIR resource to this Pub/Sub topic for Create and Update operation. The default value is false. Note that setting this to true does not guarantee that all resources will be sent in the format of full FHIR resource. When a resource change is too large or during heavy traffic, only the resource name will be sent. Clients should always check the "payloadType" label from a Pub/Sub message to determine whether it needs to fetch the full resource as a separate operation. */
-  sendFullResource?: boolean;
-}
-export const FhirNotificationConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sendPreviousResourceOnDelete: S.optional(S.Boolean),
-    pubsubTopic: S.optional(S.String),
-    sendFullResource: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "FhirNotificationConfig",
-}) as any as S.Schema<FhirNotificationConfig>;
-
-export type FhirNotificationConfigList = Array<FhirNotificationConfig>;
-export const FhirNotificationConfigList = /*@__PURE__*/ S.Array(
-  FhirNotificationConfig,
-) as any as S.Schema<FhirNotificationConfigList>;
-
-export type FhirStoreComplexDataTypeReferenceParsingEnum =
-  | "COMPLEX_DATA_TYPE_REFERENCE_PARSING_UNSPECIFIED"
-  | "DISABLED"
-  | "ENABLED";
-export const FhirStoreComplexDataTypeReferenceParsingEnum = S.String;
-
-/** Contains the versioned name and the URL for one SearchParameter. */
-export interface SearchParameter {
-  /** The versioned name of the search parameter resource. The format is projects/{project-id}/locations/{location}/datasets/{dataset-id}/fhirStores/{fhirStore-id}/fhir/SearchParameter/{resource-id}/_history/{version-id} For fhir stores with disable_resource_versioning=true, the format is projects/{project-id}/locations/{location}/datasets/{dataset-id}/fhirStores/{fhirStore-id}/fhir/SearchParameter/{resource-id}/ */
-  parameter?: string;
-  /** The canonical url of the search parameter resource. */
-  canonicalUrl?: string;
-}
-export const SearchParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    parameter: S.optional(S.String),
-    canonicalUrl: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SearchParameter",
-}) as any as S.Schema<SearchParameter>;
-
-export type SearchParameterList = Array<SearchParameter>;
-export const SearchParameterList = /*@__PURE__*/ S.Array(
-  SearchParameter,
-) as any as S.Schema<SearchParameterList>;
-
-/** Contains the configuration for FHIR search. */
-export interface SearchConfig {
-  /** A list of search parameters in this FHIR store that are used to configure this FHIR store. */
-  searchParameters?: SearchParameterList;
-}
-export const SearchConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    searchParameters: S.optional(SearchParameterList),
-  }),
-).annotate({ identifier: "SearchConfig" }) as any as S.Schema<SearchConfig>;
+export type ConsentConfigVersionEnum = "CONSENT_ENFORCEMENT_VERSION_UNSPECIFIED" | "V1";
+export const ConsentConfigVersionEnum = S.String;
 
 export type AccessDeterminationLogConfigLogLevelEnum =
   | "LOG_LEVEL_UNSPECIFIED"
@@ -2646,132 +2492,184 @@ export const AccessDeterminationLogConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "AccessDeterminationLogConfig",
 }) as any as S.Schema<AccessDeterminationLogConfig>;
 
-export type ConsentConfigVersionEnum = "CONSENT_ENFORCEMENT_VERSION_UNSPECIFIED" | "V1";
-export const ConsentConfigVersionEnum = S.String;
-
-export type ConsentHeaderHandlingProfileEnum =
-  | "SCOPE_PROFILE_UNSPECIFIED"
-  | "PERMIT_EMPTY_SCOPE"
-  | "REQUIRED_ON_READ";
-export const ConsentHeaderHandlingProfileEnum = S.String;
-
-/** How the server handles the consent header. */
-export interface ConsentHeaderHandling {
-  /** Optional. Specifies the default server behavior when the header is empty. If not specified, the `ScopeProfile.PERMIT_EMPTY_SCOPE` option is used. */
-  profile?: ConsentHeaderHandlingProfileEnum | (string & {});
-}
-export const ConsentHeaderHandling = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    profile: S.optional(ConsentHeaderHandlingProfileEnum),
-  }),
-).annotate({
-  identifier: "ConsentHeaderHandling",
-}) as any as S.Schema<ConsentHeaderHandling>;
-
 /** Configures whether to enforce consent for the FHIR store and which consent enforcement version is being used. */
 export interface ConsentConfig {
-  /** Optional. Specifies how the server logs the consent-aware requests. If not specified, the `AccessDeterminationLogConfig.LogLevel.MINIMUM` option is used. */
-  accessDeterminationLogConfig?: AccessDeterminationLogConfig;
-  /** Output only. The versioned names of the enforced admin Consent resource(s), in the format `projects/{project_id}/locations/{location}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Consent/{resource_id}/_history/{version_id}`. For FHIR stores with `disable_resource_versioning=true`, the format is `projects/{project_id}/locations/{location}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Consent/{resource_id}`. This field can only be updated using ApplyAdminConsents. */
-  enforcedAdminConsents?: StringList;
-  /** Required. Specifies which consent enforcement version is being used for this FHIR store. This field can only be set once by either CreateFhirStore or UpdateFhirStore. After that, you must call ApplyConsents to change the version. */
-  version?: ConsentConfigVersionEnum | (string & {});
   /** Optional. The default value is false. If set to true, when accessing FHIR resources, the consent headers will be verified against consents given by patients. See the ConsentEnforcementVersion for the supported consent headers. */
   accessEnforced?: boolean;
+  /** Output only. The versioned names of the enforced admin Consent resource(s), in the format `projects/{project_id}/locations/{location}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Consent/{resource_id}/_history/{version_id}`. For FHIR stores with `disable_resource_versioning=true`, the format is `projects/{project_id}/locations/{location}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Consent/{resource_id}`. This field can only be updated using ApplyAdminConsents. */
+  enforcedAdminConsents?: StringList;
   /** Optional. Different options to configure the behaviour of the server when handling the `X-Consent-Scope` header. */
   consentHeaderHandling?: ConsentHeaderHandling;
+  /** Required. Specifies which consent enforcement version is being used for this FHIR store. This field can only be set once by either CreateFhirStore or UpdateFhirStore. After that, you must call ApplyConsents to change the version. */
+  version?: ConsentConfigVersionEnum | (string & {});
+  /** Optional. Specifies how the server logs the consent-aware requests. If not specified, the `AccessDeterminationLogConfig.LogLevel.MINIMUM` option is used. */
+  accessDeterminationLogConfig?: AccessDeterminationLogConfig;
 }
 export const ConsentConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    accessDeterminationLogConfig: S.optional(AccessDeterminationLogConfig),
-    enforcedAdminConsents: S.optional(StringList),
-    version: S.optional(ConsentConfigVersionEnum),
     accessEnforced: S.optional(S.Boolean),
+    enforcedAdminConsents: S.optional(StringList),
     consentHeaderHandling: S.optional(ConsentHeaderHandling),
+    version: S.optional(ConsentConfigVersionEnum),
+    accessDeterminationLogConfig: S.optional(AccessDeterminationLogConfig),
   }),
 ).annotate({ identifier: "ConsentConfig" }) as any as S.Schema<ConsentConfig>;
 
-/** The configuration for exporting to Cloud Storage using the bulk export API. */
-export interface BulkExportGcsDestination {
-  /** Optional. URI for a Cloud Storage directory where the server writes result files, in the format `gs://{bucket-id}/{path/to/destination/dir}`. If there is no trailing slash, the service appends one when composing the object path. The user is responsible for creating the Cloud Storage bucket referenced in `uri_prefix`. */
-  uriPrefix?: string;
+export type FhirStoreVersionEnum = "VERSION_UNSPECIFIED" | "DSTU2" | "STU3" | "R4" | "R5";
+export const FhirStoreVersionEnum = S.String;
+
+/** Contains the configuration for FHIR profiles and validation. */
+export interface ValidationConfig {
+  /** Whether to disable reference type validation for incoming resources. The default value is false. Set this to true to disable checking incoming resources for conformance against reference type requirement defined in the FHIR specification. This property only affects resource types that do not have profiles configured for them, any rules in enabled implementation guides will still be enforced. */
+  disableReferenceTypeValidation?: boolean;
+  /** A list of ImplementationGuide URLs in this FHIR store that are used to configure the profiles to use for validation. For example, to use the US Core profiles for validation, set `enabled_implementation_guides` to `["http://hl7.org/fhir/us/core/ImplementationGuide/ig"]`. If `enabled_implementation_guides` is empty or omitted, then incoming resources are only required to conform to the base FHIR profiles. Otherwise, a resource must conform to at least one profile listed in the `global` property of one of the enabled ImplementationGuides. The Cloud Healthcare API does not currently enforce all of the rules in a StructureDefinition. The following rules are supported: - min/max - minValue/maxValue - maxLength - type - fixed[x] - pattern[x] on simple types - slicing, when using "value" as the discriminator type - FHIRPath constraints (only when `enable_fhirpath_profile_validation` is true) When a URL cannot be resolved (for example, in a type assertion), the server does not return an error. */
+  enabledImplementationGuides?: StringList;
+  /** Optional. Whether to enable FHIRPath validation for incoming resource types that have profiles configured for them in the `enabled_implementation_guides` list. Set this to true to enable checking incoming resources for conformance against FHIRPath requirements defined in the configured profiles. */
+  enableFhirpathProfileValidation?: boolean;
+  /** Whether to disable profile validation for this FHIR store. The default value is false. Set this to true to disable checking incoming resources for conformance against StructureDefinitions in this FHIR store. */
+  disableProfileValidation?: boolean;
+  /** Whether to disable FHIRPath validation for incoming resources. The default value is false. Set this to true to disable checking incoming resources for conformance against FHIRPath requirement defined in the FHIR specification. This property only affects resource types that do not have profiles configured for them, any rules in enabled implementation guides will still be enforced. */
+  disableFhirpathValidation?: boolean;
+  /** Whether to disable required fields validation for incoming resources. The default value is false. Set this to true to disable checking incoming resources for conformance against required fields requirement defined in the FHIR specification. This property only affects resource types that do not have profiles configured for them, any rules in enabled implementation guides will still be enforced. */
+  disableRequiredFieldValidation?: boolean;
 }
-export const BulkExportGcsDestination = /*@__PURE__*/ S.suspend(() =>
+export const ValidationConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    uriPrefix: S.optional(S.String),
+    disableReferenceTypeValidation: S.optional(S.Boolean),
+    enabledImplementationGuides: S.optional(StringList),
+    enableFhirpathProfileValidation: S.optional(S.Boolean),
+    disableProfileValidation: S.optional(S.Boolean),
+    disableFhirpathValidation: S.optional(S.Boolean),
+    disableRequiredFieldValidation: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "BulkExportGcsDestination",
-}) as any as S.Schema<BulkExportGcsDestination>;
+).annotate({ identifier: "ValidationConfig" }) as any as S.Schema<ValidationConfig>;
+
+/** Contains the versioned name and the URL for one SearchParameter. */
+export interface SearchParameter {
+  /** The canonical url of the search parameter resource. */
+  canonicalUrl?: string;
+  /** The versioned name of the search parameter resource. The format is projects/{project-id}/locations/{location}/datasets/{dataset-id}/fhirStores/{fhirStore-id}/fhir/SearchParameter/{resource-id}/_history/{version-id} For fhir stores with disable_resource_versioning=true, the format is projects/{project-id}/locations/{location}/datasets/{dataset-id}/fhirStores/{fhirStore-id}/fhir/SearchParameter/{resource-id}/ */
+  parameter?: string;
+}
+export const SearchParameter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    canonicalUrl: S.optional(S.String),
+    parameter: S.optional(S.String),
+  }),
+).annotate({ identifier: "SearchParameter" }) as any as S.Schema<SearchParameter>;
+
+export type SearchParameterList = Array<SearchParameter>;
+export const SearchParameterList = /*@__PURE__*/ S.Array(
+  SearchParameter,
+) as any as S.Schema<SearchParameterList>;
+
+/** Contains the configuration for FHIR search. */
+export interface SearchConfig {
+  /** A list of search parameters in this FHIR store that are used to configure this FHIR store. */
+  searchParameters?: SearchParameterList;
+}
+export const SearchConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    searchParameters: S.optional(SearchParameterList),
+  }),
+).annotate({ identifier: "SearchConfig" }) as any as S.Schema<SearchConfig>;
+
+/** Contains the configuration for FHIR notifications. */
+export interface FhirNotificationConfig {
+  /** The [Pub/Sub](https://cloud.google.com/pubsub/docs/) topic that notifications of changes are published on. Supplied by the client. The notification is a `PubsubMessage` with the following fields: * `PubsubMessage.Data` contains the resource name. * `PubsubMessage.MessageId` is the ID of this notification. It is guaranteed to be unique within the topic. * `PubsubMessage.PublishTime` is the time when the message was published. Note that notifications are only sent if the topic is non-empty. [Topic names](https://cloud.google.com/pubsub/docs/overview#names) must be scoped to a project. The Cloud Healthcare API service account, service-@gcp-sa-healthcare.iam.gserviceaccount.com, must have publisher permissions on the given Pub/Sub topic. Not having adequate permissions causes the calls that send notifications to fail (https://cloud.google.com/healthcare-api/docs/permissions-healthcare-api-gcp-products#dicom_fhir_and_hl7v2_store_cloud_pubsub_permissions). If a notification can't be published to Pub/Sub, errors are logged to Cloud Logging. For more information, see [Viewing error logs in Cloud Logging](https://cloud.google.com/healthcare-api/docs/how-tos/logging). */
+  pubsubTopic?: string;
+  /** Whether to send full FHIR resource to this Pub/Sub topic for Create and Update operation. The default value is false. Note that setting this to true does not guarantee that all resources will be sent in the format of full FHIR resource. When a resource change is too large or during heavy traffic, only the resource name will be sent. Clients should always check the "payloadType" label from a Pub/Sub message to determine whether it needs to fetch the full resource as a separate operation. */
+  sendFullResource?: boolean;
+  /** Whether to send full FHIR resource to this Pub/Sub topic for deleting FHIR resource. The default value is false. Note that setting this to true does not guarantee that all previous resources will be sent in the format of full FHIR resource. When a resource change is too large or during heavy traffic, only the resource name will be sent. Clients should always check the "payloadType" label from a Pub/Sub message to determine whether it needs to fetch the full previous resource as a separate operation. */
+  sendPreviousResourceOnDelete?: boolean;
+}
+export const FhirNotificationConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pubsubTopic: S.optional(S.String),
+    sendFullResource: S.optional(S.Boolean),
+    sendPreviousResourceOnDelete: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "FhirNotificationConfig" }) as any as S.Schema<FhirNotificationConfig>;
+
+export type FhirNotificationConfigList = Array<FhirNotificationConfig>;
+export const FhirNotificationConfigList = /*@__PURE__*/ S.Array(
+  FhirNotificationConfig,
+) as any as S.Schema<FhirNotificationConfigList>;
+
+export type FhirStoreComplexDataTypeReferenceParsingEnum =
+  | "COMPLEX_DATA_TYPE_REFERENCE_PARSING_UNSPECIFIED"
+  | "DISABLED"
+  | "ENABLED";
+export const FhirStoreComplexDataTypeReferenceParsingEnum = S.String;
 
 /** Represents a FHIR store. */
 export interface FhirStore {
-  /** A list of streaming configs that configure the destinations of streaming export for every resource mutation in this FHIR store. Each store is allowed to have up to 10 streaming configs. After a new config is added, the next resource mutation is streamed to the new location in addition to the existing ones. When a location is removed from the list, the server stops streaming to that location. Before adding a new config, you must add the required [`bigquery.dataEditor`](https://cloud.google.com/bigquery/docs/access-control#bigquery.dataEditor) role to your project's **Cloud Healthcare Service Agent** [service account](https://cloud.google.com/iam/docs/service-accounts). Some lag (typically on the order of dozens of seconds) is expected before the results show up in the streaming destination. */
-  streamConfigs?: StreamConfigList;
-  /** Configuration for how to validate incoming FHIR resources against configured profiles. */
-  validationConfig?: ValidationConfig;
-  /** Required. Immutable. The FHIR specification version that this FHIR store supports natively. This field is immutable after store creation. Requests are rejected if they contain FHIR resources of a different version. Version is required for every FHIR store. */
-  version?: FhirStoreVersionEnum | (string & {});
-  /** Deprecated. Use `notification_configs` instead. If non-empty, publish all resource modifications of this FHIR store to this destination. The Pub/Sub message attributes contain a map with a string describing the action that has triggered the notification. For example, "action":"CreateResource". Not supported in R5. Use `notification_configs` instead. */
-  notificationConfig?: NotificationConfig;
   /** Immutable. Whether to disable referential integrity in this FHIR store. This field is immutable after FHIR store creation. The default value is false, meaning that the API enforces referential integrity and fails the requests that result in inconsistent state in the FHIR store. When this field is set to true, the API skips referential integrity checks. Consequently, operations that rely on references, such as GetPatientEverything, do not return all the results if broken references exist. */
   disableReferentialIntegrity?: boolean;
+  /** Deprecated. Use `notification_configs` instead. If non-empty, publish all resource modifications of this FHIR store to this destination. The Pub/Sub message attributes contain a map with a string describing the action that has triggered the notification. For example, "action":"CreateResource". Not supported in R5. Use `notification_configs` instead. */
+  notificationConfig?: NotificationConfig;
+  /** Optional. FHIR bulk export exports resources to the specified Cloud Storage destination. A Cloud Storage destination is a URI for a Cloud Storage directory where result files will be written. Only used in the spec-defined bulk $export methods. The Cloud Healthcare Service Agent requires the `roles/storage.objectAdmin` Cloud IAM role on the destination. */
+  bulkExportGcsDestination?: BulkExportGcsDestination;
+  /** If true, overrides the default search behavior for this FHIR store to `handling=strict` which returns an error for unrecognized search parameters. If false, uses the FHIR specification default `handling=lenient` which ignores unrecognized search parameters. The handling can always be changed from the default on an individual API call by setting the HTTP header `Prefer: handling=strict` or `Prefer: handling=lenient`. Defaults to false. */
+  defaultSearchHandlingStrict?: boolean;
+  /** Immutable. Whether to disable resource versioning for this FHIR store. This field can not be changed after the creation of FHIR store. If set to false, all write operations cause historical versions to be recorded automatically. The historical versions can be fetched through the history APIs, but cannot be updated. If set to true, no historical versions are kept. The server sends errors for attempts to read the historical versions. Defaults to false. */
+  disableResourceVersioning?: boolean;
+  /** A list of streaming configs that configure the destinations of streaming export for every resource mutation in this FHIR store. Each store is allowed to have up to 10 streaming configs. After a new config is added, the next resource mutation is streamed to the new location in addition to the existing ones. When a location is removed from the list, the server stops streaming to that location. Before adding a new config, you must add the required [`bigquery.dataEditor`](https://cloud.google.com/bigquery/docs/access-control#bigquery.dataEditor) role to your project's **Cloud Healthcare Service Agent** [service account](https://cloud.google.com/iam/docs/service-accounts). Some lag (typically on the order of dozens of seconds) is expected before the results show up in the streaming destination. */
+  streamConfigs?: StreamConfigList;
+  /** Optional. Specifies whether this store has consent enforcement. Not available for DSTU2 FHIR version due to absence of Consent resources. Not supported for R5 FHIR version. */
+  consentConfig?: ConsentConfig;
+  /** Output only. Identifier. Resource name of the FHIR store, of the form `projects/{project_id}/locations/{location}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
+  name?: string;
+  /** Optional. Whether to allow the [ImportResourcesHistory] and [ExecuteBundle] APIs to accept history bundles, and directly insert and overwrite historical resource versions into the FHIR store. Changing resource histories creates resource interactions that have occurred in the past which clients might not allow. If set to false, [ImportResourcesHistory] and [ExecuteBundle] requests will return errors. */
+  enableHistoryModifications?: boolean;
+  /** Required. Immutable. The FHIR specification version that this FHIR store supports natively. This field is immutable after store creation. Requests are rejected if they contain FHIR resources of a different version. Version is required for every FHIR store. */
+  version?: FhirStoreVersionEnum | (string & {});
+  /** Whether this FHIR store has the [updateCreate capability](https://www.hl7.org/fhir/capabilitystatement-definitions.html#CapabilityStatement.rest.resource.updateCreate). This determines if the client can use an Update operation to create a new resource with a client-specified ID. If false, all IDs are server-assigned through the Create operation and attempts to update a non-existent resource return errors. It is strongly advised not to include or encode any sensitive data such as patient identifiers in client-specified resource IDs. Those IDs are part of the FHIR resource path recorded in Cloud audit logs and Pub/Sub notifications. Those IDs can also be contained in reference fields within other resources. Defaults to false. */
+  enableUpdateCreate?: boolean;
+  /** User-supplied key-value pairs used to organize FHIR stores. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62} Label values are optional, must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63} No more than 64 labels can be associated with a given store. */
+  labels?: StringMap;
+  /** Configuration for how to validate incoming FHIR resources against configured profiles. */
+  validationConfig?: ValidationConfig;
+  /** Configuration for how FHIR resources can be searched. */
+  searchConfig?: SearchConfig;
   /** Specifies where and whether to send notifications upon changes to a Fhir store. */
   notificationConfigs?: FhirNotificationConfigList;
   /** Enable parsing of references within complex FHIR data types such as Extensions. If this value is set to ENABLED, then features like referential integrity and Bundle reference rewriting apply to all references. If this flag has not been specified the behavior of the FHIR store will not change, references in complex data types will not be parsed. New stores will have this value set to ENABLED after a notification period. Warning: turning on this flag causes processing existing resources to fail if they contain references to non-existent resources. Cannot be disabled in R5. */
   complexDataTypeReferenceParsing?: FhirStoreComplexDataTypeReferenceParsingEnum | (string & {});
-  /** Configuration for how FHIR resources can be searched. */
-  searchConfig?: SearchConfig;
-  /** Optional. Whether to allow the [ImportResourcesHistory] and [ExecuteBundle] APIs to accept history bundles, and directly insert and overwrite historical resource versions into the FHIR store. Changing resource histories creates resource interactions that have occurred in the past which clients might not allow. If set to false, [ImportResourcesHistory] and [ExecuteBundle] requests will return errors. */
-  enableHistoryModifications?: boolean;
-  /** User-supplied key-value pairs used to organize FHIR stores. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62} Label values are optional, must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63} No more than 64 labels can be associated with a given store. */
-  labels?: StringMap;
-  /** Whether this FHIR store has the [updateCreate capability](https://www.hl7.org/fhir/capabilitystatement-definitions.html#CapabilityStatement.rest.resource.updateCreate). This determines if the client can use an Update operation to create a new resource with a client-specified ID. If false, all IDs are server-assigned through the Create operation and attempts to update a non-existent resource return errors. It is strongly advised not to include or encode any sensitive data such as patient identifiers in client-specified resource IDs. Those IDs are part of the FHIR resource path recorded in Cloud audit logs and Pub/Sub notifications. Those IDs can also be contained in reference fields within other resources. Defaults to false. */
-  enableUpdateCreate?: boolean;
-  /** Optional. Specifies whether this store has consent enforcement. Not available for DSTU2 FHIR version due to absence of Consent resources. Not supported for R5 FHIR version. */
-  consentConfig?: ConsentConfig;
-  /** Immutable. Whether to disable resource versioning for this FHIR store. This field can not be changed after the creation of FHIR store. If set to false, all write operations cause historical versions to be recorded automatically. The historical versions can be fetched through the history APIs, but cannot be updated. If set to true, no historical versions are kept. The server sends errors for attempts to read the historical versions. Defaults to false. */
-  disableResourceVersioning?: boolean;
-  /** If true, overrides the default search behavior for this FHIR store to `handling=strict` which returns an error for unrecognized search parameters. If false, uses the FHIR specification default `handling=lenient` which ignores unrecognized search parameters. The handling can always be changed from the default on an individual API call by setting the HTTP header `Prefer: handling=strict` or `Prefer: handling=lenient`. Defaults to false. */
-  defaultSearchHandlingStrict?: boolean;
-  /** Optional. FHIR bulk export exports resources to the specified Cloud Storage destination. A Cloud Storage destination is a URI for a Cloud Storage directory where result files will be written. Only used in the spec-defined bulk $export methods. The Cloud Healthcare Service Agent requires the `roles/storage.objectAdmin` Cloud IAM role on the destination. */
-  bulkExportGcsDestination?: BulkExportGcsDestination;
-  /** Output only. Identifier. Resource name of the FHIR store, of the form `projects/{project_id}/locations/{location}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
-  name?: string;
 }
 export const FhirStore = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    streamConfigs: S.optional(StreamConfigList),
-    validationConfig: S.optional(ValidationConfig),
-    version: S.optional(FhirStoreVersionEnum),
-    notificationConfig: S.optional(NotificationConfig),
     disableReferentialIntegrity: S.optional(S.Boolean),
+    notificationConfig: S.optional(NotificationConfig),
+    bulkExportGcsDestination: S.optional(BulkExportGcsDestination),
+    defaultSearchHandlingStrict: S.optional(S.Boolean),
+    disableResourceVersioning: S.optional(S.Boolean),
+    streamConfigs: S.optional(StreamConfigList),
+    consentConfig: S.optional(ConsentConfig),
+    name: S.optional(S.String),
+    enableHistoryModifications: S.optional(S.Boolean),
+    version: S.optional(FhirStoreVersionEnum),
+    enableUpdateCreate: S.optional(S.Boolean),
+    labels: S.optional(StringMap),
+    validationConfig: S.optional(ValidationConfig),
+    searchConfig: S.optional(SearchConfig),
     notificationConfigs: S.optional(FhirNotificationConfigList),
     complexDataTypeReferenceParsing: S.optional(FhirStoreComplexDataTypeReferenceParsingEnum),
-    searchConfig: S.optional(SearchConfig),
-    enableHistoryModifications: S.optional(S.Boolean),
-    labels: S.optional(StringMap),
-    enableUpdateCreate: S.optional(S.Boolean),
-    consentConfig: S.optional(ConsentConfig),
-    disableResourceVersioning: S.optional(S.Boolean),
-    defaultSearchHandlingStrict: S.optional(S.Boolean),
-    bulkExportGcsDestination: S.optional(BulkExportGcsDestination),
-    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "FhirStore" }) as any as S.Schema<FhirStore>;
 
 export interface CreateProjectsLocationsDatasetsFhirStoresRequest {
-  /** Required. The name of the dataset this FHIR store belongs to. */
-  parent: string;
   /** Required. The ID of the FHIR store that is being created. The string must match the following regex: `[\p{L}\p{N}_\-\.]{1,256}`. */
   fhirStoreId?: string;
+  /** Required. The name of the dataset this FHIR store belongs to. */
+  parent: string;
   /** Request body */
   body?: FhirStore;
 }
 export const CreateProjectsLocationsDatasetsFhirStoresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     fhirStoreId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(FhirStore.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2823,30 +2721,30 @@ export const SchemaPackageSchematizedParsingTypeEnum = S.String;
 
 /** An HL7v2 Segment. */
 export interface SchemaSegment {
-  /** The Segment type. For example, "PID". */
-  type?: string;
-  /** The minimum number of times this segment can be present in this group. */
-  minOccurs?: number;
   /** The maximum number of times this segment can be present in this group. 0 or -1 means unbounded. */
   maxOccurs?: number;
+  /** The minimum number of times this segment can be present in this group. */
+  minOccurs?: number;
+  /** The Segment type. For example, "PID". */
+  type?: string;
 }
 export const SchemaSegment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.optional(S.String),
-    minOccurs: S.optional(S.Number),
     maxOccurs: S.optional(S.Number),
+    minOccurs: S.optional(S.Number),
+    type: S.optional(S.String),
   }),
 ).annotate({ identifier: "SchemaSegment" }) as any as S.Schema<SchemaSegment>;
 
 /** Construct representing a logical group or a segment. */
 export interface GroupOrSegment {
-  segment?: SchemaSegment;
   group?: SchemaGroup;
+  segment?: SchemaSegment;
 }
 export const GroupOrSegment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    segment: S.optional(SchemaSegment),
     group: S.optional(S.suspend(() => SchemaGroup)),
+    segment: S.optional(SchemaSegment),
   }),
 ).annotate({ identifier: "GroupOrSegment" }) as any as S.Schema<GroupOrSegment>;
 
@@ -2857,24 +2755,24 @@ export const GroupOrSegmentList = /*@__PURE__*/ S.Array(
 
 /** An HL7v2 logical group construct. */
 export interface SchemaGroup {
-  /** The name of this group. For example, "ORDER_DETAIL". */
-  name?: string;
-  /** The minimum number of times this group must be present/repeated. */
-  minOccurs?: number;
+  /** Nested groups and/or segments. */
+  members?: GroupOrSegmentList;
   /** The maximum number of times this group can be repeated. 0 or -1 means unbounded. */
   maxOccurs?: number;
   /** True indicates that this is a choice group, meaning that only one of its segments can exist in a given message. */
   choice?: boolean;
-  /** Nested groups and/or segments. */
-  members?: GroupOrSegmentList;
+  /** The minimum number of times this group must be present/repeated. */
+  minOccurs?: number;
+  /** The name of this group. For example, "ORDER_DETAIL". */
+  name?: string;
 }
 export const SchemaGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    minOccurs: S.optional(S.Number),
+    members: S.optional(GroupOrSegmentList),
     maxOccurs: S.optional(S.Number),
     choice: S.optional(S.Boolean),
-    members: S.optional(GroupOrSegmentList),
+    minOccurs: S.optional(S.Number),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "SchemaGroup" }) as any as S.Schema<SchemaGroup>;
 
@@ -2886,15 +2784,15 @@ export const SchemaGroupMap = /*@__PURE__*/ S.Record(
 
 /** Describes a selector for extracting and matching an MSH field to a value. */
 export interface VersionSource {
-  /** The field to extract from the MSH segment. For example, "3.1" or "18[1].1". */
-  mshField?: string;
   /** The value to match with the field. For example, "My Application Name" or "2.3". */
   value?: string;
+  /** The field to extract from the MSH segment. For example, "3.1" or "18[1].1". */
+  mshField?: string;
 }
 export const VersionSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mshField: S.optional(S.String),
     value: S.optional(S.String),
+    mshField: S.optional(S.String),
   }),
 ).annotate({ identifier: "VersionSource" }) as any as S.Schema<VersionSource>;
 
@@ -2915,9 +2813,7 @@ export const Hl7SchemaConfig = /*@__PURE__*/ S.suspend(() =>
     messageSchemaConfigs: S.optional(SchemaGroupMap),
     version: S.optional(VersionSourceList),
   }),
-).annotate({
-  identifier: "Hl7SchemaConfig",
-}) as any as S.Schema<Hl7SchemaConfig>;
+).annotate({ identifier: "Hl7SchemaConfig" }) as any as S.Schema<Hl7SchemaConfig>;
 
 export type Hl7SchemaConfigList = Array<Hl7SchemaConfig>;
 export const Hl7SchemaConfigList = /*@__PURE__*/ S.Array(
@@ -2926,24 +2822,24 @@ export const Hl7SchemaConfigList = /*@__PURE__*/ S.Array(
 
 /** A (sub) field of a type. */
 export interface Field {
+  /** The maximum number of times this field can be repeated. 0 or -1 means unbounded. */
+  maxOccurs?: number;
   /** The name of the field. For example, "PID-1" or just "1". */
   name?: string;
+  /** The minimum number of times this field must be present/repeated. */
+  minOccurs?: number;
   /** The type of this field. A Type with this name must be defined in an Hl7TypesConfig. */
   type?: string;
   /** The HL7v2 table this field refers to. For example, PID-15 (Patient's Primary Language) usually refers to table "0296". */
   table?: string;
-  /** The minimum number of times this field must be present/repeated. */
-  minOccurs?: number;
-  /** The maximum number of times this field can be repeated. 0 or -1 means unbounded. */
-  maxOccurs?: number;
 }
 export const Field = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    maxOccurs: S.optional(S.Number),
     name: S.optional(S.String),
+    minOccurs: S.optional(S.Number),
     type: S.optional(S.String),
     table: S.optional(S.String),
-    minOccurs: S.optional(S.Number),
-    maxOccurs: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Field" }) as any as S.Schema<Field>;
 
@@ -3000,18 +2896,18 @@ export interface SchemaPackage {
   schematizedParsingType?: SchemaPackageSchematizedParsingTypeEnum | (string & {});
   /** Schema configs that are layered based on their VersionSources that match the incoming message. Schema configs present in higher indices override those in lower indices with the same message type and trigger event if their VersionSources all match an incoming message. */
   schemas?: Hl7SchemaConfigList;
-  /** Schema type definitions that are layered based on their VersionSources that match the incoming message. Type definitions present in higher indices override those in lower indices with the same type name if their VersionSources all match an incoming message. */
-  types?: Hl7TypesConfigList;
   /** Flag to ignore all min_occurs restrictions in the schema. This means that incoming messages can omit any group, segment, field, component, or subcomponent. */
   ignoreMinOccurs?: boolean;
+  /** Schema type definitions that are layered based on their VersionSources that match the incoming message. Type definitions present in higher indices override those in lower indices with the same type name if their VersionSources all match an incoming message. */
+  types?: Hl7TypesConfigList;
 }
 export const SchemaPackage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     unexpectedSegmentHandling: S.optional(SchemaPackageUnexpectedSegmentHandlingEnum),
     schematizedParsingType: S.optional(SchemaPackageSchematizedParsingTypeEnum),
     schemas: S.optional(Hl7SchemaConfigList),
-    types: S.optional(Hl7TypesConfigList),
     ignoreMinOccurs: S.optional(S.Boolean),
+    types: S.optional(Hl7TypesConfigList),
   }),
 ).annotate({ identifier: "SchemaPackage" }) as any as S.Schema<SchemaPackage>;
 
@@ -3020,10 +2916,10 @@ export const ParserConfigVersionEnum = S.String;
 
 /** The configuration for the parser. It determines how the server parses the messages. */
 export interface ParserConfig {
-  /** Byte(s) to use as the segment terminator. If this is unset, '\r' is used as segment terminator, matching the HL7 version 2 specification. */
-  segmentTerminator?: string;
   /** Schemas used to parse messages in this store, if schematized parsing is desired. */
   schema?: SchemaPackage;
+  /** Byte(s) to use as the segment terminator. If this is unset, '\r' is used as segment terminator, matching the HL7 version 2 specification. */
+  segmentTerminator?: string;
   /** Determines whether messages with no header are allowed. */
   allowNullHeader?: boolean;
   /** Immutable. Determines the version of both the default parser to be used when `schema` is not given, as well as the schematized parser used when `schema` is specified. This field is immutable after HL7v2 store creation. */
@@ -3031,8 +2927,8 @@ export interface ParserConfig {
 }
 export const ParserConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    segmentTerminator: S.optional(S.String),
     schema: S.optional(SchemaPackage),
+    segmentTerminator: S.optional(S.String),
     allowNullHeader: S.optional(S.Boolean),
     version: S.optional(ParserConfigVersionEnum),
   }),
@@ -3040,19 +2936,17 @@ export const ParserConfig = /*@__PURE__*/ S.suspend(() =>
 
 /** Specifies where and whether to send notifications upon changes to a data store. */
 export interface Hl7V2NotificationConfig {
-  /** The [Pub/Sub](https://cloud.google.com/pubsub/docs/) topic that notifications of changes are published on. Supplied by the client. The notification is a `PubsubMessage` with the following fields: * `PubsubMessage.Data` contains the resource name. * `PubsubMessage.MessageId` is the ID of this notification. It is guaranteed to be unique within the topic. * `PubsubMessage.PublishTime` is the time when the message was published. Note that notifications are only sent if the topic is non-empty. [Topic names](https://cloud.google.com/pubsub/docs/overview#names) must be scoped to a project. Cloud Healthcare API service account must have publisher permissions on the given Pub/Sub topic. Not having adequate permissions causes the calls that send notifications to fail. If a notification can't be published to Pub/Sub, errors are logged to Cloud Logging. For more information, see [Viewing error logs in Cloud Logging](https://cloud.google.com/healthcare/docs/how-tos/logging). */
-  pubsubTopic?: string;
   /** Restricts notifications sent for messages matching a filter. If this is empty, all messages are matched. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in `yyyy-mm-dd` form. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, it's just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. Fields/functions available for filtering are: * `message_type`, from the MSH-9.1 field. For example, `NOT message_type = "ADT"`. * `send_date` or `sendDate`, the YYYY-MM-DD date the message was sent in the dataset's time_zone, from the MSH-7 segment. For example, `send_date < "2017-01-02"`. * `send_time`, the timestamp when the message was sent, using the RFC3339 time format for comparisons, from the MSH-7 segment. For example, `send_time < "2017-01-02T00:00:00-05:00"`. * `create_time`, the timestamp when the message was created in the HL7v2 store. Use the RFC3339 time format for comparisons. For example, `create_time < "2017-01-02T00:00:00-05:00"`. * `send_facility`, the care center that the message came from, from the MSH-4 segment. For example, `send_facility = "ABC"`. * `PatientId(value, type)`, which matches if the message lists a patient having an ID of the given value and type in the PID-2, PID-3, or PID-4 segments. For example, `PatientId("123456", "MRN")`. * `labels.x`, a string value of the label with key `x` as set using the Message.labels map. For example, `labels."priority"="high"`. The operator `:*` can be used to assert the existence of a label. For example, `labels."priority":*`. */
   filter?: string;
+  /** The [Pub/Sub](https://cloud.google.com/pubsub/docs/) topic that notifications of changes are published on. Supplied by the client. The notification is a `PubsubMessage` with the following fields: * `PubsubMessage.Data` contains the resource name. * `PubsubMessage.MessageId` is the ID of this notification. It is guaranteed to be unique within the topic. * `PubsubMessage.PublishTime` is the time when the message was published. Note that notifications are only sent if the topic is non-empty. [Topic names](https://cloud.google.com/pubsub/docs/overview#names) must be scoped to a project. Cloud Healthcare API service account must have publisher permissions on the given Pub/Sub topic. Not having adequate permissions causes the calls that send notifications to fail. If a notification can't be published to Pub/Sub, errors are logged to Cloud Logging. For more information, see [Viewing error logs in Cloud Logging](https://cloud.google.com/healthcare/docs/how-tos/logging). */
+  pubsubTopic?: string;
 }
 export const Hl7V2NotificationConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pubsubTopic: S.optional(S.String),
     filter: S.optional(S.String),
+    pubsubTopic: S.optional(S.String),
   }),
-).annotate({
-  identifier: "Hl7V2NotificationConfig",
-}) as any as S.Schema<Hl7V2NotificationConfig>;
+).annotate({ identifier: "Hl7V2NotificationConfig" }) as any as S.Schema<Hl7V2NotificationConfig>;
 
 export type Hl7V2NotificationConfigList = Array<Hl7V2NotificationConfig>;
 export const Hl7V2NotificationConfigList = /*@__PURE__*/ S.Array(
@@ -3061,42 +2955,42 @@ export const Hl7V2NotificationConfigList = /*@__PURE__*/ S.Array(
 
 /** Represents an HL7v2 store. */
 export interface Hl7V2Store {
-  /** Identifier. Resource name of the HL7v2 store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7V2Stores/{hl7v2_store_id}`. */
-  name?: string;
-  /** The notification destination all messages (both Ingest & Create) are published on. Only the message name is sent as part of the notification. If this is unset, no notifications are sent. Supplied by the client. */
-  notificationConfig?: NotificationConfig;
   /** The configuration for the parser. It determines how the server parses the messages. */
   parserConfig?: ParserConfig;
-  /** User-supplied key-value pairs used to organize HL7v2 stores. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62} Label values are optional, must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63} No more than 64 labels can be associated with a given store. */
-  labels?: StringMap;
   /** Determines whether to reject duplicate messages. A duplicate message is a message with the same raw bytes as a message that has already been ingested/created in this HL7v2 store. The default value is false, meaning that the store accepts the duplicate messages and it also returns the same ACK message in the IngestMessageResponse as has been returned previously. Note that only one resource is created in the store. When this field is set to true, CreateMessage/IngestMessage requests with a duplicate message will be rejected by the store, and IngestMessageErrorDetail returns a NACK message upon rejection. */
   rejectDuplicateMessage?: boolean;
   /** A list of notification configs. Each configuration uses a filter to determine whether to publish a message (both Ingest & Create) on the corresponding notification destination. Only the message name is sent as part of the notification. Supplied by the client. */
   notificationConfigs?: Hl7V2NotificationConfigList;
+  /** User-supplied key-value pairs used to organize HL7v2 stores. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62} Label values are optional, must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63} No more than 64 labels can be associated with a given store. */
+  labels?: StringMap;
+  /** Identifier. Resource name of the HL7v2 store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7V2Stores/{hl7v2_store_id}`. */
+  name?: string;
+  /** The notification destination all messages (both Ingest & Create) are published on. Only the message name is sent as part of the notification. If this is unset, no notifications are sent. Supplied by the client. */
+  notificationConfig?: NotificationConfig;
 }
 export const Hl7V2Store = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    notificationConfig: S.optional(NotificationConfig),
     parserConfig: S.optional(ParserConfig),
-    labels: S.optional(StringMap),
     rejectDuplicateMessage: S.optional(S.Boolean),
     notificationConfigs: S.optional(Hl7V2NotificationConfigList),
+    labels: S.optional(StringMap),
+    name: S.optional(S.String),
+    notificationConfig: S.optional(NotificationConfig),
   }),
 ).annotate({ identifier: "Hl7V2Store" }) as any as S.Schema<Hl7V2Store>;
 
 export interface CreateProjectsLocationsDatasetsHl7V2StoresRequest {
-  /** Required. The ID of the HL7v2 store that is being created. The string must match the following regex: `[\p{L}\p{N}_\-\.]{1,256}`. */
-  hl7V2StoreId?: string;
   /** Required. The name of the dataset this HL7v2 store belongs to. */
   parent: string;
+  /** Required. The ID of the HL7v2 store that is being created. The string must match the following regex: `[\p{L}\p{N}_\-\.]{1,256}`. */
+  hl7V2StoreId?: string;
   /** Request body */
   body?: Hl7V2Store;
 }
 export const CreateProjectsLocationsDatasetsHl7V2StoresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    hl7V2StoreId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    hl7V2StoreId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Hl7V2Store.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -3118,9 +3012,7 @@ export const CreateMessageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(Message),
   }),
-).annotate({
-  identifier: "CreateMessageRequest",
-}) as any as S.Schema<CreateMessageRequest>;
+).annotate({ identifier: "CreateMessageRequest" }) as any as S.Schema<CreateMessageRequest>;
 
 export interface CreateProjectsLocationsDatasetsHl7V2StoresMessagesRequest {
   /** Required. The name of the HL7v2 store this message belongs to. */
@@ -3146,22 +3038,20 @@ export const CreateProjectsLocationsDatasetsHl7V2StoresMessagesRequest = /*@__PU
 
 /** Redacts identifying information from the specified dataset. */
 export interface DeidentifyDatasetRequest {
-  /** Required. The name of the dataset resource to create and write the redacted data to. * The destination dataset must not exist. * The destination dataset must be in the same location as the source dataset. De-identifying data across multiple locations is not supported. */
-  destinationDataset?: string;
-  /** Deidentify configuration. Only one of `config` and `gcs_config_uri` can be specified. */
-  config?: DeidentifyConfig;
   /** Cloud Storage location to read the JSON cloud.healthcare.deidentify.DeidentifyConfig from, overriding the default config. Must be of the form `gs://{bucket_id}/path/to/object`. The Cloud Storage location must grant the Cloud IAM role `roles/storage.objectViewer` to the project's Cloud Healthcare Service Agent service account. Only one of `config` and `gcs_config_uri` can be specified. */
   gcsConfigUri?: string;
+  /** Deidentify configuration. Only one of `config` and `gcs_config_uri` can be specified. */
+  config?: DeidentifyConfig;
+  /** Required. The name of the dataset resource to create and write the redacted data to. * The destination dataset must not exist. * The destination dataset must be in the same location as the source dataset. De-identifying data across multiple locations is not supported. */
+  destinationDataset?: string;
 }
 export const DeidentifyDatasetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    destinationDataset: S.optional(S.String),
-    config: S.optional(DeidentifyConfig),
     gcsConfigUri: S.optional(S.String),
+    config: S.optional(DeidentifyConfig),
+    destinationDataset: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeidentifyDatasetRequest",
-}) as any as S.Schema<DeidentifyDatasetRequest>;
+).annotate({ identifier: "DeidentifyDatasetRequest" }) as any as S.Schema<DeidentifyDatasetRequest>;
 
 export interface DeidentifyProjectsLocationsDatasetsRequest {
   /** Required. Source dataset resource name. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}`. R5 FHIR stores are not supported and will be skipped. */
@@ -3193,26 +3083,24 @@ export const DicomFilterConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourcePathsGcsUri: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DicomFilterConfig",
-}) as any as S.Schema<DicomFilterConfig>;
+).annotate({ identifier: "DicomFilterConfig" }) as any as S.Schema<DicomFilterConfig>;
 
 /** Creates a new DICOM store with sensitive information de-identified. */
 export interface DeidentifyDicomStoreRequest {
   /** Deidentify configuration. Only one of `config` and `gcs_config_uri` can be specified. */
   config?: DeidentifyConfig;
-  /** Cloud Storage location to read the JSON cloud.healthcare.deidentify.DeidentifyConfig from, overriding the default config. Must be of the form `gs://{bucket_id}/path/to/object`. The Cloud Storage location must grant the Cloud IAM role `roles/storage.objectViewer` to the project's Cloud Healthcare Service Agent service account. Only one of `config` and `gcs_config_uri` can be specified. */
-  gcsConfigUri?: string;
   /** Filter configuration. */
   filterConfig?: DicomFilterConfig;
+  /** Cloud Storage location to read the JSON cloud.healthcare.deidentify.DeidentifyConfig from, overriding the default config. Must be of the form `gs://{bucket_id}/path/to/object`. The Cloud Storage location must grant the Cloud IAM role `roles/storage.objectViewer` to the project's Cloud Healthcare Service Agent service account. Only one of `config` and `gcs_config_uri` can be specified. */
+  gcsConfigUri?: string;
   /** Required. The name of the DICOM store to write the redacted data to. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. * The destination dataset and DICOM store must exist. * The source dataset and destination dataset must both reside in the same location. De-identifying data across multiple locations is not supported. * The caller must have the healthcare.dicomStores.dicomWebWrite permission to write to the destination DICOM store. */
   destinationStore?: string;
 }
 export const DeidentifyDicomStoreRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     config: S.optional(DeidentifyConfig),
-    gcsConfigUri: S.optional(S.String),
     filterConfig: S.optional(DicomFilterConfig),
+    gcsConfigUri: S.optional(S.String),
     destinationStore: S.optional(S.String),
   }),
 ).annotate({
@@ -3264,23 +3152,23 @@ export const FhirFilter = /*@__PURE__*/ S.suspend(() =>
 
 /** Creates a new FHIR store with sensitive information de-identified. */
 export interface DeidentifyFhirStoreRequest {
-  /** Required. The name of the FHIR store to write the redacted data to. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. * The destination dataset and FHIR store must exist. * The source dataset and destination dataset must both reside in the same location. De-identifying data across multiple locations is not supported. * The caller must have the healthcare.fhirResources.update permission to write to the destination FHIR store. */
-  destinationStore?: string;
   /** Deidentify configuration. Only one of `config` and `gcs_config_uri` can be specified. */
   config?: DeidentifyConfig;
   /** A filter specifying the resources to include in the output. If not specified, all resources are included in the output. */
   resourceFilter?: FhirFilter;
   /** Cloud Storage location to read the JSON cloud.healthcare.deidentify.DeidentifyConfig from, overriding the default config. Must be of the form `gs://{bucket_id}/path/to/object`. The Cloud Storage location must grant the Cloud IAM role `roles/storage.objectViewer` to the project's Cloud Healthcare Service Agent service account. Only one of `config` and `gcs_config_uri` can be specified. */
   gcsConfigUri?: string;
+  /** Required. The name of the FHIR store to write the redacted data to. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. * The destination dataset and FHIR store must exist. * The source dataset and destination dataset must both reside in the same location. De-identifying data across multiple locations is not supported. * The caller must have the healthcare.fhirResources.update permission to write to the destination FHIR store. */
+  destinationStore?: string;
   /** If true, skips resources that are created or modified after the de-identify operation is created. */
   skipModifiedResources?: boolean;
 }
 export const DeidentifyFhirStoreRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    destinationStore: S.optional(S.String),
     config: S.optional(DeidentifyConfig),
     resourceFilter: S.optional(FhirFilter),
     gcsConfigUri: S.optional(S.String),
+    destinationStore: S.optional(S.String),
     skipModifiedResources: S.optional(S.Boolean),
   }),
 ).annotate({
@@ -3308,11 +3196,11 @@ export const DeidentifyProjectsLocationsDatasetsFhirStoresRequest = /*@__PURE__*
   identifier: "DeidentifyProjectsLocationsDatasetsFhirStoresRequest",
 }) as any as S.Schema<DeidentifyProjectsLocationsDatasetsFhirStoresRequest>;
 
-export interface Delete_fhir_operationProjectsLocationsDatasetsFhirStoresOperationsRequest {
+export interface DeleteFhirOperationProjectsLocationsDatasetsFhirStoresOperationsRequest {
   /** Required. Name of the operation to be deleted, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/operations/{operation_id}`. */
   name: string;
 }
-export const Delete_fhir_operationProjectsLocationsDatasetsFhirStoresOperationsRequest =
+export const DeleteFhirOperationProjectsLocationsDatasetsFhirStoresOperationsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       name: S.String.pipe(T.Label()),
@@ -3324,8 +3212,8 @@ export const Delete_fhir_operationProjectsLocationsDatasetsFhirStoresOperationsR
       }),
     ),
   ).annotate({
-    identifier: "Delete_fhir_operationProjectsLocationsDatasetsFhirStoresOperationsRequest",
-  }) as any as S.Schema<Delete_fhir_operationProjectsLocationsDatasetsFhirStoresOperationsRequest>;
+    identifier: "DeleteFhirOperationProjectsLocationsDatasetsFhirStoresOperationsRequest",
+  }) as any as S.Schema<DeleteFhirOperationProjectsLocationsDatasetsFhirStoresOperationsRequest>;
 
 export interface DeleteProjectsLocationsDatasetsRequest {
   /** Required. The name of the dataset to delete. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}`. */
@@ -3479,16 +3367,16 @@ export const DeleteProjectsLocationsDatasetsDicomStoresStudiesRequest = /*@__PUR
 }) as any as S.Schema<DeleteProjectsLocationsDatasetsDicomStoresStudiesRequest>;
 
 export interface DeleteProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest {
-  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
-  parent: string;
   /** Required. The path of the DeleteSeries request. For example, `studies/{study_uid}/series/{series_uid}`. */
   dicomWebPath: string;
+  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
+  parent: string;
 }
 export const DeleteProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       dicomWebPath: S.String.pipe(T.Label()),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -3501,16 +3389,16 @@ export const DeleteProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest =
   }) as any as S.Schema<DeleteProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest>;
 
 export interface DeleteProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest {
-  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
-  parent: string;
   /** Required. The path of the DeleteInstance request. For example, `studies/{study_uid}/series/{series_uid}/instances/{instance_uid}`. */
   dicomWebPath: string;
+  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
+  parent: string;
 }
 export const DeleteProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       dicomWebPath: S.String.pipe(T.Label()),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -3615,25 +3503,25 @@ export const DeleteRevisionProjectsLocationsDatasetsConsentStoresConsentsRequest
   }) as any as S.Schema<DeleteRevisionProjectsLocationsDatasetsConsentStoresConsentsRequest>;
 
 export interface Encounter_everythingProjectsLocationsDatasetsFhirStoresFhirRequest {
-  /** Optional. Used to retrieve the next or previous page of results when using pagination. Set `_page_token` to the value of _page_token set in next or previous page links' url. Next and previous page are returned in the response bundle's links field, where `link.relation` is "previous" or "next". Omit `_page_token` if no previous request has been made. */
-  _page_token?: string;
-  /** Optional. If provided, only resources updated after this time are returned. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
-  _since?: string;
   /** Optional. String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) are returned. Specifying multiple `_type` parameters isn't supported. For example, the result of `_type=Observation&_type=Encounter` is undefined. Use `_type=Observation,Encounter` instead. */
   _type?: string;
-  /** Required. Name of the Encounter resource for which the information is required. */
-  name: string;
+  /** Optional. If provided, only resources updated after this time are returned. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
+  _since?: string;
   /** Optional. Maximum number of resources in a page. If not specified, 100 is used. May not be larger than 1000. */
   _count?: number;
+  /** Required. Name of the Encounter resource for which the information is required. */
+  name: string;
+  /** Optional. Used to retrieve the next or previous page of results when using pagination. Set `_page_token` to the value of _page_token set in next or previous page links' url. Next and previous page are returned in the response bundle's links field, where `link.relation` is "previous" or "next". Omit `_page_token` if no previous request has been made. */
+  _page_token?: string;
 }
 export const Encounter_everythingProjectsLocationsDatasetsFhirStoresFhirRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      _page_token: S.optional(S.String.pipe(T.Query())),
-      _since: S.optional(S.String.pipe(T.Query())),
       _type: S.optional(S.String.pipe(T.Query())),
-      name: S.String.pipe(T.Label()),
+      _since: S.optional(S.String.pipe(T.Query())),
       _count: S.optional(S.Number.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
+      _page_token: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3655,28 +3543,28 @@ export const EvaluateUserConsentsRequestResponseViewEnum = S.String;
 export interface EvaluateUserConsentsRequest {
   /** Required. User ID to evaluate consents for. */
   userId?: string;
-  /** Required. The values of request attributes associated with this access request. */
-  requestAttributes?: StringMap;
   /** Optional. The values of resource attributes associated with the resources being requested. If no values are specified, then all resources are queried. */
   resourceAttributes?: StringMap;
   /** Optional. Limit on the number of User data mappings to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
   pageSize?: number;
-  /** Optional. The view for EvaluateUserConsentsResponse. If unspecified, defaults to `BASIC` and returns `consented` as `TRUE` or `FALSE`. */
-  responseView?: EvaluateUserConsentsRequestResponseViewEnum | (string & {});
+  /** Required. The values of request attributes associated with this access request. */
+  requestAttributes?: StringMap;
   /** Optional. Specific Consents to evaluate the access request against. These Consents must have the same `user_id` as the User data mappings being evalauted, must exist in the current `consent_store`, and must have a `state` of either `ACTIVE` or `DRAFT`. A maximum of 100 Consents can be provided here. If unspecified, all `ACTIVE` unexpired Consents in the current `consent_store` will be evaluated. */
   consentList?: ConsentList;
   /** Optional. Token to retrieve the next page of results, or empty to get the first page. */
   pageToken?: string;
+  /** Optional. The view for EvaluateUserConsentsResponse. If unspecified, defaults to `BASIC` and returns `consented` as `TRUE` or `FALSE`. */
+  responseView?: EvaluateUserConsentsRequestResponseViewEnum | (string & {});
 }
 export const EvaluateUserConsentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     userId: S.optional(S.String),
-    requestAttributes: S.optional(StringMap),
     resourceAttributes: S.optional(StringMap),
     pageSize: S.optional(S.Number),
-    responseView: S.optional(EvaluateUserConsentsRequestResponseViewEnum),
+    requestAttributes: S.optional(StringMap),
     consentList: S.optional(ConsentList),
     pageToken: S.optional(S.String),
+    responseView: S.optional(EvaluateUserConsentsRequestResponseViewEnum),
   }),
 ).annotate({
   identifier: "EvaluateUserConsentsRequest",
@@ -3706,17 +3594,17 @@ export const EvaluateUserConsentsProjectsLocationsDatasetsConsentStoresRequest =
 
 /** The consent evaluation result for a single `data_id`. */
 export interface Result {
-  /** The unique identifier of the evaluated resource. */
-  dataId?: string;
   /** Whether the resource is consented for the given use. */
   consented?: boolean;
+  /** The unique identifier of the evaluated resource. */
+  dataId?: string;
   /** The resource names of all evaluated Consents mapped to their evaluation. */
   consentDetails?: ConsentEvaluationMap;
 }
 export const Result = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dataId: S.optional(S.String),
     consented: S.optional(S.Boolean),
+    dataId: S.optional(S.String),
     consentDetails: S.optional(ConsentEvaluationMap),
   }),
 ).annotate({ identifier: "Result" }) as any as S.Schema<Result>;
@@ -3761,6 +3649,78 @@ export const ExecuteBundleProjectsLocationsDatasetsFhirStoresFhirRequest = /*@__
   identifier: "ExecuteBundleProjectsLocationsDatasetsFhirStoresFhirRequest",
 }) as any as S.Schema<ExecuteBundleProjectsLocationsDatasetsFhirStoresFhirRequest>;
 
+/** A FHIRPath expression. */
+export interface Expression {
+  /** Required. FHIRPath expression used for evaluation against FHIR resources. Must be in the format `[/"Resource"/"DomainResource"].[expression]` Expressions are applied per single FHIR resource, so they can't span multiple base resource types. For example, expressions like `Patient.union(Encounter)` are invalid. For expressions involving more than one resource or resource type, consider using the FHIRPath `resolve()` method. Expressions are only allowed to evaluate to a boolean type or a single or collection of [FHIR.Resource](https://hl7.org/fhir/resource.html) types. Expressions evaluating to boolean would include the base resource in the result if the expression evaluates to `true`. Expressions evaluating to one or more FHIR.Resource types will include those resources in the result, e.g. `CareTeam.member.resolve()`. */
+  fhirpathExpression?: string;
+  /** Optional. Expressions with the same label will be grouped together under the same directory when exporting to Cloud Storage. */
+  label?: string;
+}
+export const Expression = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fhirpathExpression: S.optional(S.String),
+    label: S.optional(S.String),
+  }),
+).annotate({ identifier: "Expression" }) as any as S.Schema<Expression>;
+
+export type ExpressionList = Array<Expression>;
+export const ExpressionList = /*@__PURE__*/ S.Array(Expression) as any as S.Schema<ExpressionList>;
+
+/** A set of FHIRPath expressions that are used to filter the FHIR resources. These expressions do not maintain referential integrity on the resulting resources. Users are responsible for making sure the expressions are written in a way to ensure that if desired. */
+export interface FHIRPathQuery {
+  /** Optional. FHIRPath engine version number, for example "1.0". Will use the latest version if not specified. For more details about the supported versions, see https://cloud.google.com/healthcare-api/private/docs/how-tos/fhir-execute-cohort#fhirpath-engine-versions. */
+  engineVersion?: string;
+  /** Required. List of FHIRPath expressions used for filtering the data. */
+  expressions?: ExpressionList;
+}
+export const FHIRPathQuery = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    engineVersion: S.optional(S.String),
+    expressions: S.optional(ExpressionList),
+  }),
+).annotate({ identifier: "FHIRPathQuery" }) as any as S.Schema<FHIRPathQuery>;
+
+/** Request to execute a cohort definition from a FHIR store based on provided queries and sending the resulting subset of data to a specified sink. */
+export interface ExecuteCohortRequest {
+  /** Return resources that match the specified FHIRPath expressions. */
+  fhirpathQuery?: FHIRPathQuery;
+  /** The Cloud Storage output destination. The Healthcare Service Agent account requires the `roles/storage.objectAdmin` role on the Cloud Storage location. The exported outputs are organized by FHIR resource types. The server creates one or more objects per resource type depending on the volume of the resources exported. When there is only one object per resource type, the object name is in the form of `{operation_id}_{resource_type}`. When there are multiple objects for a given resource type, the object names are in the form of `{operation_id}_{resource_type}-{index}-of-{total}`. Each object contains newline delimited JSON, and each line is a FHIR resource. */
+  gcsDestination?: GoogleCloudHealthcareV1beta1FhirGcsDestination;
+  /** Optional. If provided, the queried resources will represent the state of the FHIR store at the given past timestamp. Runs the operation against the state of the store at this timestamp. State of the store is represented by the resource versions that were the current versions during the time specified or the resources that have not been updated since. Only works if the store has history enabled. Although users should be able to use this field to reproduce previous runs of the operation and get consistent results, there are a few cases where the past state of the store can be altered, thus resulting in no guarantee of reproducibility. For example, resource versions can be deleted using the purge method, or modified using ImportResourcesHistory. */
+  _at?: string;
+  /** Optional. If true, the request will be validated but no cohort execution will be run. */
+  validateOnly?: boolean;
+}
+export const ExecuteCohortRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fhirpathQuery: S.optional(FHIRPathQuery),
+    gcsDestination: S.optional(GoogleCloudHealthcareV1beta1FhirGcsDestination),
+    _at: S.optional(S.String),
+    validateOnly: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "ExecuteCohortRequest" }) as any as S.Schema<ExecuteCohortRequest>;
+
+export interface ExecuteCohortProjectsLocationsDatasetsFhirStoresRequest {
+  /** Required. The name of the FHIR store to query, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
+  name: string;
+  /** Request body */
+  body?: ExecuteCohortRequest;
+}
+export const ExecuteCohortProjectsLocationsDatasetsFhirStoresRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    body: S.optional(ExecuteCohortRequest.pipe(T.HttpBody())),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "v1beta1/{+name}:executeCohort",
+      baseUrl: "https://healthcare.googleapis.com/",
+    }),
+  ),
+).annotate({
+  identifier: "ExecuteCohortProjectsLocationsDatasetsFhirStoresRequest",
+}) as any as S.Schema<ExecuteCohortProjectsLocationsDatasetsFhirStoresRequest>;
+
 export interface ExplainDataAccessProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. The name of the FHIR store to enforce, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
   name: string;
@@ -3789,31 +3749,6 @@ export type ExplainDataAccessConsentScopeDecisionEnum =
   | "CONSENT_DECISION_TYPE_DENY";
 export const ExplainDataAccessConsentScopeDecisionEnum = S.String;
 
-/** The accessor scope that describes who can access, for what purpose, in which environment. */
-export interface ConsentAccessorScope {
-  /** An abstract identifier that describes the environment or conditions under which the accessor is acting. If it's not specified, it applies to all environments. */
-  environment?: string;
-  /** An individual, group, or access role that identifies the accessor or a characteristic of the accessor. This can be a resource ID (such as `{resourceType}/{id}`) or an external URI. This value must be present. */
-  actor?: string;
-  /** The intent of data use. If it's not specified, it applies to all purposes. */
-  purpose?: string;
-}
-export const ConsentAccessorScope = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    environment: S.optional(S.String),
-    actor: S.optional(S.String),
-    purpose: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ConsentAccessorScope",
-}) as any as S.Schema<ConsentAccessorScope>;
-
-export type ExplainDataAccessConsentInfoTypeEnum =
-  | "CONSENT_POLICY_TYPE_UNSPECIFIED"
-  | "CONSENT_POLICY_TYPE_PATIENT"
-  | "CONSENT_POLICY_TYPE_ADMIN";
-export const ExplainDataAccessConsentInfoTypeEnum = S.String;
-
 export type ExplainDataAccessConsentInfoVariantsItemEnum =
   | "CONSENT_VARIANT_UNSPECIFIED"
   | "CONSENT_VARIANT_STANDARD"
@@ -3826,37 +3761,60 @@ export const ExplainDataAccessConsentInfoVariantsItemEnumList = /*@__PURE__*/ S.
   ExplainDataAccessConsentInfoVariantsItemEnum,
 ) as any as S.Schema<ExplainDataAccessConsentInfoVariantsItemEnumList>;
 
+/** The accessor scope that describes who can access, for what purpose, in which environment. */
+export interface ConsentAccessorScope {
+  /** An individual, group, or access role that identifies the accessor or a characteristic of the accessor. This can be a resource ID (such as `{resourceType}/{id}`) or an external URI. This value must be present. */
+  actor?: string;
+  /** An abstract identifier that describes the environment or conditions under which the accessor is acting. If it's not specified, it applies to all environments. */
+  environment?: string;
+  /** The intent of data use. If it's not specified, it applies to all purposes. */
+  purpose?: string;
+}
+export const ConsentAccessorScope = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    actor: S.optional(S.String),
+    environment: S.optional(S.String),
+    purpose: S.optional(S.String),
+  }),
+).annotate({ identifier: "ConsentAccessorScope" }) as any as S.Schema<ConsentAccessorScope>;
+
 export type ConsentAccessorScopeList = Array<ConsentAccessorScope>;
 export const ConsentAccessorScopeList = /*@__PURE__*/ S.Array(
   ConsentAccessorScope,
 ) as any as S.Schema<ConsentAccessorScopeList>;
 
+export type ExplainDataAccessConsentInfoTypeEnum =
+  | "CONSENT_POLICY_TYPE_UNSPECIFIED"
+  | "CONSENT_POLICY_TYPE_PATIENT"
+  | "CONSENT_POLICY_TYPE_ADMIN";
+export const ExplainDataAccessConsentInfoTypeEnum = S.String;
+
 /** The enforcing consent's metadata. */
 export interface ExplainDataAccessConsentInfo {
+  /** The consent's variant combinations. A single consent may have multiple variants. */
+  variants?: ExplainDataAccessConsentInfoVariantsItemEnumList;
+  /** The patient owning the consent (only applicable for patient consents), in the format: `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Patient/{patient_id}` */
+  patientConsentOwner?: string;
   /** The compartment base resources that matched a cascading policy. Each resource has the following format: `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/{resource_type}/{resource_id}` */
   cascadeOrigins?: StringList;
   /** The resource name of this consent resource, in the format: `projects/{project_id}/locations/{location}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Consent/{resource_id}`. */
   consentResource?: string;
-  /** The patient owning the consent (only applicable for patient consents), in the format: `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Patient/{patient_id}` */
-  patientConsentOwner?: string;
-  /** The policy type of consent resource (e.g. PATIENT, ADMIN). */
-  type?: ExplainDataAccessConsentInfoTypeEnum;
-  /** The consent's variant combinations. A single consent may have multiple variants. */
-  variants?: ExplainDataAccessConsentInfoVariantsItemEnumList;
-  /** Last enforcement timestamp of this consent resource. */
-  enforcementTime?: string;
   /** A list of all the matching accessor scopes of this consent policy that enforced ExplainDataAccessConsentScope.accessor_scope. */
   matchingAccessorScopes?: ConsentAccessorScopeList;
+  /** The policy type of consent resource (e.g. PATIENT, ADMIN). */
+  type?: ExplainDataAccessConsentInfoTypeEnum;
+  /** Last enforcement timestamp of this consent resource. */
+  enforcementTime?: string;
 }
 export const ExplainDataAccessConsentInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    variants: S.optional(ExplainDataAccessConsentInfoVariantsItemEnumList),
+    patientConsentOwner: S.optional(S.String),
     cascadeOrigins: S.optional(StringList),
     consentResource: S.optional(S.String),
-    patientConsentOwner: S.optional(S.String),
-    type: S.optional(ExplainDataAccessConsentInfoTypeEnum),
-    variants: S.optional(ExplainDataAccessConsentInfoVariantsItemEnumList),
-    enforcementTime: S.optional(S.String),
     matchingAccessorScopes: S.optional(ConsentAccessorScopeList),
+    type: S.optional(ExplainDataAccessConsentInfoTypeEnum),
+    enforcementTime: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ExplainDataAccessConsentInfo",
@@ -3869,21 +3827,21 @@ export const ExplainDataAccessConsentInfoList = /*@__PURE__*/ S.Array(
 
 /** A single consent scope that provides info on who has access to the requested resource scope for a particular purpose and environment, enforced by which consent. */
 export interface ExplainDataAccessConsentScope {
-  /** Other consent scopes that created exceptions within this scope. */
-  exceptions?: ExplainDataAccessConsentScopeList;
   /** Whether the current consent scope is permitted or denied access on the requested resource. */
   decision?: ExplainDataAccessConsentScopeDecisionEnum;
-  /** The accessor scope that describes who can access, for what purpose, and in which environment. */
-  accessorScope?: ConsentAccessorScope;
   /** Metadata of the consent resources that enforce the consent scope's access. */
   enforcingConsents?: ExplainDataAccessConsentInfoList;
+  /** The accessor scope that describes who can access, for what purpose, and in which environment. */
+  accessorScope?: ConsentAccessorScope;
+  /** Other consent scopes that created exceptions within this scope. */
+  exceptions?: ExplainDataAccessConsentScopeList;
 }
 export const ExplainDataAccessConsentScope = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    exceptions: S.optional(S.suspend(() => ExplainDataAccessConsentScopeList)),
     decision: S.optional(ExplainDataAccessConsentScopeDecisionEnum),
-    accessorScope: S.optional(ConsentAccessorScope),
     enforcingConsents: S.optional(ExplainDataAccessConsentInfoList),
+    accessorScope: S.optional(ConsentAccessorScope),
+    exceptions: S.optional(S.suspend(() => ExplainDataAccessConsentScopeList)),
   }),
 ).annotate({
   identifier: "ExplainDataAccessConsentScope",
@@ -3916,17 +3874,17 @@ export interface ExportResourcesHistoryRequest {
   maxResourceVersions?: string;
   /** The Cloud Storage output destination. The Healthcare Service Agent account requires the `roles/storage.objectAdmin` role on the Cloud Storage location. The exported outputs are organized by FHIR resource types. The server creates one or more objects per resource type depending on the volume of the resources exported. When there is only one object per resource type, the object name is in the form of `{operation_id})_history_{resource_type}`. When there are multiple objects for a given resource type, the object names are in the form of `{operation_id}_history_{resource_type}-{index}-of-{total}`. Each object contains newline delimited JSON, and each line is a FHIR history bundle containing the history for a single resource. */
   gcsDestination?: GoogleCloudHealthcareV1beta1FhirGcsDestination;
-  /** If provided, only resources versions updated after this time are exported. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
-  _since?: string;
   /** String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) are exported. */
   _type?: string;
+  /** If provided, only resources versions updated after this time are exported. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
+  _since?: string;
 }
 export const ExportResourcesHistoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxResourceVersions: S.optional(S.String),
     gcsDestination: S.optional(GoogleCloudHealthcareV1beta1FhirGcsDestination),
-    _since: S.optional(S.String),
     _type: S.optional(S.String),
+    _since: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ExportResourcesHistoryRequest",
@@ -3971,22 +3929,20 @@ export const GoogleCloudHealthcareV1beta1DicomGcsDestination = /*@__PURE__*/ S.s
 
 /** Exports data from the specified DICOM store. If a given resource, such as a DICOM object with the same SOPInstance UID, already exists in the output, it is overwritten with the version in the source dataset. Exported DICOM data persists when the DICOM store from which it was exported is deleted. */
 export interface ExportDicomDataRequest {
-  /** The Cloud Storage output destination. The Cloud Healthcare Service Agent requires the `roles/storage.objectAdmin` Cloud IAM roles on the Cloud Storage location. */
-  gcsDestination?: GoogleCloudHealthcareV1beta1DicomGcsDestination;
   /** The BigQuery output destination. You can only export to a BigQuery dataset that's in the same project as the DICOM store you're exporting from. The Cloud Healthcare Service Agent requires two IAM roles on the BigQuery location: `roles/bigquery.dataEditor` and `roles/bigquery.jobUser`. */
   bigqueryDestination?: GoogleCloudHealthcareV1beta1DicomBigQueryDestination;
+  /** The Cloud Storage output destination. The Cloud Healthcare Service Agent requires the `roles/storage.objectAdmin` Cloud IAM roles on the Cloud Storage location. */
+  gcsDestination?: GoogleCloudHealthcareV1beta1DicomGcsDestination;
   /** Specifies the filter configuration. */
   filterConfig?: DicomFilterConfig;
 }
 export const ExportDicomDataRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    gcsDestination: S.optional(GoogleCloudHealthcareV1beta1DicomGcsDestination),
     bigqueryDestination: S.optional(GoogleCloudHealthcareV1beta1DicomBigQueryDestination),
+    gcsDestination: S.optional(GoogleCloudHealthcareV1beta1DicomGcsDestination),
     filterConfig: S.optional(DicomFilterConfig),
   }),
-).annotate({
-  identifier: "ExportDicomDataRequest",
-}) as any as S.Schema<ExportDicomDataRequest>;
+).annotate({ identifier: "ExportDicomDataRequest" }) as any as S.Schema<ExportDicomDataRequest>;
 
 export interface ExportProjectsLocationsDatasetsDicomStoresRequest {
   /** Required. The DICOM store resource name from which to export the data. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
@@ -4011,25 +3967,23 @@ export const ExportProjectsLocationsDatasetsDicomStoresRequest = /*@__PURE__*/ S
 
 /** Request to export resources. */
 export interface ExportResourcesRequest {
-  /** The Cloud Storage output destination. The Cloud Healthcare Service Agent requires the `roles/storage.objectAdmin` Cloud IAM roles on the Cloud Storage location. The exported outputs are organized by FHIR resource types. The server creates one object per resource type. Each object contains newline delimited JSON, and each line is a FHIR resource. */
-  gcsDestination?: GoogleCloudHealthcareV1beta1FhirGcsDestination;
   /** The BigQuery output destination. The Cloud Healthcare Service Agent requires two IAM roles on the BigQuery location: `roles/bigquery.dataEditor` and `roles/bigquery.jobUser`. The output is one BigQuery table per resource type. Unlike when setting `BigQueryDestination` for `StreamConfig`, `ExportResources` does not create BigQuery views. */
   bigqueryDestination?: GoogleCloudHealthcareV1beta1FhirBigQueryDestination;
-  /** If provided, only resources updated after this time are exported. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
-  _since?: string;
   /** String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) are exported. */
   _type?: string;
+  /** The Cloud Storage output destination. The Cloud Healthcare Service Agent requires the `roles/storage.objectAdmin` Cloud IAM roles on the Cloud Storage location. The exported outputs are organized by FHIR resource types. The server creates one object per resource type. Each object contains newline delimited JSON, and each line is a FHIR resource. */
+  gcsDestination?: GoogleCloudHealthcareV1beta1FhirGcsDestination;
+  /** If provided, only resources updated after this time are exported. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
+  _since?: string;
 }
 export const ExportResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    gcsDestination: S.optional(GoogleCloudHealthcareV1beta1FhirGcsDestination),
     bigqueryDestination: S.optional(GoogleCloudHealthcareV1beta1FhirBigQueryDestination),
-    _since: S.optional(S.String),
     _type: S.optional(S.String),
+    gcsDestination: S.optional(GoogleCloudHealthcareV1beta1FhirGcsDestination),
+    _since: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExportResourcesRequest",
-}) as any as S.Schema<ExportResourcesRequest>;
+).annotate({ identifier: "ExportResourcesRequest" }) as any as S.Schema<ExportResourcesRequest>;
 
 export interface ExportProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. The name of the FHIR store to export resource from, in the format of `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
@@ -4061,9 +4015,10 @@ export const PubsubDestination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pubsubTopic: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PubsubDestination",
-}) as any as S.Schema<PubsubDestination>;
+).annotate({ identifier: "PubsubDestination" }) as any as S.Schema<PubsubDestination>;
+
+export type GcsDestinationContentStructureEnum = "CONTENT_STRUCTURE_UNSPECIFIED" | "MESSAGE_JSON";
+export const GcsDestinationContentStructureEnum = S.String;
 
 export type GcsDestinationMessageViewEnum =
   | "MESSAGE_VIEW_UNSPECIFIED"
@@ -4074,23 +4029,20 @@ export type GcsDestinationMessageViewEnum =
   | "BASIC";
 export const GcsDestinationMessageViewEnum = S.String;
 
-export type GcsDestinationContentStructureEnum = "CONTENT_STRUCTURE_UNSPECIFIED" | "MESSAGE_JSON";
-export const GcsDestinationContentStructureEnum = S.String;
-
 /** The Cloud Storage output destination. The Cloud Healthcare Service Agent requires the `roles/storage.objectAdmin` Cloud IAM roles on the Cloud Storage location. */
 export interface GcsDestination {
+  /** The format of the exported HL7v2 message files. */
+  contentStructure?: GcsDestinationContentStructureEnum | (string & {});
   /** Specifies the parts of the Message resource to include in the export. If not specified, FULL is used. */
   messageView?: GcsDestinationMessageViewEnum | (string & {});
   /** URI of an existing Cloud Storage directory where the server writes result files, in the format `gs://{bucket-id}/{path/to/destination/dir}`. If there is no trailing slash, the service appends one when composing the object path. */
   uriPrefix?: string;
-  /** The format of the exported HL7v2 message files. */
-  contentStructure?: GcsDestinationContentStructureEnum | (string & {});
 }
 export const GcsDestination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    contentStructure: S.optional(GcsDestinationContentStructureEnum),
     messageView: S.optional(GcsDestinationMessageViewEnum),
     uriPrefix: S.optional(S.String),
-    contentStructure: S.optional(GcsDestinationContentStructureEnum),
   }),
 ).annotate({ identifier: "GcsDestination" }) as any as S.Schema<GcsDestination>;
 
@@ -4100,24 +4052,22 @@ export interface ExportMessagesRequest {
   endTime?: string;
   /** Export messages to a Pub/Sub topic. */
   pubsubDestination?: PubsubDestination;
-  /** The start of the range in `send_time` (MSH.7, https://www.hl7.org/documentcenter/public_temp_2E58C1F9-1C23-BA17-0C6126475344DA9D/wg/conf/HL7MSH.htm) to process. If not specified, the UNIX epoch (1970-01-01T00:00:00Z) is used. This value has to come before the `end_time` defined below. Only messages whose `send_time` lies in the range `start_time` (inclusive) to `end_time` (exclusive) are exported. */
-  startTime?: string;
-  /** Export to a Cloud Storage destination. */
-  gcsDestination?: GcsDestination;
   /** Restricts messages exported to those matching a filter, only applicable to PubsubDestination and GcsDestination. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in the `yyyy-mm-dd` format. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, and is just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. The following fields and functions are available for filtering: * `message_type`, from the MSH-9.1 field. For example, `NOT message_type = "ADT"`. * `send_date` or `sendDate`, the YYYY-MM-DD date the message was sent in the dataset's time_zone, from the MSH-7 segment. For example, `send_date < "2017-01-02"`. * `send_time`, the timestamp when the message was sent, using the RFC3339 time format for comparisons, from the MSH-7 segment. For example, `send_time < "2017-01-02T00:00:00-05:00"`. * `create_time`, the timestamp when the message was created in the HL7v2 store. Use the RFC3339 time format for comparisons. For example, `create_time < "2017-01-02T00:00:00-05:00"`. * `send_facility`, the care center that the message came from, from the MSH-4 segment. For example, `send_facility = "ABC"`. Note: The filter will be applied to every message in the HL7v2 store whose `send_time` lies in the range defined by the `start_time` and the `end_time`. Even if the filter only matches a small set of messages, the export operation can still take a long time to finish when a lot of messages are between the specified `start_time` and `end_time` range. */
   filter?: string;
+  /** Export to a Cloud Storage destination. */
+  gcsDestination?: GcsDestination;
+  /** The start of the range in `send_time` (MSH.7, https://www.hl7.org/documentcenter/public_temp_2E58C1F9-1C23-BA17-0C6126475344DA9D/wg/conf/HL7MSH.htm) to process. If not specified, the UNIX epoch (1970-01-01T00:00:00Z) is used. This value has to come before the `end_time` defined below. Only messages whose `send_time` lies in the range `start_time` (inclusive) to `end_time` (exclusive) are exported. */
+  startTime?: string;
 }
 export const ExportMessagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endTime: S.optional(S.String),
     pubsubDestination: S.optional(PubsubDestination),
-    startTime: S.optional(S.String),
-    gcsDestination: S.optional(GcsDestination),
     filter: S.optional(S.String),
+    gcsDestination: S.optional(GcsDestination),
+    startTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExportMessagesRequest",
-}) as any as S.Schema<ExportMessagesRequest>;
+).annotate({ identifier: "ExportMessagesRequest" }) as any as S.Schema<ExportMessagesRequest>;
 
 export interface ExportProjectsLocationsDatasetsHl7V2StoresRequest {
   /** Required. The name of the source HL7v2 store, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7v2Stores/{hl7v2_store_id}` */
@@ -4140,24 +4090,28 @@ export const ExportProjectsLocationsDatasetsHl7V2StoresRequest = /*@__PURE__*/ S
   identifier: "ExportProjectsLocationsDatasetsHl7V2StoresRequest",
 }) as any as S.Schema<ExportProjectsLocationsDatasetsHl7V2StoresRequest>;
 
-export interface Get_fhir_operation_statusProjectsLocationsDatasetsFhirStoresOperationsRequest {
-  /** Required. Name of the operation to query, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/operations/{operation_id}`. */
-  name: string;
+export interface GetBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesBulkdataRequest {
+  /** Required. The path for the `RetrieveBulkdata` DICOMweb request. For example, `studies/{study_uid}/series/{series_uid}/instances/{instance_uid}/bukdata/{bulkdata_uri}`. */
+  dicomWebPath: string;
+  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
+  parent: string;
 }
-export const Get_fhir_operation_statusProjectsLocationsDatasetsFhirStoresOperationsRequest =
+export const GetBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesBulkdataRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
+      dicomWebPath: S.String.pipe(T.Label()),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "v1beta1/{+name}",
+        uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}",
         baseUrl: "https://healthcare.googleapis.com/",
       }),
     ),
   ).annotate({
-    identifier: "Get_fhir_operation_statusProjectsLocationsDatasetsFhirStoresOperationsRequest",
-  }) as any as S.Schema<Get_fhir_operation_statusProjectsLocationsDatasetsFhirStoresOperationsRequest>;
+    identifier:
+      "GetBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesBulkdataRequest",
+  }) as any as S.Schema<GetBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesBulkdataRequest>;
 
 export interface GetDICOMStoreMetricsProjectsLocationsDatasetsDicomStoresRequest {
   /** Required. The resource name of the DICOM store to get metrics for. */
@@ -4180,31 +4134,48 @@ export const GetDICOMStoreMetricsProjectsLocationsDatasetsDicomStoresRequest =
 
 /** DicomStoreMetrics contains metrics describing a DICOM store. */
 export interface DicomStoreMetrics {
-  /** Number of series in the store. */
-  seriesCount?: string;
+  /** Resource name of the DICOM store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
+  name?: string;
   /** Number of instances in the store. */
   instanceCount?: string;
-  /** Number of studies in the store. */
-  studyCount?: string;
+  /** Number of series in the store. */
+  seriesCount?: string;
   /** Total structured storage bytes for all instances in the store. */
   structuredStorageSizeBytes?: string;
   /** Total blob storage bytes for all instances in the store. */
   blobStorageSizeBytes?: string;
-  /** Resource name of the DICOM store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
-  name?: string;
+  /** Number of studies in the store. */
+  studyCount?: string;
 }
 export const DicomStoreMetrics = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    seriesCount: S.optional(S.String),
+    name: S.optional(S.String),
     instanceCount: S.optional(S.String),
-    studyCount: S.optional(S.String),
+    seriesCount: S.optional(S.String),
     structuredStorageSizeBytes: S.optional(S.String),
     blobStorageSizeBytes: S.optional(S.String),
-    name: S.optional(S.String),
+    studyCount: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DicomStoreMetrics",
-}) as any as S.Schema<DicomStoreMetrics>;
+).annotate({ identifier: "DicomStoreMetrics" }) as any as S.Schema<DicomStoreMetrics>;
+
+export interface GetFhirOperationStatusProjectsLocationsDatasetsFhirStoresOperationsRequest {
+  /** Required. Name of the operation to query, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/operations/{operation_id}`. */
+  name: string;
+}
+export const GetFhirOperationStatusProjectsLocationsDatasetsFhirStoresOperationsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1beta1/{+name}",
+        baseUrl: "https://healthcare.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetFhirOperationStatusProjectsLocationsDatasetsFhirStoresOperationsRequest",
+  }) as any as S.Schema<GetFhirOperationStatusProjectsLocationsDatasetsFhirStoresOperationsRequest>;
 
 export interface GetFHIRStoreMetricsProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. The resource name of the FHIR store to get metrics for. */
@@ -4229,23 +4200,21 @@ export const GetFHIRStoreMetricsProjectsLocationsDatasetsFhirStoresRequest =
 export interface FhirStoreMetric {
   /** The FHIR resource type this metric applies to. */
   resourceType?: string;
-  /** The total amount of versioned storage used by versioned FHIR resources of this resource type in the store. */
-  versionedStorageSizeBytes?: string;
   /** The total count of FHIR resources in the store of this resource type. */
   count?: string;
+  /** The total amount of versioned storage used by versioned FHIR resources of this resource type in the store. */
+  versionedStorageSizeBytes?: string;
   /** The total amount of structured storage used by FHIR resources of this resource type in the store. */
   structuredStorageSizeBytes?: string;
 }
 export const FhirStoreMetric = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceType: S.optional(S.String),
-    versionedStorageSizeBytes: S.optional(S.String),
     count: S.optional(S.String),
+    versionedStorageSizeBytes: S.optional(S.String),
     structuredStorageSizeBytes: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FhirStoreMetric",
-}) as any as S.Schema<FhirStoreMetric>;
+).annotate({ identifier: "FhirStoreMetric" }) as any as S.Schema<FhirStoreMetric>;
 
 export type FhirStoreMetricList = Array<FhirStoreMetric>;
 export const FhirStoreMetricList = /*@__PURE__*/ S.Array(
@@ -4254,19 +4223,39 @@ export const FhirStoreMetricList = /*@__PURE__*/ S.Array(
 
 /** List of metrics for a given FHIR store. */
 export interface FhirStoreMetrics {
-  /** The resource name of the FHIR store to get metrics for, in the format `projects/{project_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
-  name?: string;
   /** List of FhirStoreMetric by resource type. */
   metrics?: FhirStoreMetricList;
+  /** The resource name of the FHIR store to get metrics for, in the format `projects/{project_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
+  name?: string;
 }
 export const FhirStoreMetrics = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     metrics: S.optional(FhirStoreMetricList),
+    name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FhirStoreMetrics",
-}) as any as S.Schema<FhirStoreMetrics>;
+).annotate({ identifier: "FhirStoreMetrics" }) as any as S.Schema<FhirStoreMetrics>;
+
+export interface GetFramesProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest {
+  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
+  parent: string;
+  /** Required. The path of the RetrieveFrames DICOMweb request. For example, `studies/{study_uid}/series/{series_uid}/instances/{instance_uid}/frames/{frame_list}`. */
+  dicomWebPath: string;
+}
+export const GetFramesProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      parent: S.String.pipe(T.Label()),
+      dicomWebPath: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}",
+        baseUrl: "https://healthcare.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetFramesProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest",
+  }) as any as S.Schema<GetFramesProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest>;
 
 export interface GetHL7v2StoreMetricsProjectsLocationsDatasetsHl7V2StoresRequest {
   /** Required. The resource name of the HL7v2 store to get metrics for, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7V2Stores/{hl7v2_store_id}`. */
@@ -4289,22 +4278,20 @@ export const GetHL7v2StoreMetricsProjectsLocationsDatasetsHl7V2StoresRequest =
 
 /** Count of messages and total storage size by type for a given HL7 store. */
 export interface Hl7V2StoreMetric {
-  /** The Hl7v2 message type this metric applies to, such as `ADT` or `ORU`. */
-  messageType?: string;
   /** The total amount of structured storage used by HL7v2 messages of this message type in the store. */
   structuredStorageSizeBytes?: string;
   /** The total count of HL7v2 messages in the store for the given message type. */
   count?: string;
+  /** The Hl7v2 message type this metric applies to, such as `ADT` or `ORU`. */
+  messageType?: string;
 }
 export const Hl7V2StoreMetric = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    messageType: S.optional(S.String),
     structuredStorageSizeBytes: S.optional(S.String),
     count: S.optional(S.String),
+    messageType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "Hl7V2StoreMetric",
-}) as any as S.Schema<Hl7V2StoreMetric>;
+).annotate({ identifier: "Hl7V2StoreMetric" }) as any as S.Schema<Hl7V2StoreMetric>;
 
 export type Hl7V2StoreMetricList = Array<Hl7V2StoreMetric>;
 export const Hl7V2StoreMetricList = /*@__PURE__*/ S.Array(
@@ -4323,9 +4310,7 @@ export const Hl7V2StoreMetrics = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     metrics: S.optional(Hl7V2StoreMetricList),
   }),
-).annotate({
-  identifier: "Hl7V2StoreMetrics",
-}) as any as S.Schema<Hl7V2StoreMetrics>;
+).annotate({ identifier: "Hl7V2StoreMetrics" }) as any as S.Schema<Hl7V2StoreMetrics>;
 
 export interface GetIamPolicyProjectsLocationsDatasetsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -4377,15 +4362,15 @@ export const AuditLogConfigLogTypeEnum = S.String;
 
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
-  /** The log type that this config enables. */
-  logType?: AuditLogConfigLogTypeEnum | (string & {});
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
   exemptedMembers?: StringList;
+  /** The log type that this config enables. */
+  logType?: AuditLogConfigLogTypeEnum | (string & {});
 }
 export const AuditLogConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    logType: S.optional(AuditLogConfigLogTypeEnum),
     exemptedMembers: S.optional(StringList),
+    logType: S.optional(AuditLogConfigLogTypeEnum),
   }),
 ).annotate({ identifier: "AuditLogConfig" }) as any as S.Schema<AuditLogConfig>;
 
@@ -4396,15 +4381,15 @@ export const AuditLogConfigList = /*@__PURE__*/ S.Array(
 
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface AuditConfig {
-  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string;
   /** The configuration for logging of each type of permission. */
   auditLogConfigs?: AuditLogConfigList;
+  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
+  service?: string;
 }
 export const AuditConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    service: S.optional(S.String),
     auditLogConfigs: S.optional(AuditLogConfigList),
+    service: S.optional(S.String),
   }),
 ).annotate({ identifier: "AuditConfig" }) as any as S.Schema<AuditConfig>;
 
@@ -4417,19 +4402,19 @@ export const AuditConfigList = /*@__PURE__*/ S.Array(
 export interface Policy {
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: BindingList;
+  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
+  etag?: string;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number;
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: AuditConfigList;
-  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
 }
 export const Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     bindings: S.optional(BindingList),
+    etag: S.optional(S.String),
     version: S.optional(S.Number),
     auditConfigs: S.optional(AuditConfigList),
-    etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
 
@@ -4456,16 +4441,16 @@ export const GetIamPolicyProjectsLocationsDatasetsConsentStoresRequest = /*@__PU
 }) as any as S.Schema<GetIamPolicyProjectsLocationsDatasetsConsentStoresRequest>;
 
 export interface GetIamPolicyProjectsLocationsDatasetsDataMapperWorkspacesRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export const GetIamPolicyProjectsLocationsDatasetsDataMapperWorkspacesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      resource: S.String.pipe(T.Label()),
       "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+      resource: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4478,15 +4463,15 @@ export const GetIamPolicyProjectsLocationsDatasetsDataMapperWorkspacesRequest =
   }) as any as S.Schema<GetIamPolicyProjectsLocationsDatasetsDataMapperWorkspacesRequest>;
 
 export interface GetIamPolicyProjectsLocationsDatasetsDicomStoresRequest {
-  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number;
 }
 export const GetIamPolicyProjectsLocationsDatasetsDicomStoresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
     resource: S.String.pipe(T.Label()),
+    "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4499,15 +4484,15 @@ export const GetIamPolicyProjectsLocationsDatasetsDicomStoresRequest = /*@__PURE
 }) as any as S.Schema<GetIamPolicyProjectsLocationsDatasetsDicomStoresRequest>;
 
 export interface GetIamPolicyProjectsLocationsDatasetsFhirStoresRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export const GetIamPolicyProjectsLocationsDatasetsFhirStoresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resource: S.String.pipe(T.Label()),
     "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+    resource: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4540,6 +4525,94 @@ export const GetIamPolicyProjectsLocationsDatasetsHl7V2StoresRequest = /*@__PURE
   identifier: "GetIamPolicyProjectsLocationsDatasetsHl7V2StoresRequest",
 }) as any as S.Schema<GetIamPolicyProjectsLocationsDatasetsHl7V2StoresRequest>;
 
+export interface GetInstanceProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest {
+  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
+  parent: string;
+  /** Required. The path of the RetrieveInstance DICOMweb request. For example, `studies/{study_uid}/series/{series_uid}/instances/{instance_uid}`. */
+  dicomWebPath: string;
+}
+export const GetInstanceProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      parent: S.String.pipe(T.Label()),
+      dicomWebPath: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}",
+        baseUrl: "https://healthcare.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetInstanceProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest",
+  }) as any as S.Schema<GetInstanceProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest>;
+
+export interface GetMetadataProjectsLocationsDatasetsDicomStoresStudiesRequest {
+  /** Required. The path of the RetrieveStudyMetadata DICOMweb request. For example, `studies/{study_uid}/metadata`. */
+  dicomWebPath: string;
+  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
+  parent: string;
+}
+export const GetMetadataProjectsLocationsDatasetsDicomStoresStudiesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      dicomWebPath: S.String.pipe(T.Label()),
+      parent: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}",
+        baseUrl: "https://healthcare.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetMetadataProjectsLocationsDatasetsDicomStoresStudiesRequest",
+  }) as any as S.Schema<GetMetadataProjectsLocationsDatasetsDicomStoresStudiesRequest>;
+
+export interface GetMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest {
+  /** Required. The path of the RetrieveSeriesMetadata DICOMweb request. For example, `studies/{study_uid}/series/{series_uid}/metadata`. */
+  dicomWebPath: string;
+  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
+  parent: string;
+}
+export const GetMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      dicomWebPath: S.String.pipe(T.Label()),
+      parent: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}",
+        baseUrl: "https://healthcare.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest",
+  }) as any as S.Schema<GetMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest>;
+
+export interface GetMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest {
+  /** Required. The path of the RetrieveInstanceMetadata DICOMweb request. For example, `studies/{study_uid}/series/{series_uid}/instances/{instance_uid}/metadata`. */
+  dicomWebPath: string;
+  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
+  parent: string;
+}
+export const GetMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      dicomWebPath: S.String.pipe(T.Label()),
+      parent: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}",
+        baseUrl: "https://healthcare.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest",
+  }) as any as S.Schema<GetMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest>;
+
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -4560,23 +4633,23 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    labels: S.optional(StringMap),
-    name: S.optional(S.String),
-    displayName: S.optional(S.String),
     locationId: S.optional(S.String),
+    displayName: S.optional(S.String),
+    name: S.optional(S.String),
+    labels: S.optional(StringMap),
     metadata: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
@@ -4795,6 +4868,57 @@ export const GetProjectsLocationsDatasetsOperationsRequest = /*@__PURE__*/ S.sus
   identifier: "GetProjectsLocationsDatasetsOperationsRequest",
 }) as any as S.Schema<GetProjectsLocationsDatasetsOperationsRequest>;
 
+export interface GetRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest {
+  /** Optional. The viewport setting to use as specified in https://dicom.nema.org/medical/dicom/current/output/chtml/part18/sect_8.3.5.html#sect_8.3.5.1.3 */
+  viewport?: string;
+  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
+  parent: string;
+  /** Required. The path of the RetrieveRenderedInstance DICOMweb request. For example, `studies/{study_uid}/series/{series_uid}/instances/{instance_uid}/rendered`. */
+  dicomWebPath: string;
+}
+export const GetRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      viewport: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      dicomWebPath: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}",
+        baseUrl: "https://healthcare.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest",
+  }) as any as S.Schema<GetRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest>;
+
+export interface GetRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest {
+  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
+  parent: string;
+  /** Required. The path of the RetrieveRenderedFrames DICOMweb request. For example, `studies/{study_uid}/series/{series_uid}/instances/{instance_uid}/frames/{frame_list}/rendered`. */
+  dicomWebPath: string;
+  /** Optional. The viewport setting to use as specified in https://dicom.nema.org/medical/dicom/current/output/chtml/part18/sect_8.3.5.html#sect_8.3.5.1.3 */
+  viewport?: string;
+}
+export const GetRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      parent: S.String.pipe(T.Label()),
+      dicomWebPath: S.String.pipe(T.Label()),
+      viewport: S.optional(S.String.pipe(T.Query())),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}",
+        baseUrl: "https://healthcare.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier:
+      "GetRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest",
+  }) as any as S.Schema<GetRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest>;
+
 export interface GetSeriesMetricsProjectsLocationsDatasetsDicomStoresDicomWebStudiesSeriesRequest {
   /** Required. The series resource path. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}/dicomWeb/studies/{study_uid}/series/{series_uid}`. */
   series: string;
@@ -4816,10 +4940,10 @@ export const GetSeriesMetricsProjectsLocationsDatasetsDicomStoresDicomWebStudies
 
 /** SeriesMetrics contains metrics describing a DICOM series. */
 export interface SeriesMetrics {
-  /** Total structured storage bytes for all instances in the series. */
-  structuredStorageSizeBytes?: string;
   /** Number of instances in the series. */
   instanceCount?: string;
+  /** Total structured storage bytes for all instances in the series. */
+  structuredStorageSizeBytes?: string;
   /** The series resource path. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}/dicomWeb/studies/{study_uid}/series/{series_uid}`. */
   series?: string;
   /** Total blob storage bytes for all instances in the series. */
@@ -4827,12 +4951,34 @@ export interface SeriesMetrics {
 }
 export const SeriesMetrics = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    structuredStorageSizeBytes: S.optional(S.String),
     instanceCount: S.optional(S.String),
+    structuredStorageSizeBytes: S.optional(S.String),
     series: S.optional(S.String),
     blobStorageSizeBytes: S.optional(S.String),
   }),
 ).annotate({ identifier: "SeriesMetrics" }) as any as S.Schema<SeriesMetrics>;
+
+export interface GetSeriesProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest {
+  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
+  parent: string;
+  /** Required. The path of the RetrieveSeries DICOMweb request. For example, `studies/{study_uid}/series/{series_uid}`. */
+  dicomWebPath: string;
+}
+export const GetSeriesProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      parent: S.String.pipe(T.Label()),
+      dicomWebPath: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}",
+        baseUrl: "https://healthcare.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetSeriesProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest",
+  }) as any as S.Schema<GetSeriesProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest>;
 
 export interface GetStorageInfoProjectsLocationsDatasetsDicomStoresDicomWebStudiesSeriesInstancesRequest {
   /** Required. The path of the instance to return storage info for, in the form: `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}/series/{seriesUID}/instances/{instanceUID}` */
@@ -4854,6 +5000,17 @@ export const GetStorageInfoProjectsLocationsDatasetsDicomStoresDicomWebStudiesSe
       "GetStorageInfoProjectsLocationsDatasetsDicomStoresDicomWebStudiesSeriesInstancesRequest",
   }) as any as S.Schema<GetStorageInfoProjectsLocationsDatasetsDicomStoresDicomWebStudiesSeriesInstancesRequest>;
 
+/** StructuredStorageInfo contains details about the data stored in Structured Storage for the referenced resource. */
+export interface StructuredStorageInfo {
+  /** Size in bytes of data stored in structured storage. */
+  sizeBytes?: string;
+}
+export const StructuredStorageInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sizeBytes: S.optional(S.String),
+  }),
+).annotate({ identifier: "StructuredStorageInfo" }) as any as S.Schema<StructuredStorageInfo>;
+
 export type BlobStorageInfoStorageClassEnum =
   | "BLOB_STORAGE_CLASS_UNSPECIFIED"
   | "STANDARD"
@@ -4864,50 +5021,35 @@ export const BlobStorageInfoStorageClassEnum = S.String;
 
 /** BlobStorageInfo contains details about the data stored in Blob Storage for the referenced resource. Note: Storage class is only valid for DICOM and hence will only be populated for DICOM resources. */
 export interface BlobStorageInfo {
-  /** The time at which the storage class was updated. This is used to compute early deletion fees of the resource. */
-  storageClassUpdateTime?: string;
   /** The storage class in which the Blob data is stored. */
   storageClass?: BlobStorageInfoStorageClassEnum;
+  /** The time at which the storage class was updated. This is used to compute early deletion fees of the resource. */
+  storageClassUpdateTime?: string;
   /** Size in bytes of data stored in Blob Storage. */
   sizeBytes?: string;
 }
 export const BlobStorageInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    storageClassUpdateTime: S.optional(S.String),
     storageClass: S.optional(BlobStorageInfoStorageClassEnum),
+    storageClassUpdateTime: S.optional(S.String),
     sizeBytes: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BlobStorageInfo",
-}) as any as S.Schema<BlobStorageInfo>;
-
-/** StructuredStorageInfo contains details about the data stored in Structured Storage for the referenced resource. */
-export interface StructuredStorageInfo {
-  /** Size in bytes of data stored in structured storage. */
-  sizeBytes?: string;
-}
-export const StructuredStorageInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sizeBytes: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "StructuredStorageInfo",
-}) as any as S.Schema<StructuredStorageInfo>;
+).annotate({ identifier: "BlobStorageInfo" }) as any as S.Schema<BlobStorageInfo>;
 
 /** StorageInfo encapsulates all the storage info of a resource. */
 export interface StorageInfo {
-  /** The resource whose storage info is returned. For example: `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}/series/{seriesUID}/instances/{instanceUID}` */
-  referencedResource?: string;
-  /** Info about the data stored in blob storage for the resource. */
-  blobStorageInfo?: BlobStorageInfo;
   /** Info about the data stored in structured storage for the resource. */
   structuredStorageInfo?: StructuredStorageInfo;
+  /** Info about the data stored in blob storage for the resource. */
+  blobStorageInfo?: BlobStorageInfo;
+  /** The resource whose storage info is returned. For example: `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}/series/{seriesUID}/instances/{instanceUID}` */
+  referencedResource?: string;
 }
 export const StorageInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    referencedResource: S.optional(S.String),
-    blobStorageInfo: S.optional(BlobStorageInfo),
     structuredStorageInfo: S.optional(StructuredStorageInfo),
+    blobStorageInfo: S.optional(BlobStorageInfo),
+    referencedResource: S.optional(S.String),
   }),
 ).annotate({ identifier: "StorageInfo" }) as any as S.Schema<StorageInfo>;
 
@@ -4932,46 +5074,68 @@ export const GetStudyMetricsProjectsLocationsDatasetsDicomStoresDicomWebStudiesR
 
 /** StudyMetrics contains metrics describing a DICOM study. */
 export interface StudyMetrics {
-  /** Total structured storage bytes for all instances in the study. */
-  structuredStorageSizeBytes?: string;
-  /** The study resource path. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}/dicomWeb/studies/{study_uid}`. */
-  study?: string;
-  /** Total blob storage bytes for all instances in the study. */
-  blobStorageSizeBytes?: string;
   /** Number of instances in the study. */
   instanceCount?: string;
+  /** Total blob storage bytes for all instances in the study. */
+  blobStorageSizeBytes?: string;
+  /** The study resource path. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}/dicomWeb/studies/{study_uid}`. */
+  study?: string;
   /** Number of series in the study. */
   seriesCount?: string;
+  /** Total structured storage bytes for all instances in the study. */
+  structuredStorageSizeBytes?: string;
 }
 export const StudyMetrics = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    structuredStorageSizeBytes: S.optional(S.String),
-    study: S.optional(S.String),
-    blobStorageSizeBytes: S.optional(S.String),
     instanceCount: S.optional(S.String),
+    blobStorageSizeBytes: S.optional(S.String),
+    study: S.optional(S.String),
     seriesCount: S.optional(S.String),
+    structuredStorageSizeBytes: S.optional(S.String),
   }),
 ).annotate({ identifier: "StudyMetrics" }) as any as S.Schema<StudyMetrics>;
 
+export interface GetStudyProjectsLocationsDatasetsDicomStoresStudiesRequest {
+  /** Required. The path of the RetrieveStudy DICOMweb request. For example, `studies/{study_uid}`. */
+  dicomWebPath: string;
+  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
+  parent: string;
+}
+export const GetStudyProjectsLocationsDatasetsDicomStoresStudiesRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      dicomWebPath: S.String.pipe(T.Label()),
+      parent: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}",
+        baseUrl: "https://healthcare.googleapis.com/",
+      }),
+    ),
+).annotate({
+  identifier: "GetStudyProjectsLocationsDatasetsDicomStoresStudiesRequest",
+}) as any as S.Schema<GetStudyProjectsLocationsDatasetsDicomStoresStudiesRequest>;
+
 export interface HistoryProjectsLocationsDatasetsFhirStoresFhirRequest {
-  /** Only include resource versions that were current at some point during the time period specified in the date time value. The date parameter format is yyyy-mm-ddThh:mm:ss[Z|(+|-)hh:mm] Clients may specify any of the following: * An entire year: `_at=2019` * An entire month: `_at=2019-01` * A specific day: `_at=2019-01-20` * A specific second: `_at=2018-12-31T23:59:58Z` */
-  _at?: string;
   /** Used to retrieve the first, previous, next, or last page of resource versions when using pagination. Value should be set to the value of `_page_token` set in next or previous page links' URLs. Next and previous page are returned in the response bundle's links field, where `link.relation` is "previous" or "next". Omit `_page_token` if no previous request has been made. */
   _page_token?: string;
   /** Only include resource versions that were created at or after the given instant in time. The instant in time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz (for example 2015-02-07T13:28:17.239+02:00 or 2017-01-01T00:00:00Z). The time must be specified to the second and include a time zone. */
   _since?: string;
-  /** Required. The name of the resource to retrieve. */
-  name: string;
+  /** Only include resource versions that were current at some point during the time period specified in the date time value. The date parameter format is yyyy-mm-ddThh:mm:ss[Z|(+|-)hh:mm] Clients may specify any of the following: * An entire year: `_at=2019` * An entire month: `_at=2019-01` * A specific day: `_at=2019-01-20` * A specific second: `_at=2018-12-31T23:59:58Z` */
+  _at?: string;
   /** The maximum number of search results on a page. If not specified, 100 is used. May not be larger than 1000. */
   _count?: number;
+  /** Required. The name of the resource to retrieve. */
+  name: string;
 }
 export const HistoryProjectsLocationsDatasetsFhirStoresFhirRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    _at: S.optional(S.String.pipe(T.Query())),
     _page_token: S.optional(S.String.pipe(T.Query())),
     _since: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
+    _at: S.optional(S.String.pipe(T.Query())),
     _count: S.optional(S.Number.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4993,18 +5157,18 @@ export const ImportResourcesHistoryRequestContentStructureEnum = S.String;
 
 /** Request to import the history of resources. */
 export interface ImportResourcesHistoryRequest {
-  /** Cloud Storage source data location and import configuration. The Cloud Healthcare Service Agent requires the `roles/storage.objectAdmin` Cloud IAM roles on the Cloud Storage location. The Healthcare Service Agent Each Cloud Storage object should be a text file that contains the format specified in ContentStructure. */
-  gcsSource?: GoogleCloudHealthcareV1beta1FhirGcsSource;
-  /** The maximum number of errors before the server cancels the operation. If not specified or set to 0, defaults to 100. -1 means no maximum, the server tries to process all input. Since the server executes the operation in parallel, it might not stop the operation after exactly this number of errors occur. */
-  maxErrorCount?: string;
   /** The content structure in the source location. If not specified, the server treats the input source files as BUNDLE. */
   contentStructure?: ImportResourcesHistoryRequestContentStructureEnum | (string & {});
+  /** The maximum number of errors before the server cancels the operation. If not specified or set to 0, defaults to 100. -1 means no maximum, the server tries to process all input. Since the server executes the operation in parallel, it might not stop the operation after exactly this number of errors occur. */
+  maxErrorCount?: string;
+  /** Cloud Storage source data location and import configuration. The Cloud Healthcare Service Agent requires the `roles/storage.objectAdmin` Cloud IAM roles on the Cloud Storage location. The Healthcare Service Agent Each Cloud Storage object should be a text file that contains the format specified in ContentStructure. */
+  gcsSource?: GoogleCloudHealthcareV1beta1FhirGcsSource;
 }
 export const ImportResourcesHistoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    gcsSource: S.optional(GoogleCloudHealthcareV1beta1FhirGcsSource),
-    maxErrorCount: S.optional(S.String),
     contentStructure: S.optional(ImportResourcesHistoryRequestContentStructureEnum),
+    maxErrorCount: S.optional(S.String),
+    gcsSource: S.optional(GoogleCloudHealthcareV1beta1FhirGcsSource),
   }),
 ).annotate({
   identifier: "ImportResourcesHistoryRequest",
@@ -5061,9 +5225,7 @@ export const BlobStorageSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     blobStorageClass: S.optional(BlobStorageSettingsBlobStorageClassEnum),
   }),
-).annotate({
-  identifier: "BlobStorageSettings",
-}) as any as S.Schema<BlobStorageSettings>;
+).annotate({ identifier: "BlobStorageSettings" }) as any as S.Schema<BlobStorageSettings>;
 
 /** Imports data into the specified DICOM store. Returns an error if any of the files to import are not DICOM files. This API accepts duplicate DICOM instances by ignoring the newly-pushed instance. It does not overwrite. */
 export interface ImportDicomDataRequest {
@@ -5077,9 +5239,7 @@ export const ImportDicomDataRequest = /*@__PURE__*/ S.suspend(() =>
     gcsSource: S.optional(GoogleCloudHealthcareV1beta1DicomGcsSource),
     blobStorageSettings: S.optional(BlobStorageSettings),
   }),
-).annotate({
-  identifier: "ImportDicomDataRequest",
-}) as any as S.Schema<ImportDicomDataRequest>;
+).annotate({ identifier: "ImportDicomDataRequest" }) as any as S.Schema<ImportDicomDataRequest>;
 
 export interface ImportProjectsLocationsDatasetsDicomStoresRequest {
   /** Required. The name of the DICOM store resource into which the data is imported. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
@@ -5112,19 +5272,17 @@ export const ImportResourcesRequestContentStructureEnum = S.String;
 
 /** Request to import resources. */
 export interface ImportResourcesRequest {
-  /** The content structure in the source location. If not specified, the server treats the input source files as BUNDLE. */
-  contentStructure?: ImportResourcesRequestContentStructureEnum | (string & {});
   /** Cloud Storage source data location and import configuration. The Cloud Healthcare Service Agent requires the `roles/storage.objectViewer` Cloud IAM roles on the Cloud Storage location. The Healthcare Service Agent Each Cloud Storage object should be a text file that contains the format specified in ContentStructure. */
   gcsSource?: GoogleCloudHealthcareV1beta1FhirGcsSource;
+  /** The content structure in the source location. If not specified, the server treats the input source files as BUNDLE. */
+  contentStructure?: ImportResourcesRequestContentStructureEnum | (string & {});
 }
 export const ImportResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    contentStructure: S.optional(ImportResourcesRequestContentStructureEnum),
     gcsSource: S.optional(GoogleCloudHealthcareV1beta1FhirGcsSource),
+    contentStructure: S.optional(ImportResourcesRequestContentStructureEnum),
   }),
-).annotate({
-  identifier: "ImportResourcesRequest",
-}) as any as S.Schema<ImportResourcesRequest>;
+).annotate({ identifier: "ImportResourcesRequest" }) as any as S.Schema<ImportResourcesRequest>;
 
 export interface ImportProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. The name of the FHIR store to import FHIR resources to, in the format of `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
@@ -5167,9 +5325,7 @@ export const ImportMessagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     gcsSource: S.optional(GcsSource),
   }),
-).annotate({
-  identifier: "ImportMessagesRequest",
-}) as any as S.Schema<ImportMessagesRequest>;
+).annotate({ identifier: "ImportMessagesRequest" }) as any as S.Schema<ImportMessagesRequest>;
 
 export interface ImportProjectsLocationsDatasetsHl7V2StoresRequest {
   /** Required. The name of the target HL7v2 store, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7v2Stores/{hl7v2_store_id}` */
@@ -5201,9 +5357,7 @@ export const IngestMessageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(Message),
   }),
-).annotate({
-  identifier: "IngestMessageRequest",
-}) as any as S.Schema<IngestMessageRequest>;
+).annotate({ identifier: "IngestMessageRequest" }) as any as S.Schema<IngestMessageRequest>;
 
 export interface IngestProjectsLocationsDatasetsHl7V2StoresMessagesRequest {
   /** Required. The name of the HL7v2 store this message belongs to. */
@@ -5229,21 +5383,21 @@ export const IngestProjectsLocationsDatasetsHl7V2StoresMessagesRequest = /*@__PU
 
 /** Acknowledges that a message has been ingested into the specified HL7v2 store. */
 export interface IngestMessageResponse {
-  /** HL7v2 ACK message. */
-  hl7Ack?: string;
   /** Created message resource. */
   message?: Message;
+  /** HL7v2 ACK message. */
+  hl7Ack?: string;
 }
 export const IngestMessageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    hl7Ack: S.optional(S.String),
     message: S.optional(Message),
+    hl7Ack: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IngestMessageResponse",
-}) as any as S.Schema<IngestMessageResponse>;
+).annotate({ identifier: "IngestMessageResponse" }) as any as S.Schema<IngestMessageResponse>;
 
 export interface ListProjectsLocationsRequest {
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
@@ -5252,16 +5406,14 @@ export interface ListProjectsLocationsRequest {
   pageToken?: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    name: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     extraLocationTypes: S.optional(StringList.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -5278,33 +5430,31 @@ export const LocationList = /*@__PURE__*/ S.Array(Location) as any as S.Schema<L
 
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string;
   /** A list of locations that matches the specified filter in the request. */
   locations?: LocationList;
+  /** The standard List next-page token. */
+  nextPageToken?: string;
 }
 export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     locations: S.optional(LocationList),
+    nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListLocationsResponse",
-}) as any as S.Schema<ListLocationsResponse>;
+).annotate({ identifier: "ListLocationsResponse" }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsDatasetsRequest {
-  /** Required. The name of the project whose datasets should be listed. For example, `projects/{project_id}/locations/{location_id}`. */
-  parent: string;
   /** The next_page_token value returned from a previous List request, if any. */
   pageToken?: string;
   /** The maximum number of items to return. If not specified, 100 is used. May not be larger than 1000. */
   pageSize?: number;
+  /** Required. The name of the project whose datasets should be listed. For example, `projects/{project_id}/locations/{location_id}`. */
+  parent: string;
 }
 export const ListProjectsLocationsDatasetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -5321,36 +5471,34 @@ export const DatasetList = /*@__PURE__*/ S.Array(Dataset) as any as S.Schema<Dat
 
 /** Lists the available datasets. */
 export interface ListDatasetsResponse {
-  /** The first page of datasets. */
-  datasets?: DatasetList;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string;
+  /** The first page of datasets. */
+  datasets?: DatasetList;
 }
 export const ListDatasetsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    datasets: S.optional(DatasetList),
     nextPageToken: S.optional(S.String),
+    datasets: S.optional(DatasetList),
   }),
-).annotate({
-  identifier: "ListDatasetsResponse",
-}) as any as S.Schema<ListDatasetsResponse>;
+).annotate({ identifier: "ListDatasetsResponse" }) as any as S.Schema<ListDatasetsResponse>;
 
 export interface ListProjectsLocationsDatasetsConsentStoresRequest {
-  /** Required. Name of the dataset. */
-  parent: string;
   /** Optional. Token to retrieve the next page of results, or empty to get the first page. */
   pageToken?: string;
-  /** Optional. Restricts the stores returned to those matching a filter. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in `yyyy-mm-dd` form. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, it's just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. Only filtering on labels is supported. For example, `filter=labels.key=value`. */
-  filter?: string;
   /** Optional. Limit on the number of consent stores to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
   pageSize?: number;
+  /** Required. Name of the dataset. */
+  parent: string;
+  /** Optional. Restricts the stores returned to those matching a filter. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in `yyyy-mm-dd` form. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, it's just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. Only filtering on labels is supported. For example, `filter=labels.key=value`. */
+  filter?: string;
 }
 export const ListProjectsLocationsDatasetsConsentStoresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -5368,15 +5516,15 @@ export const ConsentStoreList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ConsentStoreList>;
 
 export interface ListConsentStoresResponse {
-  /** The returned consent stores. The maximum number of stores returned is determined by the value of page_size in the ListConsentStoresRequest. */
-  consentStores?: ConsentStoreList;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string;
+  /** The returned consent stores. The maximum number of stores returned is determined by the value of page_size in the ListConsentStoresRequest. */
+  consentStores?: ConsentStoreList;
 }
 export const ListConsentStoresResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    consentStores: S.optional(ConsentStoreList),
     nextPageToken: S.optional(S.String),
+    consentStores: S.optional(ConsentStoreList),
   }),
 ).annotate({
   identifier: "ListConsentStoresResponse",
@@ -5416,36 +5564,36 @@ export const AttributeDefinitionList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AttributeDefinitionList>;
 
 export interface ListAttributeDefinitionsResponse {
-  /** The returned Attribute definitions. The maximum number of attributes returned is determined by the value of page_size in the ListAttributeDefinitionsRequest. */
-  attributeDefinitions?: AttributeDefinitionList;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string;
+  /** The returned Attribute definitions. The maximum number of attributes returned is determined by the value of page_size in the ListAttributeDefinitionsRequest. */
+  attributeDefinitions?: AttributeDefinitionList;
 }
 export const ListAttributeDefinitionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    attributeDefinitions: S.optional(AttributeDefinitionList),
     nextPageToken: S.optional(S.String),
+    attributeDefinitions: S.optional(AttributeDefinitionList),
   }),
 ).annotate({
   identifier: "ListAttributeDefinitionsResponse",
 }) as any as S.Schema<ListAttributeDefinitionsResponse>;
 
 export interface ListProjectsLocationsDatasetsConsentStoresConsentArtifactsRequest {
-  /** Optional. Limit on the number of consent artifacts to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
-  pageSize?: number;
   /** Required. Name of the consent store to retrieve consent artifacts from. */
   parent: string;
   /** Optional. The next_page_token value returned from the previous List request, if any. */
   pageToken?: string;
+  /** Optional. Limit on the number of consent artifacts to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
+  pageSize?: number;
   /** Optional. Restricts the artifacts returned to those matching a filter. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in `yyyy-mm-dd` form. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, it's just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. The fields available for filtering are: - user_id. For example, `filter=user_id=\"user123\"`. - consent_content_version - metadata. For example, `filter=Metadata(\"testkey\")=\"value\"` or `filter=HasMetadata(\"testkey\")`. */
   filter?: string;
 }
 export const ListProjectsLocationsDatasetsConsentStoresConsentArtifactsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -5464,37 +5612,37 @@ export const ConsentArtifactList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ConsentArtifactList>;
 
 export interface ListConsentArtifactsResponse {
-  /** The returned Consent artifacts. The maximum number of artifacts returned is determined by the value of page_size in the ListConsentArtifactsRequest. */
-  consentArtifacts?: ConsentArtifactList;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string;
+  /** The returned Consent artifacts. The maximum number of artifacts returned is determined by the value of page_size in the ListConsentArtifactsRequest. */
+  consentArtifacts?: ConsentArtifactList;
 }
 export const ListConsentArtifactsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    consentArtifacts: S.optional(ConsentArtifactList),
     nextPageToken: S.optional(S.String),
+    consentArtifacts: S.optional(ConsentArtifactList),
   }),
 ).annotate({
   identifier: "ListConsentArtifactsResponse",
 }) as any as S.Schema<ListConsentArtifactsResponse>;
 
 export interface ListProjectsLocationsDatasetsConsentStoresConsentsRequest {
-  /** Optional. Limit on the number of Consents to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
-  pageSize?: number;
-  /** Required. Name of the consent store to retrieve Consents from. */
-  parent: string;
   /** Optional. The next_page_token value returned from the previous List request, if any. */
   pageToken?: string;
+  /** Optional. Limit on the number of Consents to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
+  pageSize?: number;
   /** Optional. Restricts the consents returned to those matching a filter. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in `yyyy-mm-dd` form. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, it's just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. The fields available for filtering are: - user_id. For example, `filter='user_id="user123"'`. - consent_artifact - state - revision_create_time - metadata. For example, `filter=Metadata(\"testkey\")=\"value\"` or `filter=HasMetadata(\"testkey\")`. */
   filter?: string;
+  /** Required. Name of the consent store to retrieve Consents from. */
+  parent: string;
 }
 export const ListProjectsLocationsDatasetsConsentStoresConsentsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -5510,37 +5658,35 @@ export type ConsentList_ = Array<Consent>;
 export const ConsentList_ = /*@__PURE__*/ S.Array(Consent) as any as S.Schema<ConsentList_>;
 
 export interface ListConsentsResponse {
-  /** The returned Consents. The maximum number of Consents returned is determined by the value of page_size in the ListConsentsRequest. */
-  consents?: ConsentList_;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string;
+  /** The returned Consents. The maximum number of Consents returned is determined by the value of page_size in the ListConsentsRequest. */
+  consents?: ConsentList_;
 }
 export const ListConsentsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    consents: S.optional(ConsentList_),
     nextPageToken: S.optional(S.String),
+    consents: S.optional(ConsentList_),
   }),
-).annotate({
-  identifier: "ListConsentsResponse",
-}) as any as S.Schema<ListConsentsResponse>;
+).annotate({ identifier: "ListConsentsResponse" }) as any as S.Schema<ListConsentsResponse>;
 
 export interface ListProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest {
-  /** Optional. Limit on the number of User data mappings to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
-  pageSize?: number;
   /** Required. Name of the consent store to retrieve User data mappings from. */
   parent: string;
-  /** Optional. Token to retrieve the next page of results, or empty to get the first page. */
-  pageToken?: string;
   /** Optional. Restricts the user data mappings returned to those matching a filter. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in `yyyy-mm-dd` form. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, it's just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. The fields available for filtering are: - data_id - user_id. For example, `filter=user_id=\"user123\"`. - archived - archive_time */
   filter?: string;
+  /** Optional. Token to retrieve the next page of results, or empty to get the first page. */
+  pageToken?: string;
+  /** Optional. Limit on the number of User data mappings to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -5558,15 +5704,15 @@ export const UserDataMappingList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<UserDataMappingList>;
 
 export interface ListUserDataMappingsResponse {
-  /** The returned User data mappings. The maximum number of User data mappings returned is determined by the value of page_size in the ListUserDataMappingsRequest. */
-  userDataMappings?: UserDataMappingList;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string;
+  /** The returned User data mappings. The maximum number of User data mappings returned is determined by the value of page_size in the ListUserDataMappingsRequest. */
+  userDataMappings?: UserDataMappingList;
 }
 export const ListUserDataMappingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userDataMappings: S.optional(UserDataMappingList),
     nextPageToken: S.optional(S.String),
+    userDataMappings: S.optional(UserDataMappingList),
   }),
 ).annotate({
   identifier: "ListUserDataMappingsResponse",
@@ -5575,18 +5721,18 @@ export const ListUserDataMappingsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsLocationsDatasetsDicomStoresRequest {
   /** Required. Name of the dataset. */
   parent: string;
-  /** The next_page_token value returned from the previous List request, if any. */
-  pageToken?: string;
   /** Restricts stores returned to those matching a filter. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in `yyyy-mm-dd` form. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, it's just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. Only filtering on labels is supported. For example, `labels.key=value`. */
   filter?: string;
+  /** The next_page_token value returned from the previous List request, if any. */
+  pageToken?: string;
   /** Limit on the number of DICOM stores to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
   pageSize?: number;
 }
 export const ListProjectsLocationsDatasetsDicomStoresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parent: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -5614,25 +5760,23 @@ export const ListDicomStoresResponse = /*@__PURE__*/ S.suspend(() =>
     dicomStores: S.optional(DicomStoreList),
     nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListDicomStoresResponse",
-}) as any as S.Schema<ListDicomStoresResponse>;
+).annotate({ identifier: "ListDicomStoresResponse" }) as any as S.Schema<ListDicomStoresResponse>;
 
 export interface ListProjectsLocationsDatasetsFhirStoresRequest {
-  /** Limit on the number of FHIR stores to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
-  pageSize?: number;
-  /** Required. Name of the dataset. */
-  parent: string;
   /** The next_page_token value returned from the previous List request, if any. */
   pageToken?: string;
+  /** Required. Name of the dataset. */
+  parent: string;
+  /** Limit on the number of FHIR stores to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
+  pageSize?: number;
   /** Restricts stores returned to those matching a filter. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in `yyyy-mm-dd` form. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, it's just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. Only filtering on labels is supported, for example `labels.key=value`. */
   filter?: string;
 }
 export const ListProjectsLocationsDatasetsFhirStoresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -5650,25 +5794,23 @@ export const FhirStoreList = /*@__PURE__*/ S.Array(FhirStore) as any as S.Schema
 
 /** Lists the FHIR stores in the given dataset. */
 export interface ListFhirStoresResponse {
-  /** Token to retrieve the next page of results or empty if there are no more results in the list. */
-  nextPageToken?: string;
   /** The returned FHIR stores. Won't be more FHIR stores than the value of page_size in the request. */
   fhirStores?: FhirStoreList;
+  /** Token to retrieve the next page of results or empty if there are no more results in the list. */
+  nextPageToken?: string;
 }
 export const ListFhirStoresResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     fhirStores: S.optional(FhirStoreList),
+    nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListFhirStoresResponse",
-}) as any as S.Schema<ListFhirStoresResponse>;
+).annotate({ identifier: "ListFhirStoresResponse" }) as any as S.Schema<ListFhirStoresResponse>;
 
 export interface ListProjectsLocationsDatasetsHl7V2StoresRequest {
-  /** Required. Name of the dataset. */
-  parent: string;
   /** The next_page_token value returned from the previous List request, if any. */
   pageToken?: string;
+  /** Required. Name of the dataset. */
+  parent: string;
   /** Restricts stores returned to those matching a filter. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in `yyyy-mm-dd` form. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, it's just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. Only filtering on labels is supported. For example, `labels.key=value`. */
   filter?: string;
   /** Limit on the number of HL7v2 stores to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
@@ -5676,8 +5818,8 @@ export interface ListProjectsLocationsDatasetsHl7V2StoresRequest {
 }
 export const ListProjectsLocationsDatasetsHl7V2StoresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
@@ -5706,9 +5848,7 @@ export const ListHl7V2StoresResponse = /*@__PURE__*/ S.suspend(() =>
     hl7V2Stores: S.optional(Hl7V2StoreList),
     nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListHl7V2StoresResponse",
-}) as any as S.Schema<ListHl7V2StoresResponse>;
+).annotate({ identifier: "ListHl7V2StoresResponse" }) as any as S.Schema<ListHl7V2StoresResponse>;
 
 export type ListProjectsLocationsDatasetsHl7V2StoresMessagesViewEnum =
   | "MESSAGE_VIEW_UNSPECIFIED"
@@ -5722,25 +5862,25 @@ export const ListProjectsLocationsDatasetsHl7V2StoresMessagesViewEnum = S.String
 export interface ListProjectsLocationsDatasetsHl7V2StoresMessagesRequest {
   /** Required. Name of the HL7v2 store to retrieve messages from. */
   parent: string;
-  /** Limit on the number of messages to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
-  pageSize?: number;
-  /** The next_page_token value returned from the previous List request, if any. */
-  pageToken?: string;
-  /** Restricts messages returned to those matching a filter. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in `yyyy-mm-dd` form. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, it's just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. Fields/functions available for filtering are: * `message_type`, from the MSH-9.1 field. For example, `NOT message_type = "ADT"`. * `send_date` or `sendDate`, the YYYY-MM-DD date the message was sent in the dataset's time_zone, from the MSH-7 segment. For example, `send_date < "2017-01-02"`. * `send_time`, the timestamp when the message was sent, using the RFC3339 time format for comparisons, from the MSH-7 segment. For example, `send_time < "2017-01-02T00:00:00-05:00"`. * `create_time`, the timestamp when the message was created in the HL7v2 store. Use the RFC3339 time format for comparisons. For example, `create_time < "2017-01-02T00:00:00-05:00"`. * `send_facility`, the care center that the message came from, from the MSH-4 segment. For example, `send_facility = "ABC"`. * `PatientId(value, type)`, which matches if the message lists a patient having an ID of the given value and type in the PID-2, PID-3, or PID-4 segments. For example, `PatientId("123456", "MRN")`. * `labels.x`, a string value of the label with key `x` as set using the Message.labels map. For example, `labels."priority"="high"`. The operator `:*` can be used to assert the existence of a label. For example, `labels."priority":*`. */
-  filter?: string;
-  /** Orders messages returned by the specified order_by clause. Syntax: https://cloud.google.com/apis/design/design_patterns#sorting_order Fields available for ordering are: * `send_time` */
-  orderBy?: string;
   /** Specifies the parts of the Message to return in the response. When unspecified, equivalent to BASIC. Setting this to anything other than BASIC with a `page_size` larger than the default can generate a large response, which impacts the performance of this method. */
   view?: ListProjectsLocationsDatasetsHl7V2StoresMessagesViewEnum | (string & {});
+  /** The next_page_token value returned from the previous List request, if any. */
+  pageToken?: string;
+  /** Orders messages returned by the specified order_by clause. Syntax: https://cloud.google.com/apis/design/design_patterns#sorting_order Fields available for ordering are: * `send_time` */
+  orderBy?: string;
+  /** Limit on the number of messages to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
+  pageSize?: number;
+  /** Restricts messages returned to those matching a filter. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in `yyyy-mm-dd` form. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, it's just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. Fields/functions available for filtering are: * `message_type`, from the MSH-9.1 field. For example, `NOT message_type = "ADT"`. * `send_date` or `sendDate`, the YYYY-MM-DD date the message was sent in the dataset's time_zone, from the MSH-7 segment. For example, `send_date < "2017-01-02"`. * `send_time`, the timestamp when the message was sent, using the RFC3339 time format for comparisons, from the MSH-7 segment. For example, `send_time < "2017-01-02T00:00:00-05:00"`. * `create_time`, the timestamp when the message was created in the HL7v2 store. Use the RFC3339 time format for comparisons. For example, `create_time < "2017-01-02T00:00:00-05:00"`. * `send_facility`, the care center that the message came from, from the MSH-4 segment. For example, `send_facility = "ABC"`. * `PatientId(value, type)`, which matches if the message lists a patient having an ID of the given value and type in the PID-2, PID-3, or PID-4 segments. For example, `PatientId("123456", "MRN")`. * `labels.x`, a string value of the label with key `x` as set using the Message.labels map. For example, `labels."priority"="high"`. The operator `:*` can be used to assert the existence of a label. For example, `labels."priority":*`. */
+  filter?: string;
 }
 export const ListProjectsLocationsDatasetsHl7V2StoresMessagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
     view: S.optional(ListProjectsLocationsDatasetsHl7V2StoresMessagesViewEnum.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -5764,29 +5904,27 @@ export const ListMessagesResponse = /*@__PURE__*/ S.suspend(() =>
     hl7V2Messages: S.optional(MessageList),
     nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListMessagesResponse",
-}) as any as S.Schema<ListMessagesResponse>;
+).annotate({ identifier: "ListMessagesResponse" }) as any as S.Schema<ListMessagesResponse>;
 
 export interface ListProjectsLocationsDatasetsOperationsRequest {
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
-  /** The standard list page size. */
-  pageSize?: number;
   /** The name of the operation's parent resource. */
   name: string;
-  /** The standard list filter. */
-  filter?: string;
   /** The standard list page token. */
   pageToken?: string;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean;
+  /** The standard list filter. */
+  filter?: string;
+  /** The standard list page size. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsDatasetsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -5805,26 +5943,24 @@ export const OperationList = /*@__PURE__*/ S.Array(Operation) as any as S.Schema
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList;
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     operations: S.optional(OperationList),
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListRevisionsProjectsLocationsDatasetsConsentStoresConsentsRequest {
-  /** Required. The resource name of the Consent to retrieve revisions for. */
-  name: string;
   /** Optional. Limit on the number of revisions to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
   pageSize?: number;
+  /** Required. The resource name of the Consent to retrieve revisions for. */
+  name: string;
   /** Optional. Token to retrieve the next page of results or empty if there are no more results in the list. */
   pageToken?: string;
   /** Optional. Restricts the revisions returned to those matching a filter. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in `yyyy-mm-dd` form. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, it's just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. Fields/functions available for filtering are: - user_id. For example, `filter='user_id="user123"'`. - consent_artifact - state - revision_create_time - metadata. For example, `filter=Metadata(\"testkey\")=\"value\"` or `filter=HasMetadata(\"testkey\")`. */
@@ -5833,8 +5969,8 @@ export interface ListRevisionsProjectsLocationsDatasetsConsentStoresConsentsRequ
 export const ListRevisionsProjectsLocationsDatasetsConsentStoresConsentsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
@@ -5907,17 +6043,17 @@ export const PatchProjectsLocationsDatasetsRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<PatchProjectsLocationsDatasetsRequest>;
 
 export interface PatchProjectsLocationsDatasetsConsentStoresRequest {
-  /** Required. The update mask that applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. Only the `labels`, `default_consent_ttl`, and `enable_consent_create_on_update` fields are allowed to be updated. */
-  updateMask?: string;
   /** Resource name of the consent store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}`. Cannot be changed after creation. */
   name: string;
+  /** Required. The update mask that applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. Only the `labels`, `default_consent_ttl`, and `enable_consent_create_on_update` fields are allowed to be updated. */
+  updateMask?: string;
   /** Request body */
   body?: ConsentStore;
 }
 export const PatchProjectsLocationsDatasetsConsentStoresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(ConsentStore.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -5931,18 +6067,18 @@ export const PatchProjectsLocationsDatasetsConsentStoresRequest = /*@__PURE__*/ 
 }) as any as S.Schema<PatchProjectsLocationsDatasetsConsentStoresRequest>;
 
 export interface PatchProjectsLocationsDatasetsConsentStoresAttributeDefinitionsRequest {
-  /** Required. The update mask that applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. Only the `description`, `allowed_values`, `consent_default_values` and `data_mapping_default_value` fields can be updated. The updated `allowed_values` must contain all values from the previous `allowed_values`. */
-  updateMask?: string;
   /** Identifier. Resource name of the Attribute definition, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/attributeDefinitions/{attribute_definition_id}`. Cannot be changed after creation. */
   name: string;
+  /** Required. The update mask that applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. Only the `description`, `allowed_values`, `consent_default_values` and `data_mapping_default_value` fields can be updated. The updated `allowed_values` must contain all values from the previous `allowed_values`. */
+  updateMask?: string;
   /** Request body */
   body?: AttributeDefinition;
 }
 export const PatchProjectsLocationsDatasetsConsentStoresAttributeDefinitionsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      updateMask: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(AttributeDefinition.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -5981,18 +6117,18 @@ export const PatchProjectsLocationsDatasetsConsentStoresConsentsRequest = /*@__P
 }) as any as S.Schema<PatchProjectsLocationsDatasetsConsentStoresConsentsRequest>;
 
 export interface PatchProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest {
-  /** Resource name of the User data mapping, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/userDataMappings/{user_data_mapping_id}`. */
-  name: string;
   /** Required. The update mask that applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. Only the `data_id`, `user_id` and `resource_attributes` fields can be updated. */
   updateMask?: string;
+  /** Resource name of the User data mapping, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/userDataMappings/{user_data_mapping_id}`. */
+  name: string;
   /** Request body */
   body?: UserDataMapping;
 }
 export const PatchProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       body: S.optional(UserDataMapping.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -6006,17 +6142,17 @@ export const PatchProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest 
   }) as any as S.Schema<PatchProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest>;
 
 export interface PatchProjectsLocationsDatasetsDicomStoresRequest {
-  /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
-  updateMask?: string;
   /** Identifier. Resource name of the DICOM store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
   name: string;
+  /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
+  updateMask?: string;
   /** Request body */
   body?: DicomStore;
 }
 export const PatchProjectsLocationsDatasetsDicomStoresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(DicomStore.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -6030,17 +6166,17 @@ export const PatchProjectsLocationsDatasetsDicomStoresRequest = /*@__PURE__*/ S.
 }) as any as S.Schema<PatchProjectsLocationsDatasetsDicomStoresRequest>;
 
 export interface PatchProjectsLocationsDatasetsFhirStoresRequest {
-  /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
-  updateMask?: string;
   /** Output only. Identifier. Resource name of the FHIR store, of the form `projects/{project_id}/locations/{location}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
   name: string;
+  /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
+  updateMask?: string;
   /** Request body */
   body?: FhirStore;
 }
 export const PatchProjectsLocationsDatasetsFhirStoresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(FhirStore.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -6075,17 +6211,17 @@ export const PatchProjectsLocationsDatasetsFhirStoresFhirRequest = /*@__PURE__*/
 }) as any as S.Schema<PatchProjectsLocationsDatasetsFhirStoresFhirRequest>;
 
 export interface PatchProjectsLocationsDatasetsHl7V2StoresRequest {
-  /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
-  updateMask?: string;
   /** Identifier. Resource name of the HL7v2 store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7V2Stores/{hl7v2_store_id}`. */
   name: string;
+  /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
+  updateMask?: string;
   /** Request body */
   body?: Hl7V2Store;
 }
 export const PatchProjectsLocationsDatasetsHl7V2StoresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Hl7V2Store.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -6124,18 +6260,18 @@ export const PatchProjectsLocationsDatasetsHl7V2StoresMessagesRequest = /*@__PUR
 }) as any as S.Schema<PatchProjectsLocationsDatasetsHl7V2StoresMessagesRequest>;
 
 export interface Patient_consent_enforcement_statusProjectsLocationsDatasetsFhirStoresFhirRequest {
-  /** Required. The name of the patient to find enforcement statuses, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Patient/{patient_id}` */
-  name: string;
   /** Optional. The maximum number of results on a page. If not specified, 100 is used. May not be larger than 1000. */
   _count?: number;
+  /** Required. The name of the patient to find enforcement statuses, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Patient/{patient_id}` */
+  name: string;
   /** Optional. Used to retrieve the first, previous, next, or last page of consent enforcement statuses when using pagination. Value should be set to the value of `_page_token` set in next or previous page links' URLs. Next and previous page are returned in the response bundle's links field, where `link.relation` is "previous" or "next". Omit `_page_token` if no previous request has been made. */
   _page_token?: string;
 }
 export const Patient_consent_enforcement_statusProjectsLocationsDatasetsFhirStoresFhirRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       _count: S.optional(S.Number.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
       _page_token: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -6149,31 +6285,31 @@ export const Patient_consent_enforcement_statusProjectsLocationsDatasetsFhirStor
   }) as any as S.Schema<Patient_consent_enforcement_statusProjectsLocationsDatasetsFhirStoresFhirRequest>;
 
 export interface Patient_everythingProjectsLocationsDatasetsFhirStoresFhirRequest {
-  /** Used to retrieve the next or previous page of results when using pagination. Set `_page_token` to the value of _page_token set in next or previous page links' url. Next and previous page are returned in the response bundle's links field, where `link.relation` is "previous" or "next". Omit `_page_token` if no previous request has been made. */
-  _page_token?: string;
-  /** The response includes records subsequent to the start date. The date uses the format YYYY-MM-DD. If no start date is provided, all records prior to the end date are in scope. */
-  start?: string;
   /** Required. Name of the `Patient` resource for which the information is required. */
   name: string;
-  /** The response includes records prior to the end date. The date uses the format YYYY-MM-DD. If no end date is provided, all records subsequent to the start date are in scope. */
-  end?: string;
-  /** Maximum number of resources in a page. If not specified, 100 is used. May not be larger than 1000. */
-  _count?: number;
-  /** If provided, only resources updated after this time are returned. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
-  _since?: string;
   /** String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) are returned. Specifying multiple `_type` parameters isn't supported. For example, the result of `_type=Observation&_type=Encounter` is undefined. Use `_type=Observation,Encounter` instead. */
   _type?: string;
+  /** Maximum number of resources in a page. If not specified, 100 is used. May not be larger than 1000. */
+  _count?: number;
+  /** Used to retrieve the next or previous page of results when using pagination. Set `_page_token` to the value of _page_token set in next or previous page links' url. Next and previous page are returned in the response bundle's links field, where `link.relation` is "previous" or "next". Omit `_page_token` if no previous request has been made. */
+  _page_token?: string;
+  /** If provided, only resources updated after this time are returned. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
+  _since?: string;
+  /** The response includes records prior to the end date. The date uses the format YYYY-MM-DD. If no end date is provided, all records subsequent to the start date are in scope. */
+  end?: string;
+  /** The response includes records subsequent to the start date. The date uses the format YYYY-MM-DD. If no start date is provided, all records prior to the end date are in scope. */
+  start?: string;
 }
 export const Patient_everythingProjectsLocationsDatasetsFhirStoresFhirRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      _page_token: S.optional(S.String.pipe(T.Query())),
-      start: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
-      end: S.optional(S.String.pipe(T.Query())),
-      _count: S.optional(S.Number.pipe(T.Query())),
-      _since: S.optional(S.String.pipe(T.Query())),
       _type: S.optional(S.String.pipe(T.Query())),
+      _count: S.optional(S.Number.pipe(T.Query())),
+      _page_token: S.optional(S.String.pipe(T.Query())),
+      _since: S.optional(S.String.pipe(T.Query())),
+      end: S.optional(S.String.pipe(T.Query())),
+      start: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -6184,6 +6320,25 @@ export const Patient_everythingProjectsLocationsDatasetsFhirStoresFhirRequest =
   ).annotate({
     identifier: "Patient_everythingProjectsLocationsDatasetsFhirStoresFhirRequest",
   }) as any as S.Schema<Patient_everythingProjectsLocationsDatasetsFhirStoresFhirRequest>;
+
+export interface PurgeResourceProjectsLocationsDatasetsFhirStoresFhirRequest {
+  /** Required. The name of the resource to purge. */
+  name: string;
+}
+export const PurgeResourceProjectsLocationsDatasetsFhirStoresFhirRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "v1beta1/{+name}/$purge",
+        baseUrl: "https://healthcare.googleapis.com/",
+      }),
+    ),
+).annotate({
+  identifier: "PurgeResourceProjectsLocationsDatasetsFhirStoresFhirRequest",
+}) as any as S.Schema<PurgeResourceProjectsLocationsDatasetsFhirStoresFhirRequest>;
 
 /** The Cloud Storage location for export. */
 export interface GoogleCloudHealthcareV1beta1ConsentGcsDestination {
@@ -6200,17 +6355,17 @@ export const GoogleCloudHealthcareV1beta1ConsentGcsDestination = /*@__PURE__*/ S
 
 /** Queries all data_ids that are consented for a given use in the given consent store and writes them to a specified destination. The returned Operation includes a progress counter for the number of User data mappings processed. Errors are logged to Cloud Logging (see [Viewing error logs in Cloud Logging] (https://cloud.google.com/healthcare/docs/how-tos/logging) and [QueryAccessibleData] for a sample log entry). */
 export interface QueryAccessibleDataRequest {
-  /** The Cloud Storage destination. The Cloud Healthcare API service account must have the `roles/storage.objectAdmin` Cloud IAM role for this Cloud Storage location. The object name is in the following format: query-accessible-data-result-{operation_id}.txt where each line contains a single data_id. */
-  gcsDestination?: GoogleCloudHealthcareV1beta1ConsentGcsDestination;
   /** The values of request attributes associated with this access request. */
   requestAttributes?: StringMap;
+  /** The Cloud Storage destination. The Cloud Healthcare API service account must have the `roles/storage.objectAdmin` Cloud IAM role for this Cloud Storage location. The object name is in the following format: query-accessible-data-result-{operation_id}.txt where each line contains a single data_id. */
+  gcsDestination?: GoogleCloudHealthcareV1beta1ConsentGcsDestination;
   /** Optional. The values of resource attributes associated with the type of resources being requested. If no values are specified, then all resource types are included in the output. */
   resourceAttributes?: StringMap;
 }
 export const QueryAccessibleDataRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    gcsDestination: S.optional(GoogleCloudHealthcareV1beta1ConsentGcsDestination),
     requestAttributes: S.optional(StringMap),
+    gcsDestination: S.optional(GoogleCloudHealthcareV1beta1ConsentGcsDestination),
     resourceAttributes: S.optional(StringMap),
   }),
 ).annotate({
@@ -6239,6 +6394,25 @@ export const QueryAccessibleDataProjectsLocationsDatasetsConsentStoresRequest =
     identifier: "QueryAccessibleDataProjectsLocationsDatasetsConsentStoresRequest",
   }) as any as S.Schema<QueryAccessibleDataProjectsLocationsDatasetsConsentStoresRequest>;
 
+export interface ReadBinaryProjectsLocationsDatasetsFhirStoresFhirRequest {
+  /** Required. The name of the Binary resource to retrieve. */
+  name: string;
+}
+export const ReadBinaryProjectsLocationsDatasetsFhirStoresFhirRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1beta1/{+name}",
+        baseUrl: "https://healthcare.googleapis.com/",
+      }),
+    ),
+).annotate({
+  identifier: "ReadBinaryProjectsLocationsDatasetsFhirStoresFhirRequest",
+}) as any as S.Schema<ReadBinaryProjectsLocationsDatasetsFhirStoresFhirRequest>;
+
 export interface ReadProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The name of the resource to retrieve. */
   name: string;
@@ -6266,9 +6440,7 @@ export const RejectConsentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     consentArtifact: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RejectConsentRequest",
-}) as any as S.Schema<RejectConsentRequest>;
+).annotate({ identifier: "RejectConsentRequest" }) as any as S.Schema<RejectConsentRequest>;
 
 export interface RejectProjectsLocationsDatasetsConsentStoresConsentsRequest {
   /** Required. The resource name of the Consent to reject, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. An INVALID_ARGUMENT error occurs if `revision_id` is specified in the name. */
@@ -6293,28 +6465,28 @@ export const RejectProjectsLocationsDatasetsConsentStoresConsentsRequest = /*@__
 }) as any as S.Schema<RejectProjectsLocationsDatasetsConsentStoresConsentsRequest>;
 
 export interface Resource_incoming_referencesProjectsLocationsDatasetsFhirStoresFhirRequest {
-  /** Required. The name of the FHIR store that holds the target resource. */
-  parent: string;
-  /** Used to retrieve the next page of results when using pagination. Set `_page_token` to the value of _page_token set in next page links' url. Next page are returned in the response bundle's links field, where `link.relation` is "next". Omit `_page_token` if no previous request has been made. */
-  _page_token?: string;
-  /** Required. The target whose incoming references are requested. This param is required and must not be empty. It uses the format "ResourceType/ResourceID", for example, target=ResourceType/ResourceID. */
-  target?: string;
   /** Used to simplify the representation of the returned resources. `_summary=text` returns only the `text`, `id`, and `meta` top-level fields. `_summary=data` removes the `text` field and returns all other fields. `_summary=false` returns all parts of the resource(s). Either not providing this parameter or providing an empty value to this parameter also returns all parts of the resource(s). */
   _summary?: string;
   /** String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) are returned. If not provided or an empty value is provided, no filter on the returned resource type(s) is applied. */
   _type?: string;
+  /** Required. The name of the FHIR store that holds the target resource. */
+  parent: string;
   /** Maximum number of resources in a page. If not specified, 100 is used. May not be larger than 1000. */
   _count?: number;
+  /** Used to retrieve the next page of results when using pagination. Set `_page_token` to the value of _page_token set in next page links' url. Next page are returned in the response bundle's links field, where `link.relation` is "next". Omit `_page_token` if no previous request has been made. */
+  _page_token?: string;
+  /** Required. The target whose incoming references are requested. This param is required and must not be empty. It uses the format "ResourceType/ResourceID", for example, target=ResourceType/ResourceID. */
+  target?: string;
 }
 export const Resource_incoming_referencesProjectsLocationsDatasetsFhirStoresFhirRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
-      _page_token: S.optional(S.String.pipe(T.Query())),
-      target: S.optional(S.String.pipe(T.Query())),
       _summary: S.optional(S.String.pipe(T.Query())),
       _type: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       _count: S.optional(S.Number.pipe(T.Query())),
+      _page_token: S.optional(S.String.pipe(T.Query())),
+      target: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -6326,282 +6498,6 @@ export const Resource_incoming_referencesProjectsLocationsDatasetsFhirStoresFhir
     identifier: "Resource_incoming_referencesProjectsLocationsDatasetsFhirStoresFhirRequest",
   }) as any as S.Schema<Resource_incoming_referencesProjectsLocationsDatasetsFhirStoresFhirRequest>;
 
-export interface Resource_purgeProjectsLocationsDatasetsFhirStoresFhirRequest {
-  /** Required. The name of the resource to purge. */
-  name: string;
-}
-export const Resource_purgeProjectsLocationsDatasetsFhirStoresFhirRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "v1beta1/{+name}/$purge",
-        baseUrl: "https://healthcare.googleapis.com/",
-      }),
-    ),
-).annotate({
-  identifier: "Resource_purgeProjectsLocationsDatasetsFhirStoresFhirRequest",
-}) as any as S.Schema<Resource_purgeProjectsLocationsDatasetsFhirStoresFhirRequest>;
-
-export interface Resource_validateProjectsLocationsDatasetsFhirStoresFhirRequest {
-  /** Optional. The canonical URL of a profile that this resource should be validated against. For example, to validate a Patient resource against the US Core Patient profile this parameter would be `http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient`. A StructureDefinition with this canonical URL must exist in the FHIR store. */
-  profile?: string;
-  /** Required. The name of the FHIR store that holds the profiles being used for validation. */
-  parent: string;
-  /** Required. The FHIR resource type of the resource being validated. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html), or [R5](https://hl7.org/fhir/R5/resourcelist.html)). Must match the resource type in the provided content. */
-  type: string;
-  /** Request body */
-  body?: HttpBody;
-}
-export const Resource_validateProjectsLocationsDatasetsFhirStoresFhirRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      profile: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
-      type: S.String.pipe(T.Label()),
-      body: S.optional(HttpBody.pipe(T.HttpBody())),
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "v1beta1/{+parent}/fhir/{+type}/$validate",
-        baseUrl: "https://healthcare.googleapis.com/",
-      }),
-    ),
-  ).annotate({
-    identifier: "Resource_validateProjectsLocationsDatasetsFhirStoresFhirRequest",
-  }) as any as S.Schema<Resource_validateProjectsLocationsDatasetsFhirStoresFhirRequest>;
-
-export interface RetrieveBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesBulkdataRequest {
-  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
-  parent: string;
-  /** Required. The path for the `RetrieveBulkdata` DICOMweb request. For example, `studies/{study_uid}/series/{series_uid}/instances/{instance_uid}/bukdata/{bulkdata_uri}`. */
-  dicomWebPath: string;
-}
-export const RetrieveBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesBulkdataRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      parent: S.String.pipe(T.Label()),
-      dicomWebPath: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}",
-        baseUrl: "https://healthcare.googleapis.com/",
-      }),
-    ),
-  ).annotate({
-    identifier:
-      "RetrieveBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesBulkdataRequest",
-  }) as any as S.Schema<RetrieveBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesBulkdataRequest>;
-
-export interface RetrieveFramesProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest {
-  /** Required. The path of the RetrieveFrames DICOMweb request. For example, `studies/{study_uid}/series/{series_uid}/instances/{instance_uid}/frames/{frame_list}`. */
-  dicomWebPath: string;
-  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
-  parent: string;
-}
-export const RetrieveFramesProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      dicomWebPath: S.String.pipe(T.Label()),
-      parent: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}",
-        baseUrl: "https://healthcare.googleapis.com/",
-      }),
-    ),
-  ).annotate({
-    identifier:
-      "RetrieveFramesProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest",
-  }) as any as S.Schema<RetrieveFramesProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest>;
-
-export interface RetrieveInstanceProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest {
-  /** Required. The path of the RetrieveInstance DICOMweb request. For example, `studies/{study_uid}/series/{series_uid}/instances/{instance_uid}`. */
-  dicomWebPath: string;
-  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
-  parent: string;
-}
-export const RetrieveInstanceProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      dicomWebPath: S.String.pipe(T.Label()),
-      parent: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}",
-        baseUrl: "https://healthcare.googleapis.com/",
-      }),
-    ),
-  ).annotate({
-    identifier: "RetrieveInstanceProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest",
-  }) as any as S.Schema<RetrieveInstanceProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest>;
-
-export interface RetrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesRequest {
-  /** Required. The path of the RetrieveStudyMetadata DICOMweb request. For example, `studies/{study_uid}/metadata`. */
-  dicomWebPath: string;
-  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
-  parent: string;
-}
-export const RetrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      dicomWebPath: S.String.pipe(T.Label()),
-      parent: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}",
-        baseUrl: "https://healthcare.googleapis.com/",
-      }),
-    ),
-  ).annotate({
-    identifier: "RetrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesRequest",
-  }) as any as S.Schema<RetrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesRequest>;
-
-export interface RetrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest {
-  /** Required. The path of the RetrieveSeriesMetadata DICOMweb request. For example, `studies/{study_uid}/series/{series_uid}/metadata`. */
-  dicomWebPath: string;
-  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
-  parent: string;
-}
-export const RetrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      dicomWebPath: S.String.pipe(T.Label()),
-      parent: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}",
-        baseUrl: "https://healthcare.googleapis.com/",
-      }),
-    ),
-  ).annotate({
-    identifier: "RetrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest",
-  }) as any as S.Schema<RetrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest>;
-
-export interface RetrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest {
-  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
-  parent: string;
-  /** Required. The path of the RetrieveInstanceMetadata DICOMweb request. For example, `studies/{study_uid}/series/{series_uid}/instances/{instance_uid}/metadata`. */
-  dicomWebPath: string;
-}
-export const RetrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      parent: S.String.pipe(T.Label()),
-      dicomWebPath: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}",
-        baseUrl: "https://healthcare.googleapis.com/",
-      }),
-    ),
-  ).annotate({
-    identifier: "RetrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest",
-  }) as any as S.Schema<RetrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest>;
-
-export interface RetrieveRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest {
-  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
-  parent: string;
-  /** Optional. The viewport setting to use as specified in https://dicom.nema.org/medical/dicom/current/output/chtml/part18/sect_8.3.5.html#sect_8.3.5.1.3 */
-  viewport?: string;
-  /** Required. The path of the RetrieveRenderedInstance DICOMweb request. For example, `studies/{study_uid}/series/{series_uid}/instances/{instance_uid}/rendered`. */
-  dicomWebPath: string;
-}
-export const RetrieveRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      parent: S.String.pipe(T.Label()),
-      viewport: S.optional(S.String.pipe(T.Query())),
-      dicomWebPath: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}",
-        baseUrl: "https://healthcare.googleapis.com/",
-      }),
-    ),
-  ).annotate({
-    identifier: "RetrieveRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest",
-  }) as any as S.Schema<RetrieveRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest>;
-
-export interface RetrieveRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest {
-  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
-  parent: string;
-  /** Optional. The viewport setting to use as specified in https://dicom.nema.org/medical/dicom/current/output/chtml/part18/sect_8.3.5.html#sect_8.3.5.1.3 */
-  viewport?: string;
-  /** Required. The path of the RetrieveRenderedFrames DICOMweb request. For example, `studies/{study_uid}/series/{series_uid}/instances/{instance_uid}/frames/{frame_list}/rendered`. */
-  dicomWebPath: string;
-}
-export const RetrieveRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      parent: S.String.pipe(T.Label()),
-      viewport: S.optional(S.String.pipe(T.Query())),
-      dicomWebPath: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}",
-        baseUrl: "https://healthcare.googleapis.com/",
-      }),
-    ),
-  ).annotate({
-    identifier:
-      "RetrieveRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest",
-  }) as any as S.Schema<RetrieveRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest>;
-
-export interface RetrieveSeriesProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest {
-  /** Required. The path of the RetrieveSeries DICOMweb request. For example, `studies/{study_uid}/series/{series_uid}`. */
-  dicomWebPath: string;
-  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
-  parent: string;
-}
-export const RetrieveSeriesProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      dicomWebPath: S.String.pipe(T.Label()),
-      parent: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}",
-        baseUrl: "https://healthcare.googleapis.com/",
-      }),
-    ),
-  ).annotate({
-    identifier: "RetrieveSeriesProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest",
-  }) as any as S.Schema<RetrieveSeriesProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest>;
-
-export interface RetrieveStudyProjectsLocationsDatasetsDicomStoresStudiesRequest {
-  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
-  parent: string;
-  /** Required. The path of the RetrieveStudy DICOMweb request. For example, `studies/{study_uid}`. */
-  dicomWebPath: string;
-}
-export const RetrieveStudyProjectsLocationsDatasetsDicomStoresStudiesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      parent: S.String.pipe(T.Label()),
-      dicomWebPath: S.String.pipe(T.Label()),
-    }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1beta1/{+parent}/dicomWeb/{+dicomWebPath}",
-        baseUrl: "https://healthcare.googleapis.com/",
-      }),
-    ),
-  ).annotate({
-    identifier: "RetrieveStudyProjectsLocationsDatasetsDicomStoresStudiesRequest",
-  }) as any as S.Schema<RetrieveStudyProjectsLocationsDatasetsDicomStoresStudiesRequest>;
-
 /** Revokes the latest revision of the specified Consent by committing a new revision with `state` updated to `REVOKED`. If the latest revision of the given Consent is in the `REVOKED` state, no new revision is committed. */
 export interface RevokeConsentRequest {
   /** Optional. The resource name of the Consent artifact that contains proof of the user's revocation of the Consent, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consentArtifacts/{consent_artifact_id}`. */
@@ -6611,9 +6507,7 @@ export const RevokeConsentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     consentArtifact: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RevokeConsentRequest",
-}) as any as S.Schema<RevokeConsentRequest>;
+).annotate({ identifier: "RevokeConsentRequest" }) as any as S.Schema<RevokeConsentRequest>;
 
 export interface RevokeProjectsLocationsDatasetsConsentStoresConsentsRequest {
   /** Required. The resource name of the Consent to revoke, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. An INVALID_ARGUMENT error occurs if `revision_id` is specified in the name. */
@@ -6647,15 +6541,15 @@ export const RollbackFhirResourcesRequestChangeTypeEnum = S.String;
 
 /** Filters to select resources that need to be rolled back. */
 export interface RollbackFhirResourceFilteringFields {
-  /** Optional. A list of operation IDs to roll back. Only changes made by these operations will be rolled back. */
-  operationIds?: StringList;
   /** Optional. A filter expression that matches data in the `Resource.meta` element. Supports all filters in [AIP-160](https://google.aip.dev/160) except the "has" (`:`) operator. Supports the following custom functions: * `tag("") = ""` for tag filtering. * `extension_value_ts("") = ` for filtering extensions with a timestamp, where `` is a Unix timestamp. Supports the `>`, `<`, `<=`, `>=`, and `!=` comparison operators. */
   metadataFilter?: string;
+  /** Optional. A list of operation IDs to roll back. Only changes made by these operations will be rolled back. */
+  operationIds?: StringList;
 }
 export const RollbackFhirResourceFilteringFields = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    operationIds: S.optional(StringList),
     metadataFilter: S.optional(S.String),
+    operationIds: S.optional(StringList),
   }),
 ).annotate({
   identifier: "RollbackFhirResourceFilteringFields",
@@ -6663,32 +6557,32 @@ export const RollbackFhirResourceFilteringFields = /*@__PURE__*/ S.suspend(() =>
 
 /** Request to roll back resources. */
 export interface RollbackFhirResourcesRequest {
+  /** Required. Time point to rollback to. */
+  rollbackTime?: string;
+  /** Optional. Cloud Storage object containing list of {resourceType}/{resourceId} lines, identifying resources to be reverted */
+  inputGcsObject?: string;
   /** Optional. CREATE/UPDATE/DELETE/ALL for reverting all txns of a certain type. */
   changeType?: RollbackFhirResourcesRequestChangeTypeEnum | (string & {});
   /** Required. Bucket to deposit result */
   resultGcsBucket?: string;
-  /** Optional. Cloud Storage object containing list of {resourceType}/{resourceId} lines, identifying resources to be reverted */
-  inputGcsObject?: string;
-  /** Optional. Specifies whether to exclude earlier rollbacks. */
-  excludeRollbacks?: boolean;
   /** Optional. Tag represents fields that HDE needs to identify resources that will be reverted. Parameters for filtering resources */
   filteringFields?: RollbackFhirResourceFilteringFields;
+  /** Optional. Specifies whether to exclude earlier rollbacks. */
+  excludeRollbacks?: boolean;
   /** Optional. If specified, revert only resources of these types */
   type?: StringList;
-  /** Required. Time point to rollback to. */
-  rollbackTime?: string;
   /** Optional. When enabled, changes will be reverted without explicit confirmation */
   force?: boolean;
 }
 export const RollbackFhirResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    rollbackTime: S.optional(S.String),
+    inputGcsObject: S.optional(S.String),
     changeType: S.optional(RollbackFhirResourcesRequestChangeTypeEnum),
     resultGcsBucket: S.optional(S.String),
-    inputGcsObject: S.optional(S.String),
-    excludeRollbacks: S.optional(S.Boolean),
     filteringFields: S.optional(RollbackFhirResourceFilteringFields),
+    excludeRollbacks: S.optional(S.Boolean),
     type: S.optional(StringList),
-    rollbackTime: S.optional(S.String),
     force: S.optional(S.Boolean),
   }),
 ).annotate({
@@ -6739,29 +6633,29 @@ export const RollbackHL7MessagesFilteringFields = /*@__PURE__*/ S.suspend(() =>
 
 /** Point in time recovery rollback request. */
 export interface RollbackHl7V2MessagesRequest {
-  /** Optional. CREATE/UPDATE/DELETE/ALL for reverting all txns of a certain type. */
-  changeType?: RollbackHl7V2MessagesRequestChangeTypeEnum | (string & {});
   /** Required. Bucket to deposit result */
   resultGcsBucket?: string;
-  /** Optional. Cloud storage object containing list of {resourceId} lines, identifying resources to be reverted */
-  inputGcsObject?: string;
-  /** Optional. Specifies whether to exclude earlier rollbacks. */
-  excludeRollbacks?: boolean;
   /** Required. Times point to rollback to. */
   rollbackTime?: string;
   /** Optional. When enabled, changes will be reverted without explicit confirmation. */
   force?: boolean;
+  /** Optional. Specifies whether to exclude earlier rollbacks. */
+  excludeRollbacks?: boolean;
+  /** Optional. Cloud storage object containing list of {resourceId} lines, identifying resources to be reverted */
+  inputGcsObject?: string;
+  /** Optional. CREATE/UPDATE/DELETE/ALL for reverting all txns of a certain type. */
+  changeType?: RollbackHl7V2MessagesRequestChangeTypeEnum | (string & {});
   /** Optional. Parameters for filtering. */
   filteringFields?: RollbackHL7MessagesFilteringFields;
 }
 export const RollbackHl7V2MessagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    changeType: S.optional(RollbackHl7V2MessagesRequestChangeTypeEnum),
     resultGcsBucket: S.optional(S.String),
-    inputGcsObject: S.optional(S.String),
-    excludeRollbacks: S.optional(S.Boolean),
     rollbackTime: S.optional(S.String),
     force: S.optional(S.Boolean),
+    excludeRollbacks: S.optional(S.Boolean),
+    inputGcsObject: S.optional(S.String),
+    changeType: S.optional(RollbackHl7V2MessagesRequestChangeTypeEnum),
     filteringFields: S.optional(RollbackHL7MessagesFilteringFields),
   }),
 ).annotate({
@@ -6789,42 +6683,54 @@ export const RollbackProjectsLocationsDatasetsHl7V2StoresRequest = /*@__PURE__*/
   identifier: "RollbackProjectsLocationsDatasetsHl7V2StoresRequest",
 }) as any as S.Schema<RollbackProjectsLocationsDatasetsHl7V2StoresRequest>;
 
-export interface Search_typeProjectsLocationsDatasetsFhirStoresFhirRequest {
-  /** Required. Name of the FHIR store to retrieve resources from. */
+export interface SearchConceptMapTranslateProjectsLocationsDatasetsFhirStoresFhirRequest {
+  /** The target value set of the concept map to be used. If unset, source is used to search for concept maps. */
+  target?: string;
+  /** The source value set of the concept map to be used. If unset, target is used to search for concept maps. */
+  source?: string;
+  /** The canonical url of the concept map to use. If unset, the source and target is used to search for concept maps. */
+  url?: string;
+  /** The version of the concept map to use. If unset, the most current version is used. */
+  conceptMapVersion?: string;
+  /** Required. The name for the FHIR store containing the concept map(s) to use for the translation. */
   parent: string;
-  /** Optional. The FHIR resource type to search, such as Patient or Observation. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html), [R5](https://hl7.org/fhir/R5/resourcelist.html)). */
-  resourceType: string;
-  /** Request body */
-  body?: HttpBody;
+  /** Required. The code to translate. */
+  code?: string;
+  /** Required. The system for the code to be translated. */
+  system?: string;
 }
-export const Search_typeProjectsLocationsDatasetsFhirStoresFhirRequest = /*@__PURE__*/ S.suspend(
-  () =>
+export const SearchConceptMapTranslateProjectsLocationsDatasetsFhirStoresFhirRequest =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      target: S.optional(S.String.pipe(T.Query())),
+      source: S.optional(S.String.pipe(T.Query())),
+      url: S.optional(S.String.pipe(T.Query())),
+      conceptMapVersion: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
-      resourceType: S.String.pipe(T.Label()),
-      body: S.optional(HttpBody.pipe(T.HttpBody())),
+      code: S.optional(S.String.pipe(T.Query())),
+      system: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
-        method: "POST",
-        uri: "v1beta1/{+parent}/fhir/{resourceType}/_search",
+        method: "GET",
+        uri: "v1beta1/{+parent}/fhir/ConceptMap/$translate",
         baseUrl: "https://healthcare.googleapis.com/",
       }),
     ),
-).annotate({
-  identifier: "Search_typeProjectsLocationsDatasetsFhirStoresFhirRequest",
-}) as any as S.Schema<Search_typeProjectsLocationsDatasetsFhirStoresFhirRequest>;
+  ).annotate({
+    identifier: "SearchConceptMapTranslateProjectsLocationsDatasetsFhirStoresFhirRequest",
+  }) as any as S.Schema<SearchConceptMapTranslateProjectsLocationsDatasetsFhirStoresFhirRequest>;
 
 export interface SearchForInstancesProjectsLocationsDatasetsDicomStoresRequest {
-  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
-  parent: string;
   /** Required. The path of the SearchForInstancesRequest DICOMweb request. For example, `instances`, `studies/{study_uid}/series/{series_uid}/instances`, or `studies/{study_uid}/instances`. */
   dicomWebPath: string;
+  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
+  parent: string;
 }
 export const SearchForInstancesProjectsLocationsDatasetsDicomStoresRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       dicomWebPath: S.String.pipe(T.Label()),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -6837,16 +6743,16 @@ export const SearchForInstancesProjectsLocationsDatasetsDicomStoresRequest =
   }) as any as S.Schema<SearchForInstancesProjectsLocationsDatasetsDicomStoresRequest>;
 
 export interface SearchForInstancesProjectsLocationsDatasetsDicomStoresStudiesRequest {
-  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
-  parent: string;
   /** Required. The path of the SearchForInstancesRequest DICOMweb request. For example, `instances`, `studies/{study_uid}/series/{series_uid}/instances`, or `studies/{study_uid}/instances`. */
   dicomWebPath: string;
+  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
+  parent: string;
 }
 export const SearchForInstancesProjectsLocationsDatasetsDicomStoresStudiesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       dicomWebPath: S.String.pipe(T.Label()),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -6859,16 +6765,16 @@ export const SearchForInstancesProjectsLocationsDatasetsDicomStoresStudiesReques
   }) as any as S.Schema<SearchForInstancesProjectsLocationsDatasetsDicomStoresStudiesRequest>;
 
 export interface SearchForInstancesProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest {
-  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
-  parent: string;
   /** Required. The path of the SearchForInstancesRequest DICOMweb request. For example, `instances`, `studies/{study_uid}/series/{series_uid}/instances`, or `studies/{study_uid}/instances`. */
   dicomWebPath: string;
+  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
+  parent: string;
 }
 export const SearchForInstancesProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       dicomWebPath: S.String.pipe(T.Label()),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -6925,16 +6831,16 @@ export const SearchForSeriesProjectsLocationsDatasetsDicomStoresStudiesRequest =
   }) as any as S.Schema<SearchForSeriesProjectsLocationsDatasetsDicomStoresStudiesRequest>;
 
 export interface SearchForStudiesProjectsLocationsDatasetsDicomStoresRequest {
-  /** Required. The path of the SearchForStudies DICOMweb request. For example, `studies`. */
-  dicomWebPath: string;
   /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
   parent: string;
+  /** Required. The path of the SearchForStudies DICOMweb request. For example, `studies`. */
+  dicomWebPath: string;
 }
 export const SearchForStudiesProjectsLocationsDatasetsDicomStoresRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      dicomWebPath: S.String.pipe(T.Label()),
       parent: S.String.pipe(T.Label()),
+      dicomWebPath: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -6947,17 +6853,17 @@ export const SearchForStudiesProjectsLocationsDatasetsDicomStoresRequest = /*@__
 }) as any as S.Schema<SearchForStudiesProjectsLocationsDatasetsDicomStoresRequest>;
 
 export interface SearchProjectsLocationsDatasetsFhirStoresFhirRequest {
-  /** Required. Name of the FHIR store to retrieve resources from. */
-  parent: string;
   /** Optional. The FHIR resource type to search, such as Patient or Observation. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html), [R5](https://hl7.org/fhir/R5/resourcelist.html)). */
   resourceType?: string;
+  /** Required. Name of the FHIR store to retrieve resources from. */
+  parent: string;
   /** Request body */
   body?: HttpBody;
 }
 export const SearchProjectsLocationsDatasetsFhirStoresFhirRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     resourceType: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(HttpBody.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -6970,17 +6876,42 @@ export const SearchProjectsLocationsDatasetsFhirStoresFhirRequest = /*@__PURE__*
   identifier: "SearchProjectsLocationsDatasetsFhirStoresFhirRequest",
 }) as any as S.Schema<SearchProjectsLocationsDatasetsFhirStoresFhirRequest>;
 
+export interface SearchTypeProjectsLocationsDatasetsFhirStoresFhirRequest {
+  /** Required. Name of the FHIR store to retrieve resources from. */
+  parent: string;
+  /** Optional. The FHIR resource type to search, such as Patient or Observation. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html), [R5](https://hl7.org/fhir/R5/resourcelist.html)). */
+  resourceType: string;
+  /** Request body */
+  body?: HttpBody;
+}
+export const SearchTypeProjectsLocationsDatasetsFhirStoresFhirRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      parent: S.String.pipe(T.Label()),
+      resourceType: S.String.pipe(T.Label()),
+      body: S.optional(HttpBody.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "v1beta1/{+parent}/fhir/{resourceType}/_search",
+        baseUrl: "https://healthcare.googleapis.com/",
+      }),
+    ),
+).annotate({
+  identifier: "SearchTypeProjectsLocationsDatasetsFhirStoresFhirRequest",
+}) as any as S.Schema<SearchTypeProjectsLocationsDatasetsFhirStoresFhirRequest>;
+
 /** Request message for `SetBlobStorageSettings` method. */
 export interface SetBlobStorageSettingsRequest {
-  /** The blob storage settings to update for the specified resources. Only fields listed in `update_mask` are applied. */
-  blobStorageSettings?: BlobStorageSettings;
   /** Optional. A filter configuration. If `filter_config` is specified, set the value of `resource` to the resource name of a DICOM store in the format `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}`. */
   filterConfig?: DicomFilterConfig;
+  /** The blob storage settings to update for the specified resources. Only fields listed in `update_mask` are applied. */
+  blobStorageSettings?: BlobStorageSettings;
 }
 export const SetBlobStorageSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    blobStorageSettings: S.optional(BlobStorageSettings),
     filterConfig: S.optional(DicomFilterConfig),
+    blobStorageSettings: S.optional(BlobStorageSettings),
   }),
 ).annotate({
   identifier: "SetBlobStorageSettingsRequest",
@@ -7032,19 +6963,17 @@ export const SetBlobStorageSettingsProjectsLocationsDatasetsDicomStoresDicomWebS
 
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy;
 }
 export const SetIamPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    policy: S.optional(Policy),
     updateMask: S.optional(S.String),
+    policy: S.optional(Policy),
   }),
-).annotate({
-  identifier: "SetIamPolicyRequest",
-}) as any as S.Schema<SetIamPolicyRequest>;
+).annotate({ identifier: "SetIamPolicyRequest" }) as any as S.Schema<SetIamPolicyRequest>;
 
 export interface SetIamPolicyProjectsLocationsDatasetsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -7175,18 +7104,18 @@ export const SetIamPolicyProjectsLocationsDatasetsHl7V2StoresRequest = /*@__PURE
 }) as any as S.Schema<SetIamPolicyProjectsLocationsDatasetsHl7V2StoresRequest>;
 
 export interface StoreInstancesProjectsLocationsDatasetsDicomStoresRequest {
-  /** Required. The path of the StoreInstances DICOMweb request. For example, `studies/[{study_uid}]`. Note that the `study_uid` is optional. */
-  dicomWebPath: string;
   /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
   parent: string;
+  /** Required. The path of the StoreInstances DICOMweb request. For example, `studies/[{study_uid}]`. Note that the `study_uid` is optional. */
+  dicomWebPath: string;
   /** Request body */
   body?: HttpBody;
 }
 export const StoreInstancesProjectsLocationsDatasetsDicomStoresRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      dicomWebPath: S.String.pipe(T.Label()),
       parent: S.String.pipe(T.Label()),
+      dicomWebPath: S.String.pipe(T.Label()),
       body: S.optional(HttpBody.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -7200,18 +7129,18 @@ export const StoreInstancesProjectsLocationsDatasetsDicomStoresRequest = /*@__PU
 }) as any as S.Schema<StoreInstancesProjectsLocationsDatasetsDicomStoresRequest>;
 
 export interface StoreInstancesProjectsLocationsDatasetsDicomStoresStudiesRequest {
-  /** Required. The path of the StoreInstances DICOMweb request. For example, `studies/[{study_uid}]`. Note that the `study_uid` is optional. */
-  dicomWebPath: string;
   /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
   parent: string;
+  /** Required. The path of the StoreInstances DICOMweb request. For example, `studies/[{study_uid}]`. Note that the `study_uid` is optional. */
+  dicomWebPath: string;
   /** Request body */
   body?: HttpBody;
 }
 export const StoreInstancesProjectsLocationsDatasetsDicomStoresStudiesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      dicomWebPath: S.String.pipe(T.Label()),
       parent: S.String.pipe(T.Label()),
+      dicomWebPath: S.String.pipe(T.Label()),
       body: S.optional(HttpBody.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -7381,6 +7310,28 @@ export const TestIamPermissionsProjectsLocationsDatasetsHl7V2StoresRequest =
     identifier: "TestIamPermissionsProjectsLocationsDatasetsHl7V2StoresRequest",
   }) as any as S.Schema<TestIamPermissionsProjectsLocationsDatasetsHl7V2StoresRequest>;
 
+export interface UpdateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest {
+  /** Required. The name of the resource to update. */
+  name: string;
+  /** Request body */
+  body?: HttpBody;
+}
+export const UpdateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      body: S.optional(HttpBody.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "PUT",
+        uri: "v1beta1/{+name}",
+        baseUrl: "https://healthcare.googleapis.com/",
+      }),
+    ),
+).annotate({
+  identifier: "UpdateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest",
+}) as any as S.Schema<UpdateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest>;
+
 export interface UpdateInstancesProjectsLocationsDatasetsDicomStoresRequest {
   /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
   parent: string;
@@ -7407,18 +7358,18 @@ export const UpdateInstancesProjectsLocationsDatasetsDicomStoresRequest = /*@__P
 }) as any as S.Schema<UpdateInstancesProjectsLocationsDatasetsDicomStoresRequest>;
 
 export interface UpdateInstancesProjectsLocationsDatasetsDicomStoresStudiesRequest {
-  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
-  parent: string;
   /** Required. The path of the UpdateInstances DICOMweb request. For example, `studies/[{study_uid}]`. Note that the `study_uid` is optional. */
   dicomWebPath: string;
+  /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
+  parent: string;
   /** Request body */
   body?: HttpBody;
 }
 export const UpdateInstancesProjectsLocationsDatasetsDicomStoresStudiesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       dicomWebPath: S.String.pipe(T.Label()),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(HttpBody.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -7432,18 +7383,18 @@ export const UpdateInstancesProjectsLocationsDatasetsDicomStoresStudiesRequest =
   }) as any as S.Schema<UpdateInstancesProjectsLocationsDatasetsDicomStoresStudiesRequest>;
 
 export interface UpdateMetadataProjectsLocationsDatasetsDicomStoresStudiesRequest {
-  /** Required. The name of the DICOM store that is being accessed (for example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`). */
-  parent: string;
   /** Required. The path of the UpdateStudyMetadata request (for example, `studies/{study_uid}`). */
   dicomWebPath: string;
+  /** Required. The name of the DICOM store that is being accessed (for example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`). */
+  parent: string;
   /** Request body */
   body?: HttpBody;
 }
 export const UpdateMetadataProjectsLocationsDatasetsDicomStoresStudiesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       dicomWebPath: S.String.pipe(T.Label()),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(HttpBody.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -7457,18 +7408,18 @@ export const UpdateMetadataProjectsLocationsDatasetsDicomStoresStudiesRequest =
   }) as any as S.Schema<UpdateMetadataProjectsLocationsDatasetsDicomStoresStudiesRequest>;
 
 export interface UpdateMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest {
-  /** Required. The path of the UpdateSeriesMetadata request (for example, `studies/{study_uid}/series/{series_uid}`). */
-  dicomWebPath: string;
   /** Required. The name of the DICOM store that is being accessed (for example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`). */
   parent: string;
+  /** Required. The path of the UpdateSeriesMetadata request (for example, `studies/{study_uid}/series/{series_uid}`). */
+  dicomWebPath: string;
   /** Request body */
   body?: HttpBody;
 }
 export const UpdateMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      dicomWebPath: S.String.pipe(T.Label()),
       parent: S.String.pipe(T.Label()),
+      dicomWebPath: S.String.pipe(T.Label()),
       body: S.optional(HttpBody.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -7482,18 +7433,18 @@ export const UpdateMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesRequ
   }) as any as S.Schema<UpdateMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest>;
 
 export interface UpdateMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest {
-  /** Required. The path of the UpdateInstanceMetadata request (for example, `studies/{study_uid}/series/{series_uid}/instances/{instance_uid}`). */
-  dicomWebPath: string;
   /** Required. The name of the DICOM store that is being accessed (for example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`). */
   parent: string;
+  /** Required. The path of the UpdateInstanceMetadata request (for example, `studies/{study_uid}/series/{series_uid}/instances/{instance_uid}`). */
+  dicomWebPath: string;
   /** Request body */
   body?: HttpBody;
 }
 export const UpdateMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      dicomWebPath: S.String.pipe(T.Label()),
       parent: S.String.pipe(T.Label()),
+      dicomWebPath: S.String.pipe(T.Label()),
       body: S.optional(HttpBody.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -7526,6 +7477,34 @@ export const UpdateProjectsLocationsDatasetsFhirStoresFhirRequest = /*@__PURE__*
 ).annotate({
   identifier: "UpdateProjectsLocationsDatasetsFhirStoresFhirRequest",
 }) as any as S.Schema<UpdateProjectsLocationsDatasetsFhirStoresFhirRequest>;
+
+export interface ValidateResourceProjectsLocationsDatasetsFhirStoresFhirRequest {
+  /** Optional. The canonical URL of a profile that this resource should be validated against. For example, to validate a Patient resource against the US Core Patient profile this parameter would be `http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient`. A StructureDefinition with this canonical URL must exist in the FHIR store. */
+  profile?: string;
+  /** Required. The FHIR resource type of the resource being validated. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html), or [R5](https://hl7.org/fhir/R5/resourcelist.html)). Must match the resource type in the provided content. */
+  type: string;
+  /** Required. The name of the FHIR store that holds the profiles being used for validation. */
+  parent: string;
+  /** Request body */
+  body?: HttpBody;
+}
+export const ValidateResourceProjectsLocationsDatasetsFhirStoresFhirRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      profile: S.optional(S.String.pipe(T.Query())),
+      type: S.String.pipe(T.Label()),
+      parent: S.String.pipe(T.Label()),
+      body: S.optional(HttpBody.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "v1beta1/{+parent}/fhir/{+type}/$validate",
+        baseUrl: "https://healthcare.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "ValidateResourceProjectsLocationsDatasetsFhirStoresFhirRequest",
+  }) as any as S.Schema<ValidateResourceProjectsLocationsDatasetsFhirStoresFhirRequest>;
 
 export interface VreadProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The name of the resource version to retrieve. */
@@ -7663,64 +7642,6 @@ export const batchGetProjectsLocationsDatasetsHl7V2StoresMessages: API.Operation
   retry: Retry.Retry,
 }));
 
-export type Binary_createProjectsLocationsDatasetsFhirStoresFhirError =
-  | NotFound
-  | Forbidden
-  | BadRequest
-  | Conflict
-  | GcpOpError;
-/** Creates a FHIR Binary resource. This method can be used to create a Binary resource either by using one of the accepted FHIR JSON content types, or as a raw data stream. If a resource is created with this method using the FHIR content type this method's behavior is the same as [`fhir.create`](https://cloud.google.com/healthcare-api/docs/reference/rest/v1/projects.locations.datasets.fhirStores.fhir/create). If a resource type other than Binary is used in the request it's treated in the same way as non-FHIR data (e.g., images, zip archives, pdf files, documents). When a non-FHIR content type is used in the request, a Binary resource will be generated, and the uploaded data will be stored in the `content` field (`DSTU2` and `STU3`), or the `data` field (`R4` and `R5`). The Binary resource's `contentType` will be filled in using the value of the `Content-Type` header, and the `securityContext` field (not present in `DSTU2`) will be populated from the `X-Security-Context` header if it exists. At this time `securityContext` has no special behavior in the Cloud Healthcare API. Note: the limit on data ingested through this method is 1 GB. For best performance, use a non-FHIR data type instead of wrapping the data in a Binary resource. Some of the Healthcare API features, such as [exporting to BigQuery](https://cloud.google.com/healthcare-api/docs/how-tos/fhir-export-bigquery) or [Pub/Sub notifications](https://cloud.google.com/healthcare-api/docs/fhir-pubsub#behavior_when_a_fhir_resource_is_too_large_or_traffic_is_high) with full resource content, do not support Binary resources that are larger than 10 MB. In these cases the resource's `data` field will be omitted. Instead, the "http://hl7.org/fhir/StructureDefinition/data-absent-reason" extension will be present to indicate that including the data is `unsupported`. On success, an empty `201 Created` response is returned. The newly created resource's ID and version are returned in the Location header. Using `Prefer: representation=resource` is not allowed for this method. The definition of the Binary REST API can be found at https://hl7.org/fhir/binary.html#rest. */
-export const binary_createProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
-  Binary_createProjectsLocationsDatasetsFhirStoresFhirRequest,
-  HttpBody,
-  Binary_createProjectsLocationsDatasetsFhirStoresFhirError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: Binary_createProjectsLocationsDatasetsFhirStoresFhirRequest,
-  output: HttpBody,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type Binary_readProjectsLocationsDatasetsFhirStoresFhirError =
-  | NotFound
-  | Forbidden
-  | GcpOpError;
-/** Gets the contents of a FHIR Binary resource. This method can be used to retrieve a Binary resource either by using the FHIR JSON mimetype as the value for the Accept header, or as a raw data stream. If the FHIR Accept type is used this method will return a Binary resource with the data base64-encoded, regardless of how the resource was created. The resource data can be retrieved in base64-decoded form if the Accept type of the request matches the value of the resource's `contentType` field. The definition of the Binary REST API can be found at https://hl7.org/fhir/binary.html#rest. */
-export const binary_readProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
-  Binary_readProjectsLocationsDatasetsFhirStoresFhirRequest,
-  HttpBody,
-  Binary_readProjectsLocationsDatasetsFhirStoresFhirError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: Binary_readProjectsLocationsDatasetsFhirStoresFhirRequest,
-  output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type Binary_updateProjectsLocationsDatasetsFhirStoresFhirError =
-  | NotFound
-  | Forbidden
-  | BadRequest
-  | Conflict
-  | GcpOpError;
-/** Updates the entire contents of a Binary resource. If the specified resource does not exist and the FHIR store has enable_update_create set, creates the resource with the client-specified ID. It is strongly advised not to include or encode any sensitive data such as patient identifiers in client-specified resource IDs. Those IDs are part of the FHIR resource path recorded in Cloud Audit Logs and Pub/Sub notifications. Those IDs can also be contained in reference fields within other resources. This method can be used to update a Binary resource either by using one of the accepted FHIR JSON content types, or as a raw data stream. If a resource is updated with this method using the FHIR content type this method's behavior is the same as `update`. If a resource type other than Binary is used in the request it will be treated in the same way as non-FHIR data. When a non-FHIR content type is used in the request, a Binary resource will be generated using the ID from the resource path, and the uploaded data will be stored in the `content` field (`DSTU2` and `STU3`), or the `data` field (`R4` and `R5`). The Binary resource's `contentType` will be filled in using the value of the `Content-Type` header, and the `securityContext` field (not present in `DSTU2`) will be populated from the `X-Security-Context` header if it exists. At this time `securityContext` has no special behavior in the Cloud Healthcare API. Note: the limit on data ingested through this method is 2 GB. For best performance, use a non-FHIR data type instead of wrapping the data in a Binary resource. Some of the Healthcare API features, such as [exporting to BigQuery](https://cloud.google.com/healthcare-api/docs/how-tos/fhir-export-bigquery) or [Pub/Sub notifications](https://cloud.google.com/healthcare-api/docs/fhir-pubsub#behavior_when_a_fhir_resource_is_too_large_or_traffic_is_high) with full resource content, do not support Binary resources that are larger than 10 MB. In these cases the resource's `data` field will be omitted. Instead, the "http://hl7.org/fhir/StructureDefinition/data-absent-reason" extension will be present to indicate that including the data is `unsupported`. On success, an empty 200 OK response will be returned, or a 201 Created if the resource did not exit. The resource's ID and version are returned in the Location header. Using `Prefer: representation=resource` is not allowed for this method. The definition of the Binary REST API can be found at https://hl7.org/fhir/binary.html#rest. */
-export const binary_updateProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
-  Binary_updateProjectsLocationsDatasetsFhirStoresFhirRequest,
-  HttpBody,
-  Binary_updateProjectsLocationsDatasetsFhirStoresFhirError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: Binary_updateProjectsLocationsDatasetsFhirStoresFhirRequest,
-  output: HttpBody,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
 export type Binary_vreadProjectsLocationsDatasetsFhirStoresFhirError =
   | NotFound
   | Forbidden
@@ -7733,42 +7654,6 @@ export const binary_vreadProjectsLocationsDatasetsFhirStoresFhir: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: Binary_vreadProjectsLocationsDatasetsFhirStoresFhirRequest,
-  output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type Bulk_export_groupProjectsLocationsDatasetsFhirStoresError =
-  | NotFound
-  | Forbidden
-  | GcpOpError;
-/** Bulk exports a Group resource and resources in the member field, including related resources for each Patient member. The export for each Patient is identical to a GetPatientEverything request. Implements the FHIR implementation guide [$export group of patients](https://build.fhir.org/ig/HL7/bulk-data/export.html#endpoint---group-of-patients). The following headers must be set in the request: * `Accept`: specifies the format of the `OperationOutcome` response. Only `application/fhir+json` is supported. * `Prefer`: specifies whether the response is immediate or asynchronous. Must be to `respond-async` because only asynchronous responses are supported. Specify the destination for the server to write result files by setting the Cloud Storage location bulk_export_gcs_destination on the FHIR store. URI of an existing Cloud Storage directory where the server writes result files, in the format gs://{bucket-id}/{path/to/destination/dir}. If there is no trailing slash, the service appends one when composing the object path. The user is responsible for creating the Cloud Storage bucket referenced. Supports the following query parameters: * `_type`: string of comma-delimited FHIR resource types. If provided, only resources of the specified type(s) are exported. * `_since`: if provided, only resources updated after the specified time are exported. * `_outputFormat`: optional, specify ndjson to export data in NDJSON format. Exported file names use the format: {export_id}_{resource_type}.ndjson. * `organizeOutputBy`: resource type to organize the output by. Required and must be set to `Patient`. When specified, output files are organized by instances of the specified resource type, including the resource, referenced resources, and resources that contain references to that resource. On success, the `Content-Location` header of response is set to a URL that you can use to query the status of the export. The URL is in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/operations/{export_id}`. See get-fhir-operation-status for more information. Errors generated by the FHIR store contain a JSON-encoded `OperationOutcome` resource describing the reason for the error. */
-export const bulk_export_groupProjectsLocationsDatasetsFhirStores: API.OperationMethod<
-  Bulk_export_groupProjectsLocationsDatasetsFhirStoresRequest,
-  HttpBody,
-  Bulk_export_groupProjectsLocationsDatasetsFhirStoresError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: Bulk_export_groupProjectsLocationsDatasetsFhirStoresRequest,
-  output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type Bulk_exportProjectsLocationsDatasetsFhirStoresFhirError =
-  | NotFound
-  | Forbidden
-  | GcpOpError;
-/** Bulk exports all resources from the FHIR store to the specified destination. Implements the FHIR implementation guide [system level $export](https://build.fhir.org/ig/HL7/bulk-data/export.html#endpoint---system-level-export). The following headers must be set in the request: * `Accept`: specifies the format of the `OperationOutcome` response. Only `application/fhir+json` is supported. * `Prefer`: specifies whether the response is immediate or asynchronous. Must be to `respond-async` because only asynchronous responses are supported. Specify the destination for the server to write result files by setting the Cloud Storage location bulk_export_gcs_destination on the FHIR store. URI of an existing Cloud Storage directory where the server writes result files, in the format gs://{bucket-id}/{path/to/destination/dir}. If there is no trailing slash, the service appends one when composing the object path. The user is responsible for creating the Cloud Storage bucket referenced. Supports the following query parameters: * `_type`: string of comma-delimited FHIR resource types. If provided, only the resources of the specified type(s) are exported. * `_since`: if provided, only the resources that are updated after the specified time are exported. * `_outputFormat`: optional, specify ndjson to export data in NDJSON format. Exported file names use the format: {export_id}_{resource_type}.ndjson. On success, the `Content-Location` header of the response is set to a URL that the user can use to query the status of the export. The URL is in the format: `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/operations/{export_id}`. See get-fhir-operation-status for more information. Errors generated by the FHIR store contain a JSON-encoded `OperationOutcome` resource describing the reason for the error. */
-export const bulk_exportProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
-  Bulk_exportProjectsLocationsDatasetsFhirStoresFhirRequest,
-  HttpBody,
-  Bulk_exportProjectsLocationsDatasetsFhirStoresFhirError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: Bulk_exportProjectsLocationsDatasetsFhirStoresFhirRequest,
   output: HttpBody,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -7791,6 +7676,62 @@ export const bulkDeleteProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   input: BulkDeleteProjectsLocationsDatasetsFhirStoresRequest,
   output: Operation,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type BulkExportGroupPostProjectsLocationsDatasetsFhirStoresError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Export resources using POST. */
+export const bulkExportGroupPostProjectsLocationsDatasetsFhirStores: API.OperationMethod<
+  BulkExportGroupPostProjectsLocationsDatasetsFhirStoresRequest,
+  HttpBody,
+  BulkExportGroupPostProjectsLocationsDatasetsFhirStoresError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: BulkExportGroupPostProjectsLocationsDatasetsFhirStoresRequest,
+  output: HttpBody,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type BulkExportGroupProjectsLocationsDatasetsFhirStoresError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Bulk exports a Group resource and resources in the member field, including related resources for each Patient member. The export for each Patient is identical to a GetPatientEverything request. Implements the FHIR implementation guide [$export group of patients](https://build.fhir.org/ig/HL7/bulk-data/export.html#endpoint---group-of-patients). The following headers must be set in the request: * `Accept`: specifies the format of the `OperationOutcome` response. Only `application/fhir+json` is supported. * `Prefer`: specifies whether the response is immediate or asynchronous. Must be to `respond-async` because only asynchronous responses are supported. Specify the destination for the server to write result files by setting the Cloud Storage location bulk_export_gcs_destination on the FHIR store. URI of an existing Cloud Storage directory where the server writes result files, in the format gs://{bucket-id}/{path/to/destination/dir}. If there is no trailing slash, the service appends one when composing the object path. The user is responsible for creating the Cloud Storage bucket referenced. Supports the following query parameters: * `_type`: string of comma-delimited FHIR resource types. If provided, only resources of the specified type(s) are exported. * `_since`: if provided, only resources updated after the specified time are exported. * `_outputFormat`: optional, specify ndjson to export data in NDJSON format. Exported file names use the format: {export_id}_{resource_type}.ndjson. * `organizeOutputBy`: resource type to organize the output by. Required and must be set to `Patient`. When specified, output files are organized by instances of the specified resource type, including the resource, referenced resources, and resources that contain references to that resource. On success, the `Content-Location` header of response is set to a URL that you can use to query the status of the export. The URL is in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/operations/{export_id}`. See get-fhir-operation-status for more information. Errors generated by the FHIR store contain a JSON-encoded `OperationOutcome` resource describing the reason for the error. */
+export const bulkExportGroupProjectsLocationsDatasetsFhirStores: API.OperationMethod<
+  BulkExportGroupProjectsLocationsDatasetsFhirStoresRequest,
+  HttpBody,
+  BulkExportGroupProjectsLocationsDatasetsFhirStoresError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: BulkExportGroupProjectsLocationsDatasetsFhirStoresRequest,
+  output: HttpBody,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type BulkExportProjectsLocationsDatasetsFhirStoresFhirError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Bulk exports all resources from the FHIR store to the specified destination. Implements the FHIR implementation guide [system level $export](https://build.fhir.org/ig/HL7/bulk-data/export.html#endpoint---system-level-export). The following headers must be set in the request: * `Accept`: specifies the format of the `OperationOutcome` response. Only `application/fhir+json` is supported. * `Prefer`: specifies whether the response is immediate or asynchronous. Must be to `respond-async` because only asynchronous responses are supported. Specify the destination for the server to write result files by setting the Cloud Storage location bulk_export_gcs_destination on the FHIR store. URI of an existing Cloud Storage directory where the server writes result files, in the format gs://{bucket-id}/{path/to/destination/dir}. If there is no trailing slash, the service appends one when composing the object path. The user is responsible for creating the Cloud Storage bucket referenced. Supports the following query parameters: * `_type`: string of comma-delimited FHIR resource types. If provided, only the resources of the specified type(s) are exported. * `_since`: if provided, only the resources that are updated after the specified time are exported. * `_outputFormat`: optional, specify ndjson to export data in NDJSON format. Exported file names use the format: {export_id}_{resource_type}.ndjson. On success, the `Content-Location` header of the response is set to a URL that the user can use to query the status of the export. The URL is in the format: `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/operations/{export_id}`. See get-fhir-operation-status for more information. Errors generated by the FHIR store contain a JSON-encoded `OperationOutcome` resource describing the reason for the error. */
+export const bulkExportProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
+  BulkExportProjectsLocationsDatasetsFhirStoresFhirRequest,
+  HttpBody,
+  BulkExportProjectsLocationsDatasetsFhirStoresFhirError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: BulkExportProjectsLocationsDatasetsFhirStoresFhirRequest,
+  output: HttpBody,
+  errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -7849,24 +7790,6 @@ export const checkDataAccessProjectsLocationsDatasetsConsentStores: API.Operatio
   input: CheckDataAccessProjectsLocationsDatasetsConsentStoresRequest,
   output: CheckDataAccessResponse,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ConceptMap_search_translateProjectsLocationsDatasetsFhirStoresFhirError =
-  | NotFound
-  | Forbidden
-  | GcpOpError;
-/** Translates a code from one value set to another by searching for appropriate concept maps. Implements the FHIR standard $translate operation ([DSTU2](https://www.hl7.org/fhir/DSTU2/operation-conceptmap-translate.html), [STU3](https://www.hl7.org/fhir/STU3/operation-conceptmap-translate.html), [R4](https://www.hl7.org/fhir/R4/operation-conceptmap-translate.html), [R5](https://www.hl7.org/fhir/R5/operation-conceptmap-translate.html)). On success, the response body contains a JSON-encoded representation of a FHIR Parameters resource, which includes the translation result. Errors generated by the FHIR store contain a JSON-encoded `OperationOutcome` resource describing the reason for the error. If the request cannot be mapped to a valid API method on a FHIR store, a generic GCP error might be returned instead. */
-export const conceptMap_search_translateProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
-  ConceptMap_search_translateProjectsLocationsDatasetsFhirStoresFhirRequest,
-  HttpBody,
-  ConceptMap_search_translateProjectsLocationsDatasetsFhirStoresFhirError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ConceptMap_search_translateProjectsLocationsDatasetsFhirStoresFhirRequest,
-  output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -7983,6 +7906,26 @@ export const consent_enforcement_statusProjectsLocationsDatasetsFhirStoresFhir: 
   input: Consent_enforcement_statusProjectsLocationsDatasetsFhirStoresFhirRequest,
   output: HttpBody,
   errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateBinaryProjectsLocationsDatasetsFhirStoresFhirError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Creates a FHIR Binary resource. This method can be used to create a Binary resource either by using one of the accepted FHIR JSON content types, or as a raw data stream. If a resource is created with this method using the FHIR content type this method's behavior is the same as [`fhir.create`](https://cloud.google.com/healthcare-api/docs/reference/rest/v1/projects.locations.datasets.fhirStores.fhir/create). If a resource type other than Binary is used in the request it's treated in the same way as non-FHIR data (e.g., images, zip archives, pdf files, documents). When a non-FHIR content type is used in the request, a Binary resource will be generated, and the uploaded data will be stored in the `content` field (`DSTU2` and `STU3`), or the `data` field (`R4` and `R5`). The Binary resource's `contentType` will be filled in using the value of the `Content-Type` header, and the `securityContext` field (not present in `DSTU2`) will be populated from the `X-Security-Context` header if it exists. At this time `securityContext` has no special behavior in the Cloud Healthcare API. Note: the limit on data ingested through this method is 1 GB. For best performance, use a non-FHIR data type instead of wrapping the data in a Binary resource. Some of the Healthcare API features, such as [exporting to BigQuery](https://cloud.google.com/healthcare-api/docs/how-tos/fhir-export-bigquery) or [Pub/Sub notifications](https://cloud.google.com/healthcare-api/docs/fhir-pubsub#behavior_when_a_fhir_resource_is_too_large_or_traffic_is_high) with full resource content, do not support Binary resources that are larger than 10 MB. In these cases the resource's `data` field will be omitted. Instead, the "http://hl7.org/fhir/StructureDefinition/data-absent-reason" extension will be present to indicate that including the data is `unsupported`. On success, an empty `201 Created` response is returned. The newly created resource's ID and version are returned in the Location header. Using `Prefer: representation=resource` is not allowed for this method. The definition of the Binary REST API can be found at https://hl7.org/fhir/binary.html#rest. */
+export const createBinaryProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
+  CreateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest,
+  HttpBody,
+  CreateBinaryProjectsLocationsDatasetsFhirStoresFhirError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest,
+  output: HttpBody,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -8267,20 +8210,20 @@ export const deidentifyProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type Delete_fhir_operationProjectsLocationsDatasetsFhirStoresOperationsError =
+export type DeleteFhirOperationProjectsLocationsDatasetsFhirStoresOperationsError =
   | NotFound
   | Forbidden
   | BadRequest
   | Conflict
   | GcpOpError;
 /** Deletes operations as defined in the FHIR specification. Implements the FHIR implementation guide [bulk data delete request](https://build.fhir.org/ig/HL7/bulk-data/export.html#bulk-data-delete-request). Returns success if the operation was successfully cancelled. If the operation is complete, or has already been cancelled, returns an error response. */
-export const delete_fhir_operationProjectsLocationsDatasetsFhirStoresOperations: API.OperationMethod<
-  Delete_fhir_operationProjectsLocationsDatasetsFhirStoresOperationsRequest,
+export const deleteFhirOperationProjectsLocationsDatasetsFhirStoresOperations: API.OperationMethod<
+  DeleteFhirOperationProjectsLocationsDatasetsFhirStoresOperationsRequest,
   HttpBody,
-  Delete_fhir_operationProjectsLocationsDatasetsFhirStoresOperationsError,
+  DeleteFhirOperationProjectsLocationsDatasetsFhirStoresOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: Delete_fhir_operationProjectsLocationsDatasetsFhirStoresOperationsRequest,
+  input: DeleteFhirOperationProjectsLocationsDatasetsFhirStoresOperationsRequest,
   output: HttpBody,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -8645,6 +8588,26 @@ export const executeBundleProjectsLocationsDatasetsFhirStoresFhir: API.Operation
   retry: Retry.Retry,
 }));
 
+export type ExecuteCohortProjectsLocationsDatasetsFhirStoresError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Executes and materializes a cohort definition from a FHIR store. This method returns an Operation that can be used to track the status of the cohort execution by calling GetOperation. Immediate fatal errors appear in the error field, errors are also logged to Cloud Logging (see [Viewing error logs in Cloud Logging](https://cloud.google.com/healthcare/docs/how-tos/logging)). Otherwise, when the operation finishes, a detailed response of type ExecuteCohortResponse is returned in the response field. The metadata field type for this operation is OperationMetadata. */
+export const executeCohortProjectsLocationsDatasetsFhirStores: API.OperationMethod<
+  ExecuteCohortProjectsLocationsDatasetsFhirStoresRequest,
+  Operation,
+  ExecuteCohortProjectsLocationsDatasetsFhirStoresError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ExecuteCohortProjectsLocationsDatasetsFhirStoresRequest,
+  output: Operation,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ExplainDataAccessProjectsLocationsDatasetsFhirStoresError =
   | NotFound
   | Forbidden
@@ -8743,18 +8706,18 @@ export const exportProjectsLocationsDatasetsHl7V2Stores: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type Get_fhir_operation_statusProjectsLocationsDatasetsFhirStoresOperationsError =
+export type GetBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesBulkdataError =
   | NotFound
   | Forbidden
   | GcpOpError;
-/** Gets the status of operations as defined in the FHIR specification. Implements the FHIR implementation guide [bulk data status request](https://build.fhir.org/ig/HL7/bulk-data/export.html#bulk-data-status-request). Operations can have one of these states: * in-progress: response status code is `202` and `X-Progress` header is set to `in progress`. * complete: response status code is `200` and the body is a JSON-encoded operation response as defined by the spec. For a bulk export, this response is defined in https://build.fhir.org/ig/HL7/bulk-data/export.html#response---complete-status. * error: response status code is `5XX`, and the body is a JSON-encoded `OperationOutcome` resource describing the reason for the error. */
-export const get_fhir_operation_statusProjectsLocationsDatasetsFhirStoresOperations: API.OperationMethod<
-  Get_fhir_operation_statusProjectsLocationsDatasetsFhirStoresOperationsRequest,
+/** Returns uncompressed, unencoded bytes representing the referenced bulkdata tag from an instance. See [Retrieve Transaction](https://dicom.nema.org/medical/dicom/current/output/html/part18.html#sect_10.4). For details on the implementation of RetrieveBulkdata, see [Bulkdata resources](https://cloud.google.com/healthcare/docs/dicom#bulkdata-resources) in the Cloud Healthcare API conformance statement. For samples that show how to call RetrieveBulkdata, see [Retrieve bulkdata](https://cloud.google.com/healthcare/docs/how-tos/dicomweb#retrieve-bulkdata). */
+export const getBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesBulkdata: API.OperationMethod<
+  GetBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesBulkdataRequest,
   HttpBody,
-  Get_fhir_operation_statusProjectsLocationsDatasetsFhirStoresOperationsError,
+  GetBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesBulkdataError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: Get_fhir_operation_statusProjectsLocationsDatasetsFhirStoresOperationsRequest,
+  input: GetBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesBulkdataRequest,
   output: HttpBody,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -8779,6 +8742,24 @@ export const getDICOMStoreMetricsProjectsLocationsDatasetsDicomStores: API.Opera
   retry: Retry.Retry,
 }));
 
+export type GetFhirOperationStatusProjectsLocationsDatasetsFhirStoresOperationsError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Gets the status of operations as defined in the FHIR specification. Implements the FHIR implementation guide [bulk data status request](https://build.fhir.org/ig/HL7/bulk-data/export.html#bulk-data-status-request). Operations can have one of these states: * in-progress: response status code is `202` and `X-Progress` header is set to `in progress`. * complete: response status code is `200` and the body is a JSON-encoded operation response as defined by the spec. For a bulk export, this response is defined in https://build.fhir.org/ig/HL7/bulk-data/export.html#response---complete-status. * error: response status code is `5XX`, and the body is a JSON-encoded `OperationOutcome` resource describing the reason for the error. */
+export const getFhirOperationStatusProjectsLocationsDatasetsFhirStoresOperations: API.OperationMethod<
+  GetFhirOperationStatusProjectsLocationsDatasetsFhirStoresOperationsRequest,
+  HttpBody,
+  GetFhirOperationStatusProjectsLocationsDatasetsFhirStoresOperationsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetFhirOperationStatusProjectsLocationsDatasetsFhirStoresOperationsRequest,
+  output: HttpBody,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetFHIRStoreMetricsProjectsLocationsDatasetsFhirStoresError =
   | NotFound
   | Forbidden
@@ -8792,6 +8773,24 @@ export const getFHIRStoreMetricsProjectsLocationsDatasetsFhirStores: API.Operati
 > = /*@__PURE__*/ API.make(() => ({
   input: GetFHIRStoreMetricsProjectsLocationsDatasetsFhirStoresRequest,
   output: FhirStoreMetrics,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetFramesProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** RetrieveFrames returns instances associated with the given study, series, SOP Instance UID and frame numbers. See [RetrieveTransaction](https://dicom.nema.org/medical/dicom/current/output/html/part18.html#sect_10.4). For details on the implementation of RetrieveFrames, see [DICOM frames](https://cloud.google.com/healthcare/docs/dicom#dicom_frames) in the Cloud Healthcare API conformance statement. For samples that show how to call RetrieveFrames, see [Retrieve DICOM data](https://cloud.google.com/healthcare/docs/how-tos/dicomweb#retrieve-dicom). */
+export const getFramesProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFrames: API.OperationMethod<
+  GetFramesProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest,
+  HttpBody,
+  GetFramesProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetFramesProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest,
+  output: HttpBody,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -8915,6 +8914,78 @@ export const getIamPolicyProjectsLocationsDatasetsHl7V2Stores: API.OperationMeth
 > = /*@__PURE__*/ API.make(() => ({
   input: GetIamPolicyProjectsLocationsDatasetsHl7V2StoresRequest,
   output: Policy,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetInstanceProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** RetrieveInstance returns instance associated with the given study, series, and SOP Instance UID. See [RetrieveTransaction](https://dicom.nema.org/medical/dicom/current/output/html/part18.html#sect_10.4). For details on the implementation of RetrieveInstance, see [DICOM study/series/instances](https://cloud.google.com/healthcare/docs/dicom#dicom_studyseriesinstances) and [DICOM instances](https://cloud.google.com/healthcare/docs/dicom#dicom_instances) in the Cloud Healthcare API conformance statement. For samples that show how to call RetrieveInstance, see [Retrieve an instance](https://cloud.google.com/healthcare/docs/how-tos/dicomweb#retrieve-instance). */
+export const getInstanceProjectsLocationsDatasetsDicomStoresStudiesSeriesInstances: API.OperationMethod<
+  GetInstanceProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest,
+  HttpBody,
+  GetInstanceProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetInstanceProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest,
+  output: HttpBody,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetMetadataProjectsLocationsDatasetsDicomStoresStudiesError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** RetrieveStudyMetadata returns instance associated with the given study presented as metadata. See [RetrieveTransaction](https://dicom.nema.org/medical/dicom/current/output/html/part18.html#sect_10.4). For details on the implementation of RetrieveStudyMetadata, see [Metadata resources](https://cloud.google.com/healthcare/docs/dicom#metadata_resources) in the Cloud Healthcare API conformance statement. For samples that show how to call RetrieveStudyMetadata, see [Retrieve metadata](https://cloud.google.com/healthcare/docs/how-tos/dicomweb#retrieve-metadata). */
+export const getMetadataProjectsLocationsDatasetsDicomStoresStudies: API.OperationMethod<
+  GetMetadataProjectsLocationsDatasetsDicomStoresStudiesRequest,
+  HttpBody,
+  GetMetadataProjectsLocationsDatasetsDicomStoresStudiesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetMetadataProjectsLocationsDatasetsDicomStoresStudiesRequest,
+  output: HttpBody,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** RetrieveSeriesMetadata returns instance associated with the given study and series, presented as metadata. See [RetrieveTransaction](https://dicom.nema.org/medical/dicom/current/output/html/part18.html#sect_10.4). For details on the implementation of RetrieveSeriesMetadata, see [Metadata resources](https://cloud.google.com/healthcare/docs/dicom#metadata_resources) in the Cloud Healthcare API conformance statement. For samples that show how to call RetrieveSeriesMetadata, see [Retrieve metadata](https://cloud.google.com/healthcare/docs/how-tos/dicomweb#retrieve-metadata). */
+export const getMetadataProjectsLocationsDatasetsDicomStoresStudiesSeries: API.OperationMethod<
+  GetMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest,
+  HttpBody,
+  GetMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest,
+  output: HttpBody,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** RetrieveInstanceMetadata returns instance associated with the given study, series, and SOP Instance UID presented as metadata. See [RetrieveTransaction](https://dicom.nema.org/medical/dicom/current/output/html/part18.html#sect_10.4). For details on the implementation of RetrieveInstanceMetadata, see [Metadata resources](https://cloud.google.com/healthcare/docs/dicom#metadata_resources) in the Cloud Healthcare API conformance statement. For samples that show how to call RetrieveInstanceMetadata, see [Retrieve metadata](https://cloud.google.com/healthcare/docs/how-tos/dicomweb#retrieve-metadata). */
+export const getMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstances: API.OperationMethod<
+  GetMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest,
+  HttpBody,
+  GetMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest,
+  output: HttpBody,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9115,6 +9186,42 @@ export const getProjectsLocationsDatasetsOperations: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** RetrieveRenderedInstance returns instance associated with the given study, series, and SOP Instance UID in an acceptable Rendered Media Type. See [RetrieveTransaction](https://dicom.nema.org/medical/dicom/current/output/html/part18.html#sect_10.4). For details on the implementation of RetrieveRenderedInstance, see [Rendered resources](https://cloud.google.com/healthcare/docs/dicom#rendered_resources) in the Cloud Healthcare API conformance statement. For samples that show how to call RetrieveRenderedInstance, see [Retrieve consumer image formats](https://cloud.google.com/healthcare/docs/how-tos/dicomweb#retrieve-consumer). */
+export const getRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstances: API.OperationMethod<
+  GetRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest,
+  HttpBody,
+  GetRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest,
+  output: HttpBody,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** RetrieveRenderedFrames returns instances associated with the given study, series, SOP Instance UID and frame numbers in an acceptable Rendered Media Type. See [RetrieveTransaction](https://dicom.nema.org/medical/dicom/current/output/html/part18.html#sect_10.4). For details on the implementation of RetrieveRenderedFrames, see [Rendered resources](https://cloud.google.com/healthcare/docs/dicom#rendered_resources) in the Cloud Healthcare API conformance statement. For samples that show how to call RetrieveRenderedFrames, see [Retrieve consumer image formats](https://cloud.google.com/healthcare/docs/how-tos/dicomweb#retrieve-consumer). */
+export const getRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFrames: API.OperationMethod<
+  GetRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest,
+  HttpBody,
+  GetRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest,
+  output: HttpBody,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetSeriesMetricsProjectsLocationsDatasetsDicomStoresDicomWebStudiesSeriesError =
   | NotFound
   | Forbidden
@@ -9128,6 +9235,24 @@ export const getSeriesMetricsProjectsLocationsDatasetsDicomStoresDicomWebStudies
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSeriesMetricsProjectsLocationsDatasetsDicomStoresDicomWebStudiesSeriesRequest,
   output: SeriesMetrics,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetSeriesProjectsLocationsDatasetsDicomStoresStudiesSeriesError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** RetrieveSeries returns all instances within the given study and series. See [RetrieveTransaction](https://dicom.nema.org/medical/dicom/current/output/html/part18.html#sect_10.4). For details on the implementation of RetrieveSeries, see [DICOM study/series/instances](https://cloud.google.com/healthcare/docs/dicom#dicom_studyseriesinstances) in the Cloud Healthcare API conformance statement. For samples that show how to call RetrieveSeries, see [Retrieve DICOM data](https://cloud.google.com/healthcare/docs/how-tos/dicomweb#retrieve-dicom). */
+export const getSeriesProjectsLocationsDatasetsDicomStoresStudiesSeries: API.OperationMethod<
+  GetSeriesProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest,
+  HttpBody,
+  GetSeriesProjectsLocationsDatasetsDicomStoresStudiesSeriesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetSeriesProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest,
+  output: HttpBody,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9164,6 +9289,24 @@ export const getStudyMetricsProjectsLocationsDatasetsDicomStoresDicomWebStudies:
 > = /*@__PURE__*/ API.make(() => ({
   input: GetStudyMetricsProjectsLocationsDatasetsDicomStoresDicomWebStudiesRequest,
   output: StudyMetrics,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetStudyProjectsLocationsDatasetsDicomStoresStudiesError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** RetrieveStudy returns all instances within the given study. See [RetrieveTransaction](https://dicom.nema.org/medical/dicom/current/output/html/part18.html#sect_10.4). For details on the implementation of RetrieveStudy, see [DICOM study/series/instances](https://cloud.google.com/healthcare/docs/dicom#dicom_studyseriesinstances) in the Cloud Healthcare API conformance statement. For samples that show how to call RetrieveStudy, see [Retrieve DICOM data](https://cloud.google.com/healthcare/docs/how-tos/dicomweb#retrieve-dicom). */
+export const getStudyProjectsLocationsDatasetsDicomStoresStudies: API.OperationMethod<
+  GetStudyProjectsLocationsDatasetsDicomStoresStudiesRequest,
+  HttpBody,
+  GetStudyProjectsLocationsDatasetsDicomStoresStudiesError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetStudyProjectsLocationsDatasetsDicomStoresStudiesRequest,
+  output: HttpBody,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -9298,10 +9441,7 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsDatasetsError = NotFound | Forbidden | GcpOpError;
@@ -9318,10 +9458,7 @@ export const listProjectsLocationsDatasets: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsDatasetsConsentStoresError = NotFound | Forbidden | GcpOpError;
@@ -9338,10 +9475,7 @@ export const listProjectsLocationsDatasetsConsentStores: API.PaginatedOperationM
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsDatasetsConsentStoresAttributeDefinitionsError =
@@ -9361,10 +9495,7 @@ export const listProjectsLocationsDatasetsConsentStoresAttributeDefinitions: API
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsDatasetsConsentStoresConsentArtifactsError =
@@ -9384,10 +9515,7 @@ export const listProjectsLocationsDatasetsConsentStoresConsentArtifacts: API.Pag
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsDatasetsConsentStoresConsentsError =
@@ -9407,10 +9535,7 @@ export const listProjectsLocationsDatasetsConsentStoresConsents: API.PaginatedOp
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsDatasetsConsentStoresUserDataMappingsError =
@@ -9430,10 +9555,7 @@ export const listProjectsLocationsDatasetsConsentStoresUserDataMappings: API.Pag
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsDatasetsDicomStoresError = NotFound | Forbidden | GcpOpError;
@@ -9450,10 +9572,7 @@ export const listProjectsLocationsDatasetsDicomStores: API.PaginatedOperationMet
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsDatasetsFhirStoresError = NotFound | Forbidden | GcpOpError;
@@ -9470,10 +9589,7 @@ export const listProjectsLocationsDatasetsFhirStores: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsDatasetsHl7V2StoresError = NotFound | Forbidden | GcpOpError;
@@ -9490,10 +9606,7 @@ export const listProjectsLocationsDatasetsHl7V2Stores: API.PaginatedOperationMet
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsDatasetsHl7V2StoresMessagesError =
@@ -9513,10 +9626,7 @@ export const listProjectsLocationsDatasetsHl7V2StoresMessages: API.PaginatedOper
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsDatasetsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -9533,10 +9643,7 @@ export const listProjectsLocationsDatasetsOperations: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListRevisionsProjectsLocationsDatasetsConsentStoresConsentsError =
@@ -9556,10 +9663,7 @@ export const listRevisionsProjectsLocationsDatasetsConsentStoresConsents: API.Pa
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type Observation_lastnProjectsLocationsDatasetsFhirStoresFhirError =
@@ -9816,6 +9920,26 @@ export const patient_everythingProjectsLocationsDatasetsFhirStoresFhir: API.Oper
   retry: Retry.Retry,
 }));
 
+export type PurgeResourceProjectsLocationsDatasetsFhirStoresFhirError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Deletes all the historical versions of a resource (excluding the current version) from the FHIR store. To remove all versions of a resource, first delete the current version and then call this method. This is not a FHIR standard operation. For samples that show how to call `Resource-purge`, see [Deleting historical versions of a FHIR resource](https://cloud.google.com/healthcare/docs/how-tos/fhir-resources#deleting_historical_versions_of_a_fhir_resource). */
+export const purgeResourceProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
+  PurgeResourceProjectsLocationsDatasetsFhirStoresFhirRequest,
+  Empty,
+  PurgeResourceProjectsLocationsDatasetsFhirStoresFhirError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PurgeResourceProjectsLocationsDatasetsFhirStoresFhirRequest,
+  output: Empty,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
 export type QueryAccessibleDataProjectsLocationsDatasetsConsentStoresError =
   | NotFound
   | Forbidden
@@ -9832,6 +9956,24 @@ export const queryAccessibleDataProjectsLocationsDatasetsConsentStores: API.Oper
   input: QueryAccessibleDataProjectsLocationsDatasetsConsentStoresRequest,
   output: Operation,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ReadBinaryProjectsLocationsDatasetsFhirStoresFhirError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Gets the contents of a FHIR Binary resource. This method can be used to retrieve a Binary resource either by using the FHIR JSON mimetype as the value for the Accept header, or as a raw data stream. If the FHIR Accept type is used this method will return a Binary resource with the data base64-encoded, regardless of how the resource was created. The resource data can be retrieved in base64-decoded form if the Accept type of the request matches the value of the resource's `contentType` field. The definition of the Binary REST API can be found at https://hl7.org/fhir/binary.html#rest. */
+export const readBinaryProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
+  ReadBinaryProjectsLocationsDatasetsFhirStoresFhirRequest,
+  HttpBody,
+  ReadBinaryProjectsLocationsDatasetsFhirStoresFhirError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ReadBinaryProjectsLocationsDatasetsFhirStoresFhirRequest,
+  output: HttpBody,
+  errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -9883,226 +10025,6 @@ export const resource_incoming_referencesProjectsLocationsDatasetsFhirStoresFhir
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: Resource_incoming_referencesProjectsLocationsDatasetsFhirStoresFhirRequest,
-  output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type Resource_purgeProjectsLocationsDatasetsFhirStoresFhirError =
-  | NotFound
-  | Forbidden
-  | BadRequest
-  | Conflict
-  | GcpOpError;
-/** Deletes all the historical versions of a resource (excluding the current version) from the FHIR store. To remove all versions of a resource, first delete the current version and then call this method. This is not a FHIR standard operation. For samples that show how to call `Resource-purge`, see [Deleting historical versions of a FHIR resource](https://cloud.google.com/healthcare/docs/how-tos/fhir-resources#deleting_historical_versions_of_a_fhir_resource). */
-export const resource_purgeProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
-  Resource_purgeProjectsLocationsDatasetsFhirStoresFhirRequest,
-  Empty,
-  Resource_purgeProjectsLocationsDatasetsFhirStoresFhirError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: Resource_purgeProjectsLocationsDatasetsFhirStoresFhirRequest,
-  output: Empty,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type Resource_validateProjectsLocationsDatasetsFhirStoresFhirError =
-  | NotFound
-  | Forbidden
-  | BadRequest
-  | Conflict
-  | GcpOpError;
-/** Validates an input FHIR resource's conformance to its profiles and the profiles configured on the FHIR store. Implements the FHIR extended operation $validate ([DSTU2](https://hl7.org/fhir/DSTU2/resource-operations.html#validate), [STU3](https://hl7.org/fhir/STU3/resource-operations.html#validate), [R4](https://hl7.org/fhir/R4/resource-operation-validate.html), or [R5](https://hl7.org/fhir/R5/resource-operation-validate.html)). The request body must contain a JSON-encoded FHIR resource, and the request headers must contain `Content-Type: application/fhir+json`. The `Parameters` input syntax is not supported. The `profile` query parameter can be used to request that the resource only be validated against a specific profile. If a profile with the given URL cannot be found in the FHIR store then an error is returned. Errors generated by validation contain a JSON-encoded `OperationOutcome` resource describing the reason for the error. If the request cannot be mapped to a valid API method on a FHIR store, a generic GCP error might be returned instead. */
-export const resource_validateProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
-  Resource_validateProjectsLocationsDatasetsFhirStoresFhirRequest,
-  HttpBody,
-  Resource_validateProjectsLocationsDatasetsFhirStoresFhirError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: Resource_validateProjectsLocationsDatasetsFhirStoresFhirRequest,
-  output: HttpBody,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type RetrieveBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesBulkdataError =
-  | NotFound
-  | Forbidden
-  | GcpOpError;
-/** Returns uncompressed, unencoded bytes representing the referenced bulkdata tag from an instance. See [Retrieve Transaction](https://dicom.nema.org/medical/dicom/current/output/html/part18.html#sect_10.4). For details on the implementation of RetrieveBulkdata, see [Bulkdata resources](https://cloud.google.com/healthcare/docs/dicom#bulkdata-resources) in the Cloud Healthcare API conformance statement. For samples that show how to call RetrieveBulkdata, see [Retrieve bulkdata](https://cloud.google.com/healthcare/docs/how-tos/dicomweb#retrieve-bulkdata). */
-export const retrieveBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesBulkdata: API.OperationMethod<
-  RetrieveBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesBulkdataRequest,
-  HttpBody,
-  RetrieveBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesBulkdataError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: RetrieveBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesBulkdataRequest,
-  output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type RetrieveFramesProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesError =
-  | NotFound
-  | Forbidden
-  | GcpOpError;
-/** RetrieveFrames returns instances associated with the given study, series, SOP Instance UID and frame numbers. See [RetrieveTransaction](https://dicom.nema.org/medical/dicom/current/output/html/part18.html#sect_10.4). For details on the implementation of RetrieveFrames, see [DICOM frames](https://cloud.google.com/healthcare/docs/dicom#dicom_frames) in the Cloud Healthcare API conformance statement. For samples that show how to call RetrieveFrames, see [Retrieve DICOM data](https://cloud.google.com/healthcare/docs/how-tos/dicomweb#retrieve-dicom). */
-export const retrieveFramesProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFrames: API.OperationMethod<
-  RetrieveFramesProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest,
-  HttpBody,
-  RetrieveFramesProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: RetrieveFramesProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest,
-  output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type RetrieveInstanceProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesError =
-  | NotFound
-  | Forbidden
-  | GcpOpError;
-/** RetrieveInstance returns instance associated with the given study, series, and SOP Instance UID. See [RetrieveTransaction](https://dicom.nema.org/medical/dicom/current/output/html/part18.html#sect_10.4). For details on the implementation of RetrieveInstance, see [DICOM study/series/instances](https://cloud.google.com/healthcare/docs/dicom#dicom_studyseriesinstances) and [DICOM instances](https://cloud.google.com/healthcare/docs/dicom#dicom_instances) in the Cloud Healthcare API conformance statement. For samples that show how to call RetrieveInstance, see [Retrieve an instance](https://cloud.google.com/healthcare/docs/how-tos/dicomweb#retrieve-instance). */
-export const retrieveInstanceProjectsLocationsDatasetsDicomStoresStudiesSeriesInstances: API.OperationMethod<
-  RetrieveInstanceProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest,
-  HttpBody,
-  RetrieveInstanceProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: RetrieveInstanceProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest,
-  output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type RetrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesError =
-  | NotFound
-  | Forbidden
-  | GcpOpError;
-/** RetrieveStudyMetadata returns instance associated with the given study presented as metadata. See [RetrieveTransaction](https://dicom.nema.org/medical/dicom/current/output/html/part18.html#sect_10.4). For details on the implementation of RetrieveStudyMetadata, see [Metadata resources](https://cloud.google.com/healthcare/docs/dicom#metadata_resources) in the Cloud Healthcare API conformance statement. For samples that show how to call RetrieveStudyMetadata, see [Retrieve metadata](https://cloud.google.com/healthcare/docs/how-tos/dicomweb#retrieve-metadata). */
-export const retrieveMetadataProjectsLocationsDatasetsDicomStoresStudies: API.OperationMethod<
-  RetrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesRequest,
-  HttpBody,
-  RetrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: RetrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesRequest,
-  output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type RetrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesError =
-  | NotFound
-  | Forbidden
-  | GcpOpError;
-/** RetrieveSeriesMetadata returns instance associated with the given study and series, presented as metadata. See [RetrieveTransaction](https://dicom.nema.org/medical/dicom/current/output/html/part18.html#sect_10.4). For details on the implementation of RetrieveSeriesMetadata, see [Metadata resources](https://cloud.google.com/healthcare/docs/dicom#metadata_resources) in the Cloud Healthcare API conformance statement. For samples that show how to call RetrieveSeriesMetadata, see [Retrieve metadata](https://cloud.google.com/healthcare/docs/how-tos/dicomweb#retrieve-metadata). */
-export const retrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesSeries: API.OperationMethod<
-  RetrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest,
-  HttpBody,
-  RetrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: RetrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest,
-  output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type RetrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesError =
-  | NotFound
-  | Forbidden
-  | GcpOpError;
-/** RetrieveInstanceMetadata returns instance associated with the given study, series, and SOP Instance UID presented as metadata. See [RetrieveTransaction](https://dicom.nema.org/medical/dicom/current/output/html/part18.html#sect_10.4). For details on the implementation of RetrieveInstanceMetadata, see [Metadata resources](https://cloud.google.com/healthcare/docs/dicom#metadata_resources) in the Cloud Healthcare API conformance statement. For samples that show how to call RetrieveInstanceMetadata, see [Retrieve metadata](https://cloud.google.com/healthcare/docs/how-tos/dicomweb#retrieve-metadata). */
-export const retrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstances: API.OperationMethod<
-  RetrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest,
-  HttpBody,
-  RetrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: RetrieveMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest,
-  output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type RetrieveRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesError =
-  | NotFound
-  | Forbidden
-  | GcpOpError;
-/** RetrieveRenderedInstance returns instance associated with the given study, series, and SOP Instance UID in an acceptable Rendered Media Type. See [RetrieveTransaction](https://dicom.nema.org/medical/dicom/current/output/html/part18.html#sect_10.4). For details on the implementation of RetrieveRenderedInstance, see [Rendered resources](https://cloud.google.com/healthcare/docs/dicom#rendered_resources) in the Cloud Healthcare API conformance statement. For samples that show how to call RetrieveRenderedInstance, see [Retrieve consumer image formats](https://cloud.google.com/healthcare/docs/how-tos/dicomweb#retrieve-consumer). */
-export const retrieveRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstances: API.OperationMethod<
-  RetrieveRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest,
-  HttpBody,
-  RetrieveRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: RetrieveRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest,
-  output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type RetrieveRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesError =
-  | NotFound
-  | Forbidden
-  | GcpOpError;
-/** RetrieveRenderedFrames returns instances associated with the given study, series, SOP Instance UID and frame numbers in an acceptable Rendered Media Type. See [RetrieveTransaction](https://dicom.nema.org/medical/dicom/current/output/html/part18.html#sect_10.4). For details on the implementation of RetrieveRenderedFrames, see [Rendered resources](https://cloud.google.com/healthcare/docs/dicom#rendered_resources) in the Cloud Healthcare API conformance statement. For samples that show how to call RetrieveRenderedFrames, see [Retrieve consumer image formats](https://cloud.google.com/healthcare/docs/how-tos/dicomweb#retrieve-consumer). */
-export const retrieveRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFrames: API.OperationMethod<
-  RetrieveRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest,
-  HttpBody,
-  RetrieveRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: RetrieveRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest,
-  output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type RetrieveSeriesProjectsLocationsDatasetsDicomStoresStudiesSeriesError =
-  | NotFound
-  | Forbidden
-  | GcpOpError;
-/** RetrieveSeries returns all instances within the given study and series. See [RetrieveTransaction](https://dicom.nema.org/medical/dicom/current/output/html/part18.html#sect_10.4). For details on the implementation of RetrieveSeries, see [DICOM study/series/instances](https://cloud.google.com/healthcare/docs/dicom#dicom_studyseriesinstances) in the Cloud Healthcare API conformance statement. For samples that show how to call RetrieveSeries, see [Retrieve DICOM data](https://cloud.google.com/healthcare/docs/how-tos/dicomweb#retrieve-dicom). */
-export const retrieveSeriesProjectsLocationsDatasetsDicomStoresStudiesSeries: API.OperationMethod<
-  RetrieveSeriesProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest,
-  HttpBody,
-  RetrieveSeriesProjectsLocationsDatasetsDicomStoresStudiesSeriesError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: RetrieveSeriesProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest,
-  output: HttpBody,
-  errors: [NotFound, Forbidden, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-}));
-
-export type RetrieveStudyProjectsLocationsDatasetsDicomStoresStudiesError =
-  | NotFound
-  | Forbidden
-  | GcpOpError;
-/** RetrieveStudy returns all instances within the given study. See [RetrieveTransaction](https://dicom.nema.org/medical/dicom/current/output/html/part18.html#sect_10.4). For details on the implementation of RetrieveStudy, see [DICOM study/series/instances](https://cloud.google.com/healthcare/docs/dicom#dicom_studyseriesinstances) in the Cloud Healthcare API conformance statement. For samples that show how to call RetrieveStudy, see [Retrieve DICOM data](https://cloud.google.com/healthcare/docs/how-tos/dicomweb#retrieve-dicom). */
-export const retrieveStudyProjectsLocationsDatasetsDicomStoresStudies: API.OperationMethod<
-  RetrieveStudyProjectsLocationsDatasetsDicomStoresStudiesRequest,
-  HttpBody,
-  RetrieveStudyProjectsLocationsDatasetsDicomStoresStudiesError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: RetrieveStudyProjectsLocationsDatasetsDicomStoresStudiesRequest,
   output: HttpBody,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
@@ -10169,22 +10091,20 @@ export const rollbackProjectsLocationsDatasetsHl7V2Stores: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type Search_typeProjectsLocationsDatasetsFhirStoresFhirError =
+export type SearchConceptMapTranslateProjectsLocationsDatasetsFhirStoresFhirError =
   | NotFound
   | Forbidden
-  | BadRequest
-  | Conflict
   | GcpOpError;
-/** Searches for resources in the given FHIR store according to criteria specified as query parameters. Implements the FHIR standard search interaction ([DSTU2](https://hl7.org/fhir/DSTU2/http.html#search), [STU3](https://hl7.org/fhir/STU3/http.html#search), [R4](https://hl7.org/fhir/R4/http.html#search), [R5](https://hl7.org/fhir/R5/http.html#search)) using the search semantics described in the FHIR Search specification ([DSTU2](https://hl7.org/fhir/DSTU2/search.html), [STU3](https://hl7.org/fhir/STU3/search.html), [R4](https://hl7.org/fhir/R4/search.html), [R5](https://hl7.org/fhir/R5/search.html)). Supports four methods of search defined by the specification: * `GET [base]?[parameters]` to search across all resources. * `GET [base]/[type]?[parameters]` to search resources of a specified type. * `POST [base]/_search?[parameters]` as an alternate form having the same semantics as the `GET` method across all resources. * `POST [base]/[type]/_search?[parameters]` as an alternate form having the same semantics as the `GET` method for the specified type. The `GET` and `POST` methods do not support compartment searches. The `POST` method does not support `application/x-www-form-urlencoded` search parameters. On success, the response body contains a JSON-encoded representation of a `Bundle` resource of type `searchset`, containing the results of the search. Errors generated by the FHIR store contain a JSON-encoded `OperationOutcome` resource describing the reason for the error. If the request cannot be mapped to a valid API method on a FHIR store, a generic GCP error might be returned instead. The server's capability statement, retrieved through capabilities, indicates what search parameters are supported on each FHIR resource. A list of all search parameters defined by the specification can be found in the FHIR Search Parameter Registry ([STU3](https://hl7.org/fhir/STU3/searchparameter-registry.html), [R4](https://hl7.org/fhir/R4/searchparameter-registry.html), [R5](https://hl7.org/fhir/R5/searchparameter-registry.html)). FHIR search parameters for DSTU2 can be found on each resource's definition page. Supported search modifiers: `:missing`, `:exact`, `:contains`, `:text`, `:in`, `:not-in`, `:above`, `:below`, `:[type]`, `:not`, and `recurse` (DSTU2 and STU3) or `:iterate` (R4 and R5). Supported search result parameters: `_sort`, `_count`, `_include`, `_revinclude`, `_summary=text`, `_summary=data`, and `_elements`. The maximum number of search results returned defaults to 100, which can be overridden by the `_count` parameter up to a maximum limit of 1000. The server might return fewer resources than requested to prevent excessively large responses. If there are additional results, the returned `Bundle` contains a link of `relation` "next", which has a `_page_token` parameter for an opaque pagination token that can be used to retrieve the next page. Resources with a total size larger than 5MB or a field count larger than 50,000 might not be fully searchable as the server might trim its generated search index in those cases. Note: FHIR resources are indexed asynchronously, so there might be a slight delay between the time a resource is created or changed, and the time when the change reflects in search results. The only exception is resource identifier data, which is indexed synchronously as a special index. As a result, searching using resource identifier is not subject to indexing delay. To use the special synchronous index, the search term for identifier should be in the pattern `identifier=[system]|[value]` or `identifier=[value]`, and any of the following search result parameters can be used: * `_count` * `_include` * `_revinclude` * `_summary` * `_elements` If your query contains any other search parameters, the standard asynchronous index will be used instead. Note that searching against the special index is optimized for resolving a small number of matches. The search isn't optimized if your identifier search criteria matches a large number (i.e. more than 2,000) of resources. For a search query that will match a large number of resources, you can avoiding using the special synchronous index by including an additional `_sort` parameter in your query. Use `_sort=-_lastUpdated` if you want to keep the default sorting order. For samples and detailed information, see [Searching for FHIR resources](https://cloud.google.com/healthcare/docs/how-tos/fhir-search) and [Advanced FHIR search features](https://cloud.google.com/healthcare/docs/how-tos/fhir-advanced-search). */
-export const search_typeProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
-  Search_typeProjectsLocationsDatasetsFhirStoresFhirRequest,
+/** Translates a code from one value set to another by searching for appropriate concept maps. Implements the FHIR standard $translate operation ([DSTU2](https://www.hl7.org/fhir/DSTU2/operation-conceptmap-translate.html), [STU3](https://www.hl7.org/fhir/STU3/operation-conceptmap-translate.html), [R4](https://www.hl7.org/fhir/R4/operation-conceptmap-translate.html), [R5](https://www.hl7.org/fhir/R5/operation-conceptmap-translate.html)). On success, the response body contains a JSON-encoded representation of a FHIR Parameters resource, which includes the translation result. Errors generated by the FHIR store contain a JSON-encoded `OperationOutcome` resource describing the reason for the error. If the request cannot be mapped to a valid API method on a FHIR store, a generic GCP error might be returned instead. */
+export const searchConceptMapTranslateProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
+  SearchConceptMapTranslateProjectsLocationsDatasetsFhirStoresFhirRequest,
   HttpBody,
-  Search_typeProjectsLocationsDatasetsFhirStoresFhirError,
+  SearchConceptMapTranslateProjectsLocationsDatasetsFhirStoresFhirError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: Search_typeProjectsLocationsDatasetsFhirStoresFhirRequest,
+  input: SearchConceptMapTranslateProjectsLocationsDatasetsFhirStoresFhirRequest,
   output: HttpBody,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
@@ -10311,6 +10231,26 @@ export const searchProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: SearchProjectsLocationsDatasetsFhirStoresFhirRequest,
+  output: HttpBody,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SearchTypeProjectsLocationsDatasetsFhirStoresFhirError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Searches for resources in the given FHIR store according to criteria specified as query parameters. Implements the FHIR standard search interaction ([DSTU2](https://hl7.org/fhir/DSTU2/http.html#search), [STU3](https://hl7.org/fhir/STU3/http.html#search), [R4](https://hl7.org/fhir/R4/http.html#search), [R5](https://hl7.org/fhir/R5/http.html#search)) using the search semantics described in the FHIR Search specification ([DSTU2](https://hl7.org/fhir/DSTU2/search.html), [STU3](https://hl7.org/fhir/STU3/search.html), [R4](https://hl7.org/fhir/R4/search.html), [R5](https://hl7.org/fhir/R5/search.html)). Supports four methods of search defined by the specification: * `GET [base]?[parameters]` to search across all resources. * `GET [base]/[type]?[parameters]` to search resources of a specified type. * `POST [base]/_search?[parameters]` as an alternate form having the same semantics as the `GET` method across all resources. * `POST [base]/[type]/_search?[parameters]` as an alternate form having the same semantics as the `GET` method for the specified type. The `GET` and `POST` methods do not support compartment searches. The `POST` method does not support `application/x-www-form-urlencoded` search parameters. On success, the response body contains a JSON-encoded representation of a `Bundle` resource of type `searchset`, containing the results of the search. Errors generated by the FHIR store contain a JSON-encoded `OperationOutcome` resource describing the reason for the error. If the request cannot be mapped to a valid API method on a FHIR store, a generic GCP error might be returned instead. The server's capability statement, retrieved through capabilities, indicates what search parameters are supported on each FHIR resource. A list of all search parameters defined by the specification can be found in the FHIR Search Parameter Registry ([STU3](https://hl7.org/fhir/STU3/searchparameter-registry.html), [R4](https://hl7.org/fhir/R4/searchparameter-registry.html), [R5](https://hl7.org/fhir/R5/searchparameter-registry.html)). FHIR search parameters for DSTU2 can be found on each resource's definition page. Supported search modifiers: `:missing`, `:exact`, `:contains`, `:text`, `:in`, `:not-in`, `:above`, `:below`, `:[type]`, `:not`, and `recurse` (DSTU2 and STU3) or `:iterate` (R4 and R5). Supported search result parameters: `_sort`, `_count`, `_include`, `_revinclude`, `_summary=text`, `_summary=data`, and `_elements`. The maximum number of search results returned defaults to 100, which can be overridden by the `_count` parameter up to a maximum limit of 1000. The server might return fewer resources than requested to prevent excessively large responses. If there are additional results, the returned `Bundle` contains a link of `relation` "next", which has a `_page_token` parameter for an opaque pagination token that can be used to retrieve the next page. Resources with a total size larger than 5MB or a field count larger than 50,000 might not be fully searchable as the server might trim its generated search index in those cases. Note: FHIR resources are indexed asynchronously, so there might be a slight delay between the time a resource is created or changed, and the time when the change reflects in search results. The only exception is resource identifier data, which is indexed synchronously as a special index. As a result, searching using resource identifier is not subject to indexing delay. To use the special synchronous index, the search term for identifier should be in the pattern `identifier=[system]|[value]` or `identifier=[value]`, and any of the following search result parameters can be used: * `_count` * `_include` * `_revinclude` * `_summary` * `_elements` If your query contains any other search parameters, the standard asynchronous index will be used instead. Note that searching against the special index is optimized for resolving a small number of matches. The search isn't optimized if your identifier search criteria matches a large number (i.e. more than 2,000) of resources. For a search query that will match a large number of resources, you can avoiding using the special synchronous index by including an additional `_sort` parameter in your query. Use `_sort=-_lastUpdated` if you want to keep the default sorting order. For samples and detailed information, see [Searching for FHIR resources](https://cloud.google.com/healthcare/docs/how-tos/fhir-search) and [Advanced FHIR search features](https://cloud.google.com/healthcare/docs/how-tos/fhir-advanced-search). */
+export const searchTypeProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
+  SearchTypeProjectsLocationsDatasetsFhirStoresFhirRequest,
+  HttpBody,
+  SearchTypeProjectsLocationsDatasetsFhirStoresFhirError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SearchTypeProjectsLocationsDatasetsFhirStoresFhirRequest,
   output: HttpBody,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -10637,6 +10577,26 @@ export const testIamPermissionsProjectsLocationsDatasetsHl7V2Stores: API.Operati
   retry: Retry.Retry,
 }));
 
+export type UpdateBinaryProjectsLocationsDatasetsFhirStoresFhirError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Updates the entire contents of a Binary resource. If the specified resource does not exist and the FHIR store has enable_update_create set, creates the resource with the client-specified ID. It is strongly advised not to include or encode any sensitive data such as patient identifiers in client-specified resource IDs. Those IDs are part of the FHIR resource path recorded in Cloud Audit Logs and Pub/Sub notifications. Those IDs can also be contained in reference fields within other resources. This method can be used to update a Binary resource either by using one of the accepted FHIR JSON content types, or as a raw data stream. If a resource is updated with this method using the FHIR content type this method's behavior is the same as `update`. If a resource type other than Binary is used in the request it will be treated in the same way as non-FHIR data. When a non-FHIR content type is used in the request, a Binary resource will be generated using the ID from the resource path, and the uploaded data will be stored in the `content` field (`DSTU2` and `STU3`), or the `data` field (`R4` and `R5`). The Binary resource's `contentType` will be filled in using the value of the `Content-Type` header, and the `securityContext` field (not present in `DSTU2`) will be populated from the `X-Security-Context` header if it exists. At this time `securityContext` has no special behavior in the Cloud Healthcare API. Note: the limit on data ingested through this method is 2 GB. For best performance, use a non-FHIR data type instead of wrapping the data in a Binary resource. Some of the Healthcare API features, such as [exporting to BigQuery](https://cloud.google.com/healthcare-api/docs/how-tos/fhir-export-bigquery) or [Pub/Sub notifications](https://cloud.google.com/healthcare-api/docs/fhir-pubsub#behavior_when_a_fhir_resource_is_too_large_or_traffic_is_high) with full resource content, do not support Binary resources that are larger than 10 MB. In these cases the resource's `data` field will be omitted. Instead, the "http://hl7.org/fhir/StructureDefinition/data-absent-reason" extension will be present to indicate that including the data is `unsupported`. On success, an empty 200 OK response will be returned, or a 201 Created if the resource did not exit. The resource's ID and version are returned in the Location header. Using `Prefer: representation=resource` is not allowed for this method. The definition of the Binary REST API can be found at https://hl7.org/fhir/binary.html#rest. */
+export const updateBinaryProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
+  UpdateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest,
+  HttpBody,
+  UpdateBinaryProjectsLocationsDatasetsFhirStoresFhirError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest,
+  output: HttpBody,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
 export type UpdateInstancesProjectsLocationsDatasetsDicomStoresError =
   | NotFound
   | Forbidden
@@ -10751,6 +10711,26 @@ export const updateProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateProjectsLocationsDatasetsFhirStoresFhirRequest,
+  output: HttpBody,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ValidateResourceProjectsLocationsDatasetsFhirStoresFhirError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Validates an input FHIR resource's conformance to its profiles and the profiles configured on the FHIR store. Implements the FHIR extended operation $validate ([DSTU2](https://hl7.org/fhir/DSTU2/resource-operations.html#validate), [STU3](https://hl7.org/fhir/STU3/resource-operations.html#validate), [R4](https://hl7.org/fhir/R4/resource-operation-validate.html), or [R5](https://hl7.org/fhir/R5/resource-operation-validate.html)). The request body must contain a JSON-encoded FHIR resource, and the request headers must contain `Content-Type: application/fhir+json`. The `Parameters` input syntax is not supported. The `profile` query parameter can be used to request that the resource only be validated against a specific profile. If a profile with the given URL cannot be found in the FHIR store then an error is returned. Errors generated by validation contain a JSON-encoded `OperationOutcome` resource describing the reason for the error. If the request cannot be mapped to a valid API method on a FHIR store, a generic GCP error might be returned instead. */
+export const validateResourceProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
+  ValidateResourceProjectsLocationsDatasetsFhirStoresFhirRequest,
+  HttpBody,
+  ValidateResourceProjectsLocationsDatasetsFhirStoresFhirError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ValidateResourceProjectsLocationsDatasetsFhirStoresFhirRequest,
   output: HttpBody,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,

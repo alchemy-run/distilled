@@ -33,9 +33,7 @@ export const MouseClickResponse = /*@__PURE__*/ S.suspend(() =>
     x: S.optional(S.Number),
     y: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MouseClickResponse",
-}) as any as S.Schema<MouseClickResponse>;
+).annotate({ identifier: "MouseClickResponse" }) as any as S.Schema<MouseClickResponse>;
 
 export interface DeleteRecordingRequest {
   /** Recording ID */
@@ -44,16 +42,8 @@ export interface DeleteRecordingRequest {
 export const DeleteRecordingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/computeruse/recordings/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteRecordingRequest",
-}) as any as S.Schema<DeleteRecordingRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/computeruse/recordings/{id}", code: 200 })),
+).annotate({ identifier: "DeleteRecordingRequest" }) as any as S.Schema<DeleteRecordingRequest>;
 
 export interface DeleteRecordingResponse {}
 export const DeleteRecordingResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -67,16 +57,8 @@ export interface DownloadRecordingRequest {
 export const DownloadRecordingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/computeruse/recordings/{id}/download",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DownloadRecordingRequest",
-}) as any as S.Schema<DownloadRecordingRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/computeruse/recordings/{id}/download", code: 200 })),
+).annotate({ identifier: "DownloadRecordingRequest" }) as any as S.Schema<DownloadRecordingRequest>;
 
 export type DownloadRecordingResponse = unknown;
 export const DownloadRecordingResponse = /*@__PURE__*/ S.suspend(() =>
@@ -111,9 +93,7 @@ export const MouseDragResponse = /*@__PURE__*/ S.suspend(() =>
     x: S.optional(S.Number),
     y: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MouseDragResponse",
-}) as any as S.Schema<MouseDragResponse>;
+).annotate({ identifier: "MouseDragResponse" }) as any as S.Schema<MouseDragResponse>;
 
 export type FindAccessibilityNodesRequestStatesList = Array<string>;
 export const FindAccessibilityNodesRequestStatesList = /*@__PURE__*/ S.Array(
@@ -162,9 +142,7 @@ export const AccessibilityBounds = /*@__PURE__*/ S.suspend(() =>
     x: S.optional(S.Number),
     y: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AccessibilityBounds",
-}) as any as S.Schema<AccessibilityBounds>;
+).annotate({ identifier: "AccessibilityBounds" }) as any as S.Schema<AccessibilityBounds>;
 
 export type ComputeruseAccessibilityNodeChildrenList = Array<ComputeruseAccessibilityNode>;
 export const ComputeruseAccessibilityNodeChildrenList = /*@__PURE__*/ S.Array(
@@ -296,9 +274,7 @@ export const GetComputerUseSystemStatusRequest = /*@__PURE__*/ S.suspend(() =>
 export interface GetDisplayInfoRequest {}
 export const GetDisplayInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/computeruse/display/info", code: 200 })),
-).annotate({
-  identifier: "GetDisplayInfoRequest",
-}) as any as S.Schema<GetDisplayInfoRequest>;
+).annotate({ identifier: "GetDisplayInfoRequest" }) as any as S.Schema<GetDisplayInfoRequest>;
 
 export interface DisplayInfo {
   height?: number;
@@ -331,16 +307,12 @@ export const DisplayInfoResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     displays: S.optional(DisplayInfoResponseDisplaysList),
   }),
-).annotate({
-  identifier: "DisplayInfoResponse",
-}) as any as S.Schema<DisplayInfoResponse>;
+).annotate({ identifier: "DisplayInfoResponse" }) as any as S.Schema<DisplayInfoResponse>;
 
 export interface GetMousePositionRequest {}
 export const GetMousePositionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/computeruse/mouse/position", code: 200 })),
-).annotate({
-  identifier: "GetMousePositionRequest",
-}) as any as S.Schema<GetMousePositionRequest>;
+).annotate({ identifier: "GetMousePositionRequest" }) as any as S.Schema<GetMousePositionRequest>;
 
 export interface MousePositionResponse {
   x?: number;
@@ -351,9 +323,7 @@ export const MousePositionResponse = /*@__PURE__*/ S.suspend(() =>
     x: S.optional(S.Number),
     y: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MousePositionResponse",
-}) as any as S.Schema<MousePositionResponse>;
+).annotate({ identifier: "MousePositionResponse" }) as any as S.Schema<MousePositionResponse>;
 
 export interface GetProcessErrorsRequest {
   /** Process name to get errors for */
@@ -362,16 +332,8 @@ export interface GetProcessErrorsRequest {
 export const GetProcessErrorsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     processName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/computeruse/process/{processName}/errors",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetProcessErrorsRequest",
-}) as any as S.Schema<GetProcessErrorsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/computeruse/process/{processName}/errors", code: 200 })),
+).annotate({ identifier: "GetProcessErrorsRequest" }) as any as S.Schema<GetProcessErrorsRequest>;
 
 export interface ProcessErrorsResponse {
   errors?: string;
@@ -382,9 +344,7 @@ export const ProcessErrorsResponse = /*@__PURE__*/ S.suspend(() =>
     errors: S.optional(S.String),
     processName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProcessErrorsResponse",
-}) as any as S.Schema<ProcessErrorsResponse>;
+).annotate({ identifier: "ProcessErrorsResponse" }) as any as S.Schema<ProcessErrorsResponse>;
 
 export interface GetProcessLogsRequest {
   /** Process name to get logs for */
@@ -393,16 +353,8 @@ export interface GetProcessLogsRequest {
 export const GetProcessLogsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     processName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/computeruse/process/{processName}/logs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetProcessLogsRequest",
-}) as any as S.Schema<GetProcessLogsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/computeruse/process/{processName}/logs", code: 200 })),
+).annotate({ identifier: "GetProcessLogsRequest" }) as any as S.Schema<GetProcessLogsRequest>;
 
 export interface ProcessLogsResponse {
   logs?: string;
@@ -413,9 +365,7 @@ export const ProcessLogsResponse = /*@__PURE__*/ S.suspend(() =>
     logs: S.optional(S.String),
     processName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProcessLogsResponse",
-}) as any as S.Schema<ProcessLogsResponse>;
+).annotate({ identifier: "ProcessLogsResponse" }) as any as S.Schema<ProcessLogsResponse>;
 
 export interface GetProcessStatusRequest {
   /** Process name to check */
@@ -424,16 +374,8 @@ export interface GetProcessStatusRequest {
 export const GetProcessStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     processName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/computeruse/process/{processName}/status",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetProcessStatusRequest",
-}) as any as S.Schema<GetProcessStatusRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/computeruse/process/{processName}/status", code: 200 })),
+).annotate({ identifier: "GetProcessStatusRequest" }) as any as S.Schema<GetProcessStatusRequest>;
 
 export interface ProcessStatusResponse {
   processName?: string;
@@ -444,9 +386,7 @@ export const ProcessStatusResponse = /*@__PURE__*/ S.suspend(() =>
     processName: S.optional(S.String),
     running: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ProcessStatusResponse",
-}) as any as S.Schema<ProcessStatusResponse>;
+).annotate({ identifier: "ProcessStatusResponse" }) as any as S.Schema<ProcessStatusResponse>;
 
 export interface GetRecordingRequest {
   /** Recording ID */
@@ -456,9 +396,7 @@ export const GetRecordingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/computeruse/recordings/{id}", code: 200 })),
-).annotate({
-  identifier: "GetRecordingRequest",
-}) as any as S.Schema<GetRecordingRequest>;
+).annotate({ identifier: "GetRecordingRequest" }) as any as S.Schema<GetRecordingRequest>;
 
 export interface Recording {
   durationSeconds?: number;
@@ -486,9 +424,7 @@ export const Recording = /*@__PURE__*/ S.suspend(() =>
 export interface GetWindowsRequest {}
 export const GetWindowsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/computeruse/display/windows", code: 200 })),
-).annotate({
-  identifier: "GetWindowsRequest",
-}) as any as S.Schema<GetWindowsRequest>;
+).annotate({ identifier: "GetWindowsRequest" }) as any as S.Schema<GetWindowsRequest>;
 
 export interface WindowInfo {
   height?: number;
@@ -523,9 +459,7 @@ export const WindowsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     windows: S.optional(WindowsResponseWindowsList),
   }),
-).annotate({
-  identifier: "WindowsResponse",
-}) as any as S.Schema<WindowsResponse>;
+).annotate({ identifier: "WindowsResponse" }) as any as S.Schema<WindowsResponse>;
 
 export interface InvokeAccessibilityNodeRequest {
   action?: string;
@@ -550,9 +484,7 @@ export const InvokeAccessibilityNodeResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListRecordingsRequest {}
 export const ListRecordingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/computeruse/recordings", code: 200 })),
-).annotate({
-  identifier: "ListRecordingsRequest",
-}) as any as S.Schema<ListRecordingsRequest>;
+).annotate({ identifier: "ListRecordingsRequest" }) as any as S.Schema<ListRecordingsRequest>;
 
 export type ListRecordingsResponseRecordingsList = Array<Recording>;
 export const ListRecordingsResponseRecordingsList = /*@__PURE__*/ S.Array(
@@ -566,9 +498,7 @@ export const ListRecordingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     recordings: ListRecordingsResponseRecordingsList,
   }),
-).annotate({
-  identifier: "ListRecordingsResponse",
-}) as any as S.Schema<ListRecordingsResponse>;
+).annotate({ identifier: "ListRecordingsResponse" }) as any as S.Schema<ListRecordingsResponse>;
 
 export interface MoveMouseRequest {
   x?: number;
@@ -579,9 +509,7 @@ export const MoveMouseRequest = /*@__PURE__*/ S.suspend(() =>
     x: S.optional(S.Number),
     y: S.optional(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/computeruse/mouse/move", code: 200 })),
-).annotate({
-  identifier: "MoveMouseRequest",
-}) as any as S.Schema<MoveMouseRequest>;
+).annotate({ identifier: "MoveMouseRequest" }) as any as S.Schema<MoveMouseRequest>;
 
 export interface PressHotkeyRequest {
   /** e.g., "ctrl+c", "cmd+v" */
@@ -591,16 +519,12 @@ export const PressHotkeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     keys: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/computeruse/keyboard/hotkey", code: 200 })),
-).annotate({
-  identifier: "PressHotkeyRequest",
-}) as any as S.Schema<PressHotkeyRequest>;
+).annotate({ identifier: "PressHotkeyRequest" }) as any as S.Schema<PressHotkeyRequest>;
 
 export type PressHotkeyResponse = unknown;
 export const PressHotkeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "PressHotkeyResponse",
-}) as any as S.Schema<PressHotkeyResponse>;
+).annotate({ identifier: "PressHotkeyResponse" }) as any as S.Schema<PressHotkeyResponse>;
 
 /** ctrl, alt, shift, cmd */
 export type PressKeyRequestModifiersList = Array<string>;
@@ -618,16 +542,12 @@ export const PressKeyRequest = /*@__PURE__*/ S.suspend(() =>
     key: S.optional(S.String),
     modifiers: S.optional(PressKeyRequestModifiersList),
   }).pipe(T.Http({ method: "POST", uri: "/computeruse/keyboard/key", code: 200 })),
-).annotate({
-  identifier: "PressKeyRequest",
-}) as any as S.Schema<PressKeyRequest>;
+).annotate({ identifier: "PressKeyRequest" }) as any as S.Schema<PressKeyRequest>;
 
 export type PressKeyResponse = unknown;
 export const PressKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "PressKeyResponse",
-}) as any as S.Schema<PressKeyResponse>;
+).annotate({ identifier: "PressKeyResponse" }) as any as S.Schema<PressKeyResponse>;
 
 export interface RestartProcessRequest {
   /** Process name to restart */
@@ -636,16 +556,8 @@ export interface RestartProcessRequest {
 export const RestartProcessRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     processName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/computeruse/process/{processName}/restart",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RestartProcessRequest",
-}) as any as S.Schema<RestartProcessRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/computeruse/process/{processName}/restart", code: 200 })),
+).annotate({ identifier: "RestartProcessRequest" }) as any as S.Schema<RestartProcessRequest>;
 
 export interface ProcessRestartResponse {
   message?: string;
@@ -656,9 +568,7 @@ export const ProcessRestartResponse = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     processName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProcessRestartResponse",
-}) as any as S.Schema<ProcessRestartResponse>;
+).annotate({ identifier: "ProcessRestartResponse" }) as any as S.Schema<ProcessRestartResponse>;
 
 export interface ScrollRequest {
   amount?: number;
@@ -708,9 +618,7 @@ export const SetAccessibilityNodeValueResponse = /*@__PURE__*/ S.suspend(() =>
 export interface StartComputerUseRequest {}
 export const StartComputerUseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/computeruse/start", code: 200 })),
-).annotate({
-  identifier: "StartComputerUseRequest",
-}) as any as S.Schema<StartComputerUseRequest>;
+).annotate({ identifier: "StartComputerUseRequest" }) as any as S.Schema<StartComputerUseRequest>;
 
 export interface ProcessStatus {
   autoRestart?: boolean;
@@ -727,9 +635,7 @@ export const ProcessStatus = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ProcessStatus" }) as any as S.Schema<ProcessStatus>;
 
-export type ComputerUseStartResponseStatusMap = {
-  [key: string]: ProcessStatus | undefined;
-};
+export type ComputerUseStartResponseStatusMap = { [key: string]: ProcessStatus | undefined };
 export const ComputerUseStartResponseStatusMap = /*@__PURE__*/ S.Record(
   S.String,
   ProcessStatus,
@@ -744,9 +650,7 @@ export const ComputerUseStartResponse = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     status: S.optional(ComputerUseStartResponseStatusMap),
   }),
-).annotate({
-  identifier: "ComputerUseStartResponse",
-}) as any as S.Schema<ComputerUseStartResponse>;
+).annotate({ identifier: "ComputerUseStartResponse" }) as any as S.Schema<ComputerUseStartResponse>;
 
 export interface StartRecordingRequest {
   label?: string;
@@ -755,20 +659,14 @@ export const StartRecordingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     label: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/computeruse/recordings/start", code: 200 })),
-).annotate({
-  identifier: "StartRecordingRequest",
-}) as any as S.Schema<StartRecordingRequest>;
+).annotate({ identifier: "StartRecordingRequest" }) as any as S.Schema<StartRecordingRequest>;
 
 export interface StopComputerUseRequest {}
 export const StopComputerUseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/computeruse/stop", code: 200 })),
-).annotate({
-  identifier: "StopComputerUseRequest",
-}) as any as S.Schema<StopComputerUseRequest>;
+).annotate({ identifier: "StopComputerUseRequest" }) as any as S.Schema<StopComputerUseRequest>;
 
-export type ComputerUseStopResponseStatusMap = {
-  [key: string]: ProcessStatus | undefined;
-};
+export type ComputerUseStopResponseStatusMap = { [key: string]: ProcessStatus | undefined };
 export const ComputerUseStopResponseStatusMap = /*@__PURE__*/ S.Record(
   S.String,
   ProcessStatus,
@@ -783,9 +681,7 @@ export const ComputerUseStopResponse = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     status: S.optional(ComputerUseStopResponseStatusMap),
   }),
-).annotate({
-  identifier: "ComputerUseStopResponse",
-}) as any as S.Schema<ComputerUseStopResponse>;
+).annotate({ identifier: "ComputerUseStopResponse" }) as any as S.Schema<ComputerUseStopResponse>;
 
 export interface StopRecordingRequest {
   id: string;
@@ -794,9 +690,7 @@ export const StopRecordingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/computeruse/recordings/stop", code: 200 })),
-).annotate({
-  identifier: "StopRecordingRequest",
-}) as any as S.Schema<StopRecordingRequest>;
+).annotate({ identifier: "StopRecordingRequest" }) as any as S.Schema<StopRecordingRequest>;
 
 export interface TakeCompressedRegionScreenshotRequest {
   /** X coordinate of the region */
@@ -826,13 +720,7 @@ export const TakeCompressedRegionScreenshotRequest = /*@__PURE__*/ S.suspend(() 
     format: S.optional(S.String.pipe(T.Query())),
     quality: S.optional(S.Number.pipe(T.Query())),
     scale: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/computeruse/screenshot/region/compressed",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/computeruse/screenshot/region/compressed", code: 200 })),
 ).annotate({
   identifier: "TakeCompressedRegionScreenshotRequest",
 }) as any as S.Schema<TakeCompressedRegionScreenshotRequest>;
@@ -859,9 +747,7 @@ export const ScreenshotResponse = /*@__PURE__*/ S.suspend(() =>
     screenshot: S.optional(S.String),
     sizeBytes: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ScreenshotResponse",
-}) as any as S.Schema<ScreenshotResponse>;
+).annotate({ identifier: "ScreenshotResponse" }) as any as S.Schema<ScreenshotResponse>;
 
 export interface TakeCompressedScreenshotRequest {
   /** Whether to show cursor in screenshot */
@@ -879,13 +765,7 @@ export const TakeCompressedScreenshotRequest = /*@__PURE__*/ S.suspend(() =>
     format: S.optional(S.String.pipe(T.Query())),
     quality: S.optional(S.Number.pipe(T.Query())),
     scale: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/computeruse/screenshot/compressed",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/computeruse/screenshot/compressed", code: 200 })),
 ).annotate({
   identifier: "TakeCompressedScreenshotRequest",
 }) as any as S.Schema<TakeCompressedScreenshotRequest>;
@@ -922,9 +802,7 @@ export const TakeScreenshotRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     showCursor: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/computeruse/screenshot", code: 200 })),
-).annotate({
-  identifier: "TakeScreenshotRequest",
-}) as any as S.Schema<TakeScreenshotRequest>;
+).annotate({ identifier: "TakeScreenshotRequest" }) as any as S.Schema<TakeScreenshotRequest>;
 
 export interface TypeTextRequest {
   /** milliseconds between keystrokes */
@@ -936,16 +814,12 @@ export const TypeTextRequest = /*@__PURE__*/ S.suspend(() =>
     delay: S.optional(S.Number),
     text: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/computeruse/keyboard/type", code: 200 })),
-).annotate({
-  identifier: "TypeTextRequest",
-}) as any as S.Schema<TypeTextRequest>;
+).annotate({ identifier: "TypeTextRequest" }) as any as S.Schema<TypeTextRequest>;
 
 export type TypeTextResponse = unknown;
 export const TypeTextResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "TypeTextResponse",
-}) as any as S.Schema<TypeTextResponse>;
+).annotate({ identifier: "TypeTextResponse" }) as any as S.Schema<TypeTextResponse>;
 
 export type ClickError = DaytonaOpError;
 /** Click mouse button Click the mouse button at the specified coordinates */

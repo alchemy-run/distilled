@@ -31,10 +31,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/validateCustomDomain",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Validates the custom domain mapping to ensure it maps to the correct Front Door endpoint in DNS.",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#ValidateCustomDomainOutput": {
@@ -115,10 +115,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/rulesEngines/{rulesEngineName}",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Deletes an existing Rules Engine Configuration with the specified parameters.",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#DeleteRulesEngineRequest": {
@@ -174,10 +174,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/rulesEngines/{rulesEngineName}",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Creates a new Rules Engine Configuration with the specified name within the specified Front Door.",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#RulesEnginesCreateOrUpdateResponse": {
@@ -802,10 +802,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/rulesEngines/{rulesEngineName}",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Gets a Rules Engine Configuration with the specified name within the specified Front Door.",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#GetRulesEngineResponse": {
@@ -893,10 +893,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/rulesEngines",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Lists all of the Rules Engine Configurations within a Front Door.",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#RulesEngineListResult": {
@@ -1006,10 +1006,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/purge",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Removes a content from Front Door.",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#PurgeEndpointContentRequest": {
@@ -1073,10 +1073,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}/enableHttps",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Enables a frontendEndpoint for HTTPS traffic",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#EnableFrontendEndpointHttpsRequest": {
@@ -1287,10 +1287,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}/disableHttps",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Disables a frontendEndpoint for HTTPS traffic",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#DisableFrontendEndpointHttpsRequest": {
@@ -1346,10 +1346,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Gets a Frontend endpoint with the specified name within the specified Front Door.",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#GetFrontendEndpointResponse": {
@@ -1674,10 +1674,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Lists all of the frontend endpoints within a Front Door.",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#FrontendEndpointsListResult": {
@@ -1787,10 +1787,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Deletes an existing Front Door with the specified parameters.",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#DeleteFrontDoorRequest": {
@@ -1838,10 +1838,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Creates a new Front Door with a Front Door name under the specified subscription and resource group.",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#FrontDoorsCreateOrUpdateResponse": {
@@ -2998,10 +2998,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Gets a Front Door with the specified Front Door name under the specified subscription and resource group.",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#GetFrontDoorResponse": {
@@ -3105,10 +3105,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Lists all of the Front Doors within a resource group under a subscription.",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#FrontDoorListResult": {
@@ -3234,10 +3234,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/preconfiguredEndpoints",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Gets a list of Preconfigured Endpoints\n\nGets a list of Preconfigured Endpoints",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#PreconfiguredEndpointList": {
@@ -3435,10 +3435,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}/timeseries",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Gets a Timeseries for a given Experiment\n\nGets a Timeseries for a given Experiment",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#GetReportTimeseriesResponse": {
@@ -3775,10 +3775,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}/latencyScorecard",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Gets a Latency Scorecard for a given Experiment\n\nGets a Latency Scorecard for a given Experiment",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#GetReportLatencyScorecardsResponse": {
@@ -4075,10 +4075,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Deletes an Experiment\n\nDeletes an Experiment",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#DeleteExperimentRequest": {
@@ -4134,10 +4134,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Updates an Experiment by Experiment id\n\nUpdates an Experiment",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#UpdateExperimentResponse": {
@@ -4427,10 +4427,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Creates or updates an Experiment\n\nCreates or updates an Experiment",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#ExperimentsCreateOrUpdateResponse": {
@@ -4604,10 +4604,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Gets an Experiment by ExperimentName\n\nGets an Experiment by ExperimentName",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#GetExperimentResponse": {
@@ -4719,10 +4719,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Gets a list of Experiments\n\nGets a list of Experiments",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#ExperimentList": {
@@ -4856,10 +4856,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Deletes an NetworkExperiment Profile by ProfileName\n\nDeletes an NetworkExperiment Profile by ProfileName",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#DeleteNetworkExperimentProfileRequest": {
@@ -4907,10 +4907,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Updates an NetworkExperimentProfiles by NetworkExperimentProfile name\n\nUpdates an NetworkExperimentProfiles",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#UpdateNetworkExperimentProfileResponse": {
@@ -5078,10 +5078,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Creates an NetworkExperiment Profile\n\nCreates an NetworkExperiment Profile",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#NetworkExperimentProfilesCreateOrUpdateResponse": {
@@ -5227,10 +5227,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Gets an NetworkExperiment Profile by ProfileName\n\nGets an NetworkExperiment Profile by ProfileName",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#GetNetworkExperimentProfileResponse": {
@@ -5340,10 +5340,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Gets a list of Network Experiment Profiles within a resource group under a subscription\n\nGets a list of Network Experiment Profiles within a resource group under a subscription",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#ProfileList": {
@@ -5475,10 +5475,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Deletes Policy",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#DeletePolicyRequest": {
@@ -5526,10 +5526,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Patch a specific frontdoor webApplicationFirewall policy for tags update under the specified subscription and resource group.",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#UpdatePolicyResponse": {
@@ -6876,6 +6876,18 @@
           "traits": {
             "smithy.api#enumValue": "None"
           }
+        },
+        "ASN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Asn"
+          }
+        },
+        "JA4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Ja4"
+          }
         }
       },
       "traits": {
@@ -7292,10 +7304,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Create or update policy with specified rule set name within a resource group.",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#PoliciesCreateOrUpdateResponse": {
@@ -7479,10 +7491,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Retrieve protection policy with specified name within a resource group.",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#GetPolicyResponse": {
@@ -7598,10 +7610,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Lists all of the protection policies within a resource group.",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#WebApplicationFirewallPolicyList": {
@@ -7739,10 +7751,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Network/frontDoors",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Lists all of the Front Doors within an Azure subscription.",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#ListFrontDoorsRequest": {
@@ -7774,10 +7786,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Network/frontDoorWebApplicationFirewallManagedRuleSets",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Lists all available managed rule sets.",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#ManagedRuleSetDefinitionList": {
@@ -7886,10 +7898,54 @@
           "traits": {
             "smithy.api#documentation": "Rule groups of the managed rule set."
           }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable display name for the managed rule set version (e.g., 'Default Ruleset 2.2 (Latest, Recommended)')."
+          }
+        },
+        "status": {
+          "target": "com.azure.frontdoor#ManagedRuleSetStatus",
+          "traits": {
+            "smithy.api#documentation": "Describes the lifecycle status of the managed rule set version."
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "Properties for a managed rule set definition."
+      }
+    },
+    "com.azure.frontdoor#ManagedRuleSetStatus": {
+      "type": "enum",
+      "members": {
+        "PREVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Preview"
+          }
+        },
+        "GA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GA"
+          }
+        },
+        "DEPRECATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Deprecated"
+          }
+        },
+        "SUPPORTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Supported"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Status of a managed rule set."
       }
     },
     "com.azure.frontdoor#ManagedRuleSetDefinitionPropertiesRuleGroupsList": {
@@ -7968,10 +8024,48 @@
           "traits": {
             "smithy.api#documentation": "Describes the functionality of the managed rule."
           }
+        },
+        "paranoiaLevel": {
+          "target": "com.azure.frontdoor#ParanoiaLevel",
+          "traits": {
+            "smithy.api#documentation": "Describes the paranoia level of the managed rule. Applicable only for DRS rules. Omitted for Bot Manager, DDoS, and AI rules."
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "Describes a managed rule definition."
+      }
+    },
+    "com.azure.frontdoor#ParanoiaLevel": {
+      "type": "enum",
+      "members": {
+        "PL1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PL1"
+          }
+        },
+        "PL2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PL2"
+          }
+        },
+        "PL3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PL3"
+          }
+        },
+        "PL4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PL4"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "OWASP CRS paranoia level of a managed rule. Applicable only for DRS rules."
       }
     },
     "com.azure.frontdoor#ManagedRuleSetDefinitionTagsMap": {
@@ -8015,10 +8109,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Network/checkFrontDoorNameAvailability",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Check the availability of a Front Door subdomain.",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#CheckNameAvailabilityOutput": {
@@ -8130,10 +8224,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Network/NetworkExperimentProfiles",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Gets a list of Network Experiment Profiles under a subscription\n\nGets a list of Network Experiment Profiles under a subscription",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#ListNetworkExperimentProfilesRequest": {
@@ -8165,10 +8259,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Lists all of the protection policies within a subscription.",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#ListPolicyBySubscriptionRequest": {
@@ -8200,10 +8294,10 @@
           "method": "POST",
           "uri": "/providers/Microsoft.Network/checkFrontDoorNameAvailability",
           "code": 200,
-          "apiVersion": "2025-11-01"
+          "apiVersion": "2026-04-01"
         },
         "smithy.api#documentation": "Check the availability of a Front Door resource name.",
-        "com.distilled.openapi#apiVersion": "2025-11-01"
+        "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
     "com.azure.frontdoor#CheckFrontDoorNameAvailabilityRequest": {

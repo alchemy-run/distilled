@@ -46,490 +46,6 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.webhooks#GetWebhooksResponseBodyCase0ItemProjectsMetadataItemFramework": {
-      "type": "enum",
-      "members": {
-        "ACTIX_WEB": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "actix-web"
-          }
-        },
-        "ANGULAR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "angular"
-          }
-        },
-        "ASH": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ash"
-          }
-        },
-        "ASTRO": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "astro"
-          }
-        },
-        "AXUM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "axum"
-          }
-        },
-        "BLITZJS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "blitzjs"
-          }
-        },
-        "BRUNCH": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "brunch"
-          }
-        },
-        "BUN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "bun"
-          }
-        },
-        "CONTAINER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "container"
-          }
-        },
-        "CREATE_REACT_APP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "create-react-app"
-          }
-        },
-        "DJANGO": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "django"
-          }
-        },
-        "DOCUSAURUS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "docusaurus"
-          }
-        },
-        "DOCUSAURUS_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "docusaurus-2"
-          }
-        },
-        "DOJO": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "dojo"
-          }
-        },
-        "ELEVENTY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "eleventy"
-          }
-        },
-        "ELYSIA": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "elysia"
-          }
-        },
-        "EMBER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ember"
-          }
-        },
-        "EVE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "eve"
-          }
-        },
-        "EXPRESS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "express"
-          }
-        },
-        "FACTORY_EVE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "factory-eve"
-          }
-        },
-        "FASTAPI": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "fastapi"
-          }
-        },
-        "FASTHTML": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "fasthtml"
-          }
-        },
-        "FASTIFY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "fastify"
-          }
-        },
-        "FLASK": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "flask"
-          }
-        },
-        "GATSBY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "gatsby"
-          }
-        },
-        "GO": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "go"
-          }
-        },
-        "GRIDSOME": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "gridsome"
-          }
-        },
-        "H3": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "h3"
-          }
-        },
-        "HEXO": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "hexo"
-          }
-        },
-        "HONO": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "hono"
-          }
-        },
-        "HUGO": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "hugo"
-          }
-        },
-        "HYDROGEN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "hydrogen"
-          }
-        },
-        "IONIC_ANGULAR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ionic-angular"
-          }
-        },
-        "IONIC_REACT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ionic-react"
-          }
-        },
-        "JEKYLL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "jekyll"
-          }
-        },
-        "KOA": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "koa"
-          }
-        },
-        "MASTRA": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "mastra"
-          }
-        },
-        "MIDDLEMAN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "middleman"
-          }
-        },
-        "NESTJS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "nestjs"
-          }
-        },
-        "NEXTJS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "nextjs"
-          }
-        },
-        "NITRO": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "nitro"
-          }
-        },
-        "NODE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "node"
-          }
-        },
-        "NUXTJS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "nuxtjs"
-          }
-        },
-        "PARCEL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "parcel"
-          }
-        },
-        "POLYMER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "polymer"
-          }
-        },
-        "PREACT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "preact"
-          }
-        },
-        "PYTHON": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "python"
-          }
-        },
-        "REACT_ROUTER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "react-router"
-          }
-        },
-        "REDWOODJS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "redwoodjs"
-          }
-        },
-        "REMIX": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "remix"
-          }
-        },
-        "RUBY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ruby"
-          }
-        },
-        "RUST": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "rust"
-          }
-        },
-        "SABER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "saber"
-          }
-        },
-        "SANITY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "sanity"
-          }
-        },
-        "SANITY_V2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "sanity-v2"
-          }
-        },
-        "SAPPER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "sapper"
-          }
-        },
-        "SCULLY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "scully"
-          }
-        },
-        "SERVICES": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "services"
-          }
-        },
-        "SOLIDSTART": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "solidstart"
-          }
-        },
-        "SOLIDSTART_1": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "solidstart-1"
-          }
-        },
-        "STENCIL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "stencil"
-          }
-        },
-        "STORYBOOK": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "storybook"
-          }
-        },
-        "SVELTE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "svelte"
-          }
-        },
-        "SVELTEKIT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "sveltekit"
-          }
-        },
-        "SVELTEKIT_1": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "sveltekit-1"
-          }
-        },
-        "TANSTACK_START": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "tanstack-start"
-          }
-        },
-        "TANSTACK_START_LOVABLE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "tanstack-start-lovable"
-          }
-        },
-        "UMIJS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "umijs"
-          }
-        },
-        "VITE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "vite"
-          }
-        },
-        "VITEPRESS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "vitepress"
-          }
-        },
-        "VUE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "vue"
-          }
-        },
-        "VUEPRESS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "vuepress"
-          }
-        },
-        "XMCP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "xmcp"
-          }
-        },
-        "ZOLA": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "zola"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.webhooks#GetWebhooksResponseBodyCase0ItemProjectsMetadataItem": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "framework": {
-          "target": "com.vercel.webhooks#GetWebhooksResponseBodyCase0ItemProjectsMetadataItemFramework",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "latestDeployment": {
-          "target": "smithy.api#String"
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.webhooks#GetWebhooksResponseBodyCase0ItemProjectsMetadataList": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.webhooks#GetWebhooksResponseBodyCase0ItemProjectsMetadataItem"
-      },
-      "traits": {}
-    },
     "com.vercel.webhooks#GetWebhooksResponseBodyCase0ItemAlertRuleIdsList": {
       "type": "list",
       "member": {
@@ -1235,18 +751,502 @@
         "smithy.api#documentation": "The ID of the projects the webhook is associated with"
       }
     },
-    "com.vercel.webhooks#GetWebhooksResponseBodyCase0Item": {
+    "com.vercel.webhooks#GetWebhooksResponseBodyCase0ItemProjectsMetadataItemFramework": {
+      "type": "enum",
+      "members": {
+        "ACTIX_WEB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "actix-web"
+          }
+        },
+        "ANGULAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "angular"
+          }
+        },
+        "ASH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ash"
+          }
+        },
+        "ASTRO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "astro"
+          }
+        },
+        "AXUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "axum"
+          }
+        },
+        "BLITZJS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blitzjs"
+          }
+        },
+        "BRUNCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "brunch"
+          }
+        },
+        "BUN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bun"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
+        },
+        "CREATE_REACT_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "create-react-app"
+          }
+        },
+        "DJANGO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "django"
+          }
+        },
+        "DOCUSAURUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "docusaurus"
+          }
+        },
+        "DOCUSAURUS_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "docusaurus-2"
+          }
+        },
+        "DOJO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dojo"
+          }
+        },
+        "ELEVENTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eleventy"
+          }
+        },
+        "ELYSIA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "elysia"
+          }
+        },
+        "EMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ember"
+          }
+        },
+        "EVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eve"
+          }
+        },
+        "EXPRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "express"
+          }
+        },
+        "FACTORY_EVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "factory-eve"
+          }
+        },
+        "FASTAPI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fastapi"
+          }
+        },
+        "FASTHTML": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fasthtml"
+          }
+        },
+        "FASTIFY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fastify"
+          }
+        },
+        "FLASK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "flask"
+          }
+        },
+        "GATSBY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gatsby"
+          }
+        },
+        "GO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "go"
+          }
+        },
+        "GRIDSOME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gridsome"
+          }
+        },
+        "H3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h3"
+          }
+        },
+        "HEXO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hexo"
+          }
+        },
+        "HONO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hono"
+          }
+        },
+        "HUGO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hugo"
+          }
+        },
+        "HYDROGEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hydrogen"
+          }
+        },
+        "IONIC_ANGULAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ionic-angular"
+          }
+        },
+        "IONIC_REACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ionic-react"
+          }
+        },
+        "JEKYLL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jekyll"
+          }
+        },
+        "KOA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "koa"
+          }
+        },
+        "MASTRA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mastra"
+          }
+        },
+        "MIDDLEMAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "middleman"
+          }
+        },
+        "NESTJS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nestjs"
+          }
+        },
+        "NEXTJS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nextjs"
+          }
+        },
+        "NITRO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nitro"
+          }
+        },
+        "NODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "node"
+          }
+        },
+        "NUXTJS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nuxtjs"
+          }
+        },
+        "PARCEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "parcel"
+          }
+        },
+        "POLYMER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "polymer"
+          }
+        },
+        "PREACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preact"
+          }
+        },
+        "PYTHON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "python"
+          }
+        },
+        "REACT_ROUTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "react-router"
+          }
+        },
+        "REDWOODJS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "redwoodjs"
+          }
+        },
+        "REMIX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "remix"
+          }
+        },
+        "RUBY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ruby"
+          }
+        },
+        "RUST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rust"
+          }
+        },
+        "SABER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "saber"
+          }
+        },
+        "SANITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sanity"
+          }
+        },
+        "SANITY_V2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sanity-v2"
+          }
+        },
+        "SAPPER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sapper"
+          }
+        },
+        "SCULLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scully"
+          }
+        },
+        "SERVICES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "services"
+          }
+        },
+        "SOLIDSTART": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "solidstart"
+          }
+        },
+        "SOLIDSTART_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "solidstart-1"
+          }
+        },
+        "STENCIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stencil"
+          }
+        },
+        "STORYBOOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "storybook"
+          }
+        },
+        "SVELTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "svelte"
+          }
+        },
+        "SVELTEKIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sveltekit"
+          }
+        },
+        "SVELTEKIT_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sveltekit-1"
+          }
+        },
+        "TANSTACK_START": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tanstack-start"
+          }
+        },
+        "TANSTACK_START_LOVABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tanstack-start-lovable"
+          }
+        },
+        "UMIJS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "umijs"
+          }
+        },
+        "VITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vite"
+          }
+        },
+        "VITEPRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vitepress"
+          }
+        },
+        "VUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vue"
+          }
+        },
+        "VUEPRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vuepress"
+          }
+        },
+        "XMCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xmcp"
+          }
+        },
+        "ZOLA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zola"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.webhooks#GetWebhooksResponseBodyCase0ItemProjectsMetadataItem": {
       "type": "structure",
       "members": {
-        "projectsMetadata": {
-          "target": "com.vercel.webhooks#GetWebhooksResponseBodyCase0ItemProjectsMetadataList",
+        "framework": {
+          "target": "com.vercel.webhooks#GetWebhooksResponseBodyCase0ItemProjectsMetadataItemFramework",
           "traits": {
-            "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
         },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "latestDeployment": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.webhooks#GetWebhooksResponseBodyCase0ItemProjectsMetadataList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.webhooks#GetWebhooksResponseBodyCase0ItemProjectsMetadataItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.webhooks#GetWebhooksResponseBodyCase0Item": {
+      "type": "structure",
+      "members": {
         "alertRuleIds": {
           "target": "com.vercel.webhooks#GetWebhooksResponseBodyCase0ItemAlertRuleIdsList"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "A number containing the date when the webhook was created in in milliseconds",
+            "smithy.api#required": {}
+          }
         },
         "events": {
           "target": "com.vercel.webhooks#GetWebhooksResponseBodyCase0ItemEventsList",
@@ -1262,13 +1262,6 @@
             "smithy.api#required": {}
           }
         },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A string with the URL of the webhook",
-            "smithy.api#required": {}
-          }
-        },
         "ownerId": {
           "target": "smithy.api#String",
           "traits": {
@@ -1276,11 +1269,17 @@
             "smithy.api#required": {}
           }
         },
-        "createdAt": {
-          "target": "smithy.api#Double",
+        "projectIds": {
+          "target": "com.vercel.webhooks#GetWebhooksResponseBodyCase0ItemProjectIdsList",
           "traits": {
-            "smithy.api#documentation": "A number containing the date when the webhook was created in in milliseconds",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The ID of the projects the webhook is associated with"
+          }
+        },
+        "projectsMetadata": {
+          "target": "com.vercel.webhooks#GetWebhooksResponseBodyCase0ItemProjectsMetadataList",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         },
         "updatedAt": {
@@ -1290,10 +1289,11 @@
             "smithy.api#required": {}
           }
         },
-        "projectIds": {
-          "target": "com.vercel.webhooks#GetWebhooksResponseBodyCase0ItemProjectIdsList",
+        "url": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The ID of the projects the webhook is associated with"
+            "smithy.api#documentation": "A string with the URL of the webhook",
+            "smithy.api#required": {}
           }
         }
       },
@@ -2017,6 +2017,13 @@
         "alertRuleIds": {
           "target": "com.vercel.webhooks#GetWebhooksResponseBodyCase1ItemAlertRuleIdsList"
         },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "A number containing the date when the webhook was created in in milliseconds",
+            "smithy.api#required": {}
+          }
+        },
         "events": {
           "target": "com.vercel.webhooks#GetWebhooksResponseBodyCase1ItemEventsList",
           "traits": {
@@ -2031,13 +2038,6 @@
             "smithy.api#required": {}
           }
         },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A string with the URL of the webhook",
-            "smithy.api#required": {}
-          }
-        },
         "ownerId": {
           "target": "smithy.api#String",
           "traits": {
@@ -2045,11 +2045,10 @@
             "smithy.api#required": {}
           }
         },
-        "createdAt": {
-          "target": "smithy.api#Double",
+        "projectIds": {
+          "target": "com.vercel.webhooks#GetWebhooksResponseBodyCase1ItemProjectIdsList",
           "traits": {
-            "smithy.api#documentation": "A number containing the date when the webhook was created in in milliseconds",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The ID of the projects the webhook is associated with"
           }
         },
         "updatedAt": {
@@ -2059,10 +2058,11 @@
             "smithy.api#required": {}
           }
         },
-        "projectIds": {
-          "target": "com.vercel.webhooks#GetWebhooksResponseBodyCase1ItemProjectIdsList",
+        "url": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The ID of the projects the webhook is associated with"
+            "smithy.api#documentation": "A string with the URL of the webhook",
+            "smithy.api#required": {}
           }
         }
       },
@@ -2116,6 +2116,9 @@
         },
         {
           "target": "com.vercel.webhooks#Forbidden"
+        },
+        {
+          "target": "com.vercel.webhooks#NotFound"
         }
       ],
       "traits": {
@@ -3564,16 +3567,15 @@
     "com.vercel.webhooks#CreateWebhookResponse": {
       "type": "structure",
       "members": {
-        "secret": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The webhook secret used to sign the payload",
-            "smithy.api#required": {},
-            "smithy.api#sensitive": {}
-          }
-        },
         "alertRuleIds": {
           "target": "com.vercel.webhooks#CreateWebhookResponseAlertRuleIdsList"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "A number containing the date when the webhook was created in in milliseconds",
+            "smithy.api#required": {}
+          }
         },
         "events": {
           "target": "com.vercel.webhooks#CreateWebhookResponseEventsList",
@@ -3589,13 +3591,6 @@
             "smithy.api#required": {}
           }
         },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A string with the URL of the webhook",
-            "smithy.api#required": {}
-          }
-        },
         "ownerId": {
           "target": "smithy.api#String",
           "traits": {
@@ -3603,11 +3598,18 @@
             "smithy.api#required": {}
           }
         },
-        "createdAt": {
-          "target": "smithy.api#Double",
+        "projectIds": {
+          "target": "com.vercel.webhooks#CreateWebhookResponseProjectIdsList",
           "traits": {
-            "smithy.api#documentation": "A number containing the date when the webhook was created in in milliseconds",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The ID of the projects the webhook is associated with"
+          }
+        },
+        "secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The webhook secret used to sign the payload",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
           }
         },
         "updatedAt": {
@@ -3617,10 +3619,11 @@
             "smithy.api#required": {}
           }
         },
-        "projectIds": {
-          "target": "com.vercel.webhooks#CreateWebhookResponseProjectIdsList",
+        "url": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The ID of the projects the webhook is associated with"
+            "smithy.api#documentation": "A string with the URL of the webhook",
+            "smithy.api#required": {}
           }
         }
       },
@@ -3642,6 +3645,9 @@
         },
         {
           "target": "com.vercel.webhooks#Forbidden"
+        },
+        {
+          "target": "com.vercel.webhooks#NotFound"
         }
       ],
       "traits": {
@@ -4393,6 +4399,13 @@
         "alertRuleIds": {
           "target": "com.vercel.webhooks#GetWebhookResponseAlertRuleIdsList"
         },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "A number containing the date when the webhook was created in in milliseconds",
+            "smithy.api#required": {}
+          }
+        },
         "events": {
           "target": "com.vercel.webhooks#GetWebhookResponseEventsList",
           "traits": {
@@ -4407,13 +4420,6 @@
             "smithy.api#required": {}
           }
         },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A string with the URL of the webhook",
-            "smithy.api#required": {}
-          }
-        },
         "ownerId": {
           "target": "smithy.api#String",
           "traits": {
@@ -4421,11 +4427,10 @@
             "smithy.api#required": {}
           }
         },
-        "createdAt": {
-          "target": "smithy.api#Double",
+        "projectIds": {
+          "target": "com.vercel.webhooks#GetWebhookResponseProjectIdsList",
           "traits": {
-            "smithy.api#documentation": "A number containing the date when the webhook was created in in milliseconds",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The ID of the projects the webhook is associated with"
           }
         },
         "updatedAt": {
@@ -4435,10 +4440,11 @@
             "smithy.api#required": {}
           }
         },
-        "projectIds": {
-          "target": "com.vercel.webhooks#GetWebhookResponseProjectIdsList",
+        "url": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The ID of the projects the webhook is associated with"
+            "smithy.api#documentation": "A string with the URL of the webhook",
+            "smithy.api#required": {}
           }
         }
       },
@@ -4460,6 +4466,9 @@
         },
         {
           "target": "com.vercel.webhooks#Forbidden"
+        },
+        {
+          "target": "com.vercel.webhooks#NotFound"
         }
       ],
       "traits": {
@@ -4514,6 +4523,9 @@
         },
         {
           "target": "com.vercel.webhooks#Forbidden"
+        },
+        {
+          "target": "com.vercel.webhooks#NotFound"
         }
       ],
       "traits": {
@@ -4547,6 +4559,19 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 403
+          }
+        ]
+      }
+    },
+    "com.vercel.webhooks#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
           }
         ]
       }

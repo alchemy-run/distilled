@@ -848,7 +848,9 @@ async function main() {
   console.log(`  Colliding operations skipped (first spec wins): ${totalSkipped}`);
   console.log(`  Elapsed: ${((Date.now() - started) / 1000).toFixed(1)}s`);
   console.log(`  Output: ${outDir}`);
-  await finalizeConvert({ root: rootDir });
+  // Patches are generate-stage (package.json `distilled.patches`), so
+  // .generated-specs stays the unpatched convert output.
+  await finalizeConvert({ root: rootDir, patchesDir: false });
 }
 
 main();

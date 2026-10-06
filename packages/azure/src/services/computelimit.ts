@@ -147,9 +147,7 @@ export const CreateSharedLimitRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-31",
     }),
   ),
-).annotate({
-  identifier: "CreateSharedLimitRequest",
-}) as any as S.Schema<CreateSharedLimitRequest>;
+).annotate({ identifier: "CreateSharedLimitRequest" }) as any as S.Schema<CreateSharedLimitRequest>;
 
 /** Properties of the limit name. */
 export interface LimitName {
@@ -183,9 +181,7 @@ export const SharedLimitProperties = /*@__PURE__*/ S.suspend(() =>
     unit: S.optional(S.String),
     provisioningState: S.optional(AzureResourceManagerResourceProvisioningState),
   }),
-).annotate({
-  identifier: "SharedLimitProperties",
-}) as any as S.Schema<SharedLimitProperties>;
+).annotate({ identifier: "SharedLimitProperties" }) as any as S.Schema<SharedLimitProperties>;
 
 export interface CreateSharedLimitResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -284,9 +280,7 @@ export const DeleteGuestSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteGuestSubscriptionResponse {}
 export const DeleteGuestSubscriptionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteGuestSubscriptionResponse",
-  },
+  { identifier: "DeleteGuestSubscriptionResponse" },
 ) as any as S.Schema<DeleteGuestSubscriptionResponse>;
 
 export interface DeleteMemberCapOverrideRequest {
@@ -319,9 +313,7 @@ export const DeleteMemberCapOverrideRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteMemberCapOverrideResponse {}
 export const DeleteMemberCapOverrideResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteMemberCapOverrideResponse",
-  },
+  { identifier: "DeleteMemberCapOverrideResponse" },
 ) as any as S.Schema<DeleteMemberCapOverrideResponse>;
 
 export interface DeleteSharedLimitRequest {
@@ -345,9 +337,7 @@ export const DeleteSharedLimitRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-31",
     }),
   ),
-).annotate({
-  identifier: "DeleteSharedLimitRequest",
-}) as any as S.Schema<DeleteSharedLimitRequest>;
+).annotate({ identifier: "DeleteSharedLimitRequest" }) as any as S.Schema<DeleteSharedLimitRequest>;
 
 export interface DeleteSharedLimitResponse {}
 export const DeleteSharedLimitResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -437,9 +427,7 @@ export const DisableFeatureRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-31",
     }),
   ),
-).annotate({
-  identifier: "DisableFeatureRequest",
-}) as any as S.Schema<DisableFeatureRequest>;
+).annotate({ identifier: "DisableFeatureRequest" }) as any as S.Schema<DisableFeatureRequest>;
 
 /** The operations list. */
 export type OperationStatusResultOperationsList = Array<OperationStatusResult>;
@@ -465,9 +453,7 @@ export const ErrorAdditionalInfo = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     info: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ErrorAdditionalInfo",
-}) as any as S.Schema<ErrorAdditionalInfo>;
+).annotate({ identifier: "ErrorAdditionalInfo" }) as any as S.Schema<ErrorAdditionalInfo>;
 
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
@@ -531,9 +517,7 @@ export const OperationStatusResult = /*@__PURE__*/ S.suspend(() =>
     operations: S.optional(OperationStatusResultOperationsList),
     error: S.optional(ErrorDetail),
   }),
-).annotate({
-  identifier: "OperationStatusResult",
-}) as any as S.Schema<OperationStatusResult>;
+).annotate({ identifier: "OperationStatusResult" }) as any as S.Schema<OperationStatusResult>;
 
 /** The operations list. */
 export type DisableFeatureResponseOperationsList = Array<OperationStatusResult>;
@@ -573,9 +557,7 @@ export const DisableFeatureResponse = /*@__PURE__*/ S.suspend(() =>
     operations: S.optional(DisableFeatureResponseOperationsList),
     error: S.optional(ErrorDetail),
   }),
-).annotate({
-  identifier: "DisableFeatureResponse",
-}) as any as S.Schema<DisableFeatureResponse>;
+).annotate({ identifier: "DisableFeatureResponse" }) as any as S.Schema<DisableFeatureResponse>;
 
 export interface EnableFeatureRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -601,9 +583,7 @@ export const EnableFeatureRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-31",
     }),
   ),
-).annotate({
-  identifier: "EnableFeatureRequest",
-}) as any as S.Schema<EnableFeatureRequest>;
+).annotate({ identifier: "EnableFeatureRequest" }) as any as S.Schema<EnableFeatureRequest>;
 
 /** The operations list. */
 export type EnableFeatureResponseOperationsList = Array<OperationStatusResult>;
@@ -643,9 +623,7 @@ export const EnableFeatureResponse = /*@__PURE__*/ S.suspend(() =>
     operations: S.optional(EnableFeatureResponseOperationsList),
     error: S.optional(ErrorDetail),
   }),
-).annotate({
-  identifier: "EnableFeatureResponse",
-}) as any as S.Schema<EnableFeatureResponse>;
+).annotate({ identifier: "EnableFeatureResponse" }) as any as S.Schema<EnableFeatureResponse>;
 
 export interface GetFeatureRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -668,9 +646,7 @@ export const GetFeatureRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-31",
     }),
   ),
-).annotate({
-  identifier: "GetFeatureRequest",
-}) as any as S.Schema<GetFeatureRequest>;
+).annotate({ identifier: "GetFeatureRequest" }) as any as S.Schema<GetFeatureRequest>;
 
 /** The allowed states for a compute limit feature. */
 export type FeatureState = "Enabled" | "Disabled";
@@ -688,9 +664,7 @@ export const FeatureProperties = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(FeatureState),
     provisioningState: S.optional(AzureResourceManagerResourceProvisioningState),
   }),
-).annotate({
-  identifier: "FeatureProperties",
-}) as any as S.Schema<FeatureProperties>;
+).annotate({ identifier: "FeatureProperties" }) as any as S.Schema<FeatureProperties>;
 
 export interface GetFeatureResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -712,9 +686,7 @@ export const GetFeatureResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(FeatureProperties),
   }),
-).annotate({
-  identifier: "GetFeatureResponse",
-}) as any as S.Schema<GetFeatureResponse>;
+).annotate({ identifier: "GetFeatureResponse" }) as any as S.Schema<GetFeatureResponse>;
 
 export interface GetGuestSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -854,9 +826,7 @@ export const GetSharedLimitRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-31",
     }),
   ),
-).annotate({
-  identifier: "GetSharedLimitRequest",
-}) as any as S.Schema<GetSharedLimitRequest>;
+).annotate({ identifier: "GetSharedLimitRequest" }) as any as S.Schema<GetSharedLimitRequest>;
 
 export interface GetSharedLimitResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -878,9 +848,7 @@ export const GetSharedLimitResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SharedLimitProperties),
   }),
-).annotate({
-  identifier: "GetSharedLimitResponse",
-}) as any as S.Schema<GetSharedLimitResponse>;
+).annotate({ identifier: "GetSharedLimitResponse" }) as any as S.Schema<GetSharedLimitResponse>;
 
 export interface GetSharedLimitCapRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -903,9 +871,7 @@ export const GetSharedLimitCapRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-31",
     }),
   ),
-).annotate({
-  identifier: "GetSharedLimitCapRequest",
-}) as any as S.Schema<GetSharedLimitCapRequest>;
+).annotate({ identifier: "GetSharedLimitCapRequest" }) as any as S.Schema<GetSharedLimitCapRequest>;
 
 /** Properties of a shared limit cap resource. */
 export interface SharedLimitCapProperties {
@@ -922,9 +888,7 @@ export const SharedLimitCapProperties = /*@__PURE__*/ S.suspend(() =>
     isBoundedCap: S.Boolean,
     provisioningState: S.optional(AzureResourceManagerResourceProvisioningState),
   }),
-).annotate({
-  identifier: "SharedLimitCapProperties",
-}) as any as S.Schema<SharedLimitCapProperties>;
+).annotate({ identifier: "SharedLimitCapProperties" }) as any as S.Schema<SharedLimitCapProperties>;
 
 export interface GetSharedLimitCapResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1017,9 +981,7 @@ export const GetVmFamilyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-31",
     }),
   ),
-).annotate({
-  identifier: "GetVmFamilyRequest",
-}) as any as S.Schema<GetVmFamilyRequest>;
+).annotate({ identifier: "GetVmFamilyRequest" }) as any as S.Schema<GetVmFamilyRequest>;
 
 /** Properties of a VM family resource. */
 export interface VmFamilyProperties {
@@ -1033,9 +995,7 @@ export const VmFamilyProperties = /*@__PURE__*/ S.suspend(() =>
     category: S.optional(S.String),
     provisioningState: S.optional(AzureResourceManagerResourceProvisioningState),
   }),
-).annotate({
-  identifier: "VmFamilyProperties",
-}) as any as S.Schema<VmFamilyProperties>;
+).annotate({ identifier: "VmFamilyProperties" }) as any as S.Schema<VmFamilyProperties>;
 
 export interface GetVmFamilyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1057,9 +1017,7 @@ export const GetVmFamilyResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(VmFamilyProperties),
   }),
-).annotate({
-  identifier: "GetVmFamilyResponse",
-}) as any as S.Schema<GetVmFamilyResponse>;
+).annotate({ identifier: "GetVmFamilyResponse" }) as any as S.Schema<GetVmFamilyResponse>;
 
 export interface ListFeatureBySubscriptionLocationResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1124,9 +1082,7 @@ export const FeatureListResult = /*@__PURE__*/ S.suspend(() =>
     value: FeatureListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FeatureListResult",
-}) as any as S.Schema<FeatureListResult>;
+).annotate({ identifier: "FeatureListResult" }) as any as S.Schema<FeatureListResult>;
 
 export interface ListGuestSubscriptionBySubscriptionLocationResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1172,9 +1128,7 @@ export const GuestSubscription = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(GuestSubscriptionProperties),
   }),
-).annotate({
-  identifier: "GuestSubscription",
-}) as any as S.Schema<GuestSubscription>;
+).annotate({ identifier: "GuestSubscription" }) as any as S.Schema<GuestSubscription>;
 
 /** The GuestSubscription items on this page */
 export type GuestSubscriptionListResultValueList = Array<GuestSubscription>;
@@ -1244,9 +1198,7 @@ export const MemberCapOverride = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(MemberCapOverrideProperties),
   }),
-).annotate({
-  identifier: "MemberCapOverride",
-}) as any as S.Schema<MemberCapOverride>;
+).annotate({ identifier: "MemberCapOverride" }) as any as S.Schema<MemberCapOverride>;
 
 /** The MemberCapOverride items on this page */
 export type MemberCapOverrideListResultValueList = Array<MemberCapOverride>;
@@ -1280,9 +1232,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-31",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -1302,9 +1252,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1354,9 +1302,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListSharedLimitBySubscriptionLocationResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1421,9 +1367,7 @@ export const SharedLimitListResult = /*@__PURE__*/ S.suspend(() =>
     value: SharedLimitListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SharedLimitListResult",
-}) as any as S.Schema<SharedLimitListResult>;
+).annotate({ identifier: "SharedLimitListResult" }) as any as S.Schema<SharedLimitListResult>;
 
 export interface ListSharedLimitCapBySubscriptionLocationResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1488,9 +1432,7 @@ export const SharedLimitCapListResult = /*@__PURE__*/ S.suspend(() =>
     value: SharedLimitCapListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SharedLimitCapListResult",
-}) as any as S.Schema<SharedLimitCapListResult>;
+).annotate({ identifier: "SharedLimitCapListResult" }) as any as S.Schema<SharedLimitCapListResult>;
 
 export interface ListTrustedHostSubscriptionBySubscriptionLocationResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1623,9 +1565,7 @@ export const VmFamilyListResult = /*@__PURE__*/ S.suspend(() =>
     value: VmFamilyListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VmFamilyListResult",
-}) as any as S.Schema<VmFamilyListResult>;
+).annotate({ identifier: "VmFamilyListResult" }) as any as S.Schema<VmFamilyListResult>;
 
 /** Properties of a per-member cap override. */
 export interface MemberCapOverridePropertiesInput {

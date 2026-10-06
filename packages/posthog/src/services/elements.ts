@@ -65,16 +65,8 @@ export const CreateElementRequest = /*@__PURE__*/ S.suspend(() =>
     nth_of_type: S.optional(S.NullOr(S.Number)),
     attributes: S.optional(S.Unknown),
     order: S.optional(S.NullOr(S.Number)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/elements/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateElementRequest",
-}) as any as S.Schema<CreateElementRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/elements/", code: 200 })),
+).annotate({ identifier: "CreateElementRequest" }) as any as S.Schema<CreateElementRequest>;
 
 export type ElementAttrClassList = Array<string>;
 export const ElementAttrClassList = /*@__PURE__*/ S.Array(
@@ -117,15 +109,9 @@ export const ElementsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/projects/{project_id}/elements/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/elements/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "ElementsDestroyRequest",
-}) as any as S.Schema<ElementsDestroyRequest>;
+).annotate({ identifier: "ElementsDestroyRequest" }) as any as S.Schema<ElementsDestroyRequest>;
 
 export interface ElementsDestroyResponse {}
 export const ElementsDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -142,16 +128,8 @@ export const GetElementRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/elements/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetElementRequest",
-}) as any as S.Schema<GetElementRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/elements/{id}/", code: 200 })),
+).annotate({ identifier: "GetElementRequest" }) as any as S.Schema<GetElementRequest>;
 
 export type GetElementsStatRequestIncludeList = Array<string>;
 export const GetElementsStatRequestIncludeList = /*@__PURE__*/ S.Array(
@@ -192,16 +170,8 @@ export const GetElementsStatRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number.pipe(T.Query())),
     properties: S.optional(S.String.pipe(T.Query())),
     sampling_factor: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/elements/stats/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetElementsStatRequest",
-}) as any as S.Schema<GetElementsStatRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/elements/stats/", code: 200 })),
+).annotate({ identifier: "GetElementsStatRequest" }) as any as S.Schema<GetElementsStatRequest>;
 
 /** Parsed elements of the chain, clicked element first */
 export type ElementStatsElementsList = Array<Element>;
@@ -248,9 +218,7 @@ export const ElementStatsResponse = /*@__PURE__*/ S.suspend(() =>
     next: S.NullOr(S.String),
     previous: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ElementStatsResponse",
-}) as any as S.Schema<ElementStatsResponse>;
+).annotate({ identifier: "ElementStatsResponse" }) as any as S.Schema<ElementStatsResponse>;
 
 export interface ListElementsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -265,16 +233,8 @@ export const ListElementsRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/elements/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListElementsRequest",
-}) as any as S.Schema<ListElementsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/elements/", code: 200 })),
+).annotate({ identifier: "ListElementsRequest" }) as any as S.Schema<ListElementsRequest>;
 
 export type PaginatedElementListResultsList = Array<Element>;
 export const PaginatedElementListResultsList = /*@__PURE__*/ S.Array(
@@ -294,9 +254,7 @@ export const PaginatedElementList = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.String)),
     results: S.optional(PaginatedElementListResultsList),
   }),
-).annotate({
-  identifier: "PaginatedElementList",
-}) as any as S.Schema<PaginatedElementList>;
+).annotate({ identifier: "PaginatedElementList" }) as any as S.Schema<PaginatedElementList>;
 
 export interface ListElementsValuesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -311,13 +269,7 @@ export const ListElementsValuesRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     key: S.String.pipe(T.Query()),
     value: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/elements/values/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/elements/values/", code: 200 })),
 ).annotate({
   identifier: "ListElementsValuesRequest",
 }) as any as S.Schema<ListElementsValuesRequest>;
@@ -377,16 +329,8 @@ export const UpdateElementRequest = /*@__PURE__*/ S.suspend(() =>
     nth_of_type: S.optional(S.NullOr(S.Number)),
     attributes: S.optional(S.Unknown),
     order: S.optional(S.NullOr(S.Number)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/elements/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateElementRequest",
-}) as any as S.Schema<UpdateElementRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/projects/{project_id}/elements/{id}/", code: 200 })),
+).annotate({ identifier: "UpdateElementRequest" }) as any as S.Schema<UpdateElementRequest>;
 
 export type UpdateElementsPartialRequestAttrClassList = Array<string>;
 export const UpdateElementsPartialRequestAttrClassList = /*@__PURE__*/ S.Array(
@@ -421,13 +365,7 @@ export const UpdateElementsPartialRequest = /*@__PURE__*/ S.suspend(() =>
     nth_of_type: S.optional(S.NullOr(S.Number)),
     attributes: S.optional(S.Unknown),
     order: S.optional(S.NullOr(S.Number)),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/elements/{id}/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/elements/{id}/", code: 200 })),
 ).annotate({
   identifier: "UpdateElementsPartialRequest",
 }) as any as S.Schema<UpdateElementsPartialRequest>;

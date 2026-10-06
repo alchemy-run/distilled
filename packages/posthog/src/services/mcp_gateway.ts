@@ -77,9 +77,7 @@ export const TeamMCPGatewayConfig = /*@__PURE__*/ S.suspend(() =>
     registered_template_ids: TeamMCPGatewayConfigRegisteredTemplateIdsList,
     is_admin: S.Boolean,
   }),
-).annotate({
-  identifier: "TeamMCPGatewayConfig",
-}) as any as S.Schema<TeamMCPGatewayConfig>;
+).annotate({ identifier: "TeamMCPGatewayConfig" }) as any as S.Schema<TeamMCPGatewayConfig>;
 
 export interface CreateMcpGatewayMembersSetAccessRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -148,11 +146,7 @@ export const CreateMcpGatewayRuleRequest = /*@__PURE__*/ S.suspend(() =>
     tool_pattern: S.optional(S.String),
     enabled: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/mcp_gateway/rules/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/mcp_gateway/rules/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateMcpGatewayRuleRequest",
@@ -208,9 +202,7 @@ export const ToolPolicyEntry = /*@__PURE__*/ S.suspend(() =>
     tool_name: S.String,
     policy_state: MCPToolApprovalStateEnum,
   }),
-).annotate({
-  identifier: "ToolPolicyEntry",
-}) as any as S.Schema<ToolPolicyEntry>;
+).annotate({ identifier: "ToolPolicyEntry" }) as any as S.Schema<ToolPolicyEntry>;
 
 /** Per-tool states to upsert for the scope. At most 1,000 entries per request. */
 export type CreateMcpGatewayServersPolicyRequestPoliciesList = Array<ToolPolicyEntry>;
@@ -252,9 +244,7 @@ export const CreateMcpGatewayServersPolicyRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<CreateMcpGatewayServersPolicyRequest>;
 
 /** JSON Schema describing the tool's input arguments. */
-export type ResolvedToolPolicyInputSchemaMap = {
-  [key: string]: unknown | undefined;
-};
+export type ResolvedToolPolicyInputSchemaMap = { [key: string]: unknown | undefined };
 export const ResolvedToolPolicyInputSchemaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -300,9 +290,7 @@ export const ResolvedToolPolicy = /*@__PURE__*/ S.suspend(() =>
     rule_name: S.String,
     rule_description: S.String,
   }),
-).annotate({
-  identifier: "ResolvedToolPolicy",
-}) as any as S.Schema<ResolvedToolPolicy>;
+).annotate({ identifier: "ResolvedToolPolicy" }) as any as S.Schema<ResolvedToolPolicy>;
 
 export type PaginatedResolvedToolPolicyListResultsList = Array<ResolvedToolPolicy>;
 export const PaginatedResolvedToolPolicyListResultsList = /*@__PURE__*/ S.Array(
@@ -433,9 +421,7 @@ export const GatewayConnection = /*@__PURE__*/ S.suspend(() =>
     pending_oauth: S.Boolean,
     needs_reauth: S.Boolean,
   }),
-).annotate({
-  identifier: "GatewayConnection",
-}) as any as S.Schema<GatewayConnection>;
+).annotate({ identifier: "GatewayConnection" }) as any as S.Schema<GatewayConnection>;
 
 /** Members with a connection to this server. Only project admins receive this list. */
 export type MCPGatewayServerConnectionsList = Array<GatewayConnection>;
@@ -464,9 +450,7 @@ export const GatewayYourConnection = /*@__PURE__*/ S.suspend(() =>
     needs_reauth: S.Boolean,
     last_used_at: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "GatewayYourConnection",
-}) as any as S.Schema<GatewayYourConnection>;
+).annotate({ identifier: "GatewayYourConnection" }) as any as S.Schema<GatewayYourConnection>;
 
 /** * `personal` - Personal * `team` - Team */
 export type MCPAgentGrantScopeEnum = "personal" | "team";
@@ -506,9 +490,7 @@ export const GatewayAgentAccess = /*@__PURE__*/ S.suspend(() =>
     last_active_at: S.NullOr(S.String),
     granted_by: S.NullOr(UserBasic),
   }),
-).annotate({
-  identifier: "GatewayAgentAccess",
-}) as any as S.Schema<GatewayAgentAccess>;
+).annotate({ identifier: "GatewayAgentAccess" }) as any as S.Schema<GatewayAgentAccess>;
 
 /** Agents this server is shared with. */
 export type MCPGatewayServerAgentsList = Array<GatewayAgentAccess>;
@@ -533,6 +515,7 @@ export interface MCPGatewayServer {
   template_auth_type: MCPAuthTypeEnum | null;
   /** How members connect to this server: the template's type for catalog servers, or the type the custom server was added with. Null only for custom servers registered before the type was recorded; members then choose. */
   auth_type: MCPAuthTypeEnum | null;
+  /** True when this server is enabled and available to the project. */
   is_team_enabled: boolean;
   /** Deprecated brand icon key from the linked template. Empty for custom servers. */
   icon_key: string;
@@ -583,9 +566,7 @@ export const MCPGatewayServer = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "MCPGatewayServer",
-}) as any as S.Schema<MCPGatewayServer>;
+).annotate({ identifier: "MCPGatewayServer" }) as any as S.Schema<MCPGatewayServer>;
 
 /** Optional agent-scope tool policies to set alongside the grant. At most 1,000 entries per request. */
 export type CreateMcpGatewayServiceAccountsAccessRequestPoliciesList = Array<ToolPolicyEntry>;
@@ -683,9 +664,7 @@ export const MCPServiceAccountServer = /*@__PURE__*/ S.suspend(() =>
     connection_state: ConnectionStateEnum,
     reachable: S.Boolean,
   }),
-).annotate({
-  identifier: "MCPServiceAccountServer",
-}) as any as S.Schema<MCPServiceAccountServer>;
+).annotate({ identifier: "MCPServiceAccountServer" }) as any as S.Schema<MCPServiceAccountServer>;
 
 /** Credential-safe summaries of the gateway servers configured for this agent. */
 export type MCPServiceAccountServersList = Array<MCPServiceAccountServer>;
@@ -726,9 +705,7 @@ export const MCPServiceAccount = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "MCPServiceAccount",
-}) as any as S.Schema<MCPServiceAccount>;
+).annotate({ identifier: "MCPServiceAccount" }) as any as S.Schema<MCPServiceAccount>;
 
 export interface GetMcpGatewayAuditRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -741,11 +718,7 @@ export const GetMcpGatewayAuditRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/mcp_gateway/audit/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/mcp_gateway/audit/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMcpGatewayAuditRequest",
@@ -769,9 +742,7 @@ export const AuditActorServiceAccount = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     handle: S.String,
   }),
-).annotate({
-  identifier: "AuditActorServiceAccount",
-}) as any as S.Schema<AuditActorServiceAccount>;
+).annotate({ identifier: "AuditActorServiceAccount" }) as any as S.Schema<AuditActorServiceAccount>;
 
 /** Scope of the agent grant the call used. Blank for member calls. * `personal` - Personal * `team` - Team */
 export type MCPAuditEventGrantScope = MCPAgentGrantScopeEnum | BlankEnum;
@@ -902,9 +873,7 @@ export const GatewayMemberSummary = /*@__PURE__*/ S.suspend(() =>
     connected_server_ids: GatewayMemberSummaryConnectedServerIdsList,
     revoked_server_ids: GatewayMemberSummaryRevokedServerIdsList,
   }),
-).annotate({
-  identifier: "GatewayMemberSummary",
-}) as any as S.Schema<GatewayMemberSummary>;
+).annotate({ identifier: "GatewayMemberSummary" }) as any as S.Schema<GatewayMemberSummary>;
 
 export interface GetMcpGatewayRuleRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -917,15 +886,9 @@ export const GetMcpGatewayRuleRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/mcp_gateway/rules/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/mcp_gateway/rules/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetMcpGatewayRuleRequest",
-}) as any as S.Schema<GetMcpGatewayRuleRequest>;
+).annotate({ identifier: "GetMcpGatewayRuleRequest" }) as any as S.Schema<GetMcpGatewayRuleRequest>;
 
 export interface GetMcpGatewayServerRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1025,11 +988,7 @@ export const ListMcpGatewayAuditRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number.pipe(T.Query())),
     quick_filter: S.optional(ListMcpGatewayAuditRequestQuickFilter.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/mcp_gateway/audit/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/mcp_gateway/audit/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListMcpGatewayAuditRequest",
@@ -1065,11 +1024,7 @@ export const ListMcpGatewayConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/mcp_gateway/config/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/mcp_gateway/config/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListMcpGatewayConfigRequest",
@@ -1089,11 +1044,7 @@ export const ListMcpGatewayMembersRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/mcp_gateway/members/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/mcp_gateway/members/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListMcpGatewayMembersRequest",
@@ -1135,11 +1086,7 @@ export const ListMcpGatewayRulesRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/mcp_gateway/rules/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/mcp_gateway/rules/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListMcpGatewayRulesRequest",
@@ -1163,9 +1110,7 @@ export const PaginatedMCPOrgRuleList = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.String)),
     results: PaginatedMCPOrgRuleListResultsList,
   }),
-).annotate({
-  identifier: "PaginatedMCPOrgRuleList",
-}) as any as S.Schema<PaginatedMCPOrgRuleList>;
+).annotate({ identifier: "PaginatedMCPOrgRuleList" }) as any as S.Schema<PaginatedMCPOrgRuleList>;
 
 export interface ListMcpGatewayServersRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1181,11 +1126,7 @@ export const ListMcpGatewayServersRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/mcp_gateway/servers/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/mcp_gateway/servers/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListMcpGatewayServersRequest",
@@ -1419,11 +1360,7 @@ export const UpdateMcpGatewayRuleRequest = /*@__PURE__*/ S.suspend(() =>
     tool_pattern: S.optional(S.String),
     enabled: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/mcp_gateway/rules/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/projects/{project_id}/mcp_gateway/rules/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateMcpGatewayRuleRequest",
@@ -1518,9 +1455,7 @@ export const MCPGatewayServerUpdate = /*@__PURE__*/ S.suspend(() =>
     category: S.optional(MCPServerCategoryEnum),
     is_team_enabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MCPGatewayServerUpdate",
-}) as any as S.Schema<MCPGatewayServerUpdate>;
+).annotate({ identifier: "MCPGatewayServerUpdate" }) as any as S.Schema<MCPGatewayServerUpdate>;
 
 export interface UpdateMcpGatewayServersPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1587,9 +1522,7 @@ export const MCPServiceAccountUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.optional(MCPServiceAccountStatusEnum),
   }),
-).annotate({
-  identifier: "MCPServiceAccountUpdate",
-}) as any as S.Schema<MCPServiceAccountUpdate>;
+).annotate({ identifier: "MCPServiceAccountUpdate" }) as any as S.Schema<MCPServiceAccountUpdate>;
 
 export interface UpdateMcpGatewayServiceAccountsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */

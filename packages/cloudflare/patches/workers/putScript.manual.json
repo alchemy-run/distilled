@@ -1284,6 +1284,49 @@
     },
     {
       "op": "add",
+      "path": "/shapes/com.cloudflare.workers#PutScriptBindingK2Type",
+      "value": {
+        "type": "enum",
+        "members": {
+          "K2": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "k2"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#PutScriptBindingK2",
+      "value": {
+        "type": "structure",
+        "members": {
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "stream": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "ID of a K2 stream owned by the account deploying the Worker (32 lowercase hex characters)."
+            }
+          },
+          "type": {
+            "target": "com.cloudflare.workers#PutScriptBindingK2Type",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
       "path": "/shapes/com.cloudflare.workers#PutScriptBindingQueueType",
       "value": {
         "type": "enum",
@@ -2232,6 +2275,9 @@
           },
           "case37": {
             "target": "com.cloudflare.workers#PutScriptBindingStream"
+          },
+          "case38": {
+            "target": "com.cloudflare.workers#PutScriptBindingK2"
           }
         }
       }

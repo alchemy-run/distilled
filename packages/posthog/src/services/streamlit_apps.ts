@@ -26,20 +26,12 @@ export const CreateStreamlitAppRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     cpu_cores: S.optional(S.Number),
     memory_gb: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/streamlit_apps/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/streamlit_apps/", code: 200 })),
 ).annotate({
   identifier: "CreateStreamlitAppRequest",
 }) as any as S.Schema<CreateStreamlitAppRequest>;
 
-export type StreamlitAppUserInfoHedgehogConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type StreamlitAppUserInfoHedgehogConfigMap = { [key: string]: unknown | undefined };
 export const StreamlitAppUserInfoHedgehogConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -68,9 +60,7 @@ export const StreamlitAppUserInfo = /*@__PURE__*/ S.suspend(() =>
     hedgehog_config: S.NullOr(StreamlitAppUserInfoHedgehogConfigMap),
     role_at_organization: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "StreamlitAppUserInfo",
-}) as any as S.Schema<StreamlitAppUserInfo>;
+).annotate({ identifier: "StreamlitAppUserInfo" }) as any as S.Schema<StreamlitAppUserInfo>;
 
 export interface AppVersionContract {
   /** User who uploaded this version. */
@@ -90,9 +80,7 @@ export const AppVersionContract = /*@__PURE__*/ S.suspend(() =>
     snapshot_id: S.NullOr(S.String),
     created_at: S.String,
   }),
-).annotate({
-  identifier: "AppVersionContract",
-}) as any as S.Schema<AppVersionContract>;
+).annotate({ identifier: "AppVersionContract" }) as any as S.Schema<AppVersionContract>;
 
 export interface AppSandboxContract {
   status: string;
@@ -111,9 +99,7 @@ export const AppSandboxContract = /*@__PURE__*/ S.suspend(() =>
     last_activity_at: S.NullOr(S.String),
     version_number: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "AppSandboxContract",
-}) as any as S.Schema<AppSandboxContract>;
+).annotate({ identifier: "AppSandboxContract" }) as any as S.Schema<AppSandboxContract>;
 
 export interface AppContract {
   /** User who created this app. */
@@ -165,9 +151,7 @@ export const GetStreamlitAppRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetStreamlitAppRequest",
-}) as any as S.Schema<GetStreamlitAppRequest>;
+).annotate({ identifier: "GetStreamlitAppRequest" }) as any as S.Schema<GetStreamlitAppRequest>;
 
 export interface GetStreamlitAppsStatusRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -212,9 +196,7 @@ export const StreamlitAppStatus = /*@__PURE__*/ S.suspend(() =>
     last_activity_at: S.NullOr(S.String),
     version_number: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "StreamlitAppStatus",
-}) as any as S.Schema<StreamlitAppStatus>;
+).annotate({ identifier: "StreamlitAppStatus" }) as any as S.Schema<StreamlitAppStatus>;
 
 export interface GetStreamlitAppsVersionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -250,9 +232,7 @@ export const StreamlitAppVersionList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     results: StreamlitAppVersionListResultsList,
   }),
-).annotate({
-  identifier: "StreamlitAppVersionList",
-}) as any as S.Schema<StreamlitAppVersionList>;
+).annotate({ identifier: "StreamlitAppVersionList" }) as any as S.Schema<StreamlitAppVersionList>;
 
 export interface ListStreamlitAppsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -267,16 +247,8 @@ export const ListStreamlitAppsRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/streamlit_apps/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListStreamlitAppsRequest",
-}) as any as S.Schema<ListStreamlitAppsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/streamlit_apps/", code: 200 })),
+).annotate({ identifier: "ListStreamlitAppsRequest" }) as any as S.Schema<ListStreamlitAppsRequest>;
 
 export interface AppSummaryContract {
   /** User who created this app. */
@@ -304,9 +276,7 @@ export const AppSummaryContract = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "AppSummaryContract",
-}) as any as S.Schema<AppSummaryContract>;
+).annotate({ identifier: "AppSummaryContract" }) as any as S.Schema<AppSummaryContract>;
 
 export type PaginatedAppSummaryContractListResultsList = Array<AppSummaryContract>;
 export const PaginatedAppSummaryContractListResultsList = /*@__PURE__*/ S.Array(
@@ -361,9 +331,7 @@ export const ActivateVersionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     active_version: AppVersionContract,
   }),
-).annotate({
-  identifier: "ActivateVersionResponse",
-}) as any as S.Schema<ActivateVersionResponse>;
+).annotate({ identifier: "ActivateVersionResponse" }) as any as S.Schema<ActivateVersionResponse>;
 
 export interface StreamlitAppsConnectInfoRetrieveRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -396,9 +364,25 @@ export const StreamlitConnectInfo = /*@__PURE__*/ S.suspend(() =>
     iframe_url: S.String,
     expires_in: S.Number,
   }),
-).annotate({
-  identifier: "StreamlitConnectInfo",
-}) as any as S.Schema<StreamlitConnectInfo>;
+).annotate({ identifier: "StreamlitConnectInfo" }) as any as S.Schema<StreamlitConnectInfo>;
+
+/** Extra text files to ship next to app.py, keyed by project-relative path (for example 'utils.py' or 'data/config.json'), each as plain text (max 1 MB). */
+export type StreamlitAppsCreateVersionFromSourceCreateRequestFilesMap = {
+  [key: string]: string | undefined;
+};
+export const StreamlitAppsCreateVersionFromSourceCreateRequestFilesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<StreamlitAppsCreateVersionFromSourceCreateRequestFilesMap>;
+
+/** Extra binary files to ship next to app.py, keyed by project-relative path (for example 'data/events.parquet'), each as standard base64 text. */
+export type StreamlitAppsCreateVersionFromSourceCreateRequestAssetsMap = {
+  [key: string]: string | undefined;
+};
+export const StreamlitAppsCreateVersionFromSourceCreateRequestAssetsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<StreamlitAppsCreateVersionFromSourceCreateRequestAssetsMap>;
 
 export interface StreamlitAppsCreateVersionFromSourceCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -406,12 +390,18 @@ export interface StreamlitAppsCreateVersionFromSourceCreateRequest {
   short_id: string;
   /** Full Python source for the Streamlit app's root app.py file, as free text (max 1 MB). Becomes a new version and is set as the active version. */
   source: string;
+  /** Extra text files to ship next to app.py, keyed by project-relative path (for example 'utils.py' or 'data/config.json'), each as plain text (max 1 MB). */
+  files?: StreamlitAppsCreateVersionFromSourceCreateRequestFilesMap;
+  /** Extra binary files to ship next to app.py, keyed by project-relative path (for example 'data/events.parquet'), each as standard base64 text. */
+  assets?: StreamlitAppsCreateVersionFromSourceCreateRequestAssetsMap;
 }
 export const StreamlitAppsCreateVersionFromSourceCreateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     short_id: S.String.pipe(T.Label()),
     source: S.String,
+    files: S.optional(StreamlitAppsCreateVersionFromSourceCreateRequestFilesMap),
+    assets: S.optional(StreamlitAppsCreateVersionFromSourceCreateRequestAssetsMap),
   }).pipe(
     T.Http({
       method: "POST",

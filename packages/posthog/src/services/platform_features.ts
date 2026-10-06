@@ -30,9 +30,7 @@ export const ApprovalPoliciesDestroyRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface ApprovalPoliciesDestroyResponse {}
 export const ApprovalPoliciesDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "ApprovalPoliciesDestroyResponse",
-  },
+  { identifier: "ApprovalPoliciesDestroyResponse" },
 ) as any as S.Schema<ApprovalPoliciesDestroyResponse>;
 
 export interface ChangeRequestsApproveCreateRequest {
@@ -124,9 +122,7 @@ export const UserBasic = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "UserBasic" }) as any as S.Schema<UserBasic>;
 
-export type ChangeRequestApprovalsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type ChangeRequestApprovalsItemMap = { [key: string]: unknown | undefined };
 export const ChangeRequestApprovalsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -293,11 +289,7 @@ export const CreateApprovalPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     expires_after: S.optional(S.String),
     enabled: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/approval_policies/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/approval_policies/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateApprovalPolicyRequest",
@@ -351,15 +343,9 @@ export const GetApprovalPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/approval_policies/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/approval_policies/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetApprovalPolicyRequest",
-}) as any as S.Schema<GetApprovalPolicyRequest>;
+).annotate({ identifier: "GetApprovalPolicyRequest" }) as any as S.Schema<GetApprovalPolicyRequest>;
 
 export interface GetChangeRequestRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -372,15 +358,9 @@ export const GetChangeRequestRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/change_requests/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/change_requests/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetChangeRequestRequest",
-}) as any as S.Schema<GetChangeRequestRequest>;
+).annotate({ identifier: "GetChangeRequestRequest" }) as any as S.Schema<GetChangeRequestRequest>;
 
 export interface ListApprovalPoliciesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -396,11 +376,7 @@ export const ListApprovalPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/approval_policies/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/approval_policies/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListApprovalPoliciesRequest",
@@ -457,13 +433,7 @@ export const ListChangeRequestsRequest = /*@__PURE__*/ S.suspend(() =>
     resource_id: S.optional(S.String.pipe(T.Query())),
     resource_type: S.optional(S.String.pipe(T.Query())),
     state: S.optional(ListChangeRequestsRequestStateList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/change_requests/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/change_requests/", code: 200 })),
 ).annotate({
   identifier: "ListChangeRequestsRequest",
 }) as any as S.Schema<ListChangeRequestsRequest>;
@@ -566,11 +536,7 @@ export const UpdateApprovalPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     expires_after: S.optional(S.String),
     enabled: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/approval_policies/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/projects/{project_id}/approval_policies/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateApprovalPolicyRequest",

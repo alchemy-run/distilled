@@ -105,9 +105,7 @@ export const JoinStorageSessionInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ channelArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/joinStorageSession" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "JoinStorageSessionInput",
-}) as any as S.Schema<JoinStorageSessionInput>;
+).annotate({ identifier: "JoinStorageSessionInput" }) as any as S.Schema<JoinStorageSessionInput>;
 export interface JoinStorageSessionResponse {}
 export const JoinStorageSessionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "JoinStorageSessionResponse",

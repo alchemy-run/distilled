@@ -349,11 +349,7 @@ export const CreateHostingPrivateDatabaseDatabaseRequest = /*@__PURE__*/ S.suspe
     serviceName: S.String.pipe(T.Label()),
     databaseName: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/privateDatabase/{serviceName}/database",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/hosting/privateDatabase/{serviceName}/database", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateHostingPrivateDatabaseDatabaseRequest",
@@ -468,11 +464,7 @@ export const CreateHostingPrivateDatabaseLogUrlRequest = /*@__PURE__*/ S.suspend
     serviceName: S.String.pipe(T.Label()),
     kind: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/privateDatabase/{serviceName}/log/url",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/hosting/privateDatabase/{serviceName}/log/url", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateHostingPrivateDatabaseLogUrlRequest",
@@ -526,11 +518,7 @@ export const CreateHostingPrivateDatabaseUserRequest = /*@__PURE__*/ S.suspend((
     password: S.String.pipe(T.SensitiveValue({})),
     userName: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/privateDatabase/{serviceName}/user",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/hosting/privateDatabase/{serviceName}/user", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateHostingPrivateDatabaseUserRequest",
@@ -625,11 +613,7 @@ export const CreateHostingPrivateDatabaseWhitelistRequest = /*@__PURE__*/ S.susp
     service: S.optional(S.Boolean),
     sftp: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/privateDatabase/{serviceName}/whitelist",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/hosting/privateDatabase/{serviceName}/whitelist", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateHostingPrivateDatabaseWhitelistRequest",
@@ -926,13 +910,7 @@ export interface GetHostingPrivateDatabaseRequest {
 export const GetHostingPrivateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/privateDatabase/{serviceName}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/privateDatabase/{serviceName}", code: 200 })),
 ).annotate({
   identifier: "GetHostingPrivateDatabaseRequest",
 }) as any as S.Schema<GetHostingPrivateDatabaseRequest>;
@@ -1014,9 +992,7 @@ export const IamResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(IamResourceMetadataTagsMap)),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamResourceMetadata",
-}) as any as S.Schema<IamResourceMetadata>;
+).annotate({ identifier: "IamResourceMetadata" }) as any as S.Schema<IamResourceMetadata>;
 
 /** Private database infrastructure */
 export type HostingPrivateDatabaseInfrastructureEnum = "docker";
@@ -1464,9 +1440,7 @@ export const DbaasLogsLogKind = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     updatedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DbaasLogsLogKind",
-}) as any as S.Schema<DbaasLogsLogKind>;
+).annotate({ identifier: "DbaasLogsLogKind" }) as any as S.Schema<DbaasLogsLogKind>;
 
 export interface GetHostingPrivateDatabaseLogSubscriptionRequest {
   /** Service name */
@@ -1532,9 +1506,7 @@ export const DbaasLogsLogSubscription = /*@__PURE__*/ S.suspend(() =>
     subscriptionId: S.optional(S.String),
     updatedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DbaasLogsLogSubscription",
-}) as any as S.Schema<DbaasLogsLogSubscription>;
+).annotate({ identifier: "DbaasLogsLogSubscription" }) as any as S.Schema<DbaasLogsLogSubscription>;
 
 export interface GetHostingPrivateDatabaseMetricsTokenRequest {
   /** Service name */
@@ -1615,9 +1587,7 @@ export const ServiceRenewType = /*@__PURE__*/ S.suspend(() =>
     manualPayment: S.optional(S.NullOr(S.Boolean)),
     period: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ServiceRenewType",
-}) as any as S.Schema<ServiceRenewType>;
+).annotate({ identifier: "ServiceRenewType" }) as any as S.Schema<ServiceRenewType>;
 
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -1675,9 +1645,7 @@ export const ServicesService = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.optional(S.Number),
     status: S.optional(ServiceStateEnum),
   }),
-).annotate({
-  identifier: "ServicesService",
-}) as any as S.Schema<ServicesService>;
+).annotate({ identifier: "ServicesService" }) as any as S.Schema<ServicesService>;
 
 export interface GetHostingPrivateDatabaseTaskRequest {
   /** Service name */
@@ -1690,11 +1658,7 @@ export const GetHostingPrivateDatabaseTaskRequest = /*@__PURE__*/ S.suspend(() =
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/privateDatabase/{serviceName}/tasks/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/hosting/privateDatabase/{serviceName}/tasks/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetHostingPrivateDatabaseTaskRequest",
@@ -2088,11 +2052,7 @@ export const ListHostingPrivateDatabaseConfigRequest = /*@__PURE__*/ S.suspend((
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/privateDatabase/{serviceName}/config",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/hosting/privateDatabase/{serviceName}/config", code: 200 }),
   ),
 ).annotate({
   identifier: "ListHostingPrivateDatabaseConfigRequest",
@@ -2182,11 +2142,7 @@ export const ListHostingPrivateDatabaseCpuThrottleRequest = /*@__PURE__*/ S.susp
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/privateDatabase/{serviceName}/cpuThrottle",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/hosting/privateDatabase/{serviceName}/cpuThrottle", code: 200 }),
   ),
 ).annotate({
   identifier: "ListHostingPrivateDatabaseCpuThrottleRequest",
@@ -2230,11 +2186,7 @@ export const ListHostingPrivateDatabaseDatabaseRequest = /*@__PURE__*/ S.suspend
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/privateDatabase/{serviceName}/database",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/hosting/privateDatabase/{serviceName}/database", code: 200 }),
   ),
 ).annotate({
   identifier: "ListHostingPrivateDatabaseDatabaseRequest",
@@ -2374,13 +2326,7 @@ export const ListHostingPrivateDatabaseDumpRequest = /*@__PURE__*/ S.suspend(() 
     serviceName: S.String.pipe(T.Label()),
     databaseName: S.optional(S.String.pipe(T.Query())),
     orphan: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/privateDatabase/{serviceName}/dump",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/privateDatabase/{serviceName}/dump", code: 200 })),
 ).annotate({
   identifier: "ListHostingPrivateDatabaseDumpRequest",
 }) as any as S.Schema<ListHostingPrivateDatabaseDumpRequest>;
@@ -2405,11 +2351,7 @@ export const ListHostingPrivateDatabaseLogKindRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/privateDatabase/{serviceName}/log/kind",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/hosting/privateDatabase/{serviceName}/log/kind", code: 200 }),
   ),
 ).annotate({
   identifier: "ListHostingPrivateDatabaseLogKindRequest",
@@ -2469,13 +2411,7 @@ export interface ListHostingPrivateDatabaseOomRequest {
 export const ListHostingPrivateDatabaseOomRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/privateDatabase/{serviceName}/oom",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/privateDatabase/{serviceName}/oom", code: 200 })),
 ).annotate({
   identifier: "ListHostingPrivateDatabaseOomRequest",
 }) as any as S.Schema<ListHostingPrivateDatabaseOomRequest>;
@@ -2522,11 +2458,7 @@ export const ListHostingPrivateDatabaseTasksRequest = /*@__PURE__*/ S.suspend(()
     function: S.optional(HostingPrivateDatabaseTaskFunctionEnum.pipe(T.Query())),
     status: S.optional(HostingPrivateDatabaseTaskStatusEnum.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/privateDatabase/{serviceName}/tasks",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/hosting/privateDatabase/{serviceName}/tasks", code: 200 }),
   ),
 ).annotate({
   identifier: "ListHostingPrivateDatabaseTasksRequest",
@@ -2552,13 +2484,7 @@ export interface ListHostingPrivateDatabaseUserRequest {
 export const ListHostingPrivateDatabaseUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/privateDatabase/{serviceName}/user",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/privateDatabase/{serviceName}/user", code: 200 })),
 ).annotate({
   identifier: "ListHostingPrivateDatabaseUserRequest",
 }) as any as S.Schema<ListHostingPrivateDatabaseUserRequest>;
@@ -2616,13 +2542,7 @@ export interface ListHostingPrivateDatabaseWebsRequest {
 export const ListHostingPrivateDatabaseWebsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/privateDatabase/{serviceName}/webs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/privateDatabase/{serviceName}/webs", code: 200 })),
 ).annotate({
   identifier: "ListHostingPrivateDatabaseWebsRequest",
 }) as any as S.Schema<ListHostingPrivateDatabaseWebsRequest>;
@@ -2656,11 +2576,7 @@ export const ListHostingPrivateDatabaseWhitelistRequest = /*@__PURE__*/ S.suspen
     service: S.optional(S.Boolean.pipe(T.Query())),
     sftp: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/privateDatabase/{serviceName}/whitelist",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/hosting/privateDatabase/{serviceName}/whitelist", code: 200 }),
   ),
 ).annotate({
   identifier: "ListHostingPrivateDatabaseWhitelistRequest",
@@ -2689,13 +2605,7 @@ export const PutHostingPrivateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     displayName: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/hosting/privateDatabase/{serviceName}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/hosting/privateDatabase/{serviceName}", code: 200 })),
 ).annotate({
   identifier: "PutHostingPrivateDatabaseRequest",
 }) as any as S.Schema<PutHostingPrivateDatabaseRequest>;
@@ -2780,11 +2690,7 @@ export const RestartHostingPrivateDatabaseRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/privateDatabase/{serviceName}/restart",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/hosting/privateDatabase/{serviceName}/restart", code: 200 }),
   ),
 ).annotate({
   identifier: "RestartHostingPrivateDatabaseRequest",
@@ -2846,11 +2752,7 @@ export const TerminateHostingPrivateDatabaseRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/privateDatabase/{serviceName}/terminate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/hosting/privateDatabase/{serviceName}/terminate", code: 200 }),
   ),
 ).annotate({
   identifier: "TerminateHostingPrivateDatabaseRequest",

@@ -31,10 +31,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/registryEndpoints/{registryEndpointName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Delete a RegistryEndpointResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#DeleteRegistryEndpointRequest": {
@@ -90,10 +90,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/registryEndpoints/{registryEndpointName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Create a RegistryEndpointResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#RegistryEndpointCreateOrUpdateResponse": {
@@ -599,10 +599,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/registryEndpoints/{registryEndpointName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Get a RegistryEndpointResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#GetRegistryEndpointResponse": {
@@ -702,10 +702,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/registryEndpoints",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "List RegistryEndpointResource resources by InstanceResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#RegistryEndpointResourceListResult": {
@@ -827,10 +827,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflows/{dataflowName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Delete a DataflowResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#DeleteDataflowRequest": {
@@ -894,10 +894,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflows/{dataflowName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Create a DataflowResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#DataflowCreateOrUpdateResponse": {
@@ -1773,10 +1773,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflows/{dataflowName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Get a DataflowResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#GetDataflowResponse": {
@@ -1884,10 +1884,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflows",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "List DataflowResource resources by DataflowProfileResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#DataflowResourceListResult": {
@@ -2017,10 +2017,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflowGraphs/{dataflowGraphName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Delete a DataflowGraphResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#DeleteDataflowGraphRequest": {
@@ -2084,10 +2084,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflowGraphs/{dataflowGraphName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Create a DataflowGraphResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#DataflowGraphCreateOrUpdateResponse": {
@@ -2573,10 +2573,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflowGraphs/{dataflowGraphName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Get a DataflowGraphResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#GetDataflowGraphResponse": {
@@ -2684,10 +2684,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflowGraphs",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "List DataflowGraphResource resources by DataflowProfileResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#DataflowGraphResourceListResult": {
@@ -2817,10 +2817,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Delete a DataflowProfileResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#DeleteDataflowProfileRequest": {
@@ -2876,10 +2876,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Create a DataflowProfileResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#DataflowProfileCreateOrUpdateResponse": {
@@ -3143,10 +3143,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Get a DataflowProfileResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#GetDataflowProfileResponse": {
@@ -3246,10 +3246,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "List DataflowProfileResource resources by InstanceResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#DataflowProfileResourceListResult": {
@@ -3371,10 +3371,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowEndpoints/{dataflowEndpointName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Delete a DataflowEndpointResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#DeleteDataflowEndpointRequest": {
@@ -3430,10 +3430,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowEndpoints/{dataflowEndpointName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Create a DataflowEndpointResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#DataflowEndpointCreateOrUpdateResponse": {
@@ -4405,7 +4405,7 @@
         "host": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Host of the Microsoft Fabric in the form of https://<host>.fabric.microsoft.com.",
+            "smithy.api#documentation": "Host of the Microsoft Fabric in the form of https://<host>.fabric.microsoft.com (Azure Public) or https://<host>.fabric.microsoft.us (Azure US Government). This will be validated by the regex `.*\\.fabric\\.microsoft\\.(com|us)`.",
             "smithy.api#required": {}
           }
         },
@@ -4522,7 +4522,7 @@
         "host": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Host of the Azure Data Lake in the form of <account>.blob.core.windows.net .",
+            "smithy.api#documentation": "Host of the Azure Data Lake in the form of <account>.blob.core.windows.net (Azure Public) or <account>.blob.core.usgovcloudapi.net (Azure US Government). This will be validated by the regex `.*\\.blob\\.core\\.(windows\\.net|usgovcloudapi\\.net)`.",
             "smithy.api#required": {}
           }
         },
@@ -4631,7 +4631,7 @@
         "host": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Host of the Azure Data Explorer in the form of <cluster>.<region>.kusto.windows.net .",
+            "smithy.api#documentation": "Host of the Azure Data Explorer in the form of <cluster>.<region>.kusto.windows.net (Azure Public) or <cluster>.<region>.kusto.usgovcloudapi.net (Azure US Government). This will be validated by the regex `.*\\.*\\.kusto\\.(windows\\.net|usgovcloudapi\\.net)`.",
             "smithy.api#required": {}
           }
         },
@@ -4895,10 +4895,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowEndpoints/{dataflowEndpointName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Get a DataflowEndpointResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#GetDataflowEndpointResponse": {
@@ -4998,10 +4998,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowEndpoints",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "List DataflowEndpointResource resources by InstanceResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#DataflowEndpointResourceListResult": {
@@ -5123,10 +5123,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/listeners/{listenerName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Delete a BrokerListenerResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#DeleteBrokerListenerRequest": {
@@ -5190,10 +5190,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/listeners/{listenerName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Create a BrokerListenerResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#BrokerListenerCreateOrUpdateResponse": {
@@ -5616,8 +5616,7 @@
         "group": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "group of issuer.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "group of issuer."
           }
         },
         "kind": {
@@ -5834,10 +5833,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/listeners/{listenerName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Get a BrokerListenerResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#GetBrokerListenerResponse": {
@@ -5945,10 +5944,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/listeners",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "List BrokerListenerResource resources by BrokerResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#BrokerListenerResourceListResult": {
@@ -6078,10 +6077,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authorizations/{authorizationName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Delete a BrokerAuthorizationResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#DeleteBrokerAuthorizationRequest": {
@@ -6145,10 +6144,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authorizations/{authorizationName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Create a BrokerAuthorizationResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#BrokerAuthorizationCreateOrUpdateResponse": {
@@ -6661,10 +6660,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authorizations/{authorizationName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Get a BrokerAuthorizationResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#GetBrokerAuthorizationResponse": {
@@ -6772,10 +6771,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authorizations",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "List BrokerAuthorizationResource resources by BrokerResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#BrokerAuthorizationResourceListResult": {
@@ -6905,10 +6904,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authentications/{authenticationName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Delete a BrokerAuthenticationResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#DeleteBrokerAuthenticationRequest": {
@@ -6972,10 +6971,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authentications/{authenticationName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Create a BrokerAuthenticationResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#BrokerAuthenticationCreateOrUpdateResponse": {
@@ -7422,10 +7421,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authentications/{authenticationName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Get a BrokerAuthenticationResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#GetBrokerAuthenticationResponse": {
@@ -7533,10 +7532,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authentications",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "List BrokerAuthenticationResource resources by BrokerResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#BrokerAuthenticationResourceListResult": {
@@ -7666,10 +7665,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Delete a BrokerResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#DeleteBrokerRequest": {
@@ -7725,10 +7724,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Create a BrokerResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#BrokerCreateOrUpdateResponse": {
@@ -9003,10 +9002,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Get a BrokerResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#GetBrokerResponse": {
@@ -9106,10 +9105,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "List BrokerResource resources by InstanceResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#BrokerResourceListResult": {
@@ -9231,10 +9230,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriServices/{akriServiceName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Delete a AkriServiceResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#DeleteAkriServiceRequest": {
@@ -9290,10 +9289,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriServices/{akriServiceName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Create a AkriServiceResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#AkriServiceCreateOrUpdateResponse": {
@@ -9446,10 +9445,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriServices/{akriServiceName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Get a AkriServiceResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#GetAkriServiceResponse": {
@@ -9549,10 +9548,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriServices",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "List AkriServiceResource resources by InstanceResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#AkriServiceResourceListResult": {
@@ -9674,10 +9673,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}/connectors/{connectorName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Delete a AkriConnectorResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#DeleteAkriConnectorRequest": {
@@ -9741,10 +9740,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}/connectors/{connectorName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Create a AkriConnectorResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#AkriConnectorCreateOrUpdateResponse": {
@@ -9980,10 +9979,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}/connectors/{connectorName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Get a AkriConnectorResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#GetAkriConnectorResponse": {
@@ -10091,10 +10090,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}/connectors",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "List AkriConnectorResource resources by AkriConnectorTemplateResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#AkriConnectorResourceListResult": {
@@ -10224,10 +10223,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Delete a AkriConnectorTemplateResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#DeleteAkriConnectorTemplateRequest": {
@@ -10283,10 +10282,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Create a AkriConnectorTemplateResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#AkriConnectorTemplateCreateOrUpdateResponse": {
@@ -10750,10 +10749,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Get a AkriConnectorTemplateResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#GetAkriConnectorTemplateResponse": {
@@ -10853,10 +10852,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriConnectorTemplates",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "List AkriConnectorTemplateResource resources by InstanceResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#AkriConnectorTemplateResourceListResult": {
@@ -10978,10 +10977,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Delete a InstanceResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#DeleteInstanceRequest": {
@@ -11029,10 +11028,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Update a InstanceResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#UpdateInstanceResponse": {
@@ -11093,10 +11092,51 @@
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
+        },
+        "sku": {
+          "target": "com.azure.iotoperations#InstanceSku",
+          "traits": {
+            "smithy.api#documentation": "The billing SKU for the AIO Instance. Defaults to Standard."
+          }
         }
       },
       "traits": {
         "smithy.api#output": {}
+      }
+    },
+    "com.azure.iotoperations#InstanceSku": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "com.azure.iotoperations#InstanceSkuName",
+          "traits": {
+            "smithy.api#documentation": "The name of the SKU. Determines the billing meter applied to this instance.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The billing SKU for an AIO Instance."
+      }
+    },
+    "com.azure.iotoperations#InstanceSkuName": {
+      "type": "enum",
+      "members": {
+        "ESSENTIALS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Essentials"
+          }
+        },
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Standard"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The set of supported SKU names for an AIO Instance."
       }
     },
     "com.azure.iotoperations#UpdateInstanceResponseIdentity": {
@@ -11519,10 +11559,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Create a InstanceResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#InstanceCreateOrUpdateResponse": {
@@ -11582,6 +11622,12 @@
           "target": "com.azure.iotoperations#InstanceCreateOrUpdateResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+          }
+        },
+        "sku": {
+          "target": "com.azure.iotoperations#InstanceSku",
+          "traits": {
+            "smithy.api#documentation": "The billing SKU for the AIO Instance. Defaults to Standard."
           }
         }
       },
@@ -11688,6 +11734,12 @@
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
+        },
+        "sku": {
+          "target": "com.azure.iotoperations#InstanceSku",
+          "traits": {
+            "smithy.api#documentation": "The billing SKU for the AIO Instance. Defaults to Standard."
+          }
         }
       },
       "traits": {
@@ -11787,10 +11839,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "Get a InstanceResource",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#GetInstanceResponse": {
@@ -11850,6 +11902,12 @@
           "target": "com.azure.iotoperations#GetInstanceResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+          }
+        },
+        "sku": {
+          "target": "com.azure.iotoperations#InstanceSku",
+          "traits": {
+            "smithy.api#documentation": "The billing SKU for the AIO Instance. Defaults to Standard."
           }
         }
       },
@@ -11943,10 +12001,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "List InstanceResource resources by resource group",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#InstanceResourceListResult": {
@@ -12037,6 +12095,12 @@
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
+        },
+        "sku": {
+          "target": "com.azure.iotoperations#InstanceSku",
+          "traits": {
+            "smithy.api#documentation": "The billing SKU for the AIO Instance. Defaults to Standard."
+          }
         }
       },
       "traits": {
@@ -12121,10 +12185,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.IoTOperations/instances",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "List InstanceResource resources by subscription ID",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#ListInstanceBySubscriptionRequest": {
@@ -12156,10 +12220,10 @@
           "method": "GET",
           "uri": "/providers/Microsoft.IoTOperations/operations",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-10-01"
         },
         "smithy.api#documentation": "List the operations for the provider",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-10-01"
       }
     },
     "com.azure.iotoperations#ListOperationsResponse": {

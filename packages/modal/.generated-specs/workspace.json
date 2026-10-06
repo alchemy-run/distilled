@@ -112,7 +112,7 @@
         "adjustments": {
           "target": "com.modal.workspace#StringMap",
           "traits": {
-            "smithy.api#documentation": "keyed by plan, credits, reservations, storage"
+            "smithy.api#documentation": "keyed by plan, credits, reservations, storage, network egress allowance"
           }
         }
       },
@@ -256,10 +256,10 @@
             "smithy.api#enumValue": "IDENTITY_PROVIDER_TYPE_GITHUB"
           }
         },
-        "IDENTITY_PROVIDER_TYPE_OKTA": {
+        "IDENTITY_PROVIDER_TYPE_SAML": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "IDENTITY_PROVIDER_TYPE_OKTA"
+            "smithy.api#enumValue": "IDENTITY_PROVIDER_TYPE_SAML"
           }
         },
         "IDENTITY_PROVIDER_TYPE_GOOGLE_OAUTH": {
@@ -363,6 +363,105 @@
         }
       }
     },
+    "com.modal.workspace#EnvironmentBlockUnauthenticatedResources": {
+      "type": "enum",
+      "members": {
+        "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_UNSPECIFIED"
+          }
+        },
+        "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_INHERIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_INHERIT"
+          }
+        },
+        "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_BLOCK"
+          }
+        },
+        "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_ALLOW"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Partial-update signal for EnvironmentUpdateRequest. Omitted means no-op. INHERIT clears the environment override so the workspace default applies."
+      }
+    },
+    "com.modal.workspace#WorkspaceSetDefaultEnvironmentSettingsRequest": {
+      "type": "structure",
+      "members": {
+        "blockUnauthenticatedResources": {
+          "target": "com.modal.workspace#EnvironmentBlockUnauthenticatedResources",
+          "traits": {
+            "smithy.api#documentation": "Omitted = no-op. INHERIT clears the workspace default so environments with no override have no block. Rejects UNSPECIFIED."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.workspace#EnvironmentSettings": {
+      "type": "structure",
+      "members": {
+        "imageBuilderVersion": {
+          "target": "smithy.api#String"
+        },
+        "webhookSuffix": {
+          "target": "smithy.api#String"
+        },
+        "maxConcurrentGpus": {
+          "target": "smithy.api#Integer"
+        },
+        "maxConcurrentTasks": {
+          "target": "smithy.api#Integer"
+        },
+        "blockUnauthenticatedResources": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, new unauthenticated web functions, Servers, tunnels, and Endpoints in this environment are rejected. Unset inherits the workspace default."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Environment-scoped settings, with workspace-level defaults. Note that we use MergeFrom to combine workspace / environment settings, which will *append* any `repeated` fields!"
+      }
+    },
+    "com.modal.workspace#WorkspaceSetDefaultEnvironmentSettingsResponse": {
+      "type": "structure",
+      "members": {
+        "defaultEnvironmentSettings": {
+          "target": "com.modal.workspace#EnvironmentSettings"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.workspace#WorkspaceSetDefaultEnvironmentSettings": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.workspace#WorkspaceSetDefaultEnvironmentSettingsRequest"
+      },
+      "output": {
+        "target": "com.modal.workspace#WorkspaceSetDefaultEnvironmentSettingsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/WorkspaceSetDefaultEnvironmentSettings",
+          "code": 200
+        }
+      }
+    },
     "com.modal.workspace#WorkspaceSetImageBuilderVersionRequest": {
       "type": "structure",
       "members": {
@@ -452,6 +551,9 @@
         },
         {
           "target": "com.modal.workspace#WorkspaceSetDefaultEnvironment"
+        },
+        {
+          "target": "com.modal.workspace#WorkspaceSetDefaultEnvironmentSettings"
         },
         {
           "target": "com.modal.workspace#WorkspaceSetImageBuilderVersion"

@@ -81,9 +81,7 @@ export const GetItemsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://chromewebstore.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetItemsRequest",
-}) as any as S.Schema<GetItemsRequest>;
+).annotate({ identifier: "GetItemsRequest" }) as any as S.Schema<GetItemsRequest>;
 
 /** Error of the item */
 export interface ItemError {
@@ -103,27 +101,27 @@ export type ItemErrorList = Array<ItemError>;
 export const ItemErrorList = /*@__PURE__*/ S.Array(ItemError) as any as S.Schema<ItemErrorList>;
 
 export interface Item {
-  /** Detail human-readable status of the operation, in English only. Same error messages are displayed when you upload your app to the Chrome Web Store. */
-  itemError?: ItemErrorList;
-  /** Public key of this item. */
-  publicKey?: string;
   /** The CRX version of the item. If the projection is draft, then it is the draft's CRX version. */
   crxVersion?: string;
-  /** Unique ID of the item. */
-  id?: string;
+  /** Detail human-readable status of the operation, in English only. Same error messages are displayed when you upload your app to the Chrome Web Store. */
+  itemError?: ItemErrorList;
   /** Identifies this resource as an Item. Value: the fixed string "chromewebstore#item". */
   kind?: string;
   /** Status of the operation. Possible values are: - \"FAILURE\" - \"IN_PROGRESS\" - \"NOT_FOUND\" - \"SUCCESS\" */
   uploadState?: string;
+  /** Public key of this item. */
+  publicKey?: string;
+  /** Unique ID of the item. */
+  id?: string;
 }
 export const Item = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    itemError: S.optional(ItemErrorList),
-    publicKey: S.optional(S.String),
     crxVersion: S.optional(S.String),
-    id: S.optional(S.String),
+    itemError: S.optional(ItemErrorList),
     kind: S.optional(S.String),
     uploadState: S.optional(S.String),
+    publicKey: S.optional(S.String),
+    id: S.optional(S.String),
   }),
 ).annotate({ identifier: "Item" }) as any as S.Schema<Item>;
 
@@ -141,9 +139,7 @@ export const InsertItemsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://chromewebstore.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "InsertItemsRequest",
-}) as any as S.Schema<InsertItemsRequest>;
+).annotate({ identifier: "InsertItemsRequest" }) as any as S.Schema<InsertItemsRequest>;
 
 export interface PublishRequest {
   /** The target deploy percentage of the item. It's only useful for items with big user base. */
@@ -187,28 +183,26 @@ export const PublishItemsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://chromewebstore.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "PublishItemsRequest",
-}) as any as S.Schema<PublishItemsRequest>;
+).annotate({ identifier: "PublishItemsRequest" }) as any as S.Schema<PublishItemsRequest>;
 
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
 export interface Item2 {
-  /** Static string value is always "chromewebstore#item". */
-  kind?: string;
-  /** The ID of this item. */
-  item_id?: string;
   /** Detailed human-comprehensible explanation of the status code above. */
   statusDetail?: StringList;
+  /** The ID of this item. */
+  item_id?: string;
+  /** Static string value is always "chromewebstore#item". */
+  kind?: string;
   /** The status code of this publish operation. It may contain multiple elements from the following list: NOT_AUTHORIZED, INVALID_DEVELOPER, DEVELOPER_NO_OWNERSHIP, DEVELOPER_SUSPENDED, ITEM_NOT_FOUND, ITEM_PENDING_REVIEW, ITEM_TAKEN_DOWN, PUBLISHER_SUSPENDED. */
   status?: StringList;
 }
 export const Item2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
-    item_id: S.optional(S.String),
     statusDetail: S.optional(StringList),
+    item_id: S.optional(S.String),
+    kind: S.optional(S.String),
     status: S.optional(StringList),
   }),
 ).annotate({ identifier: "Item2" }) as any as S.Schema<Item2>;
@@ -230,9 +224,7 @@ export const UpdateItemsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://chromewebstore.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "UpdateItemsRequest",
-}) as any as S.Schema<UpdateItemsRequest>;
+).annotate({ identifier: "UpdateItemsRequest" }) as any as S.Schema<UpdateItemsRequest>;
 
 export type GetItemsError = NotFound | Forbidden | GcpOpError;
 /** Gets your own Chrome Web Store item. */

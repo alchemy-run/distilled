@@ -452,7 +452,8 @@
         "spec": {
           "target": "com.kubernetes.networking#IoK8sApiNetworkingV1IngressClassSpec",
           "traits": {
-            "smithy.api#documentation": "spec is the desired state of the IngressClass. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status"
+            "smithy.api#documentation": "spec is the desired state of the IngressClass. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status",
+            "smithy.api#required": {}
           }
         }
       },
@@ -713,7 +714,8 @@
         "controller": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "controller refers to the name of the controller that should handle this class. This allows for different \"flavors\" that are controlled by the same controller. For example, you may have different parameters for the same implementing controller. This should be specified as a domain-prefixed path no more than 250 characters in length, e.g. \"acme.io/ingress-controller\". This field is immutable."
+            "smithy.api#documentation": "controller refers to the name of the controller that should handle this class. This allows for different \"flavors\" that are controlled by the same controller. For example, you may have different parameters for the same implementing controller. This should be specified as a domain-prefixed path no more than 250 characters in length, e.g. \"acme.io/ingress-controller\". This field is immutable.",
+            "smithy.api#required": {}
           }
         },
         "parameters": {
@@ -898,7 +900,8 @@
         "spec": {
           "target": "com.kubernetes.networking#IoK8sApiNetworkingV1IngressClassSpec",
           "traits": {
-            "smithy.api#documentation": "spec is the desired state of the IngressClass. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status"
+            "smithy.api#documentation": "spec is the desired state of the IngressClass. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status",
+            "smithy.api#required": {}
           }
         }
       },
@@ -1348,7 +1351,8 @@
         "spec": {
           "target": "com.kubernetes.networking#IoK8sApiNetworkingV1IngressClassSpec",
           "traits": {
-            "smithy.api#documentation": "spec is the desired state of the IngressClass. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status"
+            "smithy.api#documentation": "spec is the desired state of the IngressClass. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status",
+            "smithy.api#required": {}
           }
         }
       },
@@ -1794,20 +1798,20 @@
         "apiGroup": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "APIGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required."
+            "smithy.api#documentation": "apiGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required."
           }
         },
         "kind": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Kind is the type of resource being referenced",
+            "smithy.api#documentation": "kind is the type of resource being referenced",
             "smithy.api#required": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name is the name of resource being referenced",
+            "smithy.api#documentation": "name is the name of resource being referenced",
             "smithy.api#required": {}
           }
         }
@@ -2042,15 +2046,13 @@
         "port": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "port is the port number of the ingress port.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "port is the port number of the ingress port."
           }
         },
         "protocol": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "protocol is the protocol of the ingress port. The supported values are: \"TCP\", \"UDP\", \"SCTP\"",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "protocol is the protocol of the ingress port. The supported values are: \"TCP\", \"UDP\", \"SCTP\""
           }
         }
       },

@@ -22,13 +22,7 @@ export const CreateEmailProAccountAliasRequest = /*@__PURE__*/ S.suspend(() =>
     service: S.String.pipe(T.Label()),
     email: S.String.pipe(T.Label()),
     alias: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/email/pro/{service}/account/{email}/alias",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/email/pro/{service}/account/{email}/alias", code: 200 })),
 ).annotate({
   identifier: "CreateEmailProAccountAliasRequest",
 }) as any as S.Schema<CreateEmailProAccountAliasRequest>;
@@ -151,11 +145,7 @@ export const CreateEmailProAccountDiagnosticRequest = /*@__PURE__*/ S.suspend(()
     email: S.String.pipe(T.Label()),
     password: S.String.pipe(T.SensitiveValue({})),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/email/pro/{service}/account/{email}/diagnostics",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/email/pro/{service}/account/{email}/diagnostics", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateEmailProAccountDiagnosticRequest",
@@ -175,11 +165,7 @@ export const CreateEmailProAccountFullAccessRequest = /*@__PURE__*/ S.suspend(()
     email: S.String.pipe(T.Label()),
     allowedAccountId: S.Number,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/email/pro/{service}/account/{email}/fullAccess",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/email/pro/{service}/account/{email}/fullAccess", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateEmailProAccountFullAccessRequest",
@@ -201,13 +187,7 @@ export const CreateEmailProChangeContactRequest = /*@__PURE__*/ S.suspend(() =>
     contactAdmin: S.optional(S.String),
     contactBilling: S.optional(S.String),
     contactTech: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/email/pro/{service}/changeContact",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/email/pro/{service}/changeContact", code: 200 })),
 ).annotate({
   identifier: "CreateEmailProChangeContactRequest",
 }) as any as S.Schema<CreateEmailProChangeContactRequest>;
@@ -311,11 +291,7 @@ export const CreateEmailProDomainDkimRequest = /*@__PURE__*/ S.suspend(() =>
     configureDkim: S.optional(S.Boolean),
     selectorName: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/email/pro/{service}/domain/{domainName}/dkim",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/email/pro/{service}/domain/{domainName}/dkim", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateEmailProDomainDkimRequest",
@@ -346,13 +322,7 @@ export const CreateEmailProExternalContactRequest = /*@__PURE__*/ S.suspend(() =
     hiddenFromGAL: S.optional(S.Boolean),
     initials: S.optional(S.String),
     lastName: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/email/pro/{service}/externalContact",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/email/pro/{service}/externalContact", code: 200 })),
 ).annotate({
   identifier: "CreateEmailProExternalContactRequest",
 }) as any as S.Schema<CreateEmailProExternalContactRequest>;
@@ -367,13 +337,7 @@ export const DeleteEmailProAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     service: S.String.pipe(T.Label()),
     email: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/email/pro/{service}/account/{email}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/email/pro/{service}/account/{email}", code: 200 })),
 ).annotate({
   identifier: "DeleteEmailProAccountRequest",
 }) as any as S.Schema<DeleteEmailProAccountRequest>;
@@ -484,13 +448,7 @@ export const DeleteEmailProDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     service: S.String.pipe(T.Label()),
     domainName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/email/pro/{service}/domain/{domainName}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/email/pro/{service}/domain/{domainName}", code: 200 })),
 ).annotate({
   identifier: "DeleteEmailProDomainRequest",
 }) as any as S.Schema<DeleteEmailProDomainRequest>;
@@ -617,9 +575,7 @@ export const GetEmailProRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     service: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/email/pro/{service}", code: 200 })),
-).annotate({
-  identifier: "GetEmailProRequest",
-}) as any as S.Schema<GetEmailProRequest>;
+).annotate({ identifier: "GetEmailProRequest" }) as any as S.Schema<GetEmailProRequest>;
 
 /** Resource tags. Tags that were internally computed are prefixed with ovh: */
 export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
@@ -646,9 +602,7 @@ export const IamResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(IamResourceMetadataTagsMap)),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamResourceMetadata",
-}) as any as S.Schema<IamResourceMetadata>;
+).annotate({ identifier: "IamResourceMetadata" }) as any as S.Schema<IamResourceMetadata>;
 
 /** Service Offer name */
 export type EmailProServiceOfferEnum = "emailpro";
@@ -773,13 +727,7 @@ export const GetEmailProAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     service: S.String.pipe(T.Label()),
     email: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/email/pro/{service}/account/{email}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/email/pro/{service}/account/{email}", code: 200 })),
 ).annotate({
   identifier: "GetEmailProAccountRequest",
 }) as any as S.Schema<GetEmailProAccountRequest>;
@@ -899,9 +847,7 @@ export const EmailProAccountNative = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(EmailProObjectStateEnum),
     taskPendingId: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "EmailProAccountNative",
-}) as any as S.Schema<EmailProAccountNative>;
+).annotate({ identifier: "EmailProAccountNative" }) as any as S.Schema<EmailProAccountNative>;
 
 export interface GetEmailProAccountAliasRequest {
   /** Service */
@@ -917,11 +863,7 @@ export const GetEmailProAccountAliasRequest = /*@__PURE__*/ S.suspend(() =>
     email: S.String.pipe(T.Label()),
     alias: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/email/pro/{service}/account/{email}/alias/{alias}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/email/pro/{service}/account/{email}/alias/{alias}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetEmailProAccountAliasRequest",
@@ -942,9 +884,7 @@ export const EmailProAccountAlias = /*@__PURE__*/ S.suspend(() =>
     creationDate: S.optional(S.String),
     taskPendingId: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "EmailProAccountAlias",
-}) as any as S.Schema<EmailProAccountAlias>;
+).annotate({ identifier: "EmailProAccountAlias" }) as any as S.Schema<EmailProAccountAlias>;
 
 export interface GetEmailProAccountDiagnosticsRequest {
   /** Service */
@@ -957,11 +897,7 @@ export const GetEmailProAccountDiagnosticsRequest = /*@__PURE__*/ S.suspend(() =
     service: S.String.pipe(T.Label()),
     email: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/email/pro/{service}/account/{email}/diagnostics",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/email/pro/{service}/account/{email}/diagnostics", code: 200 }),
   ),
 ).annotate({
   identifier: "GetEmailProAccountDiagnosticsRequest",
@@ -1000,9 +936,7 @@ export const EmailProAccountDiagnosis = /*@__PURE__*/ S.suspend(() =>
     isSuspended: S.optional(S.Boolean),
     lastCheck: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EmailProAccountDiagnosis",
-}) as any as S.Schema<EmailProAccountDiagnosis>;
+).annotate({ identifier: "EmailProAccountDiagnosis" }) as any as S.Schema<EmailProAccountDiagnosis>;
 
 export interface GetEmailProAccountFullAccessRequest {
   /** Service */
@@ -1086,9 +1020,7 @@ export const EmailProAccountSendAs = /*@__PURE__*/ S.suspend(() =>
     creationDate: S.optional(S.String),
     taskPendingId: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "EmailProAccountSendAs",
-}) as any as S.Schema<EmailProAccountSendAs>;
+).annotate({ identifier: "EmailProAccountSendAs" }) as any as S.Schema<EmailProAccountSendAs>;
 
 export interface GetEmailProAccountSendOnBehalfToRequest {
   /** Service */
@@ -1147,11 +1079,7 @@ export const GetEmailProAccountTaskRequest = /*@__PURE__*/ S.suspend(() =>
     email: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/email/pro/{service}/account/{email}/tasks/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/email/pro/{service}/account/{email}/tasks/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetEmailProAccountTaskRequest",
@@ -1164,13 +1092,7 @@ export interface GetEmailProBillingMigratedRequest {
 export const GetEmailProBillingMigratedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     service: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/email/pro/{service}/billingMigrated",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/email/pro/{service}/billingMigrated", code: 200 })),
 ).annotate({
   identifier: "GetEmailProBillingMigratedRequest",
 }) as any as S.Schema<GetEmailProBillingMigratedRequest>;
@@ -1189,13 +1111,7 @@ export interface GetEmailProBillingPlanRequest {
 export const GetEmailProBillingPlanRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     service: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/email/pro/{service}/billingPlan",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/email/pro/{service}/billingPlan", code: 200 })),
 ).annotate({
   identifier: "GetEmailProBillingPlanRequest",
 }) as any as S.Schema<GetEmailProBillingPlanRequest>;
@@ -1217,16 +1133,8 @@ export const GetEmailProDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     service: S.String.pipe(T.Label()),
     domainName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/email/pro/{service}/domain/{domainName}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetEmailProDomainRequest",
-}) as any as S.Schema<GetEmailProDomainRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/email/pro/{service}/domain/{domainName}", code: 200 })),
+).annotate({ identifier: "GetEmailProDomainRequest" }) as any as S.Schema<GetEmailProDomainRequest>;
 
 /** DKIM status */
 export type EmailProDomainDkimDiagnosticsStateEnum =
@@ -1349,9 +1257,7 @@ export const EmailProDomainNative = /*@__PURE__*/ S.suspend(() =>
     taskPendingId: S.optional(S.Number),
     type: S.optional(EmailProDomainTypeEnum),
   }),
-).annotate({
-  identifier: "EmailProDomainNative",
-}) as any as S.Schema<EmailProDomainNative>;
+).annotate({ identifier: "EmailProDomainNative" }) as any as S.Schema<EmailProDomainNative>;
 
 export interface GetEmailProDomainDisclaimerRequest {
   /** Service */
@@ -1395,9 +1301,7 @@ export const EmailProDisclaimerNative = /*@__PURE__*/ S.suspend(() =>
     outsideOnly: S.optional(S.Boolean),
     taskPendingId: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "EmailProDisclaimerNative",
-}) as any as S.Schema<EmailProDisclaimerNative>;
+).annotate({ identifier: "EmailProDisclaimerNative" }) as any as S.Schema<EmailProDisclaimerNative>;
 
 export interface GetEmailProDomainDkimRequest {
   /** Service */
@@ -1542,9 +1446,7 @@ export const GetEmailProServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     service: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/email/pro/{service}/server", code: 200 })),
-).annotate({
-  identifier: "GetEmailProServerRequest",
-}) as any as S.Schema<GetEmailProServerRequest>;
+).annotate({ identifier: "GetEmailProServerRequest" }) as any as S.Schema<GetEmailProServerRequest>;
 
 /** Server State */
 export type EmailProServerStateEnum = "configurationPending" | "notConfigured" | "ok";
@@ -1598,13 +1500,7 @@ export interface GetEmailProServiceInfosRequest {
 export const GetEmailProServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     service: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/email/pro/{service}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/email/pro/{service}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "GetEmailProServiceInfosRequest",
 }) as any as S.Schema<GetEmailProServiceInfosRequest>;
@@ -1636,9 +1532,7 @@ export const ServiceRenewType = /*@__PURE__*/ S.suspend(() =>
     manualPayment: S.optional(S.NullOr(S.Boolean)),
     period: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ServiceRenewType",
-}) as any as S.Schema<ServiceRenewType>;
+).annotate({ identifier: "ServiceRenewType" }) as any as S.Schema<ServiceRenewType>;
 
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -1696,9 +1590,7 @@ export const ServicesService = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.optional(S.Number),
     status: S.optional(ServiceStateEnum),
   }),
-).annotate({
-  identifier: "ServicesService",
-}) as any as S.Schema<ServicesService>;
+).annotate({ identifier: "ServicesService" }) as any as S.Schema<ServicesService>;
 
 export interface GetEmailProTaskRequest {
   /** Service */
@@ -1711,9 +1603,7 @@ export const GetEmailProTaskRequest = /*@__PURE__*/ S.suspend(() =>
     service: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/email/pro/{service}/task/{id}", code: 200 })),
-).annotate({
-  identifier: "GetEmailProTaskRequest",
-}) as any as S.Schema<GetEmailProTaskRequest>;
+).annotate({ identifier: "GetEmailProTaskRequest" }) as any as S.Schema<GetEmailProTaskRequest>;
 
 /** Resource tag filter */
 export interface IamResourceTagFilterInput {}
@@ -1742,9 +1632,7 @@ export const ListEmailProRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     iamTags: S.optional(ListEmailProRequestIamTagsMap.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/email/pro", code: 200 })),
-).annotate({
-  identifier: "ListEmailProRequest",
-}) as any as S.Schema<ListEmailProRequest>;
+).annotate({ identifier: "ListEmailProRequest" }) as any as S.Schema<ListEmailProRequest>;
 
 export type ListEmailProResponseBodyList = Array<string>;
 export const ListEmailProResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1754,9 +1642,7 @@ export const ListEmailProResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListEmailProResponse = ListEmailProResponseBodyList;
 export const ListEmailProResponse = /*@__PURE__*/ S.suspend(() =>
   ListEmailProResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListEmailProResponse",
-}) as any as S.Schema<ListEmailProResponse>;
+).annotate({ identifier: "ListEmailProResponse" }) as any as S.Schema<ListEmailProResponse>;
 
 export interface ListEmailProAccountRequest {
   /** Service */
@@ -1798,13 +1684,7 @@ export const ListEmailProAccountAliasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     service: S.String.pipe(T.Label()),
     email: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/email/pro/{service}/account/{email}/alias",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/email/pro/{service}/account/{email}/alias", code: 200 })),
 ).annotate({
   identifier: "ListEmailProAccountAliasRequest",
 }) as any as S.Schema<ListEmailProAccountAliasRequest>;
@@ -1832,11 +1712,7 @@ export const ListEmailProAccountFullAccessRequest = /*@__PURE__*/ S.suspend(() =
     service: S.String.pipe(T.Label()),
     email: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/email/pro/{service}/account/{email}/fullAccess",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/email/pro/{service}/account/{email}/fullAccess", code: 200 }),
   ),
 ).annotate({
   identifier: "ListEmailProAccountFullAccessRequest",
@@ -1864,13 +1740,7 @@ export const ListEmailProAccountSendAsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     service: S.String.pipe(T.Label()),
     email: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/email/pro/{service}/account/{email}/sendAs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/email/pro/{service}/account/{email}/sendAs", code: 200 })),
 ).annotate({
   identifier: "ListEmailProAccountSendAsRequest",
 }) as any as S.Schema<ListEmailProAccountSendAsRequest>;
@@ -1931,13 +1801,7 @@ export const ListEmailProAccountTasksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     service: S.String.pipe(T.Label()),
     email: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/email/pro/{service}/account/{email}/tasks",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/email/pro/{service}/account/{email}/tasks", code: 200 })),
 ).annotate({
   identifier: "ListEmailProAccountTasksRequest",
 }) as any as S.Schema<ListEmailProAccountTasksRequest>;
@@ -2056,11 +1920,7 @@ export const ListEmailProDomainDkimRequest = /*@__PURE__*/ S.suspend(() =>
     service: S.String.pipe(T.Label()),
     domainName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/email/pro/{service}/domain/{domainName}/dkim",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/email/pro/{service}/domain/{domainName}/dkim", code: 200 }),
   ),
 ).annotate({
   identifier: "ListEmailProDomainDkimRequest",
@@ -2133,13 +1993,7 @@ export const ListEmailProExternalContactRequest = /*@__PURE__*/ S.suspend(() =>
     firstName: S.optional(S.String.pipe(T.Query())),
     id: S.optional(S.Number.pipe(T.Query())),
     lastName: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/email/pro/{service}/externalContact",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/email/pro/{service}/externalContact", code: 200 })),
 ).annotate({
   identifier: "ListEmailProExternalContactRequest",
 }) as any as S.Schema<ListEmailProExternalContactRequest>;
@@ -2164,9 +2018,7 @@ export const ListEmailProTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     service: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/email/pro/{service}/task", code: 200 })),
-).annotate({
-  identifier: "ListEmailProTaskRequest",
-}) as any as S.Schema<ListEmailProTaskRequest>;
+).annotate({ identifier: "ListEmailProTaskRequest" }) as any as S.Schema<ListEmailProTaskRequest>;
 
 export type ListEmailProTaskResponseBodyList = Array<number>;
 export const ListEmailProTaskResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2176,9 +2028,7 @@ export const ListEmailProTaskResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListEmailProTaskResponse = ListEmailProTaskResponseBodyList;
 export const ListEmailProTaskResponse = /*@__PURE__*/ S.suspend(() =>
   ListEmailProTaskResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListEmailProTaskResponse",
-}) as any as S.Schema<ListEmailProTaskResponse>;
+).annotate({ identifier: "ListEmailProTaskResponse" }) as any as S.Schema<ListEmailProTaskResponse>;
 
 /** Spam and Antyvirus configuration */
 export type EmailProSpamAndVirusConfigurationInput = IamResourceTagFilterInput;
@@ -2225,9 +2075,7 @@ export const PutEmailProRequest = /*@__PURE__*/ S.suspend(() =>
     minPasswordLength: S.optional(S.NullOr(S.Number)),
     spamAndVirusConfiguration: S.optional(IamResourceTagFilterInput),
   }).pipe(T.Http({ method: "PUT", uri: "/email/pro/{service}", code: 200 })),
-).annotate({
-  identifier: "PutEmailProRequest",
-}) as any as S.Schema<PutEmailProRequest>;
+).annotate({ identifier: "PutEmailProRequest" }) as any as S.Schema<PutEmailProRequest>;
 
 export interface PutEmailProResponse {}
 export const PutEmailProResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2288,13 +2136,7 @@ export const PutEmailProAccountRequest = /*@__PURE__*/ S.suspend(() =>
     quota: S.optional(S.Number),
     renewPeriod: S.optional(S.NullOr(EmailProRenewPeriodEnum)),
     spamAndVirusConfiguration: S.optional(IamResourceTagFilterInput),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/email/pro/{service}/account/{email}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/email/pro/{service}/account/{email}", code: 200 })),
 ).annotate({
   identifier: "PutEmailProAccountRequest",
 }) as any as S.Schema<PutEmailProAccountRequest>;
@@ -2320,16 +2162,8 @@ export const PutEmailProDomainRequest = /*@__PURE__*/ S.suspend(() =>
     domainName: S.String.pipe(T.Label()),
     mxRelay: S.optional(S.NullOr(S.String)),
     type: S.optional(EmailProDomainTypeEnum),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/email/pro/{service}/domain/{domainName}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutEmailProDomainRequest",
-}) as any as S.Schema<PutEmailProDomainRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/email/pro/{service}/domain/{domainName}", code: 200 })),
+).annotate({ identifier: "PutEmailProDomainRequest" }) as any as S.Schema<PutEmailProDomainRequest>;
 
 export interface PutEmailProDomainResponse {}
 export const PutEmailProDomainResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2423,22 +2257,14 @@ export const PutEmailProServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     service: S.String.pipe(T.Label()),
     renew: S.optional(S.NullOr(ServiceRenewType)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/email/pro/{service}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/email/pro/{service}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "PutEmailProServiceInfosRequest",
 }) as any as S.Schema<PutEmailProServiceInfosRequest>;
 
 export interface PutEmailProServiceInfosResponse {}
 export const PutEmailProServiceInfosResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "PutEmailProServiceInfosResponse",
-  },
+  { identifier: "PutEmailProServiceInfosResponse" },
 ) as any as S.Schema<PutEmailProServiceInfosResponse>;
 
 export interface SendEmailProAccountAsRequest {
@@ -2455,11 +2281,7 @@ export const SendEmailProAccountAsRequest = /*@__PURE__*/ S.suspend(() =>
     email: S.String.pipe(T.Label()),
     allowAccountId: S.Number,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/email/pro/{service}/account/{email}/sendAs",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/email/pro/{service}/account/{email}/sendAs", code: 200 }),
   ),
 ).annotate({
   identifier: "SendEmailProAccountAsRequest",
@@ -2500,11 +2322,7 @@ export const TerminateEmailProAccountRequest = /*@__PURE__*/ S.suspend(() =>
     service: S.String.pipe(T.Label()),
     email: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/email/pro/{service}/account/{email}/terminate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/email/pro/{service}/account/{email}/terminate", code: 200 }),
   ),
 ).annotate({
   identifier: "TerminateEmailProAccountRequest",
@@ -2525,11 +2343,7 @@ export const UpdateEmailProFlagsOnAllAccountsRequest = /*@__PURE__*/ S.suspend((
   S.Struct({
     service: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/email/pro/{service}/updateFlagsOnAllAccounts",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/email/pro/{service}/updateFlagsOnAllAccounts", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateEmailProFlagsOnAllAccountsRequest",

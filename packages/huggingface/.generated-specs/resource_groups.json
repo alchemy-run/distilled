@@ -98,7 +98,7 @@
       "type": "structure",
       "members": {
         "enabled": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -119,7 +119,7 @@
       "type": "structure",
       "members": {
         "enabled": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -196,11 +196,47 @@
       },
       "traits": {}
     },
+    "com.huggingface.resource_groups#GetResourceGroupResponseUsersItemOrgRole": {
+      "type": "enum",
+      "members": {
+        "ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admin"
+          }
+        },
+        "WRITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write"
+          }
+        },
+        "CONTRIBUTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "contributor"
+          }
+        },
+        "READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read"
+          }
+        },
+        "NO_ACCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_access"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.huggingface.resource_groups#GetResourceGroupResponseUsersItem": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -208,6 +244,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -231,6 +268,12 @@
         },
         "role": {
           "target": "com.huggingface.resource_groups#GetResourceGroupResponseUsersItemRole",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "orgRole": {
+          "target": "com.huggingface.resource_groups#GetResourceGroupResponseUsersItemOrgRole",
           "traits": {
             "smithy.api#required": {}
           }
@@ -280,6 +323,12 @@
           "traits": {
             "smithy.api#enumValue": "kernel"
           }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
         }
       },
       "traits": {}
@@ -315,7 +364,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -323,6 +372,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -354,7 +404,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -362,6 +412,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -393,7 +444,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -417,7 +468,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -471,6 +522,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -648,7 +700,7 @@
       "type": "structure",
       "members": {
         "enabled": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -669,7 +721,7 @@
       "type": "structure",
       "members": {
         "enabled": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -746,11 +798,47 @@
       },
       "traits": {}
     },
+    "com.huggingface.resource_groups#UpdateResourceGroupResponseUsersItemOrgRole": {
+      "type": "enum",
+      "members": {
+        "ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admin"
+          }
+        },
+        "WRITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write"
+          }
+        },
+        "CONTRIBUTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "contributor"
+          }
+        },
+        "READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read"
+          }
+        },
+        "NO_ACCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_access"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.huggingface.resource_groups#UpdateResourceGroupResponseUsersItem": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -758,6 +846,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -781,6 +870,12 @@
         },
         "role": {
           "target": "com.huggingface.resource_groups#UpdateResourceGroupResponseUsersItemRole",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "orgRole": {
+          "target": "com.huggingface.resource_groups#UpdateResourceGroupResponseUsersItemOrgRole",
           "traits": {
             "smithy.api#required": {}
           }
@@ -830,6 +925,12 @@
           "traits": {
             "smithy.api#enumValue": "kernel"
           }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
         }
       },
       "traits": {}
@@ -865,7 +966,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -873,6 +974,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -904,7 +1006,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -912,6 +1014,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -943,7 +1046,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -967,7 +1070,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1021,6 +1124,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -1129,6 +1233,18 @@
         "smithy.api#documentation": "Delete resource group\n\nDelete a resource group from the organization.\n\nRequires the org to have a Team plan or higher."
       }
     },
+    "com.huggingface.resource_groups#JoinConfigureAutoRequestAutoJoinCase0Enabled": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#Boolean"
+        },
+        "Case1": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
     "com.huggingface.resource_groups#JoinConfigureAutoRequestAutoJoinCase0Role": {
       "type": "enum",
       "members": {
@@ -1187,7 +1303,7 @@
       "type": "structure",
       "members": {
         "enabled": {
-          "target": "smithy.api#Document",
+          "target": "com.huggingface.resource_groups#JoinConfigureAutoRequestAutoJoinCase0Enabled",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1204,11 +1320,23 @@
       },
       "traits": {}
     },
+    "com.huggingface.resource_groups#JoinConfigureAutoRequestAutoJoinCase1Enabled": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#Boolean"
+        },
+        "Case1": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
     "com.huggingface.resource_groups#JoinConfigureAutoRequestAutoJoinCase1": {
       "type": "structure",
       "members": {
         "enabled": {
-          "target": "smithy.api#Document",
+          "target": "com.huggingface.resource_groups#JoinConfigureAutoRequestAutoJoinCase1Enabled",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1311,7 +1439,7 @@
       "type": "structure",
       "members": {
         "enabled": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1332,7 +1460,7 @@
       "type": "structure",
       "members": {
         "enabled": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1409,11 +1537,47 @@
       },
       "traits": {}
     },
+    "com.huggingface.resource_groups#JoinConfigureAutoResponseUsersItemOrgRole": {
+      "type": "enum",
+      "members": {
+        "ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admin"
+          }
+        },
+        "WRITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write"
+          }
+        },
+        "CONTRIBUTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "contributor"
+          }
+        },
+        "READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read"
+          }
+        },
+        "NO_ACCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_access"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.huggingface.resource_groups#JoinConfigureAutoResponseUsersItem": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1421,6 +1585,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -1444,6 +1609,12 @@
         },
         "role": {
           "target": "com.huggingface.resource_groups#JoinConfigureAutoResponseUsersItemRole",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "orgRole": {
+          "target": "com.huggingface.resource_groups#JoinConfigureAutoResponseUsersItemOrgRole",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1493,6 +1664,12 @@
           "traits": {
             "smithy.api#enumValue": "kernel"
           }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
         }
       },
       "traits": {}
@@ -1528,7 +1705,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1536,6 +1713,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -1567,7 +1745,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1575,6 +1753,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -1606,7 +1785,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1630,7 +1809,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1684,6 +1863,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -1952,7 +2132,7 @@
       "type": "structure",
       "members": {
         "enabled": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1973,7 +2153,7 @@
       "type": "structure",
       "members": {
         "enabled": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2050,11 +2230,47 @@
       },
       "traits": {}
     },
+    "com.huggingface.resource_groups#AddUsersResponseUsersItemOrgRole": {
+      "type": "enum",
+      "members": {
+        "ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admin"
+          }
+        },
+        "WRITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write"
+          }
+        },
+        "CONTRIBUTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "contributor"
+          }
+        },
+        "READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read"
+          }
+        },
+        "NO_ACCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_access"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.huggingface.resource_groups#AddUsersResponseUsersItem": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2062,6 +2278,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -2085,6 +2302,12 @@
         },
         "role": {
           "target": "com.huggingface.resource_groups#AddUsersResponseUsersItemRole",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "orgRole": {
+          "target": "com.huggingface.resource_groups#AddUsersResponseUsersItemOrgRole",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2134,6 +2357,12 @@
           "traits": {
             "smithy.api#enumValue": "kernel"
           }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
         }
       },
       "traits": {}
@@ -2169,7 +2398,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2177,6 +2406,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -2208,7 +2438,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2216,6 +2446,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -2247,7 +2478,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2271,7 +2502,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2325,6 +2556,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -2509,7 +2741,7 @@
       "type": "structure",
       "members": {
         "enabled": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2530,7 +2762,7 @@
       "type": "structure",
       "members": {
         "enabled": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2607,11 +2839,47 @@
       },
       "traits": {}
     },
+    "com.huggingface.resource_groups#ChangeUserRoleResponseUsersItemOrgRole": {
+      "type": "enum",
+      "members": {
+        "ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admin"
+          }
+        },
+        "WRITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write"
+          }
+        },
+        "CONTRIBUTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "contributor"
+          }
+        },
+        "READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read"
+          }
+        },
+        "NO_ACCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_access"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.huggingface.resource_groups#ChangeUserRoleResponseUsersItem": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2619,6 +2887,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -2642,6 +2911,12 @@
         },
         "role": {
           "target": "com.huggingface.resource_groups#ChangeUserRoleResponseUsersItemRole",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "orgRole": {
+          "target": "com.huggingface.resource_groups#ChangeUserRoleResponseUsersItemOrgRole",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2691,6 +2966,12 @@
           "traits": {
             "smithy.api#enumValue": "kernel"
           }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
         }
       },
       "traits": {}
@@ -2726,7 +3007,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2734,6 +3015,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -2765,7 +3047,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2773,6 +3055,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -2804,7 +3087,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2828,7 +3111,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2882,6 +3165,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -3024,7 +3308,7 @@
       "type": "structure",
       "members": {
         "enabled": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3045,7 +3329,7 @@
       "type": "structure",
       "members": {
         "enabled": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3122,11 +3406,47 @@
       },
       "traits": {}
     },
+    "com.huggingface.resource_groups#RemoveUserResponseUsersItemOrgRole": {
+      "type": "enum",
+      "members": {
+        "ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admin"
+          }
+        },
+        "WRITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write"
+          }
+        },
+        "CONTRIBUTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "contributor"
+          }
+        },
+        "READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read"
+          }
+        },
+        "NO_ACCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_access"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.huggingface.resource_groups#RemoveUserResponseUsersItem": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3134,6 +3454,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -3157,6 +3478,12 @@
         },
         "role": {
           "target": "com.huggingface.resource_groups#RemoveUserResponseUsersItemRole",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "orgRole": {
+          "target": "com.huggingface.resource_groups#RemoveUserResponseUsersItemOrgRole",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3206,6 +3533,12 @@
           "traits": {
             "smithy.api#enumValue": "kernel"
           }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
         }
       },
       "traits": {}
@@ -3241,7 +3574,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3249,6 +3582,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -3280,7 +3614,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3288,6 +3622,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -3319,7 +3654,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3343,7 +3678,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3397,6 +3732,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -3525,7 +3861,7 @@
       "type": "structure",
       "members": {
         "enabled": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3546,7 +3882,7 @@
       "type": "structure",
       "members": {
         "enabled": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3623,11 +3959,47 @@
       },
       "traits": {}
     },
+    "com.huggingface.resource_groups#GetResourceGroupsResponseBodyItemUsersItemOrgRole": {
+      "type": "enum",
+      "members": {
+        "ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admin"
+          }
+        },
+        "WRITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write"
+          }
+        },
+        "CONTRIBUTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "contributor"
+          }
+        },
+        "READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read"
+          }
+        },
+        "NO_ACCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_access"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.huggingface.resource_groups#GetResourceGroupsResponseBodyItemUsersItem": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3635,6 +4007,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -3658,6 +4031,12 @@
         },
         "role": {
           "target": "com.huggingface.resource_groups#GetResourceGroupsResponseBodyItemUsersItemRole",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "orgRole": {
+          "target": "com.huggingface.resource_groups#GetResourceGroupsResponseBodyItemUsersItemOrgRole",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3707,6 +4086,12 @@
           "traits": {
             "smithy.api#enumValue": "kernel"
           }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
         }
       },
       "traits": {}
@@ -3742,7 +4127,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3750,6 +4135,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -3781,7 +4167,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3789,6 +4175,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -3820,7 +4207,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3844,7 +4231,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3898,6 +4285,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -4084,6 +4472,12 @@
           "traits": {
             "smithy.api#enumValue": "kernel"
           }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
         }
       },
       "traits": {}
@@ -4153,7 +4547,7 @@
       "type": "structure",
       "members": {
         "enabled": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4174,7 +4568,7 @@
       "type": "structure",
       "members": {
         "enabled": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4279,7 +4673,7 @@
       "type": "structure",
       "members": {
         "enabled": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4300,7 +4694,7 @@
       "type": "structure",
       "members": {
         "enabled": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4377,11 +4771,47 @@
       },
       "traits": {}
     },
+    "com.huggingface.resource_groups#CreateResourceGroupResponseUsersItemOrgRole": {
+      "type": "enum",
+      "members": {
+        "ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admin"
+          }
+        },
+        "WRITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write"
+          }
+        },
+        "CONTRIBUTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "contributor"
+          }
+        },
+        "READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read"
+          }
+        },
+        "NO_ACCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_access"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.huggingface.resource_groups#CreateResourceGroupResponseUsersItem": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4389,6 +4819,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -4412,6 +4843,12 @@
         },
         "role": {
           "target": "com.huggingface.resource_groups#CreateResourceGroupResponseUsersItemRole",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "orgRole": {
+          "target": "com.huggingface.resource_groups#CreateResourceGroupResponseUsersItemOrgRole",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4461,6 +4898,12 @@
           "traits": {
             "smithy.api#enumValue": "kernel"
           }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
         }
       },
       "traits": {}
@@ -4496,7 +4939,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4504,6 +4947,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -4535,7 +4979,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4543,6 +4987,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -4574,7 +5019,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4598,7 +5043,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4652,6 +5097,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },

@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "Account Access",
-  serviceShapeName: "AWSAccountAccess",
-});
+const svc = T.AwsApiService({ sdkId: "Account Access", serviceShapeName: "AWSAccountAccess" });
 const auth = T.AwsAuthSigv4({ name: "account-access" });
 const ver = T.ServiceVersion("2018-05-10");
 const proto = T.AwsProtocolsRestJson1();
@@ -113,9 +110,7 @@ export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ identitySource: IdentitySource, tags: S.optional(TagsMap) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/applications" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateApplicationRequest",
-}) as any as S.Schema<CreateApplicationRequest>;
+).annotate({ identifier: "CreateApplicationRequest" }) as any as S.Schema<CreateApplicationRequest>;
 export type ApplicationArn = string;
 export interface CreateApplicationResponse {
   applicationArn: string;
@@ -145,9 +140,7 @@ export interface PrincipalRoleEntitlement {
 }
 export const PrincipalRoleEntitlement = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ principal: Principal, roleArn: S.String }),
-).annotate({
-  identifier: "PrincipalRoleEntitlement",
-}) as any as S.Schema<PrincipalRoleEntitlement>;
+).annotate({ identifier: "PrincipalRoleEntitlement" }) as any as S.Schema<PrincipalRoleEntitlement>;
 export type Entitlement = { principalRole: PrincipalRoleEntitlement };
 export const Entitlement = /*@__PURE__*/ S.Union([
   S.Struct({ principalRole: PrincipalRoleEntitlement }),
@@ -160,9 +153,7 @@ export const CreateEntitlementRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ applicationArn: S.String, entitlement: Entitlement }).pipe(
     T.all(T.Http({ method: "POST", uri: "/entitlements" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateEntitlementRequest",
-}) as any as S.Schema<CreateEntitlementRequest>;
+).annotate({ identifier: "CreateEntitlementRequest" }) as any as S.Schema<CreateEntitlementRequest>;
 export interface CreateEntitlementResponse {
   entitlementId: string;
 }
@@ -175,9 +166,7 @@ export interface DeleteApplicationRequest {
   applicationArn: string;
 }
 export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicationArn: S.String.pipe(T.HttpLabel("applicationArn")),
-  }).pipe(
+  S.Struct({ applicationArn: S.String.pipe(T.HttpLabel("applicationArn")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/applications/{applicationArn}" }),
       svc,
@@ -187,9 +176,7 @@ export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteApplicationRequest",
-}) as any as S.Schema<DeleteApplicationRequest>;
+).annotate({ identifier: "DeleteApplicationRequest" }) as any as S.Schema<DeleteApplicationRequest>;
 export interface DeleteApplicationResponse {}
 export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteApplicationResponse",
@@ -212,9 +199,7 @@ export const DeleteEntitlementRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteEntitlementRequest",
-}) as any as S.Schema<DeleteEntitlementRequest>;
+).annotate({ identifier: "DeleteEntitlementRequest" }) as any as S.Schema<DeleteEntitlementRequest>;
 export interface DeleteEntitlementResponse {}
 export const DeleteEntitlementResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteEntitlementResponse",
@@ -223,9 +208,7 @@ export interface GetApplicationRequest {
   applicationArn: string;
 }
 export const GetApplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicationArn: S.String.pipe(T.HttpLabel("applicationArn")),
-  }).pipe(
+  S.Struct({ applicationArn: S.String.pipe(T.HttpLabel("applicationArn")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/applications/{applicationArn}" }),
       svc,
@@ -235,9 +218,7 @@ export const GetApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetApplicationRequest",
-}) as any as S.Schema<GetApplicationRequest>;
+).annotate({ identifier: "GetApplicationRequest" }) as any as S.Schema<GetApplicationRequest>;
 export type IdentityCenterApplicationArn = string;
 export interface IdentityCenterDetails {
   instanceArn: string;
@@ -245,9 +226,7 @@ export interface IdentityCenterDetails {
 }
 export const IdentityCenterDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ instanceArn: S.String, applicationArn: S.optional(S.String) }),
-).annotate({
-  identifier: "IdentityCenterDetails",
-}) as any as S.Schema<IdentityCenterDetails>;
+).annotate({ identifier: "IdentityCenterDetails" }) as any as S.Schema<IdentityCenterDetails>;
 export type IdentitySourceDetails = { identityCenter: IdentityCenterDetails };
 export const IdentitySourceDetails = /*@__PURE__*/ S.Union([
   S.Struct({ identityCenter: IdentityCenterDetails }),
@@ -295,9 +274,7 @@ export const GetApplicationResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagsMap),
     error: S.optional(ErrorDetails),
   }),
-).annotate({
-  identifier: "GetApplicationResponse",
-}) as any as S.Schema<GetApplicationResponse>;
+).annotate({ identifier: "GetApplicationResponse" }) as any as S.Schema<GetApplicationResponse>;
 export interface GetEntitlementRequest {
   applicationArn: string;
   entitlementId: string;
@@ -316,9 +293,7 @@ export const GetEntitlementRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetEntitlementRequest",
-}) as any as S.Schema<GetEntitlementRequest>;
+).annotate({ identifier: "GetEntitlementRequest" }) as any as S.Schema<GetEntitlementRequest>;
 export type Account = string;
 export interface PrincipalRoleEntitlementDetails {
   principal: Principal;
@@ -336,9 +311,7 @@ export const PrincipalRoleEntitlementDetails = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PrincipalRoleEntitlementDetails",
 }) as any as S.Schema<PrincipalRoleEntitlementDetails>;
-export type EntitlementDetails = {
-  principalRole: PrincipalRoleEntitlementDetails;
-};
+export type EntitlementDetails = { principalRole: PrincipalRoleEntitlementDetails };
 export const EntitlementDetails = /*@__PURE__*/ S.Union([
   S.Struct({ principalRole: PrincipalRoleEntitlementDetails }),
 ]);
@@ -355,23 +328,16 @@ export const GetEntitlementResponse = /*@__PURE__*/ S.suspend(() =>
     entitlement: EntitlementDetails,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
-).annotate({
-  identifier: "GetEntitlementResponse",
-}) as any as S.Schema<GetEntitlementResponse>;
+).annotate({ identifier: "GetEntitlementResponse" }) as any as S.Schema<GetEntitlementResponse>;
 export interface ListApplicationsRequest {
   maxResults?: number;
   nextToken?: string;
 }
 export const ListApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
+  S.Struct({ maxResults: S.optional(S.Number), nextToken: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/applications-list" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListApplicationsRequest",
-}) as any as S.Schema<ListApplicationsRequest>;
+).annotate({ identifier: "ListApplicationsRequest" }) as any as S.Schema<ListApplicationsRequest>;
 export interface ApplicationSummary {
   applicationArn: string;
   tenantId?: string;
@@ -385,9 +351,7 @@ export const ApplicationSummary = /*@__PURE__*/ S.suspend(() =>
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
-).annotate({
-  identifier: "ApplicationSummary",
-}) as any as S.Schema<ApplicationSummary>;
+).annotate({ identifier: "ApplicationSummary" }) as any as S.Schema<ApplicationSummary>;
 export type ApplicationList = ApplicationSummary[];
 export const ApplicationList = /*@__PURE__*/ S.Array(ApplicationSummary);
 export interface ListApplicationsResponse {
@@ -396,9 +360,7 @@ export interface ListApplicationsResponse {
 }
 export const ListApplicationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ applications: ApplicationList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListApplicationsResponse",
-}) as any as S.Schema<ListApplicationsResponse>;
+).annotate({ identifier: "ListApplicationsResponse" }) as any as S.Schema<ListApplicationsResponse>;
 export type IdentityCenterPrincipalFilter =
   | { userId: string; groupId?: never }
   | { userId?: never; groupId: string };
@@ -429,9 +391,7 @@ export interface EntitlementFilter {
 }
 export const EntitlementFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ principalRole: S.optional(PrincipalRoleEntitlementFilter) }),
-).annotate({
-  identifier: "EntitlementFilter",
-}) as any as S.Schema<EntitlementFilter>;
+).annotate({ identifier: "EntitlementFilter" }) as any as S.Schema<EntitlementFilter>;
 export interface ListEntitlementsRequest {
   applicationArn: string;
   filter: EntitlementFilter;
@@ -447,9 +407,7 @@ export const ListEntitlementsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/entitlements-list" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListEntitlementsRequest",
-}) as any as S.Schema<ListEntitlementsRequest>;
+).annotate({ identifier: "ListEntitlementsRequest" }) as any as S.Schema<ListEntitlementsRequest>;
 export interface PrincipalRoleEntitlementSummary {
   principal: Principal;
   roleArn: string;
@@ -466,9 +424,7 @@ export const PrincipalRoleEntitlementSummary = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PrincipalRoleEntitlementSummary",
 }) as any as S.Schema<PrincipalRoleEntitlementSummary>;
-export type EntitlementSummary = {
-  principalRole: PrincipalRoleEntitlementSummary;
-};
+export type EntitlementSummary = { principalRole: PrincipalRoleEntitlementSummary };
 export const EntitlementSummary = /*@__PURE__*/ S.Union([
   S.Struct({ principalRole: PrincipalRoleEntitlementSummary }),
 ]);
@@ -483,9 +439,7 @@ export const EntitlementsListMember = /*@__PURE__*/ S.suspend(() =>
     entitlement: EntitlementSummary,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
-).annotate({
-  identifier: "EntitlementsListMember",
-}) as any as S.Schema<EntitlementsListMember>;
+).annotate({ identifier: "EntitlementsListMember" }) as any as S.Schema<EntitlementsListMember>;
 export type EntitlementsList = EntitlementsListMember[];
 export const EntitlementsList = /*@__PURE__*/ S.Array(EntitlementsListMember);
 export interface ListEntitlementsResponse {
@@ -494,9 +448,7 @@ export interface ListEntitlementsResponse {
 }
 export const ListEntitlementsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ entitlements: EntitlementsList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListEntitlementsResponse",
-}) as any as S.Schema<ListEntitlementsResponse>;
+).annotate({ identifier: "ListEntitlementsResponse" }) as any as S.Schema<ListEntitlementsResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
@@ -520,15 +472,10 @@ export interface TagResourceRequest {
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagsMap,
-  }).pipe(
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagsMap }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -546,9 +493,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -770,11 +715,7 @@ export const listApplications: API.PaginatedOperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListApplications",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "applications",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "applications" } as const,
 })) as any;
 
 export type ListEntitlementsError =
@@ -806,11 +747,7 @@ export const listEntitlements: API.PaginatedOperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEntitlements",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "entitlements",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "entitlements" } as const,
 })) as any;
 
 export type ListTagsForResourceError =

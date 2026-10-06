@@ -69,13 +69,7 @@ export const AddCopilotSeatsForTeamsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     selected_teams: AddCopilotSeatsForTeamsRequestSelectedTeamsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/copilot/billing/selected_teams",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/copilot/billing/selected_teams", code: 200 })),
 ).annotate({
   identifier: "AddCopilotSeatsForTeamsRequest",
 }) as any as S.Schema<AddCopilotSeatsForTeamsRequest>;
@@ -107,13 +101,7 @@ export const AddCopilotSeatsForUsersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     selected_usernames: AddCopilotSeatsForUsersRequestSelectedUsernamesList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/copilot/billing/selected_users",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/copilot/billing/selected_users", code: 200 })),
 ).annotate({
   identifier: "AddCopilotSeatsForUsersRequest",
 }) as any as S.Schema<AddCopilotSeatsForUsersRequest>;
@@ -220,11 +208,7 @@ export const CancelCopilotSeatAssignmentForTeamsRequest = /*@__PURE__*/ S.suspen
     org: S.String.pipe(T.Label()),
     selected_teams: CancelCopilotSeatAssignmentForTeamsRequestSelectedTeamsList,
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/copilot/billing/selected_teams",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/orgs/{org}/copilot/billing/selected_teams", code: 200 }),
   ),
 ).annotate({
   identifier: "CancelCopilotSeatAssignmentForTeamsRequest",
@@ -259,11 +243,7 @@ export const CancelCopilotSeatAssignmentForUsersRequest = /*@__PURE__*/ S.suspen
     org: S.String.pipe(T.Label()),
     selected_usernames: CancelCopilotSeatAssignmentForUsersRequestSelectedUsernamesList,
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/copilot/billing/selected_users",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/orgs/{org}/copilot/billing/selected_users", code: 200 }),
   ),
 ).annotate({
   identifier: "CancelCopilotSeatAssignmentForUsersRequest",
@@ -287,13 +267,7 @@ export interface CopilotContentExclusionForOrganizationRequest {
 export const CopilotContentExclusionForOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/copilot/content_exclusion",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/copilot/content_exclusion", code: 200 })),
 ).annotate({
   identifier: "CopilotContentExclusionForOrganizationRequest",
 }) as any as S.Schema<CopilotContentExclusionForOrganizationRequest>;
@@ -480,11 +454,7 @@ export const CopilotOrganizationReposOneDayReportRequest = /*@__PURE__*/ S.suspe
     org: S.String.pipe(T.Label()),
     day: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/copilot/metrics/reports/repos-1-day",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/copilot/metrics/reports/repos-1-day", code: 200 }),
   ),
 ).annotate({
   identifier: "CopilotOrganizationReposOneDayReportRequest",
@@ -519,11 +489,7 @@ export const CopilotOrganizationUsersOneDayUsageMetricsRequest = /*@__PURE__*/ S
     org: S.String.pipe(T.Label()),
     day: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/copilot/metrics/reports/users-1-day",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/copilot/metrics/reports/users-1-day", code: 200 }),
   ),
 ).annotate({
   identifier: "CopilotOrganizationUsersOneDayUsageMetricsRequest",
@@ -764,11 +730,7 @@ export const GetCopilotCodingAgentPermissionsOrganizationRequest = /*@__PURE__*/
   S.Struct({
     org: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/copilot/coding-agent/permissions",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/copilot/coding-agent/permissions", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCopilotCodingAgentPermissionsOrganizationRequest",
@@ -904,13 +866,7 @@ export const GetCopilotSeatDetailsForUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/members/{username}/copilot",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/members/{username}/copilot", code: 200 })),
 ).annotate({
   identifier: "GetCopilotSeatDetailsForUserRequest",
 }) as any as S.Schema<GetCopilotSeatDetailsForUserRequest>;
@@ -965,9 +921,7 @@ export const NullableSimpleUser = /*@__PURE__*/ S.suspend(() =>
     starred_at: S.optional(S.String),
     user_view_type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NullableSimpleUser",
-}) as any as S.Schema<NullableSimpleUser>;
+).annotate({ identifier: "NullableSimpleUser" }) as any as S.Schema<NullableSimpleUser>;
 
 /** A GitHub organization. */
 export interface NullableOrganizationSimple {
@@ -1018,9 +972,7 @@ export const TeamPermissions = /*@__PURE__*/ S.suspend(() =>
     maintain: S.Boolean,
     admin: S.Boolean,
   }),
-).annotate({
-  identifier: "TeamPermissions",
-}) as any as S.Schema<TeamPermissions>;
+).annotate({ identifier: "TeamPermissions" }) as any as S.Schema<TeamPermissions>;
 
 /** The ownership type of the team */
 export type TeamType = "enterprise" | "organization";
@@ -1083,9 +1035,7 @@ export const NullableTeamSimple = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.optional(S.Number),
     enterprise_id: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NullableTeamSimple",
-}) as any as S.Schema<NullableTeamSimple>;
+).annotate({ identifier: "NullableTeamSimple" }) as any as S.Schema<NullableTeamSimple>;
 
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface Team {
@@ -1221,9 +1171,7 @@ export const CopilotSeatDetails = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.optional(S.String),
     plan_type: S.optional(CopilotSeatDetailsPlanType),
   }),
-).annotate({
-  identifier: "CopilotSeatDetails",
-}) as any as S.Schema<CopilotSeatDetails>;
+).annotate({ identifier: "CopilotSeatDetails" }) as any as S.Schema<CopilotSeatDetails>;
 
 export interface ListCopilotCodingAgentSelectedRepositoriesForOrganizationRequest {
   /** The organization name. The name is not case sensitive. */
@@ -1315,9 +1263,7 @@ export const MinimalRepositoryLicense = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.NullOr(S.String)),
     node_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MinimalRepositoryLicense",
-}) as any as S.Schema<MinimalRepositoryLicense>;
+).annotate({ identifier: "MinimalRepositoryLicense" }) as any as S.Schema<MinimalRepositoryLicense>;
 
 export type SecurityAndAnalysisAdvancedSecurityStatus = "enabled" | "disabled";
 export const SecurityAndAnalysisAdvancedSecurityStatus = S.String;
@@ -1536,14 +1482,10 @@ export const SecurityAndAnalysis = /*@__PURE__*/ S.suspend(() =>
       SecurityAndAnalysisSecretScanningDelegatedBypassOptions,
     ),
   }),
-).annotate({
-  identifier: "SecurityAndAnalysis",
-}) as any as S.Schema<SecurityAndAnalysis>;
+).annotate({ identifier: "SecurityAndAnalysis" }) as any as S.Schema<SecurityAndAnalysis>;
 
 /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
-export type MinimalRepositoryCustomPropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type MinimalRepositoryCustomPropertiesMap = { [key: string]: unknown | undefined };
 export const MinimalRepositoryCustomPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1738,9 +1680,7 @@ export const MinimalRepository = /*@__PURE__*/ S.suspend(() =>
     security_and_analysis: S.optional(S.NullOr(SecurityAndAnalysis)),
     custom_properties: S.optional(MinimalRepositoryCustomPropertiesMap),
   }),
-).annotate({
-  identifier: "MinimalRepository",
-}) as any as S.Schema<MinimalRepository>;
+).annotate({ identifier: "MinimalRepository" }) as any as S.Schema<MinimalRepository>;
 
 export type ListCopilotCodingAgentSelectedRepositoriesForOrganizationResponseRepositoriesList =
   Array<MinimalRepository>;
@@ -1777,16 +1717,8 @@ export const ListCopilotSeatsRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/copilot/billing/seats",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListCopilotSeatsRequest",
-}) as any as S.Schema<ListCopilotSeatsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/copilot/billing/seats", code: 200 })),
+).annotate({ identifier: "ListCopilotSeatsRequest" }) as any as S.Schema<ListCopilotSeatsRequest>;
 
 export type ListCopilotSeatsResponseSeatsList = Array<CopilotSeatDetails>;
 export const ListCopilotSeatsResponseSeatsList = /*@__PURE__*/ S.Array(
@@ -1803,9 +1735,7 @@ export const ListCopilotSeatsResponse = /*@__PURE__*/ S.suspend(() =>
     total_seats: S.optional(S.Number),
     seats: S.optional(ListCopilotSeatsResponseSeatsList),
   }),
-).annotate({
-  identifier: "ListCopilotSeatsResponse",
-}) as any as S.Schema<ListCopilotSeatsResponse>;
+).annotate({ identifier: "ListCopilotSeatsResponse" }) as any as S.Schema<ListCopilotSeatsResponse>;
 
 /** List of organization logins within the enterprise to disable Copilot cloud agent for. */
 export type RemoveOrganizationsFromEnterpriseCodingAgentPolicyRequestOrganizationsList =
@@ -1904,11 +1834,7 @@ export const SetCopilotCodingAgentPermissionsOrganizationRequest = /*@__PURE__*/
     org: S.String.pipe(T.Label()),
     enabled_repositories: SetCopilotCodingAgentPermissionsOrganizationRequestEnabledRepositories,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/orgs/{org}/copilot/coding-agent/permissions",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/orgs/{org}/copilot/coding-agent/permissions", code: 200 }),
   ),
 ).annotate({
   identifier: "SetCopilotCodingAgentPermissionsOrganizationRequest",
@@ -2027,13 +1953,7 @@ export const SetCopilotContentExclusionForOrganizationRequest = /*@__PURE__*/ S.
   S.Struct({
     org: S.String.pipe(T.Label()),
     body: SetCopilotContentExclusionForOrganizationRequestBodyMap.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/orgs/{org}/copilot/content_exclusion",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/orgs/{org}/copilot/content_exclusion", code: 200 })),
 ).annotate({
   identifier: "SetCopilotContentExclusionForOrganizationRequest",
 }) as any as S.Schema<SetCopilotContentExclusionForOrganizationRequest>;

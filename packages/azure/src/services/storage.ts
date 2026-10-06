@@ -28,7 +28,7 @@ export const AbortStorageAccountHierarchicalNamespaceMigrationRequest = /*@__PUR
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/aborthnsonmigration",
         code: 200,
-        apiVersion: "2026-06-01",
+        apiVersion: "2026-09-01",
       }),
     ),
 ).annotate({
@@ -45,6 +45,18 @@ export const AbortStorageAccountHierarchicalNamespaceMigrationResponse = /*@__PU
 export type AdvancedPlatformMetricsCreateOrUpdateRequestAdvancedPlatformMetricsRuleType =
   "ContainerLevelCapacityMetrics";
 export const AdvancedPlatformMetricsCreateOrUpdateRequestAdvancedPlatformMetricsRuleType = S.String;
+
+/** The metrics emitted by the advanced platform metrics rule. */
+export type MetricsEmitted = "ContainerBlobCount" | "ContainerUsedSize";
+export const MetricsEmitted = S.String;
+
+/** The metrics requested by the caller. If omitted in a create or update request, the service enables all metrics supported by the selected rule type. */
+export type AdvancedPlatformMetricsRulePropertiesInputMetricsToEmitList = Array<
+  MetricsEmitted | (string & {})
+>;
+export const AdvancedPlatformMetricsRulePropertiesInputMetricsToEmitList = /*@__PURE__*/ S.Array(
+  MetricsEmitted,
+) as any as S.Schema<AdvancedPlatformMetricsRulePropertiesInputMetricsToEmitList>;
 
 /** The type of filter applied to the advanced platform metrics rule. */
 export type AdvancedPlatformMetricsFilterType =
@@ -79,12 +91,15 @@ export const AdvancedPlatformMetricsRuleConfig = /*@__PURE__*/ S.suspend(() =>
 export interface AdvancedPlatformMetricsRulePropertiesInput {
   /** A boolean flag which enables the advanced platform metrics rule. */
   enabled: boolean;
+  /** The metrics requested by the caller. If omitted in a create or update request, the service enables all metrics supported by the selected rule type. */
+  metricsToEmit?: AdvancedPlatformMetricsRulePropertiesInputMetricsToEmitList;
   /** Configuration for the advanced platform metrics rule. */
   ruleConfig: AdvancedPlatformMetricsRuleConfig;
 }
 export const AdvancedPlatformMetricsRulePropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.Boolean,
+    metricsToEmit: S.optional(AdvancedPlatformMetricsRulePropertiesInputMetricsToEmitList),
     ruleConfig: AdvancedPlatformMetricsRuleConfig,
   }),
 ).annotate({
@@ -118,7 +133,7 @@ export const AdvancedPlatformMetricsCreateOrUpdateRequest = /*@__PURE__*/ S.susp
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/advancedPlatformMetrics/{advancedPlatformMetricsRuleType}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -163,9 +178,11 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 export type AdvancedPlatformMetricsRuleType = "ContainerLevelCapacityMetrics";
 export const AdvancedPlatformMetricsRuleType = S.String;
 
-/** The metrics emitted by the advanced platform metrics rule. */
-export type MetricsEmitted = "ContainerBlobCount" | "ContainerUsedSize";
-export const MetricsEmitted = S.String;
+/** The metrics requested by the caller. If omitted in a create or update request, the service enables all metrics supported by the selected rule type. */
+export type AdvancedPlatformMetricsRulePropertiesMetricsToEmitList = Array<MetricsEmitted>;
+export const AdvancedPlatformMetricsRulePropertiesMetricsToEmitList = /*@__PURE__*/ S.Array(
+  MetricsEmitted,
+) as any as S.Schema<AdvancedPlatformMetricsRulePropertiesMetricsToEmitList>;
 
 /** The metrics emitted by the rule. Metrics are mapped according to the rule type from RuleTypeProperty. Rule type to metrics mapping: ContainerLevelCapacityMetrics => {ContainerUsedSize, ContainerBlobCount}. */
 export type AdvancedPlatformMetricsRulePropertiesMetricsEmittedList = Array<MetricsEmitted>;
@@ -181,6 +198,8 @@ export interface AdvancedPlatformMetricsRuleProperties {
   enabled: boolean;
   /** Gets the last modification date and time of the advanced platform metrics rule in UTC. */
   lastModifiedTime?: string;
+  /** The metrics requested by the caller. If omitted in a create or update request, the service enables all metrics supported by the selected rule type. */
+  metricsToEmit?: AdvancedPlatformMetricsRulePropertiesMetricsToEmitList;
   /** The metrics emitted by the rule. Metrics are mapped according to the rule type from RuleTypeProperty. Rule type to metrics mapping: ContainerLevelCapacityMetrics => {ContainerUsedSize, ContainerBlobCount}. */
   metricsEmitted?: AdvancedPlatformMetricsRulePropertiesMetricsEmittedList;
   /** Configuration for the advanced platform metrics rule. */
@@ -191,6 +210,7 @@ export const AdvancedPlatformMetricsRuleProperties = /*@__PURE__*/ S.suspend(() 
     ruleType: S.optional(AdvancedPlatformMetricsRuleType),
     enabled: S.Boolean,
     lastModifiedTime: S.optional(S.String),
+    metricsToEmit: S.optional(AdvancedPlatformMetricsRulePropertiesMetricsToEmitList),
     metricsEmitted: S.optional(AdvancedPlatformMetricsRulePropertiesMetricsEmittedList),
     ruleConfig: AdvancedPlatformMetricsRuleConfig,
   }),
@@ -272,7 +292,7 @@ export const BlobContainersCreateOrUpdateImmutabilityPolicyRequest = /*@__PURE__
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/default",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -346,7 +366,7 @@ export const BlobContainersLeaseRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/lease",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -388,7 +408,7 @@ export const BlobContainersObjectLevelWormRequest = /*@__PURE__*/ S.suspend(() =
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/migrate",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -600,7 +620,7 @@ export const BlobInventoryPoliciesCreateOrUpdateRequest = /*@__PURE__*/ S.suspen
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies/{blobInventoryPolicyName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -675,6 +695,60 @@ export const BlobInventoryPoliciesCreateOrUpdateResponse = /*@__PURE__*/ S.suspe
   identifier: "BlobInventoryPoliciesCreateOrUpdateResponse",
 }) as any as S.Schema<BlobInventoryPoliciesCreateOrUpdateResponse>;
 
+/** The type of the context cache resource to check for availability. */
+export type CheckContextCachNameAvailabilityRequestType = "Microsoft.Storage/contextCaches";
+export const CheckContextCachNameAvailabilityRequestType = S.String;
+
+export interface CheckContextCachNameAvailabilityRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the context cache resource to check for availability. */
+  name: string;
+  /** The type of the context cache resource to check for availability. */
+  type: CheckContextCachNameAvailabilityRequestType | (string & {});
+}
+export const CheckContextCachNameAvailabilityRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    name: S.String,
+    type: CheckContextCachNameAvailabilityRequestType,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/contextCacheCheckNameAvailability",
+      code: 200,
+      apiVersion: "2026-09-01",
+    }),
+  ),
+).annotate({
+  identifier: "CheckContextCachNameAvailabilityRequest",
+}) as any as S.Schema<CheckContextCachNameAvailabilityRequest>;
+
+/** The reason why the context cache name is not available. The Reason element is only returned if NameAvailable is false. */
+export type ContextCacheCheckNameAvailabilityFailureReason =
+  | "AlreadyExists"
+  | "ContextCacheNameInvalid";
+export const ContextCacheCheckNameAvailabilityFailureReason = S.String;
+
+/** The result of the context cache name availability check. */
+export interface ContextCacheCheckNameAvailabilityResult {
+  /** A boolean value that indicates whether the context cache name is available to use. If true, the name is available. If false, the name has already been taken or is invalid and cannot be used. */
+  nameAvailable: boolean;
+  /** The reason why the context cache name is not available. The Reason element is only returned if NameAvailable is false */
+  reason?: ContextCacheCheckNameAvailabilityFailureReason;
+  /** The error message providing additional information about the context cache name availability check failure. */
+  message?: string;
+}
+export const ContextCacheCheckNameAvailabilityResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nameAvailable: S.Boolean,
+    reason: S.optional(ContextCacheCheckNameAvailabilityFailureReason),
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ContextCacheCheckNameAvailabilityResult",
+}) as any as S.Schema<ContextCacheCheckNameAvailabilityResult>;
+
 /** The type of resource, Microsoft.Storage/storageAccounts */
 export type CheckStorageAccountNameAvailabilityRequestType = "Microsoft.Storage/storageAccounts";
 export const CheckStorageAccountNameAvailabilityRequestType = S.String;
@@ -697,7 +771,7 @@ export const CheckStorageAccountNameAvailabilityRequest = /*@__PURE__*/ S.suspen
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/checkNameAvailability",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -760,7 +834,7 @@ export const ClearBlobContainerLegalHoldRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/clearLegalHold",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -840,7 +914,7 @@ export const ContextCacheContainersCreateOrUpdateRequest = /*@__PURE__*/ S.suspe
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches/{contextCacheName}/contextCacheContainers/{contextCacheContainerName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -1007,17 +1081,38 @@ export const ContextCachePropertiesInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ContextCachePropertiesInput",
 }) as any as S.Schema<ContextCachePropertiesInput>;
 
-/** Type of managed service identity (either system assigned, or none). */
-export type SystemAssignedServiceIdentityType = "None" | "SystemAssigned";
-export const SystemAssignedServiceIdentityType = S.String;
+/** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+export type ManagedServiceIdentityType =
+  | "None"
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned,UserAssigned";
+export const ManagedServiceIdentityType = S.String;
 
-/** Managed service identity (either system assigned, or none) */
+/** UserAssignedIdentity for the resource. */
+export interface UserAssignedIdentityInput {}
+export const UserAssignedIdentityInput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "UserAssignedIdentityInput",
+}) as any as S.Schema<UserAssignedIdentityInput>;
+
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type UserAssignedIdentitiesInput = {
+  [key: string]: UserAssignedIdentityInput | null | undefined;
+};
+export const UserAssignedIdentitiesInput = /*@__PURE__*/ S.Record(
+  S.String,
+  S.NullOr(UserAssignedIdentityInput),
+) as any as S.Schema<UserAssignedIdentitiesInput>;
+
+/** Managed service identity (system assigned and/or user assigned identities) */
 export interface ContextCachesCreateOrUpdateRequestIdentity {
-  type: SystemAssignedServiceIdentityType | (string & {});
+  type: ManagedServiceIdentityType | (string & {});
+  userAssignedIdentities?: UserAssignedIdentitiesInput;
 }
 export const ContextCachesCreateOrUpdateRequestIdentity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: SystemAssignedServiceIdentityType,
+    type: ManagedServiceIdentityType,
+    userAssignedIdentities: S.optional(UserAssignedIdentitiesInput),
   }),
 ).annotate({
   identifier: "ContextCachesCreateOrUpdateRequestIdentity",
@@ -1036,7 +1131,7 @@ export interface ContextCachesCreateOrUpdateRequest {
   location: string;
   /** The resource-specific properties for this resource. */
   properties: ContextCachePropertiesInput;
-  /** Managed service identity (either system assigned, or none) */
+  /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ContextCachesCreateOrUpdateRequestIdentity;
 }
 export const ContextCachesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1053,7 +1148,7 @@ export const ContextCachesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches/{contextCacheName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -1087,19 +1182,42 @@ export const ContextCacheProperties = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ContextCacheProperties" }) as any as S.Schema<ContextCacheProperties>;
 
-/** Managed service identity (either system assigned, or none) */
+/** UserAssignedIdentity for the resource. */
+export interface UserAssignedIdentity {
+  /** The principal ID of the identity. */
+  principalId?: string;
+  /** The client ID of the identity. */
+  clientId?: string;
+}
+export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    principalId: S.optional(S.String),
+    clientId: S.optional(S.String),
+  }),
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
+
+/** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
+export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
+  S.String,
+  S.NullOr(UserAssignedIdentity),
+) as any as S.Schema<UserAssignedIdentities>;
+
+/** Managed service identity (system assigned and/or user assigned identities) */
 export interface ContextCachesCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
   principalId?: string;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
   tenantId?: string;
-  type: SystemAssignedServiceIdentityType;
+  type: ManagedServiceIdentityType;
+  userAssignedIdentities?: UserAssignedIdentities;
 }
 export const ContextCachesCreateOrUpdateResponseIdentity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     principalId: S.optional(S.String),
     tenantId: S.optional(S.String),
-    type: SystemAssignedServiceIdentityType,
+    type: ManagedServiceIdentityType,
+    userAssignedIdentities: S.optional(UserAssignedIdentities),
   }),
 ).annotate({
   identifier: "ContextCachesCreateOrUpdateResponseIdentity",
@@ -1120,7 +1238,7 @@ export interface ContextCachesCreateOrUpdateResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties: ContextCacheProperties;
-  /** Managed service identity (either system assigned, or none) */
+  /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ContextCachesCreateOrUpdateResponseIdentity;
 }
 export const ContextCachesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
@@ -1137,6 +1255,180 @@ export const ContextCachesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ContextCachesCreateOrUpdateResponse",
 }) as any as S.Schema<ContextCachesCreateOrUpdateResponse>;
+
+/** Resource tags. */
+export type CreateBlobAccessPointConfigurationRequestTagsMap = {
+  [key: string]: string | undefined;
+};
+export const CreateBlobAccessPointConfigurationRequestTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<CreateBlobAccessPointConfigurationRequestTagsMap>;
+
+/** The state of a Blob Access Point configuration. */
+export type BlobAccessPointConfigurationState = "Active" | "Inactive";
+export const BlobAccessPointConfigurationState = S.String;
+
+/** The type of the non-Azure S3-compatible data source exposed through the Blob Access Point. */
+export type BlobAccessPointSourceType =
+  | "NetAppOntap"
+  | "AzureNetAppFiles"
+  | "DellOneFs"
+  | "Qumulo"
+  | "Commvault"
+  | "Nasuni"
+  | "S3Compatible";
+export const BlobAccessPointSourceType = S.String;
+
+/** Information about the data source exposed through a Blob Access Point. */
+export interface BlobAccessPointSourceProperties {
+  /** The source type. This value determines the remaining shape of the source object. */
+  sourceType: BlobAccessPointSourceType | (string & {});
+}
+export const BlobAccessPointSourceProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sourceType: BlobAccessPointSourceType,
+  }),
+).annotate({
+  identifier: "BlobAccessPointSourceProperties",
+}) as any as S.Schema<BlobAccessPointSourceProperties>;
+
+/** Details of a Blob Access Point configuration. */
+export interface BlobAccessPointConfigurationPropertiesInput {
+  /** The configuration state. A configuration is created in the Active state when this value is not specified. */
+  state?: BlobAccessPointConfigurationState | (string & {});
+  /** An arbitrary description of the Blob Access Point configuration. */
+  description?: string;
+  /** Information about the backing data source. */
+  source: BlobAccessPointSourceProperties;
+}
+export const BlobAccessPointConfigurationPropertiesInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    state: S.optional(BlobAccessPointConfigurationState),
+    description: S.optional(S.String),
+    source: BlobAccessPointSourceProperties,
+  }),
+).annotate({
+  identifier: "BlobAccessPointConfigurationPropertiesInput",
+}) as any as S.Schema<BlobAccessPointConfigurationPropertiesInput>;
+
+export interface CreateBlobAccessPointConfigurationRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only. */
+  accountName: string;
+  /** The name of the Blob Access Point configuration. */
+  blobAccessPointConfigurationName: string;
+  /** Resource tags. */
+  tags?: CreateBlobAccessPointConfigurationRequestTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties: BlobAccessPointConfigurationPropertiesInput;
+}
+export const CreateBlobAccessPointConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    accountName: S.String.pipe(T.Label()),
+    blobAccessPointConfigurationName: S.String.pipe(T.Label()),
+    tags: S.optional(CreateBlobAccessPointConfigurationRequestTagsMap),
+    location: S.String,
+    properties: BlobAccessPointConfigurationPropertiesInput,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobAccessPointConfigurations/{blobAccessPointConfigurationName}",
+      code: 200,
+      apiVersion: "2026-09-01",
+    }),
+  ),
+).annotate({
+  identifier: "CreateBlobAccessPointConfigurationRequest",
+}) as any as S.Schema<CreateBlobAccessPointConfigurationRequest>;
+
+/** Resource tags. */
+export type CreateBlobAccessPointConfigurationResponseTagsMap = {
+  [key: string]: string | undefined;
+};
+export const CreateBlobAccessPointConfigurationResponseTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<CreateBlobAccessPointConfigurationResponseTagsMap>;
+
+/** The status of the most recent connection test. */
+export type BlobAccessPointConnectionTestStatus = "Succeeded" | "Failed";
+export const BlobAccessPointConnectionTestStatus = S.String;
+
+/** The provisioning state of a resource type. */
+export type AzureResourceManagerResourceProvisioningState = "Succeeded" | "Failed" | "Canceled";
+export const AzureResourceManagerResourceProvisioningState = S.String;
+
+/** Details of a Blob Access Point configuration. */
+export interface BlobAccessPointConfigurationProperties {
+  /** The system-generated unique identifier of the configuration. */
+  uniqueId?: string;
+  /** The configuration state. A configuration is created in the Active state when this value is not specified. */
+  state?: BlobAccessPointConfigurationState;
+  /** An arbitrary description of the Blob Access Point configuration. */
+  description?: string;
+  /** The status of the most recent connection test. */
+  lastConnectionTestStatus?: BlobAccessPointConnectionTestStatus;
+  /** The timestamp of the most recent connection test. */
+  lastConnectionTestTimestamp?: string;
+  /** The normalized and redacted error from the most recent failed connection test. */
+  lastConnectionTestErrorMessage?: string;
+  /** Information about the backing data source. */
+  source: BlobAccessPointSourceProperties;
+  /** The status of the last operation. */
+  provisioningState?: AzureResourceManagerResourceProvisioningState;
+}
+export const BlobAccessPointConfigurationProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uniqueId: S.optional(S.String),
+    state: S.optional(BlobAccessPointConfigurationState),
+    description: S.optional(S.String),
+    lastConnectionTestStatus: S.optional(BlobAccessPointConnectionTestStatus),
+    lastConnectionTestTimestamp: S.optional(S.String),
+    lastConnectionTestErrorMessage: S.optional(S.String),
+    source: BlobAccessPointSourceProperties,
+    provisioningState: S.optional(AzureResourceManagerResourceProvisioningState),
+  }),
+).annotate({
+  identifier: "BlobAccessPointConfigurationProperties",
+}) as any as S.Schema<BlobAccessPointConfigurationProperties>;
+
+export interface CreateBlobAccessPointConfigurationResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource tags. */
+  tags?: CreateBlobAccessPointConfigurationResponseTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties: BlobAccessPointConfigurationProperties;
+}
+export const CreateBlobAccessPointConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    tags: S.optional(CreateBlobAccessPointConfigurationResponseTagsMap),
+    location: S.String,
+    properties: BlobAccessPointConfigurationProperties,
+  }),
+).annotate({
+  identifier: "CreateBlobAccessPointConfigurationResponse",
+}) as any as S.Schema<CreateBlobAccessPointConfigurationResponse>;
 
 /** Specifies whether data in the container may be accessed publicly and the level of access. */
 export type PublicAccess = "Container" | "Blob" | "None";
@@ -1162,6 +1454,22 @@ export const ImmutableStorageWithVersioningInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ImmutableStorageWithVersioningInput",
 }) as any as S.Schema<ImmutableStorageWithVersioningInput>;
 
+/** Blob Access Point configuration associated with a blob container. */
+export interface BlobAccessPointConfigurationConnection {
+  /** Name of the Blob Access Point Configuration to connect to. */
+  blobAccessPointConfigurationName?: string;
+  /** System-generated unique identifier of the Blob Access Point Configuration to connect to. If not provided on create, the service looks up and persists the current unique id. */
+  blobAccessPointConfigurationUniqueId?: string;
+}
+export const BlobAccessPointConfigurationConnection = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    blobAccessPointConfigurationName: S.optional(S.String),
+    blobAccessPointConfigurationUniqueId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BlobAccessPointConfigurationConnection",
+}) as any as S.Schema<BlobAccessPointConfigurationConnection>;
+
 /** The properties of a container. */
 export interface ContainerPropertiesInput {
   /** Default the container to use specified encryption scope for all writes. */
@@ -1178,6 +1486,8 @@ export interface ContainerPropertiesInput {
   enableNfsV3RootSquash?: boolean;
   /** Enable NFSv3 all squash on blob container. */
   enableNfsV3AllSquash?: boolean;
+  /** Configuration that attaches this container to a Blob Access Point. If set, the container is a read-only virtual container whose read/list requests are forwarded to the connected backing data store. Cannot be changed, removed, or added after container creation. */
+  blobAccessPointConfiguration?: BlobAccessPointConfigurationConnection;
 }
 export const ContainerPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1188,6 +1498,7 @@ export const ContainerPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     immutableStorageWithVersioning: S.optional(ImmutableStorageWithVersioningInput),
     enableNfsV3RootSquash: S.optional(S.Boolean),
     enableNfsV3AllSquash: S.optional(S.Boolean),
+    blobAccessPointConfiguration: S.optional(BlobAccessPointConfigurationConnection),
   }),
 ).annotate({ identifier: "ContainerPropertiesInput" }) as any as S.Schema<ContainerPropertiesInput>;
 
@@ -1215,7 +1526,7 @@ export const CreateBlobContainerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -1427,6 +1738,8 @@ export interface ContainerProperties {
   enableNfsV3RootSquash?: boolean;
   /** Enable NFSv3 all squash on blob container. */
   enableNfsV3AllSquash?: boolean;
+  /** Configuration that attaches this container to a Blob Access Point. If set, the container is a read-only virtual container whose read/list requests are forwarded to the connected backing data store. Cannot be changed, removed, or added after container creation. */
+  blobAccessPointConfiguration?: BlobAccessPointConfigurationConnection;
 }
 export const ContainerProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1449,6 +1762,7 @@ export const ContainerProperties = /*@__PURE__*/ S.suspend(() =>
     immutableStorageWithVersioning: S.optional(ImmutableStorageWithVersioning),
     enableNfsV3RootSquash: S.optional(S.Boolean),
     enableNfsV3AllSquash: S.optional(S.Boolean),
+    blobAccessPointConfiguration: S.optional(BlobAccessPointConfigurationConnection),
   }),
 ).annotate({ identifier: "ContainerProperties" }) as any as S.Schema<ContainerProperties>;
 
@@ -1602,7 +1916,7 @@ export const CreateConnectorRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/connectors/{connectorName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "CreateConnectorRequest" }) as any as S.Schema<CreateConnectorRequest>;
@@ -1795,7 +2109,7 @@ export const CreateDataShareRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/dataShares/{dataShareName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "CreateDataShareRequest" }) as any as S.Schema<CreateDataShareRequest>;
@@ -2010,7 +2324,7 @@ export const CreateFileShareRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "CreateFileShareRequest" }) as any as S.Schema<CreateFileShareRequest>;
@@ -2180,7 +2494,7 @@ export const CreateQueueRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default/queues/{queueName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "CreateQueueRequest" }) as any as S.Schema<CreateQueueRequest>;
@@ -2320,12 +2634,6 @@ export type IdentityType =
   | "UserAssigned"
   | "SystemAssigned,UserAssigned";
 export const IdentityType = S.String;
-
-/** UserAssignedIdentity for the resource. */
-export interface UserAssignedIdentityInput {}
-export const UserAssignedIdentityInput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UserAssignedIdentityInput",
-}) as any as S.Schema<UserAssignedIdentityInput>;
 
 /** Gets or sets a list of key value pairs that describe the set of User Assigned identities that will be used with this storage account. The key is the ARM resource identifier of the identity. Only 1 User Assigned identity is permitted here. */
 export type IdentityInputUserAssignedIdentitiesMap = {
@@ -2619,6 +2927,24 @@ export const NetworkRuleSetInput = /*@__PURE__*/ S.suspend(() =>
 export type AccessTier = "Hot" | "Cool" | "Premium" | "Cold" | "Smart";
 export const AccessTier = S.String;
 
+/** Indicates whether Turbo Tier is enabled or disabled. */
+export type TurboTierStatus = "Enabled" | "Disabled";
+export const TurboTierStatus = S.String;
+
+/** Configures Turbo Tier for a storage account. */
+export interface TurboTier {
+  /** Indicates whether Turbo Tier is enabled or disabled. */
+  status?: TurboTierStatus | (string & {});
+  /** The target fill percentage used for placement. The valid range is 10 to 100. When status is Enabled and this property is omitted, the default value is 20. */
+  targetPercent?: number;
+}
+export const TurboTier = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(TurboTierStatus),
+    targetPercent: S.optional(S.Number),
+  }),
+).annotate({ identifier: "TurboTier" }) as any as S.Schema<TurboTier>;
+
 /** Indicates the directory service used. Note that this enum may be extended in the future. */
 export type DirectoryServiceOptions = "None" | "AADDS" | "AD" | "AADKERB";
 export const DirectoryServiceOptions = S.String;
@@ -2837,6 +3163,8 @@ export const StorageAccountSharedKeyAccessProperties = /*@__PURE__*/ S.suspend((
 export interface StorageDataCollaborationPolicyProperties {
   /** Indicates whether storage connectors are allowed to created or managed on the storage account. */
   allowStorageConnectors?: boolean;
+  /** Indicates whether Blob Access Point configurations are allowed to be created or managed on the storage account. */
+  allowBlobAccessPoints?: boolean;
   /** Indicates whether data shares are allowed to be created or managed on the storage account. */
   allowStorageDataShares?: boolean;
   /** Indicates whether cross-entra tenant data sharing is allowed on the storage account. */
@@ -2845,6 +3173,7 @@ export interface StorageDataCollaborationPolicyProperties {
 export const StorageDataCollaborationPolicyProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     allowStorageConnectors: S.optional(S.Boolean),
+    allowBlobAccessPoints: S.optional(S.Boolean),
     allowStorageDataShares: S.optional(S.Boolean),
     allowCrossTenantDataSharing: S.optional(S.Boolean),
   }),
@@ -2870,6 +3199,8 @@ export interface StorageAccountPropertiesCreateParametersInput {
   networkAcls?: NetworkRuleSetInput;
   /** Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs storage account type. */
   accessTier?: AccessTier | (string & {});
+  /** Configures Turbo Tier for the storage account. */
+  turboTier?: TurboTier;
   /** Provides the identity based authentication settings for Azure Files. */
   azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
   /** Allows https traffic only to storage service if sets to true. The default value is true since API version 2019-04-01. */
@@ -2923,6 +3254,7 @@ export const StorageAccountPropertiesCreateParametersInput = /*@__PURE__*/ S.sus
     encryption: S.optional(EncryptionInput),
     networkAcls: S.optional(NetworkRuleSetInput),
     accessTier: S.optional(AccessTier),
+    turboTier: S.optional(TurboTier),
     azureFilesIdentityBasedAuthentication: S.optional(AzureFilesIdentityBasedAuthentication),
     supportsHttpsTrafficOnly: S.optional(S.Boolean),
     isSftpEnabled: S.optional(S.Boolean),
@@ -2994,7 +3326,7 @@ export const CreateStorageAccountRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -3576,6 +3908,8 @@ export interface StorageAccountProperties {
   encryption?: Encryption;
   /** Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs storage account type. */
   accessTier?: AccessTier;
+  /** Configures Turbo Tier for the storage account. */
+  turboTier?: TurboTier;
   /** Provides the identity based authentication settings for Azure Files. */
   azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
   /** Allows https traffic only to storage service if sets to true. */
@@ -3656,6 +3990,7 @@ export const StorageAccountProperties = /*@__PURE__*/ S.suspend(() =>
     secondaryEndpoints: S.optional(Endpoints),
     encryption: S.optional(Encryption),
     accessTier: S.optional(AccessTier),
+    turboTier: S.optional(TurboTier),
     azureFilesIdentityBasedAuthentication: S.optional(AzureFilesIdentityBasedAuthentication),
     supportsHttpsTrafficOnly: S.optional(S.Boolean),
     networkAcls: S.optional(NetworkRuleSet),
@@ -3689,20 +4024,6 @@ export const StorageAccountProperties = /*@__PURE__*/ S.suspend(() =>
     allowCrossTenantDelegationSas: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "StorageAccountProperties" }) as any as S.Schema<StorageAccountProperties>;
-
-/** UserAssignedIdentity for the resource. */
-export interface UserAssignedIdentity {
-  /** The principal ID of the identity. */
-  principalId?: string;
-  /** The client ID of the identity. */
-  clientId?: string;
-}
-export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    principalId: S.optional(S.String),
-    clientId: S.optional(S.String),
-  }),
-).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** Gets or sets a list of key value pairs that describe the set of User Assigned identities that will be used with this storage account. The key is the ARM resource identifier of the identity. Only 1 User Assigned identity is permitted here. */
 export type IdentityUserAssignedIdentitiesMap = { [key: string]: UserAssignedIdentity | undefined };
@@ -3941,7 +4262,7 @@ export const CreateStorageTaskAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/storageTaskAssignments/{storageTaskAssignmentName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -4146,7 +4467,7 @@ export const CreateTableRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables/{tableName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "CreateTableRequest" }) as any as S.Schema<CreateTableRequest>;
@@ -4220,7 +4541,7 @@ export const DeleteAdvancedPlatformMetricsRequest = /*@__PURE__*/ S.suspend(() =
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/advancedPlatformMetrics/{advancedPlatformMetricsRuleType}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -4233,6 +4554,41 @@ export const DeleteAdvancedPlatformMetricsResponse = /*@__PURE__*/ S.suspend(() 
 ).annotate({
   identifier: "DeleteAdvancedPlatformMetricsResponse",
 }) as any as S.Schema<DeleteAdvancedPlatformMetricsResponse>;
+
+export interface DeleteBlobAccessPointConfigurationRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only. */
+  accountName: string;
+  /** The name of the Blob Access Point configuration. */
+  blobAccessPointConfigurationName: string;
+}
+export const DeleteBlobAccessPointConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    accountName: S.String.pipe(T.Label()),
+    blobAccessPointConfigurationName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobAccessPointConfigurations/{blobAccessPointConfigurationName}",
+      code: 200,
+      apiVersion: "2026-09-01",
+    }),
+  ),
+).annotate({
+  identifier: "DeleteBlobAccessPointConfigurationRequest",
+}) as any as S.Schema<DeleteBlobAccessPointConfigurationRequest>;
+
+export interface DeleteBlobAccessPointConfigurationResponse {}
+export const DeleteBlobAccessPointConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteBlobAccessPointConfigurationResponse",
+}) as any as S.Schema<DeleteBlobAccessPointConfigurationResponse>;
 
 export interface DeleteBlobContainerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4255,7 +4611,7 @@ export const DeleteBlobContainerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -4291,7 +4647,7 @@ export const DeleteBlobContainerImmutabilityPolicyRequest = /*@__PURE__*/ S.susp
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/default",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -4351,7 +4707,7 @@ export const DeleteBlobInventoryPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies/{blobInventoryPolicyName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -4386,7 +4742,7 @@ export const DeleteConnectorRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/connectors/{connectorName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "DeleteConnectorRequest" }) as any as S.Schema<DeleteConnectorRequest>;
@@ -4414,7 +4770,7 @@ export const DeleteContextCachRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches/{contextCacheName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "DeleteContextCachRequest" }) as any as S.Schema<DeleteContextCachRequest>;
@@ -4445,7 +4801,7 @@ export const DeleteContextCacheContainerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches/{contextCacheName}/contextCacheContainers/{contextCacheContainerName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -4480,7 +4836,7 @@ export const DeleteDataShareRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/dataShares/{dataShareName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "DeleteDataShareRequest" }) as any as S.Schema<DeleteDataShareRequest>;
@@ -4514,7 +4870,7 @@ export const DeleteFileShareRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "DeleteFileShareRequest" }) as any as S.Schema<DeleteFileShareRequest>;
@@ -4545,7 +4901,7 @@ export const DeleteLocalUserRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "DeleteLocalUserRequest" }) as any as S.Schema<DeleteLocalUserRequest>;
@@ -4579,7 +4935,7 @@ export const DeleteManagementPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/{managementPolicyName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -4612,7 +4968,7 @@ export const DeleteObjectReplicationPolicyRequest = /*@__PURE__*/ S.suspend(() =
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -4647,7 +5003,7 @@ export const DeletePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(()
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -4682,7 +5038,7 @@ export const DeleteQueueRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default/queues/{queueName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "DeleteQueueRequest" }) as any as S.Schema<DeleteQueueRequest>;
@@ -4710,7 +5066,7 @@ export const DeleteStorageAccountRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -4743,7 +5099,7 @@ export const DeleteStorageTaskAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/storageTaskAssignments/{storageTaskAssignmentName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -4778,7 +5134,7 @@ export const DeleteTableRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables/{tableName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "DeleteTableRequest" }) as any as S.Schema<DeleteTableRequest>;
@@ -4812,7 +5168,7 @@ export const ExtendBlobContainerImmutabilityPolicyRequest = /*@__PURE__*/ S.susp
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/default/extend",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -4886,7 +5242,7 @@ export const FileSharesLeaseRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}/lease",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "FileSharesLeaseRequest" }) as any as S.Schema<FileSharesLeaseRequest>;
@@ -4933,7 +5289,7 @@ export const GetAdvancedPlatformMetricsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/advancedPlatformMetrics/{advancedPlatformMetricsRuleType}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -4964,6 +5320,71 @@ export const GetAdvancedPlatformMetricsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetAdvancedPlatformMetricsResponse",
 }) as any as S.Schema<GetAdvancedPlatformMetricsResponse>;
 
+export interface GetBlobAccessPointConfigurationRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only. */
+  accountName: string;
+  /** The name of the Blob Access Point configuration. */
+  blobAccessPointConfigurationName: string;
+}
+export const GetBlobAccessPointConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    accountName: S.String.pipe(T.Label()),
+    blobAccessPointConfigurationName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobAccessPointConfigurations/{blobAccessPointConfigurationName}",
+      code: 200,
+      apiVersion: "2026-09-01",
+    }),
+  ),
+).annotate({
+  identifier: "GetBlobAccessPointConfigurationRequest",
+}) as any as S.Schema<GetBlobAccessPointConfigurationRequest>;
+
+/** Resource tags. */
+export type GetBlobAccessPointConfigurationResponseTagsMap = { [key: string]: string | undefined };
+export const GetBlobAccessPointConfigurationResponseTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<GetBlobAccessPointConfigurationResponseTagsMap>;
+
+export interface GetBlobAccessPointConfigurationResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource tags. */
+  tags?: GetBlobAccessPointConfigurationResponseTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties: BlobAccessPointConfigurationProperties;
+}
+export const GetBlobAccessPointConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    tags: S.optional(GetBlobAccessPointConfigurationResponseTagsMap),
+    location: S.String,
+    properties: BlobAccessPointConfigurationProperties,
+  }),
+).annotate({
+  identifier: "GetBlobAccessPointConfigurationResponse",
+}) as any as S.Schema<GetBlobAccessPointConfigurationResponse>;
+
 export interface GetBlobContainerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -4985,7 +5406,7 @@ export const GetBlobContainerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "GetBlobContainerRequest" }) as any as S.Schema<GetBlobContainerRequest>;
@@ -5036,7 +5457,7 @@ export const GetBlobContainerImmutabilityPolicyRequest = /*@__PURE__*/ S.suspend
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/default",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -5094,7 +5515,7 @@ export const GetBlobInventoryPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies/{blobInventoryPolicyName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -5143,7 +5564,7 @@ export const GetBlobServiceServicePropertiesRequest = /*@__PURE__*/ S.suspend(()
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -5418,7 +5839,7 @@ export const GetConnectorRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/connectors/{connectorName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "GetConnectorRequest" }) as any as S.Schema<GetConnectorRequest>;
@@ -5476,7 +5897,7 @@ export const GetContextCachRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches/{contextCacheName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "GetContextCachRequest" }) as any as S.Schema<GetContextCachRequest>;
@@ -5488,7 +5909,7 @@ export const GetContextCachResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
 ) as any as S.Schema<GetContextCachResponseTagsMap>;
 
-/** Managed service identity (either system assigned, or none) */
+/** Managed service identity (system assigned and/or user assigned identities) */
 export type GetContextCachResponseIdentity = ContextCachesCreateOrUpdateResponseIdentity;
 export const GetContextCachResponseIdentity = ContextCachesCreateOrUpdateResponseIdentity;
 
@@ -5507,7 +5928,7 @@ export interface GetContextCachResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties: ContextCacheProperties;
-  /** Managed service identity (either system assigned, or none) */
+  /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ContextCachesCreateOrUpdateResponseIdentity;
 }
 export const GetContextCachResponse = /*@__PURE__*/ S.suspend(() =>
@@ -5544,7 +5965,7 @@ export const GetContextCacheContainerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches/{contextCacheName}/contextCacheContainers/{contextCacheContainerName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -5596,7 +6017,7 @@ export const GetDataShareRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/dataShares/{dataShareName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "GetDataShareRequest" }) as any as S.Schema<GetDataShareRequest>;
@@ -5654,7 +6075,7 @@ export const GetDeletedAccountRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/locations/{location}/deletedAccounts/{deletedAccountName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "GetDeletedAccountRequest" }) as any as S.Schema<GetDeletedAccountRequest>;
@@ -5727,7 +6148,7 @@ export const GetEncryptionScopeRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes/{encryptionScopeName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -5831,7 +6252,7 @@ export const GetFileServiceServicePropertiesRequest = /*@__PURE__*/ S.suspend(()
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -5975,7 +6396,7 @@ export const GetFileServiceServiceUsageRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/usages/default",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -6178,7 +6599,7 @@ export const GetFileShareRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "GetFileShareRequest" }) as any as S.Schema<GetFileShareRequest>;
@@ -6229,7 +6650,7 @@ export const GetLocalUserRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "GetLocalUserRequest" }) as any as S.Schema<GetLocalUserRequest>;
@@ -6371,7 +6792,7 @@ export const GetManagementPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/{managementPolicyName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -6671,7 +7092,7 @@ export const GetNetworkSecurityPerimeterConfigurationRequest = /*@__PURE__*/ S.s
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/networkSecurityPerimeterConfigurations/{networkSecurityPerimeterConfigurationName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -6816,6 +7237,12 @@ export const NspAccessRulePropertiesFullyQualifiedDomainNamesList = /*@__PURE__*
   S.String,
 ) as any as S.Schema<NspAccessRulePropertiesFullyQualifiedDomainNamesList>;
 
+/** Service Tags for inbound rules */
+export type NspAccessRulePropertiesServiceTagsList = Array<string>;
+export const NspAccessRulePropertiesServiceTagsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<NspAccessRulePropertiesServiceTagsList>;
+
 /** Properties of Access Rule */
 export interface NspAccessRuleProperties {
   /** Direction of Access Rule */
@@ -6828,6 +7255,8 @@ export interface NspAccessRuleProperties {
   networkSecurityPerimeters?: NspAccessRulePropertiesNetworkSecurityPerimetersList;
   /** FQDN for outbound rules */
   fullyQualifiedDomainNames?: NspAccessRulePropertiesFullyQualifiedDomainNamesList;
+  /** Service Tags for inbound rules */
+  serviceTags?: NspAccessRulePropertiesServiceTagsList;
 }
 export const NspAccessRuleProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6836,6 +7265,7 @@ export const NspAccessRuleProperties = /*@__PURE__*/ S.suspend(() =>
     subscriptions: S.optional(NspAccessRulePropertiesSubscriptionsList),
     networkSecurityPerimeters: S.optional(NspAccessRulePropertiesNetworkSecurityPerimetersList),
     fullyQualifiedDomainNames: S.optional(NspAccessRulePropertiesFullyQualifiedDomainNamesList),
+    serviceTags: S.optional(NspAccessRulePropertiesServiceTagsList),
   }),
 ).annotate({ identifier: "NspAccessRuleProperties" }) as any as S.Schema<NspAccessRuleProperties>;
 
@@ -6970,7 +7400,7 @@ export const GetObjectReplicationPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -7145,7 +7575,7 @@ export const GetPrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -7197,7 +7627,7 @@ export const GetQueueRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default/queues/{queueName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "GetQueueRequest" }) as any as S.Schema<GetQueueRequest>;
@@ -7242,7 +7672,7 @@ export const GetQueueServiceServicePropertiesRequest = /*@__PURE__*/ S.suspend((
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -7310,7 +7740,7 @@ export const GetStorageAccountCustomerInitiatedMigrationRequest = /*@__PURE__*/ 
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/accountMigrations/{migrationName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -7396,7 +7826,7 @@ export const GetStorageAccountPropertiesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -7485,7 +7915,7 @@ export const GetStorageTaskAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/storageTaskAssignments/{storageTaskAssignmentName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -7537,7 +7967,7 @@ export const GetTableRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables/{tableName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "GetTableRequest" }) as any as S.Schema<GetTableRequest>;
@@ -7582,7 +8012,7 @@ export const GetTableServiceServicePropertiesRequest = /*@__PURE__*/ S.suspend((
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -7644,7 +8074,7 @@ export const ListAdvancedPlatformMetricsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/advancedPlatformMetrics",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -7698,6 +8128,91 @@ export const AdvancedPlatformMetricsRuleListResult = /*@__PURE__*/ S.suspend(() 
   identifier: "AdvancedPlatformMetricsRuleListResult",
 }) as any as S.Schema<AdvancedPlatformMetricsRuleListResult>;
 
+export interface ListBlobAccessPointConfigurationByStorageAccountRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only. */
+  accountName: string;
+}
+export const ListBlobAccessPointConfigurationByStorageAccountRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    accountName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobAccessPointConfigurations",
+      code: 200,
+      apiVersion: "2026-09-01",
+    }),
+  ),
+).annotate({
+  identifier: "ListBlobAccessPointConfigurationByStorageAccountRequest",
+}) as any as S.Schema<ListBlobAccessPointConfigurationByStorageAccountRequest>;
+
+/** Resource tags. */
+export type BlobAccessPointConfigurationTagsMap = { [key: string]: string | undefined };
+export const BlobAccessPointConfigurationTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<BlobAccessPointConfigurationTagsMap>;
+
+/** A BlobAccessPointConfiguration is a tracked Azure resource modeled as a sub-resource of a Storage Account. */
+export interface BlobAccessPointConfiguration {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource tags. */
+  tags?: BlobAccessPointConfigurationTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties: BlobAccessPointConfigurationProperties;
+}
+export const BlobAccessPointConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    tags: S.optional(BlobAccessPointConfigurationTagsMap),
+    location: S.String,
+    properties: BlobAccessPointConfigurationProperties,
+  }),
+).annotate({
+  identifier: "BlobAccessPointConfiguration",
+}) as any as S.Schema<BlobAccessPointConfiguration>;
+
+/** The BlobAccessPointConfiguration items on this page */
+export type BlobAccessPointConfigurationListResultValueList = Array<BlobAccessPointConfiguration>;
+export const BlobAccessPointConfigurationListResultValueList = /*@__PURE__*/ S.Array(
+  BlobAccessPointConfiguration,
+) as any as S.Schema<BlobAccessPointConfigurationListResultValueList>;
+
+/** The response of a BlobAccessPointConfiguration list operation. */
+export interface BlobAccessPointConfigurationListResult {
+  /** The BlobAccessPointConfiguration items on this page */
+  value: BlobAccessPointConfigurationListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+export const BlobAccessPointConfigurationListResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: BlobAccessPointConfigurationListResultValueList,
+    nextLink: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BlobAccessPointConfigurationListResult",
+}) as any as S.Schema<BlobAccessPointConfigurationListResult>;
+
 export type ListBlobContainersRequestInclude = "deleted";
 export const ListBlobContainersRequestInclude = S.String;
 
@@ -7728,7 +8243,7 @@ export const ListBlobContainersRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -7799,7 +8314,7 @@ export const ListBlobInventoryPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -7866,7 +8381,7 @@ export const ListBlobServicesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "ListBlobServicesRequest" }) as any as S.Schema<ListBlobServicesRequest>;
@@ -7933,7 +8448,7 @@ export const ListConnectorByStorageAccountRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/connectors",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -8011,7 +8526,7 @@ export const ListContextCachByResourceGroupRequest = /*@__PURE__*/ S.suspend(() 
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -8025,7 +8540,7 @@ export const ContextCacheTagsMap = /*@__PURE__*/ S.Record(
   S.String,
 ) as any as S.Schema<ContextCacheTagsMap>;
 
-/** Managed service identity (either system assigned, or none) */
+/** Managed service identity (system assigned and/or user assigned identities) */
 export type ContextCacheIdentity = ContextCachesCreateOrUpdateResponseIdentity;
 export const ContextCacheIdentity = ContextCachesCreateOrUpdateResponseIdentity;
 
@@ -8045,7 +8560,7 @@ export interface ContextCache {
   location: string;
   /** The resource-specific properties for this resource. */
   properties: ContextCacheProperties;
-  /** Managed service identity (either system assigned, or none) */
+  /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ContextCachesCreateOrUpdateResponseIdentity;
 }
 export const ContextCache = /*@__PURE__*/ S.suspend(() =>
@@ -8093,7 +8608,7 @@ export const ListContextCachBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/contextCaches",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -8118,7 +8633,7 @@ export const ListContextCacheContainerByContextCacheRequest = /*@__PURE__*/ S.su
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches/{contextCacheName}/contextCacheContainers",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -8188,7 +8703,7 @@ export const ListDataShareByStorageAccountRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/dataShares",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -8263,7 +8778,7 @@ export const ListDeletedAccountsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/deletedAccounts",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -8343,7 +8858,7 @@ export const ListEncryptionScopesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -8413,7 +8928,7 @@ export const ListFileServicesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "ListFileServicesRequest" }) as any as S.Schema<ListFileServicesRequest>;
@@ -8481,7 +8996,7 @@ export const ListFileServiceServiceUsagesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/usages",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -8558,7 +9073,7 @@ export const ListFileSharesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "ListFileSharesRequest" }) as any as S.Schema<ListFileSharesRequest>;
@@ -8630,7 +9145,7 @@ export const ListLocalUserKeysRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}/listKeys",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "ListLocalUserKeysRequest" }) as any as S.Schema<ListLocalUserKeysRequest>;
@@ -8685,7 +9200,7 @@ export const ListLocalUsersRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "ListLocalUsersRequest" }) as any as S.Schema<ListLocalUsersRequest>;
@@ -8751,7 +9266,7 @@ export const ListNetworkSecurityPerimeterConfigurationsRequest = /*@__PURE__*/ S
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/networkSecurityPerimeterConfigurations",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -8824,7 +9339,7 @@ export const ListObjectReplicationPoliciesRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -8882,7 +9397,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/providers/Microsoft.Storage/operations",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
@@ -9047,7 +9562,7 @@ export const ListPrivateEndpointConnectionsRequest = /*@__PURE__*/ S.suspend(() 
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/privateEndpointConnections",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -9093,7 +9608,7 @@ export const ListPrivateLinkResourceByStorageAccountRequest = /*@__PURE__*/ S.su
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/privateLinkResources",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -9197,7 +9712,7 @@ export const ListQueueRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default/queues",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "ListQueueRequest" }) as any as S.Schema<ListQueueRequest>;
@@ -9279,7 +9794,7 @@ export const ListQueueServicesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "ListQueueServicesRequest" }) as any as S.Schema<ListQueueServicesRequest>;
@@ -9335,7 +9850,7 @@ export const ListSkusRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/skus",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "ListSkusRequest" }) as any as S.Schema<ListSkusRequest>;
@@ -9533,7 +10048,7 @@ export const ListStorageAccountAccountSASRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/listAccountSas",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -9566,7 +10081,7 @@ export const ListStorageAccountByResourceGroupRequest = /*@__PURE__*/ S.suspend(
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -9677,7 +10192,7 @@ export const ListStorageAccountKeysRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/listKeys",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -9739,7 +10254,7 @@ export const ListStorageAccountsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/storageAccounts",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -9822,7 +10337,7 @@ export const ListStorageAccountServiceSASRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/listServiceSas",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -9867,7 +10382,7 @@ export const ListStorageTaskAssignmentInstancesReportRequest = /*@__PURE__*/ S.s
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/storageTaskAssignments/{storageTaskAssignmentName}/reports",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -9940,7 +10455,7 @@ export const ListStorageTaskAssignmentsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/storageTaskAssignments",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -10016,7 +10531,7 @@ export const ListStorageTaskAssignmentsInstancesReportRequest = /*@__PURE__*/ S.
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/reports",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -10041,7 +10556,7 @@ export const ListTableRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "ListTableRequest" }) as any as S.Schema<ListTableRequest>;
@@ -10107,7 +10622,7 @@ export const ListTableServicesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "ListTableServicesRequest" }) as any as S.Schema<ListTableServicesRequest>;
@@ -10166,7 +10681,7 @@ export const ListUsageByLocationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/locations/{location}/usages",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -10316,7 +10831,7 @@ export const LocalUsersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -10368,7 +10883,7 @@ export const LockBlobContainerImmutabilityPolicyRequest = /*@__PURE__*/ S.suspen
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/default/lock",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -10444,7 +10959,7 @@ export const ManagementPoliciesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend((
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/{managementPolicyName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -10496,7 +11011,7 @@ export const NetworkSecurityPerimeterConfigurationsReconcileRequest = /*@__PURE_
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/networkSecurityPerimeterConfigurations/{networkSecurityPerimeterConfigurationName}/reconcile",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -10568,7 +11083,7 @@ export const ObjectReplicationPoliciesCreateOrUpdateRequest = /*@__PURE__*/ S.su
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -10658,7 +11173,7 @@ export const PatchEncryptionScopeRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes/{encryptionScopeName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -10713,7 +11228,7 @@ export const PutEncryptionScopeRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes/{encryptionScopeName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -10788,7 +11303,7 @@ export const PutPrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -10840,7 +11355,7 @@ export const RegenerateLocalUserPasswordRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}/regeneratePassword",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -10881,7 +11396,7 @@ export const RegenerateStorageAccountKeyRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/regenerateKey",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -10915,7 +11430,7 @@ export const RestoreFileShareRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}/restore",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "RestoreFileShareRequest" }) as any as S.Schema<RestoreFileShareRequest>;
@@ -10955,7 +11470,7 @@ export const RestoreStorageAccountBlobRangesRequest = /*@__PURE__*/ S.suspend(()
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/restoreBlobRanges",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -10980,7 +11495,7 @@ export const RevokeStorageAccountUserDelegationKeysRequest = /*@__PURE__*/ S.sus
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/revokeUserDelegationKeys",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -11027,7 +11542,7 @@ export const SetBlobContainerLegalHoldRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/setLegalHold",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -11111,7 +11626,7 @@ export const SetBlobServiceServicePropertiesRequest = /*@__PURE__*/ S.suspend(()
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -11166,7 +11681,7 @@ export const SetFileServiceServicePropertiesRequest = /*@__PURE__*/ S.suspend(()
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -11221,7 +11736,7 @@ export const SetQueueServiceServicePropertiesRequest = /*@__PURE__*/ S.suspend((
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -11273,7 +11788,7 @@ export const SetTableServiceServicePropertiesRequest = /*@__PURE__*/ S.suspend((
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -11325,7 +11840,7 @@ export const StopStorageTaskAssignmentAssignmentRequest = /*@__PURE__*/ S.suspen
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/storageTaskAssignments/{storageTaskAssignmentName}/stopAssignment",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -11373,7 +11888,7 @@ export const StorageAccountsCustomerInitiatedMigrationRequest = /*@__PURE__*/ S.
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/startAccountMigration",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -11411,7 +11926,7 @@ export const StorageAccountsFailoverRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/failover",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -11444,7 +11959,7 @@ export const StorageAccountsHierarchicalNamespaceMigrationRequest = /*@__PURE__*
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/hnsonmigration",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -11457,6 +11972,86 @@ export const StorageAccountsHierarchicalNamespaceMigrationResponse = /*@__PURE__
 ).annotate({
   identifier: "StorageAccountsHierarchicalNamespaceMigrationResponse",
 }) as any as S.Schema<StorageAccountsHierarchicalNamespaceMigrationResponse>;
+
+export interface TestBlobAccessPointConfigurationExistingConnectionRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only. */
+  accountName: string;
+  /** The name of the Blob Access Point configuration. */
+  blobAccessPointConfigurationName: string;
+  /** The system-generated unique identifier of the Blob Access Point configuration, as returned by a read operation. This value must match the configuration named in the request path, and is required so that a configuration which was deleted and recreated under the same name is not tested by mistake. */
+  uniqueId: string;
+}
+export const TestBlobAccessPointConfigurationExistingConnectionRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      accountName: S.String.pipe(T.Label()),
+      blobAccessPointConfigurationName: S.String.pipe(T.Label()),
+      uniqueId: S.String,
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobAccessPointConfigurations/{blobAccessPointConfigurationName}/testExistingConnection",
+        code: 200,
+        apiVersion: "2026-09-01",
+      }),
+    ),
+).annotate({
+  identifier: "TestBlobAccessPointConfigurationExistingConnectionRequest",
+}) as any as S.Schema<TestBlobAccessPointConfigurationExistingConnectionRequest>;
+
+/** The result of testing a Blob Access Point configuration connection. */
+export interface BlobAccessPointConnectionTestResponse {
+  /** The name of the request attempted against the backing data source. */
+  methodName: string;
+  /** A normalized and redacted error message received from the backing data source. This value is empty when the connection test succeeds. */
+  errorMessage?: string;
+  /** The request ID associated with the request sent to the backing data source for validation. */
+  requestId: string;
+}
+export const BlobAccessPointConnectionTestResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    methodName: S.String,
+    errorMessage: S.optional(S.String),
+    requestId: S.String,
+  }),
+).annotate({
+  identifier: "BlobAccessPointConnectionTestResponse",
+}) as any as S.Schema<BlobAccessPointConnectionTestResponse>;
+
+export interface TestBlobAccessPointConnectionTestProposedConnectionRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only. */
+  accountName: string;
+  /** Information about the backing data source whose connection is tested. */
+  source: BlobAccessPointSourceProperties;
+}
+export const TestBlobAccessPointConnectionTestProposedConnectionRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      accountName: S.String.pipe(T.Label()),
+      source: BlobAccessPointSourceProperties,
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/testBlobAccessPointConfigurationProposedConnection",
+        code: 200,
+        apiVersion: "2026-09-01",
+      }),
+    ),
+).annotate({
+  identifier: "TestBlobAccessPointConnectionTestProposedConnectionRequest",
+}) as any as S.Schema<TestBlobAccessPointConnectionTestProposedConnectionRequest>;
 
 export interface TestConnectorExistingConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11482,7 +12077,7 @@ export const TestConnectorExistingConnectionRequest = /*@__PURE__*/ S.suspend(()
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/connectors/{connectorName}/testExistingConnection",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -11505,6 +12100,111 @@ export const TestConnectionResponse = /*@__PURE__*/ S.suspend(() =>
     storageConnectorRequestId: S.String,
   }),
 ).annotate({ identifier: "TestConnectionResponse" }) as any as S.Schema<TestConnectionResponse>;
+
+/** Resource tags. */
+export type UpdateBlobAccessPointConfigurationRequestTagsMap = {
+  [key: string]: string | undefined;
+};
+export const UpdateBlobAccessPointConfigurationRequestTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<UpdateBlobAccessPointConfigurationRequestTagsMap>;
+
+/** Information about the data source exposed through a Blob Access Point. */
+export type BlobAccessPointSourcePropertiesUpdate = BlobAccessPointSourceProperties;
+export const BlobAccessPointSourcePropertiesUpdate = BlobAccessPointSourceProperties;
+
+/** Details of a Blob Access Point configuration. */
+export interface BlobAccessPointConfigurationPropertiesUpdate {
+  /** The configuration state. A configuration is created in the Active state when this value is not specified. */
+  state?: BlobAccessPointConfigurationState | (string & {});
+  /** An arbitrary description of the Blob Access Point configuration. */
+  description?: string;
+  /** Information about the backing data source. */
+  source?: BlobAccessPointSourceProperties;
+}
+export const BlobAccessPointConfigurationPropertiesUpdate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    state: S.optional(BlobAccessPointConfigurationState),
+    description: S.optional(S.String),
+    source: S.optional(BlobAccessPointSourceProperties),
+  }),
+).annotate({
+  identifier: "BlobAccessPointConfigurationPropertiesUpdate",
+}) as any as S.Schema<BlobAccessPointConfigurationPropertiesUpdate>;
+
+export interface UpdateBlobAccessPointConfigurationRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only. */
+  accountName: string;
+  /** The name of the Blob Access Point configuration. */
+  blobAccessPointConfigurationName: string;
+  /** Resource tags. */
+  tags?: UpdateBlobAccessPointConfigurationRequestTagsMap;
+  /** The resource-specific properties for this resource. */
+  properties?: BlobAccessPointConfigurationPropertiesUpdate;
+}
+export const UpdateBlobAccessPointConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    accountName: S.String.pipe(T.Label()),
+    blobAccessPointConfigurationName: S.String.pipe(T.Label()),
+    tags: S.optional(UpdateBlobAccessPointConfigurationRequestTagsMap),
+    properties: S.optional(BlobAccessPointConfigurationPropertiesUpdate),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobAccessPointConfigurations/{blobAccessPointConfigurationName}",
+      code: 200,
+      apiVersion: "2026-09-01",
+    }),
+  ),
+).annotate({
+  identifier: "UpdateBlobAccessPointConfigurationRequest",
+}) as any as S.Schema<UpdateBlobAccessPointConfigurationRequest>;
+
+/** Resource tags. */
+export type UpdateBlobAccessPointConfigurationResponseTagsMap = {
+  [key: string]: string | undefined;
+};
+export const UpdateBlobAccessPointConfigurationResponseTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<UpdateBlobAccessPointConfigurationResponseTagsMap>;
+
+export interface UpdateBlobAccessPointConfigurationResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string;
+  /** The name of the resource */
+  name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
+  /** Resource tags. */
+  tags?: UpdateBlobAccessPointConfigurationResponseTagsMap;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** The resource-specific properties for this resource. */
+  properties: BlobAccessPointConfigurationProperties;
+}
+export const UpdateBlobAccessPointConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    systemData: S.optional(SystemData),
+    tags: S.optional(UpdateBlobAccessPointConfigurationResponseTagsMap),
+    location: S.String,
+    properties: BlobAccessPointConfigurationProperties,
+  }),
+).annotate({
+  identifier: "UpdateBlobAccessPointConfigurationResponse",
+}) as any as S.Schema<UpdateBlobAccessPointConfigurationResponse>;
 
 export interface UpdateBlobContainerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11530,7 +12230,7 @@ export const UpdateBlobContainerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -11640,7 +12340,7 @@ export const UpdateConnectorRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/connectors/{connectorName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "UpdateConnectorRequest" }) as any as S.Schema<UpdateConnectorRequest>;
@@ -11687,7 +12387,7 @@ export const UpdateContextCachRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
 ) as any as S.Schema<UpdateContextCachRequestTagsMap>;
 
-/** Managed service identity (either system assigned, or none) */
+/** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateContextCachRequestIdentity = ContextCachesCreateOrUpdateRequestIdentity;
 export const UpdateContextCachRequestIdentity = ContextCachesCreateOrUpdateRequestIdentity;
 
@@ -11716,7 +12416,7 @@ export interface UpdateContextCachRequest {
   contextCacheName: string;
   /** Resource tags. */
   tags?: UpdateContextCachRequestTagsMap;
-  /** Managed service identity (either system assigned, or none) */
+  /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ContextCachesCreateOrUpdateRequestIdentity;
   /** The updatable properties of the Context Cache. */
   properties?: ContextCachePropertiesUpdate;
@@ -11734,7 +12434,7 @@ export const UpdateContextCachRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches/{contextCacheName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "UpdateContextCachRequest" }) as any as S.Schema<UpdateContextCachRequest>;
@@ -11746,7 +12446,7 @@ export const UpdateContextCachResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
 ) as any as S.Schema<UpdateContextCachResponseTagsMap>;
 
-/** Managed service identity (either system assigned, or none) */
+/** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateContextCachResponseIdentity = ContextCachesCreateOrUpdateResponseIdentity;
 export const UpdateContextCachResponseIdentity = ContextCachesCreateOrUpdateResponseIdentity;
 
@@ -11765,7 +12465,7 @@ export interface UpdateContextCachResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties: ContextCacheProperties;
-  /** Managed service identity (either system assigned, or none) */
+  /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ContextCachesCreateOrUpdateResponseIdentity;
 }
 export const UpdateContextCachResponse = /*@__PURE__*/ S.suspend(() =>
@@ -11823,7 +12523,7 @@ export const UpdateContextCacheContainerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/contextCaches/{contextCacheName}/contextCacheContainers/{contextCacheContainerName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -11920,7 +12620,7 @@ export const UpdateDataShareRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/dataShares/{dataShareName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "UpdateDataShareRequest" }) as any as S.Schema<UpdateDataShareRequest>;
@@ -11984,7 +12684,7 @@ export const UpdateFileShareRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "UpdateFileShareRequest" }) as any as S.Schema<UpdateFileShareRequest>;
@@ -12038,7 +12738,7 @@ export const UpdateQueueRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default/queues/{queueName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "UpdateQueueRequest" }) as any as S.Schema<UpdateQueueRequest>;
@@ -12084,6 +12784,8 @@ export interface StorageAccountPropertiesUpdateParametersInput {
   keyPolicy?: KeyPolicy;
   /** Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs storage account type. */
   accessTier?: AccessTier | (string & {});
+  /** Configures Turbo Tier for the storage account. */
+  turboTier?: TurboTier;
   /** Provides the identity based authentication settings for Azure Files. */
   azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
   /** Allows https traffic only to storage service if sets to true. */
@@ -12136,6 +12838,7 @@ export const StorageAccountPropertiesUpdateParametersInput = /*@__PURE__*/ S.sus
     sasPolicy: S.optional(SasPolicy),
     keyPolicy: S.optional(KeyPolicy),
     accessTier: S.optional(AccessTier),
+    turboTier: S.optional(TurboTier),
     azureFilesIdentityBasedAuthentication: S.optional(AzureFilesIdentityBasedAuthentication),
     supportsHttpsTrafficOnly: S.optional(S.Boolean),
     isSftpEnabled: S.optional(S.Boolean),
@@ -12208,7 +12911,7 @@ export const UpdateStorageAccountRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -12391,7 +13094,7 @@ export const UpdateStorageTaskAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/storageTaskAssignments/{storageTaskAssignmentName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({
@@ -12446,7 +13149,7 @@ export const UpdateTableRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables/{tableName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-09-01",
     }),
   ),
 ).annotate({ identifier: "UpdateTableRequest" }) as any as S.Schema<UpdateTableRequest>;
@@ -12563,6 +13266,21 @@ export const BlobInventoryPoliciesCreateOrUpdate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CheckContextCachNameAvailabilityError = AzureOpError;
+/** Check the availability of a context cache resource name. */
+export const CheckContextCachNameAvailability: API.OperationMethod<
+  CheckContextCachNameAvailabilityRequest,
+  ContextCacheCheckNameAvailabilityResult,
+  CheckContextCachNameAvailabilityError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CheckContextCachNameAvailabilityRequest,
+  output: ContextCacheCheckNameAvailabilityResult,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CheckStorageAccountNameAvailabilityError = AzureOpError;
 /** Checks that the storage account name is valid and is not already in use. */
 export const CheckStorageAccountNameAvailability: API.OperationMethod<
@@ -12618,6 +13336,21 @@ export const ContextCachesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ContextCachesCreateOrUpdateRequest,
   output: ContextCachesCreateOrUpdateResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateBlobAccessPointConfigurationError = AzureOpError;
+/** Creates or updates a Blob Access Point configuration. */
+export const CreateBlobAccessPointConfiguration: API.OperationMethod<
+  CreateBlobAccessPointConfigurationRequest,
+  CreateBlobAccessPointConfigurationResponse,
+  CreateBlobAccessPointConfigurationError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateBlobAccessPointConfigurationRequest,
+  output: CreateBlobAccessPointConfigurationResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12753,6 +13486,21 @@ export const DeleteAdvancedPlatformMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAdvancedPlatformMetricsRequest,
   output: DeleteAdvancedPlatformMetricsResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteBlobAccessPointConfigurationError = AzureOpError;
+/** Delete a Blob Access Point configuration. */
+export const DeleteBlobAccessPointConfiguration: API.OperationMethod<
+  DeleteBlobAccessPointConfigurationRequest,
+  DeleteBlobAccessPointConfigurationResponse,
+  DeleteBlobAccessPointConfigurationError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteBlobAccessPointConfigurationRequest,
+  output: DeleteBlobAccessPointConfigurationResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13038,6 +13786,21 @@ export const GetAdvancedPlatformMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAdvancedPlatformMetricsRequest,
   output: GetAdvancedPlatformMetricsResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetBlobAccessPointConfigurationError = AzureOpError;
+/** Get the specified Blob Access Point configuration. */
+export const GetBlobAccessPointConfiguration: API.OperationMethod<
+  GetBlobAccessPointConfigurationRequest,
+  GetBlobAccessPointConfigurationResponse,
+  GetBlobAccessPointConfigurationError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetBlobAccessPointConfigurationRequest,
+  output: GetBlobAccessPointConfigurationResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13428,6 +14191,21 @@ export const ListAdvancedPlatformMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListAdvancedPlatformMetricsRequest,
   output: AdvancedPlatformMetricsRuleListResult,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListBlobAccessPointConfigurationByStorageAccountError = AzureOpError;
+/** List all Blob Access Point configurations in a Storage Account. */
+export const ListBlobAccessPointConfigurationByStorageAccount: API.OperationMethod<
+  ListBlobAccessPointConfigurationByStorageAccountRequest,
+  BlobAccessPointConfigurationListResult,
+  ListBlobAccessPointConfigurationByStorageAccountError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListBlobAccessPointConfigurationByStorageAccountRequest,
+  output: BlobAccessPointConfigurationListResult,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14273,6 +15051,36 @@ export const StorageAccountsHierarchicalNamespaceMigration: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type TestBlobAccessPointConfigurationExistingConnectionError = AzureOpError;
+/** Test the connection configured on an existing Blob Access Point configuration. */
+export const TestBlobAccessPointConfigurationExistingConnection: API.OperationMethod<
+  TestBlobAccessPointConfigurationExistingConnectionRequest,
+  BlobAccessPointConnectionTestResponse,
+  TestBlobAccessPointConfigurationExistingConnectionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: TestBlobAccessPointConfigurationExistingConnectionRequest,
+  output: BlobAccessPointConnectionTestResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type TestBlobAccessPointConnectionTestProposedConnectionError = AzureOpError;
+/** Test a proposed Blob Access Point connection before the configuration is created. The connection is validated in the context of the storage account in the request path, so no Blob Access Point configuration needs to exist beforehand. */
+export const TestBlobAccessPointConnectionTestProposedConnection: API.OperationMethod<
+  TestBlobAccessPointConnectionTestProposedConnectionRequest,
+  BlobAccessPointConnectionTestResponse,
+  TestBlobAccessPointConnectionTestProposedConnectionError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: TestBlobAccessPointConnectionTestProposedConnectionRequest,
+  output: BlobAccessPointConnectionTestResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
 export type TestConnectorExistingConnectionError = AzureOpError;
 /** This method is used to verify that the connection to the backing data store works. This API is designed to be used for monitoring and debugging purposes. From the caller’s perspective, this method does the following: Calls List on the backing data store, attempting to list up to one blob/object/etc. If the above succeeds, and if a blob/object/etc is found, calls Get on that object, attempting to download one byte. */
 export const TestConnectorExistingConnection: API.OperationMethod<
@@ -14283,6 +15091,21 @@ export const TestConnectorExistingConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TestConnectorExistingConnectionRequest,
   output: TestConnectionResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateBlobAccessPointConfigurationError = AzureOpError;
+/** Update a Blob Access Point configuration. */
+export const UpdateBlobAccessPointConfiguration: API.OperationMethod<
+  UpdateBlobAccessPointConfigurationRequest,
+  UpdateBlobAccessPointConfigurationResponse,
+  UpdateBlobAccessPointConfigurationError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateBlobAccessPointConfigurationRequest,
+  output: UpdateBlobAccessPointConfigurationResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

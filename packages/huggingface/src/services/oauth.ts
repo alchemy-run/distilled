@@ -15,9 +15,7 @@ export type { HuggingFaceOpError, HuggingFaceOpContext };
 export interface GetUserInfoRequest {}
 export const GetUserInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/oauth/userinfo", code: 200 })),
-).annotate({
-  identifier: "GetUserInfoRequest",
-}) as any as S.Schema<GetUserInfoRequest>;
+).annotate({ identifier: "GetUserInfoRequest" }) as any as S.Schema<GetUserInfoRequest>;
 
 /** Hardware SKU as [type, vendor, model] */
 export type GetUserInfoResponseHardwareItemsItemSkuList = Array<unknown>;
@@ -32,14 +30,14 @@ export interface GetUserInfoResponseHardwareItemsItem {
   mem: number;
   /** Number of units */
   num: number;
-  isPrimary?: unknown;
+  isPrimary?: boolean;
 }
 export const GetUserInfoResponseHardwareItemsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sku: GetUserInfoResponseHardwareItemsItemSkuList,
     mem: S.Number,
     num: S.Number,
-    isPrimary: S.optional(S.Unknown),
+    isPrimary: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "GetUserInfoResponseHardwareItemsItem",
@@ -195,9 +193,7 @@ export const GetUserInfoResponse = /*@__PURE__*/ S.suspend(() =>
     billingMode: S.optional(GetUserInfoResponseBillingMode),
     orgs: GetUserInfoResponseOrgsList,
   }),
-).annotate({
-  identifier: "GetUserInfoResponse",
-}) as any as S.Schema<GetUserInfoResponse>;
+).annotate({ identifier: "GetUserInfoResponse" }) as any as S.Schema<GetUserInfoResponse>;
 
 export interface InitiateDeviceAuthorizationRequest {
   client_id: string;
@@ -232,9 +228,7 @@ export const InitiateDeviceAuthorizationResponse = /*@__PURE__*/ S.suspend(() =>
 export interface PostUserInfoRequest {}
 export const PostUserInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/oauth/userinfo", code: 200 })),
-).annotate({
-  identifier: "PostUserInfoRequest",
-}) as any as S.Schema<PostUserInfoRequest>;
+).annotate({ identifier: "PostUserInfoRequest" }) as any as S.Schema<PostUserInfoRequest>;
 
 /** Hardware SKU as [type, vendor, model] */
 export type PostUserInfoResponseHardwareItemsItemSkuList = Array<unknown>;
@@ -249,14 +243,14 @@ export interface PostUserInfoResponseHardwareItemsItem {
   mem: number;
   /** Number of units */
   num: number;
-  isPrimary?: unknown;
+  isPrimary?: boolean;
 }
 export const PostUserInfoResponseHardwareItemsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sku: PostUserInfoResponseHardwareItemsItemSkuList,
     mem: S.Number,
     num: S.Number,
-    isPrimary: S.optional(S.Unknown),
+    isPrimary: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "PostUserInfoResponseHardwareItemsItem",
@@ -412,118 +406,111 @@ export const PostUserInfoResponse = /*@__PURE__*/ S.suspend(() =>
     billingMode: S.optional(PostUserInfoResponseBillingMode),
     orgs: PostUserInfoResponseOrgsList,
   }),
-).annotate({
-  identifier: "PostUserInfoResponse",
-}) as any as S.Schema<PostUserInfoResponse>;
+).annotate({ identifier: "PostUserInfoResponse" }) as any as S.Schema<PostUserInfoResponse>;
 
-export type RegisterNewOAuthAppRequestRedirectUrisList = Array<string>;
-export const RegisterNewOAuthAppRequestRedirectUrisList = /*@__PURE__*/ S.Array(
+export type RegisterOAuthAppRequestRedirectUrisList = Array<string>;
+export const RegisterOAuthAppRequestRedirectUrisList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<RegisterNewOAuthAppRequestRedirectUrisList>;
+) as any as S.Schema<RegisterOAuthAppRequestRedirectUrisList>;
 
-export type RegisterNewOAuthAppRequestContactsList = Array<string>;
-export const RegisterNewOAuthAppRequestContactsList = /*@__PURE__*/ S.Array(
+export type RegisterOAuthAppRequestContactsList = Array<string>;
+export const RegisterOAuthAppRequestContactsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<RegisterNewOAuthAppRequestContactsList>;
+) as any as S.Schema<RegisterOAuthAppRequestContactsList>;
 
-export type RegisterNewOAuthAppRequestTokenEndpointAuthMethod =
+export type RegisterOAuthAppRequestTokenEndpointAuthMethod =
   | "client_secret_basic"
   | "none"
   | "client_secret_post";
-export const RegisterNewOAuthAppRequestTokenEndpointAuthMethod = S.String;
+export const RegisterOAuthAppRequestTokenEndpointAuthMethod = S.String;
 
-export interface RegisterNewOAuthAppRequest {
-  redirect_uris?: RegisterNewOAuthAppRequestRedirectUrisList;
+export interface RegisterOAuthAppRequest {
+  redirect_uris?: RegisterOAuthAppRequestRedirectUrisList;
   client_name?: string;
   client_uri?: string;
   logo_uri?: string;
   scope?: string;
-  contacts?: RegisterNewOAuthAppRequestContactsList;
-  token_endpoint_auth_method?: RegisterNewOAuthAppRequestTokenEndpointAuthMethod | (string & {});
+  contacts?: RegisterOAuthAppRequestContactsList;
+  token_endpoint_auth_method?: RegisterOAuthAppRequestTokenEndpointAuthMethod | (string & {});
   software_id?: string;
   software_version?: string;
 }
-export const RegisterNewOAuthAppRequest = /*@__PURE__*/ S.suspend(() =>
+export const RegisterOAuthAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    redirect_uris: S.optional(RegisterNewOAuthAppRequestRedirectUrisList),
+    redirect_uris: S.optional(RegisterOAuthAppRequestRedirectUrisList),
     client_name: S.optional(S.String),
     client_uri: S.optional(S.String),
     logo_uri: S.optional(S.String),
     scope: S.optional(S.String),
-    contacts: S.optional(RegisterNewOAuthAppRequestContactsList),
-    token_endpoint_auth_method: S.optional(RegisterNewOAuthAppRequestTokenEndpointAuthMethod),
+    contacts: S.optional(RegisterOAuthAppRequestContactsList),
+    token_endpoint_auth_method: S.optional(RegisterOAuthAppRequestTokenEndpointAuthMethod),
     software_id: S.optional(S.String),
     software_version: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/oauth/register", code: 200 })),
-).annotate({
-  identifier: "RegisterNewOAuthAppRequest",
-}) as any as S.Schema<RegisterNewOAuthAppRequest>;
+).annotate({ identifier: "RegisterOAuthAppRequest" }) as any as S.Schema<RegisterOAuthAppRequest>;
 
-export type RegisterNewOAuthAppResponseRedirectUrisList = Array<string>;
-export const RegisterNewOAuthAppResponseRedirectUrisList = /*@__PURE__*/ S.Array(
+export type RegisterOAuthAppResponseRedirectUrisList = Array<string>;
+export const RegisterOAuthAppResponseRedirectUrisList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<RegisterNewOAuthAppResponseRedirectUrisList>;
+) as any as S.Schema<RegisterOAuthAppResponseRedirectUrisList>;
 
-export type RegisterNewOAuthAppResponseGrantTypesItem =
+export type RegisterOAuthAppResponseGrantTypesItem =
   | "urn:ietf:params:oauth:grant-type:token-exchange"
   | "urn:ietf:params:oauth:grant-type:device_code"
   | "authorization_code"
   | "refresh_token";
-export const RegisterNewOAuthAppResponseGrantTypesItem = S.String;
+export const RegisterOAuthAppResponseGrantTypesItem = S.String;
 
-export type RegisterNewOAuthAppResponseGrantTypesList =
-  Array<RegisterNewOAuthAppResponseGrantTypesItem>;
-export const RegisterNewOAuthAppResponseGrantTypesList = /*@__PURE__*/ S.Array(
-  RegisterNewOAuthAppResponseGrantTypesItem,
-) as any as S.Schema<RegisterNewOAuthAppResponseGrantTypesList>;
+export type RegisterOAuthAppResponseGrantTypesList = Array<RegisterOAuthAppResponseGrantTypesItem>;
+export const RegisterOAuthAppResponseGrantTypesList = /*@__PURE__*/ S.Array(
+  RegisterOAuthAppResponseGrantTypesItem,
+) as any as S.Schema<RegisterOAuthAppResponseGrantTypesList>;
 
-export type RegisterNewOAuthAppResponseContactsList = Array<string>;
-export const RegisterNewOAuthAppResponseContactsList = /*@__PURE__*/ S.Array(
+export type RegisterOAuthAppResponseContactsList = Array<string>;
+export const RegisterOAuthAppResponseContactsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<RegisterNewOAuthAppResponseContactsList>;
+) as any as S.Schema<RegisterOAuthAppResponseContactsList>;
 
-export type RegisterNewOAuthAppResponseTokenEndpointAuthMethod =
+export type RegisterOAuthAppResponseTokenEndpointAuthMethod =
   | "client_secret_basic"
   | "none"
   | "client_secret_post";
-export const RegisterNewOAuthAppResponseTokenEndpointAuthMethod = S.String;
+export const RegisterOAuthAppResponseTokenEndpointAuthMethod = S.String;
 
-export interface RegisterNewOAuthAppResponse {
+export interface RegisterOAuthAppResponse {
   client_id: string;
   client_secret?: string | Redacted.Redacted<string>;
   client_id_issued_at: number;
   client_secret_expires_at: number;
-  redirect_uris: RegisterNewOAuthAppResponseRedirectUrisList;
+  redirect_uris: RegisterOAuthAppResponseRedirectUrisList;
   client_name?: string;
   client_uri?: string;
   logo_uri?: string;
   scope: string;
-  grant_types: RegisterNewOAuthAppResponseGrantTypesList;
-  contacts?: RegisterNewOAuthAppResponseContactsList;
-  token_endpoint_auth_method?: RegisterNewOAuthAppResponseTokenEndpointAuthMethod;
+  grant_types: RegisterOAuthAppResponseGrantTypesList;
+  contacts?: RegisterOAuthAppResponseContactsList;
+  token_endpoint_auth_method?: RegisterOAuthAppResponseTokenEndpointAuthMethod;
   software_id?: string;
   software_version?: string;
 }
-export const RegisterNewOAuthAppResponse = /*@__PURE__*/ S.suspend(() =>
+export const RegisterOAuthAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     client_id: S.String,
     client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     client_id_issued_at: S.Number,
     client_secret_expires_at: S.Number,
-    redirect_uris: RegisterNewOAuthAppResponseRedirectUrisList,
+    redirect_uris: RegisterOAuthAppResponseRedirectUrisList,
     client_name: S.optional(S.String),
     client_uri: S.optional(S.String),
     logo_uri: S.optional(S.String),
     scope: S.String,
-    grant_types: RegisterNewOAuthAppResponseGrantTypesList,
-    contacts: S.optional(RegisterNewOAuthAppResponseContactsList),
-    token_endpoint_auth_method: S.optional(RegisterNewOAuthAppResponseTokenEndpointAuthMethod),
+    grant_types: RegisterOAuthAppResponseGrantTypesList,
+    contacts: S.optional(RegisterOAuthAppResponseContactsList),
+    token_endpoint_auth_method: S.optional(RegisterOAuthAppResponseTokenEndpointAuthMethod),
     software_id: S.optional(S.String),
     software_version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RegisterNewOAuthAppResponse",
-}) as any as S.Schema<RegisterNewOAuthAppResponse>;
+).annotate({ identifier: "RegisterOAuthAppResponse" }) as any as S.Schema<RegisterOAuthAppResponse>;
 
 export type GetUserInfoError = HuggingFaceOpError;
 /** Get user info Get information about the user. Only available through oauth access tokens. Information varies depending on the scope of the oauth app and what permissions the user granted to the oauth app. */
@@ -570,16 +557,16 @@ export const postUserInfo: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type RegisterNewOAuthAppError = HuggingFaceOpError;
-/** Register a new OAuth app */
-export const registerNewOAuthApp: API.OperationMethod<
-  RegisterNewOAuthAppRequest,
-  RegisterNewOAuthAppResponse,
-  RegisterNewOAuthAppError,
+export type RegisterOAuthAppError = HuggingFaceOpError;
+/** Register OAuth app */
+export const registerOAuthApp: API.OperationMethod<
+  RegisterOAuthAppRequest,
+  RegisterOAuthAppResponse,
+  RegisterOAuthAppError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: RegisterNewOAuthAppRequest,
-  output: RegisterNewOAuthAppResponse,
+  input: RegisterOAuthAppRequest,
+  output: RegisterOAuthAppResponse,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,

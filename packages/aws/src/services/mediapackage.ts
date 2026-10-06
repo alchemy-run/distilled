@@ -9,10 +9,7 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "MediaPackage",
-  serviceShapeName: "MediaPackage",
-});
+const svc = T.AwsApiService({ sdkId: "MediaPackage", serviceShapeName: "MediaPackage" });
 const auth = T.AwsAuthSigv4({ name: "mediapackage" });
 const ver = T.ServiceVersion("2017-10-12");
 const proto = T.AwsProtocolsRestJson1();
@@ -118,9 +115,7 @@ export const EgressAccessLogs = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LogGroupName: S.optional(S.String) }).pipe(
     S.encodeKeys({ LogGroupName: "logGroupName" }),
   ),
-).annotate({
-  identifier: "EgressAccessLogs",
-}) as any as S.Schema<EgressAccessLogs>;
+).annotate({ identifier: "EgressAccessLogs" }) as any as S.Schema<EgressAccessLogs>;
 export interface IngressAccessLogs {
   LogGroupName?: string;
 }
@@ -128,9 +123,7 @@ export const IngressAccessLogs = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LogGroupName: S.optional(S.String) }).pipe(
     S.encodeKeys({ LogGroupName: "logGroupName" }),
   ),
-).annotate({
-  identifier: "IngressAccessLogs",
-}) as any as S.Schema<IngressAccessLogs>;
+).annotate({ identifier: "IngressAccessLogs" }) as any as S.Schema<IngressAccessLogs>;
 export interface ConfigureLogsRequest {
   EgressAccessLogs?: EgressAccessLogs;
   Id: string;
@@ -158,9 +151,7 @@ export const ConfigureLogsRequest = /*@__PURE__*/ S.suspend(() =>
         rules,
       ),
     ),
-).annotate({
-  identifier: "ConfigureLogsRequest",
-}) as any as S.Schema<ConfigureLogsRequest>;
+).annotate({ identifier: "ConfigureLogsRequest" }) as any as S.Schema<ConfigureLogsRequest>;
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface IngestEndpoint {
   Id?: string;
@@ -174,14 +165,7 @@ export const IngestEndpoint = /*@__PURE__*/ S.suspend(() =>
     Password: S.optional(SensitiveString),
     Url: S.optional(S.String),
     Username: S.optional(SensitiveString),
-  }).pipe(
-    S.encodeKeys({
-      Id: "id",
-      Password: "password",
-      Url: "url",
-      Username: "username",
-    }),
-  ),
+  }).pipe(S.encodeKeys({ Id: "id", Password: "password", Url: "url", Username: "username" })),
 ).annotate({ identifier: "IngestEndpoint" }) as any as S.Schema<IngestEndpoint>;
 export type __listOfIngestEndpoint = IngestEndpoint[];
 export const __listOfIngestEndpoint = /*@__PURE__*/ S.Array(IngestEndpoint);
@@ -227,25 +211,17 @@ export const ConfigureLogsResponse = /*@__PURE__*/ S.suspend(() =>
       Tags: "tags",
     }),
   ),
-).annotate({
-  identifier: "ConfigureLogsResponse",
-}) as any as S.Schema<ConfigureLogsResponse>;
+).annotate({ identifier: "ConfigureLogsResponse" }) as any as S.Schema<ConfigureLogsResponse>;
 export interface CreateChannelRequest {
   Description?: string;
   Id?: string;
   Tags?: { [key: string]: string | undefined };
 }
 export const CreateChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    Id: S.optional(S.String),
-    Tags: S.optional(Tags),
-  })
+  S.Struct({ Description: S.optional(S.String), Id: S.optional(S.String), Tags: S.optional(Tags) })
     .pipe(S.encodeKeys({ Description: "description", Id: "id", Tags: "tags" }))
     .pipe(T.all(T.Http({ method: "POST", uri: "/channels" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateChannelRequest",
-}) as any as S.Schema<CreateChannelRequest>;
+).annotate({ identifier: "CreateChannelRequest" }) as any as S.Schema<CreateChannelRequest>;
 export interface CreateChannelResponse {
   Arn?: string;
   CreatedAt?: string;
@@ -278,9 +254,7 @@ export const CreateChannelResponse = /*@__PURE__*/ S.suspend(() =>
       Tags: "tags",
     }),
   ),
-).annotate({
-  identifier: "CreateChannelResponse",
-}) as any as S.Schema<CreateChannelResponse>;
+).annotate({ identifier: "CreateChannelResponse" }) as any as S.Schema<CreateChannelResponse>;
 export interface S3Destination {
   BucketName?: string;
   ManifestKey?: string;
@@ -292,11 +266,7 @@ export const S3Destination = /*@__PURE__*/ S.suspend(() =>
     ManifestKey: S.optional(S.String),
     RoleArn: S.optional(S.String),
   }).pipe(
-    S.encodeKeys({
-      BucketName: "bucketName",
-      ManifestKey: "manifestKey",
-      RoleArn: "roleArn",
-    }),
+    S.encodeKeys({ BucketName: "bucketName", ManifestKey: "manifestKey", RoleArn: "roleArn" }),
   ),
 ).annotate({ identifier: "S3Destination" }) as any as S.Schema<S3Destination>;
 export interface CreateHarvestJobRequest {
@@ -324,9 +294,7 @@ export const CreateHarvestJobRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.all(T.Http({ method: "POST", uri: "/harvest_jobs" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateHarvestJobRequest",
-}) as any as S.Schema<CreateHarvestJobRequest>;
+).annotate({ identifier: "CreateHarvestJobRequest" }) as any as S.Schema<CreateHarvestJobRequest>;
 export type Status = "IN_PROGRESS" | "SUCCEEDED" | "FAILED" | (string & {});
 export const Status = S.String;
 
@@ -337,11 +305,7 @@ export interface CreateHarvestJobResponse {
   EndTime?: string;
   Id?: string;
   OriginEndpointId?: string;
-  S3Destination?: S3Destination & {
-    BucketName: string;
-    ManifestKey: string;
-    RoleArn: string;
-  };
+  S3Destination?: S3Destination & { BucketName: string; ManifestKey: string; RoleArn: string };
   StartTime?: string;
   Status?: Status;
 }
@@ -369,9 +333,7 @@ export const CreateHarvestJobResponse = /*@__PURE__*/ S.suspend(() =>
       Status: "status",
     }),
   ),
-).annotate({
-  identifier: "CreateHarvestJobResponse",
-}) as any as S.Schema<CreateHarvestJobResponse>;
+).annotate({ identifier: "CreateHarvestJobResponse" }) as any as S.Schema<CreateHarvestJobResponse>;
 export interface Authorization {
   CdnIdentifierSecret?: string;
   SecretsRoleArn?: string;
@@ -381,10 +343,7 @@ export const Authorization = /*@__PURE__*/ S.suspend(() =>
     CdnIdentifierSecret: S.optional(S.String),
     SecretsRoleArn: S.optional(S.String),
   }).pipe(
-    S.encodeKeys({
-      CdnIdentifierSecret: "cdnIdentifierSecret",
-      SecretsRoleArn: "secretsRoleArn",
-    }),
+    S.encodeKeys({ CdnIdentifierSecret: "cdnIdentifierSecret", SecretsRoleArn: "secretsRoleArn" }),
   ),
 ).annotate({ identifier: "Authorization" }) as any as S.Schema<Authorization>;
 export type CmafEncryptionMethod = "SAMPLE_AES" | "AES_CTR" | (string & {});
@@ -458,9 +417,7 @@ export const SpekeKeyProvider = /*@__PURE__*/ S.suspend(() =>
       Url: "url",
     }),
   ),
-).annotate({
-  identifier: "SpekeKeyProvider",
-}) as any as S.Schema<SpekeKeyProvider>;
+).annotate({ identifier: "SpekeKeyProvider" }) as any as S.Schema<SpekeKeyProvider>;
 export interface CmafEncryption {
   ConstantInitializationVector?: string;
   EncryptionMethod?: CmafEncryptionMethod;
@@ -576,9 +533,7 @@ export const StreamSelection = /*@__PURE__*/ S.suspend(() =>
       StreamOrder: "streamOrder",
     }),
   ),
-).annotate({
-  identifier: "StreamSelection",
-}) as any as S.Schema<StreamSelection>;
+).annotate({ identifier: "StreamSelection" }) as any as S.Schema<StreamSelection>;
 export interface CmafPackageCreateOrUpdateParameters {
   Encryption?: CmafEncryption;
   HlsManifests?: HlsManifestCreateOrUpdateParameters[];
@@ -926,10 +881,7 @@ export const CmafPackage = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "CmafPackage" }) as any as S.Schema<CmafPackage>;
 export interface CreateOriginEndpointResponse {
   Arn?: string;
-  Authorization?: Authorization & {
-    CdnIdentifierSecret: string;
-    SecretsRoleArn: string;
-  };
+  Authorization?: Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string };
   ChannelId?: string;
   CmafPackage?: CmafPackage & {
     Encryption: CmafEncryption & {
@@ -1049,9 +1001,7 @@ export const DeleteChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/channels/{Id}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteChannelRequest",
-}) as any as S.Schema<DeleteChannelRequest>;
+).annotate({ identifier: "DeleteChannelRequest" }) as any as S.Schema<DeleteChannelRequest>;
 export interface DeleteChannelResponse {}
 export const DeleteChannelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteChannelResponse",
@@ -1084,9 +1034,7 @@ export const DescribeChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/channels/{Id}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeChannelRequest",
-}) as any as S.Schema<DescribeChannelRequest>;
+).annotate({ identifier: "DescribeChannelRequest" }) as any as S.Schema<DescribeChannelRequest>;
 export interface DescribeChannelResponse {
   Arn?: string;
   CreatedAt?: string;
@@ -1119,9 +1067,7 @@ export const DescribeChannelResponse = /*@__PURE__*/ S.suspend(() =>
       Tags: "tags",
     }),
   ),
-).annotate({
-  identifier: "DescribeChannelResponse",
-}) as any as S.Schema<DescribeChannelResponse>;
+).annotate({ identifier: "DescribeChannelResponse" }) as any as S.Schema<DescribeChannelResponse>;
 export interface DescribeHarvestJobRequest {
   Id: string;
 }
@@ -1139,11 +1085,7 @@ export interface DescribeHarvestJobResponse {
   EndTime?: string;
   Id?: string;
   OriginEndpointId?: string;
-  S3Destination?: S3Destination & {
-    BucketName: string;
-    ManifestKey: string;
-    RoleArn: string;
-  };
+  S3Destination?: S3Destination & { BucketName: string; ManifestKey: string; RoleArn: string };
   StartTime?: string;
   Status?: Status;
 }
@@ -1186,10 +1128,7 @@ export const DescribeOriginEndpointRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeOriginEndpointRequest>;
 export interface DescribeOriginEndpointResponse {
   Arn?: string;
-  Authorization?: Authorization & {
-    CdnIdentifierSecret: string;
-    SecretsRoleArn: string;
-  };
+  Authorization?: Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string };
   ChannelId?: string;
   CmafPackage?: CmafPackage & {
     Encryption: CmafEncryption & {
@@ -1312,9 +1251,7 @@ export const ListChannelsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/channels" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListChannelsRequest",
-}) as any as S.Schema<ListChannelsRequest>;
+).annotate({ identifier: "ListChannelsRequest" }) as any as S.Schema<ListChannelsRequest>;
 export interface Channel {
   Arn?: string;
   CreatedAt?: string;
@@ -1355,13 +1292,10 @@ export interface ListChannelsResponse {
   NextToken?: string;
 }
 export const ListChannelsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Channels: S.optional(__listOfChannel),
-    NextToken: S.optional(S.String),
-  }).pipe(S.encodeKeys({ Channels: "channels", NextToken: "nextToken" })),
-).annotate({
-  identifier: "ListChannelsResponse",
-}) as any as S.Schema<ListChannelsResponse>;
+  S.Struct({ Channels: S.optional(__listOfChannel), NextToken: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Channels: "channels", NextToken: "nextToken" }),
+  ),
+).annotate({ identifier: "ListChannelsResponse" }) as any as S.Schema<ListChannelsResponse>;
 export interface ListHarvestJobsRequest {
   IncludeChannelId?: string;
   IncludeStatus?: string;
@@ -1375,9 +1309,7 @@ export const ListHarvestJobsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/harvest_jobs" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListHarvestJobsRequest",
-}) as any as S.Schema<ListHarvestJobsRequest>;
+).annotate({ identifier: "ListHarvestJobsRequest" }) as any as S.Schema<ListHarvestJobsRequest>;
 export interface HarvestJob {
   Arn?: string;
   ChannelId?: string;
@@ -1418,22 +1350,15 @@ export type __listOfHarvestJob = HarvestJob[];
 export const __listOfHarvestJob = /*@__PURE__*/ S.Array(HarvestJob);
 export interface ListHarvestJobsResponse {
   HarvestJobs?: (HarvestJob & {
-    S3Destination: S3Destination & {
-      BucketName: string;
-      ManifestKey: string;
-      RoleArn: string;
-    };
+    S3Destination: S3Destination & { BucketName: string; ManifestKey: string; RoleArn: string };
   })[];
   NextToken?: string;
 }
 export const ListHarvestJobsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HarvestJobs: S.optional(__listOfHarvestJob),
-    NextToken: S.optional(S.String),
-  }).pipe(S.encodeKeys({ HarvestJobs: "harvestJobs", NextToken: "nextToken" })),
-).annotate({
-  identifier: "ListHarvestJobsResponse",
-}) as any as S.Schema<ListHarvestJobsResponse>;
+  S.Struct({ HarvestJobs: S.optional(__listOfHarvestJob), NextToken: S.optional(S.String) }).pipe(
+    S.encodeKeys({ HarvestJobs: "harvestJobs", NextToken: "nextToken" }),
+  ),
+).annotate({ identifier: "ListHarvestJobsResponse" }) as any as S.Schema<ListHarvestJobsResponse>;
 export interface ListOriginEndpointsRequest {
   ChannelId?: string;
   MaxResults?: number;
@@ -1513,10 +1438,7 @@ export const __listOfOriginEndpoint = /*@__PURE__*/ S.Array(OriginEndpoint);
 export interface ListOriginEndpointsResponse {
   NextToken?: string;
   OriginEndpoints?: (OriginEndpoint & {
-    Authorization: Authorization & {
-      CdnIdentifierSecret: string;
-      SecretsRoleArn: string;
-    };
+    Authorization: Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string };
     CmafPackage: CmafPackage & {
       Encryption: CmafEncryption & {
         SpekeKeyProvider: SpekeKeyProvider & {
@@ -1580,12 +1502,7 @@ export const ListOriginEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     OriginEndpoints: S.optional(__listOfOriginEndpoint),
-  }).pipe(
-    S.encodeKeys({
-      NextToken: "nextToken",
-      OriginEndpoints: "originEndpoints",
-    }),
-  ),
+  }).pipe(S.encodeKeys({ NextToken: "nextToken", OriginEndpoints: "originEndpoints" })),
 ).annotate({
   identifier: "ListOriginEndpointsResponse",
 }) as any as S.Schema<ListOriginEndpointsResponse>;
@@ -1733,9 +1650,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(
       T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
     ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -1751,9 +1666,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -1763,15 +1676,10 @@ export interface UpdateChannelRequest {
   Id: string;
 }
 export const UpdateChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    Id: S.String.pipe(T.HttpLabel("Id")),
-  })
+  S.Struct({ Description: S.optional(S.String), Id: S.String.pipe(T.HttpLabel("Id")) })
     .pipe(S.encodeKeys({ Description: "description" }))
     .pipe(T.all(T.Http({ method: "PUT", uri: "/channels/{Id}" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateChannelRequest",
-}) as any as S.Schema<UpdateChannelRequest>;
+).annotate({ identifier: "UpdateChannelRequest" }) as any as S.Schema<UpdateChannelRequest>;
 export interface UpdateChannelResponse {
   Arn?: string;
   CreatedAt?: string;
@@ -1804,9 +1712,7 @@ export const UpdateChannelResponse = /*@__PURE__*/ S.suspend(() =>
       Tags: "tags",
     }),
   ),
-).annotate({
-  identifier: "UpdateChannelResponse",
-}) as any as S.Schema<UpdateChannelResponse>;
+).annotate({ identifier: "UpdateChannelResponse" }) as any as S.Schema<UpdateChannelResponse>;
 export interface UpdateOriginEndpointRequest {
   Authorization?: Authorization;
   CmafPackage?: CmafPackageCreateOrUpdateParameters;
@@ -1859,10 +1765,7 @@ export const UpdateOriginEndpointRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateOriginEndpointRequest>;
 export interface UpdateOriginEndpointResponse {
   Arn?: string;
-  Authorization?: Authorization & {
-    CdnIdentifierSecret: string;
-    SecretsRoleArn: string;
-  };
+  Authorization?: Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string };
   ChannelId?: string;
   CmafPackage?: CmafPackage & {
     Encryption: CmafEncryption & {

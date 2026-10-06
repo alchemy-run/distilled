@@ -51,6 +51,7 @@ await runOpenApiConvert({
       "GET /sandboxes/{sandboxId}": "getSandbox",
       "PATCH /sandboxes/{sandboxId}": "updateSandbox",
       "POST /sandboxes/{sandboxId}/stop": "stopSandbox",
+      "POST /sandboxes/{sandboxId}/share": "shareSandbox",
       "POST /sandboxes/{sandboxId}/resume": "resumeSandbox",
       "POST /sandboxes/{sandboxId}/fork": "forkSandbox",
       "POST /sandboxes/{sandboxId}/prompt": "promptSandbox",

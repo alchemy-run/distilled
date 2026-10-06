@@ -29,7 +29,7 @@ export const CheckFrontDoorNameAvailabilityRequest = /*@__PURE__*/ S.suspend(() 
       method: "POST",
       uri: "/providers/Microsoft.Network/checkFrontDoorNameAvailability",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({
@@ -77,7 +77,7 @@ export const CheckFrontDoorNameAvailabilityWithSubscriptionRequest = /*@__PURE__
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/checkFrontDoorNameAvailability",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({
@@ -105,7 +105,7 @@ export const DeleteExperimentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({ identifier: "DeleteExperimentRequest" }) as any as S.Schema<DeleteExperimentRequest>;
@@ -133,7 +133,7 @@ export const DeleteFrontDoorRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({ identifier: "DeleteFrontDoorRequest" }) as any as S.Schema<DeleteFrontDoorRequest>;
@@ -161,7 +161,7 @@ export const DeleteNetworkExperimentProfileRequest = /*@__PURE__*/ S.suspend(() 
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({
@@ -193,7 +193,7 @@ export const DeletePolicyRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({ identifier: "DeletePolicyRequest" }) as any as S.Schema<DeletePolicyRequest>;
@@ -224,7 +224,7 @@ export const DeleteRulesEngineRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/rulesEngines/{rulesEngineName}",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({ identifier: "DeleteRulesEngineRequest" }) as any as S.Schema<DeleteRulesEngineRequest>;
@@ -255,7 +255,7 @@ export const DisableFrontendEndpointHttpsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}/disableHttps",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({
@@ -366,7 +366,7 @@ export const EnableFrontendEndpointHttpsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}/enableHttps",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({
@@ -457,7 +457,7 @@ export const ExperimentsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({
@@ -1067,7 +1067,7 @@ export const FrontDoorsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({
@@ -1528,7 +1528,7 @@ export const GetExperimentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({ identifier: "GetExperimentRequest" }) as any as S.Schema<GetExperimentRequest>;
@@ -1583,7 +1583,7 @@ export const GetFrontDoorRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({ identifier: "GetFrontDoorRequest" }) as any as S.Schema<GetFrontDoorRequest>;
@@ -1641,7 +1641,7 @@ export const GetFrontendEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({
@@ -1687,7 +1687,7 @@ export const GetNetworkExperimentProfileRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({
@@ -1763,7 +1763,7 @@ export const GetPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({ identifier: "GetPolicyRequest" }) as any as S.Schema<GetPolicyRequest>;
@@ -1899,7 +1899,7 @@ export type RuleType = "MatchRule" | "RateLimitRule";
 export const RuleType = S.String;
 
 /** Describes the supported variable for group by */
-export type VariableName = "SocketAddr" | "GeoLocation" | "None";
+export type VariableName = "SocketAddr" | "GeoLocation" | "None" | "Asn" | "Ja4";
 export const VariableName = S.String;
 
 /** Describes the variables available to group the rate limit requests */
@@ -2520,7 +2520,7 @@ export const GetReportLatencyScorecardsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}/latencyScorecard",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({
@@ -2691,7 +2691,7 @@ export const GetReportTimeseriesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}/timeseries",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({
@@ -2810,7 +2810,7 @@ export const GetRulesEngineRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/rulesEngines/{rulesEngineName}",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({ identifier: "GetRulesEngineRequest" }) as any as S.Schema<GetRulesEngineRequest>;
@@ -2852,7 +2852,7 @@ export const ListExperimentByProfileRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({
@@ -2927,7 +2927,7 @@ export const ListFrontDoorByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({
@@ -2999,7 +2999,7 @@ export const ListFrontDoorsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/frontDoors",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({ identifier: "ListFrontDoorsRequest" }) as any as S.Schema<ListFrontDoorsRequest>;
@@ -3022,7 +3022,7 @@ export const ListFrontendEndpointByFrontDoorRequest = /*@__PURE__*/ S.suspend(()
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({
@@ -3063,7 +3063,7 @@ export const ListManagedRuleSetsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/frontDoorWebApplicationFirewallManagedRuleSets",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({
@@ -3077,6 +3077,10 @@ export const ManagedRuleSetDefinitionTagsMap = /*@__PURE__*/ S.Record(
   S.String,
 ) as any as S.Schema<ManagedRuleSetDefinitionTagsMap>;
 
+/** OWASP CRS paranoia level of a managed rule. Applicable only for DRS rules. */
+export type ParanoiaLevel = "PL1" | "PL2" | "PL3" | "PL4";
+export const ParanoiaLevel = S.String;
+
 /** Describes a managed rule definition. */
 export interface ManagedRuleDefinition {
   /** Identifier for the managed rule. */
@@ -3089,6 +3093,8 @@ export interface ManagedRuleDefinition {
   defaultSensitivity?: SensitivityType;
   /** Describes the functionality of the managed rule. */
   description?: string;
+  /** Describes the paranoia level of the managed rule. Applicable only for DRS rules. Omitted for Bot Manager, DDoS, and AI rules. */
+  paranoiaLevel?: ParanoiaLevel;
 }
 export const ManagedRuleDefinition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3097,6 +3103,7 @@ export const ManagedRuleDefinition = /*@__PURE__*/ S.suspend(() =>
     defaultAction: S.optional(ActionType),
     defaultSensitivity: S.optional(SensitivityType),
     description: S.optional(S.String),
+    paranoiaLevel: S.optional(ParanoiaLevel),
   }),
 ).annotate({ identifier: "ManagedRuleDefinition" }) as any as S.Schema<ManagedRuleDefinition>;
 
@@ -3131,6 +3138,10 @@ export const ManagedRuleSetDefinitionPropertiesRuleGroupsList = /*@__PURE__*/ S.
   ManagedRuleGroupDefinition,
 ) as any as S.Schema<ManagedRuleSetDefinitionPropertiesRuleGroupsList>;
 
+/** Status of a managed rule set. */
+export type ManagedRuleSetStatus = "Preview" | "GA" | "Deprecated" | "Supported";
+export const ManagedRuleSetStatus = S.String;
+
 /** Properties for a managed rule set definition. */
 export interface ManagedRuleSetDefinitionProperties {
   /** Provisioning state of the managed rule set. */
@@ -3143,6 +3154,10 @@ export interface ManagedRuleSetDefinitionProperties {
   ruleSetVersion?: string;
   /** Rule groups of the managed rule set. */
   ruleGroups?: ManagedRuleSetDefinitionPropertiesRuleGroupsList;
+  /** Human-readable display name for the managed rule set version (e.g., 'Default Ruleset 2.2 (Latest, Recommended)'). */
+  displayName?: string;
+  /** Describes the lifecycle status of the managed rule set version. */
+  status?: ManagedRuleSetStatus;
 }
 export const ManagedRuleSetDefinitionProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3151,6 +3166,8 @@ export const ManagedRuleSetDefinitionProperties = /*@__PURE__*/ S.suspend(() =>
     ruleSetType: S.optional(S.String),
     ruleSetVersion: S.optional(S.String),
     ruleGroups: S.optional(ManagedRuleSetDefinitionPropertiesRuleGroupsList),
+    displayName: S.optional(S.String),
+    status: S.optional(ManagedRuleSetStatus),
   }),
 ).annotate({
   identifier: "ManagedRuleSetDefinitionProperties",
@@ -3219,7 +3236,7 @@ export const ListNetworkExperimentProfileByResourceGroupRequest = /*@__PURE__*/ 
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({
@@ -3294,7 +3311,7 @@ export const ListNetworkExperimentProfilesRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/NetworkExperimentProfiles",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({
@@ -3316,7 +3333,7 @@ export const ListPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({ identifier: "ListPoliciesRequest" }) as any as S.Schema<ListPoliciesRequest>;
@@ -3396,7 +3413,7 @@ export const ListPolicyBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({
@@ -3421,7 +3438,7 @@ export const ListPreconfiguredEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/preconfiguredEndpoints",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({
@@ -3527,7 +3544,7 @@ export const ListRulesEngineByFrontDoorRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/rulesEngines",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({
@@ -3593,7 +3610,7 @@ export const NetworkExperimentProfilesCreateOrUpdateRequest = /*@__PURE__*/ S.su
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({
@@ -3698,7 +3715,7 @@ export const PoliciesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({
@@ -3772,7 +3789,7 @@ export const PurgeEndpointContentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/purge",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({
@@ -3808,7 +3825,7 @@ export const RulesEnginesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/rulesEngines/{rulesEngineName}",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({
@@ -3886,7 +3903,7 @@ export const UpdateExperimentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({ identifier: "UpdateExperimentRequest" }) as any as S.Schema<UpdateExperimentRequest>;
@@ -3965,7 +3982,7 @@ export const UpdateNetworkExperimentProfileRequest = /*@__PURE__*/ S.suspend(() 
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({
@@ -4037,7 +4054,7 @@ export const UpdatePolicyRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({ identifier: "UpdatePolicyRequest" }) as any as S.Schema<UpdatePolicyRequest>;
@@ -4101,7 +4118,7 @@ export const ValidateFrontDoorCustomDomainRequest = /*@__PURE__*/ S.suspend(() =
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/validateCustomDomain",
       code: 200,
-      apiVersion: "2025-11-01",
+      apiVersion: "2026-04-01",
     }),
   ),
 ).annotate({

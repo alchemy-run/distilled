@@ -83,15 +83,9 @@ export const CreateSandboxRequest = /*@__PURE__*/ S.suspend(() =>
     private: S.optional(S.Boolean),
     custom_image_id: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/sandbox_environments/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/sandbox_environments/", code: 200 }),
   ),
-).annotate({
-  identifier: "CreateSandboxRequest",
-}) as any as S.Schema<CreateSandboxRequest>;
+).annotate({ identifier: "CreateSandboxRequest" }) as any as S.Schema<CreateSandboxRequest>;
 
 export type SandboxEnvironmentDTOAllowedDomainsList = Array<string>;
 export const SandboxEnvironmentDTOAllowedDomainsList = /*@__PURE__*/ S.Array(
@@ -114,9 +108,7 @@ export const SandboxEnvironmentDTOEffectiveDomainsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<SandboxEnvironmentDTOEffectiveDomainsList>;
 
-export type TaskUserBasicInfoHedgehogConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type TaskUserBasicInfoHedgehogConfigMap = { [key: string]: unknown | undefined };
 export const TaskUserBasicInfoHedgehogConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -146,9 +138,7 @@ export const TaskUserBasicInfo = /*@__PURE__*/ S.suspend(() =>
     hedgehog_config: S.optional(S.NullOr(TaskUserBasicInfoHedgehogConfigMap)),
     role_at_organization: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "TaskUserBasicInfo",
-}) as any as S.Schema<TaskUserBasicInfo>;
+).annotate({ identifier: "TaskUserBasicInfo" }) as any as S.Schema<TaskUserBasicInfo>;
 
 /** A sandbox environment, as returned by list, detail, create and update. */
 export interface SandboxEnvironmentDTO {
@@ -192,9 +182,7 @@ export const SandboxEnvironmentDTO = /*@__PURE__*/ S.suspend(() =>
     custom_image_name: S.optional(S.NullOr(S.String)),
     custom_image_status: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "SandboxEnvironmentDTO",
-}) as any as S.Schema<SandboxEnvironmentDTO>;
+).annotate({ identifier: "SandboxEnvironmentDTO" }) as any as S.Schema<SandboxEnvironmentDTO>;
 
 export interface GetSandboxRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -212,9 +200,7 @@ export const GetSandboxRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetSandboxRequest",
-}) as any as S.Schema<GetSandboxRequest>;
+).annotate({ identifier: "GetSandboxRequest" }) as any as S.Schema<GetSandboxRequest>;
 
 export interface ListSandboxRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -230,15 +216,9 @@ export const ListSandboxRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/sandbox_environments/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/sandbox_environments/", code: 200 }),
   ),
-).annotate({
-  identifier: "ListSandboxRequest",
-}) as any as S.Schema<ListSandboxRequest>;
+).annotate({ identifier: "ListSandboxRequest" }) as any as S.Schema<ListSandboxRequest>;
 
 export type PaginatedSandboxEnvironmentDTOListResultsList = Array<SandboxEnvironmentDTO>;
 export const PaginatedSandboxEnvironmentDTOListResultsList = /*@__PURE__*/ S.Array(
@@ -278,9 +258,7 @@ export const SandboxDestroyRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "SandboxDestroyRequest",
-}) as any as S.Schema<SandboxDestroyRequest>;
+).annotate({ identifier: "SandboxDestroyRequest" }) as any as S.Schema<SandboxDestroyRequest>;
 
 export interface SandboxDestroyResponse {}
 export const SandboxDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

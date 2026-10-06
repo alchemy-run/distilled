@@ -27,7 +27,7 @@ export const AbortNetworkVirtualApplianceMigrationRequest = /*@__PURE__*/ S.susp
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/abortMigration",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -100,7 +100,7 @@ export const AddressPrefixSetsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}/addressPrefixSets/{addressPrefixSetName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -207,7 +207,7 @@ export const AdminRuleCollectionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -424,7 +424,7 @@ export const AdminRulesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -529,7 +529,7 @@ export const ApplicationGatewaysBackendHealthRequest = /*@__PURE__*/ S.suspend((
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/backendhealth",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -4045,7 +4045,7 @@ export const ApplicationGatewaysBackendHealthOnDemandRequest = /*@__PURE__*/ S.s
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/getBackendHealthOnDemand",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -4084,11 +4084,20 @@ export type ApplicationGatewaySkuName =
   | "WAF_Large"
   | "Standard_v2"
   | "WAF_v2"
-  | "Basic";
+  | "Basic"
+  | "Basic_v2"
+  | "Basic_WAF_v2";
 export const ApplicationGatewaySkuName = S.String;
 
 /** Tier of an application gateway. */
-export type ApplicationGatewaySkuTier = "Standard" | "WAF" | "Standard_v2" | "WAF_v2" | "Basic";
+export type ApplicationGatewaySkuTier =
+  | "Standard"
+  | "WAF"
+  | "Standard_v2"
+  | "WAF_v2"
+  | "Basic"
+  | "Basic_v2"
+  | "Basic_WAF_v2";
 export const ApplicationGatewaySkuTier = S.String;
 
 /** Family of an application gateway SKU. */
@@ -5568,10 +5577,269 @@ export const ApplicationGatewayPropertiesFormatInputUrlPathMapsList = /*@__PURE_
   ApplicationGatewayUrlPathMapInput,
 ) as any as S.Schema<ApplicationGatewayPropertiesFormatInputUrlPathMapsList>;
 
+/** Reference to another subresource. */
+export type ApplicationGatewayAdvancedRoutingMapPropertiesFormatInputDefaultBackendAddressPool =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+export const ApplicationGatewayAdvancedRoutingMapPropertiesFormatInputDefaultBackendAddressPool =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+
+/** Reference to another subresource. */
+export type ApplicationGatewayAdvancedRoutingMapPropertiesFormatInputDefaultBackendHttpSettings =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+export const ApplicationGatewayAdvancedRoutingMapPropertiesFormatInputDefaultBackendHttpSettings =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+
+/** Reference to another subresource. */
+export type ApplicationGatewayAdvancedRoutingMapPropertiesFormatInputDefaultRedirectConfiguration =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+export const ApplicationGatewayAdvancedRoutingMapPropertiesFormatInputDefaultRedirectConfiguration =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+
+/** Reference to another subresource. */
+export type ApplicationGatewayAdvancedRoutingMapPropertiesFormatInputDefaultRewriteRuleSet =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+export const ApplicationGatewayAdvancedRoutingMapPropertiesFormatInputDefaultRewriteRuleSet =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+
+/** Reference to another subresource. */
+export type ApplicationGatewayAuthConfigAuthenticationPolicy =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+export const ApplicationGatewayAuthConfigAuthenticationPolicy =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+
+/** An authentication configuration binding for an Application Gateway routing rule or routing map. */
+export interface ApplicationGatewayAuthConfig {
+  /** The name of the auth configuration. */
+  name: string;
+  /** Reference to another subresource. */
+  authenticationPolicy: NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+}
+export const ApplicationGatewayAuthConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    authenticationPolicy: NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer,
+  }),
+).annotate({
+  identifier: "ApplicationGatewayAuthConfig",
+}) as any as S.Schema<ApplicationGatewayAuthConfig>;
+
+/** Default authentication configuration bindings of the advanced routing map. Only one authentication configuration is supported. Authentication configuration names must be unique across the Application Gateway, and an Application Gateway can reference at most 100 distinct authentication policies. Authentication policies can only be bound to Application Gateways using the Standard_v2 or WAF_v2 SKU. */
+export type ApplicationGatewayAdvancedRoutingMapPropertiesFormatInputDefaultAuthConfigsList =
+  Array<ApplicationGatewayAuthConfig>;
+export const ApplicationGatewayAdvancedRoutingMapPropertiesFormatInputDefaultAuthConfigsList =
+  /*@__PURE__*/ S.Array(
+    ApplicationGatewayAuthConfig,
+  ) as any as S.Schema<ApplicationGatewayAdvancedRoutingMapPropertiesFormatInputDefaultAuthConfigsList>;
+
+/** Reference to another subresource. */
+export type ApplicationGatewayAdvancedRoutingRulePropertiesFormatAdvancedRoutingConditionSet =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+export const ApplicationGatewayAdvancedRoutingRulePropertiesFormatAdvancedRoutingConditionSet =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+
+/** Reference to another subresource. */
+export type ApplicationGatewayAdvancedRoutingRulePropertiesFormatBackendAddressPool =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+export const ApplicationGatewayAdvancedRoutingRulePropertiesFormatBackendAddressPool =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+
+/** Reference to another subresource. */
+export type ApplicationGatewayAdvancedRoutingRulePropertiesFormatBackendHttpSettings =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+export const ApplicationGatewayAdvancedRoutingRulePropertiesFormatBackendHttpSettings =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+
+/** Reference to another subresource. */
+export type ApplicationGatewayAdvancedRoutingRulePropertiesFormatRedirectConfiguration =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+export const ApplicationGatewayAdvancedRoutingRulePropertiesFormatRedirectConfiguration =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+
+/** Reference to another subresource. */
+export type ApplicationGatewayAdvancedRoutingRulePropertiesFormatRewriteRuleSet =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+export const ApplicationGatewayAdvancedRoutingRulePropertiesFormatRewriteRuleSet =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+
+/** Authentication configuration bindings of the advanced routing rule. Only one authentication configuration is supported. Authentication configuration names must be unique across the Application Gateway, and an Application Gateway can reference at most 100 distinct authentication policies. Authentication policies can only be bound to Application Gateways using the Standard_v2 or WAF_v2 SKU. */
+export type ApplicationGatewayAdvancedRoutingRulePropertiesFormatAuthConfigsList =
+  Array<ApplicationGatewayAuthConfig>;
+export const ApplicationGatewayAdvancedRoutingRulePropertiesFormatAuthConfigsList =
+  /*@__PURE__*/ S.Array(
+    ApplicationGatewayAuthConfig,
+  ) as any as S.Schema<ApplicationGatewayAdvancedRoutingRulePropertiesFormatAuthConfigsList>;
+
+/** Provisioning states of a resource. */
+export type ApplicationGatewayAdvancedRoutingRulePropertiesFormatProvisioningState =
+  | "Failed"
+  | "Succeeded"
+  | "Canceled"
+  | "Creating"
+  | "Updating"
+  | "Deleting";
+export const ApplicationGatewayAdvancedRoutingRulePropertiesFormatProvisioningState = S.String;
+
+/** Properties of advanced routing rule of the application gateway. */
+export interface ApplicationGatewayAdvancedRoutingRulePropertiesFormat {
+  /** Priority of the advanced routing rule. Must be unique within the containing advanced routing map. Rules are evaluated in ascending priority order. */
+  priority: number;
+  /** Reference to another subresource. */
+  advancedRoutingConditionSet?: NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+  /** Reference to another subresource. */
+  backendAddressPool?: NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+  /** Reference to another subresource. */
+  backendHttpSettings?: NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+  /** Reference to another subresource. */
+  redirectConfiguration?: NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+  /** Reference to another subresource. */
+  rewriteRuleSet?: NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+  /** Authentication configuration bindings of the advanced routing rule. Only one authentication configuration is supported. Authentication configuration names must be unique across the Application Gateway, and an Application Gateway can reference at most 100 distinct authentication policies. Authentication policies can only be bound to Application Gateways using the Standard_v2 or WAF_v2 SKU. */
+  authConfigs?: ApplicationGatewayAdvancedRoutingRulePropertiesFormatAuthConfigsList;
+  /** Provisioning states of a resource. */
+  provisioningState?:
+    | ApplicationGatewayAdvancedRoutingRulePropertiesFormatProvisioningState
+    | (string & {});
+}
+export const ApplicationGatewayAdvancedRoutingRulePropertiesFormat = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    priority: S.Number,
+    advancedRoutingConditionSet: S.optional(
+      NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer,
+    ),
+    backendAddressPool: S.optional(
+      NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer,
+    ),
+    backendHttpSettings: S.optional(
+      NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer,
+    ),
+    redirectConfiguration: S.optional(
+      NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer,
+    ),
+    rewriteRuleSet: S.optional(NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer),
+    authConfigs: S.optional(ApplicationGatewayAdvancedRoutingRulePropertiesFormatAuthConfigsList),
+    provisioningState: S.optional(
+      ApplicationGatewayAdvancedRoutingRulePropertiesFormatProvisioningState,
+    ),
+  }),
+).annotate({
+  identifier: "ApplicationGatewayAdvancedRoutingRulePropertiesFormat",
+}) as any as S.Schema<ApplicationGatewayAdvancedRoutingRulePropertiesFormat>;
+
+/** Advanced routing rule of an application gateway. */
+export interface ApplicationGatewayAdvancedRoutingRuleInput {
+  /** Resource ID. */
+  id?: string;
+  /** Properties of the application gateway advanced routing rule. */
+  properties?: ApplicationGatewayAdvancedRoutingRulePropertiesFormat;
+  /** Name of the advanced routing rule that is unique within an advanced routing map. */
+  name?: string;
+}
+export const ApplicationGatewayAdvancedRoutingRuleInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    properties: S.optional(ApplicationGatewayAdvancedRoutingRulePropertiesFormat),
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ApplicationGatewayAdvancedRoutingRuleInput",
+}) as any as S.Schema<ApplicationGatewayAdvancedRoutingRuleInput>;
+
+/** Advanced routing rules of the advanced routing map. Each rule must specify a priority that is unique within the map. */
+export type ApplicationGatewayAdvancedRoutingMapPropertiesFormatInputAdvancedRoutingRulesList =
+  Array<ApplicationGatewayAdvancedRoutingRuleInput>;
+export const ApplicationGatewayAdvancedRoutingMapPropertiesFormatInputAdvancedRoutingRulesList =
+  /*@__PURE__*/ S.Array(
+    ApplicationGatewayAdvancedRoutingRuleInput,
+  ) as any as S.Schema<ApplicationGatewayAdvancedRoutingMapPropertiesFormatInputAdvancedRoutingRulesList>;
+
+/** Provisioning states of a resource. */
+export type ApplicationGatewayAdvancedRoutingMapPropertiesFormatInputProvisioningState =
+  | "Failed"
+  | "Succeeded"
+  | "Canceled"
+  | "Creating"
+  | "Updating"
+  | "Deleting";
+export const ApplicationGatewayAdvancedRoutingMapPropertiesFormatInputProvisioningState = S.String;
+
+/** Properties of advanced routing map of the application gateway. */
+export interface ApplicationGatewayAdvancedRoutingMapPropertiesFormatInput {
+  /** Reference to another subresource. */
+  defaultBackendAddressPool?: NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+  /** Reference to another subresource. */
+  defaultBackendHttpSettings?: NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+  /** Reference to another subresource. */
+  defaultRedirectConfiguration?: NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+  /** Reference to another subresource. */
+  defaultRewriteRuleSet?: NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+  /** Default authentication configuration bindings of the advanced routing map. Only one authentication configuration is supported. Authentication configuration names must be unique across the Application Gateway, and an Application Gateway can reference at most 100 distinct authentication policies. Authentication policies can only be bound to Application Gateways using the Standard_v2 or WAF_v2 SKU. */
+  defaultAuthConfigs?: ApplicationGatewayAdvancedRoutingMapPropertiesFormatInputDefaultAuthConfigsList;
+  /** Advanced routing rules of the advanced routing map. Each rule must specify a priority that is unique within the map. */
+  advancedRoutingRules: ApplicationGatewayAdvancedRoutingMapPropertiesFormatInputAdvancedRoutingRulesList;
+  /** Provisioning states of a resource. */
+  provisioningState?:
+    | ApplicationGatewayAdvancedRoutingMapPropertiesFormatInputProvisioningState
+    | (string & {});
+}
+export const ApplicationGatewayAdvancedRoutingMapPropertiesFormatInput = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      defaultBackendAddressPool: S.optional(
+        NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer,
+      ),
+      defaultBackendHttpSettings: S.optional(
+        NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer,
+      ),
+      defaultRedirectConfiguration: S.optional(
+        NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer,
+      ),
+      defaultRewriteRuleSet: S.optional(
+        NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer,
+      ),
+      defaultAuthConfigs: S.optional(
+        ApplicationGatewayAdvancedRoutingMapPropertiesFormatInputDefaultAuthConfigsList,
+      ),
+      advancedRoutingRules:
+        ApplicationGatewayAdvancedRoutingMapPropertiesFormatInputAdvancedRoutingRulesList,
+      provisioningState: S.optional(
+        ApplicationGatewayAdvancedRoutingMapPropertiesFormatInputProvisioningState,
+      ),
+    }),
+).annotate({
+  identifier: "ApplicationGatewayAdvancedRoutingMapPropertiesFormatInput",
+}) as any as S.Schema<ApplicationGatewayAdvancedRoutingMapPropertiesFormatInput>;
+
+/** Advanced routing map of an application gateway. Holds the advanced routing rules evaluated for requests handled by an AdvancedRouting request routing rule, along with the configuration applied when no rule matches. */
+export interface ApplicationGatewayAdvancedRoutingMapInput {
+  /** Resource ID. */
+  id?: string;
+  /** Properties of the application gateway advanced routing map. */
+  properties?: ApplicationGatewayAdvancedRoutingMapPropertiesFormatInput;
+  /** Name of the advanced routing map that is unique within an Application Gateway. */
+  name?: string;
+}
+export const ApplicationGatewayAdvancedRoutingMapInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    properties: S.optional(ApplicationGatewayAdvancedRoutingMapPropertiesFormatInput),
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ApplicationGatewayAdvancedRoutingMapInput",
+}) as any as S.Schema<ApplicationGatewayAdvancedRoutingMapInput>;
+
+/** Advanced routing maps of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
+export type ApplicationGatewayPropertiesFormatInputAdvancedRoutingMapsList =
+  Array<ApplicationGatewayAdvancedRoutingMapInput>;
+export const ApplicationGatewayPropertiesFormatInputAdvancedRoutingMapsList = /*@__PURE__*/ S.Array(
+  ApplicationGatewayAdvancedRoutingMapInput,
+) as any as S.Schema<ApplicationGatewayPropertiesFormatInputAdvancedRoutingMapsList>;
+
 /** Rule type. */
 export type ApplicationGatewayRequestRoutingRulePropertiesFormatRuleType =
   | "Basic"
-  | "PathBasedRouting";
+  | "PathBasedRouting"
+  | "AdvancedRouting";
 export const ApplicationGatewayRequestRoutingRulePropertiesFormatRuleType = S.String;
 
 /** Reference to another subresource. */
@@ -5599,6 +5867,12 @@ export const ApplicationGatewayRequestRoutingRulePropertiesFormatUrlPathMap =
   NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
 
 /** Reference to another subresource. */
+export type ApplicationGatewayRequestRoutingRulePropertiesFormatAdvancedRoutingMap =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+export const ApplicationGatewayRequestRoutingRulePropertiesFormatAdvancedRoutingMap =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+
+/** Reference to another subresource. */
 export type ApplicationGatewayRequestRoutingRulePropertiesFormatRewriteRuleSet =
   NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
 export const ApplicationGatewayRequestRoutingRulePropertiesFormatRewriteRuleSet =
@@ -5621,6 +5895,14 @@ export type ApplicationGatewayRequestRoutingRulePropertiesFormatEntraJWTValidati
   NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
 export const ApplicationGatewayRequestRoutingRulePropertiesFormatEntraJWTValidationConfig =
   NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+
+/** Authentication configuration bindings of the request routing rule. Only one authentication configuration is supported. Authentication configuration names must be unique across the Application Gateway, and an Application Gateway can reference at most 100 distinct authentication policies. Authentication policies can only be bound to Application Gateways using the Standard_v2 or WAF_v2 SKU. */
+export type ApplicationGatewayRequestRoutingRulePropertiesFormatAuthConfigsList =
+  Array<ApplicationGatewayAuthConfig>;
+export const ApplicationGatewayRequestRoutingRulePropertiesFormatAuthConfigsList =
+  /*@__PURE__*/ S.Array(
+    ApplicationGatewayAuthConfig,
+  ) as any as S.Schema<ApplicationGatewayRequestRoutingRulePropertiesFormatAuthConfigsList>;
 
 /** Provisioning states of a resource. */
 export type ApplicationGatewayRequestRoutingRulePropertiesFormatProvisioningState =
@@ -5647,6 +5929,8 @@ export interface ApplicationGatewayRequestRoutingRulePropertiesFormat {
   /** Reference to another subresource. */
   urlPathMap?: NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
   /** Reference to another subresource. */
+  advancedRoutingMap?: NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+  /** Reference to another subresource. */
   rewriteRuleSet?: NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
   /** Reference to another subresource. */
   redirectConfiguration?: NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
@@ -5654,6 +5938,8 @@ export interface ApplicationGatewayRequestRoutingRulePropertiesFormat {
   loadDistributionPolicy?: NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
   /** Reference to another subresource. */
   entraJWTValidationConfig?: NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+  /** Authentication configuration bindings of the request routing rule. Only one authentication configuration is supported. Authentication configuration names must be unique across the Application Gateway, and an Application Gateway can reference at most 100 distinct authentication policies. Authentication policies can only be bound to Application Gateways using the Standard_v2 or WAF_v2 SKU. */
+  authConfigs?: ApplicationGatewayRequestRoutingRulePropertiesFormatAuthConfigsList;
   /** Provisioning states of a resource. */
   provisioningState?:
     | ApplicationGatewayRequestRoutingRulePropertiesFormatProvisioningState
@@ -5671,6 +5957,9 @@ export const ApplicationGatewayRequestRoutingRulePropertiesFormat = /*@__PURE__*
     ),
     httpListener: S.optional(NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer),
     urlPathMap: S.optional(NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer),
+    advancedRoutingMap: S.optional(
+      NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer,
+    ),
     rewriteRuleSet: S.optional(NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer),
     redirectConfiguration: S.optional(
       NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer,
@@ -5681,6 +5970,7 @@ export const ApplicationGatewayRequestRoutingRulePropertiesFormat = /*@__PURE__*
     entraJWTValidationConfig: S.optional(
       NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer,
     ),
+    authConfigs: S.optional(ApplicationGatewayRequestRoutingRulePropertiesFormatAuthConfigsList),
     provisioningState: S.optional(
       ApplicationGatewayRequestRoutingRulePropertiesFormatProvisioningState,
     ),
@@ -5716,7 +6006,10 @@ export const ApplicationGatewayPropertiesFormatInputRequestRoutingRulesList = /*
 ) as any as S.Schema<ApplicationGatewayPropertiesFormatInputRequestRoutingRulesList>;
 
 /** Rule type. */
-export type ApplicationGatewayRoutingRulePropertiesFormatRuleType = "Basic" | "PathBasedRouting";
+export type ApplicationGatewayRoutingRulePropertiesFormatRuleType =
+  | "Basic"
+  | "PathBasedRouting"
+  | "AdvancedRouting";
 export const ApplicationGatewayRoutingRulePropertiesFormatRuleType = S.String;
 
 /** Reference to another subresource. */
@@ -6013,6 +6306,130 @@ export type ApplicationGatewayPropertiesFormatInputRewriteRuleSetsList =
 export const ApplicationGatewayPropertiesFormatInputRewriteRuleSetsList = /*@__PURE__*/ S.Array(
   ApplicationGatewayRewriteRuleSetInput,
 ) as any as S.Schema<ApplicationGatewayPropertiesFormatInputRewriteRuleSetsList>;
+
+/** The type of request property that an advanced routing condition is evaluated against. */
+export type ApplicationGatewayAdvancedRoutingConditionConditionType =
+  | "Header"
+  | "QueryString"
+  | "Path"
+  | "ClientIP"
+  | "Method";
+export const ApplicationGatewayAdvancedRoutingConditionConditionType = S.String;
+
+/** Values the request property is matched against. Exactly one of propertyValues or propertyValueMatcher must be specified. */
+export type ApplicationGatewayAdvancedRoutingConditionPropertyValuesList = Array<string>;
+export const ApplicationGatewayAdvancedRoutingConditionPropertyValuesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ApplicationGatewayAdvancedRoutingConditionPropertyValuesList>;
+
+/** Matches the value of a request property against a fixed string or regular expression. */
+export interface ApplicationGatewayAdvancedRoutingPropertyValueMatcher {
+  /** The pattern, either fixed string or regular expression, that the request property value is evaluated against. */
+  pattern: string;
+  /** Setting this parameter to truth value with force the pattern to do a case in-sensitive comparison. */
+  ignoreCase?: boolean;
+  /** Setting this value as truth will force to check the negation of the condition given by the user in the pattern field. */
+  negate?: boolean;
+}
+export const ApplicationGatewayAdvancedRoutingPropertyValueMatcher = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pattern: S.String,
+    ignoreCase: S.optional(S.Boolean),
+    negate: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "ApplicationGatewayAdvancedRoutingPropertyValueMatcher",
+}) as any as S.Schema<ApplicationGatewayAdvancedRoutingPropertyValueMatcher>;
+
+/** A condition evaluated as part of an advanced routing condition set. */
+export interface ApplicationGatewayAdvancedRoutingCondition {
+  /** The type of request property that an advanced routing condition is evaluated against. */
+  conditionType: ApplicationGatewayAdvancedRoutingConditionConditionType | (string & {});
+  /** Name of the request property the condition is evaluated against. Required when conditionType is Header or QueryString, and not applicable when conditionType is Path, ClientIP or Method. */
+  propertyName?: string;
+  /** Values the request property is matched against. Exactly one of propertyValues or propertyValueMatcher must be specified. */
+  propertyValues?: ApplicationGatewayAdvancedRoutingConditionPropertyValuesList;
+  /** Pattern the request property is matched against. Exactly one of propertyValues or propertyValueMatcher must be specified. Not applicable when conditionType is ClientIP or Method. */
+  propertyValueMatcher?: ApplicationGatewayAdvancedRoutingPropertyValueMatcher;
+}
+export const ApplicationGatewayAdvancedRoutingCondition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    conditionType: ApplicationGatewayAdvancedRoutingConditionConditionType,
+    propertyName: S.optional(S.String),
+    propertyValues: S.optional(ApplicationGatewayAdvancedRoutingConditionPropertyValuesList),
+    propertyValueMatcher: S.optional(ApplicationGatewayAdvancedRoutingPropertyValueMatcher),
+  }),
+).annotate({
+  identifier: "ApplicationGatewayAdvancedRoutingCondition",
+}) as any as S.Schema<ApplicationGatewayAdvancedRoutingCondition>;
+
+/** Routing conditions of the condition set. All conditions must be satisfied for the referencing advanced routing rule to match. */
+export type ApplicationGatewayAdvancedRoutingConditionSetPropertiesFormatRoutingConditionsList =
+  Array<ApplicationGatewayAdvancedRoutingCondition>;
+export const ApplicationGatewayAdvancedRoutingConditionSetPropertiesFormatRoutingConditionsList =
+  /*@__PURE__*/ S.Array(
+    ApplicationGatewayAdvancedRoutingCondition,
+  ) as any as S.Schema<ApplicationGatewayAdvancedRoutingConditionSetPropertiesFormatRoutingConditionsList>;
+
+/** Provisioning states of a resource. */
+export type ApplicationGatewayAdvancedRoutingConditionSetPropertiesFormatProvisioningState =
+  | "Failed"
+  | "Succeeded"
+  | "Canceled"
+  | "Creating"
+  | "Updating"
+  | "Deleting";
+export const ApplicationGatewayAdvancedRoutingConditionSetPropertiesFormatProvisioningState =
+  S.String;
+
+/** Properties of advanced routing condition set of the application gateway. */
+export interface ApplicationGatewayAdvancedRoutingConditionSetPropertiesFormat {
+  /** Routing conditions of the condition set. All conditions must be satisfied for the referencing advanced routing rule to match. */
+  routingConditions: ApplicationGatewayAdvancedRoutingConditionSetPropertiesFormatRoutingConditionsList;
+  /** Provisioning states of a resource. */
+  provisioningState?:
+    | ApplicationGatewayAdvancedRoutingConditionSetPropertiesFormatProvisioningState
+    | (string & {});
+}
+export const ApplicationGatewayAdvancedRoutingConditionSetPropertiesFormat =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      routingConditions:
+        ApplicationGatewayAdvancedRoutingConditionSetPropertiesFormatRoutingConditionsList,
+      provisioningState: S.optional(
+        ApplicationGatewayAdvancedRoutingConditionSetPropertiesFormatProvisioningState,
+      ),
+    }),
+  ).annotate({
+    identifier: "ApplicationGatewayAdvancedRoutingConditionSetPropertiesFormat",
+  }) as any as S.Schema<ApplicationGatewayAdvancedRoutingConditionSetPropertiesFormat>;
+
+/** Advanced routing condition set of an application gateway. Referenced by advanced routing rules to determine whether a request matches. */
+export interface ApplicationGatewayAdvancedRoutingConditionSetInput {
+  /** Resource ID. */
+  id?: string;
+  /** Properties of the application gateway advanced routing condition set. */
+  properties?: ApplicationGatewayAdvancedRoutingConditionSetPropertiesFormat;
+  /** Name of the advanced routing condition set that is unique within an Application Gateway. */
+  name?: string;
+}
+export const ApplicationGatewayAdvancedRoutingConditionSetInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    properties: S.optional(ApplicationGatewayAdvancedRoutingConditionSetPropertiesFormat),
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ApplicationGatewayAdvancedRoutingConditionSetInput",
+}) as any as S.Schema<ApplicationGatewayAdvancedRoutingConditionSetInput>;
+
+/** Advanced routing condition sets of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
+export type ApplicationGatewayPropertiesFormatInputAdvancedRoutingConditionSetsList =
+  Array<ApplicationGatewayAdvancedRoutingConditionSetInput>;
+export const ApplicationGatewayPropertiesFormatInputAdvancedRoutingConditionSetsList =
+  /*@__PURE__*/ S.Array(
+    ApplicationGatewayAdvancedRoutingConditionSetInput,
+  ) as any as S.Schema<ApplicationGatewayPropertiesFormatInputAdvancedRoutingConditionSetsList>;
 
 /** Redirect type enum. */
 export type ApplicationGatewayRedirectConfigurationPropertiesFormatRedirectType =
@@ -6703,12 +7120,16 @@ export interface ApplicationGatewayPropertiesFormatInput {
   sslProfiles?: ApplicationGatewayPropertiesFormatInputSslProfilesList;
   /** URL path map of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
   urlPathMaps?: ApplicationGatewayPropertiesFormatInputUrlPathMapsList;
+  /** Advanced routing maps of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
+  advancedRoutingMaps?: ApplicationGatewayPropertiesFormatInputAdvancedRoutingMapsList;
   /** Request routing rules of the application gateway resource. */
   requestRoutingRules?: ApplicationGatewayPropertiesFormatInputRequestRoutingRulesList;
   /** Routing rules of the application gateway resource. */
   routingRules?: ApplicationGatewayPropertiesFormatInputRoutingRulesList;
   /** Rewrite rules for the application gateway resource. */
   rewriteRuleSets?: ApplicationGatewayPropertiesFormatInputRewriteRuleSetsList;
+  /** Advanced routing condition sets of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
+  advancedRoutingConditionSets?: ApplicationGatewayPropertiesFormatInputAdvancedRoutingConditionSetsList;
   /** Redirect configurations of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
   redirectConfigurations?: ApplicationGatewayPropertiesFormatInputRedirectConfigurationsList;
   /** Web application firewall configuration. */
@@ -6721,6 +7142,8 @@ export interface ApplicationGatewayPropertiesFormatInput {
   enableFips?: boolean;
   /** Autoscale Configuration. */
   autoscaleConfiguration?: ApplicationGatewayAutoscaleConfiguration;
+  /** The reserved capacity of the application gateway resource. Applicable to the Basic_v2 and Basic_WAF_v2 SKU tiers. */
+  reservedCapacity?: number;
   /** PrivateLink configurations on application gateway. */
   privateLinkConfigurations?: ApplicationGatewayPropertiesFormatInputPrivateLinkConfigurationsList;
   /** Provisioning states of a resource. */
@@ -6774,9 +7197,13 @@ export const ApplicationGatewayPropertiesFormatInput = /*@__PURE__*/ S.suspend((
     listeners: S.optional(ApplicationGatewayPropertiesFormatInputListenersList),
     sslProfiles: S.optional(ApplicationGatewayPropertiesFormatInputSslProfilesList),
     urlPathMaps: S.optional(ApplicationGatewayPropertiesFormatInputUrlPathMapsList),
+    advancedRoutingMaps: S.optional(ApplicationGatewayPropertiesFormatInputAdvancedRoutingMapsList),
     requestRoutingRules: S.optional(ApplicationGatewayPropertiesFormatInputRequestRoutingRulesList),
     routingRules: S.optional(ApplicationGatewayPropertiesFormatInputRoutingRulesList),
     rewriteRuleSets: S.optional(ApplicationGatewayPropertiesFormatInputRewriteRuleSetsList),
+    advancedRoutingConditionSets: S.optional(
+      ApplicationGatewayPropertiesFormatInputAdvancedRoutingConditionSetsList,
+    ),
     redirectConfigurations: S.optional(
       ApplicationGatewayPropertiesFormatInputRedirectConfigurationsList,
     ),
@@ -6787,6 +7214,7 @@ export const ApplicationGatewayPropertiesFormatInput = /*@__PURE__*/ S.suspend((
     enableHttp2: S.optional(S.Boolean),
     enableFips: S.optional(S.Boolean),
     autoscaleConfiguration: S.optional(ApplicationGatewayAutoscaleConfiguration),
+    reservedCapacity: S.optional(S.Number),
     privateLinkConfigurations: S.optional(
       ApplicationGatewayPropertiesFormatInputPrivateLinkConfigurationsList,
     ),
@@ -6887,7 +7315,7 @@ export const ApplicationGatewaysCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -7508,6 +7936,157 @@ export const ApplicationGatewayPropertiesFormatUrlPathMapsList = /*@__PURE__*/ S
   ApplicationGatewayUrlPathMap,
 ) as any as S.Schema<ApplicationGatewayPropertiesFormatUrlPathMapsList>;
 
+/** Reference to another subresource. */
+export type ApplicationGatewayAdvancedRoutingMapPropertiesFormatDefaultBackendAddressPool =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+export const ApplicationGatewayAdvancedRoutingMapPropertiesFormatDefaultBackendAddressPool =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+
+/** Reference to another subresource. */
+export type ApplicationGatewayAdvancedRoutingMapPropertiesFormatDefaultBackendHttpSettings =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+export const ApplicationGatewayAdvancedRoutingMapPropertiesFormatDefaultBackendHttpSettings =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+
+/** Reference to another subresource. */
+export type ApplicationGatewayAdvancedRoutingMapPropertiesFormatDefaultRedirectConfiguration =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+export const ApplicationGatewayAdvancedRoutingMapPropertiesFormatDefaultRedirectConfiguration =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+
+/** Reference to another subresource. */
+export type ApplicationGatewayAdvancedRoutingMapPropertiesFormatDefaultRewriteRuleSet =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+export const ApplicationGatewayAdvancedRoutingMapPropertiesFormatDefaultRewriteRuleSet =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+
+/** Default authentication configuration bindings of the advanced routing map. Only one authentication configuration is supported. Authentication configuration names must be unique across the Application Gateway, and an Application Gateway can reference at most 100 distinct authentication policies. Authentication policies can only be bound to Application Gateways using the Standard_v2 or WAF_v2 SKU. */
+export type ApplicationGatewayAdvancedRoutingMapPropertiesFormatDefaultAuthConfigsList =
+  Array<ApplicationGatewayAuthConfig>;
+export const ApplicationGatewayAdvancedRoutingMapPropertiesFormatDefaultAuthConfigsList =
+  /*@__PURE__*/ S.Array(
+    ApplicationGatewayAuthConfig,
+  ) as any as S.Schema<ApplicationGatewayAdvancedRoutingMapPropertiesFormatDefaultAuthConfigsList>;
+
+/** Advanced routing rule of an application gateway. */
+export interface ApplicationGatewayAdvancedRoutingRule {
+  /** Resource ID. */
+  id?: string;
+  /** Properties of the application gateway advanced routing rule. */
+  properties?: ApplicationGatewayAdvancedRoutingRulePropertiesFormat;
+  /** Name of the advanced routing rule that is unique within an advanced routing map. */
+  name?: string;
+  /** A unique read-only string that changes whenever the resource is updated. */
+  etag?: string;
+  /** Type of the resource. */
+  type?: string;
+}
+export const ApplicationGatewayAdvancedRoutingRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    properties: S.optional(ApplicationGatewayAdvancedRoutingRulePropertiesFormat),
+    name: S.optional(S.String),
+    etag: S.optional(S.String),
+    type: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ApplicationGatewayAdvancedRoutingRule",
+}) as any as S.Schema<ApplicationGatewayAdvancedRoutingRule>;
+
+/** Advanced routing rules of the advanced routing map. Each rule must specify a priority that is unique within the map. */
+export type ApplicationGatewayAdvancedRoutingMapPropertiesFormatAdvancedRoutingRulesList =
+  Array<ApplicationGatewayAdvancedRoutingRule>;
+export const ApplicationGatewayAdvancedRoutingMapPropertiesFormatAdvancedRoutingRulesList =
+  /*@__PURE__*/ S.Array(
+    ApplicationGatewayAdvancedRoutingRule,
+  ) as any as S.Schema<ApplicationGatewayAdvancedRoutingMapPropertiesFormatAdvancedRoutingRulesList>;
+
+/** Provisioning states of a resource. */
+export type ApplicationGatewayAdvancedRoutingMapPropertiesFormatProvisioningState =
+  | "Failed"
+  | "Succeeded"
+  | "Canceled"
+  | "Creating"
+  | "Updating"
+  | "Deleting";
+export const ApplicationGatewayAdvancedRoutingMapPropertiesFormatProvisioningState = S.String;
+
+/** Properties of advanced routing map of the application gateway. */
+export interface ApplicationGatewayAdvancedRoutingMapPropertiesFormat {
+  /** Reference to another subresource. */
+  defaultBackendAddressPool?: NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+  /** Reference to another subresource. */
+  defaultBackendHttpSettings?: NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+  /** Reference to another subresource. */
+  defaultRedirectConfiguration?: NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+  /** Reference to another subresource. */
+  defaultRewriteRuleSet?: NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+  /** Default authentication configuration bindings of the advanced routing map. Only one authentication configuration is supported. Authentication configuration names must be unique across the Application Gateway, and an Application Gateway can reference at most 100 distinct authentication policies. Authentication policies can only be bound to Application Gateways using the Standard_v2 or WAF_v2 SKU. */
+  defaultAuthConfigs?: ApplicationGatewayAdvancedRoutingMapPropertiesFormatDefaultAuthConfigsList;
+  /** Advanced routing rules of the advanced routing map. Each rule must specify a priority that is unique within the map. */
+  advancedRoutingRules: ApplicationGatewayAdvancedRoutingMapPropertiesFormatAdvancedRoutingRulesList;
+  /** Provisioning states of a resource. */
+  provisioningState?: ApplicationGatewayAdvancedRoutingMapPropertiesFormatProvisioningState;
+}
+export const ApplicationGatewayAdvancedRoutingMapPropertiesFormat = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    defaultBackendAddressPool: S.optional(
+      NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer,
+    ),
+    defaultBackendHttpSettings: S.optional(
+      NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer,
+    ),
+    defaultRedirectConfiguration: S.optional(
+      NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer,
+    ),
+    defaultRewriteRuleSet: S.optional(
+      NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer,
+    ),
+    defaultAuthConfigs: S.optional(
+      ApplicationGatewayAdvancedRoutingMapPropertiesFormatDefaultAuthConfigsList,
+    ),
+    advancedRoutingRules:
+      ApplicationGatewayAdvancedRoutingMapPropertiesFormatAdvancedRoutingRulesList,
+    provisioningState: S.optional(
+      ApplicationGatewayAdvancedRoutingMapPropertiesFormatProvisioningState,
+    ),
+  }),
+).annotate({
+  identifier: "ApplicationGatewayAdvancedRoutingMapPropertiesFormat",
+}) as any as S.Schema<ApplicationGatewayAdvancedRoutingMapPropertiesFormat>;
+
+/** Advanced routing map of an application gateway. Holds the advanced routing rules evaluated for requests handled by an AdvancedRouting request routing rule, along with the configuration applied when no rule matches. */
+export interface ApplicationGatewayAdvancedRoutingMap {
+  /** Resource ID. */
+  id?: string;
+  /** Properties of the application gateway advanced routing map. */
+  properties?: ApplicationGatewayAdvancedRoutingMapPropertiesFormat;
+  /** Name of the advanced routing map that is unique within an Application Gateway. */
+  name?: string;
+  /** A unique read-only string that changes whenever the resource is updated. */
+  etag?: string;
+  /** Type of the resource. */
+  type?: string;
+}
+export const ApplicationGatewayAdvancedRoutingMap = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    properties: S.optional(ApplicationGatewayAdvancedRoutingMapPropertiesFormat),
+    name: S.optional(S.String),
+    etag: S.optional(S.String),
+    type: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ApplicationGatewayAdvancedRoutingMap",
+}) as any as S.Schema<ApplicationGatewayAdvancedRoutingMap>;
+
+/** Advanced routing maps of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
+export type ApplicationGatewayPropertiesFormatAdvancedRoutingMapsList =
+  Array<ApplicationGatewayAdvancedRoutingMap>;
+export const ApplicationGatewayPropertiesFormatAdvancedRoutingMapsList = /*@__PURE__*/ S.Array(
+  ApplicationGatewayAdvancedRoutingMap,
+) as any as S.Schema<ApplicationGatewayPropertiesFormatAdvancedRoutingMapsList>;
+
 /** Request routing rule of an application gateway. */
 export interface ApplicationGatewayRequestRoutingRule {
   /** Resource ID. */
@@ -7600,6 +8179,39 @@ export type ApplicationGatewayPropertiesFormatRewriteRuleSetsList =
 export const ApplicationGatewayPropertiesFormatRewriteRuleSetsList = /*@__PURE__*/ S.Array(
   ApplicationGatewayRewriteRuleSet,
 ) as any as S.Schema<ApplicationGatewayPropertiesFormatRewriteRuleSetsList>;
+
+/** Advanced routing condition set of an application gateway. Referenced by advanced routing rules to determine whether a request matches. */
+export interface ApplicationGatewayAdvancedRoutingConditionSet {
+  /** Resource ID. */
+  id?: string;
+  /** Properties of the application gateway advanced routing condition set. */
+  properties?: ApplicationGatewayAdvancedRoutingConditionSetPropertiesFormat;
+  /** Name of the advanced routing condition set that is unique within an Application Gateway. */
+  name?: string;
+  /** A unique read-only string that changes whenever the resource is updated. */
+  etag?: string;
+  /** Type of the resource. */
+  type?: string;
+}
+export const ApplicationGatewayAdvancedRoutingConditionSet = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    properties: S.optional(ApplicationGatewayAdvancedRoutingConditionSetPropertiesFormat),
+    name: S.optional(S.String),
+    etag: S.optional(S.String),
+    type: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ApplicationGatewayAdvancedRoutingConditionSet",
+}) as any as S.Schema<ApplicationGatewayAdvancedRoutingConditionSet>;
+
+/** Advanced routing condition sets of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
+export type ApplicationGatewayPropertiesFormatAdvancedRoutingConditionSetsList =
+  Array<ApplicationGatewayAdvancedRoutingConditionSet>;
+export const ApplicationGatewayPropertiesFormatAdvancedRoutingConditionSetsList =
+  /*@__PURE__*/ S.Array(
+    ApplicationGatewayAdvancedRoutingConditionSet,
+  ) as any as S.Schema<ApplicationGatewayPropertiesFormatAdvancedRoutingConditionSetsList>;
 
 /** Redirect configuration of an application gateway. */
 export interface ApplicationGatewayRedirectConfiguration {
@@ -7800,6 +8412,19 @@ export const PrivateLinkServiceConnectionState = /*@__PURE__*/ S.suspend(() =>
   identifier: "PrivateLinkServiceConnectionState",
 }) as any as S.Schema<PrivateLinkServiceConnectionState>;
 
+/** Reference to an existing approved private endpoint used to inherit its connection approval state. */
+export interface PrivateLinkServiceConnectionPropertiesApprovalReference {
+  /** The ARM resource id of an existing approved private endpoint whose approval state is inherited by this connection. */
+  privateEndpointId?: string;
+}
+export const PrivateLinkServiceConnectionPropertiesApprovalReference = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    privateEndpointId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PrivateLinkServiceConnectionPropertiesApprovalReference",
+}) as any as S.Schema<PrivateLinkServiceConnectionPropertiesApprovalReference>;
+
 /** Properties of the PrivateLinkServiceConnection. */
 export interface PrivateLinkServiceConnectionProperties {
   /** Provisioning states of a resource. */
@@ -7812,6 +8437,8 @@ export interface PrivateLinkServiceConnectionProperties {
   requestMessage?: string;
   /** A collection of read-only information about the state of the connection to the remote resource. */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /** Reference to an existing approved private endpoint used to inherit its connection approval state. */
+  approvalReference?: PrivateLinkServiceConnectionPropertiesApprovalReference;
 }
 export const PrivateLinkServiceConnectionProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -7820,6 +8447,7 @@ export const PrivateLinkServiceConnectionProperties = /*@__PURE__*/ S.suspend(()
     groupIds: S.optional(PrivateLinkServiceConnectionPropertiesGroupIdsList),
     requestMessage: S.optional(S.String),
     privateLinkServiceConnectionState: S.optional(PrivateLinkServiceConnectionState),
+    approvalReference: S.optional(PrivateLinkServiceConnectionPropertiesApprovalReference),
   }),
 ).annotate({
   identifier: "PrivateLinkServiceConnectionProperties",
@@ -8318,12 +8946,16 @@ export interface ApplicationGatewayPropertiesFormat {
   sslProfiles?: ApplicationGatewayPropertiesFormatSslProfilesList;
   /** URL path map of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
   urlPathMaps?: ApplicationGatewayPropertiesFormatUrlPathMapsList;
+  /** Advanced routing maps of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
+  advancedRoutingMaps?: ApplicationGatewayPropertiesFormatAdvancedRoutingMapsList;
   /** Request routing rules of the application gateway resource. */
   requestRoutingRules?: ApplicationGatewayPropertiesFormatRequestRoutingRulesList;
   /** Routing rules of the application gateway resource. */
   routingRules?: ApplicationGatewayPropertiesFormatRoutingRulesList;
   /** Rewrite rules for the application gateway resource. */
   rewriteRuleSets?: ApplicationGatewayPropertiesFormatRewriteRuleSetsList;
+  /** Advanced routing condition sets of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
+  advancedRoutingConditionSets?: ApplicationGatewayPropertiesFormatAdvancedRoutingConditionSetsList;
   /** Redirect configurations of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
   redirectConfigurations?: ApplicationGatewayPropertiesFormatRedirectConfigurationsList;
   /** Web application firewall configuration. */
@@ -8336,6 +8968,8 @@ export interface ApplicationGatewayPropertiesFormat {
   enableFips?: boolean;
   /** Autoscale Configuration. */
   autoscaleConfiguration?: ApplicationGatewayAutoscaleConfiguration;
+  /** The reserved capacity of the application gateway resource. Applicable to the Basic_v2 and Basic_WAF_v2 SKU tiers. */
+  reservedCapacity?: number;
   /** PrivateLink configurations on application gateway. */
   privateLinkConfigurations?: ApplicationGatewayPropertiesFormatPrivateLinkConfigurationsList;
   /** Private Endpoint connections on application gateway. */
@@ -8391,9 +9025,13 @@ export const ApplicationGatewayPropertiesFormat = /*@__PURE__*/ S.suspend(() =>
     listeners: S.optional(ApplicationGatewayPropertiesFormatListenersList),
     sslProfiles: S.optional(ApplicationGatewayPropertiesFormatSslProfilesList),
     urlPathMaps: S.optional(ApplicationGatewayPropertiesFormatUrlPathMapsList),
+    advancedRoutingMaps: S.optional(ApplicationGatewayPropertiesFormatAdvancedRoutingMapsList),
     requestRoutingRules: S.optional(ApplicationGatewayPropertiesFormatRequestRoutingRulesList),
     routingRules: S.optional(ApplicationGatewayPropertiesFormatRoutingRulesList),
     rewriteRuleSets: S.optional(ApplicationGatewayPropertiesFormatRewriteRuleSetsList),
+    advancedRoutingConditionSets: S.optional(
+      ApplicationGatewayPropertiesFormatAdvancedRoutingConditionSetsList,
+    ),
     redirectConfigurations: S.optional(
       ApplicationGatewayPropertiesFormatRedirectConfigurationsList,
     ),
@@ -8404,6 +9042,7 @@ export const ApplicationGatewayPropertiesFormat = /*@__PURE__*/ S.suspend(() =>
     enableHttp2: S.optional(S.Boolean),
     enableFips: S.optional(S.Boolean),
     autoscaleConfiguration: S.optional(ApplicationGatewayAutoscaleConfiguration),
+    reservedCapacity: S.optional(S.Number),
     privateLinkConfigurations: S.optional(
       ApplicationGatewayPropertiesFormatPrivateLinkConfigurationsList,
     ),
@@ -8571,7 +9210,7 @@ export const ApplicationSecurityGroupsCreateOrUpdateRequest = /*@__PURE__*/ S.su
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -8616,6 +9255,369 @@ export const ApplicationSecurityGroupsCreateOrUpdateResponse = /*@__PURE__*/ S.s
 ).annotate({
   identifier: "ApplicationSecurityGroupsCreateOrUpdateResponse",
 }) as any as S.Schema<ApplicationSecurityGroupsCreateOrUpdateResponse>;
+
+/** Resource tags. */
+export type AuthenticationPoliciesCreateOrUpdateRequestTagsMap = {
+  [key: string]: string | undefined;
+};
+export const AuthenticationPoliciesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<AuthenticationPoliciesCreateOrUpdateRequestTagsMap>;
+
+/** Type of the user trust provider. */
+export type AuthenticationPolicyPropertiesFormatInputUserTrustProviderType = "entra";
+export const AuthenticationPolicyPropertiesFormatInputUserTrustProviderType = S.String;
+
+/** Action to take when a request is unauthenticated. */
+export type AuthenticationPolicyPropertiesFormatInputOnUnauthenticatedRequest =
+  | "allow"
+  | "authenticate"
+  | "deny";
+export const AuthenticationPolicyPropertiesFormatInputOnUnauthenticatedRequest = S.String;
+
+/** The scopes used by an application during authentication to authorize access to a user's details. A maximum of 10 scopes is supported, each scope can contain up to 128 characters, and all scopes can contain up to 256 characters combined. */
+export type AuthenticationProviderPropertiesScopeList = Array<string>;
+export const AuthenticationProviderPropertiesScopeList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AuthenticationProviderPropertiesScopeList>;
+
+/** Properties for authentication provider configuration. A policy must configure either JWT validation fields or user sign-in fields; the two configurations are mutually exclusive and cannot be combined. */
+export interface AuthenticationProviderProperties {
+  /** The absolute HTTPS URL of the Secure Token Service. Include a trailing slash at the end of the value. Example: https://login.microsoftonline.com/{Microsoft Entra Tenant ID}/ */
+  issuer: string;
+  /** The JSON Web Key Set (JWKS) URI used to retrieve the public keys for JWT validation. Example: https://login.microsoftonline.com/{Microsoft Entra Tenant ID}/discovery/v2.0/keys */
+  jwksUri?: string;
+  /** The intended audience for the JWT. Only a single audience value is supported in this API version. Example: https://audience.com/{application-id} */
+  audience?: string;
+  /** The Application (client) ID for the related application registered in Microsoft Entra ID, formatted as a GUID. */
+  clientId: string;
+  /** The absolute HTTPS Key Vault secret URL identifying the client secret used for authentication. This property is required for user sign-in policies. It holds only the Key Vault reference; the secret value itself is never accepted or returned by this API and is read from Key Vault at runtime using the resource's user-assigned identity. The secret value stored in Key Vault can contain up to 4096 characters. Example: https://myvault.vault.azure.net/secrets/mysecret */
+  clientSecret?: string | Redacted.Redacted<string>;
+  /** The scopes used by an application during authentication to authorize access to a user's details. A maximum of 10 scopes is supported, each scope can contain up to 128 characters, and all scopes can contain up to 256 characters combined. */
+  scope?: AuthenticationProviderPropertiesScopeList;
+  /** The timeout of the session cookie used for user authentication. The service accepts and returns this value as a string containing a base-10 unsigned integer number of seconds with no sign, decimal point, unit suffix, or whitespace (for example `86400`). The supported range is 1 to 604800 seconds, and the default is 86400 seconds. Applicable to the Application Gateway post-OIDC workflow. */
+  sessionTimeout?: string;
+  /** The name of the session cookie used for user authentication. Applicable to the Application Gateway post-OIDC workflow. */
+  sessionCookieName?: string;
+}
+export const AuthenticationProviderProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    issuer: S.String,
+    jwksUri: S.optional(S.String),
+    audience: S.optional(S.String),
+    clientId: S.String,
+    clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+    scope: S.optional(AuthenticationProviderPropertiesScopeList),
+    sessionTimeout: S.optional(S.String),
+    sessionCookieName: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AuthenticationProviderProperties",
+}) as any as S.Schema<AuthenticationProviderProperties>;
+
+/** Provisioning states of a resource. */
+export type AuthenticationPolicyPropertiesFormatInputProvisioningState =
+  | "Failed"
+  | "Succeeded"
+  | "Canceled"
+  | "Creating"
+  | "Updating"
+  | "Deleting";
+export const AuthenticationPolicyPropertiesFormatInputProvisioningState = S.String;
+
+/** Properties of the authentication policy. */
+export interface AuthenticationPolicyPropertiesFormatInput {
+  /** Type of the user trust provider. */
+  userTrustProviderType:
+    | AuthenticationPolicyPropertiesFormatInputUserTrustProviderType
+    | (string & {});
+  /** Action to take when a request is unauthenticated. */
+  onUnauthenticatedRequest?:
+    | AuthenticationPolicyPropertiesFormatInputOnUnauthenticatedRequest
+    | (string & {});
+  /** The authentication provider configuration for the policy. */
+  authenticationProperties: AuthenticationProviderProperties;
+  /** Provisioning states of a resource. */
+  provisioningState?: AuthenticationPolicyPropertiesFormatInputProvisioningState | (string & {});
+}
+export const AuthenticationPolicyPropertiesFormatInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    userTrustProviderType: AuthenticationPolicyPropertiesFormatInputUserTrustProviderType,
+    onUnauthenticatedRequest: S.optional(
+      AuthenticationPolicyPropertiesFormatInputOnUnauthenticatedRequest,
+    ),
+    authenticationProperties: AuthenticationProviderProperties,
+    provisioningState: S.optional(AuthenticationPolicyPropertiesFormatInputProvisioningState),
+  }),
+).annotate({
+  identifier: "AuthenticationPolicyPropertiesFormatInput",
+}) as any as S.Schema<AuthenticationPolicyPropertiesFormatInput>;
+
+/** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+export type AuthenticationPoliciesCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap = {
+  [key: string]: ManagedServiceIdentityUserAssignedIdentitiesInput | undefined;
+};
+export const AuthenticationPoliciesCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    ManagedServiceIdentityUserAssignedIdentitiesInput,
+  ) as any as S.Schema<AuthenticationPoliciesCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap>;
+
+/** Identity for the resource. */
+export interface AuthenticationPoliciesCreateOrUpdateRequestIdentity {
+  /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
+  type?: ResourceIdentityType | (string & {});
+  /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: AuthenticationPoliciesCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap;
+}
+export const AuthenticationPoliciesCreateOrUpdateRequestIdentity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(ResourceIdentityType),
+    userAssignedIdentities: S.optional(
+      AuthenticationPoliciesCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap,
+    ),
+  }),
+).annotate({
+  identifier: "AuthenticationPoliciesCreateOrUpdateRequestIdentity",
+}) as any as S.Schema<AuthenticationPoliciesCreateOrUpdateRequestIdentity>;
+
+export interface AuthenticationPoliciesCreateOrUpdateRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the authentication policy. */
+  authenticationPolicyName: string;
+  /** Resource ID. */
+  id?: string;
+  /** Resource location. */
+  location?: string;
+  /** Resource tags. */
+  tags?: AuthenticationPoliciesCreateOrUpdateRequestTagsMap;
+  /** Properties of the authentication policy. */
+  properties?: AuthenticationPolicyPropertiesFormatInput;
+  /** Identity for the resource. */
+  identity?: AuthenticationPoliciesCreateOrUpdateRequestIdentity;
+}
+export const AuthenticationPoliciesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    authenticationPolicyName: S.String.pipe(T.Label()),
+    id: S.optional(S.String),
+    location: S.optional(S.String),
+    tags: S.optional(AuthenticationPoliciesCreateOrUpdateRequestTagsMap),
+    properties: S.optional(AuthenticationPolicyPropertiesFormatInput),
+    identity: S.optional(AuthenticationPoliciesCreateOrUpdateRequestIdentity),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/authenticationPolicies/{authenticationPolicyName}",
+      code: 200,
+      apiVersion: "2026-01-01",
+    }),
+  ),
+).annotate({
+  identifier: "AuthenticationPoliciesCreateOrUpdateRequest",
+}) as any as S.Schema<AuthenticationPoliciesCreateOrUpdateRequest>;
+
+/** Resource tags. */
+export type AuthenticationPoliciesCreateOrUpdateResponseTagsMap = {
+  [key: string]: string | undefined;
+};
+export const AuthenticationPoliciesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<AuthenticationPoliciesCreateOrUpdateResponseTagsMap>;
+
+/** Type of the user trust provider. */
+export type AuthenticationPolicyPropertiesFormatUserTrustProviderType = "entra";
+export const AuthenticationPolicyPropertiesFormatUserTrustProviderType = S.String;
+
+/** Action to take when a request is unauthenticated. */
+export type AuthenticationPolicyPropertiesFormatOnUnauthenticatedRequest =
+  | "allow"
+  | "authenticate"
+  | "deny";
+export const AuthenticationPolicyPropertiesFormatOnUnauthenticatedRequest = S.String;
+
+/** A collection of resource IDs that reference this authentication policy. */
+export type AuthenticationPolicyPropertiesFormatAssociatedResourcesList = Array<string>;
+export const AuthenticationPolicyPropertiesFormatAssociatedResourcesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AuthenticationPolicyPropertiesFormatAssociatedResourcesList>;
+
+/** Provisioning states of a resource. */
+export type AuthenticationPolicyPropertiesFormatProvisioningState =
+  | "Failed"
+  | "Succeeded"
+  | "Canceled"
+  | "Creating"
+  | "Updating"
+  | "Deleting";
+export const AuthenticationPolicyPropertiesFormatProvisioningState = S.String;
+
+/** Properties of the authentication policy. */
+export interface AuthenticationPolicyPropertiesFormat {
+  /** Type of the user trust provider. */
+  userTrustProviderType: AuthenticationPolicyPropertiesFormatUserTrustProviderType;
+  /** Action to take when a request is unauthenticated. */
+  onUnauthenticatedRequest?: AuthenticationPolicyPropertiesFormatOnUnauthenticatedRequest;
+  /** The authentication provider configuration for the policy. */
+  authenticationProperties: AuthenticationProviderProperties;
+  /** A collection of resource IDs that reference this authentication policy. */
+  associatedResources?: AuthenticationPolicyPropertiesFormatAssociatedResourcesList;
+  /** Provisioning states of a resource. */
+  provisioningState?: AuthenticationPolicyPropertiesFormatProvisioningState;
+  /** The resource GUID property of the authentication policy resource. */
+  resourceGuid?: string;
+}
+export const AuthenticationPolicyPropertiesFormat = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    userTrustProviderType: AuthenticationPolicyPropertiesFormatUserTrustProviderType,
+    onUnauthenticatedRequest: S.optional(
+      AuthenticationPolicyPropertiesFormatOnUnauthenticatedRequest,
+    ),
+    authenticationProperties: AuthenticationProviderProperties,
+    associatedResources: S.optional(AuthenticationPolicyPropertiesFormatAssociatedResourcesList),
+    provisioningState: S.optional(AuthenticationPolicyPropertiesFormatProvisioningState),
+    resourceGuid: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AuthenticationPolicyPropertiesFormat",
+}) as any as S.Schema<AuthenticationPolicyPropertiesFormat>;
+
+export interface ManagedServiceIdentityUserAssignedIdentities_2 {
+  /** The principal id of user assigned identity. */
+  principalId?: string;
+  /** The client id of user assigned identity. */
+  clientId?: string;
+}
+export const ManagedServiceIdentityUserAssignedIdentities_2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    principalId: S.optional(S.String),
+    clientId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ManagedServiceIdentityUserAssignedIdentities_2",
+}) as any as S.Schema<ManagedServiceIdentityUserAssignedIdentities_2>;
+
+/** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+export type AuthenticationPoliciesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
+};
+export const AuthenticationPoliciesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    ManagedServiceIdentityUserAssignedIdentities_2,
+  ) as any as S.Schema<AuthenticationPoliciesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap>;
+
+/** Identity for the resource. */
+export interface AuthenticationPoliciesCreateOrUpdateResponseIdentity {
+  /** The principal id of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string;
+  /** The tenant id of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string;
+  /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
+  type?: ResourceIdentityType;
+  /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: AuthenticationPoliciesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap;
+}
+export const AuthenticationPoliciesCreateOrUpdateResponseIdentity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    principalId: S.optional(S.String),
+    tenantId: S.optional(S.String),
+    type: S.optional(ResourceIdentityType),
+    userAssignedIdentities: S.optional(
+      AuthenticationPoliciesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap,
+    ),
+  }),
+).annotate({
+  identifier: "AuthenticationPoliciesCreateOrUpdateResponseIdentity",
+}) as any as S.Schema<AuthenticationPoliciesCreateOrUpdateResponseIdentity>;
+
+/** The type of identity that created the resource. */
+export type AuthenticationPoliciesCreateOrUpdateResponseSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const AuthenticationPoliciesCreateOrUpdateResponseSystemDataCreatedByType = S.String;
+
+/** The type of identity that last modified the resource. */
+export type AuthenticationPoliciesCreateOrUpdateResponseSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const AuthenticationPoliciesCreateOrUpdateResponseSystemDataLastModifiedByType = S.String;
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface AuthenticationPoliciesCreateOrUpdateResponseSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: AuthenticationPoliciesCreateOrUpdateResponseSystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: AuthenticationPoliciesCreateOrUpdateResponseSystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
+export const AuthenticationPoliciesCreateOrUpdateResponseSystemData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    createdBy: S.optional(S.String),
+    createdByType: S.optional(AuthenticationPoliciesCreateOrUpdateResponseSystemDataCreatedByType),
+    createdAt: S.optional(S.String),
+    lastModifiedBy: S.optional(S.String),
+    lastModifiedByType: S.optional(
+      AuthenticationPoliciesCreateOrUpdateResponseSystemDataLastModifiedByType,
+    ),
+    lastModifiedAt: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AuthenticationPoliciesCreateOrUpdateResponseSystemData",
+}) as any as S.Schema<AuthenticationPoliciesCreateOrUpdateResponseSystemData>;
+
+export interface AuthenticationPoliciesCreateOrUpdateResponse {
+  /** Resource ID. */
+  id?: string;
+  /** Resource name. */
+  name?: string;
+  /** Resource type. */
+  type?: string;
+  /** Resource location. */
+  location?: string;
+  /** Resource tags. */
+  tags?: AuthenticationPoliciesCreateOrUpdateResponseTagsMap;
+  /** Properties of the authentication policy. */
+  properties?: AuthenticationPolicyPropertiesFormat;
+  /** A unique read-only string that changes whenever the resource is updated. */
+  etag?: string;
+  /** Identity for the resource. */
+  identity?: AuthenticationPoliciesCreateOrUpdateResponseIdentity;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: AuthenticationPoliciesCreateOrUpdateResponseSystemData;
+}
+export const AuthenticationPoliciesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    location: S.optional(S.String),
+    tags: S.optional(AuthenticationPoliciesCreateOrUpdateResponseTagsMap),
+    properties: S.optional(AuthenticationPolicyPropertiesFormat),
+    etag: S.optional(S.String),
+    identity: S.optional(AuthenticationPoliciesCreateOrUpdateResponseIdentity),
+    systemData: S.optional(AuthenticationPoliciesCreateOrUpdateResponseSystemData),
+  }),
+).annotate({
+  identifier: "AuthenticationPoliciesCreateOrUpdateResponse",
+}) as any as S.Schema<AuthenticationPoliciesCreateOrUpdateResponse>;
 
 /** Resource tags. */
 export type AzureFirewallsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -9315,6 +10317,8 @@ export interface AzureFirewallPropertiesFormatInput {
   additionalProperties?: AzureFirewallPropertiesFormatInputAdditionalPropertiesMap;
   /** Properties to provide a custom autoscale configuration to this azure firewall. */
   autoscaleConfiguration?: AzureFirewallAutoscaleConfiguration;
+  /** Indicates whether the AI security add-on is enabled for the Azure Firewall. */
+  aiSecurityAddOn?: boolean;
 }
 export const AzureFirewallPropertiesFormatInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9335,6 +10339,7 @@ export const AzureFirewallPropertiesFormatInput = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(AzureFirewallSku),
     additionalProperties: S.optional(AzureFirewallPropertiesFormatInputAdditionalPropertiesMap),
     autoscaleConfiguration: S.optional(AzureFirewallAutoscaleConfiguration),
+    aiSecurityAddOn: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "AzureFirewallPropertiesFormatInput",
@@ -9401,7 +10406,7 @@ export const AzureFirewallsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -9675,6 +10680,8 @@ export interface AzureFirewallPropertiesFormat {
   autoscaleConfiguration?: AzureFirewallAutoscaleConfiguration;
   /** AFC configuration for the Azure Firewall. */
   afcConfiguration?: AfcConfiguration;
+  /** Indicates whether the AI security add-on is enabled for the Azure Firewall. */
+  aiSecurityAddOn?: boolean;
 }
 export const AzureFirewallPropertiesFormat = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9695,6 +10702,7 @@ export const AzureFirewallPropertiesFormat = /*@__PURE__*/ S.suspend(() =>
     additionalProperties: S.optional(AzureFirewallPropertiesFormatAdditionalPropertiesMap),
     autoscaleConfiguration: S.optional(AzureFirewallAutoscaleConfiguration),
     afcConfiguration: S.optional(AfcConfiguration),
+    aiSecurityAddOn: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "AzureFirewallPropertiesFormat",
@@ -9865,7 +10873,7 @@ export const AzureFirewallsPacketCaptureOperationRequest = /*@__PURE__*/ S.suspe
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}/packetCaptureOperation",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -10033,6 +11041,40 @@ export type BastionHostPropertiesFormatInputProvisioningState =
   | "Deleting";
 export const BastionHostPropertiesFormatInputProvisioningState = S.String;
 
+/** The type of identity to use */
+export type SessionRecordingIdentityType = "SystemAssigned" | "UserAssigned";
+export const SessionRecordingIdentityType = S.String;
+
+/** The identity to use for accessing the blob container where recordings will be stored */
+export interface SessionRecordingIdentity {
+  /** The type of identity to use */
+  type: SessionRecordingIdentityType | (string & {});
+  /** User assigned identity to use for accessing blob container Uri. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive with identity type systemAssigned. */
+  userAssignedIdentityId?: string;
+}
+export const SessionRecordingIdentity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SessionRecordingIdentityType,
+    userAssignedIdentityId: S.optional(S.String),
+  }),
+).annotate({ identifier: "SessionRecordingIdentity" }) as any as S.Schema<SessionRecordingIdentity>;
+
+/** Bastion Session Recording Configuration. */
+export interface BastionSessionRecordingConfiguration {
+  /** The identity to use for accessing the blob container where recordings will be stored */
+  identity: SessionRecordingIdentity;
+  /** The blob container to store the recordings. Ex: https://contosostorage.blob.core.windows.net/contosorecordings. */
+  blobContainerUri: string;
+}
+export const BastionSessionRecordingConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    identity: SessionRecordingIdentity,
+    blobContainerUri: S.String,
+  }),
+).annotate({
+  identifier: "BastionSessionRecordingConfiguration",
+}) as any as S.Schema<BastionSessionRecordingConfiguration>;
+
 /** Properties of the Bastion Host. */
 export interface BastionHostPropertiesFormatInput {
   /** IP configuration of the Bastion Host resource. */
@@ -10062,6 +11104,8 @@ export interface BastionHostPropertiesFormatInput {
   enableSessionRecording?: boolean;
   /** Enable/Disable Private Only feature of the Bastion Host resource. */
   enablePrivateOnlyBastion?: boolean;
+  /** The storage account and identity to use for session recording */
+  sessionRecordingConfiguration?: BastionSessionRecordingConfiguration;
 }
 export const BastionHostPropertiesFormatInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10079,6 +11123,7 @@ export const BastionHostPropertiesFormatInput = /*@__PURE__*/ S.suspend(() =>
     enableKerberos: S.optional(S.Boolean),
     enableSessionRecording: S.optional(S.Boolean),
     enablePrivateOnlyBastion: S.optional(S.Boolean),
+    sessionRecordingConfiguration: S.optional(BastionSessionRecordingConfiguration),
   }),
 ).annotate({
   identifier: "BastionHostPropertiesFormatInput",
@@ -10105,6 +11150,34 @@ export const Sku = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Sku" }) as any as S.Schema<Sku>;
 
+/** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+export type BastionHostsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap = {
+  [key: string]: ManagedServiceIdentityUserAssignedIdentitiesInput | undefined;
+};
+export const BastionHostsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    ManagedServiceIdentityUserAssignedIdentitiesInput,
+  ) as any as S.Schema<BastionHostsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap>;
+
+/** Identity for the resource. */
+export interface BastionHostsCreateOrUpdateRequestIdentity {
+  /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
+  type?: ResourceIdentityType | (string & {});
+  /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: BastionHostsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap;
+}
+export const BastionHostsCreateOrUpdateRequestIdentity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(ResourceIdentityType),
+    userAssignedIdentities: S.optional(
+      BastionHostsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap,
+    ),
+  }),
+).annotate({
+  identifier: "BastionHostsCreateOrUpdateRequestIdentity",
+}) as any as S.Schema<BastionHostsCreateOrUpdateRequestIdentity>;
+
 export interface BastionHostsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -10124,6 +11197,8 @@ export interface BastionHostsCreateOrUpdateRequest {
   zones?: BastionHostsCreateOrUpdateRequestZonesList;
   /** The sku of this Bastion Host. */
   sku?: Sku;
+  /** Identity for the resource. */
+  identity?: BastionHostsCreateOrUpdateRequestIdentity;
 }
 export const BastionHostsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10136,12 +11211,13 @@ export const BastionHostsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(BastionHostPropertiesFormatInput),
     zones: S.optional(BastionHostsCreateOrUpdateRequestZonesList),
     sku: S.optional(Sku),
+    identity: S.optional(BastionHostsCreateOrUpdateRequestIdentity),
   }).pipe(
     T.Http({
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -10231,6 +11307,8 @@ export interface BastionHostPropertiesFormat {
   enableSessionRecording?: boolean;
   /** Enable/Disable Private Only feature of the Bastion Host resource. */
   enablePrivateOnlyBastion?: boolean;
+  /** The storage account and identity to use for session recording */
+  sessionRecordingConfiguration?: BastionSessionRecordingConfiguration;
 }
 export const BastionHostPropertiesFormat = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10248,6 +11326,7 @@ export const BastionHostPropertiesFormat = /*@__PURE__*/ S.suspend(() =>
     enableKerberos: S.optional(S.Boolean),
     enableSessionRecording: S.optional(S.Boolean),
     enablePrivateOnlyBastion: S.optional(S.Boolean),
+    sessionRecordingConfiguration: S.optional(BastionSessionRecordingConfiguration),
   }),
 ).annotate({
   identifier: "BastionHostPropertiesFormat",
@@ -10258,6 +11337,45 @@ export type BastionHostsCreateOrUpdateResponseZonesList = Array<string>;
 export const BastionHostsCreateOrUpdateResponseZonesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<BastionHostsCreateOrUpdateResponseZonesList>;
+
+export type ManagedServiceIdentityUserAssignedIdentities_9 =
+  ManagedServiceIdentityUserAssignedIdentities_2;
+export const ManagedServiceIdentityUserAssignedIdentities_9 =
+  ManagedServiceIdentityUserAssignedIdentities_2;
+
+/** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+export type BastionHostsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
+};
+export const BastionHostsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    ManagedServiceIdentityUserAssignedIdentities_2,
+  ) as any as S.Schema<BastionHostsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap>;
+
+/** Identity for the resource. */
+export interface BastionHostsCreateOrUpdateResponseIdentity {
+  /** The principal id of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string;
+  /** The tenant id of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string;
+  /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
+  type?: ResourceIdentityType;
+  /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: BastionHostsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap;
+}
+export const BastionHostsCreateOrUpdateResponseIdentity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    principalId: S.optional(S.String),
+    tenantId: S.optional(S.String),
+    type: S.optional(ResourceIdentityType),
+    userAssignedIdentities: S.optional(
+      BastionHostsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap,
+    ),
+  }),
+).annotate({
+  identifier: "BastionHostsCreateOrUpdateResponseIdentity",
+}) as any as S.Schema<BastionHostsCreateOrUpdateResponseIdentity>;
 
 export interface BastionHostsCreateOrUpdateResponse {
   /** Resource ID. */
@@ -10278,6 +11396,8 @@ export interface BastionHostsCreateOrUpdateResponse {
   etag?: string;
   /** The sku of this Bastion Host. */
   sku?: Sku;
+  /** Identity for the resource. */
+  identity?: BastionHostsCreateOrUpdateResponseIdentity;
 }
 export const BastionHostsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10290,6 +11410,7 @@ export const BastionHostsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     zones: S.optional(BastionHostsCreateOrUpdateResponseZonesList),
     etag: S.optional(S.String),
     sku: S.optional(Sku),
+    identity: S.optional(BastionHostsCreateOrUpdateResponseIdentity),
   }),
 ).annotate({
   identifier: "BastionHostsCreateOrUpdateResponse",
@@ -10357,7 +11478,7 @@ export const CaptureAzureFirewallsPacketRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}/packetCapture",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -10389,7 +11510,7 @@ export const CheckDnsNameAvailabilityRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/checkDnsNameAvailability",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -10539,7 +11660,7 @@ export const CheckNetworkWatcherConnectivityRequest = /*@__PURE__*/ S.suspend(()
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectivityCheck",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -10782,7 +11903,7 @@ export const CheckPrivateLinkServicePrivateLinkServiceVisibilityRequest = /*@__P
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/checkPrivateLinkServiceVisibility",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -10824,7 +11945,7 @@ export const CheckPrivateLinkServicePrivateLinkServiceVisibilityByResourceGroupR
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/checkPrivateLinkServiceVisibility",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
   ).annotate({
@@ -10852,7 +11973,7 @@ export const CheckVirtualNetworkIPAddressAvailabilityRequest = /*@__PURE__*/ S.s
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/checkIPAddressAvailability",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -10883,6 +12004,231 @@ export const IPAddressAvailabilityResult = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "IPAddressAvailabilityResult",
 }) as any as S.Schema<IPAddressAvailabilityResult>;
+
+/** A mapping between source and target ports for migration. */
+export interface PortMapping {
+  /** The source port identifier. */
+  sourcePortId: string;
+  /** The target port identifier. */
+  targetPortId: string;
+}
+export const PortMapping = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sourcePortId: S.String,
+    targetPortId: S.String,
+  }),
+).annotate({ identifier: "PortMapping" }) as any as S.Schema<PortMapping>;
+
+/** The source-to-target port mappings for circuit migration. */
+export type CommitExpressRouteCrossConnectionCircuitMigrationRequestTargetPortMappingList =
+  Array<PortMapping>;
+export const CommitExpressRouteCrossConnectionCircuitMigrationRequestTargetPortMappingList =
+  /*@__PURE__*/ S.Array(
+    PortMapping,
+  ) as any as S.Schema<CommitExpressRouteCrossConnectionCircuitMigrationRequestTargetPortMappingList>;
+
+export interface CommitExpressRouteCrossConnectionCircuitMigrationRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the ExpressRouteCrossConnection (service key of the circuit). */
+  crossConnectionName: string;
+  /** The target peering location for circuit migration. */
+  targetPeeringLocation?: string;
+  /** The source-to-target port mappings for circuit migration. */
+  targetPortMapping?: CommitExpressRouteCrossConnectionCircuitMigrationRequestTargetPortMappingList;
+  /** The port identifier used for shutDownBgp, migrate, restoreBgp, and rollback operations. */
+  portId?: string;
+}
+export const CommitExpressRouteCrossConnectionCircuitMigrationRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      crossConnectionName: S.String.pipe(T.Label()),
+      targetPeeringLocation: S.optional(S.String),
+      targetPortMapping: S.optional(
+        CommitExpressRouteCrossConnectionCircuitMigrationRequestTargetPortMappingList,
+      ),
+      portId: S.optional(S.String),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/commitCircuitMigration",
+        code: 200,
+        apiVersion: "2026-01-01",
+      }),
+    ),
+).annotate({
+  identifier: "CommitExpressRouteCrossConnectionCircuitMigrationRequest",
+}) as any as S.Schema<CommitExpressRouteCrossConnectionCircuitMigrationRequest>;
+
+/** Metric entry for migration peering statistics. */
+export interface Metric {
+  /** The metric name. */
+  name?: string;
+  /** The metric value. */
+  value?: number;
+  /** The metric unit. */
+  unit?: string;
+}
+export const Metric = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    value: S.optional(S.Number),
+    unit: S.optional(S.String),
+  }),
+).annotate({ identifier: "Metric" }) as any as S.Schema<Metric>;
+
+/** The collection of peering metrics. */
+export type PeeringStatsMetricsList = Array<Metric>;
+export const PeeringStatsMetricsList = /*@__PURE__*/ S.Array(
+  Metric,
+) as any as S.Schema<PeeringStatsMetricsList>;
+
+/** Statistical information for a peering connection. */
+export interface PeeringStats {
+  /** The timestamp when these statistics were captured. */
+  timestamp?: string;
+  /** The collection of peering metrics. */
+  metrics?: PeeringStatsMetricsList;
+}
+export const PeeringStats = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    timestamp: S.optional(S.String),
+    metrics: S.optional(PeeringStatsMetricsList),
+  }),
+).annotate({ identifier: "PeeringStats" }) as any as S.Schema<PeeringStats>;
+
+/** Health information for a peering connection. */
+export interface PeeringHealth {
+  /** The type of peering (for example, Private, Microsoft, Public). */
+  type?: string;
+  /** The current peering statistics. */
+  statsCurrent?: PeeringStats;
+  /** The peering statistics captured at prepare phase. */
+  statsAtPrepare?: PeeringStats;
+}
+export const PeeringHealth = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    statsCurrent: S.optional(PeeringStats),
+    statsAtPrepare: S.optional(PeeringStats),
+  }),
+).annotate({ identifier: "PeeringHealth" }) as any as S.Schema<PeeringHealth>;
+
+/** The peering health details for the port. */
+export type PortMigrationInfoPeeringsList = Array<PeeringHealth>;
+export const PortMigrationInfoPeeringsList = /*@__PURE__*/ S.Array(
+  PeeringHealth,
+) as any as S.Schema<PortMigrationInfoPeeringsList>;
+
+/** The peering health information from the source port. */
+export type SourcePortStatsPeeringsList = Array<PeeringHealth>;
+export const SourcePortStatsPeeringsList = /*@__PURE__*/ S.Array(
+  PeeringHealth,
+) as any as S.Schema<SourcePortStatsPeeringsList>;
+
+/** Statistics from the source port before migration. */
+export interface SourcePortStats {
+  /** The peering health information from the source port. */
+  peerings?: SourcePortStatsPeeringsList;
+}
+export const SourcePortStats = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    peerings: S.optional(SourcePortStatsPeeringsList),
+  }),
+).annotate({ identifier: "SourcePortStats" }) as any as S.Schema<SourcePortStats>;
+
+/** Information about a port migration status. */
+export interface PortMigrationInfo {
+  /** The identifier of the port being migrated. */
+  portId?: string;
+  /** The migration status for the port. */
+  status?: string;
+  /** The current migration phase for the port. */
+  phase?: string;
+  /** The reason for failure if migration failed for the port. */
+  failureReason?: string;
+  /** The peering health details for the port. */
+  peerings?: PortMigrationInfoPeeringsList;
+  /** The source port identifier before migration. */
+  sourcePortId?: string;
+  /** The source port statistics before migration. */
+  sourcePortStats?: SourcePortStats;
+}
+export const PortMigrationInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    portId: S.optional(S.String),
+    status: S.optional(S.String),
+    phase: S.optional(S.String),
+    failureReason: S.optional(S.String),
+    peerings: S.optional(PortMigrationInfoPeeringsList),
+    sourcePortId: S.optional(S.String),
+    sourcePortStats: S.optional(SourcePortStats),
+  }),
+).annotate({ identifier: "PortMigrationInfo" }) as any as S.Schema<PortMigrationInfo>;
+
+/** Per-port migration details. */
+export type MigrateExpressRouteCircuitHealthCheckDetailsPortMigrationInfosList =
+  Array<PortMigrationInfo>;
+export const MigrateExpressRouteCircuitHealthCheckDetailsPortMigrationInfosList =
+  /*@__PURE__*/ S.Array(
+    PortMigrationInfo,
+  ) as any as S.Schema<MigrateExpressRouteCircuitHealthCheckDetailsPortMigrationInfosList>;
+
+/** Detailed migration health information. */
+export interface MigrateExpressRouteCircuitHealthCheckDetails {
+  /** Per-port migration details. */
+  portMigrationInfos?: MigrateExpressRouteCircuitHealthCheckDetailsPortMigrationInfosList;
+}
+export const MigrateExpressRouteCircuitHealthCheckDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    portMigrationInfos: S.optional(
+      MigrateExpressRouteCircuitHealthCheckDetailsPortMigrationInfosList,
+    ),
+  }),
+).annotate({
+  identifier: "MigrateExpressRouteCircuitHealthCheckDetails",
+}) as any as S.Schema<MigrateExpressRouteCircuitHealthCheckDetails>;
+
+/** Response for express route circuit migration health check and migration operations. */
+export interface MigrateExpressRouteCircuitHealthCheckResponse {
+  /** The overall status of the migration operation. */
+  status?: string;
+  /** The current phase of the migration operation. */
+  phase?: string;
+  /** The failure reason if the migration operation failed. */
+  failureReason?: string;
+  /** The new service tag assigned after migration. */
+  newSTag?: string;
+  /** The timestamp when the migration was prepared. */
+  preparedAt?: string;
+  /** The expiry time for the prepare phase. */
+  prepareExpiryTime?: string;
+  /** The URL of the new cross connection after migration. */
+  newCrossConnectionUrl?: string;
+  /** Indicates whether rollback should be performed. */
+  shouldRollback?: boolean;
+  /** Detailed health check information for migration. */
+  details?: MigrateExpressRouteCircuitHealthCheckDetails;
+}
+export const MigrateExpressRouteCircuitHealthCheckResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    phase: S.optional(S.String),
+    failureReason: S.optional(S.String),
+    newSTag: S.optional(S.String),
+    preparedAt: S.optional(S.String),
+    prepareExpiryTime: S.optional(S.String),
+    newCrossConnectionUrl: S.optional(S.String),
+    shouldRollback: S.optional(S.Boolean),
+    details: S.optional(MigrateExpressRouteCircuitHealthCheckDetails),
+  }),
+).annotate({
+  identifier: "MigrateExpressRouteCircuitHealthCheckResponse",
+}) as any as S.Schema<MigrateExpressRouteCircuitHealthCheckResponse>;
 
 /** The type of migration workflow performed on a Network Virtual Appliance. */
 export type NetworkVirtualApplianceCommitMigrationPropertiesMigrationType =
@@ -10924,7 +12270,7 @@ export const CommitNetworkVirtualApplianceMigrationRequest = /*@__PURE__*/ S.sus
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/commitMigration",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -11018,7 +12364,7 @@ export const CommitsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/commits/{commitName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -11264,7 +12610,7 @@ export const ConfigurationPolicyGroupsCreateOrUpdateRequest = /*@__PURE__*/ S.su
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups/{configurationPolicyGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -11862,7 +13208,7 @@ export const ConnectionMonitorsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend((
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -12193,7 +13539,7 @@ export const ConnectionPoliciesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend((
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/connectionPolicies/{connectionPolicyName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -12540,7 +13886,7 @@ export const ConnectivityConfigurationsCreateOrUpdateRequest = /*@__PURE__*/ S.s
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations/{configurationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -12731,6 +14077,10 @@ export interface IpamPoolPropertiesInput {
   addressPrefixes: IpamPoolPropertiesInputAddressPrefixesList;
   /** Provisioning states of a resource. */
   provisioningState?: IpamPoolPropertiesInputProvisioningState | (string & {});
+  /** Minimum number of IP addresses required for allocations from this IpamPool to be compliant. Must be less than or equal to the maximum allocation size. If not specified or empty, no minimum is enforced. */
+  minAllocationSize?: string;
+  /** Maximum number of IP addresses allowed for allocations from this IpamPool to be compliant. Must be greater than or equal to the minimum allocation size. If not specified or empty, no maximum is enforced. */
+  maxAllocationSize?: string;
 }
 export const IpamPoolPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12739,6 +14089,8 @@ export const IpamPoolPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     parentPoolName: S.optional(S.String),
     addressPrefixes: IpamPoolPropertiesInputAddressPrefixesList,
     provisioningState: S.optional(IpamPoolPropertiesInputProvisioningState),
+    minAllocationSize: S.optional(S.String),
+    maxAllocationSize: S.optional(S.String),
   }),
 ).annotate({ identifier: "IpamPoolPropertiesInput" }) as any as S.Schema<IpamPoolPropertiesInput>;
 
@@ -12772,7 +14124,7 @@ export const CreateIpamPoolRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/ipamPools/{poolName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "CreateIpamPoolRequest" }) as any as S.Schema<CreateIpamPoolRequest>;
@@ -12867,6 +14219,10 @@ export interface IpamPoolProperties {
   addressPrefixes: IpamPoolPropertiesAddressPrefixesList;
   /** Provisioning states of a resource. */
   provisioningState?: IpamPoolPropertiesProvisioningState;
+  /** Minimum number of IP addresses required for allocations from this IpamPool to be compliant. Must be less than or equal to the maximum allocation size. If not specified or empty, no minimum is enforced. */
+  minAllocationSize?: string;
+  /** Maximum number of IP addresses allowed for allocations from this IpamPool to be compliant. Must be greater than or equal to the minimum allocation size. If not specified or empty, no maximum is enforced. */
+  maxAllocationSize?: string;
 }
 export const IpamPoolProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12876,6 +14232,8 @@ export const IpamPoolProperties = /*@__PURE__*/ S.suspend(() =>
     parentPoolName: S.optional(S.String),
     addressPrefixes: IpamPoolPropertiesAddressPrefixesList,
     provisioningState: S.optional(IpamPoolPropertiesProvisioningState),
+    minAllocationSize: S.optional(S.String),
+    maxAllocationSize: S.optional(S.String),
   }),
 ).annotate({ identifier: "IpamPoolProperties" }) as any as S.Schema<IpamPoolProperties>;
 
@@ -13147,7 +14505,7 @@ export const CreateNetworkWatchersConnectionAnalyzerRequest = /*@__PURE__*/ S.su
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionAnalyzers/{connectionAnalyzerName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -13473,7 +14831,7 @@ export const CreatePacketCaptureRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -13679,7 +15037,7 @@ export const CreateReachabilityAnalysisIntentRequest = /*@__PURE__*/ S.suspend((
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}/reachabilityAnalysisIntents/{reachabilityAnalysisIntentName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -13811,7 +15169,7 @@ export const CreateReachabilityAnalysisRunRequest = /*@__PURE__*/ S.suspend(() =
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}/reachabilityAnalysisRuns/{reachabilityAnalysisRunName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -14005,7 +15363,7 @@ export const CreateStaticCidrRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/ipamPools/{poolName}/staticCidrs/{staticCidrName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "CreateStaticCidrRequest" }) as any as S.Schema<CreateStaticCidrRequest>;
@@ -14176,7 +15534,7 @@ export const CreateVerifierWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -14308,7 +15666,7 @@ export const CreateVipSwapRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/microsoft.Compute/cloudServices/{resourceName}/providers/Microsoft.Network/cloudServiceSlots/{singletonResource}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "CreateVipSwapRequest" }) as any as S.Schema<CreateVipSwapRequest>;
@@ -14463,7 +15821,7 @@ export const CustomIPPrefixesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -14809,7 +16167,7 @@ export const DdosCustomPoliciesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend((
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -15002,7 +16360,7 @@ export const DdosProtectionPlansCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -15127,7 +16485,7 @@ export const DeleteAddressPrefixSetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}/addressPrefixSets/{addressPrefixSetName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -15169,7 +16527,7 @@ export const DeleteAdminRuleRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "DeleteAdminRuleRequest" }) as any as S.Schema<DeleteAdminRuleRequest>;
@@ -15206,7 +16564,7 @@ export const DeleteAdminRuleCollectionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -15238,7 +16596,7 @@ export const DeleteApplicationGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -15274,7 +16632,7 @@ export const DeleteApplicationGatewayPrivateEndpointConnectionRequest = /*@__PUR
         method: "DELETE",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateEndpointConnections/{connectionName}",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -15306,7 +16664,7 @@ export const DeleteApplicationSecurityGroupRequest = /*@__PURE__*/ S.suspend(() 
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -15319,6 +16677,38 @@ export const DeleteApplicationSecurityGroupResponse = /*@__PURE__*/ S.suspend(()
 ).annotate({
   identifier: "DeleteApplicationSecurityGroupResponse",
 }) as any as S.Schema<DeleteApplicationSecurityGroupResponse>;
+
+export interface DeleteAuthenticationPolicyRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the authentication policy. */
+  authenticationPolicyName: string;
+}
+export const DeleteAuthenticationPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    authenticationPolicyName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/authenticationPolicies/{authenticationPolicyName}",
+      code: 200,
+      apiVersion: "2026-01-01",
+    }),
+  ),
+).annotate({
+  identifier: "DeleteAuthenticationPolicyRequest",
+}) as any as S.Schema<DeleteAuthenticationPolicyRequest>;
+
+export interface DeleteAuthenticationPolicyResponse {}
+export const DeleteAuthenticationPolicyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteAuthenticationPolicyResponse",
+}) as any as S.Schema<DeleteAuthenticationPolicyResponse>;
 
 export interface DeleteAzureFirewallRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -15338,7 +16728,7 @@ export const DeleteAzureFirewallRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -15368,7 +16758,7 @@ export const DeleteBastionHostRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "DeleteBastionHostRequest" }) as any as S.Schema<DeleteBastionHostRequest>;
@@ -15442,7 +16832,7 @@ export const DeleteBastionShareableLinkRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/deleteShareableLinks",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -15483,7 +16873,7 @@ export const DeleteBastionShareableLinkByTokenRequest = /*@__PURE__*/ S.suspend(
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/deleteShareableLinksByToken",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -15518,7 +16908,7 @@ export const DeleteCommitRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/commits/{commitName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "DeleteCommitRequest" }) as any as S.Schema<DeleteCommitRequest>;
@@ -15549,7 +16939,7 @@ export const DeleteConfigurationPolicyGroupRequest = /*@__PURE__*/ S.suspend(() 
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups/{configurationPolicyGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -15584,7 +16974,7 @@ export const DeleteConnectionMonitorRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -15617,7 +17007,7 @@ export const DeleteConnectionPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/connectionPolicies/{connectionPolicyName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -15653,7 +17043,7 @@ export const DeleteConnectivityConfigurationRequest = /*@__PURE__*/ S.suspend(()
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations/{configurationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -15685,7 +17075,7 @@ export const DeleteCustomIPPrefixRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -15715,7 +17105,7 @@ export const DeleteDdosCustomPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -15745,7 +17135,7 @@ export const DeleteDdosProtectionPlanRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -15777,7 +17167,7 @@ export const DeleteDscpConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dscpConfigurations/{dscpConfigurationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -15807,7 +17197,7 @@ export const DeleteExpressRouteCircuitRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -15842,7 +17232,7 @@ export const DeleteExpressRouteCircuitAuthorizationRequest = /*@__PURE__*/ S.sus
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations/{authorizationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -15880,7 +17270,7 @@ export const DeleteExpressRouteCircuitConnectionRequest = /*@__PURE__*/ S.suspen
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections/{connectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -15915,7 +17305,7 @@ export const DeleteExpressRouteCircuitPeeringRequest = /*@__PURE__*/ S.suspend((
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -15950,7 +17340,7 @@ export const DeleteExpressRouteConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/expressRouteConnections/{connectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -15985,7 +17375,7 @@ export const DeleteExpressRouteCrossConnectionPeeringRequest = /*@__PURE__*/ S.s
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16017,7 +17407,7 @@ export const DeleteExpressRouteGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16049,7 +17439,7 @@ export const DeleteExpressRouteLagRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteLags/{expressRouteLagName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16079,7 +17469,7 @@ export const DeleteExpressRoutePortRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16112,7 +17502,7 @@ export const DeleteExpressRoutePortAuthorizationRequest = /*@__PURE__*/ S.suspen
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations/{authorizationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16144,7 +17534,7 @@ export const DeleteFirewallPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16174,7 +17564,7 @@ export const DeleteFirewallPolicyDraftRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/firewallPolicyDrafts/default",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16209,7 +17599,7 @@ export const DeleteFirewallPolicyKubeSelectorGroupRequest = /*@__PURE__*/ S.susp
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/kubeSelectorGroups/{kubeSelectorGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16244,7 +17634,7 @@ export const DeleteFirewallPolicyRuleCollectionGroupRequest = /*@__PURE__*/ S.su
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16279,7 +17669,7 @@ export const DeleteFirewallPolicyRuleCollectionGroupDraftRequest = /*@__PURE__*/
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}/ruleCollectionGroupDrafts/default",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16311,7 +17701,7 @@ export const DeleteFirstPartyServiceTagRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firstPartyServiceTags/{firstPartyServiceTagName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16346,7 +17736,7 @@ export const DeleteFlowLogRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "DeleteFlowLogRequest" }) as any as S.Schema<DeleteFlowLogRequest>;
@@ -16377,7 +17767,7 @@ export const DeleteHubRouteTableRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables/{routeTableName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16409,7 +17799,7 @@ export const DeleteHubVirtualNetworkConnectionRequest = /*@__PURE__*/ S.suspend(
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16444,7 +17834,7 @@ export const DeleteInboundNatRuleRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16474,7 +17864,7 @@ export const DeleteInterconnectGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/interconnectGroups/{interconnectGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16504,7 +17894,7 @@ export const DeleteIpAllocationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16537,7 +17927,7 @@ export const DeleteIpamPoolRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/ipamPools/{poolName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "DeleteIpamPoolRequest" }) as any as S.Schema<DeleteIpamPoolRequest>;
@@ -16565,7 +17955,7 @@ export const DeleteIpGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "DeleteIpGroupRequest" }) as any as S.Schema<DeleteIpGroupRequest>;
@@ -16593,7 +17983,7 @@ export const DeleteLoadBalancerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16626,7 +18016,7 @@ export const DeleteLoadBalancerBackendAddressPoolRequest = /*@__PURE__*/ S.suspe
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendAddressPoolName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16658,7 +18048,7 @@ export const DeleteLocalNetworkGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16687,7 +18077,7 @@ export const DeleteManagementGroupNetworkManagerConnectionRequest = /*@__PURE__*
       method: "DELETE",
       uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16719,7 +18109,7 @@ export const DeleteNatGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "DeleteNatGatewayRequest" }) as any as S.Schema<DeleteNatGatewayRequest>;
@@ -16750,7 +18140,7 @@ export const DeleteNatRuleRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules/{natRuleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "DeleteNatRuleRequest" }) as any as S.Schema<DeleteNatRuleRequest>;
@@ -16784,7 +18174,7 @@ export const DeleteNetworkGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16814,7 +18204,7 @@ export const DeleteNetworkInterfaceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16847,7 +18237,7 @@ export const DeleteNetworkInterfaceTapConfigurationRequest = /*@__PURE__*/ S.sus
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16882,7 +18272,7 @@ export const DeleteNetworkManagerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16918,7 +18308,7 @@ export const DeleteNetworkManagerRoutingConfigurationRequest = /*@__PURE__*/ S.s
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/routingConfigurations/{configurationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16950,7 +18340,7 @@ export const DeleteNetworkProfileRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -16980,7 +18370,7 @@ export const DeleteNetworkSecurityGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -17015,7 +18405,7 @@ export const DeleteNetworkSecurityPerimeterRequest = /*@__PURE__*/ S.suspend(() 
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -17053,7 +18443,7 @@ export const DeleteNetworkSecurityPerimeterAccessRuleRequest = /*@__PURE__*/ S.s
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/profiles/{profileName}/accessRules/{accessRuleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -17088,7 +18478,7 @@ export const DeleteNetworkSecurityPerimeterAssociationRequest = /*@__PURE__*/ S.
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/resourceAssociations/{associationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -17123,7 +18513,7 @@ export const DeleteNetworkSecurityPerimeterLinkRequest = /*@__PURE__*/ S.suspend
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/links/{linkName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -17158,7 +18548,7 @@ export const DeleteNetworkSecurityPerimeterLinkReferenceRequest = /*@__PURE__*/ 
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/linkReferences/{linkReferenceName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -17194,7 +18584,7 @@ export const DeleteNetworkSecurityPerimeterLoggingConfigurationRequest = /*@__PU
         method: "DELETE",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/loggingConfigurations/{loggingConfigurationName}",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -17229,7 +18619,7 @@ export const DeleteNetworkSecurityPerimeterProfileRequest = /*@__PURE__*/ S.susp
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/profiles/{profileName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -17261,7 +18651,7 @@ export const DeleteNetworkVirtualApplianceRequest = /*@__PURE__*/ S.suspend(() =
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -17295,7 +18685,7 @@ export const DeleteNetworkVirtualApplianceConnectionRequest = /*@__PURE__*/ S.su
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/networkVirtualApplianceConnections/{connectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -17327,7 +18717,7 @@ export const DeleteNetworkWatcherRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -17360,7 +18750,7 @@ export const DeleteNetworkWatchersConnectionAnalyzerRequest = /*@__PURE__*/ S.su
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionAnalyzers/{connectionAnalyzerName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -17392,7 +18782,7 @@ export const DeleteP2sVpnGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -17425,7 +18815,7 @@ export const DeletePacketCaptureRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -17458,7 +18848,7 @@ export const DeletePrivateDnsZoneGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -17490,7 +18880,7 @@ export const DeletePrivateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -17520,7 +18910,7 @@ export const DeletePrivateLinkServiceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -17556,7 +18946,7 @@ export const DeletePrivateLinkServicePrivateEndpointConnectionRequest = /*@__PUR
         method: "DELETE",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections/{peConnectionName}",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -17588,7 +18978,7 @@ export const DeletePublicIPAddressRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -17618,7 +19008,7 @@ export const DeletePublicIPPrefixRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -17654,7 +19044,7 @@ export const DeleteReachabilityAnalysisIntentRequest = /*@__PURE__*/ S.suspend((
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}/reachabilityAnalysisIntents/{reachabilityAnalysisIntentName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -17692,7 +19082,7 @@ export const DeleteReachabilityAnalysisRunRequest = /*@__PURE__*/ S.suspend(() =
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}/reachabilityAnalysisRuns/{reachabilityAnalysisRunName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -17727,7 +19117,7 @@ export const DeleteRouteRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "DeleteRouteRequest" }) as any as S.Schema<DeleteRouteRequest>;
@@ -17755,7 +19145,7 @@ export const DeleteRouteFilterRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "DeleteRouteFilterRequest" }) as any as S.Schema<DeleteRouteFilterRequest>;
@@ -17786,7 +19176,7 @@ export const DeleteRouteFilterRuleRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -17819,7 +19209,7 @@ export const DeleteRouteMapRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps/{routeMapName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "DeleteRouteMapRequest" }) as any as S.Schema<DeleteRouteMapRequest>;
@@ -17847,7 +19237,7 @@ export const DeleteRouteTableRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "DeleteRouteTableRequest" }) as any as S.Schema<DeleteRouteTableRequest>;
@@ -17878,7 +19268,7 @@ export const DeleteRoutingIntentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routingIntent/{routingIntentName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -17920,7 +19310,7 @@ export const DeleteRoutingRuleRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/routingConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "DeleteRoutingRuleRequest" }) as any as S.Schema<DeleteRoutingRuleRequest>;
@@ -17957,7 +19347,7 @@ export const DeleteRoutingRuleCollectionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/routingConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -17992,7 +19382,7 @@ export const DeleteScopeConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/scopeConnections/{scopeConnectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18028,7 +19418,7 @@ export const DeleteSecurityAdminConfigurationRequest = /*@__PURE__*/ S.suspend((
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18060,7 +19450,7 @@ export const DeleteSecurityPartnerProviderRequest = /*@__PURE__*/ S.suspend(() =
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18095,7 +19485,7 @@ export const DeleteSecurityRuleRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18131,7 +19521,7 @@ export const DeleteSecurityUserConfigurationRequest = /*@__PURE__*/ S.suspend(()
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18175,7 +19565,7 @@ export const DeleteSecurityUserRuleRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18214,7 +19604,7 @@ export const DeleteSecurityUserRuleCollectionRequest = /*@__PURE__*/ S.suspend((
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18246,7 +19636,7 @@ export const DeleteServiceEndpointPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18281,7 +19671,7 @@ export const DeleteServiceEndpointPolicyDefinitionRequest = /*@__PURE__*/ S.susp
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions/{serviceEndpointPolicyDefinitionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18313,7 +19703,7 @@ export const DeleteServiceGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceGateways/{serviceGatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18349,7 +19739,7 @@ export const DeleteStaticCidrRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/ipamPools/{poolName}/staticCidrs/{staticCidrName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "DeleteStaticCidrRequest" }) as any as S.Schema<DeleteStaticCidrRequest>;
@@ -18383,7 +19773,7 @@ export const DeleteStaticMemberRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}/staticMembers/{staticMemberName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18416,7 +19806,7 @@ export const DeleteSubnetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "DeleteSubnetRequest" }) as any as S.Schema<DeleteSubnetRequest>;
@@ -18441,7 +19831,7 @@ export const DeleteSubscriptionNetworkManagerConnectionRequest = /*@__PURE__*/ S
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18476,7 +19866,7 @@ export const DeleteVerifierWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18509,7 +19899,7 @@ export const DeleteVirtualApplianceSiteRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/virtualApplianceSites/{siteName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18541,7 +19931,7 @@ export const DeleteVirtualHubRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "DeleteVirtualHubRequest" }) as any as S.Schema<DeleteVirtualHubRequest>;
@@ -18572,7 +19962,7 @@ export const DeleteVirtualHubBgpConnectionRequest = /*@__PURE__*/ S.suspend(() =
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/bgpConnections/{connectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18607,7 +19997,7 @@ export const DeleteVirtualHubIpConfigurationRequest = /*@__PURE__*/ S.suspend(()
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/ipConfigurations/{ipConfigName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18642,7 +20032,7 @@ export const DeleteVirtualHubRouteTableV2sRequest = /*@__PURE__*/ S.suspend(() =
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeTables/{routeTableName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18674,7 +20064,7 @@ export const DeleteVirtualNetworkRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18704,7 +20094,7 @@ export const DeleteVirtualNetworkApplianceRequest = /*@__PURE__*/ S.suspend(() =
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkAppliances/{virtualNetworkApplianceName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18736,7 +20126,7 @@ export const DeleteVirtualNetworkGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18768,7 +20158,7 @@ export const DeleteVirtualNetworkGatewayConnectionRequest = /*@__PURE__*/ S.susp
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18803,7 +20193,7 @@ export const DeleteVirtualNetworkGatewayNatRuleRequest = /*@__PURE__*/ S.suspend
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/natRules/{natRuleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18838,7 +20228,7 @@ export const DeleteVirtualNetworkPeeringRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18870,7 +20260,7 @@ export const DeleteVirtualNetworkTapRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18900,7 +20290,7 @@ export const DeleteVirtualRouterRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18933,7 +20323,7 @@ export const DeleteVirtualRouterPeeringRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}/peerings/{peeringName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -18965,7 +20355,7 @@ export const DeleteVirtualWanRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "DeleteVirtualWanRequest" }) as any as S.Schema<DeleteVirtualWanRequest>;
@@ -18996,7 +20386,7 @@ export const DeleteVpnConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -19026,7 +20416,7 @@ export const DeleteVpnGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "DeleteVpnGatewayRequest" }) as any as S.Schema<DeleteVpnGatewayRequest>;
@@ -19054,7 +20444,7 @@ export const DeleteVpnServerConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -19086,7 +20476,7 @@ export const DeleteVpnSiteRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "DeleteVpnSiteRequest" }) as any as S.Schema<DeleteVpnSiteRequest>;
@@ -19114,7 +20504,7 @@ export const DeleteWebApplicationFirewallPolicyRequest = /*@__PURE__*/ S.suspend
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -19146,7 +20536,7 @@ export const DeployFirewallPolicyDeploymentRequest = /*@__PURE__*/ S.suspend(() 
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/deploy",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -19187,7 +20577,7 @@ export const DisconnectActiveSessionsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/disconnectActiveSessions",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -19263,7 +20653,7 @@ export const DisconnectP2sVpnGatewayP2sVpnConnectionsRequest = /*@__PURE__*/ S.s
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{p2sVpnGatewayName}/disconnectP2sVpnConnections",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -19309,7 +20699,7 @@ export const DisconnectVirtualNetworkGatewayVirtualNetworkGatewayVpnConnectionsR
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/disconnectVirtualNetworkGatewayVpnConnections",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
   ).annotate({
@@ -19352,7 +20742,7 @@ export const DownloadVpnSitesConfigurationRequest = /*@__PURE__*/ S.suspend(() =
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/vpnConfiguration",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -19600,7 +20990,7 @@ export const DscpConfigurationCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dscpConfigurations/{dscpConfigurationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -20938,29 +22328,14 @@ export const FlowLogPropertiesFormat_7 = /*@__PURE__*/ S.suspend(() =>
   identifier: "FlowLogPropertiesFormat_7",
 }) as any as S.Schema<FlowLogPropertiesFormat_7>;
 
-export interface ManagedServiceIdentityUserAssignedIdentities_8 {
-  /** The principal id of user assigned identity. */
-  principalId?: string;
-  /** The client id of user assigned identity. */
-  clientId?: string;
-}
-export const ManagedServiceIdentityUserAssignedIdentities_8 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    principalId: S.optional(S.String),
-    clientId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ManagedServiceIdentityUserAssignedIdentities_8",
-}) as any as S.Schema<ManagedServiceIdentityUserAssignedIdentities_8>;
-
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type NetworkSecurityGroupPropertiesFormatFlowLogsItemIdentityUserAssignedIdentitiesMap_6 = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const NetworkSecurityGroupPropertiesFormatFlowLogsItemIdentityUserAssignedIdentitiesMap_6 =
   /*@__PURE__*/ S.Record(
     S.String,
-    ManagedServiceIdentityUserAssignedIdentities_8,
+    ManagedServiceIdentityUserAssignedIdentities_2,
   ) as any as S.Schema<NetworkSecurityGroupPropertiesFormatFlowLogsItemIdentityUserAssignedIdentitiesMap_6>;
 
 /** Identity for the resource. */
@@ -22430,7 +23805,7 @@ export const ExecuteNetworkVirtualApplianceMigrationRequest = /*@__PURE__*/ S.su
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/executeMigration",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -22507,7 +23882,7 @@ export const ExpressRouteCircuitAuthorizationsCreateOrUpdateRequest = /*@__PURE_
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations/{authorizationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -22700,7 +24075,7 @@ export const ExpressRouteCircuitConnectionsCreateOrUpdateRequest = /*@__PURE__*/
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections/{connectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -23043,7 +24418,7 @@ export const ExpressRouteCircuitPeeringsCreateOrUpdateRequest = /*@__PURE__*/ S.
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -23415,6 +24790,12 @@ export type ExpressRouteCircuitPropertiesFormatInputExpressRoutePort =
 export const ExpressRouteCircuitPropertiesFormatInputExpressRoutePort =
   NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
 
+/** Reference to another subresource. */
+export type ExpressRouteCircuitPropertiesFormatInputExpressRouteLag =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+export const ExpressRouteCircuitPropertiesFormatInputExpressRouteLag =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+
 /** The resiliency level of the ExpressRoute circuit. */
 export type ExpressRouteCircuitPropertiesFormatInputResiliencyLevel =
   | "Standard"
@@ -23454,6 +24835,8 @@ export interface ExpressRouteCircuitPropertiesFormatInput {
   serviceProviderProperties?: ExpressRouteCircuitServiceProviderProperties;
   /** Reference to another subresource. */
   expressRoutePort?: NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+  /** Reference to another subresource. */
+  expressRouteLag?: NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
   /** The bandwidth of the circuit when the circuit is provisioned on an ExpressRoutePort resource. */
   bandwidthInGbps?: number;
   /** The resiliency level of the ExpressRoute circuit. */
@@ -23488,6 +24871,7 @@ export const ExpressRouteCircuitPropertiesFormatInput = /*@__PURE__*/ S.suspend(
     expressRoutePort: S.optional(
       NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer,
     ),
+    expressRouteLag: S.optional(NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer),
     bandwidthInGbps: S.optional(S.Number),
     resiliencyLevel: S.optional(ExpressRouteCircuitPropertiesFormatInputResiliencyLevel),
     partnerAccountId: S.optional(S.String),
@@ -23560,7 +24944,7 @@ export const ExpressRouteCircuitsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -23654,6 +25038,12 @@ export type ExpressRouteCircuitPropertiesFormatExpressRoutePort =
 export const ExpressRouteCircuitPropertiesFormatExpressRoutePort =
   NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
 
+/** Reference to another subresource. */
+export type ExpressRouteCircuitPropertiesFormatExpressRouteLag =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+export const ExpressRouteCircuitPropertiesFormatExpressRouteLag =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+
 /** The resiliency level of the ExpressRoute circuit. */
 export type ExpressRouteCircuitPropertiesFormatResiliencyLevel = "Standard" | "High" | "Maximum";
 export const ExpressRouteCircuitPropertiesFormatResiliencyLevel = S.String;
@@ -23688,6 +25078,8 @@ export interface ExpressRouteCircuitPropertiesFormat {
   serviceProviderProperties?: ExpressRouteCircuitServiceProviderProperties;
   /** Reference to another subresource. */
   expressRoutePort?: NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+  /** Reference to another subresource. */
+  expressRouteLag?: NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
   /** The bandwidth of the circuit when the circuit is provisioned on an ExpressRoutePort resource. */
   bandwidthInGbps?: number;
   /** The identifier of the circuit traffic. Outer tag for QinQ encapsulation. */
@@ -23726,6 +25118,7 @@ export const ExpressRouteCircuitPropertiesFormat = /*@__PURE__*/ S.suspend(() =>
     expressRoutePort: S.optional(
       NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer,
     ),
+    expressRouteLag: S.optional(NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer),
     bandwidthInGbps: S.optional(S.Number),
     stag: S.optional(S.Number),
     resiliencyLevel: S.optional(ExpressRouteCircuitPropertiesFormatResiliencyLevel),
@@ -23862,7 +25255,7 @@ export const ExpressRouteConnectionsCreateOrUpdateRequest = /*@__PURE__*/ S.susp
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/expressRouteConnections/{connectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -24030,7 +25423,7 @@ export const ExpressRouteCrossConnectionPeeringsCreateOrUpdateRequest = /*@__PUR
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -24261,7 +25654,7 @@ export const ExpressRouteCrossConnectionsCreateOrUpdateRequest = /*@__PURE__*/ S
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -24396,6 +25789,141 @@ export const ExpressRouteCrossConnectionsCreateOrUpdateResponse = /*@__PURE__*/ 
 ).annotate({
   identifier: "ExpressRouteCrossConnectionsCreateOrUpdateResponse",
 }) as any as S.Schema<ExpressRouteCrossConnectionsCreateOrUpdateResponse>;
+
+/** The source-to-target port mappings for circuit migration. */
+export type ExpressRouteCrossConnectionsPrepareCircuitMigrationRequestTargetPortMappingList =
+  Array<PortMapping>;
+export const ExpressRouteCrossConnectionsPrepareCircuitMigrationRequestTargetPortMappingList =
+  /*@__PURE__*/ S.Array(
+    PortMapping,
+  ) as any as S.Schema<ExpressRouteCrossConnectionsPrepareCircuitMigrationRequestTargetPortMappingList>;
+
+export interface ExpressRouteCrossConnectionsPrepareCircuitMigrationRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the ExpressRouteCrossConnection (service key of the circuit). */
+  crossConnectionName: string;
+  /** The target peering location for circuit migration. */
+  targetPeeringLocation?: string;
+  /** The source-to-target port mappings for circuit migration. */
+  targetPortMapping?: ExpressRouteCrossConnectionsPrepareCircuitMigrationRequestTargetPortMappingList;
+  /** The port identifier used for shutDownBgp, migrate, restoreBgp, and rollback operations. */
+  portId?: string;
+}
+export const ExpressRouteCrossConnectionsPrepareCircuitMigrationRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      crossConnectionName: S.String.pipe(T.Label()),
+      targetPeeringLocation: S.optional(S.String),
+      targetPortMapping: S.optional(
+        ExpressRouteCrossConnectionsPrepareCircuitMigrationRequestTargetPortMappingList,
+      ),
+      portId: S.optional(S.String),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/prepareCircuitMigration",
+        code: 200,
+        apiVersion: "2026-01-01",
+      }),
+    ),
+).annotate({
+  identifier: "ExpressRouteCrossConnectionsPrepareCircuitMigrationRequest",
+}) as any as S.Schema<ExpressRouteCrossConnectionsPrepareCircuitMigrationRequest>;
+
+/** The source-to-target port mappings for circuit migration. */
+export type ExpressRouteCrossConnectionsRollbackCircuitMigrationRequestTargetPortMappingList =
+  Array<PortMapping>;
+export const ExpressRouteCrossConnectionsRollbackCircuitMigrationRequestTargetPortMappingList =
+  /*@__PURE__*/ S.Array(
+    PortMapping,
+  ) as any as S.Schema<ExpressRouteCrossConnectionsRollbackCircuitMigrationRequestTargetPortMappingList>;
+
+export interface ExpressRouteCrossConnectionsRollbackCircuitMigrationRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the ExpressRouteCrossConnection (service key of the circuit). */
+  crossConnectionName: string;
+  /** The target peering location for circuit migration. */
+  targetPeeringLocation?: string;
+  /** The source-to-target port mappings for circuit migration. */
+  targetPortMapping?: ExpressRouteCrossConnectionsRollbackCircuitMigrationRequestTargetPortMappingList;
+  /** The port identifier used for shutDownBgp, migrate, restoreBgp, and rollback operations. */
+  portId?: string;
+}
+export const ExpressRouteCrossConnectionsRollbackCircuitMigrationRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      crossConnectionName: S.String.pipe(T.Label()),
+      targetPeeringLocation: S.optional(S.String),
+      targetPortMapping: S.optional(
+        ExpressRouteCrossConnectionsRollbackCircuitMigrationRequestTargetPortMappingList,
+      ),
+      portId: S.optional(S.String),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/rollbackCircuitMigration",
+        code: 200,
+        apiVersion: "2026-01-01",
+      }),
+    ),
+).annotate({
+  identifier: "ExpressRouteCrossConnectionsRollbackCircuitMigrationRequest",
+}) as any as S.Schema<ExpressRouteCrossConnectionsRollbackCircuitMigrationRequest>;
+
+/** The source-to-target port mappings for circuit migration. */
+export type ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationRequestTargetPortMappingList =
+  Array<PortMapping>;
+export const ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationRequestTargetPortMappingList =
+  /*@__PURE__*/ S.Array(
+    PortMapping,
+  ) as any as S.Schema<ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationRequestTargetPortMappingList>;
+
+export interface ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the ExpressRouteCrossConnection (service key of the circuit). */
+  crossConnectionName: string;
+  /** The target peering location for circuit migration. */
+  targetPeeringLocation?: string;
+  /** The source-to-target port mappings for circuit migration. */
+  targetPortMapping?: ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationRequestTargetPortMappingList;
+  /** The port identifier used for shutDownBgp, migrate, restoreBgp, and rollback operations. */
+  portId?: string;
+}
+export const ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      crossConnectionName: S.String.pipe(T.Label()),
+      targetPeeringLocation: S.optional(S.String),
+      targetPortMapping: S.optional(
+        ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationRequestTargetPortMappingList,
+      ),
+      portId: S.optional(S.String),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/shutDownBgpForCircuitMigration",
+        code: 200,
+        apiVersion: "2026-01-01",
+      }),
+    ),
+  ).annotate({
+    identifier: "ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationRequest",
+  }) as any as S.Schema<ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationRequest>;
 
 /** Resource tags. */
 export type ExpressRouteGatewaysCreateOrUpdateRequestTagsMap = {
@@ -24540,7 +26068,7 @@ export const ExpressRouteGatewaysCreateOrUpdateRequest = /*@__PURE__*/ S.suspend
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -24921,7 +26449,7 @@ export const ExpressRouteLagsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteLags/{expressRouteLagName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -25088,6 +26616,19 @@ export const ExpressRouteLagPropertiesFormatLinksList = /*@__PURE__*/ S.Array(
   ExpressRouteLagLink,
 ) as any as S.Schema<ExpressRouteLagPropertiesFormatLinksList>;
 
+/** Reference to another subresource. */
+export type ExpressRouteLagPropertiesFormatCircuitsItem =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+export const ExpressRouteLagPropertiesFormatCircuitsItem =
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
+
+/** Reference the ExpressRoute circuit(s) that are provisioned on this ExpressRouteLag resource. */
+export type ExpressRouteLagPropertiesFormatCircuitsList =
+  Array<NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer>;
+export const ExpressRouteLagPropertiesFormatCircuitsList = /*@__PURE__*/ S.Array(
+  NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer,
+) as any as S.Schema<ExpressRouteLagPropertiesFormatCircuitsList>;
+
 /** Provisioning states of a resource. */
 export type ExpressRouteLagPropertiesFormatProvisioningState =
   | "Failed"
@@ -25122,6 +26663,8 @@ export interface ExpressRouteLagPropertiesFormat {
   etherType?: string;
   /** The set of links of the ExpressRouteLag resource. */
   links?: ExpressRouteLagPropertiesFormatLinksList;
+  /** Reference the ExpressRoute circuit(s) that are provisioned on this ExpressRouteLag resource. */
+  circuits?: ExpressRouteLagPropertiesFormatCircuitsList;
   /** The date and time when the ExpressRouteLag was allocated. */
   allocationDate?: string;
   /** Provisioning states of a resource. */
@@ -25146,6 +26689,7 @@ export const ExpressRouteLagPropertiesFormat = /*@__PURE__*/ S.suspend(() =>
     encapsulation: S.optional(ExpressRouteLagPropertiesFormatEncapsulation),
     etherType: S.optional(S.String),
     links: S.optional(ExpressRouteLagPropertiesFormatLinksList),
+    circuits: S.optional(ExpressRouteLagPropertiesFormatCircuitsList),
     allocationDate: S.optional(S.String),
     provisioningState: S.optional(ExpressRouteLagPropertiesFormatProvisioningState),
     resourceGuid: S.optional(S.String),
@@ -25158,19 +26702,19 @@ export const ExpressRouteLagPropertiesFormat = /*@__PURE__*/ S.suspend(() =>
   identifier: "ExpressRouteLagPropertiesFormat",
 }) as any as S.Schema<ExpressRouteLagPropertiesFormat>;
 
-export type ManagedServiceIdentityUserAssignedIdentities_2 =
-  ManagedServiceIdentityUserAssignedIdentities_8;
-export const ManagedServiceIdentityUserAssignedIdentities_2 =
-  ManagedServiceIdentityUserAssignedIdentities_8;
+export type ManagedServiceIdentityUserAssignedIdentities_3 =
+  ManagedServiceIdentityUserAssignedIdentities_2;
+export const ManagedServiceIdentityUserAssignedIdentities_3 =
+  ManagedServiceIdentityUserAssignedIdentities_2;
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type ExpressRouteLagsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const ExpressRouteLagsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ManagedServiceIdentityUserAssignedIdentities_8,
+    ManagedServiceIdentityUserAssignedIdentities_2,
   ) as any as S.Schema<ExpressRouteLagsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -25300,7 +26844,7 @@ export const ExpressRoutePortAuthorizationsCreateOrUpdateRequest = /*@__PURE__*/
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations/{authorizationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -25548,7 +27092,7 @@ export const ExpressRoutePortsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -25722,12 +27266,12 @@ export const ExpressRoutePortPropertiesFormat = /*@__PURE__*/ S.suspend(() =>
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type ExpressRoutePortsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const ExpressRoutePortsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ManagedServiceIdentityUserAssignedIdentities_8,
+    ManagedServiceIdentityUserAssignedIdentities_2,
   ) as any as S.Schema<ExpressRoutePortsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -25802,7 +27346,7 @@ export const ExpressRouteProviderPortRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts/{providerport}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -26428,7 +27972,7 @@ export const FirewallPoliciesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -26578,19 +28122,19 @@ export const FirewallPolicyPropertiesFormat = /*@__PURE__*/ S.suspend(() =>
   identifier: "FirewallPolicyPropertiesFormat",
 }) as any as S.Schema<FirewallPolicyPropertiesFormat>;
 
-export type ManagedServiceIdentityUserAssignedIdentities_3 =
-  ManagedServiceIdentityUserAssignedIdentities_8;
-export const ManagedServiceIdentityUserAssignedIdentities_3 =
-  ManagedServiceIdentityUserAssignedIdentities_8;
+export type ManagedServiceIdentityUserAssignedIdentities_4 =
+  ManagedServiceIdentityUserAssignedIdentities_2;
+export const ManagedServiceIdentityUserAssignedIdentities_4 =
+  ManagedServiceIdentityUserAssignedIdentities_2;
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type FirewallPoliciesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const FirewallPoliciesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ManagedServiceIdentityUserAssignedIdentities_8,
+    ManagedServiceIdentityUserAssignedIdentities_2,
   ) as any as S.Schema<FirewallPoliciesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -26735,7 +28279,7 @@ export const FirewallPolicyDraftsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/firewallPolicyDrafts/default",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -26891,7 +28435,7 @@ export const FirewallPolicyKubeSelectorGroupsCreateOrUpdateRequest = /*@__PURE__
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/kubeSelectorGroups/{kubeSelectorGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -27114,7 +28658,7 @@ export const FirewallPolicyRuleCollectionGroupDraftsCreateOrUpdateRequest = /*@_
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}/ruleCollectionGroupDrafts/default",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -27245,7 +28789,7 @@ export const FirewallPolicyRuleCollectionGroupsCreateOrUpdateRequest = /*@__PURE
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -27381,7 +28925,7 @@ export const FirstPartyServiceTagsCreateOrUpdateRequest = /*@__PURE__*/ S.suspen
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firstPartyServiceTags/{firstPartyServiceTagName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -27601,7 +29145,7 @@ export const FlowLogsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -27655,19 +29199,19 @@ export const FlowLogPropertiesFormat_5 = /*@__PURE__*/ S.suspend(() =>
   identifier: "FlowLogPropertiesFormat_5",
 }) as any as S.Schema<FlowLogPropertiesFormat_5>;
 
-export type ManagedServiceIdentityUserAssignedIdentities_6 =
-  ManagedServiceIdentityUserAssignedIdentities_8;
-export const ManagedServiceIdentityUserAssignedIdentities_6 =
-  ManagedServiceIdentityUserAssignedIdentities_8;
+export type ManagedServiceIdentityUserAssignedIdentities_7 =
+  ManagedServiceIdentityUserAssignedIdentities_2;
+export const ManagedServiceIdentityUserAssignedIdentities_7 =
+  ManagedServiceIdentityUserAssignedIdentities_2;
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type FlowLogsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const FlowLogsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ManagedServiceIdentityUserAssignedIdentities_8,
+    ManagedServiceIdentityUserAssignedIdentities_2,
   ) as any as S.Schema<FlowLogsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -27757,7 +29301,7 @@ export const GenerateExpressRouteLagLoaRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteLags/{expressRouteLagName}/generateLoa",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -27798,7 +29342,7 @@ export const GenerateExpressRoutePortLOARequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}/generateLoa",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -27843,7 +29387,7 @@ export const GenerateP2sVpnGatewayVpnProfileRequest = /*@__PURE__*/ S.suspend(()
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/generatevpnprofile",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -27919,7 +29463,7 @@ export const GenerateVirtualNetworkGatewayVpnProfileRequest = /*@__PURE__*/ S.su
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/generatevpnprofile",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -27969,7 +29513,7 @@ export const GeneratevirtualwanvpnserverconfigurationvpnprofileRequest = /*@__PU
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/generateVpnProfile",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -27994,7 +29538,7 @@ export const GetActiveSessionsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/getActiveSessions",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetActiveSessionsRequest" }) as any as S.Schema<GetActiveSessionsRequest>;
@@ -28087,7 +29631,7 @@ export const GetAddressPrefixSetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}/addressPrefixSets/{addressPrefixSetName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -28145,7 +29689,7 @@ export const GetAdminRuleRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetAdminRuleRequest" }) as any as S.Schema<GetAdminRuleRequest>;
@@ -28249,7 +29793,7 @@ export const GetAdminRuleCollectionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -28345,7 +29889,7 @@ export const GetApplicationGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -28456,7 +30000,7 @@ export const GetApplicationGatewayPrivateEndpointConnectionRequest = /*@__PURE__
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateEndpointConnections/{connectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -28502,7 +30046,7 @@ export const GetApplicationGatewaySslPredefinedPolicyRequest = /*@__PURE__*/ S.s
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default/predefinedPolicies/{predefinedPolicyName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -28608,7 +30152,7 @@ export const GetApplicationGatewayWafDynamicManifestRequest = /*@__PURE__*/ S.su
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/applicationGatewayWafDynamicManifests",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -28621,11 +30165,14 @@ export interface DefaultRuleSetPropertyFormat {
   ruleSetType?: string;
   /** The version of the web application firewall rule set type. */
   ruleSetVersion?: string;
+  /** Human-readable display name for the managed rule set version (e.g., 'Default Ruleset 2.2 (Latest, Recommended)'). */
+  displayName?: string;
 }
 export const DefaultRuleSetPropertyFormat = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ruleSetType: S.optional(S.String),
     ruleSetVersion: S.optional(S.String),
+    displayName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "DefaultRuleSetPropertyFormat",
@@ -28670,6 +30217,10 @@ export const ApplicationGatewayFirewallRuleAction = S.String;
 export type ApplicationGatewayFirewallRuleSensitivity = "Low" | "Medium" | "High";
 export const ApplicationGatewayFirewallRuleSensitivity = S.String;
 
+/** OWASP CRS paranoia level of a managed rule. Applicable only for DRS and OWASP rules. */
+export type ApplicationGatewayFirewallRuleParanoiaLevel = "PL1" | "PL2" | "PL3" | "PL4";
+export const ApplicationGatewayFirewallRuleParanoiaLevel = S.String;
+
 /** A web application firewall rule. */
 export interface ApplicationGatewayFirewallRule {
   /** The identifier of the web application firewall rule. */
@@ -28682,6 +30233,8 @@ export interface ApplicationGatewayFirewallRule {
   action?: ApplicationGatewayFirewallRuleAction;
   /** The string representation of the web application firewall rule sensitivity. */
   sensitivity?: ApplicationGatewayFirewallRuleSensitivity;
+  /** OWASP CRS paranoia level of a managed rule. Applicable only for DRS and OWASP rules. */
+  paranoiaLevel?: ApplicationGatewayFirewallRuleParanoiaLevel;
   /** The description of the web application firewall rule. */
   description?: string;
 }
@@ -28692,6 +30245,7 @@ export const ApplicationGatewayFirewallRule = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(ApplicationGatewayFirewallRuleState),
     action: S.optional(ApplicationGatewayFirewallRuleAction),
     sensitivity: S.optional(ApplicationGatewayFirewallRuleSensitivity),
+    paranoiaLevel: S.optional(ApplicationGatewayFirewallRuleParanoiaLevel),
     description: S.optional(S.String),
   }),
 ).annotate({
@@ -28738,6 +30292,8 @@ export interface ApplicationGatewayFirewallManifestRuleSet {
   ruleSetVersion: string;
   /** The rule set status */
   status?: ApplicationGatewayFirewallManifestRuleSetStatus;
+  /** Human-readable display name for the managed rule set version (e.g., 'Default Ruleset 2.2 (Latest, Recommended)'). */
+  displayName?: string;
   /** Tier of an application gateway that support the rule set. */
   tiers?: ApplicationGatewayFirewallManifestRuleSetTiersList;
   /** The rule groups of the web application firewall rule set. */
@@ -28748,6 +30304,7 @@ export const ApplicationGatewayFirewallManifestRuleSet = /*@__PURE__*/ S.suspend
     ruleSetType: S.String,
     ruleSetVersion: S.String,
     status: S.optional(ApplicationGatewayFirewallManifestRuleSetStatus),
+    displayName: S.optional(S.String),
     tiers: S.optional(ApplicationGatewayFirewallManifestRuleSetTiersList),
     ruleGroups: ApplicationGatewayFirewallManifestRuleSetRuleGroupsList,
   }),
@@ -28841,7 +30398,7 @@ export const GetApplicationGatewayWafDynamicManifestsDefaultRequest = /*@__PURE_
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/applicationGatewayWafDynamicManifests/dafault",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -28887,7 +30444,7 @@ export const GetApplicationSecurityGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -28931,6 +30488,152 @@ export const GetApplicationSecurityGroupResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetApplicationSecurityGroupResponse",
 }) as any as S.Schema<GetApplicationSecurityGroupResponse>;
 
+export interface GetAuthenticationPolicyRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the authentication policy. */
+  authenticationPolicyName: string;
+}
+export const GetAuthenticationPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    authenticationPolicyName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/authenticationPolicies/{authenticationPolicyName}",
+      code: 200,
+      apiVersion: "2026-01-01",
+    }),
+  ),
+).annotate({
+  identifier: "GetAuthenticationPolicyRequest",
+}) as any as S.Schema<GetAuthenticationPolicyRequest>;
+
+/** Resource tags. */
+export type GetAuthenticationPolicyResponseTagsMap = { [key: string]: string | undefined };
+export const GetAuthenticationPolicyResponseTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<GetAuthenticationPolicyResponseTagsMap>;
+
+/** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+export type GetAuthenticationPolicyResponseIdentityUserAssignedIdentitiesMap = {
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
+};
+export const GetAuthenticationPolicyResponseIdentityUserAssignedIdentitiesMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    ManagedServiceIdentityUserAssignedIdentities_2,
+  ) as any as S.Schema<GetAuthenticationPolicyResponseIdentityUserAssignedIdentitiesMap>;
+
+/** Identity for the resource. */
+export interface GetAuthenticationPolicyResponseIdentity {
+  /** The principal id of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string;
+  /** The tenant id of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string;
+  /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
+  type?: ResourceIdentityType;
+  /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: GetAuthenticationPolicyResponseIdentityUserAssignedIdentitiesMap;
+}
+export const GetAuthenticationPolicyResponseIdentity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    principalId: S.optional(S.String),
+    tenantId: S.optional(S.String),
+    type: S.optional(ResourceIdentityType),
+    userAssignedIdentities: S.optional(
+      GetAuthenticationPolicyResponseIdentityUserAssignedIdentitiesMap,
+    ),
+  }),
+).annotate({
+  identifier: "GetAuthenticationPolicyResponseIdentity",
+}) as any as S.Schema<GetAuthenticationPolicyResponseIdentity>;
+
+/** The type of identity that created the resource. */
+export type GetAuthenticationPolicyResponseSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const GetAuthenticationPolicyResponseSystemDataCreatedByType = S.String;
+
+/** The type of identity that last modified the resource. */
+export type GetAuthenticationPolicyResponseSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const GetAuthenticationPolicyResponseSystemDataLastModifiedByType = S.String;
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface GetAuthenticationPolicyResponseSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: GetAuthenticationPolicyResponseSystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: GetAuthenticationPolicyResponseSystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
+export const GetAuthenticationPolicyResponseSystemData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    createdBy: S.optional(S.String),
+    createdByType: S.optional(GetAuthenticationPolicyResponseSystemDataCreatedByType),
+    createdAt: S.optional(S.String),
+    lastModifiedBy: S.optional(S.String),
+    lastModifiedByType: S.optional(GetAuthenticationPolicyResponseSystemDataLastModifiedByType),
+    lastModifiedAt: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetAuthenticationPolicyResponseSystemData",
+}) as any as S.Schema<GetAuthenticationPolicyResponseSystemData>;
+
+export interface GetAuthenticationPolicyResponse {
+  /** Resource ID. */
+  id?: string;
+  /** Resource name. */
+  name?: string;
+  /** Resource type. */
+  type?: string;
+  /** Resource location. */
+  location?: string;
+  /** Resource tags. */
+  tags?: GetAuthenticationPolicyResponseTagsMap;
+  /** Properties of the authentication policy. */
+  properties?: AuthenticationPolicyPropertiesFormat;
+  /** A unique read-only string that changes whenever the resource is updated. */
+  etag?: string;
+  /** Identity for the resource. */
+  identity?: GetAuthenticationPolicyResponseIdentity;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: GetAuthenticationPolicyResponseSystemData;
+}
+export const GetAuthenticationPolicyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    location: S.optional(S.String),
+    tags: S.optional(GetAuthenticationPolicyResponseTagsMap),
+    properties: S.optional(AuthenticationPolicyPropertiesFormat),
+    etag: S.optional(S.String),
+    identity: S.optional(GetAuthenticationPolicyResponseIdentity),
+    systemData: S.optional(GetAuthenticationPolicyResponseSystemData),
+  }),
+).annotate({
+  identifier: "GetAuthenticationPolicyResponse",
+}) as any as S.Schema<GetAuthenticationPolicyResponse>;
+
 export interface GetAzureFirewallRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -28949,7 +30652,7 @@ export const GetAzureFirewallRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetAzureFirewallRequest" }) as any as S.Schema<GetAzureFirewallRequest>;
@@ -29023,7 +30726,7 @@ export const GetBastionHostRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetBastionHostRequest" }) as any as S.Schema<GetBastionHostRequest>;
@@ -29040,6 +30743,37 @@ export type GetBastionHostResponseZonesList = Array<string>;
 export const GetBastionHostResponseZonesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<GetBastionHostResponseZonesList>;
+
+/** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+export type GetBastionHostResponseIdentityUserAssignedIdentitiesMap = {
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
+};
+export const GetBastionHostResponseIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ManagedServiceIdentityUserAssignedIdentities_2,
+) as any as S.Schema<GetBastionHostResponseIdentityUserAssignedIdentitiesMap>;
+
+/** Identity for the resource. */
+export interface GetBastionHostResponseIdentity {
+  /** The principal id of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string;
+  /** The tenant id of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string;
+  /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
+  type?: ResourceIdentityType;
+  /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: GetBastionHostResponseIdentityUserAssignedIdentitiesMap;
+}
+export const GetBastionHostResponseIdentity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    principalId: S.optional(S.String),
+    tenantId: S.optional(S.String),
+    type: S.optional(ResourceIdentityType),
+    userAssignedIdentities: S.optional(GetBastionHostResponseIdentityUserAssignedIdentitiesMap),
+  }),
+).annotate({
+  identifier: "GetBastionHostResponseIdentity",
+}) as any as S.Schema<GetBastionHostResponseIdentity>;
 
 export interface GetBastionHostResponse {
   /** Resource ID. */
@@ -29060,6 +30794,8 @@ export interface GetBastionHostResponse {
   etag?: string;
   /** The sku of this Bastion Host. */
   sku?: Sku;
+  /** Identity for the resource. */
+  identity?: GetBastionHostResponseIdentity;
 }
 export const GetBastionHostResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -29072,6 +30808,7 @@ export const GetBastionHostResponse = /*@__PURE__*/ S.suspend(() =>
     zones: S.optional(GetBastionHostResponseZonesList),
     etag: S.optional(S.String),
     sku: S.optional(Sku),
+    identity: S.optional(GetBastionHostResponseIdentity),
   }),
 ).annotate({ identifier: "GetBastionHostResponse" }) as any as S.Schema<GetBastionHostResponse>;
 
@@ -29102,7 +30839,7 @@ export const GetBastionShareableLinkRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/getShareableLinks",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -29199,7 +30936,7 @@ export const GetCommitRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/commits/{commitName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetCommitRequest" }) as any as S.Schema<GetCommitRequest>;
@@ -29294,7 +31031,7 @@ export const GetConfigurationPolicyGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups/{configurationPolicyGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -29346,7 +31083,7 @@ export const GetConnectionMonitorRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -29411,7 +31148,7 @@ export const GetConnectionPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/connectionPolicies/{connectionPolicyName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -29463,7 +31200,7 @@ export const GetConnectivityConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations/{configurationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -29564,7 +31301,7 @@ export const GetCustomIPPrefixRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetCustomIPPrefixRequest" }) as any as S.Schema<GetCustomIPPrefixRequest>;
@@ -29640,7 +31377,7 @@ export const GetDdosCustomPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -29702,7 +31439,7 @@ export const GetDdosProtectionPlanRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -29767,7 +31504,7 @@ export const GetDefaultSecurityRuleRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/defaultSecurityRules/{defaultSecurityRuleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -29816,7 +31553,7 @@ export const GetDscpConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dscpConfigurations/{dscpConfigurationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -29878,7 +31615,7 @@ export const GetExpressRouteCircuitRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -29946,7 +31683,7 @@ export const GetExpressRouteCircuitAuthorizationRequest = /*@__PURE__*/ S.suspen
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations/{authorizationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -30002,7 +31739,7 @@ export const GetExpressRouteCircuitCircuitLinkFailoverAllTestsDetailsRequest =
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/getCircuitLinkFailoverAllTestsDetails",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
   ).annotate({
@@ -30175,7 +31912,7 @@ export const GetExpressRouteCircuitCircuitLinkFailoverSingleTestDetailsRequest =
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/getCircuitLinkFailoverSingleTestDetails",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
   ).annotate({
@@ -30346,7 +32083,7 @@ export const GetExpressRouteCircuitConnectionRequest = /*@__PURE__*/ S.suspend((
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections/{connectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -30398,7 +32135,7 @@ export const GetExpressRouteCircuitPeeringRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -30450,7 +32187,7 @@ export const GetExpressRouteCircuitPeeringStatsRequest = /*@__PURE__*/ S.suspend
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/stats",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -30475,7 +32212,7 @@ export const GetExpressRouteCircuitStatsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/stats",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -30503,7 +32240,7 @@ export const GetExpressRouteConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/expressRouteConnections/{connectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -30546,7 +32283,7 @@ export const GetExpressRouteCrossConnectionRequest = /*@__PURE__*/ S.suspend(() 
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -30590,6 +32327,47 @@ export const GetExpressRouteCrossConnectionResponse = /*@__PURE__*/ S.suspend(()
   identifier: "GetExpressRouteCrossConnectionResponse",
 }) as any as S.Schema<GetExpressRouteCrossConnectionResponse>;
 
+/** The source-to-target port mappings for circuit migration. */
+export type GetExpressRouteCrossConnectionCircuitMigrationInfoRequestTargetPortMappingList =
+  Array<PortMapping>;
+export const GetExpressRouteCrossConnectionCircuitMigrationInfoRequestTargetPortMappingList =
+  /*@__PURE__*/ S.Array(
+    PortMapping,
+  ) as any as S.Schema<GetExpressRouteCrossConnectionCircuitMigrationInfoRequestTargetPortMappingList>;
+
+export interface GetExpressRouteCrossConnectionCircuitMigrationInfoRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the ExpressRouteCrossConnection (service key of the circuit). */
+  crossConnectionName: string;
+  /** The target peering location for circuit migration. */
+  targetPeeringLocation: string;
+  /** The source-to-target port mappings for circuit migration. */
+  targetPortMapping: GetExpressRouteCrossConnectionCircuitMigrationInfoRequestTargetPortMappingList;
+}
+export const GetExpressRouteCrossConnectionCircuitMigrationInfoRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      crossConnectionName: S.String.pipe(T.Label()),
+      targetPeeringLocation: S.String,
+      targetPortMapping:
+        GetExpressRouteCrossConnectionCircuitMigrationInfoRequestTargetPortMappingList,
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/getCircuitMigrationInfo",
+        code: 200,
+        apiVersion: "2026-01-01",
+      }),
+    ),
+).annotate({
+  identifier: "GetExpressRouteCrossConnectionCircuitMigrationInfoRequest",
+}) as any as S.Schema<GetExpressRouteCrossConnectionCircuitMigrationInfoRequest>;
+
 export interface GetExpressRouteCrossConnectionPeeringRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -30611,7 +32389,7 @@ export const GetExpressRouteCrossConnectionPeeringRequest = /*@__PURE__*/ S.susp
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -30657,7 +32435,7 @@ export const GetExpressRouteGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -30725,7 +32503,7 @@ export const GetExpressRouteGatewayFailoverAllTestsDetailsRequest = /*@__PURE__*
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/getFailoverAllTestsDetails",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -30898,7 +32676,7 @@ export const GetExpressRouteGatewayFailoverSingleTestDetailsRequest = /*@__PURE_
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/getFailoverSingleTestDetails",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -31064,7 +32842,7 @@ export const GetExpressRouteGatewayResiliencyInformationRequest = /*@__PURE__*/ 
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/getResiliencyInformation",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -31187,7 +32965,7 @@ export const GetExpressRouteGatewayRoutesInformationRequest = /*@__PURE__*/ S.su
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/getRoutesInformation",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -31322,7 +33100,7 @@ export const GetExpressRouteLagRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteLags/{expressRouteLagName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -31338,11 +33116,11 @@ export const GetExpressRouteLagResponseTagsMap = /*@__PURE__*/ S.Record(
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type GetExpressRouteLagResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const GetExpressRouteLagResponseIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  ManagedServiceIdentityUserAssignedIdentities_8,
+  ManagedServiceIdentityUserAssignedIdentities_2,
 ) as any as S.Schema<GetExpressRouteLagResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -31421,7 +33199,7 @@ export const GetExpressRouteLagsLinkRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteLags/{expressRouteLagName}/links/{linkName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -31476,7 +33254,7 @@ export const GetExpressRouteLagsMemberRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteLags/{expressRouteLagName}/links/{linkName}/members/{memberName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -31528,7 +33306,7 @@ export const GetExpressRouteLinkRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}/links/{linkName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -31574,7 +33352,7 @@ export const GetExpressRoutePortRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -31590,11 +33368,11 @@ export const GetExpressRoutePortResponseTagsMap = /*@__PURE__*/ S.Record(
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type GetExpressRoutePortResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const GetExpressRoutePortResponseIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  ManagedServiceIdentityUserAssignedIdentities_8,
+  ManagedServiceIdentityUserAssignedIdentities_2,
 ) as any as S.Schema<GetExpressRoutePortResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -31675,7 +33453,7 @@ export const GetExpressRoutePortAuthorizationRequest = /*@__PURE__*/ S.suspend((
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations/{authorizationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -31721,7 +33499,7 @@ export const GetExpressRoutePortsLocationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePortsLocations/{locationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -31841,7 +33619,7 @@ export const GetFirewallPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetFirewallPolicyRequest" }) as any as S.Schema<GetFirewallPolicyRequest>;
@@ -31855,11 +33633,11 @@ export const GetFirewallPolicyResponseTagsMap = /*@__PURE__*/ S.Record(
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type GetFirewallPolicyResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const GetFirewallPolicyResponseIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  ManagedServiceIdentityUserAssignedIdentities_8,
+  ManagedServiceIdentityUserAssignedIdentities_2,
 ) as any as S.Schema<GetFirewallPolicyResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -31935,7 +33713,7 @@ export const GetFirewallPolicyDraftRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/firewallPolicyDrafts/default",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -31994,7 +33772,7 @@ export const GetFirewallPolicyIdpsSignaturesOverrideRequest = /*@__PURE__*/ S.su
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides/default",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -32063,7 +33841,7 @@ export const GetFirewallPolicyKubeSelectorGroupRequest = /*@__PURE__*/ S.suspend
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/kubeSelectorGroups/{kubeSelectorGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -32115,7 +33893,7 @@ export const GetFirewallPolicyRuleCollectionGroupRequest = /*@__PURE__*/ S.suspe
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -32167,7 +33945,7 @@ export const GetFirewallPolicyRuleCollectionGroupDraftRequest = /*@__PURE__*/ S.
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}/ruleCollectionGroupDrafts/default",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -32213,7 +33991,7 @@ export const GetFirstPartyServiceTagRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firstPartyServiceTags/{firstPartyServiceTagName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -32278,7 +34056,7 @@ export const GetFlowLogRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetFlowLogRequest" }) as any as S.Schema<GetFlowLogRequest>;
@@ -32292,11 +34070,11 @@ export const GetFlowLogResponseTagsMap = /*@__PURE__*/ S.Record(
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type GetFlowLogResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const GetFlowLogResponseIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  ManagedServiceIdentityUserAssignedIdentities_8,
+  ManagedServiceIdentityUserAssignedIdentities_2,
 ) as any as S.Schema<GetFlowLogResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -32373,7 +34151,7 @@ export const GetHubRouteTableRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables/{routeTableName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetHubRouteTableRequest" }) as any as S.Schema<GetHubRouteTableRequest>;
@@ -32506,7 +34284,7 @@ export const GetHubVirtualNetworkConnectionRequest = /*@__PURE__*/ S.suspend(() 
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -32524,10 +34302,6 @@ export type HubVirtualNetworkConnectionPropertiesConnectionPolicy =
   NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
 export const HubVirtualNetworkConnectionPropertiesConnectionPolicy =
   NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
-
-/** The state of IPv6 peering. */
-export type HubVirtualNetworkConnectionPropertiesEnableOnlyIpv6Peering = "Enabled" | "Disabled";
-export const HubVirtualNetworkConnectionPropertiesEnableOnlyIpv6Peering = S.String;
 
 /** Provisioning states of a resource. */
 export type HubVirtualNetworkConnectionPropertiesProvisioningState =
@@ -32553,8 +34327,8 @@ export interface HubVirtualNetworkConnectionProperties {
   enableInternetSecurity?: boolean;
   /** The Routing Configuration indicating the associated and propagated route tables on this connection. */
   routingConfiguration?: RoutingConfiguration;
-  /** The state of IPv6 peering. */
-  enableOnlyIpv6Peering?: HubVirtualNetworkConnectionPropertiesEnableOnlyIpv6Peering;
+  /** Enable Only IPv6 Peering for this connection. */
+  enableOnlyIPv6Peering?: boolean;
   /** Provisioning states of a resource. */
   provisioningState?: HubVirtualNetworkConnectionPropertiesProvisioningState;
 }
@@ -32570,7 +34344,7 @@ export const HubVirtualNetworkConnectionProperties = /*@__PURE__*/ S.suspend(() 
     ),
     enableInternetSecurity: S.optional(S.Boolean),
     routingConfiguration: S.optional(RoutingConfiguration),
-    enableOnlyIpv6Peering: S.optional(HubVirtualNetworkConnectionPropertiesEnableOnlyIpv6Peering),
+    enableOnlyIPv6Peering: S.optional(S.Boolean),
     provisioningState: S.optional(HubVirtualNetworkConnectionPropertiesProvisioningState),
   }),
 ).annotate({
@@ -32622,7 +34396,7 @@ export const GetInboundNatRuleRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetInboundNatRuleRequest" }) as any as S.Schema<GetInboundNatRuleRequest>;
@@ -33419,19 +35193,19 @@ export const TrafficAnalyticsProperties_3 = TrafficAnalyticsProperties_7;
 export type FlowLogPropertiesFormat_3 = FlowLogPropertiesFormat_7;
 export const FlowLogPropertiesFormat_3 = FlowLogPropertiesFormat_7;
 
-export type ManagedServiceIdentityUserAssignedIdentities_4 =
-  ManagedServiceIdentityUserAssignedIdentities_8;
-export const ManagedServiceIdentityUserAssignedIdentities_4 =
-  ManagedServiceIdentityUserAssignedIdentities_8;
+export type ManagedServiceIdentityUserAssignedIdentities_5 =
+  ManagedServiceIdentityUserAssignedIdentities_2;
+export const ManagedServiceIdentityUserAssignedIdentities_5 =
+  ManagedServiceIdentityUserAssignedIdentities_2;
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type NetworkSecurityGroupPropertiesFormatFlowLogsItemIdentityUserAssignedIdentitiesMap_3 = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const NetworkSecurityGroupPropertiesFormatFlowLogsItemIdentityUserAssignedIdentitiesMap_3 =
   /*@__PURE__*/ S.Record(
     S.String,
-    ManagedServiceIdentityUserAssignedIdentities_8,
+    ManagedServiceIdentityUserAssignedIdentities_2,
   ) as any as S.Schema<NetworkSecurityGroupPropertiesFormatFlowLogsItemIdentityUserAssignedIdentitiesMap_3>;
 
 /** Identity for the resource. */
@@ -34949,7 +36723,7 @@ export const GetInboundSecurityRuleRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/inboundSecurityRules/{ruleCollectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -35079,7 +36853,7 @@ export const GetInterconnectGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/interconnectGroups/{interconnectGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -35278,7 +37052,7 @@ export const GetInterconnectGroupNodeAvailabilityRequest = /*@__PURE__*/ S.suspe
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/interconnectGroups/{interconnectGroupName}/nodeAvailability",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -35353,7 +37127,7 @@ export const GetIpAllocationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetIpAllocationRequest" }) as any as S.Schema<GetIpAllocationRequest>;
@@ -35475,7 +37249,7 @@ export const GetIpamPoolRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/ipamPools/{poolName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetIpamPoolRequest" }) as any as S.Schema<GetIpamPoolRequest>;
@@ -35583,7 +37357,7 @@ export const GetIpamPoolPoolUsageRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/ipamPools/{poolName}/getPoolUsage",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -35696,7 +37470,7 @@ export const GetIpGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetIpGroupRequest" }) as any as S.Schema<GetIpGroupRequest>;
@@ -35825,7 +37599,7 @@ export const GetLoadBalancerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetLoadBalancerRequest" }) as any as S.Schema<GetLoadBalancerRequest>;
@@ -36473,7 +38247,7 @@ export const GetLoadBalancerBackendAddressPoolRequest = /*@__PURE__*/ S.suspend(
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendAddressPoolName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -36525,7 +38299,7 @@ export const GetLoadBalancerFrontendIPConfigurationRequest = /*@__PURE__*/ S.sus
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/frontendIPConfigurations/{frontendIPConfigurationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -36586,7 +38360,7 @@ export const GetLoadBalancerLoadBalancingRuleRequest = /*@__PURE__*/ S.suspend((
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/loadBalancingRules/{loadBalancingRuleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -36638,7 +38412,7 @@ export const GetLoadBalancerOutboundRuleRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/outboundRules/{outboundRuleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -36690,7 +38464,7 @@ export const GetLoadBalancerProbeRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -36739,7 +38513,7 @@ export const GetLocalNetworkGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -36941,7 +38715,7 @@ export const GetManagementGroupNetworkManagerConnectionRequest = /*@__PURE__*/ S
       method: "GET",
       uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -37074,7 +38848,7 @@ export const GetNatGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetNatGatewayRequest" }) as any as S.Schema<GetNatGatewayRequest>;
@@ -37147,7 +38921,7 @@ export const GetNatRuleRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules/{natRuleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetNatRuleRequest" }) as any as S.Schema<GetNatRuleRequest>;
@@ -37303,7 +39077,7 @@ export const GetNetworkGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetNetworkGroupRequest" }) as any as S.Schema<GetNetworkGroupRequest>;
@@ -37432,7 +39206,7 @@ export const GetNetworkInterfaceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -37510,7 +39284,7 @@ export const GetNetworkInterfaceCloudServiceNetworkInterfaceRequest = /*@__PURE_
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces/{networkInterfaceName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -37584,7 +39358,7 @@ export const GetNetworkInterfaceEffectiveRouteTableRequest = /*@__PURE__*/ S.sus
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveRouteTable",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -37691,7 +39465,7 @@ export const GetNetworkInterfaceIPConfigurationRequest = /*@__PURE__*/ S.suspend
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/ipConfigurations/{ipConfigurationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -37743,7 +39517,7 @@ export const GetNetworkInterfaceTapConfigurationRequest = /*@__PURE__*/ S.suspen
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -37792,7 +39566,7 @@ export const GetNetworkManagerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetNetworkManagerRequest" }) as any as S.Schema<GetNetworkManagerRequest>;
@@ -38023,7 +39797,7 @@ export const GetNetworkManagerRoutingConfigurationRequest = /*@__PURE__*/ S.susp
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/routingConfigurations/{configurationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -38166,7 +39940,7 @@ export const GetNetworkProfileRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetNetworkProfileRequest" }) as any as S.Schema<GetNetworkProfileRequest>;
@@ -38478,7 +40252,7 @@ export const GetNetworkSecurityGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -38540,7 +40314,7 @@ export const GetNetworkSecurityPerimeterRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -38678,7 +40452,7 @@ export const GetNetworkSecurityPerimeterAccessRuleRequest = /*@__PURE__*/ S.susp
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/profiles/{profileName}/accessRules/{accessRuleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -38893,7 +40667,7 @@ export const GetNetworkSecurityPerimeterAssociationRequest = /*@__PURE__*/ S.sus
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/resourceAssociations/{associationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -39044,7 +40818,7 @@ export const GetNetworkSecurityPerimeterLinkRequest = /*@__PURE__*/ S.suspend(()
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/links/{linkName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -39219,7 +40993,7 @@ export const GetNetworkSecurityPerimeterLinkReferenceRequest = /*@__PURE__*/ S.s
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/linkReferences/{linkReferenceName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -39400,7 +41174,7 @@ export const GetNetworkSecurityPerimeterLoggingConfigurationRequest = /*@__PURE_
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/loggingConfigurations/{loggingConfigurationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -39522,7 +41296,7 @@ export const GetNetworkSecurityPerimeterOperationStatusRequest = /*@__PURE__*/ S
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/networkSecurityPerimeterOperationStatuses/{operationId}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -39684,7 +41458,7 @@ export const GetNetworkSecurityPerimeterProfileRequest = /*@__PURE__*/ S.suspend
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/profiles/{profileName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -39796,7 +41570,7 @@ export const GetNetworkVirtualApplianceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -40316,12 +42090,12 @@ export const NetworkVirtualAppliancePropertiesFormat = /*@__PURE__*/ S.suspend((
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type GetNetworkVirtualApplianceResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const GetNetworkVirtualApplianceResponseIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ManagedServiceIdentityUserAssignedIdentities_8,
+    ManagedServiceIdentityUserAssignedIdentities_2,
   ) as any as S.Schema<GetNetworkVirtualApplianceResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -40408,7 +42182,7 @@ export const GetNetworkVirtualApplianceBootDiagnosticLogsRequest = /*@__PURE__*/
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/getBootDiagnosticLogs",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -40447,7 +42221,7 @@ export const GetNetworkVirtualApplianceConnectionRequest = /*@__PURE__*/ S.suspe
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/networkVirtualApplianceConnections/{connectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -40537,7 +42311,7 @@ export const GetNetworkWatcherRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetNetworkWatcherRequest" }) as any as S.Schema<GetNetworkWatcherRequest>;
@@ -40667,7 +42441,7 @@ export const GetNetworkWatcherAzureReachabilityReportRequest = /*@__PURE__*/ S.s
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/azureReachabilityReport",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -40759,7 +42533,7 @@ export const GetNetworkWatcherFlowLogStatusRequest = /*@__PURE__*/ S.suspend(() 
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/queryFlowLogStatus",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -40794,11 +42568,11 @@ export const FlowLogProperties = /*@__PURE__*/ S.suspend(() =>
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type FlowLogInformationIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const FlowLogInformationIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  ManagedServiceIdentityUserAssignedIdentities_8,
+  ManagedServiceIdentityUserAssignedIdentities_2,
 ) as any as S.Schema<FlowLogInformationIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -40918,7 +42692,7 @@ export const GetNetworkWatcherNetworkConfigurationDiagnosticRequest = /*@__PURE_
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/networkConfigurationDiagnostic",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -41091,7 +42865,7 @@ export const GetNetworkWatcherNextHopRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/nextHop",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -41147,7 +42921,7 @@ export const GetNetworkWatchersConnectionAnalyzerRequest = /*@__PURE__*/ S.suspe
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionAnalyzers/{connectionAnalyzerName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -41195,7 +42969,7 @@ export const GetNetworkWatcherTopologyRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/topology",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -41315,7 +43089,7 @@ export const GetNetworkWatcherTroubleshootingRequest = /*@__PURE__*/ S.suspend((
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/troubleshoot",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -41420,7 +43194,7 @@ export const GetNetworkWatcherTroubleshootingResultRequest = /*@__PURE__*/ S.sus
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/queryTroubleshootResult",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -41448,7 +43222,7 @@ export const GetNetworkWatcherVMSecurityRulesRequest = /*@__PURE__*/ S.suspend((
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/securityGroupView",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -41849,7 +43623,7 @@ export const GetP2sVpnGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetP2sVpnGatewayRequest" }) as any as S.Schema<GetP2sVpnGatewayRequest>;
@@ -42152,7 +43926,7 @@ export const GetP2sVpnGatewayP2sVpnConnectionHealthRequest = /*@__PURE__*/ S.sus
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealth",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -42232,7 +44006,7 @@ export const GetP2sVpnGatewayP2sVpnConnectionHealthDetailedRequest = /*@__PURE__
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealthDetailed",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -42271,7 +44045,7 @@ export const GetPacketCaptureRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetPacketCaptureRequest" }) as any as S.Schema<GetPacketCaptureRequest>;
@@ -42297,7 +44071,7 @@ export const GetPacketCaptureStatusRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}/queryStatus",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -42380,7 +44154,7 @@ export const GetPeerExpressRouteCircuitConnectionRequest = /*@__PURE__*/ S.suspe
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/peerConnections/{connectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -42432,7 +44206,7 @@ export const GetPrivateDnsZoneGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -42592,7 +44366,7 @@ export const GetPrivateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -42664,7 +44438,7 @@ export const GetPrivateLinkServiceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -42739,7 +44513,7 @@ export const GetPrivateLinkServicePrivateEndpointConnectionRequest = /*@__PURE__
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections/{peConnectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -42791,7 +44565,7 @@ export const GetPublicIPAddressRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -42887,7 +44661,7 @@ export const GetPublicIPAddressCloudServicePublicIPAddressRequest = /*@__PURE__*
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses/{publicIpAddressName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -42975,7 +44749,7 @@ export const GetPublicIPPrefixRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetPublicIPPrefixRequest" }) as any as S.Schema<GetPublicIPPrefixRequest>;
@@ -43178,7 +44952,7 @@ export const GetReachabilityAnalysisIntentRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}/reachabilityAnalysisIntents/{reachabilityAnalysisIntentName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -43279,7 +45053,7 @@ export const GetReachabilityAnalysisRunRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}/reachabilityAnalysisRuns/{reachabilityAnalysisRunName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -43375,7 +45149,7 @@ export const GetRouteRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetRouteRequest" }) as any as S.Schema<GetRouteRequest>;
@@ -43423,7 +45197,7 @@ export const GetRouteFilterRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetRouteFilterRequest" }) as any as S.Schema<GetRouteFilterRequest>;
@@ -43603,7 +45377,7 @@ export const GetRouteFilterRuleRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -43655,7 +45429,7 @@ export const GetRouteMapRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps/{routeMapName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetRouteMapRequest" }) as any as S.Schema<GetRouteMapRequest>;
@@ -43893,7 +45667,7 @@ export const GetRouteTableRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetRouteTableRequest" }) as any as S.Schema<GetRouteTableRequest>;
@@ -43954,7 +45728,7 @@ export const GetRoutingIntentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routingIntent/{routingIntentName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetRoutingIntentRequest" }) as any as S.Schema<GetRoutingIntentRequest>;
@@ -44061,7 +45835,7 @@ export const GetRoutingRuleRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/routingConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetRoutingRuleRequest" }) as any as S.Schema<GetRoutingRuleRequest>;
@@ -44237,7 +46011,7 @@ export const GetRoutingRuleCollectionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/routingConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -44388,7 +46162,7 @@ export const GetScopeConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/scopeConnections/{scopeConnectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -44518,7 +46292,7 @@ export const GetSecurityAdminConfigurationRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -44678,7 +46452,7 @@ export const GetSecurityPartnerProviderRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -44798,7 +46572,7 @@ export const GetSecurityRuleRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetSecurityRuleRequest" }) as any as S.Schema<GetSecurityRuleRequest>;
@@ -44846,7 +46620,7 @@ export const GetSecurityUserConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -44982,7 +46756,7 @@ export const GetSecurityUserRuleRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -45169,7 +46943,7 @@ export const GetSecurityUserRuleCollectionRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -45313,7 +47087,7 @@ export const GetServiceEndpointPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -47038,12 +48812,12 @@ export const FlowLogPropertiesFormat_2 = FlowLogPropertiesFormat_7;
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type NetworkSecurityGroupPropertiesFormatFlowLogsItemIdentityUserAssignedIdentitiesMap_2 = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const NetworkSecurityGroupPropertiesFormatFlowLogsItemIdentityUserAssignedIdentitiesMap_2 =
   /*@__PURE__*/ S.Record(
     S.String,
-    ManagedServiceIdentityUserAssignedIdentities_8,
+    ManagedServiceIdentityUserAssignedIdentities_2,
   ) as any as S.Schema<NetworkSecurityGroupPropertiesFormatFlowLogsItemIdentityUserAssignedIdentitiesMap_2>;
 
 /** Identity for the resource. */
@@ -47553,7 +49327,7 @@ export const GetServiceEndpointPolicyDefinitionRequest = /*@__PURE__*/ S.suspend
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions/{serviceEndpointPolicyDefinitionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -47602,7 +49376,7 @@ export const GetServiceGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceGateways/{serviceGatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetServiceGatewayRequest" }) as any as S.Schema<GetServiceGatewayRequest>;
@@ -49287,19 +51061,19 @@ export const TrafficAnalyticsProperties_6 = TrafficAnalyticsProperties_7;
 export type FlowLogPropertiesFormat_6 = FlowLogPropertiesFormat_7;
 export const FlowLogPropertiesFormat_6 = FlowLogPropertiesFormat_7;
 
-export type ManagedServiceIdentityUserAssignedIdentities_7 =
-  ManagedServiceIdentityUserAssignedIdentities_8;
-export const ManagedServiceIdentityUserAssignedIdentities_7 =
-  ManagedServiceIdentityUserAssignedIdentities_8;
+export type ManagedServiceIdentityUserAssignedIdentities_8 =
+  ManagedServiceIdentityUserAssignedIdentities_2;
+export const ManagedServiceIdentityUserAssignedIdentities_8 =
+  ManagedServiceIdentityUserAssignedIdentities_2;
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type NetworkSecurityGroupPropertiesFormatFlowLogsItemIdentityUserAssignedIdentitiesMap_5 = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const NetworkSecurityGroupPropertiesFormatFlowLogsItemIdentityUserAssignedIdentitiesMap_5 =
   /*@__PURE__*/ S.Record(
     S.String,
-    ManagedServiceIdentityUserAssignedIdentities_8,
+    ManagedServiceIdentityUserAssignedIdentities_2,
   ) as any as S.Schema<NetworkSecurityGroupPropertiesFormatFlowLogsItemIdentityUserAssignedIdentitiesMap_5>;
 
 /** Identity for the resource. */
@@ -50049,12 +51823,12 @@ export const VirtualNetworkPropertiesFormatFlowLogsItemTagsMap = /*@__PURE__*/ S
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type VirtualNetworkPropertiesFormatFlowLogsItemIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const VirtualNetworkPropertiesFormatFlowLogsItemIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ManagedServiceIdentityUserAssignedIdentities_8,
+    ManagedServiceIdentityUserAssignedIdentities_2,
   ) as any as S.Schema<VirtualNetworkPropertiesFormatFlowLogsItemIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -50388,7 +52162,7 @@ export const GetServiceGatewayAddressLocationsRequest = /*@__PURE__*/ S.suspend(
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceGateways/{serviceGatewayName}/addressLocations",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -50478,7 +52252,7 @@ export const GetServiceGatewayServicesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceGateways/{serviceGatewayName}/services",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -50590,7 +52364,7 @@ export const GetStaticCidrRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/ipamPools/{poolName}/staticCidrs/{staticCidrName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetStaticCidrRequest" }) as any as S.Schema<GetStaticCidrRequest>;
@@ -50685,7 +52459,7 @@ export const GetStaticMemberRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}/staticMembers/{staticMemberName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetStaticMemberRequest" }) as any as S.Schema<GetStaticMemberRequest>;
@@ -50807,7 +52581,7 @@ export const GetSubgroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/interconnectGroups/{interconnectGroupName}/subgroups/{subgroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetSubgroupRequest" }) as any as S.Schema<GetSubgroupRequest>;
@@ -50855,7 +52629,7 @@ export const GetSubnetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetSubnetRequest" }) as any as S.Schema<GetSubnetRequest>;
@@ -50897,7 +52671,7 @@ export const GetSubscriptionNetworkManagerConnectionRequest = /*@__PURE__*/ S.su
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -51001,7 +52775,7 @@ export const GetVerifierWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -51115,7 +52889,7 @@ export const GetVipSwapRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/microsoft.Compute/cloudServices/{resourceName}/providers/Microsoft.Network/cloudServiceSlots/{singletonResource}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetVipSwapRequest" }) as any as S.Schema<GetVipSwapRequest>;
@@ -51160,7 +52934,7 @@ export const GetVirtualApplianceSiteRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/virtualApplianceSites/{siteName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -51265,7 +53039,7 @@ export const GetVirtualApplianceSkusRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualApplianceSkus/{skuName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -51379,7 +53153,7 @@ export const GetVirtualHubRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetVirtualHubRequest" }) as any as S.Schema<GetVirtualHubRequest>;
@@ -51785,7 +53559,7 @@ export const GetVirtualHubBgpConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/bgpConnections/{connectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -51892,7 +53666,7 @@ export const GetVirtualHubEffectiveVirtualHubRoutesRequest = /*@__PURE__*/ S.sus
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/effectiveRoutes",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -51977,7 +53751,7 @@ export const GetVirtualHubInboundRoutesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/inboundRoutes",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -52041,7 +53815,7 @@ export const GetVirtualHubIpConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/ipConfigurations/{ipConfigName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -53741,19 +55515,19 @@ export const TrafficAnalyticsProperties_9 = TrafficAnalyticsProperties_7;
 export type FlowLogPropertiesFormat_9 = FlowLogPropertiesFormat_7;
 export const FlowLogPropertiesFormat_9 = FlowLogPropertiesFormat_7;
 
-export type ManagedServiceIdentityUserAssignedIdentities_10 =
-  ManagedServiceIdentityUserAssignedIdentities_8;
-export const ManagedServiceIdentityUserAssignedIdentities_10 =
-  ManagedServiceIdentityUserAssignedIdentities_8;
+export type ManagedServiceIdentityUserAssignedIdentities_11 =
+  ManagedServiceIdentityUserAssignedIdentities_2;
+export const ManagedServiceIdentityUserAssignedIdentities_11 =
+  ManagedServiceIdentityUserAssignedIdentities_2;
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type NetworkSecurityGroupPropertiesFormatFlowLogsItemIdentityUserAssignedIdentitiesMap_8 = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const NetworkSecurityGroupPropertiesFormatFlowLogsItemIdentityUserAssignedIdentitiesMap_8 =
   /*@__PURE__*/ S.Record(
     S.String,
-    ManagedServiceIdentityUserAssignedIdentities_8,
+    ManagedServiceIdentityUserAssignedIdentities_2,
   ) as any as S.Schema<NetworkSecurityGroupPropertiesFormatFlowLogsItemIdentityUserAssignedIdentitiesMap_8>;
 
 /** Identity for the resource. */
@@ -54424,7 +56198,7 @@ export const GetVirtualHubOutboundRoutesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/outboundRoutes",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -54452,7 +56226,7 @@ export const GetVirtualHubRouteTableV2sRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeTables/{routeTableName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -54501,7 +56275,7 @@ export const GetVirtualNetworkRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetVirtualNetworkRequest" }) as any as S.Schema<GetVirtualNetworkRequest>;
@@ -54641,7 +56415,7 @@ export const GetVirtualNetworkApplianceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkAppliances/{virtualNetworkApplianceName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -56431,19 +58205,19 @@ export const TrafficAnalyticsProperties_8 = TrafficAnalyticsProperties_7;
 export type FlowLogPropertiesFormat_8 = FlowLogPropertiesFormat_7;
 export const FlowLogPropertiesFormat_8 = FlowLogPropertiesFormat_7;
 
-export type ManagedServiceIdentityUserAssignedIdentities_9 =
-  ManagedServiceIdentityUserAssignedIdentities_8;
-export const ManagedServiceIdentityUserAssignedIdentities_9 =
-  ManagedServiceIdentityUserAssignedIdentities_8;
+export type ManagedServiceIdentityUserAssignedIdentities_10 =
+  ManagedServiceIdentityUserAssignedIdentities_2;
+export const ManagedServiceIdentityUserAssignedIdentities_10 =
+  ManagedServiceIdentityUserAssignedIdentities_2;
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type NetworkSecurityGroupPropertiesFormatFlowLogsItemIdentityUserAssignedIdentitiesMap_7 = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const NetworkSecurityGroupPropertiesFormatFlowLogsItemIdentityUserAssignedIdentitiesMap_7 =
   /*@__PURE__*/ S.Record(
     S.String,
-    ManagedServiceIdentityUserAssignedIdentities_8,
+    ManagedServiceIdentityUserAssignedIdentities_2,
   ) as any as S.Schema<NetworkSecurityGroupPropertiesFormatFlowLogsItemIdentityUserAssignedIdentitiesMap_7>;
 
 /** Identity for the resource. */
@@ -57046,7 +58820,7 @@ export const GetVirtualNetworkGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -58118,19 +59892,19 @@ export const VirtualNetworkGatewayPropertiesFormat = /*@__PURE__*/ S.suspend(() 
 export type GetVirtualNetworkGatewayResponseExtendedLocation = NetworkInterfaceExtendedLocation;
 export const GetVirtualNetworkGatewayResponseExtendedLocation = NetworkInterfaceExtendedLocation;
 
-export type ManagedServiceIdentityUserAssignedIdentities_5 =
-  ManagedServiceIdentityUserAssignedIdentities_8;
-export const ManagedServiceIdentityUserAssignedIdentities_5 =
-  ManagedServiceIdentityUserAssignedIdentities_8;
+export type ManagedServiceIdentityUserAssignedIdentities_6 =
+  ManagedServiceIdentityUserAssignedIdentities_2;
+export const ManagedServiceIdentityUserAssignedIdentities_6 =
+  ManagedServiceIdentityUserAssignedIdentities_2;
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type GetVirtualNetworkGatewayResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const GetVirtualNetworkGatewayResponseIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ManagedServiceIdentityUserAssignedIdentities_8,
+    ManagedServiceIdentityUserAssignedIdentities_2,
   ) as any as S.Schema<GetVirtualNetworkGatewayResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -58214,7 +59988,7 @@ export const GetVirtualNetworkGatewayAdvertisedRoutesRequest = /*@__PURE__*/ S.s
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getAdvertisedRoutes",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -58288,7 +60062,7 @@ export const GetVirtualNetworkGatewayBgpPeerStatusRequest = /*@__PURE__*/ S.susp
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getBgpPeerStatus",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -58366,7 +60140,7 @@ export const GetVirtualNetworkGatewayConnectionRequest = /*@__PURE__*/ S.suspend
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -58395,11 +60169,11 @@ export const VirtualNetworkGatewayExtendedLocation = NetworkInterfaceExtendedLoc
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type VirtualNetworkGatewayIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const VirtualNetworkGatewayIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  ManagedServiceIdentityUserAssignedIdentities_8,
+  ManagedServiceIdentityUserAssignedIdentities_2,
 ) as any as S.Schema<VirtualNetworkGatewayIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -58913,7 +60687,7 @@ export const GetVirtualNetworkGatewayConnectionIkeSasRequest = /*@__PURE__*/ S.s
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/getikesas",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -58945,7 +60719,7 @@ export const GetVirtualNetworkGatewayConnectionSharedKeyRequest = /*@__PURE__*/ 
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -58985,7 +60759,7 @@ export const GetVirtualNetworkGatewayEffectiveRoutesRequest = /*@__PURE__*/ S.su
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getEffectiveRoutes",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -59065,7 +60839,7 @@ export const GetVirtualNetworkGatewayFailoverAllTestDetailsRequest = /*@__PURE__
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getFailoverAllTestsDetails",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -59188,7 +60962,7 @@ export const GetVirtualNetworkGatewayFailoverSingleTestDetailsRequest = /*@__PUR
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getFailoverSingleTestDetails",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -59298,7 +61072,7 @@ export const GetVirtualNetworkGatewayLearnedRoutesRequest = /*@__PURE__*/ S.susp
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getLearnedRoutes",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -59326,7 +61100,7 @@ export const GetVirtualNetworkGatewayNatRuleRequest = /*@__PURE__*/ S.suspend(()
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/natRules/{natRuleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -59378,7 +61152,7 @@ export const GetVirtualNetworkGatewayResiliencyInformationRequest = /*@__PURE__*
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getResiliencyInformation",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -59443,7 +61217,7 @@ export const GetVirtualNetworkGatewayRoutesInformationRequest = /*@__PURE__*/ S.
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getRoutesInformation",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -59509,7 +61283,7 @@ export const GetVirtualNetworkGatewayVpnclientConnectionHealthRequest = /*@__PUR
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getVpnClientConnectionHealth",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -59600,7 +61374,7 @@ export const GetVirtualNetworkGatewayVpnclientIpsecParametersRequest = /*@__PURE
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getvpnclientipsecparameters",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -59726,7 +61500,7 @@ export const GetVirtualNetworkGatewayVpnProfilePackageUrlRequest = /*@__PURE__*/
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getvpnprofilepackageurl",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -59761,7 +61535,7 @@ export const GetVirtualNetworkPeeringRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -59810,7 +61584,7 @@ export const GetVirtualNetworkTapRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -61338,12 +63112,12 @@ export const FlowLogPropertiesFormat_4 = FlowLogPropertiesFormat_7;
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type NetworkSecurityGroupPropertiesFormatFlowLogsItemIdentityUserAssignedIdentitiesMap_4 = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const NetworkSecurityGroupPropertiesFormatFlowLogsItemIdentityUserAssignedIdentitiesMap_4 =
   /*@__PURE__*/ S.Record(
     S.String,
-    ManagedServiceIdentityUserAssignedIdentities_8,
+    ManagedServiceIdentityUserAssignedIdentities_2,
   ) as any as S.Schema<NetworkSecurityGroupPropertiesFormatFlowLogsItemIdentityUserAssignedIdentitiesMap_4>;
 
 /** Identity for the resource. */
@@ -62084,7 +63858,7 @@ export const GetVirtualRouterRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetVirtualRouterRequest" }) as any as S.Schema<GetVirtualRouterRequest>;
@@ -62214,7 +63988,7 @@ export const GetVirtualRouterPeeringRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}/peerings/{peeringName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -62292,7 +64066,7 @@ export const GetVirtualWanRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetVirtualWanRequest" }) as any as S.Schema<GetVirtualWanRequest>;
@@ -62429,7 +64203,7 @@ export const GetVpnConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetVpnConnectionRequest" }) as any as S.Schema<GetVpnConnectionRequest>;
@@ -62996,7 +64770,7 @@ export const GetVpnGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetVpnGatewayRequest" }) as any as S.Schema<GetVpnGatewayRequest>;
@@ -63220,7 +64994,7 @@ export const GetVpnLinkConnectionAllSharedKeysRequest = /*@__PURE__*/ S.suspend(
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}/sharedKeys",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -63322,7 +65096,7 @@ export const GetVpnLinkConnectionDefaultSharedKeyRequest = /*@__PURE__*/ S.suspe
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}/sharedKeys/default",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -63374,7 +65148,7 @@ export const GetVpnLinkConnectionIkeSasRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}/getikesas",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -63406,7 +65180,7 @@ export const GetVpnServerConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -63833,7 +65607,7 @@ export const GetVpnSiteRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetVpnSiteRequest" }) as any as S.Schema<GetVpnSiteRequest>;
@@ -64147,7 +65921,7 @@ export const GetVpnSiteLinkRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}/vpnSiteLinks/{vpnSiteLinkName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetVpnSiteLinkRequest" }) as any as S.Schema<GetVpnSiteLinkRequest>;
@@ -64198,7 +65972,7 @@ export const GetVpnSiteLinkConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -64247,7 +66021,7 @@ export const GetWebApplicationFirewallPolicyRequest = /*@__PURE__*/ S.suspend(()
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -64937,9 +66711,9 @@ export const ManagedRuleSetRuleGroupOverridesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ManagedRuleSetRuleGroupOverridesList>;
 
 /** List of rules within the rule group */
-export type ManagedRuleSetRuleGroupRulesList = Array<string>;
+export type ManagedRuleSetRuleGroupRulesList = Array<number>;
 export const ManagedRuleSetRuleGroupRulesList = /*@__PURE__*/ S.Array(
-  S.String,
+  S.Number,
 ) as any as S.Schema<ManagedRuleSetRuleGroupRulesList>;
 
 /** Defines a managed rule set rule group */
@@ -65052,6 +66826,10 @@ export const WebApplicationFirewallPolicyPropertiesFormatApplicationGatewayForCo
     ApplicationGatewayForContainersReferenceDefinition,
   ) as any as S.Schema<WebApplicationFirewallPolicyPropertiesFormatApplicationGatewayForContainersList>;
 
+/** Tier of a web application firewall policy. */
+export type WebApplicationFirewallPolicyPropertiesFormatTier = "Standard" | "Basic";
+export const WebApplicationFirewallPolicyPropertiesFormatTier = S.String;
+
 /** Defines web application firewall policy properties. */
 export interface WebApplicationFirewallPolicyPropertiesFormat {
   /** The PolicySettings for policy. */
@@ -65072,6 +66850,8 @@ export interface WebApplicationFirewallPolicyPropertiesFormat {
   pathBasedRules?: WebApplicationFirewallPolicyPropertiesFormatPathBasedRulesList;
   /** A collection of references to application gateway for containers. */
   applicationGatewayForContainers?: WebApplicationFirewallPolicyPropertiesFormatApplicationGatewayForContainersList;
+  /** Tier of a web application firewall policy. */
+  tier?: WebApplicationFirewallPolicyPropertiesFormatTier;
 }
 export const WebApplicationFirewallPolicyPropertiesFormat = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -65088,6 +66868,7 @@ export const WebApplicationFirewallPolicyPropertiesFormat = /*@__PURE__*/ S.susp
     applicationGatewayForContainers: S.optional(
       WebApplicationFirewallPolicyPropertiesFormatApplicationGatewayForContainersList,
     ),
+    tier: S.optional(WebApplicationFirewallPolicyPropertiesFormatTier),
   }),
 ).annotate({
   identifier: "WebApplicationFirewallPolicyPropertiesFormat",
@@ -65141,7 +66922,7 @@ export const GetWebCategoryRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/azureWebCategories/{name}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "GetWebCategoryRequest" }) as any as S.Schema<GetWebCategoryRequest>;
@@ -65252,7 +67033,7 @@ export const HubRouteTablesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables/{routeTableName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -65295,12 +67076,6 @@ export type HubVirtualNetworkConnectionPropertiesInputConnectionPolicy =
 export const HubVirtualNetworkConnectionPropertiesInputConnectionPolicy =
   NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer;
 
-/** The state of IPv6 peering. */
-export type HubVirtualNetworkConnectionPropertiesInputEnableOnlyIpv6Peering =
-  | "Enabled"
-  | "Disabled";
-export const HubVirtualNetworkConnectionPropertiesInputEnableOnlyIpv6Peering = S.String;
-
 /** Provisioning states of a resource. */
 export type HubVirtualNetworkConnectionPropertiesInputProvisioningState =
   | "Failed"
@@ -65325,10 +67100,8 @@ export interface HubVirtualNetworkConnectionPropertiesInput {
   enableInternetSecurity?: boolean;
   /** The Routing Configuration indicating the associated and propagated route tables on this connection. */
   routingConfiguration?: RoutingConfigurationInput;
-  /** The state of IPv6 peering. */
-  enableOnlyIpv6Peering?:
-    | HubVirtualNetworkConnectionPropertiesInputEnableOnlyIpv6Peering
-    | (string & {});
+  /** Enable Only IPv6 Peering for this connection. */
+  enableOnlyIPv6Peering?: boolean;
   /** Provisioning states of a resource. */
   provisioningState?: HubVirtualNetworkConnectionPropertiesInputProvisioningState | (string & {});
 }
@@ -65344,9 +67117,7 @@ export const HubVirtualNetworkConnectionPropertiesInput = /*@__PURE__*/ S.suspen
     ),
     enableInternetSecurity: S.optional(S.Boolean),
     routingConfiguration: S.optional(RoutingConfigurationInput),
-    enableOnlyIpv6Peering: S.optional(
-      HubVirtualNetworkConnectionPropertiesInputEnableOnlyIpv6Peering,
-    ),
+    enableOnlyIPv6Peering: S.optional(S.Boolean),
     provisioningState: S.optional(HubVirtualNetworkConnectionPropertiesInputProvisioningState),
   }),
 ).annotate({
@@ -65382,7 +67153,7 @@ export const HubVirtualNetworkConnectionsCreateOrUpdateRequest = /*@__PURE__*/ S
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -67179,7 +68950,7 @@ export const InboundNatRulesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -67240,7 +69011,7 @@ export const InboundSecurityRuleCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/inboundSecurityRules/{ruleCollectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -67341,7 +69112,7 @@ export const InterconnectGroupsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend((
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/interconnectGroups/{interconnectGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -67403,7 +69174,7 @@ export const InvokeVirtualNetworkGatewayAbortMigrationRequest = /*@__PURE__*/ S.
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/abortMigration",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -67435,7 +69206,7 @@ export const InvokeVirtualNetworkGatewayCommitMigrationRequest = /*@__PURE__*/ S
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/commitMigration",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -67451,7 +69222,9 @@ export const InvokeVirtualNetworkGatewayCommitMigrationResponse = /*@__PURE__*/ 
 
 /** MigrationType for the virtual network gateway. */
 export type InvokeVirtualNetworkGatewayPrepareMigrationRequestMigrationType =
-  "UpgradeDeploymentToStandardIP";
+  | "UpgradeDeploymentToStandardIP"
+  | "UpgradeGatewayToDualStack"
+  | "MigrateGatewayForPointToSiteProfile";
 export const InvokeVirtualNetworkGatewayPrepareMigrationRequestMigrationType = S.String;
 
 export interface InvokeVirtualNetworkGatewayPrepareMigrationRequest {
@@ -67478,7 +69251,7 @@ export const InvokeVirtualNetworkGatewayPrepareMigrationRequest = /*@__PURE__*/ 
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/prepareMigration",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -67529,7 +69302,7 @@ export const IpAllocationsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -67642,7 +69415,7 @@ export const IpGroupsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -67719,7 +69492,7 @@ export const ListActiveConnectivityConfigurationsRequest = /*@__PURE__*/ S.suspe
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listActiveConnectivityConfigurations",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -67827,7 +69600,7 @@ export const ListActiveSecurityAdminRulesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listActiveSecurityAdminRules",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -67927,7 +69700,7 @@ export const ListAddressPrefixSetsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}/addressPrefixSets",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -68006,7 +69779,7 @@ export const ListAdminRuleCollectionsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -68135,7 +69908,7 @@ export const ListAdminRulesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListAdminRulesRequest" }) as any as S.Schema<ListAdminRulesRequest>;
@@ -68246,7 +70019,7 @@ export const ListApplicationGatewayAllRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGateways",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -68287,7 +70060,7 @@ export const ListApplicationGatewayAvailableRequestHeadersRequest = /*@__PURE__*
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableRequestHeaders",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -68319,7 +70092,7 @@ export const ListApplicationGatewayAvailableResponseHeadersRequest = /*@__PURE__
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableResponseHeaders",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -68351,7 +70124,7 @@ export const ListApplicationGatewayAvailableServerVariablesRequest = /*@__PURE__
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableServerVariables",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -68383,7 +70156,7 @@ export const ListApplicationGatewayAvailableSslOptionsRequest = /*@__PURE__*/ S.
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -68547,7 +70320,7 @@ export const ListApplicationGatewayAvailableSslPredefinedPoliciesRequest = /*@__
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default/predefinedPolicies",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -68608,7 +70381,7 @@ export const ListApplicationGatewayAvailableWafRuleSetsRequest = /*@__PURE__*/ S
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableWafRuleSets",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -68662,6 +70435,8 @@ export interface ApplicationGatewayFirewallRuleSetPropertiesFormat {
   ruleSetType: string;
   /** The version of the web application firewall rule set type. */
   ruleSetVersion: string;
+  /** Human-readable display name for the managed rule set version (e.g., 'Default Ruleset 2.2 (Latest, Recommended)'). */
+  displayName?: string;
   /** The rule groups of the web application firewall rule set. */
   ruleGroups: ApplicationGatewayFirewallRuleSetPropertiesFormatRuleGroupsList;
   /** Tier of an application gateway that support the rule set. */
@@ -68674,6 +70449,7 @@ export const ApplicationGatewayFirewallRuleSetPropertiesFormat = /*@__PURE__*/ S
     ),
     ruleSetType: S.String,
     ruleSetVersion: S.String,
+    displayName: S.optional(S.String),
     ruleGroups: ApplicationGatewayFirewallRuleSetPropertiesFormatRuleGroupsList,
     tiers: S.optional(ApplicationGatewayFirewallRuleSetPropertiesFormatTiersList),
   }),
@@ -68747,7 +70523,7 @@ export const ListApplicationGatewayPrivateEndpointConnectionsRequest = /*@__PURE
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateEndpointConnections",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -68795,7 +70571,7 @@ export const ListApplicationGatewayPrivateLinkResourcesRequest = /*@__PURE__*/ S
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateLinkResources",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -68900,7 +70676,7 @@ export const ListApplicationGatewaysRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -68919,7 +70695,7 @@ export const ListApplicationSecurityGroupAllRequest = /*@__PURE__*/ S.suspend(()
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationSecurityGroups",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -68963,12 +70739,192 @@ export const ListApplicationSecurityGroupsRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
   identifier: "ListApplicationSecurityGroupsRequest",
 }) as any as S.Schema<ListApplicationSecurityGroupsRequest>;
+
+export interface ListAuthenticationPoliciesRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+}
+export const ListAuthenticationPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/authenticationPolicies",
+      code: 200,
+      apiVersion: "2026-01-01",
+    }),
+  ),
+).annotate({
+  identifier: "ListAuthenticationPoliciesRequest",
+}) as any as S.Schema<ListAuthenticationPoliciesRequest>;
+
+/** Resource tags. */
+export type AuthenticationPolicyTagsMap = { [key: string]: string | undefined };
+export const AuthenticationPolicyTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<AuthenticationPolicyTagsMap>;
+
+/** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+export type AuthenticationPolicyIdentityUserAssignedIdentitiesMap = {
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
+};
+export const AuthenticationPolicyIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ManagedServiceIdentityUserAssignedIdentities_2,
+) as any as S.Schema<AuthenticationPolicyIdentityUserAssignedIdentitiesMap>;
+
+/** Identity for the resource. */
+export interface AuthenticationPolicyIdentity {
+  /** The principal id of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string;
+  /** The tenant id of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string;
+  /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
+  type?: ResourceIdentityType;
+  /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: AuthenticationPolicyIdentityUserAssignedIdentitiesMap;
+}
+export const AuthenticationPolicyIdentity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    principalId: S.optional(S.String),
+    tenantId: S.optional(S.String),
+    type: S.optional(ResourceIdentityType),
+    userAssignedIdentities: S.optional(AuthenticationPolicyIdentityUserAssignedIdentitiesMap),
+  }),
+).annotate({
+  identifier: "AuthenticationPolicyIdentity",
+}) as any as S.Schema<AuthenticationPolicyIdentity>;
+
+/** The type of identity that created the resource. */
+export type AuthenticationPolicySystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const AuthenticationPolicySystemDataCreatedByType = S.String;
+
+/** The type of identity that last modified the resource. */
+export type AuthenticationPolicySystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const AuthenticationPolicySystemDataLastModifiedByType = S.String;
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface AuthenticationPolicySystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: AuthenticationPolicySystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: AuthenticationPolicySystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
+export const AuthenticationPolicySystemData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    createdBy: S.optional(S.String),
+    createdByType: S.optional(AuthenticationPolicySystemDataCreatedByType),
+    createdAt: S.optional(S.String),
+    lastModifiedBy: S.optional(S.String),
+    lastModifiedByType: S.optional(AuthenticationPolicySystemDataLastModifiedByType),
+    lastModifiedAt: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AuthenticationPolicySystemData",
+}) as any as S.Schema<AuthenticationPolicySystemData>;
+
+/** Authentication policy resource for identity integration. */
+export interface AuthenticationPolicy {
+  /** Resource ID. */
+  id?: string;
+  /** Resource name. */
+  name?: string;
+  /** Resource type. */
+  type?: string;
+  /** Resource location. */
+  location?: string;
+  /** Resource tags. */
+  tags?: AuthenticationPolicyTagsMap;
+  /** Properties of the authentication policy. */
+  properties?: AuthenticationPolicyPropertiesFormat;
+  /** A unique read-only string that changes whenever the resource is updated. */
+  etag?: string;
+  /** Identity for the resource. */
+  identity?: AuthenticationPolicyIdentity;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: AuthenticationPolicySystemData;
+}
+export const AuthenticationPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    location: S.optional(S.String),
+    tags: S.optional(AuthenticationPolicyTagsMap),
+    properties: S.optional(AuthenticationPolicyPropertiesFormat),
+    etag: S.optional(S.String),
+    identity: S.optional(AuthenticationPolicyIdentity),
+    systemData: S.optional(AuthenticationPolicySystemData),
+  }),
+).annotate({ identifier: "AuthenticationPolicy" }) as any as S.Schema<AuthenticationPolicy>;
+
+/** The AuthenticationPolicy items on this page */
+export type AuthenticationPolicyListResultValueList = Array<AuthenticationPolicy>;
+export const AuthenticationPolicyListResultValueList = /*@__PURE__*/ S.Array(
+  AuthenticationPolicy,
+) as any as S.Schema<AuthenticationPolicyListResultValueList>;
+
+/** The response of a AuthenticationPolicy list operation. */
+export interface AuthenticationPolicyListResult {
+  /** The AuthenticationPolicy items on this page */
+  value: AuthenticationPolicyListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+export const AuthenticationPolicyListResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: AuthenticationPolicyListResultValueList,
+    nextLink: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AuthenticationPolicyListResult",
+}) as any as S.Schema<AuthenticationPolicyListResult>;
+
+export interface ListAuthenticationPolicyAllRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+}
+export const ListAuthenticationPolicyAllRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/authenticationPolicies",
+      code: 200,
+      apiVersion: "2026-01-01",
+    }),
+  ),
+).annotate({
+  identifier: "ListAuthenticationPolicyAllRequest",
+}) as any as S.Schema<ListAuthenticationPolicyAllRequest>;
 
 export interface ListAvailableDelegationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -68985,7 +70941,7 @@ export const ListAvailableDelegationsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availableDelegations",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -69058,7 +71014,7 @@ export const ListAvailableEndpointServicesRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/virtualNetworkAvailableEndpointServices",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -69122,7 +71078,7 @@ export const ListAvailablePrivateEndpointTypeByResourceGroupRequest = /*@__PURE_
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availablePrivateEndpointTypes",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -69191,7 +71147,7 @@ export const ListAvailablePrivateEndpointTypesRequest = /*@__PURE__*/ S.suspend(
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availablePrivateEndpointTypes",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -69216,7 +71172,7 @@ export const ListAvailableResourceGroupDelegationsRequest = /*@__PURE__*/ S.susp
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availableDelegations",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -69241,7 +71197,7 @@ export const ListAvailableServiceAliasByResourceGroupRequest = /*@__PURE__*/ S.s
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availableServiceAliases",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -69305,7 +71261,7 @@ export const ListAvailableServiceAliasesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availableServiceAliases",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -69324,7 +71280,7 @@ export const ListAzureFirewallAllRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/azureFirewalls",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -69415,7 +71371,7 @@ export const ListAzureFirewallFqdnTagAllRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/azureFirewallFqdnTags",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -69524,7 +71480,7 @@ export const ListAzureFirewallLearnedPrefixesRequest = /*@__PURE__*/ S.suspend((
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}/learnedIPPrefixes",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -69563,7 +71519,7 @@ export const ListAzureFirewallsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -69585,7 +71541,7 @@ export const ListBastionHostByResourceGroupRequest = /*@__PURE__*/ S.suspend(() 
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -69604,6 +71560,35 @@ export type BastionHostZonesList = Array<string>;
 export const BastionHostZonesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<BastionHostZonesList>;
+
+/** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+export type BastionHostIdentityUserAssignedIdentitiesMap = {
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
+};
+export const BastionHostIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ManagedServiceIdentityUserAssignedIdentities_2,
+) as any as S.Schema<BastionHostIdentityUserAssignedIdentitiesMap>;
+
+/** Identity for the resource. */
+export interface BastionHostIdentity {
+  /** The principal id of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string;
+  /** The tenant id of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string;
+  /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
+  type?: ResourceIdentityType;
+  /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: BastionHostIdentityUserAssignedIdentitiesMap;
+}
+export const BastionHostIdentity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    principalId: S.optional(S.String),
+    tenantId: S.optional(S.String),
+    type: S.optional(ResourceIdentityType),
+    userAssignedIdentities: S.optional(BastionHostIdentityUserAssignedIdentitiesMap),
+  }),
+).annotate({ identifier: "BastionHostIdentity" }) as any as S.Schema<BastionHostIdentity>;
 
 /** Bastion Host resource. */
 export interface BastionHost {
@@ -69625,6 +71610,8 @@ export interface BastionHost {
   etag?: string;
   /** The sku of this Bastion Host. */
   sku?: Sku;
+  /** Identity for the resource. */
+  identity?: BastionHostIdentity;
 }
 export const BastionHost = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -69637,6 +71624,7 @@ export const BastionHost = /*@__PURE__*/ S.suspend(() =>
     zones: S.optional(BastionHostZonesList),
     etag: S.optional(S.String),
     sku: S.optional(Sku),
+    identity: S.optional(BastionHostIdentity),
   }),
 ).annotate({ identifier: "BastionHost" }) as any as S.Schema<BastionHost>;
 
@@ -69672,7 +71660,7 @@ export const ListBastionHostsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/bastionHosts",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListBastionHostsRequest" }) as any as S.Schema<ListBastionHostsRequest>;
@@ -69689,7 +71677,7 @@ export const ListBgpServiceCommunitiesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/bgpServiceCommunities",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -69829,7 +71817,7 @@ export const ListCommitsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/commits",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListCommitsRequest" }) as any as S.Schema<ListCommitsRequest>;
@@ -69933,7 +71921,7 @@ export const ListConfigurationPolicyGroupByVpnServerConfigurationRequest = /*@__
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -69981,7 +71969,7 @@ export const ListConnectionMonitorsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -70064,7 +72052,7 @@ export const ListConnectionPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/connectionPolicies",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -70140,7 +72128,7 @@ export const ListConnectivityConfigurationsRequest = /*@__PURE__*/ S.suspend(() 
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -70253,7 +72241,7 @@ export const ListCustomIPPrefixAllRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/customIpPrefixes",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -70347,7 +72335,7 @@ export const ListCustomIPPrefixesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -70369,7 +72357,7 @@ export const ListDdosCustomPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -70446,7 +72434,7 @@ export const ListDdosCustomPolicyAllRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/ddosCustomPolicies",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -70468,7 +72456,7 @@ export const ListDdosProtectionPlanByResourceGroupRequest = /*@__PURE__*/ S.susp
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -70545,7 +72533,7 @@ export const ListDdosProtectionPlansRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/ddosProtectionPlans",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -70570,7 +72558,7 @@ export const ListDefaultSecurityRulesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/defaultSecurityRules",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -70612,7 +72600,7 @@ export const ListDscpConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dscpConfigurations",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -70689,7 +72677,7 @@ export const ListDscpConfigurationAllRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/dscpConfigurations",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -70708,7 +72696,7 @@ export const ListExpressRouteCircuitAllRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteCircuits",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -70800,7 +72788,7 @@ export const ListExpressRouteCircuitArpTableRequest = /*@__PURE__*/ S.suspend(()
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/arpTables/{devicePath}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -70851,6 +72839,46 @@ export const ExpressRouteCircuitsArpTableListResult = /*@__PURE__*/ S.suspend(()
   identifier: "ExpressRouteCircuitsArpTableListResult",
 }) as any as S.Schema<ExpressRouteCircuitsArpTableListResult>;
 
+export interface ListExpressRouteCircuitAuthorizationKeysRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of express route circuit. */
+  circuitName: string;
+  /** The name of the authorization. */
+  authorizationName: string;
+}
+export const ListExpressRouteCircuitAuthorizationKeysRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    circuitName: S.String.pipe(T.Label()),
+    authorizationName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations/{authorizationName}/listKeys",
+      code: 200,
+      apiVersion: "2026-01-01",
+    }),
+  ),
+).annotate({
+  identifier: "ListExpressRouteCircuitAuthorizationKeysRequest",
+}) as any as S.Schema<ListExpressRouteCircuitAuthorizationKeysRequest>;
+
+export interface ListExpressRouteCircuitAuthorizationKeysResponse {
+  /** The authorization key used to establish connection between resources in different subscriptions. */
+  authorizationKey?: string;
+}
+export const ListExpressRouteCircuitAuthorizationKeysResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    authorizationKey: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListExpressRouteCircuitAuthorizationKeysResponse",
+}) as any as S.Schema<ListExpressRouteCircuitAuthorizationKeysResponse>;
+
 export interface ListExpressRouteCircuitAuthorizationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -70869,7 +72897,7 @@ export const ListExpressRouteCircuitAuthorizationsRequest = /*@__PURE__*/ S.susp
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -70917,7 +72945,7 @@ export const ListExpressRouteCircuitConnectionsRequest = /*@__PURE__*/ S.suspend
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -70964,7 +72992,7 @@ export const ListExpressRouteCircuitPeeringsRequest = /*@__PURE__*/ S.suspend(()
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -71017,7 +73045,7 @@ export const ListExpressRouteCircuitRoutesTableRequest = /*@__PURE__*/ S.suspend
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTables/{devicePath}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -71096,7 +73124,7 @@ export const ListExpressRouteCircuitRoutesTableSummaryRequest = /*@__PURE__*/ S.
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTablesSummary/{devicePath}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -71166,7 +73194,7 @@ export const ListExpressRouteCircuitsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -71191,7 +73219,7 @@ export const ListExpressRouteConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/expressRouteConnections",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -71241,7 +73269,7 @@ export const ListExpressRouteCrossConnectionArpTableRequest = /*@__PURE__*/ S.su
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/arpTables/{devicePath}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -71263,7 +73291,7 @@ export const ListExpressRouteCrossConnectionByResourceGroupRequest = /*@__PURE__
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -71348,7 +73376,7 @@ export const ListExpressRouteCrossConnectionPeeringsRequest = /*@__PURE__*/ S.su
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -71402,7 +73430,7 @@ export const ListExpressRouteCrossConnectionRoutesTableRequest = /*@__PURE__*/ S
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTables/{devicePath}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -71434,7 +73462,7 @@ export const ListExpressRouteCrossConnectionRoutesTableSummaryRequest = /*@__PUR
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/routeTablesSummary/{devicePath}",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -71503,7 +73531,7 @@ export const ListExpressRouteCrossConnectionsRequest = /*@__PURE__*/ S.suspend((
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteCrossConnections",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -71525,7 +73553,7 @@ export const ListExpressRouteGatewayByResourceGroupRequest = /*@__PURE__*/ S.sus
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -71597,7 +73625,7 @@ export const ListExpressRouteGatewayBySubscriptionRequest = /*@__PURE__*/ S.susp
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteGateways",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -71619,7 +73647,7 @@ export const ListExpressRouteLagByResourceGroupRequest = /*@__PURE__*/ S.suspend
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteLags",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -71635,11 +73663,11 @@ export const ExpressRouteLagTagsMap = /*@__PURE__*/ S.Record(
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type ExpressRouteLagIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const ExpressRouteLagIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  ManagedServiceIdentityUserAssignedIdentities_8,
+  ManagedServiceIdentityUserAssignedIdentities_2,
 ) as any as S.Schema<ExpressRouteLagIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -71728,7 +73756,7 @@ export const ListExpressRouteLagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteLags",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -71753,7 +73781,7 @@ export const ListExpressRouteLagsLinksRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteLags/{expressRouteLagName}/links",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -71803,7 +73831,7 @@ export const ListExpressRouteLagsMembersRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteLags/{expressRouteLagName}/links/{linkName}/members",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -71850,7 +73878,7 @@ export const ListExpressRouteLinksRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}/links",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -71879,6 +73907,46 @@ export const ExpressRouteLinkListResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "ExpressRouteLinkListResult",
 }) as any as S.Schema<ExpressRouteLinkListResult>;
 
+export interface ListExpressRoutePortAuthorizationKeysRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the express route port. */
+  expressRoutePortName: string;
+  /** The name of the authorization. */
+  authorizationName: string;
+}
+export const ListExpressRoutePortAuthorizationKeysRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    expressRoutePortName: S.String.pipe(T.Label()),
+    authorizationName: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations/{authorizationName}/listKeys",
+      code: 200,
+      apiVersion: "2026-01-01",
+    }),
+  ),
+).annotate({
+  identifier: "ListExpressRoutePortAuthorizationKeysRequest",
+}) as any as S.Schema<ListExpressRoutePortAuthorizationKeysRequest>;
+
+export interface ListExpressRoutePortAuthorizationKeysResponse {
+  /** The authorization key used to establish connection between resources in different subscriptions. */
+  authorizationKey?: string;
+}
+export const ListExpressRoutePortAuthorizationKeysResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    authorizationKey: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListExpressRoutePortAuthorizationKeysResponse",
+}) as any as S.Schema<ListExpressRoutePortAuthorizationKeysResponse>;
+
 export interface ListExpressRoutePortAuthorizationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -71897,7 +73965,7 @@ export const ListExpressRoutePortAuthorizationsRequest = /*@__PURE__*/ S.suspend
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -71966,7 +74034,7 @@ export const ListExpressRoutePortByResourceGroupRequest = /*@__PURE__*/ S.suspen
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -71982,11 +74050,11 @@ export const ExpressRoutePortTagsMap = /*@__PURE__*/ S.Record(
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type ExpressRoutePortIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const ExpressRoutePortIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  ManagedServiceIdentityUserAssignedIdentities_8,
+  ManagedServiceIdentityUserAssignedIdentities_2,
 ) as any as S.Schema<ExpressRoutePortIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -72075,7 +74143,7 @@ export const ListExpressRoutePortsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePorts",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -72094,7 +74162,7 @@ export const ListExpressRoutePortsLocationsRequest = /*@__PURE__*/ S.suspend(() 
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePortsLocations",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -72173,7 +74241,7 @@ export const ListExpressRouteProviderPortsLocationRequest = /*@__PURE__*/ S.susp
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -72250,7 +74318,7 @@ export const ListExpressRouteServiceProvidersRequest = /*@__PURE__*/ S.suspend((
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteServiceProviders",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -72389,7 +74457,7 @@ export const ListFirewallPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -72405,11 +74473,11 @@ export const FirewallPolicyTagsMap = /*@__PURE__*/ S.Record(
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type FirewallPolicyIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const FirewallPolicyIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  ManagedServiceIdentityUserAssignedIdentities_8,
+  ManagedServiceIdentityUserAssignedIdentities_2,
 ) as any as S.Schema<FirewallPolicyIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -72496,7 +74564,7 @@ export const ListFirewallPolicyAllRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/firewallPolicies",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -72580,7 +74648,7 @@ export const ListFirewallPolicyIdpsSignaturesRequest = /*@__PURE__*/ S.suspend((
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/listIdpsSignatures",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -72692,7 +74760,7 @@ export const ListFirewallPolicyIdpsSignaturesFilterValuesRequest = /*@__PURE__*/
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/listIdpsFilterOptions",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -72736,7 +74804,7 @@ export const ListFirewallPolicyIdpsSignaturesOverridesRequest = /*@__PURE__*/ S.
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -72798,7 +74866,7 @@ export const ListFirewallPolicyKubeSelectorGroupsRequest = /*@__PURE__*/ S.suspe
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/kubeSelectorGroups",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -72871,7 +74939,7 @@ export const ListFirewallPolicyRuleCollectionGroupsRequest = /*@__PURE__*/ S.sus
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -72938,7 +75006,7 @@ export const ListFirstPartyServiceTagAllRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/firstPartyServiceTags",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -73018,7 +75086,7 @@ export const ListFirstPartyServiceTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firstPartyServiceTags",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -73043,7 +75111,7 @@ export const ListFlowLogsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListFlowLogsRequest" }) as any as S.Schema<ListFlowLogsRequest>;
@@ -73057,11 +75125,11 @@ export const FlowLogTagsMap = /*@__PURE__*/ S.Record(
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type FlowLogIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const FlowLogIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  ManagedServiceIdentityUserAssignedIdentities_8,
+  ManagedServiceIdentityUserAssignedIdentities_2,
 ) as any as S.Schema<FlowLogIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -73154,7 +75222,7 @@ export const ListHubRouteTablesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -73222,7 +75290,7 @@ export const ListHubVirtualNetworkConnectionsRequest = /*@__PURE__*/ S.suspend((
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -73291,7 +75359,7 @@ export const ListInboundNatRulesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -73330,7 +75398,7 @@ export const ListInterconnectGroupAllRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/interconnectGroups",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -73410,7 +75478,7 @@ export const ListInterconnectGroupsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/interconnectGroups",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -73432,7 +75500,7 @@ export const ListIpAllocationByResourceGroupRequest = /*@__PURE__*/ S.suspend(()
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -73507,7 +75575,7 @@ export const ListIpAllocationsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/IpAllocations",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListIpAllocationsRequest" }) as any as S.Schema<ListIpAllocationsRequest>;
@@ -73533,7 +75601,7 @@ export const ListIpamPoolAssociatedResourcesRequest = /*@__PURE__*/ S.suspend(()
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/ipamPools/{poolName}/listAssociatedResources",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -73639,7 +75707,7 @@ export const ListIpamPoolsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/ipamPools",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListIpamPoolsRequest" }) as any as S.Schema<ListIpamPoolsRequest>;
@@ -73756,7 +75824,7 @@ export const ListIpGroupByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -73831,7 +75899,7 @@ export const ListIpGroupsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/ipGroups",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListIpGroupsRequest" }) as any as S.Schema<ListIpGroupsRequest>;
@@ -73848,7 +75916,7 @@ export const ListLoadBalancerAllRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/loadBalancers",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -73939,7 +76007,7 @@ export const ListLoadBalancerBackendAddressPoolsRequest = /*@__PURE__*/ S.suspen
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -73987,7 +76055,7 @@ export const ListLoadBalancerFrontendIPConfigurationsRequest = /*@__PURE__*/ S.s
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/frontendIPConfigurations",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -74048,7 +76116,7 @@ export const ListLoadBalancerInboundNatRulePortMappingsRequest = /*@__PURE__*/ S
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendPoolName}/queryInboundNatRulePortMapping",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -74122,7 +76190,7 @@ export const ListLoadBalancerLoadBalancingRulesRequest = /*@__PURE__*/ S.suspend
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/loadBalancingRules",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -74169,7 +76237,7 @@ export const ListLoadBalancerNetworkInterfacesRequest = /*@__PURE__*/ S.suspend(
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/networkInterfaces",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -74215,7 +76283,7 @@ export const ListLoadBalancerOutboundRulesRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/outboundRules",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -74262,7 +76330,7 @@ export const ListLoadBalancerProbesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -74306,7 +76374,7 @@ export const ListLoadBalancersRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListLoadBalancersRequest" }) as any as S.Schema<ListLoadBalancersRequest>;
@@ -74326,7 +76394,7 @@ export const ListLocalNetworkGatewaysRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -74373,7 +76441,7 @@ export const ListManagementGroupNetworkManagerConnectionsRequest = /*@__PURE__*/
       method: "GET",
       uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -74484,7 +76552,7 @@ export const ListNatGatewayAllRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/natGateways",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListNatGatewayAllRequest" }) as any as S.Schema<ListNatGatewayAllRequest>;
@@ -74524,7 +76592,7 @@ export const ListNatGatewaysRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListNatGatewaysRequest" }) as any as S.Schema<ListNatGatewaysRequest>;
@@ -74547,7 +76615,7 @@ export const ListNatRuleByVpnGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -74600,7 +76668,7 @@ export const ListNetworkGroupsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListNetworkGroupsRequest" }) as any as S.Schema<ListNetworkGroupsRequest>;
@@ -74705,7 +76773,7 @@ export const ListNetworkInterfaceAllRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkInterfaces",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -74753,7 +76821,7 @@ export const ListNetworkInterfaceCloudServiceNetworkInterfacesRequest = /*@__PUR
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/cloudServices/{cloudServiceName}/networkInterfaces",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -74782,7 +76850,7 @@ export const ListNetworkInterfaceCloudServiceRoleInstanceNetworkInterfacesReques
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
   ).annotate({
@@ -74808,7 +76876,7 @@ export const ListNetworkInterfaceEffectiveNetworkSecurityGroupsRequest = /*@__PU
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveNetworkSecurityGroups",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -75055,7 +77123,7 @@ export const ListNetworkInterfaceIPConfigurationsRequest = /*@__PURE__*/ S.suspe
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/ipConfigurations",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -75103,7 +77171,7 @@ export const ListNetworkInterfaceLoadBalancersRequest = /*@__PURE__*/ S.suspend(
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/loadBalancers",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -75306,7 +77374,7 @@ export const ListNetworkInterfacesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -75331,7 +77399,7 @@ export const ListNetworkInterfaceTapConfigurationsRequest = /*@__PURE__*/ S.susp
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -75379,7 +77447,7 @@ export const ListNetworkManagerBySubscriptionRequest = /*@__PURE__*/ S.suspend((
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagers",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -75539,7 +77607,7 @@ export const ListNetworkManagerDeploymentStatusRequest = /*@__PURE__*/ S.suspend
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listDeploymentStatus",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -75644,7 +77712,7 @@ export const ListNetworkManagerEffectiveConnectivityConfigurationsRequest = /*@_
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/listNetworkManagerEffectiveConnectivityConfigurations",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -75725,7 +77793,7 @@ export const ListNetworkManagerEffectiveSecurityAdminRulesRequest = /*@__PURE__*
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/listNetworkManagerEffectiveSecurityAdminRules",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -75827,7 +77895,7 @@ export const ListNetworkManagerRoutingConfigurationsRequest = /*@__PURE__*/ S.su
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/routingConfigurations",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -75950,7 +78018,7 @@ export const ListNetworkManagersRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -75969,7 +78037,7 @@ export const ListNetworkProfileAllRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkProfiles",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -76047,7 +78115,7 @@ export const ListNetworkProfilesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -76066,7 +78134,7 @@ export const ListNetworkSecurityGroupAllRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkSecurityGroups",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -76110,7 +78178,7 @@ export const ListNetworkSecurityGroupsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -76144,7 +78212,7 @@ export const ListNetworkSecurityPerimeterAccessRulesRequest = /*@__PURE__*/ S.su
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/profiles/{profileName}/accessRules",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -76252,7 +78320,7 @@ export const ListNetworkSecurityPerimeterAssociableResourceTypesRequest = /*@__P
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/perimeterAssociableResourceTypes",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -76378,7 +78446,7 @@ export const ListNetworkSecurityPerimeterAssociationsRequest = /*@__PURE__*/ S.s
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/resourceAssociations",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -76490,7 +78558,7 @@ export const ListNetworkSecurityPerimeterBySubscriptionRequest = /*@__PURE__*/ S
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkSecurityPerimeters",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -76623,7 +78691,7 @@ export const ListNetworkSecurityPerimeterLinkReferencesRequest = /*@__PURE__*/ S
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/linkReferences",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -76743,7 +78811,7 @@ export const ListNetworkSecurityPerimeterLinksRequest = /*@__PURE__*/ S.suspend(
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/links",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -76850,7 +78918,7 @@ export const ListNetworkSecurityPerimeterLoggingConfigurationsRequest = /*@__PUR
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/loggingConfigurations",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -76970,7 +79038,7 @@ export const ListNetworkSecurityPerimeterProfilesRequest = /*@__PURE__*/ S.suspe
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/profiles",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -77079,7 +79147,7 @@ export const ListNetworkSecurityPerimetersRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -77101,7 +79169,7 @@ export const ListNetworkSecurityPerimeterServiceTagsRequest = /*@__PURE__*/ S.su
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/nspServiceTags",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -77160,7 +79228,7 @@ export const ListNetworkVirtualApplianceByResourceGroupRequest = /*@__PURE__*/ S
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -77176,11 +79244,11 @@ export const NetworkVirtualApplianceTagsMap = /*@__PURE__*/ S.Record(
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type NetworkVirtualApplianceIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const NetworkVirtualApplianceIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  ManagedServiceIdentityUserAssignedIdentities_8,
+  ManagedServiceIdentityUserAssignedIdentities_2,
 ) as any as S.Schema<NetworkVirtualApplianceIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -77277,7 +79345,7 @@ export const ListNetworkVirtualApplianceConnectionsRequest = /*@__PURE__*/ S.sus
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/networkVirtualApplianceConnections",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -77338,7 +79406,7 @@ export const ListNetworkVirtualAppliancesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualAppliances",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -77357,7 +79425,7 @@ export const ListNetworkWatcherAllRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkWatchers",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -77456,7 +79524,7 @@ export const ListNetworkWatcherAvailableProvidersRequest = /*@__PURE__*/ S.suspe
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/availableProvidersList",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -77579,7 +79647,7 @@ export const ListNetworkWatchersRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -77604,7 +79672,7 @@ export const ListNetworkWatchersConnectionAnalyzersRequest = /*@__PURE__*/ S.sus
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionAnalyzers",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -77640,7 +79708,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/providers/Microsoft.Network/operations",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
@@ -77882,7 +79950,7 @@ export const ListP2sVpnGatewayByResourceGroupRequest = /*@__PURE__*/ S.suspend((
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -77921,7 +79989,7 @@ export const ListP2sVpnGatewaysRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/p2svpnGateways",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -77946,7 +80014,7 @@ export const ListPacketCapturesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -77994,7 +80062,7 @@ export const ListPeerExpressRouteCircuitConnectionsRequest = /*@__PURE__*/ S.sus
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/peerConnections",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -78042,7 +80110,7 @@ export const ListPrivateDnsZoneGroupsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -78103,7 +80171,7 @@ export const ListPrivateEndpointBySubscriptionRequest = /*@__PURE__*/ S.suspend(
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/privateEndpoints",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -78147,7 +80215,7 @@ export const ListPrivateEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -78170,7 +80238,7 @@ export const ListPrivateLinkServiceAutoApprovedPrivateLinkServicesRequest = /*@_
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/autoApprovedPrivateLinkServices",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -78231,7 +80299,7 @@ export const ListPrivateLinkServiceAutoApprovedPrivateLinkServicesByResourceGrou
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/autoApprovedPrivateLinkServices",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
   ).annotate({
@@ -78250,7 +80318,7 @@ export const ListPrivateLinkServiceBySubscriptionRequest = /*@__PURE__*/ S.suspe
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/privateLinkServices",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -78297,7 +80365,7 @@ export const ListPrivateLinkServicePrivateEndpointConnectionsRequest = /*@__PURE
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -78341,7 +80409,7 @@ export const ListPrivateLinkServicesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -78360,7 +80428,7 @@ export const ListPublicIPAddressAllRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPAddresses",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -78407,7 +80475,7 @@ export const ListPublicIPAddressCloudServicePublicIPAddressesRequest = /*@__PURE
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/cloudServices/{cloudServiceName}/publicipaddresses",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -78442,7 +80510,7 @@ export const ListPublicIPAddressCloudServiceRoleInstancePublicIPAddressesRequest
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
   ).annotate({
@@ -78464,7 +80532,7 @@ export const ListPublicIPAddressesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -78483,7 +80551,7 @@ export const ListPublicIPPrefixAllRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPPrefixes",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -78580,7 +80648,7 @@ export const ListPublicIPPrefixesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -78623,7 +80691,7 @@ export const ListReachabilityAnalysisIntentsRequest = /*@__PURE__*/ S.suspend(()
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}/reachabilityAnalysisIntents",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -78757,7 +80825,7 @@ export const ListReachabilityAnalysisRunsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}/reachabilityAnalysisRuns",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -78874,7 +80942,7 @@ export const ListResourceNavigationLinksRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/resourceNavigationLinks",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -78918,7 +80986,7 @@ export const ListRouteFilterByResourceGroupRequest = /*@__PURE__*/ S.suspend(() 
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -78999,7 +81067,7 @@ export const ListRouteFilterRuleByRouteFilterRequest = /*@__PURE__*/ S.suspend((
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -79040,7 +81108,7 @@ export const ListRouteFiltersRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/routeFilters",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListRouteFiltersRequest" }) as any as S.Schema<ListRouteFiltersRequest>;
@@ -79063,7 +81131,7 @@ export const ListRouteMapsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListRouteMapsRequest" }) as any as S.Schema<ListRouteMapsRequest>;
@@ -79129,7 +81197,7 @@ export const ListRoutesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListRoutesRequest" }) as any as S.Schema<ListRoutesRequest>;
@@ -79166,7 +81234,7 @@ export const ListRouteTableAllRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/routeTables",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListRouteTableAllRequest" }) as any as S.Schema<ListRouteTableAllRequest>;
@@ -79206,7 +81274,7 @@ export const ListRouteTablesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListRouteTablesRequest" }) as any as S.Schema<ListRouteTablesRequest>;
@@ -79229,7 +81297,7 @@ export const ListRoutingIntentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routingIntent",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListRoutingIntentRequest" }) as any as S.Schema<ListRoutingIntentRequest>;
@@ -79304,7 +81372,7 @@ export const ListRoutingRuleCollectionsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/routingConfigurations/{configurationName}/ruleCollections",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -79433,7 +81501,7 @@ export const ListRoutingRulesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/routingConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListRoutingRulesRequest" }) as any as S.Schema<ListRoutingRulesRequest>;
@@ -79546,7 +81614,7 @@ export const ListScopeConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/scopeConnections",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -79669,7 +81737,7 @@ export const ListSecurityAdminConfigurationsRequest = /*@__PURE__*/ S.suspend(()
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -79785,7 +81853,7 @@ export const ListSecurityPartnerProviderByResourceGroupRequest = /*@__PURE__*/ S
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -79862,7 +81930,7 @@ export const ListSecurityPartnerProvidersRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/securityPartnerProviders",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -79887,7 +81955,7 @@ export const ListSecurityRulesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListSecurityRulesRequest" }) as any as S.Schema<ListSecurityRulesRequest>;
@@ -79916,7 +81984,7 @@ export const ListSecurityUserConfigurationsRequest = /*@__PURE__*/ S.suspend(() 
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -80044,7 +82112,7 @@ export const ListSecurityUserRuleCollectionsRequest = /*@__PURE__*/ S.suspend(()
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}/ruleCollections",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -80175,7 +82243,7 @@ export const ListSecurityUserRulesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -80295,7 +82363,7 @@ export const ListServiceAssociationLinksRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/serviceAssociationLinks",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -80336,7 +82404,7 @@ export const ListServiceEndpointPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/serviceEndpointPolicies",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -80419,7 +82487,7 @@ export const ListServiceEndpointPolicyByResourceGroupRequest = /*@__PURE__*/ S.s
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -80445,7 +82513,7 @@ export const ListServiceEndpointPolicyDefinitionByResourceGroupRequest = /*@__PU
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -80487,7 +82555,7 @@ export const ListServiceGatewayAllRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/serviceGateways",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -80622,7 +82690,7 @@ export const ListServiceGatewaysRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceGateways",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -80650,7 +82718,7 @@ export const ListServiceTagInformationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/serviceTagDetails",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -80745,7 +82813,7 @@ export const ListServiceTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/serviceTags",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListServiceTagsRequest" }) as any as S.Schema<ListServiceTagsRequest>;
@@ -80821,7 +82889,7 @@ export const ListStaticCidrsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/ipamPools/{poolName}/staticCidrs",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListStaticCidrsRequest" }) as any as S.Schema<ListStaticCidrsRequest>;
@@ -80934,7 +83002,7 @@ export const ListStaticMembersRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}/staticMembers",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListStaticMembersRequest" }) as any as S.Schema<ListStaticMembersRequest>;
@@ -81045,7 +83113,7 @@ export const ListSubgroupsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/interconnectGroups/{interconnectGroupName}/subgroups",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListSubgroupsRequest" }) as any as S.Schema<ListSubgroupsRequest>;
@@ -81088,7 +83156,7 @@ export const ListSubnetsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListSubnetsRequest" }) as any as S.Schema<ListSubnetsRequest>;
@@ -81131,7 +83199,7 @@ export const ListSubscriptionNetworkManagerConnectionsRequest = /*@__PURE__*/ S.
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -81153,7 +83221,7 @@ export const ListUsagesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/usages",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListUsagesRequest" }) as any as S.Schema<ListUsagesRequest>;
@@ -81252,7 +83320,7 @@ export const ListVerifierWorkspacesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -81381,7 +83449,7 @@ export const ListVipSwapRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/microsoft.Compute/cloudServices/{resourceName}/providers/Microsoft.Network/cloudServiceSlots",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListVipSwapRequest" }) as any as S.Schema<ListVipSwapRequest>;
@@ -81439,7 +83507,7 @@ export const ListVirtualApplianceSitesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/virtualApplianceSites",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -81503,7 +83571,7 @@ export const ListVirtualApplianceSkusRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualApplianceSkus",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -81591,7 +83659,7 @@ export const ListVirtualHubBgpConnectionAdvertisedRoutesRequest = /*@__PURE__*/ 
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{hubName}/bgpConnections/{connectionName}/advertisedRoutes",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -81670,7 +83738,7 @@ export const ListVirtualHubBgpConnectionLearnedRoutesRequest = /*@__PURE__*/ S.s
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{hubName}/bgpConnections/{connectionName}/learnedRoutes",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -81716,7 +83784,7 @@ export const ListVirtualHubBgpConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/bgpConnections",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -81783,7 +83851,7 @@ export const ListVirtualHubByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -81867,7 +83935,7 @@ export const ListVirtualHubIpConfigurationRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/ipConfigurations",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -81937,7 +84005,7 @@ export const ListVirtualHubRouteTableV2sRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeTables",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -81978,7 +84046,7 @@ export const ListVirtualHubsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualHubs",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListVirtualHubsRequest" }) as any as S.Schema<ListVirtualHubsRequest>;
@@ -81995,7 +84063,7 @@ export const ListVirtualNetworkAllRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworks",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -82077,7 +84145,7 @@ export const ListVirtualNetworkApplianceAllRequest = /*@__PURE__*/ S.suspend(() 
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworkAppliances",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -82157,7 +84225,7 @@ export const ListVirtualNetworkAppliancesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkAppliances",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -82188,7 +84256,7 @@ export const ListVirtualNetworkDdosProtectionStatusRequest = /*@__PURE__*/ S.sus
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/ddosProtectionStatus",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -82259,7 +84327,7 @@ export const ListVirtualNetworkGatewayConnectionsRequest = /*@__PURE__*/ S.suspe
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -82345,7 +84413,7 @@ export const ListVirtualNetworkGatewayConnectionsRequest2 = /*@__PURE__*/ S.susp
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/connections",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -82647,7 +84715,7 @@ export const ListVirtualNetworkGatewayNatRuleByVirtualNetworkGatewayRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/natRules",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
   ).annotate({
@@ -82694,7 +84762,7 @@ export const ListVirtualNetworkGatewayRadiusSecretsRequest = /*@__PURE__*/ S.sus
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/listRadiusSecrets",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -82752,7 +84820,7 @@ export const ListVirtualNetworkGatewaysRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -82799,7 +84867,7 @@ export const ListVirtualNetworkPeeringsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -82843,7 +84911,7 @@ export const ListVirtualNetworksRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -82862,7 +84930,7 @@ export const ListVirtualNetworkTapAllRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworkTaps",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -82942,7 +85010,7 @@ export const ListVirtualNetworkTapByResourceGroupRequest = /*@__PURE__*/ S.suspe
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -82967,7 +85035,7 @@ export const ListVirtualNetworkUsageRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/usages",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -83048,7 +85116,7 @@ export const ListVirtualRouterByResourceGroupRequest = /*@__PURE__*/ S.suspend((
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -83129,7 +85197,7 @@ export const ListVirtualRouterPeeringsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}/peerings",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -83193,7 +85261,7 @@ export const ListVirtualRoutersRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualRouters",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -83215,7 +85283,7 @@ export const ListVirtualWanByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -83290,7 +85358,7 @@ export const ListVirtualWansRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualWans",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListVirtualWansRequest" }) as any as S.Schema<ListVirtualWansRequest>;
@@ -83313,7 +85381,7 @@ export const ListVpnConnectionByVpnGatewayRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -83355,7 +85423,7 @@ export const ListVpnGatewayByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -83430,7 +85498,7 @@ export const ListVpnGatewaysRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnGateways",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListVpnGatewaysRequest" }) as any as S.Schema<ListVpnGatewaysRequest>;
@@ -83456,7 +85524,7 @@ export const ListVpnLinkConnectionByVpnConnectionRequest = /*@__PURE__*/ S.suspe
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -83509,7 +85577,7 @@ export const ListVpnLinkConnectionDefaultSharedKeyRequest = /*@__PURE__*/ S.susp
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}/sharedKeys/default/listSharedKey",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -83552,7 +85620,7 @@ export const ListVpnServerConfigurationByResourceGroupRequest = /*@__PURE__*/ S.
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -83635,7 +85703,7 @@ export const ListVpnServerConfigurationRadiusSecretsRequest = /*@__PURE__*/ S.su
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}/listRadiusSecrets",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -83675,7 +85743,7 @@ export const ListVpnServerConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnServerConfigurations",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -83701,7 +85769,7 @@ export const ListVpnServerConfigurationsAssociatedWithVirtualWanRequest = /*@__P
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/vpnServerConfigurations",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -83745,7 +85813,7 @@ export const ListVpnSiteByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -83826,7 +85894,7 @@ export const ListVpnSiteLinkByVpnSiteRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}/vpnSiteLinks",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -83865,7 +85933,7 @@ export const ListVpnSitesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/vpnSites",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ListVpnSitesRequest" }) as any as S.Schema<ListVpnSitesRequest>;
@@ -83885,7 +85953,7 @@ export const ListWebApplicationFirewallPoliciesRequest = /*@__PURE__*/ S.suspend
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -83964,7 +86032,7 @@ export const ListWebApplicationFirewallPolicyAllRequest = /*@__PURE__*/ S.suspen
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -83983,7 +86051,7 @@ export const ListWebCategoryBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/azureWebCategories",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -84065,7 +86133,7 @@ export const LoadBalancerBackendAddressPoolsCreateOrUpdateRequest = /*@__PURE__*
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendAddressPoolName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -84116,7 +86184,7 @@ export const LoadBalancerLoadBalancingRulesHealthRequest = /*@__PURE__*/ S.suspe
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/loadBalancingRules/{loadBalancingRuleName}/health",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -84497,7 +86565,7 @@ export const LoadBalancersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -84712,7 +86780,7 @@ export const LocalNetworkGatewaysCreateOrUpdateRequest = /*@__PURE__*/ S.suspend
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -84777,7 +86845,7 @@ export const ManagementGroupNetworkManagerConnectionsCreateOrUpdateRequest =
         method: "PUT",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
   ).annotate({
@@ -84865,6 +86933,50 @@ export const ManagementGroupNetworkManagerConnectionsCreateOrUpdateResponse =
     identifier: "ManagementGroupNetworkManagerConnectionsCreateOrUpdateResponse",
   }) as any as S.Schema<ManagementGroupNetworkManagerConnectionsCreateOrUpdateResponse>;
 
+/** The source-to-target port mappings for circuit migration. */
+export type MigrateExpressRouteCrossConnectionCircuitRequestTargetPortMappingList =
+  Array<PortMapping>;
+export const MigrateExpressRouteCrossConnectionCircuitRequestTargetPortMappingList =
+  /*@__PURE__*/ S.Array(
+    PortMapping,
+  ) as any as S.Schema<MigrateExpressRouteCrossConnectionCircuitRequestTargetPortMappingList>;
+
+export interface MigrateExpressRouteCrossConnectionCircuitRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the ExpressRouteCrossConnection (service key of the circuit). */
+  crossConnectionName: string;
+  /** The target peering location for circuit migration. */
+  targetPeeringLocation?: string;
+  /** The source-to-target port mappings for circuit migration. */
+  targetPortMapping?: MigrateExpressRouteCrossConnectionCircuitRequestTargetPortMappingList;
+  /** The port identifier used for shutDownBgp, migrate, restoreBgp, and rollback operations. */
+  portId?: string;
+}
+export const MigrateExpressRouteCrossConnectionCircuitRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    crossConnectionName: S.String.pipe(T.Label()),
+    targetPeeringLocation: S.optional(S.String),
+    targetPortMapping: S.optional(
+      MigrateExpressRouteCrossConnectionCircuitRequestTargetPortMappingList,
+    ),
+    portId: S.optional(S.String),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/migrateCircuit",
+      code: 200,
+      apiVersion: "2026-01-01",
+    }),
+  ),
+).annotate({
+  identifier: "MigrateExpressRouteCrossConnectionCircuitRequest",
+}) as any as S.Schema<MigrateExpressRouteCrossConnectionCircuitRequest>;
+
 /** A list of pool names that should be migrated from Nic based to IP based pool */
 export type MigrateLoadBalancerToIpBasedRequestPoolsList = Array<string>;
 export const MigrateLoadBalancerToIpBasedRequestPoolsList = /*@__PURE__*/ S.Array(
@@ -84891,7 +87003,7 @@ export const MigrateLoadBalancerToIpBasedRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/migrateToIpBased",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -84971,7 +87083,7 @@ export const MoveVirtualNetworkIpConfigurationsRequest = /*@__PURE__*/ S.suspend
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/moveIpConfigurations",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -85034,7 +87146,7 @@ export const NatGatewaysCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -85178,7 +87290,7 @@ export const NatRulesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules/{natRuleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -85266,7 +87378,7 @@ export const NetworkGroupsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -85980,7 +88092,7 @@ export const NetworkInterfacesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -86130,7 +88242,7 @@ export const NetworkInterfaceTapConfigurationsCreateOrUpdateRequest = /*@__PURE_
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -86229,7 +88341,7 @@ export const NetworkManagerRoutingConfigurationsCreateOrUpdateRequest = /*@__PUR
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/routingConfigurations/{configurationName}",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -86434,7 +88546,7 @@ export const NetworkManagersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -86725,7 +88837,7 @@ export const NetworkProfilesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -86808,7 +88920,7 @@ export const NetworkSecurityGroupsCreateOrUpdateRequest = /*@__PURE__*/ S.suspen
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -86968,7 +89080,7 @@ export const NetworkSecurityPerimeterAccessRulesCreateOrUpdateRequest = /*@__PUR
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/profiles/{profileName}/accessRules/{accessRuleName}",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -87075,7 +89187,7 @@ export const NetworkSecurityPerimeterAccessRulesReconcileRequest = /*@__PURE__*/
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/profiles/{profileName}/accessRules/{accessRuleName}/reconcile",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -87163,7 +89275,7 @@ export const NetworkSecurityPerimeterAssociationsCreateOrUpdateRequest = /*@__PU
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/resourceAssociations/{associationName}",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -87267,7 +89379,7 @@ export const NetworkSecurityPerimeterAssociationsReconcileRequest = /*@__PURE__*
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/resourceAssociations/{associationName}/reconcile",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -87358,7 +89470,7 @@ export const NetworkSecurityPerimeterLinksCreateOrUpdateRequest = /*@__PURE__*/ 
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/links/{linkName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -87464,7 +89576,7 @@ export const NetworkSecurityPerimeterLoggingConfigurationsCreateOrUpdateRequest 
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/loggingConfigurations/{loggingConfigurationName}",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
   ).annotate({
@@ -87577,7 +89689,7 @@ export const NetworkSecurityPerimeterProfilesCreateOrUpdateRequest = /*@__PURE__
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/profiles/{profileName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -87718,7 +89830,7 @@ export const NetworkSecurityPerimetersCreateOrUpdateRequest = /*@__PURE__*/ S.su
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -87894,7 +90006,7 @@ export const NetworkVirtualApplianceConnectionsCreateOrUpdateRequest = /*@__PURE
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/networkVirtualApplianceConnections/{connectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -88126,7 +90238,7 @@ export const NetworkVirtualAppliancesCreateOrUpdateRequest = /*@__PURE__*/ S.sus
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -88144,12 +90256,12 @@ export const NetworkVirtualAppliancesCreateOrUpdateResponseTagsMap = /*@__PURE__
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type NetworkVirtualAppliancesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const NetworkVirtualAppliancesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ManagedServiceIdentityUserAssignedIdentities_8,
+    ManagedServiceIdentityUserAssignedIdentities_2,
   ) as any as S.Schema<NetworkVirtualAppliancesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -88252,7 +90364,7 @@ export const NetworkVirtualAppliancesPrepareMigrationRequest = /*@__PURE__*/ S.s
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/prepareMigration",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -88293,7 +90405,7 @@ export const NetworkVirtualAppliancesReimageRequest = /*@__PURE__*/ S.suspend(()
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/reimage",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -88340,7 +90452,7 @@ export const NetworkWatchersConnectionAnalyzersQueryRequest = /*@__PURE__*/ S.su
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionAnalyzers/{connectionAnalyzerName}/query",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -88456,7 +90568,7 @@ export const NetworkWatchersConnectionAnalyzersUpdateTagsRequest = /*@__PURE__*/
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionAnalyzers/{connectionAnalyzerName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -88500,7 +90612,7 @@ export const NetworkWatchersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -88758,7 +90870,7 @@ export const P2sVpnGatewaysCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -88832,7 +90944,7 @@ export const PatchFirewallPolicyIdpsSignaturesOverrideRequest = /*@__PURE__*/ S.
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides/default",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -88888,7 +91000,7 @@ export const PatchNetworkManagerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -89007,7 +91119,7 @@ export const PatchNetworkSecurityPerimeterRequest = /*@__PURE__*/ S.suspend(() =
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -89144,7 +91256,7 @@ export const PostNetworkManagerCommitRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/commit",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -89286,7 +91398,7 @@ export const PrivateDnsZoneGroupsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -89496,7 +91608,7 @@ export const PrivateEndpointsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -89595,7 +91707,7 @@ export const PrivateLinkServicesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -89708,7 +91820,7 @@ export const PublicIPAddressesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -89791,7 +91903,7 @@ export const PublicIPAddressesDdosProtectionStatusRequest = /*@__PURE__*/ S.susp
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}/ddosProtectionStatus",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -89820,7 +91932,7 @@ export const PublicIPAddressesDisassociateCloudServiceReservedPublicIpRequest =
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}/disassociateCloudServiceReservedPublicIp",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
   ).annotate({
@@ -89913,7 +92025,7 @@ export const PublicIPAddressesReserveCloudServicePublicIpAddressRequest = /*@__P
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}/reserveCloudServicePublicIpAddress",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -90108,7 +92220,7 @@ export const PublicIPPrefixesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -90200,7 +92312,7 @@ export const PutBastionShareableLinkRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/createShareableLinks",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -90237,7 +92349,7 @@ export const PutFirewallPolicyIdpsSignaturesOverrideRequest = /*@__PURE__*/ S.su
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides/default",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -90283,7 +92395,7 @@ export const ResetP2SVpnGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/reset",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -90348,7 +92460,7 @@ export const ResetVirtualNetworkGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/reset",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -90368,12 +92480,12 @@ export const ResetVirtualNetworkGatewayResponseExtendedLocation = NetworkInterfa
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type ResetVirtualNetworkGatewayResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const ResetVirtualNetworkGatewayResponseIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ManagedServiceIdentityUserAssignedIdentities_8,
+    ManagedServiceIdentityUserAssignedIdentities_2,
   ) as any as S.Schema<ResetVirtualNetworkGatewayResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -90454,7 +92566,7 @@ export const ResetVirtualNetworkGatewayConnectionConnectionRequest = /*@__PURE__
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/resetconnection",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -90489,7 +92601,7 @@ export const ResetVirtualNetworkGatewayConnectionSharedKeyRequest = /*@__PURE__*
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey/reset",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -90525,7 +92637,7 @@ export const ResetVirtualNetworkGatewayVpnClientSharedKeyRequest = /*@__PURE__*/
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/resetvpnclientsharedkey",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -90560,7 +92672,7 @@ export const ResetVpnGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/reset",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "ResetVpnGatewayRequest" }) as any as S.Schema<ResetVpnGatewayRequest>;
@@ -90624,7 +92736,7 @@ export const ResetVpnLinkConnectionConnectionRequest = /*@__PURE__*/ S.suspend((
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}/resetconnection",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -90665,12 +92777,57 @@ export const RestartNetworkVirtualApplianceRequest = /*@__PURE__*/ S.suspend(() 
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/restart",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
   identifier: "RestartNetworkVirtualApplianceRequest",
 }) as any as S.Schema<RestartNetworkVirtualApplianceRequest>;
+
+/** The source-to-target port mappings for circuit migration. */
+export type RestoreExpressRouteCrossConnectionBgpForCircuitMigrationRequestTargetPortMappingList =
+  Array<PortMapping>;
+export const RestoreExpressRouteCrossConnectionBgpForCircuitMigrationRequestTargetPortMappingList =
+  /*@__PURE__*/ S.Array(
+    PortMapping,
+  ) as any as S.Schema<RestoreExpressRouteCrossConnectionBgpForCircuitMigrationRequestTargetPortMappingList>;
+
+export interface RestoreExpressRouteCrossConnectionBgpForCircuitMigrationRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the ExpressRouteCrossConnection (service key of the circuit). */
+  crossConnectionName: string;
+  /** The target peering location for circuit migration. */
+  targetPeeringLocation?: string;
+  /** The source-to-target port mappings for circuit migration. */
+  targetPortMapping?: RestoreExpressRouteCrossConnectionBgpForCircuitMigrationRequestTargetPortMappingList;
+  /** The port identifier used for shutDownBgp, migrate, restoreBgp, and rollback operations. */
+  portId?: string;
+}
+export const RestoreExpressRouteCrossConnectionBgpForCircuitMigrationRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      crossConnectionName: S.String.pipe(T.Label()),
+      targetPeeringLocation: S.optional(S.String),
+      targetPortMapping: S.optional(
+        RestoreExpressRouteCrossConnectionBgpForCircuitMigrationRequestTargetPortMappingList,
+      ),
+      portId: S.optional(S.String),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/restoreBgpForCircuitMigration",
+        code: 200,
+        apiVersion: "2026-01-01",
+      }),
+    ),
+  ).annotate({
+    identifier: "RestoreExpressRouteCrossConnectionBgpForCircuitMigrationRequest",
+  }) as any as S.Schema<RestoreExpressRouteCrossConnectionBgpForCircuitMigrationRequest>;
 
 export interface RouteFilterRulesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -90705,7 +92862,7 @@ export const RouteFilterRulesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -90825,7 +92982,7 @@ export const RouteFiltersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -90893,7 +93050,7 @@ export const RouteMapsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps/{routeMapName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -90954,7 +93111,7 @@ export const RoutesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -91022,7 +93179,7 @@ export const RouteTablesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -91096,7 +93253,7 @@ export const RoutingIntentCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routingIntent/{routingIntentName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -91201,7 +93358,7 @@ export const RoutingRuleCollectionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspe
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/routingConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -91343,7 +93500,7 @@ export const RoutingRulesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/routingConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -91445,7 +93602,7 @@ export const ScopeConnectionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/scopeConnections/{scopeConnectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -91615,7 +93772,7 @@ export const SecurityAdminConfigurationsCreateOrUpdateRequest = /*@__PURE__*/ S.
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -91738,7 +93895,7 @@ export const SecurityPartnerProvidersCreateOrUpdateRequest = /*@__PURE__*/ S.sus
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -91814,7 +93971,7 @@ export const SecurityRulesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -91897,7 +94054,7 @@ export const SecurityUserConfigurationsCreateOrUpdateRequest = /*@__PURE__*/ S.s
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -92047,7 +94204,7 @@ export const SecurityUserRuleCollectionsCreateOrUpdateRequest = /*@__PURE__*/ S.
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -92245,7 +94402,7 @@ export const SecurityUserRulesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -92417,7 +94574,7 @@ export const ServiceEndpointPoliciesCreateOrUpdateRequest = /*@__PURE__*/ S.susp
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -92496,7 +94653,7 @@ export const ServiceEndpointPolicyDefinitionsCreateOrUpdateRequest = /*@__PURE__
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions/{serviceEndpointPolicyDefinitionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -93188,7 +95345,7 @@ export const ServiceGatewaysCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceGateways/{serviceGatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -93351,7 +95508,7 @@ export const SetNetworkWatcherFlowLogConfigurationRequest = /*@__PURE__*/ S.susp
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/configureFlowLog",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -93382,7 +95539,7 @@ export const SetVirtualNetworkGatewayConnectionSharedKeyRequest = /*@__PURE__*/ 
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -93521,7 +95678,7 @@ export const SetVirtualNetworkGatewayVpnclientIpsecParametersRequest = /*@__PURE
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/setvpnclientipsecparameters",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -93546,7 +95703,7 @@ export const StartApplicationGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/start",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -93582,7 +95739,7 @@ export const StartExpressRouteCircuitCircuitLinkFailoverTestRequest = /*@__PURE_
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/startCircuitLinkFailoverTest",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -93617,7 +95774,7 @@ export const StartExpressRouteGatewaySiteFailoverTestRequest = /*@__PURE__*/ S.s
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/startSiteFailoverTest",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -93653,7 +95810,7 @@ export const StartVirtualNetworkGatewayConnectionPacketCaptureRequest = /*@__PUR
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/startPacketCapture",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -93689,7 +95846,7 @@ export const StartVirtualNetworkGatewayExpressRouteSiteFailoverSimulationRequest
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/startSiteFailoverTest",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
   ).annotate({
@@ -93723,7 +95880,7 @@ export const StartVirtualNetworkGatewayPacketCaptureRequest = /*@__PURE__*/ S.su
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/startPacketCapture",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -93770,7 +95927,7 @@ export const StartVpnConnectionPacketCaptureRequest = /*@__PURE__*/ S.suspend(()
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{vpnConnectionName}/startpacketcapture",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -93805,7 +95962,7 @@ export const StartVpnGatewayPacketCaptureRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/startpacketcapture",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -93872,7 +96029,7 @@ export const StaticMembersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}/staticMembers/{staticMemberName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -93968,7 +96125,7 @@ export const StopApplicationGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/stop",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -94001,7 +96158,7 @@ export const StopConnectionMonitorRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/stop",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -94043,7 +96200,7 @@ export const StopExpressRouteCircuitCircuitLinkFailoverTestRequest = /*@__PURE__
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/stopCircuitLinkFailoverTest",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -94091,7 +96248,7 @@ export const StopExpressRouteGatewaySiteFailoverTestRequest = /*@__PURE__*/ S.su
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/stopSiteFailoverTest",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -94126,7 +96283,7 @@ export const StopPacketCaptureRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}/stop",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "StopPacketCaptureRequest" }) as any as S.Schema<StopPacketCaptureRequest>;
@@ -94157,7 +96314,7 @@ export const StopVirtualNetworkGatewayConnectionPacketCaptureRequest = /*@__PURE
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/stopPacketCapture",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -94209,7 +96366,7 @@ export const StopVirtualNetworkGatewayExpressRouteSiteFailoverSimulationRequest 
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/stopSiteFailoverTest",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
   ).annotate({
@@ -94243,7 +96400,7 @@ export const StopVirtualNetworkGatewayPacketCaptureRequest = /*@__PURE__*/ S.sus
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/stopPacketCapture",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -94290,7 +96447,7 @@ export const StopVpnConnectionPacketCaptureRequest = /*@__PURE__*/ S.suspend(() 
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{vpnConnectionName}/stoppacketcapture",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -94325,7 +96482,7 @@ export const StopVpnGatewayPacketCaptureRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/stoppacketcapture",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -94369,7 +96526,7 @@ export const SubnetsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -94477,7 +96634,7 @@ export const SubnetsPrepareNetworkPoliciesRequest = /*@__PURE__*/ S.suspend(() =
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/prepareNetworkPolicies",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -94515,7 +96672,7 @@ export const SubnetsUnprepareNetworkPoliciesRequest = /*@__PURE__*/ S.suspend(()
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/unprepareNetworkPolicies",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -94548,7 +96705,7 @@ export const SubscriptionNetworkManagerConnectionsCreateOrUpdateRequest = /*@__P
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -94652,7 +96809,7 @@ export const SupportedSecurityProvidersRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/supportedSecurityProviders",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -94767,7 +96924,7 @@ export const SwapLoadBalancerPublicIpAddressesRequest = /*@__PURE__*/ S.suspend(
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/setLoadBalancerFrontendPublicIpAddresses",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -95204,7 +97361,7 @@ export const UpdateApplicationGatewayPrivateEndpointConnectionRequest = /*@__PUR
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateEndpointConnections/{connectionName}",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -95264,7 +97421,7 @@ export const UpdateApplicationGatewayTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -95384,7 +97541,7 @@ export const UpdateApplicationSecurityGroupTagsRequest = /*@__PURE__*/ S.suspend
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -95431,6 +97588,193 @@ export const UpdateApplicationSecurityGroupTagsResponse = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<UpdateApplicationSecurityGroupTagsResponse>;
 
 /** Resource tags. */
+export type UpdateAuthenticationPolicyRequestTagsMap = { [key: string]: string | undefined };
+export const UpdateAuthenticationPolicyRequestTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<UpdateAuthenticationPolicyRequestTagsMap>;
+
+/** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+export type UpdateAuthenticationPolicyRequestIdentityUserAssignedIdentitiesMap = {
+  [key: string]: ManagedServiceIdentityUserAssignedIdentitiesInput | undefined;
+};
+export const UpdateAuthenticationPolicyRequestIdentityUserAssignedIdentitiesMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    ManagedServiceIdentityUserAssignedIdentitiesInput,
+  ) as any as S.Schema<UpdateAuthenticationPolicyRequestIdentityUserAssignedIdentitiesMap>;
+
+/** Identity for the resource. */
+export interface UpdateAuthenticationPolicyRequestIdentity {
+  /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
+  type?: ResourceIdentityType | (string & {});
+  /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: UpdateAuthenticationPolicyRequestIdentityUserAssignedIdentitiesMap;
+}
+export const UpdateAuthenticationPolicyRequestIdentity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(ResourceIdentityType),
+    userAssignedIdentities: S.optional(
+      UpdateAuthenticationPolicyRequestIdentityUserAssignedIdentitiesMap,
+    ),
+  }),
+).annotate({
+  identifier: "UpdateAuthenticationPolicyRequestIdentity",
+}) as any as S.Schema<UpdateAuthenticationPolicyRequestIdentity>;
+
+export interface UpdateAuthenticationPolicyRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the authentication policy. */
+  authenticationPolicyName: string;
+  /** Resource tags. */
+  tags?: UpdateAuthenticationPolicyRequestTagsMap;
+  /** Identity for the resource. */
+  identity?: UpdateAuthenticationPolicyRequestIdentity;
+}
+export const UpdateAuthenticationPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    authenticationPolicyName: S.String.pipe(T.Label()),
+    tags: S.optional(UpdateAuthenticationPolicyRequestTagsMap),
+    identity: S.optional(UpdateAuthenticationPolicyRequestIdentity),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/authenticationPolicies/{authenticationPolicyName}",
+      code: 200,
+      apiVersion: "2026-01-01",
+    }),
+  ),
+).annotate({
+  identifier: "UpdateAuthenticationPolicyRequest",
+}) as any as S.Schema<UpdateAuthenticationPolicyRequest>;
+
+/** Resource tags. */
+export type UpdateAuthenticationPolicyResponseTagsMap = { [key: string]: string | undefined };
+export const UpdateAuthenticationPolicyResponseTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<UpdateAuthenticationPolicyResponseTagsMap>;
+
+/** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+export type UpdateAuthenticationPolicyResponseIdentityUserAssignedIdentitiesMap = {
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
+};
+export const UpdateAuthenticationPolicyResponseIdentityUserAssignedIdentitiesMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    ManagedServiceIdentityUserAssignedIdentities_2,
+  ) as any as S.Schema<UpdateAuthenticationPolicyResponseIdentityUserAssignedIdentitiesMap>;
+
+/** Identity for the resource. */
+export interface UpdateAuthenticationPolicyResponseIdentity {
+  /** The principal id of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string;
+  /** The tenant id of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string;
+  /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
+  type?: ResourceIdentityType;
+  /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: UpdateAuthenticationPolicyResponseIdentityUserAssignedIdentitiesMap;
+}
+export const UpdateAuthenticationPolicyResponseIdentity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    principalId: S.optional(S.String),
+    tenantId: S.optional(S.String),
+    type: S.optional(ResourceIdentityType),
+    userAssignedIdentities: S.optional(
+      UpdateAuthenticationPolicyResponseIdentityUserAssignedIdentitiesMap,
+    ),
+  }),
+).annotate({
+  identifier: "UpdateAuthenticationPolicyResponseIdentity",
+}) as any as S.Schema<UpdateAuthenticationPolicyResponseIdentity>;
+
+/** The type of identity that created the resource. */
+export type UpdateAuthenticationPolicyResponseSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const UpdateAuthenticationPolicyResponseSystemDataCreatedByType = S.String;
+
+/** The type of identity that last modified the resource. */
+export type UpdateAuthenticationPolicyResponseSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+export const UpdateAuthenticationPolicyResponseSystemDataLastModifiedByType = S.String;
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface UpdateAuthenticationPolicyResponseSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: UpdateAuthenticationPolicyResponseSystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: UpdateAuthenticationPolicyResponseSystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
+export const UpdateAuthenticationPolicyResponseSystemData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    createdBy: S.optional(S.String),
+    createdByType: S.optional(UpdateAuthenticationPolicyResponseSystemDataCreatedByType),
+    createdAt: S.optional(S.String),
+    lastModifiedBy: S.optional(S.String),
+    lastModifiedByType: S.optional(UpdateAuthenticationPolicyResponseSystemDataLastModifiedByType),
+    lastModifiedAt: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "UpdateAuthenticationPolicyResponseSystemData",
+}) as any as S.Schema<UpdateAuthenticationPolicyResponseSystemData>;
+
+export interface UpdateAuthenticationPolicyResponse {
+  /** Resource ID. */
+  id?: string;
+  /** Resource name. */
+  name?: string;
+  /** Resource type. */
+  type?: string;
+  /** Resource location. */
+  location?: string;
+  /** Resource tags. */
+  tags?: UpdateAuthenticationPolicyResponseTagsMap;
+  /** Properties of the authentication policy. */
+  properties?: AuthenticationPolicyPropertiesFormat;
+  /** A unique read-only string that changes whenever the resource is updated. */
+  etag?: string;
+  /** Identity for the resource. */
+  identity?: UpdateAuthenticationPolicyResponseIdentity;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: UpdateAuthenticationPolicyResponseSystemData;
+}
+export const UpdateAuthenticationPolicyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    location: S.optional(S.String),
+    tags: S.optional(UpdateAuthenticationPolicyResponseTagsMap),
+    properties: S.optional(AuthenticationPolicyPropertiesFormat),
+    etag: S.optional(S.String),
+    identity: S.optional(UpdateAuthenticationPolicyResponseIdentity),
+    systemData: S.optional(UpdateAuthenticationPolicyResponseSystemData),
+  }),
+).annotate({
+  identifier: "UpdateAuthenticationPolicyResponse",
+}) as any as S.Schema<UpdateAuthenticationPolicyResponse>;
+
+/** Resource tags. */
 export type UpdateAzureFirewallTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateAzureFirewallTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
@@ -95458,7 +97802,7 @@ export const UpdateAzureFirewallTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -95518,55 +97862,112 @@ export const UpdateAzureFirewallTagsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateAzureFirewallTagsResponse",
 }) as any as S.Schema<UpdateAzureFirewallTagsResponse>;
 
-/** Resource tags. */
-export type UpdateBastionHostTagsRequestTagsMap = { [key: string]: string | undefined };
-export const UpdateBastionHostTagsRequestTagsMap = /*@__PURE__*/ S.Record(
+/** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+export type UpdateBastionHostRequestIdentityUserAssignedIdentitiesMap = {
+  [key: string]: ManagedServiceIdentityUserAssignedIdentitiesInput | undefined;
+};
+export const UpdateBastionHostRequestIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
-) as any as S.Schema<UpdateBastionHostTagsRequestTagsMap>;
+  ManagedServiceIdentityUserAssignedIdentitiesInput,
+) as any as S.Schema<UpdateBastionHostRequestIdentityUserAssignedIdentitiesMap>;
 
-export interface UpdateBastionHostTagsRequest {
+/** Identity for the resource. */
+export interface UpdateBastionHostRequestIdentity {
+  /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
+  type?: ResourceIdentityType | (string & {});
+  /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: UpdateBastionHostRequestIdentityUserAssignedIdentitiesMap;
+}
+export const UpdateBastionHostRequestIdentity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(ResourceIdentityType),
+    userAssignedIdentities: S.optional(UpdateBastionHostRequestIdentityUserAssignedIdentitiesMap),
+  }),
+).annotate({
+  identifier: "UpdateBastionHostRequestIdentity",
+}) as any as S.Schema<UpdateBastionHostRequestIdentity>;
+
+/** Resource tags. */
+export type UpdateBastionHostRequestTagsMap = { [key: string]: string | undefined };
+export const UpdateBastionHostRequestTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<UpdateBastionHostRequestTagsMap>;
+
+export interface UpdateBastionHostRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the Bastion Host. */
   bastionHostName: string;
+  /** Identity for the resource. */
+  identity?: UpdateBastionHostRequestIdentity;
   /** Resource tags. */
-  tags?: UpdateBastionHostTagsRequestTagsMap;
+  tags?: UpdateBastionHostRequestTagsMap;
 }
-export const UpdateBastionHostTagsRequest = /*@__PURE__*/ S.suspend(() =>
+export const UpdateBastionHostRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
     bastionHostName: S.String.pipe(T.Label()),
-    tags: S.optional(UpdateBastionHostTagsRequestTagsMap),
+    identity: S.optional(UpdateBastionHostRequestIdentity),
+    tags: S.optional(UpdateBastionHostRequestTagsMap),
   }).pipe(
     T.Http({
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateBastionHostTagsRequest",
-}) as any as S.Schema<UpdateBastionHostTagsRequest>;
+).annotate({ identifier: "UpdateBastionHostRequest" }) as any as S.Schema<UpdateBastionHostRequest>;
 
 /** Resource tags. */
-export type UpdateBastionHostTagsResponseTagsMap = { [key: string]: string | undefined };
-export const UpdateBastionHostTagsResponseTagsMap = /*@__PURE__*/ S.Record(
+export type UpdateBastionHostResponseTagsMap = { [key: string]: string | undefined };
+export const UpdateBastionHostResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
-) as any as S.Schema<UpdateBastionHostTagsResponseTagsMap>;
+) as any as S.Schema<UpdateBastionHostResponseTagsMap>;
 
 /** A list of availability zones denoting where the resource needs to come from. */
-export type UpdateBastionHostTagsResponseZonesList = Array<string>;
-export const UpdateBastionHostTagsResponseZonesList = /*@__PURE__*/ S.Array(
+export type UpdateBastionHostResponseZonesList = Array<string>;
+export const UpdateBastionHostResponseZonesList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<UpdateBastionHostTagsResponseZonesList>;
+) as any as S.Schema<UpdateBastionHostResponseZonesList>;
 
-export interface UpdateBastionHostTagsResponse {
+/** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+export type UpdateBastionHostResponseIdentityUserAssignedIdentitiesMap = {
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
+};
+export const UpdateBastionHostResponseIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ManagedServiceIdentityUserAssignedIdentities_2,
+) as any as S.Schema<UpdateBastionHostResponseIdentityUserAssignedIdentitiesMap>;
+
+/** Identity for the resource. */
+export interface UpdateBastionHostResponseIdentity {
+  /** The principal id of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string;
+  /** The tenant id of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string;
+  /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
+  type?: ResourceIdentityType;
+  /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: UpdateBastionHostResponseIdentityUserAssignedIdentitiesMap;
+}
+export const UpdateBastionHostResponseIdentity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    principalId: S.optional(S.String),
+    tenantId: S.optional(S.String),
+    type: S.optional(ResourceIdentityType),
+    userAssignedIdentities: S.optional(UpdateBastionHostResponseIdentityUserAssignedIdentitiesMap),
+  }),
+).annotate({
+  identifier: "UpdateBastionHostResponseIdentity",
+}) as any as S.Schema<UpdateBastionHostResponseIdentity>;
+
+export interface UpdateBastionHostResponse {
   /** Resource ID. */
   id?: string;
   /** Resource name. */
@@ -95576,31 +97977,34 @@ export interface UpdateBastionHostTagsResponse {
   /** Resource location. */
   location?: string;
   /** Resource tags. */
-  tags?: UpdateBastionHostTagsResponseTagsMap;
+  tags?: UpdateBastionHostResponseTagsMap;
   /** Represents the bastion host resource. */
   properties?: BastionHostPropertiesFormat;
   /** A list of availability zones denoting where the resource needs to come from. */
-  zones?: UpdateBastionHostTagsResponseZonesList;
+  zones?: UpdateBastionHostResponseZonesList;
   /** A unique read-only string that changes whenever the resource is updated. */
   etag?: string;
   /** The sku of this Bastion Host. */
   sku?: Sku;
+  /** Identity for the resource. */
+  identity?: UpdateBastionHostResponseIdentity;
 }
-export const UpdateBastionHostTagsResponse = /*@__PURE__*/ S.suspend(() =>
+export const UpdateBastionHostResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
     type: S.optional(S.String),
     location: S.optional(S.String),
-    tags: S.optional(UpdateBastionHostTagsResponseTagsMap),
+    tags: S.optional(UpdateBastionHostResponseTagsMap),
     properties: S.optional(BastionHostPropertiesFormat),
-    zones: S.optional(UpdateBastionHostTagsResponseZonesList),
+    zones: S.optional(UpdateBastionHostResponseZonesList),
     etag: S.optional(S.String),
     sku: S.optional(Sku),
+    identity: S.optional(UpdateBastionHostResponseIdentity),
   }),
 ).annotate({
-  identifier: "UpdateBastionHostTagsResponse",
-}) as any as S.Schema<UpdateBastionHostTagsResponse>;
+  identifier: "UpdateBastionHostResponse",
+}) as any as S.Schema<UpdateBastionHostResponse>;
 
 /** Resource tags. */
 export type UpdateConnectionMonitorTagsRequestTagsMap = { [key: string]: string | undefined };
@@ -95633,7 +98037,7 @@ export const UpdateConnectionMonitorTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -95705,7 +98109,7 @@ export const UpdateCustomIPPrefixTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -95793,7 +98197,7 @@ export const UpdateDdosCustomPolicyTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -95865,7 +98269,7 @@ export const UpdateDdosProtectionPlanTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -95937,7 +98341,7 @@ export const UpdateExpressRouteCircuitTagsRequest = /*@__PURE__*/ S.suspend(() =
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -96014,7 +98418,7 @@ export const UpdateExpressRouteCrossConnectionTagsRequest = /*@__PURE__*/ S.susp
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -96088,7 +98492,7 @@ export const UpdateExpressRouteGatewayTagsRequest = /*@__PURE__*/ S.suspend(() =
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -96190,7 +98594,7 @@ export const UpdateExpressRouteLagRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteLags/{expressRouteLagName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -96206,12 +98610,12 @@ export const UpdateExpressRouteLagResponseTagsMap = /*@__PURE__*/ S.Record(
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type UpdateExpressRouteLagResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const UpdateExpressRouteLagResponseIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ManagedServiceIdentityUserAssignedIdentities_8,
+    ManagedServiceIdentityUserAssignedIdentities_2,
   ) as any as S.Schema<UpdateExpressRouteLagResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -96299,7 +98703,7 @@ export const UpdateExpressRoutePortTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -96315,12 +98719,12 @@ export const UpdateExpressRoutePortTagsResponseTagsMap = /*@__PURE__*/ S.Record(
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type UpdateExpressRoutePortTagsResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const UpdateExpressRoutePortTagsResponseIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ManagedServiceIdentityUserAssignedIdentities_8,
+    ManagedServiceIdentityUserAssignedIdentities_2,
   ) as any as S.Schema<UpdateExpressRoutePortTagsResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -96408,7 +98812,7 @@ export const UpdateFirewallPolicyTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -96424,12 +98828,12 @@ export const UpdateFirewallPolicyTagsResponseTagsMap = /*@__PURE__*/ S.Record(
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type UpdateFirewallPolicyTagsResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const UpdateFirewallPolicyTagsResponseIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ManagedServiceIdentityUserAssignedIdentities_8,
+    ManagedServiceIdentityUserAssignedIdentities_2,
   ) as any as S.Schema<UpdateFirewallPolicyTagsResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -96517,7 +98921,7 @@ export const UpdateFirstPartyServiceTagTagsRequest = /*@__PURE__*/ S.suspend(() 
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firstPartyServiceTags/{firstPartyServiceTagName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -96592,7 +98996,7 @@ export const UpdateFlowLogTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "UpdateFlowLogTagsRequest" }) as any as S.Schema<UpdateFlowLogTagsRequest>;
@@ -96606,11 +99010,11 @@ export const UpdateFlowLogTagsResponseTagsMap = /*@__PURE__*/ S.Record(
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type UpdateFlowLogTagsResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const UpdateFlowLogTagsResponseIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  ManagedServiceIdentityUserAssignedIdentities_8,
+  ManagedServiceIdentityUserAssignedIdentities_2,
 ) as any as S.Schema<UpdateFlowLogTagsResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -96696,7 +99100,7 @@ export const UpdateInterconnectGroupTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/interconnectGroups/{interconnectGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -96768,7 +99172,7 @@ export const UpdateIpAllocationTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -96824,11 +99228,17 @@ export interface IpamPoolUpdateProperties {
   description?: string;
   /** String representing a friendly name for the resource. */
   displayName?: string;
+  /** Minimum number of IP addresses required for allocations from this IpamPool to be compliant. Must be less than or equal to the maximum allocation size. Omit to leave the current value unchanged; set to an empty string to clear it. */
+  minAllocationSize?: string;
+  /** Maximum number of IP addresses allowed for allocations from this IpamPool to be compliant. Must be greater than or equal to the minimum allocation size. Omit to leave the current value unchanged; set to an empty string to clear it. */
+  maxAllocationSize?: string;
 }
 export const IpamPoolUpdateProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     description: S.optional(S.String),
     displayName: S.optional(S.String),
+    minAllocationSize: S.optional(S.String),
+    maxAllocationSize: S.optional(S.String),
   }),
 ).annotate({ identifier: "IpamPoolUpdateProperties" }) as any as S.Schema<IpamPoolUpdateProperties>;
 
@@ -96859,7 +99269,7 @@ export const UpdateIpamPoolRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/ipamPools/{poolName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "UpdateIpamPoolRequest" }) as any as S.Schema<UpdateIpamPoolRequest>;
@@ -96974,7 +99384,7 @@ export const UpdateIpGroupGroupsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -97046,7 +99456,7 @@ export const UpdateLoadBalancerTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -97128,7 +99538,7 @@ export const UpdateLocalNetworkGatewayTagsRequest = /*@__PURE__*/ S.suspend(() =
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -97200,7 +99610,7 @@ export const UpdateNatGatewayTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -97284,7 +99694,7 @@ export const UpdateNetworkInterfaceTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -97363,7 +99773,7 @@ export const UpdateNetworkProfileTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -97435,7 +99845,7 @@ export const UpdateNetworkSecurityGroupTagsRequest = /*@__PURE__*/ S.suspend(() 
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -97507,7 +99917,7 @@ export const UpdateNetworkVirtualApplianceTagsRequest = /*@__PURE__*/ S.suspend(
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -97525,12 +99935,12 @@ export const UpdateNetworkVirtualApplianceTagsResponseTagsMap = /*@__PURE__*/ S.
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type UpdateNetworkVirtualApplianceTagsResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const UpdateNetworkVirtualApplianceTagsResponseIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ManagedServiceIdentityUserAssignedIdentities_8,
+    ManagedServiceIdentityUserAssignedIdentities_2,
   ) as any as S.Schema<UpdateNetworkVirtualApplianceTagsResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -97618,7 +100028,7 @@ export const UpdateNetworkWatcherTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -97690,7 +100100,7 @@ export const UpdateP2sVpnGatewayTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -97791,7 +100201,7 @@ export const UpdatePrivateLinkServicePrivateEndpointConnectionRequest = /*@__PUR
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections/{peConnectionName}",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -97851,7 +100261,7 @@ export const UpdatePublicIPAddressTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -97942,7 +100352,7 @@ export const UpdatePublicIPPrefixTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -98033,7 +100443,7 @@ export const UpdateRouteFilterTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -98105,7 +100515,7 @@ export const UpdateRouteTableTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -98177,7 +100587,7 @@ export const UpdateSecurityPartnerProviderTagsRequest = /*@__PURE__*/ S.suspend(
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -98251,7 +100661,7 @@ export const UpdateServiceEndpointPolicyTagsRequest = /*@__PURE__*/ S.suspend(()
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -98363,7 +100773,7 @@ export const UpdateServiceGatewayAddressLocationsRequest = /*@__PURE__*/ S.suspe
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceGateways/{serviceGatewayName}/updateAddressLocations",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -98494,7 +100904,7 @@ export const UpdateServiceGatewayServicesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceGateways/{serviceGatewayName}/updateServices",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -98541,7 +100951,7 @@ export const UpdateServiceGatewayTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceGateways/{serviceGatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -98690,7 +101100,7 @@ export const UpdateVerifierWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -98809,7 +101219,7 @@ export const UpdateVirtualHubTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -98884,7 +101294,7 @@ export const UpdateVirtualNetworkApplianceTagsRequest = /*@__PURE__*/ S.suspend(
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkAppliances/{virtualNetworkApplianceName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -98960,7 +101370,7 @@ export const UpdateVirtualNetworkGatewayConnectionTagsRequest = /*@__PURE__*/ S.
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -99034,7 +101444,7 @@ export const UpdateVirtualNetworkGatewayTagsRequest = /*@__PURE__*/ S.suspend(()
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -99056,12 +101466,12 @@ export const UpdateVirtualNetworkGatewayTagsResponseExtendedLocation =
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type UpdateVirtualNetworkGatewayTagsResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const UpdateVirtualNetworkGatewayTagsResponseIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ManagedServiceIdentityUserAssignedIdentities_8,
+    ManagedServiceIdentityUserAssignedIdentities_2,
   ) as any as S.Schema<UpdateVirtualNetworkGatewayTagsResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -99152,7 +101562,7 @@ export const UpdateVirtualNetworkTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -99231,7 +101641,7 @@ export const UpdateVirtualNetworkTapTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -99303,7 +101713,7 @@ export const UpdateVirtualWanTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -99375,7 +101785,7 @@ export const UpdateVpnGatewayTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -99447,7 +101857,7 @@ export const UpdateVpnServerConfigurationTagsRequest = /*@__PURE__*/ S.suspend((
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -99519,7 +101929,7 @@ export const UpdateVpnSiteTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({ identifier: "UpdateVpnSiteTagsRequest" }) as any as S.Schema<UpdateVpnSiteTagsRequest>;
@@ -99560,6 +101970,60 @@ export const UpdateVpnSiteTagsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateVpnSiteTagsResponse",
 }) as any as S.Schema<UpdateVpnSiteTagsResponse>;
+
+/** The source-to-target port mappings for circuit migration. */
+export type ValidateExpressRouteCrossConnectionCircuitMigrationRequestTargetPortMappingList =
+  Array<PortMapping>;
+export const ValidateExpressRouteCrossConnectionCircuitMigrationRequestTargetPortMappingList =
+  /*@__PURE__*/ S.Array(
+    PortMapping,
+  ) as any as S.Schema<ValidateExpressRouteCrossConnectionCircuitMigrationRequestTargetPortMappingList>;
+
+export interface ValidateExpressRouteCrossConnectionCircuitMigrationRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the ExpressRouteCrossConnection (service key of the circuit). */
+  crossConnectionName: string;
+  /** The target peering location for circuit migration. */
+  targetPeeringLocation: string;
+  /** The source-to-target port mappings for circuit migration. */
+  targetPortMapping: ValidateExpressRouteCrossConnectionCircuitMigrationRequestTargetPortMappingList;
+}
+export const ValidateExpressRouteCrossConnectionCircuitMigrationRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      subscriptionId: S.String.pipe(T.Label()),
+      resourceGroupName: S.String.pipe(T.Label()),
+      crossConnectionName: S.String.pipe(T.Label()),
+      targetPeeringLocation: S.String,
+      targetPortMapping:
+        ValidateExpressRouteCrossConnectionCircuitMigrationRequestTargetPortMappingList,
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/validateCircuitMigration",
+        code: 200,
+        apiVersion: "2026-01-01",
+      }),
+    ),
+).annotate({
+  identifier: "ValidateExpressRouteCrossConnectionCircuitMigrationRequest",
+}) as any as S.Schema<ValidateExpressRouteCrossConnectionCircuitMigrationRequest>;
+
+/** Response for express route circuit migration validation operation. */
+export interface MigrateExpressRouteCircuitValidateResponse {
+  /** The validation status. */
+  status?: string;
+}
+export const MigrateExpressRouteCircuitValidateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "MigrateExpressRouteCircuitValidateResponse",
+}) as any as S.Schema<MigrateExpressRouteCircuitValidateResponse>;
 
 /** The direction of the traffic. */
 export type VerifyNetworkWatcherIPFlowRequestDirection = "Inbound" | "Outbound";
@@ -99611,7 +102075,7 @@ export const VerifyNetworkWatcherIPFlowRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/ipFlowVerify",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -99666,7 +102130,7 @@ export const VirtualApplianceSitesCreateOrUpdateRequest = /*@__PURE__*/ S.suspen
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/virtualApplianceSites/{siteName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -99781,7 +102245,7 @@ export const VirtualHubBgpConnectionCreateOrUpdateRequest = /*@__PURE__*/ S.susp
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/bgpConnections/{connectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -100254,7 +102718,7 @@ export const VirtualHubIpConfigurationCreateOrUpdateRequest = /*@__PURE__*/ S.su
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/ipConfigurations/{ipConfigName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -100315,7 +102779,7 @@ export const VirtualHubRouteTableV2sCreateOrUpdateRequest = /*@__PURE__*/ S.susp
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeTables/{routeTableName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -100563,7 +103027,7 @@ export const VirtualHubsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -100920,7 +103384,7 @@ export const VirtualNetworkAppliancesCreateOrUpdateRequest = /*@__PURE__*/ S.sus
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkAppliances/{virtualNetworkApplianceName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -102062,7 +104526,7 @@ export const VirtualNetworkGatewayConnectionsCreateOrUpdateRequest = /*@__PURE__
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -102138,7 +104602,7 @@ export const VirtualNetworkGatewayNatRulesCreateOrUpdateRequest = /*@__PURE__*/ 
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/natRules/{natRuleName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -102248,7 +104712,7 @@ export const VirtualNetworkGatewaysCreateOrUpdateRequest = /*@__PURE__*/ S.suspe
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -102272,12 +104736,12 @@ export const VirtualNetworkGatewaysCreateOrUpdateResponseExtendedLocation =
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type VirtualNetworkGatewaysCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: ManagedServiceIdentityUserAssignedIdentities_8 | undefined;
+  [key: string]: ManagedServiceIdentityUserAssignedIdentities_2 | undefined;
 };
 export const VirtualNetworkGatewaysCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ManagedServiceIdentityUserAssignedIdentities_8,
+    ManagedServiceIdentityUserAssignedIdentities_2,
   ) as any as S.Schema<VirtualNetworkGatewaysCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Identity for the resource. */
@@ -102400,7 +104864,7 @@ export const VirtualNetworkGatewaysGeneratevpnclientpackageRequest = /*@__PURE__
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/generatevpnclientpackage",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -102432,7 +104896,7 @@ export const VirtualNetworkGatewaysInvokeExecuteMigrationRequest = /*@__PURE__*/
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/executeMigration",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -102464,7 +104928,7 @@ export const VirtualNetworkGatewaysSupportedVpnDevicesRequest = /*@__PURE__*/ S.
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/supportedvpndevices",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -102506,7 +104970,7 @@ export const VirtualNetworkGatewaysVpnDeviceConfigurationScriptRequest = /*@__PU
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/vpndeviceconfigurationscript",
         code: 200,
-        apiVersion: "2025-09-01",
+        apiVersion: "2026-01-01",
       }),
     ),
 ).annotate({
@@ -102560,7 +105024,7 @@ export const VirtualNetworkPeeringsCreateOrUpdateRequest = /*@__PURE__*/ S.suspe
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -102637,7 +105101,7 @@ export const VirtualNetworksCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -103406,7 +105870,7 @@ export const VirtualNetworkTapsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend((
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -103480,7 +105944,7 @@ export const VirtualRouterPeeringsCreateOrUpdateRequest = /*@__PURE__*/ S.suspen
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}/peerings/{peeringName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -103601,7 +106065,7 @@ export const VirtualRoutersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -103732,7 +106196,7 @@ export const VirtualWansCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -104327,7 +106791,7 @@ export const VpnConnectionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -104517,7 +106981,7 @@ export const VpnGatewaysCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -104594,7 +107058,7 @@ export const VpnLinkConnectionsSetOrInitDefaultSharedKeyRequest = /*@__PURE__*/ 
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}/sharedKeys/default",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -104948,7 +107412,7 @@ export const VpnServerConfigurationsCreateOrUpdateRequest = /*@__PURE__*/ S.susp
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -105169,7 +107633,7 @@ export const VpnSitesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -105383,6 +107847,10 @@ export const ManagedRulesDefinitionInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ManagedRulesDefinitionInput",
 }) as any as S.Schema<ManagedRulesDefinitionInput>;
 
+/** Tier of a web application firewall policy. */
+export type WebApplicationFirewallPolicyPropertiesFormatInputTier = "Standard" | "Basic";
+export const WebApplicationFirewallPolicyPropertiesFormatInputTier = S.String;
+
 /** Defines web application firewall policy properties. */
 export interface WebApplicationFirewallPolicyPropertiesFormatInput {
   /** The PolicySettings for policy. */
@@ -105397,6 +107865,8 @@ export interface WebApplicationFirewallPolicyPropertiesFormatInput {
   resourceState?: WebApplicationFirewallPolicyPropertiesFormatInputResourceState | (string & {});
   /** Describes the managedRules structure. */
   managedRules: ManagedRulesDefinitionInput;
+  /** Tier of a web application firewall policy. */
+  tier?: WebApplicationFirewallPolicyPropertiesFormatInputTier | (string & {});
 }
 export const WebApplicationFirewallPolicyPropertiesFormatInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -105407,6 +107877,7 @@ export const WebApplicationFirewallPolicyPropertiesFormatInput = /*@__PURE__*/ S
     ),
     resourceState: S.optional(WebApplicationFirewallPolicyPropertiesFormatInputResourceState),
     managedRules: ManagedRulesDefinitionInput,
+    tier: S.optional(WebApplicationFirewallPolicyPropertiesFormatInputTier),
   }),
 ).annotate({
   identifier: "WebApplicationFirewallPolicyPropertiesFormatInput",
@@ -105442,7 +107913,7 @@ export const WebApplicationFirewallPoliciesCreateOrUpdateRequest = /*@__PURE__*/
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}",
       code: 200,
-      apiVersion: "2025-09-01",
+      apiVersion: "2026-01-01",
     }),
   ),
 ).annotate({
@@ -105608,6 +108079,21 @@ export const ApplicationSecurityGroupsCreateOrUpdate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type AuthenticationPoliciesCreateOrUpdateError = AzureOpError;
+/** Creates or updates an authentication policy with the specified name within a resource group. */
+export const AuthenticationPoliciesCreateOrUpdate: API.OperationMethod<
+  AuthenticationPoliciesCreateOrUpdateRequest,
+  AuthenticationPoliciesCreateOrUpdateResponse,
+  AuthenticationPoliciesCreateOrUpdateError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: AuthenticationPoliciesCreateOrUpdateRequest,
+  output: AuthenticationPoliciesCreateOrUpdateResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
 export type AzureFirewallsCreateOrUpdateError = AzureOpError;
 /** Creates or updates the specified Azure Firewall. */
 export const AzureFirewallsCreateOrUpdate: API.OperationMethod<
@@ -105738,6 +108224,21 @@ export const CheckVirtualNetworkIPAddressAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CheckVirtualNetworkIPAddressAvailabilityRequest,
   output: IPAddressAvailabilityResult,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CommitExpressRouteCrossConnectionCircuitMigrationError = AzureOpError;
+/** Commits the express route circuit migration for a cross connection. */
+export const CommitExpressRouteCrossConnectionCircuitMigration: API.OperationMethod<
+  CommitExpressRouteCrossConnectionCircuitMigrationRequest,
+  MigrateExpressRouteCircuitHealthCheckResponse,
+  CommitExpressRouteCrossConnectionCircuitMigrationError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CommitExpressRouteCrossConnectionCircuitMigrationRequest,
+  output: MigrateExpressRouteCircuitHealthCheckResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -106083,6 +108584,21 @@ export const DeleteApplicationSecurityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteApplicationSecurityGroupRequest,
   output: DeleteApplicationSecurityGroupResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteAuthenticationPolicyError = AzureOpError;
+/** Deletes the specified authentication policy. */
+export const DeleteAuthenticationPolicy: API.OperationMethod<
+  DeleteAuthenticationPolicyRequest,
+  DeleteAuthenticationPolicyResponse,
+  DeleteAuthenticationPolicyError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteAuthenticationPolicyRequest,
+  output: DeleteAuthenticationPolicyResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -108008,6 +110524,51 @@ export const ExpressRouteCrossConnectionsCreateOrUpdate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ExpressRouteCrossConnectionsPrepareCircuitMigrationError = AzureOpError;
+/** Prepares an express route circuit migration for a cross connection. */
+export const ExpressRouteCrossConnectionsPrepareCircuitMigration: API.OperationMethod<
+  ExpressRouteCrossConnectionsPrepareCircuitMigrationRequest,
+  MigrateExpressRouteCircuitHealthCheckResponse,
+  ExpressRouteCrossConnectionsPrepareCircuitMigrationError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ExpressRouteCrossConnectionsPrepareCircuitMigrationRequest,
+  output: MigrateExpressRouteCircuitHealthCheckResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ExpressRouteCrossConnectionsRollbackCircuitMigrationError = AzureOpError;
+/** Rolls back the express route circuit migration for a cross connection. */
+export const ExpressRouteCrossConnectionsRollbackCircuitMigration: API.OperationMethod<
+  ExpressRouteCrossConnectionsRollbackCircuitMigrationRequest,
+  MigrateExpressRouteCircuitHealthCheckResponse,
+  ExpressRouteCrossConnectionsRollbackCircuitMigrationError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ExpressRouteCrossConnectionsRollbackCircuitMigrationRequest,
+  output: MigrateExpressRouteCircuitHealthCheckResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationError = AzureOpError;
+/** Shuts down BGP sessions as part of an express route circuit migration for a cross connection. */
+export const ExpressRouteCrossConnectionsShutDownBgpForCircuitMigration: API.OperationMethod<
+  ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationRequest,
+  MigrateExpressRouteCircuitHealthCheckResponse,
+  ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ExpressRouteCrossConnectionsShutDownBgpForCircuitMigrationRequest,
+  output: MigrateExpressRouteCircuitHealthCheckResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ExpressRouteGatewaysCreateOrUpdateError = AzureOpError;
 /** Creates or updates a ExpressRoute gateway in a specified resource group. */
 export const ExpressRouteGatewaysCreateOrUpdate: API.OperationMethod<
@@ -108413,6 +110974,21 @@ export const GetApplicationSecurityGroup: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetAuthenticationPolicyError = AzureOpError;
+/** Retrieve the authentication policy with specified name within a resource group. */
+export const GetAuthenticationPolicy: API.OperationMethod<
+  GetAuthenticationPolicyRequest,
+  GetAuthenticationPolicyResponse,
+  GetAuthenticationPolicyError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAuthenticationPolicyRequest,
+  output: GetAuthenticationPolicyResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetAzureFirewallError = AzureOpError;
 /** Gets the specified Azure Firewall. */
 export const GetAzureFirewall: API.OperationMethod<
@@ -108753,6 +111329,21 @@ export const GetExpressRouteCrossConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetExpressRouteCrossConnectionRequest,
   output: GetExpressRouteCrossConnectionResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetExpressRouteCrossConnectionCircuitMigrationInfoError = AzureOpError;
+/** Gets migration health information for an express route circuit cross connection. */
+export const GetExpressRouteCrossConnectionCircuitMigrationInfo: API.OperationMethod<
+  GetExpressRouteCrossConnectionCircuitMigrationInfoRequest,
+  MigrateExpressRouteCircuitHealthCheckResponse,
+  GetExpressRouteCrossConnectionCircuitMigrationInfoError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetExpressRouteCrossConnectionCircuitMigrationInfoRequest,
+  output: MigrateExpressRouteCircuitHealthCheckResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -111518,6 +114109,36 @@ export const ListApplicationSecurityGroups: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListAuthenticationPoliciesError = AzureOpError;
+/** Lists all of the authentication policies within a resource group. */
+export const ListAuthenticationPolicies: API.OperationMethod<
+  ListAuthenticationPoliciesRequest,
+  AuthenticationPolicyListResult,
+  ListAuthenticationPoliciesError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListAuthenticationPoliciesRequest,
+  output: AuthenticationPolicyListResult,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListAuthenticationPolicyAllError = AzureOpError;
+/** Gets all the authentication policies in a subscription. */
+export const ListAuthenticationPolicyAll: API.OperationMethod<
+  ListAuthenticationPolicyAllRequest,
+  AuthenticationPolicyListResult,
+  ListAuthenticationPolicyAllError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListAuthenticationPolicyAllRequest,
+  output: AuthenticationPolicyListResult,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListAvailableDelegationsError = AzureOpError;
 /** Gets all of the available subnet delegations for this subscription in this region. */
 export const ListAvailableDelegations: API.OperationMethod<
@@ -111968,6 +114589,21 @@ export const ListExpressRouteCircuitArpTable: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListExpressRouteCircuitAuthorizationKeysError = AzureOpError;
+/** Gets the authorization key associated with the specified express route circuit authorization. */
+export const ListExpressRouteCircuitAuthorizationKeys: API.OperationMethod<
+  ListExpressRouteCircuitAuthorizationKeysRequest,
+  ListExpressRouteCircuitAuthorizationKeysResponse,
+  ListExpressRouteCircuitAuthorizationKeysError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListExpressRouteCircuitAuthorizationKeysRequest,
+  output: ListExpressRouteCircuitAuthorizationKeysResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListExpressRouteCircuitAuthorizationsError = AzureOpError;
 /** Gets all authorizations in an express route circuit. */
 export const ListExpressRouteCircuitAuthorizations: API.OperationMethod<
@@ -112263,6 +114899,21 @@ export const ListExpressRouteLinks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListExpressRouteLinksRequest,
   output: ExpressRouteLinkListResult,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListExpressRoutePortAuthorizationKeysError = AzureOpError;
+/** Gets the authorization key associated with the specified express route port authorization. */
+export const ListExpressRoutePortAuthorizationKeys: API.OperationMethod<
+  ListExpressRoutePortAuthorizationKeysRequest,
+  ListExpressRoutePortAuthorizationKeysResponse,
+  ListExpressRoutePortAuthorizationKeysError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListExpressRoutePortAuthorizationKeysRequest,
+  output: ListExpressRoutePortAuthorizationKeysResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -114984,6 +117635,21 @@ export const ManagementGroupNetworkManagerConnectionsCreateOrUpdate: API.Operati
   retry: Retry.Retry,
 }));
 
+export type MigrateExpressRouteCrossConnectionCircuitError = AzureOpError;
+/** Executes the express route circuit migration for a cross connection. */
+export const MigrateExpressRouteCrossConnectionCircuit: API.OperationMethod<
+  MigrateExpressRouteCrossConnectionCircuitRequest,
+  MigrateExpressRouteCircuitHealthCheckResponse,
+  MigrateExpressRouteCrossConnectionCircuitError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: MigrateExpressRouteCrossConnectionCircuitRequest,
+  output: MigrateExpressRouteCircuitHealthCheckResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
 export type MigrateLoadBalancerToIpBasedError = AzureOpError;
 /** Migrate load balancer to IP Based */
 export const MigrateLoadBalancerToIpBased: API.OperationMethod<
@@ -115714,6 +118380,21 @@ export const RestartNetworkVirtualAppliance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RestartNetworkVirtualApplianceRequest,
   output: NetworkVirtualApplianceInstanceIds,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RestoreExpressRouteCrossConnectionBgpForCircuitMigrationError = AzureOpError;
+/** Restores BGP sessions as part of an express route circuit migration for a cross connection. */
+export const RestoreExpressRouteCrossConnectionBgpForCircuitMigration: API.OperationMethod<
+  RestoreExpressRouteCrossConnectionBgpForCircuitMigrationRequest,
+  MigrateExpressRouteCircuitHealthCheckResponse,
+  RestoreExpressRouteCrossConnectionBgpForCircuitMigrationError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RestoreExpressRouteCrossConnectionBgpForCircuitMigrationRequest,
+  output: MigrateExpressRouteCircuitHealthCheckResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -116454,6 +119135,21 @@ export const UpdateApplicationSecurityGroupTags: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type UpdateAuthenticationPolicyError = AzureOpError;
+/** Updates the tags and identity of an authentication policy. */
+export const UpdateAuthenticationPolicy: API.OperationMethod<
+  UpdateAuthenticationPolicyRequest,
+  UpdateAuthenticationPolicyResponse,
+  UpdateAuthenticationPolicyError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateAuthenticationPolicyRequest,
+  output: UpdateAuthenticationPolicyResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
 export type UpdateAzureFirewallTagsError = AzureOpError;
 /** Updates tags of an Azure Firewall resource. */
 export const UpdateAzureFirewallTags: API.OperationMethod<
@@ -116469,16 +119165,16 @@ export const UpdateAzureFirewallTags: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UpdateBastionHostTagsError = AzureOpError;
-/** Updates Tags for BastionHost resource */
-export const UpdateBastionHostTags: API.OperationMethod<
-  UpdateBastionHostTagsRequest,
-  UpdateBastionHostTagsResponse,
-  UpdateBastionHostTagsError,
+export type UpdateBastionHostError = AzureOpError;
+/** Updates Tags or identity for BastionHost resource */
+export const UpdateBastionHost: API.OperationMethod<
+  UpdateBastionHostRequest,
+  UpdateBastionHostResponse,
+  UpdateBastionHostError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateBastionHostTagsRequest,
-  output: UpdateBastionHostTagsResponse,
+  input: UpdateBastionHostRequest,
+  output: UpdateBastionHostResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -117169,6 +119865,21 @@ export const UpdateVpnSiteTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateVpnSiteTagsRequest,
   output: UpdateVpnSiteTagsResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ValidateExpressRouteCrossConnectionCircuitMigrationError = AzureOpError;
+/** Validates express route circuit migration for a cross connection. */
+export const ValidateExpressRouteCrossConnectionCircuitMigration: API.OperationMethod<
+  ValidateExpressRouteCrossConnectionCircuitMigrationRequest,
+  MigrateExpressRouteCircuitValidateResponse,
+  ValidateExpressRouteCrossConnectionCircuitMigrationError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ValidateExpressRouteCrossConnectionCircuitMigrationRequest,
+  output: MigrateExpressRouteCircuitValidateResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

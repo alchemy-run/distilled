@@ -18,6 +18,152 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.github.code_scanning#GetAiScanEnablementForOrgRequest": {
+      "type": "structure",
+      "members": {
+        "org": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The organization name. The name is not case sensitive."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.github.code_scanning#CodeScanningAiScanOrgSettings": {
+      "type": "structure",
+      "members": {
+        "pr_scan": {
+          "target": "com.github.code_scanning#CodeScanningAiScanOrgSettingsPrScan",
+          "traits": {
+            "smithy.api#documentation": "Whether AI Scan on pull requests is enabled for the organization. The organization setting respects enterprise policy, and repositories inherit it: when disabled, repositories cannot enable AI Scan; when enabled, repositories can still opt out.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The AI Scan organization setting"
+      }
+    },
+    "com.github.code_scanning#CodeScanningAiScanOrgSettingsPrScan": {
+      "type": "enum",
+      "members": {
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enabled"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether AI Scan on pull requests is enabled for the organization. The organization setting respects enterprise policy, and repositories inherit it: when disabled, repositories cannot enable AI Scan; when enabled, repositories can still opt out."
+      }
+    },
+    "com.github.code_scanning#GetAiScanEnablementForOrg": {
+      "type": "operation",
+      "input": {
+        "target": "com.github.code_scanning#GetAiScanEnablementForOrgRequest"
+      },
+      "output": {
+        "target": "com.github.code_scanning#CodeScanningAiScanOrgSettings"
+      },
+      "errors": [
+        {
+          "target": "com.github.code_scanning#Forbidden"
+        },
+        {
+          "target": "com.github.code_scanning#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/orgs/{org}/code-scanning/ai-scan",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get the AI Scan setting for an organization\n\nGets the AI Scan setting stored on an organization.\n\nThe response reports the value stored on the organization. Organization respects enterprise policy.\n\nThe authenticated user must be an owner or security manager for the organization to use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org`, `repo`, or `write:org` scope to use this endpoint. Organization owners can use `admin:org` or `repo`; security managers need `write:org`."
+      }
+    },
+    "com.github.code_scanning#UpdateAiScanEnablementForOrgRequestPrScan": {
+      "type": "enum",
+      "members": {
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enabled"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether AI Scan is enabled for the organization. Organization respects enterprise policy. Disabled organizations prevent repositories from enabling AI Scan. Enabled organizations enable AI Scan for their repositories, but individual repositories can opt out."
+      }
+    },
+    "com.github.code_scanning#UpdateAiScanEnablementForOrgRequest": {
+      "type": "structure",
+      "members": {
+        "org": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The organization name. The name is not case sensitive."
+          }
+        },
+        "pr_scan": {
+          "target": "com.github.code_scanning#UpdateAiScanEnablementForOrgRequestPrScan",
+          "traits": {
+            "smithy.api#documentation": "Whether AI Scan is enabled for the organization. Organization respects enterprise policy. Disabled organizations prevent repositories from enabling AI Scan. Enabled organizations enable AI Scan for their repositories, but individual repositories can opt out."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.github.code_scanning#UpdateAiScanEnablementForOrg": {
+      "type": "operation",
+      "input": {
+        "target": "com.github.code_scanning#UpdateAiScanEnablementForOrgRequest"
+      },
+      "output": {
+        "target": "com.github.code_scanning#CodeScanningAiScanOrgSettings"
+      },
+      "errors": [
+        {
+          "target": "com.github.code_scanning#Forbidden"
+        },
+        {
+          "target": "com.github.code_scanning#NotFound"
+        },
+        {
+          "target": "com.github.code_scanning#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/orgs/{org}/code-scanning/ai-scan",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update the AI Scan setting for an organization\n\nUpdates the AI Scan setting stored on an organization.\n\nThe organization respects the enterprise policy, so enabling is rejected when the enterprise disallows AI Scan.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org`, `repo`, or `write:org` scope to use this endpoint. Organization owners can use `admin:org` or `repo`; security managers need `write:org`."
+      }
+    },
     "com.github.code_scanning#ListAlertsForOrgRequestDirection": {
       "type": "enum",
       "members": {
@@ -1334,6 +1480,168 @@
         "smithy.api#documentation": "List code scanning alerts for an organization\n\nLists code scanning alerts for the default branch for all eligible repositories in an organization. Eligible repositories are repositories that are owned by organizations that you own or for which you are a security manager. For more information, see \"[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization).\"\n\nThe authenticated user must be an owner or security manager for the organization to use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `security_events` or `repo`s cope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories."
       }
     },
+    "com.github.code_scanning#GetAiScanEnablementRequest": {
+      "type": "structure",
+      "members": {
+        "owner": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The account owner of the repository. The name is not case sensitive."
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the repository without the `.git` extension. The name is not case sensitive."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.github.code_scanning#CodeScanningAiScanEnablement": {
+      "type": "structure",
+      "members": {
+        "pr_scan": {
+          "target": "com.github.code_scanning#CodeScanningAiScanEnablementPrScan",
+          "traits": {
+            "smithy.api#documentation": "Whether AI Scan is enabled for the repository.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "AI Scan enablement for a repository."
+      }
+    },
+    "com.github.code_scanning#CodeScanningAiScanEnablementPrScan": {
+      "type": "enum",
+      "members": {
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enabled"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether AI Scan is enabled for the repository."
+      }
+    },
+    "com.github.code_scanning#GetAiScanEnablement": {
+      "type": "operation",
+      "input": {
+        "target": "com.github.code_scanning#GetAiScanEnablementRequest"
+      },
+      "output": {
+        "target": "com.github.code_scanning#CodeScanningAiScanEnablement"
+      },
+      "errors": [
+        {
+          "target": "com.github.code_scanning#Forbidden"
+        },
+        {
+          "target": "com.github.code_scanning#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/repos/{owner}/{repo}/code-scanning/ai-scan",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get AI Scan enablement for a repository\n\nGets whether AI Scan is enabled for a repository.\n\nOAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories."
+      }
+    },
+    "com.github.code_scanning#UpdateAiScanEnablementRequestPrScan": {
+      "type": "enum",
+      "members": {
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enabled"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether to enable or disable AI Scan for the repository."
+      }
+    },
+    "com.github.code_scanning#UpdateAiScanEnablementRequest": {
+      "type": "structure",
+      "members": {
+        "owner": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The account owner of the repository. The name is not case sensitive."
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the repository without the `.git` extension. The name is not case sensitive."
+          }
+        },
+        "pr_scan": {
+          "target": "com.github.code_scanning#UpdateAiScanEnablementRequestPrScan",
+          "traits": {
+            "smithy.api#documentation": "Whether to enable or disable AI Scan for the repository."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.github.code_scanning#UpdateAiScanEnablement": {
+      "type": "operation",
+      "input": {
+        "target": "com.github.code_scanning#UpdateAiScanEnablementRequest"
+      },
+      "output": {
+        "target": "com.github.code_scanning#CodeScanningAiScanEnablement"
+      },
+      "errors": [
+        {
+          "target": "com.github.code_scanning#Forbidden"
+        },
+        {
+          "target": "com.github.code_scanning#NotFound"
+        },
+        {
+          "target": "com.github.code_scanning#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/repos/{owner}/{repo}/code-scanning/ai-scan",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update AI Scan enablement for a repository\n\nUpdates whether AI Scan is enabled for a repository.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories."
+      }
+    },
     "com.github.code_scanning#ListAlertsForRepoRequestDirection": {
       "type": "enum",
       "members": {
@@ -2207,6 +2515,14 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "archived_by": {
+          "target": "com.github.code_scanning#SimpleUser",
+          "traits": {
+            "smithy.api#documentation": "The user who archived the label, or `null` if it has not been archived.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -6571,19 +6887,6 @@
         "smithy.api#documentation": "Get information about a SARIF upload\n\nGets information about a SARIF upload, including the status and the URL of the analysis that was uploaded so that you can retrieve details of the analysis. For more information, see \"[Get a code scanning analysis for a repository](/rest/code-scanning/code-scanning#get-a-code-scanning-analysis-for-a-repository).\"\nOAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories."
       }
     },
-    "com.github.code_scanning#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
     "com.github.code_scanning#Forbidden": {
       "type": "structure",
       "members": {},
@@ -6597,15 +6900,15 @@
         ]
       }
     },
-    "com.github.code_scanning#BadRequest": {
+    "com.github.code_scanning#NotFound": {
       "type": "structure",
       "members": {},
       "traits": {
         "smithy.api#error": "client",
-        "smithy.api#httpError": 400,
+        "smithy.api#httpError": 404,
         "com.distilled.openapi#errorMatchers": [
           {
-            "status": 400
+            "status": 404
           }
         ]
       }
@@ -6619,6 +6922,19 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 422
+          }
+        ]
+      }
+    },
+    "com.github.code_scanning#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
           }
         ]
       }
@@ -6641,7 +6957,19 @@
       "version": "1.1.4",
       "operations": [
         {
+          "target": "com.github.code_scanning#GetAiScanEnablementForOrg"
+        },
+        {
+          "target": "com.github.code_scanning#UpdateAiScanEnablementForOrg"
+        },
+        {
           "target": "com.github.code_scanning#ListAlertsForOrg"
+        },
+        {
+          "target": "com.github.code_scanning#GetAiScanEnablement"
+        },
+        {
+          "target": "com.github.code_scanning#UpdateAiScanEnablement"
         },
         {
           "target": "com.github.code_scanning#ListAlertsForRepo"

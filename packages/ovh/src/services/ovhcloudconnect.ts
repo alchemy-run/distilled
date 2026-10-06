@@ -55,11 +55,7 @@ export const ConfirmOvhCloudConnectTerminationRequest = /*@__PURE__*/ S.suspend(
     reason: S.optional(ServiceTerminationReasonEnum),
     token: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ovhCloudConnect/{serviceName}/confirmTermination",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/ovhCloudConnect/{serviceName}/confirmTermination", code: 200 }),
   ),
 ).annotate({
   identifier: "ConfirmOvhCloudConnectTerminationRequest",
@@ -89,11 +85,7 @@ export const CreateOvhCloudConnectChangeContactRequest = /*@__PURE__*/ S.suspend
     contactBilling: S.optional(S.String),
     contactTech: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ovhCloudConnect/{serviceName}/changeContact",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/ovhCloudConnect/{serviceName}/changeContact", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateOvhCloudConnectChangeContactRequest",
@@ -138,13 +130,7 @@ export const CreateOvhCloudConnectConfigPopRequest = /*@__PURE__*/ S.suspend(() 
     ovhBgpArea: S.optional(S.NullOr(S.Number)),
     subnet: S.optional(S.NullOr(S.String)),
     type: OvhcloudconnectPopConfigTypeEnum,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ovhCloudConnect/{serviceName}/config/pop",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/ovhCloudConnect/{serviceName}/config/pop", code: 200 })),
 ).annotate({
   identifier: "CreateOvhCloudConnectConfigPopRequest",
 }) as any as S.Schema<CreateOvhCloudConnectConfigPopRequest>;
@@ -191,9 +177,7 @@ export const OvhcloudconnectTask = /*@__PURE__*/ S.suspend(() =>
     resourceId: S.optional(S.Number),
     status: S.optional(OvhcloudconnectTaskStatusEnum),
   }),
-).annotate({
-  identifier: "OvhcloudconnectTask",
-}) as any as S.Schema<OvhcloudconnectTask>;
+).annotate({ identifier: "OvhcloudconnectTask" }) as any as S.Schema<OvhcloudconnectTask>;
 
 export interface CreateOvhCloudConnectConfigPopDatacenterRequest {
   /** Service name */
@@ -302,13 +286,7 @@ export const CreateOvhCloudConnectDiagnosticRequest = /*@__PURE__*/ S.suspend(()
     diagnosticType: S.optional(OvhcloudconnectDiagnosticTypeEnum),
     extraConfigId: S.optional(S.Number),
     popConfigId: S.Number,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ovhCloudConnect/{serviceName}/diagnostic",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/ovhCloudConnect/{serviceName}/diagnostic", code: 200 })),
 ).annotate({
   identifier: "CreateOvhCloudConnectDiagnosticRequest",
 }) as any as S.Schema<CreateOvhCloudConnectDiagnosticRequest>;
@@ -394,13 +372,7 @@ export interface CreateOvhCloudConnectLoaRequest {
 export const CreateOvhCloudConnectLoaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ovhCloudConnect/{serviceName}/loa",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/ovhCloudConnect/{serviceName}/loa", code: 200 })),
 ).annotate({
   identifier: "CreateOvhCloudConnectLoaRequest",
 }) as any as S.Schema<CreateOvhCloudConnectLoaRequest>;
@@ -426,11 +398,7 @@ export const CreateOvhCloudConnectLogSubscriptionRequest = /*@__PURE__*/ S.suspe
     kind: S.String,
     streamId: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ovhCloudConnect/{serviceName}/log/subscription",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/ovhCloudConnect/{serviceName}/log/subscription", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateOvhCloudConnectLogSubscriptionRequest",
@@ -462,13 +430,7 @@ export const CreateOvhCloudConnectLogUrlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     kind: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ovhCloudConnect/{serviceName}/log/url",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/ovhCloudConnect/{serviceName}/log/url", code: 200 })),
 ).annotate({
   identifier: "CreateOvhCloudConnectLogUrlRequest",
 }) as any as S.Schema<CreateOvhCloudConnectLogUrlRequest>;
@@ -505,13 +467,7 @@ export const CreateOvhCloudConnectMonitoringRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     subscriptions: S.optional(CreateOvhCloudConnectMonitoringRequestSubscriptionsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ovhCloudConnect/{serviceName}/monitoring",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/ovhCloudConnect/{serviceName}/monitoring", code: 200 })),
 ).annotate({
   identifier: "CreateOvhCloudConnectMonitoringRequest",
 }) as any as S.Schema<CreateOvhCloudConnectMonitoringRequest>;
@@ -624,11 +580,7 @@ export const DeleteOvhCloudConnectMonitoringRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/ovhCloudConnect/{serviceName}/monitoring",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/ovhCloudConnect/{serviceName}/monitoring", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteOvhCloudConnectMonitoringRequest",
@@ -691,9 +643,7 @@ export const IamResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(IamResourceMetadataTagsMap)),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamResourceMetadata",
-}) as any as S.Schema<IamResourceMetadata>;
+).annotate({ identifier: "IamResourceMetadata" }) as any as S.Schema<IamResourceMetadata>;
 
 /** List of interfaces linked to a service */
 export type OvhcloudconnectServiceWithIAMInterfaceListList = Array<number>;
@@ -778,11 +728,7 @@ export const GetOvhCloudConnectConfigPopRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     popId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ovhCloudConnect/{serviceName}/config/pop/{popId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/ovhCloudConnect/{serviceName}/config/pop/{popId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetOvhCloudConnectConfigPopRequest",
@@ -819,9 +765,7 @@ export const OvhcloudconnectPopConfig = /*@__PURE__*/ S.suspend(() =>
     subnet: S.optional(S.NullOr(S.String)),
     type: OvhcloudconnectPopConfigTypeEnum,
   }),
-).annotate({
-  identifier: "OvhcloudconnectPopConfig",
-}) as any as S.Schema<OvhcloudconnectPopConfig>;
+).annotate({ identifier: "OvhcloudconnectPopConfig" }) as any as S.Schema<OvhcloudconnectPopConfig>;
 
 export interface GetOvhCloudConnectConfigPopDatacenterRequest {
   /** Service name */
@@ -994,11 +938,7 @@ export const GetOvhCloudConnectDatacenterRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ovhCloudConnect/{serviceName}/datacenter/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/ovhCloudConnect/{serviceName}/datacenter/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetOvhCloudConnectDatacenterRequest",
@@ -1085,11 +1025,7 @@ export const GetOvhCloudConnectDiagnosticRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ovhCloudConnect/{serviceName}/diagnostic/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/ovhCloudConnect/{serviceName}/diagnostic/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetOvhCloudConnectDiagnosticRequest",
@@ -1106,11 +1042,7 @@ export const GetOvhCloudConnectIncidentRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ovhCloudConnect/{serviceName}/incident/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/ovhCloudConnect/{serviceName}/incident/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetOvhCloudConnectIncidentRequest",
@@ -1138,9 +1070,7 @@ export const OvhcloudconnectIncident = /*@__PURE__*/ S.suspend(() =>
     startDate: S.optional(S.String),
     type: S.optional(OvhcloudconnectIncidentTypeEnum),
   }),
-).annotate({
-  identifier: "OvhcloudconnectIncident",
-}) as any as S.Schema<OvhcloudconnectIncident>;
+).annotate({ identifier: "OvhcloudconnectIncident" }) as any as S.Schema<OvhcloudconnectIncident>;
 
 export interface GetOvhCloudConnectInterfaceRequest {
   /** Service name */
@@ -1153,11 +1083,7 @@ export const GetOvhCloudConnectInterfaceRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ovhCloudConnect/{serviceName}/interface/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/ovhCloudConnect/{serviceName}/interface/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetOvhCloudConnectInterfaceRequest",
@@ -1220,9 +1146,7 @@ export const OvhcloudconnectInterface = /*@__PURE__*/ S.suspend(() =>
     outgoingLightValue: S.optional(S.NullOr(S.Number)),
     status: S.optional(OvhcloudconnectInterfaceStatusEnum),
   }),
-).annotate({
-  identifier: "OvhcloudconnectInterface",
-}) as any as S.Schema<OvhcloudconnectInterface>;
+).annotate({ identifier: "OvhcloudconnectInterface" }) as any as S.Schema<OvhcloudconnectInterface>;
 
 export interface GetOvhCloudConnectInterfaceStatusRequest {
   /** Service name */
@@ -1281,11 +1205,7 @@ export const GetOvhCloudConnectLogKindRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ovhCloudConnect/{serviceName}/log/kind/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/ovhCloudConnect/{serviceName}/log/kind/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetOvhCloudConnectLogKindRequest",
@@ -1321,9 +1241,7 @@ export const DbaasLogsLogKind = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     updatedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DbaasLogsLogKind",
-}) as any as S.Schema<DbaasLogsLogKind>;
+).annotate({ identifier: "DbaasLogsLogKind" }) as any as S.Schema<DbaasLogsLogKind>;
 
 export interface GetOvhCloudConnectLogSubscriptionRequest {
   /** Service name */
@@ -1389,9 +1307,7 @@ export const DbaasLogsLogSubscription = /*@__PURE__*/ S.suspend(() =>
     subscriptionId: S.optional(S.String),
     updatedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DbaasLogsLogSubscription",
-}) as any as S.Schema<DbaasLogsLogSubscription>;
+).annotate({ identifier: "DbaasLogsLogSubscription" }) as any as S.Schema<DbaasLogsLogSubscription>;
 
 export interface GetOvhCloudConnectServiceInfosRequest {
   /** Service name */
@@ -1400,13 +1316,7 @@ export interface GetOvhCloudConnectServiceInfosRequest {
 export const GetOvhCloudConnectServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ovhCloudConnect/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ovhCloudConnect/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "GetOvhCloudConnectServiceInfosRequest",
 }) as any as S.Schema<GetOvhCloudConnectServiceInfosRequest>;
@@ -1438,9 +1348,7 @@ export const ServiceRenewType = /*@__PURE__*/ S.suspend(() =>
     manualPayment: S.optional(S.NullOr(S.Boolean)),
     period: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ServiceRenewType",
-}) as any as S.Schema<ServiceRenewType>;
+).annotate({ identifier: "ServiceRenewType" }) as any as S.Schema<ServiceRenewType>;
 
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -1498,9 +1406,7 @@ export const ServicesService = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.optional(S.Number),
     status: S.optional(ServiceStateEnum),
   }),
-).annotate({
-  identifier: "ServicesService",
-}) as any as S.Schema<ServicesService>;
+).annotate({ identifier: "ServicesService" }) as any as S.Schema<ServicesService>;
 
 export interface GetOvhCloudConnectServiceKeyRequest {
   /** Service name */
@@ -1550,9 +1456,7 @@ export const OvhcloudconnectKey = /*@__PURE__*/ S.suspend(() =>
     provider: S.optional(OvhcloudconnectServiceProviderEnum),
     status: S.optional(OvhcloudconnectKeyStatusEnum),
   }),
-).annotate({
-  identifier: "OvhcloudconnectKey",
-}) as any as S.Schema<OvhcloudconnectKey>;
+).annotate({ identifier: "OvhcloudconnectKey" }) as any as S.Schema<OvhcloudconnectKey>;
 
 export interface GetOvhCloudConnectTaskRequest {
   /** Service name */
@@ -1564,13 +1468,7 @@ export const GetOvhCloudConnectTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ovhCloudConnect/{serviceName}/task/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ovhCloudConnect/{serviceName}/task/{id}", code: 200 })),
 ).annotate({
   identifier: "GetOvhCloudConnectTaskRequest",
 }) as any as S.Schema<GetOvhCloudConnectTaskRequest>;
@@ -1625,13 +1523,7 @@ export interface ListOvhCloudConnectConfigPopRequest {
 export const ListOvhCloudConnectConfigPopRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ovhCloudConnect/{serviceName}/config/pop",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ovhCloudConnect/{serviceName}/config/pop", code: 200 })),
 ).annotate({
   identifier: "ListOvhCloudConnectConfigPopRequest",
 }) as any as S.Schema<ListOvhCloudConnectConfigPopRequest>;
@@ -1789,9 +1681,7 @@ export const OvhcloudconnectMetrics = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.optional(S.Number),
     value: S.optional(OvhcloudconnectMetricsValue),
   }),
-).annotate({
-  identifier: "OvhcloudconnectMetrics",
-}) as any as S.Schema<OvhcloudconnectMetrics>;
+).annotate({ identifier: "OvhcloudconnectMetrics" }) as any as S.Schema<OvhcloudconnectMetrics>;
 
 export type ListOvhCloudConnectConfigPopStatisticsResponseBodyList = Array<OvhcloudconnectMetrics>;
 export const ListOvhCloudConnectConfigPopStatisticsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1813,13 +1703,7 @@ export interface ListOvhCloudConnectDatacenterRequest {
 export const ListOvhCloudConnectDatacenterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ovhCloudConnect/{serviceName}/datacenter",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ovhCloudConnect/{serviceName}/datacenter", code: 200 })),
 ).annotate({
   identifier: "ListOvhCloudConnectDatacenterRequest",
 }) as any as S.Schema<ListOvhCloudConnectDatacenterRequest>;
@@ -1843,13 +1727,7 @@ export interface ListOvhCloudConnectDiagnosticRequest {
 export const ListOvhCloudConnectDiagnosticRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ovhCloudConnect/{serviceName}/diagnostic",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ovhCloudConnect/{serviceName}/diagnostic", code: 200 })),
 ).annotate({
   identifier: "ListOvhCloudConnectDiagnosticRequest",
 }) as any as S.Schema<ListOvhCloudConnectDiagnosticRequest>;
@@ -1873,13 +1751,7 @@ export interface ListOvhCloudConnectIncidentRequest {
 export const ListOvhCloudConnectIncidentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ovhCloudConnect/{serviceName}/incident",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ovhCloudConnect/{serviceName}/incident", code: 200 })),
 ).annotate({
   identifier: "ListOvhCloudConnectIncidentRequest",
 }) as any as S.Schema<ListOvhCloudConnectIncidentRequest>;
@@ -1903,13 +1775,7 @@ export interface ListOvhCloudConnectInterfaceRequest {
 export const ListOvhCloudConnectInterfaceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ovhCloudConnect/{serviceName}/interface",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ovhCloudConnect/{serviceName}/interface", code: 200 })),
 ).annotate({
   identifier: "ListOvhCloudConnectInterfaceRequest",
 }) as any as S.Schema<ListOvhCloudConnectInterfaceRequest>;
@@ -1983,13 +1849,7 @@ export interface ListOvhCloudConnectLogKindRequest {
 export const ListOvhCloudConnectLogKindRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ovhCloudConnect/{serviceName}/log/kind",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ovhCloudConnect/{serviceName}/log/kind", code: 200 })),
 ).annotate({
   identifier: "ListOvhCloudConnectLogKindRequest",
 }) as any as S.Schema<ListOvhCloudConnectLogKindRequest>;
@@ -2017,11 +1877,7 @@ export const ListOvhCloudConnectLogSubscriptionRequest = /*@__PURE__*/ S.suspend
     serviceName: S.String.pipe(T.Label()),
     kind: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ovhCloudConnect/{serviceName}/log/subscription",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/ovhCloudConnect/{serviceName}/log/subscription", code: 200 }),
   ),
 ).annotate({
   identifier: "ListOvhCloudConnectLogSubscriptionRequest",
@@ -2047,13 +1903,7 @@ export interface ListOvhCloudConnectMonitoringRequest {
 export const ListOvhCloudConnectMonitoringRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ovhCloudConnect/{serviceName}/monitoring",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ovhCloudConnect/{serviceName}/monitoring", code: 200 })),
 ).annotate({
   identifier: "ListOvhCloudConnectMonitoringRequest",
 }) as any as S.Schema<ListOvhCloudConnectMonitoringRequest>;
@@ -2099,13 +1949,7 @@ export interface ListOvhCloudConnectServiceKeyRequest {
 export const ListOvhCloudConnectServiceKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ovhCloudConnect/{serviceName}/serviceKey",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ovhCloudConnect/{serviceName}/serviceKey", code: 200 })),
 ).annotate({
   identifier: "ListOvhCloudConnectServiceKeyRequest",
 }) as any as S.Schema<ListOvhCloudConnectServiceKeyRequest>;
@@ -2129,13 +1973,7 @@ export interface ListOvhCloudConnectTaskRequest {
 export const ListOvhCloudConnectTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ovhCloudConnect/{serviceName}/task",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ovhCloudConnect/{serviceName}/task", code: 200 })),
 ).annotate({
   identifier: "ListOvhCloudConnectTaskRequest",
 }) as any as S.Schema<ListOvhCloudConnectTaskRequest>;
@@ -2203,13 +2041,7 @@ export const PutOvhCloudConnectServiceInfosRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     renew: S.optional(S.NullOr(ServiceRenewType)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/ovhCloudConnect/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/ovhCloudConnect/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "PutOvhCloudConnectServiceInfosRequest",
 }) as any as S.Schema<PutOvhCloudConnectServiceInfosRequest>;
@@ -2290,13 +2122,7 @@ export interface TerminateOvhCloudConnectRequest {
 export const TerminateOvhCloudConnectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ovhCloudConnect/{serviceName}/terminate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/ovhCloudConnect/{serviceName}/terminate", code: 200 })),
 ).annotate({
   identifier: "TerminateOvhCloudConnectRequest",
 }) as any as S.Schema<TerminateOvhCloudConnectRequest>;

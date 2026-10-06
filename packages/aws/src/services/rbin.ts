@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "rbin",
-  serviceShapeName: "AmazonRecycleBin",
-});
+const svc = T.AwsApiService({ sdkId: "rbin", serviceShapeName: "AmazonRecycleBin" });
 const auth = T.AwsAuthSigv4({ name: "rbin" });
 const ver = T.ServiceVersion("2021-06-15");
 const proto = T.AwsProtocolsRestJson1();
@@ -136,13 +133,8 @@ export interface RetentionPeriod {
   RetentionPeriodUnit: RetentionPeriodUnit;
 }
 export const RetentionPeriod = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RetentionPeriodValue: S.Number,
-    RetentionPeriodUnit: RetentionPeriodUnit,
-  }),
-).annotate({
-  identifier: "RetentionPeriod",
-}) as any as S.Schema<RetentionPeriod>;
+  S.Struct({ RetentionPeriodValue: S.Number, RetentionPeriodUnit: RetentionPeriodUnit }),
+).annotate({ identifier: "RetentionPeriod" }) as any as S.Schema<RetentionPeriod>;
 export type Description = string;
 export type TagKey = string;
 export type TagValue = string;
@@ -165,10 +157,7 @@ export interface ResourceTag {
   ResourceTagValue?: string;
 }
 export const ResourceTag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceTagKey: S.String,
-    ResourceTagValue: S.optional(S.String),
-  }),
+  S.Struct({ ResourceTagKey: S.String, ResourceTagValue: S.optional(S.String) }),
 ).annotate({ identifier: "ResourceTag" }) as any as S.Schema<ResourceTag>;
 export type ResourceTags = ResourceTag[];
 export const ResourceTags = /*@__PURE__*/ S.Array(ResourceTag);
@@ -188,9 +177,7 @@ export interface LockConfiguration {
 }
 export const LockConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ UnlockDelay: UnlockDelay }),
-).annotate({
-  identifier: "LockConfiguration",
-}) as any as S.Schema<LockConfiguration>;
+).annotate({ identifier: "LockConfiguration" }) as any as S.Schema<LockConfiguration>;
 export type ExcludeResourceTags = ResourceTag[];
 export const ExcludeResourceTags = /*@__PURE__*/ S.Array(ResourceTag);
 export interface CreateRuleRequest {
@@ -212,9 +199,7 @@ export const CreateRuleRequest = /*@__PURE__*/ S.suspend(() =>
     LockConfiguration: S.optional(LockConfiguration),
     ExcludeResourceTags: S.optional(ExcludeResourceTags),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/rules" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateRuleRequest",
-}) as any as S.Schema<CreateRuleRequest>;
+).annotate({ identifier: "CreateRuleRequest" }) as any as S.Schema<CreateRuleRequest>;
 export type RuleIdentifier = string;
 export type RuleStatus = "pending" | "available" | (string & {});
 export const RuleStatus = S.String;
@@ -250,9 +235,7 @@ export const CreateRuleResponse = /*@__PURE__*/ S.suspend(() =>
     RuleArn: S.optional(S.String),
     ExcludeResourceTags: S.optional(ExcludeResourceTags),
   }),
-).annotate({
-  identifier: "CreateRuleResponse",
-}) as any as S.Schema<CreateRuleResponse>;
+).annotate({ identifier: "CreateRuleResponse" }) as any as S.Schema<CreateRuleResponse>;
 export interface DeleteRuleRequest {
   Identifier: string;
 }
@@ -260,9 +243,7 @@ export const DeleteRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/rules/{Identifier}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteRuleRequest",
-}) as any as S.Schema<DeleteRuleRequest>;
+).annotate({ identifier: "DeleteRuleRequest" }) as any as S.Schema<DeleteRuleRequest>;
 export interface DeleteRuleResponse {}
 export const DeleteRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteRuleResponse",
@@ -302,9 +283,7 @@ export const GetRuleResponse = /*@__PURE__*/ S.suspend(() =>
     RuleArn: S.optional(S.String),
     ExcludeResourceTags: S.optional(ExcludeResourceTags),
   }),
-).annotate({
-  identifier: "GetRuleResponse",
-}) as any as S.Schema<GetRuleResponse>;
+).annotate({ identifier: "GetRuleResponse" }) as any as S.Schema<GetRuleResponse>;
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListRulesRequest {
@@ -324,9 +303,7 @@ export const ListRulesRequest = /*@__PURE__*/ S.suspend(() =>
     LockState: S.optional(LockState),
     ExcludeResourceTags: S.optional(ExcludeResourceTags),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/list-rules" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListRulesRequest",
-}) as any as S.Schema<ListRulesRequest>;
+).annotate({ identifier: "ListRulesRequest" }) as any as S.Schema<ListRulesRequest>;
 export interface RuleSummary {
   Identifier?: string;
   Description?: string;
@@ -350,13 +327,8 @@ export interface ListRulesResponse {
   NextToken?: string;
 }
 export const ListRulesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Rules: S.optional(RuleSummaryList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListRulesResponse",
-}) as any as S.Schema<ListRulesResponse>;
+  S.Struct({ Rules: S.optional(RuleSummaryList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListRulesResponse" }) as any as S.Schema<ListRulesResponse>;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
@@ -393,9 +365,7 @@ export const LockRuleRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "LockRuleRequest",
-}) as any as S.Schema<LockRuleRequest>;
+).annotate({ identifier: "LockRuleRequest" }) as any as S.Schema<LockRuleRequest>;
 export interface LockRuleResponse {
   Identifier?: string;
   Description?: string;
@@ -421,23 +391,16 @@ export const LockRuleResponse = /*@__PURE__*/ S.suspend(() =>
     RuleArn: S.optional(S.String),
     ExcludeResourceTags: S.optional(ExcludeResourceTags),
   }),
-).annotate({
-  identifier: "LockRuleResponse",
-}) as any as S.Schema<LockRuleResponse>;
+).annotate({ identifier: "LockRuleResponse" }) as any as S.Schema<LockRuleResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags: Tag[];
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: TagList,
-  }).pipe(
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -456,9 +419,7 @@ export const UnlockRuleRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UnlockRuleRequest",
-}) as any as S.Schema<UnlockRuleRequest>;
+).annotate({ identifier: "UnlockRuleRequest" }) as any as S.Schema<UnlockRuleRequest>;
 export interface UnlockRuleResponse {
   Identifier?: string;
   Description?: string;
@@ -486,9 +447,7 @@ export const UnlockRuleResponse = /*@__PURE__*/ S.suspend(() =>
     RuleArn: S.optional(S.String),
     ExcludeResourceTags: S.optional(ExcludeResourceTags),
   }),
-).annotate({
-  identifier: "UnlockRuleResponse",
-}) as any as S.Schema<UnlockRuleResponse>;
+).annotate({ identifier: "UnlockRuleResponse" }) as any as S.Schema<UnlockRuleResponse>;
 export type TagKeyList = string[];
 export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
@@ -502,9 +461,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -528,9 +485,7 @@ export const UpdateRuleRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "PATCH", uri: "/rules/{Identifier}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateRuleRequest",
-}) as any as S.Schema<UpdateRuleRequest>;
+).annotate({ identifier: "UpdateRuleRequest" }) as any as S.Schema<UpdateRuleRequest>;
 export interface UpdateRuleResponse {
   Identifier?: string;
   RetentionPeriod?: RetentionPeriod;
@@ -556,9 +511,7 @@ export const UpdateRuleResponse = /*@__PURE__*/ S.suspend(() =>
     RuleArn: S.optional(S.String),
     ExcludeResourceTags: S.optional(ExcludeResourceTags),
   }),
-).annotate({
-  identifier: "UpdateRuleResponse",
-}) as any as S.Schema<UpdateRuleResponse>;
+).annotate({ identifier: "UpdateRuleResponse" }) as any as S.Schema<UpdateRuleResponse>;
 export type ErrorMessage = string;
 export type ServiceQuotaExceededExceptionReason = "SERVICE_QUOTA_EXCEEDED" | (string & {});
 export const ServiceQuotaExceededExceptionReason = S.String;

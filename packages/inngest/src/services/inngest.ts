@@ -63,9 +63,7 @@ export const CancelV2RunRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     runId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/runs/{runId}/cancel", code: 200 })),
-).annotate({
-  identifier: "CancelV2RunRequest",
-}) as any as S.Schema<CancelV2RunRequest>;
+).annotate({ identifier: "CancelV2RunRequest" }) as any as S.Schema<CancelV2RunRequest>;
 
 export interface V2CancelRunData {
   /** Cancelled run ID */
@@ -75,9 +73,7 @@ export const V2CancelRunData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     runId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V2CancelRunData",
-}) as any as S.Schema<V2CancelRunData>;
+).annotate({ identifier: "V2CancelRunData" }) as any as S.Schema<V2CancelRunData>;
 
 export interface V2TimeRange {
   from?: string;
@@ -101,9 +97,7 @@ export const V2ResponseMetadata = /*@__PURE__*/ S.suspend(() =>
     fetchedAt: S.optional(S.String),
     timeRange: S.optional(V2TimeRange),
   }),
-).annotate({
-  identifier: "V2ResponseMetadata",
-}) as any as S.Schema<V2ResponseMetadata>;
+).annotate({ identifier: "V2ResponseMetadata" }) as any as S.Schema<V2ResponseMetadata>;
 
 export interface V2CancelRunResponse {
   data?: V2CancelRunData;
@@ -114,9 +108,7 @@ export const V2CancelRunResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(V2CancelRunData),
     metadata: S.optional(V2ResponseMetadata),
   }),
-).annotate({
-  identifier: "V2CancelRunResponse",
-}) as any as S.Schema<V2CancelRunResponse>;
+).annotate({ identifier: "V2CancelRunResponse" }) as any as S.Schema<V2CancelRunResponse>;
 
 export interface CreateV2EnvRequest {
   id?: string;
@@ -127,9 +119,7 @@ export const CreateV2EnvRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/envs", code: 200 })),
-).annotate({
-  identifier: "CreateV2EnvRequest",
-}) as any as S.Schema<CreateV2EnvRequest>;
+).annotate({ identifier: "CreateV2EnvRequest" }) as any as S.Schema<CreateV2EnvRequest>;
 
 export type V2EnvType = "PRODUCTION" | "TEST" | "BRANCH";
 export const V2EnvType = S.String;
@@ -160,9 +150,7 @@ export const V2CreateEnvResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(V2Env),
     metadata: S.optional(V2ResponseMetadata),
   }),
-).annotate({
-  identifier: "V2CreateEnvResponse",
-}) as any as S.Schema<V2CreateEnvResponse>;
+).annotate({ identifier: "V2CreateEnvResponse" }) as any as S.Schema<V2CreateEnvResponse>;
 
 export interface CreateV2PartnerAccountRequest {
   email?: string;
@@ -194,9 +182,7 @@ export const V2CreateAccountData = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     updatedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V2CreateAccountData",
-}) as any as S.Schema<V2CreateAccountData>;
+).annotate({ identifier: "V2CreateAccountData" }) as any as S.Schema<V2CreateAccountData>;
 
 export interface V2CreateAccountResponse {
   data?: V2CreateAccountData;
@@ -207,13 +193,9 @@ export const V2CreateAccountResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(V2CreateAccountData),
     metadata: S.optional(V2ResponseMetadata),
   }),
-).annotate({
-  identifier: "V2CreateAccountResponse",
-}) as any as S.Schema<V2CreateAccountResponse>;
+).annotate({ identifier: "V2CreateAccountResponse" }) as any as S.Schema<V2CreateAccountResponse>;
 
-export type CreateV2SandboxRequestEnvironmentMap = {
-  [key: string]: string | undefined;
-};
+export type CreateV2SandboxRequestEnvironmentMap = { [key: string]: string | undefined };
 export const CreateV2SandboxRequestEnvironmentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -232,9 +214,7 @@ export const CreateV2SandboxRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     vcpu: S.optional(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/sandboxes", code: 200 })),
-).annotate({
-  identifier: "CreateV2SandboxRequest",
-}) as any as S.Schema<CreateV2SandboxRequest>;
+).annotate({ identifier: "CreateV2SandboxRequest" }) as any as S.Schema<CreateV2SandboxRequest>;
 
 export interface V2SandboxResourceSpec {
   memoryMb?: number;
@@ -245,9 +225,7 @@ export const V2SandboxResourceSpec = /*@__PURE__*/ S.suspend(() =>
     memoryMb: S.optional(S.Number),
     vcpu: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "V2SandboxResourceSpec",
-}) as any as S.Schema<V2SandboxResourceSpec>;
+).annotate({ identifier: "V2SandboxResourceSpec" }) as any as S.Schema<V2SandboxResourceSpec>;
 
 export type V2SandboxStatus =
   | "UNSPECIFIED"
@@ -307,9 +285,7 @@ export const V2CreateSandboxResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(V2Sandbox),
     metadata: S.optional(V2SandboxResponseMetadata),
   }),
-).annotate({
-  identifier: "V2CreateSandboxResponse",
-}) as any as S.Schema<V2CreateSandboxResponse>;
+).annotate({ identifier: "V2CreateSandboxResponse" }) as any as S.Schema<V2CreateSandboxResponse>;
 
 export interface V2ScoreExperiment {
   /** Experiment ID */
@@ -322,9 +298,7 @@ export const V2ScoreExperiment = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     variant: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V2ScoreExperiment",
-}) as any as S.Schema<V2ScoreExperiment>;
+).annotate({ identifier: "V2ScoreExperiment" }) as any as S.Schema<V2ScoreExperiment>;
 
 export interface V2CreateScoreInput {
   experiment?: V2ScoreExperiment;
@@ -342,9 +316,7 @@ export const V2CreateScoreInput = /*@__PURE__*/ S.suspend(() =>
     stepId: S.optional(S.String),
     value: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "V2CreateScoreInput",
-}) as any as S.Schema<V2CreateScoreInput>;
+).annotate({ identifier: "V2CreateScoreInput" }) as any as S.Schema<V2CreateScoreInput>;
 
 /** Scores to record for the run. The REST request body is this array. Writes are applied in order and are not atomic; if a later score fails, earlier scores may already be recorded. Score writes are best-effort: run and step targets are not validated before writing, and scores for targets that do not exist may not surface in queries. Maximum 100 scores. */
 export type CreateV2ScoreRequestBodyList = Array<V2CreateScoreInput>;
@@ -362,9 +334,7 @@ export const CreateV2ScoreRequest = /*@__PURE__*/ S.suspend(() =>
     runId: S.String.pipe(T.Label()),
     body: CreateV2ScoreRequestBodyList.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/runs/{runId}/scores", code: 200 })),
-).annotate({
-  identifier: "CreateV2ScoreRequest",
-}) as any as S.Schema<CreateV2ScoreRequest>;
+).annotate({ identifier: "CreateV2ScoreRequest" }) as any as S.Schema<CreateV2ScoreRequest>;
 
 export interface V2Score {
   experiment?: V2ScoreExperiment;
@@ -401,9 +371,7 @@ export const V2CreateScoreResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(V2CreateScoreResponseDataList),
     metadata: S.optional(V2ResponseMetadata),
   }),
-).annotate({
-  identifier: "V2CreateScoreResponse",
-}) as any as S.Schema<V2CreateScoreResponse>;
+).annotate({ identifier: "V2CreateScoreResponse" }) as any as S.Schema<V2CreateScoreResponse>;
 
 /** Allow or deny specific events, e.g. 'orders/payment.created', or 'orders/*' for all orders. Only events in this list will be either allowed or denied. */
 export type V2EventFilterEventsList = Array<string>;
@@ -442,9 +410,7 @@ export const CreateV2WebhookRequest = /*@__PURE__*/ S.suspend(() =>
     response: S.optional(S.String),
     transform: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/env/webhooks", code: 200 })),
-).annotate({
-  identifier: "CreateV2WebhookRequest",
-}) as any as S.Schema<CreateV2WebhookRequest>;
+).annotate({ identifier: "CreateV2WebhookRequest" }) as any as S.Schema<CreateV2WebhookRequest>;
 
 export interface V2Webhook {
   createdAt?: string;
@@ -480,18 +446,14 @@ export const V2CreateWebhookResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(V2Webhook),
     metadata: S.optional(V2ResponseMetadata),
   }),
-).annotate({
-  identifier: "V2CreateWebhookResponse",
-}) as any as S.Schema<V2CreateWebhookResponse>;
+).annotate({ identifier: "V2CreateWebhookResponse" }) as any as S.Schema<V2CreateWebhookResponse>;
 
 export type ExecV2SandboxRequestCommandList = Array<string>;
 export const ExecV2SandboxRequestCommandList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<ExecV2SandboxRequestCommandList>;
 
-export type ExecV2SandboxRequestEnvironmentMap = {
-  [key: string]: string | undefined;
-};
+export type ExecV2SandboxRequestEnvironmentMap = { [key: string]: string | undefined };
 export const ExecV2SandboxRequestEnvironmentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -512,9 +474,7 @@ export const ExecV2SandboxRequest = /*@__PURE__*/ S.suspend(() =>
     environment: S.optional(ExecV2SandboxRequestEnvironmentMap),
     timeout: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/exec", code: 200 })),
-).annotate({
-  identifier: "ExecV2SandboxRequest",
-}) as any as S.Schema<ExecV2SandboxRequest>;
+).annotate({ identifier: "ExecV2SandboxRequest" }) as any as S.Schema<ExecV2SandboxRequest>;
 
 export interface V2ExecSandboxData {
   encoding?: string;
@@ -529,9 +489,7 @@ export const V2ExecSandboxData = /*@__PURE__*/ S.suspend(() =>
     stderr: S.optional(S.String),
     stdout: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V2ExecSandboxData",
-}) as any as S.Schema<V2ExecSandboxData>;
+).annotate({ identifier: "V2ExecSandboxData" }) as any as S.Schema<V2ExecSandboxData>;
 
 export interface V2ExecSandboxResponse {
   data?: V2ExecSandboxData;
@@ -542,16 +500,12 @@ export const V2ExecSandboxResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(V2ExecSandboxData),
     metadata: S.optional(V2SandboxResponseMetadata),
   }),
-).annotate({
-  identifier: "V2ExecSandboxResponse",
-}) as any as S.Schema<V2ExecSandboxResponse>;
+).annotate({ identifier: "V2ExecSandboxResponse" }) as any as S.Schema<V2ExecSandboxResponse>;
 
 export interface FetchV2AccountRequest {}
 export const FetchV2AccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/account", code: 200 })),
-).annotate({
-  identifier: "FetchV2AccountRequest",
-}) as any as S.Schema<FetchV2AccountRequest>;
+).annotate({ identifier: "FetchV2AccountRequest" }) as any as S.Schema<FetchV2AccountRequest>;
 
 export interface V2Account {
   createdAt?: string;
@@ -579,9 +533,7 @@ export const V2FetchAccountResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(V2Account),
     metadata: S.optional(V2ResponseMetadata),
   }),
-).annotate({
-  identifier: "V2FetchAccountResponse",
-}) as any as S.Schema<V2FetchAccountResponse>;
+).annotate({ identifier: "V2FetchAccountResponse" }) as any as S.Schema<V2FetchAccountResponse>;
 
 export interface FetchV2AccountEnvsRequest {
   /** Pagination cursor from previous response */
@@ -752,9 +704,7 @@ export const V2FetchAccountsResponse = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(V2ResponseMetadata),
     page: S.optional(V2Page),
   }),
-).annotate({
-  identifier: "V2FetchAccountsResponse",
-}) as any as S.Schema<V2FetchAccountsResponse>;
+).annotate({ identifier: "V2FetchAccountsResponse" }) as any as S.Schema<V2FetchAccountsResponse>;
 
 export interface GetV2AppRequest {
   /** The user-defined app ID */
@@ -764,9 +714,7 @@ export const GetV2AppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/apps/{appId}", code: 200 })),
-).annotate({
-  identifier: "GetV2AppRequest",
-}) as any as S.Schema<GetV2AppRequest>;
+).annotate({ identifier: "GetV2AppRequest" }) as any as S.Schema<GetV2AppRequest>;
 
 /** Status of the latest sync. `success` and `duplicate` are successful terminal states. `duplicate` means the sync payload matched the previous successful sync, so no function configuration changes were applied. `error` is a failed terminal state, and `pending` means the sync is still in progress. */
 export type V2AppSyncStatus = "pending" | "success" | "error" | "duplicate";
@@ -847,9 +795,7 @@ export const V2GetAppResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(V2App),
     metadata: S.optional(V2ResponseMetadata),
   }),
-).annotate({
-  identifier: "V2GetAppResponse",
-}) as any as S.Schema<V2GetAppResponse>;
+).annotate({ identifier: "V2GetAppResponse" }) as any as S.Schema<V2GetAppResponse>;
 
 export interface GetV2AppsRequest {
   /** Pagination cursor from previous response */
@@ -865,9 +811,7 @@ export const GetV2AppsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     archived: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/apps", code: 200 })),
-).annotate({
-  identifier: "GetV2AppsRequest",
-}) as any as S.Schema<GetV2AppsRequest>;
+).annotate({ identifier: "GetV2AppsRequest" }) as any as S.Schema<GetV2AppsRequest>;
 
 export type V2GetAppsResponseDataList = Array<V2App>;
 export const V2GetAppsResponseDataList = /*@__PURE__*/ S.Array(
@@ -885,9 +829,7 @@ export const V2GetAppsResponse = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(V2ResponseMetadata),
     page: S.optional(V2Page),
   }),
-).annotate({
-  identifier: "V2GetAppsResponse",
-}) as any as S.Schema<V2GetAppsResponse>;
+).annotate({ identifier: "V2GetAppsResponse" }) as any as S.Schema<V2GetAppsResponse>;
 
 export interface GetV2EventRunsRequest {
   eventId: string;
@@ -904,9 +846,7 @@ export const GetV2EventRunsRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/events/{eventId}/runs", code: 200 })),
-).annotate({
-  identifier: "GetV2EventRunsRequest",
-}) as any as S.Schema<GetV2EventRunsRequest>;
+).annotate({ identifier: "GetV2EventRunsRequest" }) as any as S.Schema<GetV2EventRunsRequest>;
 
 export interface V2AppRef {
   id?: string;
@@ -1004,9 +944,7 @@ export const V2GetEventRunsResponse = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(V2ResponseMetadata),
     page: S.optional(V2Page),
   }),
-).annotate({
-  identifier: "V2GetEventRunsResponse",
-}) as any as S.Schema<V2GetEventRunsResponse>;
+).annotate({ identifier: "V2GetEventRunsResponse" }) as any as S.Schema<V2GetEventRunsResponse>;
 
 export interface GetV2ExperimentRequest {
   appId: string;
@@ -1032,9 +970,7 @@ export const GetV2ExperimentRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetV2ExperimentRequest",
-}) as any as S.Schema<GetV2ExperimentRequest>;
+).annotate({ identifier: "GetV2ExperimentRequest" }) as any as S.Schema<GetV2ExperimentRequest>;
 
 export interface V2ExperimentVariantWeight {
   variantName?: string;
@@ -1113,9 +1049,7 @@ export const V2ExperimentDetail = /*@__PURE__*/ S.suspend(() =>
     variantWeights: S.optional(V2ExperimentDetailVariantWeightsList),
     variants: S.optional(V2ExperimentDetailVariantsList),
   }),
-).annotate({
-  identifier: "V2ExperimentDetail",
-}) as any as S.Schema<V2ExperimentDetail>;
+).annotate({ identifier: "V2ExperimentDetail" }) as any as S.Schema<V2ExperimentDetail>;
 
 export interface V2GetExperimentResponse {
   data?: V2ExperimentDetail;
@@ -1126,9 +1060,7 @@ export const V2GetExperimentResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(V2ExperimentDetail),
     metadata: S.optional(V2ResponseMetadata),
   }),
-).annotate({
-  identifier: "V2GetExperimentResponse",
-}) as any as S.Schema<V2GetExperimentResponse>;
+).annotate({ identifier: "V2GetExperimentResponse" }) as any as S.Schema<V2GetExperimentResponse>;
 
 export interface GetV2FunctionRequest {
   appId: string;
@@ -1138,16 +1070,8 @@ export const GetV2FunctionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.Label()),
     functionId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apps/{appId}/functions/{functionId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetV2FunctionRequest",
-}) as any as S.Schema<GetV2FunctionRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/apps/{appId}/functions/{functionId}", code: 200 })),
+).annotate({ identifier: "GetV2FunctionRequest" }) as any as S.Schema<GetV2FunctionRequest>;
 
 export type V2FunctionApp = V2AppRef;
 export const V2FunctionApp = V2AppRef;
@@ -1320,9 +1244,7 @@ export const V2FunctionConfiguration = /*@__PURE__*/ S.suspend(() =>
     singleton: S.optional(V2FunctionSingletonConfiguration),
     throttle: S.optional(V2FunctionThrottleConfiguration),
   }),
-).annotate({
-  identifier: "V2FunctionConfiguration",
-}) as any as S.Schema<V2FunctionConfiguration>;
+).annotate({ identifier: "V2FunctionConfiguration" }) as any as S.Schema<V2FunctionConfiguration>;
 
 export interface V2FunctionFailureHandler {
   name?: string;
@@ -1333,9 +1255,7 @@ export const V2FunctionFailureHandler = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     slug: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V2FunctionFailureHandler",
-}) as any as S.Schema<V2FunctionFailureHandler>;
+).annotate({ identifier: "V2FunctionFailureHandler" }) as any as S.Schema<V2FunctionFailureHandler>;
 
 export type V2FunctionTriggerType = "UNSPECIFIED" | "EVENT" | "CRON";
 export const V2FunctionTriggerType = S.String;
@@ -1351,9 +1271,7 @@ export const V2FunctionTrigger = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(V2FunctionTriggerType),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V2FunctionTrigger",
-}) as any as S.Schema<V2FunctionTrigger>;
+).annotate({ identifier: "V2FunctionTrigger" }) as any as S.Schema<V2FunctionTrigger>;
 
 export type V2FunctionTriggersList = Array<V2FunctionTrigger>;
 export const V2FunctionTriggersList = /*@__PURE__*/ S.Array(
@@ -1394,9 +1312,7 @@ export const V2GetFunctionResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(V2Function),
     metadata: S.optional(V2ResponseMetadata),
   }),
-).annotate({
-  identifier: "V2GetFunctionResponse",
-}) as any as S.Schema<V2GetFunctionResponse>;
+).annotate({ identifier: "V2GetFunctionResponse" }) as any as S.Schema<V2GetFunctionResponse>;
 
 export interface GetV2FunctionRunRequest {
   runId: string;
@@ -1407,9 +1323,7 @@ export const GetV2FunctionRunRequest = /*@__PURE__*/ S.suspend(() =>
     runId: S.String.pipe(T.Label()),
     includeOutput: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/runs/{runId}", code: 200 })),
-).annotate({
-  identifier: "GetV2FunctionRunRequest",
-}) as any as S.Schema<GetV2FunctionRunRequest>;
+).annotate({ identifier: "GetV2FunctionRunRequest" }) as any as S.Schema<GetV2FunctionRunRequest>;
 
 export interface V2GetFunctionRunResponse {
   data?: V2FunctionRun;
@@ -1420,9 +1334,7 @@ export const V2GetFunctionRunResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(V2FunctionRun),
     metadata: S.optional(V2ResponseMetadata),
   }),
-).annotate({
-  identifier: "V2GetFunctionRunResponse",
-}) as any as S.Schema<V2GetFunctionRunResponse>;
+).annotate({ identifier: "V2GetFunctionRunResponse" }) as any as S.Schema<V2GetFunctionRunResponse>;
 
 export interface GetV2FunctionsRequest {
   appId: string;
@@ -1437,9 +1349,7 @@ export const GetV2FunctionsRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/apps/{appId}/functions", code: 200 })),
-).annotate({
-  identifier: "GetV2FunctionsRequest",
-}) as any as S.Schema<GetV2FunctionsRequest>;
+).annotate({ identifier: "GetV2FunctionsRequest" }) as any as S.Schema<GetV2FunctionsRequest>;
 
 export type V2GetFunctionsResponseDataList = Array<V2Function>;
 export const V2GetFunctionsResponseDataList = /*@__PURE__*/ S.Array(
@@ -1457,9 +1367,7 @@ export const V2GetFunctionsResponse = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(V2ResponseMetadata),
     page: S.optional(V2Page),
   }),
-).annotate({
-  identifier: "V2GetFunctionsResponse",
-}) as any as S.Schema<V2GetFunctionsResponse>;
+).annotate({ identifier: "V2GetFunctionsResponse" }) as any as S.Schema<V2GetFunctionsResponse>;
 
 export interface GetV2FunctionTraceRequest {
   runId: string;
@@ -1479,9 +1387,7 @@ export const V2TraceSpanChildrenList = /*@__PURE__*/ S.Array(
   S.suspend(() => V2TraceSpan),
 ) as any as S.Schema<V2TraceSpanChildrenList>;
 
-export type V2TraceSpanMetadataValuesMap = {
-  [key: string]: string | undefined;
-};
+export type V2TraceSpanMetadataValuesMap = { [key: string]: string | undefined };
 export const V2TraceSpanMetadataValuesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1500,9 +1406,7 @@ export const V2TraceSpanMetadata = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.optional(S.String),
     values: S.optional(V2TraceSpanMetadataValuesMap),
   }),
-).annotate({
-  identifier: "V2TraceSpanMetadata",
-}) as any as S.Schema<V2TraceSpanMetadata>;
+).annotate({ identifier: "V2TraceSpanMetadata" }) as any as S.Schema<V2TraceSpanMetadata>;
 
 export type V2TraceSpanMetadataList = Array<V2TraceSpanMetadata>;
 export const V2TraceSpanMetadataList = /*@__PURE__*/ S.Array(
@@ -1572,9 +1476,7 @@ export const V2FunctionTrace = /*@__PURE__*/ S.suspend(() =>
     rootSpan: S.optional(V2TraceSpan),
     runId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V2FunctionTrace",
-}) as any as S.Schema<V2FunctionTrace>;
+).annotate({ identifier: "V2FunctionTrace" }) as any as S.Schema<V2FunctionTrace>;
 
 export interface V2GetFunctionTraceResponse {
   data?: V2FunctionTrace;
@@ -1596,9 +1498,7 @@ export const GetV2SandboxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sandboxId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/sandboxes/{sandboxId}", code: 200 })),
-).annotate({
-  identifier: "GetV2SandboxRequest",
-}) as any as S.Schema<GetV2SandboxRequest>;
+).annotate({ identifier: "GetV2SandboxRequest" }) as any as S.Schema<GetV2SandboxRequest>;
 
 export interface V2GetSandboxResponse {
   data?: V2Sandbox;
@@ -1609,9 +1509,7 @@ export const V2GetSandboxResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(V2Sandbox),
     metadata: S.optional(V2SandboxResponseMetadata),
   }),
-).annotate({
-  identifier: "V2GetSandboxResponse",
-}) as any as S.Schema<V2GetSandboxResponse>;
+).annotate({ identifier: "V2GetSandboxResponse" }) as any as S.Schema<V2GetSandboxResponse>;
 
 export interface GetV2SandboxProcessRequest {
   sandboxId: string;
@@ -1622,11 +1520,7 @@ export const GetV2SandboxProcessRequest = /*@__PURE__*/ S.suspend(() =>
     sandboxId: S.String.pipe(T.Label()),
     processId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sandboxes/{sandboxId}/processes/{processId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/sandboxes/{sandboxId}/processes/{processId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetV2SandboxProcessRequest",
@@ -1668,9 +1562,7 @@ export const V2SandboxProcess = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(V2SandboxProcessState),
     terminationSignal: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "V2SandboxProcess",
-}) as any as S.Schema<V2SandboxProcess>;
+).annotate({ identifier: "V2SandboxProcess" }) as any as S.Schema<V2SandboxProcess>;
 
 export interface V2GetSandboxProcessResponse {
   data?: V2SandboxProcess;
@@ -1722,9 +1614,7 @@ export const V2SandboxLogChunk = /*@__PURE__*/ S.suspend(() =>
     encoding: S.optional(S.String),
     stream: S.optional(V2SandboxLogStream),
   }),
-).annotate({
-  identifier: "V2SandboxLogChunk",
-}) as any as S.Schema<V2SandboxLogChunk>;
+).annotate({ identifier: "V2SandboxLogChunk" }) as any as S.Schema<V2SandboxLogChunk>;
 
 export type V2GetSandboxProcessOutputDataChunksList = Array<V2SandboxLogChunk>;
 export const V2GetSandboxProcessOutputDataChunksList = /*@__PURE__*/ S.Array(
@@ -1772,15 +1662,9 @@ export const InvokeV2FunctionRequest = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(S.Unknown),
     idempotencyKey: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/apps/{appId}/functions/{functionId}/invoke",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/apps/{appId}/functions/{functionId}/invoke", code: 200 }),
   ),
-).annotate({
-  identifier: "InvokeV2FunctionRequest",
-}) as any as S.Schema<InvokeV2FunctionRequest>;
+).annotate({ identifier: "InvokeV2FunctionRequest" }) as any as S.Schema<InvokeV2FunctionRequest>;
 
 export interface V2InvokeFunctionData {
   /** Timestamp when the function execution completed (if finished) */
@@ -1805,9 +1689,7 @@ export const V2InvokeFunctionData = /*@__PURE__*/ S.suspend(() =>
     runId: S.optional(S.String),
     startedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V2InvokeFunctionData",
-}) as any as S.Schema<V2InvokeFunctionData>;
+).annotate({ identifier: "V2InvokeFunctionData" }) as any as S.Schema<V2InvokeFunctionData>;
 
 export interface V2InvokeFunctionResponse {
   data?: V2InvokeFunctionData;
@@ -1818,9 +1700,7 @@ export const V2InvokeFunctionResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(V2InvokeFunctionData),
     metadata: S.optional(V2ResponseMetadata),
   }),
-).annotate({
-  identifier: "V2InvokeFunctionResponse",
-}) as any as S.Schema<V2InvokeFunctionResponse>;
+).annotate({ identifier: "V2InvokeFunctionResponse" }) as any as S.Schema<V2InvokeFunctionResponse>;
 
 export interface ListV2ExperimentsRequest {
   /** Pagination cursor from previous response */
@@ -1841,9 +1721,7 @@ export const ListV2ExperimentsRequest = /*@__PURE__*/ S.suspend(() =>
     from: S.optional(S.String.pipe(T.Query())),
     until: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/experiments", code: 200 })),
-).annotate({
-  identifier: "ListV2ExperimentsRequest",
-}) as any as S.Schema<ListV2ExperimentsRequest>;
+).annotate({ identifier: "ListV2ExperimentsRequest" }) as any as S.Schema<ListV2ExperimentsRequest>;
 
 export type V2ExperimentVariantsList = Array<string>;
 export const V2ExperimentVariantsList = /*@__PURE__*/ S.Array(
@@ -1912,11 +1790,7 @@ export const ListV2Experiments2Request = /*@__PURE__*/ S.suspend(() =>
     from: S.optional(S.String.pipe(T.Query())),
     until: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apps/{appId}/functions/{functionId}/experiments",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apps/{appId}/functions/{functionId}/experiments", code: 200 }),
   ),
 ).annotate({
   identifier: "ListV2Experiments2Request",
@@ -1961,13 +1835,7 @@ export const ListV2FunctionRunsRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(ListV2FunctionRunsRequestStatusList.pipe(T.Query())),
     isDeferred: S.optional(S.Boolean.pipe(T.Query())),
     order: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apps/{appId}/functions/{functionId}/runs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apps/{appId}/functions/{functionId}/runs", code: 200 })),
 ).annotate({
   identifier: "ListV2FunctionRunsRequest",
 }) as any as S.Schema<ListV2FunctionRunsRequest>;
@@ -2018,9 +1886,7 @@ export const V2InsightsEventSchema = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     schema: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "V2InsightsEventSchema",
-}) as any as S.Schema<V2InsightsEventSchema>;
+).annotate({ identifier: "V2InsightsEventSchema" }) as any as S.Schema<V2InsightsEventSchema>;
 
 /** Paginated list of event type schemas */
 export type V2ListInsightsEventSchemasResponseDataList = Array<V2InsightsEventSchema>;
@@ -2065,9 +1931,7 @@ export const V2InsightsTableColumn = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V2InsightsTableColumn",
-}) as any as S.Schema<V2InsightsTableColumn>;
+).annotate({ identifier: "V2InsightsTableColumn" }) as any as S.Schema<V2InsightsTableColumn>;
 
 /** Columns available in this table */
 export type V2InsightsTableColumnsList = Array<V2InsightsTableColumn>;
@@ -2089,9 +1953,7 @@ export const V2InsightsTable = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V2InsightsTable",
-}) as any as S.Schema<V2InsightsTable>;
+).annotate({ identifier: "V2InsightsTable" }) as any as S.Schema<V2InsightsTable>;
 
 /** List of available tables that can be queried via the Insights query endpoint */
 export type V2ListInsightsTablesResponseDataList = Array<V2InsightsTable>;
@@ -2165,9 +2027,7 @@ export const ListV2RunsRequest = /*@__PURE__*/ S.suspend(() =>
     isDeferred: S.optional(S.Boolean.pipe(T.Query())),
     order: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/runs", code: 200 })),
-).annotate({
-  identifier: "ListV2RunsRequest",
-}) as any as S.Schema<ListV2RunsRequest>;
+).annotate({ identifier: "ListV2RunsRequest" }) as any as S.Schema<ListV2RunsRequest>;
 
 export type V2ListRunsResponseDataList = Array<V2FunctionRun>;
 export const V2ListRunsResponseDataList = /*@__PURE__*/ S.Array(
@@ -2185,9 +2045,7 @@ export const V2ListRunsResponse = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(V2ResponseMetadata),
     page: S.optional(V2Page),
   }),
-).annotate({
-  identifier: "V2ListRunsResponse",
-}) as any as S.Schema<V2ListRunsResponse>;
+).annotate({ identifier: "V2ListRunsResponse" }) as any as S.Schema<V2ListRunsResponse>;
 
 export interface ListV2SandboxesRequest {
   cursor?: string;
@@ -2198,9 +2056,7 @@ export const ListV2SandboxesRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/sandboxes", code: 200 })),
-).annotate({
-  identifier: "ListV2SandboxesRequest",
-}) as any as S.Schema<ListV2SandboxesRequest>;
+).annotate({ identifier: "ListV2SandboxesRequest" }) as any as S.Schema<ListV2SandboxesRequest>;
 
 export type V2ListSandboxesResponseDataList = Array<V2Sandbox>;
 export const V2ListSandboxesResponseDataList = /*@__PURE__*/ S.Array(
@@ -2221,9 +2077,7 @@ export const V2ListSandboxesResponse = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(V2SandboxResponseMetadata),
     page: S.optional(V2Page),
   }),
-).annotate({
-  identifier: "V2ListSandboxesResponse",
-}) as any as S.Schema<V2ListSandboxesResponse>;
+).annotate({ identifier: "V2ListSandboxesResponse" }) as any as S.Schema<V2ListSandboxesResponse>;
 
 export interface ListV2SandboxProcessesRequest {
   sandboxId: string;
@@ -2235,13 +2089,7 @@ export const ListV2SandboxProcessesRequest = /*@__PURE__*/ S.suspend(() =>
     sandboxId: S.String.pipe(T.Label()),
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sandboxes/{sandboxId}/processes",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/sandboxes/{sandboxId}/processes", code: 200 })),
 ).annotate({
   identifier: "ListV2SandboxProcessesRequest",
 }) as any as S.Schema<ListV2SandboxProcessesRequest>;
@@ -2279,9 +2127,7 @@ export const ListV2SessionKeysRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/sessions", code: 200 })),
-).annotate({
-  identifier: "ListV2SessionKeysRequest",
-}) as any as S.Schema<ListV2SessionKeysRequest>;
+).annotate({ identifier: "ListV2SessionKeysRequest" }) as any as S.Schema<ListV2SessionKeysRequest>;
 
 export interface V2SessionKey {
   createdAt?: string;
@@ -2332,16 +2178,8 @@ export const ListV2SessionRunsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     from: S.optional(S.String.pipe(T.Query())),
     until: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sessions/{sessionKey}/{sessionId}/runs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListV2SessionRunsRequest",
-}) as any as S.Schema<ListV2SessionRunsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/sessions/{sessionKey}/{sessionId}/runs", code: 200 })),
+).annotate({ identifier: "ListV2SessionRunsRequest" }) as any as S.Schema<ListV2SessionRunsRequest>;
 
 export interface V2SessionRun {
   endedAt?: string;
@@ -2403,9 +2241,7 @@ export const ListV2SessionsRequest = /*@__PURE__*/ S.suspend(() =>
     from: S.optional(S.String.pipe(T.Query())),
     until: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/sessions/{sessionKey}", code: 200 })),
-).annotate({
-  identifier: "ListV2SessionsRequest",
-}) as any as S.Schema<ListV2SessionsRequest>;
+).annotate({ identifier: "ListV2SessionsRequest" }) as any as S.Schema<ListV2SessionsRequest>;
 
 export type V2SessionGroupFunctionsList = Array<V2FunctionRef>;
 export const V2SessionGroupFunctionsList = /*@__PURE__*/ S.Array(
@@ -2447,9 +2283,7 @@ export const V2ListSessionsResponse = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(V2ResponseMetadata),
     page: S.optional(V2Page),
   }),
-).annotate({
-  identifier: "V2ListSessionsResponse",
-}) as any as S.Schema<V2ListSessionsResponse>;
+).annotate({ identifier: "V2ListSessionsResponse" }) as any as S.Schema<V2ListSessionsResponse>;
 
 export interface ListV2WebhooksRequest {
   /** Pagination cursor from previous response */
@@ -2462,9 +2296,7 @@ export const ListV2WebhooksRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/env/webhooks", code: 200 })),
-).annotate({
-  identifier: "ListV2WebhooksRequest",
-}) as any as S.Schema<ListV2WebhooksRequest>;
+).annotate({ identifier: "ListV2WebhooksRequest" }) as any as S.Schema<ListV2WebhooksRequest>;
 
 export type V2ListWebhooksResponseDataList = Array<V2Webhook>;
 export const V2ListWebhooksResponseDataList = /*@__PURE__*/ S.Array(
@@ -2482,9 +2314,7 @@ export const V2ListWebhooksResponse = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(V2ResponseMetadata),
     page: S.optional(V2Page),
   }),
-).annotate({
-  identifier: "V2ListWebhooksResponse",
-}) as any as S.Schema<V2ListWebhooksResponse>;
+).annotate({ identifier: "V2ListWebhooksResponse" }) as any as S.Schema<V2ListWebhooksResponse>;
 
 export interface PatchV2EnvRequest {
   /** The ID of the environment to update */
@@ -2497,9 +2327,7 @@ export const PatchV2EnvRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     isArchived: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PATCH", uri: "/envs/{id}", code: 200 })),
-).annotate({
-  identifier: "PatchV2EnvRequest",
-}) as any as S.Schema<PatchV2EnvRequest>;
+).annotate({ identifier: "PatchV2EnvRequest" }) as any as S.Schema<PatchV2EnvRequest>;
 
 export interface V2PatchEnvsResponse {
   data?: V2Env;
@@ -2510,9 +2338,7 @@ export const V2PatchEnvsResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(V2Env),
     metadata: S.optional(V2ResponseMetadata),
   }),
-).annotate({
-  identifier: "V2PatchEnvsResponse",
-}) as any as S.Schema<V2PatchEnvsResponse>;
+).annotate({ identifier: "V2PatchEnvsResponse" }) as any as S.Schema<V2PatchEnvsResponse>;
 
 export interface ReadV2SandboxFileRequest {
   sandboxId: string;
@@ -2523,9 +2349,7 @@ export const ReadV2SandboxFileRequest = /*@__PURE__*/ S.suspend(() =>
     sandboxId: S.String.pipe(T.Label()),
     path: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/sandboxes/{sandboxId}/files", code: 200 })),
-).annotate({
-  identifier: "ReadV2SandboxFileRequest",
-}) as any as S.Schema<ReadV2SandboxFileRequest>;
+).annotate({ identifier: "ReadV2SandboxFileRequest" }) as any as S.Schema<ReadV2SandboxFileRequest>;
 
 export type ReadV2SandboxFileResponse = string;
 export const ReadV2SandboxFileResponse = /*@__PURE__*/ S.suspend(() =>
@@ -2554,9 +2378,7 @@ export const SendV2EventRequest = /*@__PURE__*/ S.suspend(() =>
     ts: S.optional(S.String),
     user: S.optional(S.Unknown),
   }).pipe(T.Http({ method: "POST", uri: "/events", code: 200 })),
-).annotate({
-  identifier: "SendV2EventRequest",
-}) as any as S.Schema<SendV2EventRequest>;
+).annotate({ identifier: "SendV2EventRequest" }) as any as S.Schema<SendV2EventRequest>;
 
 export interface V2SendEventData {
   /** Internal event ID assigned by Inngest */
@@ -2566,9 +2388,7 @@ export const V2SendEventData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     eventId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V2SendEventData",
-}) as any as S.Schema<V2SendEventData>;
+).annotate({ identifier: "V2SendEventData" }) as any as S.Schema<V2SendEventData>;
 
 export interface V2SendEventResponse {
   data?: V2SendEventData;
@@ -2579,9 +2399,7 @@ export const V2SendEventResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(V2SendEventData),
     metadata: S.optional(V2ResponseMetadata),
   }),
-).annotate({
-  identifier: "V2SendEventResponse",
-}) as any as S.Schema<V2SendEventResponse>;
+).annotate({ identifier: "V2SendEventResponse" }) as any as S.Schema<V2SendEventResponse>;
 
 export interface SignalV2SandboxProcessRequest {
   sandboxId: string;
@@ -2618,9 +2436,7 @@ export const StartV2SandboxProcessRequestCommandList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<StartV2SandboxProcessRequestCommandList>;
 
-export type StartV2SandboxProcessRequestEnvironmentMap = {
-  [key: string]: string | undefined;
-};
+export type StartV2SandboxProcessRequestEnvironmentMap = { [key: string]: string | undefined };
 export const StartV2SandboxProcessRequestEnvironmentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2638,13 +2454,7 @@ export const StartV2SandboxProcessRequest = /*@__PURE__*/ S.suspend(() =>
     command: S.optional(StartV2SandboxProcessRequestCommandList),
     cwd: S.optional(S.String),
     environment: S.optional(StartV2SandboxProcessRequestEnvironmentMap),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandboxes/{sandboxId}/processes",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/processes", code: 200 })),
 ).annotate({
   identifier: "StartV2SandboxProcessRequest",
 }) as any as S.Schema<StartV2SandboxProcessRequest>;
@@ -2673,9 +2483,7 @@ export const SyncV2AppRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.Label()),
     url: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/apps/{appId}/syncs", code: 200 })),
-).annotate({
-  identifier: "SyncV2AppRequest",
-}) as any as S.Schema<SyncV2AppRequest>;
+).annotate({ identifier: "SyncV2AppRequest" }) as any as S.Schema<SyncV2AppRequest>;
 
 export interface V2SyncAppError {
   code?: string;
@@ -2719,9 +2527,7 @@ export const V2SyncAppResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(V2SyncAppData),
     metadata: S.optional(V2ResponseMetadata),
   }),
-).annotate({
-  identifier: "V2SyncAppResponse",
-}) as any as S.Schema<V2SyncAppResponse>;
+).annotate({ identifier: "V2SyncAppResponse" }) as any as S.Schema<V2SyncAppResponse>;
 
 export interface V2DestroySandboxRequest {
   sandboxId: string;
@@ -2730,9 +2536,7 @@ export const V2DestroySandboxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sandboxId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/sandboxes/{sandboxId}", code: 200 })),
-).annotate({
-  identifier: "V2DestroySandboxRequest",
-}) as any as S.Schema<V2DestroySandboxRequest>;
+).annotate({ identifier: "V2DestroySandboxRequest" }) as any as S.Schema<V2DestroySandboxRequest>;
 
 export interface V2DestroySandboxResponse {
   data?: V2Sandbox;
@@ -2743,9 +2547,7 @@ export const V2DestroySandboxResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(V2Sandbox),
     metadata: S.optional(V2SandboxResponseMetadata),
   }),
-).annotate({
-  identifier: "V2DestroySandboxResponse",
-}) as any as S.Schema<V2DestroySandboxResponse>;
+).annotate({ identifier: "V2DestroySandboxResponse" }) as any as S.Schema<V2DestroySandboxResponse>;
 
 export interface V2QueryInsightsRequest {
   /** The insights query to execute, written in modified ClickHouse SQL */
@@ -2755,9 +2557,7 @@ export const V2QueryInsightsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     query: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/insights/query", code: 200 })),
-).annotate({
-  identifier: "V2QueryInsightsRequest",
-}) as any as S.Schema<V2QueryInsightsRequest>;
+).annotate({ identifier: "V2QueryInsightsRequest" }) as any as S.Schema<V2QueryInsightsRequest>;
 
 export type V2InsightsOutputColumnType =
   | "VALUE_TYPE_UNSPECIFIED"
@@ -2778,9 +2578,7 @@ export const V2InsightsOutputColumn = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(V2InsightsOutputColumnType),
   }),
-).annotate({
-  identifier: "V2InsightsOutputColumn",
-}) as any as S.Schema<V2InsightsOutputColumn>;
+).annotate({ identifier: "V2InsightsOutputColumn" }) as any as S.Schema<V2InsightsOutputColumn>;
 
 /** Column metadata for the insights query result */
 export type V2QueryInsightsDataColumnsList = Array<V2InsightsOutputColumn>;
@@ -2824,9 +2622,7 @@ export const V2InsightsDiagnostic = /*@__PURE__*/ S.suspend(() =>
     position: S.optional(V2InsightsDiagnosticPosition),
     severity: S.optional(V2InsightsDiagnosticSeverity),
   }),
-).annotate({
-  identifier: "V2InsightsDiagnostic",
-}) as any as S.Schema<V2InsightsDiagnostic>;
+).annotate({ identifier: "V2InsightsDiagnostic" }) as any as S.Schema<V2InsightsDiagnostic>;
 
 /** Any non-fatal diagnostics related to the insights query execution */
 export type V2QueryInsightsDataDiagnosticsList = Array<V2InsightsDiagnostic>;
@@ -2870,9 +2666,7 @@ export const V2QueryInsightsData = /*@__PURE__*/ S.suspend(() =>
     diagnostics: S.optional(V2QueryInsightsDataDiagnosticsList),
     rows: S.optional(V2QueryInsightsDataRowsList),
   }),
-).annotate({
-  identifier: "V2QueryInsightsData",
-}) as any as S.Schema<V2QueryInsightsData>;
+).annotate({ identifier: "V2QueryInsightsData" }) as any as S.Schema<V2QueryInsightsData>;
 
 export interface V2QueryInsightsResponse {
   data?: V2QueryInsightsData;
@@ -2883,9 +2677,7 @@ export const V2QueryInsightsResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(V2QueryInsightsData),
     metadata: S.optional(V2ResponseMetadata),
   }),
-).annotate({
-  identifier: "V2QueryInsightsResponse",
-}) as any as S.Schema<V2QueryInsightsResponse>;
+).annotate({ identifier: "V2QueryInsightsResponse" }) as any as S.Schema<V2QueryInsightsResponse>;
 
 export interface V2QueryInsightsPromptRequest {
   /** Natural language description of the query to generate */
@@ -2944,9 +2736,7 @@ export const V2RerunFromStep = /*@__PURE__*/ S.suspend(() =>
     input: S.optional(V2RerunFromStepInputList),
     stepId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V2RerunFromStep",
-}) as any as S.Schema<V2RerunFromStep>;
+).annotate({ identifier: "V2RerunFromStep" }) as any as S.Schema<V2RerunFromStep>;
 
 export interface V2RerunRequest {
   runId: string;
@@ -2978,9 +2768,7 @@ export const V2RerunResponse = /*@__PURE__*/ S.suspend(() =>
     data: S.optional(V2RerunData),
     metadata: S.optional(V2ResponseMetadata),
   }),
-).annotate({
-  identifier: "V2RerunResponse",
-}) as any as S.Schema<V2RerunResponse>;
+).annotate({ identifier: "V2RerunResponse" }) as any as S.Schema<V2RerunResponse>;
 
 export interface V2StreamSandboxLogsRequest {
   sandboxId: string;
@@ -3124,9 +2912,7 @@ export const V2WriteSandboxFileData = /*@__PURE__*/ S.suspend(() =>
     bytesWritten: S.optional(S.String),
     path: S.optional(S.String),
   }),
-).annotate({
-  identifier: "V2WriteSandboxFileData",
-}) as any as S.Schema<V2WriteSandboxFileData>;
+).annotate({ identifier: "V2WriteSandboxFileData" }) as any as S.Schema<V2WriteSandboxFileData>;
 
 export interface V2WriteSandboxFileResponse {
   data?: V2WriteSandboxFileData;
@@ -3152,11 +2938,7 @@ export const WaitV2SandboxProcessRequest = /*@__PURE__*/ S.suspend(() =>
     processId: S.String.pipe(T.Label()),
     timeout: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandboxes/{sandboxId}/processes/{processId}/wait",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/processes/{processId}/wait", code: 200 }),
   ),
 ).annotate({
   identifier: "WaitV2SandboxProcessRequest",

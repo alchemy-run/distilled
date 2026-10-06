@@ -61,17 +61,17 @@ export const AddResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     resourceGroupId: S.NullOr(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/buckets/{namespace}/{repo}/resource-group",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/buckets/{namespace}/{repo}/resource-group", code: 200 }),
   ),
-).annotate({
-  identifier: "AddResourceGroupRequest",
-}) as any as S.Schema<AddResourceGroupRequest>;
+).annotate({ identifier: "AddResourceGroupRequest" }) as any as S.Schema<AddResourceGroupRequest>;
 
-export type AddResourceGroupResponseType = "dataset" | "model" | "space" | "bucket" | "kernel";
+export type AddResourceGroupResponseType =
+  | "dataset"
+  | "model"
+  | "space"
+  | "bucket"
+  | "kernel"
+  | "container";
 export const AddResourceGroupResponseType = S.String;
 
 export interface AddResourceGroupResponse {
@@ -87,9 +87,7 @@ export const AddResourceGroupResponse = /*@__PURE__*/ S.suspend(() =>
     private: S.Boolean,
     addedBy: S.String,
   }),
-).annotate({
-  identifier: "AddResourceGroupResponse",
-}) as any as S.Schema<AddResourceGroupResponse>;
+).annotate({ identifier: "AddResourceGroupResponse" }) as any as S.Schema<AddResourceGroupResponse>;
 
 export interface BatchFileOperationsRequest {
   namespace: string;
@@ -99,13 +97,7 @@ export const BatchFileOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/buckets/{namespace}/{repo}/batch",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/buckets/{namespace}/{repo}/batch", code: 200 })),
 ).annotate({
   identifier: "BatchFileOperationsRequest",
 }) as any as S.Schema<BatchFileOperationsRequest>;
@@ -152,6 +144,10 @@ export const BatchFileOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchFileOperationsResponse",
 }) as any as S.Schema<BatchFileOperationsResponse>;
 
+/** Bucket visibility. Cannot be specified along with private. */
+export type CreateBucketRequestVisibility = "private" | "public";
+export const CreateBucketRequestVisibility = S.String;
+
 export type CreateBucketRequestCdnItemProvider = "gcp" | "aws";
 export const CreateBucketRequestCdnItemProvider = S.String;
 
@@ -184,36 +180,35 @@ export const CreateBucketRequestRegion = S.String;
 export interface CreateBucketRequest {
   namespace: string;
   repo: string;
-  /** Bucket visibility. Defaults to public */
+  /** Bucket visibility. Defaults to public. Cannot be specified along with visibility. */
   private?: boolean | null;
+  /** Bucket visibility. Cannot be specified along with private. */
+  visibility?: CreateBucketRequestVisibility | (string & {});
   resourceGroupId?: string;
   /** CDN pre-warming regions */
   cdn?: CreateBucketRequestCdnList;
   /** The region where the bucket is hosted. */
   region?: CreateBucketRequestRegion | (string & {});
+  /** Free-text description. */
+  description?: string;
 }
 export const CreateBucketRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     private: S.optional(S.NullOr(S.Boolean)),
+    visibility: S.optional(CreateBucketRequestVisibility),
     resourceGroupId: S.optional(S.String),
     cdn: S.optional(CreateBucketRequestCdnList),
     region: S.optional(CreateBucketRequestRegion),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/buckets/{namespace}/{repo}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateBucketRequest",
-}) as any as S.Schema<CreateBucketRequest>;
+    description: S.optional(S.String),
+  }).pipe(T.Http({ method: "POST", uri: "/api/buckets/{namespace}/{repo}", code: 200 })),
+).annotate({ identifier: "CreateBucketRequest" }) as any as S.Schema<CreateBucketRequest>;
 
 export interface CreateBucketResponse {
   url: string;
   name: string;
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
 }
 export const CreateBucketResponse = /*@__PURE__*/ S.suspend(() =>
@@ -222,9 +217,7 @@ export const CreateBucketResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     id: S.String,
   }),
-).annotate({
-  identifier: "CreateBucketResponse",
-}) as any as S.Schema<CreateBucketResponse>;
+).annotate({ identifier: "CreateBucketResponse" }) as any as S.Schema<CreateBucketResponse>;
 
 export interface DeleteBucketRequest {
   namespace: string;
@@ -234,23 +227,15 @@ export const DeleteBucketRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/buckets/{namespace}/{repo}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteBucketRequest",
-}) as any as S.Schema<DeleteBucketRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/buckets/{namespace}/{repo}", code: 200 })),
+).annotate({ identifier: "DeleteBucketRequest" }) as any as S.Schema<DeleteBucketRequest>;
 
 export interface DeleteBucketResponse {}
 export const DeleteBucketResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteBucketResponse",
 }) as any as S.Schema<DeleteBucketResponse>;
 
-export type DuplicateXetFilesRequestTargetType = "dataset" | "model" | "space" | "kernel";
+export type DuplicateXetFilesRequestTargetType = "model" | "space" | "dataset" | "kernel";
 export const DuplicateXetFilesRequestTargetType = S.String;
 
 export interface DuplicateXetFilesRequestTarget {
@@ -305,9 +290,7 @@ export const DuplicateXetFilesRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DuplicateXetFilesRequest",
-}) as any as S.Schema<DuplicateXetFilesRequest>;
+).annotate({ identifier: "DuplicateXetFilesRequest" }) as any as S.Schema<DuplicateXetFilesRequest>;
 
 export interface DuplicateXetFilesResponseFailedItem {
   /** Xet content hash of the file that failed */
@@ -354,6 +337,26 @@ export const DuplicateXetFilesResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DuplicateXetFilesResponse",
 }) as any as S.Schema<DuplicateXetFilesResponse>;
 
+export interface FollowChangesRequest {
+  namespace: string;
+  repo: string;
+  cursor?: string;
+  since?: string;
+}
+export const FollowChangesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    namespace: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    since: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/api/buckets/{namespace}/{repo}/events", code: 200 })),
+).annotate({ identifier: "FollowChangesRequest" }) as any as S.Schema<FollowChangesRequest>;
+
+export interface FollowChangesResponse {}
+export const FollowChangesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "FollowChangesResponse",
+}) as any as S.Schema<FollowChangesResponse>;
+
 export interface GetBucketDetailsRequest {
   namespace: string;
   repo: string;
@@ -362,16 +365,11 @@ export const GetBucketDetailsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/buckets/{namespace}/{repo}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetBucketDetailsRequest",
-}) as any as S.Schema<GetBucketDetailsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/buckets/{namespace}/{repo}", code: 200 })),
+).annotate({ identifier: "GetBucketDetailsRequest" }) as any as S.Schema<GetBucketDetailsRequest>;
+
+export type GetBucketDetailsResponseRepoType = "bucket" | "container";
+export const GetBucketDetailsResponseRepoType = S.String;
 
 export type GetBucketDetailsResponseAdminTagsList = Array<string>;
 export const GetBucketDetailsResponseAdminTagsList = /*@__PURE__*/ S.Array(
@@ -416,6 +414,7 @@ export const GetBucketDetailsResponseCdnRegionsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<GetBucketDetailsResponseCdnRegionsList>;
 
 export interface GetBucketDetailsResponseResourceGroup {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   numUsers?: number;
@@ -431,17 +430,21 @@ export const GetBucketDetailsResponseResourceGroup = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<GetBucketDetailsResponseResourceGroup>;
 
 export interface GetBucketDetailsResponse {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   author: string;
   id: string;
   private?: boolean | null;
+  /** Free-text description of the bucket / container image */
+  description?: string | null;
   createdAt: string;
+  /** Moves on every successful change to the bucket's files. Poll it to know when to re-list instead of re-listing every path. */
   updatedAt: string;
   /** The amount of storage used by the bucket in bytes */
   size: number;
   /** The total number of files in the bucket */
   totalFiles: number;
-  repoType: unknown;
+  repoType: GetBucketDetailsResponseRepoType;
   adminTags?: GetBucketDetailsResponseAdminTagsList;
   disabled?: GetBucketDetailsResponseDisabled;
   cdnRegions: GetBucketDetailsResponseCdnRegionsList;
@@ -453,46 +456,37 @@ export const GetBucketDetailsResponse = /*@__PURE__*/ S.suspend(() =>
     author: S.String,
     id: S.String,
     private: S.optional(S.NullOr(S.Boolean)),
+    description: S.optional(S.NullOr(S.String)),
     createdAt: S.String,
     updatedAt: S.String,
     size: S.Number,
     totalFiles: S.Number,
-    repoType: S.Unknown,
+    repoType: GetBucketDetailsResponseRepoType,
     adminTags: S.optional(GetBucketDetailsResponseAdminTagsList),
     disabled: S.optional(GetBucketDetailsResponseDisabled),
     cdnRegions: GetBucketDetailsResponseCdnRegionsList,
     resourceGroup: S.optional(GetBucketDetailsResponseResourceGroup),
   }),
-).annotate({
-  identifier: "GetBucketDetailsResponse",
-}) as any as S.Schema<GetBucketDetailsResponse>;
+).annotate({ identifier: "GetBucketDetailsResponse" }) as any as S.Schema<GetBucketDetailsResponse>;
 
 export interface GetFileMetadataRequest {
   namespace: string;
   repo: string;
   path: string;
-  noContentDisposition?: unknown;
-  download?: unknown;
-  accept?: unknown;
+  noContentDisposition?: string;
+  download?: string;
+  accept?: string;
 }
 export const GetFileMetadataRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     path: S.String.pipe(T.Label()),
-    noContentDisposition: S.optional(S.Unknown.pipe(T.Query())),
-    download: S.optional(S.Unknown.pipe(T.Query())),
-    accept: S.optional(S.Unknown.pipe(T.Header("Accept"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/buckets/{namespace}/{repo}/resolve/{path}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetFileMetadataRequest",
-}) as any as S.Schema<GetFileMetadataRequest>;
+    noContentDisposition: S.optional(S.String.pipe(T.Query())),
+    download: S.optional(S.String.pipe(T.Query())),
+    accept: S.optional(S.String.pipe(T.Header("Accept"))),
+  }).pipe(T.Http({ method: "GET", uri: "/buckets/{namespace}/{repo}/resolve/{path}", code: 200 })),
+).annotate({ identifier: "GetFileMetadataRequest" }) as any as S.Schema<GetFileMetadataRequest>;
 
 export interface GetFileMetadataResponse {
   /** The XET hash of the file */
@@ -517,9 +511,7 @@ export const GetFileMetadataResponse = /*@__PURE__*/ S.suspend(() =>
     size: S.Number,
     contentType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetFileMetadataResponse",
-}) as any as S.Schema<GetFileMetadataResponse>;
+).annotate({ identifier: "GetFileMetadataResponse" }) as any as S.Schema<GetFileMetadataResponse>;
 
 export interface GetResourceGroupRequest {
   namespace: string;
@@ -530,17 +522,12 @@ export const GetResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/buckets/{namespace}/{repo}/resource-group",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/buckets/{namespace}/{repo}/resource-group", code: 200 }),
   ),
-).annotate({
-  identifier: "GetResourceGroupRequest",
-}) as any as S.Schema<GetResourceGroupRequest>;
+).annotate({ identifier: "GetResourceGroupRequest" }) as any as S.Schema<GetResourceGroupRequest>;
 
 export interface GetResourceGroupResponse {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   numUsers?: number;
@@ -551,9 +538,7 @@ export const GetResourceGroupResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     numUsers: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "GetResourceGroupResponse",
-}) as any as S.Schema<GetResourceGroupResponse>;
+).annotate({ identifier: "GetResourceGroupResponse" }) as any as S.Schema<GetResourceGroupResponse>;
 
 /** Sort order. `path` (default) sorts lexicographically; `uploadedAt` sorts by most recent upload first. In recursive mode `uploadedAt` is only supported at the bucket root (no path prefix). In non-recursive mode, only supported at root or exact folder prefixes. */
 export type ListFilesRequestSort = "path" | "uploadedAt";
@@ -569,7 +554,7 @@ export interface ListFilesRequest {
   path: string;
   limit?: number;
   cursor?: string;
-  recursive?: unknown;
+  recursive?: string;
   sort?: ListFilesRequestSort | (string & {});
   direction?: ListFilesRequestDirection | (string & {});
 }
@@ -580,19 +565,11 @@ export const ListFilesRequest = /*@__PURE__*/ S.suspend(() =>
     path: S.String.pipe(T.Label()),
     limit: S.optional(S.Number.pipe(T.Query())),
     cursor: S.optional(S.String.pipe(T.Query())),
-    recursive: S.optional(S.Unknown.pipe(T.Query())),
+    recursive: S.optional(S.String.pipe(T.Query())),
     sort: S.optional(ListFilesRequestSort.pipe(T.Query())),
     direction: S.optional(ListFilesRequestDirection.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/buckets/{namespace}/{repo}/tree/{path}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListFilesRequest",
-}) as any as S.Schema<ListFilesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/buckets/{namespace}/{repo}/tree/{path}", code: 200 })),
+).annotate({ identifier: "ListFilesRequest" }) as any as S.Schema<ListFilesRequest>;
 
 export type ListFilesResponseBodyItemType = "file" | "directory";
 export const ListFilesResponseBodyItemType = S.String;
@@ -632,9 +609,7 @@ export const ListFilesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListFilesResponse = ListFilesResponseBodyList;
 export const ListFilesResponse = /*@__PURE__*/ S.suspend(() =>
   ListFilesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListFilesResponse",
-}) as any as S.Schema<ListFilesResponse>;
+).annotate({ identifier: "ListFilesResponse" }) as any as S.Schema<ListFilesResponse>;
 
 export interface ListNamespaceBucketsRequest {
   namespace: string;
@@ -648,6 +623,9 @@ export const ListNamespaceBucketsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListNamespaceBucketsRequest",
 }) as any as S.Schema<ListNamespaceBucketsRequest>;
+
+export type ListNamespaceBucketsResponseBodyItemRepoType = "bucket" | "container";
+export const ListNamespaceBucketsResponseBodyItemRepoType = S.String;
 
 export type ListNamespaceBucketsResponseBodyItemAdminTagsList = Array<string>;
 export const ListNamespaceBucketsResponseBodyItemAdminTagsList = /*@__PURE__*/ S.Array(
@@ -689,17 +667,21 @@ export const ListNamespaceBucketsResponseBodyItemResourceGroup =
 
 /** Bucket overview information */
 export interface ListNamespaceBucketsResponseBodyItem {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   author: string;
   id: string;
   private?: boolean | null;
+  /** Free-text description of the bucket / container image */
+  description?: string | null;
   createdAt: string;
+  /** Moves on every successful change to the bucket's files. Poll it to know when to re-list instead of re-listing every path. */
   updatedAt: string;
   /** The amount of storage used by the bucket in bytes */
   size: number;
   /** The total number of files in the bucket */
   totalFiles: number;
-  repoType: unknown;
+  repoType: ListNamespaceBucketsResponseBodyItemRepoType;
   adminTags?: ListNamespaceBucketsResponseBodyItemAdminTagsList;
   disabled?: GetBucketDetailsResponseDisabled;
   cdnRegions: ListNamespaceBucketsResponseBodyItemCdnRegionsList;
@@ -711,11 +693,12 @@ export const ListNamespaceBucketsResponseBodyItem = /*@__PURE__*/ S.suspend(() =
     author: S.String,
     id: S.String,
     private: S.optional(S.NullOr(S.Boolean)),
+    description: S.optional(S.NullOr(S.String)),
     createdAt: S.String,
     updatedAt: S.String,
     size: S.Number,
     totalFiles: S.Number,
-    repoType: S.Unknown,
+    repoType: ListNamespaceBucketsResponseBodyItemRepoType,
     adminTags: S.optional(ListNamespaceBucketsResponseBodyItemAdminTagsList),
     disabled: S.optional(GetBucketDetailsResponseDisabled),
     cdnRegions: ListNamespaceBucketsResponseBodyItemCdnRegionsList,
@@ -755,16 +738,8 @@ export const ListPathsInfoRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     paths: ListPathsInfoRequestPaths,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/buckets/{namespace}/{repo}/paths-info",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListPathsInfoRequest",
-}) as any as S.Schema<ListPathsInfoRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/buckets/{namespace}/{repo}/paths-info", code: 200 })),
+).annotate({ identifier: "ListPathsInfoRequest" }) as any as S.Schema<ListPathsInfoRequest>;
 
 export type ListPathsInfoResponseBodyItemType = "file" | "directory";
 export const ListPathsInfoResponseBodyItemType = S.String;
@@ -804,13 +779,7 @@ export const ListPathsInfoResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListPathsInfoResponse = ListPathsInfoResponseBodyList;
 export const ListPathsInfoResponse = /*@__PURE__*/ S.suspend(() =>
   ListPathsInfoResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListPathsInfoResponse",
-}) as any as S.Schema<ListPathsInfoResponse>;
-
-export type UpdateBucketSettingsRequestPrivate = boolean | unknown;
-export const UpdateBucketSettingsRequestPrivate =
-  S.Unknown as any as S.Schema<UpdateBucketSettingsRequestPrivate>;
+).annotate({ identifier: "ListPathsInfoResponse" }) as any as S.Schema<ListPathsInfoResponse>;
 
 export type UpdateBucketSettingsRequestCdnRegionsItemProvider = "gcp" | "aws";
 export const UpdateBucketSettingsRequestCdnRegionsItemProvider = S.String;
@@ -840,22 +809,16 @@ export const UpdateBucketSettingsRequestCdnRegionsList = /*@__PURE__*/ S.Array(
 export interface UpdateBucketSettingsRequest {
   namespace: string;
   repo: string;
-  private?: UpdateBucketSettingsRequestPrivate;
-  cdnRegions: UpdateBucketSettingsRequestCdnRegionsList;
+  private?: unknown;
+  cdnRegions?: UpdateBucketSettingsRequestCdnRegionsList;
 }
 export const UpdateBucketSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-    private: S.optional(UpdateBucketSettingsRequestPrivate),
-    cdnRegions: UpdateBucketSettingsRequestCdnRegionsList,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/buckets/{namespace}/{repo}/settings",
-      code: 200,
-    }),
-  ),
+    private: S.optional(S.Unknown),
+    cdnRegions: S.optional(UpdateBucketSettingsRequestCdnRegionsList),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/buckets/{namespace}/{repo}/settings", code: 200 })),
 ).annotate({
   identifier: "UpdateBucketSettingsRequest",
 }) as any as S.Schema<UpdateBucketSettingsRequest>;
@@ -907,15 +870,9 @@ export const XetReadTokenRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/buckets/{namespace}/{repo}/xet-read-token",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/buckets/{namespace}/{repo}/xet-read-token", code: 200 }),
   ),
-).annotate({
-  identifier: "XetReadTokenRequest",
-}) as any as S.Schema<XetReadTokenRequest>;
+).annotate({ identifier: "XetReadTokenRequest" }) as any as S.Schema<XetReadTokenRequest>;
 
 export interface XetReadTokenResponse {
   casUrl: string;
@@ -928,9 +885,7 @@ export const XetReadTokenResponse = /*@__PURE__*/ S.suspend(() =>
     exp: S.Number,
     accessToken: S.String.pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "XetReadTokenResponse",
-}) as any as S.Schema<XetReadTokenResponse>;
+).annotate({ identifier: "XetReadTokenResponse" }) as any as S.Schema<XetReadTokenResponse>;
 
 export interface XetWriteTokenRequest {
   namespace: string;
@@ -941,15 +896,9 @@ export const XetWriteTokenRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/buckets/{namespace}/{repo}/xet-write-token",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/buckets/{namespace}/{repo}/xet-write-token", code: 200 }),
   ),
-).annotate({
-  identifier: "XetWriteTokenRequest",
-}) as any as S.Schema<XetWriteTokenRequest>;
+).annotate({ identifier: "XetWriteTokenRequest" }) as any as S.Schema<XetWriteTokenRequest>;
 
 export interface XetWriteTokenResponse {
   casUrl: string;
@@ -962,9 +911,7 @@ export const XetWriteTokenResponse = /*@__PURE__*/ S.suspend(() =>
     exp: S.Number,
     accessToken: S.String.pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "XetWriteTokenResponse",
-}) as any as S.Schema<XetWriteTokenResponse>;
+).annotate({ identifier: "XetWriteTokenResponse" }) as any as S.Schema<XetWriteTokenResponse>;
 
 export type AddResourceGroupError = HuggingFaceOpError;
 /** Add resource group Add the repository to a resource group */
@@ -1036,6 +983,21 @@ export const duplicateXetFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DuplicateXetFilesRequest,
   output: DuplicateXetFilesResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
+export type FollowChangesError = HuggingFaceOpError;
+/** Follow changes Server-sent events (`Accept: text/event-stream`) of the bucket's file changes, so clients can stop polling `/tree`. Events: - `ready`: `{"cursor"}` — replay (if any) is done, live changes follow. `cursor` may be absent if the feed has seen no change yet. - `changes`: `{"cursor", "changes": [{"path", "op": "add" | "update" | "delete", "size"?, "xetHash"?, "uploadedAt"?, "mtime"?, "mtimeNanos"?}]}` — a batch of changes coalesced over ~200ms. An `update` only carries the fields that changed (an identical re-upload has just `uploadedAt`); `mtime`/`mtimeNanos` are `null` when a re-upload cleared them. `xetHash` is omitted without content read access. - `reset`: `{"reason": "cursor_too_old"}` — the requested `cursor`/`since` is older than what the server buffers (about 15 minutes); the stream ends and the client must re-list. A `since` at or after the bucket's `updatedAt` never resets, however old. - `reconnect`: `{"cursor"}` — sent after 20 minutes or when the server shuts down (deploys), then the stream ends; reconnect with that cursor. Treat any other end of the stream the same way: reconnect with the last cursor you received. A `: ping` comment is sent every 30s. Resume with `?cursor=` (exclusive) or `?since=` (inclusive); without either, only live changes are sent. */
+export const followChanges: API.OperationMethod<
+  FollowChangesRequest,
+  FollowChangesResponse,
+  FollowChangesError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: FollowChangesRequest,
+  output: FollowChangesResponse,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,

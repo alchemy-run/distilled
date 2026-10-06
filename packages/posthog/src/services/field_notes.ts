@@ -12,9 +12,7 @@ export type FieldNoteStatusEnum = "pending" | "acknowledged" | "resolved" | "dis
 export const FieldNoteStatusEnum = S.String;
 
 /** Structured element metadata (inferred selectors, attributes, component hints). */
-export type CreateFieldNoteRequestElementContextMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateFieldNoteRequestElementContextMap = { [key: string]: unknown | undefined };
 export const CreateFieldNoteRequestElementContextMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -79,16 +77,8 @@ export const CreateFieldNoteRequest = /*@__PURE__*/ S.suspend(() =>
     element_context: S.optional(CreateFieldNoteRequestElementContextMap),
     viewport: S.optional(S.NullOr(CreateFieldNoteRequestViewport)),
     screenshot_url: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/field_notes/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateFieldNoteRequest",
-}) as any as S.Schema<CreateFieldNoteRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/field_notes/", code: 200 })),
+).annotate({ identifier: "CreateFieldNoteRequest" }) as any as S.Schema<CreateFieldNoteRequest>;
 
 /** Structured element metadata (inferred selectors, attributes, component hints). */
 export type FieldNoteElementContextMap = { [key: string]: unknown | undefined };
@@ -214,15 +204,9 @@ export const FieldNotesDestroyRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/projects/{project_id}/field_notes/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/field_notes/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "FieldNotesDestroyRequest",
-}) as any as S.Schema<FieldNotesDestroyRequest>;
+).annotate({ identifier: "FieldNotesDestroyRequest" }) as any as S.Schema<FieldNotesDestroyRequest>;
 
 export interface FieldNotesDestroyResponse {}
 export const FieldNotesDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -240,15 +224,9 @@ export const GetFieldNoteRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/field_notes/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/field_notes/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetFieldNoteRequest",
-}) as any as S.Schema<GetFieldNoteRequest>;
+).annotate({ identifier: "GetFieldNoteRequest" }) as any as S.Schema<GetFieldNoteRequest>;
 
 export type ListFieldNotesRequestFieldNoteStatus =
   | "acknowledged"
@@ -276,16 +254,8 @@ export const ListFieldNotesRequest = /*@__PURE__*/ S.suspend(() =>
     host: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/field_notes/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListFieldNotesRequest",
-}) as any as S.Schema<ListFieldNotesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/field_notes/", code: 200 })),
+).annotate({ identifier: "ListFieldNotesRequest" }) as any as S.Schema<ListFieldNotesRequest>;
 
 export type PaginatedFieldNoteListResultsList = Array<FieldNote>;
 export const PaginatedFieldNoteListResultsList = /*@__PURE__*/ S.Array(
@@ -305,14 +275,10 @@ export const PaginatedFieldNoteList = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.String)),
     results: PaginatedFieldNoteListResultsList,
   }),
-).annotate({
-  identifier: "PaginatedFieldNoteList",
-}) as any as S.Schema<PaginatedFieldNoteList>;
+).annotate({ identifier: "PaginatedFieldNoteList" }) as any as S.Schema<PaginatedFieldNoteList>;
 
 /** Structured element metadata (inferred selectors, attributes, component hints). */
-export type UpdateFieldNoteRequestElementContextMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateFieldNoteRequestElementContextMap = { [key: string]: unknown | undefined };
 export const UpdateFieldNoteRequestElementContextMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -369,15 +335,9 @@ export const UpdateFieldNoteRequest = /*@__PURE__*/ S.suspend(() =>
     viewport: S.optional(S.NullOr(CreateFieldNoteRequestViewport)),
     screenshot_url: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/field_notes/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/projects/{project_id}/field_notes/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateFieldNoteRequest",
-}) as any as S.Schema<UpdateFieldNoteRequest>;
+).annotate({ identifier: "UpdateFieldNoteRequest" }) as any as S.Schema<UpdateFieldNoteRequest>;
 
 /** Structured element metadata (inferred selectors, attributes, component hints). */
 export type UpdateFieldNotesPartialRequestElementContextMap = {
@@ -439,11 +399,7 @@ export const UpdateFieldNotesPartialRequest = /*@__PURE__*/ S.suspend(() =>
     viewport: S.optional(S.NullOr(CreateFieldNoteRequestViewport)),
     screenshot_url: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/field_notes/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/field_notes/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateFieldNotesPartialRequest",

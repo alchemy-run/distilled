@@ -58,6 +58,13 @@
             "smithy.api#documentation": "Whether a sync run is currently in flight.",
             "smithy.api#required": {}
           }
+        },
+        "sync_interval_minutes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minutes between scheduled syncs.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
@@ -103,7 +110,7 @@
         "smithy.api#documentation": "Calendar-sync controls for Customer analytics settings. Sync runs on an hourly\nTemporal schedule; this surface only offers the manual \"sync now\" escape hatch."
       }
     },
-    "com.posthog.calendar_sync#CreateCalendarSyncSyncNowRequest": {
+    "com.posthog.calendar_sync#CreateCalendarSyncBackfillRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -117,7 +124,21 @@
         "integration_id": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Id of the google-calendar integration to sync.",
+            "smithy.api#documentation": "Id of the Google account integration to backfill.",
+            "smithy.api#required": {}
+          }
+        },
+        "start_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "First UTC date to include. Must be within the last 365 days.",
+            "smithy.api#required": {}
+          }
+        },
+        "end_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Final UTC date to include. Cannot be after today.",
             "smithy.api#required": {}
           }
         }
@@ -161,6 +182,113 @@
         "smithy.api#documentation": "* `started` - started\n* `already_running` - already_running"
       }
     },
+    "com.posthog.calendar_sync#CreateCalendarSyncBackfill": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.calendar_sync#CreateCalendarSyncBackfillRequest"
+      },
+      "output": {
+        "target": "com.posthog.calendar_sync#CalendarSyncTriggerResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/calendar_sync/backfill/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Backfill a connected Google account\n\nStart an admin-only Gmail and Google Calendar backfill for an inclusive UTC date range."
+      }
+    },
+    "com.posthog.calendar_sync#CreateCalendarSyncIntervalRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "integration_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Id of the connected Google account.",
+            "smithy.api#required": {}
+          }
+        },
+        "sync_interval_minutes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minutes between scheduled syncs: 5, 15, 30, or 60.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.calendar_sync#CalendarSyncInterval": {
+      "type": "structure",
+      "members": {
+        "integration_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Id of the connected Google account.",
+            "smithy.api#required": {}
+          }
+        },
+        "sync_interval_minutes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minutes between scheduled syncs: 5, 15, 30, or 60.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.calendar_sync#CreateCalendarSyncInterval": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.calendar_sync#CreateCalendarSyncIntervalRequest"
+      },
+      "output": {
+        "target": "com.posthog.calendar_sync#CalendarSyncInterval"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/calendar_sync/interval/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set Google account sync interval\n\nCalendar-sync controls for Customer analytics settings. Sync runs on an hourly\nTemporal schedule; this surface only offers the manual \"sync now\" escape hatch."
+      }
+    },
+    "com.posthog.calendar_sync#CreateCalendarSyncSyncNowRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "integration_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Id of the google-calendar integration to sync.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
     "com.posthog.calendar_sync#CreateCalendarSyncSyncNow": {
       "type": "operation",
       "input": {
@@ -184,6 +312,12 @@
       "operations": [
         {
           "target": "com.posthog.calendar_sync#ListCalendarSync"
+        },
+        {
+          "target": "com.posthog.calendar_sync#CreateCalendarSyncBackfill"
+        },
+        {
+          "target": "com.posthog.calendar_sync#CreateCalendarSyncInterval"
         },
         {
           "target": "com.posthog.calendar_sync#CreateCalendarSyncSyncNow"

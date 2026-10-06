@@ -43,9 +43,7 @@ export class NotFound
   ) {}
 
 /** Optional labels marking the bucket. */
-export type Configv1BucketInputLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type Configv1BucketInputLabelsMap = { [key: string]: string | undefined };
 export const Configv1BucketInputLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -74,9 +72,7 @@ export const Configv1BucketInput = /*@__PURE__*/ S.suspend(() =>
     team_slug: S.optional(S.String),
     notification_policy_slug: S.optional(S.String),
   }),
-).annotate({
-  identifier: "Configv1BucketInput",
-}) as any as S.Schema<Configv1BucketInput>;
+).annotate({ identifier: "Configv1BucketInput" }) as any as S.Schema<Configv1BucketInput>;
 
 export interface CreateBucketRequest {
   bucket?: Configv1BucketInput;
@@ -88,9 +84,7 @@ export const CreateBucketRequest = /*@__PURE__*/ S.suspend(() =>
     bucket: S.optional(Configv1BucketInput),
     dry_run: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/buckets", code: 200 })),
-).annotate({
-  identifier: "CreateBucketRequest",
-}) as any as S.Schema<CreateBucketRequest>;
+).annotate({ identifier: "CreateBucketRequest" }) as any as S.Schema<CreateBucketRequest>;
 
 /** Optional labels marking the bucket. */
 export type Configv1BucketLabelsMap = { [key: string]: string | undefined };
@@ -193,13 +187,7 @@ export const CreateClassicDashboardRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     classic_dashboard: S.optional(Configv1GrafanaDashboardInput),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/config/classic-dashboards",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/classic-dashboards", code: 200 })),
 ).annotate({
   identifier: "CreateClassicDashboardRequest",
 }) as any as S.Schema<CreateClassicDashboardRequest>;
@@ -232,9 +220,7 @@ export const Configv1GrafanaDashboard = /*@__PURE__*/ S.suspend(() =>
     collection: S.optional(Configv1CollectionReference),
     dashboard_json: S.optional(S.String),
   }),
-).annotate({
-  identifier: "Configv1GrafanaDashboard",
-}) as any as S.Schema<Configv1GrafanaDashboard>;
+).annotate({ identifier: "Configv1GrafanaDashboard" }) as any as S.Schema<Configv1GrafanaDashboard>;
 
 export interface Configv1CreateClassicDashboardResponse {
   classic_dashboard?: Configv1GrafanaDashboard;
@@ -267,9 +253,7 @@ export const Configv1CollectionInput = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     notification_policy_slug: S.optional(S.String),
   }),
-).annotate({
-  identifier: "Configv1CollectionInput",
-}) as any as S.Schema<Configv1CollectionInput>;
+).annotate({ identifier: "Configv1CollectionInput" }) as any as S.Schema<Configv1CollectionInput>;
 
 export interface CreateCollectionRequest {
   collection?: Configv1CollectionInput;
@@ -281,9 +265,7 @@ export const CreateCollectionRequest = /*@__PURE__*/ S.suspend(() =>
     collection: S.optional(Configv1CollectionInput),
     dry_run: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/collections", code: 200 })),
-).annotate({
-  identifier: "CreateCollectionRequest",
-}) as any as S.Schema<CreateCollectionRequest>;
+).annotate({ identifier: "CreateCollectionRequest" }) as any as S.Schema<CreateCollectionRequest>;
 
 export interface Configv1Collection {
   /** Unique identifier of the Collection. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the Collection is created. */
@@ -311,9 +293,7 @@ export const Configv1Collection = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     notification_policy_slug: S.optional(S.String),
   }),
-).annotate({
-  identifier: "Configv1Collection",
-}) as any as S.Schema<Configv1Collection>;
+).annotate({ identifier: "Configv1Collection" }) as any as S.Schema<Configv1Collection>;
 
 export interface Configv1CreateCollectionResponse {
   collection?: Configv1Collection;
@@ -327,9 +307,7 @@ export const Configv1CreateCollectionResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<Configv1CreateCollectionResponse>;
 
 /** Optional. Defines tags that add metadata about the dashboard. */
-export type Configv1DashboardInputLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type Configv1DashboardInputLabelsMap = { [key: string]: string | undefined };
 export const Configv1DashboardInputLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -357,9 +335,7 @@ export const Configv1DashboardInput = /*@__PURE__*/ S.suspend(() =>
     dashboard_json: S.optional(S.String),
     labels: S.optional(Configv1DashboardInputLabelsMap),
   }),
-).annotate({
-  identifier: "Configv1DashboardInput",
-}) as any as S.Schema<Configv1DashboardInput>;
+).annotate({ identifier: "Configv1DashboardInput" }) as any as S.Schema<Configv1DashboardInput>;
 
 export interface CreateDashboardRequest {
   dashboard?: Configv1DashboardInput;
@@ -371,9 +347,7 @@ export const CreateDashboardRequest = /*@__PURE__*/ S.suspend(() =>
     dashboard: S.optional(Configv1DashboardInput),
     dry_run: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/dashboards", code: 200 })),
-).annotate({
-  identifier: "CreateDashboardRequest",
-}) as any as S.Schema<CreateDashboardRequest>;
+).annotate({ identifier: "CreateDashboardRequest" }) as any as S.Schema<CreateDashboardRequest>;
 
 /** Optional. Defines tags that add metadata about the dashboard. */
 export type Configv1DashboardLabelsMap = { [key: string]: string | undefined };
@@ -410,9 +384,7 @@ export const Configv1Dashboard = /*@__PURE__*/ S.suspend(() =>
     dashboard_json: S.optional(S.String),
     labels: S.optional(Configv1DashboardLabelsMap),
   }),
-).annotate({
-  identifier: "Configv1Dashboard",
-}) as any as S.Schema<Configv1Dashboard>;
+).annotate({ identifier: "Configv1Dashboard" }) as any as S.Schema<Configv1Dashboard>;
 
 export interface Configv1CreateDashboardResponse {
   dashboard?: Configv1Dashboard;
@@ -620,9 +592,7 @@ export const Configv1TraceDataset = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     match_criteria: S.optional(Configv1TraceSearchFilter),
   }),
-).annotate({
-  identifier: "Configv1TraceDataset",
-}) as any as S.Schema<Configv1TraceDataset>;
+).annotate({ identifier: "Configv1TraceDataset" }) as any as S.Schema<Configv1TraceDataset>;
 
 export interface Configv1LogSearchFilter {
   /** Returns logs that match this query. The query can include only top-level operations. Nested clauses aren't supported. Only one type of `AND` or `OR` operator is allowed. */
@@ -632,9 +602,7 @@ export const Configv1LogSearchFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     query: S.optional(S.String),
   }),
-).annotate({
-  identifier: "Configv1LogSearchFilter",
-}) as any as S.Schema<Configv1LogSearchFilter>;
+).annotate({ identifier: "Configv1LogSearchFilter" }) as any as S.Schema<Configv1LogSearchFilter>;
 
 export interface Configv1LogDataset {
   match_criteria?: Configv1LogSearchFilter;
@@ -643,9 +611,7 @@ export const Configv1LogDataset = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     match_criteria: S.optional(Configv1LogSearchFilter),
   }),
-).annotate({
-  identifier: "Configv1LogDataset",
-}) as any as S.Schema<Configv1LogDataset>;
+).annotate({ identifier: "Configv1LogDataset" }) as any as S.Schema<Configv1LogDataset>;
 
 export interface DatasetDatasetConfiguration {
   type?: DatasetDatasetType | (string & {});
@@ -678,9 +644,7 @@ export const Configv1DatasetInput = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     configuration: S.optional(DatasetDatasetConfiguration),
   }),
-).annotate({
-  identifier: "Configv1DatasetInput",
-}) as any as S.Schema<Configv1DatasetInput>;
+).annotate({ identifier: "Configv1DatasetInput" }) as any as S.Schema<Configv1DatasetInput>;
 
 export interface CreateDatasetRequest {
   dataset?: Configv1DatasetInput;
@@ -692,9 +656,7 @@ export const CreateDatasetRequest = /*@__PURE__*/ S.suspend(() =>
     dataset: S.optional(Configv1DatasetInput),
     dry_run: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/datasets", code: 200 })),
-).annotate({
-  identifier: "CreateDatasetRequest",
-}) as any as S.Schema<CreateDatasetRequest>;
+).annotate({ identifier: "CreateDatasetRequest" }) as any as S.Schema<CreateDatasetRequest>;
 
 export interface Configv1Dataset {
   /** Required. Name of the Dataset. You can modify this value after the Dataset is created. */
@@ -718,9 +680,7 @@ export const Configv1Dataset = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     configuration: S.optional(DatasetDatasetConfiguration),
   }),
-).annotate({
-  identifier: "Configv1Dataset",
-}) as any as S.Schema<Configv1Dataset>;
+).annotate({ identifier: "Configv1Dataset" }) as any as S.Schema<Configv1Dataset>;
 
 export interface Configv1CreateDatasetResponse {
   dataset?: Configv1Dataset;
@@ -744,9 +704,7 @@ export const Configv1LabelFilter = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     value_glob: S.optional(S.String),
   }),
-).annotate({
-  identifier: "Configv1LabelFilter",
-}) as any as S.Schema<Configv1LabelFilter>;
+).annotate({ identifier: "Configv1LabelFilter" }) as any as S.Schema<Configv1LabelFilter>;
 
 export type ConstructedLabelValueDefinitionFiltersList = Array<Configv1LabelFilter>;
 export const ConstructedLabelValueDefinitionFiltersList = /*@__PURE__*/ S.Array(
@@ -805,9 +763,7 @@ export const MappingLabelValueMapping = /*@__PURE__*/ S.suspend(() =>
     source_value_globs: S.optional(MappingLabelValueMappingSourceValueGlobsList),
     target_value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MappingLabelValueMapping",
-}) as any as S.Schema<MappingLabelValueMapping>;
+).annotate({ identifier: "MappingLabelValueMapping" }) as any as S.Schema<MappingLabelValueMapping>;
 
 /** These value mappings apply to just the name mapping they belong to. */
 export type MappingLabelNameMappingValueMappingsList = Array<MappingLabelValueMapping>;
@@ -828,9 +784,7 @@ export const MappingLabelNameMapping = /*@__PURE__*/ S.suspend(() =>
     source_label: S.optional(S.String),
     value_mappings: S.optional(MappingLabelNameMappingValueMappingsList),
   }),
-).annotate({
-  identifier: "MappingLabelNameMapping",
-}) as any as S.Schema<MappingLabelNameMapping>;
+).annotate({ identifier: "MappingLabelNameMapping" }) as any as S.Schema<MappingLabelNameMapping>;
 
 export type MetricLabelMappingLabelNameMappingsList = Array<MappingLabelNameMapping>;
 export const MetricLabelMappingLabelNameMappingsList = /*@__PURE__*/ S.Array(
@@ -853,9 +807,7 @@ export const MetricLabelMappingLabel = /*@__PURE__*/ S.suspend(() =>
     name_mappings: S.optional(MetricLabelMappingLabelNameMappingsList),
     value_mappings: S.optional(MetricLabelMappingLabelValueMappingsList),
   }),
-).annotate({
-  identifier: "MetricLabelMappingLabel",
-}) as any as S.Schema<MetricLabelMappingLabel>;
+).annotate({ identifier: "MetricLabelMappingLabel" }) as any as S.Schema<MetricLabelMappingLabel>;
 
 export interface DerivedLabelMetricLabel {
   constructed_label?: MetricLabelConstructedLabel;
@@ -866,9 +818,7 @@ export const DerivedLabelMetricLabel = /*@__PURE__*/ S.suspend(() =>
     constructed_label: S.optional(MetricLabelConstructedLabel),
     mapping_label: S.optional(MetricLabelMappingLabel),
   }),
-).annotate({
-  identifier: "DerivedLabelMetricLabel",
-}) as any as S.Schema<DerivedLabelMetricLabel>;
+).annotate({ identifier: "DerivedLabelMetricLabel" }) as any as S.Schema<DerivedLabelMetricLabel>;
 
 export type Configv1DerivedLabelLabelPolicy = "KEEP" | "OVERRIDE";
 export const Configv1DerivedLabelLabelPolicy = S.String;
@@ -939,9 +889,7 @@ export const Configv1DerivedLabel = /*@__PURE__*/ S.suspend(() =>
     metric_label: S.optional(DerivedLabelMetricLabel),
     existing_label_policy: S.optional(Configv1DerivedLabelLabelPolicy),
   }),
-).annotate({
-  identifier: "Configv1DerivedLabel",
-}) as any as S.Schema<Configv1DerivedLabel>;
+).annotate({ identifier: "Configv1DerivedLabel" }) as any as S.Schema<Configv1DerivedLabel>;
 
 export interface Configv1CreateDerivedLabelResponse {
   derived_label?: Configv1DerivedLabel;
@@ -988,9 +936,7 @@ export const DerivedMetricSelector = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     labels: S.optional(DerivedMetricSelectorLabelsList),
   }),
-).annotate({
-  identifier: "DerivedMetricSelector",
-}) as any as S.Schema<DerivedMetricSelector>;
+).annotate({ identifier: "DerivedMetricSelector" }) as any as S.Schema<DerivedMetricSelector>;
 
 export interface DerivedMetricVariable {
   /** Required name of the variable. */
@@ -1003,9 +949,7 @@ export const DerivedMetricVariable = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     default_prometheus_selector: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DerivedMetricVariable",
-}) as any as S.Schema<DerivedMetricVariable>;
+).annotate({ identifier: "DerivedMetricVariable" }) as any as S.Schema<DerivedMetricVariable>;
 
 /** Optional variables which may be used in the derived metric as label selectors. */
 export type DerivedMetricQueryVariablesList = Array<DerivedMetricVariable>;
@@ -1024,9 +968,7 @@ export const DerivedMetricQuery = /*@__PURE__*/ S.suspend(() =>
     prometheus_expr: S.optional(S.String),
     variables: S.optional(DerivedMetricQueryVariablesList),
   }),
-).annotate({
-  identifier: "DerivedMetricQuery",
-}) as any as S.Schema<DerivedMetricQuery>;
+).annotate({ identifier: "DerivedMetricQuery" }) as any as S.Schema<DerivedMetricQuery>;
 
 export interface DerivedMetricSelectorQuery {
   selector?: DerivedMetricSelector;
@@ -1080,13 +1022,7 @@ export const CreateDerivedMetricRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     derived_metric: S.optional(Configv1DerivedMetricInput),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/config/derived-metrics",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/derived-metrics", code: 200 })),
 ).annotate({
   identifier: "CreateDerivedMetricRequest",
 }) as any as S.Schema<CreateDerivedMetricRequest>;
@@ -1123,9 +1059,7 @@ export const Configv1DerivedMetric = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     queries: S.optional(Configv1DerivedMetricQueriesList),
   }),
-).annotate({
-  identifier: "Configv1DerivedMetric",
-}) as any as S.Schema<Configv1DerivedMetric>;
+).annotate({ identifier: "Configv1DerivedMetric" }) as any as S.Schema<Configv1DerivedMetric>;
 
 export interface Configv1CreateDerivedMetricResponse {
   derived_metric?: Configv1DerivedMetric;
@@ -1177,9 +1111,7 @@ export const DropRuleValueBasedDrop = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     target_drop_value: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DropRuleValueBasedDrop",
-}) as any as S.Schema<DropRuleValueBasedDrop>;
+).annotate({ identifier: "DropRuleValueBasedDrop" }) as any as S.Schema<DropRuleValueBasedDrop>;
 
 export interface Configv1DropRuleInput {
   /** Unique identifier of the DropRule. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the DropRule is created. */
@@ -1204,9 +1136,7 @@ export const Configv1DropRuleInput = /*@__PURE__*/ S.suspend(() =>
     value_based_drop: S.optional(DropRuleValueBasedDrop),
     drop_nan_value: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "Configv1DropRuleInput",
-}) as any as S.Schema<Configv1DropRuleInput>;
+).annotate({ identifier: "Configv1DropRuleInput" }) as any as S.Schema<Configv1DropRuleInput>;
 
 export interface CreateDropRuleRequest {
   drop_rule?: Configv1DropRuleInput;
@@ -1218,9 +1148,7 @@ export const CreateDropRuleRequest = /*@__PURE__*/ S.suspend(() =>
     drop_rule: S.optional(Configv1DropRuleInput),
     dry_run: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/drop-rules", code: 200 })),
-).annotate({
-  identifier: "CreateDropRuleRequest",
-}) as any as S.Schema<CreateDropRuleRequest>;
+).annotate({ identifier: "CreateDropRuleRequest" }) as any as S.Schema<CreateDropRuleRequest>;
 
 /** Defines the conditions that determine whether to drop a metric. Drop rules can have multiple filter conditions on different labels, making it possible to drop a subset of the series matching a particular metric name. */
 export type Configv1DropRuleFiltersList = Array<Configv1LabelFilter>;
@@ -1257,9 +1185,7 @@ export const Configv1DropRule = /*@__PURE__*/ S.suspend(() =>
     value_based_drop: S.optional(DropRuleValueBasedDrop),
     drop_nan_value: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "Configv1DropRule",
-}) as any as S.Schema<Configv1DropRule>;
+).annotate({ identifier: "Configv1DropRule" }) as any as S.Schema<Configv1DropRule>;
 
 export interface Configv1CreateDropRuleResponse {
   drop_rule?: Configv1DropRule;
@@ -1341,13 +1267,7 @@ export const CreateGcpMetricsIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     gcp_metrics_integration: S.optional(Configv1GcpMetricsIntegrationInput),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/config/gcp-metrics-integrations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/gcp-metrics-integrations", code: 200 })),
 ).annotate({
   identifier: "CreateGcpMetricsIntegrationRequest",
 }) as any as S.Schema<CreateGcpMetricsIntegrationRequest>;
@@ -1404,13 +1324,7 @@ export const CreateGrafanaDashboardRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     grafana_dashboard: S.optional(Configv1GrafanaDashboardInput),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/config/grafana-dashboards",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/grafana-dashboards", code: 200 })),
 ).annotate({
   identifier: "CreateGrafanaDashboardRequest",
 }) as any as S.Schema<CreateGrafanaDashboardRequest>;
@@ -1530,13 +1444,7 @@ export const CreateLogAllocationConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     log_allocation_config: S.optional(Configv1LogAllocationConfigInput),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/config/log-allocation-config",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/log-allocation-config", code: 200 })),
 ).annotate({
   identifier: "CreateLogAllocationConfigRequest",
 }) as any as S.Schema<CreateLogAllocationConfigRequest>;
@@ -1591,9 +1499,7 @@ export const Configv1LogParser = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     regex: S.optional(S.String),
   }),
-).annotate({
-  identifier: "Configv1LogParser",
-}) as any as S.Schema<Configv1LogParser>;
+).annotate({ identifier: "Configv1LogParser" }) as any as S.Schema<Configv1LogParser>;
 
 /** The ordered list of parsers to run on ingested logs. The first parser which matches the log is used. */
 export type Configv1LogIngestConfigInputParsersList = Array<Configv1LogParser>;
@@ -1623,13 +1529,7 @@ export const CreateLogIngestConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     log_ingest_config: S.optional(Configv1LogIngestConfigInput),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/config/log-ingest-config",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/log-ingest-config", code: 200 })),
 ).annotate({
   identifier: "CreateLogIngestConfigRequest",
 }) as any as S.Schema<CreateLogIngestConfigRequest>;
@@ -1655,9 +1555,7 @@ export const Configv1LogIngestConfig = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.optional(S.String),
     parsers: S.optional(Configv1LogIngestConfigParsersList),
   }),
-).annotate({
-  identifier: "Configv1LogIngestConfig",
-}) as any as S.Schema<Configv1LogIngestConfig>;
+).annotate({ identifier: "Configv1LogIngestConfig" }) as any as S.Schema<Configv1LogIngestConfig>;
 
 export interface Configv1CreateLogIngestConfigResponse {
   log_ingest_config?: Configv1LogIngestConfig;
@@ -1763,9 +1661,7 @@ export const LogScaleActionPagerDutyAction = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<LogScaleActionPagerDutyAction>;
 
 /** Fields to include within the Slack message. Can be templated with values from the query result. */
-export type LogScaleActionSlackActionFieldsMap = {
-  [key: string]: string | undefined;
-};
+export type LogScaleActionSlackActionFieldsMap = { [key: string]: string | undefined };
 export const LogScaleActionSlackActionFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1796,9 +1692,7 @@ export const LogScaleActionSlackPostMessageActionChannelsList = /*@__PURE__*/ S.
 ) as any as S.Schema<LogScaleActionSlackPostMessageActionChannelsList>;
 
 /** Fields to include within the Slack message. Can be templated with values from the query result. */
-export type LogScaleActionSlackPostMessageActionFieldsMap = {
-  [key: string]: string | undefined;
-};
+export type LogScaleActionSlackPostMessageActionFieldsMap = { [key: string]: string | undefined };
 export const LogScaleActionSlackPostMessageActionFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1854,9 +1748,7 @@ export type WebhookActionHTTPMethod =
 export const WebhookActionHTTPMethod = S.String;
 
 /** Headers of the HTTP or HTTPS request. */
-export type LogScaleActionWebhookActionHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type LogScaleActionWebhookActionHeadersMap = { [key: string]: string | undefined };
 export const LogScaleActionWebhookActionHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1947,13 +1839,7 @@ export const CreateLogScaleActionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     log_scale_action: S.optional(Configv1LogScaleActionInput),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/config/log-scale-actions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/log-scale-actions", code: 200 })),
 ).annotate({
   identifier: "CreateLogScaleActionRequest",
 }) as any as S.Schema<CreateLogScaleActionRequest>;
@@ -1998,9 +1884,7 @@ export const Configv1LogScaleAction = /*@__PURE__*/ S.suspend(() =>
     webhook_action: S.optional(LogScaleActionWebhookAction),
     upload_file_action: S.optional(LogScaleActionUploadFileAction),
   }),
-).annotate({
-  identifier: "Configv1LogScaleAction",
-}) as any as S.Schema<Configv1LogScaleAction>;
+).annotate({ identifier: "Configv1LogScaleAction" }) as any as S.Schema<Configv1LogScaleAction>;
 
 export interface Configv1CreateLogScaleActionResponse {
   log_scale_action?: Configv1LogScaleAction;
@@ -2084,13 +1968,7 @@ export const CreateLogScaleAlertRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     log_scale_alert: S.optional(Configv1LogScaleAlertInput),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/config/log-scale-alerts",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/log-scale-alerts", code: 200 })),
 ).annotate({
   identifier: "CreateLogScaleAlertRequest",
 }) as any as S.Schema<CreateLogScaleAlertRequest>;
@@ -2156,9 +2034,7 @@ export const Configv1LogScaleAlert = /*@__PURE__*/ S.suspend(() =>
     run_as_user: S.optional(S.String),
     alert_type: S.optional(LogScaleAlertAlertType),
   }),
-).annotate({
-  identifier: "Configv1LogScaleAlert",
-}) as any as S.Schema<Configv1LogScaleAlert>;
+).annotate({ identifier: "Configv1LogScaleAlert" }) as any as S.Schema<Configv1LogScaleAlert>;
 
 export interface Configv1CreateLogScaleAlertResponse {
   log_scale_alert?: Configv1LogScaleAlert;
@@ -2268,9 +2144,7 @@ export const Configv1MappingRuleInput = /*@__PURE__*/ S.suspend(() =>
     drop: S.optional(S.Boolean),
     mode: S.optional(Configv1MappingRuleMode),
   }),
-).annotate({
-  identifier: "Configv1MappingRuleInput",
-}) as any as S.Schema<Configv1MappingRuleInput>;
+).annotate({ identifier: "Configv1MappingRuleInput" }) as any as S.Schema<Configv1MappingRuleInput>;
 
 export interface CreateMappingRuleRequest {
   mapping_rule?: Configv1MappingRuleInput;
@@ -2282,9 +2156,7 @@ export const CreateMappingRuleRequest = /*@__PURE__*/ S.suspend(() =>
     mapping_rule: S.optional(Configv1MappingRuleInput),
     dry_run: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/mapping-rules", code: 200 })),
-).annotate({
-  identifier: "CreateMappingRuleRequest",
-}) as any as S.Schema<CreateMappingRuleRequest>;
+).annotate({ identifier: "CreateMappingRuleRequest" }) as any as S.Schema<CreateMappingRuleRequest>;
 
 /** Required filters that determine to which metrics to apply the rule. */
 export type Configv1MappingRuleFiltersList = Array<Configv1LabelFilter>;
@@ -2322,9 +2194,7 @@ export const Configv1MappingRule = /*@__PURE__*/ S.suspend(() =>
     drop: S.optional(S.Boolean),
     mode: S.optional(Configv1MappingRuleMode),
   }),
-).annotate({
-  identifier: "Configv1MappingRule",
-}) as any as S.Schema<Configv1MappingRule>;
+).annotate({ identifier: "Configv1MappingRule" }) as any as S.Schema<Configv1MappingRule>;
 
 export interface Configv1CreateMappingRuleResponse {
   mapping_rule?: Configv1MappingRule;
@@ -2338,18 +2208,14 @@ export const Configv1CreateMappingRuleResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<Configv1CreateMappingRuleResponse>;
 
 /** Required. Labels to include in notifications generated by this monitor, and can be used to route alerts with notification overrides. */
-export type Configv1MonitorInputLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type Configv1MonitorInputLabelsMap = { [key: string]: string | undefined };
 export const Configv1MonitorInputLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<Configv1MonitorInputLabelsMap>;
 
 /** Annotations are visible in notifications generated by this monitor. They can be be templated with labels from notifications. */
-export type Configv1MonitorInputAnnotationsMap = {
-  [key: string]: string | undefined;
-};
+export type Configv1MonitorInputAnnotationsMap = { [key: string]: string | undefined };
 export const Configv1MonitorInputAnnotationsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2373,9 +2239,7 @@ export const MonitorSignalGrouping = /*@__PURE__*/ S.suspend(() =>
     label_names: S.optional(MonitorSignalGroupingLabelNamesList),
     signal_per_series: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MonitorSignalGrouping",
-}) as any as S.Schema<MonitorSignalGrouping>;
+).annotate({ identifier: "MonitorSignalGrouping" }) as any as S.Schema<MonitorSignalGrouping>;
 
 export type ConditionOp = "GEQ" | "GT" | "LEQ" | "LT" | "EQ" | "NEQ" | "EXISTS" | "NOT_EXISTS";
 export const ConditionOp = S.String;
@@ -2396,9 +2260,7 @@ export const MonitorCondition = /*@__PURE__*/ S.suspend(() =>
     sustain_secs: S.optional(S.Number),
     resolve_sustain_secs: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MonitorCondition",
-}) as any as S.Schema<MonitorCondition>;
+).annotate({ identifier: "MonitorCondition" }) as any as S.Schema<MonitorCondition>;
 
 /** List of conditions to evaluate against a series. Only one condition must match to assign a severity to a signal. */
 export type SeriesConditionsConditionsConditionsList = Array<MonitorCondition>;
@@ -2447,9 +2309,7 @@ export const Configv1LabelMatcher = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "Configv1LabelMatcher",
-}) as any as S.Schema<Configv1LabelMatcher>;
+).annotate({ identifier: "Configv1LabelMatcher" }) as any as S.Schema<Configv1LabelMatcher>;
 
 /** Set of matchers on a series' labels. If all labels match, then the conditions defined in this override are used. */
 export type MonitorSeriesConditionsOverrideLabelMatchersList = Array<Configv1LabelMatcher>;
@@ -2488,9 +2348,7 @@ export const MonitorSeriesConditions = /*@__PURE__*/ S.suspend(() =>
     defaults: S.optional(SeriesConditionsSeverityConditions),
     overrides: S.optional(MonitorSeriesConditionsOverridesList),
   }),
-).annotate({
-  identifier: "MonitorSeriesConditions",
-}) as any as S.Schema<MonitorSeriesConditions>;
+).annotate({ identifier: "MonitorSeriesConditions" }) as any as S.Schema<MonitorSeriesConditions>;
 
 export type ScheduleDayActive = "ALL_DAY" | "ONLY_DURING_RANGES" | "NEVER";
 export const ScheduleDayActive = S.String;
@@ -2506,9 +2364,7 @@ export const ScheduleDayTimeRange = /*@__PURE__*/ S.suspend(() =>
     start_hh_mm: S.optional(S.String),
     end_hh_mm: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ScheduleDayTimeRange",
-}) as any as S.Schema<ScheduleDayTimeRange>;
+).annotate({ identifier: "ScheduleDayTimeRange" }) as any as S.Schema<ScheduleDayTimeRange>;
 
 /** The time ranges that the monitor is active on this day. Required if `active` is set to `ONLY_DURING_RANGES`. Otherwise, this field must be empty. */
 export type ScheduleScheduleDayRangesList = Array<ScheduleDayTimeRange>;
@@ -2526,9 +2382,7 @@ export const ScheduleScheduleDay = /*@__PURE__*/ S.suspend(() =>
     active: S.optional(ScheduleDayActive),
     ranges: S.optional(ScheduleScheduleDayRangesList),
   }),
-).annotate({
-  identifier: "ScheduleScheduleDay",
-}) as any as S.Schema<ScheduleScheduleDay>;
+).annotate({ identifier: "ScheduleScheduleDay" }) as any as S.Schema<ScheduleScheduleDay>;
 
 export interface ScheduleWeeklySchedule {
   monday?: ScheduleScheduleDay;
@@ -2549,9 +2403,7 @@ export const ScheduleWeeklySchedule = /*@__PURE__*/ S.suspend(() =>
     saturday: S.optional(ScheduleScheduleDay),
     sunday: S.optional(ScheduleScheduleDay),
   }),
-).annotate({
-  identifier: "ScheduleWeeklySchedule",
-}) as any as S.Schema<ScheduleWeeklySchedule>;
+).annotate({ identifier: "ScheduleWeeklySchedule" }) as any as S.Schema<ScheduleWeeklySchedule>;
 
 export interface MonitorSchedule {
   /** The timezone of the time ranges. */
@@ -2563,9 +2415,7 @@ export const MonitorSchedule = /*@__PURE__*/ S.suspend(() =>
     timezone: S.optional(S.String),
     weekly_schedule: S.optional(ScheduleWeeklySchedule),
   }),
-).annotate({
-  identifier: "MonitorSchedule",
-}) as any as S.Schema<MonitorSchedule>;
+).annotate({ identifier: "MonitorSchedule" }) as any as S.Schema<MonitorSchedule>;
 
 export interface Configv1MonitorInput {
   /** Unique identifier of the Monitor. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the Monitor is created. */
@@ -2613,9 +2463,7 @@ export const Configv1MonitorInput = /*@__PURE__*/ S.suspend(() =>
     schedule: S.optional(MonitorSchedule),
     logging_query: S.optional(S.String),
   }),
-).annotate({
-  identifier: "Configv1MonitorInput",
-}) as any as S.Schema<Configv1MonitorInput>;
+).annotate({ identifier: "Configv1MonitorInput" }) as any as S.Schema<Configv1MonitorInput>;
 
 export interface CreateMonitorRequest {
   monitor?: Configv1MonitorInput;
@@ -2627,9 +2475,7 @@ export const CreateMonitorRequest = /*@__PURE__*/ S.suspend(() =>
     monitor: S.optional(Configv1MonitorInput),
     dry_run: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/monitors", code: 200 })),
-).annotate({
-  identifier: "CreateMonitorRequest",
-}) as any as S.Schema<CreateMonitorRequest>;
+).annotate({ identifier: "CreateMonitorRequest" }) as any as S.Schema<CreateMonitorRequest>;
 
 /** Required. Labels to include in notifications generated by this monitor, and can be used to route alerts with notification overrides. */
 export type Configv1MonitorLabelsMap = { [key: string]: string | undefined };
@@ -2639,9 +2485,7 @@ export const Configv1MonitorLabelsMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<Configv1MonitorLabelsMap>;
 
 /** Annotations are visible in notifications generated by this monitor. They can be be templated with labels from notifications. */
-export type Configv1MonitorAnnotationsMap = {
-  [key: string]: string | undefined;
-};
+export type Configv1MonitorAnnotationsMap = { [key: string]: string | undefined };
 export const Configv1MonitorAnnotationsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2699,9 +2543,7 @@ export const Configv1Monitor = /*@__PURE__*/ S.suspend(() =>
     schedule: S.optional(MonitorSchedule),
     logging_query: S.optional(S.String),
   }),
-).annotate({
-  identifier: "Configv1Monitor",
-}) as any as S.Schema<Configv1Monitor>;
+).annotate({ identifier: "Configv1Monitor" }) as any as S.Schema<Configv1Monitor>;
 
 export interface Configv1CreateMonitorResponse {
   monitor?: Configv1Monitor;
@@ -2767,9 +2609,7 @@ export const Configv1MutingRuleInput = /*@__PURE__*/ S.suspend(() =>
     ends_at: S.optional(S.String),
     comment: S.optional(S.String),
   }),
-).annotate({
-  identifier: "Configv1MutingRuleInput",
-}) as any as S.Schema<Configv1MutingRuleInput>;
+).annotate({ identifier: "Configv1MutingRuleInput" }) as any as S.Schema<Configv1MutingRuleInput>;
 
 export interface CreateMutingRuleRequest {
   muting_rule?: Configv1MutingRuleInput;
@@ -2781,9 +2621,7 @@ export const CreateMutingRuleRequest = /*@__PURE__*/ S.suspend(() =>
     muting_rule: S.optional(Configv1MutingRuleInput),
     dry_run: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/muting-rules", code: 200 })),
-).annotate({
-  identifier: "CreateMutingRuleRequest",
-}) as any as S.Schema<CreateMutingRuleRequest>;
+).annotate({ identifier: "CreateMutingRuleRequest" }) as any as S.Schema<CreateMutingRuleRequest>;
 
 /** Required. Specifies which series are silenced by the muting rule. Alerting series must match all muting rule matchers to be silenced. You can't update this value. Updates must specify the original value. */
 export type Configv1MutingRuleLabelMatchersList = Array<Configv1MutingRuleLabelMatcher>;
@@ -2820,9 +2658,7 @@ export const Configv1MutingRule = /*@__PURE__*/ S.suspend(() =>
     ends_at: S.optional(S.String),
     comment: S.optional(S.String),
   }),
-).annotate({
-  identifier: "Configv1MutingRule",
-}) as any as S.Schema<Configv1MutingRule>;
+).annotate({ identifier: "Configv1MutingRule" }) as any as S.Schema<Configv1MutingRule>;
 
 export interface Configv1CreateMutingRuleResponse {
   muting_rule?: Configv1MutingRule;
@@ -2872,9 +2708,7 @@ export const RoutesNotifierList = /*@__PURE__*/ S.suspend(() =>
     repeat_interval_secs: S.optional(S.Number),
     group_by: S.optional(NotificationPolicyRoutesGroupBy),
   }),
-).annotate({
-  identifier: "RoutesNotifierList",
-}) as any as S.Schema<RoutesNotifierList>;
+).annotate({ identifier: "RoutesNotifierList" }) as any as S.Schema<RoutesNotifierList>;
 
 export interface RoutesSeverityNotifiers {
   warn?: RoutesNotifierList;
@@ -2885,9 +2719,7 @@ export const RoutesSeverityNotifiers = /*@__PURE__*/ S.suspend(() =>
     warn: S.optional(RoutesNotifierList),
     critical: S.optional(RoutesNotifierList),
   }),
-).annotate({
-  identifier: "RoutesSeverityNotifiers",
-}) as any as S.Schema<RoutesSeverityNotifiers>;
+).annotate({ identifier: "RoutesSeverityNotifiers" }) as any as S.Schema<RoutesSeverityNotifiers>;
 
 /** Set of matchers on an alert's labels. If all labels match then the override notifiers apply. */
 export type NotificationPolicyRoutesOverrideAlertLabelMatchersList = Array<Configv1LabelMatcher>;
@@ -2925,9 +2757,7 @@ export const NotificationPolicyRoutes = /*@__PURE__*/ S.suspend(() =>
     defaults: S.optional(RoutesSeverityNotifiers),
     overrides: S.optional(NotificationPolicyRoutesOverridesList),
   }),
-).annotate({
-  identifier: "NotificationPolicyRoutes",
-}) as any as S.Schema<NotificationPolicyRoutes>;
+).annotate({ identifier: "NotificationPolicyRoutes" }) as any as S.Schema<NotificationPolicyRoutes>;
 
 export interface Configv1NotificationPolicyInput {
   /** Unique identifier of the NotificationPolicy. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the NotificationPolicy is created. */
@@ -2961,13 +2791,7 @@ export const CreateNotificationPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     notification_policy: S.optional(Configv1NotificationPolicyInput),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/config/notification-policies",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/notification-policies", code: 200 })),
 ).annotate({
   identifier: "CreateNotificationPolicyRequest",
 }) as any as S.Schema<CreateNotificationPolicyRequest>;
@@ -3021,9 +2845,7 @@ export const HTTPConfigBasicAuth = /*@__PURE__*/ S.suspend(() =>
     username: S.optional(S.String),
     password: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "HTTPConfigBasicAuth",
-}) as any as S.Schema<HTTPConfigBasicAuth>;
+).annotate({ identifier: "HTTPConfigBasicAuth" }) as any as S.Schema<HTTPConfigBasicAuth>;
 
 export interface HTTPConfigTLSConfig {
   /** Disables validation of the server certificate. */
@@ -3033,9 +2855,7 @@ export const HTTPConfigTLSConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     insecure_skip_verify: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "HTTPConfigTLSConfig",
-}) as any as S.Schema<HTTPConfigTLSConfig>;
+).annotate({ identifier: "HTTPConfigTLSConfig" }) as any as S.Schema<HTTPConfigTLSConfig>;
 
 export interface NotifierHTTPConfig {
   basic_auth?: HTTPConfigBasicAuth;
@@ -3052,9 +2872,7 @@ export const NotifierHTTPConfig = /*@__PURE__*/ S.suspend(() =>
     proxy_url: S.optional(S.String),
     tls_config: S.optional(HTTPConfigTLSConfig),
   }),
-).annotate({
-  identifier: "NotifierHTTPConfig",
-}) as any as S.Schema<NotifierHTTPConfig>;
+).annotate({ identifier: "NotifierHTTPConfig" }) as any as S.Schema<NotifierHTTPConfig>;
 
 export interface NotifierWebhookConfig {
   http_config?: NotifierHTTPConfig;
@@ -3066,9 +2884,7 @@ export const NotifierWebhookConfig = /*@__PURE__*/ S.suspend(() =>
     http_config: S.optional(NotifierHTTPConfig),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NotifierWebhookConfig",
-}) as any as S.Schema<NotifierWebhookConfig>;
+).annotate({ identifier: "NotifierWebhookConfig" }) as any as S.Schema<NotifierWebhookConfig>;
 
 export type NotifierSlackConfigMrkdwnInList = Array<string>;
 export const NotifierSlackConfigMrkdwnInList = /*@__PURE__*/ S.Array(
@@ -3086,9 +2902,7 @@ export const SlackConfigField = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.String),
     short: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SlackConfigField",
-}) as any as S.Schema<SlackConfigField>;
+).annotate({ identifier: "SlackConfigField" }) as any as S.Schema<SlackConfigField>;
 
 export type NotifierSlackConfigFieldsList = Array<SlackConfigField>;
 export const NotifierSlackConfigFieldsList = /*@__PURE__*/ S.Array(
@@ -3190,14 +3004,10 @@ export const NotifierSlackConfig = /*@__PURE__*/ S.suspend(() =>
     fields: S.optional(NotifierSlackConfigFieldsList),
     actions: S.optional(NotifierSlackConfigActionsList),
   }),
-).annotate({
-  identifier: "NotifierSlackConfig",
-}) as any as S.Schema<NotifierSlackConfig>;
+).annotate({ identifier: "NotifierSlackConfig" }) as any as S.Schema<NotifierSlackConfig>;
 
 /** Set of arbitrary key/value pairs which provide further detail about the incident. */
-export type NotifierPagerdutyConfigDetailsMap = {
-  [key: string]: string | undefined;
-};
+export type NotifierPagerdutyConfigDetailsMap = { [key: string]: string | undefined };
 export const NotifierPagerdutyConfigDetailsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3214,9 +3024,7 @@ export const PagerdutyConfigImage = /*@__PURE__*/ S.suspend(() =>
     alt: S.optional(S.String),
     href: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PagerdutyConfigImage",
-}) as any as S.Schema<PagerdutyConfigImage>;
+).annotate({ identifier: "PagerdutyConfigImage" }) as any as S.Schema<PagerdutyConfigImage>;
 
 /** Images to attach to the incident. */
 export type NotifierPagerdutyConfigImagesList = Array<PagerdutyConfigImage>;
@@ -3233,9 +3041,7 @@ export const PagerdutyConfigLink = /*@__PURE__*/ S.suspend(() =>
     href: S.optional(S.String),
     text: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PagerdutyConfigLink",
-}) as any as S.Schema<PagerdutyConfigLink>;
+).annotate({ identifier: "PagerdutyConfigLink" }) as any as S.Schema<PagerdutyConfigLink>;
 
 /** Links to attach to the incident. */
 export type NotifierPagerdutyConfigLinksList = Array<PagerdutyConfigLink>;
@@ -3289,9 +3095,7 @@ export const NotifierPagerdutyConfig = /*@__PURE__*/ S.suspend(() =>
     service_key: S.optional(S.String),
     routing_key: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NotifierPagerdutyConfig",
-}) as any as S.Schema<NotifierPagerdutyConfig>;
+).annotate({ identifier: "NotifierPagerdutyConfig" }) as any as S.Schema<NotifierPagerdutyConfig>;
 
 export interface NotifierEmailConfig {
   /** Required email address to send notifications to. */
@@ -3307,14 +3111,10 @@ export const NotifierEmailConfig = /*@__PURE__*/ S.suspend(() =>
     html: S.optional(S.String),
     text: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NotifierEmailConfig",
-}) as any as S.Schema<NotifierEmailConfig>;
+).annotate({ identifier: "NotifierEmailConfig" }) as any as S.Schema<NotifierEmailConfig>;
 
 /** A set of arbitrary key/value pairs that provide further detail about the alert. */
-export type NotifierOpsGenieConfigDetailsMap = {
-  [key: string]: string | undefined;
-};
+export type NotifierOpsGenieConfigDetailsMap = { [key: string]: string | undefined };
 export const NotifierOpsGenieConfigDetailsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3339,9 +3139,7 @@ export const OpsGenieConfigResponder = /*@__PURE__*/ S.suspend(() =>
     username: S.optional(S.String),
     responder_type: S.optional(ResponderResponderType),
   }),
-).annotate({
-  identifier: "OpsGenieConfigResponder",
-}) as any as S.Schema<OpsGenieConfigResponder>;
+).annotate({ identifier: "OpsGenieConfigResponder" }) as any as S.Schema<OpsGenieConfigResponder>;
 
 /** List of responders responsible for notifications. */
 export type NotifierOpsGenieConfigRespondersList = Array<OpsGenieConfigResponder>;
@@ -3386,13 +3184,9 @@ export const NotifierOpsGenieConfig = /*@__PURE__*/ S.suspend(() =>
     note: S.optional(S.String),
     priority: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NotifierOpsGenieConfig",
-}) as any as S.Schema<NotifierOpsGenieConfig>;
+).annotate({ identifier: "NotifierOpsGenieConfig" }) as any as S.Schema<NotifierOpsGenieConfig>;
 
-export type NotifierVictorOpsConfigCustomFieldsMap = {
-  [key: string]: string | undefined;
-};
+export type NotifierVictorOpsConfigCustomFieldsMap = { [key: string]: string | undefined };
 export const NotifierVictorOpsConfigCustomFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3428,9 +3222,7 @@ export const NotifierVictorOpsConfig = /*@__PURE__*/ S.suspend(() =>
     monitoring_tool: S.optional(S.String),
     custom_fields: S.optional(NotifierVictorOpsConfigCustomFieldsMap),
   }),
-).annotate({
-  identifier: "NotifierVictorOpsConfig",
-}) as any as S.Schema<NotifierVictorOpsConfig>;
+).annotate({ identifier: "NotifierVictorOpsConfig" }) as any as S.Schema<NotifierVictorOpsConfig>;
 
 export interface Configv1NotifierInput {
   /** Unique identifier of the Notifier. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the Notifier is created. */
@@ -3461,9 +3253,7 @@ export const Configv1NotifierInput = /*@__PURE__*/ S.suspend(() =>
     victor_ops: S.optional(NotifierVictorOpsConfig),
     discard: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "Configv1NotifierInput",
-}) as any as S.Schema<Configv1NotifierInput>;
+).annotate({ identifier: "Configv1NotifierInput" }) as any as S.Schema<Configv1NotifierInput>;
 
 export interface CreateNotifierRequest {
   notifier?: Configv1NotifierInput;
@@ -3475,9 +3265,7 @@ export const CreateNotifierRequest = /*@__PURE__*/ S.suspend(() =>
     notifier: S.optional(Configv1NotifierInput),
     dry_run: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/notifiers", code: 200 })),
-).annotate({
-  identifier: "CreateNotifierRequest",
-}) as any as S.Schema<CreateNotifierRequest>;
+).annotate({ identifier: "CreateNotifierRequest" }) as any as S.Schema<CreateNotifierRequest>;
 
 export interface Configv1Notifier {
   /** Unique identifier of the Notifier. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the Notifier is created. */
@@ -3514,9 +3302,7 @@ export const Configv1Notifier = /*@__PURE__*/ S.suspend(() =>
     victor_ops: S.optional(NotifierVictorOpsConfig),
     discard: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "Configv1Notifier",
-}) as any as S.Schema<Configv1Notifier>;
+).annotate({ identifier: "Configv1Notifier" }) as any as S.Schema<Configv1Notifier>;
 
 export interface Configv1CreateNotifierResponse {
   notifier?: Configv1Notifier;
@@ -3580,13 +3366,7 @@ export const CreateOtelMetricsIngestionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     otel_metrics_ingestion: S.optional(Configv1OtelMetricsIngestionInput),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/config/otel-metrics-ingestion",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/otel-metrics-ingestion", code: 200 })),
 ).annotate({
   identifier: "CreateOtelMetricsIngestionRequest",
 }) as any as S.Schema<CreateOtelMetricsIngestionRequest>;
@@ -3620,9 +3400,7 @@ export const Configv1CreateOtelMetricsIngestionResponse = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<Configv1CreateOtelMetricsIngestionResponse>;
 
 /** Labels to add or overwrite before storing the result. */
-export type Configv1RecordingRuleLabelPolicyAddMap = {
-  [key: string]: string | undefined;
-};
+export type Configv1RecordingRuleLabelPolicyAddMap = { [key: string]: string | undefined };
 export const Configv1RecordingRuleLabelPolicyAddMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3681,13 +3459,7 @@ export const CreateRecordingRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     recording_rule: S.optional(Configv1RecordingRuleInput),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/config/recording-rules",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/recording-rules", code: 200 })),
 ).annotate({
   identifier: "CreateRecordingRuleRequest",
 }) as any as S.Schema<CreateRecordingRuleRequest>;
@@ -3726,9 +3498,7 @@ export const Configv1RecordingRule = /*@__PURE__*/ S.suspend(() =>
     prometheus_expr: S.optional(S.String),
     execution_group: S.optional(S.String),
   }),
-).annotate({
-  identifier: "Configv1RecordingRule",
-}) as any as S.Schema<Configv1RecordingRule>;
+).annotate({ identifier: "Configv1RecordingRule" }) as any as S.Schema<Configv1RecordingRule>;
 
 export interface Configv1CreateRecordingRuleResponse {
   recording_rule?: Configv1RecordingRule;
@@ -3759,9 +3529,7 @@ export const AllocationFixedValue = /*@__PURE__*/ S.suspend(() =>
     license: S.optional(ResourcePoolsLicense),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AllocationFixedValue",
-}) as any as S.Schema<AllocationFixedValue>;
+).annotate({ identifier: "AllocationFixedValue" }) as any as S.Schema<AllocationFixedValue>;
 
 /** Fixed values optionally override `percent_of_license` allocations for specified licenses. When defining fixed values for a license, all pools must have an explicit fixed value specification for that given license. The default pool receives all remaining quota left within the license, after subtracting the sum of fixed values across pools for that license. */
 export type Configv1ResourcePoolsAllocationFixedValuesList = Array<AllocationFixedValue>;
@@ -3780,9 +3548,7 @@ export const AllocationThreshold = /*@__PURE__*/ S.suspend(() =>
     percent_of_pool_allocation: S.optional(S.Number),
     fixed_value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AllocationThreshold",
-}) as any as S.Schema<AllocationThreshold>;
+).annotate({ identifier: "AllocationThreshold" }) as any as S.Schema<AllocationThreshold>;
 
 export interface AllocationThresholds {
   license?: ResourcePoolsLicense | (string & {});
@@ -3797,9 +3563,7 @@ export const AllocationThresholds = /*@__PURE__*/ S.suspend(() =>
     default_and_low_priority: S.optional(AllocationThreshold),
     low_priority: S.optional(AllocationThreshold),
   }),
-).annotate({
-  identifier: "AllocationThresholds",
-}) as any as S.Schema<AllocationThresholds>;
+).annotate({ identifier: "AllocationThresholds" }) as any as S.Schema<AllocationThresholds>;
 
 /** Optional. For supported licenses, defines thresholds with strict limits for when to drop new consumption of the license for a pool. Currently, only `PERSISTED_CARDINALITY_STANDARD` and `PERSISTED_CARDINALITY_HISTOGRAM` are supported. */
 export type Configv1ResourcePoolsAllocationPriorityThresholdsList = Array<AllocationThresholds>;
@@ -3848,9 +3612,7 @@ export const ResourcePoolsPriorities = /*@__PURE__*/ S.suspend(() =>
     high_priority_filters: S.optional(ResourcePoolsPrioritiesHighPriorityFiltersList),
     low_priority_filters: S.optional(ResourcePoolsPrioritiesLowPriorityFiltersList),
   }),
-).annotate({
-  identifier: "ResourcePoolsPriorities",
-}) as any as S.Schema<ResourcePoolsPriorities>;
+).annotate({ identifier: "ResourcePoolsPriorities" }) as any as S.Schema<ResourcePoolsPriorities>;
 
 /** Optional. For supported licenses, defines thresholds with strict limits for when to drop new consumption of the license for a pool. Currently, only `PERSISTED_CARDINALITY_STANDARD` and `PERSISTED_CARDINALITY_HISTOGRAM` are supported. */
 export type ResourcePoolsDefaultPoolPriorityThresholdsList = Array<AllocationThresholds>;
@@ -3870,9 +3632,7 @@ export const ResourcePoolsDefaultPool = /*@__PURE__*/ S.suspend(() =>
     priorities: S.optional(ResourcePoolsPriorities),
     priority_thresholds: S.optional(ResourcePoolsDefaultPoolPriorityThresholdsList),
   }),
-).annotate({
-  identifier: "ResourcePoolsDefaultPool",
-}) as any as S.Schema<ResourcePoolsDefaultPool>;
+).annotate({ identifier: "ResourcePoolsDefaultPool" }) as any as S.Schema<ResourcePoolsDefaultPool>;
 
 /** Required filters which define which metrics map to this pool, where any metric which matches at least one filter will map to the pool. */
 export type ResourcePoolsPoolFiltersList = Array<Configv1LabelFilter>;
@@ -3895,9 +3655,7 @@ export const ResourcePoolsPool = /*@__PURE__*/ S.suspend(() =>
     filters: S.optional(ResourcePoolsPoolFiltersList),
     priorities: S.optional(ResourcePoolsPriorities),
   }),
-).annotate({
-  identifier: "ResourcePoolsPool",
-}) as any as S.Schema<ResourcePoolsPool>;
+).annotate({ identifier: "ResourcePoolsPool" }) as any as S.Schema<ResourcePoolsPool>;
 
 /** Optional pools. Cannot set more than 20 pools. */
 export type Configv1ResourcePoolsInputPoolsList = Array<ResourcePoolsPool>;
@@ -3955,9 +3713,7 @@ export const Configv1ResourcePools = /*@__PURE__*/ S.suspend(() =>
     default_pool: S.optional(ResourcePoolsDefaultPool),
     pools: S.optional(Configv1ResourcePoolsPoolsList),
   }),
-).annotate({
-  identifier: "Configv1ResourcePools",
-}) as any as S.Schema<Configv1ResourcePools>;
+).annotate({ identifier: "Configv1ResourcePools" }) as any as S.Schema<Configv1ResourcePools>;
 
 export interface Configv1CreateResourcePoolsResponse {
   resource_pools?: Configv1ResourcePools;
@@ -3970,7 +3726,7 @@ export const Configv1CreateResourcePoolsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "Configv1CreateResourcePoolsResponse",
 }) as any as S.Schema<Configv1CreateResourcePoolsResponse>;
 
-/** Filters incoming metrics by label. If multiple label filters are specified, an incoming metric must match every label filter to match the rule. Label values support glob patterns, including matching multiple patterns with an `OR`, such as `service:{svc1,svc2}`. These special filters are available for matching metrics by non-label request metadata: * `__metric_type__`: Matches the incoming metric's [Observability Platform metric type](https://docs.chronosphere.io/control/shaping/types#observability-platform-types). This is the recommended method for filtering on metric type. Valid values: `cumulative_counter`, `cumulative_exponential_histogram`, `delta_counter`, `delta_exponential_histogram`, `gauge`, `measurement`. * `__metric_source__`: Matches the incoming metric's [source format](https://docs.chronosphere.io/control/shaping/types#supported-formats). Valid values: `carbon`, `chrono_gcp`, `dogstatsd`, `open_metrics`, `open_telemetry`, `prometheus`, `signalfx`, `statsd`, `wavefront`. * `__m3_prom_type__`: When ingesting with Prometheus, matches the incoming metric's [Prometheus metric type](https://docs.chronosphere.io/control/shaping/types#prometheus). Valid values: `counter`, `gauge`, `histogram`, `gauge_histogram`, `summary`, `info`, `state_set`, `quantile`. * `__otel_type__`: When ingesting with OpenTelemetry, matches on the incoming metric's [OpenTelemetry metric type](https://docs.chronosphere.io/control/shaping/types#opentelemetry). Valid values: `sum`, `monotonic_sum`, `gauge`, `histogram`, `exp_histogram`, `summary`. For example, the following filter matches any cumulative counter metric with a `service=gateway` label whose metric name starts with `http_requests_`: ``` __metric_type__:cumulative_counter service:gateway __name__:http_requests_* ``` */
+/** Filters incoming metrics by label. If multiple label filters are specified, an incoming metric must match every label filter to match the rule. Label values support glob patterns, including matching multiple patterns with an `OR`, such as `service:{svc1,svc2}`. These special filters are available for matching metrics by non-label request metadata: * `__metric_type__`: Matches the incoming metric's [Cortex XCOR metric type](https://docs.chronosphere.io/control/shaping/types#cortex-xcor-types). This is the recommended method for filtering on metric type. Valid values: `cumulative_counter`, `cumulative_exponential_histogram`, `delta_counter`, `delta_exponential_histogram`, `gauge`, `measurement`. * `__metric_source__`: Matches the incoming metric's [source format](https://docs.chronosphere.io/control/shaping/types#supported-formats). Valid values: `carbon`, `chrono_gcp`, `dogstatsd`, `open_metrics`, `open_telemetry`, `prometheus`, `signalfx`, `statsd`, `wavefront`. * `__m3_prom_type__`: When ingesting with Prometheus, matches the incoming metric's [Prometheus metric type](https://docs.chronosphere.io/control/shaping/types#prometheus). Valid values: `counter`, `gauge`, `histogram`, `gauge_histogram`, `summary`, `info`, `state_set`, `quantile`. * `__otel_type__`: When ingesting with OpenTelemetry, matches on the incoming metric's [OpenTelemetry metric type](https://docs.chronosphere.io/control/shaping/types#opentelemetry). Valid values: `sum`, `monotonic_sum`, `gauge`, `histogram`, `exp_histogram`, `summary`. For example, the following filter matches any cumulative counter metric with a `service=gateway` label whose metric name starts with `http_requests_`: ``` __metric_type__:cumulative_counter service:gateway __name__:http_requests_* ``` */
 export type Configv1RollupRuleInputFiltersList = Array<Configv1LabelFilter>;
 export const Configv1RollupRuleInputFiltersList = /*@__PURE__*/ S.Array(
   Configv1LabelFilter,
@@ -4063,7 +3819,7 @@ export interface Configv1RollupRuleInput {
   name?: string;
   /** Required. Slug of the bucket the RollupRule belongs to. */
   bucket_slug?: string;
-  /** Filters incoming metrics by label. If multiple label filters are specified, an incoming metric must match every label filter to match the rule. Label values support glob patterns, including matching multiple patterns with an `OR`, such as `service:{svc1,svc2}`. These special filters are available for matching metrics by non-label request metadata: * `__metric_type__`: Matches the incoming metric's [Observability Platform metric type](https://docs.chronosphere.io/control/shaping/types#observability-platform-types). This is the recommended method for filtering on metric type. Valid values: `cumulative_counter`, `cumulative_exponential_histogram`, `delta_counter`, `delta_exponential_histogram`, `gauge`, `measurement`. * `__metric_source__`: Matches the incoming metric's [source format](https://docs.chronosphere.io/control/shaping/types#supported-formats). Valid values: `carbon`, `chrono_gcp`, `dogstatsd`, `open_metrics`, `open_telemetry`, `prometheus`, `signalfx`, `statsd`, `wavefront`. * `__m3_prom_type__`: When ingesting with Prometheus, matches the incoming metric's [Prometheus metric type](https://docs.chronosphere.io/control/shaping/types#prometheus). Valid values: `counter`, `gauge`, `histogram`, `gauge_histogram`, `summary`, `info`, `state_set`, `quantile`. * `__otel_type__`: When ingesting with OpenTelemetry, matches on the incoming metric's [OpenTelemetry metric type](https://docs.chronosphere.io/control/shaping/types#opentelemetry). Valid values: `sum`, `monotonic_sum`, `gauge`, `histogram`, `exp_histogram`, `summary`. For example, the following filter matches any cumulative counter metric with a `service=gateway` label whose metric name starts with `http_requests_`: ``` __metric_type__:cumulative_counter service:gateway __name__:http_requests_* ``` */
+  /** Filters incoming metrics by label. If multiple label filters are specified, an incoming metric must match every label filter to match the rule. Label values support glob patterns, including matching multiple patterns with an `OR`, such as `service:{svc1,svc2}`. These special filters are available for matching metrics by non-label request metadata: * `__metric_type__`: Matches the incoming metric's [Cortex XCOR metric type](https://docs.chronosphere.io/control/shaping/types#cortex-xcor-types). This is the recommended method for filtering on metric type. Valid values: `cumulative_counter`, `cumulative_exponential_histogram`, `delta_counter`, `delta_exponential_histogram`, `gauge`, `measurement`. * `__metric_source__`: Matches the incoming metric's [source format](https://docs.chronosphere.io/control/shaping/types#supported-formats). Valid values: `carbon`, `chrono_gcp`, `dogstatsd`, `open_metrics`, `open_telemetry`, `prometheus`, `signalfx`, `statsd`, `wavefront`. * `__m3_prom_type__`: When ingesting with Prometheus, matches the incoming metric's [Prometheus metric type](https://docs.chronosphere.io/control/shaping/types#prometheus). Valid values: `counter`, `gauge`, `histogram`, `gauge_histogram`, `summary`, `info`, `state_set`, `quantile`. * `__otel_type__`: When ingesting with OpenTelemetry, matches on the incoming metric's [OpenTelemetry metric type](https://docs.chronosphere.io/control/shaping/types#opentelemetry). Valid values: `sum`, `monotonic_sum`, `gauge`, `histogram`, `exp_histogram`, `summary`. For example, the following filter matches any cumulative counter metric with a `service=gateway` label whose metric name starts with `http_requests_`: ``` __metric_type__:cumulative_counter service:gateway __name__:http_requests_* ``` */
   filters?: Configv1RollupRuleInputFiltersList;
   /** This field is optional for Graphite rollup rules. */
   metric_name?: string;
@@ -4102,9 +3858,7 @@ export const Configv1RollupRuleInput = /*@__PURE__*/ S.suspend(() =>
     mode: S.optional(Configv1RollupRuleMode),
     graphite_label_policy: S.optional(RollupRuleGraphiteLabelPolicy),
   }),
-).annotate({
-  identifier: "Configv1RollupRuleInput",
-}) as any as S.Schema<Configv1RollupRuleInput>;
+).annotate({ identifier: "Configv1RollupRuleInput" }) as any as S.Schema<Configv1RollupRuleInput>;
 
 export interface CreateRollupRuleRequest {
   rollup_rule?: Configv1RollupRuleInput;
@@ -4116,11 +3870,9 @@ export const CreateRollupRuleRequest = /*@__PURE__*/ S.suspend(() =>
     rollup_rule: S.optional(Configv1RollupRuleInput),
     dry_run: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/rollup-rules", code: 200 })),
-).annotate({
-  identifier: "CreateRollupRuleRequest",
-}) as any as S.Schema<CreateRollupRuleRequest>;
+).annotate({ identifier: "CreateRollupRuleRequest" }) as any as S.Schema<CreateRollupRuleRequest>;
 
-/** Filters incoming metrics by label. If multiple label filters are specified, an incoming metric must match every label filter to match the rule. Label values support glob patterns, including matching multiple patterns with an `OR`, such as `service:{svc1,svc2}`. These special filters are available for matching metrics by non-label request metadata: * `__metric_type__`: Matches the incoming metric's [Observability Platform metric type](https://docs.chronosphere.io/control/shaping/types#observability-platform-types). This is the recommended method for filtering on metric type. Valid values: `cumulative_counter`, `cumulative_exponential_histogram`, `delta_counter`, `delta_exponential_histogram`, `gauge`, `measurement`. * `__metric_source__`: Matches the incoming metric's [source format](https://docs.chronosphere.io/control/shaping/types#supported-formats). Valid values: `carbon`, `chrono_gcp`, `dogstatsd`, `open_metrics`, `open_telemetry`, `prometheus`, `signalfx`, `statsd`, `wavefront`. * `__m3_prom_type__`: When ingesting with Prometheus, matches the incoming metric's [Prometheus metric type](https://docs.chronosphere.io/control/shaping/types#prometheus). Valid values: `counter`, `gauge`, `histogram`, `gauge_histogram`, `summary`, `info`, `state_set`, `quantile`. * `__otel_type__`: When ingesting with OpenTelemetry, matches on the incoming metric's [OpenTelemetry metric type](https://docs.chronosphere.io/control/shaping/types#opentelemetry). Valid values: `sum`, `monotonic_sum`, `gauge`, `histogram`, `exp_histogram`, `summary`. For example, the following filter matches any cumulative counter metric with a `service=gateway` label whose metric name starts with `http_requests_`: ``` __metric_type__:cumulative_counter service:gateway __name__:http_requests_* ``` */
+/** Filters incoming metrics by label. If multiple label filters are specified, an incoming metric must match every label filter to match the rule. Label values support glob patterns, including matching multiple patterns with an `OR`, such as `service:{svc1,svc2}`. These special filters are available for matching metrics by non-label request metadata: * `__metric_type__`: Matches the incoming metric's [Cortex XCOR metric type](https://docs.chronosphere.io/control/shaping/types#cortex-xcor-types). This is the recommended method for filtering on metric type. Valid values: `cumulative_counter`, `cumulative_exponential_histogram`, `delta_counter`, `delta_exponential_histogram`, `gauge`, `measurement`. * `__metric_source__`: Matches the incoming metric's [source format](https://docs.chronosphere.io/control/shaping/types#supported-formats). Valid values: `carbon`, `chrono_gcp`, `dogstatsd`, `open_metrics`, `open_telemetry`, `prometheus`, `signalfx`, `statsd`, `wavefront`. * `__m3_prom_type__`: When ingesting with Prometheus, matches the incoming metric's [Prometheus metric type](https://docs.chronosphere.io/control/shaping/types#prometheus). Valid values: `counter`, `gauge`, `histogram`, `gauge_histogram`, `summary`, `info`, `state_set`, `quantile`. * `__otel_type__`: When ingesting with OpenTelemetry, matches on the incoming metric's [OpenTelemetry metric type](https://docs.chronosphere.io/control/shaping/types#opentelemetry). Valid values: `sum`, `monotonic_sum`, `gauge`, `histogram`, `exp_histogram`, `summary`. For example, the following filter matches any cumulative counter metric with a `service=gateway` label whose metric name starts with `http_requests_`: ``` __metric_type__:cumulative_counter service:gateway __name__:http_requests_* ``` */
 export type Configv1RollupRuleFiltersList = Array<Configv1LabelFilter>;
 export const Configv1RollupRuleFiltersList = /*@__PURE__*/ S.Array(
   Configv1LabelFilter,
@@ -4137,7 +3889,7 @@ export interface Configv1RollupRule {
   updated_at?: string;
   /** Required. Slug of the bucket the RollupRule belongs to. */
   bucket_slug?: string;
-  /** Filters incoming metrics by label. If multiple label filters are specified, an incoming metric must match every label filter to match the rule. Label values support glob patterns, including matching multiple patterns with an `OR`, such as `service:{svc1,svc2}`. These special filters are available for matching metrics by non-label request metadata: * `__metric_type__`: Matches the incoming metric's [Observability Platform metric type](https://docs.chronosphere.io/control/shaping/types#observability-platform-types). This is the recommended method for filtering on metric type. Valid values: `cumulative_counter`, `cumulative_exponential_histogram`, `delta_counter`, `delta_exponential_histogram`, `gauge`, `measurement`. * `__metric_source__`: Matches the incoming metric's [source format](https://docs.chronosphere.io/control/shaping/types#supported-formats). Valid values: `carbon`, `chrono_gcp`, `dogstatsd`, `open_metrics`, `open_telemetry`, `prometheus`, `signalfx`, `statsd`, `wavefront`. * `__m3_prom_type__`: When ingesting with Prometheus, matches the incoming metric's [Prometheus metric type](https://docs.chronosphere.io/control/shaping/types#prometheus). Valid values: `counter`, `gauge`, `histogram`, `gauge_histogram`, `summary`, `info`, `state_set`, `quantile`. * `__otel_type__`: When ingesting with OpenTelemetry, matches on the incoming metric's [OpenTelemetry metric type](https://docs.chronosphere.io/control/shaping/types#opentelemetry). Valid values: `sum`, `monotonic_sum`, `gauge`, `histogram`, `exp_histogram`, `summary`. For example, the following filter matches any cumulative counter metric with a `service=gateway` label whose metric name starts with `http_requests_`: ``` __metric_type__:cumulative_counter service:gateway __name__:http_requests_* ``` */
+  /** Filters incoming metrics by label. If multiple label filters are specified, an incoming metric must match every label filter to match the rule. Label values support glob patterns, including matching multiple patterns with an `OR`, such as `service:{svc1,svc2}`. These special filters are available for matching metrics by non-label request metadata: * `__metric_type__`: Matches the incoming metric's [Cortex XCOR metric type](https://docs.chronosphere.io/control/shaping/types#cortex-xcor-types). This is the recommended method for filtering on metric type. Valid values: `cumulative_counter`, `cumulative_exponential_histogram`, `delta_counter`, `delta_exponential_histogram`, `gauge`, `measurement`. * `__metric_source__`: Matches the incoming metric's [source format](https://docs.chronosphere.io/control/shaping/types#supported-formats). Valid values: `carbon`, `chrono_gcp`, `dogstatsd`, `open_metrics`, `open_telemetry`, `prometheus`, `signalfx`, `statsd`, `wavefront`. * `__m3_prom_type__`: When ingesting with Prometheus, matches the incoming metric's [Prometheus metric type](https://docs.chronosphere.io/control/shaping/types#prometheus). Valid values: `counter`, `gauge`, `histogram`, `gauge_histogram`, `summary`, `info`, `state_set`, `quantile`. * `__otel_type__`: When ingesting with OpenTelemetry, matches on the incoming metric's [OpenTelemetry metric type](https://docs.chronosphere.io/control/shaping/types#opentelemetry). Valid values: `sum`, `monotonic_sum`, `gauge`, `histogram`, `exp_histogram`, `summary`. For example, the following filter matches any cumulative counter metric with a `service=gateway` label whose metric name starts with `http_requests_`: ``` __metric_type__:cumulative_counter service:gateway __name__:http_requests_* ``` */
   filters?: Configv1RollupRuleFiltersList;
   /** This field is optional for Graphite rollup rules. */
   metric_name?: string;
@@ -4178,9 +3930,7 @@ export const Configv1RollupRule = /*@__PURE__*/ S.suspend(() =>
     mode: S.optional(Configv1RollupRuleMode),
     graphite_label_policy: S.optional(RollupRuleGraphiteLabelPolicy),
   }),
-).annotate({
-  identifier: "Configv1RollupRule",
-}) as any as S.Schema<Configv1RollupRule>;
+).annotate({ identifier: "Configv1RollupRule" }) as any as S.Schema<Configv1RollupRule>;
 
 export interface Configv1CreateRollupRuleResponse {
   rollup_rule?: Configv1RollupRule;
@@ -4197,9 +3947,7 @@ export type MetricsRestrictionPermission = "READ" | "WRITE" | "READ_WRITE";
 export const MetricsRestrictionPermission = S.String;
 
 /** Optional labels which further restricts the service account to only read or write metrics with the given label names and values. */
-export type ServiceAccountMetricsRestrictionLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type ServiceAccountMetricsRestrictionLabelsMap = { [key: string]: string | undefined };
 export const ServiceAccountMetricsRestrictionLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4224,7 +3972,7 @@ export interface Configv1ServiceAccountInput {
   slug?: string;
   /** Required. Name of the ServiceAccount. You can modify this value after the ServiceAccount is created. */
   name?: string;
-  /** If set, grants the service account access to all Chronosphere APIs (including resource configuration and metric data) within the access controls defined by the service account's team membership. Exactly one of unrestricted or metrics_restriction must be set. */
+  /** If set, grants the service account access to all Cortex XCOR APIs (including resource configuration and metric data) within the access controls defined by the service account's team membership. Exactly one of unrestricted or metrics_restriction must be set. */
   unrestricted?: boolean;
   metrics_restriction?: ServiceAccountMetricsRestriction;
 }
@@ -4248,13 +3996,7 @@ export const CreateServiceAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     service_account: S.optional(Configv1ServiceAccountInput),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/config/service-accounts",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/service-accounts", code: 200 })),
 ).annotate({
   identifier: "CreateServiceAccountRequest",
 }) as any as S.Schema<CreateServiceAccountRequest>;
@@ -4272,7 +4014,7 @@ export interface Configv1ServiceAccount {
   token?: string;
   /** email is the generated email address of the service account. Cannot be set by clients. */
   email?: string;
-  /** If set, grants the service account access to all Chronosphere APIs (including resource configuration and metric data) within the access controls defined by the service account's team membership. Exactly one of unrestricted or metrics_restriction must be set. */
+  /** If set, grants the service account access to all Cortex XCOR APIs (including resource configuration and metric data) within the access controls defined by the service account's team membership. Exactly one of unrestricted or metrics_restriction must be set. */
   unrestricted?: boolean;
   metrics_restriction?: ServiceAccountMetricsRestriction;
 }
@@ -4287,9 +4029,7 @@ export const Configv1ServiceAccount = /*@__PURE__*/ S.suspend(() =>
     unrestricted: S.optional(S.Boolean),
     metrics_restriction: S.optional(ServiceAccountMetricsRestriction),
   }),
-).annotate({
-  identifier: "Configv1ServiceAccount",
-}) as any as S.Schema<Configv1ServiceAccount>;
+).annotate({ identifier: "Configv1ServiceAccount" }) as any as S.Schema<Configv1ServiceAccount>;
 
 export interface Configv1CreateServiceAccountResponse {
   service_account?: Configv1ServiceAccount;
@@ -4310,9 +4050,7 @@ export const Configv1SLOInputLabelsMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<Configv1SLOInputLabelsMap>;
 
 /** Annotations are visible in notifications generated by this SLO They can be be templated with labels from notifications. */
-export type Configv1SLOInputAnnotationsMap = {
-  [key: string]: string | undefined;
-};
+export type Configv1SLOInputAnnotationsMap = { [key: string]: string | undefined };
 export const Configv1SLOInputAnnotationsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4333,9 +4071,7 @@ export const SLICustomIndicatorConfig = /*@__PURE__*/ S.suspend(() =>
     bad_query_template: S.optional(S.String),
     total_query_template: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SLICustomIndicatorConfig",
-}) as any as S.Schema<SLICustomIndicatorConfig>;
+).annotate({ identifier: "SLICustomIndicatorConfig" }) as any as S.Schema<SLICustomIndicatorConfig>;
 
 export type SLITimeSliceSize = "TIMESLICE_SIZE_ONE_MINUTE" | "TIMESLICE_SIZE_FIVE_MINUTES";
 export const SLITimeSliceSize = S.String;
@@ -4350,9 +4086,7 @@ export const SLITimeSliceCondition = /*@__PURE__*/ S.suspend(() =>
     op: S.optional(ConditionOp),
     value: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SLITimeSliceCondition",
-}) as any as S.Schema<SLITimeSliceCondition>;
+).annotate({ identifier: "SLITimeSliceCondition" }) as any as S.Schema<SLITimeSliceCondition>;
 
 export interface SLICustomTimeSliceIndicatorConfig {
   /** A PromQL query template for the timeslice SLI. */
@@ -4396,9 +4130,7 @@ export const CommonPromQLMatcher = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CommonPromQLMatcher",
-}) as any as S.Schema<CommonPromQLMatcher>;
+).annotate({ identifier: "CommonPromQLMatcher" }) as any as S.Schema<CommonPromQLMatcher>;
 
 /** These are made available to the SLO queries and are intended to be used for things like `cluster!~"dev"` */
 export type Configv1SLIAdditionalPromqlFiltersList = Array<CommonPromQLMatcher>;
@@ -4431,14 +4163,10 @@ export const DefinitionTimeWindow = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     duration: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DefinitionTimeWindow",
-}) as any as S.Schema<DefinitionTimeWindow>;
+).annotate({ identifier: "DefinitionTimeWindow" }) as any as S.Schema<DefinitionTimeWindow>;
 
 /** Labels to attach when this burn rate triggers. If you add these labels to `signal_groupings`, you can route them in the notification policy, and can route different burn rates to other notifiers. */
-export type DefinitionBurnRateDefinitionLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type DefinitionBurnRateDefinitionLabelsMap = { [key: string]: string | undefined };
 export const DefinitionBurnRateDefinitionLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4517,9 +4245,7 @@ export const Configv1SLOInput = /*@__PURE__*/ S.suspend(() =>
     sli: S.optional(Configv1SLI),
     definition: S.optional(SLODefinition),
   }),
-).annotate({
-  identifier: "Configv1SLOInput",
-}) as any as S.Schema<Configv1SLOInput>;
+).annotate({ identifier: "Configv1SLOInput" }) as any as S.Schema<Configv1SLOInput>;
 
 export interface CreateSLORequest {
   slo?: Configv1SLOInput;
@@ -4531,9 +4257,7 @@ export const CreateSLORequest = /*@__PURE__*/ S.suspend(() =>
     slo: S.optional(Configv1SLOInput),
     dry_run: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/slos", code: 200 })),
-).annotate({
-  identifier: "CreateSLORequest",
-}) as any as S.Schema<CreateSLORequest>;
+).annotate({ identifier: "CreateSLORequest" }) as any as S.Schema<CreateSLORequest>;
 
 /** Labels are visible in notifications generated by this SLO, and can be used to route alerts with notification overrides. */
 export type Configv1SLOLabelsMap = { [key: string]: string | undefined };
@@ -4621,9 +4345,7 @@ export const Configv1TeamInput = /*@__PURE__*/ S.suspend(() =>
     user_emails: S.optional(Configv1TeamInputUserEmailsList),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "Configv1TeamInput",
-}) as any as S.Schema<Configv1TeamInput>;
+).annotate({ identifier: "Configv1TeamInput" }) as any as S.Schema<Configv1TeamInput>;
 
 export interface CreateTeamRequest {
   team?: Configv1TeamInput;
@@ -4635,9 +4357,7 @@ export const CreateTeamRequest = /*@__PURE__*/ S.suspend(() =>
     team: S.optional(Configv1TeamInput),
     dry_run: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/teams", code: 200 })),
-).annotate({
-  identifier: "CreateTeamRequest",
-}) as any as S.Schema<CreateTeamRequest>;
+).annotate({ identifier: "CreateTeamRequest" }) as any as S.Schema<CreateTeamRequest>;
 
 /** Unordered set of emails whose users are members of this team. */
 export type Configv1TeamUserEmailsList = Array<string>;
@@ -4824,13 +4544,7 @@ export const CreateTraceBehaviorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     trace_behavior: S.optional(Configv1TraceBehaviorInput),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/config/trace-behaviors",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/trace-behaviors", code: 200 })),
 ).annotate({
   identifier: "CreateTraceBehaviorRequest",
 }) as any as S.Schema<CreateTraceBehaviorRequest>;
@@ -4870,9 +4584,7 @@ export const Configv1TraceBehavior = /*@__PURE__*/ S.suspend(() =>
     large_trace_sample_options: S.optional(TraceBehaviorLargeTraceSampleOptions),
     small_trace_sample_options: S.optional(TraceBehaviorSmallTraceSampleOptions),
   }),
-).annotate({
-  identifier: "Configv1TraceBehavior",
-}) as any as S.Schema<Configv1TraceBehavior>;
+).annotate({ identifier: "Configv1TraceBehavior" }) as any as S.Schema<Configv1TraceBehavior>;
 
 export interface Configv1CreateTraceBehaviorResponse {
   trace_behavior?: Configv1TraceBehavior;
@@ -5013,13 +4725,7 @@ export const CreateTraceBehaviorConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     trace_behavior_config: S.optional(Configv1TraceBehaviorConfigInput),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/config/trace-behavior-config",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/trace-behavior-config", code: 200 })),
 ).annotate({
   identifier: "CreateTraceBehaviorConfigRequest",
 }) as any as S.Schema<CreateTraceBehaviorConfigRequest>;
@@ -5270,9 +4976,7 @@ export const Configv1CreateTraceJaegerRemoteSamplingStrategyResponse = /*@__PURE
 }) as any as S.Schema<Configv1CreateTraceJaegerRemoteSamplingStrategyResponse>;
 
 /** Labels to apply to the generated trace metrics. */
-export type Configv1TraceMetricsRuleInputMetricLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type Configv1TraceMetricsRuleInputMetricLabelsMap = { [key: string]: string | undefined };
 export const Configv1TraceMetricsRuleInputMetricLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5299,9 +5003,7 @@ export const GroupByGroupByKey = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(GroupByKeyGroupByKeyType),
     named_key: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GroupByGroupByKey",
-}) as any as S.Schema<GroupByGroupByKey>;
+).annotate({ identifier: "GroupByGroupByKey" }) as any as S.Schema<GroupByGroupByKey>;
 
 /** GroupBy contains fields required to group the resultant metrics of a TraceMetricsRule by a specific key. */
 export interface Configv1TraceMetricsRuleGroupBy {
@@ -5362,21 +5064,13 @@ export const CreateTraceMetricsRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     trace_metrics_rule: S.optional(Configv1TraceMetricsRuleInput),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/config/trace-metrics-rules",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/trace-metrics-rules", code: 200 })),
 ).annotate({
   identifier: "CreateTraceMetricsRuleRequest",
 }) as any as S.Schema<CreateTraceMetricsRuleRequest>;
 
 /** Labels to apply to the generated trace metrics. */
-export type Configv1TraceMetricsRuleMetricLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type Configv1TraceMetricsRuleMetricLabelsMap = { [key: string]: string | undefined };
 export const Configv1TraceMetricsRuleMetricLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5425,9 +5119,7 @@ export const Configv1TraceMetricsRule = /*@__PURE__*/ S.suspend(() =>
     trace_filter: S.optional(Configv1TraceSearchFilter),
     group_by: S.optional(Configv1TraceMetricsRuleGroupByList),
   }),
-).annotate({
-  identifier: "Configv1TraceMetricsRule",
-}) as any as S.Schema<Configv1TraceMetricsRule>;
+).annotate({ identifier: "Configv1TraceMetricsRule" }) as any as S.Schema<Configv1TraceMetricsRule>;
 
 export interface Configv1CreateTraceMetricsRuleResponse {
   trace_metrics_rule?: Configv1TraceMetricsRule;
@@ -5512,13 +5204,7 @@ export const CreateTraceTailSamplingRulesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     trace_tail_sampling_rules: S.optional(Configv1TraceTailSamplingRulesInput),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/config/trace-tail-sampling-rules",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/config/trace-tail-sampling-rules", code: 200 })),
 ).annotate({
   identifier: "CreateTraceTailSamplingRulesRequest",
 }) as any as S.Schema<CreateTraceTailSamplingRulesRequest>;
@@ -5570,16 +5256,8 @@ export const DeleteBucketRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
     force_delete: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/buckets/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteBucketRequest",
-}) as any as S.Schema<DeleteBucketRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/config/buckets/{slug}", code: 200 })),
+).annotate({ identifier: "DeleteBucketRequest" }) as any as S.Schema<DeleteBucketRequest>;
 
 export type Configv1ResourceType =
   | "BUCKET"
@@ -5632,13 +5310,7 @@ export interface DeleteClassicDashboardRequest {
 export const DeleteClassicDashboardRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/classic-dashboards/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/config/classic-dashboards/{slug}", code: 200 })),
 ).annotate({
   identifier: "DeleteClassicDashboardRequest",
 }) as any as S.Schema<DeleteClassicDashboardRequest>;
@@ -5656,23 +5328,13 @@ export interface DeleteCollectionRequest {
 export const DeleteCollectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/collections/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteCollectionRequest",
-}) as any as S.Schema<DeleteCollectionRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/config/collections/{slug}", code: 200 })),
+).annotate({ identifier: "DeleteCollectionRequest" }) as any as S.Schema<DeleteCollectionRequest>;
 
 export type DeleteCollectionResponse = unknown;
 export const DeleteCollectionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteCollectionResponse",
-}) as any as S.Schema<DeleteCollectionResponse>;
+).annotate({ identifier: "DeleteCollectionResponse" }) as any as S.Schema<DeleteCollectionResponse>;
 
 export interface DeleteDashboardRequest {
   slug: string;
@@ -5680,23 +5342,13 @@ export interface DeleteDashboardRequest {
 export const DeleteDashboardRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/dashboards/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteDashboardRequest",
-}) as any as S.Schema<DeleteDashboardRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/config/dashboards/{slug}", code: 200 })),
+).annotate({ identifier: "DeleteDashboardRequest" }) as any as S.Schema<DeleteDashboardRequest>;
 
 export type DeleteDashboardResponse = unknown;
 export const DeleteDashboardResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteDashboardResponse",
-}) as any as S.Schema<DeleteDashboardResponse>;
+).annotate({ identifier: "DeleteDashboardResponse" }) as any as S.Schema<DeleteDashboardResponse>;
 
 export interface DeleteDatasetRequest {
   slug: string;
@@ -5704,23 +5356,13 @@ export interface DeleteDatasetRequest {
 export const DeleteDatasetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/datasets/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteDatasetRequest",
-}) as any as S.Schema<DeleteDatasetRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/config/datasets/{slug}", code: 200 })),
+).annotate({ identifier: "DeleteDatasetRequest" }) as any as S.Schema<DeleteDatasetRequest>;
 
 export type DeleteDatasetResponse = unknown;
 export const DeleteDatasetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteDatasetResponse",
-}) as any as S.Schema<DeleteDatasetResponse>;
+).annotate({ identifier: "DeleteDatasetResponse" }) as any as S.Schema<DeleteDatasetResponse>;
 
 export interface DeleteDerivedLabelRequest {
   slug: string;
@@ -5728,13 +5370,7 @@ export interface DeleteDerivedLabelRequest {
 export const DeleteDerivedLabelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/derived-labels/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/config/derived-labels/{slug}", code: 200 })),
 ).annotate({
   identifier: "DeleteDerivedLabelRequest",
 }) as any as S.Schema<DeleteDerivedLabelRequest>;
@@ -5752,13 +5388,7 @@ export interface DeleteDerivedMetricRequest {
 export const DeleteDerivedMetricRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/derived-metrics/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/config/derived-metrics/{slug}", code: 200 })),
 ).annotate({
   identifier: "DeleteDerivedMetricRequest",
 }) as any as S.Schema<DeleteDerivedMetricRequest>;
@@ -5776,23 +5406,13 @@ export interface DeleteDropRuleRequest {
 export const DeleteDropRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/drop-rules/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteDropRuleRequest",
-}) as any as S.Schema<DeleteDropRuleRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/config/drop-rules/{slug}", code: 200 })),
+).annotate({ identifier: "DeleteDropRuleRequest" }) as any as S.Schema<DeleteDropRuleRequest>;
 
 export type DeleteDropRuleResponse = unknown;
 export const DeleteDropRuleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteDropRuleResponse",
-}) as any as S.Schema<DeleteDropRuleResponse>;
+).annotate({ identifier: "DeleteDropRuleResponse" }) as any as S.Schema<DeleteDropRuleResponse>;
 
 export interface DeleteGcpMetricsIntegrationRequest {
   slug: string;
@@ -5801,11 +5421,7 @@ export const DeleteGcpMetricsIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/gcp-metrics-integrations/{slug}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v1/config/gcp-metrics-integrations/{slug}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteGcpMetricsIntegrationRequest",
@@ -5824,13 +5440,7 @@ export interface DeleteGrafanaDashboardRequest {
 export const DeleteGrafanaDashboardRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/grafana-dashboards/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/config/grafana-dashboards/{slug}", code: 200 })),
 ).annotate({
   identifier: "DeleteGrafanaDashboardRequest",
 }) as any as S.Schema<DeleteGrafanaDashboardRequest>;
@@ -5845,11 +5455,7 @@ export const DeleteGrafanaDashboardResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteLogAllocationConfigRequest {}
 export const DeleteLogAllocationConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/log-allocation-config",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v1/config/log-allocation-config", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteLogAllocationConfigRequest",
@@ -5865,11 +5471,7 @@ export const DeleteLogAllocationConfigResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteLogIngestConfigRequest {}
 export const DeleteLogIngestConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/log-ingest-config",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v1/config/log-ingest-config", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteLogIngestConfigRequest",
@@ -5888,13 +5490,7 @@ export interface DeleteLogScaleActionRequest {
 export const DeleteLogScaleActionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/log-scale-actions/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/config/log-scale-actions/{slug}", code: 200 })),
 ).annotate({
   identifier: "DeleteLogScaleActionRequest",
 }) as any as S.Schema<DeleteLogScaleActionRequest>;
@@ -5912,13 +5508,7 @@ export interface DeleteLogScaleAlertRequest {
 export const DeleteLogScaleAlertRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/log-scale-alerts/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/config/log-scale-alerts/{slug}", code: 200 })),
 ).annotate({
   identifier: "DeleteLogScaleAlertRequest",
 }) as any as S.Schema<DeleteLogScaleAlertRequest>;
@@ -5936,16 +5526,8 @@ export interface DeleteMappingRuleRequest {
 export const DeleteMappingRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/mapping-rules/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteMappingRuleRequest",
-}) as any as S.Schema<DeleteMappingRuleRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/config/mapping-rules/{slug}", code: 200 })),
+).annotate({ identifier: "DeleteMappingRuleRequest" }) as any as S.Schema<DeleteMappingRuleRequest>;
 
 export type DeleteMappingRuleResponse = unknown;
 export const DeleteMappingRuleResponse = /*@__PURE__*/ S.suspend(() =>
@@ -5960,23 +5542,13 @@ export interface DeleteMonitorRequest {
 export const DeleteMonitorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/monitors/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteMonitorRequest",
-}) as any as S.Schema<DeleteMonitorRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/config/monitors/{slug}", code: 200 })),
+).annotate({ identifier: "DeleteMonitorRequest" }) as any as S.Schema<DeleteMonitorRequest>;
 
 export type DeleteMonitorResponse = unknown;
 export const DeleteMonitorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteMonitorResponse",
-}) as any as S.Schema<DeleteMonitorResponse>;
+).annotate({ identifier: "DeleteMonitorResponse" }) as any as S.Schema<DeleteMonitorResponse>;
 
 export interface DeleteMutingRuleRequest {
   slug: string;
@@ -5984,23 +5556,13 @@ export interface DeleteMutingRuleRequest {
 export const DeleteMutingRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/muting-rules/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteMutingRuleRequest",
-}) as any as S.Schema<DeleteMutingRuleRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/config/muting-rules/{slug}", code: 200 })),
+).annotate({ identifier: "DeleteMutingRuleRequest" }) as any as S.Schema<DeleteMutingRuleRequest>;
 
 export type DeleteMutingRuleResponse = unknown;
 export const DeleteMutingRuleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteMutingRuleResponse",
-}) as any as S.Schema<DeleteMutingRuleResponse>;
+).annotate({ identifier: "DeleteMutingRuleResponse" }) as any as S.Schema<DeleteMutingRuleResponse>;
 
 export interface DeleteNotificationPolicyRequest {
   slug: string;
@@ -6009,11 +5571,7 @@ export const DeleteNotificationPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/notification-policies/{slug}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v1/config/notification-policies/{slug}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteNotificationPolicyRequest",
@@ -6032,32 +5590,18 @@ export interface DeleteNotifierRequest {
 export const DeleteNotifierRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/notifiers/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteNotifierRequest",
-}) as any as S.Schema<DeleteNotifierRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/config/notifiers/{slug}", code: 200 })),
+).annotate({ identifier: "DeleteNotifierRequest" }) as any as S.Schema<DeleteNotifierRequest>;
 
 export type DeleteNotifierResponse = unknown;
 export const DeleteNotifierResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteNotifierResponse",
-}) as any as S.Schema<DeleteNotifierResponse>;
+).annotate({ identifier: "DeleteNotifierResponse" }) as any as S.Schema<DeleteNotifierResponse>;
 
 export interface DeleteOtelMetricsIngestionRequest {}
 export const DeleteOtelMetricsIngestionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/otel-metrics-ingestion",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v1/config/otel-metrics-ingestion", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteOtelMetricsIngestionRequest",
@@ -6076,13 +5620,7 @@ export interface DeleteRecordingRuleRequest {
 export const DeleteRecordingRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/recording-rules/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/config/recording-rules/{slug}", code: 200 })),
 ).annotate({
   identifier: "DeleteRecordingRuleRequest",
 }) as any as S.Schema<DeleteRecordingRuleRequest>;
@@ -6100,13 +5638,7 @@ export interface DeleteResourcePoolsRequest {
 export const DeleteResourcePoolsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dry_run: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/resource-pools",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/config/resource-pools", code: 200 })),
 ).annotate({
   identifier: "DeleteResourcePoolsRequest",
 }) as any as S.Schema<DeleteResourcePoolsRequest>;
@@ -6124,23 +5656,13 @@ export interface DeleteRollupRuleRequest {
 export const DeleteRollupRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/rollup-rules/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteRollupRuleRequest",
-}) as any as S.Schema<DeleteRollupRuleRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/config/rollup-rules/{slug}", code: 200 })),
+).annotate({ identifier: "DeleteRollupRuleRequest" }) as any as S.Schema<DeleteRollupRuleRequest>;
 
 export type DeleteRollupRuleResponse = unknown;
 export const DeleteRollupRuleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteRollupRuleResponse",
-}) as any as S.Schema<DeleteRollupRuleResponse>;
+).annotate({ identifier: "DeleteRollupRuleResponse" }) as any as S.Schema<DeleteRollupRuleResponse>;
 
 export interface DeleteServiceAccountRequest {
   slug: string;
@@ -6148,13 +5670,7 @@ export interface DeleteServiceAccountRequest {
 export const DeleteServiceAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/service-accounts/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/config/service-accounts/{slug}", code: 200 })),
 ).annotate({
   identifier: "DeleteServiceAccountRequest",
 }) as any as S.Schema<DeleteServiceAccountRequest>;
@@ -6173,16 +5689,12 @@ export const DeleteSLORequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/config/slos/{slug}", code: 200 })),
-).annotate({
-  identifier: "DeleteSLORequest",
-}) as any as S.Schema<DeleteSLORequest>;
+).annotate({ identifier: "DeleteSLORequest" }) as any as S.Schema<DeleteSLORequest>;
 
 export type DeleteSLOResponse = unknown;
 export const DeleteSLOResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteSLOResponse",
-}) as any as S.Schema<DeleteSLOResponse>;
+).annotate({ identifier: "DeleteSLOResponse" }) as any as S.Schema<DeleteSLOResponse>;
 
 export interface DeleteTeamRequest {
   slug: string;
@@ -6191,16 +5703,12 @@ export const DeleteTeamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/config/teams/{slug}", code: 200 })),
-).annotate({
-  identifier: "DeleteTeamRequest",
-}) as any as S.Schema<DeleteTeamRequest>;
+).annotate({ identifier: "DeleteTeamRequest" }) as any as S.Schema<DeleteTeamRequest>;
 
 export type DeleteTeamResponse = unknown;
 export const DeleteTeamResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteTeamResponse",
-}) as any as S.Schema<DeleteTeamResponse>;
+).annotate({ identifier: "DeleteTeamResponse" }) as any as S.Schema<DeleteTeamResponse>;
 
 export interface DeleteTraceBehaviorRequest {
   slug: string;
@@ -6208,13 +5716,7 @@ export interface DeleteTraceBehaviorRequest {
 export const DeleteTraceBehaviorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/trace-behaviors/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/config/trace-behaviors/{slug}", code: 200 })),
 ).annotate({
   identifier: "DeleteTraceBehaviorRequest",
 }) as any as S.Schema<DeleteTraceBehaviorRequest>;
@@ -6232,13 +5734,7 @@ export interface DeleteTraceBehaviorConfigRequest {
 export const DeleteTraceBehaviorConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dry_run: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/trace-behavior-config",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/config/trace-behavior-config", code: 200 })),
 ).annotate({
   identifier: "DeleteTraceBehaviorConfigRequest",
 }) as any as S.Schema<DeleteTraceBehaviorConfigRequest>;
@@ -6281,11 +5777,7 @@ export const DeleteTraceMetricsRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/trace-metrics-rules/{slug}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v1/config/trace-metrics-rules/{slug}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteTraceMetricsRuleRequest",
@@ -6304,13 +5796,7 @@ export interface DeleteTraceTailSamplingRulesRequest {
 export const DeleteTraceTailSamplingRulesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dry_run: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/config/trace-tail-sampling-rules",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/config/trace-tail-sampling-rules", code: 200 })),
 ).annotate({
   identifier: "DeleteTraceTailSamplingRulesRequest",
 }) as any as S.Schema<DeleteTraceTailSamplingRulesRequest>;
@@ -6349,9 +5835,7 @@ export const ListBucketsRequest = /*@__PURE__*/ S.suspend(() =>
     slugs: S.optional(ListBucketsRequestSlugsList.pipe(T.Query())),
     names: S.optional(ListBucketsRequestNamesList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/buckets", code: 200 })),
-).annotate({
-  identifier: "ListBucketsRequest",
-}) as any as S.Schema<ListBucketsRequest>;
+).annotate({ identifier: "ListBucketsRequest" }) as any as S.Schema<ListBucketsRequest>;
 
 export interface Configv1PageResult {
   /** Opaque page token which identifies the next page of items which the client should request. An empty next_token indicates that there are no more items to return. */
@@ -6361,9 +5845,7 @@ export const Configv1PageResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     next_token: S.optional(S.String),
   }),
-).annotate({
-  identifier: "Configv1PageResult",
-}) as any as S.Schema<Configv1PageResult>;
+).annotate({ identifier: "Configv1PageResult" }) as any as S.Schema<Configv1PageResult>;
 
 export type Configv1ListBucketsResponseBucketsList = Array<Configv1Bucket>;
 export const Configv1ListBucketsResponseBucketsList = /*@__PURE__*/ S.Array(
@@ -6428,13 +5910,7 @@ export const ListClassicDashboardsRequest = /*@__PURE__*/ S.suspend(() =>
     collection_slugs: S.optional(ListClassicDashboardsRequestCollectionSlugsList.pipe(T.Query())),
     names: S.optional(ListClassicDashboardsRequestNamesList.pipe(T.Query())),
     include_dashboard_json: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/classic-dashboards",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/classic-dashboards", code: 200 })),
 ).annotate({
   identifier: "ListClassicDashboardsRequest",
 }) as any as S.Schema<ListClassicDashboardsRequest>;
@@ -6503,9 +5979,7 @@ export const ListCollectionsRequest = /*@__PURE__*/ S.suspend(() =>
       ListCollectionsRequestNotificationPolicySlugsList.pipe(T.Query()),
     ),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/collections", code: 200 })),
-).annotate({
-  identifier: "ListCollectionsRequest",
-}) as any as S.Schema<ListCollectionsRequest>;
+).annotate({ identifier: "ListCollectionsRequest" }) as any as S.Schema<ListCollectionsRequest>;
 
 export type Configv1ListCollectionsResponseCollectionsList = Array<Configv1Collection>;
 export const Configv1ListCollectionsResponseCollectionsList = /*@__PURE__*/ S.Array(
@@ -6563,9 +6037,7 @@ export const ListDashboardsRequest = /*@__PURE__*/ S.suspend(() =>
     names: S.optional(ListDashboardsRequestNamesList.pipe(T.Query())),
     include_dashboard_json: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/dashboards", code: 200 })),
-).annotate({
-  identifier: "ListDashboardsRequest",
-}) as any as S.Schema<ListDashboardsRequest>;
+).annotate({ identifier: "ListDashboardsRequest" }) as any as S.Schema<ListDashboardsRequest>;
 
 export type Configv1ListDashboardsResponseDashboardsList = Array<Configv1Dashboard>;
 export const Configv1ListDashboardsResponseDashboardsList = /*@__PURE__*/ S.Array(
@@ -6618,9 +6090,7 @@ export const ListDatasetsRequest = /*@__PURE__*/ S.suspend(() =>
     names: S.optional(ListDatasetsRequestNamesList.pipe(T.Query())),
     type: S.optional(ListDatasetsRequestType.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/datasets", code: 200 })),
-).annotate({
-  identifier: "ListDatasetsRequest",
-}) as any as S.Schema<ListDatasetsRequest>;
+).annotate({ identifier: "ListDatasetsRequest" }) as any as S.Schema<ListDatasetsRequest>;
 
 export type Configv1ListDatasetsResponseDatasetsList = Array<Configv1Dataset>;
 export const Configv1ListDatasetsResponseDatasetsList = /*@__PURE__*/ S.Array(
@@ -6667,9 +6137,7 @@ export const ListDerivedLabelsRequest = /*@__PURE__*/ S.suspend(() =>
     slugs: S.optional(ListDerivedLabelsRequestSlugsList.pipe(T.Query())),
     names: S.optional(ListDerivedLabelsRequestNamesList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/derived-labels", code: 200 })),
-).annotate({
-  identifier: "ListDerivedLabelsRequest",
-}) as any as S.Schema<ListDerivedLabelsRequest>;
+).annotate({ identifier: "ListDerivedLabelsRequest" }) as any as S.Schema<ListDerivedLabelsRequest>;
 
 export type Configv1ListDerivedLabelsResponseDerivedLabelsList = Array<Configv1DerivedLabel>;
 export const Configv1ListDerivedLabelsResponseDerivedLabelsList = /*@__PURE__*/ S.Array(
@@ -6765,9 +6233,7 @@ export const ListDropRulesRequest = /*@__PURE__*/ S.suspend(() =>
     slugs: S.optional(ListDropRulesRequestSlugsList.pipe(T.Query())),
     names: S.optional(ListDropRulesRequestNamesList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/drop-rules", code: 200 })),
-).annotate({
-  identifier: "ListDropRulesRequest",
-}) as any as S.Schema<ListDropRulesRequest>;
+).annotate({ identifier: "ListDropRulesRequest" }) as any as S.Schema<ListDropRulesRequest>;
 
 export type Configv1ListDropRulesResponseDropRulesList = Array<Configv1DropRule>;
 export const Configv1ListDropRulesResponseDropRulesList = /*@__PURE__*/ S.Array(
@@ -6813,13 +6279,7 @@ export const ListGcpMetricsIntegrationsRequest = /*@__PURE__*/ S.suspend(() =>
     page_token: S.optional(S.String.pipe(T.Query("page.token"))),
     slugs: S.optional(ListGcpMetricsIntegrationsRequestSlugsList.pipe(T.Query())),
     names: S.optional(ListGcpMetricsIntegrationsRequestNamesList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/gcp-metrics-integrations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/gcp-metrics-integrations", code: 200 })),
 ).annotate({
   identifier: "ListGcpMetricsIntegrationsRequest",
 }) as any as S.Schema<ListGcpMetricsIntegrationsRequest>;
@@ -6889,13 +6349,7 @@ export const ListGrafanaDashboardsRequest = /*@__PURE__*/ S.suspend(() =>
     collection_slugs: S.optional(ListGrafanaDashboardsRequestCollectionSlugsList.pipe(T.Query())),
     names: S.optional(ListGrafanaDashboardsRequestNamesList.pipe(T.Query())),
     include_dashboard_json: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/grafana-dashboards",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/grafana-dashboards", code: 200 })),
 ).annotate({
   identifier: "ListGrafanaDashboardsRequest",
 }) as any as S.Schema<ListGrafanaDashboardsRequest>;
@@ -6945,13 +6399,7 @@ export const ListLogScaleActionsRequest = /*@__PURE__*/ S.suspend(() =>
     page_token: S.optional(S.String.pipe(T.Query("page.token"))),
     slugs: S.optional(ListLogScaleActionsRequestSlugsList.pipe(T.Query())),
     names: S.optional(ListLogScaleActionsRequestNamesList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/log-scale-actions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/log-scale-actions", code: 200 })),
 ).annotate({
   identifier: "ListLogScaleActionsRequest",
 }) as any as S.Schema<ListLogScaleActionsRequest>;
@@ -7000,13 +6448,7 @@ export const ListLogScaleAlertsRequest = /*@__PURE__*/ S.suspend(() =>
     page_token: S.optional(S.String.pipe(T.Query("page.token"))),
     slugs: S.optional(ListLogScaleAlertsRequestSlugsList.pipe(T.Query())),
     names: S.optional(ListLogScaleAlertsRequestNamesList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/log-scale-alerts",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/log-scale-alerts", code: 200 })),
 ).annotate({
   identifier: "ListLogScaleAlertsRequest",
 }) as any as S.Schema<ListLogScaleAlertsRequest>;
@@ -7064,9 +6506,7 @@ export const ListMappingRulesRequest = /*@__PURE__*/ S.suspend(() =>
     bucket_slugs: S.optional(ListMappingRulesRequestBucketSlugsList.pipe(T.Query())),
     names: S.optional(ListMappingRulesRequestNamesList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/mapping-rules", code: 200 })),
-).annotate({
-  identifier: "ListMappingRulesRequest",
-}) as any as S.Schema<ListMappingRulesRequest>;
+).annotate({ identifier: "ListMappingRulesRequest" }) as any as S.Schema<ListMappingRulesRequest>;
 
 export type Configv1ListMappingRulesResponseMappingRulesList = Array<Configv1MappingRule>;
 export const Configv1ListMappingRulesResponseMappingRulesList = /*@__PURE__*/ S.Array(
@@ -7137,9 +6577,7 @@ export const ListMonitorsRequest = /*@__PURE__*/ S.suspend(() =>
     names: S.optional(ListMonitorsRequestNamesList.pipe(T.Query())),
     team_slugs: S.optional(ListMonitorsRequestTeamSlugsList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/monitors", code: 200 })),
-).annotate({
-  identifier: "ListMonitorsRequest",
-}) as any as S.Schema<ListMonitorsRequest>;
+).annotate({ identifier: "ListMonitorsRequest" }) as any as S.Schema<ListMonitorsRequest>;
 
 export type Configv1ListMonitorsResponseMonitorsList = Array<Configv1Monitor>;
 export const Configv1ListMonitorsResponseMonitorsList = /*@__PURE__*/ S.Array(
@@ -7199,9 +6637,7 @@ export const ListMutingRulesRequest = /*@__PURE__*/ S.suspend(() =>
     names: S.optional(ListMutingRulesRequestNamesList.pipe(T.Query())),
     states: S.optional(ListMutingRulesRequestStatesList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/muting-rules", code: 200 })),
-).annotate({
-  identifier: "ListMutingRulesRequest",
-}) as any as S.Schema<ListMutingRulesRequest>;
+).annotate({ identifier: "ListMutingRulesRequest" }) as any as S.Schema<ListMutingRulesRequest>;
 
 export type Configv1ListMutingRulesResponseMutingRulesList = Array<Configv1MutingRule>;
 export const Configv1ListMutingRulesResponseMutingRulesList = /*@__PURE__*/ S.Array(
@@ -7263,13 +6699,7 @@ export const ListNotificationPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
     names: S.optional(ListNotificationPoliciesRequestNamesList.pipe(T.Query())),
     bucket_slugs: S.optional(ListNotificationPoliciesRequestBucketSlugsList.pipe(T.Query())),
     team_slugs: S.optional(ListNotificationPoliciesRequestTeamSlugsList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/notification-policies",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/notification-policies", code: 200 })),
 ).annotate({
   identifier: "ListNotificationPoliciesRequest",
 }) as any as S.Schema<ListNotificationPoliciesRequest>;
@@ -7321,9 +6751,7 @@ export const ListNotifiersRequest = /*@__PURE__*/ S.suspend(() =>
     slugs: S.optional(ListNotifiersRequestSlugsList.pipe(T.Query())),
     names: S.optional(ListNotifiersRequestNamesList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/notifiers", code: 200 })),
-).annotate({
-  identifier: "ListNotifiersRequest",
-}) as any as S.Schema<ListNotifiersRequest>;
+).annotate({ identifier: "ListNotifiersRequest" }) as any as S.Schema<ListNotifiersRequest>;
 
 export type Configv1ListNotifiersResponseNotifiersList = Array<Configv1Notifier>;
 export const Configv1ListNotifiersResponseNotifiersList = /*@__PURE__*/ S.Array(
@@ -7443,9 +6871,7 @@ export const ListRollupRulesRequest = /*@__PURE__*/ S.suspend(() =>
     names: S.optional(ListRollupRulesRequestNamesList.pipe(T.Query())),
     bucket_slugs: S.optional(ListRollupRulesRequestBucketSlugsList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/rollup-rules", code: 200 })),
-).annotate({
-  identifier: "ListRollupRulesRequest",
-}) as any as S.Schema<ListRollupRulesRequest>;
+).annotate({ identifier: "ListRollupRulesRequest" }) as any as S.Schema<ListRollupRulesRequest>;
 
 export type Configv1ListRollupRulesResponseRollupRulesList = Array<Configv1RollupRule>;
 export const Configv1ListRollupRulesResponseRollupRulesList = /*@__PURE__*/ S.Array(
@@ -7491,13 +6917,7 @@ export const ListServiceAccountsRequest = /*@__PURE__*/ S.suspend(() =>
     page_token: S.optional(S.String.pipe(T.Query("page.token"))),
     slugs: S.optional(ListServiceAccountsRequestSlugsList.pipe(T.Query())),
     names: S.optional(ListServiceAccountsRequestNamesList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/service-accounts",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/service-accounts", code: 200 })),
 ).annotate({
   identifier: "ListServiceAccountsRequest",
 }) as any as S.Schema<ListServiceAccountsRequest>;
@@ -7561,9 +6981,7 @@ export const ListSLOsRequest = /*@__PURE__*/ S.suspend(() =>
     collection_slugs: S.optional(ListSLOsRequestCollectionSlugsList.pipe(T.Query())),
     service_slugs: S.optional(ListSLOsRequestServiceSlugsList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/slos", code: 200 })),
-).annotate({
-  identifier: "ListSLOsRequest",
-}) as any as S.Schema<ListSLOsRequest>;
+).annotate({ identifier: "ListSLOsRequest" }) as any as S.Schema<ListSLOsRequest>;
 
 export type Configv1ListSLOsResponseSlosList = Array<Configv1SLO>;
 export const Configv1ListSLOsResponseSlosList = /*@__PURE__*/ S.Array(
@@ -7579,9 +6997,7 @@ export const Configv1ListSLOsResponse = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(Configv1PageResult),
     slos: Configv1ListSLOsResponseSlosList,
   }),
-).annotate({
-  identifier: "Configv1ListSLOsResponse",
-}) as any as S.Schema<Configv1ListSLOsResponse>;
+).annotate({ identifier: "Configv1ListSLOsResponse" }) as any as S.Schema<Configv1ListSLOsResponse>;
 
 export type ListTeamsRequestSlugsList = Array<string>;
 export const ListTeamsRequestSlugsList = /*@__PURE__*/ S.Array(
@@ -7610,9 +7026,7 @@ export const ListTeamsRequest = /*@__PURE__*/ S.suspend(() =>
     slugs: S.optional(ListTeamsRequestSlugsList.pipe(T.Query())),
     names: S.optional(ListTeamsRequestNamesList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/teams", code: 200 })),
-).annotate({
-  identifier: "ListTeamsRequest",
-}) as any as S.Schema<ListTeamsRequest>;
+).annotate({ identifier: "ListTeamsRequest" }) as any as S.Schema<ListTeamsRequest>;
 
 export type Configv1ListTeamsResponseTeamsList = Array<Configv1Team>;
 export const Configv1ListTeamsResponseTeamsList = /*@__PURE__*/ S.Array(
@@ -7785,13 +7199,7 @@ export const ListTraceMetricsRulesRequest = /*@__PURE__*/ S.suspend(() =>
     slugs: S.optional(ListTraceMetricsRulesRequestSlugsList.pipe(T.Query())),
     names: S.optional(ListTraceMetricsRulesRequestNamesList.pipe(T.Query())),
     metric_names: S.optional(ListTraceMetricsRulesRequestMetricNamesList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/trace-metrics-rules",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/trace-metrics-rules", code: 200 })),
 ).annotate({
   identifier: "ListTraceMetricsRulesRequest",
 }) as any as S.Schema<ListTraceMetricsRulesRequest>;
@@ -7824,9 +7232,7 @@ export const ReadBucketRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/buckets/{slug}", code: 200 })),
-).annotate({
-  identifier: "ReadBucketRequest",
-}) as any as S.Schema<ReadBucketRequest>;
+).annotate({ identifier: "ReadBucketRequest" }) as any as S.Schema<ReadBucketRequest>;
 
 export interface Configv1ReadBucketResponse {
   bucket?: Configv1Bucket;
@@ -7845,13 +7251,7 @@ export interface ReadClassicDashboardRequest {
 export const ReadClassicDashboardRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/classic-dashboards/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/classic-dashboards/{slug}", code: 200 })),
 ).annotate({
   identifier: "ReadClassicDashboardRequest",
 }) as any as S.Schema<ReadClassicDashboardRequest>;
@@ -7873,16 +7273,8 @@ export interface ReadCollectionRequest {
 export const ReadCollectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/collections/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReadCollectionRequest",
-}) as any as S.Schema<ReadCollectionRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/collections/{slug}", code: 200 })),
+).annotate({ identifier: "ReadCollectionRequest" }) as any as S.Schema<ReadCollectionRequest>;
 
 export interface Configv1ReadCollectionResponse {
   collection?: Configv1Collection;
@@ -7901,16 +7293,8 @@ export interface ReadDashboardRequest {
 export const ReadDashboardRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/dashboards/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReadDashboardRequest",
-}) as any as S.Schema<ReadDashboardRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/dashboards/{slug}", code: 200 })),
+).annotate({ identifier: "ReadDashboardRequest" }) as any as S.Schema<ReadDashboardRequest>;
 
 export interface Configv1ReadDashboardResponse {
   dashboard?: Configv1Dashboard;
@@ -7930,9 +7314,7 @@ export const ReadDatasetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/datasets/{slug}", code: 200 })),
-).annotate({
-  identifier: "ReadDatasetRequest",
-}) as any as S.Schema<ReadDatasetRequest>;
+).annotate({ identifier: "ReadDatasetRequest" }) as any as S.Schema<ReadDatasetRequest>;
 
 export interface Configv1ReadDatasetResponse {
   dataset?: Configv1Dataset;
@@ -7951,16 +7333,8 @@ export interface ReadDerivedLabelRequest {
 export const ReadDerivedLabelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/derived-labels/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReadDerivedLabelRequest",
-}) as any as S.Schema<ReadDerivedLabelRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/derived-labels/{slug}", code: 200 })),
+).annotate({ identifier: "ReadDerivedLabelRequest" }) as any as S.Schema<ReadDerivedLabelRequest>;
 
 export interface Configv1ReadDerivedLabelResponse {
   derived_label?: Configv1DerivedLabel;
@@ -7979,16 +7353,8 @@ export interface ReadDerivedMetricRequest {
 export const ReadDerivedMetricRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/derived-metrics/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReadDerivedMetricRequest",
-}) as any as S.Schema<ReadDerivedMetricRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/derived-metrics/{slug}", code: 200 })),
+).annotate({ identifier: "ReadDerivedMetricRequest" }) as any as S.Schema<ReadDerivedMetricRequest>;
 
 export interface Configv1ReadDerivedMetricResponse {
   derived_metric?: Configv1DerivedMetric;
@@ -8007,16 +7373,8 @@ export interface ReadDropRuleRequest {
 export const ReadDropRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/drop-rules/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReadDropRuleRequest",
-}) as any as S.Schema<ReadDropRuleRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/drop-rules/{slug}", code: 200 })),
+).annotate({ identifier: "ReadDropRuleRequest" }) as any as S.Schema<ReadDropRuleRequest>;
 
 export interface Configv1ReadDropRuleResponse {
   drop_rule?: Configv1DropRule;
@@ -8036,11 +7394,7 @@ export const ReadGcpMetricsIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/gcp-metrics-integrations/{slug}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/config/gcp-metrics-integrations/{slug}", code: 200 }),
   ),
 ).annotate({
   identifier: "ReadGcpMetricsIntegrationRequest",
@@ -8063,13 +7417,7 @@ export interface ReadGrafanaDashboardRequest {
 export const ReadGrafanaDashboardRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/grafana-dashboards/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/grafana-dashboards/{slug}", code: 200 })),
 ).annotate({
   identifier: "ReadGrafanaDashboardRequest",
 }) as any as S.Schema<ReadGrafanaDashboardRequest>;
@@ -8088,11 +7436,7 @@ export const Configv1ReadGrafanaDashboardResponse = /*@__PURE__*/ S.suspend(() =
 export interface ReadLogAllocationConfigRequest {}
 export const ReadLogAllocationConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/log-allocation-config",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/config/log-allocation-config", code: 200 }),
   ),
 ).annotate({
   identifier: "ReadLogAllocationConfigRequest",
@@ -8111,13 +7455,7 @@ export const Configv1ReadLogAllocationConfigResponse = /*@__PURE__*/ S.suspend((
 
 export interface ReadLogIngestConfigRequest {}
 export const ReadLogIngestConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/log-ingest-config",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/config/log-ingest-config", code: 200 })),
 ).annotate({
   identifier: "ReadLogIngestConfigRequest",
 }) as any as S.Schema<ReadLogIngestConfigRequest>;
@@ -8139,13 +7477,7 @@ export interface ReadLogScaleActionRequest {
 export const ReadLogScaleActionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/log-scale-actions/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/log-scale-actions/{slug}", code: 200 })),
 ).annotate({
   identifier: "ReadLogScaleActionRequest",
 }) as any as S.Schema<ReadLogScaleActionRequest>;
@@ -8167,16 +7499,8 @@ export interface ReadLogScaleAlertRequest {
 export const ReadLogScaleAlertRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/log-scale-alerts/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReadLogScaleAlertRequest",
-}) as any as S.Schema<ReadLogScaleAlertRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/log-scale-alerts/{slug}", code: 200 })),
+).annotate({ identifier: "ReadLogScaleAlertRequest" }) as any as S.Schema<ReadLogScaleAlertRequest>;
 
 export interface Configv1ReadLogScaleAlertResponse {
   log_scale_alert?: Configv1LogScaleAlert;
@@ -8195,16 +7519,8 @@ export interface ReadMappingRuleRequest {
 export const ReadMappingRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/mapping-rules/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReadMappingRuleRequest",
-}) as any as S.Schema<ReadMappingRuleRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/mapping-rules/{slug}", code: 200 })),
+).annotate({ identifier: "ReadMappingRuleRequest" }) as any as S.Schema<ReadMappingRuleRequest>;
 
 export interface Configv1ReadMappingRuleResponse {
   mapping_rule?: Configv1MappingRule;
@@ -8224,9 +7540,7 @@ export const ReadMonitorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/monitors/{slug}", code: 200 })),
-).annotate({
-  identifier: "ReadMonitorRequest",
-}) as any as S.Schema<ReadMonitorRequest>;
+).annotate({ identifier: "ReadMonitorRequest" }) as any as S.Schema<ReadMonitorRequest>;
 
 export interface Configv1ReadMonitorResponse {
   monitor?: Configv1Monitor;
@@ -8245,16 +7559,8 @@ export interface ReadMutingRuleRequest {
 export const ReadMutingRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/muting-rules/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReadMutingRuleRequest",
-}) as any as S.Schema<ReadMutingRuleRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/muting-rules/{slug}", code: 200 })),
+).annotate({ identifier: "ReadMutingRuleRequest" }) as any as S.Schema<ReadMutingRuleRequest>;
 
 export interface Configv1ReadMutingRuleResponse {
   muting_rule?: Configv1MutingRule;
@@ -8273,13 +7579,7 @@ export interface ReadNotificationPolicyRequest {
 export const ReadNotificationPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/notification-policies/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/notification-policies/{slug}", code: 200 })),
 ).annotate({
   identifier: "ReadNotificationPolicyRequest",
 }) as any as S.Schema<ReadNotificationPolicyRequest>;
@@ -8301,16 +7601,8 @@ export interface ReadNotifierRequest {
 export const ReadNotifierRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/notifiers/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReadNotifierRequest",
-}) as any as S.Schema<ReadNotifierRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/notifiers/{slug}", code: 200 })),
+).annotate({ identifier: "ReadNotifierRequest" }) as any as S.Schema<ReadNotifierRequest>;
 
 export interface Configv1ReadNotifierResponse {
   notifier?: Configv1Notifier;
@@ -8326,11 +7618,7 @@ export const Configv1ReadNotifierResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ReadOtelMetricsIngestionRequest {}
 export const ReadOtelMetricsIngestionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/otel-metrics-ingestion",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/config/otel-metrics-ingestion", code: 200 }),
   ),
 ).annotate({
   identifier: "ReadOtelMetricsIngestionRequest",
@@ -8353,16 +7641,8 @@ export interface ReadRecordingRuleRequest {
 export const ReadRecordingRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/recording-rules/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReadRecordingRuleRequest",
-}) as any as S.Schema<ReadRecordingRuleRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/recording-rules/{slug}", code: 200 })),
+).annotate({ identifier: "ReadRecordingRuleRequest" }) as any as S.Schema<ReadRecordingRuleRequest>;
 
 export interface Configv1ReadRecordingRuleResponse {
   recording_rule?: Configv1RecordingRule;
@@ -8378,9 +7658,7 @@ export const Configv1ReadRecordingRuleResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ReadResourcePoolsRequest {}
 export const ReadResourcePoolsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/config/resource-pools", code: 200 })),
-).annotate({
-  identifier: "ReadResourcePoolsRequest",
-}) as any as S.Schema<ReadResourcePoolsRequest>;
+).annotate({ identifier: "ReadResourcePoolsRequest" }) as any as S.Schema<ReadResourcePoolsRequest>;
 
 export interface Configv1ReadResourcePoolsResponse {
   resource_pools?: Configv1ResourcePools;
@@ -8399,16 +7677,8 @@ export interface ReadRollupRuleRequest {
 export const ReadRollupRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/rollup-rules/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReadRollupRuleRequest",
-}) as any as S.Schema<ReadRollupRuleRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/rollup-rules/{slug}", code: 200 })),
+).annotate({ identifier: "ReadRollupRuleRequest" }) as any as S.Schema<ReadRollupRuleRequest>;
 
 export interface Configv1ReadRollupRuleResponse {
   rollup_rule?: Configv1RollupRule;
@@ -8428,9 +7698,7 @@ export const ReadServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/services/{slug}", code: 200 })),
-).annotate({
-  identifier: "ReadServiceRequest",
-}) as any as S.Schema<ReadServiceRequest>;
+).annotate({ identifier: "ReadServiceRequest" }) as any as S.Schema<ReadServiceRequest>;
 
 export interface Configv1Service {
   /** Unique identifier of the Service. If a `slug` isn't provided, one will be generated based of the `name` field. You can't modify this field after the Service is created. */
@@ -8458,9 +7726,7 @@ export const Configv1Service = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     notification_policy_slug: S.optional(S.String),
   }),
-).annotate({
-  identifier: "Configv1Service",
-}) as any as S.Schema<Configv1Service>;
+).annotate({ identifier: "Configv1Service" }) as any as S.Schema<Configv1Service>;
 
 export interface Configv1ReadServiceResponse {
   service?: Configv1Service;
@@ -8479,13 +7745,7 @@ export interface ReadServiceAccountRequest {
 export const ReadServiceAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/service-accounts/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/service-accounts/{slug}", code: 200 })),
 ).annotate({
   identifier: "ReadServiceAccountRequest",
 }) as any as S.Schema<ReadServiceAccountRequest>;
@@ -8517,9 +7777,7 @@ export const Configv1ReadSLOResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slo: S.optional(Configv1SLO),
   }),
-).annotate({
-  identifier: "Configv1ReadSLOResponse",
-}) as any as S.Schema<Configv1ReadSLOResponse>;
+).annotate({ identifier: "Configv1ReadSLOResponse" }) as any as S.Schema<Configv1ReadSLOResponse>;
 
 export interface ReadTeamRequest {
   slug: string;
@@ -8528,9 +7786,7 @@ export const ReadTeamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/teams/{slug}", code: 200 })),
-).annotate({
-  identifier: "ReadTeamRequest",
-}) as any as S.Schema<ReadTeamRequest>;
+).annotate({ identifier: "ReadTeamRequest" }) as any as S.Schema<ReadTeamRequest>;
 
 export interface Configv1ReadTeamResponse {
   team?: Configv1Team;
@@ -8539,9 +7795,7 @@ export const Configv1ReadTeamResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     team: S.optional(Configv1Team),
   }),
-).annotate({
-  identifier: "Configv1ReadTeamResponse",
-}) as any as S.Schema<Configv1ReadTeamResponse>;
+).annotate({ identifier: "Configv1ReadTeamResponse" }) as any as S.Schema<Configv1ReadTeamResponse>;
 
 export interface ReadTraceBehaviorRequest {
   slug: string;
@@ -8549,16 +7803,8 @@ export interface ReadTraceBehaviorRequest {
 export const ReadTraceBehaviorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/trace-behaviors/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReadTraceBehaviorRequest",
-}) as any as S.Schema<ReadTraceBehaviorRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/trace-behaviors/{slug}", code: 200 })),
+).annotate({ identifier: "ReadTraceBehaviorRequest" }) as any as S.Schema<ReadTraceBehaviorRequest>;
 
 export interface Configv1ReadTraceBehaviorResponse {
   trace_behavior?: Configv1TraceBehavior;
@@ -8574,11 +7820,7 @@ export const Configv1ReadTraceBehaviorResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ReadTraceBehaviorConfigRequest {}
 export const ReadTraceBehaviorConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/trace-behavior-config",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/config/trace-behavior-config", code: 200 }),
   ),
 ).annotate({
   identifier: "ReadTraceBehaviorConfigRequest",
@@ -8629,13 +7871,7 @@ export interface ReadTraceMetricsRuleRequest {
 export const ReadTraceMetricsRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/trace-metrics-rules/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/config/trace-metrics-rules/{slug}", code: 200 })),
 ).annotate({
   identifier: "ReadTraceMetricsRuleRequest",
 }) as any as S.Schema<ReadTraceMetricsRuleRequest>;
@@ -8654,11 +7890,7 @@ export const Configv1ReadTraceMetricsRuleResponse = /*@__PURE__*/ S.suspend(() =
 export interface ReadTraceTailSamplingRulesRequest {}
 export const ReadTraceTailSamplingRulesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/config/trace-tail-sampling-rules",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/config/trace-tail-sampling-rules", code: 200 }),
   ),
 ).annotate({
   identifier: "ReadTraceTailSamplingRulesRequest",
@@ -8690,9 +7922,7 @@ export const UpdateBucketRequest = /*@__PURE__*/ S.suspend(() =>
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/buckets/{slug}", code: 200 })),
-).annotate({
-  identifier: "UpdateBucketRequest",
-}) as any as S.Schema<UpdateBucketRequest>;
+).annotate({ identifier: "UpdateBucketRequest" }) as any as S.Schema<UpdateBucketRequest>;
 
 export interface Configv1UpdateBucketResponse {
   bucket?: Configv1Bucket;
@@ -8719,13 +7949,7 @@ export const UpdateClassicDashboardRequest = /*@__PURE__*/ S.suspend(() =>
     classic_dashboard: S.optional(Configv1GrafanaDashboardInput),
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/config/classic-dashboards/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/classic-dashboards/{slug}", code: 200 })),
 ).annotate({
   identifier: "UpdateClassicDashboardRequest",
 }) as any as S.Schema<UpdateClassicDashboardRequest>;
@@ -8755,16 +7979,8 @@ export const UpdateCollectionRequest = /*@__PURE__*/ S.suspend(() =>
     collection: S.optional(Configv1CollectionInput),
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/config/collections/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateCollectionRequest",
-}) as any as S.Schema<UpdateCollectionRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/collections/{slug}", code: 200 })),
+).annotate({ identifier: "UpdateCollectionRequest" }) as any as S.Schema<UpdateCollectionRequest>;
 
 export interface Configv1UpdateCollectionResponse {
   collection?: Configv1Collection;
@@ -8791,16 +8007,8 @@ export const UpdateDashboardRequest = /*@__PURE__*/ S.suspend(() =>
     dashboard: S.optional(Configv1DashboardInput),
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/config/dashboards/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateDashboardRequest",
-}) as any as S.Schema<UpdateDashboardRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/dashboards/{slug}", code: 200 })),
+).annotate({ identifier: "UpdateDashboardRequest" }) as any as S.Schema<UpdateDashboardRequest>;
 
 export interface Configv1UpdateDashboardResponse {
   dashboard?: Configv1Dashboard;
@@ -8828,9 +8036,7 @@ export const UpdateDatasetRequest = /*@__PURE__*/ S.suspend(() =>
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/datasets/{slug}", code: 200 })),
-).annotate({
-  identifier: "UpdateDatasetRequest",
-}) as any as S.Schema<UpdateDatasetRequest>;
+).annotate({ identifier: "UpdateDatasetRequest" }) as any as S.Schema<UpdateDatasetRequest>;
 
 export interface Configv1UpdateDatasetResponse {
   dataset?: Configv1Dataset;
@@ -8857,13 +8063,7 @@ export const UpdateDerivedLabelRequest = /*@__PURE__*/ S.suspend(() =>
     derived_label: S.optional(Configv1DerivedLabelInput),
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/config/derived-labels/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/derived-labels/{slug}", code: 200 })),
 ).annotate({
   identifier: "UpdateDerivedLabelRequest",
 }) as any as S.Schema<UpdateDerivedLabelRequest>;
@@ -8893,13 +8093,7 @@ export const UpdateDerivedMetricRequest = /*@__PURE__*/ S.suspend(() =>
     derived_metric: S.optional(Configv1DerivedMetricInput),
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/config/derived-metrics/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/derived-metrics/{slug}", code: 200 })),
 ).annotate({
   identifier: "UpdateDerivedMetricRequest",
 }) as any as S.Schema<UpdateDerivedMetricRequest>;
@@ -8929,16 +8123,8 @@ export const UpdateDropRuleRequest = /*@__PURE__*/ S.suspend(() =>
     drop_rule: S.optional(Configv1DropRuleInput),
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/config/drop-rules/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateDropRuleRequest",
-}) as any as S.Schema<UpdateDropRuleRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/drop-rules/{slug}", code: 200 })),
+).annotate({ identifier: "UpdateDropRuleRequest" }) as any as S.Schema<UpdateDropRuleRequest>;
 
 export interface Configv1UpdateDropRuleResponse {
   drop_rule?: Configv1DropRule;
@@ -8966,11 +8152,7 @@ export const UpdateGcpMetricsIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/config/gcp-metrics-integrations/{slug}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/v1/config/gcp-metrics-integrations/{slug}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateGcpMetricsIntegrationRequest",
@@ -9001,13 +8183,7 @@ export const UpdateGrafanaDashboardRequest = /*@__PURE__*/ S.suspend(() =>
     grafana_dashboard: S.optional(Configv1GrafanaDashboardInput),
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/config/grafana-dashboards/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/grafana-dashboards/{slug}", code: 200 })),
 ).annotate({
   identifier: "UpdateGrafanaDashboardRequest",
 }) as any as S.Schema<UpdateGrafanaDashboardRequest>;
@@ -9035,13 +8211,7 @@ export const UpdateLogAllocationConfigRequest = /*@__PURE__*/ S.suspend(() =>
     log_allocation_config: S.optional(Configv1LogAllocationConfigInput),
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/config/log-allocation-config",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/log-allocation-config", code: 200 })),
 ).annotate({
   identifier: "UpdateLogAllocationConfigRequest",
 }) as any as S.Schema<UpdateLogAllocationConfigRequest>;
@@ -9069,13 +8239,7 @@ export const UpdateLogIngestConfigRequest = /*@__PURE__*/ S.suspend(() =>
     log_ingest_config: S.optional(Configv1LogIngestConfigInput),
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/config/log-ingest-config",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/log-ingest-config", code: 200 })),
 ).annotate({
   identifier: "UpdateLogIngestConfigRequest",
 }) as any as S.Schema<UpdateLogIngestConfigRequest>;
@@ -9105,13 +8269,7 @@ export const UpdateLogScaleActionRequest = /*@__PURE__*/ S.suspend(() =>
     log_scale_action: S.optional(Configv1LogScaleActionInput),
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/config/log-scale-actions/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/log-scale-actions/{slug}", code: 200 })),
 ).annotate({
   identifier: "UpdateLogScaleActionRequest",
 }) as any as S.Schema<UpdateLogScaleActionRequest>;
@@ -9141,13 +8299,7 @@ export const UpdateLogScaleAlertRequest = /*@__PURE__*/ S.suspend(() =>
     log_scale_alert: S.optional(Configv1LogScaleAlertInput),
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/config/log-scale-alerts/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/log-scale-alerts/{slug}", code: 200 })),
 ).annotate({
   identifier: "UpdateLogScaleAlertRequest",
 }) as any as S.Schema<UpdateLogScaleAlertRequest>;
@@ -9177,16 +8329,8 @@ export const UpdateMappingRuleRequest = /*@__PURE__*/ S.suspend(() =>
     mapping_rule: S.optional(Configv1MappingRuleInput),
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/config/mapping-rules/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateMappingRuleRequest",
-}) as any as S.Schema<UpdateMappingRuleRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/mapping-rules/{slug}", code: 200 })),
+).annotate({ identifier: "UpdateMappingRuleRequest" }) as any as S.Schema<UpdateMappingRuleRequest>;
 
 export interface Configv1UpdateMappingRuleResponse {
   mapping_rule?: Configv1MappingRule;
@@ -9214,9 +8358,7 @@ export const UpdateMonitorRequest = /*@__PURE__*/ S.suspend(() =>
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/monitors/{slug}", code: 200 })),
-).annotate({
-  identifier: "UpdateMonitorRequest",
-}) as any as S.Schema<UpdateMonitorRequest>;
+).annotate({ identifier: "UpdateMonitorRequest" }) as any as S.Schema<UpdateMonitorRequest>;
 
 export interface Configv1UpdateMonitorResponse {
   monitor?: Configv1Monitor;
@@ -9243,16 +8385,8 @@ export const UpdateMutingRuleRequest = /*@__PURE__*/ S.suspend(() =>
     muting_rule: S.optional(Configv1MutingRuleInput),
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/config/muting-rules/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateMutingRuleRequest",
-}) as any as S.Schema<UpdateMutingRuleRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/muting-rules/{slug}", code: 200 })),
+).annotate({ identifier: "UpdateMutingRuleRequest" }) as any as S.Schema<UpdateMutingRuleRequest>;
 
 export interface Configv1UpdateMutingRuleResponse {
   muting_rule?: Configv1MutingRule;
@@ -9279,13 +8413,7 @@ export const UpdateNotificationPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     notification_policy: S.optional(Configv1NotificationPolicyInput),
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/config/notification-policies/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/notification-policies/{slug}", code: 200 })),
 ).annotate({
   identifier: "UpdateNotificationPolicyRequest",
 }) as any as S.Schema<UpdateNotificationPolicyRequest>;
@@ -9315,16 +8443,8 @@ export const UpdateNotifierRequest = /*@__PURE__*/ S.suspend(() =>
     notifier: S.optional(Configv1NotifierInput),
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/config/notifiers/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateNotifierRequest",
-}) as any as S.Schema<UpdateNotifierRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/notifiers/{slug}", code: 200 })),
+).annotate({ identifier: "UpdateNotifierRequest" }) as any as S.Schema<UpdateNotifierRequest>;
 
 export interface Configv1UpdateNotifierResponse {
   notifier?: Configv1Notifier;
@@ -9349,13 +8469,7 @@ export const UpdateOtelMetricsIngestionRequest = /*@__PURE__*/ S.suspend(() =>
     otel_metrics_ingestion: S.optional(Configv1OtelMetricsIngestionInput),
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/config/otel-metrics-ingestion",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/otel-metrics-ingestion", code: 200 })),
 ).annotate({
   identifier: "UpdateOtelMetricsIngestionRequest",
 }) as any as S.Schema<UpdateOtelMetricsIngestionRequest>;
@@ -9385,13 +8499,7 @@ export const UpdateRecordingRuleRequest = /*@__PURE__*/ S.suspend(() =>
     recording_rule: S.optional(Configv1RecordingRuleInput),
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/config/recording-rules/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/recording-rules/{slug}", code: 200 })),
 ).annotate({
   identifier: "UpdateRecordingRuleRequest",
 }) as any as S.Schema<UpdateRecordingRuleRequest>;
@@ -9449,16 +8557,8 @@ export const UpdateRollupRuleRequest = /*@__PURE__*/ S.suspend(() =>
     rollup_rule: S.optional(Configv1RollupRuleInput),
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/config/rollup-rules/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateRollupRuleRequest",
-}) as any as S.Schema<UpdateRollupRuleRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/rollup-rules/{slug}", code: 200 })),
+).annotate({ identifier: "UpdateRollupRuleRequest" }) as any as S.Schema<UpdateRollupRuleRequest>;
 
 export interface Configv1UpdateRollupRuleResponse {
   rollup_rule?: Configv1RollupRule;
@@ -9486,9 +8586,7 @@ export const UpdateSLORequest = /*@__PURE__*/ S.suspend(() =>
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/slos/{slug}", code: 200 })),
-).annotate({
-  identifier: "UpdateSLORequest",
-}) as any as S.Schema<UpdateSLORequest>;
+).annotate({ identifier: "UpdateSLORequest" }) as any as S.Schema<UpdateSLORequest>;
 
 export interface Configv1UpdateSLOResponse {
   slo?: Configv1SLO;
@@ -9516,9 +8614,7 @@ export const UpdateTeamRequest = /*@__PURE__*/ S.suspend(() =>
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/teams/{slug}", code: 200 })),
-).annotate({
-  identifier: "UpdateTeamRequest",
-}) as any as S.Schema<UpdateTeamRequest>;
+).annotate({ identifier: "UpdateTeamRequest" }) as any as S.Schema<UpdateTeamRequest>;
 
 export interface Configv1UpdateTeamResponse {
   team?: Configv1Team;
@@ -9545,13 +8641,7 @@ export const UpdateTraceBehaviorRequest = /*@__PURE__*/ S.suspend(() =>
     trace_behavior: S.optional(Configv1TraceBehaviorInput),
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/config/trace-behaviors/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/trace-behaviors/{slug}", code: 200 })),
 ).annotate({
   identifier: "UpdateTraceBehaviorRequest",
 }) as any as S.Schema<UpdateTraceBehaviorRequest>;
@@ -9579,13 +8669,7 @@ export const UpdateTraceBehaviorConfigRequest = /*@__PURE__*/ S.suspend(() =>
     trace_behavior_config: S.optional(Configv1TraceBehaviorConfigInput),
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/config/trace-behavior-config",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/trace-behavior-config", code: 200 })),
 ).annotate({
   identifier: "UpdateTraceBehaviorConfigRequest",
 }) as any as S.Schema<UpdateTraceBehaviorConfigRequest>;
@@ -9653,13 +8737,7 @@ export const UpdateTraceMetricsRuleRequest = /*@__PURE__*/ S.suspend(() =>
     trace_metrics_rule: S.optional(Configv1TraceMetricsRuleInput),
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/config/trace-metrics-rules/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/trace-metrics-rules/{slug}", code: 200 })),
 ).annotate({
   identifier: "UpdateTraceMetricsRuleRequest",
 }) as any as S.Schema<UpdateTraceMetricsRuleRequest>;
@@ -9687,13 +8765,7 @@ export const UpdateTraceTailSamplingRulesRequest = /*@__PURE__*/ S.suspend(() =>
     trace_tail_sampling_rules: S.optional(Configv1TraceTailSamplingRulesInput),
     create_if_missing: S.optional(S.Boolean),
     dry_run: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/config/trace-tail-sampling-rules",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/config/trace-tail-sampling-rules", code: 200 })),
 ).annotate({
   identifier: "UpdateTraceTailSamplingRulesRequest",
 }) as any as S.Schema<UpdateTraceTailSamplingRulesRequest>;

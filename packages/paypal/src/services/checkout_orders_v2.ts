@@ -145,9 +145,7 @@ export const CardCustomerPhone = /*@__PURE__*/ S.suspend(() =>
     phone_type: S.optional(PhoneType),
     phone_number: CardCustomerPhonePhoneNumber,
   }),
-).annotate({
-  identifier: "CardCustomerPhone",
-}) as any as S.Schema<CardCustomerPhone>;
+).annotate({ identifier: "CardCustomerPhone" }) as any as S.Schema<CardCustomerPhone>;
 
 export interface CardCustomerName {
   /** The prefix, or title, to the party's name. */
@@ -172,9 +170,7 @@ export const CardCustomerName = /*@__PURE__*/ S.suspend(() =>
     suffix: S.optional(S.String),
     full_name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CardCustomerName",
-}) as any as S.Schema<CardCustomerName>;
+).annotate({ identifier: "CardCustomerName" }) as any as S.Schema<CardCustomerName>;
 
 /** The details about a customer in PayPal's system of record. */
 export interface CardCustomer {
@@ -274,9 +270,7 @@ export const NetworkTransaction = /*@__PURE__*/ S.suspend(() =>
     network: S.optional(S.Unknown),
     acquirer_reference_number: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkTransaction",
-}) as any as S.Schema<NetworkTransaction>;
+).annotate({ identifier: "NetworkTransaction" }) as any as S.Schema<NetworkTransaction>;
 
 /** Provides additional details to process a payment using a `card` that has been stored or is intended to be stored (also referred to as stored_credential or card-on-file).<br/>Parameter compatibility:<br/><ul><li>`payment_type=ONE_TIME` is compatible only with `payment_initiator=CUSTOMER`.</li><li>`usage=FIRST` is compatible only with `payment_initiator=CUSTOMER`.</li><li>`previous_transaction_reference` or `previous_network_transaction_reference` is compatible only with `payment_initiator=MERCHANT`.</li><li>Only one of the parameters - `previous_transaction_reference` and `previous_network_transaction_reference` - can be present in the request.</li></ul> */
 export interface CardStoredCredential {
@@ -292,9 +286,7 @@ export const CardStoredCredential = /*@__PURE__*/ S.suspend(() =>
     usage: S.optional(StoredPaymentSourceUsageType),
     previous_network_transaction_reference: S.optional(NetworkTransaction),
   }),
-).annotate({
-  identifier: "CardStoredCredential",
-}) as any as S.Schema<CardStoredCredential>;
+).annotate({ identifier: "CardStoredCredential" }) as any as S.Schema<CardStoredCredential>;
 
 /** Electronic Commerce Indicator (ECI). The ECI value is part of the 2 data elements that indicate the transaction was processed electronically. This should be passed on the authorization transaction to the Gateway/Processor. */
 export type EciFlag =
@@ -380,9 +372,7 @@ export const CardRequestInput = /*@__PURE__*/ S.suspend(() =>
     network_token: S.optional(CardRequestInputNetworkToken),
     experience_context: S.optional(CardRequestInputExperienceContext),
   }),
-).annotate({
-  identifier: "CardRequestInput",
-}) as any as S.Schema<CardRequestInput>;
+).annotate({ identifier: "CardRequestInput" }) as any as S.Schema<CardRequestInput>;
 
 /** The tokenization method that generated the ID. */
 export type TokenType = "BILLING_AGREEMENT";
@@ -672,9 +662,7 @@ export const MobileWebContextInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     buyer_user_agent: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MobileWebContextInput",
-}) as any as S.Schema<MobileWebContextInput>;
+).annotate({ identifier: "MobileWebContextInput" }) as any as S.Schema<MobileWebContextInput>;
 
 export interface PaypalWalletExperienceContextInputAppSwitchContext {
   native_app?: NativeAppContextInput;
@@ -1524,9 +1512,7 @@ export const V3VaultInstructionBase = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     store_in_vault: StoreInVaultInstruction,
   }),
-).annotate({
-  identifier: "V3VaultInstructionBase",
-}) as any as S.Schema<V3VaultInstructionBase>;
+).annotate({ identifier: "V3VaultInstructionBase" }) as any as S.Schema<V3VaultInstructionBase>;
 
 /** Additional attributes associated with apple pay. */
 export interface ApplePayAttributes {
@@ -1538,9 +1524,7 @@ export const ApplePayAttributes = /*@__PURE__*/ S.suspend(() =>
     customer: S.optional(Customer),
     vault: S.optional(V3VaultInstructionBase),
   }),
-).annotate({
-  identifier: "ApplePayAttributes",
-}) as any as S.Schema<ApplePayAttributes>;
+).annotate({ identifier: "ApplePayAttributes" }) as any as S.Schema<ApplePayAttributes>;
 
 /** Customizes the payer experience during the approval process for the payment. */
 export interface ApplePayExperienceContext {
@@ -2030,16 +2014,8 @@ export const AuthorizeOrderRequest = /*@__PURE__*/ S.suspend(() =>
     payPalClientMetadataId: S.optional(S.String.pipe(T.Header("PayPal-Client-Metadata-Id"))),
     payPalAuthAssertion: S.optional(S.String.pipe(T.Header("PayPal-Auth-Assertion"))),
     payment_source: S.optional(AuthorizeOrderRequestPaymentSource),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/checkout/orders/{id}/authorize",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AuthorizeOrderRequest",
-}) as any as S.Schema<AuthorizeOrderRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v2/checkout/orders/{id}/authorize", code: 200 })),
+).annotate({ identifier: "AuthorizeOrderRequest" }) as any as S.Schema<AuthorizeOrderRequest>;
 
 /** Array of brands or networks associated with the card. */
 export type CardResponseAvailableNetworksList = Array<unknown>;
@@ -2075,9 +2051,7 @@ export const AuthenticationResponse = /*@__PURE__*/ S.suspend(() =>
     liability_shift: S.optional(LiabilityShift),
     three_d_secure: S.optional(ThreeDSecureAuthenticationResponse),
   }),
-).annotate({
-  identifier: "AuthenticationResponse",
-}) as any as S.Schema<AuthenticationResponse>;
+).annotate({ identifier: "AuthenticationResponse" }) as any as S.Schema<AuthenticationResponse>;
 
 /** The vault status. */
 export type CardVaultResponseStatus = "VAULTED" | "CREATED" | "APPROVED";
@@ -2355,9 +2329,7 @@ export const CardVaultResponse = /*@__PURE__*/ S.suspend(() =>
     customer: S.optional(CardVaultResponseCustomer),
     links: S.optional(CardVaultResponseLinksList),
   }),
-).annotate({
-  identifier: "CardVaultResponse",
-}) as any as S.Schema<CardVaultResponse>;
+).annotate({ identifier: "CardVaultResponse" }) as any as S.Schema<CardVaultResponse>;
 
 /** Additional attributes associated with the use of this card. */
 export interface CardAttributesResponse {
@@ -2367,9 +2339,7 @@ export const CardAttributesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vault: S.optional(CardVaultResponse),
   }),
-).annotate({
-  identifier: "CardAttributesResponse",
-}) as any as S.Schema<CardAttributesResponse>;
+).annotate({ identifier: "CardAttributesResponse" }) as any as S.Schema<CardAttributesResponse>;
 
 /** Representation of card details as received in the request. */
 export interface CardFromRequest {
@@ -2382,9 +2352,7 @@ export const CardFromRequest = /*@__PURE__*/ S.suspend(() =>
     expiry: S.optional(S.Unknown),
     last_digits: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CardFromRequest",
-}) as any as S.Schema<CardFromRequest>;
+).annotate({ identifier: "CardFromRequest" }) as any as S.Schema<CardFromRequest>;
 
 /** The type of card product assigned to the BIN by the issuer. These values are defined by the issuer and may change over time. Some examples include: PREPAID_GIFT, CONSUMER, CORPORATE. */
 export type CardResponseBinDetailsProductsList = Array<string>;
@@ -2408,9 +2376,7 @@ export const CardResponseBinDetails = /*@__PURE__*/ S.suspend(() =>
     bin_country_code: S.optional(S.Unknown),
     products: S.optional(CardResponseBinDetailsProductsList),
   }),
-).annotate({
-  identifier: "CardResponseBinDetails",
-}) as any as S.Schema<CardResponseBinDetails>;
+).annotate({ identifier: "CardResponseBinDetails" }) as any as S.Schema<CardResponseBinDetails>;
 
 /** The payment card to use to fund a payment. Card can be a credit or debit card. */
 export interface CardResponse {
@@ -2836,9 +2802,7 @@ export const PaypalWalletResponse = /*@__PURE__*/ S.suspend(() =>
     stored_credential: S.optional(PaypalWalletStoredCredential),
     experience_status: S.optional(PaypalWalletResponseExperienceStatus),
   }),
-).annotate({
-  identifier: "PaypalWalletResponse",
-}) as any as S.Schema<PaypalWalletResponse>;
+).annotate({ identifier: "PaypalWalletResponse" }) as any as S.Schema<PaypalWalletResponse>;
 
 /** Information used to pay Bancontact. */
 export interface Bancontact {
@@ -3001,9 +2965,7 @@ export const ApplePayCardBinDetails = /*@__PURE__*/ S.suspend(() =>
     bin_country_code: S.optional(S.Unknown),
     products: S.optional(ApplePayCardBinDetailsProductsList),
   }),
-).annotate({
-  identifier: "ApplePayCardBinDetails",
-}) as any as S.Schema<ApplePayCardBinDetails>;
+).annotate({ identifier: "ApplePayCardBinDetails" }) as any as S.Schema<ApplePayCardBinDetails>;
 
 /** The non-portable additional address details include fine-grain address information for Compliance, Risk, and other scenarios. This isn't portable with common third-party and open source applications. This can include data that is redundant with core fields. For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`. */
 export type ApplePayCardBillingAddressAddressDetails = CardRequestInputBillingAddressAddressDetails;
@@ -3262,9 +3224,7 @@ export const VaultResponseLinksItem = /*@__PURE__*/ S.suspend(() =>
     schema: S.optional(VaultResponseLinksItemSchema),
     targetSchema: S.optional(VaultResponseLinksItemTargetSchema),
   }),
-).annotate({
-  identifier: "VaultResponseLinksItem",
-}) as any as S.Schema<VaultResponseLinksItem>;
+).annotate({ identifier: "VaultResponseLinksItem" }) as any as S.Schema<VaultResponseLinksItem>;
 
 /** An array of request-related HATEOAS links. */
 export type VaultResponseLinksList = Array<VaultResponseLinksItem>;
@@ -3298,9 +3258,7 @@ export const ApplePayAttributes2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vault: S.optional(VaultResponse),
   }),
-).annotate({
-  identifier: "ApplePayAttributes2",
-}) as any as S.Schema<ApplePayAttributes2>;
+).annotate({ identifier: "ApplePayAttributes2" }) as any as S.Schema<ApplePayAttributes2>;
 
 /** Information needed to pay using ApplePay. */
 export interface ApplePay {
@@ -3637,9 +3595,7 @@ export const VenmoVaultResponse = /*@__PURE__*/ S.suspend(() =>
     customer: S.optional(CardVaultResponseCustomer),
     links: S.optional(VenmoVaultResponseLinksList),
   }),
-).annotate({
-  identifier: "VenmoVaultResponse",
-}) as any as S.Schema<VenmoVaultResponse>;
+).annotate({ identifier: "VenmoVaultResponse" }) as any as S.Schema<VenmoVaultResponse>;
 
 /** Additional attributes associated with the use of a Venmo Wallet. */
 export interface VenmoWalletAttributesResponse {
@@ -3677,9 +3633,7 @@ export const VenmoWalletResponse = /*@__PURE__*/ S.suspend(() =>
     return_flow: S.optional(VenmoWalletResponseReturnFlow),
     attributes: S.optional(VenmoWalletAttributesResponse),
   }),
-).annotate({
-  identifier: "VenmoWalletResponse",
-}) as any as S.Schema<VenmoWalletResponse>;
+).annotate({ identifier: "VenmoWalletResponse" }) as any as S.Schema<VenmoWalletResponse>;
 
 export type CryptoName = AuthorizeOrderRequestPaymentSourceCryptoName;
 export const CryptoName = AuthorizeOrderRequestPaymentSourceCryptoName;
@@ -3708,9 +3662,7 @@ export const CryptoExperienceContext = /*@__PURE__*/ S.suspend(() =>
     return_url: S.optional(S.Unknown),
     cancel_url: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "CryptoExperienceContext",
-}) as any as S.Schema<CryptoExperienceContext>;
+).annotate({ identifier: "CryptoExperienceContext" }) as any as S.Schema<CryptoExperienceContext>;
 
 /** Pay With Crypto details response object. */
 export interface Crypto {
@@ -3893,9 +3845,7 @@ export const AmountBreakdown = /*@__PURE__*/ S.suspend(() =>
       AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount,
     ),
   }),
-).annotate({
-  identifier: "AmountBreakdown",
-}) as any as S.Schema<AmountBreakdown>;
+).annotate({ identifier: "AmountBreakdown" }) as any as S.Schema<AmountBreakdown>;
 
 /** The total order amount with an optional breakdown that provides details, such as the total item amount, total tax amount, shipping, handling, insurance, and discounts, if any.<br/>If you specify `amount.breakdown`, the amount equals `item_total` plus `tax_total` plus `shipping` plus `handling` plus `insurance` minus `shipping_discount` minus discount.<br/>The amount must be a positive number. For listed of supported currencies and decimal precision, see the PayPal REST APIs <a href="/docs/integration/direct/rest/currency-codes/">Currency Codes</a>. */
 export interface AmountWithBreakdown {
@@ -3910,9 +3860,7 @@ export const AmountWithBreakdown = /*@__PURE__*/ S.suspend(() =>
     value: S.String,
     breakdown: S.optional(AmountBreakdown),
   }),
-).annotate({
-  identifier: "AmountWithBreakdown",
-}) as any as S.Schema<AmountWithBreakdown>;
+).annotate({ identifier: "AmountWithBreakdown" }) as any as S.Schema<AmountWithBreakdown>;
 
 export type AuthorizeOrderResponsePurchaseUnitsItemPayee =
   PaypalWalletAttributesResponseCobrandedCardsItemPayee;
@@ -3965,9 +3913,7 @@ export const PaymentInstruction = /*@__PURE__*/ S.suspend(() =>
     payee_pricing_tier_id: S.optional(S.String),
     payee_receivable_fx_rate_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PaymentInstruction",
-}) as any as S.Schema<PaymentInstruction>;
+).annotate({ identifier: "PaymentInstruction" }) as any as S.Schema<PaymentInstruction>;
 
 export type AuthorizeOrderResponsePurchaseUnitsItemItemsItemUnitAmount =
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
@@ -4098,9 +4044,7 @@ export const OrderBillingPlan = /*@__PURE__*/ S.suspend(() =>
     ),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OrderBillingPlan",
-}) as any as S.Schema<OrderBillingPlan>;
+).annotate({ identifier: "OrderBillingPlan" }) as any as S.Schema<OrderBillingPlan>;
 
 export interface AuthorizeOrderResponsePurchaseUnitsItemItemsItem {
   /** The item name or title. */
@@ -4218,9 +4162,7 @@ export const TrackerItemsItemUpc = /*@__PURE__*/ S.suspend(() =>
     type: TrackerItemsItemUpcType,
     code: S.String,
   }),
-).annotate({
-  identifier: "TrackerItemsItemUpc",
-}) as any as S.Schema<TrackerItemsItemUpc>;
+).annotate({ identifier: "TrackerItemsItemUpc" }) as any as S.Schema<TrackerItemsItemUpc>;
 
 export interface TrackerItemsItem {
   /** The item name or title. */
@@ -4244,9 +4186,7 @@ export const TrackerItemsItem = /*@__PURE__*/ S.suspend(() =>
     image_url: S.optional(S.String),
     upc: S.optional(TrackerItemsItemUpc),
   }),
-).annotate({
-  identifier: "TrackerItemsItem",
-}) as any as S.Schema<TrackerItemsItem>;
+).annotate({ identifier: "TrackerItemsItem" }) as any as S.Schema<TrackerItemsItem>;
 
 /** An array of details of items in the shipment. */
 export type TrackerItemsList = Array<TrackerItemsItem>;
@@ -4341,9 +4281,7 @@ export const TrackerLinksItemSchema = /*@__PURE__*/ S.suspend(() =>
     media: S.optional(CardVaultResponseLinksItemSchemaMedia),
     pathStart: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TrackerLinksItemSchema",
-}) as any as S.Schema<TrackerLinksItemSchema>;
+).annotate({ identifier: "TrackerLinksItemSchema" }) as any as S.Schema<TrackerLinksItemSchema>;
 
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type TrackerLinksItemTargetSchemaAllOfList = Array<unknown>;
@@ -4451,9 +4389,7 @@ export const TrackerLinksItem = /*@__PURE__*/ S.suspend(() =>
     schema: S.optional(TrackerLinksItemSchema),
     targetSchema: S.optional(TrackerLinksItemTargetSchema),
   }),
-).annotate({
-  identifier: "TrackerLinksItem",
-}) as any as S.Schema<TrackerLinksItem>;
+).annotate({ identifier: "TrackerLinksItem" }) as any as S.Schema<TrackerLinksItem>;
 
 /** An array of request-related HATEOAS links. */
 export type TrackerLinksList = Array<TrackerLinksItem>;
@@ -4536,9 +4472,7 @@ export const Level2CardProcessingData = /*@__PURE__*/ S.suspend(() =>
       AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount,
     ),
   }),
-).annotate({
-  identifier: "Level2CardProcessingData",
-}) as any as S.Schema<Level2CardProcessingData>;
+).annotate({ identifier: "Level2CardProcessingData" }) as any as S.Schema<Level2CardProcessingData>;
 
 export type Level3CardProcessingDataShippingAmount =
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
@@ -4695,9 +4629,7 @@ export const Level3CardProcessingData = /*@__PURE__*/ S.suspend(() =>
     ships_from_postal_code: S.optional(S.String),
     line_items: S.optional(Level3CardProcessingDataLineItemsList),
   }),
-).annotate({
-  identifier: "Level3CardProcessingData",
-}) as any as S.Schema<Level3CardProcessingData>;
+).annotate({ identifier: "Level3CardProcessingData" }) as any as S.Schema<Level3CardProcessingData>;
 
 export interface AuthorizeOrderResponsePurchaseUnitsItemSupplementaryDataCard {
   level_2?: Level2CardProcessingData;
@@ -4721,9 +4653,7 @@ export const ParticipantMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ip_address: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ParticipantMetadata",
-}) as any as S.Schema<ParticipantMetadata>;
+).annotate({ identifier: "ParticipantMetadata" }) as any as S.Schema<ParticipantMetadata>;
 
 export interface AuthorizeOrderResponsePurchaseUnitsItemSupplementaryDataRisk {
   customer?: ParticipantMetadata;
@@ -6962,9 +6892,7 @@ export const AuthorizeOrderResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.Unknown),
     links: S.optional(AuthorizeOrderResponseLinksList),
   }),
-).annotate({
-  identifier: "AuthorizeOrderResponse",
-}) as any as S.Schema<AuthorizeOrderResponse>;
+).annotate({ identifier: "AuthorizeOrderResponse" }) as any as S.Schema<AuthorizeOrderResponse>;
 
 export type CaptureOrderRequestPaymentSourcePaypalName = CardCustomerName;
 export const CaptureOrderRequestPaymentSourcePaypalName = CardCustomerName;
@@ -8060,16 +7988,8 @@ export const CaptureOrderRequest = /*@__PURE__*/ S.suspend(() =>
     payPalClientMetadataId: S.optional(S.String.pipe(T.Header("PayPal-Client-Metadata-Id"))),
     payPalAuthAssertion: S.optional(S.String.pipe(T.Header("PayPal-Auth-Assertion"))),
     payment_source: S.optional(CaptureOrderRequestPaymentSource),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/checkout/orders/{id}/capture",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CaptureOrderRequest",
-}) as any as S.Schema<CaptureOrderRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v2/checkout/orders/{id}/capture", code: 200 })),
+).annotate({ identifier: "CaptureOrderRequest" }) as any as S.Schema<CaptureOrderRequest>;
 
 /** The payment source used to fund the payment. */
 export type PaymentSourceResponse = AuthorizeOrderResponsePaymentSource;
@@ -10486,9 +10406,7 @@ export const CaptureOrderResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.Unknown),
     links: S.optional(CaptureOrderResponseLinksList),
   }),
-).annotate({
-  identifier: "CaptureOrderResponse",
-}) as any as S.Schema<CaptureOrderResponse>;
+).annotate({ identifier: "CaptureOrderResponse" }) as any as S.Schema<CaptureOrderResponse>;
 
 export type PaymentSourceInputPaypalName = CardCustomerName;
 export const PaymentSourceInputPaypalName = CardCustomerName;
@@ -10687,9 +10605,7 @@ export const PaymentSourceInputPaypal = /*@__PURE__*/ S.suspend(() =>
     billing_agreement_id: S.optional(S.String),
     stored_credential: S.optional(PaypalWalletStoredCredential),
   }),
-).annotate({
-  identifier: "PaymentSourceInputPaypal",
-}) as any as S.Schema<PaymentSourceInputPaypal>;
+).annotate({ identifier: "PaymentSourceInputPaypal" }) as any as S.Schema<PaymentSourceInputPaypal>;
 
 /** The location from which the shipping address is derived. */
 export type PaymentSourceInputBancontactExperienceContextShippingPreference =
@@ -10794,9 +10710,7 @@ export const PaymentSourceInputBlik = /*@__PURE__*/ S.suspend(() =>
     level_0: S.optional(AuthorizeOrderRequestPaymentSourceBlikLevel0),
     one_click: S.optional(AuthorizeOrderRequestPaymentSourceBlikOneClick),
   }),
-).annotate({
-  identifier: "PaymentSourceInputBlik",
-}) as any as S.Schema<PaymentSourceInputBlik>;
+).annotate({ identifier: "PaymentSourceInputBlik" }) as any as S.Schema<PaymentSourceInputBlik>;
 
 /** The location from which the shipping address is derived. */
 export type PaymentSourceInputEpsExperienceContextShippingPreference =
@@ -10837,9 +10751,7 @@ export const PaymentSourceInputEps = /*@__PURE__*/ S.suspend(() =>
     country_code: S.Unknown,
     experience_context: S.optional(PaymentSourceInputEpsExperienceContext),
   }),
-).annotate({
-  identifier: "PaymentSourceInputEps",
-}) as any as S.Schema<PaymentSourceInputEps>;
+).annotate({ identifier: "PaymentSourceInputEps" }) as any as S.Schema<PaymentSourceInputEps>;
 
 /** The location from which the shipping address is derived. */
 export type PaymentSourceInputGiropayExperienceContextShippingPreference =
@@ -10927,9 +10839,7 @@ export const PaymentSourceInputIdeal = /*@__PURE__*/ S.suspend(() =>
     bic: S.optional(S.Unknown),
     experience_context: S.optional(PaymentSourceInputIdealExperienceContext),
   }),
-).annotate({
-  identifier: "PaymentSourceInputIdeal",
-}) as any as S.Schema<PaymentSourceInputIdeal>;
+).annotate({ identifier: "PaymentSourceInputIdeal" }) as any as S.Schema<PaymentSourceInputIdeal>;
 
 /** The location from which the shipping address is derived. */
 export type PaymentSourceInputMybankExperienceContextShippingPreference =
@@ -10970,9 +10880,7 @@ export const PaymentSourceInputMybank = /*@__PURE__*/ S.suspend(() =>
     country_code: S.Unknown,
     experience_context: S.optional(PaymentSourceInputMybankExperienceContext),
   }),
-).annotate({
-  identifier: "PaymentSourceInputMybank",
-}) as any as S.Schema<PaymentSourceInputMybank>;
+).annotate({ identifier: "PaymentSourceInputMybank" }) as any as S.Schema<PaymentSourceInputMybank>;
 
 /** The location from which the shipping address is derived. */
 export type PaymentSourceInputP24ExperienceContextShippingPreference =
@@ -11015,9 +10923,7 @@ export const PaymentSourceInputP24 = /*@__PURE__*/ S.suspend(() =>
     country_code: S.Unknown,
     experience_context: S.optional(PaymentSourceInputP24ExperienceContext),
   }),
-).annotate({
-  identifier: "PaymentSourceInputP24",
-}) as any as S.Schema<PaymentSourceInputP24>;
+).annotate({ identifier: "PaymentSourceInputP24" }) as any as S.Schema<PaymentSourceInputP24>;
 
 /** The location from which the shipping address is derived. */
 export type PaymentSourceInputSofortExperienceContextShippingPreference =
@@ -11058,9 +10964,7 @@ export const PaymentSourceInputSofort = /*@__PURE__*/ S.suspend(() =>
     country_code: S.Unknown,
     experience_context: S.optional(PaymentSourceInputSofortExperienceContext),
   }),
-).annotate({
-  identifier: "PaymentSourceInputSofort",
-}) as any as S.Schema<PaymentSourceInputSofort>;
+).annotate({ identifier: "PaymentSourceInputSofort" }) as any as S.Schema<PaymentSourceInputSofort>;
 
 /** The location from which the shipping address is derived. */
 export type PaymentSourceInputTrustlyExperienceContextShippingPreference =
@@ -11443,9 +11347,7 @@ export const PaymentSourceInputVenmo = /*@__PURE__*/ S.suspend(() =>
     experience_context: S.optional(VenmoWalletExperienceContext),
     attributes: S.optional(PaymentSourceInputVenmoAttributes),
   }),
-).annotate({
-  identifier: "PaymentSourceInputVenmo",
-}) as any as S.Schema<PaymentSourceInputVenmo>;
+).annotate({ identifier: "PaymentSourceInputVenmo" }) as any as S.Schema<PaymentSourceInputVenmo>;
 
 export type PaymentSourceInputCryptoName = AuthorizeOrderRequestPaymentSourceCryptoName;
 export const PaymentSourceInputCryptoName = AuthorizeOrderRequestPaymentSourceCryptoName;
@@ -11496,9 +11398,7 @@ export const PaymentSourceInput = /*@__PURE__*/ S.suspend(() =>
     venmo: S.optional(PaymentSourceInputVenmo),
     crypto: S.optional(AuthorizeOrderRequestPaymentSourceCrypto),
   }),
-).annotate({
-  identifier: "PaymentSourceInput",
-}) as any as S.Schema<PaymentSourceInput>;
+).annotate({ identifier: "PaymentSourceInput" }) as any as S.Schema<PaymentSourceInput>;
 
 /** Provides additional details to process a payment using a `payment_source` that has been stored or is intended to be stored (also referred to as stored_credential or card-on-file).<br/>Parameter compatibility:<br/><ul><li>`payment_type=ONE_TIME` is compatible only with `payment_initiator=CUSTOMER`.</li><li>`usage=FIRST` is compatible only with `payment_initiator=CUSTOMER`.</li><li>`previous_transaction_reference` or `previous_network_transaction_reference` is compatible only with `payment_initiator=MERCHANT`.</li><li>Only one of the parameters - `previous_transaction_reference` and `previous_network_transaction_reference` - can be present in the request.</li></ul> */
 export type StoredPaymentSource = CardStoredCredential;
@@ -11548,15 +11448,9 @@ export const ConfirmOrderRequest = /*@__PURE__*/ S.suspend(() =>
     payment_source: PaymentSourceInput,
     application_context: S.optional(OrderConfirmApplicationContext),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/checkout/orders/{id}/confirm-payment-source",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/checkout/orders/{id}/confirm-payment-source", code: 200 }),
   ),
-).annotate({
-  identifier: "ConfirmOrderRequest",
-}) as any as S.Schema<ConfirmOrderRequest>;
+).annotate({ identifier: "ConfirmOrderRequest" }) as any as S.Schema<ConfirmOrderRequest>;
 
 export type ConfirmOrderResponsePayerName = CardCustomerName;
 export const ConfirmOrderResponsePayerName = CardCustomerName;
@@ -13969,9 +13863,7 @@ export const ConfirmOrderResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.Unknown),
     links: S.optional(ConfirmOrderResponseLinksList),
   }),
-).annotate({
-  identifier: "ConfirmOrderResponse",
-}) as any as S.Schema<ConfirmOrderResponse>;
+).annotate({ identifier: "ConfirmOrderResponse" }) as any as S.Schema<ConfirmOrderResponse>;
 
 export type CreateOrderRequestPayerName = CardCustomerName;
 export const CreateOrderRequestPayerName = CardCustomerName;
@@ -14029,9 +13921,7 @@ export const CreateOrderRequestPayer = /*@__PURE__*/ S.suspend(() =>
     tax_info: S.optional(CreateOrderRequestPayerTaxInfo),
     address: S.optional(CardRequestInputBillingAddress),
   }),
-).annotate({
-  identifier: "CreateOrderRequestPayer",
-}) as any as S.Schema<CreateOrderRequestPayer>;
+).annotate({ identifier: "CreateOrderRequestPayer" }) as any as S.Schema<CreateOrderRequestPayer>;
 
 export type CreateOrderRequestPurchaseUnitsItemAmount = AmountWithBreakdown;
 export const CreateOrderRequestPurchaseUnitsItemAmount = AmountWithBreakdown;
@@ -14370,9 +14260,7 @@ export const CreateOrderRequest = /*@__PURE__*/ S.suspend(() =>
     payment_source: S.optional(PaymentSourceInput),
     application_context: S.optional(CreateOrderRequestApplicationContext),
   }).pipe(T.Http({ method: "POST", uri: "/v2/checkout/orders", code: 200 })),
-).annotate({
-  identifier: "CreateOrderRequest",
-}) as any as S.Schema<CreateOrderRequest>;
+).annotate({ identifier: "CreateOrderRequest" }) as any as S.Schema<CreateOrderRequest>;
 
 export type CreateOrderResponsePayerName = CardCustomerName;
 export const CreateOrderResponsePayerName = CardCustomerName;
@@ -14430,9 +14318,7 @@ export const CreateOrderResponsePayer = /*@__PURE__*/ S.suspend(() =>
     tax_info: S.optional(CreateOrderResponsePayerTaxInfo),
     address: S.optional(CardRequestInputBillingAddress),
   }),
-).annotate({
-  identifier: "CreateOrderResponsePayer",
-}) as any as S.Schema<CreateOrderResponsePayer>;
+).annotate({ identifier: "CreateOrderResponsePayer" }) as any as S.Schema<CreateOrderResponsePayer>;
 
 export type CreateOrderResponsePurchaseUnitsItemPayee =
   PaypalWalletAttributesResponseCobrandedCardsItemPayee;
@@ -16781,9 +16667,7 @@ export const CreateOrderResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.Unknown),
     links: S.optional(CreateOrderResponseLinksList),
   }),
-).annotate({
-  identifier: "CreateOrderResponse",
-}) as any as S.Schema<CreateOrderResponse>;
+).annotate({ identifier: "CreateOrderResponse" }) as any as S.Schema<CreateOrderResponse>;
 
 /** The carrier for the shipment. Some carriers have a global version as well as local subsidiaries. The subsidiaries are repeated over many countries and might also have an entry in the global list. Choose the carrier for your country. If the carrier is not available for your country, choose the global version of the carrier. If your carrier name is not in the list, set `carrier` to `OTHER` and set carrier name in `carrier_name_other`. For allowed values, see <a href="/docs/tracking/reference/carriers/">Carriers</a>. */
 export type ShipmentCarrier =
@@ -18287,16 +18171,8 @@ export const CreateOrdersTrackRequest = /*@__PURE__*/ S.suspend(() =>
     capture_id: S.String,
     notify_payer: S.optional(S.Boolean),
     items: S.optional(CreateOrdersTrackRequestItemsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/checkout/orders/{id}/track",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateOrdersTrackRequest",
-}) as any as S.Schema<CreateOrdersTrackRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v2/checkout/orders/{id}/track", code: 200 })),
+).annotate({ identifier: "CreateOrdersTrackRequest" }) as any as S.Schema<CreateOrdersTrackRequest>;
 
 export type CreateOrdersTrackResponsePayerName = CardCustomerName;
 export const CreateOrdersTrackResponsePayerName = CardCustomerName;
@@ -20758,9 +20634,7 @@ export const GetOrderRequest = /*@__PURE__*/ S.suspend(() =>
     fields: S.optional(S.String.pipe(T.Query())),
     payPalAuthAssertion: S.optional(S.String.pipe(T.Header("PayPal-Auth-Assertion"))),
   }).pipe(T.Http({ method: "GET", uri: "/v2/checkout/orders/{id}", code: 200 })),
-).annotate({
-  identifier: "GetOrderRequest",
-}) as any as S.Schema<GetOrderRequest>;
+).annotate({ identifier: "GetOrderRequest" }) as any as S.Schema<GetOrderRequest>;
 
 export type GetOrderResponsePayerName = CardCustomerName;
 export const GetOrderResponsePayerName = CardCustomerName;
@@ -20818,9 +20692,7 @@ export const GetOrderResponsePayer = /*@__PURE__*/ S.suspend(() =>
     tax_info: S.optional(GetOrderResponsePayerTaxInfo),
     address: S.optional(CardRequestInputBillingAddress),
   }),
-).annotate({
-  identifier: "GetOrderResponsePayer",
-}) as any as S.Schema<GetOrderResponsePayer>;
+).annotate({ identifier: "GetOrderResponsePayer" }) as any as S.Schema<GetOrderResponsePayer>;
 
 export type GetOrderResponsePurchaseUnitsItemPayee =
   PaypalWalletAttributesResponseCobrandedCardsItemPayee;
@@ -23154,9 +23026,7 @@ export const GetOrderResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.Unknown),
     links: S.optional(GetOrderResponseLinksList),
   }),
-).annotate({
-  identifier: "GetOrderResponse",
-}) as any as S.Schema<GetOrderResponse>;
+).annotate({ identifier: "GetOrderResponse" }) as any as S.Schema<GetOrderResponse>;
 
 /** The operation. */
 export type PatchRequestItemOp = "add" | "remove" | "replace" | "move" | "copy" | "test";
@@ -23179,9 +23049,7 @@ export const PatchRequestItem = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.Unknown),
     from: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PatchRequestItem",
-}) as any as S.Schema<PatchRequestItem>;
+).annotate({ identifier: "PatchRequestItem" }) as any as S.Schema<PatchRequestItem>;
 
 /** An array of JSON patch objects to apply partial updates to resources. */
 export type PatchRequest = Array<PatchRequestItem>;
@@ -23202,9 +23070,7 @@ export const PatchOrderRequest = /*@__PURE__*/ S.suspend(() =>
     payPalAuthAssertion: S.optional(S.String.pipe(T.Header("PayPal-Auth-Assertion"))),
     body: S.optional(PatchRequest.pipe(T.HttpBody())),
   }).pipe(T.Http({ method: "PATCH", uri: "/v2/checkout/orders/{id}", code: 200 })),
-).annotate({
-  identifier: "PatchOrderRequest",
-}) as any as S.Schema<PatchOrderRequest>;
+).annotate({ identifier: "PatchOrderRequest" }) as any as S.Schema<PatchOrderRequest>;
 
 export interface PatchOrderResponse {}
 export const PatchOrderResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -23227,11 +23093,7 @@ export const PatchOrdersTrackerRequest = /*@__PURE__*/ S.suspend(() =>
     payPalAuthAssertion: S.optional(S.String.pipe(T.Header("PayPal-Auth-Assertion"))),
     body: S.optional(PatchRequest.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v2/checkout/orders/{id}/trackers/{tracker_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/v2/checkout/orders/{id}/trackers/{tracker_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "PatchOrdersTrackerRequest",
@@ -23497,16 +23359,8 @@ export const ServerCallbackRequest = /*@__PURE__*/ S.suspend(() =>
       AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItem,
     ),
     purchase_units: ServerCallbackRequestPurchaseUnitsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/checkout/orders/order-update-callback",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ServerCallbackRequest",
-}) as any as S.Schema<ServerCallbackRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v2/checkout/orders/order-update-callback", code: 200 })),
+).annotate({ identifier: "ServerCallbackRequest" }) as any as S.Schema<ServerCallbackRequest>;
 
 /** Returns the updated shipping options for an order. */
 export interface OrderUpdateCallbackResponse {

@@ -2178,7 +2178,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Update the maintenance configuration for a specific table. This allows you to enable or disable compaction and adjust target file sizes for optimization."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.basin_catalog#CatalogSnapshotExpirationDisabled"
+        }
+      ]
     },
     "com.cloudflare.basin_catalog#BasinCatalog": {
       "type": "service",
@@ -2225,6 +2230,30 @@
         "com.cloudflare.protocols#v4Json": {},
         "smithy.api#title": "Cloudflare BasinCatalog",
         "smithy.api#documentation": "Cloudflare API — basin_catalog resource. Speaks the v4 JSON envelope protocol; operation outputs describe the unwrapped `result` payload."
+      }
+    },
+    "com.cloudflare.basin_catalog#CatalogSnapshotExpirationDisabled": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "catalog-level snapshot expiration must be enabled"
+            }
+          }
+        ],
+        "smithy.api#documentation": "Per-table snapshot expiration needs snapshot expiration enabled on the catalog first."
       }
     }
   }

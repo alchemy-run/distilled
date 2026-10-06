@@ -105,9 +105,7 @@ export const SharingConfiguration = /*@__PURE__*/ S.suspend(() =>
     share_passwords: S.optional(SharingConfigurationSharePasswordsList),
     user_access_level: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "SharingConfiguration",
-}) as any as S.Schema<SharingConfiguration>;
+).annotate({ identifier: "SharingConfiguration" }) as any as S.Schema<SharingConfiguration>;
 
 export interface ListSessionRecordingsSharingRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */

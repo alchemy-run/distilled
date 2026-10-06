@@ -358,10 +358,7 @@ export const RescoreRequest = /*@__PURE__*/ S.suspend(() =>
     Documents: DocumentList,
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/rescore-execution-plans/{RescoreExecutionPlanId}/rescore",
-      }),
+      T.Http({ method: "POST", uri: "/rescore-execution-plans/{RescoreExecutionPlanId}/rescore" }),
       svc,
       auth,
       proto,
@@ -377,9 +374,7 @@ export interface RescoreResultItem {
 }
 export const RescoreResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DocumentId: S.optional(S.String), Score: S.optional(S.Number) }),
-).annotate({
-  identifier: "RescoreResultItem",
-}) as any as S.Schema<RescoreResultItem>;
+).annotate({ identifier: "RescoreResultItem" }) as any as S.Schema<RescoreResultItem>;
 export type RescoreResultItemList = RescoreResultItem[];
 export const RescoreResultItemList = /*@__PURE__*/ S.Array(RescoreResultItem);
 export interface RescoreResult {
@@ -387,10 +382,7 @@ export interface RescoreResult {
   ResultItems?: RescoreResultItem[];
 }
 export const RescoreResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RescoreId: S.optional(S.String),
-    ResultItems: S.optional(RescoreResultItemList),
-  }),
+  S.Struct({ RescoreId: S.optional(S.String), ResultItems: S.optional(RescoreResultItemList) }),
 ).annotate({ identifier: "RescoreResult" }) as any as S.Schema<RescoreResult>;
 export interface TagResourceRequest {
   ResourceARN: string;
@@ -400,9 +392,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -417,9 +407,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",

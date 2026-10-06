@@ -64,13 +64,7 @@ export const AddApplicationDestinationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     destination_uuid: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/applications/{uuid}/destinations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/destinations", code: 200 })),
 ).annotate({
   identifier: "AddApplicationDestinationRequest",
 }) as any as S.Schema<AddApplicationDestinationRequest>;
@@ -109,25 +103,33 @@ export const CancelDeploymentByUuidResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CancelDeploymentByUuidResponse",
 }) as any as S.Schema<CancelDeploymentByUuidResponse>;
 
-export interface ClaimServerRequest {
+export interface CheckServerRegistryLoginRequest {
+  /** Server UUID */
   uuid: string;
-  write_remote?: boolean;
-  rebind_sentinel?: boolean;
+  /** Registry host, optionally with a port, for example registry.example.com:5000. */
+  registry: string;
 }
-export const ClaimServerRequest = /*@__PURE__*/ S.suspend(() =>
+export const CheckServerRegistryLoginRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-    write_remote: S.optional(S.Boolean),
-    rebind_sentinel: S.optional(S.Boolean),
-  }).pipe(T.Http({ method: "POST", uri: "/servers/{uuid}/claim", code: 200 })),
+    registry: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/servers/{uuid}/registries/{registry}/check", code: 200 }),
+  ),
 ).annotate({
-  identifier: "ClaimServerRequest",
-}) as any as S.Schema<ClaimServerRequest>;
+  identifier: "CheckServerRegistryLoginRequest",
+}) as any as S.Schema<CheckServerRegistryLoginRequest>;
 
-export interface ClaimServerResponse {}
-export const ClaimServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "ClaimServerResponse",
-}) as any as S.Schema<ClaimServerResponse>;
+export interface CheckServerRegistryLoginResponse {
+  message?: string;
+}
+export const CheckServerRegistryLoginResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CheckServerRegistryLoginResponse",
+}) as any as S.Schema<CheckServerRegistryLoginResponse>;
 
 export interface CloneApplicationByUuidRequest {
   /** UUID of the application. */
@@ -209,31 +211,27 @@ export const CloneServiceByUuidResponse = /*@__PURE__*/ S.suspend(() => S.Struct
   identifier: "CloneServiceByUuidResponse",
 }) as any as S.Schema<CloneServiceByUuidResponse>;
 
-export interface CompleteServerTransferRequest {
+export interface ConfigureApplicationSecretManagerRequest {
   uuid: string;
-  export_id?: string | null;
-  target_instance_url?: string | null;
+  integration_token_uuid: string;
+  settings?: unknown;
 }
-export const CompleteServerTransferRequest = /*@__PURE__*/ S.suspend(() =>
+export const ConfigureApplicationSecretManagerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-    export_id: S.optional(S.NullOr(S.String)),
-    target_instance_url: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/servers/{uuid}/transfer/complete",
-      code: 200,
-    }),
-  ),
+    integration_token_uuid: S.String,
+    settings: S.optional(S.Unknown),
+  }).pipe(T.Http({ method: "PATCH", uri: "/applications/{uuid}/secret-manager", code: 200 })),
 ).annotate({
-  identifier: "CompleteServerTransferRequest",
-}) as any as S.Schema<CompleteServerTransferRequest>;
+  identifier: "ConfigureApplicationSecretManagerRequest",
+}) as any as S.Schema<ConfigureApplicationSecretManagerRequest>;
 
-export interface CompleteServerTransferResponse {}
-export const CompleteServerTransferResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "CompleteServerTransferResponse",
-}) as any as S.Schema<CompleteServerTransferResponse>;
+export interface ConfigureApplicationSecretManagerResponse {}
+export const ConfigureApplicationSecretManagerResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "ConfigureApplicationSecretManagerResponse",
+}) as any as S.Schema<ConfigureApplicationSecretManagerResponse>;
 
 export interface CreateCloudInitScriptRequest {
   name: string;
@@ -272,9 +270,7 @@ export const CreateCloudTokenRequest = /*@__PURE__*/ S.suspend(() =>
     token: S.String,
     name: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/cloud-tokens", code: 200 })),
-).annotate({
-  identifier: "CreateCloudTokenRequest",
-}) as any as S.Schema<CreateCloudTokenRequest>;
+).annotate({ identifier: "CreateCloudTokenRequest" }) as any as S.Schema<CreateCloudTokenRequest>;
 
 export interface CreateCloudTokenResponse {
   /** The UUID of the token. */
@@ -284,9 +280,7 @@ export const CreateCloudTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateCloudTokenResponse",
-}) as any as S.Schema<CreateCloudTokenResponse>;
+).annotate({ identifier: "CreateCloudTokenResponse" }) as any as S.Schema<CreateCloudTokenResponse>;
 
 export interface CreateDatabaseBackupRequest {
   /** UUID of the database. */
@@ -319,6 +313,8 @@ export interface CreateDatabaseBackupRequest {
   database_backup_retention_max_storage_s3?: number;
   /** Backup job timeout in seconds (min: 60, max: 36000) */
   timeout?: number;
+  /** Alert after this many days without an execution; 0 disables alerts */
+  missing_backup_notification_days?: number;
 }
 export const CreateDatabaseBackupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -337,6 +333,7 @@ export const CreateDatabaseBackupRequest = /*@__PURE__*/ S.suspend(() =>
     database_backup_retention_days_s3: S.optional(S.Number),
     database_backup_retention_max_storage_s3: S.optional(S.Number),
     timeout: S.optional(S.Number),
+    missing_backup_notification_days: S.optional(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/backups", code: 200 })),
 ).annotate({
   identifier: "CreateDatabaseBackupRequest",
@@ -523,10 +520,125 @@ export const CreateDatabaseDragonflyRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface CreateDatabaseDragonflyResponse {}
 export const CreateDatabaseDragonflyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "CreateDatabaseDragonflyResponse",
-  },
+  { identifier: "CreateDatabaseDragonflyResponse" },
 ) as any as S.Schema<CreateDatabaseDragonflyResponse>;
+
+export type DatabaseImportRequestCase0Source = "upload";
+export const DatabaseImportRequestCase0Source = S.String;
+
+export interface DatabaseImportRequestCase0 {
+  source: DatabaseImportRequestCase0Source;
+  upload_id: string;
+  dump_all?: boolean;
+  /** Drop matching PostgreSQL objects before restoring a single-database archive. */
+  replace_existing?: boolean;
+  /** Restore object owners and privileges from a single-database PostgreSQL archive. By default they are skipped, because the roles of another server usually do not exist. */
+  keep_owners?: boolean;
+  /** MySQL and MariaDB backups containing all databases: also restore the mysql system database (users, passwords, and privileges). By default the system databases are skipped, so the database keeps its own users and passwords. */
+  restore_mysql_users?: boolean;
+  /** SQLite: the database file to restore into. Must be one of the database files. Defaults to the file named in the backup file name, else the first file. */
+  sqlite_database?: string;
+}
+export const DatabaseImportRequestCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    source: DatabaseImportRequestCase0Source,
+    upload_id: S.String,
+    dump_all: S.optional(S.Boolean),
+    replace_existing: S.optional(S.Boolean),
+    keep_owners: S.optional(S.Boolean),
+    restore_mysql_users: S.optional(S.Boolean),
+    sqlite_database: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DatabaseImportRequestCase0",
+}) as any as S.Schema<DatabaseImportRequestCase0>;
+
+export type DatabaseImportRequestCase1Source = "s3";
+export const DatabaseImportRequestCase1Source = S.String;
+
+export interface DatabaseImportRequestCase1 {
+  source: DatabaseImportRequestCase1Source;
+  s3_storage_uuid: string;
+  path: string;
+  dump_all?: boolean;
+  /** Drop matching PostgreSQL objects before restoring a single-database archive. */
+  replace_existing?: boolean;
+  /** Restore object owners and privileges from a single-database PostgreSQL archive. By default they are skipped, because the roles of another server usually do not exist. */
+  keep_owners?: boolean;
+  /** MySQL and MariaDB backups containing all databases: also restore the mysql system database (users, passwords, and privileges). By default the system databases are skipped, so the database keeps its own users and passwords. */
+  restore_mysql_users?: boolean;
+  /** SQLite: the database file to restore into. Must be one of the database files. Defaults to the file named in the backup file name, else the first file. */
+  sqlite_database?: string;
+}
+export const DatabaseImportRequestCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    source: DatabaseImportRequestCase1Source,
+    s3_storage_uuid: S.String,
+    path: S.String,
+    dump_all: S.optional(S.Boolean),
+    replace_existing: S.optional(S.Boolean),
+    keep_owners: S.optional(S.Boolean),
+    restore_mysql_users: S.optional(S.Boolean),
+    sqlite_database: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DatabaseImportRequestCase1",
+}) as any as S.Schema<DatabaseImportRequestCase1>;
+
+export type DatabaseImportRequestCase2Source = "server";
+export const DatabaseImportRequestCase2Source = S.String;
+
+export interface DatabaseImportRequestCase2 {
+  source: DatabaseImportRequestCase2Source;
+  path: string;
+  dump_all?: boolean;
+  /** Drop matching PostgreSQL objects before restoring a single-database archive. */
+  replace_existing?: boolean;
+  /** Restore object owners and privileges from a single-database PostgreSQL archive. By default they are skipped, because the roles of another server usually do not exist. */
+  keep_owners?: boolean;
+  /** MySQL and MariaDB backups containing all databases: also restore the mysql system database (users, passwords, and privileges). By default the system databases are skipped, so the database keeps its own users and passwords. */
+  restore_mysql_users?: boolean;
+  /** SQLite: the database file to restore into. Must be one of the database files. Defaults to the file named in the backup file name, else the first file. */
+  sqlite_database?: string;
+}
+export const DatabaseImportRequestCase2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    source: DatabaseImportRequestCase2Source,
+    path: S.String,
+    dump_all: S.optional(S.Boolean),
+    replace_existing: S.optional(S.Boolean),
+    keep_owners: S.optional(S.Boolean),
+    restore_mysql_users: S.optional(S.Boolean),
+    sqlite_database: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DatabaseImportRequestCase2",
+}) as any as S.Schema<DatabaseImportRequestCase2>;
+
+export type DatabaseImportRequest =
+  | DatabaseImportRequestCase0
+  | DatabaseImportRequestCase1
+  | DatabaseImportRequestCase2;
+export const DatabaseImportRequest = S.Unknown as any as S.Schema<DatabaseImportRequest>;
+
+export interface CreateDatabaseImportRequest {
+  /** UUID of the database. */
+  uuid: string;
+  body: DatabaseImportRequest;
+}
+export const CreateDatabaseImportRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.String.pipe(T.Label()),
+    body: DatabaseImportRequest.pipe(T.HttpBody()),
+  }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/imports", code: 200 })),
+).annotate({
+  identifier: "CreateDatabaseImportRequest",
+}) as any as S.Schema<CreateDatabaseImportRequest>;
+
+export interface CreateDatabaseImportResponse {}
+export const CreateDatabaseImportResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "CreateDatabaseImportResponse",
+}) as any as S.Schema<CreateDatabaseImportResponse>;
 
 /** Tags to assign to the database. */
 export type CreateDatabaseKeydbRequestTagsList = Array<string>;
@@ -1076,6 +1188,80 @@ export const CreateDatabaseRedisResponse = /*@__PURE__*/ S.suspend(() => S.Struc
   identifier: "CreateDatabaseRedisResponse",
 }) as any as S.Schema<CreateDatabaseRedisResponse>;
 
+/** Tags to assign to the database. */
+export type CreateDatabaseSqliteRequestTagsList = Array<string>;
+export const CreateDatabaseSqliteRequestTagsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateDatabaseSqliteRequestTagsList>;
+
+export interface CreateDatabaseSqliteRequest {
+  /** UUID of the server */
+  server_uuid: string;
+  /** UUID of the project */
+  project_uuid: string;
+  /** Name of the environment. You need to provide at least one of environment_name or environment_uuid. */
+  environment_name: string;
+  /** UUID of the environment. You need to provide at least one of environment_name or environment_uuid. */
+  environment_uuid: string;
+  /** UUID of the destination if the server has multiple destinations */
+  destination_uuid?: string;
+  /** Comma-separated SQLite database file names */
+  sqlite_databases?: string;
+  /** Name of the database */
+  name?: string;
+  /** Description of the database */
+  description?: string;
+  /** Docker Image of the database */
+  image?: string;
+  /** Memory limit of the database */
+  limits_memory?: string;
+  /** Memory swap limit of the database */
+  limits_memory_swap?: string;
+  /** Memory swappiness of the database */
+  limits_memory_swappiness?: number;
+  /** Memory reservation of the database */
+  limits_memory_reservation?: string;
+  /** CPU limit of the database */
+  limits_cpus?: string;
+  /** CPU set of the database */
+  limits_cpuset?: string;
+  /** CPU shares of the database */
+  limits_cpu_shares?: number;
+  /** Instant deploy the database */
+  instant_deploy?: boolean;
+  /** Tags to assign to the database. */
+  tags?: CreateDatabaseSqliteRequestTagsList;
+}
+export const CreateDatabaseSqliteRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    server_uuid: S.String,
+    project_uuid: S.String,
+    environment_name: S.String,
+    environment_uuid: S.String,
+    destination_uuid: S.optional(S.String),
+    sqlite_databases: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    image: S.optional(S.String),
+    limits_memory: S.optional(S.String),
+    limits_memory_swap: S.optional(S.String),
+    limits_memory_swappiness: S.optional(S.Number),
+    limits_memory_reservation: S.optional(S.String),
+    limits_cpus: S.optional(S.String),
+    limits_cpuset: S.optional(S.String),
+    limits_cpu_shares: S.optional(S.Number),
+    instant_deploy: S.optional(S.Boolean),
+    tags: S.optional(CreateDatabaseSqliteRequestTagsList),
+  }).pipe(T.Http({ method: "POST", uri: "/databases/sqlite", code: 200 })),
+).annotate({
+  identifier: "CreateDatabaseSqliteRequest",
+}) as any as S.Schema<CreateDatabaseSqliteRequest>;
+
+export interface CreateDatabaseSqliteResponse {}
+export const CreateDatabaseSqliteResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "CreateDatabaseSqliteResponse",
+}) as any as S.Schema<CreateDatabaseSqliteResponse>;
+
 export interface CreateDigitaloceanServerRequest {}
 export const CreateDigitaloceanServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/servers/digitalocean", code: 200 })),
@@ -1253,8 +1439,10 @@ export interface CreateDockerfileApplicationRequest {
   gpu_options?: string | null;
   /** Use a consistent container name across deployments. */
   is_consistent_container_name_enabled?: boolean;
-  /** Custom internal container name. */
+  /** Custom internal container name. Turns is_consistent_container_name_enabled on when that field is not sent; sending it as false together with a name returns 422. */
   custom_internal_name?: string | null;
+  /** Prefix for generated container names (prefix-20260908T141530). Slugified and unique across the instance. */
+  custom_container_name_prefix?: string | null;
   /** Preview URL template. */
   preview_url_template?: string;
   /** Maximum container restart count before stopping. */
@@ -1350,6 +1538,7 @@ export const CreateDockerfileApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     gpu_options: S.optional(S.NullOr(S.String)),
     is_consistent_container_name_enabled: S.optional(S.Boolean),
     custom_internal_name: S.optional(S.NullOr(S.String)),
+    custom_container_name_prefix: S.optional(S.NullOr(S.String)),
     preview_url_template: S.optional(S.String),
     max_restart_count: S.optional(S.Number),
     is_http_basic_auth_enabled: S.optional(S.Boolean),
@@ -1529,8 +1718,10 @@ export interface CreateDockerimageApplicationRequest {
   gpu_options?: string | null;
   /** Use a consistent container name across deployments. */
   is_consistent_container_name_enabled?: boolean;
-  /** Custom internal container name. */
+  /** Custom internal container name. Turns is_consistent_container_name_enabled on when that field is not sent; sending it as false together with a name returns 422. */
   custom_internal_name?: string | null;
+  /** Prefix for generated container names (prefix-20260908T141530). Slugified and unique across the instance. */
+  custom_container_name_prefix?: string | null;
   /** Preview URL template. */
   preview_url_template?: string;
   /** Maximum container restart count before stopping. */
@@ -1623,6 +1814,7 @@ export const CreateDockerimageApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     gpu_options: S.optional(S.NullOr(S.String)),
     is_consistent_container_name_enabled: S.optional(S.Boolean),
     custom_internal_name: S.optional(S.NullOr(S.String)),
+    custom_container_name_prefix: S.optional(S.NullOr(S.String)),
     preview_url_template: S.optional(S.String),
     max_restart_count: S.optional(S.Number),
     is_http_basic_auth_enabled: S.optional(S.Boolean),
@@ -1662,7 +1854,7 @@ export interface CreateEnvByApplicationUuidRequest {
   is_literal?: boolean;
   /** The flag to indicate if the environment variable is multiline. */
   is_multiline?: boolean;
-  /** The flag to indicate if the environment variable's value is shown on the UI. */
+  /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
   is_shown_once?: boolean;
 }
 export const CreateEnvByApplicationUuidRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1701,7 +1893,7 @@ export interface CreateEnvByDatabaseUuidRequest {
   is_literal?: boolean;
   /** The flag to indicate if the environment variable is multiline. */
   is_multiline?: boolean;
-  /** The flag to indicate if the environment variable's value is shown on the UI. */
+  /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
   is_shown_once?: boolean;
 }
 export const CreateEnvByDatabaseUuidRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1741,7 +1933,7 @@ export interface CreateEnvByServiceUuidRequest {
   is_literal?: boolean;
   /** The flag to indicate if the environment variable is multiline. */
   is_multiline?: boolean;
-  /** The flag to indicate if the environment variable's value is shown on the UI. */
+  /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
   is_shown_once?: boolean;
 }
 export const CreateEnvByServiceUuidRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1780,9 +1972,7 @@ export const CreateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     uuid: S.String.pipe(T.Label()),
     name: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/projects/{uuid}/environments", code: 200 })),
-).annotate({
-  identifier: "CreateEnvironmentRequest",
-}) as any as S.Schema<CreateEnvironmentRequest>;
+).annotate({ identifier: "CreateEnvironmentRequest" }) as any as S.Schema<CreateEnvironmentRequest>;
 
 export interface CreateEnvironmentResponse {
   /** The UUID of the environment. */
@@ -1868,9 +2058,7 @@ export const CreateGithubAppRequest = /*@__PURE__*/ S.suspend(() =>
     private_key_uuid: S.String,
     is_system_wide: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/github-apps", code: 200 })),
-).annotate({
-  identifier: "CreateGithubAppRequest",
-}) as any as S.Schema<CreateGithubAppRequest>;
+).annotate({ identifier: "CreateGithubAppRequest" }) as any as S.Schema<CreateGithubAppRequest>;
 
 export interface CreateGithubAppResponse {
   id?: number;
@@ -1905,9 +2093,7 @@ export const CreateGithubAppResponse = /*@__PURE__*/ S.suspend(() =>
     is_system_wide: S.optional(S.Boolean),
     team_id: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CreateGithubAppResponse",
-}) as any as S.Schema<CreateGithubAppResponse>;
+).annotate({ identifier: "CreateGithubAppResponse" }) as any as S.Schema<CreateGithubAppResponse>;
 
 export interface CreateGitlabAppRequest {
   /** Name of the GitLab app. */
@@ -1947,9 +2133,7 @@ export const CreateGitlabAppRequest = /*@__PURE__*/ S.suspend(() =>
     redirect_uri: S.optional(S.NullOr(S.String)),
     is_system_wide: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/gitlab-apps", code: 200 })),
-).annotate({
-  identifier: "CreateGitlabAppRequest",
-}) as any as S.Schema<CreateGitlabAppRequest>;
+).annotate({ identifier: "CreateGitlabAppRequest" }) as any as S.Schema<CreateGitlabAppRequest>;
 
 export interface CreateGitlabAppResponse {
   id?: number;
@@ -1980,9 +2164,7 @@ export const CreateGitlabAppResponse = /*@__PURE__*/ S.suspend(() =>
     is_system_wide: S.optional(S.Boolean),
     team_id: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CreateGitlabAppResponse",
-}) as any as S.Schema<CreateGitlabAppResponse>;
+).annotate({ identifier: "CreateGitlabAppResponse" }) as any as S.Schema<CreateGitlabAppResponse>;
 
 /** Additional Hetzner SSH key IDs */
 export type CreateHetznerServerRequestHetznerSshKeyIdsList = Array<number>;
@@ -2073,6 +2255,112 @@ export const CreateHetznerServerResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateHetznerServerResponse",
 }) as any as S.Schema<CreateHetznerServerResponse>;
+
+/** Git provider that hosts the pull request. Sets the ref Coolify fetches (pull/{id}/head or merge-requests/{id}/head). */
+export type CreatePreviewDeploymentByApplicationUuidRequestGitType =
+  | "github"
+  | "gitlab"
+  | "gitea"
+  | "bitbucket";
+export const CreatePreviewDeploymentByApplicationUuidRequestGitType = S.String;
+
+export interface CreatePreviewDeploymentByApplicationUuidRequest {
+  /** UUID of the application. */
+  uuid: string;
+  pull_request_id: number;
+  pull_request_html_url?: string | null;
+  /** Git provider that hosts the pull request. Sets the ref Coolify fetches (pull/{id}/head or merge-requests/{id}/head). */
+  git_type?: CreatePreviewDeploymentByApplicationUuidRequestGitType | (string & {}) | null;
+  /** Commit SHA to deploy. Required for Bitbucket. */
+  commit?: string | null;
+  /** Docker image tag. Docker Image applications only. */
+  docker_tag?: string | null;
+  /** Rebuild without cache. */
+  force?: boolean;
+  /** Queue a deployment. Set to false to only create the preview, for example to set its domains first. */
+  instant_deploy?: boolean;
+}
+export const CreatePreviewDeploymentByApplicationUuidRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.String.pipe(T.Label()),
+    pull_request_id: S.Number,
+    pull_request_html_url: S.optional(S.NullOr(S.String)),
+    git_type: S.optional(S.NullOr(CreatePreviewDeploymentByApplicationUuidRequestGitType)),
+    commit: S.optional(S.NullOr(S.String)),
+    docker_tag: S.optional(S.NullOr(S.String)),
+    force: S.optional(S.Boolean),
+    instant_deploy: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/previews", code: 200 })),
+).annotate({
+  identifier: "CreatePreviewDeploymentByApplicationUuidRequest",
+}) as any as S.Schema<CreatePreviewDeploymentByApplicationUuidRequest>;
+
+export interface ApplicationPreviewDockerComposeDomainsItem {
+  name?: string;
+  domain?: string | null;
+  redirect?: string | null;
+}
+export const ApplicationPreviewDockerComposeDomainsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    domain: S.optional(S.NullOr(S.String)),
+    redirect: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "ApplicationPreviewDockerComposeDomainsItem",
+}) as any as S.Schema<ApplicationPreviewDockerComposeDomainsItem>;
+
+export type ApplicationPreviewDockerComposeDomainsList =
+  Array<ApplicationPreviewDockerComposeDomainsItem>;
+export const ApplicationPreviewDockerComposeDomainsList = /*@__PURE__*/ S.Array(
+  ApplicationPreviewDockerComposeDomainsItem,
+) as any as S.Schema<ApplicationPreviewDockerComposeDomainsList>;
+
+export interface ApplicationPreview {
+  uuid?: string;
+  pull_request_id?: number;
+  pull_request_html_url?: string | null;
+  git_type?: string | null;
+  status?: string;
+  domains?: string | null;
+  docker_compose_domains?: ApplicationPreviewDockerComposeDomainsList | null;
+  domain_port_overrides?: unknown | null;
+  docker_registry_image_tag?: string | null;
+  last_online_at?: string | null;
+  created_at?: string;
+  updated_at?: string;
+}
+export const ApplicationPreview = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.optional(S.String),
+    pull_request_id: S.optional(S.Number),
+    pull_request_html_url: S.optional(S.NullOr(S.String)),
+    git_type: S.optional(S.NullOr(S.String)),
+    status: S.optional(S.String),
+    domains: S.optional(S.NullOr(S.String)),
+    docker_compose_domains: S.optional(S.NullOr(ApplicationPreviewDockerComposeDomainsList)),
+    domain_port_overrides: S.optional(S.NullOr(S.Unknown)),
+    docker_registry_image_tag: S.optional(S.NullOr(S.String)),
+    last_online_at: S.optional(S.NullOr(S.String)),
+    created_at: S.optional(S.String),
+    updated_at: S.optional(S.String),
+  }),
+).annotate({ identifier: "ApplicationPreview" }) as any as S.Schema<ApplicationPreview>;
+
+export interface ApplicationPreviewDeployment {
+  message?: string;
+  deployment_uuid?: string | null;
+  preview?: ApplicationPreview;
+}
+export const ApplicationPreviewDeployment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message: S.optional(S.String),
+    deployment_uuid: S.optional(S.NullOr(S.String)),
+    preview: S.optional(ApplicationPreview),
+  }),
+).annotate({
+  identifier: "ApplicationPreviewDeployment",
+}) as any as S.Schema<ApplicationPreviewDeployment>;
 
 /** The build pack type. */
 export type CreatePrivateDeployKeyApplicationRequestBuildPack =
@@ -2321,8 +2609,10 @@ export interface CreatePrivateDeployKeyApplicationRequest {
   gpu_options?: string | null;
   /** Use a consistent container name across deployments. */
   is_consistent_container_name_enabled?: boolean;
-  /** Custom internal container name. */
+  /** Custom internal container name. Turns is_consistent_container_name_enabled on when that field is not sent; sending it as false together with a name returns 422. */
   custom_internal_name?: string | null;
+  /** Prefix for generated container names (prefix-20260908T141530). Slugified and unique across the instance. */
+  custom_container_name_prefix?: string | null;
   /** Preview URL template. */
   preview_url_template?: string;
   /** Maximum container restart count before stopping. */
@@ -2440,6 +2730,7 @@ export const CreatePrivateDeployKeyApplicationRequest = /*@__PURE__*/ S.suspend(
     gpu_options: S.optional(S.NullOr(S.String)),
     is_consistent_container_name_enabled: S.optional(S.Boolean),
     custom_internal_name: S.optional(S.NullOr(S.String)),
+    custom_container_name_prefix: S.optional(S.NullOr(S.String)),
     preview_url_template: S.optional(S.String),
     max_restart_count: S.optional(S.Number),
     is_http_basic_auth_enabled: S.optional(S.Boolean),
@@ -2451,13 +2742,7 @@ export const CreatePrivateDeployKeyApplicationRequest = /*@__PURE__*/ S.suspend(
     is_container_label_escape_enabled: S.optional(S.Boolean),
     tags: S.optional(CreatePrivateDeployKeyApplicationRequestTagsList),
     is_preserve_repository_enabled: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/applications/private-deploy-key",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/applications/private-deploy-key", code: 200 })),
 ).annotate({
   identifier: "CreatePrivateDeployKeyApplicationRequest",
 }) as any as S.Schema<CreatePrivateDeployKeyApplicationRequest>;
@@ -2720,8 +3005,10 @@ export interface CreatePrivateGithubAppApplicationRequest {
   gpu_options?: string | null;
   /** Use a consistent container name across deployments. */
   is_consistent_container_name_enabled?: boolean;
-  /** Custom internal container name. */
+  /** Custom internal container name. Turns is_consistent_container_name_enabled on when that field is not sent; sending it as false together with a name returns 422. */
   custom_internal_name?: string | null;
+  /** Prefix for generated container names (prefix-20260908T141530). Slugified and unique across the instance. */
+  custom_container_name_prefix?: string | null;
   /** Preview URL template. */
   preview_url_template?: string;
   /** Maximum container restart count before stopping. */
@@ -2839,6 +3126,7 @@ export const CreatePrivateGithubAppApplicationRequest = /*@__PURE__*/ S.suspend(
     gpu_options: S.optional(S.NullOr(S.String)),
     is_consistent_container_name_enabled: S.optional(S.Boolean),
     custom_internal_name: S.optional(S.NullOr(S.String)),
+    custom_container_name_prefix: S.optional(S.NullOr(S.String)),
     preview_url_template: S.optional(S.String),
     max_restart_count: S.optional(S.Number),
     is_http_basic_auth_enabled: S.optional(S.Boolean),
@@ -2850,13 +3138,7 @@ export const CreatePrivateGithubAppApplicationRequest = /*@__PURE__*/ S.suspend(
     is_container_label_escape_enabled: S.optional(S.Boolean),
     tags: S.optional(CreatePrivateGithubAppApplicationRequestTagsList),
     is_preserve_repository_enabled: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/applications/private-github-app",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/applications/private-github-app", code: 200 })),
 ).annotate({
   identifier: "CreatePrivateGithubAppApplicationRequest",
 }) as any as S.Schema<CreatePrivateGithubAppApplicationRequest>;
@@ -2883,9 +3165,7 @@ export const CreatePrivateKeyRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     private_key: S.String.pipe(T.SensitiveValue({})),
   }).pipe(T.Http({ method: "POST", uri: "/security/keys", code: 200 })),
-).annotate({
-  identifier: "CreatePrivateKeyRequest",
-}) as any as S.Schema<CreatePrivateKeyRequest>;
+).annotate({ identifier: "CreatePrivateKeyRequest" }) as any as S.Schema<CreatePrivateKeyRequest>;
 
 export interface CreatePrivateKeyResponse {
   uuid?: string;
@@ -2894,9 +3174,7 @@ export const CreatePrivateKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreatePrivateKeyResponse",
-}) as any as S.Schema<CreatePrivateKeyResponse>;
+).annotate({ identifier: "CreatePrivateKeyResponse" }) as any as S.Schema<CreatePrivateKeyResponse>;
 
 export interface CreateProjectRequest {
   /** The name of the project. */
@@ -2909,9 +3187,7 @@ export const CreateProjectRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/projects", code: 200 })),
-).annotate({
-  identifier: "CreateProjectRequest",
-}) as any as S.Schema<CreateProjectRequest>;
+).annotate({ identifier: "CreateProjectRequest" }) as any as S.Schema<CreateProjectRequest>;
 
 export interface CreateProjectResponse {
   /** The UUID of the project. */
@@ -2921,9 +3197,7 @@ export const CreateProjectResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateProjectResponse",
-}) as any as S.Schema<CreateProjectResponse>;
+).annotate({ identifier: "CreateProjectResponse" }) as any as S.Schema<CreateProjectResponse>;
 
 export interface CreateProjectSharedEnvRequest {
   /** Project UUID */
@@ -3180,8 +3454,10 @@ export interface CreatePublicApplicationRequest {
   gpu_options?: string | null;
   /** Use a consistent container name across deployments. */
   is_consistent_container_name_enabled?: boolean;
-  /** Custom internal container name. */
+  /** Custom internal container name. Turns is_consistent_container_name_enabled on when that field is not sent; sending it as false together with a name returns 422. */
   custom_internal_name?: string | null;
+  /** Prefix for generated container names (prefix-20260908T141530). Slugified and unique across the instance. */
+  custom_container_name_prefix?: string | null;
   /** Preview URL template. */
   preview_url_template?: string;
   /** Maximum container restart count before stopping. */
@@ -3296,6 +3572,7 @@ export const CreatePublicApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     gpu_options: S.optional(S.NullOr(S.String)),
     is_consistent_container_name_enabled: S.optional(S.Boolean),
     custom_internal_name: S.optional(S.NullOr(S.String)),
+    custom_container_name_prefix: S.optional(S.NullOr(S.String)),
     preview_url_template: S.optional(S.String),
     max_restart_count: S.optional(S.Number),
     is_http_basic_auth_enabled: S.optional(S.Boolean),
@@ -3352,9 +3629,7 @@ export const CreateS3StorageRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.String.pipe(T.SensitiveValue({})),
     is_usable: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/s3-storages", code: 200 })),
-).annotate({
-  identifier: "CreateS3StorageRequest",
-}) as any as S.Schema<CreateS3StorageRequest>;
+).annotate({ identifier: "CreateS3StorageRequest" }) as any as S.Schema<CreateS3StorageRequest>;
 
 export interface CreateS3StorageResponse {
   /** The UUID of the S3 storage. */
@@ -3364,9 +3639,7 @@ export const CreateS3StorageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateS3StorageResponse",
-}) as any as S.Schema<CreateS3StorageResponse>;
+).annotate({ identifier: "CreateS3StorageResponse" }) as any as S.Schema<CreateS3StorageResponse>;
 
 export interface CreateScheduledTaskByApplicationUuidRequest {
   /** UUID of the application. */
@@ -3393,13 +3666,7 @@ export const CreateScheduledTaskByApplicationUuidRequest = /*@__PURE__*/ S.suspe
     container: S.optional(S.NullOr(S.String)),
     timeout: S.optional(S.Number),
     enabled: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/applications/{uuid}/scheduled-tasks",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/scheduled-tasks", code: 200 })),
 ).annotate({
   identifier: "CreateScheduledTaskByApplicationUuidRequest",
 }) as any as S.Schema<CreateScheduledTaskByApplicationUuidRequest>;
@@ -3467,16 +3734,41 @@ export const CreateScheduledTaskByServiceUuidRequest = /*@__PURE__*/ S.suspend((
     container: S.optional(S.NullOr(S.String)),
     timeout: S.optional(S.Number),
     enabled: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/services/{uuid}/scheduled-tasks",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/services/{uuid}/scheduled-tasks", code: 200 })),
 ).annotate({
   identifier: "CreateScheduledTaskByServiceUuidRequest",
 }) as any as S.Schema<CreateScheduledTaskByServiceUuidRequest>;
+
+export type CreateSecretManagerIntegrationTokenRequestProvider = "doppler" | "infisical" | "vault";
+export const CreateSecretManagerIntegrationTokenRequestProvider = S.String;
+
+export interface CreateSecretManagerIntegrationTokenRequest {
+  provider: CreateSecretManagerIntegrationTokenRequestProvider | (string & {});
+  name: string;
+  token: string;
+  metadata?: unknown;
+}
+export const CreateSecretManagerIntegrationTokenRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provider: CreateSecretManagerIntegrationTokenRequestProvider,
+    name: S.String,
+    token: S.String,
+    metadata: S.optional(S.Unknown),
+  }).pipe(T.Http({ method: "POST", uri: "/security/integration-tokens", code: 200 })),
+).annotate({
+  identifier: "CreateSecretManagerIntegrationTokenRequest",
+}) as any as S.Schema<CreateSecretManagerIntegrationTokenRequest>;
+
+export interface CreateSecretManagerIntegrationTokenResponse {}
+export const CreateSecretManagerIntegrationTokenResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CreateSecretManagerIntegrationTokenResponse",
+}) as any as S.Schema<CreateSecretManagerIntegrationTokenResponse>;
+
+/** Server role. */
+export type CreateServerRequestServerRole = "deployment" | "build" | "both";
+export const CreateServerRequestServerRole = S.String;
 
 /** The proxy type. */
 export type CreateServerRequestProxyType = "traefik" | "caddy" | "none";
@@ -3495,7 +3787,9 @@ export interface CreateServerRequest {
   user?: string;
   /** The UUID of the private key. */
   private_key_uuid?: string;
-  /** Is build server. */
+  /** Server role. */
+  server_role?: CreateServerRequestServerRole | (string & {});
+  /** Deprecated: use server_role instead. true sets server_role to build, false sets it to both. Must not conflict with server_role. */
   is_build_server?: boolean;
   /** Instant validate. */
   instant_validate?: boolean;
@@ -3510,13 +3804,12 @@ export const CreateServerRequest = /*@__PURE__*/ S.suspend(() =>
     port: S.optional(S.Number),
     user: S.optional(S.String),
     private_key_uuid: S.optional(S.String),
+    server_role: S.optional(CreateServerRequestServerRole),
     is_build_server: S.optional(S.Boolean),
     instant_validate: S.optional(S.Boolean),
     proxy_type: S.optional(CreateServerRequestProxyType),
   }).pipe(T.Http({ method: "POST", uri: "/servers", code: 200 })),
-).annotate({
-  identifier: "CreateServerRequest",
-}) as any as S.Schema<CreateServerRequest>;
+).annotate({ identifier: "CreateServerRequest" }) as any as S.Schema<CreateServerRequest>;
 
 export interface CreateServerResponse {
   /** The UUID of the server. */
@@ -3526,9 +3819,7 @@ export const CreateServerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateServerResponse",
-}) as any as S.Schema<CreateServerResponse>;
+).annotate({ identifier: "CreateServerResponse" }) as any as S.Schema<CreateServerResponse>;
 
 export type CreateServerDestinationRequestType = "standalone" | "swarm";
 export const CreateServerDestinationRequestType = S.String;
@@ -3546,13 +3837,7 @@ export const CreateServerDestinationRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     network: S.String,
     type: S.optional(CreateServerDestinationRequestType),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/servers/{server_uuid}/destinations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/servers/{server_uuid}/destinations", code: 200 })),
 ).annotate({
   identifier: "CreateServerDestinationRequest",
 }) as any as S.Schema<CreateServerDestinationRequest>;
@@ -3673,9 +3958,7 @@ export const CreateServiceRequest = /*@__PURE__*/ S.suspend(() =>
     is_container_label_escape_enabled: S.optional(S.Boolean),
     tags: S.optional(CreateServiceRequestTagsList),
   }).pipe(T.Http({ method: "POST", uri: "/services", code: 200 })),
-).annotate({
-  identifier: "CreateServiceRequest",
-}) as any as S.Schema<CreateServiceRequest>;
+).annotate({ identifier: "CreateServiceRequest" }) as any as S.Schema<CreateServiceRequest>;
 
 /** Service domains. */
 export type CreateServiceResponseDomainsList = Array<string>;
@@ -3694,9 +3977,37 @@ export const CreateServiceResponse = /*@__PURE__*/ S.suspend(() =>
     uuid: S.optional(S.String),
     domains: S.optional(CreateServiceResponseDomainsList),
   }),
+).annotate({ identifier: "CreateServiceResponse" }) as any as S.Schema<CreateServiceResponse>;
+
+export interface CreateServiceDatabaseImportRequest {
+  /** Service UUID. */
+  uuid: string;
+  /** Service database UUID. */
+  database_uuid: string;
+  body: DatabaseImportRequest;
+}
+export const CreateServiceDatabaseImportRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.String.pipe(T.Label()),
+    database_uuid: S.String.pipe(T.Label()),
+    body: DatabaseImportRequest.pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/services/{uuid}/databases/{database_uuid}/imports",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "CreateServiceResponse",
-}) as any as S.Schema<CreateServiceResponse>;
+  identifier: "CreateServiceDatabaseImportRequest",
+}) as any as S.Schema<CreateServiceDatabaseImportRequest>;
+
+export interface CreateServiceDatabaseImportResponse {}
+export const CreateServiceDatabaseImportResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CreateServiceDatabaseImportResponse",
+}) as any as S.Schema<CreateServiceDatabaseImportResponse>;
 
 /** The type of storage. */
 export type CreateStorageByApplicationUuidRequestType = "persistent" | "file";
@@ -3711,13 +4022,11 @@ export interface CreateStorageByApplicationUuidRequest {
   name?: string;
   /** The container mount path. */
   mount_path: string;
-  /** The host path (persistent only, optional). */
-  host_path?: string | null;
   /** File content (file only, optional). */
   content?: string | null;
   /** Whether this is a directory mount (file only, default false). */
   is_directory?: boolean;
-  /** Host directory path (required when is_directory is true). */
+  /** Host path. Required for directory mounts and host file mounts. Optional for file mounts with content (default: inside the resource directory). An absolute path can be anywhere on the host; a relative path is inside the resource directory. A directory or file mount outside the resource directory needs a token with the deploy permission. Coolify never deletes a path outside the resource directory. */
   fs_path?: string;
 }
 export const CreateStorageByApplicationUuidRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3726,17 +4035,10 @@ export const CreateStorageByApplicationUuidRequest = /*@__PURE__*/ S.suspend(() 
     type: CreateStorageByApplicationUuidRequestType,
     name: S.optional(S.String),
     mount_path: S.String,
-    host_path: S.optional(S.NullOr(S.String)),
     content: S.optional(S.NullOr(S.String)),
     is_directory: S.optional(S.Boolean),
     fs_path: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/applications/{uuid}/storages",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/storages", code: 200 })),
 ).annotate({
   identifier: "CreateStorageByApplicationUuidRequest",
 }) as any as S.Schema<CreateStorageByApplicationUuidRequest>;
@@ -3761,13 +4063,11 @@ export interface CreateStorageByDatabaseUuidRequest {
   name?: string;
   /** The container mount path. */
   mount_path: string;
-  /** The host path (persistent only, optional). */
-  host_path?: string | null;
   /** File content (file only, optional). */
   content?: string | null;
   /** Whether this is a directory mount (file only, default false). */
   is_directory?: boolean;
-  /** Host directory path (required when is_directory is true). */
+  /** Host path. Required for directory mounts and host file mounts. Optional for file mounts with content (default: inside the resource directory). An absolute path can be anywhere on the host; a relative path is inside the resource directory. A directory or file mount outside the resource directory needs a token with the deploy permission. Coolify never deletes a path outside the resource directory. */
   fs_path?: string;
 }
 export const CreateStorageByDatabaseUuidRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3776,7 +4076,6 @@ export const CreateStorageByDatabaseUuidRequest = /*@__PURE__*/ S.suspend(() =>
     type: CreateStorageByDatabaseUuidRequestType,
     name: S.optional(S.String),
     mount_path: S.String,
-    host_path: S.optional(S.NullOr(S.String)),
     content: S.optional(S.NullOr(S.String)),
     is_directory: S.optional(S.Boolean),
     fs_path: S.optional(S.String),
@@ -3807,13 +4106,11 @@ export interface CreateStorageByServiceUuidRequest {
   name?: string;
   /** The container mount path. */
   mount_path: string;
-  /** The host path (persistent only, optional). */
-  host_path?: string | null;
   /** File content (file only, optional). */
   content?: string | null;
   /** Whether this is a directory mount (file only, default false). */
   is_directory?: boolean;
-  /** Host directory path (required when is_directory is true). */
+  /** Host path. Required for directory mounts and host file mounts. Optional for file mounts with content (default: inside the resource directory). An absolute path can be anywhere on the host; a relative path is inside the resource directory. A directory or file mount outside the resource directory needs a token with the deploy permission. Coolify never deletes a path outside the resource directory. */
   fs_path?: string;
 }
 export const CreateStorageByServiceUuidRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3823,7 +4120,6 @@ export const CreateStorageByServiceUuidRequest = /*@__PURE__*/ S.suspend(() =>
     resource_uuid: S.String,
     name: S.optional(S.String),
     mount_path: S.String,
-    host_path: S.optional(S.NullOr(S.String)),
     content: S.optional(S.NullOr(S.String)),
     is_directory: S.optional(S.Boolean),
     fs_path: S.optional(S.String),
@@ -3846,9 +4142,7 @@ export const CreateTagRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/tags", code: 200 })),
-).annotate({
-  identifier: "CreateTagRequest",
-}) as any as S.Schema<CreateTagRequest>;
+).annotate({ identifier: "CreateTagRequest" }) as any as S.Schema<CreateTagRequest>;
 
 /** Tag model */
 export interface Tag {
@@ -3979,6 +4273,7 @@ export interface CreateTeamSharedEnvRequest {
   value?: string | null;
   is_literal?: boolean;
   is_multiline?: boolean;
+  /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
   is_shown_once?: boolean;
   comment?: string | null;
 }
@@ -4003,9 +4298,7 @@ export const CreateTeamSharedEnvResponse = /*@__PURE__*/ S.suspend(() => S.Struc
 export interface CreateVultrServerRequest {}
 export const CreateVultrServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/servers/vultr", code: 200 })),
-).annotate({
-  identifier: "CreateVultrServerRequest",
-}) as any as S.Schema<CreateVultrServerRequest>;
+).annotate({ identifier: "CreateVultrServerRequest" }) as any as S.Schema<CreateVultrServerRequest>;
 
 export interface CreateVultrServerResponse {}
 export const CreateVultrServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4019,7 +4312,7 @@ export interface DeleteApplicationRequest {
   delete_configurations?: boolean;
   /** Delete volumes. */
   delete_volumes?: boolean;
-  /** Run docker cleanup. */
+  /** Run docker cleanup when the server disk usage is at or above its cleanup threshold. Skipped when a cleanup ran on the server in the last hour. */
   docker_cleanup?: boolean;
   /** Delete connected networks. */
   delete_connected_networks?: boolean;
@@ -4032,9 +4325,7 @@ export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     docker_cleanup: S.optional(S.Boolean.pipe(T.Query())),
     delete_connected_networks: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/applications/{uuid}", code: 200 })),
-).annotate({
-  identifier: "DeleteApplicationRequest",
-}) as any as S.Schema<DeleteApplicationRequest>;
+).annotate({ identifier: "DeleteApplicationRequest" }) as any as S.Schema<DeleteApplicationRequest>;
 
 export interface DeleteApplicationResponse {
   message?: string;
@@ -4170,9 +4461,7 @@ export const DeleteCloudTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/cloud-tokens/{uuid}", code: 200 })),
-).annotate({
-  identifier: "DeleteCloudTokenRequest",
-}) as any as S.Schema<DeleteCloudTokenRequest>;
+).annotate({ identifier: "DeleteCloudTokenRequest" }) as any as S.Schema<DeleteCloudTokenRequest>;
 
 export interface DeleteCloudTokenResponse {
   message?: string;
@@ -4181,9 +4470,7 @@ export const DeleteCloudTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeleteCloudTokenResponse",
-}) as any as S.Schema<DeleteCloudTokenResponse>;
+).annotate({ identifier: "DeleteCloudTokenResponse" }) as any as S.Schema<DeleteCloudTokenResponse>;
 
 export interface DeleteDatabaseRequest {
   /** UUID of the database. */
@@ -4192,7 +4479,7 @@ export interface DeleteDatabaseRequest {
   delete_configurations?: boolean;
   /** Delete volumes. */
   delete_volumes?: boolean;
-  /** Run docker cleanup. */
+  /** Run docker cleanup when the server disk usage is at or above its cleanup threshold. Skipped when a cleanup ran on the server in the last hour. */
   docker_cleanup?: boolean;
   /** Delete connected networks. */
   delete_connected_networks?: boolean;
@@ -4205,9 +4492,7 @@ export const DeleteDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     docker_cleanup: S.optional(S.Boolean.pipe(T.Query())),
     delete_connected_networks: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/databases/{uuid}", code: 200 })),
-).annotate({
-  identifier: "DeleteDatabaseRequest",
-}) as any as S.Schema<DeleteDatabaseRequest>;
+).annotate({ identifier: "DeleteDatabaseRequest" }) as any as S.Schema<DeleteDatabaseRequest>;
 
 export interface DeleteDatabaseResponse {
   message?: string;
@@ -4216,9 +4501,7 @@ export const DeleteDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeleteDatabaseResponse",
-}) as any as S.Schema<DeleteDatabaseResponse>;
+).annotate({ identifier: "DeleteDatabaseResponse" }) as any as S.Schema<DeleteDatabaseResponse>;
 
 export interface DeleteDatabaseStorageBackupScheduleRequest {
   uuid: string;
@@ -4254,9 +4537,7 @@ export const DeleteDestinationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/destinations/{uuid}", code: 200 })),
-).annotate({
-  identifier: "DeleteDestinationRequest",
-}) as any as S.Schema<DeleteDestinationRequest>;
+).annotate({ identifier: "DeleteDestinationRequest" }) as any as S.Schema<DeleteDestinationRequest>;
 
 export interface DeleteDestinationResponse {
   message?: string;
@@ -4279,13 +4560,7 @@ export const DeleteEnvByApplicationUuidRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     env_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/applications/{uuid}/envs/{env_uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/applications/{uuid}/envs/{env_uuid}", code: 200 })),
 ).annotate({
   identifier: "DeleteEnvByApplicationUuidRequest",
 }) as any as S.Schema<DeleteEnvByApplicationUuidRequest>;
@@ -4311,13 +4586,7 @@ export const DeleteEnvByDatabaseUuidRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     env_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/databases/{uuid}/envs/{env_uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/databases/{uuid}/envs/{env_uuid}", code: 200 })),
 ).annotate({
   identifier: "DeleteEnvByDatabaseUuidRequest",
 }) as any as S.Schema<DeleteEnvByDatabaseUuidRequest>;
@@ -4343,13 +4612,7 @@ export const DeleteEnvByServiceUuidRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     env_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/services/{uuid}/envs/{env_uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/services/{uuid}/envs/{env_uuid}", code: 200 })),
 ).annotate({
   identifier: "DeleteEnvByServiceUuidRequest",
 }) as any as S.Schema<DeleteEnvByServiceUuidRequest>;
@@ -4382,9 +4645,7 @@ export const DeleteEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteEnvironmentRequest",
-}) as any as S.Schema<DeleteEnvironmentRequest>;
+).annotate({ identifier: "DeleteEnvironmentRequest" }) as any as S.Schema<DeleteEnvironmentRequest>;
 
 export interface DeleteEnvironmentResponse {
   message?: string;
@@ -4435,16 +4696,8 @@ export interface DeleteGithubAppRequest {
 export const DeleteGithubAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     github_app_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/github-apps/{github_app_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteGithubAppRequest",
-}) as any as S.Schema<DeleteGithubAppRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/github-apps/{github_app_id}", code: 200 })),
+).annotate({ identifier: "DeleteGithubAppRequest" }) as any as S.Schema<DeleteGithubAppRequest>;
 
 export interface DeleteGithubAppResponse {
   message?: string;
@@ -4453,9 +4706,7 @@ export const DeleteGithubAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeleteGithubAppResponse",
-}) as any as S.Schema<DeleteGithubAppResponse>;
+).annotate({ identifier: "DeleteGithubAppResponse" }) as any as S.Schema<DeleteGithubAppResponse>;
 
 export interface DeleteGitlabAppRequest {
   /** GitLab App ID */
@@ -4464,16 +4715,8 @@ export interface DeleteGitlabAppRequest {
 export const DeleteGitlabAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     gitlab_app_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/gitlab-apps/{gitlab_app_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteGitlabAppRequest",
-}) as any as S.Schema<DeleteGitlabAppRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/gitlab-apps/{gitlab_app_id}", code: 200 })),
+).annotate({ identifier: "DeleteGitlabAppRequest" }) as any as S.Schema<DeleteGitlabAppRequest>;
 
 export interface DeleteGitlabAppResponse {
   message?: string;
@@ -4482,9 +4725,7 @@ export const DeleteGitlabAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeleteGitlabAppResponse",
-}) as any as S.Schema<DeleteGitlabAppResponse>;
+).annotate({ identifier: "DeleteGitlabAppResponse" }) as any as S.Schema<DeleteGitlabAppResponse>;
 
 export interface DeletePreviewDeploymentByPullRequestIdRequest {
   /** UUID of the application. */
@@ -4497,11 +4738,7 @@ export const DeletePreviewDeploymentByPullRequestIdRequest = /*@__PURE__*/ S.sus
     uuid: S.String.pipe(T.Label()),
     pull_request_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/applications/{uuid}/previews/{pull_request_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/applications/{uuid}/previews/{pull_request_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeletePreviewDeploymentByPullRequestIdRequest",
@@ -4549,9 +4786,7 @@ export const DeleteProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/projects/{uuid}", code: 200 })),
-).annotate({
-  identifier: "DeleteProjectRequest",
-}) as any as S.Schema<DeleteProjectRequest>;
+).annotate({ identifier: "DeleteProjectRequest" }) as any as S.Schema<DeleteProjectRequest>;
 
 export interface DeleteProjectResponse {
   message?: string;
@@ -4560,9 +4795,7 @@ export const DeleteProjectResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeleteProjectResponse",
-}) as any as S.Schema<DeleteProjectResponse>;
+).annotate({ identifier: "DeleteProjectResponse" }) as any as S.Schema<DeleteProjectResponse>;
 
 export interface DeleteProjectSharedEnvRequest {
   /** Project UUID */
@@ -4574,13 +4807,7 @@ export const DeleteProjectSharedEnvRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     env_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/projects/{uuid}/envs/{env_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/projects/{uuid}/envs/{env_id}", code: 200 })),
 ).annotate({
   identifier: "DeleteProjectSharedEnvRequest",
 }) as any as S.Schema<DeleteProjectSharedEnvRequest>;
@@ -4598,9 +4825,7 @@ export const DeleteS3StorageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/s3-storages/{uuid}", code: 200 })),
-).annotate({
-  identifier: "DeleteS3StorageRequest",
-}) as any as S.Schema<DeleteS3StorageRequest>;
+).annotate({ identifier: "DeleteS3StorageRequest" }) as any as S.Schema<DeleteS3StorageRequest>;
 
 export interface DeleteS3StorageResponse {
   message?: string;
@@ -4609,9 +4834,7 @@ export const DeleteS3StorageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeleteS3StorageResponse",
-}) as any as S.Schema<DeleteS3StorageResponse>;
+).annotate({ identifier: "DeleteS3StorageResponse" }) as any as S.Schema<DeleteS3StorageResponse>;
 
 export interface DeleteScheduledTaskByApplicationUuidRequest {
   /** UUID of the application. */
@@ -4656,11 +4879,7 @@ export const DeleteScheduledTaskByServiceUuidRequest = /*@__PURE__*/ S.suspend((
     uuid: S.String.pipe(T.Label()),
     task_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/services/{uuid}/scheduled-tasks/{task_uuid}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/services/{uuid}/scheduled-tasks/{task_uuid}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteScheduledTaskByServiceUuidRequest",
@@ -4680,14 +4899,18 @@ export const DeleteScheduledTaskByServiceUuidResponse = /*@__PURE__*/ S.suspend(
 export interface DeleteServerRequest {
   /** UUID of the server. */
   uuid: string;
+  /** Also delete all resources on the server. */
+  force?: boolean;
+  /** Also delete the server from its cloud provider (Hetzner, Vultr or DigitalOcean). This cannot be undone. */
+  delete_from_provider?: boolean;
 }
 export const DeleteServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
+    force: S.optional(S.Boolean.pipe(T.Query())),
+    delete_from_provider: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/servers/{uuid}", code: 200 })),
-).annotate({
-  identifier: "DeleteServerRequest",
-}) as any as S.Schema<DeleteServerRequest>;
+).annotate({ identifier: "DeleteServerRequest" }) as any as S.Schema<DeleteServerRequest>;
 
 export interface DeleteServerResponse {
   message?: string;
@@ -4696,9 +4919,7 @@ export const DeleteServerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeleteServerResponse",
-}) as any as S.Schema<DeleteServerResponse>;
+).annotate({ identifier: "DeleteServerResponse" }) as any as S.Schema<DeleteServerResponse>;
 
 export interface DeleteServerSharedEnvRequest {
   /** Server UUID */
@@ -4710,13 +4931,7 @@ export const DeleteServerSharedEnvRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     env_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/servers/{uuid}/envs/{env_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/servers/{uuid}/envs/{env_id}", code: 200 })),
 ).annotate({
   identifier: "DeleteServerSharedEnvRequest",
 }) as any as S.Schema<DeleteServerSharedEnvRequest>;
@@ -4733,10 +4948,12 @@ export interface DeleteServiceRequest {
   delete_configurations?: boolean;
   /** Delete volumes. */
   delete_volumes?: boolean;
-  /** Run docker cleanup. */
+  /** Run docker cleanup when the server disk usage is at or above its cleanup threshold. Skipped when a cleanup ran on the server in the last hour. */
   docker_cleanup?: boolean;
   /** Delete connected networks. */
   delete_connected_networks?: boolean;
+  /** Remove only Coolify metadata without deleting Docker resources. */
+  delete_from_coolify_only?: boolean;
 }
 export const DeleteServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4745,10 +4962,9 @@ export const DeleteServiceRequest = /*@__PURE__*/ S.suspend(() =>
     delete_volumes: S.optional(S.Boolean.pipe(T.Query())),
     docker_cleanup: S.optional(S.Boolean.pipe(T.Query())),
     delete_connected_networks: S.optional(S.Boolean.pipe(T.Query())),
+    delete_from_coolify_only: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/services/{uuid}", code: 200 })),
-).annotate({
-  identifier: "DeleteServiceRequest",
-}) as any as S.Schema<DeleteServiceRequest>;
+).annotate({ identifier: "DeleteServiceRequest" }) as any as S.Schema<DeleteServiceRequest>;
 
 export interface DeleteServiceResponse {
   message?: string;
@@ -4757,9 +4973,7 @@ export const DeleteServiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeleteServiceResponse",
-}) as any as S.Schema<DeleteServiceResponse>;
+).annotate({ identifier: "DeleteServiceResponse" }) as any as S.Schema<DeleteServiceResponse>;
 
 export interface DeleteServiceStorageBackupScheduleRequest {
   uuid: string;
@@ -4798,11 +5012,7 @@ export const DeleteStorageByApplicationUuidRequest = /*@__PURE__*/ S.suspend(() 
     uuid: S.String.pipe(T.Label()),
     storage_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/applications/{uuid}/storages/{storage_uuid}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/applications/{uuid}/storages/{storage_uuid}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteStorageByApplicationUuidRequest",
@@ -4830,11 +5040,7 @@ export const DeleteStorageByDatabaseUuidRequest = /*@__PURE__*/ S.suspend(() =>
     uuid: S.String.pipe(T.Label()),
     storage_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/databases/{uuid}/storages/{storage_uuid}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/databases/{uuid}/storages/{storage_uuid}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteStorageByDatabaseUuidRequest",
@@ -4861,13 +5067,7 @@ export const DeleteStorageByServiceUuidRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     storage_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/services/{uuid}/storages/{storage_uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/services/{uuid}/storages/{storage_uuid}", code: 200 })),
 ).annotate({
   identifier: "DeleteStorageByServiceUuidRequest",
 }) as any as S.Schema<DeleteStorageByServiceUuidRequest>;
@@ -4891,9 +5091,7 @@ export const DeleteTagRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/tags/{uuid}", code: 200 })),
-).annotate({
-  identifier: "DeleteTagRequest",
-}) as any as S.Schema<DeleteTagRequest>;
+).annotate({ identifier: "DeleteTagRequest" }) as any as S.Schema<DeleteTagRequest>;
 
 export interface DeleteTagResponse {
   message?: string;
@@ -4902,9 +5100,7 @@ export const DeleteTagResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeleteTagResponse",
-}) as any as S.Schema<DeleteTagResponse>;
+).annotate({ identifier: "DeleteTagResponse" }) as any as S.Schema<DeleteTagResponse>;
 
 export interface DeleteTagByApplicationUuidRequest {
   /** UUID of the application. */
@@ -4916,13 +5112,7 @@ export const DeleteTagByApplicationUuidRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     tag_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/applications/{uuid}/tags/{tag_uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/applications/{uuid}/tags/{tag_uuid}", code: 200 })),
 ).annotate({
   identifier: "DeleteTagByApplicationUuidRequest",
 }) as any as S.Schema<DeleteTagByApplicationUuidRequest>;
@@ -4944,22 +5134,14 @@ export const DeleteTagByDatabaseUuidRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     tag_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/databases/{uuid}/tags/{tag_uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/databases/{uuid}/tags/{tag_uuid}", code: 200 })),
 ).annotate({
   identifier: "DeleteTagByDatabaseUuidRequest",
 }) as any as S.Schema<DeleteTagByDatabaseUuidRequest>;
 
 export interface DeleteTagByDatabaseUuidResponse {}
 export const DeleteTagByDatabaseUuidResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteTagByDatabaseUuidResponse",
-  },
+  { identifier: "DeleteTagByDatabaseUuidResponse" },
 ) as any as S.Schema<DeleteTagByDatabaseUuidResponse>;
 
 export interface DeleteTagByServiceUuidRequest {
@@ -4972,13 +5154,7 @@ export const DeleteTagByServiceUuidRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     tag_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/services/{uuid}/tags/{tag_uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/services/{uuid}/tags/{tag_uuid}", code: 200 })),
 ).annotate({
   identifier: "DeleteTagByServiceUuidRequest",
 }) as any as S.Schema<DeleteTagByServiceUuidRequest>;
@@ -5028,9 +5204,7 @@ export const DeployByTagOrUuidRequest = /*@__PURE__*/ S.suspend(() =>
     pull_request_id: S.optional(S.Number.pipe(T.Query())),
     docker_tag: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/deploy", code: 200 })),
-).annotate({
-  identifier: "DeployByTagOrUuidRequest",
-}) as any as S.Schema<DeployByTagOrUuidRequest>;
+).annotate({ identifier: "DeployByTagOrUuidRequest" }) as any as S.Schema<DeployByTagOrUuidRequest>;
 
 export interface DeployByTagOrUuidResponseDeploymentsItem {
   message?: string;
@@ -5067,9 +5241,7 @@ export const DeployByTagOrUuidResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DisableApiRequest {}
 export const DisableApiRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/disable", code: 200 })),
-).annotate({
-  identifier: "DisableApiRequest",
-}) as any as S.Schema<DisableApiRequest>;
+).annotate({ identifier: "DisableApiRequest" }) as any as S.Schema<DisableApiRequest>;
 
 export interface DisableApiResponse {
   message?: string;
@@ -5078,16 +5250,12 @@ export const DisableApiResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DisableApiResponse",
-}) as any as S.Schema<DisableApiResponse>;
+).annotate({ identifier: "DisableApiResponse" }) as any as S.Schema<DisableApiResponse>;
 
 export interface DisableMcpRequest {}
 export const DisableMcpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/mcp/disable", code: 200 })),
-).annotate({
-  identifier: "DisableMcpRequest",
-}) as any as S.Schema<DisableMcpRequest>;
+).annotate({ identifier: "DisableMcpRequest" }) as any as S.Schema<DisableMcpRequest>;
 
 export interface DisableMcpResponse {
   message?: string;
@@ -5096,9 +5264,7 @@ export const DisableMcpResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DisableMcpResponse",
-}) as any as S.Schema<DisableMcpResponse>;
+).annotate({ identifier: "DisableMcpResponse" }) as any as S.Schema<DisableMcpResponse>;
 
 export interface DisableServerCloudflareTunnelRequest {
   /** Server UUID */
@@ -5107,13 +5273,7 @@ export interface DisableServerCloudflareTunnelRequest {
 export const DisableServerCloudflareTunnelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/servers/{uuid}/cloudflare-tunnel/disable",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/servers/{uuid}/cloudflare-tunnel/disable", code: 200 })),
 ).annotate({
   identifier: "DisableServerCloudflareTunnelRequest",
 }) as any as S.Schema<DisableServerCloudflareTunnelRequest>;
@@ -5128,9 +5288,7 @@ export const DisableServerCloudflareTunnelResponse = /*@__PURE__*/ S.suspend(() 
 export interface EnableApiRequest {}
 export const EnableApiRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/enable", code: 200 })),
-).annotate({
-  identifier: "EnableApiRequest",
-}) as any as S.Schema<EnableApiRequest>;
+).annotate({ identifier: "EnableApiRequest" }) as any as S.Schema<EnableApiRequest>;
 
 export interface EnableApiResponse {
   message?: string;
@@ -5139,16 +5297,12 @@ export const EnableApiResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EnableApiResponse",
-}) as any as S.Schema<EnableApiResponse>;
+).annotate({ identifier: "EnableApiResponse" }) as any as S.Schema<EnableApiResponse>;
 
 export interface EnableMcpRequest {}
 export const EnableMcpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/mcp/enable", code: 200 })),
-).annotate({
-  identifier: "EnableMcpRequest",
-}) as any as S.Schema<EnableMcpRequest>;
+).annotate({ identifier: "EnableMcpRequest" }) as any as S.Schema<EnableMcpRequest>;
 
 export interface EnableMcpResponse {
   message?: string;
@@ -5157,9 +5311,7 @@ export const EnableMcpResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EnableMcpResponse",
-}) as any as S.Schema<EnableMcpResponse>;
+).annotate({ identifier: "EnableMcpResponse" }) as any as S.Schema<EnableMcpResponse>;
 
 export interface EnableServerCloudflareTunnelRequest {
   /** Server UUID */
@@ -5168,13 +5320,7 @@ export interface EnableServerCloudflareTunnelRequest {
 export const EnableServerCloudflareTunnelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/servers/{uuid}/cloudflare-tunnel/enable",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/servers/{uuid}/cloudflare-tunnel/enable", code: 200 })),
 ).annotate({
   identifier: "EnableServerCloudflareTunnelRequest",
 }) as any as S.Schema<EnableServerCloudflareTunnelRequest>;
@@ -5242,56 +5388,6 @@ export const ExecuteScheduledTaskByServiceUuidResponse = /*@__PURE__*/ S.suspend
   identifier: "ExecuteScheduledTaskByServiceUuidResponse",
 }) as any as S.Schema<ExecuteScheduledTaskByServiceUuidResponse>;
 
-export interface ExportServerTransferBundleRequest {
-  uuid: string;
-  /** If true and passphrase is provided, return an encrypted envelope. */
-  encrypt?: boolean;
-  /** Passphrase used when encrypt=true. */
-  passphrase?: string;
-}
-export const ExportServerTransferBundleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    uuid: S.String.pipe(T.Label()),
-    encrypt: S.optional(S.Boolean.pipe(T.Query())),
-    passphrase: S.optional(S.String.pipe(T.Query())),
-  }).pipe(T.Http({ method: "GET", uri: "/servers/{uuid}/export", code: 200 })),
-).annotate({
-  identifier: "ExportServerTransferBundleRequest",
-}) as any as S.Schema<ExportServerTransferBundleRequest>;
-
-export interface ExportServerTransferBundleResponse {}
-export const ExportServerTransferBundleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "ExportServerTransferBundleResponse",
-}) as any as S.Schema<ExportServerTransferBundleResponse>;
-
-export interface ExportServerTransferMailboxRequest {
-  uuid: string;
-  passphrase?: string | null;
-}
-export const ExportServerTransferMailboxRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    uuid: S.String.pipe(T.Label()),
-    passphrase: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/servers/{uuid}/export/mailbox",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ExportServerTransferMailboxRequest",
-}) as any as S.Schema<ExportServerTransferMailboxRequest>;
-
-export interface ExportServerTransferMailboxResponse {}
-export const ExportServerTransferMailboxResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "ExportServerTransferMailboxResponse",
-}) as any as S.Schema<ExportServerTransferMailboxResponse>;
-
 export interface GetApplicationRequest {
   /** UUID of the application. */
   uuid: string;
@@ -5300,9 +5396,7 @@ export const GetApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/applications/{uuid}", code: 200 })),
-).annotate({
-  identifier: "GetApplicationRequest",
-}) as any as S.Schema<GetApplicationRequest>;
+).annotate({ identifier: "GetApplicationRequest" }) as any as S.Schema<GetApplicationRequest>;
 
 /** The subset of the application domains served with an X-Robots-Tag: noindex, nofollow response header. */
 export type ApplicationNoindexDomainsList = Array<string>;
@@ -5351,6 +5445,7 @@ export interface ApplicationSetting {
   is_stripprefix_enabled?: boolean;
   connect_to_docker_network?: boolean;
   custom_internal_name?: string | null;
+  custom_container_name_prefix?: string | null;
   is_container_label_escape_enabled?: boolean;
   is_env_sorting_enabled?: boolean;
   is_container_label_readonly_enabled?: boolean;
@@ -5389,6 +5484,7 @@ export const ApplicationSetting = /*@__PURE__*/ S.suspend(() =>
     is_stripprefix_enabled: S.optional(S.Boolean),
     connect_to_docker_network: S.optional(S.Boolean),
     custom_internal_name: S.optional(S.NullOr(S.String)),
+    custom_container_name_prefix: S.optional(S.NullOr(S.String)),
     is_container_label_escape_enabled: S.optional(S.Boolean),
     is_env_sorting_enabled: S.optional(S.Boolean),
     is_container_label_readonly_enabled: S.optional(S.Boolean),
@@ -5403,9 +5499,7 @@ export const ApplicationSetting = /*@__PURE__*/ S.suspend(() =>
     docker_images_to_keep: S.optional(S.Number),
     stop_grace_period: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ApplicationSetting",
-}) as any as S.Schema<ApplicationSetting>;
+).annotate({ identifier: "ApplicationSetting" }) as any as S.Schema<ApplicationSetting>;
 
 /** Application model */
 export interface Application {
@@ -5672,19 +5766,31 @@ export const Application = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Application" }) as any as S.Schema<Application>;
 
+export type GetApplicationLogsByUuidRequestLinesCase1 = "all";
+export const GetApplicationLogsByUuidRequestLinesCase1 = S.String;
+
+export type GetApplicationLogsByUuidRequestLines =
+  | number
+  | GetApplicationLogsByUuidRequestLinesCase1;
+export const GetApplicationLogsByUuidRequestLines =
+  S.Unknown as any as S.Schema<GetApplicationLogsByUuidRequestLines>;
+
 export interface GetApplicationLogsByUuidRequest {
   /** UUID of the application. */
   uuid: string;
-  /** Number of lines to show from the end of the logs. */
-  lines?: number;
+  /** Number of lines to show from the end of the logs. Use `all` to return all logs. `-1` remains available as a compatibility alias. */
+  lines?: GetApplicationLogsByUuidRequestLines;
   /** Show timestamps in the logs. */
   show_timestamps?: boolean;
+  /** Return logs only from the container of the Docker Compose service with this name. Returns 404 when no running container matches. */
+  service_name?: string;
 }
 export const GetApplicationLogsByUuidRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-    lines: S.optional(S.Number.pipe(T.Query())),
+    lines: S.optional(GetApplicationLogsByUuidRequestLines.pipe(T.Query())),
     show_timestamps: S.optional(S.Boolean.pipe(T.Query())),
+    service_name: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/applications/{uuid}/logs", code: 200 })),
 ).annotate({
   identifier: "GetApplicationLogsByUuidRequest",
@@ -5725,9 +5831,7 @@ export const GetCloudTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/cloud-tokens/{uuid}", code: 200 })),
-).annotate({
-  identifier: "GetCloudTokenRequest",
-}) as any as S.Schema<GetCloudTokenRequest>;
+).annotate({ identifier: "GetCloudTokenRequest" }) as any as S.Schema<GetCloudTokenRequest>;
 
 export interface GetCloudTokenResponse {
   uuid?: string;
@@ -5748,9 +5852,7 @@ export const GetCloudTokenResponse = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     updated_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetCloudTokenResponse",
-}) as any as S.Schema<GetCloudTokenResponse>;
+).annotate({ identifier: "GetCloudTokenResponse" }) as any as S.Schema<GetCloudTokenResponse>;
 
 export interface GetCurrentTeamDiscordNotificationsRequest {}
 export const GetCurrentTeamDiscordNotificationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -5844,16 +5946,12 @@ export const GetDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/databases/{uuid}", code: 200 })),
-).annotate({
-  identifier: "GetDatabaseRequest",
-}) as any as S.Schema<GetDatabaseRequest>;
+).annotate({ identifier: "GetDatabaseRequest" }) as any as S.Schema<GetDatabaseRequest>;
 
 export type GetDatabaseResponse = string;
 export const GetDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetDatabaseResponse",
-}) as any as S.Schema<GetDatabaseResponse>;
+).annotate({ identifier: "GetDatabaseResponse" }) as any as S.Schema<GetDatabaseResponse>;
 
 export interface GetDatabaseBackupsByUuidRequest {
   /** UUID of the database. */
@@ -5874,18 +5972,69 @@ export const GetDatabaseBackupsByUuidResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetDatabaseBackupsByUuidResponse",
 }) as any as S.Schema<GetDatabaseBackupsByUuidResponse>;
 
+export interface GetDatabaseImportRequest {
+  /** UUID of the database. */
+  uuid: string;
+  /** Import activity ID. */
+  activity_id: number;
+}
+export const GetDatabaseImportRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.String.pipe(T.Label()),
+    activity_id: S.Number.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/databases/{uuid}/imports/{activity_id}", code: 200 })),
+).annotate({ identifier: "GetDatabaseImportRequest" }) as any as S.Schema<GetDatabaseImportRequest>;
+
+export type DatabaseImportStatusStatus =
+  | "queued"
+  | "in_progress"
+  | "finished"
+  | "error"
+  | "killed"
+  | "cancelled"
+  | "closed";
+export const DatabaseImportStatusStatus = S.String;
+
+export interface DatabaseImportStatus {
+  id?: number;
+  status?: DatabaseImportStatusStatus;
+  exit_code?: number | null;
+  output?: string;
+  created_at?: string;
+  updated_at?: string;
+  finished_at?: string | null;
+}
+export const DatabaseImportStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.Number),
+    status: S.optional(DatabaseImportStatusStatus),
+    exit_code: S.optional(S.NullOr(S.Number)),
+    output: S.optional(S.String),
+    created_at: S.optional(S.String),
+    updated_at: S.optional(S.String),
+    finished_at: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "DatabaseImportStatus" }) as any as S.Schema<DatabaseImportStatus>;
+
+export type GetDatabaseLogsByUuidRequestLinesCase1 = "all";
+export const GetDatabaseLogsByUuidRequestLinesCase1 = S.String;
+
+export type GetDatabaseLogsByUuidRequestLines = number | GetDatabaseLogsByUuidRequestLinesCase1;
+export const GetDatabaseLogsByUuidRequestLines =
+  S.Unknown as any as S.Schema<GetDatabaseLogsByUuidRequestLines>;
+
 export interface GetDatabaseLogsByUuidRequest {
   /** UUID of the database. */
   uuid: string;
-  /** Number of lines to show from the end of the logs. */
-  lines?: number;
+  /** Number of lines to show from the end of the logs. Use `all` to return all logs. `-1` remains available as a compatibility alias. */
+  lines?: GetDatabaseLogsByUuidRequestLines;
   /** Show timestamps in the logs. */
   show_timestamps?: boolean;
 }
 export const GetDatabaseLogsByUuidRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-    lines: S.optional(S.Number.pipe(T.Query())),
+    lines: S.optional(GetDatabaseLogsByUuidRequestLines.pipe(T.Query())),
     show_timestamps: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/databases/{uuid}/logs", code: 200 })),
 ).annotate({
@@ -5911,9 +6060,7 @@ export const GetDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/deployments/{uuid}", code: 200 })),
-).annotate({
-  identifier: "GetDeploymentRequest",
-}) as any as S.Schema<GetDeploymentRequest>;
+).annotate({ identifier: "GetDeploymentRequest" }) as any as S.Schema<GetDeploymentRequest>;
 
 /** Project model */
 export interface ApplicationDeploymentQueue {
@@ -5942,6 +6089,7 @@ export interface ApplicationDeploymentQueue {
   deployment_url?: string;
   destination_id?: string;
   only_this_server?: boolean;
+  parent_deployment_uuid?: string | null;
   rollback?: boolean;
   commit_message?: string;
 }
@@ -5972,6 +6120,7 @@ export const ApplicationDeploymentQueue = /*@__PURE__*/ S.suspend(() =>
     deployment_url: S.optional(S.String),
     destination_id: S.optional(S.String),
     only_this_server: S.optional(S.Boolean),
+    parent_deployment_uuid: S.optional(S.NullOr(S.String)),
     rollback: S.optional(S.Boolean),
     commit_message: S.optional(S.String),
   }),
@@ -5987,9 +6136,7 @@ export const GetDestinationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/destinations/{uuid}", code: 200 })),
-).annotate({
-  identifier: "GetDestinationRequest",
-}) as any as S.Schema<GetDestinationRequest>;
+).annotate({ identifier: "GetDestinationRequest" }) as any as S.Schema<GetDestinationRequest>;
 
 export interface GetDigitaloceanImagesRequest {
   cloud_provider_token_uuid?: string;
@@ -6115,13 +6262,7 @@ export const GetEnvironmentByNameOrUuidRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     environment_name_or_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/projects/{uuid}/{environment_name_or_uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/projects/{uuid}/{environment_name_or_uuid}", code: 200 })),
 ).annotate({
   identifier: "GetEnvironmentByNameOrUuidRequest",
 }) as any as S.Schema<GetEnvironmentByNameOrUuidRequest>;
@@ -6154,9 +6295,7 @@ export const GetEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/projects/{uuid}/environments", code: 200 })),
-).annotate({
-  identifier: "GetEnvironmentsRequest",
-}) as any as S.Schema<GetEnvironmentsRequest>;
+).annotate({ identifier: "GetEnvironmentsRequest" }) as any as S.Schema<GetEnvironmentsRequest>;
 
 export type GetEnvironmentsResponseBodyList = Array<Environment>;
 export const GetEnvironmentsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -6166,9 +6305,7 @@ export const GetEnvironmentsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetEnvironmentsResponse = GetEnvironmentsResponseBodyList;
 export const GetEnvironmentsResponse = /*@__PURE__*/ S.suspend(() =>
   GetEnvironmentsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetEnvironmentsResponse",
-}) as any as S.Schema<GetEnvironmentsResponse>;
+).annotate({ identifier: "GetEnvironmentsResponse" }) as any as S.Schema<GetEnvironmentsResponse>;
 
 export interface GetHetznerFirewallsRequest {
   /** Cloud provider token UUID. Required if cloud_provider_token_id is not provided. */
@@ -6221,9 +6358,7 @@ export const GetHetznerImagesRequest = /*@__PURE__*/ S.suspend(() =>
     cloud_provider_token_uuid: S.optional(S.String.pipe(T.Query())),
     cloud_provider_token_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/hetzner/images", code: 200 })),
-).annotate({
-  identifier: "GetHetznerImagesRequest",
-}) as any as S.Schema<GetHetznerImagesRequest>;
+).annotate({ identifier: "GetHetznerImagesRequest" }) as any as S.Schema<GetHetznerImagesRequest>;
 
 export interface GetHetznerImagesResponseBodyItem {
   id?: number;
@@ -6256,9 +6391,7 @@ export const GetHetznerImagesResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetHetznerImagesResponse = GetHetznerImagesResponseBodyList;
 export const GetHetznerImagesResponse = /*@__PURE__*/ S.suspend(() =>
   GetHetznerImagesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetHetznerImagesResponse",
-}) as any as S.Schema<GetHetznerImagesResponse>;
+).annotate({ identifier: "GetHetznerImagesResponse" }) as any as S.Schema<GetHetznerImagesResponse>;
 
 export interface GetHetznerLocationsRequest {
   /** Cloud provider token UUID. Required if cloud_provider_token_id is not provided. */
@@ -6454,9 +6587,7 @@ export const GetHetznerSshKeysRequest = /*@__PURE__*/ S.suspend(() =>
     cloud_provider_token_uuid: S.optional(S.String.pipe(T.Query())),
     cloud_provider_token_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/hetzner/ssh-keys", code: 200 })),
-).annotate({
-  identifier: "GetHetznerSshKeysRequest",
-}) as any as S.Schema<GetHetznerSshKeysRequest>;
+).annotate({ identifier: "GetHetznerSshKeysRequest" }) as any as S.Schema<GetHetznerSshKeysRequest>;
 
 export interface GetHetznerSshKeysResponseBodyItem {
   id?: number;
@@ -6486,6 +6617,20 @@ export const GetHetznerSshKeysResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetHetznerSshKeysResponse",
 }) as any as S.Schema<GetHetznerSshKeysResponse>;
+
+export interface GetInstanceEmailSettingsRequest {}
+export const GetInstanceEmailSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/settings/email", code: 200 })),
+).annotate({
+  identifier: "GetInstanceEmailSettingsRequest",
+}) as any as S.Schema<GetInstanceEmailSettingsRequest>;
+
+export interface GetInstanceEmailSettingsResponse {}
+export const GetInstanceEmailSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "GetInstanceEmailSettingsResponse",
+}) as any as S.Schema<GetInstanceEmailSettingsResponse>;
 
 export interface GetMembersByTeamIdRequest {
   /** Team ID */
@@ -6546,6 +6691,73 @@ export const GetMembersByTeamIdResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetMembersByTeamIdResponse",
 }) as any as S.Schema<GetMembersByTeamIdResponse>;
 
+export type GetPreviewApplicationLogsByPullRequestIdRequestLinesCase1 = "all";
+export const GetPreviewApplicationLogsByPullRequestIdRequestLinesCase1 = S.String;
+
+export type GetPreviewApplicationLogsByPullRequestIdRequestLines =
+  | number
+  | GetPreviewApplicationLogsByPullRequestIdRequestLinesCase1;
+export const GetPreviewApplicationLogsByPullRequestIdRequestLines =
+  S.Unknown as any as S.Schema<GetPreviewApplicationLogsByPullRequestIdRequestLines>;
+
+export interface GetPreviewApplicationLogsByPullRequestIdRequest {
+  /** UUID of the application. */
+  uuid: string;
+  /** Pull request ID of the preview deployment. */
+  pull_request_id: number;
+  /** Number of lines to show from the end of the logs. Use `all` to return all logs. `-1` remains available as a compatibility alias. */
+  lines?: GetPreviewApplicationLogsByPullRequestIdRequestLines;
+  /** Show timestamps in the logs. */
+  show_timestamps?: boolean;
+  /** Return logs only from the container of the Docker Compose service with this name. Returns 404 when no running container matches. */
+  service_name?: string;
+}
+export const GetPreviewApplicationLogsByPullRequestIdRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.String.pipe(T.Label()),
+    pull_request_id: S.Number.pipe(T.Label()),
+    lines: S.optional(GetPreviewApplicationLogsByPullRequestIdRequestLines.pipe(T.Query())),
+    show_timestamps: S.optional(S.Boolean.pipe(T.Query())),
+    service_name: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/applications/{uuid}/previews/{pull_request_id}/logs",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetPreviewApplicationLogsByPullRequestIdRequest",
+}) as any as S.Schema<GetPreviewApplicationLogsByPullRequestIdRequest>;
+
+export interface GetPreviewApplicationLogsByPullRequestIdResponse {
+  logs?: string;
+}
+export const GetPreviewApplicationLogsByPullRequestIdResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    logs: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetPreviewApplicationLogsByPullRequestIdResponse",
+}) as any as S.Schema<GetPreviewApplicationLogsByPullRequestIdResponse>;
+
+export interface GetPreviewDeploymentByPullRequestIdRequest {
+  /** UUID of the application. */
+  uuid: string;
+  /** Pull request ID of the preview. */
+  pull_request_id: number;
+}
+export const GetPreviewDeploymentByPullRequestIdRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.String.pipe(T.Label()),
+    pull_request_id: S.Number.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/applications/{uuid}/previews/{pull_request_id}", code: 200 }),
+  ),
+).annotate({
+  identifier: "GetPreviewDeploymentByPullRequestIdRequest",
+}) as any as S.Schema<GetPreviewDeploymentByPullRequestIdRequest>;
+
 export interface GetPrivateKeyByUuidRequest {
   /** Private Key UUID */
   uuid: string;
@@ -6598,9 +6810,7 @@ export const GetProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/projects/{uuid}", code: 200 })),
-).annotate({
-  identifier: "GetProjectRequest",
-}) as any as S.Schema<GetProjectRequest>;
+).annotate({ identifier: "GetProjectRequest" }) as any as S.Schema<GetProjectRequest>;
 
 /** Project model */
 export interface Project {
@@ -6674,9 +6884,7 @@ export const GetS3StorageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/s3-storages/{uuid}", code: 200 })),
-).annotate({
-  identifier: "GetS3StorageRequest",
-}) as any as S.Schema<GetS3StorageRequest>;
+).annotate({ identifier: "GetS3StorageRequest" }) as any as S.Schema<GetS3StorageRequest>;
 
 export interface GetS3StorageResponse {
   uuid?: string;
@@ -6703,9 +6911,7 @@ export const GetS3StorageResponse = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     updated_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetS3StorageResponse",
-}) as any as S.Schema<GetS3StorageResponse>;
+).annotate({ identifier: "GetS3StorageResponse" }) as any as S.Schema<GetS3StorageResponse>;
 
 export interface GetServerRequest {
   /** Server's UUID */
@@ -6715,22 +6921,26 @@ export const GetServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/servers/{uuid}", code: 200 })),
-).annotate({
-  identifier: "GetServerRequest",
-}) as any as S.Schema<GetServerRequest>;
+).annotate({ identifier: "GetServerRequest" }) as any as S.Schema<GetServerRequest>;
 
 /** The proxy type. */
 export type ServerProxyType = "traefik" | "caddy" | "none";
 export const ServerProxyType = S.String;
+
+export type ServerSettingServerRole = "deployment" | "build" | "both";
+export const ServerSettingServerRole = S.String;
 
 /** Server Settings model */
 export interface ServerSetting {
   id?: number;
   concurrent_builds?: number;
   deployment_queue_limit?: number;
+  backup_compression_cpu_percentage?: number;
   dynamic_timeout?: number;
   force_disabled?: boolean;
   force_server_cleanup?: boolean;
+  server_role?: ServerSettingServerRole;
+  /** Deprecated: use server_role instead. true when server_role is build. */
   is_build_server?: boolean;
   is_cloudflare_tunnel?: boolean;
   is_jump_server?: boolean;
@@ -6739,6 +6949,13 @@ export interface ServerSetting {
   is_logdrain_highlight_enabled?: boolean;
   is_logdrain_newrelic_enabled?: boolean;
   is_metrics_enabled?: boolean;
+  is_traffic_analytics_enabled?: boolean;
+  traffic_topn?: number;
+  traffic_sample_threshold?: number;
+  traffic_retention_1h_days?: number;
+  traffic_retention_1d_days?: number;
+  is_geoip_enabled?: boolean;
+  geoip_refresh_days?: number;
   is_reachable?: boolean;
   is_sentinel_enabled?: boolean;
   is_swarm_manager?: boolean;
@@ -6767,15 +6984,25 @@ export interface ServerSetting {
   delete_unused_networks?: boolean;
   /** SSH connection timeout in seconds. */
   connection_timeout?: number;
+  /** Detected Docker Engine version on the server. */
+  docker_version?: string | null;
+  /** When Docker Engine version was last detected. */
+  docker_version_checked_at?: string | null;
+  /** Detected Docker Compose plugin version on the server. */
+  compose_version?: string | null;
+  /** When Docker Compose version was last detected. */
+  compose_version_checked_at?: string | null;
 }
 export const ServerSetting = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.Number),
     concurrent_builds: S.optional(S.Number),
     deployment_queue_limit: S.optional(S.Number),
+    backup_compression_cpu_percentage: S.optional(S.Number),
     dynamic_timeout: S.optional(S.Number),
     force_disabled: S.optional(S.Boolean),
     force_server_cleanup: S.optional(S.Boolean),
+    server_role: S.optional(ServerSettingServerRole),
     is_build_server: S.optional(S.Boolean),
     is_cloudflare_tunnel: S.optional(S.Boolean),
     is_jump_server: S.optional(S.Boolean),
@@ -6784,6 +7011,13 @@ export const ServerSetting = /*@__PURE__*/ S.suspend(() =>
     is_logdrain_highlight_enabled: S.optional(S.Boolean),
     is_logdrain_newrelic_enabled: S.optional(S.Boolean),
     is_metrics_enabled: S.optional(S.Boolean),
+    is_traffic_analytics_enabled: S.optional(S.Boolean),
+    traffic_topn: S.optional(S.Number),
+    traffic_sample_threshold: S.optional(S.Number),
+    traffic_retention_1h_days: S.optional(S.Number),
+    traffic_retention_1d_days: S.optional(S.Number),
+    is_geoip_enabled: S.optional(S.Boolean),
+    geoip_refresh_days: S.optional(S.Number),
     is_reachable: S.optional(S.Boolean),
     is_sentinel_enabled: S.optional(S.Boolean),
     is_swarm_manager: S.optional(S.Boolean),
@@ -6809,6 +7043,10 @@ export const ServerSetting = /*@__PURE__*/ S.suspend(() =>
     delete_unused_volumes: S.optional(S.Boolean),
     delete_unused_networks: S.optional(S.Boolean),
     connection_timeout: S.optional(S.Number),
+    docker_version: S.optional(S.NullOr(S.String)),
+    docker_version_checked_at: S.optional(S.NullOr(S.String)),
+    compose_version: S.optional(S.NullOr(S.String)),
+    compose_version_checked_at: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({ identifier: "ServerSetting" }) as any as S.Schema<ServerSetting>;
 
@@ -6874,13 +7112,7 @@ export interface GetServerCloudflareTunnelRequest {
 export const GetServerCloudflareTunnelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/servers/{uuid}/cloudflare-tunnel",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/servers/{uuid}/cloudflare-tunnel", code: 200 })),
 ).annotate({
   identifier: "GetServerCloudflareTunnelRequest",
 }) as any as S.Schema<GetServerCloudflareTunnelRequest>;
@@ -6984,9 +7216,7 @@ export const GetServerProxyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/servers/{uuid}/proxy", code: 200 })),
-).annotate({
-  identifier: "GetServerProxyRequest",
-}) as any as S.Schema<GetServerProxyRequest>;
+).annotate({ identifier: "GetServerProxyRequest" }) as any as S.Schema<GetServerProxyRequest>;
 
 export interface GetServerProxyResponse {
   proxy_type?: string | null;
@@ -7006,9 +7236,7 @@ export const GetServerProxyResponse = /*@__PURE__*/ S.suspend(() =>
     generate_exact_labels: S.optional(S.Boolean),
     configuration: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "GetServerProxyResponse",
-}) as any as S.Schema<GetServerProxyResponse>;
+).annotate({ identifier: "GetServerProxyResponse" }) as any as S.Schema<GetServerProxyResponse>;
 
 export interface GetServerSentinelRequest {
   /** Server UUID */
@@ -7018,11 +7246,10 @@ export const GetServerSentinelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/servers/{uuid}/sentinel", code: 200 })),
-).annotate({
-  identifier: "GetServerSentinelRequest",
-}) as any as S.Schema<GetServerSentinelRequest>;
+).annotate({ identifier: "GetServerSentinelRequest" }) as any as S.Schema<GetServerSentinelRequest>;
 
 export interface GetServerSentinelResponse {
+  /** Sentinel is mandatory on regular managed servers. */
   is_sentinel_enabled?: boolean;
   is_metrics_enabled?: boolean;
   is_sentinel_debug_enabled?: boolean;
@@ -7034,6 +7261,14 @@ export interface GetServerSentinelResponse {
   /** Only present with read:sensitive. */
   sentinel_custom_url?: string;
   sentinel_updated_at?: string | null;
+  traffic_topn?: number;
+  traffic_sample_threshold?: number;
+  traffic_retention_1h_days?: number;
+  traffic_retention_1d_days?: number;
+  is_geoip_enabled?: boolean;
+  geoip_refresh_days?: number;
+  /** Only present with read:sensitive. */
+  geoip_maxmind_license_key?: string;
 }
 export const GetServerSentinelResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -7046,6 +7281,13 @@ export const GetServerSentinelResponse = /*@__PURE__*/ S.suspend(() =>
     sentinel_push_interval_seconds: S.optional(S.Number),
     sentinel_custom_url: S.optional(S.String),
     sentinel_updated_at: S.optional(S.NullOr(S.String)),
+    traffic_topn: S.optional(S.Number),
+    traffic_sample_threshold: S.optional(S.Number),
+    traffic_retention_1h_days: S.optional(S.Number),
+    traffic_retention_1d_days: S.optional(S.Number),
+    is_geoip_enabled: S.optional(S.Boolean),
+    geoip_refresh_days: S.optional(S.Number),
+    geoip_maxmind_license_key: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GetServerSentinelResponse",
@@ -7059,9 +7301,7 @@ export const GetServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/services/{uuid}", code: 200 })),
-).annotate({
-  identifier: "GetServiceRequest",
-}) as any as S.Schema<GetServiceRequest>;
+).annotate({ identifier: "GetServiceRequest" }) as any as S.Schema<GetServiceRequest>;
 
 /** Service model */
 export interface Service {
@@ -7135,13 +7375,7 @@ export const GetServiceApplicationByServiceAndAppUuidRequest = /*@__PURE__*/ S.s
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     app_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/services/{uuid}/applications/{app_uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/services/{uuid}/applications/{app_uuid}", code: 200 })),
 ).annotate({
   identifier: "GetServiceApplicationByServiceAndAppUuidRequest",
 }) as any as S.Schema<GetServiceApplicationByServiceAndAppUuidRequest>;
@@ -7153,25 +7387,30 @@ export const GetServiceApplicationByServiceAndAppUuidResponse = /*@__PURE__*/ S.
   identifier: "GetServiceApplicationByServiceAndAppUuidResponse",
 }) as any as S.Schema<GetServiceApplicationByServiceAndAppUuidResponse>;
 
+export type GetServiceApplicationLogsByServiceAndAppUuidRequestLinesCase1 = "all";
+export const GetServiceApplicationLogsByServiceAndAppUuidRequestLinesCase1 = S.String;
+
+export type GetServiceApplicationLogsByServiceAndAppUuidRequestLines =
+  | number
+  | GetServiceApplicationLogsByServiceAndAppUuidRequestLinesCase1;
+export const GetServiceApplicationLogsByServiceAndAppUuidRequestLines =
+  S.Unknown as any as S.Schema<GetServiceApplicationLogsByServiceAndAppUuidRequestLines>;
+
 export interface GetServiceApplicationLogsByServiceAndAppUuidRequest {
   /** Service UUID. */
   uuid: string;
   /** Service application UUID. */
   app_uuid: string;
-  /** Number of lines to show from the end of the logs. */
-  lines?: number;
+  /** Number of lines to show from the end of the logs. Use `all` to return all logs. `-1` remains available as a compatibility alias. */
+  lines?: GetServiceApplicationLogsByServiceAndAppUuidRequestLines;
 }
 export const GetServiceApplicationLogsByServiceAndAppUuidRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     app_uuid: S.String.pipe(T.Label()),
-    lines: S.optional(S.Number.pipe(T.Query())),
+    lines: S.optional(GetServiceApplicationLogsByServiceAndAppUuidRequestLines.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/services/{uuid}/applications/{app_uuid}/logs",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/services/{uuid}/applications/{app_uuid}/logs", code: 200 }),
   ),
 ).annotate({
   identifier: "GetServiceApplicationLogsByServiceAndAppUuidRequest",
@@ -7198,13 +7437,7 @@ export const GetServiceDatabaseByServiceAndDatabaseUuidRequest = /*@__PURE__*/ S
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     database_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/services/{uuid}/databases/{database_uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/services/{uuid}/databases/{database_uuid}", code: 200 })),
 ).annotate({
   identifier: "GetServiceDatabaseByServiceAndDatabaseUuidRequest",
 }) as any as S.Schema<GetServiceDatabaseByServiceAndDatabaseUuidRequest>;
@@ -7216,22 +7449,52 @@ export const GetServiceDatabaseByServiceAndDatabaseUuidResponse = /*@__PURE__*/ 
   identifier: "GetServiceDatabaseByServiceAndDatabaseUuidResponse",
 }) as any as S.Schema<GetServiceDatabaseByServiceAndDatabaseUuidResponse>;
 
+export interface GetServiceDatabaseImportRequest {
+  /** Service UUID. */
+  uuid: string;
+  /** Service database UUID. */
+  database_uuid: string;
+  /** Import activity ID. */
+  activity_id: number;
+}
+export const GetServiceDatabaseImportRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.String.pipe(T.Label()),
+    database_uuid: S.String.pipe(T.Label()),
+    activity_id: S.Number.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/services/{uuid}/databases/{database_uuid}/imports/{activity_id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetServiceDatabaseImportRequest",
+}) as any as S.Schema<GetServiceDatabaseImportRequest>;
+
+export type GetServiceDatabaseLogsByServiceAndDatabaseUuidRequestLinesCase1 = "all";
+export const GetServiceDatabaseLogsByServiceAndDatabaseUuidRequestLinesCase1 = S.String;
+
+export type GetServiceDatabaseLogsByServiceAndDatabaseUuidRequestLines =
+  | number
+  | GetServiceDatabaseLogsByServiceAndDatabaseUuidRequestLinesCase1;
+export const GetServiceDatabaseLogsByServiceAndDatabaseUuidRequestLines =
+  S.Unknown as any as S.Schema<GetServiceDatabaseLogsByServiceAndDatabaseUuidRequestLines>;
+
 export interface GetServiceDatabaseLogsByServiceAndDatabaseUuidRequest {
   uuid: string;
   database_uuid: string;
-  lines?: number;
+  /** Number of lines to show from the end of the logs. Use `all` to return all logs. `-1` remains available as a compatibility alias. */
+  lines?: GetServiceDatabaseLogsByServiceAndDatabaseUuidRequestLines;
 }
 export const GetServiceDatabaseLogsByServiceAndDatabaseUuidRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     database_uuid: S.String.pipe(T.Label()),
-    lines: S.optional(S.Number.pipe(T.Query())),
+    lines: S.optional(GetServiceDatabaseLogsByServiceAndDatabaseUuidRequestLines.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/services/{uuid}/databases/{database_uuid}/logs",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/services/{uuid}/databases/{database_uuid}/logs", code: 200 }),
   ),
 ).annotate({
   identifier: "GetServiceDatabaseLogsByServiceAndDatabaseUuidRequest",
@@ -7248,13 +7511,20 @@ export const GetServiceDatabaseLogsByServiceAndDatabaseUuidResponse = /*@__PURE_
   identifier: "GetServiceDatabaseLogsByServiceAndDatabaseUuidResponse",
 }) as any as S.Schema<GetServiceDatabaseLogsByServiceAndDatabaseUuidResponse>;
 
+export type GetServiceLogsByUuidRequestLinesCase1 = "all";
+export const GetServiceLogsByUuidRequestLinesCase1 = S.String;
+
+export type GetServiceLogsByUuidRequestLines = number | GetServiceLogsByUuidRequestLinesCase1;
+export const GetServiceLogsByUuidRequestLines =
+  S.Unknown as any as S.Schema<GetServiceLogsByUuidRequestLines>;
+
 export interface GetServiceLogsByUuidRequest {
   /** UUID of the service. */
   uuid: string;
   /** Sub-service name from `GET /services/{uuid}` under `applications[].name` or `databases[].name`. Do not use `human_name` or the Docker container name with the service UUID suffix. */
   sub_service_name: string;
-  /** Number of lines to show from the end of the logs. */
-  lines?: number;
+  /** Number of lines to show from the end of the logs. Use `all` to return all logs. `-1` remains available as a compatibility alias. */
+  lines?: GetServiceLogsByUuidRequestLines;
   /** Show timestamps in the logs. */
   show_timestamps?: boolean;
 }
@@ -7262,7 +7532,7 @@ export const GetServiceLogsByUuidRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     sub_service_name: S.String.pipe(T.Query()),
-    lines: S.optional(S.Number.pipe(T.Query())),
+    lines: S.optional(GetServiceLogsByUuidRequestLines.pipe(T.Query())),
     show_timestamps: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/services/{uuid}/logs", code: 200 })),
 ).annotate({
@@ -7312,6 +7582,8 @@ export interface Team {
   show_boarding?: boolean;
   /** The custom server limit. */
   custom_server_limit?: string;
+  /** Whether deployments can fall back to the deployment server when no usable dedicated build server is available. */
+  is_build_server_fallback_enabled?: boolean;
   /** The members of the team. */
   members?: TeamMembersList;
 }
@@ -7325,6 +7597,7 @@ export const Team = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.optional(S.String),
     show_boarding: S.optional(S.Boolean),
     custom_server_limit: S.optional(S.String),
+    is_build_server_fallback_enabled: S.optional(S.Boolean),
     members: S.optional(TeamMembersList),
   }),
 ).annotate({ identifier: "Team" }) as any as S.Schema<Team>;
@@ -7332,9 +7605,7 @@ export const Team = /*@__PURE__*/ S.suspend(() =>
 export interface GetTokenTeamRequest {}
 export const GetTokenTeamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/team", code: 200 })),
-).annotate({
-  identifier: "GetTokenTeamRequest",
-}) as any as S.Schema<GetTokenTeamRequest>;
+).annotate({ identifier: "GetTokenTeamRequest" }) as any as S.Schema<GetTokenTeamRequest>;
 
 export interface GetTokenTeamMembersRequest {}
 export const GetTokenTeamMembersRequest = /*@__PURE__*/ S.suspend(() =>
@@ -7372,9 +7643,7 @@ export const GetVultrOperatingSystemsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetVultrPlansRequest {}
 export const GetVultrPlansRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/vultr/plans", code: 200 })),
-).annotate({
-  identifier: "GetVultrPlansRequest",
-}) as any as S.Schema<GetVultrPlansRequest>;
+).annotate({ identifier: "GetVultrPlansRequest" }) as any as S.Schema<GetVultrPlansRequest>;
 
 export interface GetVultrPlansResponse {}
 export const GetVultrPlansResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7384,9 +7653,7 @@ export const GetVultrPlansResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}))
 export interface GetVultrRegionsRequest {}
 export const GetVultrRegionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/vultr/regions", code: 200 })),
-).annotate({
-  identifier: "GetVultrRegionsRequest",
-}) as any as S.Schema<GetVultrRegionsRequest>;
+).annotate({ identifier: "GetVultrRegionsRequest" }) as any as S.Schema<GetVultrRegionsRequest>;
 
 export interface GetVultrRegionsResponse {}
 export const GetVultrRegionsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7396,9 +7663,7 @@ export const GetVultrRegionsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}
 export interface GetVultrSshKeysRequest {}
 export const GetVultrSshKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/vultr/ssh-keys", code: 200 })),
-).annotate({
-  identifier: "GetVultrSshKeysRequest",
-}) as any as S.Schema<GetVultrSshKeysRequest>;
+).annotate({ identifier: "GetVultrSshKeysRequest" }) as any as S.Schema<GetVultrSshKeysRequest>;
 
 export interface GetVultrSshKeysResponse {}
 export const GetVultrSshKeysResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7408,51 +7673,12 @@ export const GetVultrSshKeysResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}
 export interface HealthcheckRequest {}
 export const HealthcheckRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/health", code: 200 })),
-).annotate({
-  identifier: "HealthcheckRequest",
-}) as any as S.Schema<HealthcheckRequest>;
+).annotate({ identifier: "HealthcheckRequest" }) as any as S.Schema<HealthcheckRequest>;
 
 export interface HealthcheckResponse {}
 export const HealthcheckResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "HealthcheckResponse",
 }) as any as S.Schema<HealthcheckResponse>;
-
-export interface ImportServerTransferBundleRequest {
-  /** Plain or encrypted transfer bundle */
-  bundle?: unknown;
-  passphrase?: string | null;
-  dry_run?: boolean;
-  preserve_uuids?: boolean;
-  /** Import without forcing redeploy; keep statuses for adoption */
-  adopt_mode?: boolean;
-  /** Automatically claim the host for this instance after import */
-  claim?: boolean;
-  /** When claiming, write ownership file on the host via SSH */
-  write_remote?: boolean;
-  /** When claiming, rebind Sentinel to this instance */
-  rebind_sentinel?: boolean;
-}
-export const ImportServerTransferBundleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bundle: S.optional(S.Unknown),
-    passphrase: S.optional(S.NullOr(S.String)),
-    dry_run: S.optional(S.Boolean),
-    preserve_uuids: S.optional(S.Boolean),
-    adopt_mode: S.optional(S.Boolean),
-    claim: S.optional(S.Boolean),
-    write_remote: S.optional(S.Boolean),
-    rebind_sentinel: S.optional(S.Boolean),
-  }).pipe(T.Http({ method: "POST", uri: "/servers/import", code: 200 })),
-).annotate({
-  identifier: "ImportServerTransferBundleRequest",
-}) as any as S.Schema<ImportServerTransferBundleRequest>;
-
-export interface ImportServerTransferBundleResponse {}
-export const ImportServerTransferBundleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "ImportServerTransferBundleResponse",
-}) as any as S.Schema<ImportServerTransferBundleResponse>;
 
 export interface ListApplicationDestinationsRequest {
   /** UUID of the application. */
@@ -7461,13 +7687,7 @@ export interface ListApplicationDestinationsRequest {
 export const ListApplicationDestinationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{uuid}/destinations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/applications/{uuid}/destinations", code: 200 })),
 ).annotate({
   identifier: "ListApplicationDestinationsRequest",
 }) as any as S.Schema<ListApplicationDestinationsRequest>;
@@ -7486,13 +7706,7 @@ export interface ListApplicationRollbackImagesRequest {
 export const ListApplicationRollbackImagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{uuid}/rollback-images",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/applications/{uuid}/rollback-images", code: 200 })),
 ).annotate({
   identifier: "ListApplicationRollbackImagesRequest",
 }) as any as S.Schema<ListApplicationRollbackImagesRequest>;
@@ -7539,9 +7753,7 @@ export const ListApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tag: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/applications", code: 200 })),
-).annotate({
-  identifier: "ListApplicationsRequest",
-}) as any as S.Schema<ListApplicationsRequest>;
+).annotate({ identifier: "ListApplicationsRequest" }) as any as S.Schema<ListApplicationsRequest>;
 
 export type ListApplicationsResponseBodyList = Array<Application>;
 export const ListApplicationsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -7551,9 +7763,98 @@ export const ListApplicationsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListApplicationsResponse = ListApplicationsResponseBodyList;
 export const ListApplicationsResponse = /*@__PURE__*/ S.suspend(() =>
   ListApplicationsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({ identifier: "ListApplicationsResponse" }) as any as S.Schema<ListApplicationsResponse>;
+
+export type ListAuditEventsRequestSource =
+  | "all"
+  | "ui"
+  | "api"
+  | "mcp"
+  | "webhook"
+  | "system"
+  | "scheduler";
+export const ListAuditEventsRequestSource = S.String;
+
+export interface ListAuditEventsRequest {
+  /** Items per page. */
+  per_page?: number;
+  /** Page number. */
+  page?: number;
+  /** Search text. */
+  search?: string;
+  /** Filter by action. Use all for every action. */
+  action?: string;
+  /** Filter by source. */
+  source?: ListAuditEventsRequestSource | (string & {});
+}
+export const ListAuditEventsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    search: S.optional(S.String.pipe(T.Query())),
+    action: S.optional(S.String.pipe(T.Query())),
+    source: S.optional(ListAuditEventsRequestSource.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/audit-events", code: 200 })),
+).annotate({ identifier: "ListAuditEventsRequest" }) as any as S.Schema<ListAuditEventsRequest>;
+
+export interface ListAuditEventsResponseDataItem {
+  id?: number;
+  team_id?: number | null;
+  event?: string;
+  source?: string;
+  action?: string;
+  level?: string;
+  actor_type?: string | null;
+  actor_id?: number | null;
+  actor_name?: string | null;
+  resource_type?: string | null;
+  resource_uuid?: string | null;
+  resource_name?: string | null;
+  description?: string | null;
+  created_at?: string;
+}
+export const ListAuditEventsResponseDataItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.Number),
+    team_id: S.optional(S.NullOr(S.Number)),
+    event: S.optional(S.String),
+    source: S.optional(S.String),
+    action: S.optional(S.String),
+    level: S.optional(S.String),
+    actor_type: S.optional(S.NullOr(S.String)),
+    actor_id: S.optional(S.NullOr(S.Number)),
+    actor_name: S.optional(S.NullOr(S.String)),
+    resource_type: S.optional(S.NullOr(S.String)),
+    resource_uuid: S.optional(S.NullOr(S.String)),
+    resource_name: S.optional(S.NullOr(S.String)),
+    description: S.optional(S.NullOr(S.String)),
+    created_at: S.optional(S.String),
+  }),
 ).annotate({
-  identifier: "ListApplicationsResponse",
-}) as any as S.Schema<ListApplicationsResponse>;
+  identifier: "ListAuditEventsResponseDataItem",
+}) as any as S.Schema<ListAuditEventsResponseDataItem>;
+
+export type ListAuditEventsResponseDataList = Array<ListAuditEventsResponseDataItem>;
+export const ListAuditEventsResponseDataList = /*@__PURE__*/ S.Array(
+  ListAuditEventsResponseDataItem,
+) as any as S.Schema<ListAuditEventsResponseDataList>;
+
+export interface ListAuditEventsResponse {
+  current_page?: number;
+  data?: ListAuditEventsResponseDataList;
+  per_page?: number;
+  last_page?: number;
+  total?: number;
+}
+export const ListAuditEventsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    current_page: S.optional(S.Number),
+    data: S.optional(ListAuditEventsResponseDataList),
+    per_page: S.optional(S.Number),
+    last_page: S.optional(S.Number),
+    total: S.optional(S.Number),
+  }),
+).annotate({ identifier: "ListAuditEventsResponse" }) as any as S.Schema<ListAuditEventsResponse>;
 
 export interface ListBackupExecutionsRequest {
   /** UUID of the database */
@@ -7629,9 +7930,7 @@ export const ListCloudInitScriptsResponse = /*@__PURE__*/ S.suspend(() => S.Stru
 export interface ListCloudTokensRequest {}
 export const ListCloudTokensRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/cloud-tokens", code: 200 })),
-).annotate({
-  identifier: "ListCloudTokensRequest",
-}) as any as S.Schema<ListCloudTokensRequest>;
+).annotate({ identifier: "ListCloudTokensRequest" }) as any as S.Schema<ListCloudTokensRequest>;
 
 export type ListCloudTokensResponseBodyItemProvider = "hetzner" | "digitalocean" | "vultr";
 export const ListCloudTokensResponseBodyItemProvider = S.String;
@@ -7667,30 +7966,22 @@ export const ListCloudTokensResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListCloudTokensResponse = ListCloudTokensResponseBodyList;
 export const ListCloudTokensResponse = /*@__PURE__*/ S.suspend(() =>
   ListCloudTokensResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListCloudTokensResponse",
-}) as any as S.Schema<ListCloudTokensResponse>;
+).annotate({ identifier: "ListCloudTokensResponse" }) as any as S.Schema<ListCloudTokensResponse>;
 
 export interface ListDatabasesRequest {}
 export const ListDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/databases", code: 200 })),
-).annotate({
-  identifier: "ListDatabasesRequest",
-}) as any as S.Schema<ListDatabasesRequest>;
+).annotate({ identifier: "ListDatabasesRequest" }) as any as S.Schema<ListDatabasesRequest>;
 
 export type ListDatabasesResponse = string;
 export const ListDatabasesResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListDatabasesResponse",
-}) as any as S.Schema<ListDatabasesResponse>;
+).annotate({ identifier: "ListDatabasesResponse" }) as any as S.Schema<ListDatabasesResponse>;
 
 export interface ListDeploymentsRequest {}
 export const ListDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/deployments", code: 200 })),
-).annotate({
-  identifier: "ListDeploymentsRequest",
-}) as any as S.Schema<ListDeploymentsRequest>;
+).annotate({ identifier: "ListDeploymentsRequest" }) as any as S.Schema<ListDeploymentsRequest>;
 
 export type ListDeploymentsResponseBodyList = Array<ApplicationDeploymentQueue>;
 export const ListDeploymentsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -7700,9 +7991,7 @@ export const ListDeploymentsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListDeploymentsResponse = ListDeploymentsResponseBodyList;
 export const ListDeploymentsResponse = /*@__PURE__*/ S.suspend(() =>
   ListDeploymentsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListDeploymentsResponse",
-}) as any as S.Schema<ListDeploymentsResponse>;
+).annotate({ identifier: "ListDeploymentsResponse" }) as any as S.Schema<ListDeploymentsResponse>;
 
 export interface ListDeploymentsByAppUuidRequest {
   /** UUID of the application. */
@@ -7717,13 +8006,7 @@ export const ListDeploymentsByAppUuidRequest = /*@__PURE__*/ S.suspend(() =>
     uuid: S.String.pipe(T.Label()),
     skip: S.optional(S.Number.pipe(T.Query())),
     take: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/deployments/applications/{uuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/deployments/applications/{uuid}", code: 200 })),
 ).annotate({
   identifier: "ListDeploymentsByAppUuidRequest",
 }) as any as S.Schema<ListDeploymentsByAppUuidRequest>;
@@ -7743,9 +8026,7 @@ export const ListDeploymentsByAppUuidResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListDestinationsRequest {}
 export const ListDestinationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/destinations", code: 200 })),
-).annotate({
-  identifier: "ListDestinationsRequest",
-}) as any as S.Schema<ListDestinationsRequest>;
+).annotate({ identifier: "ListDestinationsRequest" }) as any as S.Schema<ListDestinationsRequest>;
 
 export type ListDestinationsResponseBodyList = Array<Destination>;
 export const ListDestinationsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -7755,9 +8036,7 @@ export const ListDestinationsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListDestinationsResponse = ListDestinationsResponseBodyList;
 export const ListDestinationsResponse = /*@__PURE__*/ S.suspend(() =>
   ListDestinationsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListDestinationsResponse",
-}) as any as S.Schema<ListDestinationsResponse>;
+).annotate({ identifier: "ListDestinationsResponse" }) as any as S.Schema<ListDestinationsResponse>;
 
 export interface ListEnvironmentSharedEnvsRequest {
   /** Project UUID */
@@ -7811,6 +8090,7 @@ export interface EnvironmentVariable {
   is_runtime?: boolean;
   is_buildtime?: boolean;
   is_shared?: boolean;
+  /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
   is_shown_once?: boolean;
   key?: string;
   value?: string;
@@ -7841,9 +8121,7 @@ export const EnvironmentVariable = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     updated_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EnvironmentVariable",
-}) as any as S.Schema<EnvironmentVariable>;
+).annotate({ identifier: "EnvironmentVariable" }) as any as S.Schema<EnvironmentVariable>;
 
 export type ListEnvsByApplicationUuidResponseBodyList = Array<EnvironmentVariable>;
 export const ListEnvsByApplicationUuidResponseBodyList = /*@__PURE__*/ S.Array(
@@ -7908,9 +8186,7 @@ export const ListEnvsByServiceUuidResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListGithubAppsRequest {}
 export const ListGithubAppsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/github-apps", code: 200 })),
-).annotate({
-  identifier: "ListGithubAppsRequest",
-}) as any as S.Schema<ListGithubAppsRequest>;
+).annotate({ identifier: "ListGithubAppsRequest" }) as any as S.Schema<ListGithubAppsRequest>;
 
 export interface ListGithubAppsResponseBodyItem {
   id?: number;
@@ -7961,16 +8237,12 @@ export const ListGithubAppsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListGithubAppsResponse = ListGithubAppsResponseBodyList;
 export const ListGithubAppsResponse = /*@__PURE__*/ S.suspend(() =>
   ListGithubAppsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListGithubAppsResponse",
-}) as any as S.Schema<ListGithubAppsResponse>;
+).annotate({ identifier: "ListGithubAppsResponse" }) as any as S.Schema<ListGithubAppsResponse>;
 
 export interface ListGitlabAppsRequest {}
 export const ListGitlabAppsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/gitlab-apps", code: 200 })),
-).annotate({
-  identifier: "ListGitlabAppsRequest",
-}) as any as S.Schema<ListGitlabAppsRequest>;
+).annotate({ identifier: "ListGitlabAppsRequest" }) as any as S.Schema<ListGitlabAppsRequest>;
 
 export interface ListGitlabAppsResponseBodyItem {
   id?: number;
@@ -8015,16 +8287,37 @@ export const ListGitlabAppsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListGitlabAppsResponse = ListGitlabAppsResponseBodyList;
 export const ListGitlabAppsResponse = /*@__PURE__*/ S.suspend(() =>
   ListGitlabAppsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({ identifier: "ListGitlabAppsResponse" }) as any as S.Schema<ListGitlabAppsResponse>;
+
+export interface ListPreviewDeploymentsByApplicationUuidRequest {
+  /** UUID of the application. */
+  uuid: string;
+}
+export const ListPreviewDeploymentsByApplicationUuidRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/applications/{uuid}/previews", code: 200 })),
 ).annotate({
-  identifier: "ListGitlabAppsResponse",
-}) as any as S.Schema<ListGitlabAppsResponse>;
+  identifier: "ListPreviewDeploymentsByApplicationUuidRequest",
+}) as any as S.Schema<ListPreviewDeploymentsByApplicationUuidRequest>;
+
+export type ListPreviewDeploymentsByApplicationUuidResponseBodyList = Array<ApplicationPreview>;
+export const ListPreviewDeploymentsByApplicationUuidResponseBodyList = /*@__PURE__*/ S.Array(
+  ApplicationPreview,
+) as any as S.Schema<ListPreviewDeploymentsByApplicationUuidResponseBodyList>;
+
+export type ListPreviewDeploymentsByApplicationUuidResponse =
+  ListPreviewDeploymentsByApplicationUuidResponseBodyList;
+export const ListPreviewDeploymentsByApplicationUuidResponse = /*@__PURE__*/ S.suspend(() =>
+  ListPreviewDeploymentsByApplicationUuidResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListPreviewDeploymentsByApplicationUuidResponse",
+}) as any as S.Schema<ListPreviewDeploymentsByApplicationUuidResponse>;
 
 export interface ListPrivateKeysRequest {}
 export const ListPrivateKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/security/keys", code: 200 })),
-).annotate({
-  identifier: "ListPrivateKeysRequest",
-}) as any as S.Schema<ListPrivateKeysRequest>;
+).annotate({ identifier: "ListPrivateKeysRequest" }) as any as S.Schema<ListPrivateKeysRequest>;
 
 export type ListPrivateKeysResponseBodyList = Array<PrivateKey>;
 export const ListPrivateKeysResponseBodyList = /*@__PURE__*/ S.Array(
@@ -8034,16 +8327,12 @@ export const ListPrivateKeysResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListPrivateKeysResponse = ListPrivateKeysResponseBodyList;
 export const ListPrivateKeysResponse = /*@__PURE__*/ S.suspend(() =>
   ListPrivateKeysResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListPrivateKeysResponse",
-}) as any as S.Schema<ListPrivateKeysResponse>;
+).annotate({ identifier: "ListPrivateKeysResponse" }) as any as S.Schema<ListPrivateKeysResponse>;
 
 export interface ListProjectsRequest {}
 export const ListProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/projects", code: 200 })),
-).annotate({
-  identifier: "ListProjectsRequest",
-}) as any as S.Schema<ListProjectsRequest>;
+).annotate({ identifier: "ListProjectsRequest" }) as any as S.Schema<ListProjectsRequest>;
 
 export type ListProjectsResponseBodyList = Array<Project>;
 export const ListProjectsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -8053,9 +8342,7 @@ export const ListProjectsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListProjectsResponse = ListProjectsResponseBodyList;
 export const ListProjectsResponse = /*@__PURE__*/ S.suspend(() =>
   ListProjectsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListProjectsResponse",
-}) as any as S.Schema<ListProjectsResponse>;
+).annotate({ identifier: "ListProjectsResponse" }) as any as S.Schema<ListProjectsResponse>;
 
 export interface ListProjectSharedEnvsRequest {
   /** Project UUID */
@@ -8077,23 +8364,17 @@ export const ListProjectSharedEnvsResponse = /*@__PURE__*/ S.suspend(() => S.Str
 export interface ListResourcesRequest {}
 export const ListResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/resources", code: 200 })),
-).annotate({
-  identifier: "ListResourcesRequest",
-}) as any as S.Schema<ListResourcesRequest>;
+).annotate({ identifier: "ListResourcesRequest" }) as any as S.Schema<ListResourcesRequest>;
 
 export type ListResourcesResponse = string;
 export const ListResourcesResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListResourcesResponse",
-}) as any as S.Schema<ListResourcesResponse>;
+).annotate({ identifier: "ListResourcesResponse" }) as any as S.Schema<ListResourcesResponse>;
 
 export interface ListS3StoragesRequest {}
 export const ListS3StoragesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/s3-storages", code: 200 })),
-).annotate({
-  identifier: "ListS3StoragesRequest",
-}) as any as S.Schema<ListS3StoragesRequest>;
+).annotate({ identifier: "ListS3StoragesRequest" }) as any as S.Schema<ListS3StoragesRequest>;
 
 export interface ListS3StoragesResponseBodyItem {
   uuid?: string;
@@ -8132,9 +8413,7 @@ export const ListS3StoragesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListS3StoragesResponse = ListS3StoragesResponseBodyList;
 export const ListS3StoragesResponse = /*@__PURE__*/ S.suspend(() =>
   ListS3StoragesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListS3StoragesResponse",
-}) as any as S.Schema<ListS3StoragesResponse>;
+).annotate({ identifier: "ListS3StoragesResponse" }) as any as S.Schema<ListS3StoragesResponse>;
 
 export interface ListScheduledTaskExecutionsByApplicationUuidRequest {
   /** UUID of the application. */
@@ -8194,9 +8473,7 @@ export const ScheduledTaskExecution = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     updated_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ScheduledTaskExecution",
-}) as any as S.Schema<ScheduledTaskExecution>;
+).annotate({ identifier: "ScheduledTaskExecution" }) as any as S.Schema<ScheduledTaskExecution>;
 
 export type ListScheduledTaskExecutionsByApplicationUuidResponseBodyList =
   Array<ScheduledTaskExecution>;
@@ -8254,13 +8531,7 @@ export interface ListScheduledTasksByApplicationUuidRequest {
 export const ListScheduledTasksByApplicationUuidRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{uuid}/scheduled-tasks",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/applications/{uuid}/scheduled-tasks", code: 200 })),
 ).annotate({
   identifier: "ListScheduledTasksByApplicationUuidRequest",
 }) as any as S.Schema<ListScheduledTasksByApplicationUuidRequest>;
@@ -8285,13 +8556,7 @@ export interface ListScheduledTasksByServiceUuidRequest {
 export const ListScheduledTasksByServiceUuidRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/services/{uuid}/scheduled-tasks",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/services/{uuid}/scheduled-tasks", code: 200 })),
 ).annotate({
   identifier: "ListScheduledTasksByServiceUuidRequest",
 }) as any as S.Schema<ListScheduledTasksByServiceUuidRequest>;
@@ -8316,13 +8581,7 @@ export interface ListServerDestinationsRequest {
 export const ListServerDestinationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     server_uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/servers/{server_uuid}/destinations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/servers/{server_uuid}/destinations", code: 200 })),
 ).annotate({
   identifier: "ListServerDestinationsRequest",
 }) as any as S.Schema<ListServerDestinationsRequest>;
@@ -8346,13 +8605,7 @@ export interface ListServerDockerCleanupExecutionsRequest {
 export const ListServerDockerCleanupExecutionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/servers/{uuid}/docker-cleanup/executions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/servers/{uuid}/docker-cleanup/executions", code: 200 })),
 ).annotate({
   identifier: "ListServerDockerCleanupExecutionsRequest",
 }) as any as S.Schema<ListServerDockerCleanupExecutionsRequest>;
@@ -8392,12 +8645,87 @@ export const ListServerDockerCleanupExecutionsResponse = /*@__PURE__*/ S.suspend
   identifier: "ListServerDockerCleanupExecutionsResponse",
 }) as any as S.Schema<ListServerDockerCleanupExecutionsResponse>;
 
+export interface ListServerRegistriesRequest {
+  /** Server UUID */
+  uuid: string;
+}
+export const ListServerRegistriesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/servers/{uuid}/registries", code: 200 })),
+).annotate({
+  identifier: "ListServerRegistriesRequest",
+}) as any as S.Schema<ListServerRegistriesRequest>;
+
+/** Where the Docker config stores the credentials. */
+export type ListServerRegistriesResponseRegistriesItemSource = "auths" | "credHelpers";
+export const ListServerRegistriesResponseRegistriesItemSource = S.String;
+
+export interface ListServerRegistriesResponseRegistriesItemUsedByItem {
+  type?: string;
+  name?: string;
+  link?: string | null;
+}
+export const ListServerRegistriesResponseRegistriesItemUsedByItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    name: S.optional(S.String),
+    link: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "ListServerRegistriesResponseRegistriesItemUsedByItem",
+}) as any as S.Schema<ListServerRegistriesResponseRegistriesItemUsedByItem>;
+
+export type ListServerRegistriesResponseRegistriesItemUsedByList =
+  Array<ListServerRegistriesResponseRegistriesItemUsedByItem>;
+export const ListServerRegistriesResponseRegistriesItemUsedByList = /*@__PURE__*/ S.Array(
+  ListServerRegistriesResponseRegistriesItemUsedByItem,
+) as any as S.Schema<ListServerRegistriesResponseRegistriesItemUsedByList>;
+
+export interface ListServerRegistriesResponseRegistriesItem {
+  registry?: string;
+  logged_in?: boolean;
+  /** Where the Docker config stores the credentials. */
+  source?: ListServerRegistriesResponseRegistriesItemSource | null;
+  username?: string | null;
+  used_by?: ListServerRegistriesResponseRegistriesItemUsedByList;
+}
+export const ListServerRegistriesResponseRegistriesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    registry: S.optional(S.String),
+    logged_in: S.optional(S.Boolean),
+    source: S.optional(S.NullOr(ListServerRegistriesResponseRegistriesItemSource)),
+    username: S.optional(S.NullOr(S.String)),
+    used_by: S.optional(ListServerRegistriesResponseRegistriesItemUsedByList),
+  }),
+).annotate({
+  identifier: "ListServerRegistriesResponseRegistriesItem",
+}) as any as S.Schema<ListServerRegistriesResponseRegistriesItem>;
+
+export type ListServerRegistriesResponseRegistriesList =
+  Array<ListServerRegistriesResponseRegistriesItem>;
+export const ListServerRegistriesResponseRegistriesList = /*@__PURE__*/ S.Array(
+  ListServerRegistriesResponseRegistriesItem,
+) as any as S.Schema<ListServerRegistriesResponseRegistriesList>;
+
+export interface ListServerRegistriesResponse {
+  registries?: ListServerRegistriesResponseRegistriesList;
+  /** Set when the logins could not be read from the server. */
+  error?: string | null;
+}
+export const ListServerRegistriesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    registries: S.optional(ListServerRegistriesResponseRegistriesList),
+    error: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "ListServerRegistriesResponse",
+}) as any as S.Schema<ListServerRegistriesResponse>;
+
 export interface ListServersRequest {}
 export const ListServersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/servers", code: 200 })),
-).annotate({
-  identifier: "ListServersRequest",
-}) as any as S.Schema<ListServersRequest>;
+).annotate({ identifier: "ListServersRequest" }) as any as S.Schema<ListServersRequest>;
 
 export type ListServersResponseBodyList = Array<Server>;
 export const ListServersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -8407,9 +8735,7 @@ export const ListServersResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListServersResponse = ListServersResponseBodyList;
 export const ListServersResponse = /*@__PURE__*/ S.suspend(() =>
   ListServersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListServersResponse",
-}) as any as S.Schema<ListServersResponse>;
+).annotate({ identifier: "ListServersResponse" }) as any as S.Schema<ListServersResponse>;
 
 export interface ListServerSharedEnvsRequest {
   /** Server UUID */
@@ -8435,13 +8761,7 @@ export interface ListServiceApplicationsByServiceUuidRequest {
 export const ListServiceApplicationsByServiceUuidRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/services/{uuid}/applications",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/services/{uuid}/applications", code: 200 })),
 ).annotate({
   identifier: "ListServiceApplicationsByServiceUuidRequest",
 }) as any as S.Schema<ListServiceApplicationsByServiceUuidRequest>;
@@ -8487,9 +8807,7 @@ export const ListServiceDatabasesByServiceUuidResponse = /*@__PURE__*/ S.suspend
 export interface ListServicesRequest {}
 export const ListServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/services", code: 200 })),
-).annotate({
-  identifier: "ListServicesRequest",
-}) as any as S.Schema<ListServicesRequest>;
+).annotate({ identifier: "ListServicesRequest" }) as any as S.Schema<ListServicesRequest>;
 
 export type ListServicesResponseBodyList = Array<Service>;
 export const ListServicesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -8499,9 +8817,7 @@ export const ListServicesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListServicesResponse = ListServicesResponseBodyList;
 export const ListServicesResponse = /*@__PURE__*/ S.suspend(() =>
   ListServicesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListServicesResponse",
-}) as any as S.Schema<ListServicesResponse>;
+).annotate({ identifier: "ListServicesResponse" }) as any as S.Schema<ListServicesResponse>;
 
 export interface ListStoragesByApplicationUuidRequest {
   /** UUID of the application. */
@@ -8510,13 +8826,7 @@ export interface ListStoragesByApplicationUuidRequest {
 export const ListStoragesByApplicationUuidRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/applications/{uuid}/storages",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/applications/{uuid}/storages", code: 200 })),
 ).annotate({
   identifier: "ListStoragesByApplicationUuidRequest",
 }) as any as S.Schema<ListStoragesByApplicationUuidRequest>;
@@ -8617,9 +8927,7 @@ export const ListStoragesByServiceUuidResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListTagsRequest {}
 export const ListTagsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/tags", code: 200 })),
-).annotate({
-  identifier: "ListTagsRequest",
-}) as any as S.Schema<ListTagsRequest>;
+).annotate({ identifier: "ListTagsRequest" }) as any as S.Schema<ListTagsRequest>;
 
 export type ListTagsResponseBodyList = Array<Tag>;
 export const ListTagsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -8629,9 +8937,7 @@ export const ListTagsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListTagsResponse = ListTagsResponseBodyList;
 export const ListTagsResponse = /*@__PURE__*/ S.suspend(() =>
   ListTagsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListTagsResponse",
-}) as any as S.Schema<ListTagsResponse>;
+).annotate({ identifier: "ListTagsResponse" }) as any as S.Schema<ListTagsResponse>;
 
 export interface ListTagsByApplicationUuidRequest {
   /** UUID of the application. */
@@ -8708,9 +9014,7 @@ export const ListTagsByServiceUuidResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListTeamsRequest {}
 export const ListTeamsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/teams", code: 200 })),
-).annotate({
-  identifier: "ListTeamsRequest",
-}) as any as S.Schema<ListTeamsRequest>;
+).annotate({ identifier: "ListTeamsRequest" }) as any as S.Schema<ListTeamsRequest>;
 
 export type ListTeamsResponseBodyList = Array<Team>;
 export const ListTeamsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -8720,9 +9024,7 @@ export const ListTeamsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListTeamsResponse = ListTeamsResponseBodyList;
 export const ListTeamsResponse = /*@__PURE__*/ S.suspend(() =>
   ListTeamsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListTeamsResponse",
-}) as any as S.Schema<ListTeamsResponse>;
+).annotate({ identifier: "ListTeamsResponse" }) as any as S.Schema<ListTeamsResponse>;
 
 export interface ListTeamSharedEnvsRequest {}
 export const ListTeamSharedEnvsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -8756,9 +9058,7 @@ export const LoadBranchesRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "LoadBranchesRequest",
-}) as any as S.Schema<LoadBranchesRequest>;
+).annotate({ identifier: "LoadBranchesRequest" }) as any as S.Schema<LoadBranchesRequest>;
 
 export type LoadBranchesResponseBranchesList = Array<unknown>;
 export const LoadBranchesResponseBranchesList = /*@__PURE__*/ S.Array(
@@ -8772,9 +9072,7 @@ export const LoadBranchesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     branches: S.optional(LoadBranchesResponseBranchesList),
   }),
-).annotate({
-  identifier: "LoadBranchesResponse",
-}) as any as S.Schema<LoadBranchesResponse>;
+).annotate({ identifier: "LoadBranchesResponse" }) as any as S.Schema<LoadBranchesResponse>;
 
 export interface LoadRepositoriesRequest {
   /** GitHub App ID */
@@ -8783,16 +9081,8 @@ export interface LoadRepositoriesRequest {
 export const LoadRepositoriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     github_app_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/github-apps/{github_app_id}/repositories",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "LoadRepositoriesRequest",
-}) as any as S.Schema<LoadRepositoriesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/github-apps/{github_app_id}/repositories", code: 200 })),
+).annotate({ identifier: "LoadRepositoriesRequest" }) as any as S.Schema<LoadRepositoriesRequest>;
 
 export type LoadRepositoriesResponseRepositoriesList = Array<unknown>;
 export const LoadRepositoriesResponseRepositoriesList = /*@__PURE__*/ S.Array(
@@ -8806,9 +9096,64 @@ export const LoadRepositoriesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     repositories: S.optional(LoadRepositoriesResponseRepositoriesList),
   }),
+).annotate({ identifier: "LoadRepositoriesResponse" }) as any as S.Schema<LoadRepositoriesResponse>;
+
+export interface LoginServerRegistryRequest {
+  /** Server UUID */
+  uuid: string;
+  /** Registry host, optionally with a port. Use docker.io for Docker Hub. */
+  registry: string;
+  username: string;
+  /** Password or access token. Never returned. */
+  password: string | Redacted.Redacted<string>;
+}
+export const LoginServerRegistryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.String.pipe(T.Label()),
+    registry: S.String,
+    username: S.String,
+    password: S.String.pipe(T.SensitiveValue({})),
+  }).pipe(T.Http({ method: "POST", uri: "/servers/{uuid}/registries", code: 200 })),
 ).annotate({
-  identifier: "LoadRepositoriesResponse",
-}) as any as S.Schema<LoadRepositoriesResponse>;
+  identifier: "LoginServerRegistryRequest",
+}) as any as S.Schema<LoginServerRegistryRequest>;
+
+export interface LoginServerRegistryResponse {
+  message?: string;
+}
+export const LoginServerRegistryResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "LoginServerRegistryResponse",
+}) as any as S.Schema<LoginServerRegistryResponse>;
+
+export interface LogoutServerRegistryRequest {
+  /** Server UUID */
+  uuid: string;
+  /** Registry host, optionally with a port, for example registry.example.com:5000. */
+  registry: string;
+}
+export const LogoutServerRegistryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.String.pipe(T.Label()),
+    registry: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "DELETE", uri: "/servers/{uuid}/registries/{registry}", code: 200 })),
+).annotate({
+  identifier: "LogoutServerRegistryRequest",
+}) as any as S.Schema<LogoutServerRegistryRequest>;
+
+export interface LogoutServerRegistryResponse {
+  message?: string;
+}
+export const LogoutServerRegistryResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "LogoutServerRegistryResponse",
+}) as any as S.Schema<LogoutServerRegistryResponse>;
 
 export interface MigrateApplicationByUuidRequest {
   /** UUID of the application. */
@@ -8857,37 +9202,6 @@ export interface MigrateDatabaseByUuidResponse {}
 export const MigrateDatabaseByUuidResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "MigrateDatabaseByUuidResponse",
 }) as any as S.Schema<MigrateDatabaseByUuidResponse>;
-
-export interface MigrateServerBetweenInstancesRequest {
-  uuid: string;
-  target_url: string;
-  /** API token on the target instance (root or write) */
-  target_token: string;
-  write_remote?: boolean;
-  rebind_sentinel?: boolean;
-  preserve_uuids?: boolean;
-  adopt_mode?: boolean;
-}
-export const MigrateServerBetweenInstancesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    uuid: S.String.pipe(T.Label()),
-    target_url: S.String,
-    target_token: S.String,
-    write_remote: S.optional(S.Boolean),
-    rebind_sentinel: S.optional(S.Boolean),
-    preserve_uuids: S.optional(S.Boolean),
-    adopt_mode: S.optional(S.Boolean),
-  }).pipe(T.Http({ method: "POST", uri: "/servers/{uuid}/migrate", code: 200 })),
-).annotate({
-  identifier: "MigrateServerBetweenInstancesRequest",
-}) as any as S.Schema<MigrateServerBetweenInstancesRequest>;
-
-export interface MigrateServerBetweenInstancesResponse {}
-export const MigrateServerBetweenInstancesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "MigrateServerBetweenInstancesResponse",
-}) as any as S.Schema<MigrateServerBetweenInstancesResponse>;
 
 export interface MigrateServiceByUuidRequest {
   /** UUID of the service. */
@@ -8987,9 +9301,7 @@ export const MoveServiceByUuidRequest = /*@__PURE__*/ S.suspend(() =>
     uuid: S.String.pipe(T.Label()),
     environment_uuid: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/services/{uuid}/move", code: 200 })),
-).annotate({
-  identifier: "MoveServiceByUuidRequest",
-}) as any as S.Schema<MoveServiceByUuidRequest>;
+).annotate({ identifier: "MoveServiceByUuidRequest" }) as any as S.Schema<MoveServiceByUuidRequest>;
 
 export interface MoveServiceByUuidResponse {
   message?: string;
@@ -9033,6 +9345,9 @@ export interface PatchServiceApplicationByServiceAndAppUuidRequest {
   is_log_drain_enabled?: boolean | null;
   is_gzip_enabled?: boolean | null;
   is_stripprefix_enabled?: boolean | null;
+  is_force_https_enabled?: boolean | null;
+  /** Maximum Docker restart count before Coolify stops the container. Set to 0 to disable the limit. */
+  max_restart_count?: number | null;
 }
 export const PatchServiceApplicationByServiceAndAppUuidRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9050,13 +9365,9 @@ export const PatchServiceApplicationByServiceAndAppUuidRequest = /*@__PURE__*/ S
     is_log_drain_enabled: S.optional(S.NullOr(S.Boolean)),
     is_gzip_enabled: S.optional(S.NullOr(S.Boolean)),
     is_stripprefix_enabled: S.optional(S.NullOr(S.Boolean)),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/services/{uuid}/applications/{app_uuid}",
-      code: 200,
-    }),
-  ),
+    is_force_https_enabled: S.optional(S.NullOr(S.Boolean)),
+    max_restart_count: S.optional(S.NullOr(S.Number)),
+  }).pipe(T.Http({ method: "PATCH", uri: "/services/{uuid}/applications/{app_uuid}", code: 200 })),
 ).annotate({
   identifier: "PatchServiceApplicationByServiceAndAppUuidRequest",
 }) as any as S.Schema<PatchServiceApplicationByServiceAndAppUuidRequest>;
@@ -9095,11 +9406,7 @@ export const PatchServiceDatabaseByServiceAndDatabaseUuidRequest = /*@__PURE__*/
     public_port: S.optional(S.NullOr(S.Number)),
     public_port_timeout: S.optional(S.NullOr(S.Number)),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/services/{uuid}/databases/{database_uuid}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/services/{uuid}/databases/{database_uuid}", code: 200 }),
   ),
 ).annotate({
   identifier: "PatchServiceDatabaseByServiceAndDatabaseUuidRequest",
@@ -9121,11 +9428,7 @@ export const PostRestartServiceApplicationByServiceAndAppUuidRequest = /*@__PURE
     uuid: S.String.pipe(T.Label()),
     app_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/services/{uuid}/applications/{app_uuid}/restart",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/services/{uuid}/applications/{app_uuid}/restart", code: 200 }),
   ),
 ).annotate({
   identifier: "PostRestartServiceApplicationByServiceAndAppUuidRequest",
@@ -9143,22 +9446,28 @@ export const PostRestartServiceApplicationByServiceAndAppUuidResponse = /*@__PUR
   identifier: "PostRestartServiceApplicationByServiceAndAppUuidResponse",
 }) as any as S.Schema<PostRestartServiceApplicationByServiceAndAppUuidResponse>;
 
+export type PostServiceApplicationLogsByServiceAndAppUuidRequestLinesCase1 = "all";
+export const PostServiceApplicationLogsByServiceAndAppUuidRequestLinesCase1 = S.String;
+
+export type PostServiceApplicationLogsByServiceAndAppUuidRequestLines =
+  | number
+  | PostServiceApplicationLogsByServiceAndAppUuidRequestLinesCase1;
+export const PostServiceApplicationLogsByServiceAndAppUuidRequestLines =
+  S.Unknown as any as S.Schema<PostServiceApplicationLogsByServiceAndAppUuidRequestLines>;
+
 export interface PostServiceApplicationLogsByServiceAndAppUuidRequest {
   uuid: string;
   app_uuid: string;
-  lines?: number;
+  /** Number of lines to show from the end of the logs. Use `all` to return all logs. `-1` remains available as a compatibility alias. */
+  lines?: PostServiceApplicationLogsByServiceAndAppUuidRequestLines;
 }
 export const PostServiceApplicationLogsByServiceAndAppUuidRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     app_uuid: S.String.pipe(T.Label()),
-    lines: S.optional(S.Number.pipe(T.Query())),
+    lines: S.optional(PostServiceApplicationLogsByServiceAndAppUuidRequestLines.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/services/{uuid}/applications/{app_uuid}/logs",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/services/{uuid}/applications/{app_uuid}/logs", code: 200 }),
   ),
 ).annotate({
   identifier: "PostServiceApplicationLogsByServiceAndAppUuidRequest",
@@ -9188,11 +9497,7 @@ export const PostStartServiceApplicationByServiceAndAppUuidRequest = /*@__PURE__
     force: S.optional(S.Boolean.pipe(T.Query())),
     latest: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/services/{uuid}/applications/{app_uuid}/start",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/services/{uuid}/applications/{app_uuid}/start", code: 200 }),
   ),
 ).annotate({
   identifier: "PostStartServiceApplicationByServiceAndAppUuidRequest",
@@ -9218,11 +9523,7 @@ export const PostStopServiceApplicationByServiceAndAppUuidRequest = /*@__PURE__*
     uuid: S.String.pipe(T.Label()),
     app_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/services/{uuid}/applications/{app_uuid}/stop",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/services/{uuid}/applications/{app_uuid}/stop", code: 200 }),
   ),
 ).annotate({
   identifier: "PostStopServiceApplicationByServiceAndAppUuidRequest",
@@ -9486,13 +9787,7 @@ export const RunServerDockerCleanupRequest = /*@__PURE__*/ S.suspend(() =>
     uuid: S.String.pipe(T.Label()),
     delete_unused_volumes: S.optional(S.Boolean),
     delete_unused_networks: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/servers/{uuid}/docker-cleanup/run",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/servers/{uuid}/docker-cleanup/run", code: 200 })),
 ).annotate({
   identifier: "RunServerDockerCleanupRequest",
 }) as any as S.Schema<RunServerDockerCleanupRequest>;
@@ -9529,9 +9824,7 @@ export const RunServiceStorageBackupRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface RunServiceStorageBackupResponse {}
 export const RunServiceStorageBackupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "RunServiceStorageBackupResponse",
-  },
+  { identifier: "RunServiceStorageBackupResponse" },
 ) as any as S.Schema<RunServiceStorageBackupResponse>;
 
 export interface SaveServerProxyConfigurationRequest {
@@ -9544,13 +9837,7 @@ export const SaveServerProxyConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     configuration: S.String,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/servers/{uuid}/proxy/configuration",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/servers/{uuid}/proxy/configuration", code: 200 })),
 ).annotate({
   identifier: "SaveServerProxyConfigurationRequest",
 }) as any as S.Schema<SaveServerProxyConfigurationRequest>;
@@ -9708,11 +9995,7 @@ export const SetDatabaseStorageBackupScheduleRequest = /*@__PURE__*/ S.suspend((
     retention_max_storage_s3: S.optional(S.Number),
     timeout: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/databases/{uuid}/storages/{storage_uuid}/backups",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/databases/{uuid}/storages/{storage_uuid}/backups", code: 200 }),
   ),
 ).annotate({
   identifier: "SetDatabaseStorageBackupScheduleRequest",
@@ -9755,11 +10038,7 @@ export const SetServiceStorageBackupScheduleRequest = /*@__PURE__*/ S.suspend(()
     retention_max_storage_s3: S.optional(S.Number),
     timeout: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/services/{uuid}/storages/{storage_uuid}/backups",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/services/{uuid}/storages/{storage_uuid}/backups", code: 200 }),
   ),
 ).annotate({
   identifier: "SetServiceStorageBackupScheduleRequest",
@@ -9857,11 +10136,7 @@ export const StartServiceDatabaseByServiceAndDatabaseUuidRequest = /*@__PURE__*/
     force: S.optional(S.Boolean.pipe(T.Query())),
     latest: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/services/{uuid}/databases/{database_uuid}/start",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/services/{uuid}/databases/{database_uuid}/start", code: 200 }),
   ),
 ).annotate({
   identifier: "StartServiceDatabaseByServiceAndDatabaseUuidRequest",
@@ -9881,7 +10156,7 @@ export const StartServiceDatabaseByServiceAndDatabaseUuidResponse = /*@__PURE__*
 export interface StopApplicationByUuidRequest {
   /** UUID of the application. */
   uuid: string;
-  /** Perform docker cleanup (prune networks, volumes, etc.). */
+  /** Run docker cleanup when the server disk usage is at or above its cleanup threshold. Skipped when a cleanup ran on the server in the last hour. */
   docker_cleanup?: boolean;
 }
 export const StopApplicationByUuidRequest = /*@__PURE__*/ S.suspend(() =>
@@ -9907,7 +10182,7 @@ export const StopApplicationByUuidResponse = /*@__PURE__*/ S.suspend(() =>
 export interface StopDatabaseByUuidRequest {
   /** UUID of the database. */
   uuid: string;
-  /** Perform docker cleanup (prune networks, volumes, etc.). */
+  /** Run docker cleanup when the server disk usage is at or above its cleanup threshold. Skipped when a cleanup ran on the server in the last hour. */
   docker_cleanup?: boolean;
 }
 export const StopDatabaseByUuidRequest = /*@__PURE__*/ S.suspend(() =>
@@ -9933,7 +10208,7 @@ export const StopDatabaseByUuidResponse = /*@__PURE__*/ S.suspend(() =>
 export interface StopServiceByUuidRequest {
   /** UUID of the service. */
   uuid: string;
-  /** Perform docker cleanup (prune networks, volumes, etc.). */
+  /** Run docker cleanup when the server disk usage is at or above its cleanup threshold. Skipped when a cleanup ran on the server in the last hour. */
   docker_cleanup?: boolean;
 }
 export const StopServiceByUuidRequest = /*@__PURE__*/ S.suspend(() =>
@@ -9941,9 +10216,7 @@ export const StopServiceByUuidRequest = /*@__PURE__*/ S.suspend(() =>
     uuid: S.String.pipe(T.Label()),
     docker_cleanup: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/services/{uuid}/stop", code: 200 })),
-).annotate({
-  identifier: "StopServiceByUuidRequest",
-}) as any as S.Schema<StopServiceByUuidRequest>;
+).annotate({ identifier: "StopServiceByUuidRequest" }) as any as S.Schema<StopServiceByUuidRequest>;
 
 export interface StopServiceByUuidResponse {
   message?: string;
@@ -9965,11 +10238,7 @@ export const StopServiceDatabaseByServiceAndDatabaseUuidRequest = /*@__PURE__*/ 
     uuid: S.String.pipe(T.Label()),
     database_uuid: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/services/{uuid}/databases/{database_uuid}/stop",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/services/{uuid}/databases/{database_uuid}/stop", code: 200 }),
   ),
 ).annotate({
   identifier: "StopServiceDatabaseByServiceAndDatabaseUuidRequest",
@@ -10214,8 +10483,10 @@ export interface UpdateApplicationByUuidRequest {
   gpu_options?: string | null;
   /** Use a consistent container name across deployments. */
   is_consistent_container_name_enabled?: boolean;
-  /** Custom internal container name. */
+  /** Custom internal container name. Turns is_consistent_container_name_enabled on when that field is not sent; sending it as false together with a name returns 422. */
   custom_internal_name?: string | null;
+  /** Prefix for generated container names (prefix-20260908T141530). Slugified and unique across the instance. */
+  custom_container_name_prefix?: string | null;
   /** Preview URL template. */
   preview_url_template?: string;
   /** Maximum container restart count before stopping. */
@@ -10320,6 +10591,7 @@ export const UpdateApplicationByUuidRequest = /*@__PURE__*/ S.suspend(() =>
     gpu_options: S.optional(S.NullOr(S.String)),
     is_consistent_container_name_enabled: S.optional(S.Boolean),
     custom_internal_name: S.optional(S.NullOr(S.String)),
+    custom_container_name_prefix: S.optional(S.NullOr(S.String)),
     preview_url_template: S.optional(S.String),
     max_restart_count: S.optional(S.Number),
     connect_to_docker_network: S.optional(S.Boolean),
@@ -10507,6 +10779,8 @@ export interface UpdateDatabaseBackupRequest {
   database_backup_retention_max_storage_s3?: number;
   /** Backup job timeout in seconds (min: 60, max: 36000) */
   timeout?: number;
+  /** Alert after this many days without an execution; 0 disables alerts */
+  missing_backup_notification_days?: number;
 }
 export const UpdateDatabaseBackupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10526,6 +10800,7 @@ export const UpdateDatabaseBackupRequest = /*@__PURE__*/ S.suspend(() =>
     database_backup_retention_days_s3: S.optional(S.Number),
     database_backup_retention_max_storage_s3: S.optional(S.Number),
     timeout: S.optional(S.Number),
+    missing_backup_notification_days: S.optional(S.Number),
   }).pipe(
     T.Http({
       method: "PATCH",
@@ -10625,6 +10900,8 @@ export interface UpdateDatabaseByUuidRequest {
   mysql_database?: string;
   /** MySQL conf */
   mysql_conf?: string;
+  /** Comma-separated SQLite database file names */
+  sqlite_databases?: string;
   /** Enable the database healthcheck probe. */
   health_check_enabled?: boolean;
   /** Healthcheck interval in seconds. */
@@ -10679,6 +10956,7 @@ export const UpdateDatabaseByUuidRequest = /*@__PURE__*/ S.suspend(() =>
     mysql_user: S.optional(S.String),
     mysql_database: S.optional(S.String),
     mysql_conf: S.optional(S.String),
+    sqlite_databases: S.optional(S.String),
     health_check_enabled: S.optional(S.Boolean),
     health_check_interval: S.optional(S.Number),
     health_check_timeout: S.optional(S.Number),
@@ -10721,7 +10999,7 @@ export interface UpdateEnvByApplicationUuidRequest {
   is_literal?: boolean;
   /** The flag to indicate if the environment variable is multiline. */
   is_multiline?: boolean;
-  /** The flag to indicate if the environment variable's value is shown on the UI. */
+  /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
   is_shown_once?: boolean;
 }
 export const UpdateEnvByApplicationUuidRequest = /*@__PURE__*/ S.suspend(() =>
@@ -10749,7 +11027,7 @@ export interface UpdateEnvByDatabaseUuidRequest {
   is_literal?: boolean;
   /** The flag to indicate if the environment variable is multiline. */
   is_multiline?: boolean;
-  /** The flag to indicate if the environment variable's value is shown on the UI. */
+  /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
   is_shown_once?: boolean;
 }
 export const UpdateEnvByDatabaseUuidRequest = /*@__PURE__*/ S.suspend(() =>
@@ -10778,7 +11056,7 @@ export interface UpdateEnvByServiceUuidRequest {
   is_literal?: boolean;
   /** The flag to indicate if the environment variable is multiline. */
   is_multiline?: boolean;
-  /** The flag to indicate if the environment variable's value is shown on the UI. */
+  /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
   is_shown_once?: boolean;
 }
 export const UpdateEnvByServiceUuidRequest = /*@__PURE__*/ S.suspend(() =>
@@ -10818,9 +11096,7 @@ export const UpdateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateEnvironmentRequest",
-}) as any as S.Schema<UpdateEnvironmentRequest>;
+).annotate({ identifier: "UpdateEnvironmentRequest" }) as any as S.Schema<UpdateEnvironmentRequest>;
 
 export interface UpdateEnvironmentResponse {
   uuid?: string;
@@ -10879,7 +11155,7 @@ export interface UpdateEnvsByApplicationUuidRequestDataItem {
   is_literal?: boolean;
   /** The flag to indicate if the environment variable is multiline. */
   is_multiline?: boolean;
-  /** The flag to indicate if the environment variable's value is shown on the UI. */
+  /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
   is_shown_once?: boolean;
 }
 export const UpdateEnvsByApplicationUuidRequestDataItem = /*@__PURE__*/ S.suspend(() =>
@@ -10910,13 +11186,7 @@ export const UpdateEnvsByApplicationUuidRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     data: UpdateEnvsByApplicationUuidRequestDataList,
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/applications/{uuid}/envs/bulk",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/applications/{uuid}/envs/bulk", code: 200 })),
 ).annotate({
   identifier: "UpdateEnvsByApplicationUuidRequest",
 }) as any as S.Schema<UpdateEnvsByApplicationUuidRequest>;
@@ -10942,7 +11212,7 @@ export interface UpdateEnvsByDatabaseUuidRequestDataItem {
   is_literal?: boolean;
   /** The flag to indicate if the environment variable is multiline. */
   is_multiline?: boolean;
-  /** The flag to indicate if the environment variable's value is shown on the UI. */
+  /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
   is_shown_once?: boolean;
 }
 export const UpdateEnvsByDatabaseUuidRequestDataItem = /*@__PURE__*/ S.suspend(() =>
@@ -11071,9 +11341,7 @@ export const UpdateGithubAppRequest = /*@__PURE__*/ S.suspend(() =>
     private_key_uuid: S.optional(S.String),
     is_system_wide: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PATCH", uri: "/github-apps/{github_app_id}", code: 200 })),
-).annotate({
-  identifier: "UpdateGithubAppRequest",
-}) as any as S.Schema<UpdateGithubAppRequest>;
+).annotate({ identifier: "UpdateGithubAppRequest" }) as any as S.Schema<UpdateGithubAppRequest>;
 
 export interface UpdateGithubAppResponse {
   message?: string;
@@ -11085,9 +11353,7 @@ export const UpdateGithubAppResponse = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     data: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "UpdateGithubAppResponse",
-}) as any as S.Schema<UpdateGithubAppResponse>;
+).annotate({ identifier: "UpdateGithubAppResponse" }) as any as S.Schema<UpdateGithubAppResponse>;
 
 export interface UpdateGitlabAppRequest {
   /** GitLab App ID */
@@ -11130,9 +11396,7 @@ export const UpdateGitlabAppRequest = /*@__PURE__*/ S.suspend(() =>
     redirect_uri: S.optional(S.NullOr(S.String)),
     is_system_wide: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PATCH", uri: "/gitlab-apps/{gitlab_app_id}", code: 200 })),
-).annotate({
-  identifier: "UpdateGitlabAppRequest",
-}) as any as S.Schema<UpdateGitlabAppRequest>;
+).annotate({ identifier: "UpdateGitlabAppRequest" }) as any as S.Schema<UpdateGitlabAppRequest>;
 
 export interface UpdateGitlabAppResponse {
   message?: string;
@@ -11144,24 +11408,101 @@ export const UpdateGitlabAppResponse = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     data: S.optional(S.Unknown),
   }),
+).annotate({ identifier: "UpdateGitlabAppResponse" }) as any as S.Schema<UpdateGitlabAppResponse>;
+
+export interface UpdateInstanceEmailSettingsRequest {}
+export const UpdateInstanceEmailSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.Http({ method: "PATCH", uri: "/settings/email", code: 200 })),
 ).annotate({
-  identifier: "UpdateGitlabAppResponse",
-}) as any as S.Schema<UpdateGitlabAppResponse>;
+  identifier: "UpdateInstanceEmailSettingsRequest",
+}) as any as S.Schema<UpdateInstanceEmailSettingsRequest>;
+
+export interface UpdateInstanceEmailSettingsResponse {}
+export const UpdateInstanceEmailSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateInstanceEmailSettingsResponse",
+}) as any as S.Schema<UpdateInstanceEmailSettingsResponse>;
+
+export type UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsItemRedirect =
+  | "www"
+  | "non-www"
+  | "both";
+export const UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsItemRedirect = S.String;
+
+export interface UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsItem {
+  name?: string;
+  domain?: string | null;
+  redirect?:
+    | UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsItemRedirect
+    | (string & {})
+    | null;
+}
+export const UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.optional(S.String),
+      domain: S.optional(S.NullOr(S.String)),
+      redirect: S.optional(
+        S.NullOr(UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsItemRedirect),
+      ),
+    }),
+  ).annotate({
+    identifier: "UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsItem",
+  }) as any as S.Schema<UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsItem>;
+
+export type UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsList =
+  Array<UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsItem>;
+export const UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsList =
+  /*@__PURE__*/ S.Array(
+    UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsItem,
+  ) as any as S.Schema<UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsList>;
+
+export interface UpdatePreviewDomainsByPullRequestIdRequest {
+  uuid: string;
+  pull_request_id: number;
+  domains?: string | null;
+  docker_compose_domains?: UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsList | null;
+  force_domain_override?: boolean;
+}
+export const UpdatePreviewDomainsByPullRequestIdRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.String.pipe(T.Label()),
+    pull_request_id: S.Number.pipe(T.Label()),
+    domains: S.optional(S.NullOr(S.String)),
+    docker_compose_domains: S.optional(
+      S.NullOr(UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsList),
+    ),
+    force_domain_override: S.optional(S.Boolean),
+  }).pipe(
+    T.Http({ method: "PATCH", uri: "/applications/{uuid}/previews/{pull_request_id}", code: 200 }),
+  ),
+).annotate({
+  identifier: "UpdatePreviewDomainsByPullRequestIdRequest",
+}) as any as S.Schema<UpdatePreviewDomainsByPullRequestIdRequest>;
+
+export interface UpdatePreviewDomainsByPullRequestIdResponse {}
+export const UpdatePreviewDomainsByPullRequestIdResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdatePreviewDomainsByPullRequestIdResponse",
+}) as any as S.Schema<UpdatePreviewDomainsByPullRequestIdResponse>;
 
 export interface UpdatePrivateKeyRequest {
+  /** Private Key UUID */
+  uuid: string;
   name?: string;
   description?: string;
   private_key: string | Redacted.Redacted<string>;
 }
 export const UpdatePrivateKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    uuid: S.String.pipe(T.Label()),
     name: S.optional(S.String),
     description: S.optional(S.String),
     private_key: S.String.pipe(T.SensitiveValue({})),
-  }).pipe(T.Http({ method: "PATCH", uri: "/security/keys", code: 200 })),
-).annotate({
-  identifier: "UpdatePrivateKeyRequest",
-}) as any as S.Schema<UpdatePrivateKeyRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/security/keys/{uuid}", code: 200 })),
+).annotate({ identifier: "UpdatePrivateKeyRequest" }) as any as S.Schema<UpdatePrivateKeyRequest>;
 
 export interface UpdatePrivateKeyResponse {
   uuid?: string;
@@ -11170,9 +11511,7 @@ export const UpdatePrivateKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdatePrivateKeyResponse",
-}) as any as S.Schema<UpdatePrivateKeyResponse>;
+).annotate({ identifier: "UpdatePrivateKeyResponse" }) as any as S.Schema<UpdatePrivateKeyResponse>;
 
 export interface UpdateProjectByUuidRequest {
   /** UUID of the project. */
@@ -11217,13 +11556,7 @@ export const UpdateProjectSharedEnvRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     env_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/projects/{uuid}/envs/{env_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/projects/{uuid}/envs/{env_id}", code: 200 })),
 ).annotate({
   identifier: "UpdateProjectSharedEnvRequest",
 }) as any as S.Schema<UpdateProjectSharedEnvRequest>;
@@ -11309,11 +11642,7 @@ export const UpdateScheduledTaskByApplicationUuidRequest = /*@__PURE__*/ S.suspe
     timeout: S.optional(S.Number),
     enabled: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/applications/{uuid}/scheduled-tasks/{task_uuid}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/applications/{uuid}/scheduled-tasks/{task_uuid}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateScheduledTaskByApplicationUuidRequest",
@@ -11348,15 +11677,15 @@ export const UpdateScheduledTaskByServiceUuidRequest = /*@__PURE__*/ S.suspend((
     timeout: S.optional(S.Number),
     enabled: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/services/{uuid}/scheduled-tasks/{task_uuid}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/services/{uuid}/scheduled-tasks/{task_uuid}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateScheduledTaskByServiceUuidRequest",
 }) as any as S.Schema<UpdateScheduledTaskByServiceUuidRequest>;
+
+/** Server role. */
+export type UpdateServerByUuidRequestServerRole = "deployment" | "build" | "both";
+export const UpdateServerByUuidRequestServerRole = S.String;
 
 /** The proxy type. */
 export type UpdateServerByUuidRequestProxyType = "traefik" | "caddy" | "none";
@@ -11377,7 +11706,9 @@ export interface UpdateServerByUuidRequest {
   user?: string;
   /** The UUID of the private key. */
   private_key_uuid?: string;
-  /** Is build server. */
+  /** Server role. */
+  server_role?: UpdateServerByUuidRequestServerRole | (string & {});
+  /** Deprecated: use server_role instead. true sets server_role to build, false changes a build server to both and leaves other roles unchanged. Must not conflict with server_role. */
   is_build_server?: boolean;
   /** Instant validate. */
   instant_validate?: boolean;
@@ -11393,6 +11724,8 @@ export interface UpdateServerByUuidRequest {
   server_disk_usage_notification_threshold?: number;
   /** Cron expression for disk usage check frequency. */
   server_disk_usage_check_frequency?: string;
+  /** Minimum hours between high disk usage notifications (1-720). Default: 24. */
+  server_disk_usage_notification_interval_hours?: number;
   /** SSH connection timeout in seconds (1-300). Default: 10. */
   connection_timeout?: number;
 }
@@ -11405,6 +11738,7 @@ export const UpdateServerByUuidRequest = /*@__PURE__*/ S.suspend(() =>
     port: S.optional(S.Number),
     user: S.optional(S.String),
     private_key_uuid: S.optional(S.String),
+    server_role: S.optional(UpdateServerByUuidRequestServerRole),
     is_build_server: S.optional(S.Boolean),
     instant_validate: S.optional(S.Boolean),
     proxy_type: S.optional(UpdateServerByUuidRequestProxyType),
@@ -11413,6 +11747,7 @@ export const UpdateServerByUuidRequest = /*@__PURE__*/ S.suspend(() =>
     deployment_queue_limit: S.optional(S.Number),
     server_disk_usage_notification_threshold: S.optional(S.Number),
     server_disk_usage_check_frequency: S.optional(S.String),
+    server_disk_usage_notification_interval_hours: S.optional(S.Number),
     connection_timeout: S.optional(S.Number),
   }).pipe(T.Http({ method: "PATCH", uri: "/servers/{uuid}", code: 200 })),
 ).annotate({
@@ -11428,13 +11763,7 @@ export const UpdateServerCloudflareTunnelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     is_cloudflare_tunnel: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/servers/{uuid}/cloudflare-tunnel",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/servers/{uuid}/cloudflare-tunnel", code: 200 })),
 ).annotate({
   identifier: "UpdateServerCloudflareTunnelRequest",
 }) as any as S.Schema<UpdateServerCloudflareTunnelRequest>;
@@ -11466,13 +11795,7 @@ export const UpdateServerDockerCleanupRequest = /*@__PURE__*/ S.suspend(() =>
     delete_unused_volumes: S.optional(S.Boolean),
     delete_unused_networks: S.optional(S.Boolean),
     disable_application_image_retention: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/servers/{uuid}/docker-cleanup",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/servers/{uuid}/docker-cleanup", code: 200 })),
 ).annotate({
   identifier: "UpdateServerDockerCleanupRequest",
 }) as any as S.Schema<UpdateServerDockerCleanupRequest>;
@@ -11555,9 +11878,7 @@ export const UpdateServerProxyRequest = /*@__PURE__*/ S.suspend(() =>
     generate_exact_labels: S.optional(S.Boolean),
     proxy_type: S.optional(UpdateServerProxyRequestProxyType),
   }).pipe(T.Http({ method: "PATCH", uri: "/servers/{uuid}/proxy", code: 200 })),
-).annotate({
-  identifier: "UpdateServerProxyRequest",
-}) as any as S.Schema<UpdateServerProxyRequest>;
+).annotate({ identifier: "UpdateServerProxyRequest" }) as any as S.Schema<UpdateServerProxyRequest>;
 
 export interface UpdateServerProxyResponse {
   proxy_type?: string | null;
@@ -11583,7 +11904,6 @@ export const UpdateServerProxyResponse = /*@__PURE__*/ S.suspend(() =>
 export interface UpdateServerSentinelRequest {
   /** Server UUID */
   uuid: string;
-  is_sentinel_enabled?: boolean;
   is_metrics_enabled?: boolean;
   is_sentinel_debug_enabled?: boolean;
   sentinel_token?: string;
@@ -11591,11 +11911,17 @@ export interface UpdateServerSentinelRequest {
   sentinel_metrics_history_days?: number;
   sentinel_push_interval_seconds?: number;
   sentinel_custom_url?: string | null;
+  traffic_topn?: number;
+  traffic_sample_threshold?: number;
+  traffic_retention_1h_days?: number;
+  traffic_retention_1d_days?: number;
+  is_geoip_enabled?: boolean;
+  geoip_refresh_days?: number;
+  geoip_maxmind_license_key?: string | null;
 }
 export const UpdateServerSentinelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
-    is_sentinel_enabled: S.optional(S.Boolean),
     is_metrics_enabled: S.optional(S.Boolean),
     is_sentinel_debug_enabled: S.optional(S.Boolean),
     sentinel_token: S.optional(S.String),
@@ -11603,6 +11929,13 @@ export const UpdateServerSentinelRequest = /*@__PURE__*/ S.suspend(() =>
     sentinel_metrics_history_days: S.optional(S.Number),
     sentinel_push_interval_seconds: S.optional(S.Number),
     sentinel_custom_url: S.optional(S.NullOr(S.String)),
+    traffic_topn: S.optional(S.Number),
+    traffic_sample_threshold: S.optional(S.Number),
+    traffic_retention_1h_days: S.optional(S.Number),
+    traffic_retention_1d_days: S.optional(S.Number),
+    is_geoip_enabled: S.optional(S.Boolean),
+    geoip_refresh_days: S.optional(S.Number),
+    geoip_maxmind_license_key: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/servers/{uuid}/sentinel", code: 200 })),
 ).annotate({
   identifier: "UpdateServerSentinelRequest",
@@ -11623,13 +11956,7 @@ export const UpdateServerSharedEnvRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     env_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/servers/{uuid}/envs/{env_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/servers/{uuid}/envs/{env_id}", code: 200 })),
 ).annotate({
   identifier: "UpdateServerSharedEnvRequest",
 }) as any as S.Schema<UpdateServerSharedEnvRequest>;
@@ -11722,9 +12049,7 @@ export interface UpdateStorageByApplicationUuidRequest {
   name?: string;
   /** The container mount path (not allowed for read-only storages). */
   mount_path?: string;
-  /** The host path (persistent only, not allowed for read-only storages). */
-  host_path?: string | null;
-  /** The file content (file only, not allowed for read-only storages). */
+  /** The file content (file only, not allowed for read-only storages). Changing the content of a file outside the resource directory needs the deploy permission. */
   content?: string | null;
 }
 export const UpdateStorageByApplicationUuidRequest = /*@__PURE__*/ S.suspend(() =>
@@ -11735,15 +12060,8 @@ export const UpdateStorageByApplicationUuidRequest = /*@__PURE__*/ S.suspend(() 
     is_preview_suffix_enabled: S.optional(S.Boolean),
     name: S.optional(S.String),
     mount_path: S.optional(S.String),
-    host_path: S.optional(S.NullOr(S.String)),
     content: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/applications/{uuid}/storages",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/applications/{uuid}/storages", code: 200 })),
 ).annotate({
   identifier: "UpdateStorageByApplicationUuidRequest",
 }) as any as S.Schema<UpdateStorageByApplicationUuidRequest>;
@@ -11772,9 +12090,7 @@ export interface UpdateStorageByDatabaseUuidRequest {
   name?: string;
   /** The container mount path (not allowed for read-only storages). */
   mount_path?: string;
-  /** The host path (persistent only, not allowed for read-only storages). */
-  host_path?: string | null;
-  /** The file content (file only, not allowed for read-only storages). */
+  /** The file content (file only, not allowed for read-only storages). Changing the content of a file outside the resource directory needs the deploy permission. */
   content?: string | null;
 }
 export const UpdateStorageByDatabaseUuidRequest = /*@__PURE__*/ S.suspend(() =>
@@ -11785,7 +12101,6 @@ export const UpdateStorageByDatabaseUuidRequest = /*@__PURE__*/ S.suspend(() =>
     is_preview_suffix_enabled: S.optional(S.Boolean),
     name: S.optional(S.String),
     mount_path: S.optional(S.String),
-    host_path: S.optional(S.NullOr(S.String)),
     content: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/databases/{uuid}/storages", code: 200 })),
 ).annotate({
@@ -11816,9 +12131,7 @@ export interface UpdateStorageByServiceUuidRequest {
   name?: string;
   /** The container mount path (not allowed for read-only storages). */
   mount_path?: string;
-  /** The host path (persistent only, not allowed for read-only storages). */
-  host_path?: string | null;
-  /** The file content (file only, not allowed for read-only storages). */
+  /** The file content (file only, not allowed for read-only storages). Changing the content of a file outside the resource directory needs the deploy permission. */
   content?: string | null;
 }
 export const UpdateStorageByServiceUuidRequest = /*@__PURE__*/ S.suspend(() =>
@@ -11829,7 +12142,6 @@ export const UpdateStorageByServiceUuidRequest = /*@__PURE__*/ S.suspend(() =>
     is_preview_suffix_enabled: S.optional(S.Boolean),
     name: S.optional(S.String),
     mount_path: S.optional(S.String),
-    host_path: S.optional(S.NullOr(S.String)),
     content: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/services/{uuid}/storages", code: 200 })),
 ).annotate({
@@ -11853,9 +12165,7 @@ export const UpdateTagByUuidRequest = /*@__PURE__*/ S.suspend(() =>
     uuid: S.String.pipe(T.Label()),
     name: S.String,
   }).pipe(T.Http({ method: "PATCH", uri: "/tags/{uuid}", code: 200 })),
-).annotate({
-  identifier: "UpdateTagByUuidRequest",
-}) as any as S.Schema<UpdateTagByUuidRequest>;
+).annotate({ identifier: "UpdateTagByUuidRequest" }) as any as S.Schema<UpdateTagByUuidRequest>;
 
 export interface UpdateTeamSharedEnvRequest {
   /** Shared env id (integer). */
@@ -11873,6 +12183,61 @@ export interface UpdateTeamSharedEnvResponse {}
 export const UpdateTeamSharedEnvResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateTeamSharedEnvResponse",
 }) as any as S.Schema<UpdateTeamSharedEnvResponse>;
+
+export interface UpdateTokenTeamRequest {
+  /** Whether deployments can fall back to the deployment server when no usable dedicated build server is available. */
+  is_build_server_fallback_enabled: boolean;
+}
+export const UpdateTokenTeamRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    is_build_server_fallback_enabled: S.Boolean,
+  }).pipe(T.Http({ method: "PATCH", uri: "/team", code: 200 })),
+).annotate({ identifier: "UpdateTokenTeamRequest" }) as any as S.Schema<UpdateTokenTeamRequest>;
+
+export interface UploadDatabaseImportRequest {
+  /** UUID of the database. */
+  uuid: string;
+}
+export const UploadDatabaseImportRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/imports/uploads", code: 200 })),
+).annotate({
+  identifier: "UploadDatabaseImportRequest",
+}) as any as S.Schema<UploadDatabaseImportRequest>;
+
+export interface UploadDatabaseImportResponse {}
+export const UploadDatabaseImportResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "UploadDatabaseImportResponse",
+}) as any as S.Schema<UploadDatabaseImportResponse>;
+
+export interface UploadServiceDatabaseImportRequest {
+  /** Service UUID. */
+  uuid: string;
+  /** Service database UUID. */
+  database_uuid: string;
+}
+export const UploadServiceDatabaseImportRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.String.pipe(T.Label()),
+    database_uuid: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/services/{uuid}/databases/{database_uuid}/imports/uploads",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UploadServiceDatabaseImportRequest",
+}) as any as S.Schema<UploadServiceDatabaseImportRequest>;
+
+export interface UploadServiceDatabaseImportResponse {}
+export const UploadServiceDatabaseImportResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UploadServiceDatabaseImportResponse",
+}) as any as S.Schema<UploadServiceDatabaseImportResponse>;
 
 export interface ValidateCloudTokenByUuidRequest {
   /** Token UUID */
@@ -11994,17 +12359,21 @@ export const cancelDeploymentByUuid: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ClaimServerError = NotFound | CoolifyOpError;
-/** Claim imported server Claim a managed host for this instance: write ownership file and rebind Sentinel. */
-export const claimServer: API.OperationMethod<
-  ClaimServerRequest,
-  ClaimServerResponse,
-  ClaimServerError,
+export type CheckServerRegistryLoginError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Check a registry login on a server Check that the saved login of the server for a registry still works. Runs docker login with the saved credentials on the server. */
+export const checkServerRegistryLogin: API.OperationMethod<
+  CheckServerRegistryLoginRequest,
+  CheckServerRegistryLoginResponse,
+  CheckServerRegistryLoginError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ClaimServerRequest,
-  output: ClaimServerResponse,
-  errors: [NotFound, UnknownCoolifyError],
+  input: CheckServerRegistryLoginRequest,
+  output: CheckServerRegistryLoginResponse,
+  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
 }));
@@ -12058,17 +12427,20 @@ export const cloneServiceByUuid: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CompleteServerTransferError = NotFound | CoolifyOpError;
-/** Mark server transferred Source-instance step: disable automations after a successful export/import handoff. */
-export const completeServerTransfer: API.OperationMethod<
-  CompleteServerTransferRequest,
-  CompleteServerTransferResponse,
-  CompleteServerTransferError,
+export type ConfigureApplicationSecretManagerError =
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Configure Application Secret Manager Configure the secret manager source used by an application. */
+export const configureApplicationSecretManager: API.OperationMethod<
+  ConfigureApplicationSecretManagerRequest,
+  ConfigureApplicationSecretManagerResponse,
+  ConfigureApplicationSecretManagerError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: CompleteServerTransferRequest,
-  output: CompleteServerTransferResponse,
-  errors: [NotFound, UnknownCoolifyError],
+  input: ConfigureApplicationSecretManagerRequest,
+  output: ConfigureApplicationSecretManagerResponse,
+  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
 }));
@@ -12148,6 +12520,21 @@ export const createDatabaseDragonfly: API.OperationMethod<
   input: CreateDatabaseDragonflyRequest,
   output: CreateDatabaseDragonflyResponse,
   errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateDatabaseImportError = Conflict | UnprocessableEntity | CoolifyOpError;
+/** Import database backup */
+export const createDatabaseImport: API.OperationMethod<
+  CreateDatabaseImportRequest,
+  CreateDatabaseImportResponse,
+  CreateDatabaseImportError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateDatabaseImportRequest,
+  output: CreateDatabaseImportResponse,
+  errors: [Conflict, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
 }));
@@ -12237,6 +12624,21 @@ export const createDatabaseRedis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateDatabaseRedisRequest,
   output: CreateDatabaseRedisResponse,
+  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateDatabaseSqliteError = BadRequest | UnprocessableEntity | CoolifyOpError;
+/** Create (SQLite) Create a new SQLite database. */
+export const createDatabaseSqlite: API.OperationMethod<
+  CreateDatabaseSqliteRequest,
+  CreateDatabaseSqliteResponse,
+  CreateDatabaseSqliteError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateDatabaseSqliteRequest,
+  output: CreateDatabaseSqliteResponse,
   errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
@@ -12424,6 +12826,25 @@ export const createHetznerServer: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreatePreviewDeploymentByApplicationUuidError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Create Preview Deployment Open a preview deployment for a pull request and queue its deployment. When the preview already exists, it is redeployed. Git based applications need git_type unless they use a GitHub or GitLab App source; Bitbucket also needs commit. Docker Image applications need docker_tag for a new preview. */
+export const createPreviewDeploymentByApplicationUuid: API.OperationMethod<
+  CreatePreviewDeploymentByApplicationUuidRequest,
+  ApplicationPreviewDeployment,
+  CreatePreviewDeploymentByApplicationUuidError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreatePreviewDeploymentByApplicationUuidRequest,
+  output: ApplicationPreviewDeployment,
+  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreatePrivateDeployKeyApplicationError = BadRequest | Conflict | CoolifyOpError;
 /** Create (Private - Deploy Key) Create new application based on a private repository through a Deploy Key. */
 export const createPrivateDeployKeyApplication: API.OperationMethod<
@@ -12566,6 +12987,24 @@ export const createScheduledTaskByServiceUuid: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateSecretManagerIntegrationTokenError =
+  | BadRequest
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Create Secret Manager Token Create and validate a Doppler, Infisical, or Vault integration token. */
+export const createSecretManagerIntegrationToken: API.OperationMethod<
+  CreateSecretManagerIntegrationTokenRequest,
+  CreateSecretManagerIntegrationTokenResponse,
+  CreateSecretManagerIntegrationTokenError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateSecretManagerIntegrationTokenRequest,
+  output: CreateSecretManagerIntegrationTokenResponse,
+  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateServerError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
 /** Create Create Server. */
 export const createServer: API.OperationMethod<
@@ -12630,8 +13069,24 @@ export const createService: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateServiceDatabaseImportError = Conflict | UnprocessableEntity | CoolifyOpError;
+/** Import service database backup */
+export const createServiceDatabaseImport: API.OperationMethod<
+  CreateServiceDatabaseImportRequest,
+  CreateServiceDatabaseImportResponse,
+  CreateServiceDatabaseImportError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateServiceDatabaseImportRequest,
+  output: CreateServiceDatabaseImportResponse,
+  errors: [Conflict, UnprocessableEntity, UnknownCoolifyError],
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateStorageByApplicationUuidError =
   | BadRequest
+  | Forbidden
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
@@ -12644,13 +13099,14 @@ export const createStorageByApplicationUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateStorageByApplicationUuidRequest,
   output: CreateStorageByApplicationUuidResponse,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
 }));
 
 export type CreateStorageByDatabaseUuidError =
   | BadRequest
+  | Forbidden
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
@@ -12663,13 +13119,14 @@ export const createStorageByDatabaseUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateStorageByDatabaseUuidRequest,
   output: CreateStorageByDatabaseUuidResponse,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
 }));
 
 export type CreateStorageByServiceUuidError =
   | BadRequest
+  | Forbidden
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
@@ -12682,7 +13139,7 @@ export const createStorageByServiceUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateStorageByServiceUuidRequest,
   output: CreateStorageByServiceUuidResponse,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
 }));
@@ -13489,36 +13946,6 @@ export const executeScheduledTaskByServiceUuid: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ExportServerTransferBundleError = Forbidden | NotFound | CoolifyOpError;
-/** Export server transfer bundle Export a server and all resources hosted on it as a versioned transfer bundle for moving between Coolify instances. Requires read:sensitive. */
-export const exportServerTransferBundle: API.OperationMethod<
-  ExportServerTransferBundleRequest,
-  ExportServerTransferBundleResponse,
-  ExportServerTransferBundleError,
-  CoolifyOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ExportServerTransferBundleRequest,
-  output: ExportServerTransferBundleResponse,
-  errors: [Forbidden, NotFound, UnknownCoolifyError],
-  protocol: CoolifyProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ExportServerTransferMailboxError = Forbidden | NotFound | CoolifyOpError;
-/** Write transfer bundle to server mailbox Write an export bundle to /data/coolify/exports on the managed host for air-gapped import. */
-export const exportServerTransferMailbox: API.OperationMethod<
-  ExportServerTransferMailboxRequest,
-  ExportServerTransferMailboxResponse,
-  ExportServerTransferMailboxError,
-  CoolifyOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ExportServerTransferMailboxRequest,
-  output: ExportServerTransferMailboxResponse,
-  errors: [Forbidden, NotFound, UnknownCoolifyError],
-  protocol: CoolifyProtocol,
-  retry: Retry.Retry,
-}));
-
 export type GetApplicationError = BadRequest | NotFound | CoolifyOpError;
 /** Get Get application by UUID. */
 export const getApplication: API.OperationMethod<
@@ -13535,7 +13962,7 @@ export const getApplication: API.OperationMethod<
 }));
 
 export type GetApplicationLogsByUuidError = BadRequest | NotFound | CoolifyOpError;
-/** Get application logs. Get application logs by UUID. */
+/** Get application logs. Get application logs by UUID. Requires the `read:sensitive` or `root` token ability. */
 export const getApplicationLogsByUuid: API.OperationMethod<
   GetApplicationLogsByUuidRequest,
   GetApplicationLogsByUuidResponse,
@@ -13595,7 +14022,7 @@ export const getCurrentTeamDiscordNotifications: API.OperationMethod<
 }));
 
 export type GetCurrentTeamEmailNotificationsError = BadRequest | CoolifyOpError;
-/** Get email notification settings Get the current team email notification settings. Encrypted secrets are only returned when the token has `read:sensitive` (or `root`) and the user is a team admin/owner. */
+/** Get email notification settings Get the current team email notification settings, including `smtp_ehlo_domain`, the hostname sent with SMTP EHLO. Encrypted secrets are only returned when the token has `read:sensitive` (or `root`) and the user is a team admin/owner. */
 export const getCurrentTeamEmailNotifications: API.OperationMethod<
   GetCurrentTeamEmailNotificationsRequest,
   GetCurrentTeamEmailNotificationsResponse,
@@ -13699,8 +14126,23 @@ export const getDatabaseBackupsByUuid: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetDatabaseImportError = NotFound | CoolifyOpError;
+/** Get database import status */
+export const getDatabaseImport: API.OperationMethod<
+  GetDatabaseImportRequest,
+  DatabaseImportStatus,
+  GetDatabaseImportError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetDatabaseImportRequest,
+  output: DatabaseImportStatus,
+  errors: [NotFound, UnknownCoolifyError],
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetDatabaseLogsByUuidError = BadRequest | NotFound | CoolifyOpError;
-/** Get database logs. Get database logs by UUID. */
+/** Get database logs. Get database logs by UUID. Requires the `read:sensitive` or `root` token ability. */
 export const getDatabaseLogsByUuid: API.OperationMethod<
   GetDatabaseLogsByUuidRequest,
   GetDatabaseLogsByUuidResponse,
@@ -13943,6 +14385,21 @@ export const getHetznerSshKeys: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetInstanceEmailSettingsError = Forbidden | CoolifyOpError;
+/** Get instance email settings Get instance-wide SMTP and Resend settings. Requires a root-team token belonging to a root-team admin or owner. Sensitive fields require the `read:sensitive` or `root` token ability. */
+export const getInstanceEmailSettings: API.OperationMethod<
+  GetInstanceEmailSettingsRequest,
+  GetInstanceEmailSettingsResponse,
+  GetInstanceEmailSettingsError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetInstanceEmailSettingsRequest,
+  output: GetInstanceEmailSettingsResponse,
+  errors: [Forbidden, UnknownCoolifyError],
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetMembersByTeamIdError = BadRequest | NotFound | CoolifyOpError;
 /** Members Get members by TeamId. */
 export const getMembersByTeamId: API.OperationMethod<
@@ -13954,6 +14411,43 @@ export const getMembersByTeamId: API.OperationMethod<
   input: GetMembersByTeamIdRequest,
   output: GetMembersByTeamIdResponse,
   errors: [BadRequest, NotFound, UnknownCoolifyError],
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetPreviewApplicationLogsByPullRequestIdError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Get preview application logs. Get runtime container logs for a preview deployment by application UUID and pull request ID. Requires the `read:sensitive` or `root` token ability. */
+export const getPreviewApplicationLogsByPullRequestId: API.OperationMethod<
+  GetPreviewApplicationLogsByPullRequestIdRequest,
+  GetPreviewApplicationLogsByPullRequestIdResponse,
+  GetPreviewApplicationLogsByPullRequestIdError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetPreviewApplicationLogsByPullRequestIdRequest,
+  output: GetPreviewApplicationLogsByPullRequestIdResponse,
+  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetPreviewDeploymentByPullRequestIdError =
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Get Preview Deployment Get a preview deployment by pull request ID. */
+export const getPreviewDeploymentByPullRequestId: API.OperationMethod<
+  GetPreviewDeploymentByPullRequestIdRequest,
+  ApplicationPreview,
+  GetPreviewDeploymentByPullRequestIdError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetPreviewDeploymentByPullRequestIdRequest,
+  output: ApplicationPreview,
+  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
 }));
@@ -14142,7 +14636,7 @@ export type GetServiceApplicationLogsByServiceAndAppUuidError =
   | BadRequest
   | NotFound
   | CoolifyOpError;
-/** Get service application logs Get Docker logs for a single compose service container. */
+/** Get service application logs Get Docker logs for a single compose service container. Requires the `read:sensitive` or `root` token ability. */
 export const getServiceApplicationLogsByServiceAndAppUuid: API.OperationMethod<
   GetServiceApplicationLogsByServiceAndAppUuidRequest,
   GetServiceApplicationLogsByServiceAndAppUuidResponse,
@@ -14171,11 +14665,26 @@ export const getServiceDatabaseByServiceAndDatabaseUuid: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetServiceDatabaseImportError = NotFound | CoolifyOpError;
+/** Get service database import status */
+export const getServiceDatabaseImport: API.OperationMethod<
+  GetServiceDatabaseImportRequest,
+  DatabaseImportStatus,
+  GetServiceDatabaseImportError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetServiceDatabaseImportRequest,
+  output: DatabaseImportStatus,
+  errors: [NotFound, UnknownCoolifyError],
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetServiceDatabaseLogsByServiceAndDatabaseUuidError =
   | BadRequest
   | NotFound
   | CoolifyOpError;
-/** Get service database logs Get Docker logs for a compose database container. */
+/** Get service database logs Get Docker logs for a compose database container. Requires the `read:sensitive` or `root` token ability. */
 export const getServiceDatabaseLogsByServiceAndDatabaseUuid: API.OperationMethod<
   GetServiceDatabaseLogsByServiceAndDatabaseUuidRequest,
   GetServiceDatabaseLogsByServiceAndDatabaseUuidResponse,
@@ -14190,7 +14699,7 @@ export const getServiceDatabaseLogsByServiceAndDatabaseUuid: API.OperationMethod
 }));
 
 export type GetServiceLogsByUuidError = BadRequest | NotFound | CoolifyOpError;
-/** Get service logs. Get logs for a specific service sub-resource by service UUID. The `sub_service_name` query parameter must match the `name` field of one of the service applications or databases returned by `GET /services/{uuid}`. */
+/** Get service logs. Get logs for a specific service sub-resource by service UUID. The `sub_service_name` query parameter must match the `name` field of one of the service applications or databases returned by `GET /services/{uuid}`. Requires the `read:sensitive` or `root` token ability. */
 export const getServiceLogsByUuid: API.OperationMethod<
   GetServiceLogsByUuidRequest,
   GetServiceLogsByUuidResponse,
@@ -14320,21 +14829,6 @@ export const healthcheck: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ImportServerTransferBundleError = UnprocessableEntity | CoolifyOpError;
-/** Import server transfer bundle Import a server transfer bundle into this Coolify instance (adopt mode by default). */
-export const importServerTransferBundle: API.OperationMethod<
-  ImportServerTransferBundleRequest,
-  ImportServerTransferBundleResponse,
-  ImportServerTransferBundleError,
-  CoolifyOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ImportServerTransferBundleRequest,
-  output: ImportServerTransferBundleResponse,
-  errors: [UnprocessableEntity, UnknownCoolifyError],
-  protocol: CoolifyProtocol,
-  retry: Retry.Retry,
-}));
-
 export type ListApplicationDestinationsError = NotFound | CoolifyOpError;
 /** List Destinations List primary and additional destinations for a standalone application. */
 export const listApplicationDestinations: API.OperationMethod<
@@ -14376,6 +14870,21 @@ export const listApplications: API.OperationMethod<
   input: ListApplicationsRequest,
   output: ListApplicationsResponse,
   errors: [BadRequest, UnknownCoolifyError],
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListAuditEventsError = Forbidden | UnprocessableEntity | CoolifyOpError;
+/** List List audit events of the team. Only team admins and owners can view audit events. Actor e-mail, token, metadata, changes, IP address, and user agent are returned only for tokens with the read:sensitive or root permission. */
+export const listAuditEvents: API.OperationMethod<
+  ListAuditEventsRequest,
+  ListAuditEventsResponse,
+  ListAuditEventsError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListAuditEventsRequest,
+  output: ListAuditEventsResponse,
+  errors: [Forbidden, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
 }));
@@ -14575,6 +15084,21 @@ export const listGitlabApps: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListPreviewDeploymentsByApplicationUuidError = NotFound | CoolifyOpError;
+/** List Preview Deployments List the preview deployments of an application, newest pull request first. */
+export const listPreviewDeploymentsByApplicationUuid: API.OperationMethod<
+  ListPreviewDeploymentsByApplicationUuidRequest,
+  ListPreviewDeploymentsByApplicationUuidResponse,
+  ListPreviewDeploymentsByApplicationUuidError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListPreviewDeploymentsByApplicationUuidRequest,
+  output: ListPreviewDeploymentsByApplicationUuidResponse,
+  errors: [NotFound, UnknownCoolifyError],
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListPrivateKeysError = BadRequest | CoolifyOpError;
 /** List List all private keys. */
 export const listPrivateKeys: API.OperationMethod<
@@ -14735,6 +15259,21 @@ export const listServerDockerCleanupExecutions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListServerDockerCleanupExecutionsRequest,
   output: ListServerDockerCleanupExecutionsResponse,
+  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListServerRegistriesError = BadRequest | NotFound | CoolifyOpError;
+/** List server registry logins List the Docker registries a server is logged in to and the registries its resources pull from or push to. Reads the Docker config of the server over SSH. Credentials are never returned, only registry names and usernames. Requires the `read:sensitive` ability. */
+export const listServerRegistries: API.OperationMethod<
+  ListServerRegistriesRequest,
+  ListServerRegistriesResponse,
+  ListServerRegistriesError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListServerRegistriesRequest,
+  output: ListServerRegistriesResponse,
   errors: [BadRequest, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
@@ -14980,6 +15519,40 @@ export const loadRepositories: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type LoginServerRegistryError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
+/** Log in to a registry on a server Run docker login on the server, writing to the Docker config that deployments use. Logging in again to the same registry replaces the saved login. */
+export const loginServerRegistry: API.OperationMethod<
+  LoginServerRegistryRequest,
+  LoginServerRegistryResponse,
+  LoginServerRegistryError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: LoginServerRegistryRequest,
+  output: LoginServerRegistryResponse,
+  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+}));
+
+export type LogoutServerRegistryError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Log out from a registry on a server Run docker logout on the server for a registry. */
+export const logoutServerRegistry: API.OperationMethod<
+  LogoutServerRegistryRequest,
+  LogoutServerRegistryResponse,
+  LogoutServerRegistryError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: LogoutServerRegistryRequest,
+  output: LogoutServerRegistryResponse,
+  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+}));
+
 export type MigrateApplicationByUuidError =
   | BadRequest
   | NotFound
@@ -15014,25 +15587,6 @@ export const migrateDatabaseByUuid: API.OperationMethod<
   input: MigrateDatabaseByUuidRequest,
   output: MigrateDatabaseByUuidResponse,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
-  protocol: CoolifyProtocol,
-  retry: Retry.Retry,
-}));
-
-export type MigrateServerBetweenInstancesError =
-  | Forbidden
-  | NotFound
-  | UnprocessableEntity
-  | CoolifyOpError;
-/** Migrate server to another Coolify instance One-shot handoff: export this server, import+claim on the target instance (using the provided token), then disable automations here. Requires read:sensitive and write. */
-export const migrateServerBetweenInstances: API.OperationMethod<
-  MigrateServerBetweenInstancesRequest,
-  MigrateServerBetweenInstancesResponse,
-  MigrateServerBetweenInstancesError,
-  CoolifyOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: MigrateServerBetweenInstancesRequest,
-  output: MigrateServerBetweenInstancesResponse,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
 }));
@@ -15165,7 +15719,7 @@ export type PostServiceApplicationLogsByServiceAndAppUuidError =
   | BadRequest
   | NotFound
   | CoolifyOpError;
-/** Get service application logs Get Docker logs for a single compose service container. */
+/** Get service application logs Get Docker logs for a single compose service container. Requires the `read:sensitive` or `root` token ability. */
 export const postServiceApplicationLogsByServiceAndAppUuid: API.OperationMethod<
   PostServiceApplicationLogsByServiceAndAppUuidRequest,
   PostServiceApplicationLogsByServiceAndAppUuidResponse,
@@ -15245,7 +15799,7 @@ export const restartApplicationByUuid: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type RestartDatabaseByUuidError = BadRequest | NotFound | CoolifyOpError;
+export type RestartDatabaseByUuidError = BadRequest | NotFound | Conflict | CoolifyOpError;
 /** Restart Restart database. */
 export const restartDatabaseByUuid: API.OperationMethod<
   RestartDatabaseByUuidRequest,
@@ -15255,7 +15809,7 @@ export const restartDatabaseByUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RestartDatabaseByUuidRequest,
   output: RestartDatabaseByUuidResponse,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [BadRequest, NotFound, Conflict, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
 }));
@@ -15485,7 +16039,7 @@ export const startApplicationByUuid: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type StartDatabaseByUuidError = BadRequest | NotFound | CoolifyOpError;
+export type StartDatabaseByUuidError = BadRequest | NotFound | Conflict | CoolifyOpError;
 /** Start Start database. */
 export const startDatabaseByUuid: API.OperationMethod<
   StartDatabaseByUuidRequest,
@@ -15495,7 +16049,7 @@ export const startDatabaseByUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StartDatabaseByUuidRequest,
   output: StartDatabaseByUuidResponse,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [BadRequest, NotFound, Conflict, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
 }));
@@ -15669,7 +16223,7 @@ export type UpdateCurrentTeamEmailNotificationsError =
   | Forbidden
   | UnprocessableEntity
   | CoolifyOpError;
-/** Update email notification settings Update the current team email notification settings. */
+/** Update email notification settings Update the current team email notification settings. Set `smtp_ehlo_domain` to a valid hostname to control the SMTP EHLO domain, or `null` to use the system default. */
 export const updateCurrentTeamEmailNotifications: API.OperationMethod<
   UpdateCurrentTeamEmailNotificationsRequest,
   UpdateCurrentTeamEmailNotificationsResponse,
@@ -15983,7 +16537,42 @@ export const updateGitlabApp: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UpdatePrivateKeyError = BadRequest | UnprocessableEntity | CoolifyOpError;
+export type UpdateInstanceEmailSettingsError = Forbidden | UnprocessableEntity | CoolifyOpError;
+/** Update instance email settings Update instance-wide SMTP and Resend settings. Requires `write:sensitive` and a root-team token belonging to a root-team admin or owner. */
+export const updateInstanceEmailSettings: API.OperationMethod<
+  UpdateInstanceEmailSettingsRequest,
+  UpdateInstanceEmailSettingsResponse,
+  UpdateInstanceEmailSettingsError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateInstanceEmailSettingsRequest,
+  output: UpdateInstanceEmailSettingsResponse,
+  errors: [Forbidden, UnprocessableEntity, UnknownCoolifyError],
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdatePreviewDomainsByPullRequestIdError =
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Update Preview Domains Replace domains for a preview deployment. Use domains for regular applications or docker_compose_domains for Docker Compose applications. Ports are stored as internal overrides while public domains remain portless. */
+export const updatePreviewDomainsByPullRequestId: API.OperationMethod<
+  UpdatePreviewDomainsByPullRequestIdRequest,
+  UpdatePreviewDomainsByPullRequestIdResponse,
+  UpdatePreviewDomainsByPullRequestIdError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdatePreviewDomainsByPullRequestIdRequest,
+  output: UpdatePreviewDomainsByPullRequestIdResponse,
+  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdatePrivateKeyError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
 /** Update Update a private key. */
 export const updatePrivateKey: API.OperationMethod<
   UpdatePrivateKeyRequest,
@@ -15993,7 +16582,7 @@ export const updatePrivateKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdatePrivateKeyRequest,
   output: UpdatePrivateKeyResponse,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
 }));
@@ -16219,6 +16808,7 @@ export const updateServiceByUuid: API.OperationMethod<
 
 export type UpdateStorageByApplicationUuidError =
   | BadRequest
+  | Forbidden
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
@@ -16231,13 +16821,14 @@ export const updateStorageByApplicationUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateStorageByApplicationUuidRequest,
   output: UpdateStorageByApplicationUuidResponse,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
 }));
 
 export type UpdateStorageByDatabaseUuidError =
   | BadRequest
+  | Forbidden
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
@@ -16250,13 +16841,14 @@ export const updateStorageByDatabaseUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateStorageByDatabaseUuidRequest,
   output: UpdateStorageByDatabaseUuidResponse,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
 }));
 
 export type UpdateStorageByServiceUuidError =
   | BadRequest
+  | Forbidden
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
@@ -16269,7 +16861,7 @@ export const updateStorageByServiceUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateStorageByServiceUuidRequest,
   output: UpdateStorageByServiceUuidResponse,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
 }));
@@ -16305,6 +16897,51 @@ export const updateTeamSharedEnv: API.OperationMethod<
   input: UpdateTeamSharedEnvRequest,
   output: UpdateTeamSharedEnvResponse,
   errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateTokenTeamError = BadRequest | Forbidden | UnprocessableEntity | CoolifyOpError;
+/** Update authenticated team Update settings for the team bound to the API token. */
+export const updateTokenTeam: API.OperationMethod<
+  UpdateTokenTeamRequest,
+  Team,
+  UpdateTokenTeamError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateTokenTeamRequest,
+  output: Team,
+  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownCoolifyError],
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UploadDatabaseImportError = UnprocessableEntity | CoolifyOpError;
+/** Upload database import */
+export const uploadDatabaseImport: API.OperationMethod<
+  UploadDatabaseImportRequest,
+  UploadDatabaseImportResponse,
+  UploadDatabaseImportError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UploadDatabaseImportRequest,
+  output: UploadDatabaseImportResponse,
+  errors: [UnprocessableEntity, UnknownCoolifyError],
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UploadServiceDatabaseImportError = UnprocessableEntity | CoolifyOpError;
+/** Upload service database import */
+export const uploadServiceDatabaseImport: API.OperationMethod<
+  UploadServiceDatabaseImportRequest,
+  UploadServiceDatabaseImportResponse,
+  UploadServiceDatabaseImportError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UploadServiceDatabaseImportRequest,
+  output: UploadServiceDatabaseImportResponse,
+  errors: [UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
 }));

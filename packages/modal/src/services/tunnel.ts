@@ -21,16 +21,8 @@ export const StartTunnelRequest = /*@__PURE__*/ S.suspend(() =>
     port: S.optional(S.Number),
     unencrypted: S.optional(S.Boolean),
     tunnelType: S.optional(TunnelType),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/TunnelStart",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "StartTunnelRequest",
-}) as any as S.Schema<StartTunnelRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/TunnelStart", code: 200 })),
+).annotate({ identifier: "StartTunnelRequest" }) as any as S.Schema<StartTunnelRequest>;
 
 export interface StartTunnelResponse {
   host?: string;
@@ -45,9 +37,7 @@ export const StartTunnelResponse = /*@__PURE__*/ S.suspend(() =>
     unencryptedHost: S.optional(S.String),
     unencryptedPort: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "StartTunnelResponse",
-}) as any as S.Schema<StartTunnelResponse>;
+).annotate({ identifier: "StartTunnelResponse" }) as any as S.Schema<StartTunnelResponse>;
 
 export interface StopTunnelRequest {
   port?: number;
@@ -55,16 +45,8 @@ export interface StopTunnelRequest {
 export const StopTunnelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     port: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/TunnelStop",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "StopTunnelRequest",
-}) as any as S.Schema<StopTunnelRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/TunnelStop", code: 200 })),
+).annotate({ identifier: "StopTunnelRequest" }) as any as S.Schema<StopTunnelRequest>;
 
 export interface StopTunnelResponse {
   exists?: boolean;
@@ -73,9 +55,7 @@ export const StopTunnelResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     exists: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "StopTunnelResponse",
-}) as any as S.Schema<StopTunnelResponse>;
+).annotate({ identifier: "StopTunnelResponse" }) as any as S.Schema<StopTunnelResponse>;
 
 export type StartTunnelError = ModalOpError;
 /** Tunnels */

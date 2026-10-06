@@ -1,0 +1,599 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.account_views#ListAccountViewsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.account_views#AccountView": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable account view identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name shown in the account view.",
+            "smithy.api#required": {}
+          }
+        },
+        "visibility": {
+          "target": "com.posthog.account_views#AccountViewVisibilityEnum",
+          "traits": {
+            "smithy.api#documentation": "Whether the view is personal or available to the project.\n\n* `private` - Personal\n* `team` - Team",
+            "smithy.api#required": {}
+          }
+        },
+        "content": {
+          "target": "com.posthog.account_views#AccountViewContent",
+          "traits": {
+            "smithy.api#documentation": "Validated Markdown notebook document.",
+            "smithy.api#required": {}
+          }
+        },
+        "text_content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Searchable component labels extracted from content.",
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optimistic concurrency version.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_by": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Creator user ID.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_modified_by": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "User ID that last changed the view.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the view was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the view was last changed.",
+            "smithy.api#required": {}
+          }
+        },
+        "can_edit": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the requesting user can edit the view.",
+            "smithy.api#required": {}
+          }
+        },
+        "can_delete": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the requesting user can delete the view.",
+            "smithy.api#required": {}
+          }
+        },
+        "can_change_visibility": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the requesting user can change the view visibility.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.account_views#AccountViewVisibilityEnum": {
+      "type": "enum",
+      "members": {
+        "PRIVATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "private"
+          }
+        },
+        "TEAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "team"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `private` - Personal\n* `team` - Team"
+      }
+    },
+    "com.posthog.account_views#AccountViewContent": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.posthog.account_views#AccountViewContentTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Document root type.\n\n* `doc` - doc",
+            "smithy.api#required": {}
+          }
+        },
+        "content": {
+          "target": "com.posthog.account_views#AccountViewContentContentList",
+          "traits": {
+            "smithy.api#documentation": "The single Markdown notebook node containing the account view components.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.account_views#AccountViewContentTypeEnum": {
+      "type": "enum",
+      "members": {
+        "DOC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "doc"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `doc` - doc"
+      }
+    },
+    "com.posthog.account_views#AccountViewMarkdownNode": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.posthog.account_views#AccountViewMarkdownNodeTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Markdown notebook node type.\n\n* `ph-markdown-notebook` - ph-markdown-notebook",
+            "smithy.api#required": {}
+          }
+        },
+        "attrs": {
+          "target": "com.posthog.account_views#AccountViewMarkdownAttributes",
+          "traits": {
+            "smithy.api#documentation": "Markdown notebook attributes.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.account_views#AccountViewMarkdownNodeTypeEnum": {
+      "type": "enum",
+      "members": {
+        "PH_MARKDOWN_NOTEBOOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ph-markdown-notebook"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `ph-markdown-notebook` - ph-markdown-notebook"
+      }
+    },
+    "com.posthog.account_views#AccountViewMarkdownAttributes": {
+      "type": "structure",
+      "members": {
+        "nodeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable identifier for this document.",
+            "smithy.api#required": {}
+          }
+        },
+        "markdown": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Component-only Markdown stored by the account view editor.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.account_views#AccountViewContentContentList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.account_views#AccountViewMarkdownNode"
+      },
+      "traits": {
+        "smithy.api#documentation": "The single Markdown notebook node containing the account view components."
+      }
+    },
+    "com.posthog.account_views#ListAccountViewsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.account_views#AccountView"
+      },
+      "traits": {}
+    },
+    "com.posthog.account_views#ListAccountViewsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.account_views#ListAccountViewsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.account_views#ListAccountViews": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.account_views#ListAccountViewsRequest"
+      },
+      "output": {
+        "target": "com.posthog.account_views#ListAccountViewsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/account_views/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List account views"
+      }
+    },
+    "com.posthog.account_views#CreateAccountViewRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "View name.",
+            "smithy.api#required": {}
+          }
+        },
+        "content": {
+          "target": "com.posthog.account_views#AccountViewContent",
+          "traits": {
+            "smithy.api#documentation": "Initial account view components.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.account_views#CreateAccountView": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.account_views#CreateAccountViewRequest"
+      },
+      "output": {
+        "target": "com.posthog.account_views#AccountView"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.account_views#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/account_views/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a personal account view"
+      }
+    },
+    "com.posthog.account_views#GetAccountViewRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.account_views#GetAccountView": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.account_views#GetAccountViewRequest"
+      },
+      "output": {
+        "target": "com.posthog.account_views#AccountView"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/account_views/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get an account view"
+      }
+    },
+    "com.posthog.account_views#UpdateAccountViewsPartialRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New view name. Omit to keep the current name."
+          }
+        },
+        "content": {
+          "target": "com.posthog.account_views#AccountViewContent",
+          "traits": {
+            "smithy.api#documentation": "Replacement account view components. Omit to keep current content."
+          }
+        },
+        "visibility": {
+          "target": "com.posthog.account_views#AccountViewVisibilityEnum",
+          "traits": {
+            "smithy.api#documentation": "New visibility. Only the creator or a project admin can change it.\n\n* `private` - Personal\n* `team` - Team"
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Version returned by the last read.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.account_views#UpdateAccountViewsPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.account_views#UpdateAccountViewsPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.account_views#AccountView"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.account_views#BadRequest"
+        },
+        {
+          "target": "com.posthog.account_views#Forbidden"
+        },
+        {
+          "target": "com.posthog.account_views#NotFound"
+        },
+        {
+          "target": "com.posthog.account_views#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/account_views/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update an account view"
+      }
+    },
+    "com.posthog.account_views#AccountViewsDestroyRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "version",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Version returned by the last read."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.account_views#AccountViewsDestroy": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.account_views#AccountViewsDestroyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.account_views#Forbidden"
+        },
+        {
+          "target": "com.posthog.account_views#NotFound"
+        },
+        {
+          "target": "com.posthog.account_views#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/account_views/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete an account view"
+      }
+    },
+    "com.posthog.account_views#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.account_views#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.posthog.account_views#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.posthog.account_views#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.posthog.account_views#AccountViews": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.account_views#ListAccountViews"
+        },
+        {
+          "target": "com.posthog.account_views#CreateAccountView"
+        },
+        {
+          "target": "com.posthog.account_views#GetAccountView"
+        },
+        {
+          "target": "com.posthog.account_views#UpdateAccountViewsPartial"
+        },
+        {
+          "target": "com.posthog.account_views#AccountViewsDestroy"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

@@ -61,44 +61,27 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
-/** The line items of the order. */
-export interface LineItemDetails {
-  /** Required. The Content API REST ID of the product, in the form channel:contentLanguage:targetCountry:offerId. */
-  productId?: string;
-  /** Optional. The manufacturer part number. */
-  mpn?: string;
-  /** Optional. Plain text title of this product. */
-  productTitle?: string;
-  /** Required. The quantity of the line item in the order. */
+/** Represents how many items are in the shipment for the given shipment_id and line_item_id. */
+export interface ShipmentLineItemMapping {
+  /** Required. The shipment ID. This field will be hashed in returned OrderTrackingSignal creation response. */
+  shipmentId?: string;
+  /** Required. The line item quantity in the shipment. */
   quantity?: string;
-  /** Optional. The Global Trade Item Numbers. */
-  gtins?: StringList;
-  /** Optional. Brand of the product. */
-  brand?: string;
-  /** Required. The ID for this line item. */
+  /** Required. The line item ID. */
   lineItemId?: string;
 }
-export const LineItemDetails = /*@__PURE__*/ S.suspend(() =>
+export const ShipmentLineItemMapping = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    productId: S.optional(S.String),
-    mpn: S.optional(S.String),
-    productTitle: S.optional(S.String),
+    shipmentId: S.optional(S.String),
     quantity: S.optional(S.String),
-    gtins: S.optional(StringList),
-    brand: S.optional(S.String),
     lineItemId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LineItemDetails",
-}) as any as S.Schema<LineItemDetails>;
+).annotate({ identifier: "ShipmentLineItemMapping" }) as any as S.Schema<ShipmentLineItemMapping>;
 
-export type LineItemDetailsList = Array<LineItemDetails>;
-export const LineItemDetailsList = /*@__PURE__*/ S.Array(
-  LineItemDetails,
-) as any as S.Schema<LineItemDetailsList>;
+export type ShipmentLineItemMappingList = Array<ShipmentLineItemMapping>;
+export const ShipmentLineItemMappingList = /*@__PURE__*/ S.Array(
+  ShipmentLineItemMapping,
+) as any as S.Schema<ShipmentLineItemMappingList>;
 
 /** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
 export interface TimeZone {
@@ -118,34 +101,34 @@ export const TimeZone = /*@__PURE__*/ S.suspend(() =>
 export interface DateTime {
   /** Optional. Seconds of minutes of the time. Must normally be from 0 to 59, defaults to 0. An API may allow the value 60 if it allows leap-seconds. */
   seconds?: number;
-  /** Optional. Minutes of hour of day. Must be from 0 to 59, defaults to 0. */
-  minutes?: number;
+  /** Time zone. */
+  timeZone?: TimeZone;
   /** Optional. Hours of day in 24 hour format. Should be from 0 to 23, defaults to 0 (midnight). An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
   hours?: number;
   /** UTC offset. Must be whole seconds, between -18 hours and +18 hours. For example, a UTC offset of -4:00 would be represented as { seconds: -14400 }. */
   utcOffset?: string;
-  /** Optional. Month of year. Must be from 1 to 12, or 0 if specifying a datetime without a month. */
-  month?: number;
   /** Optional. Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999, defaults to 0. */
   nanos?: number;
+  /** Optional. Minutes of hour of day. Must be from 0 to 59, defaults to 0. */
+  minutes?: number;
   /** Optional. Year of date. Must be from 1 to 9999, or 0 if specifying a datetime without a year. */
   year?: number;
-  /** Time zone. */
-  timeZone?: TimeZone;
   /** Optional. Day of month. Must be from 1 to 31 and valid for the year and month, or 0 if specifying a datetime without a day. */
   day?: number;
+  /** Optional. Month of year. Must be from 1 to 12, or 0 if specifying a datetime without a month. */
+  month?: number;
 }
 export const DateTime = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     seconds: S.optional(S.Number),
-    minutes: S.optional(S.Number),
+    timeZone: S.optional(TimeZone),
     hours: S.optional(S.Number),
     utcOffset: S.optional(S.String),
-    month: S.optional(S.Number),
     nanos: S.optional(S.Number),
+    minutes: S.optional(S.Number),
     year: S.optional(S.Number),
-    timeZone: S.optional(TimeZone),
     day: S.optional(S.Number),
+    month: S.optional(S.Number),
   }),
 ).annotate({ identifier: "DateTime" }) as any as S.Schema<DateTime>;
 
@@ -154,42 +137,42 @@ export const ShippingInfoShippingStatusEnum = S.String;
 
 /** The shipping information for the order. */
 export interface ShippingInfo {
-  /** Required. The origin postal code, as a continuous string without spaces or dashes, for example "95016". This field will be anonymized in returned OrderTrackingSignal creation response. */
-  originPostalCode?: string;
-  /** Required. The shipment ID. This field will be hashed in returned OrderTrackingSignal creation response. */
-  shipmentId?: string;
-  /** Optional. The time when the shipment was actually delivered. Include the year and timezone string, if available. This field is required, if one of the following fields is absent: tracking_id or carrier_name. */
-  actualDeliveryTime?: DateTime;
-  /** Optional. The earliest delivery promised time. Include the year and timezone string, if available. This field is required, if one of the following fields is absent: tracking_id or carrier_name. */
-  earliestDeliveryPromiseTime?: DateTime;
-  /** Optional. The time when the shipment was shipped. Include the year and timezone string, if available. */
-  shippedTime?: DateTime;
-  /** Optional. The service type for fulfillment, such as GROUND, FIRST_CLASS, etc. */
-  carrierService?: string;
-  /** Optional. The tracking ID of the shipment. This field is required if one of the following fields is absent: earliest_delivery_promise_time, latest_delivery_promise_time, and actual_delivery_time. */
-  trackingId?: string;
-  /** Required. The status of the shipment. */
-  shippingStatus?: ShippingInfoShippingStatusEnum | (string & {});
-  /** Optional. The latest delivery promised time. Include the year and timezone string, if available. This field is required, if one of the following fields is absent: tracking_id or carrier_name. */
-  latestDeliveryPromiseTime?: DateTime;
-  /** Optional. The name of the shipping carrier for the delivery. This field is required if one of the following fields is absent: earliest_delivery_promise_time, latest_delivery_promise_time, and actual_delivery_time. */
-  carrier?: string;
   /** Required. The [CLDR territory code] (http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) for the shipping origin. */
   originRegionCode?: string;
+  /** Optional. The latest delivery promised time. Include the year and timezone string, if available. This field is required, if one of the following fields is absent: tracking_id or carrier_name. */
+  latestDeliveryPromiseTime?: DateTime;
+  /** Required. The status of the shipment. */
+  shippingStatus?: ShippingInfoShippingStatusEnum | (string & {});
+  /** Optional. The tracking ID of the shipment. This field is required if one of the following fields is absent: earliest_delivery_promise_time, latest_delivery_promise_time, and actual_delivery_time. */
+  trackingId?: string;
+  /** Optional. The name of the shipping carrier for the delivery. This field is required if one of the following fields is absent: earliest_delivery_promise_time, latest_delivery_promise_time, and actual_delivery_time. */
+  carrier?: string;
+  /** Optional. The time when the shipment was actually delivered. Include the year and timezone string, if available. This field is required, if one of the following fields is absent: tracking_id or carrier_name. */
+  actualDeliveryTime?: DateTime;
+  /** Optional. The time when the shipment was shipped. Include the year and timezone string, if available. */
+  shippedTime?: DateTime;
+  /** Required. The origin postal code, as a continuous string without spaces or dashes, for example "95016". This field will be anonymized in returned OrderTrackingSignal creation response. */
+  originPostalCode?: string;
+  /** Optional. The earliest delivery promised time. Include the year and timezone string, if available. This field is required, if one of the following fields is absent: tracking_id or carrier_name. */
+  earliestDeliveryPromiseTime?: DateTime;
+  /** Optional. The service type for fulfillment, such as GROUND, FIRST_CLASS, etc. */
+  carrierService?: string;
+  /** Required. The shipment ID. This field will be hashed in returned OrderTrackingSignal creation response. */
+  shipmentId?: string;
 }
 export const ShippingInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    originPostalCode: S.optional(S.String),
-    shipmentId: S.optional(S.String),
-    actualDeliveryTime: S.optional(DateTime),
-    earliestDeliveryPromiseTime: S.optional(DateTime),
-    shippedTime: S.optional(DateTime),
-    carrierService: S.optional(S.String),
-    trackingId: S.optional(S.String),
-    shippingStatus: S.optional(ShippingInfoShippingStatusEnum),
-    latestDeliveryPromiseTime: S.optional(DateTime),
-    carrier: S.optional(S.String),
     originRegionCode: S.optional(S.String),
+    latestDeliveryPromiseTime: S.optional(DateTime),
+    shippingStatus: S.optional(ShippingInfoShippingStatusEnum),
+    trackingId: S.optional(S.String),
+    carrier: S.optional(S.String),
+    actualDeliveryTime: S.optional(DateTime),
+    shippedTime: S.optional(DateTime),
+    originPostalCode: S.optional(S.String),
+    earliestDeliveryPromiseTime: S.optional(DateTime),
+    carrierService: S.optional(S.String),
+    shipmentId: S.optional(S.String),
   }),
 ).annotate({ identifier: "ShippingInfo" }) as any as S.Schema<ShippingInfo>;
 
@@ -212,82 +195,93 @@ export const Price = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Price" }) as any as S.Schema<Price>;
 
-/** Represents how many items are in the shipment for the given shipment_id and line_item_id. */
-export interface ShipmentLineItemMapping {
-  /** Required. The shipment ID. This field will be hashed in returned OrderTrackingSignal creation response. */
-  shipmentId?: string;
-  /** Required. The line item quantity in the shipment. */
-  quantity?: string;
-  /** Required. The line item ID. */
-  lineItemId?: string;
-}
-export const ShipmentLineItemMapping = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    shipmentId: S.optional(S.String),
-    quantity: S.optional(S.String),
-    lineItemId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ShipmentLineItemMapping",
-}) as any as S.Schema<ShipmentLineItemMapping>;
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
-export type ShipmentLineItemMappingList = Array<ShipmentLineItemMapping>;
-export const ShipmentLineItemMappingList = /*@__PURE__*/ S.Array(
-  ShipmentLineItemMapping,
-) as any as S.Schema<ShipmentLineItemMappingList>;
+/** The line items of the order. */
+export interface LineItemDetails {
+  /** Required. The Content API REST ID of the product, in the form channel:contentLanguage:targetCountry:offerId. */
+  productId?: string;
+  /** Optional. Brand of the product. */
+  brand?: string;
+  /** Required. The ID for this line item. */
+  lineItemId?: string;
+  /** Optional. The manufacturer part number. */
+  mpn?: string;
+  /** Optional. The Global Trade Item Numbers. */
+  gtins?: StringList;
+  /** Optional. Plain text title of this product. */
+  productTitle?: string;
+  /** Required. The quantity of the line item in the order. */
+  quantity?: string;
+}
+export const LineItemDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    productId: S.optional(S.String),
+    brand: S.optional(S.String),
+    lineItemId: S.optional(S.String),
+    mpn: S.optional(S.String),
+    gtins: S.optional(StringList),
+    productTitle: S.optional(S.String),
+    quantity: S.optional(S.String),
+  }),
+).annotate({ identifier: "LineItemDetails" }) as any as S.Schema<LineItemDetails>;
+
+export type LineItemDetailsList = Array<LineItemDetails>;
+export const LineItemDetailsList = /*@__PURE__*/ S.Array(
+  LineItemDetails,
+) as any as S.Schema<LineItemDetailsList>;
 
 /** Represents a business trade from which signals are extracted, such as shipping. */
 export interface OrderTrackingSignal {
-  /** Required. Information about line items in the order. */
-  lineItems?: LineItemDetailsList;
-  /** Output only. The ID that uniquely identifies this order tracking signal. */
-  orderTrackingSignalId?: string;
-  /** Required. The shipping information for the order. */
-  shippingInfo?: ShippingInfoList;
-  /** Optional. The shipping fee of the order; this value should be set to zero in the case of free shipping. */
-  customerShippingFee?: Price;
-  /** Optional. The delivery postal code, as a continuous string without spaces or dashes, for example "95016". This field will be anonymized in returned OrderTrackingSignal creation response. */
-  deliveryPostalCode?: string;
-  /** Optional. The [CLDR territory code] (http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) for the shipping destination. */
-  deliveryRegionCode?: string;
   /** Required. The ID of the order on the businesses side. This field will be hashed in returned OrderTrackingSignal creation response. */
   orderId?: string;
   /** Optional. The mapping of the line items to the shipment information. */
   shipmentLineItemMapping?: ShipmentLineItemMappingList;
-  /** Optional. The Google Merchant Center ID of this order tracking signal. This value is optional. If left unset, the caller's Merchant Center ID is used. You must request access in order to provide data on behalf of another business. For more information, see [Submitting Order Tracking Signals](/shopping-content/guides/order-tracking-signals). */
-  merchantId?: string;
+  /** Optional. The [CLDR territory code] (http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) for the shipping destination. */
+  deliveryRegionCode?: string;
   /** Required. The time when the order was created on the businesses side. Include the year and timezone string, if available. */
   orderCreatedTime?: DateTime;
+  /** Required. The shipping information for the order. */
+  shippingInfo?: ShippingInfoList;
+  /** Output only. The ID that uniquely identifies this order tracking signal. */
+  orderTrackingSignalId?: string;
+  /** Optional. The shipping fee of the order; this value should be set to zero in the case of free shipping. */
+  customerShippingFee?: Price;
+  /** Optional. The delivery postal code, as a continuous string without spaces or dashes, for example "95016". This field will be anonymized in returned OrderTrackingSignal creation response. */
+  deliveryPostalCode?: string;
+  /** Required. Information about line items in the order. */
+  lineItems?: LineItemDetailsList;
+  /** Optional. The Google Merchant Center ID of this order tracking signal. This value is optional. If left unset, the caller's Merchant Center ID is used. You must request access in order to provide data on behalf of another business. For more information, see [Submitting Order Tracking Signals](/shopping-content/guides/order-tracking-signals). */
+  merchantId?: string;
 }
 export const OrderTrackingSignal = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    lineItems: S.optional(LineItemDetailsList),
-    orderTrackingSignalId: S.optional(S.String),
-    shippingInfo: S.optional(ShippingInfoList),
-    customerShippingFee: S.optional(Price),
-    deliveryPostalCode: S.optional(S.String),
-    deliveryRegionCode: S.optional(S.String),
     orderId: S.optional(S.String),
     shipmentLineItemMapping: S.optional(ShipmentLineItemMappingList),
-    merchantId: S.optional(S.String),
+    deliveryRegionCode: S.optional(S.String),
     orderCreatedTime: S.optional(DateTime),
+    shippingInfo: S.optional(ShippingInfoList),
+    orderTrackingSignalId: S.optional(S.String),
+    customerShippingFee: S.optional(Price),
+    deliveryPostalCode: S.optional(S.String),
+    lineItems: S.optional(LineItemDetailsList),
+    merchantId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OrderTrackingSignal",
-}) as any as S.Schema<OrderTrackingSignal>;
+).annotate({ identifier: "OrderTrackingSignal" }) as any as S.Schema<OrderTrackingSignal>;
 
 export interface CreateAccountsOrderTrackingSignalsRequest {
-  /** Required. The account of the business for which the order signal is created. Format: accounts/{account} */
-  parent: string;
   /** Output only. The ID that uniquely identifies this order tracking signal. */
   orderTrackingSignalId?: string;
+  /** Required. The account of the business for which the order signal is created. Format: accounts/{account} */
+  parent: string;
   /** Request body */
   body?: OrderTrackingSignal;
 }
 export const CreateAccountsOrderTrackingSignalsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     orderTrackingSignalId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(OrderTrackingSignal.pipe(T.HttpBody())),
   }).pipe(
     T.Http({

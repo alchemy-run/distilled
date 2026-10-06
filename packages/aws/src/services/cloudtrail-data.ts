@@ -105,11 +105,7 @@ export interface AuditEvent {
   eventDataChecksum?: string;
 }
 export const AuditEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    eventData: S.String,
-    eventDataChecksum: S.optional(S.String),
-  }),
+  S.Struct({ id: S.String, eventData: S.String, eventDataChecksum: S.optional(S.String) }),
 ).annotate({ identifier: "AuditEvent" }) as any as S.Schema<AuditEvent>;
 export type AuditEvents = AuditEvent[];
 export const AuditEvents = /*@__PURE__*/ S.Array(AuditEvent);
@@ -126,18 +122,14 @@ export const PutAuditEventsRequest = /*@__PURE__*/ S.suspend(() =>
     channelArn: S.String.pipe(T.HttpQuery("channelArn")),
     externalId: S.optional(S.String).pipe(T.HttpQuery("externalId")),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/PutAuditEvents" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "PutAuditEventsRequest",
-}) as any as S.Schema<PutAuditEventsRequest>;
+).annotate({ identifier: "PutAuditEventsRequest" }) as any as S.Schema<PutAuditEventsRequest>;
 export interface AuditEventResultEntry {
   id: string;
   eventID: string;
 }
 export const AuditEventResultEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String, eventID: S.String }),
-).annotate({
-  identifier: "AuditEventResultEntry",
-}) as any as S.Schema<AuditEventResultEntry>;
+).annotate({ identifier: "AuditEventResultEntry" }) as any as S.Schema<AuditEventResultEntry>;
 export type AuditEventResultEntries = AuditEventResultEntry[];
 export const AuditEventResultEntries = /*@__PURE__*/ S.Array(AuditEventResultEntry);
 export type ErrorCode = string;
@@ -149,9 +141,7 @@ export interface ResultErrorEntry {
 }
 export const ResultErrorEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String, errorCode: S.String, errorMessage: S.String }),
-).annotate({
-  identifier: "ResultErrorEntry",
-}) as any as S.Schema<ResultErrorEntry>;
+).annotate({ identifier: "ResultErrorEntry" }) as any as S.Schema<ResultErrorEntry>;
 export type ResultErrorEntries = ResultErrorEntry[];
 export const ResultErrorEntries = /*@__PURE__*/ S.Array(ResultErrorEntry);
 export interface PutAuditEventsResponse {
@@ -160,9 +150,7 @@ export interface PutAuditEventsResponse {
 }
 export const PutAuditEventsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ successful: AuditEventResultEntries, failed: ResultErrorEntries }),
-).annotate({
-  identifier: "PutAuditEventsResponse",
-}) as any as S.Schema<PutAuditEventsResponse>;
+).annotate({ identifier: "PutAuditEventsResponse" }) as any as S.Schema<PutAuditEventsResponse>;
 export type PutAuditEventsError =
   | ChannelInsufficientPermission
   | ChannelNotFound

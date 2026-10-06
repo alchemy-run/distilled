@@ -13,22 +13,16 @@ export interface CreateTokenFlowRequest {
   utmSource?: string;
   localhostPort?: number;
   nextUrl?: string;
+  expiresInSeconds?: number;
 }
 export const CreateTokenFlowRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     utmSource: S.optional(S.String),
     localhostPort: S.optional(S.Number),
     nextUrl: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/TokenFlowCreate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateTokenFlowRequest",
-}) as any as S.Schema<CreateTokenFlowRequest>;
+    expiresInSeconds: S.optional(S.Number),
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/TokenFlowCreate", code: 200 })),
+).annotate({ identifier: "CreateTokenFlowRequest" }) as any as S.Schema<CreateTokenFlowRequest>;
 
 export interface CreateTokenFlowResponse {
   tokenFlowId?: string;
@@ -43,22 +37,14 @@ export const CreateTokenFlowResponse = /*@__PURE__*/ S.suspend(() =>
     code: S.optional(S.String),
     waitSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "CreateTokenFlowResponse",
-}) as any as S.Schema<CreateTokenFlowResponse>;
+).annotate({ identifier: "CreateTokenFlowResponse" }) as any as S.Schema<CreateTokenFlowResponse>;
 
 export interface GetTokenInfoRequest {}
 export const GetTokenInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/TokenInfoGet",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/TokenInfoGet", code: 200 }),
   ),
-).annotate({
-  identifier: "GetTokenInfoRequest",
-}) as any as S.Schema<GetTokenInfoRequest>;
+).annotate({ identifier: "GetTokenInfoRequest" }) as any as S.Schema<GetTokenInfoRequest>;
 
 export interface UserIdentity {
   userId?: string;
@@ -82,9 +68,7 @@ export const ServiceUserIdentity = /*@__PURE__*/ S.suspend(() =>
     serviceUserName: S.optional(S.String),
     createdBy: S.optional(UserIdentity),
   }),
-).annotate({
-  identifier: "ServiceUserIdentity",
-}) as any as S.Schema<ServiceUserIdentity>;
+).annotate({ identifier: "ServiceUserIdentity" }) as any as S.Schema<ServiceUserIdentity>;
 
 export interface GetTokenInfoResponse {
   tokenId?: string;
@@ -108,9 +92,7 @@ export const GetTokenInfoResponse = /*@__PURE__*/ S.suspend(() =>
     expiresAt: S.optional(S.String),
     tokenName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetTokenInfoResponse",
-}) as any as S.Schema<GetTokenInfoResponse>;
+).annotate({ identifier: "GetTokenInfoResponse" }) as any as S.Schema<GetTokenInfoResponse>;
 
 export interface WaitTokenFlowRequest {
   timeout?: number;
@@ -122,16 +104,8 @@ export const WaitTokenFlowRequest = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(S.Number),
     tokenFlowId: S.optional(S.String),
     waitSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/TokenFlowWait",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "WaitTokenFlowRequest",
-}) as any as S.Schema<WaitTokenFlowRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/TokenFlowWait", code: 200 })),
+).annotate({ identifier: "WaitTokenFlowRequest" }) as any as S.Schema<WaitTokenFlowRequest>;
 
 export interface WaitTokenFlowResponse {
   tokenId?: string;
@@ -146,9 +120,7 @@ export const WaitTokenFlowResponse = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(S.Boolean),
     workspaceUsername: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WaitTokenFlowResponse",
-}) as any as S.Schema<WaitTokenFlowResponse>;
+).annotate({ identifier: "WaitTokenFlowResponse" }) as any as S.Schema<WaitTokenFlowResponse>;
 
 export type CreateTokenFlowError = ModalOpError;
 /** Tokens (web auth flow) */

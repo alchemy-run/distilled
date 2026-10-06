@@ -7285,6 +7285,12 @@
             "smithy.api#documentation": "Finds the k nearest vectors to a query vector, as measured by a similarity\nmetric. knn query finds nearest vectors through approximate search on indexed\ndense_vectors."
           }
         },
+        "kql": {
+          "target": "com.elasticsearch.api#TypesQueryDslKqlQuery",
+          "traits": {
+            "smithy.api#documentation": "Returns documents matching a provided Kibana Query Language (KQL) expression.\nThe expression is parsed and rewritten into standard Query DSL."
+          }
+        },
         "match": {
           "target": "com.elasticsearch.api#TypesQueryDslQueryContainerMatchMap",
           "traits": {
@@ -10687,7 +10693,7 @@
         "value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "String which may be raw text, or the string representation of some other data such as an image in base64.",
+            "smithy.api#documentation": "String which may be raw text, the string representation of some other data such as an image in base64, or a URL that points to the data.",
             "smithy.api#required": {}
           }
         }
@@ -10743,6 +10749,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "base64"
+          }
+        },
+        "URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "url"
           }
         }
       },
@@ -10854,6 +10866,48 @@
         }
       },
       "traits": {}
+    },
+    "com.elasticsearch.api#TypesQueryDslKqlQuery": {
+      "type": "structure",
+      "members": {
+        "boost": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Floating point number used to decrease or increase the relevance scores of the query.\nBoost values are relative to the default value of 1.0.\nA boost value between 0 and 1.0 decreases the relevance score.\nA value greater than 1.0 increases the relevance score."
+          }
+        },
+        "_name": {
+          "target": "smithy.api#String"
+        },
+        "case_insensitive": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If `true`, performs case-insensitive matching for field names and keyword or text terms."
+          }
+        },
+        "default_field": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Default field, or field pattern with wildcards, to target when a bare term does not specify a field.\nDefaults to the `index.query.default_field` index setting, which has a default value of `*`."
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The KQL expression to parse.",
+            "smithy.api#required": {}
+          }
+        },
+        "time_zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Coordinated Universal Time (UTC) offset or IANA time zone used to interpret date literals in the expression."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Returns documents matching a provided Kibana Query Language (KQL) expression.\nThe expression is parsed and rewritten into standard Query DSL."
+      }
     },
     "com.elasticsearch.api#TypesQueryDslMatchQuery": {
       "type": "structure",
@@ -19820,19 +19874,20 @@
         "retriever": {
           "target": "com.elasticsearch.api#TypesRetrieverContainer",
           "traits": {
+            "smithy.api#documentation": "The nested retriever configuration.",
             "smithy.api#required": {}
           }
         },
         "weight": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Weight multiplier for this retriever's contribution to the linear combination.\nMust be non-negative."
           }
         },
         "normalizer": {
           "target": "com.elasticsearch.api#TypesScoreNormalizer",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Score normalizer to apply to this retriever's results before weighting.\nFalls back to the top-level `normalizer` on the linear retriever if unset,\nthen to `none` (identity) if neither is set."
           }
         }
       },
@@ -36487,6 +36542,18 @@
             "smithy.api#enumValue": "st"
           }
         },
+        "LOCAL_RETRIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "local_retries"
+          }
+        },
+        "LR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lr"
+          }
+        },
         "PRIORITY": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -36497,6 +36564,30 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "pr"
+          }
+        },
+        "GATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gate"
+          }
+        },
+        "G": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "g"
+          }
+        },
+        "BLOCKED_FOR_MILLIS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blocked_for_millis"
+          }
+        },
+        "BF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bf"
           }
         },
         "SOURCE_HOST": {
@@ -36720,7 +36811,7 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#httpQuery": "active_only",
-            "smithy.api#documentation": "If `true`, the response only includes ongoing shard recoveries."
+            "smithy.api#documentation": "If `true`, the response only includes shard recoveries that have not yet completed (excludes `done` stage)."
           }
         },
         "detailed": {
@@ -36774,31 +36865,31 @@
         "start_time": {
           "target": "com.elasticsearch.api#TypesDateTime",
           "traits": {
-            "smithy.api#documentation": "The recovery start time."
+            "smithy.api#documentation": "The recovery start time.\nFor recoveries in the `created` stage (not yet started), this value is the Unix epoch (1970-01-01T00:00:00.000Z)."
           }
         },
         "start_time_millis": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The recovery start time in epoch milliseconds."
+            "smithy.api#documentation": "The recovery start time in epoch milliseconds.\nFor recoveries in the `created` stage (not yet started), this value is 0."
           }
         },
         "stop_time": {
           "target": "com.elasticsearch.api#TypesDateTime",
           "traits": {
-            "smithy.api#documentation": "The recovery stop time."
+            "smithy.api#documentation": "The recovery stop time.\nFor recoveries that have not yet completed, this value is the Unix epoch (1970-01-01T00:00:00.000Z)."
           }
         },
         "stop_time_millis": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The recovery stop time in epoch milliseconds."
+            "smithy.api#documentation": "The recovery stop time in epoch milliseconds.\nFor recoveries that have not yet completed, this value is 0."
           }
         },
         "time": {
           "target": "com.elasticsearch.api#TypesDuration",
           "traits": {
-            "smithy.api#documentation": "The recovery time."
+            "smithy.api#documentation": "The recovery time.\nFor recoveries in the `created` stage (not yet started), this value is 0."
           }
         },
         "type": {
@@ -36813,10 +36904,28 @@
             "smithy.api#documentation": "The recovery stage."
           }
         },
+        "local_retries": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The number of times this recovery has failed in a way which is retried locally (i.e. on the data node)."
+          }
+        },
         "priority": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The recovery priority."
+          }
+        },
+        "gate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the recovery gate that blocked recovery on the target node.\n\nThe value is `n/a` unless the recovery is queued in the `created` stage and blocked by a recovery gate."
+          }
+        },
+        "blocked_for_millis": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The elapsed time in milliseconds recovery is blocked for.\n\nThe value is `n/a` when the recovery is not blocked by a recovery gate."
           }
         },
         "source_host": {
@@ -36978,7 +37087,7 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#httpQuery": "active_only",
-            "smithy.api#documentation": "If `true`, the response only includes ongoing shard recoveries."
+            "smithy.api#documentation": "If `true`, the response only includes shard recoveries that have not yet completed (excludes `done` stage)."
           }
         },
         "detailed": {
@@ -52799,7 +52908,10 @@
           "target": "com.elasticsearch.api#GlobalSearchTypesProfile"
         },
         "pit_id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An updated identifier for the point-in-time that was searched.\n\nIMPORTANT: Each search request against a PIT returns in its response a `pit_id` field which may be different from the identifier you originally supplied.\nAlways use the most recently-received PIT identifier for the next request.\nIf you make concurrent search requests against the same PIT, Elasticsearch can return several different `pit_id` values in its responses.\nIn that case, use any of these values for later requests, preferring more recently-received values whenever possible."
+          }
         },
         "_scroll_id": {
           "target": "smithy.api#String",
@@ -53143,7 +53255,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The ID of the point-in-time.",
+            "smithy.api#documentation": "The ID of the point-in-time.\n\nIMPORTANT: Each search request against a PIT returns in its response a `pit_id` field which may be different from the identifier you originally supplied.\nAlways use the most recently-received PIT identifier for the next request.\nIf you make concurrent search requests against the same PIT, Elasticsearch can return several different `pit_id` values in its responses.\nIn that case, use any of these values for later requests, preferring more recently-received values whenever possible.",
             "smithy.api#required": {}
           }
         }
@@ -57155,7 +57267,37 @@
         "flat_index_threshold": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The segment document count threshold below which HNSW graph construction is skipped in favor of brute-force flat\nsearch. `-1` (default) defers to format defaults: `300` for `bbq_hnsw`, `150` for `hnsw`, `int8_hnsw`, and\n`int4_hnsw`. `0` always builds the graph. A positive value overrides the format default.\n\nOnly applicable to `hnsw`, `int8_hnsw`, `int4_hnsw`, and `bbq_hnsw` index types."
+            "smithy.api#documentation": "The segment document count threshold below which HNSW graph construction is skipped in favor of brute-force flat\nsearch. `-1` (default) defers to format defaults: `300` for `bbq_hnsw`, `150` for `hnsw`, `int8_hnsw`, and\n`int4_hnsw`. `0` always builds the graph. A positive value overrides the format default.\n\nOnly applicable to `hnsw`, `int8_hnsw`, `int4_hnsw`, `bbq_hnsw`, and `bbq_disk` index types."
+          }
+        },
+        "cluster_size": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Only applicable to `bbq_disk`. The number of vectors per cluster. Must be between 64 and 65536."
+          }
+        },
+        "default_visit_percentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Only applicable to `bbq_disk`. The percentage of clusters to visit during search. Must be between 0 and 100.\nA value of 0 defaults to using `num_candidates` for calculating the visit percentage."
+          }
+        },
+        "bits": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Only applicable to `bbq_disk`. The number of bits per dimension for quantization encoding.\nValid values are `1`, `2`, `4`, or `7`. When no `rescore_vector` is explicitly set,\nthe default oversampling is automatically adjusted based on the bits value.\nThis setting can be changed without reindexing."
+          }
+        },
+        "precondition": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Only applicable to `bbq_disk`. When `true`, transforms indexed vectors using a random orthogonal\nprojection before quantization, which can improve accuracy when vector components are not normally\ndistributed. Cannot be changed after the field is created."
+          }
+        },
+        "auto_calibrate": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Only applicable to `bbq_disk`. When `true`, Elasticsearch automatically selects the optimal\nquantization encoding, oversampling factor, and preconditioning for each merged segment based\non estimated recall characteristics. Cannot be changed after the field is created."
           }
         }
       },
@@ -61316,6 +61458,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "stored"
+          }
+        },
+        "COLUMNAR_STORED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "columnar_stored"
           }
         },
         "SYNTHETIC": {
@@ -79203,7 +79351,10 @@
           "target": "com.elasticsearch.api#GlobalSearchTypesProfile"
         },
         "pit_id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An updated identifier for the point-in-time that was searched.\n\nIMPORTANT: Each search request against a PIT returns in its response a `pit_id` field which may be different from the identifier you originally supplied.\nAlways use the most recently-received PIT identifier for the next request.\nIf you make concurrent search requests against the same PIT, Elasticsearch can return several different `pit_id` values in its responses.\nIn that case, use any of these values for later requests, preferring more recently-received values whenever possible."
+          }
         },
         "_scroll_id": {
           "target": "smithy.api#String",
@@ -81886,6 +82037,9 @@
         },
         "project_encryption_key": {
           "target": "com.elasticsearch.api#GlobalHealthReportProjectEncryptionKeyIndicator"
+        },
+        "dlm_frozen_transitions": {
+          "target": "com.elasticsearch.api#GlobalHealthReportDlmFrozenTransitionsIndicator"
         }
       },
       "traits": {}
@@ -82959,6 +83113,144 @@
             "smithy.api#required": {}
           }
         }
+      },
+      "traits": {}
+    },
+    "com.elasticsearch.api#GlobalHealthReportDlmFrozenTransitionsIndicator": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.elasticsearch.api#GlobalHealthReportIndicatorHealthStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "symptom": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "impacts": {
+          "target": "com.elasticsearch.api#GlobalHealthReportDlmFrozenTransitionsIndicatorImpactsList"
+        },
+        "diagnosis": {
+          "target": "com.elasticsearch.api#GlobalHealthReportDlmFrozenTransitionsIndicatorDiagnosisList"
+        },
+        "details": {
+          "target": "com.elasticsearch.api#GlobalHealthReportDlmFrozenTransitionsIndicatorDetails"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "DLM_FROZEN_TRANSITIONS"
+      }
+    },
+    "com.elasticsearch.api#GlobalHealthReportDlmFrozenTransitionsIndicatorImpactsList": {
+      "type": "list",
+      "member": {
+        "target": "com.elasticsearch.api#GlobalHealthReportImpact"
+      },
+      "traits": {}
+    },
+    "com.elasticsearch.api#GlobalHealthReportDlmFrozenTransitionsIndicatorDiagnosisList": {
+      "type": "list",
+      "member": {
+        "target": "com.elasticsearch.api#GlobalHealthReportDiagnosis"
+      },
+      "traits": {}
+    },
+    "com.elasticsearch.api#GlobalHealthReportDlmFrozenTransitionsIndicatorDetails": {
+      "type": "structure",
+      "members": {
+        "transitions_enabled": {
+          "target": "smithy.api#Boolean"
+        },
+        "service_running": {
+          "target": "smithy.api#Boolean"
+        },
+        "default_repository_configured": {
+          "target": "smithy.api#Boolean"
+        },
+        "overdue_indices_count": {
+          "target": "smithy.api#Double"
+        },
+        "overdue_indices_count_by_state": {
+          "target": "com.elasticsearch.api#GlobalHealthReportDlmFrozenTransitionsIndicatorDetailsOverdueIndicesCountByStateMap"
+        },
+        "overdue_indices_sample": {
+          "target": "com.elasticsearch.api#GlobalHealthReportDlmFrozenTransitionsIndicatorDetailsOverdueIndicesSampleList"
+        },
+        "generated_at_millis": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Only present when the indicator status is `unknown`, meaning the health snapshot is stale."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.elasticsearch.api#GlobalHealthReportDlmFrozenTransitionsIndicatorDetailsOverdueIndicesCountByStateMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Double"
+      },
+      "traits": {}
+    },
+    "com.elasticsearch.api#GlobalHealthReportDlmFrozenTransitionOverdueIndex": {
+      "type": "structure",
+      "members": {
+        "index_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "transition_state": {
+          "target": "com.elasticsearch.api#GlobalHealthReportDlmFrozenTransitionState",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.elasticsearch.api#GlobalHealthReportDlmFrozenTransitionState": {
+      "type": "enum",
+      "members": {
+        "UNMARKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unmarked"
+          }
+        },
+        "MARKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "marked"
+          }
+        },
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.elasticsearch.api#GlobalHealthReportDlmFrozenTransitionsIndicatorDetailsOverdueIndicesSampleList": {
+      "type": "list",
+      "member": {
+        "target": "com.elasticsearch.api#GlobalHealthReportDlmFrozenTransitionOverdueIndex"
       },
       "traits": {}
     },
@@ -93675,7 +93967,7 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#httpQuery": "active_only",
-            "smithy.api#documentation": "If `true`, the response only includes ongoing shard recoveries."
+            "smithy.api#documentation": "If `true`, the response only includes shard recoveries that have not yet completed (excludes `DONE` stage)."
           }
         },
         "detailed": {
@@ -93757,29 +94049,57 @@
             "smithy.api#required": {}
           }
         },
+        "local_retries": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The number of times this recovery has failed in a way which is retried locally (i.e. on the data node)."
+          }
+        },
         "priority": {
           "target": "com.elasticsearch.api#IndicesRecoveryRecoveryPriority",
           "traits": {
             "smithy.api#documentation": "The recovery priority."
           }
         },
+        "gate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the recovery gate that blocked recovery on the target node.\n\nOnly present for queued recoveries in the `CREATED` stage that are blocked by a recovery gate."
+          }
+        },
+        "blocked_for_millis": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The elapsed time in milliseconds recovery is blocked for.\n\nOnly present with `gate`."
+          }
+        },
         "start": {
           "target": "com.elasticsearch.api#IndicesRecoveryRecoveryStartStatus"
         },
         "start_time": {
-          "target": "com.elasticsearch.api#TypesDateTime"
+          "target": "com.elasticsearch.api#TypesDateTime",
+          "traits": {
+            "smithy.api#documentation": "The time the recovery started.\nFor recoveries in the `CREATED` stage (not yet started), this value is the Unix epoch (1970-01-01T00:00:00.000Z)."
+          }
         },
         "start_time_in_millis": {
           "target": "smithy.api#Double",
           "traits": {
+            "smithy.api#documentation": "The time the recovery started, in milliseconds since the Unix epoch.\nFor recoveries in the `CREATED` stage (not yet started), this value is 0.",
             "smithy.api#required": {}
           }
         },
         "stop_time": {
-          "target": "com.elasticsearch.api#TypesDateTime"
+          "target": "com.elasticsearch.api#TypesDateTime",
+          "traits": {
+            "smithy.api#documentation": "The time the recovery completed. Only present for completed recoveries (`DONE` stage)."
+          }
         },
         "stop_time_in_millis": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The time the recovery completed, in milliseconds since the Unix epoch.\nOnly present for completed recoveries (`DONE` stage)."
+          }
         },
         "target": {
           "target": "com.elasticsearch.api#IndicesRecoveryRecoveryOrigin",
@@ -93793,6 +94113,7 @@
         "total_time_in_millis": {
           "target": "smithy.api#Double",
           "traits": {
+            "smithy.api#documentation": "The total elapsed recovery time in milliseconds.\nFor recoveries in the `CREATED` stage (not yet started), this value is 0.",
             "smithy.api#required": {}
           }
         },
@@ -94020,6 +94341,12 @@
     "com.elasticsearch.api#IndicesRecoveryRecoveryStage": {
       "type": "enum",
       "members": {
+        "CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATED"
+          }
+        },
         "INIT": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -94294,7 +94621,7 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#httpQuery": "active_only",
-            "smithy.api#documentation": "If `true`, the response only includes ongoing shard recoveries."
+            "smithy.api#documentation": "If `true`, the response only includes shard recoveries that have not yet completed (excludes `DONE` stage)."
           }
         },
         "detailed": {
@@ -101019,7 +101346,7 @@
           "uri": "/_inference/chat_completion/{inference_id}/_stream",
           "code": 200
         },
-        "smithy.api#documentation": "Perform chat completion inference on the service\n\nThe chat completion inference API enables real-time responses for chat completion tasks by delivering answers incrementally, reducing response times during computation.\nIt only works with the `chat_completion` task type.\n\nNOTE: The `chat_completion` task type is only available within the _stream API and only supports streaming.\nThe Chat completion inference API and the Stream inference API differ in their response structure and capabilities.\nThe Chat completion inference API provides more comprehensive customization options through more fields and function calling support.\nTo determine whether a given inference service supports this task type, please see the page for that service."
+        "smithy.api#documentation": "Perform streaming chat completion inference on the service\n\nThe chat completion inference API enables real-time responses for chat completion tasks by delivering answers incrementally, reducing response times during computation.\nIt only works with the `chat_completion` task type.\n\nNOTE: The `chat_completion` task type supports both streaming and non-streaming.\nThe Chat completion inference API and the Stream inference API differ in their response structure and capabilities.\nThe Chat completion inference API provides more comprehensive customization options through more fields and function calling support.\nTo determine whether a given inference service supports this task type, please see the page for that service."
       }
     },
     "com.elasticsearch.api#InferenceCompletionRequestInputCase1List": {
@@ -102593,13 +102920,13 @@
         "format": {
           "target": "com.elasticsearch.api#InferenceTypesEmbeddingContentFormat",
           "traits": {
-            "smithy.api#documentation": "The format of the input. For the `text` type this must be `text`. For all other types, this must be `base64`.\nIf not specified, this will default to `text` for the `text` type and `base64` for all other types."
+            "smithy.api#documentation": "The format of the input. For the `text` type this must be `text`. For all other types, this must be `base64` or `url`.\nIf not specified, this will default to `text` for the `text` type and `base64` for all other types.\nThe `url` format is available in Elasticsearch 9.6.0 and later.\nNot all services and models support all formats."
           }
         },
         "value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The value of the input to embed. For images, this must be a base64-encoded data URI, i.e. \"data:content/type;base64,...\"",
+            "smithy.api#documentation": "The value of the input to embed. For the `base64` format, this must be a base64-encoded data URI, i.e. \"data:content/type;base64,...\".\nFor the `url` format, this must be a URL that points to the content, i.e. \"https://example.com/image.jpg\".",
             "smithy.api#required": {}
           }
         }
@@ -102643,7 +102970,7 @@
         "input": {
           "target": "com.elasticsearch.api#InferenceTypesEmbeddingInput",
           "traits": {
-            "smithy.api#documentation": "Inference input.\nEither a string, an array of strings, a `content` object, or an array of `content` objects.\n`content` objects may contain a single item or an array of items. Models that support multiple items per `content`\nobject will return a single embedding for each `content` object, regardless of how many items it contains.\nSupport for multiple items in a single `content` object is available in Elasticsearch 9.5.0 and later.\n\nstring example:\n```\n\"input\": \"Some text\"\n```\nstring array example:\n```\n\"input\": [\"Some text\", \"Some more text\"]\n```\n`content` object example:\n```\n\"input\": {\n    \"content\": {\n      \"type\": \"image\",\n      \"format\": \"base64\",\n      \"value\": \"data:image/jpeg;base64,...\"\n    }\n  }\n```\n`content` object array example:\n```\n\"input\": [\n  {\n    \"content\": {\n      \"type\": \"text\",\n      \"format\": \"text\",\n      \"value\": \"Some text to generate an embedding\"\n    }\n  },\n  {\n    \"content\": {\n      \"type\": \"image\",\n      \"format\": \"base64\",\n      \"value\": \"data:image/jpeg;base64,...\"\n    }\n  }\n]\n```\nMultiple items in one `content` object example (available in Elasticsearch 9.5.0 and later):\n```\n\"input\": [\n  {\n    \"content\": [\n      {\n        \"type\": \"image\",\n        \"format\": \"base64\",\n        \"value\": \"data:image/jpeg;base64,...\"\n      },\n      {\n        \"type\": \"text\",\n        \"value\": \"Some text to create an embedding\"\n      }\n    ]\n  }\n]\n```",
+            "smithy.api#documentation": "Inference input.\nEither a string, an array of strings, a `content` object, or an array of `content` objects.\n`content` objects may contain a single item or an array of items. Models that support multiple items per `content`\nobject will return a single embedding for each `content` object, regardless of how many items it contains.\nSupport for multiple items in a single `content` object is available in Elasticsearch 9.5.0 and later.\n\nstring example:\n```\n\"input\": \"Some text\"\n```\nstring array example:\n```\n\"input\": [\"Some text\", \"Some more text\"]\n```\n`content` object example:\n```\n\"input\": {\n    \"content\": {\n      \"type\": \"image\",\n      \"format\": \"base64\",\n      \"value\": \"data:image/jpeg;base64,...\"\n    }\n  }\n```\n`content` object array example:\n```\n\"input\": [\n  {\n    \"content\": {\n      \"type\": \"text\",\n      \"format\": \"text\",\n      \"value\": \"Some text to generate an embedding\"\n    }\n  },\n  {\n    \"content\": {\n      \"type\": \"image\",\n      \"format\": \"base64\",\n      \"value\": \"data:image/jpeg;base64,...\"\n    }\n  }\n]\n```\n`content` object using the `url` format example (available in Elasticsearch 9.6.0 and later):\n```\n\"input\": {\n    \"content\": {\n      \"type\": \"image\",\n      \"format\": \"url\",\n      \"value\": \"https://example.com/image.jpg\"\n    }\n  }\n```\nMultiple items in one `content` object example (available in Elasticsearch 9.5.0 and later):\n```\n\"input\": [\n  {\n    \"content\": [\n      {\n        \"type\": \"image\",\n        \"format\": \"base64\",\n        \"value\": \"data:image/jpeg;base64,...\"\n      },\n      {\n        \"type\": \"text\",\n        \"value\": \"Some text to create an embedding\"\n      }\n    ]\n  }\n]\n```",
             "smithy.api#required": {}
           }
         },
@@ -102851,6 +103178,397 @@
           "code": 200
         },
         "smithy.api#documentation": "Get an inference endpoint\n\nThis API requires the `monitor_inference` cluster privilege (the built-in `inference_admin` and `inference_user` roles grant this privilege)."
+      }
+    },
+    "com.elasticsearch.api#InferenceNonStreamingChatCompletionRequestMessagesList": {
+      "type": "list",
+      "member": {
+        "target": "com.elasticsearch.api#InferenceTypesMessage"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of objects representing the conversation.\nRequests should generally only add new messages from the user (role `user`).\nThe other message roles (`assistant`, `system`, or `tool`) should generally only be copied from the response to a previous completion request, such that the messages array is built up throughout a conversation."
+      }
+    },
+    "com.elasticsearch.api#InferenceNonStreamingChatCompletionRequestStopList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "A sequence of strings to control when the model should stop generating additional tokens."
+      }
+    },
+    "com.elasticsearch.api#InferenceNonStreamingChatCompletionRequestToolsList": {
+      "type": "list",
+      "member": {
+        "target": "com.elasticsearch.api#InferenceTypesCompletionTool"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of tools that the model can call.\nExample:\n```\n{\n  \"tools\": [\n      {\n          \"type\": \"function\",\n          \"function\": {\n              \"name\": \"get_price_of_item\",\n              \"description\": \"Get the current price of an item\",\n              \"parameters\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                      \"item\": {\n                          \"id\": \"12345\"\n                      },\n                      \"unit\": {\n                          \"type\": \"currency\"\n                      }\n                  }\n              }\n          }\n      }\n  ]\n}\n```"
+      }
+    },
+    "com.elasticsearch.api#InferenceNonStreamingChatCompletionRequest": {
+      "type": "structure",
+      "members": {
+        "inference_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The inference Id"
+          }
+        },
+        "timeout": {
+          "target": "com.elasticsearch.api#TypesDuration",
+          "traits": {
+            "smithy.api#httpQuery": "timeout",
+            "smithy.api#documentation": "Specifies the amount of time to wait for the inference request to complete."
+          }
+        },
+        "messages": {
+          "target": "com.elasticsearch.api#InferenceNonStreamingChatCompletionRequestMessagesList",
+          "traits": {
+            "smithy.api#documentation": "A list of objects representing the conversation.\nRequests should generally only add new messages from the user (role `user`).\nThe other message roles (`assistant`, `system`, or `tool`) should generally only be copied from the response to a previous completion request, such that the messages array is built up throughout a conversation.",
+            "smithy.api#required": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the model to use. By default, the model ID is set to the value included when creating the inference endpoint."
+          }
+        },
+        "max_completion_tokens": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The upper bound limit for the number of tokens that can be generated for a completion request."
+          }
+        },
+        "reasoning": {
+          "target": "com.elasticsearch.api#InferenceTypesReasoning",
+          "traits": {
+            "smithy.api#documentation": "The reasoning configuration for the completion request.\nThis controls the model's reasoning process in one of two ways:\n\n* By specifying the model’s reasoning effort level with the `effort` field.\n* By enabling reasoning with default settings by setting `enabled` field to `true`.\n\nIt also includes optional settings to control:\n\n* The level of detail in the summary returned in the response with the `summary` field.\n* Whether reasoning details are included in the response at all with the `exclude` field.\n\nExample (effort):\n```\n{\n   \"reasoning\": {\n       \"effort\": \"high\",\n       \"summary\": \"concise\",\n       \"exclude\": false\n   }\n}\n```\nExample (enabled):\n```\n{\n   \"reasoning\": {\n       \"enabled\": true,\n       \"summary\": \"concise\",\n       \"exclude\": false\n   }\n}\n```\nCurrently supported only for `elastic` provider."
+          }
+        },
+        "stop": {
+          "target": "com.elasticsearch.api#InferenceNonStreamingChatCompletionRequestStopList",
+          "traits": {
+            "smithy.api#documentation": "A sequence of strings to control when the model should stop generating additional tokens."
+          }
+        },
+        "temperature": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The sampling temperature to use."
+          }
+        },
+        "tool_choice": {
+          "target": "com.elasticsearch.api#InferenceTypesCompletionToolType",
+          "traits": {
+            "smithy.api#documentation": "Controls which tool is called by the model.\nString representation: One of `auto`, `none`, or `requrired`. `auto` allows the model to choose between calling tools and generating a message. `none` causes the model to not call any tools. `required` forces the model to call one or more tools.\nExample (object representation):\n```\n{\n  \"tool_choice\": {\n      \"type\": \"function\",\n      \"function\": {\n          \"name\": \"get_current_weather\"\n      }\n  }\n}\n```"
+          }
+        },
+        "tools": {
+          "target": "com.elasticsearch.api#InferenceNonStreamingChatCompletionRequestToolsList",
+          "traits": {
+            "smithy.api#documentation": "A list of tools that the model can call.\nExample:\n```\n{\n  \"tools\": [\n      {\n          \"type\": \"function\",\n          \"function\": {\n              \"name\": \"get_price_of_item\",\n              \"description\": \"Get the current price of an item\",\n              \"parameters\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                      \"item\": {\n                          \"id\": \"12345\"\n                      },\n                      \"unit\": {\n                          \"type\": \"currency\"\n                      }\n                  }\n              }\n          }\n      }\n  ]\n}\n```"
+          }
+        },
+        "top_p": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Nucleus sampling, an alternative to sampling with temperature."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.elasticsearch.api#InferenceTypesChatCompletionInferenceResult": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the completion.",
+            "smithy.api#required": {}
+          }
+        },
+        "choices": {
+          "target": "com.elasticsearch.api#InferenceTypesChatCompletionInferenceResultChoicesList",
+          "traits": {
+            "smithy.api#documentation": "The list of completion choices the model generated for the input message."
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The model used to generate the completion.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The object type.",
+            "smithy.api#required": {}
+          }
+        },
+        "usage": {
+          "target": "com.elasticsearch.api#InferenceTypesChatCompletionUsage",
+          "traits": {
+            "smithy.api#documentation": "The token usage statistics for the completion request.\nOmitted when usage information is not available."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The response format for the non-streaming unified chat completion request."
+      }
+    },
+    "com.elasticsearch.api#InferenceTypesChatCompletionChoice": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "com.elasticsearch.api#InferenceTypesChatCompletionMessage",
+          "traits": {
+            "smithy.api#documentation": "The message generated by the model for this choice.",
+            "smithy.api#required": {}
+          }
+        },
+        "finish_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The reason the model stopped generating tokens.\nCommon values are `stop` (natural stopping point) and `tool_calls` (the model called a tool).\nOmitted when the reason is not available."
+          }
+        },
+        "index": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The index of this choice in the list of choices.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A single completion choice returned by the model."
+      }
+    },
+    "com.elasticsearch.api#InferenceTypesChatCompletionMessage": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The content of the message."
+          }
+        },
+        "refusal": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The refusal message generated by the model."
+          }
+        },
+        "role": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The role of the message author."
+          }
+        },
+        "reasoning": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The reasoning generated by the model as plaintext.\nCurrently supported only for the `elastic` provider."
+          }
+        },
+        "tool_calls": {
+          "target": "com.elasticsearch.api#InferenceTypesChatCompletionMessageToolCallsList",
+          "traits": {
+            "smithy.api#documentation": "The tool calls generated by the model."
+          }
+        },
+        "reasoning_details": {
+          "target": "com.elasticsearch.api#InferenceTypesChatCompletionMessageReasoningDetailsList",
+          "traits": {
+            "smithy.api#documentation": "The reasoning details generated by the model as structured data.\nCurrently supported only for the `elastic` provider."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The message returned by the model."
+      }
+    },
+    "com.elasticsearch.api#InferenceTypesChatCompletionToolCall": {
+      "type": "structure",
+      "members": {
+        "index": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The index of the tool call in the list of tool calls generated by the model.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier of the tool call."
+          }
+        },
+        "function": {
+          "target": "com.elasticsearch.api#InferenceTypesChatCompletionToolCallFunction",
+          "traits": {
+            "smithy.api#documentation": "The function that the model called."
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the tool call.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A tool call generated by the model."
+      }
+    },
+    "com.elasticsearch.api#InferenceTypesChatCompletionToolCallFunction": {
+      "type": "structure",
+      "members": {
+        "arguments": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The arguments to call the function with, as a JSON string."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the function."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The function called by the tool."
+      }
+    },
+    "com.elasticsearch.api#InferenceTypesChatCompletionMessageToolCallsList": {
+      "type": "list",
+      "member": {
+        "target": "com.elasticsearch.api#InferenceTypesChatCompletionToolCall"
+      },
+      "traits": {
+        "smithy.api#documentation": "The tool calls generated by the model."
+      }
+    },
+    "com.elasticsearch.api#InferenceTypesChatCompletionMessageReasoningDetailsList": {
+      "type": "list",
+      "member": {
+        "target": "com.elasticsearch.api#InferenceTypesReasoningDetail"
+      },
+      "traits": {
+        "smithy.api#documentation": "The reasoning details generated by the model as structured data.\nCurrently supported only for the `elastic` provider."
+      }
+    },
+    "com.elasticsearch.api#InferenceTypesChatCompletionInferenceResultChoicesList": {
+      "type": "list",
+      "member": {
+        "target": "com.elasticsearch.api#InferenceTypesChatCompletionChoice"
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of completion choices the model generated for the input message."
+      }
+    },
+    "com.elasticsearch.api#InferenceTypesChatCompletionUsage": {
+      "type": "structure",
+      "members": {
+        "completion_tokens": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The number of tokens in the generated completion.",
+            "smithy.api#required": {}
+          }
+        },
+        "prompt_tokens": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The number of tokens in the prompt.",
+            "smithy.api#required": {}
+          }
+        },
+        "total_tokens": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The total number of tokens used (prompt + completion).",
+            "smithy.api#required": {}
+          }
+        },
+        "prompt_tokens_details": {
+          "target": "com.elasticsearch.api#InferenceTypesChatCompletionPromptTokensDetails",
+          "traits": {
+            "smithy.api#documentation": "Breakdown of the tokens used in the prompt.\nOmitted when no details are available."
+          }
+        },
+        "completion_tokens_details": {
+          "target": "com.elasticsearch.api#InferenceTypesChatCompletionCompletionTokensDetails",
+          "traits": {
+            "smithy.api#documentation": "Breakdown of the tokens used in the completion.\nOmitted when no details are available."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Token usage statistics for the request."
+      }
+    },
+    "com.elasticsearch.api#InferenceTypesChatCompletionPromptTokensDetails": {
+      "type": "structure",
+      "members": {
+        "cached_tokens": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The number of tokens that were cached from a previous request."
+          }
+        },
+        "cache_write_tokens": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The number of tokens written to the cache."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Breakdown of tokens used in the prompt."
+      }
+    },
+    "com.elasticsearch.api#InferenceTypesChatCompletionCompletionTokensDetails": {
+      "type": "structure",
+      "members": {
+        "reasoning_tokens": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The number of tokens used for reasoning by the model."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Breakdown of tokens used in the request."
+      }
+    },
+    "com.elasticsearch.api#InferenceNonStreamingChatCompletion": {
+      "type": "operation",
+      "input": {
+        "target": "com.elasticsearch.api#InferenceNonStreamingChatCompletionRequest"
+      },
+      "output": {
+        "target": "com.elasticsearch.api#InferenceTypesChatCompletionInferenceResult"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/_inference/chat_completion/{inference_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Perform non-streaming chat completion inference on the service\n\nThe chat completion inference API enables rich responses for chat completion tasks.\nIt only works with the `chat_completion` task type.\n\nNOTE: The `chat_completion` task type supports both streaming and non-streaming.\nThe Chat completion inference API provides more comprehensive customization options through more fields and function calling support.\nTo determine whether a given inference service supports this task type, please see the page for that service.\n\nThese services support non-streaming chat completion inference:\n- AI21\n- Azure OpenAI\n- Deepseek\n- Elastic\n- FireworksAI\n- Groq\n- Huggingface\n- IBMWatsonX\n- Llama\n- Mistral\n- NVIDIA\n- OpenAI\n- OpenShiftAI"
       }
     },
     "com.elasticsearch.api#InferencePutAi21RequestTaskType": {
@@ -109551,13 +110269,13 @@
         "format": {
           "target": "com.elasticsearch.api#InferenceRerankRerankInputFormat",
           "traits": {
-            "smithy.api#documentation": "The format of the input. For the `text` type this must be `text`. For the `image` type this must be `base64`.\nIf not specified, this defaults to `text` for the `text` type and `base64` for the `image` type."
+            "smithy.api#documentation": "The format of the input. For the `text` type this must be `text`. For the `image` type this must be `base64` or `url`.\nIf not specified, this defaults to `text` for the `text` type and `base64` for the `image` type.\nThe `url` format is available in Elasticsearch 9.6.0 and later.\nNot all services and models support all formats."
           }
         },
         "value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The value of the input. For images, this must be a base64-encoded data URI, that is, \"data:content/type;base64,...\".",
+            "smithy.api#documentation": "The value of the input. For the `base64` format, this must be a base64-encoded data URI, that is, \"data:content/type;base64,...\".\nFor the `url` format, this must be a URL that points to the content, that is, \"https://example.com/image.jpg\".",
             "smithy.api#required": {}
           }
         }
@@ -109597,6 +110315,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "base64"
+          }
+        },
+        "URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "url"
           }
         }
       },
@@ -109679,14 +110403,14 @@
         "query": {
           "target": "com.elasticsearch.api#InferenceRerankRerankQuery",
           "traits": {
-            "smithy.api#documentation": "Query input.\nThe query can be specified as a single string, or as an object.\nThe object form additionally allows specifying non-text inputs, such as images.\n\n> info\n> Only the `elastic` service currently supports non-text queries for the `rerank` task. For all other services, the query must be a string.\n\nstring example:\n```\n\"query\": \"some query text\"\n```\nobject example:\n```\n\"query\": {\n  \"type\": \"image\",\n  \"format\": \"base64\",\n  \"value\": \"data:image/jpeg;base64,...\"\n}\n```",
+            "smithy.api#documentation": "Query input.\nThe query can be specified as a single string, or as an object.\nThe object form additionally allows specifying non-text inputs, such as images.\n\n> info\n> Only the `elastic` service currently supports non-text queries for the `rerank` task. For all other services, the query must be a string.\n\nstring example:\n```\n\"query\": \"some query text\"\n```\nobject example:\n```\n\"query\": {\n  \"type\": \"image\",\n  \"format\": \"base64\",\n  \"value\": \"data:image/jpeg;base64,...\"\n}\n```\nobject example using the `url` format (available in Elasticsearch 9.6.0 and later):\n```\n\"query\": {\n  \"type\": \"image\",\n  \"format\": \"url\",\n  \"value\": \"https://example.com/image.jpg\"\n}\n```",
             "smithy.api#required": {}
           }
         },
         "input": {
           "target": "com.elasticsearch.api#InferenceRerankRerankInput",
           "traits": {
-            "smithy.api#documentation": "The documents to rank.\nThe input can be specified as a single string or an array of strings, or as an object or an array of objects.\nThe object form additionally allows specifying non-text inputs, such as images.\n\n> info\n> Only the `elastic` service currently supports non-text inputs for the `rerank` task. For all other services, the input must be a string or an array of strings.\n\nstring example:\n```\n\"input\": \"some document text\"\n```\nstring array example:\n```\n\"input\": [\"some document text\", \"some more document text\"]\n```\nobject example:\n```\n\"input\": {\n  \"type\": \"image\",\n  \"format\": \"base64\",\n  \"value\": \"data:image/jpeg;base64,...\"\n}\n```\nobject array example:\n```\n\"input\": [\n  {\n    \"type\": \"text\",\n    \"format\": \"text\",\n    \"value\": \"some document text\"\n  },\n  {\n    \"type\": \"image\",\n    \"format\": \"base64\",\n    \"value\": \"data:image/jpeg;base64,...\"\n  }\n]\n```",
+            "smithy.api#documentation": "The documents to rank.\nThe input can be specified as a single string or an array of strings, or as an object or an array of objects.\nThe object form additionally allows specifying non-text inputs, such as images.\n\n> info\n> Only the `elastic` service currently supports non-text inputs for the `rerank` task. For all other services, the input must be a string or an array of strings.\n\nstring example:\n```\n\"input\": \"some document text\"\n```\nstring array example:\n```\n\"input\": [\"some document text\", \"some more document text\"]\n```\nobject example:\n```\n\"input\": {\n  \"type\": \"image\",\n  \"format\": \"base64\",\n  \"value\": \"data:image/jpeg;base64,...\"\n}\n```\nobject array example:\n```\n\"input\": [\n  {\n    \"type\": \"text\",\n    \"format\": \"text\",\n    \"value\": \"some document text\"\n  },\n  {\n    \"type\": \"image\",\n    \"format\": \"base64\",\n    \"value\": \"data:image/jpeg;base64,...\"\n  }\n]\n```\nobject array example using the `url` format (available in Elasticsearch 9.6.0 and later):\n```\n\"input\": [\n  {\n    \"type\": \"image\",\n    \"format\": \"url\",\n    \"value\": \"https://example.com/image.jpg\"\n  }\n]\n```",
             "smithy.api#required": {}
           }
         },
@@ -121426,6 +122150,12 @@
             "smithy.api#documentation": "If a real-time datafeed has never seen any data (including during any initial training period), it automatically\nstops and closes the associated job after this many real-time searches return no documents. In other words,\nit stops after `frequency` times `max_empty_searches` of real-time operation. If not set, a datafeed with no\nend time that sees no data remains started until it is explicitly stopped. By default, it is not set."
           }
         },
+        "max_consecutive_extraction_failures": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of consecutive real-time data extraction failures the datafeed tolerates before it\nautomatically stops itself, leaving the associated job open. The consecutive-failure counter resets on any\ncycle that extracts successfully, including empty-data cycles. If not set, the threshold defaults to roughly\none day's worth of searches based on the datafeed `frequency` (floored at 1). Set to `-1` to disable auto-stop\nand retry indefinitely. Values of `0` or less than `-1` are rejected."
+          }
+        },
         "query": {
           "target": "com.elasticsearch.api#TypesQueryDslQueryContainer",
           "traits": {
@@ -121534,6 +122264,9 @@
           "target": "com.elasticsearch.api#TypesIndicesOptions"
         },
         "max_empty_searches": {
+          "target": "smithy.api#Double"
+        },
+        "max_consecutive_extraction_failures": {
           "target": "smithy.api#Double"
         },
         "query": {
@@ -122998,6 +123731,12 @@
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "If a real-time datafeed has never seen any data (including during any initial training period) then it will automatically stop itself and close its associated job after this many real-time searches that return no documents. In other words, it will stop after `frequency` times `max_empty_searches` of real-time operation. If not set then a datafeed with no end time that sees no data will remain started until it is explicitly stopped."
+          }
+        },
+        "max_consecutive_extraction_failures": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of consecutive real-time data extraction failures the datafeed tolerates before it automatically stops itself, leaving the associated job open. The consecutive-failure counter resets on any cycle that extracts successfully, including empty-data cycles. If not set, the threshold defaults to roughly one day's worth of searches based on the datafeed `frequency` (floored at 1). Set to `-1` to disable auto-stop and retry indefinitely. Values of `0` or less than `-1` are rejected."
           }
         },
         "query": {
@@ -136189,6 +136928,12 @@
             "smithy.api#documentation": "If a real-time datafeed has never seen any data (including during any initial training period), it automatically\nstops and closes the associated job after this many real-time searches return no documents. In other words,\nit stops after `frequency` times `max_empty_searches` of real-time operation. If not set, a datafeed with no\nend time that sees no data remains started until it is explicitly stopped. By default, it is not set."
           }
         },
+        "max_consecutive_extraction_failures": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of consecutive real-time data extraction failures the datafeed tolerates before it\nautomatically stops itself, leaving the associated job open. The consecutive-failure counter resets on any\ncycle that extracts successfully, including empty-data cycles. If not set, the threshold defaults to roughly\none day's worth of searches based on the datafeed `frequency` (floored at 1). Set to `-1` to disable auto-stop\nand retry indefinitely. Values of `0` or less than `-1` are rejected."
+          }
+        },
         "query": {
           "target": "com.elasticsearch.api#TypesQueryDslQueryContainer",
           "traits": {
@@ -136297,6 +137042,9 @@
           }
         },
         "max_empty_searches": {
+          "target": "smithy.api#Double"
+        },
+        "max_consecutive_extraction_failures": {
           "target": "smithy.api#Double"
         },
         "query": {
@@ -144806,7 +145554,7 @@
           "uri": "/{index}/_pit",
           "code": 200
         },
-        "smithy.api#documentation": "Open a point in time\n\nA search request by default runs against the most recent visible data of the target indices,\nwhich is called point in time. Elasticsearch pit (point in time) is a lightweight view into the\nstate of the data as it existed when initiated. In some cases, it’s preferred to perform multiple\nsearch requests using the same point in time. For example, if refreshes happen between\n`search_after` requests, then the results of those requests might not be consistent as changes happening\nbetween searches are only visible to the more recent point in time.\n\nA point in time must be opened explicitly before being used in search requests.\n\nA subsequent search request with the `pit` parameter must not specify `index`, `routing`, or `preference` values as these parameters are copied from the point in time.\n\nJust like regular searches, you can use `from` and `size` to page through point in time search results, up to the first 10,000 hits.\nIf you want to retrieve more hits, use PIT with `search_after`.\n\nIMPORTANT: The open point in time request and each subsequent search request can return different identifiers; always use the most recently received ID for the next search request.\n\nWhen a PIT that contains shard failures is used in a search request, the missing are always reported in the search response as a `NoShardAvailableActionException` exception.\nTo get rid of these exceptions, a new PIT needs to be created so that shards missing from the previous PIT can be handled, assuming they become available in the meantime.\n\n**Keeping point in time alive**\n\nThe `keep_alive` parameter, which is passed to a open point in time request and search request, extends the time to live of the corresponding point in time.\nThe value does not need to be long enough to process all data — it just needs to be long enough for the next request.\n\nNormally, the background merge process optimizes the index by merging together smaller segments to create new, bigger segments.\nOnce the smaller segments are no longer needed they are deleted.\nHowever, open point-in-times prevent the old segments from being deleted since they are still in use.\n\nTIP: Keeping older segments alive means that more disk space and file handles are needed.\nEnsure that you have configured your nodes to have ample free file handles.\n\nAdditionally, if a segment contains deleted or updated documents then the point in time must keep track of whether each document in the segment was live at the time of the initial search request.\nEnsure that your nodes have sufficient heap space if you have many open point-in-times on an index that is subject to ongoing deletes or updates.\nNote that a point-in-time doesn't prevent its associated indices from being deleted.\nYou can check how many point-in-times (that is, search contexts) are open with the nodes stats API.\n\n## Required authorization\n\n* Index privileges: `read`"
+        "smithy.api#documentation": "Open a point in time\n\nA search request by default runs against the most recent visible data of the target indices,\nwhich is called point in time. Elasticsearch pit (point in time) is a lightweight view into the\nstate of the data as it existed when initiated. In some cases, it’s preferred to perform multiple\nsearch requests using the same point in time. For example, if refreshes happen between\n`search_after` requests, then the results of those requests might not be consistent as changes happening\nbetween searches are only visible to the more recent point in time.\n\nA point in time must be opened explicitly before being used in search requests.\n\nA subsequent search request with the `pit` parameter must not specify `index`, `routing`, or `preference` values as these parameters are copied from the point in time.\n\nJust like regular searches, you can use `from` and `size` to page through point in time search results, up to the first 10,000 hits.\nIf you want to retrieve more hits, use PIT with `search_after`.\n\nIMPORTANT: Each search request against a PIT returns in its response a `pit_id` field which may be different from the identifier you originally supplied.\nAlways use the most recently-received PIT identifier for the next request.\nIf you make concurrent search requests against the same PIT, Elasticsearch can return several different `pit_id` values in its responses.\nIn that case, use any of these values for later requests, preferring more recently-received values whenever possible.\n\nWhen a PIT that contains shard failures is used in a search request, the missing are always reported in the search response as a `NoShardAvailableActionException` exception.\nTo get rid of these exceptions, a new PIT needs to be created so that shards missing from the previous PIT can be handled, assuming they become available in the meantime.\n\n**Keeping point in time alive**\n\nThe `keep_alive` parameter, which is passed to a open point in time request and search request, extends the time to live of the corresponding point in time.\nThe value does not need to be long enough to process all data — it just needs to be long enough for the next request.\n\nNormally, the background merge process optimizes the index by merging together smaller segments to create new, bigger segments.\nOnce the smaller segments are no longer needed they are deleted.\nHowever, open point-in-times prevent the old segments from being deleted since they are still in use.\n\nTIP: Keeping older segments alive means that more disk space and file handles are needed.\nEnsure that you have configured your nodes to have ample free file handles.\n\nAdditionally, if a segment contains deleted or updated documents then the point in time must keep track of whether each document in the segment was live at the time of the initial search request.\nEnsure that your nodes have sufficient heap space if you have many open point-in-times on an index that is subject to ongoing deletes or updates.\nNote that a point-in-time doesn't prevent its associated indices from being deleted.\nYou can check how many point-in-times (that is, search contexts) are open with the nodes stats API.\n\n## Required authorization\n\n* Index privileges: `read`"
       }
     },
     "com.elasticsearch.api#PutScript3Request": {
@@ -153807,6 +154555,12 @@
             "smithy.api#enumValue": "cancel_task"
           }
         },
+        "CLONE_API_KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "clone_api_key"
+          }
+        },
         "CREATE_SNAPSHOT": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -154901,7 +155655,7 @@
           }
         },
         "global": {
-          "target": "com.elasticsearch.api#SecurityTypesRoleDescriptorGlobal",
+          "target": "com.elasticsearch.api#SecurityTypesGlobalPrivilege",
           "traits": {
             "smithy.api#documentation": "An object defining global privileges. A global privilege is a form of cluster privilege that is request-aware."
           }
@@ -155050,9 +155804,18 @@
       "type": "structure",
       "members": {
         "application": {
-          "target": "com.elasticsearch.api#SecurityTypesApplicationGlobalUserPrivileges",
+          "target": "com.elasticsearch.api#SecurityTypesApplicationGlobalUserPrivileges"
+        },
+        "profile": {
+          "target": "com.elasticsearch.api#SecurityTypesWriteProfileGlobalUserPrivileges",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#documentation": "A privilege that grants the ability to write the `data` and `access` sections of user profiles for the specified applications."
+          }
+        },
+        "role": {
+          "target": "com.elasticsearch.api#SecurityTypesManageRolesGlobalUserPrivileges",
+          "traits": {
+            "smithy.api#documentation": "A privilege that grants the ability to manage roles that are scoped to the specified indices."
           }
         },
         "data_source": {
@@ -155092,6 +155855,87 @@
       "type": "list",
       "member": {
         "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.elasticsearch.api#SecurityTypesWriteProfileGlobalUserPrivileges": {
+      "type": "structure",
+      "members": {
+        "write": {
+          "target": "com.elasticsearch.api#SecurityTypesManageUserPrivileges",
+          "traits": {
+            "smithy.api#documentation": "The applications for which user profile data can be written.\nAbsent when the `profile` section is present but grants no privileges."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.elasticsearch.api#SecurityTypesManageRolesGlobalUserPrivileges": {
+      "type": "structure",
+      "members": {
+        "manage": {
+          "target": "com.elasticsearch.api#SecurityTypesManageRolesPrivileges",
+          "traits": {
+            "smithy.api#documentation": "The index-scoped role management privileges.\nAbsent when the `role` section is present but grants no privileges."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.elasticsearch.api#SecurityTypesManageRolesPrivileges": {
+      "type": "structure",
+      "members": {
+        "indices": {
+          "target": "com.elasticsearch.api#SecurityTypesManageRolesPrivilegesIndicesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.elasticsearch.api#SecurityTypesManageRolesIndexPermissions": {
+      "type": "structure",
+      "members": {
+        "names": {
+          "target": "com.elasticsearch.api#SecurityTypesManageRolesIndexPermissionsNamesList",
+          "traits": {
+            "smithy.api#documentation": "A list of indices (or index name patterns) that the owners of the role can manage roles for.",
+            "smithy.api#required": {}
+          }
+        },
+        "privileges": {
+          "target": "com.elasticsearch.api#SecurityTypesManageRolesIndexPermissionsPrivilegesList",
+          "traits": {
+            "smithy.api#documentation": "The index privileges that the managed roles are allowed to grant on the specified indices.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.elasticsearch.api#SecurityTypesManageRolesIndexPermissionsNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of indices (or index name patterns) that the owners of the role can manage roles for."
+      }
+    },
+    "com.elasticsearch.api#SecurityTypesManageRolesIndexPermissionsPrivilegesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The index privileges that the managed roles are allowed to grant on the specified indices."
+      }
+    },
+    "com.elasticsearch.api#SecurityTypesManageRolesPrivilegesIndicesList": {
+      "type": "list",
+      "member": {
+        "target": "com.elasticsearch.api#SecurityTypesManageRolesIndexPermissions"
       },
       "traits": {}
     },
@@ -155188,27 +156032,6 @@
       },
       "traits": {
         "smithy.api#documentation": "A list of data source privilege entries, used to grant access to ES|QL data sources."
-      }
-    },
-    "com.elasticsearch.api#SecurityTypesRoleDescriptorGlobalCase0List": {
-      "type": "list",
-      "member": {
-        "target": "com.elasticsearch.api#SecurityTypesGlobalPrivilege"
-      },
-      "traits": {}
-    },
-    "com.elasticsearch.api#SecurityTypesRoleDescriptorGlobal": {
-      "type": "union",
-      "members": {
-        "Case0": {
-          "target": "com.elasticsearch.api#SecurityTypesRoleDescriptorGlobalCase0List"
-        },
-        "SecurityTypesGlobalPrivilege": {
-          "target": "com.elasticsearch.api#SecurityTypesGlobalPrivilege"
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "An object defining global privileges. A global privilege is a form of cluster privilege that is request-aware."
       }
     },
     "com.elasticsearch.api#SecurityTypesRoleDescriptorApplicationsList": {
@@ -156380,7 +157203,7 @@
           "uri": "/_security/api_key/clone",
           "code": 200
         },
-        "smithy.api#documentation": "Clone an API key\n\nCreate a copy of an existing API key with a new ID.\nThe cloned key inherits the role descriptors of the source key.\nThis is intended for applications (such as Kibana) that need to\ncreate API keys on behalf of a user using an existing API key credential,\nsince derived API keys (API keys created by API keys) are not otherwise supported.\n\n## Required authorization\n\n* Cluster privileges: `manage_own_api_key`"
+        "smithy.api#documentation": "Clone an API key\n\nCreate a copy of an existing API key with a new ID.\nThe cloned key inherits the role descriptors of the source key.\nThis is intended for applications (such as Kibana) that need to\ncreate API keys on behalf of a user using an existing API key credential,\nsince derived API keys (API keys created by API keys) are not otherwise supported.\n\n## Required authorization\n\n* Cluster privileges: `clone_api_key`"
       }
     },
     "com.elasticsearch.api#SecurityCloneApiKey1Request": {
@@ -156481,7 +157304,7 @@
           "uri": "/_security/api_key/clone",
           "code": 200
         },
-        "smithy.api#documentation": "Clone an API key\n\nCreate a copy of an existing API key with a new ID.\nThe cloned key inherits the role descriptors of the source key.\nThis is intended for applications (such as Kibana) that need to\ncreate API keys on behalf of a user using an existing API key credential,\nsince derived API keys (API keys created by API keys) are not otherwise supported.\n\n## Required authorization\n\n* Cluster privileges: `manage_own_api_key`"
+        "smithy.api#documentation": "Clone an API key\n\nCreate a copy of an existing API key with a new ID.\nThe cloned key inherits the role descriptors of the source key.\nThis is intended for applications (such as Kibana) that need to\ncreate API keys on behalf of a user using an existing API key credential,\nsince derived API keys (API keys created by API keys) are not otherwise supported.\n\n## Required authorization\n\n* Cluster privileges: `clone_api_key`"
       }
     },
     "com.elasticsearch.api#SecurityGetApiKeyRequest": {
@@ -157421,7 +158244,7 @@
           "uri": "/_security/service/{namespace}/{service}/credential/token/{name}",
           "code": 200
         },
-        "smithy.api#documentation": "Create a service account token\n\nCreate a service accounts token for access without requiring basic authentication.\n\nNOTE: Service account tokens never expire.\nYou must actively delete them if they are no longer needed.\n\nIMPORTANT: On Serverless, non-operator users can create tokens for only `elastic/fleet-server` and `elastic/fleet-server-remote`.\nCreating tokens for any other service account requires operator privileges.\n\n## Required authorization\n\n* Cluster privileges: `manage_service_account`"
+        "smithy.api#documentation": "Create a service account token\n\nCreate a service accounts token for access without requiring basic authentication.\nThis route serves both kinds of service account, but the privileges differ: `manage_service_account` authorizes tokens of built-in accounts in the `elastic` namespace only, and tokens of a user-managed account require `manage_security`.\n\nNOTE: Service account tokens never expire.\nYou must actively delete them if they are no longer needed.\n\nIMPORTANT: On Serverless, non-operator users can create tokens for only `elastic/fleet-server` and `elastic/fleet-server-remote`.\nCreating tokens for any other service account requires operator privileges.\n\n## Required authorization\n\n* Cluster privileges: `manage_service_account`"
       }
     },
     "com.elasticsearch.api#SecurityCreateServiceTokenRequest": {
@@ -157497,7 +158320,7 @@
           "uri": "/_security/service/{namespace}/{service}/credential/token/{name}",
           "code": 200
         },
-        "smithy.api#documentation": "Create a service account token\n\nCreate a service accounts token for access without requiring basic authentication.\n\nNOTE: Service account tokens never expire.\nYou must actively delete them if they are no longer needed.\n\nIMPORTANT: On Serverless, non-operator users can create tokens for only `elastic/fleet-server` and `elastic/fleet-server-remote`.\nCreating tokens for any other service account requires operator privileges.\n\n## Required authorization\n\n* Cluster privileges: `manage_service_account`"
+        "smithy.api#documentation": "Create a service account token\n\nCreate a service accounts token for access without requiring basic authentication.\nThis route serves both kinds of service account, but the privileges differ: `manage_service_account` authorizes tokens of built-in accounts in the `elastic` namespace only, and tokens of a user-managed account require `manage_security`.\n\nNOTE: Service account tokens never expire.\nYou must actively delete them if they are no longer needed.\n\nIMPORTANT: On Serverless, non-operator users can create tokens for only `elastic/fleet-server` and `elastic/fleet-server-remote`.\nCreating tokens for any other service account requires operator privileges.\n\n## Required authorization\n\n* Cluster privileges: `manage_service_account`"
       }
     },
     "com.elasticsearch.api#SecurityDeleteServiceTokenRequest": {
@@ -157568,7 +158391,7 @@
           "uri": "/_security/service/{namespace}/{service}/credential/token/{name}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete service account tokens\n\nDelete service account tokens for a service in a specified namespace.\n\nIMPORTANT: On Serverless, non-operator users can delete tokens for only `elastic/fleet-server` and `elastic/fleet-server-remote`.\nDeleting tokens for any other service account requires operator privileges.\n\n## Required authorization\n\n* Cluster privileges: `manage_service_account`"
+        "smithy.api#documentation": "Delete service account tokens\n\nDelete service account tokens for a service in a specified namespace.\nThis route serves both kinds of service account, but the privileges differ: `manage_service_account` authorizes tokens of built-in accounts in the `elastic` namespace only, and tokens of a user-managed account require `manage_security`.\n\nIMPORTANT: On Serverless, non-operator users can delete tokens for only `elastic/fleet-server` and `elastic/fleet-server-remote`.\nDeleting tokens for any other service account requires operator privileges.\n\n## Required authorization\n\n* Cluster privileges: `manage_service_account`"
       }
     },
     "com.elasticsearch.api#SecurityCreateServiceToken2Request": {
@@ -157636,7 +158459,7 @@
           "uri": "/_security/service/{namespace}/{service}/credential/token",
           "code": 200
         },
-        "smithy.api#documentation": "Create a service account token\n\nCreate a service accounts token for access without requiring basic authentication.\n\nNOTE: Service account tokens never expire.\nYou must actively delete them if they are no longer needed.\n\nIMPORTANT: On Serverless, non-operator users can create tokens for only `elastic/fleet-server` and `elastic/fleet-server-remote`.\nCreating tokens for any other service account requires operator privileges.\n\n## Required authorization\n\n* Cluster privileges: `manage_service_account`"
+        "smithy.api#documentation": "Create a service account token\n\nCreate a service accounts token for access without requiring basic authentication.\nThis route serves both kinds of service account, but the privileges differ: `manage_service_account` authorizes tokens of built-in accounts in the `elastic` namespace only, and tokens of a user-managed account require `manage_security`.\n\nNOTE: Service account tokens never expire.\nYou must actively delete them if they are no longer needed.\n\nIMPORTANT: On Serverless, non-operator users can create tokens for only `elastic/fleet-server` and `elastic/fleet-server-remote`.\nCreating tokens for any other service account requires operator privileges.\n\n## Required authorization\n\n* Cluster privileges: `manage_service_account`"
       }
     },
     "com.elasticsearch.api#SecurityDelegatePkiRequestX509CertificateChainList": {
@@ -159372,6 +160195,516 @@
         "smithy.api#documentation": "Delete users\n\nDelete users from the native realm.\n\n## Required authorization\n\n* Cluster privileges: `manage_security`"
       }
     },
+    "com.elasticsearch.api#SecurityGetServiceAccountsServiceAccountType": {
+      "type": "enum",
+      "members": {
+        "BUILT_IN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "built_in"
+          }
+        },
+        "USER_MANAGED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user_managed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.elasticsearch.api#SecurityGetServiceAccountsRequestTypeCase1List": {
+      "type": "list",
+      "member": {
+        "target": "com.elasticsearch.api#SecurityGetServiceAccountsServiceAccountType"
+      },
+      "traits": {}
+    },
+    "com.elasticsearch.api#SecurityGetServiceAccountsRequestType": {
+      "type": "union",
+      "members": {
+        "SecurityGetServiceAccountsServiceAccountType": {
+          "target": "com.elasticsearch.api#SecurityGetServiceAccountsServiceAccountType"
+        },
+        "Case1": {
+          "target": "com.elasticsearch.api#SecurityGetServiceAccountsRequestTypeCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.elasticsearch.api#SecurityGetServiceAccountsRequest": {
+      "type": "structure",
+      "members": {
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the namespace.\nOmit this parameter to retrieve information about all service accounts.\nIf you omit this parameter, you must also omit the `service` parameter."
+          }
+        },
+        "service": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The service name.\nOmit this parameter to retrieve information about all service accounts that belong to the specified `namespace`."
+          }
+        },
+        "type": {
+          "target": "com.elasticsearch.api#SecurityGetServiceAccountsRequestType",
+          "traits": {
+            "smithy.api#httpQuery": "type",
+            "smithy.api#documentation": "A comma-separated list of the kinds of service account to return.\nIf it is omitted, it defaults to `built_in` when no namespace is given and to `built_in,user_managed` otherwise."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.elasticsearch.api#SecurityGetServiceAccountsServiceAccountInfo": {
+      "type": "union",
+      "members": {
+        "SecurityGetServiceAccountsBuiltInServiceAccount": {
+          "target": "com.elasticsearch.api#SecurityGetServiceAccountsBuiltInServiceAccount"
+        },
+        "SecurityGetServiceAccountsUserManagedServiceAccount": {
+          "target": "com.elasticsearch.api#SecurityGetServiceAccountsUserManagedServiceAccount"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The two kinds of service account describe their privileges differently.\nA built-in account includes its role descriptor. A user-managed account includes its role names and whether it is enabled."
+      }
+    },
+    "com.elasticsearch.api#SecurityGetServiceAccountsBuiltInServiceAccount": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.elasticsearch.api#SecurityGetServiceAccountsBuiltInServiceAccountType",
+          "traits": {
+            "smithy.api#documentation": "The account ships with Elasticsearch.",
+            "smithy.api#required": {}
+          }
+        },
+        "role_descriptor": {
+          "target": "com.elasticsearch.api#SecurityTypesRoleDescriptorRead",
+          "traits": {
+            "smithy.api#documentation": "The role descriptor declared for the account in the Elasticsearch distribution.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.elasticsearch.api#SecurityGetServiceAccountsBuiltInServiceAccountType": {
+      "type": "enum",
+      "members": {
+        "BUILT_IN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "built_in"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The account ships with Elasticsearch."
+      }
+    },
+    "com.elasticsearch.api#SecurityTypesRoleDescriptorRead": {
+      "type": "structure",
+      "members": {
+        "cluster": {
+          "target": "com.elasticsearch.api#SecurityTypesRoleDescriptorReadClusterList",
+          "traits": {
+            "smithy.api#documentation": "A list of cluster privileges. These privileges define the cluster level actions that API keys are able to execute.",
+            "smithy.api#required": {}
+          }
+        },
+        "indices": {
+          "target": "com.elasticsearch.api#SecurityTypesRoleDescriptorReadIndicesList",
+          "traits": {
+            "smithy.api#documentation": "A list of indices permissions entries.",
+            "smithy.api#required": {}
+          }
+        },
+        "remote_indices": {
+          "target": "com.elasticsearch.api#SecurityTypesRoleDescriptorReadRemoteIndicesList",
+          "traits": {
+            "smithy.api#documentation": "A list of indices permissions for remote clusters."
+          }
+        },
+        "remote_cluster": {
+          "target": "com.elasticsearch.api#SecurityTypesRoleDescriptorReadRemoteClusterList",
+          "traits": {
+            "smithy.api#documentation": "A list of cluster permissions for remote clusters.\nNOTE: This is limited a subset of the cluster permissions."
+          }
+        },
+        "global": {
+          "target": "com.elasticsearch.api#SecurityTypesGlobalPrivilege",
+          "traits": {
+            "smithy.api#documentation": "An object defining global privileges. A global privilege is a form of cluster privilege that is request-aware."
+          }
+        },
+        "applications": {
+          "target": "com.elasticsearch.api#SecurityTypesRoleDescriptorReadApplicationsList",
+          "traits": {
+            "smithy.api#documentation": "A list of application privilege entries"
+          }
+        },
+        "metadata": {
+          "target": "com.elasticsearch.api#TypesMetadata",
+          "traits": {
+            "smithy.api#documentation": "Optional meta-data. Within the metadata object, keys that begin with `_` are reserved for system usage."
+          }
+        },
+        "run_as": {
+          "target": "com.elasticsearch.api#SecurityTypesRoleDescriptorReadRunAsList",
+          "traits": {
+            "smithy.api#documentation": "A list of users that the API keys can impersonate.\nNOTE: In Elastic Cloud Serverless, the run-as feature is disabled.\nFor API compatibility, you can still specify an empty `run_as` field, but a non-empty list will be rejected."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional description of the role descriptor"
+          }
+        },
+        "restriction": {
+          "target": "com.elasticsearch.api#SecurityTypesRestriction",
+          "traits": {
+            "smithy.api#documentation": "Restriction for when the role descriptor is allowed to be effective."
+          }
+        },
+        "transient_metadata": {
+          "target": "com.elasticsearch.api#SecurityTypesRoleDescriptorReadTransientMetadataMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.elasticsearch.api#SecurityTypesRoleDescriptorReadClusterList": {
+      "type": "list",
+      "member": {
+        "target": "com.elasticsearch.api#SecurityTypesClusterPrivilege"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of cluster privileges. These privileges define the cluster level actions that API keys are able to execute."
+      }
+    },
+    "com.elasticsearch.api#SecurityTypesRoleDescriptorReadIndicesList": {
+      "type": "list",
+      "member": {
+        "target": "com.elasticsearch.api#SecurityTypesIndicesPrivileges"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of indices permissions entries."
+      }
+    },
+    "com.elasticsearch.api#SecurityTypesRoleDescriptorReadRemoteIndicesList": {
+      "type": "list",
+      "member": {
+        "target": "com.elasticsearch.api#SecurityTypesRemoteIndicesPrivileges"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of indices permissions for remote clusters."
+      }
+    },
+    "com.elasticsearch.api#SecurityTypesRoleDescriptorReadRemoteClusterList": {
+      "type": "list",
+      "member": {
+        "target": "com.elasticsearch.api#SecurityTypesRemoteClusterPrivileges"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of cluster permissions for remote clusters.\nNOTE: This is limited a subset of the cluster permissions."
+      }
+    },
+    "com.elasticsearch.api#SecurityTypesRoleDescriptorReadApplicationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.elasticsearch.api#SecurityTypesApplicationPrivileges"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of application privilege entries"
+      }
+    },
+    "com.elasticsearch.api#SecurityTypesRoleDescriptorReadRunAsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of users that the API keys can impersonate.\nNOTE: In Elastic Cloud Serverless, the run-as feature is disabled.\nFor API compatibility, you can still specify an empty `run_as` field, but a non-empty list will be rejected."
+      }
+    },
+    "com.elasticsearch.api#SecurityTypesRoleDescriptorReadTransientMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.elasticsearch.api#SecurityGetServiceAccountsUserManagedServiceAccount": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.elasticsearch.api#SecurityGetServiceAccountsUserManagedServiceAccountType",
+          "traits": {
+            "smithy.api#documentation": "The account was created with the put user-managed service account API.",
+            "smithy.api#required": {}
+          }
+        },
+        "roles": {
+          "target": "com.elasticsearch.api#SecurityGetServiceAccountsUserManagedServiceAccountRolesList",
+          "traits": {
+            "smithy.api#documentation": "The names of the roles granted to the account, as sent on the last PUT of the account.\nThey are resolved when the account authenticates.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the account can authenticate.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A free-text description of the account, as sent on the last PUT of the account.\nIt has no meaning to Elasticsearch. Absent when the account has no description."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.elasticsearch.api#SecurityGetServiceAccountsUserManagedServiceAccountType": {
+      "type": "enum",
+      "members": {
+        "USER_MANAGED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user_managed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The account was created with the put user-managed service account API."
+      }
+    },
+    "com.elasticsearch.api#SecurityGetServiceAccountsUserManagedServiceAccountRolesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The names of the roles granted to the account, as sent on the last PUT of the account.\nThey are resolved when the account authenticates."
+      }
+    },
+    "com.elasticsearch.api#SecurityGetServiceAccountsResponseBodyMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.elasticsearch.api#SecurityGetServiceAccountsServiceAccountInfo"
+      },
+      "traits": {}
+    },
+    "com.elasticsearch.api#SecurityGetServiceAccountsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.elasticsearch.api#SecurityGetServiceAccountsResponseBodyMap",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.elasticsearch.api#SecurityGetServiceAccounts": {
+      "type": "operation",
+      "input": {
+        "target": "com.elasticsearch.api#SecurityGetServiceAccountsRequest"
+      },
+      "output": {
+        "target": "com.elasticsearch.api#SecurityGetServiceAccountsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/_security/service/{namespace}/{service}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get service accounts\n\nGet a list of service accounts that match the provided path parameters.\nBuilt-in service accounts ship with Elasticsearch in the `elastic` namespace; user-managed service accounts are created with the put user-managed service account API.\n\nNOTE: When `type` is omitted, a request without a namespace reports built-in accounts only, which preserves the response of a whole-cluster listing.\nA request scoped to a namespace reports both kinds, so an account you created is found without naming its kind.\n\n## Required authorization\n\n* Cluster privileges: `manage_service_account`"
+      }
+    },
+    "com.elasticsearch.api#SecurityPutUserManagedServiceAccountRequestRolesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The names of the roles to grant to the service account, up to a maximum of 1000.\nThe roles are resolved when the account authenticates, so they do not have to exist yet."
+      }
+    },
+    "com.elasticsearch.api#SecurityPutUserManagedServiceAccountRequest": {
+      "type": "structure",
+      "members": {
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The namespace, which is a top-level grouping of service accounts.\nIt must start with a letter or digit and can contain only letters, digits, hyphens, and underscores, up to a maximum of 128 characters.\nIt cannot be `elastic`, which is reserved for built-in service accounts."
+          }
+        },
+        "service": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The service name.\nIt must start with a letter or digit and can contain only letters, digits, hyphens, and underscores, up to a maximum of 128 characters."
+          }
+        },
+        "refresh": {
+          "target": "com.elasticsearch.api#TypesRefresh",
+          "traits": {
+            "smithy.api#httpQuery": "refresh",
+            "smithy.api#documentation": "If `wait_for` (the default) then wait for a refresh to make this operation visible to search, if `true` then refresh the affected shards to make this operation visible to search, if `false` then do nothing with refreshes."
+          }
+        },
+        "roles": {
+          "target": "com.elasticsearch.api#SecurityPutUserManagedServiceAccountRequestRolesList",
+          "traits": {
+            "smithy.api#documentation": "The names of the roles to grant to the service account, up to a maximum of 1000.\nThe roles are resolved when the account authenticates, so they do not have to exist yet.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the account can authenticate.\nTokens can still be created for a disabled account; they just cannot be used until the account is enabled."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A free-text description of the account, as sent on the last PUT of the account.\nIt has no meaning to Elasticsearch. Absent when the account has no description."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.elasticsearch.api#SecurityPutUserManagedServiceAccountResponse": {
+      "type": "structure",
+      "members": {
+        "created": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "A successful call returns a JSON structure that shows whether the service account has been created or updated.\nWhen an existing service account is replaced, `created` is set to `false`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.elasticsearch.api#SecurityPutUserManagedServiceAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.elasticsearch.api#SecurityPutUserManagedServiceAccountRequest"
+      },
+      "output": {
+        "target": "com.elasticsearch.api#SecurityPutUserManagedServiceAccountResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/_security/service/{namespace}/{service}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create user-managed service accounts\n\nCreate a service account in a namespace of your own, or replace one that already exists.\nA replacement is not a partial update: every write applies the defaults, so an account that was disabled and is then written again without `enabled` comes back enabled.\n\nCreating an account whose name still has leftover service tokens is rejected.\nDelete those tokens first.\n\nNOTE: The `elastic` namespace is reserved for the built-in service accounts that ship with Elasticsearch.\nThe `manage_service_account` privilege does not authorize this API.\n\n## Required authorization\n\n* Cluster privileges: `manage_security`"
+      }
+    },
+    "com.elasticsearch.api#SecurityDeleteUserManagedServiceAccountRequest": {
+      "type": "structure",
+      "members": {
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The namespace, which is a top-level grouping of service accounts.\nIt must start with a letter or digit and can contain only letters, digits, hyphens, and underscores, up to a maximum of 128 characters.\nIt cannot be `elastic`, which is reserved for built-in service accounts."
+          }
+        },
+        "service": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The service name.\nIt must start with a letter or digit and can contain only letters, digits, hyphens, and underscores, up to a maximum of 128 characters."
+          }
+        },
+        "refresh": {
+          "target": "com.elasticsearch.api#TypesRefresh",
+          "traits": {
+            "smithy.api#httpQuery": "refresh",
+            "smithy.api#documentation": "If `wait_for` (the default) then wait for a refresh to make this operation visible to search, if `true` then refresh the affected shards to make this operation visible to search, if `false` then do nothing with refreshes."
+          }
+        },
+        "force": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "force",
+            "smithy.api#documentation": "If `false` (the default), deleting a service account that still has service tokens is rejected.\nIf `true`, the account is deleted and its tokens are left in place."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.elasticsearch.api#SecurityDeleteUserManagedServiceAccountResponse": {
+      "type": "structure",
+      "members": {
+        "found": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If the service account is successfully deleted, the request returns `{\"found\": true}`.\nOtherwise, the response will have status code 404 and `found` is set to `false`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.elasticsearch.api#SecurityDeleteUserManagedServiceAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.elasticsearch.api#SecurityDeleteUserManagedServiceAccountRequest"
+      },
+      "output": {
+        "target": "com.elasticsearch.api#SecurityDeleteUserManagedServiceAccountResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/_security/service/{namespace}/{service}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete user-managed service accounts\n\nDelete a service account from a namespace of your own.\n\nDeleting an account that still has service tokens is rejected unless `force` is `true`.\nA forced delete leaves the tokens behind: they cannot authenticate while no account of that name exists, and recreating the account is rejected until they are deleted.\n\nNOTE: The `elastic` namespace is reserved for the built-in service accounts that ship with Elasticsearch.\nA name that no user-managed service account could have is rejected rather than reported as not found.\nThe `manage_service_account` privilege does not authorize this API.\n\n## Required authorization\n\n* Cluster privileges: `manage_security`"
+      }
+    },
     "com.elasticsearch.api#SecurityDisableUser1Request": {
       "type": "structure",
       "members": {
@@ -160309,239 +161642,24 @@
         "smithy.api#documentation": "Get role mappings\n\nRole mappings define which roles are assigned to each user.\nThe role mapping APIs are generally the preferred way to manage role mappings rather than using role mapping files.\nThe get role mappings API cannot retrieve role mappings that are defined in role mapping files.\n\n## Required authorization\n\n* Cluster privileges: `manage_security`"
       }
     },
-    "com.elasticsearch.api#SecurityGetServiceAccountsRequest": {
-      "type": "structure",
-      "members": {
-        "namespace": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "The name of the namespace.\nOmit this parameter to retrieve information about all service accounts.\nIf you omit this parameter, you must also omit the `service` parameter."
-          }
-        },
-        "service": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "The service name.\nOmit this parameter to retrieve information about all service accounts that belong to the specified `namespace`."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.elasticsearch.api#SecurityGetServiceAccountsRoleDescriptorWrapper": {
-      "type": "structure",
-      "members": {
-        "role_descriptor": {
-          "target": "com.elasticsearch.api#SecurityTypesRoleDescriptorRead",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
+    "com.elasticsearch.api#SecurityGetServiceAccounts1RequestTypeCase1List": {
+      "type": "list",
+      "member": {
+        "target": "com.elasticsearch.api#SecurityGetServiceAccountsServiceAccountType"
       },
       "traits": {}
     },
-    "com.elasticsearch.api#SecurityTypesRoleDescriptorRead": {
-      "type": "structure",
-      "members": {
-        "cluster": {
-          "target": "com.elasticsearch.api#SecurityTypesRoleDescriptorReadClusterList",
-          "traits": {
-            "smithy.api#documentation": "A list of cluster privileges. These privileges define the cluster level actions that API keys are able to execute.",
-            "smithy.api#required": {}
-          }
-        },
-        "indices": {
-          "target": "com.elasticsearch.api#SecurityTypesRoleDescriptorReadIndicesList",
-          "traits": {
-            "smithy.api#documentation": "A list of indices permissions entries.",
-            "smithy.api#required": {}
-          }
-        },
-        "remote_indices": {
-          "target": "com.elasticsearch.api#SecurityTypesRoleDescriptorReadRemoteIndicesList",
-          "traits": {
-            "smithy.api#documentation": "A list of indices permissions for remote clusters."
-          }
-        },
-        "remote_cluster": {
-          "target": "com.elasticsearch.api#SecurityTypesRoleDescriptorReadRemoteClusterList",
-          "traits": {
-            "smithy.api#documentation": "A list of cluster permissions for remote clusters.\nNOTE: This is limited a subset of the cluster permissions."
-          }
-        },
-        "global": {
-          "target": "com.elasticsearch.api#SecurityTypesRoleDescriptorReadGlobal",
-          "traits": {
-            "smithy.api#documentation": "An object defining global privileges. A global privilege is a form of cluster privilege that is request-aware."
-          }
-        },
-        "applications": {
-          "target": "com.elasticsearch.api#SecurityTypesRoleDescriptorReadApplicationsList",
-          "traits": {
-            "smithy.api#documentation": "A list of application privilege entries"
-          }
-        },
-        "metadata": {
-          "target": "com.elasticsearch.api#TypesMetadata",
-          "traits": {
-            "smithy.api#documentation": "Optional meta-data. Within the metadata object, keys that begin with `_` are reserved for system usage."
-          }
-        },
-        "run_as": {
-          "target": "com.elasticsearch.api#SecurityTypesRoleDescriptorReadRunAsList",
-          "traits": {
-            "smithy.api#documentation": "A list of users that the API keys can impersonate.\nNOTE: In Elastic Cloud Serverless, the run-as feature is disabled.\nFor API compatibility, you can still specify an empty `run_as` field, but a non-empty list will be rejected."
-          }
-        },
-        "description": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional description of the role descriptor"
-          }
-        },
-        "restriction": {
-          "target": "com.elasticsearch.api#SecurityTypesRestriction",
-          "traits": {
-            "smithy.api#documentation": "Restriction for when the role descriptor is allowed to be effective."
-          }
-        },
-        "transient_metadata": {
-          "target": "com.elasticsearch.api#SecurityTypesRoleDescriptorReadTransientMetadataMap"
-        }
-      },
-      "traits": {}
-    },
-    "com.elasticsearch.api#SecurityTypesRoleDescriptorReadClusterList": {
-      "type": "list",
-      "member": {
-        "target": "com.elasticsearch.api#SecurityTypesClusterPrivilege"
-      },
-      "traits": {
-        "smithy.api#documentation": "A list of cluster privileges. These privileges define the cluster level actions that API keys are able to execute."
-      }
-    },
-    "com.elasticsearch.api#SecurityTypesRoleDescriptorReadIndicesList": {
-      "type": "list",
-      "member": {
-        "target": "com.elasticsearch.api#SecurityTypesIndicesPrivileges"
-      },
-      "traits": {
-        "smithy.api#documentation": "A list of indices permissions entries."
-      }
-    },
-    "com.elasticsearch.api#SecurityTypesRoleDescriptorReadRemoteIndicesList": {
-      "type": "list",
-      "member": {
-        "target": "com.elasticsearch.api#SecurityTypesRemoteIndicesPrivileges"
-      },
-      "traits": {
-        "smithy.api#documentation": "A list of indices permissions for remote clusters."
-      }
-    },
-    "com.elasticsearch.api#SecurityTypesRoleDescriptorReadRemoteClusterList": {
-      "type": "list",
-      "member": {
-        "target": "com.elasticsearch.api#SecurityTypesRemoteClusterPrivileges"
-      },
-      "traits": {
-        "smithy.api#documentation": "A list of cluster permissions for remote clusters.\nNOTE: This is limited a subset of the cluster permissions."
-      }
-    },
-    "com.elasticsearch.api#SecurityTypesRoleDescriptorReadGlobalCase0List": {
-      "type": "list",
-      "member": {
-        "target": "com.elasticsearch.api#SecurityTypesGlobalPrivilege"
-      },
-      "traits": {}
-    },
-    "com.elasticsearch.api#SecurityTypesRoleDescriptorReadGlobal": {
+    "com.elasticsearch.api#SecurityGetServiceAccounts1RequestType": {
       "type": "union",
       "members": {
-        "Case0": {
-          "target": "com.elasticsearch.api#SecurityTypesRoleDescriptorReadGlobalCase0List"
+        "SecurityGetServiceAccountsServiceAccountType": {
+          "target": "com.elasticsearch.api#SecurityGetServiceAccountsServiceAccountType"
         },
-        "SecurityTypesGlobalPrivilege": {
-          "target": "com.elasticsearch.api#SecurityTypesGlobalPrivilege"
+        "Case1": {
+          "target": "com.elasticsearch.api#SecurityGetServiceAccounts1RequestTypeCase1List"
         }
       },
-      "traits": {
-        "smithy.api#documentation": "An object defining global privileges. A global privilege is a form of cluster privilege that is request-aware."
-      }
-    },
-    "com.elasticsearch.api#SecurityTypesRoleDescriptorReadApplicationsList": {
-      "type": "list",
-      "member": {
-        "target": "com.elasticsearch.api#SecurityTypesApplicationPrivileges"
-      },
-      "traits": {
-        "smithy.api#documentation": "A list of application privilege entries"
-      }
-    },
-    "com.elasticsearch.api#SecurityTypesRoleDescriptorReadRunAsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "A list of users that the API keys can impersonate.\nNOTE: In Elastic Cloud Serverless, the run-as feature is disabled.\nFor API compatibility, you can still specify an empty `run_as` field, but a non-empty list will be rejected."
-      }
-    },
-    "com.elasticsearch.api#SecurityTypesRoleDescriptorReadTransientMetadataMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#Document"
-      },
       "traits": {}
-    },
-    "com.elasticsearch.api#SecurityGetServiceAccountsResponseBodyMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "com.elasticsearch.api#SecurityGetServiceAccountsRoleDescriptorWrapper"
-      },
-      "traits": {}
-    },
-    "com.elasticsearch.api#SecurityGetServiceAccountsResponse": {
-      "type": "structure",
-      "members": {
-        "body": {
-          "target": "com.elasticsearch.api#SecurityGetServiceAccountsResponseBodyMap",
-          "traits": {
-            "com.distilled.openapi#rawResponse": {},
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#output": {}
-      }
-    },
-    "com.elasticsearch.api#SecurityGetServiceAccounts": {
-      "type": "operation",
-      "input": {
-        "target": "com.elasticsearch.api#SecurityGetServiceAccountsRequest"
-      },
-      "output": {
-        "target": "com.elasticsearch.api#SecurityGetServiceAccountsResponse"
-      },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/_security/service/{namespace}/{service}",
-          "code": 200
-        },
-        "smithy.api#documentation": "Get service accounts\n\nGet a list of service accounts that match the provided path parameters.\n\nNOTE: Currently, only the `elastic/fleet-server` service account is available.\n\n## Required authorization\n\n* Cluster privileges: `manage_service_account`"
-      }
     },
     "com.elasticsearch.api#SecurityGetServiceAccounts1Request": {
       "type": "structure",
@@ -160552,6 +161670,13 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
             "smithy.api#documentation": "The name of the namespace.\nOmit this parameter to retrieve information about all service accounts.\nIf you omit this parameter, you must also omit the `service` parameter."
+          }
+        },
+        "type": {
+          "target": "com.elasticsearch.api#SecurityGetServiceAccounts1RequestType",
+          "traits": {
+            "smithy.api#httpQuery": "type",
+            "smithy.api#documentation": "A comma-separated list of the kinds of service account to return.\nIf it is omitted, it defaults to `built_in` when no namespace is given and to `built_in,user_managed` otherwise."
           }
         }
       },
@@ -160565,7 +161690,7 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.elasticsearch.api#SecurityGetServiceAccountsRoleDescriptorWrapper"
+        "target": "com.elasticsearch.api#SecurityGetServiceAccountsServiceAccountInfo"
       },
       "traits": {}
     },
@@ -160598,7 +161723,41 @@
           "uri": "/_security/service/{namespace}",
           "code": 200
         },
-        "smithy.api#documentation": "Get service accounts\n\nGet a list of service accounts that match the provided path parameters.\n\nNOTE: Currently, only the `elastic/fleet-server` service account is available.\n\n## Required authorization\n\n* Cluster privileges: `manage_service_account`"
+        "smithy.api#documentation": "Get service accounts\n\nGet a list of service accounts that match the provided path parameters.\nBuilt-in service accounts ship with Elasticsearch in the `elastic` namespace; user-managed service accounts are created with the put user-managed service account API.\n\nNOTE: When `type` is omitted, a request without a namespace reports built-in accounts only, which preserves the response of a whole-cluster listing.\nA request scoped to a namespace reports both kinds, so an account you created is found without naming its kind.\n\n## Required authorization\n\n* Cluster privileges: `manage_service_account`"
+      }
+    },
+    "com.elasticsearch.api#SecurityGetServiceAccounts2RequestTypeCase1List": {
+      "type": "list",
+      "member": {
+        "target": "com.elasticsearch.api#SecurityGetServiceAccountsServiceAccountType"
+      },
+      "traits": {}
+    },
+    "com.elasticsearch.api#SecurityGetServiceAccounts2RequestType": {
+      "type": "union",
+      "members": {
+        "SecurityGetServiceAccountsServiceAccountType": {
+          "target": "com.elasticsearch.api#SecurityGetServiceAccountsServiceAccountType"
+        },
+        "Case1": {
+          "target": "com.elasticsearch.api#SecurityGetServiceAccounts2RequestTypeCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.elasticsearch.api#SecurityGetServiceAccounts2Request": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.elasticsearch.api#SecurityGetServiceAccounts2RequestType",
+          "traits": {
+            "smithy.api#httpQuery": "type",
+            "smithy.api#documentation": "A comma-separated list of the kinds of service account to return.\nIf it is omitted, it defaults to `built_in` when no namespace is given and to `built_in,user_managed` otherwise."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
       }
     },
     "com.elasticsearch.api#SecurityGetServiceAccounts2ResponseBodyMap": {
@@ -160607,7 +161766,7 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.elasticsearch.api#SecurityGetServiceAccountsRoleDescriptorWrapper"
+        "target": "com.elasticsearch.api#SecurityGetServiceAccountsServiceAccountInfo"
       },
       "traits": {}
     },
@@ -160629,7 +161788,7 @@
     "com.elasticsearch.api#SecurityGetServiceAccounts2": {
       "type": "operation",
       "input": {
-        "target": "smithy.api#Unit"
+        "target": "com.elasticsearch.api#SecurityGetServiceAccounts2Request"
       },
       "output": {
         "target": "com.elasticsearch.api#SecurityGetServiceAccounts2Response"
@@ -160640,7 +161799,7 @@
           "uri": "/_security/service",
           "code": 200
         },
-        "smithy.api#documentation": "Get service accounts\n\nGet a list of service accounts that match the provided path parameters.\n\nNOTE: Currently, only the `elastic/fleet-server` service account is available.\n\n## Required authorization\n\n* Cluster privileges: `manage_service_account`"
+        "smithy.api#documentation": "Get service accounts\n\nGet a list of service accounts that match the provided path parameters.\nBuilt-in service accounts ship with Elasticsearch in the `elastic` namespace; user-managed service accounts are created with the put user-managed service account API.\n\nNOTE: When `type` is omitted, a request without a namespace reports built-in accounts only, which preserves the response of a whole-cluster listing.\nA request scoped to a namespace reports both kinds, so an account you created is found without naming its kind.\n\n## Required authorization\n\n* Cluster privileges: `manage_service_account`"
       }
     },
     "com.elasticsearch.api#SecurityGetServiceCredentialsRequest": {
@@ -161092,6 +162251,12 @@
           "traits": {
             "smithy.api#enumValue": "refresh_token"
           }
+        },
+        "USER_MANAGED_SERVICE_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "_user_managed_service_account"
+          }
         }
       },
       "traits": {}
@@ -161102,7 +162267,7 @@
         "grant_type": {
           "target": "com.elasticsearch.api#SecurityGetTokenAccessTokenGrantType",
           "traits": {
-            "smithy.api#documentation": "The type of grant.\nSupported grant types are: `password`, `_kerberos`, `client_credentials`, and `refresh_token`."
+            "smithy.api#documentation": "The type of grant.\nSupported grant types are: `password`, `_kerberos`, `client_credentials`, `refresh_token`, and `_user_managed_service_account`."
           }
         },
         "scope": {
@@ -161128,6 +162293,12 @@
           "traits": {
             "smithy.api#documentation": "The string that was returned when you created the token, which enables you to extend its life.\nIf you specify the `refresh_token` grant type, this parameter is required.\nThis parameter is not valid with any other supported grant type.",
             "smithy.api#sensitive": {}
+          }
+        },
+        "service_account_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service account token of a user-managed service account, as returned by the create service account token API.\nIf you specify the `_user_managed_service_account` grant type, this parameter is required.\nThis parameter is not valid with any other supported grant type."
           }
         },
         "username": {
@@ -163998,7 +165169,7 @@
           }
         },
         "global": {
-          "target": "com.elasticsearch.api#SecurityQueryRoleQueryRoleGlobal",
+          "target": "com.elasticsearch.api#SecurityTypesGlobalPrivilege",
           "traits": {
             "smithy.api#documentation": "An object defining global privileges. A global privilege is a form of cluster privilege that is request-aware."
           }
@@ -164083,27 +165254,6 @@
       },
       "traits": {
         "smithy.api#documentation": "A list of cluster permissions for remote clusters.\nNOTE: This is limited a subset of the cluster permissions."
-      }
-    },
-    "com.elasticsearch.api#SecurityQueryRoleQueryRoleGlobalCase0List": {
-      "type": "list",
-      "member": {
-        "target": "com.elasticsearch.api#SecurityTypesGlobalPrivilege"
-      },
-      "traits": {}
-    },
-    "com.elasticsearch.api#SecurityQueryRoleQueryRoleGlobal": {
-      "type": "union",
-      "members": {
-        "Case0": {
-          "target": "com.elasticsearch.api#SecurityQueryRoleQueryRoleGlobalCase0List"
-        },
-        "SecurityTypesGlobalPrivilege": {
-          "target": "com.elasticsearch.api#SecurityTypesGlobalPrivilege"
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "An object defining global privileges. A global privilege is a form of cluster privilege that is request-aware."
       }
     },
     "com.elasticsearch.api#SecurityQueryRoleQueryRoleApplicationsList": {
@@ -168468,7 +169618,7 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#httpQuery": "wait_for_completion",
-            "smithy.api#documentation": "If `true`, the request returns a response when the matching snapshots are all deleted.\nIf `false`, the request returns a response as soon as the deletes are scheduled."
+            "smithy.api#documentation": "If `false`, the request returns a response as soon as the deletes are scheduled.\nIf `true`, the request returns a response when the matching snapshots are all deleted, and the post-deletion cleanup work associated with the request has completed.\nIf you make several requests to the delete-snapshots API targetting overlapping collections of snapshots then some of those requests may perform different parts of the associated post-deletion cleanup work, returning their responses at different times.\nFor example, if you make two requests to delete the same snapshot then sometimes all of the post-deletion cleanup work will be associated with the first request, delaying its response, while the second request has no associated post-deletion cleanup work and receives its response as soon as the snapshot has been deleted."
           }
         }
       },
@@ -187991,6 +189141,9 @@
           "target": "com.elasticsearch.api#InferenceGet3"
         },
         {
+          "target": "com.elasticsearch.api#InferenceNonStreamingChatCompletion"
+        },
+        {
           "target": "com.elasticsearch.api#InferencePutAi21"
         },
         {
@@ -188891,6 +190044,15 @@
           "target": "com.elasticsearch.api#SecurityDeleteUser"
         },
         {
+          "target": "com.elasticsearch.api#SecurityGetServiceAccounts"
+        },
+        {
+          "target": "com.elasticsearch.api#SecurityPutUserManagedServiceAccount"
+        },
+        {
+          "target": "com.elasticsearch.api#SecurityDeleteUserManagedServiceAccount"
+        },
+        {
           "target": "com.elasticsearch.api#SecurityDisableUser1"
         },
         {
@@ -188937,9 +190099,6 @@
         },
         {
           "target": "com.elasticsearch.api#SecurityGetRoleMapping1"
-        },
-        {
-          "target": "com.elasticsearch.api#SecurityGetServiceAccounts"
         },
         {
           "target": "com.elasticsearch.api#SecurityGetServiceAccounts1"

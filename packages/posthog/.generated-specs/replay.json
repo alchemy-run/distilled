@@ -398,6 +398,32 @@
         "smithy.api#documentation": "Override list to include synthetic playlists.\n\nSynthetics have no DB row, so we compute each one's position in the merged\nsort and split the requested page between synthetics and a DB queryset slice.\nThe merge/rank/sort is all in-memory, so each phase is wrapped in a span and\nthe input sizes are recorded as span attributes — a slow response on a team\nwith many playlists then shows up as a wide span against a large db_count."
       }
     },
+    "com.posthog.replay#SessionRecordingPlaylistCreationMethodEnum": {
+      "type": "enum",
+      "members": {
+        "NEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "new"
+          }
+        },
+        "PIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pin"
+          }
+        },
+        "DUPLICATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "duplicate"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `new` - new\n* `pin` - pin\n* `duplicate` - duplicate"
+      }
+    },
     "com.posthog.replay#CreateSessionRecordingPlaylistRequest": {
       "type": "structure",
       "members": {
@@ -455,6 +481,12 @@
         },
         "_create_in_folder": {
           "target": "smithy.api#String"
+        },
+        "creation_method": {
+          "target": "com.posthog.replay#SessionRecordingPlaylistCreationMethodEnum",
+          "traits": {
+            "smithy.api#documentation": "How the PostHog app created the playlist, for product analytics. Not stored.\n\n* `new` - new\n* `pin` - pin\n* `duplicate` - duplicate"
+          }
         }
       },
       "traits": {
@@ -599,6 +631,12 @@
         },
         "_create_in_folder": {
           "target": "smithy.api#String"
+        },
+        "creation_method": {
+          "target": "com.posthog.replay#SessionRecordingPlaylistCreationMethodEnum",
+          "traits": {
+            "smithy.api#documentation": "How the PostHog app created the playlist, for product analytics. Not stored.\n\n* `new` - new\n* `pin` - pin\n* `duplicate` - duplicate"
+          }
         }
       },
       "traits": {
@@ -696,6 +734,12 @@
         },
         "_create_in_folder": {
           "target": "smithy.api#String"
+        },
+        "creation_method": {
+          "target": "com.posthog.replay#SessionRecordingPlaylistCreationMethodEnum",
+          "traits": {
+            "smithy.api#documentation": "How the PostHog app created the playlist, for product analytics. Not stored.\n\n* `new` - new\n* `pin` - pin\n* `duplicate` - duplicate"
+          }
         }
       },
       "traits": {
@@ -895,6 +939,12 @@
         },
         "_create_in_folder": {
           "target": "smithy.api#String"
+        },
+        "creation_method": {
+          "target": "com.posthog.replay#SessionRecordingPlaylistCreationMethodEnum",
+          "traits": {
+            "smithy.api#documentation": "How the PostHog app created the playlist, for product analytics. Not stored.\n\n* `new` - new\n* `pin` - pin\n* `duplicate` - duplicate"
+          }
         }
       },
       "traits": {

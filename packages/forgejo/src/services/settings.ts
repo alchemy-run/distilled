@@ -28,9 +28,7 @@ export const GeneralAPISettings = /*@__PURE__*/ S.suspend(() =>
     default_paging_num: S.optional(S.Number),
     max_response_items: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "GeneralAPISettings",
-}) as any as S.Schema<GeneralAPISettings>;
+).annotate({ identifier: "GeneralAPISettings" }) as any as S.Schema<GeneralAPISettings>;
 
 export interface GetGeneralAttachmentSettingsRequest {}
 export const GetGeneralAttachmentSettingsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -84,9 +82,7 @@ export const GeneralRepoSettings = /*@__PURE__*/ S.suspend(() =>
     stars_disabled: S.optional(S.Boolean),
     time_tracking_disabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GeneralRepoSettings",
-}) as any as S.Schema<GeneralRepoSettings>;
+).annotate({ identifier: "GeneralRepoSettings" }) as any as S.Schema<GeneralRepoSettings>;
 
 export interface GetGeneralUISettingsRequest {}
 export const GetGeneralUISettingsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -117,9 +113,7 @@ export const GeneralUISettings = /*@__PURE__*/ S.suspend(() =>
     custom_emojis: S.optional(GeneralUISettingsCustomEmojisList),
     default_theme: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GeneralUISettings",
-}) as any as S.Schema<GeneralUISettings>;
+).annotate({ identifier: "GeneralUISettings" }) as any as S.Schema<GeneralUISettings>;
 
 export type GetGeneralAPISettingsError = ForgejoOpError;
 /** Get instance's global settings for api */

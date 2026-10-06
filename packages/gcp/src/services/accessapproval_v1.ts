@@ -107,20 +107,30 @@ export const AccessLocations = /*@__PURE__*/ S.suspend(() =>
     principalPhysicalLocationCountry: S.optional(S.String),
     principalOfficeCountry: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AccessLocations",
-}) as any as S.Schema<AccessLocations>;
+).annotate({ identifier: "AccessLocations" }) as any as S.Schema<AccessLocations>;
 
-/** This field contains the augmented information of the request. Requires augmented administrative access to be enabled. */
-export interface AugmentedInfo {
-  /** For command-line tools, the full command-line exactly as entered by the actor without adding any additional characters (such as quotation marks). */
-  command?: string;
+export type AccessReasonTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "CUSTOMER_INITIATED_SUPPORT"
+  | "GOOGLE_INITIATED_SERVICE"
+  | "GOOGLE_INITIATED_REVIEW"
+  | "THIRD_PARTY_DATA_REQUEST"
+  | "GOOGLE_RESPONSE_TO_PRODUCTION_ALERT"
+  | "CLOUD_INITIATED_ACCESS";
+export const AccessReasonTypeEnum = S.String;
+
+export interface AccessReason {
+  /** Type of access reason. */
+  type?: AccessReasonTypeEnum;
+  /** More detail about certain reason types. See comments for each type above. */
+  detail?: string;
 }
-export const AugmentedInfo = /*@__PURE__*/ S.suspend(() =>
+export const AccessReason = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    command: S.optional(S.String),
+    type: S.optional(AccessReasonTypeEnum),
+    detail: S.optional(S.String),
   }),
-).annotate({ identifier: "AugmentedInfo" }) as any as S.Schema<AugmentedInfo>;
+).annotate({ identifier: "AccessReason" }) as any as S.Schema<AccessReason>;
 
 export type SignatureInfoGoogleKeyAlgorithmEnum =
   | "CRYPTO_KEY_VERSION_ALGORITHM_UNSPECIFIED"
@@ -177,93 +187,63 @@ export const SignatureInfoGoogleKeyAlgorithmEnum = S.String;
 
 /** Information about the digital signature of the resource. */
 export interface SignatureInfo {
-  /** The ApprovalRequest that is serialized without the SignatureInfo message field. This data is used with the hashing algorithm to generate the digital signature, and it can be used for signature verification. */
-  serializedApprovalRequest?: string;
-  /** The public key for the Google default signing, encoded in PEM format. The signature was created using a private key which may be verified using this public key. */
-  googlePublicKeyPem?: string;
-  /** The hashing algorithm used for signature verification. It will only be present in the case of Google managed keys. */
-  googleKeyAlgorithm?: SignatureInfoGoogleKeyAlgorithmEnum;
   /** The digital signature. */
   signature?: string;
   /** The resource name of the customer CryptoKeyVersion used for signing. */
   customerKmsKeyVersion?: string;
+  /** The hashing algorithm used for signature verification. It will only be present in the case of Google managed keys. */
+  googleKeyAlgorithm?: SignatureInfoGoogleKeyAlgorithmEnum;
+  /** The ApprovalRequest that is serialized without the SignatureInfo message field. This data is used with the hashing algorithm to generate the digital signature, and it can be used for signature verification. */
+  serializedApprovalRequest?: string;
+  /** The public key for the Google default signing, encoded in PEM format. The signature was created using a private key which may be verified using this public key. */
+  googlePublicKeyPem?: string;
 }
 export const SignatureInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    serializedApprovalRequest: S.optional(S.String),
-    googlePublicKeyPem: S.optional(S.String),
-    googleKeyAlgorithm: S.optional(SignatureInfoGoogleKeyAlgorithmEnum),
     signature: S.optional(S.String),
     customerKmsKeyVersion: S.optional(S.String),
+    googleKeyAlgorithm: S.optional(SignatureInfoGoogleKeyAlgorithmEnum),
+    serializedApprovalRequest: S.optional(S.String),
+    googlePublicKeyPem: S.optional(S.String),
   }),
 ).annotate({ identifier: "SignatureInfo" }) as any as S.Schema<SignatureInfo>;
 
 /** A decision that has been made to approve access to a resource. */
 export interface ApproveDecision {
-  /** The time at which the approval expires. */
-  expireTime?: string;
   /** If set, denotes the timestamp at which the approval is invalidated. */
   invalidateTime?: string;
-  /** The signature for the ApprovalRequest and details on how it was signed. */
-  signatureInfo?: SignatureInfo;
-  /** True when the request has been approved by the customer's defined policy. */
-  policyApproved?: boolean;
   /** True when the request has been auto-approved. */
   autoApproved?: boolean;
+  /** True when the request has been approved by the customer's defined policy. */
+  policyApproved?: boolean;
+  /** The signature for the ApprovalRequest and details on how it was signed. */
+  signatureInfo?: SignatureInfo;
+  /** The time at which the approval expires. */
+  expireTime?: string;
   /** The time at which approval was granted. */
   approveTime?: string;
 }
 export const ApproveDecision = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    expireTime: S.optional(S.String),
     invalidateTime: S.optional(S.String),
-    signatureInfo: S.optional(SignatureInfo),
-    policyApproved: S.optional(S.Boolean),
     autoApproved: S.optional(S.Boolean),
+    policyApproved: S.optional(S.Boolean),
+    signatureInfo: S.optional(SignatureInfo),
+    expireTime: S.optional(S.String),
     approveTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApproveDecision",
-}) as any as S.Schema<ApproveDecision>;
+).annotate({ identifier: "ApproveDecision" }) as any as S.Schema<ApproveDecision>;
 
-/** A decision that has been made to dismiss an approval request. */
-export interface DismissDecision {
-  /** This field will be true if the ApprovalRequest was implicitly dismissed due to inaction by the access approval approvers (the request is not acted on by the approvers before the exiration time). */
-  implicit?: boolean;
-  /** The time at which the approval request was dismissed. */
-  dismissTime?: string;
+/** This field contains the augmented information of the request. Requires augmented administrative access to be enabled. */
+export interface AugmentedInfo {
+  /** For command-line tools, the full command-line exactly as entered by the actor without adding any additional characters (such as quotation marks). */
+  command?: string;
 }
-export const DismissDecision = /*@__PURE__*/ S.suspend(() =>
+export const AugmentedInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    implicit: S.optional(S.Boolean),
-    dismissTime: S.optional(S.String),
+    command: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DismissDecision",
-}) as any as S.Schema<DismissDecision>;
-
-export type AccessReasonTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "CUSTOMER_INITIATED_SUPPORT"
-  | "GOOGLE_INITIATED_SERVICE"
-  | "GOOGLE_INITIATED_REVIEW"
-  | "THIRD_PARTY_DATA_REQUEST"
-  | "GOOGLE_RESPONSE_TO_PRODUCTION_ALERT"
-  | "CLOUD_INITIATED_ACCESS";
-export const AccessReasonTypeEnum = S.String;
-
-export interface AccessReason {
-  /** Type of access reason. */
-  type?: AccessReasonTypeEnum;
-  /** More detail about certain reason types. See comments for each type above. */
-  detail?: string;
-}
-export const AccessReason = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(AccessReasonTypeEnum),
-    detail: S.optional(S.String),
-  }),
-).annotate({ identifier: "AccessReason" }) as any as S.Schema<AccessReason>;
+).annotate({ identifier: "AugmentedInfo" }) as any as S.Schema<AugmentedInfo>;
 
 /** The properties associated with the resource of the request. */
 export interface ResourceProperties {
@@ -274,52 +254,62 @@ export const ResourceProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     excludesDescendants: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ResourceProperties",
-}) as any as S.Schema<ResourceProperties>;
+).annotate({ identifier: "ResourceProperties" }) as any as S.Schema<ResourceProperties>;
+
+/** A decision that has been made to dismiss an approval request. */
+export interface DismissDecision {
+  /** The time at which the approval request was dismissed. */
+  dismissTime?: string;
+  /** This field will be true if the ApprovalRequest was implicitly dismissed due to inaction by the access approval approvers (the request is not acted on by the approvers before the exiration time). */
+  implicit?: boolean;
+}
+export const DismissDecision = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dismissTime: S.optional(S.String),
+    implicit: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "DismissDecision" }) as any as S.Schema<DismissDecision>;
 
 /** A request for the customer to approve access to a resource. */
 export interface ApprovalRequest {
-  /** The locations for which approval is being requested. */
-  requestedLocations?: AccessLocations;
   /** The resource for which approval is being requested. The format of the resource name is defined at https://cloud.google.com/apis/design/resource_names. The resource name here may either be a "full" resource name (e.g. "//library.googleapis.com/shelves/shelf1/books/book2") or a "relative" resource name (e.g. "shelves/shelf1/books/book2") as described in the resource name specification. */
   requestedResourceName?: string;
-  /** The time at which approval was requested. */
-  requestTime?: string;
-  /** This field contains the augmented information of the request. */
-  requestedAugmentedInfo?: AugmentedInfo;
-  /** Access was approved. */
-  approve?: ApproveDecision;
   /** The requested access duration. */
   requestedDuration?: string;
-  /** The request was dismissed. */
-  dismiss?: DismissDecision;
-  /** The resource name of the request. Format is "{projects|folders|organizations}/{id}/approvalRequests/{approval_request}". */
-  name?: string;
+  /** The locations for which approval is being requested. */
+  requestedLocations?: AccessLocations;
   /** The access reason for which approval is being requested. */
   requestedReason?: AccessReason;
+  /** Access was approved. */
+  approve?: ApproveDecision;
+  /** This field contains the augmented information of the request. */
+  requestedAugmentedInfo?: AugmentedInfo;
   /** Properties related to the resource represented by requested_resource_name. */
   requestedResourceProperties?: ResourceProperties;
+  /** The resource name of the request. Format is "{projects|folders|organizations}/{id}/approvalRequests/{approval_request}". */
+  name?: string;
+  /** The request was dismissed. */
+  dismiss?: DismissDecision;
+  /** The time at which approval was requested. */
+  requestTime?: string;
   /** The original requested expiration for the approval. Calculated by adding the requested_duration to the request_time. */
   requestedExpiration?: string;
 }
 export const ApprovalRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestedLocations: S.optional(AccessLocations),
     requestedResourceName: S.optional(S.String),
-    requestTime: S.optional(S.String),
-    requestedAugmentedInfo: S.optional(AugmentedInfo),
-    approve: S.optional(ApproveDecision),
     requestedDuration: S.optional(S.String),
-    dismiss: S.optional(DismissDecision),
-    name: S.optional(S.String),
+    requestedLocations: S.optional(AccessLocations),
     requestedReason: S.optional(AccessReason),
+    approve: S.optional(ApproveDecision),
+    requestedAugmentedInfo: S.optional(AugmentedInfo),
     requestedResourceProperties: S.optional(ResourceProperties),
+    name: S.optional(S.String),
+    dismiss: S.optional(DismissDecision),
+    requestTime: S.optional(S.String),
     requestedExpiration: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApprovalRequest",
-}) as any as S.Schema<ApprovalRequest>;
+).annotate({ identifier: "ApprovalRequest" }) as any as S.Schema<ApprovalRequest>;
 
 export interface ApproveOrganizationsApprovalRequestsRequest {
   /** Name of the approval request to approve. */
@@ -500,11 +490,7 @@ export const GetAccessApprovalSettingsFoldersRequest = /*@__PURE__*/ S.suspend((
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://accessapproval.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://accessapproval.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetAccessApprovalSettingsFoldersRequest",
@@ -535,30 +521,6 @@ export const CustomerApprovalApprovalPolicy = /*@__PURE__*/ S.suspend(() =>
   identifier: "CustomerApprovalApprovalPolicy",
 }) as any as S.Schema<CustomerApprovalApprovalPolicy>;
 
-export type EnrolledServiceEnrollmentLevelEnum = "ENROLLMENT_LEVEL_UNSPECIFIED" | "BLOCK_ALL";
-export const EnrolledServiceEnrollmentLevelEnum = S.String;
-
-/** Represents the enrollment of a cloud resource into a specific service. */
-export interface EnrolledService {
-  /** The enrollment level of the service. */
-  enrollmentLevel?: EnrolledServiceEnrollmentLevelEnum | (string & {});
-  /** The product for which Access Approval will be enrolled. Allowed values are listed below (case-sensitive): * all * GA * Access Context Manager * Anthos Identity Service * AlloyDB for PostgreSQL * Apigee * Application Integration * App Hub * Artifact Registry * Anthos Service Mesh * Access Transparency * BigQuery * Certificate Authority Service * Cloud Bigtable * CCAI Assist and Knowledge * Cloud Dataflow * Cloud Dataproc * CEP Security Gateway * Compliance Evaluation Service * Cloud Firestore * Cloud Healthcare API * Chronicle * Cloud AI Companion Gateway - Titan * Google Cloud Armor * Cloud Asset Inventory * Cloud Asset Search * Cloud Deploy * Cloud DNS * Cloud Latency * Cloud Memorystore for Redis * CloudNet Control * Cloud Riptide * Cloud Tasks * Cloud Trace * Cloud Data Transfer * Cloud Composer * Integration Connectors * Contact Center AI Insights * Cloud Pub/Sub * Cloud Run * Resource Manager * Cloud Spanner * Database Center * Cloud Dataform * Cloud Data Fusion * Dataplex * Dialogflow Customer Experience Edition * Cloud DLP * Document AI * Edge Container * Edge Network * Cloud EKM * Eventarc * Firebase Data Connect * Firebase Rules * App Engine * Cloud Build * Compute Engine * Cloud Functions (2nd Gen) * Cloud Filestore * Cloud Interconnect * Cloud NetApp Volumes * Cloud Storage * Generative AI App Builder * Google Kubernetes Engine * Backup for GKE API * GKE Connect * GKE Hub * Hoverboard * Cloud HSM * Cloud Identity and Access Management * Cloud Identity-Aware Proxy * Infrastructure Manager * Identity Storage Service * Key Access Justifications * Cloud Key Management Service * Cloud Logging * Looker (Google Cloud core) * Looker Studio * Management Hub * Model Armor * Cloud Monitoring * Cloud NAT * Connectivity Hub * External passthrough Network Load Balancer * OIDC One * Organization Policy Service * Org Lifecycle * Persistent Disk * Parameter Manager * Private Services Access * Regional Internal Application Load Balancer * Storage Batch Operations * Cloud Security Command Center * Secure Source Manager * Seeker * Service Provisioning * Speaker ID * Secret Manager * Cloud SQL * Cloud Speech-to-Text * Traffic Director * Cloud Text-to-Speech * USPS Andromeda * Vertex AI * Virtual Private Cloud (VPC) * VPC Access * VPC Service Controls Troubleshooter * VPC virtnet * Cloud Workstations * Web Risk Note: These values are supported as input for legacy purposes, but will not be returned from the API. * all * ga-only * appengine.googleapis.com * artifactregistry.googleapis.com * bigquery.googleapis.com * bigtable.googleapis.com * container.googleapis.com * cloudkms.googleapis.com * cloudresourcemanager.googleapis.com * cloudsql.googleapis.com * compute.googleapis.com * dataflow.googleapis.com * dataproc.googleapis.com * dlp.googleapis.com * iam.googleapis.com * logging.googleapis.com * orgpolicy.googleapis.com * pubsub.googleapis.com * spanner.googleapis.com * secretmanager.googleapis.com * speakerid.googleapis.com * storage.googleapis.com Calls to UpdateAccessApprovalSettings using 'all' or any of the XXX.googleapis.com will be translated to the associated product name ('all', 'App Engine', etc.). Note: 'all' will enroll the resource in all products supported at both 'GA' and 'Preview' levels. More information about levels of support is available at https://cloud.google.com/access-approval/docs/supported-services */
-  cloudProduct?: string;
-}
-export const EnrolledService = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enrollmentLevel: S.optional(EnrolledServiceEnrollmentLevelEnum),
-    cloudProduct: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EnrolledService",
-}) as any as S.Schema<EnrolledService>;
-
-export type EnrolledServiceList = Array<EnrolledService>;
-export const EnrolledServiceList = /*@__PURE__*/ S.Array(
-  EnrolledService,
-) as any as S.Schema<EnrolledServiceList>;
-
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
@@ -569,64 +531,84 @@ export type AccessApprovalSettingsRequestScopeMaxWidthPreferenceEnum =
   | "PROJECT";
 export const AccessApprovalSettingsRequestScopeMaxWidthPreferenceEnum = S.String;
 
+export type EnrolledServiceEnrollmentLevelEnum = "ENROLLMENT_LEVEL_UNSPECIFIED" | "BLOCK_ALL";
+export const EnrolledServiceEnrollmentLevelEnum = S.String;
+
+/** Represents the enrollment of a cloud resource into a specific service. */
+export interface EnrolledService {
+  /** The product for which Access Approval will be enrolled. Allowed values are listed below (case-sensitive): * all * GA * Access Context Manager * Anthos Identity Service * AlloyDB for PostgreSQL * Apigee * Application Integration * App Hub * Artifact Registry * Anthos Service Mesh * Access Transparency * BigQuery * Certificate Authority Service * Cloud Bigtable * CCAI Assist and Knowledge * Cloud Dataflow * Cloud Dataproc * CEP Security Gateway * Compliance Evaluation Service * Cloud Firestore * Cloud Healthcare API * Chronicle * Cloud AI Companion Gateway - Titan * Google Cloud Armor * Cloud Asset Inventory * Cloud Asset Search * Cloud Deploy * Cloud DNS * Cloud Latency * Cloud Memorystore for Redis * CloudNet Control * Cloud Riptide * Cloud Tasks * Cloud Trace * Cloud Data Transfer * Cloud Composer * Integration Connectors * Contact Center AI Insights * Cloud Pub/Sub * Cloud Run * Resource Manager * Cloud Spanner * Database Center * Cloud Dataform * Cloud Data Fusion * Dataplex * Dialogflow Customer Experience Edition * Cloud DLP * Document AI * Edge Container * Edge Network * Cloud EKM * Eventarc * Firebase Data Connect * Firebase Rules * App Engine * Cloud Build * Compute Engine * Cloud Functions (2nd Gen) * Cloud Filestore * Cloud Interconnect * Cloud NetApp Volumes * Cloud Storage * Generative AI App Builder * Google Kubernetes Engine * Backup for GKE API * GKE Connect * GKE Hub * Hoverboard * Cloud HSM * Cloud Identity and Access Management * Cloud Identity-Aware Proxy * Infrastructure Manager * Identity Storage Service * Key Access Justifications * Cloud Key Management Service * Cloud Logging * Looker (Google Cloud core) * Looker Studio * Management Hub * Model Armor * Cloud Monitoring * Cloud NAT * Connectivity Hub * External passthrough Network Load Balancer * OIDC One * Organization Policy Service * Org Lifecycle * Persistent Disk * Parameter Manager * Private Services Access * Regional Internal Application Load Balancer * Storage Batch Operations * Cloud Security Command Center * Secure Source Manager * Seeker * Service Provisioning * Speaker ID * Secret Manager * Cloud SQL * Cloud Speech-to-Text * Traffic Director * Cloud Text-to-Speech * USPS Andromeda * Vertex AI * Virtual Private Cloud (VPC) * VPC Access * VPC Service Controls Troubleshooter * VPC virtnet * Cloud Workstations * Web Risk Note: These values are supported as input for legacy purposes, but will not be returned from the API. * all * ga-only * appengine.googleapis.com * artifactregistry.googleapis.com * bigquery.googleapis.com * bigtable.googleapis.com * container.googleapis.com * cloudkms.googleapis.com * cloudresourcemanager.googleapis.com * cloudsql.googleapis.com * compute.googleapis.com * dataflow.googleapis.com * dataproc.googleapis.com * dlp.googleapis.com * iam.googleapis.com * logging.googleapis.com * orgpolicy.googleapis.com * pubsub.googleapis.com * spanner.googleapis.com * secretmanager.googleapis.com * speakerid.googleapis.com * storage.googleapis.com Calls to UpdateAccessApprovalSettings using 'all' or any of the XXX.googleapis.com will be translated to the associated product name ('all', 'App Engine', etc.). Note: 'all' will enroll the resource in all products supported at both 'GA' and 'Preview' levels. More information about levels of support is available at https://cloud.google.com/access-approval/docs/supported-services */
+  cloudProduct?: string;
+  /** The enrollment level of the service. */
+  enrollmentLevel?: EnrolledServiceEnrollmentLevelEnum | (string & {});
+}
+export const EnrolledService = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cloudProduct: S.optional(S.String),
+    enrollmentLevel: S.optional(EnrolledServiceEnrollmentLevelEnum),
+  }),
+).annotate({ identifier: "EnrolledService" }) as any as S.Schema<EnrolledService>;
+
+export type EnrolledServiceList = Array<EnrolledService>;
+export const EnrolledServiceList = /*@__PURE__*/ S.Array(
+  EnrolledService,
+) as any as S.Schema<EnrolledServiceList>;
+
 /** Settings on a Project/Folder/Organization related to Access Approval. */
 export interface AccessApprovalSettings {
-  /** Optional. A pubsub topic that notifications relating to access approval are published to. Notifications include pre-approved accesses. */
-  notificationPubsubTopic?: string;
-  /** Optional. Policy configuration for Access Approval that sets the operating mode. The available policies are Transparency, Streamlined Support, and Approval Required. */
-  approvalPolicy?: CustomerApprovalApprovalPolicy;
-  /** Output only. This field is read only (not settable via UpdateAccessApprovalSettings method). If the field is true, that indicates that there is some configuration issue with the active_key_version configured at this level in the resource hierarchy (e.g. it doesn't exist or the Access Approval service account doesn't have the correct permissions on it, etc.) This key version is not necessarily the effective key version at this level, as key versions are inherited top-down. */
-  invalidKeyVersion?: boolean;
   /** Optional. When enabled, Google will only be able to send approval requests for access reasons with a customer accessible case ID in the reason detail. Also known as "Require customer initiated support case justification" */
   requireCustomerVisibleJustification?: boolean;
-  /** This field is used to set a preference for granularity of an access approval request. If true, Google personnel will be asked to send resource-level requests when possible. If false, Google personnel will be asked to send requests at the project level. */
-  preferNoBroadApprovalRequests?: boolean;
-  /** A list of Google Cloud Services for which the given resource has Access Approval enrolled. Access requests for the resource given by name against any of these services contained here will be required to have explicit approval. If name refers to an organization, enrollment can be done for individual services. If name refers to a folder or project, enrollment can only be done on an all or nothing basis. If a cloud_product is repeated in this list, the first entry will be honored and all following entries will be discarded. */
-  enrolledServices?: EnrolledServiceList;
-  /** A list of email addresses to which notifications relating to approval requests should be sent. Notifications relating to a resource will be sent to all emails in the settings of ancestor resources of that resource. A maximum of 50 email addresses are allowed. */
-  notificationEmails?: StringList;
-  /** The resource name of the settings. Format is one of: * "projects/{project}/accessApprovalSettings" * "folders/{folder}/accessApprovalSettings" * "organizations/{organization}/accessApprovalSettings" */
-  name?: string;
-  /** Set the default access approval request expiration time. This value is able to be set directly by the customer at the time of approval, overriding this suggested value. We recommend setting this value to 30 days. */
-  preferredRequestExpirationDays?: number;
+  /** Optional. Policy configuration for Access Approval that sets the operating mode. The available policies are Transparency, Streamlined Support, and Approval Required. */
+  approvalPolicy?: CustomerApprovalApprovalPolicy;
   /** Output only. Effective policy applied for Access Approval, inclusive of inheritance. */
   effectiveApprovalPolicy?: CustomerApprovalApprovalPolicy;
-  /** The asymmetric crypto key version to use for signing approval requests. Empty active_key_version indicates that a Google-managed key should be used for signing. This property will be ignored if set by an ancestor of this resource, and new non-empty values may not be set. */
-  activeKeyVersion?: string;
-  /** Output only. This field is read only (not settable via UpdateAccessApprovalSettings method). If the field is true, that indicates that at least one service is enrolled for Access Approval in one or more ancestors of the Project or Folder (this field will always be unset for the organization since organizations do not have ancestors). */
-  enrolledAncestor?: boolean;
+  /** Optional. A pubsub topic that notifications relating to access approval are published to. Notifications include pre-approved accesses. */
+  notificationPubsubTopic?: string;
+  /** A list of email addresses to which notifications relating to approval requests should be sent. Notifications relating to a resource will be sent to all emails in the settings of ancestor resources of that resource. A maximum of 50 email addresses are allowed. */
+  notificationEmails?: StringList;
+  /** This field is used to set a preference for granularity of an access approval request. If true, Google personnel will be asked to send resource-level requests when possible. If false, Google personnel will be asked to send requests at the project level. */
+  preferNoBroadApprovalRequests?: boolean;
   /** Optional. A setting that indicates the maximum scope of an Access Approval request: either organization, folder, or project. Google administrators will be asked to send requests no broader than the configured scope. */
   requestScopeMaxWidthPreference?:
     | AccessApprovalSettingsRequestScopeMaxWidthPreferenceEnum
     | (string & {});
+  /** Output only. This field is read only (not settable via UpdateAccessApprovalSettings method). If the field is true, that indicates that there is some configuration issue with the active_key_version configured at this level in the resource hierarchy (e.g. it doesn't exist or the Access Approval service account doesn't have the correct permissions on it, etc.) This key version is not necessarily the effective key version at this level, as key versions are inherited top-down. */
+  invalidKeyVersion?: boolean;
+  /** The asymmetric crypto key version to use for signing approval requests. Empty active_key_version indicates that a Google-managed key should be used for signing. This property will be ignored if set by an ancestor of this resource, and new non-empty values may not be set. */
+  activeKeyVersion?: string;
+  /** Set the default access approval request expiration time. This value is able to be set directly by the customer at the time of approval, overriding this suggested value. We recommend setting this value to 30 days. */
+  preferredRequestExpirationDays?: number;
   /** Output only. Field to differentiate ancestor enrolled services from locally enrolled services. */
   ancestorsEnrolledServices?: EnrolledServiceList;
+  /** Output only. This field is read only (not settable via UpdateAccessApprovalSettings method). If the field is true, that indicates that at least one service is enrolled for Access Approval in one or more ancestors of the Project or Folder (this field will always be unset for the organization since organizations do not have ancestors). */
+  enrolledAncestor?: boolean;
+  /** The resource name of the settings. Format is one of: * "projects/{project}/accessApprovalSettings" * "folders/{folder}/accessApprovalSettings" * "organizations/{organization}/accessApprovalSettings" */
+  name?: string;
+  /** A list of Google Cloud Services for which the given resource has Access Approval enrolled. Access requests for the resource given by name against any of these services contained here will be required to have explicit approval. If name refers to an organization, enrollment can be done for individual services. If name refers to a folder or project, enrollment can only be done on an all or nothing basis. If a cloud_product is repeated in this list, the first entry will be honored and all following entries will be discarded. */
+  enrolledServices?: EnrolledServiceList;
   /** Output only. This field is read only (not settable via UpdateAccessApprovalSettings method). If the field is true, that indicates that an ancestor of this Project or Folder has set active_key_version (this field will always be unset for the organization since organizations do not have ancestors). */
   ancestorHasActiveKeyVersion?: boolean;
 }
 export const AccessApprovalSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    notificationPubsubTopic: S.optional(S.String),
-    approvalPolicy: S.optional(CustomerApprovalApprovalPolicy),
-    invalidKeyVersion: S.optional(S.Boolean),
     requireCustomerVisibleJustification: S.optional(S.Boolean),
-    preferNoBroadApprovalRequests: S.optional(S.Boolean),
-    enrolledServices: S.optional(EnrolledServiceList),
-    notificationEmails: S.optional(StringList),
-    name: S.optional(S.String),
-    preferredRequestExpirationDays: S.optional(S.Number),
+    approvalPolicy: S.optional(CustomerApprovalApprovalPolicy),
     effectiveApprovalPolicy: S.optional(CustomerApprovalApprovalPolicy),
-    activeKeyVersion: S.optional(S.String),
-    enrolledAncestor: S.optional(S.Boolean),
+    notificationPubsubTopic: S.optional(S.String),
+    notificationEmails: S.optional(StringList),
+    preferNoBroadApprovalRequests: S.optional(S.Boolean),
     requestScopeMaxWidthPreference: S.optional(
       AccessApprovalSettingsRequestScopeMaxWidthPreferenceEnum,
     ),
+    invalidKeyVersion: S.optional(S.Boolean),
+    activeKeyVersion: S.optional(S.String),
+    preferredRequestExpirationDays: S.optional(S.Number),
     ancestorsEnrolledServices: S.optional(EnrolledServiceList),
+    enrolledAncestor: S.optional(S.Boolean),
+    name: S.optional(S.String),
+    enrolledServices: S.optional(EnrolledServiceList),
     ancestorHasActiveKeyVersion: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AccessApprovalSettings",
-}) as any as S.Schema<AccessApprovalSettings>;
+).annotate({ identifier: "AccessApprovalSettings" }) as any as S.Schema<AccessApprovalSettings>;
 
 export interface GetAccessApprovalSettingsOrganizationsRequest {
   /** The name of the AccessApprovalSettings to retrieve. Format: "{projects|folders|organizations}/{id}/accessApprovalSettings" */
@@ -636,11 +618,7 @@ export const GetAccessApprovalSettingsOrganizationsRequest = /*@__PURE__*/ S.sus
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://accessapproval.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://accessapproval.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetAccessApprovalSettingsOrganizationsRequest",
@@ -654,11 +632,7 @@ export const GetAccessApprovalSettingsProjectsRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://accessapproval.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://accessapproval.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetAccessApprovalSettingsProjectsRequest",
@@ -672,11 +646,7 @@ export const GetFoldersApprovalRequestsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://accessapproval.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://accessapproval.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetFoldersApprovalRequestsRequest",
@@ -690,11 +660,7 @@ export const GetOrganizationsApprovalRequestsRequest = /*@__PURE__*/ S.suspend((
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://accessapproval.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://accessapproval.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetOrganizationsApprovalRequestsRequest",
@@ -708,11 +674,7 @@ export const GetProjectsApprovalRequestsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://accessapproval.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://accessapproval.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsApprovalRequestsRequest",
@@ -726,11 +688,7 @@ export const GetServiceAccountFoldersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://accessapproval.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://accessapproval.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetServiceAccountFoldersRequest",
@@ -738,15 +696,15 @@ export const GetServiceAccountFoldersRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Access Approval service account related to a project/folder/organization. */
 export interface AccessApprovalServiceAccount {
-  /** Email address of the service account. */
-  accountEmail?: string;
   /** The resource name of the Access Approval service account. Format is one of: * "projects/{project}/serviceAccount" * "folders/{folder}/serviceAccount" * "organizations/{organization}/serviceAccount" */
   name?: string;
+  /** Email address of the service account. */
+  accountEmail?: string;
 }
 export const AccessApprovalServiceAccount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    accountEmail: S.optional(S.String),
     name: S.optional(S.String),
+    accountEmail: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AccessApprovalServiceAccount",
@@ -760,11 +718,7 @@ export const GetServiceAccountOrganizationsRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://accessapproval.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://accessapproval.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetServiceAccountOrganizationsRequest",
@@ -778,11 +732,7 @@ export const GetServiceAccountProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://accessapproval.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://accessapproval.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetServiceAccountProjectsRequest",
@@ -858,19 +808,19 @@ export const InvalidateProjectsApprovalRequestsRequest = /*@__PURE__*/ S.suspend
 export interface ListFoldersApprovalRequestsRequest {
   /** A filter on the type of approval requests to retrieve. Must be one of the following values: * [not set]: Requests that are pending or have active approvals. * ALL: All requests. * PENDING: Only pending requests. * ACTIVE: Only active (i.e. currently approved) requests. * DISMISSED: Only requests that have been dismissed, or requests that are not approved and past expiration. * EXPIRED: Only requests that have been approved, and the approval has expired. * HISTORY: Active, dismissed and expired requests. */
   filter?: string;
-  /** Requested page size. */
-  pageSize?: number;
-  /** A token identifying the page of results to return. */
-  pageToken?: string;
   /** The parent resource. This may be "projects/{project}", "folders/{folder}", or "organizations/{organization}". */
   parent: string;
+  /** A token identifying the page of results to return. */
+  pageToken?: string;
+  /** Requested page size. */
+  pageSize?: number;
 }
 export const ListFoldersApprovalRequestsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -904,20 +854,20 @@ export const ListApprovalRequestsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListApprovalRequestsResponse>;
 
 export interface ListOrganizationsApprovalRequestsRequest {
-  /** The parent resource. This may be "projects/{project}", "folders/{folder}", or "organizations/{organization}". */
-  parent: string;
-  /** A token identifying the page of results to return. */
-  pageToken?: string;
   /** A filter on the type of approval requests to retrieve. Must be one of the following values: * [not set]: Requests that are pending or have active approvals. * ALL: All requests. * PENDING: Only pending requests. * ACTIVE: Only active (i.e. currently approved) requests. * DISMISSED: Only requests that have been dismissed, or requests that are not approved and past expiration. * EXPIRED: Only requests that have been approved, and the approval has expired. * HISTORY: Active, dismissed and expired requests. */
   filter?: string;
+  /** A token identifying the page of results to return. */
+  pageToken?: string;
+  /** The parent resource. This may be "projects/{project}", "folders/{folder}", or "organizations/{organization}". */
+  parent: string;
   /** Requested page size. */
   pageSize?: number;
 }
 export const ListOrganizationsApprovalRequestsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -931,20 +881,20 @@ export const ListOrganizationsApprovalRequestsRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<ListOrganizationsApprovalRequestsRequest>;
 
 export interface ListProjectsApprovalRequestsRequest {
-  /** A token identifying the page of results to return. */
-  pageToken?: string;
   /** The parent resource. This may be "projects/{project}", "folders/{folder}", or "organizations/{organization}". */
   parent: string;
   /** A filter on the type of approval requests to retrieve. Must be one of the following values: * [not set]: Requests that are pending or have active approvals. * ALL: All requests. * PENDING: Only pending requests. * ACTIVE: Only active (i.e. currently approved) requests. * DISMISSED: Only requests that have been dismissed, or requests that are not approved and past expiration. * EXPIRED: Only requests that have been approved, and the approval has expired. * HISTORY: Active, dismissed and expired requests. */
   filter?: string;
+  /** A token identifying the page of results to return. */
+  pageToken?: string;
   /** Requested page size. */
   pageSize?: number;
 }
 export const ListProjectsApprovalRequestsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -982,17 +932,17 @@ export const UpdateAccessApprovalSettingsFoldersRequest = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<UpdateAccessApprovalSettingsFoldersRequest>;
 
 export interface UpdateAccessApprovalSettingsOrganizationsRequest {
-  /** The update mask applies to the settings. Only the top level fields of AccessApprovalSettings (notification_emails & enrolled_services) are supported. For each field, if it is included, the currently stored value will be entirely overwritten with the value of the field passed in this request. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If this field is left unset, only the notification_emails field will be updated. */
-  updateMask?: string;
   /** The resource name of the settings. Format is one of: * "projects/{project}/accessApprovalSettings" * "folders/{folder}/accessApprovalSettings" * "organizations/{organization}/accessApprovalSettings" */
   name: string;
+  /** The update mask applies to the settings. Only the top level fields of AccessApprovalSettings (notification_emails & enrolled_services) are supported. For each field, if it is included, the currently stored value will be entirely overwritten with the value of the field passed in this request. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If this field is left unset, only the notification_emails field will be updated. */
+  updateMask?: string;
   /** Request body */
   body?: AccessApprovalSettings;
 }
 export const UpdateAccessApprovalSettingsOrganizationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(AccessApprovalSettings.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1006,17 +956,17 @@ export const UpdateAccessApprovalSettingsOrganizationsRequest = /*@__PURE__*/ S.
 }) as any as S.Schema<UpdateAccessApprovalSettingsOrganizationsRequest>;
 
 export interface UpdateAccessApprovalSettingsProjectsRequest {
-  /** The update mask applies to the settings. Only the top level fields of AccessApprovalSettings (notification_emails & enrolled_services) are supported. For each field, if it is included, the currently stored value will be entirely overwritten with the value of the field passed in this request. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If this field is left unset, only the notification_emails field will be updated. */
-  updateMask?: string;
   /** The resource name of the settings. Format is one of: * "projects/{project}/accessApprovalSettings" * "folders/{folder}/accessApprovalSettings" * "organizations/{organization}/accessApprovalSettings" */
   name: string;
+  /** The update mask applies to the settings. Only the top level fields of AccessApprovalSettings (notification_emails & enrolled_services) are supported. For each field, if it is included, the currently stored value will be entirely overwritten with the value of the field passed in this request. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If this field is left unset, only the notification_emails field will be updated. */
+  updateMask?: string;
   /** Request body */
   body?: AccessApprovalSettings;
 }
 export const UpdateAccessApprovalSettingsProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(AccessApprovalSettings.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1418,10 +1368,7 @@ export const listFoldersApprovalRequests: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListOrganizationsApprovalRequestsError = NotFound | Forbidden | GcpOpError;
@@ -1438,10 +1385,7 @@ export const listOrganizationsApprovalRequests: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsApprovalRequestsError = NotFound | Forbidden | GcpOpError;
@@ -1458,10 +1402,7 @@ export const listProjectsApprovalRequests: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type UpdateAccessApprovalSettingsFoldersError =

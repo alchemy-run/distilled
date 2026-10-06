@@ -188,9 +188,7 @@ export const CompleteSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CompleteSnapshotRequest",
-}) as any as S.Schema<CompleteSnapshotRequest>;
+).annotate({ identifier: "CompleteSnapshotRequest" }) as any as S.Schema<CompleteSnapshotRequest>;
 export type Status = "completed" | "pending" | "error" | (string & {});
 export const Status = S.String;
 
@@ -199,9 +197,7 @@ export interface CompleteSnapshotResponse {
 }
 export const CompleteSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Status: S.optional(Status) }),
-).annotate({
-  identifier: "CompleteSnapshotResponse",
-}) as any as S.Schema<CompleteSnapshotResponse>;
+).annotate({ identifier: "CompleteSnapshotResponse" }) as any as S.Schema<CompleteSnapshotResponse>;
 export type BlockIndex = number;
 export type BlockToken = string;
 export interface GetSnapshotBlockRequest {
@@ -216,10 +212,7 @@ export const GetSnapshotBlockRequest = /*@__PURE__*/ S.suspend(() =>
     BlockToken: S.String.pipe(T.HttpQuery("blockToken")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/snapshots/{SnapshotId}/blocks/{BlockIndex}",
-      }),
+      T.Http({ method: "GET", uri: "/snapshots/{SnapshotId}/blocks/{BlockIndex}" }),
       svc,
       auth,
       proto,
@@ -227,9 +220,7 @@ export const GetSnapshotBlockRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetSnapshotBlockRequest",
-}) as any as S.Schema<GetSnapshotBlockRequest>;
+).annotate({ identifier: "GetSnapshotBlockRequest" }) as any as S.Schema<GetSnapshotBlockRequest>;
 export type DataLength = number;
 export interface GetSnapshotBlockResponse {
   DataLength?: number;
@@ -244,9 +235,7 @@ export const GetSnapshotBlockResponse = /*@__PURE__*/ S.suspend(() =>
     Checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-Checksum")),
     ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(T.HttpHeader("x-amz-Checksum-Algorithm")),
   }),
-).annotate({
-  identifier: "GetSnapshotBlockResponse",
-}) as any as S.Schema<GetSnapshotBlockResponse>;
+).annotate({ identifier: "GetSnapshotBlockResponse" }) as any as S.Schema<GetSnapshotBlockResponse>;
 export type PageToken = string;
 export type MaxResults = number;
 export interface ListChangedBlocksRequest {
@@ -265,10 +254,7 @@ export const ListChangedBlocksRequest = /*@__PURE__*/ S.suspend(() =>
     StartingBlockIndex: S.optional(S.Number).pipe(T.HttpQuery("startingBlockIndex")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/snapshots/{SecondSnapshotId}/changedblocks",
-      }),
+      T.Http({ method: "GET", uri: "/snapshots/{SecondSnapshotId}/changedblocks" }),
       svc,
       auth,
       proto,
@@ -276,9 +262,7 @@ export const ListChangedBlocksRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListChangedBlocksRequest",
-}) as any as S.Schema<ListChangedBlocksRequest>;
+).annotate({ identifier: "ListChangedBlocksRequest" }) as any as S.Schema<ListChangedBlocksRequest>;
 export interface ChangedBlock {
   BlockIndex?: number;
   FirstBlockToken?: string;
@@ -343,10 +327,7 @@ export interface Block {
   BlockToken?: string;
 }
 export const Block = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BlockIndex: S.optional(S.Number),
-    BlockToken: S.optional(S.String),
-  }),
+  S.Struct({ BlockIndex: S.optional(S.Number), BlockToken: S.optional(S.String) }),
 ).annotate({ identifier: "Block" }) as any as S.Schema<Block>;
 export type Blocks = Block[];
 export const Blocks = /*@__PURE__*/ S.Array(Block);
@@ -389,10 +370,7 @@ export const PutSnapshotBlockRequest = /*@__PURE__*/ S.suspend(() =>
     ChecksumAlgorithm: ChecksumAlgorithm.pipe(T.HttpHeader("x-amz-Checksum-Algorithm")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/snapshots/{SnapshotId}/blocks/{BlockIndex}",
-      }),
+      T.Http({ method: "PUT", uri: "/snapshots/{SnapshotId}/blocks/{BlockIndex}" }),
       svc,
       auth,
       proto,
@@ -400,9 +378,7 @@ export const PutSnapshotBlockRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PutSnapshotBlockRequest",
-}) as any as S.Schema<PutSnapshotBlockRequest>;
+).annotate({ identifier: "PutSnapshotBlockRequest" }) as any as S.Schema<PutSnapshotBlockRequest>;
 export interface PutSnapshotBlockResponse {
   Checksum?: string;
   ChecksumAlgorithm?: ChecksumAlgorithm;
@@ -412,9 +388,7 @@ export const PutSnapshotBlockResponse = /*@__PURE__*/ S.suspend(() =>
     Checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-Checksum")),
     ChecksumAlgorithm: S.optional(ChecksumAlgorithm).pipe(T.HttpHeader("x-amz-Checksum-Algorithm")),
   }),
-).annotate({
-  identifier: "PutSnapshotBlockResponse",
-}) as any as S.Schema<PutSnapshotBlockResponse>;
+).annotate({ identifier: "PutSnapshotBlockResponse" }) as any as S.Schema<PutSnapshotBlockResponse>;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
@@ -451,9 +425,7 @@ export const StartSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     KmsKeyArn: S.optional(SensitiveString),
     Timeout: S.optional(S.Number),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/snapshots" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "StartSnapshotRequest",
-}) as any as S.Schema<StartSnapshotRequest>;
+).annotate({ identifier: "StartSnapshotRequest" }) as any as S.Schema<StartSnapshotRequest>;
 export type OwnerId = string;
 export type SSEType = "sse-ebs" | "sse-kms" | "none" | (string & {});
 export const SSEType = S.String;
@@ -485,9 +457,7 @@ export const StartSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
     KmsKeyArn: S.optional(SensitiveString),
     SseType: S.optional(SSEType),
   }),
-).annotate({
-  identifier: "StartSnapshotResponse",
-}) as any as S.Schema<StartSnapshotResponse>;
+).annotate({ identifier: "StartSnapshotResponse" }) as any as S.Schema<StartSnapshotResponse>;
 export type ErrorMessage = string;
 export type AccessDeniedExceptionReason =
   | "UNAUTHORIZED_ACCOUNT"

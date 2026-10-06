@@ -61,9 +61,7 @@ export const GetConductCodeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     key: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/codes_of_conduct/{key}", code: 200 })),
-).annotate({
-  identifier: "GetConductCodeRequest",
-}) as any as S.Schema<GetConductCodeRequest>;
+).annotate({ identifier: "GetConductCodeRequest" }) as any as S.Schema<GetConductCodeRequest>;
 
 export type GetAllCodesOfConductError = GithubOpError;
 /** Get all codes of conduct Returns array of all GitHub's codes of conduct. */

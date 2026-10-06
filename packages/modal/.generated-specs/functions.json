@@ -564,13 +564,10 @@
         "isMethod": {
           "target": "smithy.api#Boolean"
         },
-        "useFunctionId": {
-          "target": "smithy.api#String"
-        },
         "useMethodName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "used for methods"
+            "smithy.api#documentation": "use_function_id, pre-0.67 class method placeholders"
           }
         },
         "definitionId": {
@@ -620,6 +617,12 @@
         },
         "appId": {
           "target": "smithy.api#String"
+        },
+        "baseFunctionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The base Function ID for a variant, or the Function's own ID otherwise."
+          }
         }
       }
     },
@@ -923,6 +926,173 @@
         "smithy.api#http": {
           "method": "POST",
           "uri": "/modal.client.ModalClient/FunctionCallCancel",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.functions#FetchFunctionCallRequestTail": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of most recent inputs to return. Must be between 1 and 1000."
+          }
+        }
+      }
+    },
+    "com.modal.functions#FetchFunctionCallRequest": {
+      "type": "structure",
+      "members": {
+        "functionId": {
+          "target": "smithy.api#String"
+        },
+        "tail": {
+          "target": "com.modal.functions#FetchFunctionCallRequestTail"
+        },
+        "allVariants": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Include the root Function and its eligible variants."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.functions#FunctionCallInputInfo": {
+      "type": "structure",
+      "members": {
+        "enqueuedAt": {
+          "target": "smithy.api#Timestamp"
+        },
+        "startedAt": {
+          "target": "smithy.api#Timestamp"
+        },
+        "containerId": {
+          "target": "smithy.api#String"
+        },
+        "startupTimeSeconds": {
+          "target": "smithy.api#Double"
+        },
+        "executionTimeSeconds": {
+          "target": "smithy.api#Double"
+        },
+        "status": {
+          "target": "com.modal.functions#FunctionCallInputStatus"
+        },
+        "functionCallId": {
+          "target": "smithy.api#String"
+        },
+        "serviceMethodName": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.functions#FunctionCallInputStatus": {
+      "type": "enum",
+      "members": {
+        "FUNCTION_CALL_INPUT_STATUS_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FUNCTION_CALL_INPUT_STATUS_UNSPECIFIED"
+          }
+        },
+        "FUNCTION_CALL_INPUT_STATUS_PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FUNCTION_CALL_INPUT_STATUS_PENDING"
+          }
+        },
+        "FUNCTION_CALL_INPUT_STATUS_RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FUNCTION_CALL_INPUT_STATUS_RUNNING"
+          }
+        },
+        "FUNCTION_CALL_INPUT_STATUS_SUCCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FUNCTION_CALL_INPUT_STATUS_SUCCESS"
+          }
+        },
+        "FUNCTION_CALL_INPUT_STATUS_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FUNCTION_CALL_INPUT_STATUS_FAILURE"
+          }
+        },
+        "FUNCTION_CALL_INPUT_STATUS_TIMEOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FUNCTION_CALL_INPUT_STATUS_TIMEOUT"
+          }
+        },
+        "FUNCTION_CALL_INPUT_STATUS_TERMINATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FUNCTION_CALL_INPUT_STATUS_TERMINATED"
+          }
+        },
+        "FUNCTION_CALL_INPUT_STATUS_INIT_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FUNCTION_CALL_INPUT_STATUS_INIT_FAILURE"
+          }
+        },
+        "FUNCTION_CALL_INPUT_STATUS_INTERNAL_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FUNCTION_CALL_INPUT_STATUS_INTERNAL_FAILURE"
+          }
+        },
+        "FUNCTION_CALL_INPUT_STATUS_IDLE_TIMEOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FUNCTION_CALL_INPUT_STATUS_IDLE_TIMEOUT"
+          }
+        },
+        "FUNCTION_CALL_INPUT_STATUS_MEMORY_MANAGER_EVICTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FUNCTION_CALL_INPUT_STATUS_MEMORY_MANAGER_EVICTION"
+          }
+        }
+      }
+    },
+    "com.modal.functions#FunctionCallInputInfoList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.functions#FunctionCallInputInfo"
+      }
+    },
+    "com.modal.functions#FetchFunctionCallResponse": {
+      "type": "structure",
+      "members": {
+        "functionCallInputs": {
+          "target": "com.modal.functions#FunctionCallInputInfoList",
+          "traits": {
+            "smithy.api#documentation": "The requested number of most recent inputs from the last seven days, ordered from newest to oldest."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.functions#FetchFunctionCall": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.functions#FetchFunctionCallRequest"
+      },
+      "output": {
+        "target": "com.modal.functions#FetchFunctionCallResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/FunctionCallFetch",
           "code": 200
         }
       }
@@ -1381,22 +1551,10 @@
             "smithy.api#documentation": "_experimental_scheduler_placement"
           }
         },
-        "useFunctionId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "if \"Function\" is actually a class grouping multiple methods"
-          }
-        },
-        "useMethodName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "for class methods use this function id instead for invocations - the *referenced* function should have is_class=True"
-          }
-        },
         "classParameterInfo": {
           "target": "com.modal.functions#ClassParameterInfo",
           "traits": {
-            "smithy.api#documentation": "for class methods - this method name needs to be included in the FunctionInput"
+            "smithy.api#documentation": "use_method_name, pre-0.67 class method placeholders"
           }
         },
         "batchMaxSize": {
@@ -1456,15 +1614,11 @@
         "ExperimentalBufferContainers": {
           "target": "smithy.api#Integer"
         },
-        "ExperimentalProxyIp": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "To be replaced by autoscaler_settings.buffer_containers _experimental_proxy_ip -> ProxyInfo TODO: deprecate.",
-            "smithy.api#deprecated": {}
-          }
-        },
         "runtimePerfRecord": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "To be replaced by autoscaler_settings.buffer_containers"
+          }
         },
         "schedule": {
           "target": "com.modal.functions#Schedule",
@@ -2208,11 +2362,18 @@
         },
         "unauthenticated": {
           "target": "smithy.api#Boolean"
+        },
+        "liftAndShiftConfig": {
+          "target": "com.modal.functions#LiftAndShiftConfig"
         }
       },
       "traits": {
         "smithy.api#documentation": "(?)"
       }
+    },
+    "com.modal.functions#LiftAndShiftConfig": {
+      "type": "structure",
+      "members": {}
     },
     "com.modal.functions#FunctionData": {
       "type": "structure",
@@ -2280,13 +2441,6 @@
         "customDomainInfo": {
           "target": "com.modal.functions#CustomDomainInfoList"
         },
-        "ExperimentalProxyIp": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "_experimental_proxy_ip -> ProxyInfo TODO: deprecate.",
-            "smithy.api#deprecated": {}
-          }
-        },
         "methodDefinitions": {
           "target": "com.modal.functions#MethodDefinitionMap",
           "traits": {
@@ -2307,15 +2461,6 @@
         },
         "isMethod": {
           "target": "smithy.api#Boolean"
-        },
-        "useFunctionId": {
-          "target": "smithy.api#String"
-        },
-        "useMethodName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "used for methods"
-          }
         },
         "rankedFunctions": {
           "target": "com.modal.functions#FunctionDataRankedFunctionList"
@@ -2405,7 +2550,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "used for methods"
+        "smithy.api#documentation": "use_method_name, pre-0.67 class method placeholders"
       }
     },
     "com.modal.functions#FunctionDataRankedFunctionList": {
@@ -2652,6 +2797,9 @@
       "members": {
         "function": {
           "target": "com.modal.functions#FunctionData"
+        },
+        "handleMetadata": {
+          "target": "com.modal.functions#FunctionHandleMetadata"
         }
       },
       "traits": {
@@ -2805,6 +2953,12 @@
         },
         "functionCalls": {
           "target": "com.modal.functions#FunctionCallCallGraphInfoList"
+        },
+        "truncated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Set by the server when the graph has more nodes than it will return, so `inputs` is a prefix of the graph."
+          }
         }
       },
       "traits": {
@@ -2914,6 +3068,44 @@
         "smithy.api#http": {
           "method": "POST",
           "uri": "/modal.client.ModalClient/FunctionGetDynamicConcurrency",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.functions#FunctionGetFlashAuthTokenRequest": {
+      "type": "structure",
+      "members": {
+        "functionId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.functions#FunctionGetFlashAuthTokenResponse": {
+      "type": "structure",
+      "members": {
+        "token": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.functions#FunctionGetFlashAuthToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.functions#FunctionGetFlashAuthTokenRequest"
+      },
+      "output": {
+        "target": "com.modal.functions#FunctionGetFlashAuthTokenResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/FunctionGetFlashAuthToken",
           "code": 200
         }
       }
@@ -3246,6 +3438,115 @@
         "smithy.api#documentation": "For containers to request next call"
       }
     },
+    "com.modal.functions#FunctionGetSchedulingParamsRequest": {
+      "type": "structure",
+      "members": {
+        "functionId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.functions#AutoscalerConfiguration": {
+      "type": "structure",
+      "members": {
+        "settings": {
+          "target": "com.modal.functions#AutoscalerSettings",
+          "traits": {
+            "smithy.api#documentation": "The settings that are currently in effect."
+          }
+        },
+        "overrideEvents": {
+          "target": "com.modal.functions#UserActionInfoMap",
+          "traits": {
+            "smithy.api#documentation": "For tracking the source of the overridden value; keys correspond to fields in `settings`."
+          }
+        },
+        "defaultSettings": {
+          "target": "com.modal.functions#AutoscalerSettings",
+          "traits": {
+            "smithy.api#documentation": "The default settings that are used when no static settings are provided and no overrides are in effect."
+          }
+        },
+        "staticSettings": {
+          "target": "com.modal.functions#AutoscalerSettings",
+          "traits": {
+            "smithy.api#documentation": "The static settings that were used to initialize the configuration."
+          }
+        },
+        "overrideSettings": {
+          "target": "com.modal.functions#AutoscalerSettings",
+          "traits": {
+            "smithy.api#documentation": "The merge of all overrides that were used to create the current configuration."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Message representing the current (coalesced) state of the autoscaler configuration As well as the different sources that were used to create it."
+      }
+    },
+    "com.modal.functions#UserActionInfo": {
+      "type": "structure",
+      "members": {
+        "userId": {
+          "target": "smithy.api#String"
+        },
+        "serviceUserId": {
+          "target": "smithy.api#String"
+        },
+        "timestamp": {
+          "target": "smithy.api#Double"
+        },
+        "requestedBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resolved display name, could be a user or service user."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Used for capturing context about an action performed by a user"
+      }
+    },
+    "com.modal.functions#UserActionInfoMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.modal.functions#UserActionInfo"
+      }
+    },
+    "com.modal.functions#FunctionGetSchedulingParamsResponse": {
+      "type": "structure",
+      "members": {
+        "autoscalerConfiguration": {
+          "target": "com.modal.functions#AutoscalerConfiguration"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.functions#FunctionGetSchedulingParams": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.functions#FunctionGetSchedulingParamsRequest"
+      },
+      "output": {
+        "target": "com.modal.functions#FunctionGetSchedulingParamsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/FunctionGetSchedulingParams",
+          "code": 200
+        },
+        "smithy.api#documentation": "Returns the next result(s) for an entire function call (FunctionMap)"
+      }
+    },
     "com.modal.functions#FunctionGetSerializedRequest": {
       "type": "structure",
       "members": {
@@ -3284,8 +3585,7 @@
           "method": "POST",
           "uri": "/modal.client.ModalClient/FunctionGetSerialized",
           "code": 200
-        },
-        "smithy.api#documentation": "Returns the next result(s) for an entire function call (FunctionMap)"
+        }
       }
     },
     "com.modal.functions#FunctionGetTimeRangeStatsRequest": {
@@ -3308,21 +3608,59 @@
           "traits": {
             "smithy.api#documentation": "Exclusive. Aggregate the root Function pool and its non-version-pinned variant pools."
           }
+        },
+        "containerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Filter stats for a specific container"
+          }
         }
       },
       "traits": {
         "smithy.api#input": {}
       }
     },
-    "com.modal.functions#FunctionStatsPercentiles": {
+    "com.modal.functions#StatsPercentileDistribution": {
       "type": "structure",
       "members": {
-        "p50": {
-          "target": "smithy.api#Double"
+        "unit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unit identifier such as \"seconds\", \"cores\", \"gibibytes\", or \"fraction\"."
+          }
         },
-        "p90": {
+        "percentiles": {
+          "target": "com.modal.functions#StatsPercentileList"
+        }
+      }
+    },
+    "com.modal.functions#StatsPercentile": {
+      "type": "structure",
+      "members": {
+        "percentileBasisPoints": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The percentile expressed in basis points: 5000 is p50 and 9990 is p99.9."
+          }
+        },
+        "value": {
           "target": "smithy.api#Double"
         }
+      }
+    },
+    "com.modal.functions#StatsPercentileList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.functions#StatsPercentile"
+      }
+    },
+    "com.modal.functions#StatsPercentileDistributionMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.modal.functions#StatsPercentileDistribution"
       }
     },
     "com.modal.functions#FunctionGetTimeRangeStatsResponse": {
@@ -3337,31 +3675,10 @@
             "smithy.api#documentation": "Inclusive."
           }
         },
-        "executionTimeSeconds": {
-          "target": "com.modal.functions#FunctionStatsPercentiles",
-          "traits": {
-            "smithy.api#documentation": "Exclusive. Per-input latency distributions. Execution time derived from inputs that finish in the window"
-          }
-        },
-        "queueTimeSeconds": {
-          "target": "com.modal.functions#FunctionStatsPercentiles",
-          "traits": {
-            "smithy.api#documentation": "Purposely omitted for now since it can't be computed from the desired tables without caveats that are confusing to explain to users"
-          }
-        },
-        "endToEndLatencySeconds": {
-          "target": "com.modal.functions#FunctionStatsPercentiles"
-        },
-        "containerStartupTimeSeconds": {
-          "target": "com.modal.functions#FunctionStatsPercentiles",
-          "traits": {
-            "smithy.api#documentation": "Container startup is measured from enqueue to start."
-          }
-        },
         "inputSuccessCount": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Counts of inputs that finish in the requested time range."
+            "smithy.api#documentation": "Exclusive. Counts of inputs that finish in the requested time range."
           }
         },
         "inputFailureCount": {
@@ -3370,22 +3687,46 @@
         "inputTimeoutCount": {
           "target": "smithy.api#String"
         },
-        "cpuUtilization": {
-          "target": "com.modal.functions#FunctionStatsPercentiles",
+        "inputRunningAtEndCount": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Resource distributions are computed from normalized container heartbeat observations and expressed as fractions, where 1.0 represents 100% utilization. A missing message indicates that no observations were available."
+            "smithy.api#documentation": "Number of inputs assigned but not finished at the exclusive end of the time range."
           }
         },
-        "memoryUtilization": {
-          "target": "com.modal.functions#FunctionStatsPercentiles"
+        "inputPercentileStats": {
+          "target": "com.modal.functions#StatsPercentileDistributionMap",
+          "traits": {
+            "smithy.api#documentation": "Metrics include execution_time, end_to_end_latency, subject to change as requirements evolve"
+          }
         },
-        "gpuUtilization": {
-          "target": "com.modal.functions#FunctionStatsPercentiles"
+        "containerStartedCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Container lifecycle counts. Started and errored containers are counted when the corresponding event occurs in the requested time range. Creating containers were enqueued but had not started or finished at the exclusive end of the range."
+          }
+        },
+        "containerErrorCount": {
+          "target": "smithy.api#String"
+        },
+        "containerCreatingAtEndCount": {
+          "target": "smithy.api#String"
+        },
+        "containerPercentileStats": {
+          "target": "com.modal.functions#StatsPercentileDistributionMap",
+          "traits": {
+            "smithy.api#documentation": "Metrics include cpu_usage, memory_usage, gpu_utilization subject to change as requirements evolve"
+          }
         },
         "variantCount": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Number of direct non-version-pinned variants included in the roll-up. Zero when roll-up is disabled or the base Function has no variants."
+          }
+        },
+        "containerTotalCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Number of containers that were active (published heartbeats) in the time range."
           }
         }
       },
@@ -3405,6 +3746,93 @@
         "smithy.api#http": {
           "method": "POST",
           "uri": "/modal.client.ModalClient/FunctionGetTimeRangeStats",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.functions#FunctionVariantCursor": {
+      "type": "structure",
+      "members": {
+        "createdBefore": {
+          "target": "smithy.api#Double"
+        },
+        "functionId": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.functions#FunctionListVariantsRequest": {
+      "type": "structure",
+      "members": {
+        "functionId": {
+          "target": "smithy.api#String"
+        },
+        "cursor": {
+          "target": "com.modal.functions#FunctionVariantCursor"
+        },
+        "limit": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.functions#FunctionVariantInfo": {
+      "type": "structure",
+      "members": {
+        "functionId": {
+          "target": "smithy.api#String"
+        },
+        "serializedParams": {
+          "target": "smithy.api#Blob"
+        },
+        "functionOptions": {
+          "target": "com.modal.functions#FunctionOptions"
+        }
+      }
+    },
+    "com.modal.functions#FunctionVariantInfoList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.functions#FunctionVariantInfo"
+      }
+    },
+    "com.modal.functions#FunctionListVariantsResponse": {
+      "type": "structure",
+      "members": {
+        "infos": {
+          "target": "com.modal.functions#FunctionVariantInfoList"
+        },
+        "nextCursor": {
+          "target": "com.modal.functions#FunctionVariantCursor",
+          "traits": {
+            "smithy.api#documentation": "Pass back as cursor to fetch the next page. Unset once the listing is complete."
+          }
+        },
+        "orderedByTaskCount": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Set by the server when it ordered the variants by how many tasks each is running, busiest first."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.functions#FunctionListVariants": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.functions#FunctionListVariantsRequest"
+      },
+      "output": {
+        "target": "com.modal.functions#FunctionListVariantsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/FunctionListVariants",
           "code": 200
         }
       }
@@ -3449,7 +3877,56 @@
           "traits": {
             "smithy.api#documentation": "r2_latency_ms"
           }
+        },
+        "blobUploadResults": {
+          "target": "com.modal.functions#BlobUploadResultList"
         }
+      }
+    },
+    "com.modal.functions#BlobUploadResult": {
+      "type": "structure",
+      "members": {
+        "blobId": {
+          "target": "smithy.api#String"
+        },
+        "outcome": {
+          "target": "com.modal.functions#BlobUploadResultOutcome",
+          "traits": {
+            "smithy.api#documentation": "The blob id (from BlobCreateResponse) that this upload attempt targeted."
+          }
+        },
+        "throughputBytesS": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.functions#BlobUploadResultOutcome": {
+      "type": "enum",
+      "members": {
+        "OUTCOME_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OUTCOME_UNSPECIFIED"
+          }
+        },
+        "OUTCOME_SUCCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OUTCOME_SUCCESS"
+          }
+        },
+        "OUTCOME_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OUTCOME_FAILURE"
+          }
+        }
+      }
+    },
+    "com.modal.functions#BlobUploadResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.functions#BlobUploadResult"
       }
     },
     "com.modal.functions#FunctionPutInputsItemList": {
@@ -3567,19 +4044,10 @@
         "webhookConfig": {
           "target": "com.modal.functions#WebhookConfig"
         },
-        "useFunctionId": {
-          "target": "smithy.api#String"
-        },
-        "useMethodName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "for class methods - use this function id instead for invocations - the *referenced* function should have is_class=True"
-          }
-        },
         "methodDefinitions": {
           "target": "com.modal.functions#MethodDefinitionMap",
           "traits": {
-            "smithy.api#documentation": "for class methods - this method name needs to be included in the FunctionInput Mapping of method names to method definitions, only non-empty for class service functions"
+            "smithy.api#documentation": "use_method_name, pre-0.67 class method placeholders Mapping of method names to method definitions, only non-empty for class service functions"
           }
         },
         "functionSchema": {
@@ -3886,6 +4354,9 @@
           "target": "com.modal.functions#CancelFunctionCall"
         },
         {
+          "target": "com.modal.functions#FetchFunctionCall"
+        },
+        {
           "target": "com.modal.functions#FunctionCallFromId"
         },
         {
@@ -3919,16 +4390,25 @@
           "target": "com.modal.functions#FunctionGetDynamicConcurrency"
         },
         {
+          "target": "com.modal.functions#FunctionGetFlashAuthToken"
+        },
+        {
           "target": "com.modal.functions#GetFunctionInputs"
         },
         {
           "target": "com.modal.functions#GetFunctionOutputs"
         },
         {
+          "target": "com.modal.functions#FunctionGetSchedulingParams"
+        },
+        {
           "target": "com.modal.functions#FunctionGetSerialized"
         },
         {
           "target": "com.modal.functions#FunctionGetTimeRangeStats"
+        },
+        {
+          "target": "com.modal.functions#FunctionListVariants"
         },
         {
           "target": "com.modal.functions#FunctionMap"

@@ -10,10 +10,7 @@ import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://cloudfront.amazonaws.com/doc/2020-05-31/");
-const svc = T.AwsApiService({
-  sdkId: "CloudFront",
-  serviceShapeName: "Cloudfront2020_05_31",
-});
+const svc = T.AwsApiService({ sdkId: "CloudFront", serviceShapeName: "Cloudfront2020_05_31" });
 const auth = T.AwsAuthSigv4({ name: "cloudfront" });
 const ver = T.ServiceVersion("2020-05-31");
 const proto = T.AwsProtocolsRestXml();
@@ -27,19 +24,10 @@ const rules = T.EndpointResolver((p, _) => {
     type: "error" as const,
     message: m as string,
   });
-  const _p0 = () => ({
-    authSchemes: [{ name: "sigv4", signingRegion: "us-east-1" }],
-  });
-  const _p1 = () => ({
-    authSchemes: [{ name: "sigv4", signingRegion: "cn-northwest-1" }],
-  });
+  const _p0 = () => ({ authSchemes: [{ name: "sigv4", signingRegion: "us-east-1" }] });
+  const _p1 = () => ({ authSchemes: [{ name: "sigv4", signingRegion: "cn-northwest-1" }] });
   const _p2 = (_0: unknown) => ({
-    authSchemes: [
-      {
-        name: "sigv4",
-        signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}`,
-      },
-    ],
+    authSchemes: [{ name: "sigv4", signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}` }],
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
@@ -1062,14 +1050,10 @@ export const AssociateAliasRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "AssociateAliasRequest",
-}) as any as S.Schema<AssociateAliasRequest>;
+).annotate({ identifier: "AssociateAliasRequest" }) as any as S.Schema<AssociateAliasRequest>;
 export interface AssociateAliasResponse {}
 export const AssociateAliasResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate(
-  {
-    identifier: "AssociateAliasResponse",
-  },
+  { identifier: "AssociateAliasResponse" },
 ) as any as S.Schema<AssociateAliasResponse>;
 export interface AssociateDistributionTenantWebACLRequest {
   Id: string;
@@ -1084,10 +1068,7 @@ export const AssociateDistributionTenantWebACLRequest = /*@__PURE__*/ S.suspend(
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2020-05-31/distribution-tenant/{Id}/associate-web-acl",
-      }),
+      T.Http({ method: "PUT", uri: "/2020-05-31/distribution-tenant/{Id}/associate-web-acl" }),
       svc,
       auth,
       proto,
@@ -1125,10 +1106,7 @@ export const AssociateDistributionWebACLRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2020-05-31/distribution/{Id}/associate-web-acl",
-      }),
+      T.Http({ method: "PUT", uri: "/2020-05-31/distribution/{Id}/associate-web-acl" }),
       svc,
       auth,
       proto,
@@ -1170,10 +1148,7 @@ export const CopyDistributionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "POST",
-        uri: "/2020-05-31/distribution/{PrimaryDistributionId}/copy",
-      }),
+      T.Http({ method: "POST", uri: "/2020-05-31/distribution/{PrimaryDistributionId}/copy" }),
       svc,
       auth,
       proto,
@@ -1181,9 +1156,7 @@ export const CopyDistributionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CopyDistributionRequest",
-}) as any as S.Schema<CopyDistributionRequest>;
+).annotate({ identifier: "CopyDistributionRequest" }) as any as S.Schema<CopyDistributionRequest>;
 export type KeyPairIdList = string[];
 export const KeyPairIdList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("KeyPairId")));
 export interface KeyPairIds {
@@ -1198,10 +1171,7 @@ export interface Signer {
   KeyPairIds?: KeyPairIds;
 }
 export const Signer = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AwsAccountNumber: S.optional(S.String),
-    KeyPairIds: S.optional(KeyPairIds),
-  }),
+  S.Struct({ AwsAccountNumber: S.optional(S.String), KeyPairIds: S.optional(KeyPairIds) }),
 ).annotate({ identifier: "Signer" }) as any as S.Schema<Signer>;
 export type SignerList = Signer[];
 export const SignerList = /*@__PURE__*/ S.Array(
@@ -1213,29 +1183,18 @@ export interface ActiveTrustedSigners {
   Items?: Signer[];
 }
 export const ActiveTrustedSigners = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.Boolean,
-    Quantity: S.Number,
-    Items: S.optional(SignerList),
-  }),
-).annotate({
-  identifier: "ActiveTrustedSigners",
-}) as any as S.Schema<ActiveTrustedSigners>;
+  S.Struct({ Enabled: S.Boolean, Quantity: S.Number, Items: S.optional(SignerList) }),
+).annotate({ identifier: "ActiveTrustedSigners" }) as any as S.Schema<ActiveTrustedSigners>;
 export interface KGKeyPairIds {
   KeyGroupId?: string;
   KeyPairIds?: KeyPairIds;
 }
 export const KGKeyPairIds = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyGroupId: S.optional(S.String),
-    KeyPairIds: S.optional(KeyPairIds),
-  }),
+  S.Struct({ KeyGroupId: S.optional(S.String), KeyPairIds: S.optional(KeyPairIds) }),
 ).annotate({ identifier: "KGKeyPairIds" }) as any as S.Schema<KGKeyPairIds>;
 export type KGKeyPairIdsList = KGKeyPairIds[];
 export const KGKeyPairIdsList = /*@__PURE__*/ S.Array(
-  KGKeyPairIds.pipe(T.XmlName("KeyGroup")).annotate({
-    identifier: "KGKeyPairIds",
-  }),
+  KGKeyPairIds.pipe(T.XmlName("KeyGroup")).annotate({ identifier: "KGKeyPairIds" }),
 );
 export interface ActiveTrustedKeyGroups {
   Enabled: boolean;
@@ -1243,14 +1202,8 @@ export interface ActiveTrustedKeyGroups {
   Items?: KGKeyPairIds[];
 }
 export const ActiveTrustedKeyGroups = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.Boolean,
-    Quantity: S.Number,
-    Items: S.optional(KGKeyPairIdsList),
-  }),
-).annotate({
-  identifier: "ActiveTrustedKeyGroups",
-}) as any as S.Schema<ActiveTrustedKeyGroups>;
+  S.Struct({ Enabled: S.Boolean, Quantity: S.Number, Items: S.optional(KGKeyPairIdsList) }),
+).annotate({ identifier: "ActiveTrustedKeyGroups" }) as any as S.Schema<ActiveTrustedKeyGroups>;
 export type AliasList = string[];
 export const AliasList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("CNAME")));
 export interface Aliases {
@@ -1267,9 +1220,7 @@ export interface OriginCustomHeader {
 }
 export const OriginCustomHeader = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ HeaderName: S.String, HeaderValue: SensitiveString }),
-).annotate({
-  identifier: "OriginCustomHeader",
-}) as any as S.Schema<OriginCustomHeader>;
+).annotate({ identifier: "OriginCustomHeader" }) as any as S.Schema<OriginCustomHeader>;
 export type OriginCustomHeadersList = OriginCustomHeader[];
 export const OriginCustomHeadersList = /*@__PURE__*/ S.Array(
   OriginCustomHeader.pipe(T.XmlName("OriginCustomHeader")).annotate({
@@ -1288,10 +1239,7 @@ export interface S3OriginConfig {
   OriginReadTimeout?: number;
 }
 export const S3OriginConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OriginAccessIdentity: S.optional(S.String),
-    OriginReadTimeout: S.optional(S.Number),
-  }),
+  S.Struct({ OriginAccessIdentity: S.optional(S.String), OriginReadTimeout: S.optional(S.Number) }),
 ).annotate({ identifier: "S3OriginConfig" }) as any as S.Schema<S3OriginConfig>;
 export type OriginProtocolPolicy = "http-only" | "match-viewer" | "https-only" | (string & {});
 export const OriginProtocolPolicy = S.String;
@@ -1307,9 +1255,7 @@ export interface OriginSslProtocols {
 }
 export const OriginSslProtocols = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: SslProtocolsList }),
-).annotate({
-  identifier: "OriginSslProtocols",
-}) as any as S.Schema<OriginSslProtocols>;
+).annotate({ identifier: "OriginSslProtocols" }) as any as S.Schema<OriginSslProtocols>;
 export type IpAddressType = "ipv4" | "ipv6" | "dualstack" | (string & {});
 export const IpAddressType = S.String;
 
@@ -1318,9 +1264,7 @@ export interface OriginMtlsConfig {
 }
 export const OriginMtlsConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ClientCertificateArn: S.String }),
-).annotate({
-  identifier: "OriginMtlsConfig",
-}) as any as S.Schema<OriginMtlsConfig>;
+).annotate({ identifier: "OriginMtlsConfig" }) as any as S.Schema<OriginMtlsConfig>;
 export interface CustomOriginConfig {
   HTTPPort: number;
   HTTPSPort: number;
@@ -1342,9 +1286,7 @@ export const CustomOriginConfig = /*@__PURE__*/ S.suspend(() =>
     IpAddressType: S.optional(IpAddressType),
     OriginMtlsConfig: S.optional(OriginMtlsConfig),
   }),
-).annotate({
-  identifier: "CustomOriginConfig",
-}) as any as S.Schema<CustomOriginConfig>;
+).annotate({ identifier: "CustomOriginConfig" }) as any as S.Schema<CustomOriginConfig>;
 export interface VpcOriginConfig {
   VpcOriginId: string;
   OwnerAccountId?: string;
@@ -1358,9 +1300,7 @@ export const VpcOriginConfig = /*@__PURE__*/ S.suspend(() =>
     OriginReadTimeout: S.optional(S.Number),
     OriginKeepaliveTimeout: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "VpcOriginConfig",
-}) as any as S.Schema<VpcOriginConfig>;
+).annotate({ identifier: "VpcOriginConfig" }) as any as S.Schema<VpcOriginConfig>;
 export type OriginShieldRegion = string;
 export interface OriginShield {
   Enabled: boolean;
@@ -1432,9 +1372,7 @@ export interface OriginGroupMember {
 }
 export const OriginGroupMember = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ OriginId: S.String }),
-).annotate({
-  identifier: "OriginGroupMember",
-}) as any as S.Schema<OriginGroupMember>;
+).annotate({ identifier: "OriginGroupMember" }) as any as S.Schema<OriginGroupMember>;
 export type OriginGroupMemberList = OriginGroupMember[];
 export const OriginGroupMemberList = /*@__PURE__*/ S.Array(
   OriginGroupMember.pipe(T.XmlName("OriginGroupMember")).annotate({
@@ -1447,9 +1385,7 @@ export interface OriginGroupMembers {
 }
 export const OriginGroupMembers = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: OriginGroupMemberList }),
-).annotate({
-  identifier: "OriginGroupMembers",
-}) as any as S.Schema<OriginGroupMembers>;
+).annotate({ identifier: "OriginGroupMembers" }) as any as S.Schema<OriginGroupMembers>;
 export type OriginGroupSelectionCriteria = "default" | "media-quality-based" | (string & {});
 export const OriginGroupSelectionCriteria = S.String;
 
@@ -1469,9 +1405,7 @@ export const OriginGroup = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "OriginGroup" }) as any as S.Schema<OriginGroup>;
 export type OriginGroupList = OriginGroup[];
 export const OriginGroupList = /*@__PURE__*/ S.Array(
-  OriginGroup.pipe(T.XmlName("OriginGroup")).annotate({
-    identifier: "OriginGroup",
-  }),
+  OriginGroup.pipe(T.XmlName("OriginGroup")).annotate({ identifier: "OriginGroup" }),
 );
 export interface OriginGroups {
   Quantity: number;
@@ -1490,11 +1424,7 @@ export interface TrustedSigners {
   Items?: string[];
 }
 export const TrustedSigners = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.Boolean,
-    Quantity: S.Number,
-    Items: S.optional(AwsAccountNumberList),
-  }),
+  S.Struct({ Enabled: S.Boolean, Quantity: S.Number, Items: S.optional(AwsAccountNumberList) }),
 ).annotate({ identifier: "TrustedSigners" }) as any as S.Schema<TrustedSigners>;
 export type TrustedKeyGroupIdList = string[];
 export const TrustedKeyGroupIdList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("KeyGroup")));
@@ -1504,14 +1434,8 @@ export interface TrustedKeyGroups {
   Items?: string[];
 }
 export const TrustedKeyGroups = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.Boolean,
-    Quantity: S.Number,
-    Items: S.optional(TrustedKeyGroupIdList),
-  }),
-).annotate({
-  identifier: "TrustedKeyGroups",
-}) as any as S.Schema<TrustedKeyGroups>;
+  S.Struct({ Enabled: S.Boolean, Quantity: S.Number, Items: S.optional(TrustedKeyGroupIdList) }),
+).annotate({ identifier: "TrustedKeyGroups" }) as any as S.Schema<TrustedKeyGroups>;
 export type ViewerProtocolPolicy = "allow-all" | "https-only" | "redirect-to-https" | (string & {});
 export const ViewerProtocolPolicy = S.String;
 
@@ -1541,11 +1465,7 @@ export interface AllowedMethods {
   CachedMethods?: CachedMethods;
 }
 export const AllowedMethods = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Quantity: S.Number,
-    Items: MethodsList,
-    CachedMethods: S.optional(CachedMethods),
-  }),
+  S.Struct({ Quantity: S.Number, Items: MethodsList, CachedMethods: S.optional(CachedMethods) }),
 ).annotate({ identifier: "AllowedMethods" }) as any as S.Schema<AllowedMethods>;
 export type LambdaFunctionARN = string;
 export type EventType =
@@ -1581,10 +1501,7 @@ export interface LambdaFunctionAssociations {
   Items?: LambdaFunctionAssociation[];
 }
 export const LambdaFunctionAssociations = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Quantity: S.Number,
-    Items: S.optional(LambdaFunctionAssociationList),
-  }),
+  S.Struct({ Quantity: S.Number, Items: S.optional(LambdaFunctionAssociationList) }),
 ).annotate({
   identifier: "LambdaFunctionAssociations",
 }) as any as S.Schema<LambdaFunctionAssociations>;
@@ -1595,9 +1512,7 @@ export interface FunctionAssociation {
 }
 export const FunctionAssociation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ FunctionARN: S.String, EventType: EventType }),
-).annotate({
-  identifier: "FunctionAssociation",
-}) as any as S.Schema<FunctionAssociation>;
+).annotate({ identifier: "FunctionAssociation" }) as any as S.Schema<FunctionAssociation>;
 export type FunctionAssociationList = FunctionAssociation[];
 export const FunctionAssociationList = /*@__PURE__*/ S.Array(
   FunctionAssociation.pipe(T.XmlName("FunctionAssociation")).annotate({
@@ -1610,9 +1525,7 @@ export interface FunctionAssociations {
 }
 export const FunctionAssociations = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: S.optional(FunctionAssociationList) }),
-).annotate({
-  identifier: "FunctionAssociations",
-}) as any as S.Schema<FunctionAssociations>;
+).annotate({ identifier: "FunctionAssociations" }) as any as S.Schema<FunctionAssociations>;
 export interface GrpcConfig {
   Enabled: boolean;
 }
@@ -1636,13 +1549,8 @@ export interface CookiePreference {
   WhitelistedNames?: CookieNames;
 }
 export const CookiePreference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Forward: ItemSelection,
-    WhitelistedNames: S.optional(CookieNames),
-  }),
-).annotate({
-  identifier: "CookiePreference",
-}) as any as S.Schema<CookiePreference>;
+  S.Struct({ Forward: ItemSelection, WhitelistedNames: S.optional(CookieNames) }),
+).annotate({ identifier: "CookiePreference" }) as any as S.Schema<CookiePreference>;
 export type HeaderList = string[];
 export const HeaderList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("Name")));
 export interface Headers {
@@ -1660,9 +1568,7 @@ export interface QueryStringCacheKeys {
 }
 export const QueryStringCacheKeys = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: S.optional(QueryStringCacheKeysList) }),
-).annotate({
-  identifier: "QueryStringCacheKeys",
-}) as any as S.Schema<QueryStringCacheKeys>;
+).annotate({ identifier: "QueryStringCacheKeys" }) as any as S.Schema<QueryStringCacheKeys>;
 export interface ForwardedValues {
   QueryString: boolean;
   Cookies: CookiePreference;
@@ -1676,9 +1582,7 @@ export const ForwardedValues = /*@__PURE__*/ S.suspend(() =>
     Headers: S.optional(Headers),
     QueryStringCacheKeys: S.optional(QueryStringCacheKeys),
   }),
-).annotate({
-  identifier: "ForwardedValues",
-}) as any as S.Schema<ForwardedValues>;
+).annotate({ identifier: "ForwardedValues" }) as any as S.Schema<ForwardedValues>;
 export interface DefaultCacheBehavior {
   TargetOriginId: string;
   TrustedSigners?: TrustedSigners;
@@ -1722,9 +1626,7 @@ export const DefaultCacheBehavior = /*@__PURE__*/ S.suspend(() =>
     DefaultTTL: S.optional(S.Number),
     MaxTTL: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DefaultCacheBehavior",
-}) as any as S.Schema<DefaultCacheBehavior>;
+).annotate({ identifier: "DefaultCacheBehavior" }) as any as S.Schema<DefaultCacheBehavior>;
 export interface CacheBehavior {
   PathPattern: string;
   TargetOriginId: string;
@@ -1773,9 +1675,7 @@ export const CacheBehavior = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "CacheBehavior" }) as any as S.Schema<CacheBehavior>;
 export type CacheBehaviorList = CacheBehavior[];
 export const CacheBehaviorList = /*@__PURE__*/ S.Array(
-  CacheBehavior.pipe(T.XmlName("CacheBehavior")).annotate({
-    identifier: "CacheBehavior",
-  }),
+  CacheBehavior.pipe(T.XmlName("CacheBehavior")).annotate({ identifier: "CacheBehavior" }),
 );
 export interface CacheBehaviors {
   Quantity: number;
@@ -1797,9 +1697,7 @@ export const CustomErrorResponse = /*@__PURE__*/ S.suspend(() =>
     ResponseCode: S.optional(S.String),
     ErrorCachingMinTTL: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CustomErrorResponse",
-}) as any as S.Schema<CustomErrorResponse>;
+).annotate({ identifier: "CustomErrorResponse" }) as any as S.Schema<CustomErrorResponse>;
 export type CustomErrorResponseList = CustomErrorResponse[];
 export const CustomErrorResponseList = /*@__PURE__*/ S.Array(
   CustomErrorResponse.pipe(T.XmlName("CustomErrorResponse")).annotate({
@@ -1812,9 +1710,7 @@ export interface CustomErrorResponses {
 }
 export const CustomErrorResponses = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: S.optional(CustomErrorResponseList) }),
-).annotate({
-  identifier: "CustomErrorResponses",
-}) as any as S.Schema<CustomErrorResponses>;
+).annotate({ identifier: "CustomErrorResponses" }) as any as S.Schema<CustomErrorResponses>;
 export type CommentType = string | redacted.Redacted<string>;
 export interface LoggingConfig {
   Enabled?: boolean;
@@ -1877,9 +1773,7 @@ export const ViewerCertificate = /*@__PURE__*/ S.suspend(() =>
     Certificate: S.optional(S.String),
     CertificateSource: S.optional(CertificateSource),
   }),
-).annotate({
-  identifier: "ViewerCertificate",
-}) as any as S.Schema<ViewerCertificate>;
+).annotate({ identifier: "ViewerCertificate" }) as any as S.Schema<ViewerCertificate>;
 export type GeoRestrictionType = "blacklist" | "whitelist" | "none" | (string & {});
 export const GeoRestrictionType = S.String;
 
@@ -1928,9 +1822,7 @@ export const StringSchemaConfig = /*@__PURE__*/ S.suspend(() =>
     DefaultValue: S.optional(S.String),
     Required: S.Boolean,
   }),
-).annotate({
-  identifier: "StringSchemaConfig",
-}) as any as S.Schema<StringSchemaConfig>;
+).annotate({ identifier: "StringSchemaConfig" }) as any as S.Schema<StringSchemaConfig>;
 export interface ParameterDefinitionSchema {
   StringSchema?: StringSchemaConfig;
 }
@@ -1945,9 +1837,7 @@ export interface ParameterDefinition {
 }
 export const ParameterDefinition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String, Definition: ParameterDefinitionSchema }),
-).annotate({
-  identifier: "ParameterDefinition",
-}) as any as S.Schema<ParameterDefinition>;
+).annotate({ identifier: "ParameterDefinition" }) as any as S.Schema<ParameterDefinition>;
 export type ParameterDefinitions = ParameterDefinition[];
 export const ParameterDefinitions = /*@__PURE__*/ S.Array(ParameterDefinition);
 export interface TenantConfig {
@@ -1973,21 +1863,14 @@ export const TrustStoreConfig = /*@__PURE__*/ S.suspend(() =>
     AdvertiseTrustStoreCaNames: S.optional(S.Boolean),
     IgnoreCertificateExpiry: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "TrustStoreConfig",
-}) as any as S.Schema<TrustStoreConfig>;
+).annotate({ identifier: "TrustStoreConfig" }) as any as S.Schema<TrustStoreConfig>;
 export interface ViewerMtlsConfig {
   Mode?: ViewerMtlsMode;
   TrustStoreConfig?: TrustStoreConfig;
 }
 export const ViewerMtlsConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Mode: S.optional(ViewerMtlsMode),
-    TrustStoreConfig: S.optional(TrustStoreConfig),
-  }),
-).annotate({
-  identifier: "ViewerMtlsConfig",
-}) as any as S.Schema<ViewerMtlsConfig>;
+  S.Struct({ Mode: S.optional(ViewerMtlsMode), TrustStoreConfig: S.optional(TrustStoreConfig) }),
+).annotate({ identifier: "ViewerMtlsConfig" }) as any as S.Schema<ViewerMtlsConfig>;
 export type ResourceId = string;
 export interface ConnectionFunctionAssociation {
   Id: string;
@@ -2058,9 +1941,7 @@ export const DistributionConfig = /*@__PURE__*/ S.suspend(() =>
     ConnectionFunctionAssociation: S.optional(ConnectionFunctionAssociation),
     CacheTagConfig: S.optional(CacheTagConfig),
   }),
-).annotate({
-  identifier: "DistributionConfig",
-}) as any as S.Schema<DistributionConfig>;
+).annotate({ identifier: "DistributionConfig" }) as any as S.Schema<DistributionConfig>;
 export type ICPRecordalStatus = "APPROVED" | "SUSPENDED" | "PENDING" | (string & {});
 export const ICPRecordalStatus = S.String;
 
@@ -2069,18 +1950,11 @@ export interface AliasICPRecordal {
   ICPRecordalStatus?: ICPRecordalStatus;
 }
 export const AliasICPRecordal = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CNAME: S.optional(S.String),
-    ICPRecordalStatus: S.optional(ICPRecordalStatus),
-  }),
-).annotate({
-  identifier: "AliasICPRecordal",
-}) as any as S.Schema<AliasICPRecordal>;
+  S.Struct({ CNAME: S.optional(S.String), ICPRecordalStatus: S.optional(ICPRecordalStatus) }),
+).annotate({ identifier: "AliasICPRecordal" }) as any as S.Schema<AliasICPRecordal>;
 export type AliasICPRecordals = AliasICPRecordal[];
 export const AliasICPRecordals = /*@__PURE__*/ S.Array(
-  AliasICPRecordal.pipe(T.XmlName("AliasICPRecordal")).annotate({
-    identifier: "AliasICPRecordal",
-  }),
+  AliasICPRecordal.pipe(T.XmlName("AliasICPRecordal")).annotate({ identifier: "AliasICPRecordal" }),
 );
 export interface Distribution {
   Id: string;
@@ -2121,9 +1995,7 @@ export const CopyDistributionResult = /*@__PURE__*/ S.suspend(() =>
     Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "CopyDistributionResult",
-}) as any as S.Schema<CopyDistributionResult>;
+).annotate({ identifier: "CopyDistributionResult" }) as any as S.Schema<CopyDistributionResult>;
 export type AnycastIpListName = string;
 export type TagKey = string;
 export type TagValue = string;
@@ -2176,9 +2048,7 @@ export const IpamCidrConfig = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "IpamCidrConfig" }) as any as S.Schema<IpamCidrConfig>;
 export type IpamCidrConfigList = IpamCidrConfig[];
 export const IpamCidrConfigList = /*@__PURE__*/ S.Array(
-  IpamCidrConfig.pipe(T.XmlName("IpamCidrConfig")).annotate({
-    identifier: "IpamCidrConfig",
-  }),
+  IpamCidrConfig.pipe(T.XmlName("IpamCidrConfig")).annotate({ identifier: "IpamCidrConfig" }),
 );
 export interface CreateAnycastIpListRequest {
   Name: string;
@@ -2263,13 +2133,8 @@ export interface CachePolicyHeadersConfig {
   Headers?: Headers;
 }
 export const CachePolicyHeadersConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HeaderBehavior: CachePolicyHeaderBehavior,
-    Headers: S.optional(Headers),
-  }),
-).annotate({
-  identifier: "CachePolicyHeadersConfig",
-}) as any as S.Schema<CachePolicyHeadersConfig>;
+  S.Struct({ HeaderBehavior: CachePolicyHeaderBehavior, Headers: S.optional(Headers) }),
+).annotate({ identifier: "CachePolicyHeadersConfig" }) as any as S.Schema<CachePolicyHeadersConfig>;
 export type CachePolicyCookieBehavior = "none" | "whitelist" | "allExcept" | "all" | (string & {});
 export const CachePolicyCookieBehavior = S.String;
 
@@ -2278,13 +2143,8 @@ export interface CachePolicyCookiesConfig {
   Cookies?: CookieNames;
 }
 export const CachePolicyCookiesConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CookieBehavior: CachePolicyCookieBehavior,
-    Cookies: S.optional(CookieNames),
-  }),
-).annotate({
-  identifier: "CachePolicyCookiesConfig",
-}) as any as S.Schema<CachePolicyCookiesConfig>;
+  S.Struct({ CookieBehavior: CachePolicyCookieBehavior, Cookies: S.optional(CookieNames) }),
+).annotate({ identifier: "CachePolicyCookiesConfig" }) as any as S.Schema<CachePolicyCookiesConfig>;
 export type CachePolicyQueryStringBehavior =
   | "none"
   | "whitelist"
@@ -2301,9 +2161,7 @@ export interface QueryStringNames {
 }
 export const QueryStringNames = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: S.optional(QueryStringNamesList) }),
-).annotate({
-  identifier: "QueryStringNames",
-}) as any as S.Schema<QueryStringNames>;
+).annotate({ identifier: "QueryStringNames" }) as any as S.Schema<QueryStringNames>;
 export interface CachePolicyQueryStringsConfig {
   QueryStringBehavior: CachePolicyQueryStringBehavior;
   QueryStrings?: QueryStringNames;
@@ -2351,9 +2209,7 @@ export const CachePolicyConfig = /*@__PURE__*/ S.suspend(() =>
     MinTTL: S.Number,
     ParametersInCacheKeyAndForwardedToOrigin: S.optional(ParametersInCacheKeyAndForwardedToOrigin),
   }),
-).annotate({
-  identifier: "CachePolicyConfig",
-}) as any as S.Schema<CachePolicyConfig>;
+).annotate({ identifier: "CachePolicyConfig" }) as any as S.Schema<CachePolicyConfig>;
 export interface CreateCachePolicyRequest {
   CachePolicyConfig: CachePolicyConfig;
 }
@@ -2374,9 +2230,7 @@ export const CreateCachePolicyRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateCachePolicyRequest",
-}) as any as S.Schema<CreateCachePolicyRequest>;
+).annotate({ identifier: "CreateCachePolicyRequest" }) as any as S.Schema<CreateCachePolicyRequest>;
 export interface CachePolicy {
   Id: string;
   LastModifiedTime: Date;
@@ -2402,9 +2256,7 @@ export const CreateCachePolicyResult = /*@__PURE__*/ S.suspend(() =>
     Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateCachePolicyResult",
-}) as any as S.Schema<CreateCachePolicyResult>;
+).annotate({ identifier: "CreateCachePolicyResult" }) as any as S.Schema<CreateCachePolicyResult>;
 export interface CloudFrontOriginAccessIdentityConfig {
   CallerReference: string;
   Comment: string;
@@ -2426,10 +2278,7 @@ export const CreateCloudFrontOriginAccessIdentityRequest = /*@__PURE__*/ S.suspe
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "POST",
-        uri: "/2020-05-31/origin-access-identity/cloudfront",
-      }),
+      T.Http({ method: "POST", uri: "/2020-05-31/origin-access-identity/cloudfront" }),
       svc,
       auth,
       proto,
@@ -2480,9 +2329,7 @@ export interface KeyValueStoreAssociation {
 }
 export const KeyValueStoreAssociation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ KeyValueStoreARN: S.String }),
-).annotate({
-  identifier: "KeyValueStoreAssociation",
-}) as any as S.Schema<KeyValueStoreAssociation>;
+).annotate({ identifier: "KeyValueStoreAssociation" }) as any as S.Schema<KeyValueStoreAssociation>;
 export type KeyValueStoreAssociationList = KeyValueStoreAssociation[];
 export const KeyValueStoreAssociationList = /*@__PURE__*/ S.Array(
   KeyValueStoreAssociation.pipe(T.XmlName("KeyValueStoreAssociation")).annotate({
@@ -2494,10 +2341,7 @@ export interface KeyValueStoreAssociations {
   Items?: KeyValueStoreAssociation[];
 }
 export const KeyValueStoreAssociations = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Quantity: S.Number,
-    Items: S.optional(KeyValueStoreAssociationList),
-  }),
+  S.Struct({ Quantity: S.Number, Items: S.optional(KeyValueStoreAssociationList) }),
 ).annotate({
   identifier: "KeyValueStoreAssociations",
 }) as any as S.Schema<KeyValueStoreAssociations>;
@@ -2640,9 +2484,7 @@ export const ConnectionGroup = /*@__PURE__*/ S.suspend(() =>
     Enabled: S.optional(S.Boolean),
     IsDefault: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ConnectionGroup",
-}) as any as S.Schema<ConnectionGroup>;
+).annotate({ identifier: "ConnectionGroup" }) as any as S.Schema<ConnectionGroup>;
 export interface CreateConnectionGroupResult {
   ConnectionGroup?: ConnectionGroup;
   ETag?: string;
@@ -2666,10 +2508,7 @@ export interface StagingDistributionDnsNames {
   Items?: string[];
 }
 export const StagingDistributionDnsNames = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Quantity: S.Number,
-    Items: S.optional(StagingDistributionDnsNameList),
-  }),
+  S.Struct({ Quantity: S.Number, Items: S.optional(StagingDistributionDnsNameList) }),
 ).annotate({
   identifier: "StagingDistributionDnsNames",
 }) as any as S.Schema<StagingDistributionDnsNames>;
@@ -2679,18 +2518,13 @@ export interface SessionStickinessConfig {
 }
 export const SessionStickinessConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ IdleTTL: S.Number, MaximumTTL: S.Number }),
-).annotate({
-  identifier: "SessionStickinessConfig",
-}) as any as S.Schema<SessionStickinessConfig>;
+).annotate({ identifier: "SessionStickinessConfig" }) as any as S.Schema<SessionStickinessConfig>;
 export interface ContinuousDeploymentSingleWeightConfig {
   Weight: number;
   SessionStickinessConfig?: SessionStickinessConfig;
 }
 export const ContinuousDeploymentSingleWeightConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Weight: S.Number,
-    SessionStickinessConfig: S.optional(SessionStickinessConfig),
-  }),
+  S.Struct({ Weight: S.Number, SessionStickinessConfig: S.optional(SessionStickinessConfig) }),
 ).annotate({
   identifier: "ContinuousDeploymentSingleWeightConfig",
 }) as any as S.Schema<ContinuousDeploymentSingleWeightConfig>;
@@ -2744,10 +2578,7 @@ export const CreateContinuousDeploymentPolicyRequest = /*@__PURE__*/ S.suspend((
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "POST",
-        uri: "/2020-05-31/continuous-deployment-policy",
-      }),
+      T.Http({ method: "POST", uri: "/2020-05-31/continuous-deployment-policy" }),
       svc,
       auth,
       proto,
@@ -2824,9 +2655,7 @@ export const CreateDistributionResult = /*@__PURE__*/ S.suspend(() =>
     Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateDistributionResult",
-}) as any as S.Schema<CreateDistributionResult>;
+).annotate({ identifier: "CreateDistributionResult" }) as any as S.Schema<CreateDistributionResult>;
 export interface DomainItem {
   Domain: string;
 }
@@ -2844,9 +2673,7 @@ export interface WebAclCustomization {
 }
 export const WebAclCustomization = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Action: CustomizationActionType, Arn: S.optional(S.String) }),
-).annotate({
-  identifier: "WebAclCustomization",
-}) as any as S.Schema<WebAclCustomization>;
+).annotate({ identifier: "WebAclCustomization" }) as any as S.Schema<WebAclCustomization>;
 export interface Certificate {
   Arn: string;
 }
@@ -2858,10 +2685,7 @@ export interface GeoRestrictionCustomization {
   Locations?: string[];
 }
 export const GeoRestrictionCustomization = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RestrictionType: GeoRestrictionType,
-    Locations: S.optional(LocationList),
-  }),
+  S.Struct({ RestrictionType: GeoRestrictionType, Locations: S.optional(LocationList) }),
 ).annotate({
   identifier: "GeoRestrictionCustomization",
 }) as any as S.Schema<GeoRestrictionCustomization>;
@@ -2985,9 +2809,7 @@ export const DistributionTenant = /*@__PURE__*/ S.suspend(() =>
     Enabled: S.optional(S.Boolean),
     Status: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DistributionTenant",
-}) as any as S.Schema<DistributionTenant>;
+).annotate({ identifier: "DistributionTenant" }) as any as S.Schema<DistributionTenant>;
 export interface CreateDistributionTenantResult {
   DistributionTenant?: DistributionTenant;
   ETag?: string;
@@ -3056,14 +2878,10 @@ export interface QueryArgProfile {
 }
 export const QueryArgProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ QueryArg: S.String, ProfileId: S.String }),
-).annotate({
-  identifier: "QueryArgProfile",
-}) as any as S.Schema<QueryArgProfile>;
+).annotate({ identifier: "QueryArgProfile" }) as any as S.Schema<QueryArgProfile>;
 export type QueryArgProfileList = QueryArgProfile[];
 export const QueryArgProfileList = /*@__PURE__*/ S.Array(
-  QueryArgProfile.pipe(T.XmlName("QueryArgProfile")).annotate({
-    identifier: "QueryArgProfile",
-  }),
+  QueryArgProfile.pipe(T.XmlName("QueryArgProfile")).annotate({ identifier: "QueryArgProfile" }),
 );
 export interface QueryArgProfiles {
   Quantity: number;
@@ -3071,9 +2889,7 @@ export interface QueryArgProfiles {
 }
 export const QueryArgProfiles = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: S.optional(QueryArgProfileList) }),
-).annotate({
-  identifier: "QueryArgProfiles",
-}) as any as S.Schema<QueryArgProfiles>;
+).annotate({ identifier: "QueryArgProfiles" }) as any as S.Schema<QueryArgProfiles>;
 export interface QueryArgProfileConfig {
   ForwardWhenQueryArgProfileIsUnknown: boolean;
   QueryArgProfiles?: QueryArgProfiles;
@@ -3083,9 +2899,7 @@ export const QueryArgProfileConfig = /*@__PURE__*/ S.suspend(() =>
     ForwardWhenQueryArgProfileIsUnknown: S.Boolean,
     QueryArgProfiles: S.optional(QueryArgProfiles),
   }),
-).annotate({
-  identifier: "QueryArgProfileConfig",
-}) as any as S.Schema<QueryArgProfileConfig>;
+).annotate({ identifier: "QueryArgProfileConfig" }) as any as S.Schema<QueryArgProfileConfig>;
 export type Format = "URLEncoded" | (string & {});
 export const Format = S.String;
 
@@ -3095,14 +2909,8 @@ export interface ContentTypeProfile {
   ContentType: string;
 }
 export const ContentTypeProfile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Format: Format,
-    ProfileId: S.optional(S.String),
-    ContentType: S.String,
-  }),
-).annotate({
-  identifier: "ContentTypeProfile",
-}) as any as S.Schema<ContentTypeProfile>;
+  S.Struct({ Format: Format, ProfileId: S.optional(S.String), ContentType: S.String }),
+).annotate({ identifier: "ContentTypeProfile" }) as any as S.Schema<ContentTypeProfile>;
 export type ContentTypeProfileList = ContentTypeProfile[];
 export const ContentTypeProfileList = /*@__PURE__*/ S.Array(
   ContentTypeProfile.pipe(T.XmlName("ContentTypeProfile")).annotate({
@@ -3115,9 +2923,7 @@ export interface ContentTypeProfiles {
 }
 export const ContentTypeProfiles = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: S.optional(ContentTypeProfileList) }),
-).annotate({
-  identifier: "ContentTypeProfiles",
-}) as any as S.Schema<ContentTypeProfiles>;
+).annotate({ identifier: "ContentTypeProfiles" }) as any as S.Schema<ContentTypeProfiles>;
 export interface ContentTypeProfileConfig {
   ForwardWhenContentTypeIsUnknown: boolean;
   ContentTypeProfiles?: ContentTypeProfiles;
@@ -3127,9 +2933,7 @@ export const ContentTypeProfileConfig = /*@__PURE__*/ S.suspend(() =>
     ForwardWhenContentTypeIsUnknown: S.Boolean,
     ContentTypeProfiles: S.optional(ContentTypeProfiles),
   }),
-).annotate({
-  identifier: "ContentTypeProfileConfig",
-}) as any as S.Schema<ContentTypeProfileConfig>;
+).annotate({ identifier: "ContentTypeProfileConfig" }) as any as S.Schema<ContentTypeProfileConfig>;
 export interface FieldLevelEncryptionConfig {
   CallerReference: string;
   Comment?: string;
@@ -3180,9 +2984,7 @@ export const FieldLevelEncryption = /*@__PURE__*/ S.suspend(() =>
     LastModifiedTime: T.DateFromString,
     FieldLevelEncryptionConfig: FieldLevelEncryptionConfig,
   }),
-).annotate({
-  identifier: "FieldLevelEncryption",
-}) as any as S.Schema<FieldLevelEncryption>;
+).annotate({ identifier: "FieldLevelEncryption" }) as any as S.Schema<FieldLevelEncryption>;
 export interface CreateFieldLevelEncryptionConfigResult {
   FieldLevelEncryption?: FieldLevelEncryption;
   Location?: string;
@@ -3214,19 +3016,11 @@ export interface EncryptionEntity {
   FieldPatterns: FieldPatterns;
 }
 export const EncryptionEntity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PublicKeyId: S.String,
-    ProviderId: S.String,
-    FieldPatterns: FieldPatterns,
-  }),
-).annotate({
-  identifier: "EncryptionEntity",
-}) as any as S.Schema<EncryptionEntity>;
+  S.Struct({ PublicKeyId: S.String, ProviderId: S.String, FieldPatterns: FieldPatterns }),
+).annotate({ identifier: "EncryptionEntity" }) as any as S.Schema<EncryptionEntity>;
 export type EncryptionEntityList = EncryptionEntity[];
 export const EncryptionEntityList = /*@__PURE__*/ S.Array(
-  EncryptionEntity.pipe(T.XmlName("EncryptionEntity")).annotate({
-    identifier: "EncryptionEntity",
-  }),
+  EncryptionEntity.pipe(T.XmlName("EncryptionEntity")).annotate({ identifier: "EncryptionEntity" }),
 );
 export interface EncryptionEntities {
   Quantity: number;
@@ -3234,9 +3028,7 @@ export interface EncryptionEntities {
 }
 export const EncryptionEntities = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Quantity: S.Number, Items: S.optional(EncryptionEntityList) }),
-).annotate({
-  identifier: "EncryptionEntities",
-}) as any as S.Schema<EncryptionEntities>;
+).annotate({ identifier: "EncryptionEntities" }) as any as S.Schema<EncryptionEntities>;
 export interface FieldLevelEncryptionProfileConfig {
   Name: string;
   CallerReference: string;
@@ -3265,10 +3057,7 @@ export const CreateFieldLevelEncryptionProfileRequest = /*@__PURE__*/ S.suspend(
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "POST",
-        uri: "/2020-05-31/field-level-encryption-profile",
-      }),
+      T.Http({ method: "POST", uri: "/2020-05-31/field-level-encryption-profile" }),
       svc,
       auth,
       proto,
@@ -3332,9 +3121,7 @@ export const CreateFunctionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateFunctionRequest",
-}) as any as S.Schema<CreateFunctionRequest>;
+).annotate({ identifier: "CreateFunctionRequest" }) as any as S.Schema<CreateFunctionRequest>;
 export interface FunctionMetadata {
   FunctionARN: string;
   Stage?: FunctionStage;
@@ -3348,9 +3135,7 @@ export const FunctionMetadata = /*@__PURE__*/ S.suspend(() =>
     CreatedTime: S.optional(T.DateFromString),
     LastModifiedTime: T.DateFromString,
   }),
-).annotate({
-  identifier: "FunctionMetadata",
-}) as any as S.Schema<FunctionMetadata>;
+).annotate({ identifier: "FunctionMetadata" }) as any as S.Schema<FunctionMetadata>;
 export interface FunctionSummary {
   Name: string;
   Status?: string;
@@ -3364,9 +3149,7 @@ export const FunctionSummary = /*@__PURE__*/ S.suspend(() =>
     FunctionConfig: FunctionConfig,
     FunctionMetadata: FunctionMetadata,
   }),
-).annotate({
-  identifier: "FunctionSummary",
-}) as any as S.Schema<FunctionSummary>;
+).annotate({ identifier: "FunctionSummary" }) as any as S.Schema<FunctionSummary>;
 export interface CreateFunctionResult {
   FunctionSummary?: FunctionSummary;
   Location?: string;
@@ -3380,9 +3163,7 @@ export const CreateFunctionResult = /*@__PURE__*/ S.suspend(() =>
     Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateFunctionResult",
-}) as any as S.Schema<CreateFunctionResult>;
+).annotate({ identifier: "CreateFunctionResult" }) as any as S.Schema<CreateFunctionResult>;
 export type PathList = string[];
 export const PathList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("Path")));
 export interface Paths {
@@ -3398,9 +3179,7 @@ export interface InvalidationBatch {
 }
 export const InvalidationBatch = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Paths: Paths, CallerReference: S.String }),
-).annotate({
-  identifier: "InvalidationBatch",
-}) as any as S.Schema<InvalidationBatch>;
+).annotate({ identifier: "InvalidationBatch" }) as any as S.Schema<InvalidationBatch>;
 export interface CreateInvalidationRequest {
   DistributionId: string;
   InvalidationBatch: InvalidationBatch;
@@ -3415,10 +3194,7 @@ export const CreateInvalidationRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "POST",
-        uri: "/2020-05-31/distribution/{DistributionId}/invalidation",
-      }),
+      T.Http({ method: "POST", uri: "/2020-05-31/distribution/{DistributionId}/invalidation" }),
       svc,
       auth,
       proto,
@@ -3454,9 +3230,7 @@ export const CreateInvalidationResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "Invalidation" }),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateInvalidationResult",
-}) as any as S.Schema<CreateInvalidationResult>;
+).annotate({ identifier: "CreateInvalidationResult" }) as any as S.Schema<CreateInvalidationResult>;
 export interface CreateInvalidationForDistributionTenantRequest {
   Id: string;
   InvalidationBatch: InvalidationBatch;
@@ -3471,10 +3245,7 @@ export const CreateInvalidationForDistributionTenantRequest = /*@__PURE__*/ S.su
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "POST",
-        uri: "/2020-05-31/distribution-tenant/{Id}/invalidation",
-      }),
+      T.Http({ method: "POST", uri: "/2020-05-31/distribution-tenant/{Id}/invalidation" }),
       svc,
       auth,
       proto,
@@ -3507,11 +3278,7 @@ export interface KeyGroupConfig {
   Comment?: string;
 }
 export const KeyGroupConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Items: PublicKeyIdList,
-    Comment: S.optional(S.String),
-  }),
+  S.Struct({ Name: S.String, Items: PublicKeyIdList, Comment: S.optional(S.String) }),
 ).annotate({ identifier: "KeyGroupConfig" }) as any as S.Schema<KeyGroupConfig>;
 export interface CreateKeyGroupRequest {
   KeyGroupConfig: KeyGroupConfig;
@@ -3532,20 +3299,14 @@ export const CreateKeyGroupRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateKeyGroupRequest",
-}) as any as S.Schema<CreateKeyGroupRequest>;
+).annotate({ identifier: "CreateKeyGroupRequest" }) as any as S.Schema<CreateKeyGroupRequest>;
 export interface KeyGroup {
   Id: string;
   LastModifiedTime: Date;
   KeyGroupConfig: KeyGroupConfig;
 }
 export const KeyGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    LastModifiedTime: T.DateFromString,
-    KeyGroupConfig: KeyGroupConfig,
-  }),
+  S.Struct({ Id: S.String, LastModifiedTime: T.DateFromString, KeyGroupConfig: KeyGroupConfig }),
 ).annotate({ identifier: "KeyGroup" }) as any as S.Schema<KeyGroup>;
 export interface CreateKeyGroupResult {
   KeyGroup?: KeyGroup;
@@ -3558,9 +3319,7 @@ export const CreateKeyGroupResult = /*@__PURE__*/ S.suspend(() =>
     Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateKeyGroupResult",
-}) as any as S.Schema<CreateKeyGroupResult>;
+).annotate({ identifier: "CreateKeyGroupResult" }) as any as S.Schema<CreateKeyGroupResult>;
 export type KeyValueStoreName = string;
 export type KeyValueStoreComment = string;
 export type ImportSourceType = "S3" | (string & {});
@@ -3640,9 +3399,7 @@ export interface RealtimeMetricsSubscriptionConfig {
   RealtimeMetricsSubscriptionStatus: RealtimeMetricsSubscriptionStatus;
 }
 export const RealtimeMetricsSubscriptionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RealtimeMetricsSubscriptionStatus: RealtimeMetricsSubscriptionStatus,
-  }),
+  S.Struct({ RealtimeMetricsSubscriptionStatus: RealtimeMetricsSubscriptionStatus }),
 ).annotate({
   identifier: "RealtimeMetricsSubscriptionConfig",
 }) as any as S.Schema<RealtimeMetricsSubscriptionConfig>;
@@ -3650,12 +3407,8 @@ export interface MonitoringSubscription {
   RealtimeMetricsSubscriptionConfig?: RealtimeMetricsSubscriptionConfig;
 }
 export const MonitoringSubscription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RealtimeMetricsSubscriptionConfig: S.optional(RealtimeMetricsSubscriptionConfig),
-  }),
-).annotate({
-  identifier: "MonitoringSubscription",
-}) as any as S.Schema<MonitoringSubscription>;
+  S.Struct({ RealtimeMetricsSubscriptionConfig: S.optional(RealtimeMetricsSubscriptionConfig) }),
+).annotate({ identifier: "MonitoringSubscription" }) as any as S.Schema<MonitoringSubscription>;
 export interface CreateMonitoringSubscriptionRequest {
   DistributionId: string;
   MonitoringSubscription: MonitoringSubscription;
@@ -3703,6 +3456,7 @@ export type OriginAccessControlSigningBehaviors =
   | "never"
   | "always"
   | "no-override"
+  | "always-amz-auth"
   | (string & {});
 export const OriginAccessControlSigningBehaviors = S.String;
 
@@ -3760,13 +3514,8 @@ export interface OriginAccessControl {
   OriginAccessControlConfig?: OriginAccessControlConfig;
 }
 export const OriginAccessControl = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    OriginAccessControlConfig: S.optional(OriginAccessControlConfig),
-  }),
-).annotate({
-  identifier: "OriginAccessControl",
-}) as any as S.Schema<OriginAccessControl>;
+  S.Struct({ Id: S.String, OriginAccessControlConfig: S.optional(OriginAccessControlConfig) }),
+).annotate({ identifier: "OriginAccessControl" }) as any as S.Schema<OriginAccessControl>;
 export interface CreateOriginAccessControlResult {
   OriginAccessControl?: OriginAccessControl;
   Location?: string;
@@ -3797,10 +3546,7 @@ export interface OriginRequestPolicyHeadersConfig {
   Headers?: Headers;
 }
 export const OriginRequestPolicyHeadersConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HeaderBehavior: OriginRequestPolicyHeaderBehavior,
-    Headers: S.optional(Headers),
-  }),
+  S.Struct({ HeaderBehavior: OriginRequestPolicyHeaderBehavior, Headers: S.optional(Headers) }),
 ).annotate({
   identifier: "OriginRequestPolicyHeadersConfig",
 }) as any as S.Schema<OriginRequestPolicyHeadersConfig>;
@@ -3817,10 +3563,7 @@ export interface OriginRequestPolicyCookiesConfig {
   Cookies?: CookieNames;
 }
 export const OriginRequestPolicyCookiesConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CookieBehavior: OriginRequestPolicyCookieBehavior,
-    Cookies: S.optional(CookieNames),
-  }),
+  S.Struct({ CookieBehavior: OriginRequestPolicyCookieBehavior, Cookies: S.optional(CookieNames) }),
 ).annotate({
   identifier: "OriginRequestPolicyCookiesConfig",
 }) as any as S.Schema<OriginRequestPolicyCookiesConfig>;
@@ -3896,9 +3639,7 @@ export const OriginRequestPolicy = /*@__PURE__*/ S.suspend(() =>
     LastModifiedTime: T.DateFromString,
     OriginRequestPolicyConfig: OriginRequestPolicyConfig,
   }),
-).annotate({
-  identifier: "OriginRequestPolicy",
-}) as any as S.Schema<OriginRequestPolicy>;
+).annotate({ identifier: "OriginRequestPolicy" }) as any as S.Schema<OriginRequestPolicy>;
 export interface CreateOriginRequestPolicyResult {
   OriginRequestPolicy?: OriginRequestPolicy;
   Location?: string;
@@ -3928,9 +3669,7 @@ export const PublicKeyConfig = /*@__PURE__*/ S.suspend(() =>
     EncodedKey: S.String,
     Comment: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PublicKeyConfig",
-}) as any as S.Schema<PublicKeyConfig>;
+).annotate({ identifier: "PublicKeyConfig" }) as any as S.Schema<PublicKeyConfig>;
 export interface CreatePublicKeyRequest {
   PublicKeyConfig: PublicKeyConfig;
 }
@@ -3950,20 +3689,14 @@ export const CreatePublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreatePublicKeyRequest",
-}) as any as S.Schema<CreatePublicKeyRequest>;
+).annotate({ identifier: "CreatePublicKeyRequest" }) as any as S.Schema<CreatePublicKeyRequest>;
 export interface PublicKey {
   Id: string;
   CreatedTime: Date;
   PublicKeyConfig: PublicKeyConfig;
 }
 export const PublicKey = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    CreatedTime: T.DateFromString,
-    PublicKeyConfig: PublicKeyConfig,
-  }),
+  S.Struct({ Id: S.String, CreatedTime: T.DateFromString, PublicKeyConfig: PublicKeyConfig }),
 ).annotate({ identifier: "PublicKey" }) as any as S.Schema<PublicKey>;
 export interface CreatePublicKeyResult {
   PublicKey?: PublicKey;
@@ -3976,27 +3709,20 @@ export const CreatePublicKeyResult = /*@__PURE__*/ S.suspend(() =>
     Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "CreatePublicKeyResult",
-}) as any as S.Schema<CreatePublicKeyResult>;
+).annotate({ identifier: "CreatePublicKeyResult" }) as any as S.Schema<CreatePublicKeyResult>;
 export interface KinesisStreamConfig {
   RoleARN: string;
   StreamARN: string;
 }
 export const KinesisStreamConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RoleARN: S.String, StreamARN: S.String }),
-).annotate({
-  identifier: "KinesisStreamConfig",
-}) as any as S.Schema<KinesisStreamConfig>;
+).annotate({ identifier: "KinesisStreamConfig" }) as any as S.Schema<KinesisStreamConfig>;
 export interface EndPoint {
   StreamType: string;
   KinesisStreamConfig?: KinesisStreamConfig;
 }
 export const EndPoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamType: S.String,
-    KinesisStreamConfig: S.optional(KinesisStreamConfig),
-  }),
+  S.Struct({ StreamType: S.String, KinesisStreamConfig: S.optional(KinesisStreamConfig) }),
 ).annotate({ identifier: "EndPoint" }) as any as S.Schema<EndPoint>;
 export type EndPointList = EndPoint[];
 export const EndPointList = /*@__PURE__*/ S.Array(EndPoint);
@@ -4043,9 +3769,7 @@ export const RealtimeLogConfig = /*@__PURE__*/ S.suspend(() =>
     EndPoints: EndPointList,
     Fields: FieldList,
   }),
-).annotate({
-  identifier: "RealtimeLogConfig",
-}) as any as S.Schema<RealtimeLogConfig>;
+).annotate({ identifier: "RealtimeLogConfig" }) as any as S.Schema<RealtimeLogConfig>;
 export interface CreateRealtimeLogConfigResult {
   RealtimeLogConfig?: RealtimeLogConfig;
 }
@@ -4114,10 +3838,7 @@ export interface ResponseHeadersPolicyAccessControlExposeHeaders {
   Items?: string[];
 }
 export const ResponseHeadersPolicyAccessControlExposeHeaders = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Quantity: S.Number,
-    Items: S.optional(AccessControlExposeHeadersList),
-  }),
+  S.Struct({ Quantity: S.Number, Items: S.optional(AccessControlExposeHeadersList) }),
 ).annotate({
   identifier: "ResponseHeadersPolicyAccessControlExposeHeaders",
 }) as any as S.Schema<ResponseHeadersPolicyAccessControlExposeHeaders>;
@@ -4276,10 +3997,7 @@ export interface ResponseHeadersPolicyCustomHeadersConfig {
   Items?: ResponseHeadersPolicyCustomHeader[];
 }
 export const ResponseHeadersPolicyCustomHeadersConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Quantity: S.Number,
-    Items: S.optional(ResponseHeadersPolicyCustomHeaderList),
-  }),
+  S.Struct({ Quantity: S.Number, Items: S.optional(ResponseHeadersPolicyCustomHeaderList) }),
 ).annotate({
   identifier: "ResponseHeadersPolicyCustomHeadersConfig",
 }) as any as S.Schema<ResponseHeadersPolicyCustomHeadersConfig>;
@@ -4302,10 +4020,7 @@ export interface ResponseHeadersPolicyRemoveHeadersConfig {
   Items?: ResponseHeadersPolicyRemoveHeader[];
 }
 export const ResponseHeadersPolicyRemoveHeadersConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Quantity: S.Number,
-    Items: S.optional(ResponseHeadersPolicyRemoveHeaderList),
-  }),
+  S.Struct({ Quantity: S.Number, Items: S.optional(ResponseHeadersPolicyRemoveHeaderList) }),
 ).annotate({
   identifier: "ResponseHeadersPolicyRemoveHeadersConfig",
 }) as any as S.Schema<ResponseHeadersPolicyRemoveHeadersConfig>;
@@ -4365,9 +4080,7 @@ export const ResponseHeadersPolicy = /*@__PURE__*/ S.suspend(() =>
     LastModifiedTime: T.DateFromString,
     ResponseHeadersPolicyConfig: ResponseHeadersPolicyConfig,
   }),
-).annotate({
-  identifier: "ResponseHeadersPolicy",
-}) as any as S.Schema<ResponseHeadersPolicy>;
+).annotate({ identifier: "ResponseHeadersPolicy" }) as any as S.Schema<ResponseHeadersPolicy>;
 export interface CreateResponseHeadersPolicyResult {
   ResponseHeadersPolicy?: ResponseHeadersPolicy;
   Location?: string;
@@ -4398,9 +4111,7 @@ export interface StreamingLoggingConfig {
 }
 export const StreamingLoggingConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Enabled: S.Boolean, Bucket: S.String, Prefix: S.String }),
-).annotate({
-  identifier: "StreamingLoggingConfig",
-}) as any as S.Schema<StreamingLoggingConfig>;
+).annotate({ identifier: "StreamingLoggingConfig" }) as any as S.Schema<StreamingLoggingConfig>;
 export interface StreamingDistributionConfig {
   CallerReference: string;
   S3Origin: S3Origin;
@@ -4467,9 +4178,7 @@ export const StreamingDistribution = /*@__PURE__*/ S.suspend(() =>
     ActiveTrustedSigners: ActiveTrustedSigners,
     StreamingDistributionConfig: StreamingDistributionConfig,
   }),
-).annotate({
-  identifier: "StreamingDistribution",
-}) as any as S.Schema<StreamingDistribution>;
+).annotate({ identifier: "StreamingDistribution" }) as any as S.Schema<StreamingDistribution>;
 export interface CreateStreamingDistributionResult {
   StreamingDistribution?: StreamingDistribution;
   Location?: string;
@@ -4491,10 +4200,7 @@ export interface StreamingDistributionConfigWithTags {
   Tags: Tags;
 }
 export const StreamingDistributionConfigWithTags = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamingDistributionConfig: StreamingDistributionConfig,
-    Tags: Tags,
-  }),
+  S.Struct({ StreamingDistributionConfig: StreamingDistributionConfig, Tags: Tags }),
 ).annotate({
   identifier: "StreamingDistributionConfigWithTags",
 }) as any as S.Schema<StreamingDistributionConfigWithTags>;
@@ -4510,10 +4216,7 @@ export const CreateStreamingDistributionWithTagsRequest = /*@__PURE__*/ S.suspen
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "POST",
-        uri: "/2020-05-31/streaming-distribution?WithTags",
-      }),
+      T.Http({ method: "POST", uri: "/2020-05-31/streaming-distribution?WithTags" }),
       svc,
       auth,
       proto,
@@ -4547,12 +4250,7 @@ export interface CaCertificatesBundleS3Location {
   Version?: string;
 }
 export const CaCertificatesBundleS3Location = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String,
-    Key: S.String,
-    Region: S.String,
-    Version: S.optional(S.String),
-  }),
+  S.Struct({ Bucket: S.String, Key: S.String, Region: S.String, Version: S.optional(S.String) }),
 ).annotate({
   identifier: "CaCertificatesBundleS3Location",
 }) as any as S.Schema<CaCertificatesBundleS3Location>;
@@ -4585,9 +4283,7 @@ export const CreateTrustStoreRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateTrustStoreRequest",
-}) as any as S.Schema<CreateTrustStoreRequest>;
+).annotate({ identifier: "CreateTrustStoreRequest" }) as any as S.Schema<CreateTrustStoreRequest>;
 export type TrustStoreStatus = "pending" | "active" | "failed" | (string & {});
 export const TrustStoreStatus = S.String;
 
@@ -4622,9 +4318,7 @@ export const CreateTrustStoreResult = /*@__PURE__*/ S.suspend(() =>
     TrustStore: S.optional(TrustStore).pipe(T.HttpPayload()).annotate({ identifier: "TrustStore" }),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateTrustStoreResult",
-}) as any as S.Schema<CreateTrustStoreResult>;
+).annotate({ identifier: "CreateTrustStoreResult" }) as any as S.Schema<CreateTrustStoreResult>;
 export interface VpcOriginEndpointConfig {
   Name: string;
   Arn: string;
@@ -4642,18 +4336,13 @@ export const VpcOriginEndpointConfig = /*@__PURE__*/ S.suspend(() =>
     OriginProtocolPolicy: OriginProtocolPolicy,
     OriginSslProtocols: S.optional(OriginSslProtocols),
   }),
-).annotate({
-  identifier: "VpcOriginEndpointConfig",
-}) as any as S.Schema<VpcOriginEndpointConfig>;
+).annotate({ identifier: "VpcOriginEndpointConfig" }) as any as S.Schema<VpcOriginEndpointConfig>;
 export interface CreateVpcOriginRequest {
   VpcOriginEndpointConfig: VpcOriginEndpointConfig;
   Tags?: Tags;
 }
 export const CreateVpcOriginRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VpcOriginEndpointConfig: VpcOriginEndpointConfig,
-    Tags: S.optional(Tags),
-  }).pipe(
+  S.Struct({ VpcOriginEndpointConfig: VpcOriginEndpointConfig, Tags: S.optional(Tags) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/2020-05-31/vpc-origin" }),
@@ -4664,9 +4353,7 @@ export const CreateVpcOriginRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateVpcOriginRequest",
-}) as any as S.Schema<CreateVpcOriginRequest>;
+).annotate({ identifier: "CreateVpcOriginRequest" }) as any as S.Schema<CreateVpcOriginRequest>;
 export interface VpcOrigin {
   Id: string;
   Arn: string;
@@ -4698,9 +4385,7 @@ export const CreateVpcOriginResult = /*@__PURE__*/ S.suspend(() =>
     Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateVpcOriginResult",
-}) as any as S.Schema<CreateVpcOriginResult>;
+).annotate({ identifier: "CreateVpcOriginResult" }) as any as S.Schema<CreateVpcOriginResult>;
 export interface DeleteAnycastIpListRequest {
   Id: string;
   IfMatch: string;
@@ -4748,9 +4433,7 @@ export const DeleteCachePolicyRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteCachePolicyRequest",
-}) as any as S.Schema<DeleteCachePolicyRequest>;
+).annotate({ identifier: "DeleteCachePolicyRequest" }) as any as S.Schema<DeleteCachePolicyRequest>;
 export interface DeleteCachePolicyResponse {}
 export const DeleteCachePolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -4768,10 +4451,7 @@ export const DeleteCloudFrontOriginAccessIdentityRequest = /*@__PURE__*/ S.suspe
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/2020-05-31/origin-access-identity/cloudfront/{Id}",
-      }),
+      T.Http({ method: "DELETE", uri: "/2020-05-31/origin-access-identity/cloudfront/{Id}" }),
       svc,
       auth,
       proto,
@@ -4855,10 +4535,7 @@ export const DeleteContinuousDeploymentPolicyRequest = /*@__PURE__*/ S.suspend((
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/2020-05-31/continuous-deployment-policy/{Id}",
-      }),
+      T.Http({ method: "DELETE", uri: "/2020-05-31/continuous-deployment-policy/{Id}" }),
       svc,
       auth,
       proto,
@@ -4942,10 +4619,7 @@ export const DeleteFieldLevelEncryptionConfigRequest = /*@__PURE__*/ S.suspend((
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/2020-05-31/field-level-encryption/{Id}",
-      }),
+      T.Http({ method: "DELETE", uri: "/2020-05-31/field-level-encryption/{Id}" }),
       svc,
       auth,
       proto,
@@ -4973,10 +4647,7 @@ export const DeleteFieldLevelEncryptionProfileRequest = /*@__PURE__*/ S.suspend(
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/2020-05-31/field-level-encryption-profile/{Id}",
-      }),
+      T.Http({ method: "DELETE", uri: "/2020-05-31/field-level-encryption-profile/{Id}" }),
       svc,
       auth,
       proto,
@@ -5012,14 +4683,10 @@ export const DeleteFunctionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteFunctionRequest",
-}) as any as S.Schema<DeleteFunctionRequest>;
+).annotate({ identifier: "DeleteFunctionRequest" }) as any as S.Schema<DeleteFunctionRequest>;
 export interface DeleteFunctionResponse {}
 export const DeleteFunctionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate(
-  {
-    identifier: "DeleteFunctionResponse",
-  },
+  { identifier: "DeleteFunctionResponse" },
 ) as any as S.Schema<DeleteFunctionResponse>;
 export interface DeleteKeyGroupRequest {
   Id: string;
@@ -5040,14 +4707,10 @@ export const DeleteKeyGroupRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteKeyGroupRequest",
-}) as any as S.Schema<DeleteKeyGroupRequest>;
+).annotate({ identifier: "DeleteKeyGroupRequest" }) as any as S.Schema<DeleteKeyGroupRequest>;
 export interface DeleteKeyGroupResponse {}
 export const DeleteKeyGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate(
-  {
-    identifier: "DeleteKeyGroupResponse",
-  },
+  { identifier: "DeleteKeyGroupResponse" },
 ) as any as S.Schema<DeleteKeyGroupResponse>;
 export interface DeleteKeyValueStoreRequest {
   Name: string;
@@ -5081,9 +4744,7 @@ export interface DeleteMonitoringSubscriptionRequest {
   DistributionId: string;
 }
 export const DeleteMonitoringSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionId: S.String.pipe(T.HttpLabel("DistributionId")),
-  }).pipe(
+  S.Struct({ DistributionId: S.String.pipe(T.HttpLabel("DistributionId")) }).pipe(
     T.all(
       ns,
       T.Http({
@@ -5117,10 +4778,7 @@ export const DeleteOriginAccessControlRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/2020-05-31/origin-access-control/{Id}",
-      }),
+      T.Http({ method: "DELETE", uri: "/2020-05-31/origin-access-control/{Id}" }),
       svc,
       auth,
       proto,
@@ -5148,10 +4806,7 @@ export const DeleteOriginRequestPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/2020-05-31/origin-request-policy/{Id}",
-      }),
+      T.Http({ method: "DELETE", uri: "/2020-05-31/origin-request-policy/{Id}" }),
       svc,
       auth,
       proto,
@@ -5187,15 +4842,11 @@ export const DeletePublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeletePublicKeyRequest",
-}) as any as S.Schema<DeletePublicKeyRequest>;
+).annotate({ identifier: "DeletePublicKeyRequest" }) as any as S.Schema<DeletePublicKeyRequest>;
 export interface DeletePublicKeyResponse {}
 export const DeletePublicKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeletePublicKeyResponse",
-}) as any as S.Schema<DeletePublicKeyResponse>;
+).annotate({ identifier: "DeletePublicKeyResponse" }) as any as S.Schema<DeletePublicKeyResponse>;
 export interface DeleteRealtimeLogConfigRequest {
   Name?: string;
   ARN?: string;
@@ -5256,10 +4907,7 @@ export const DeleteResponseHeadersPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/2020-05-31/response-headers-policy/{Id}",
-      }),
+      T.Http({ method: "DELETE", uri: "/2020-05-31/response-headers-policy/{Id}" }),
       svc,
       auth,
       proto,
@@ -5287,10 +4935,7 @@ export const DeleteStreamingDistributionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/2020-05-31/streaming-distribution/{Id}",
-      }),
+      T.Http({ method: "DELETE", uri: "/2020-05-31/streaming-distribution/{Id}" }),
       svc,
       auth,
       proto,
@@ -5326,15 +4971,11 @@ export const DeleteTrustStoreRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteTrustStoreRequest",
-}) as any as S.Schema<DeleteTrustStoreRequest>;
+).annotate({ identifier: "DeleteTrustStoreRequest" }) as any as S.Schema<DeleteTrustStoreRequest>;
 export interface DeleteTrustStoreResponse {}
 export const DeleteTrustStoreResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteTrustStoreResponse",
-}) as any as S.Schema<DeleteTrustStoreResponse>;
+).annotate({ identifier: "DeleteTrustStoreResponse" }) as any as S.Schema<DeleteTrustStoreResponse>;
 export interface DeleteVpcOriginRequest {
   Id: string;
   IfMatch: string;
@@ -5354,9 +4995,7 @@ export const DeleteVpcOriginRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteVpcOriginRequest",
-}) as any as S.Schema<DeleteVpcOriginRequest>;
+).annotate({ identifier: "DeleteVpcOriginRequest" }) as any as S.Schema<DeleteVpcOriginRequest>;
 export interface DeleteVpcOriginResult {
   VpcOrigin?: VpcOrigin;
   ETag?: string;
@@ -5366,9 +5005,7 @@ export const DeleteVpcOriginResult = /*@__PURE__*/ S.suspend(() =>
     VpcOrigin: S.optional(VpcOrigin).pipe(T.HttpPayload()).annotate({ identifier: "VpcOrigin" }),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "DeleteVpcOriginResult",
-}) as any as S.Schema<DeleteVpcOriginResult>;
+).annotate({ identifier: "DeleteVpcOriginResult" }) as any as S.Schema<DeleteVpcOriginResult>;
 export interface DescribeConnectionFunctionRequest {
   Identifier: string;
   Stage?: FunctionStage;
@@ -5380,10 +5017,7 @@ export const DescribeConnectionFunctionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/connection-function/{Identifier}/describe",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/connection-function/{Identifier}/describe" }),
       svc,
       auth,
       proto,
@@ -5427,9 +5061,7 @@ export const DescribeFunctionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DescribeFunctionRequest",
-}) as any as S.Schema<DescribeFunctionRequest>;
+).annotate({ identifier: "DescribeFunctionRequest" }) as any as S.Schema<DescribeFunctionRequest>;
 export interface DescribeFunctionResult {
   FunctionSummary?: FunctionSummary;
   ETag?: string;
@@ -5441,9 +5073,7 @@ export const DescribeFunctionResult = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "FunctionSummary" }),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeFunctionResult",
-}) as any as S.Schema<DescribeFunctionResult>;
+).annotate({ identifier: "DescribeFunctionResult" }) as any as S.Schema<DescribeFunctionResult>;
 export interface DescribeKeyValueStoreRequest {
   Name: string;
 }
@@ -5487,10 +5117,7 @@ export const DisassociateDistributionTenantWebACLRequest = /*@__PURE__*/ S.suspe
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2020-05-31/distribution-tenant/{Id}/disassociate-web-acl",
-      }),
+      T.Http({ method: "PUT", uri: "/2020-05-31/distribution-tenant/{Id}/disassociate-web-acl" }),
       svc,
       auth,
       proto,
@@ -5524,10 +5151,7 @@ export const DisassociateDistributionWebACLRequest = /*@__PURE__*/ S.suspend(() 
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2020-05-31/distribution/{Id}/disassociate-web-acl",
-      }),
+      T.Http({ method: "PUT", uri: "/2020-05-31/distribution/{Id}/disassociate-web-acl" }),
       svc,
       auth,
       proto,
@@ -5565,9 +5189,7 @@ export const GetAnycastIpListRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetAnycastIpListRequest",
-}) as any as S.Schema<GetAnycastIpListRequest>;
+).annotate({ identifier: "GetAnycastIpListRequest" }) as any as S.Schema<GetAnycastIpListRequest>;
 export interface GetAnycastIpListResult {
   AnycastIpList?: AnycastIpList;
   ETag?: string;
@@ -5579,9 +5201,7 @@ export const GetAnycastIpListResult = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "AnycastIpList" }),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "GetAnycastIpListResult",
-}) as any as S.Schema<GetAnycastIpListResult>;
+).annotate({ identifier: "GetAnycastIpListResult" }) as any as S.Schema<GetAnycastIpListResult>;
 export interface GetCachePolicyRequest {
   Id: string;
 }
@@ -5597,9 +5217,7 @@ export const GetCachePolicyRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetCachePolicyRequest",
-}) as any as S.Schema<GetCachePolicyRequest>;
+).annotate({ identifier: "GetCachePolicyRequest" }) as any as S.Schema<GetCachePolicyRequest>;
 export interface GetCachePolicyResult {
   CachePolicy?: CachePolicy;
   ETag?: string;
@@ -5611,9 +5229,7 @@ export const GetCachePolicyResult = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "CachePolicy" }),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "GetCachePolicyResult",
-}) as any as S.Schema<GetCachePolicyResult>;
+).annotate({ identifier: "GetCachePolicyResult" }) as any as S.Schema<GetCachePolicyResult>;
 export interface GetCachePolicyConfigRequest {
   Id: string;
 }
@@ -5653,10 +5269,7 @@ export const GetCloudFrontOriginAccessIdentityRequest = /*@__PURE__*/ S.suspend(
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/origin-access-identity/cloudfront/{Id}",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/origin-access-identity/cloudfront/{Id}" }),
       svc,
       auth,
       proto,
@@ -5688,10 +5301,7 @@ export const GetCloudFrontOriginAccessIdentityConfigRequest = /*@__PURE__*/ S.su
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/origin-access-identity/cloudfront/{Id}/config",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/origin-access-identity/cloudfront/{Id}/config" }),
       svc,
       auth,
       proto,
@@ -5727,10 +5337,7 @@ export const GetConnectionFunctionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/connection-function/{Identifier}",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/connection-function/{Identifier}" }),
       svc,
       auth,
       proto,
@@ -5762,10 +5369,7 @@ export const GetConnectionGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/connection-group/{Identifier}",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/connection-group/{Identifier}" }),
       svc,
       auth,
       proto,
@@ -5787,16 +5391,12 @@ export const GetConnectionGroupResult = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "ConnectionGroup" }),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "GetConnectionGroupResult",
-}) as any as S.Schema<GetConnectionGroupResult>;
+).annotate({ identifier: "GetConnectionGroupResult" }) as any as S.Schema<GetConnectionGroupResult>;
 export interface GetConnectionGroupByRoutingEndpointRequest {
   RoutingEndpoint: string;
 }
 export const GetConnectionGroupByRoutingEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RoutingEndpoint: S.String.pipe(T.HttpQuery("RoutingEndpoint")),
-  }).pipe(
+  S.Struct({ RoutingEndpoint: S.String.pipe(T.HttpQuery("RoutingEndpoint")) }).pipe(
     T.all(
       ns,
       T.Http({ method: "GET", uri: "/2020-05-31/connection-group" }),
@@ -5831,10 +5431,7 @@ export const GetContinuousDeploymentPolicyRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/continuous-deployment-policy/{Id}",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/continuous-deployment-policy/{Id}" }),
       svc,
       auth,
       proto,
@@ -5866,10 +5463,7 @@ export const GetContinuousDeploymentPolicyConfigRequest = /*@__PURE__*/ S.suspen
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/continuous-deployment-policy/{Id}/config",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/continuous-deployment-policy/{Id}/config" }),
       svc,
       auth,
       proto,
@@ -5909,9 +5503,7 @@ export const GetDistributionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetDistributionRequest",
-}) as any as S.Schema<GetDistributionRequest>;
+).annotate({ identifier: "GetDistributionRequest" }) as any as S.Schema<GetDistributionRequest>;
 export interface GetDistributionResult {
   Distribution?: Distribution;
   ETag?: string;
@@ -5923,9 +5515,7 @@ export const GetDistributionResult = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "Distribution" }),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "GetDistributionResult",
-}) as any as S.Schema<GetDistributionResult>;
+).annotate({ identifier: "GetDistributionResult" }) as any as S.Schema<GetDistributionResult>;
 export interface GetDistributionConfigRequest {
   Id: string;
 }
@@ -5965,10 +5555,7 @@ export const GetDistributionTenantRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/distribution-tenant/{Identifier}",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/distribution-tenant/{Identifier}" }),
       svc,
       auth,
       proto,
@@ -6064,10 +5651,7 @@ export const GetFieldLevelEncryptionConfigRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/field-level-encryption/{Id}/config",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/field-level-encryption/{Id}/config" }),
       svc,
       auth,
       proto,
@@ -6099,10 +5683,7 @@ export const GetFieldLevelEncryptionProfileRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/field-level-encryption-profile/{Id}",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/field-level-encryption-profile/{Id}" }),
       svc,
       auth,
       proto,
@@ -6134,10 +5715,7 @@ export const GetFieldLevelEncryptionProfileConfigRequest = /*@__PURE__*/ S.suspe
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/field-level-encryption-profile/{Id}/config",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/field-level-encryption-profile/{Id}/config" }),
       svc,
       auth,
       proto,
@@ -6181,9 +5759,7 @@ export const GetFunctionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetFunctionRequest",
-}) as any as S.Schema<GetFunctionRequest>;
+).annotate({ identifier: "GetFunctionRequest" }) as any as S.Schema<GetFunctionRequest>;
 export interface GetFunctionResult {
   FunctionCode?: T.StreamingOutputBody;
   ETag?: string;
@@ -6195,9 +5771,7 @@ export const GetFunctionResult = /*@__PURE__*/ S.suspend(() =>
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
     ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
   }).pipe(ns),
-).annotate({
-  identifier: "GetFunctionResult",
-}) as any as S.Schema<GetFunctionResult>;
+).annotate({ identifier: "GetFunctionResult" }) as any as S.Schema<GetFunctionResult>;
 export interface GetInvalidationRequest {
   DistributionId: string;
   Id: string;
@@ -6209,10 +5783,7 @@ export const GetInvalidationRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/distribution/{DistributionId}/invalidation/{Id}",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/distribution/{DistributionId}/invalidation/{Id}" }),
       svc,
       auth,
       proto,
@@ -6220,9 +5791,7 @@ export const GetInvalidationRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetInvalidationRequest",
-}) as any as S.Schema<GetInvalidationRequest>;
+).annotate({ identifier: "GetInvalidationRequest" }) as any as S.Schema<GetInvalidationRequest>;
 export interface GetInvalidationResult {
   Invalidation?: Invalidation;
 }
@@ -6232,9 +5801,7 @@ export const GetInvalidationResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "Invalidation" }),
   }).pipe(ns),
-).annotate({
-  identifier: "GetInvalidationResult",
-}) as any as S.Schema<GetInvalidationResult>;
+).annotate({ identifier: "GetInvalidationResult" }) as any as S.Schema<GetInvalidationResult>;
 export interface GetInvalidationForDistributionTenantRequest {
   DistributionTenantId: string;
   Id: string;
@@ -6287,9 +5854,7 @@ export const GetKeyGroupRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetKeyGroupRequest",
-}) as any as S.Schema<GetKeyGroupRequest>;
+).annotate({ identifier: "GetKeyGroupRequest" }) as any as S.Schema<GetKeyGroupRequest>;
 export interface GetKeyGroupResult {
   KeyGroup?: KeyGroup;
   ETag?: string;
@@ -6299,9 +5864,7 @@ export const GetKeyGroupResult = /*@__PURE__*/ S.suspend(() =>
     KeyGroup: S.optional(KeyGroup).pipe(T.HttpPayload()).annotate({ identifier: "KeyGroup" }),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "GetKeyGroupResult",
-}) as any as S.Schema<GetKeyGroupResult>;
+).annotate({ identifier: "GetKeyGroupResult" }) as any as S.Schema<GetKeyGroupResult>;
 export interface GetKeyGroupConfigRequest {
   Id: string;
 }
@@ -6317,9 +5880,7 @@ export const GetKeyGroupConfigRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetKeyGroupConfigRequest",
-}) as any as S.Schema<GetKeyGroupConfigRequest>;
+).annotate({ identifier: "GetKeyGroupConfigRequest" }) as any as S.Schema<GetKeyGroupConfigRequest>;
 export interface GetKeyGroupConfigResult {
   KeyGroupConfig?: KeyGroupConfig;
   ETag?: string;
@@ -6331,9 +5892,7 @@ export const GetKeyGroupConfigResult = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "KeyGroupConfig" }),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "GetKeyGroupConfigResult",
-}) as any as S.Schema<GetKeyGroupConfigResult>;
+).annotate({ identifier: "GetKeyGroupConfigResult" }) as any as S.Schema<GetKeyGroupConfigResult>;
 export interface GetManagedCertificateDetailsRequest {
   Identifier: string;
 }
@@ -6341,10 +5900,7 @@ export const GetManagedCertificateDetailsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/managed-certificate/{Identifier}",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/managed-certificate/{Identifier}" }),
       svc,
       auth,
       proto,
@@ -6377,9 +5933,7 @@ export const ValidationTokenDetail = /*@__PURE__*/ S.suspend(() =>
     RedirectTo: S.optional(S.String),
     RedirectFrom: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ValidationTokenDetail",
-}) as any as S.Schema<ValidationTokenDetail>;
+).annotate({ identifier: "ValidationTokenDetail" }) as any as S.Schema<ValidationTokenDetail>;
 export type ValidationTokenDetailList = ValidationTokenDetail[];
 export const ValidationTokenDetailList = /*@__PURE__*/ S.Array(ValidationTokenDetail);
 export interface ManagedCertificateDetails {
@@ -6414,9 +5968,7 @@ export interface GetMonitoringSubscriptionRequest {
   DistributionId: string;
 }
 export const GetMonitoringSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionId: S.String.pipe(T.HttpLabel("DistributionId")),
-  }).pipe(
+  S.Struct({ DistributionId: S.String.pipe(T.HttpLabel("DistributionId")) }).pipe(
     T.all(
       ns,
       T.Http({
@@ -6484,10 +6036,7 @@ export const GetOriginAccessControlConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/origin-access-control/{Id}/config",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/origin-access-control/{Id}/config" }),
       svc,
       auth,
       proto,
@@ -6551,10 +6100,7 @@ export const GetOriginRequestPolicyConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/origin-request-policy/{Id}/config",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/origin-request-policy/{Id}/config" }),
       svc,
       auth,
       proto,
@@ -6594,9 +6140,7 @@ export const GetPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetPublicKeyRequest",
-}) as any as S.Schema<GetPublicKeyRequest>;
+).annotate({ identifier: "GetPublicKeyRequest" }) as any as S.Schema<GetPublicKeyRequest>;
 export interface GetPublicKeyResult {
   PublicKey?: PublicKey;
   ETag?: string;
@@ -6606,9 +6150,7 @@ export const GetPublicKeyResult = /*@__PURE__*/ S.suspend(() =>
     PublicKey: S.optional(PublicKey).pipe(T.HttpPayload()).annotate({ identifier: "PublicKey" }),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "GetPublicKeyResult",
-}) as any as S.Schema<GetPublicKeyResult>;
+).annotate({ identifier: "GetPublicKeyResult" }) as any as S.Schema<GetPublicKeyResult>;
 export interface GetPublicKeyConfigRequest {
   Id: string;
 }
@@ -6638,9 +6180,7 @@ export const GetPublicKeyConfigResult = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "PublicKeyConfig" }),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "GetPublicKeyConfigResult",
-}) as any as S.Schema<GetPublicKeyConfigResult>;
+).annotate({ identifier: "GetPublicKeyConfigResult" }) as any as S.Schema<GetPublicKeyConfigResult>;
 export interface GetRealtimeLogConfigRequest {
   Name?: string;
   ARN?: string;
@@ -6683,21 +6223,14 @@ export const GetResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetResourcePolicyRequest",
-}) as any as S.Schema<GetResourcePolicyRequest>;
+).annotate({ identifier: "GetResourcePolicyRequest" }) as any as S.Schema<GetResourcePolicyRequest>;
 export interface GetResourcePolicyResult {
   ResourceArn?: string;
   PolicyDocument?: string;
 }
 export const GetResourcePolicyResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.optional(S.String),
-    PolicyDocument: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetResourcePolicyResult",
-}) as any as S.Schema<GetResourcePolicyResult>;
+  S.Struct({ ResourceArn: S.optional(S.String), PolicyDocument: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "GetResourcePolicyResult" }) as any as S.Schema<GetResourcePolicyResult>;
 export interface GetResponseHeadersPolicyRequest {
   Id: string;
 }
@@ -6705,10 +6238,7 @@ export const GetResponseHeadersPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/response-headers-policy/{Id}",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/response-headers-policy/{Id}" }),
       svc,
       auth,
       proto,
@@ -6740,10 +6270,7 @@ export const GetResponseHeadersPolicyConfigRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/response-headers-policy/{Id}/config",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/response-headers-policy/{Id}/config" }),
       svc,
       auth,
       proto,
@@ -6807,10 +6334,7 @@ export const GetStreamingDistributionConfigRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/streaming-distribution/{Id}/config",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/streaming-distribution/{Id}/config" }),
       svc,
       auth,
       proto,
@@ -6850,9 +6374,7 @@ export const GetTrustStoreRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetTrustStoreRequest",
-}) as any as S.Schema<GetTrustStoreRequest>;
+).annotate({ identifier: "GetTrustStoreRequest" }) as any as S.Schema<GetTrustStoreRequest>;
 export interface GetTrustStoreResult {
   TrustStore?: TrustStore;
   ETag?: string;
@@ -6862,9 +6384,7 @@ export const GetTrustStoreResult = /*@__PURE__*/ S.suspend(() =>
     TrustStore: S.optional(TrustStore).pipe(T.HttpPayload()).annotate({ identifier: "TrustStore" }),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "GetTrustStoreResult",
-}) as any as S.Schema<GetTrustStoreResult>;
+).annotate({ identifier: "GetTrustStoreResult" }) as any as S.Schema<GetTrustStoreResult>;
 export interface GetVpcOriginRequest {
   Id: string;
 }
@@ -6880,9 +6400,7 @@ export const GetVpcOriginRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetVpcOriginRequest",
-}) as any as S.Schema<GetVpcOriginRequest>;
+).annotate({ identifier: "GetVpcOriginRequest" }) as any as S.Schema<GetVpcOriginRequest>;
 export interface GetVpcOriginResult {
   VpcOrigin?: VpcOrigin;
   ETag?: string;
@@ -6892,9 +6410,7 @@ export const GetVpcOriginResult = /*@__PURE__*/ S.suspend(() =>
     VpcOrigin: S.optional(VpcOrigin).pipe(T.HttpPayload()).annotate({ identifier: "VpcOrigin" }),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "GetVpcOriginResult",
-}) as any as S.Schema<GetVpcOriginResult>;
+).annotate({ identifier: "GetVpcOriginResult" }) as any as S.Schema<GetVpcOriginResult>;
 export interface ListAnycastIpListsRequest {
   Marker?: string;
   MaxItems?: number;
@@ -6940,9 +6456,7 @@ export const AnycastIpListSummary = /*@__PURE__*/ S.suspend(() =>
     ETag: S.optional(S.String),
     IpamConfig: S.optional(IpamConfig),
   }),
-).annotate({
-  identifier: "AnycastIpListSummary",
-}) as any as S.Schema<AnycastIpListSummary>;
+).annotate({ identifier: "AnycastIpListSummary" }) as any as S.Schema<AnycastIpListSummary>;
 export type AnycastIpListSummaries = AnycastIpListSummary[];
 export const AnycastIpListSummaries = /*@__PURE__*/ S.Array(
   AnycastIpListSummary.pipe(T.XmlName("AnycastIpListSummary")).annotate({
@@ -6966,9 +6480,7 @@ export const AnycastIpListCollection = /*@__PURE__*/ S.suspend(() =>
     IsTruncated: S.Boolean,
     Quantity: S.Number,
   }),
-).annotate({
-  identifier: "AnycastIpListCollection",
-}) as any as S.Schema<AnycastIpListCollection>;
+).annotate({ identifier: "AnycastIpListCollection" }) as any as S.Schema<AnycastIpListCollection>;
 export interface ListAnycastIpListsResult {
   AnycastIpLists?: AnycastIpListCollection;
 }
@@ -6978,9 +6490,7 @@ export const ListAnycastIpListsResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload(), T.XmlName("AnycastIpListCollection"))
       .annotate({ identifier: "AnycastIpListCollection" }),
   }).pipe(ns),
-).annotate({
-  identifier: "ListAnycastIpListsResult",
-}) as any as S.Schema<ListAnycastIpListsResult>;
+).annotate({ identifier: "ListAnycastIpListsResult" }) as any as S.Schema<ListAnycastIpListsResult>;
 export type CachePolicyType = "managed" | "custom" | (string & {});
 export const CachePolicyType = S.String;
 
@@ -7005,18 +6515,14 @@ export const ListCachePoliciesRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListCachePoliciesRequest",
-}) as any as S.Schema<ListCachePoliciesRequest>;
+).annotate({ identifier: "ListCachePoliciesRequest" }) as any as S.Schema<ListCachePoliciesRequest>;
 export interface CachePolicySummary {
   Type: CachePolicyType;
   CachePolicy: CachePolicy;
 }
 export const CachePolicySummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Type: CachePolicyType, CachePolicy: CachePolicy }),
-).annotate({
-  identifier: "CachePolicySummary",
-}) as any as S.Schema<CachePolicySummary>;
+).annotate({ identifier: "CachePolicySummary" }) as any as S.Schema<CachePolicySummary>;
 export type CachePolicySummaryList = CachePolicySummary[];
 export const CachePolicySummaryList = /*@__PURE__*/ S.Array(
   CachePolicySummary.pipe(T.XmlName("CachePolicySummary")).annotate({
@@ -7036,9 +6542,7 @@ export const CachePolicyList = /*@__PURE__*/ S.suspend(() =>
     Quantity: S.Number,
     Items: S.optional(CachePolicySummaryList),
   }),
-).annotate({
-  identifier: "CachePolicyList",
-}) as any as S.Schema<CachePolicyList>;
+).annotate({ identifier: "CachePolicyList" }) as any as S.Schema<CachePolicyList>;
 export interface ListCachePoliciesResult {
   CachePolicyList?: CachePolicyList;
 }
@@ -7048,9 +6552,7 @@ export const ListCachePoliciesResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "CachePolicyList" }),
   }).pipe(ns),
-).annotate({
-  identifier: "ListCachePoliciesResult",
-}) as any as S.Schema<ListCachePoliciesResult>;
+).annotate({ identifier: "ListCachePoliciesResult" }) as any as S.Schema<ListCachePoliciesResult>;
 export interface ListCloudFrontOriginAccessIdentitiesRequest {
   Marker?: string;
   MaxItems?: number;
@@ -7062,10 +6564,7 @@ export const ListCloudFrontOriginAccessIdentitiesRequest = /*@__PURE__*/ S.suspe
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/origin-access-identity/cloudfront",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/origin-access-identity/cloudfront" }),
       svc,
       auth,
       proto,
@@ -7164,14 +6663,10 @@ export const ConflictingAlias = /*@__PURE__*/ S.suspend(() =>
     DistributionId: S.optional(S.String),
     AccountId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConflictingAlias",
-}) as any as S.Schema<ConflictingAlias>;
+).annotate({ identifier: "ConflictingAlias" }) as any as S.Schema<ConflictingAlias>;
 export type ConflictingAliases = ConflictingAlias[];
 export const ConflictingAliases = /*@__PURE__*/ S.Array(
-  ConflictingAlias.pipe(T.XmlName("ConflictingAlias")).annotate({
-    identifier: "ConflictingAlias",
-  }),
+  ConflictingAlias.pipe(T.XmlName("ConflictingAlias")).annotate({ identifier: "ConflictingAlias" }),
 );
 export interface ConflictingAliasesList {
   NextMarker?: string;
@@ -7186,9 +6681,7 @@ export const ConflictingAliasesList = /*@__PURE__*/ S.suspend(() =>
     Quantity: S.optional(S.Number),
     Items: S.optional(ConflictingAliases),
   }),
-).annotate({
-  identifier: "ConflictingAliasesList",
-}) as any as S.Schema<ConflictingAliasesList>;
+).annotate({ identifier: "ConflictingAliasesList" }) as any as S.Schema<ConflictingAliasesList>;
 export interface ListConflictingAliasesResult {
   ConflictingAliasesList?: ConflictingAliasesList;
 }
@@ -7302,9 +6795,7 @@ export const ConnectionGroupSummary = /*@__PURE__*/ S.suspend(() =>
     Status: S.optional(S.String),
     IsDefault: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ConnectionGroupSummary",
-}) as any as S.Schema<ConnectionGroupSummary>;
+).annotate({ identifier: "ConnectionGroupSummary" }) as any as S.Schema<ConnectionGroupSummary>;
 export type ConnectionGroupSummaryList = ConnectionGroupSummary[];
 export const ConnectionGroupSummaryList = /*@__PURE__*/ S.Array(
   ConnectionGroupSummary.pipe(T.XmlName("ConnectionGroupSummary")).annotate({
@@ -7334,10 +6825,7 @@ export const ListContinuousDeploymentPoliciesRequest = /*@__PURE__*/ S.suspend((
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/continuous-deployment-policy",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/continuous-deployment-policy" }),
       svc,
       auth,
       proto,
@@ -7409,9 +6897,7 @@ export const ListDistributionsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListDistributionsRequest",
-}) as any as S.Schema<ListDistributionsRequest>;
+).annotate({ identifier: "ListDistributionsRequest" }) as any as S.Schema<ListDistributionsRequest>;
 export interface DistributionSummary {
   Id: string;
   ARN: string;
@@ -7469,9 +6955,7 @@ export const DistributionSummary = /*@__PURE__*/ S.suspend(() =>
     ViewerMtlsConfig: S.optional(ViewerMtlsConfig),
     ConnectionFunctionAssociation: S.optional(ConnectionFunctionAssociation),
   }),
-).annotate({
-  identifier: "DistributionSummary",
-}) as any as S.Schema<DistributionSummary>;
+).annotate({ identifier: "DistributionSummary" }) as any as S.Schema<DistributionSummary>;
 export type DistributionSummaryList = DistributionSummary[];
 export const DistributionSummaryList = /*@__PURE__*/ S.Array(
   DistributionSummary.pipe(T.XmlName("DistributionSummary")).annotate({
@@ -7495,9 +6979,7 @@ export const DistributionList = /*@__PURE__*/ S.suspend(() =>
     Quantity: S.Number,
     Items: S.optional(DistributionSummaryList),
   }),
-).annotate({
-  identifier: "DistributionList",
-}) as any as S.Schema<DistributionList>;
+).annotate({ identifier: "DistributionList" }) as any as S.Schema<DistributionList>;
 export interface ListDistributionsResult {
   DistributionList?: DistributionList;
 }
@@ -7507,9 +6989,7 @@ export const ListDistributionsResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "DistributionList" }),
   }).pipe(ns),
-).annotate({
-  identifier: "ListDistributionsResult",
-}) as any as S.Schema<ListDistributionsResult>;
+).annotate({ identifier: "ListDistributionsResult" }) as any as S.Schema<ListDistributionsResult>;
 export interface ListDistributionsByAnycastIpListIdRequest {
   Marker?: string;
   MaxItems?: number;
@@ -7562,10 +7042,7 @@ export const ListDistributionsByCachePolicyIdRequest = /*@__PURE__*/ S.suspend((
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/distributionsByCachePolicyId/{CachePolicyId}",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/distributionsByCachePolicyId/{CachePolicyId}" }),
       svc,
       auth,
       proto,
@@ -7597,9 +7074,7 @@ export const DistributionIdList = /*@__PURE__*/ S.suspend(() =>
     Quantity: S.Number,
     Items: S.optional(DistributionIdListSummary),
   }),
-).annotate({
-  identifier: "DistributionIdList",
-}) as any as S.Schema<DistributionIdList>;
+).annotate({ identifier: "DistributionIdList" }) as any as S.Schema<DistributionIdList>;
 export interface ListDistributionsByCachePolicyIdResult {
   DistributionIdList?: DistributionIdList;
 }
@@ -7625,10 +7100,7 @@ export const ListDistributionsByConnectionFunctionRequest = /*@__PURE__*/ S.susp
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/distributionsByConnectionFunction",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/distributionsByConnectionFunction" }),
       svc,
       auth,
       proto,
@@ -7664,10 +7136,7 @@ export const ListDistributionsByConnectionModeRequest = /*@__PURE__*/ S.suspend(
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/distributionsByConnectionMode/{ConnectionMode}",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/distributionsByConnectionMode/{ConnectionMode}" }),
       svc,
       auth,
       proto,
@@ -7703,10 +7172,7 @@ export const ListDistributionsByKeyGroupRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/distributionsByKeyGroupId/{KeyGroupId}",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/distributionsByKeyGroupId/{KeyGroupId}" }),
       svc,
       auth,
       proto,
@@ -7781,10 +7247,7 @@ export const ListDistributionsByOwnedResourceRequest = /*@__PURE__*/ S.suspend((
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/distributionsByOwnedResource/{ResourceArn}",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/distributionsByOwnedResource/{ResourceArn}" }),
       svc,
       auth,
       proto,
@@ -7801,9 +7264,7 @@ export interface DistributionIdOwner {
 }
 export const DistributionIdOwner = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DistributionId: S.String, OwnerAccountId: S.String }),
-).annotate({
-  identifier: "DistributionIdOwner",
-}) as any as S.Schema<DistributionIdOwner>;
+).annotate({ identifier: "DistributionIdOwner" }) as any as S.Schema<DistributionIdOwner>;
 export type DistributionIdOwnerItemList = DistributionIdOwner[];
 export const DistributionIdOwnerItemList = /*@__PURE__*/ S.Array(
   DistributionIdOwner.pipe(T.XmlName("DistributionIdOwner")).annotate({
@@ -7827,9 +7288,7 @@ export const DistributionIdOwnerList = /*@__PURE__*/ S.suspend(() =>
     Quantity: S.Number,
     Items: S.optional(DistributionIdOwnerItemList),
   }),
-).annotate({
-  identifier: "DistributionIdOwnerList",
-}) as any as S.Schema<DistributionIdOwnerList>;
+).annotate({ identifier: "DistributionIdOwnerList" }) as any as S.Schema<DistributionIdOwnerList>;
 export interface ListDistributionsByOwnedResourceResult {
   DistributionList?: DistributionIdOwnerList;
 }
@@ -7857,10 +7316,7 @@ export const ListDistributionsByRealtimeLogConfigRequest = /*@__PURE__*/ S.suspe
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "POST",
-        uri: "/2020-05-31/distributionsByRealtimeLogConfig",
-      }),
+      T.Http({ method: "POST", uri: "/2020-05-31/distributionsByRealtimeLogConfig" }),
       svc,
       auth,
       proto,
@@ -7971,10 +7427,7 @@ export const ListDistributionsByVpcOriginIdRequest = /*@__PURE__*/ S.suspend(() 
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/distributionsByVpcOriginId/{VpcOriginId}",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/distributionsByVpcOriginId/{VpcOriginId}" }),
       svc,
       auth,
       proto,
@@ -8010,10 +7463,7 @@ export const ListDistributionsByWebACLIdRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/distributionsByWebACLId/{WebACLId}",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/distributionsByWebACLId/{WebACLId}" }),
       svc,
       auth,
       proto,
@@ -8041,10 +7491,7 @@ export interface DistributionTenantAssociationFilter {
   ConnectionGroupId?: string;
 }
 export const DistributionTenantAssociationFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionId: S.optional(S.String),
-    ConnectionGroupId: S.optional(S.String),
-  }),
+  S.Struct({ DistributionId: S.optional(S.String), ConnectionGroupId: S.optional(S.String) }),
 ).annotate({
   identifier: "DistributionTenantAssociationFilter",
 }) as any as S.Schema<DistributionTenantAssociationFilter>;
@@ -8137,10 +7584,7 @@ export const ListDistributionTenantsByCustomizationRequest = /*@__PURE__*/ S.sus
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "POST",
-        uri: "/2020-05-31/distribution-tenants-by-customization",
-      }),
+      T.Http({ method: "POST", uri: "/2020-05-31/distribution-tenants-by-customization" }),
       svc,
       auth,
       proto,
@@ -8168,13 +7612,8 @@ export interface DistributionResourceId {
   DistributionTenantId?: string;
 }
 export const DistributionResourceId = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DistributionId: S.optional(S.String),
-    DistributionTenantId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DistributionResourceId",
-}) as any as S.Schema<DistributionResourceId>;
+  S.Struct({ DistributionId: S.optional(S.String), DistributionTenantId: S.optional(S.String) }),
+).annotate({ identifier: "DistributionResourceId" }) as any as S.Schema<DistributionResourceId>;
 export interface ListDomainConflictsRequest {
   Domain: string;
   DomainControlValidationResource: DistributionResourceId;
@@ -8220,9 +7659,7 @@ export const DomainConflict = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "DomainConflict" }) as any as S.Schema<DomainConflict>;
 export type DomainConflictsList = DomainConflict[];
 export const DomainConflictsList = /*@__PURE__*/ S.Array(
-  DomainConflict.pipe(T.XmlName("DomainConflicts")).annotate({
-    identifier: "DomainConflict",
-  }),
+  DomainConflict.pipe(T.XmlName("DomainConflicts")).annotate({ identifier: "DomainConflict" }),
 );
 export interface ListDomainConflictsResult {
   DomainConflicts?: DomainConflict[];
@@ -8295,9 +7732,7 @@ export const FieldLevelEncryptionList = /*@__PURE__*/ S.suspend(() =>
     Quantity: S.Number,
     Items: S.optional(FieldLevelEncryptionSummaryList),
   }),
-).annotate({
-  identifier: "FieldLevelEncryptionList",
-}) as any as S.Schema<FieldLevelEncryptionList>;
+).annotate({ identifier: "FieldLevelEncryptionList" }) as any as S.Schema<FieldLevelEncryptionList>;
 export interface ListFieldLevelEncryptionConfigsResult {
   FieldLevelEncryptionList?: FieldLevelEncryptionList;
 }
@@ -8321,10 +7756,7 @@ export const ListFieldLevelEncryptionProfilesRequest = /*@__PURE__*/ S.suspend((
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/field-level-encryption-profile",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/field-level-encryption-profile" }),
       svc,
       auth,
       proto,
@@ -8400,14 +7832,10 @@ export const ListFunctionsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(ns, T.Http({ method: "GET", uri: "/2020-05-31/function" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListFunctionsRequest",
-}) as any as S.Schema<ListFunctionsRequest>;
+).annotate({ identifier: "ListFunctionsRequest" }) as any as S.Schema<ListFunctionsRequest>;
 export type FunctionSummaryList = FunctionSummary[];
 export const FunctionSummaryList = /*@__PURE__*/ S.Array(
-  FunctionSummary.pipe(T.XmlName("FunctionSummary")).annotate({
-    identifier: "FunctionSummary",
-  }),
+  FunctionSummary.pipe(T.XmlName("FunctionSummary")).annotate({ identifier: "FunctionSummary" }),
 );
 export interface FunctionList {
   NextMarker?: string;
@@ -8432,9 +7860,7 @@ export const ListFunctionsResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "FunctionList" }),
   }).pipe(ns),
-).annotate({
-  identifier: "ListFunctionsResult",
-}) as any as S.Schema<ListFunctionsResult>;
+).annotate({ identifier: "ListFunctionsResult" }) as any as S.Schema<ListFunctionsResult>;
 export interface ListInvalidationsRequest {
   DistributionId: string;
   Marker?: string;
@@ -8448,10 +7874,7 @@ export const ListInvalidationsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/distribution/{DistributionId}/invalidation",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/distribution/{DistributionId}/invalidation" }),
       svc,
       auth,
       proto,
@@ -8459,9 +7882,7 @@ export const ListInvalidationsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListInvalidationsRequest",
-}) as any as S.Schema<ListInvalidationsRequest>;
+).annotate({ identifier: "ListInvalidationsRequest" }) as any as S.Schema<ListInvalidationsRequest>;
 export interface InvalidationSummary {
   Id: string;
   CreateTime: Date;
@@ -8469,9 +7890,7 @@ export interface InvalidationSummary {
 }
 export const InvalidationSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String, CreateTime: T.DateFromString, Status: S.String }),
-).annotate({
-  identifier: "InvalidationSummary",
-}) as any as S.Schema<InvalidationSummary>;
+).annotate({ identifier: "InvalidationSummary" }) as any as S.Schema<InvalidationSummary>;
 export type InvalidationSummaryList = InvalidationSummary[];
 export const InvalidationSummaryList = /*@__PURE__*/ S.Array(
   InvalidationSummary.pipe(T.XmlName("InvalidationSummary")).annotate({
@@ -8495,9 +7914,7 @@ export const InvalidationList = /*@__PURE__*/ S.suspend(() =>
     Quantity: S.Number,
     Items: S.optional(InvalidationSummaryList),
   }),
-).annotate({
-  identifier: "InvalidationList",
-}) as any as S.Schema<InvalidationList>;
+).annotate({ identifier: "InvalidationList" }) as any as S.Schema<InvalidationList>;
 export interface ListInvalidationsResult {
   InvalidationList?: InvalidationList;
 }
@@ -8507,9 +7924,7 @@ export const ListInvalidationsResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "InvalidationList" }),
   }).pipe(ns),
-).annotate({
-  identifier: "ListInvalidationsResult",
-}) as any as S.Schema<ListInvalidationsResult>;
+).annotate({ identifier: "ListInvalidationsResult" }) as any as S.Schema<ListInvalidationsResult>;
 export interface ListInvalidationsForDistributionTenantRequest {
   Id: string;
   Marker?: string;
@@ -8523,10 +7938,7 @@ export const ListInvalidationsForDistributionTenantRequest = /*@__PURE__*/ S.sus
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2020-05-31/distribution-tenant/{Id}/invalidation",
-      }),
+      T.Http({ method: "GET", uri: "/2020-05-31/distribution-tenant/{Id}/invalidation" }),
       svc,
       auth,
       proto,
@@ -8568,22 +7980,16 @@ export const ListKeyGroupsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListKeyGroupsRequest",
-}) as any as S.Schema<ListKeyGroupsRequest>;
+).annotate({ identifier: "ListKeyGroupsRequest" }) as any as S.Schema<ListKeyGroupsRequest>;
 export interface KeyGroupSummary {
   KeyGroup: KeyGroup;
 }
 export const KeyGroupSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ KeyGroup: KeyGroup }),
-).annotate({
-  identifier: "KeyGroupSummary",
-}) as any as S.Schema<KeyGroupSummary>;
+).annotate({ identifier: "KeyGroupSummary" }) as any as S.Schema<KeyGroupSummary>;
 export type KeyGroupSummaryList = KeyGroupSummary[];
 export const KeyGroupSummaryList = /*@__PURE__*/ S.Array(
-  KeyGroupSummary.pipe(T.XmlName("KeyGroupSummary")).annotate({
-    identifier: "KeyGroupSummary",
-  }),
+  KeyGroupSummary.pipe(T.XmlName("KeyGroupSummary")).annotate({ identifier: "KeyGroupSummary" }),
 );
 export interface KeyGroupList {
   NextMarker?: string;
@@ -8608,9 +8014,7 @@ export const ListKeyGroupsResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "KeyGroupList" }),
   }).pipe(ns),
-).annotate({
-  identifier: "ListKeyGroupsResult",
-}) as any as S.Schema<ListKeyGroupsResult>;
+).annotate({ identifier: "ListKeyGroupsResult" }) as any as S.Schema<ListKeyGroupsResult>;
 export interface ListKeyValueStoresRequest {
   Marker?: string;
   MaxItems?: number;
@@ -8637,9 +8041,7 @@ export const ListKeyValueStoresRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListKeyValueStoresRequest>;
 export type KeyValueStoreSummaryList = KeyValueStore[];
 export const KeyValueStoreSummaryList = /*@__PURE__*/ S.Array(
-  KeyValueStore.pipe(T.XmlName("KeyValueStore")).annotate({
-    identifier: "KeyValueStore",
-  }),
+  KeyValueStore.pipe(T.XmlName("KeyValueStore")).annotate({ identifier: "KeyValueStore" }),
 );
 export interface KeyValueStoreList {
   NextMarker?: string;
@@ -8654,9 +8056,7 @@ export const KeyValueStoreList = /*@__PURE__*/ S.suspend(() =>
     Quantity: S.Number,
     Items: S.optional(KeyValueStoreSummaryList),
   }),
-).annotate({
-  identifier: "KeyValueStoreList",
-}) as any as S.Schema<KeyValueStoreList>;
+).annotate({ identifier: "KeyValueStoreList" }) as any as S.Schema<KeyValueStoreList>;
 export interface ListKeyValueStoresResult {
   KeyValueStoreList?: KeyValueStoreList;
 }
@@ -8666,9 +8066,7 @@ export const ListKeyValueStoresResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "KeyValueStoreList" }),
   }).pipe(ns),
-).annotate({
-  identifier: "ListKeyValueStoresResult",
-}) as any as S.Schema<ListKeyValueStoresResult>;
+).annotate({ identifier: "ListKeyValueStoresResult" }) as any as S.Schema<ListKeyValueStoresResult>;
 export interface ListOriginAccessControlsRequest {
   Marker?: string;
   MaxItems?: number;
@@ -8734,9 +8132,7 @@ export const OriginAccessControlList = /*@__PURE__*/ S.suspend(() =>
     Quantity: S.Number,
     Items: S.optional(OriginAccessControlSummaryList),
   }),
-).annotate({
-  identifier: "OriginAccessControlList",
-}) as any as S.Schema<OriginAccessControlList>;
+).annotate({ identifier: "OriginAccessControlList" }) as any as S.Schema<OriginAccessControlList>;
 export interface ListOriginAccessControlsResult {
   OriginAccessControlList?: OriginAccessControlList;
 }
@@ -8781,10 +8177,7 @@ export interface OriginRequestPolicySummary {
   OriginRequestPolicy: OriginRequestPolicy;
 }
 export const OriginRequestPolicySummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: OriginRequestPolicyType,
-    OriginRequestPolicy: OriginRequestPolicy,
-  }),
+  S.Struct({ Type: OriginRequestPolicyType, OriginRequestPolicy: OriginRequestPolicy }),
 ).annotate({
   identifier: "OriginRequestPolicySummary",
 }) as any as S.Schema<OriginRequestPolicySummary>;
@@ -8807,9 +8200,7 @@ export const OriginRequestPolicyList = /*@__PURE__*/ S.suspend(() =>
     Quantity: S.Number,
     Items: S.optional(OriginRequestPolicySummaryList),
   }),
-).annotate({
-  identifier: "OriginRequestPolicyList",
-}) as any as S.Schema<OriginRequestPolicyList>;
+).annotate({ identifier: "OriginRequestPolicyList" }) as any as S.Schema<OriginRequestPolicyList>;
 export interface ListOriginRequestPoliciesResult {
   OriginRequestPolicyList?: OriginRequestPolicyList;
 }
@@ -8841,9 +8232,7 @@ export const ListPublicKeysRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListPublicKeysRequest",
-}) as any as S.Schema<ListPublicKeysRequest>;
+).annotate({ identifier: "ListPublicKeysRequest" }) as any as S.Schema<ListPublicKeysRequest>;
 export interface PublicKeySummary {
   Id: string;
   Name: string;
@@ -8859,14 +8248,10 @@ export const PublicKeySummary = /*@__PURE__*/ S.suspend(() =>
     EncodedKey: S.String,
     Comment: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PublicKeySummary",
-}) as any as S.Schema<PublicKeySummary>;
+).annotate({ identifier: "PublicKeySummary" }) as any as S.Schema<PublicKeySummary>;
 export type PublicKeySummaryList = PublicKeySummary[];
 export const PublicKeySummaryList = /*@__PURE__*/ S.Array(
-  PublicKeySummary.pipe(T.XmlName("PublicKeySummary")).annotate({
-    identifier: "PublicKeySummary",
-  }),
+  PublicKeySummary.pipe(T.XmlName("PublicKeySummary")).annotate({ identifier: "PublicKeySummary" }),
 );
 export interface PublicKeyList {
   NextMarker?: string;
@@ -8891,9 +8276,7 @@ export const ListPublicKeysResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "PublicKeyList" }),
   }).pipe(ns),
-).annotate({
-  identifier: "ListPublicKeysResult",
-}) as any as S.Schema<ListPublicKeysResult>;
+).annotate({ identifier: "ListPublicKeysResult" }) as any as S.Schema<ListPublicKeysResult>;
 export interface ListRealtimeLogConfigsRequest {
   MaxItems?: number;
   Marker?: string;
@@ -8933,9 +8316,7 @@ export const RealtimeLogConfigs = /*@__PURE__*/ S.suspend(() =>
     Marker: S.optional(S.String),
     NextMarker: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RealtimeLogConfigs",
-}) as any as S.Schema<RealtimeLogConfigs>;
+).annotate({ identifier: "RealtimeLogConfigs" }) as any as S.Schema<RealtimeLogConfigs>;
 export interface ListRealtimeLogConfigsResult {
   RealtimeLogConfigs?: RealtimeLogConfigs;
 }
@@ -8980,10 +8361,7 @@ export interface ResponseHeadersPolicySummary {
   ResponseHeadersPolicy: ResponseHeadersPolicy;
 }
 export const ResponseHeadersPolicySummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: ResponseHeadersPolicyType,
-    ResponseHeadersPolicy: ResponseHeadersPolicy,
-  }),
+  S.Struct({ Type: ResponseHeadersPolicyType, ResponseHeadersPolicy: ResponseHeadersPolicy }),
 ).annotate({
   identifier: "ResponseHeadersPolicySummary",
 }) as any as S.Schema<ResponseHeadersPolicySummary>;
@@ -9126,9 +8504,7 @@ export interface ListTagsForResourceResult {
   Tags: Tags;
 }
 export const ListTagsForResourceResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Tags: Tags.pipe(T.HttpPayload()).annotate({ identifier: "Tags" }),
-  }).pipe(ns),
+  S.Struct({ Tags: Tags.pipe(T.HttpPayload()).annotate({ identifier: "Tags" }) }).pipe(ns),
 ).annotate({
   identifier: "ListTagsForResourceResult",
 }) as any as S.Schema<ListTagsForResourceResult>;
@@ -9137,10 +8513,7 @@ export interface ListTrustStoresRequest {
   MaxItems?: number;
 }
 export const ListTrustStoresRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    MaxItems: S.optional(S.Number),
-  }).pipe(
+  S.Struct({ Marker: S.optional(S.String), MaxItems: S.optional(S.Number) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/2020-05-31/trust-stores" }),
@@ -9151,9 +8524,7 @@ export const ListTrustStoresRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListTrustStoresRequest",
-}) as any as S.Schema<ListTrustStoresRequest>;
+).annotate({ identifier: "ListTrustStoresRequest" }) as any as S.Schema<ListTrustStoresRequest>;
 export interface TrustStoreSummary {
   Id: string;
   Arn: string;
@@ -9175,9 +8546,7 @@ export const TrustStoreSummary = /*@__PURE__*/ S.suspend(() =>
     Reason: S.optional(S.String),
     ETag: S.String,
   }),
-).annotate({
-  identifier: "TrustStoreSummary",
-}) as any as S.Schema<TrustStoreSummary>;
+).annotate({ identifier: "TrustStoreSummary" }) as any as S.Schema<TrustStoreSummary>;
 export type TrustStoreList = TrustStoreSummary[];
 export const TrustStoreList = /*@__PURE__*/ S.Array(
   TrustStoreSummary.pipe(T.XmlName("TrustStoreSummary")).annotate({
@@ -9189,13 +8558,10 @@ export interface ListTrustStoresResult {
   TrustStoreList?: TrustStoreSummary[];
 }
 export const ListTrustStoresResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextMarker: S.optional(S.String),
-    TrustStoreList: S.optional(TrustStoreList),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListTrustStoresResult",
-}) as any as S.Schema<ListTrustStoresResult>;
+  S.Struct({ NextMarker: S.optional(S.String), TrustStoreList: S.optional(TrustStoreList) }).pipe(
+    ns,
+  ),
+).annotate({ identifier: "ListTrustStoresResult" }) as any as S.Schema<ListTrustStoresResult>;
 export interface ListVpcOriginsRequest {
   Marker?: string;
   MaxItems?: number;
@@ -9215,9 +8581,7 @@ export const ListVpcOriginsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListVpcOriginsRequest",
-}) as any as S.Schema<ListVpcOriginsRequest>;
+).annotate({ identifier: "ListVpcOriginsRequest" }) as any as S.Schema<ListVpcOriginsRequest>;
 export interface VpcOriginSummary {
   Id: string;
   Name: string;
@@ -9239,14 +8603,10 @@ export const VpcOriginSummary = /*@__PURE__*/ S.suspend(() =>
     AccountId: S.optional(S.String),
     OriginEndpointArn: S.String,
   }),
-).annotate({
-  identifier: "VpcOriginSummary",
-}) as any as S.Schema<VpcOriginSummary>;
+).annotate({ identifier: "VpcOriginSummary" }) as any as S.Schema<VpcOriginSummary>;
 export type VpcOriginSummaryList = VpcOriginSummary[];
 export const VpcOriginSummaryList = /*@__PURE__*/ S.Array(
-  VpcOriginSummary.pipe(T.XmlName("VpcOriginSummary")).annotate({
-    identifier: "VpcOriginSummary",
-  }),
+  VpcOriginSummary.pipe(T.XmlName("VpcOriginSummary")).annotate({ identifier: "VpcOriginSummary" }),
 );
 export interface VpcOriginList {
   Marker?: string;
@@ -9275,9 +8635,7 @@ export const ListVpcOriginsResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "VpcOriginList" }),
   }).pipe(ns),
-).annotate({
-  identifier: "ListVpcOriginsResult",
-}) as any as S.Schema<ListVpcOriginsResult>;
+).annotate({ identifier: "ListVpcOriginsResult" }) as any as S.Schema<ListVpcOriginsResult>;
 export interface PublishConnectionFunctionRequest {
   Id: string;
   IfMatch: string;
@@ -9289,10 +8647,7 @@ export const PublishConnectionFunctionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "POST",
-        uri: "/2020-05-31/connection-function/{Id}/publish",
-      }),
+      T.Http({ method: "POST", uri: "/2020-05-31/connection-function/{Id}/publish" }),
       svc,
       auth,
       proto,
@@ -9334,9 +8689,7 @@ export const PublishFunctionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PublishFunctionRequest",
-}) as any as S.Schema<PublishFunctionRequest>;
+).annotate({ identifier: "PublishFunctionRequest" }) as any as S.Schema<PublishFunctionRequest>;
 export interface PublishFunctionResult {
   FunctionSummary?: FunctionSummary;
 }
@@ -9346,9 +8699,7 @@ export const PublishFunctionResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "FunctionSummary" }),
   }).pipe(ns),
-).annotate({
-  identifier: "PublishFunctionResult",
-}) as any as S.Schema<PublishFunctionResult>;
+).annotate({ identifier: "PublishFunctionResult" }) as any as S.Schema<PublishFunctionResult>;
 export interface PutResourcePolicyRequest {
   ResourceArn: string;
   PolicyDocument: string;
@@ -9365,17 +8716,13 @@ export const PutResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PutResourcePolicyRequest",
-}) as any as S.Schema<PutResourcePolicyRequest>;
+).annotate({ identifier: "PutResourcePolicyRequest" }) as any as S.Schema<PutResourcePolicyRequest>;
 export interface PutResourcePolicyResult {
   ResourceArn?: string;
 }
 export const PutResourcePolicyResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "PutResourcePolicyResult",
-}) as any as S.Schema<PutResourcePolicyResult>;
+).annotate({ identifier: "PutResourcePolicyResult" }) as any as S.Schema<PutResourcePolicyResult>;
 export interface TagResourceRequest {
   Resource: string;
   Tags: Tags;
@@ -9383,9 +8730,7 @@ export interface TagResourceRequest {
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Resource: S.String.pipe(T.HttpQuery("Resource")),
-    Tags: Tags.pipe(T.HttpPayload(), T.XmlName("Tags")).annotate({
-      identifier: "Tags",
-    }),
+    Tags: Tags.pipe(T.HttpPayload(), T.XmlName("Tags")).annotate({ identifier: "Tags" }),
   }).pipe(
     T.all(
       ns,
@@ -9397,9 +8742,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "TagResourceResponse",
@@ -9420,10 +8763,7 @@ export const TestConnectionFunctionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "POST",
-        uri: "/2020-05-31/connection-function/{Id}/test",
-      }),
+      T.Http({ method: "POST", uri: "/2020-05-31/connection-function/{Id}/test" }),
       svc,
       auth,
       proto,
@@ -9489,9 +8829,7 @@ export const TestFunctionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "TestFunctionRequest",
-}) as any as S.Schema<TestFunctionRequest>;
+).annotate({ identifier: "TestFunctionRequest" }) as any as S.Schema<TestFunctionRequest>;
 export interface TestResult {
   FunctionSummary?: FunctionSummary;
   ComputeUtilization?: string;
@@ -9515,9 +8853,7 @@ export const TestFunctionResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     TestResult: S.optional(TestResult).pipe(T.HttpPayload()).annotate({ identifier: "TestResult" }),
   }).pipe(ns),
-).annotate({
-  identifier: "TestFunctionResult",
-}) as any as S.Schema<TestFunctionResult>;
+).annotate({ identifier: "TestFunctionResult" }) as any as S.Schema<TestFunctionResult>;
 export type TagKeyList = string[];
 export const TagKeyList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("Key")));
 export interface TagKeys {
@@ -9547,9 +8883,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UntagResourceResponse",
@@ -9618,9 +8952,7 @@ export const UpdateCachePolicyRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateCachePolicyRequest",
-}) as any as S.Schema<UpdateCachePolicyRequest>;
+).annotate({ identifier: "UpdateCachePolicyRequest" }) as any as S.Schema<UpdateCachePolicyRequest>;
 export interface UpdateCachePolicyResult {
   CachePolicy?: CachePolicy;
   ETag?: string;
@@ -9632,9 +8964,7 @@ export const UpdateCachePolicyResult = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "CachePolicy" }),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "UpdateCachePolicyResult",
-}) as any as S.Schema<UpdateCachePolicyResult>;
+).annotate({ identifier: "UpdateCachePolicyResult" }) as any as S.Schema<UpdateCachePolicyResult>;
 export interface UpdateCloudFrontOriginAccessIdentityRequest {
   CloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig;
   Id: string;
@@ -9651,10 +8981,7 @@ export const UpdateCloudFrontOriginAccessIdentityRequest = /*@__PURE__*/ S.suspe
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2020-05-31/origin-access-identity/cloudfront/{Id}/config",
-      }),
+      T.Http({ method: "PUT", uri: "/2020-05-31/origin-access-identity/cloudfront/{Id}/config" }),
       svc,
       auth,
       proto,
@@ -9777,10 +9104,7 @@ export const UpdateContinuousDeploymentPolicyRequest = /*@__PURE__*/ S.suspend((
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2020-05-31/continuous-deployment-policy/{Id}",
-      }),
+      T.Http({ method: "PUT", uri: "/2020-05-31/continuous-deployment-policy/{Id}" }),
       svc,
       auth,
       proto,
@@ -9843,9 +9167,7 @@ export const UpdateDistributionResult = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "Distribution" }),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "UpdateDistributionResult",
-}) as any as S.Schema<UpdateDistributionResult>;
+).annotate({ identifier: "UpdateDistributionResult" }) as any as S.Schema<UpdateDistributionResult>;
 export interface UpdateDistributionTenantRequest {
   Id: string;
   DistributionId?: string;
@@ -9909,10 +9231,7 @@ export const UpdateDistributionWithStagingConfigRequest = /*@__PURE__*/ S.suspen
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2020-05-31/distribution/{Id}/promote-staging-config",
-      }),
+      T.Http({ method: "PUT", uri: "/2020-05-31/distribution/{Id}/promote-staging-config" }),
       svc,
       auth,
       proto,
@@ -9991,10 +9310,7 @@ export const UpdateFieldLevelEncryptionConfigRequest = /*@__PURE__*/ S.suspend((
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2020-05-31/field-level-encryption/{Id}/config",
-      }),
+      T.Http({ method: "PUT", uri: "/2020-05-31/field-level-encryption/{Id}/config" }),
       svc,
       auth,
       proto,
@@ -10035,10 +9351,7 @@ export const UpdateFieldLevelEncryptionProfileRequest = /*@__PURE__*/ S.suspend(
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2020-05-31/field-level-encryption-profile/{Id}/config",
-      }),
+      T.Http({ method: "PUT", uri: "/2020-05-31/field-level-encryption-profile/{Id}/config" }),
       svc,
       auth,
       proto,
@@ -10086,9 +9399,7 @@ export const UpdateFunctionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateFunctionRequest",
-}) as any as S.Schema<UpdateFunctionRequest>;
+).annotate({ identifier: "UpdateFunctionRequest" }) as any as S.Schema<UpdateFunctionRequest>;
 export interface UpdateFunctionResult {
   FunctionSummary?: FunctionSummary;
   ETag?: string;
@@ -10100,9 +9411,7 @@ export const UpdateFunctionResult = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "FunctionSummary" }),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETtag")),
   }).pipe(ns),
-).annotate({
-  identifier: "UpdateFunctionResult",
-}) as any as S.Schema<UpdateFunctionResult>;
+).annotate({ identifier: "UpdateFunctionResult" }) as any as S.Schema<UpdateFunctionResult>;
 export interface UpdateKeyGroupRequest {
   KeyGroupConfig: KeyGroupConfig;
   Id: string;
@@ -10126,9 +9435,7 @@ export const UpdateKeyGroupRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateKeyGroupRequest",
-}) as any as S.Schema<UpdateKeyGroupRequest>;
+).annotate({ identifier: "UpdateKeyGroupRequest" }) as any as S.Schema<UpdateKeyGroupRequest>;
 export interface UpdateKeyGroupResult {
   KeyGroup?: KeyGroup;
   ETag?: string;
@@ -10138,9 +9445,7 @@ export const UpdateKeyGroupResult = /*@__PURE__*/ S.suspend(() =>
     KeyGroup: S.optional(KeyGroup).pipe(T.HttpPayload()).annotate({ identifier: "KeyGroup" }),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "UpdateKeyGroupResult",
-}) as any as S.Schema<UpdateKeyGroupResult>;
+).annotate({ identifier: "UpdateKeyGroupResult" }) as any as S.Schema<UpdateKeyGroupResult>;
 export interface UpdateKeyValueStoreRequest {
   Name: string;
   Comment: string;
@@ -10195,10 +9500,7 @@ export const UpdateOriginAccessControlRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2020-05-31/origin-access-control/{Id}/config",
-      }),
+      T.Http({ method: "PUT", uri: "/2020-05-31/origin-access-control/{Id}/config" }),
       svc,
       auth,
       proto,
@@ -10287,9 +9589,7 @@ export const UpdatePublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdatePublicKeyRequest",
-}) as any as S.Schema<UpdatePublicKeyRequest>;
+).annotate({ identifier: "UpdatePublicKeyRequest" }) as any as S.Schema<UpdatePublicKeyRequest>;
 export interface UpdatePublicKeyResult {
   PublicKey?: PublicKey;
   ETag?: string;
@@ -10299,9 +9599,7 @@ export const UpdatePublicKeyResult = /*@__PURE__*/ S.suspend(() =>
     PublicKey: S.optional(PublicKey).pipe(T.HttpPayload()).annotate({ identifier: "PublicKey" }),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "UpdatePublicKeyResult",
-}) as any as S.Schema<UpdatePublicKeyResult>;
+).annotate({ identifier: "UpdatePublicKeyResult" }) as any as S.Schema<UpdatePublicKeyResult>;
 export interface UpdateRealtimeLogConfigRequest {
   EndPoints?: EndPoint[];
   Fields?: string[];
@@ -10354,10 +9652,7 @@ export const UpdateResponseHeadersPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2020-05-31/response-headers-policy/{Id}",
-      }),
+      T.Http({ method: "PUT", uri: "/2020-05-31/response-headers-policy/{Id}" }),
       svc,
       auth,
       proto,
@@ -10398,10 +9693,7 @@ export const UpdateStreamingDistributionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2020-05-31/streaming-distribution/{Id}/config",
-      }),
+      T.Http({ method: "PUT", uri: "/2020-05-31/streaming-distribution/{Id}/config" }),
       svc,
       auth,
       proto,
@@ -10451,9 +9743,7 @@ export const UpdateTrustStoreRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateTrustStoreRequest",
-}) as any as S.Schema<UpdateTrustStoreRequest>;
+).annotate({ identifier: "UpdateTrustStoreRequest" }) as any as S.Schema<UpdateTrustStoreRequest>;
 export interface UpdateTrustStoreResult {
   TrustStore?: TrustStore;
   ETag?: string;
@@ -10463,9 +9753,7 @@ export const UpdateTrustStoreResult = /*@__PURE__*/ S.suspend(() =>
     TrustStore: S.optional(TrustStore).pipe(T.HttpPayload()).annotate({ identifier: "TrustStore" }),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "UpdateTrustStoreResult",
-}) as any as S.Schema<UpdateTrustStoreResult>;
+).annotate({ identifier: "UpdateTrustStoreResult" }) as any as S.Schema<UpdateTrustStoreResult>;
 export interface UpdateVpcOriginRequest {
   VpcOriginEndpointConfig: VpcOriginEndpointConfig;
   Id: string;
@@ -10490,9 +9778,7 @@ export const UpdateVpcOriginRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateVpcOriginRequest",
-}) as any as S.Schema<UpdateVpcOriginRequest>;
+).annotate({ identifier: "UpdateVpcOriginRequest" }) as any as S.Schema<UpdateVpcOriginRequest>;
 export interface UpdateVpcOriginResult {
   VpcOrigin?: VpcOrigin;
   ETag?: string;
@@ -10502,9 +9788,7 @@ export const UpdateVpcOriginResult = /*@__PURE__*/ S.suspend(() =>
     VpcOrigin: S.optional(VpcOrigin).pipe(T.HttpPayload()).annotate({ identifier: "VpcOrigin" }),
     ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
   }).pipe(ns),
-).annotate({
-  identifier: "UpdateVpcOriginResult",
-}) as any as S.Schema<UpdateVpcOriginResult>;
+).annotate({ identifier: "UpdateVpcOriginResult" }) as any as S.Schema<UpdateVpcOriginResult>;
 export interface VerifyDnsConfigurationRequest {
   Domain?: string;
   Identifier: string;
@@ -10537,19 +9821,11 @@ export interface DnsConfiguration {
   Reason?: string;
 }
 export const DnsConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Domain: S.String,
-    Status: DnsConfigurationStatus,
-    Reason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DnsConfiguration",
-}) as any as S.Schema<DnsConfiguration>;
+  S.Struct({ Domain: S.String, Status: DnsConfigurationStatus, Reason: S.optional(S.String) }),
+).annotate({ identifier: "DnsConfiguration" }) as any as S.Schema<DnsConfiguration>;
 export type DnsConfigurationList = DnsConfiguration[];
 export const DnsConfigurationList = /*@__PURE__*/ S.Array(
-  DnsConfiguration.pipe(T.XmlName("DnsConfiguration")).annotate({
-    identifier: "DnsConfiguration",
-  }),
+  DnsConfiguration.pipe(T.XmlName("DnsConfiguration")).annotate({ identifier: "DnsConfiguration" }),
 );
 export interface VerifyDnsConfigurationResult {
   DnsConfigurationList?: DnsConfiguration[];

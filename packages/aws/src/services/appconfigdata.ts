@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "AppConfigData",
-  serviceShapeName: "AppConfigData",
-});
+const svc = T.AwsApiService({ sdkId: "AppConfigData", serviceShapeName: "AppConfigData" });
 const auth = T.AwsAuthSigv4({ name: "appconfig" });
 const ver = T.ServiceVersion("2021-11-11");
 const proto = T.AwsProtocolsRestJson1();
@@ -83,9 +80,7 @@ export class BadRequestException
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       Reason: S.optional(S.String),
       Details: S.optional(
-        S.suspend(() => BadRequestDetails).annotate({
-          identifier: "BadRequestDetails",
-        }),
+        S.suspend(() => BadRequestDetails).annotate({ identifier: "BadRequestDetails" }),
       ),
     },
     T.HttpError(400),
@@ -117,9 +112,9 @@ export interface GetLatestConfigurationRequest {
   ConfigurationToken: string;
 }
 export const GetLatestConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConfigurationToken: S.String.pipe(T.HttpQuery("configuration_token")),
-  }).pipe(T.all(T.Http({ method: "GET", uri: "/configuration" }), svc, auth, proto, ver, rules)),
+  S.Struct({ ConfigurationToken: S.String.pipe(T.HttpQuery("configuration_token")) }).pipe(
+    T.all(T.Http({ method: "GET", uri: "/configuration" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "GetLatestConfigurationRequest",
 }) as any as S.Schema<GetLatestConfigurationRequest>;
@@ -180,12 +175,8 @@ export interface InvalidParameterDetail {
 }
 export const InvalidParameterDetail = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Problem: S.optional(S.String) }),
-).annotate({
-  identifier: "InvalidParameterDetail",
-}) as any as S.Schema<InvalidParameterDetail>;
-export type InvalidParameterMap = {
-  [key: string]: InvalidParameterDetail | undefined;
-};
+).annotate({ identifier: "InvalidParameterDetail" }) as any as S.Schema<InvalidParameterDetail>;
+export type InvalidParameterMap = { [key: string]: InvalidParameterDetail | undefined };
 export const InvalidParameterMap = /*@__PURE__*/ S.Record(
   S.String,
   InvalidParameterDetail.pipe(S.optional),

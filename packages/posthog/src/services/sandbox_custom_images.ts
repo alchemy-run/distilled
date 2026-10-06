@@ -27,35 +27,25 @@ export const CreateSandboxCustomImageRequest = /*@__PURE__*/ S.suspend(() =>
     repository: S.optional(S.NullOr(S.String)),
     private: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/sandbox_custom_images/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/sandbox_custom_images/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateSandboxCustomImageRequest",
 }) as any as S.Schema<CreateSandboxCustomImageRequest>;
 
-export type SandboxCustomImageDTOSpecMap = {
-  [key: string]: unknown | undefined;
-};
+export type SandboxCustomImageDTOSpecMap = { [key: string]: unknown | undefined };
 export const SandboxCustomImageDTOSpecMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<SandboxCustomImageDTOSpecMap>;
 
-export type SandboxCustomImageDTOScanResultMap = {
-  [key: string]: unknown | undefined;
-};
+export type SandboxCustomImageDTOScanResultMap = { [key: string]: unknown | undefined };
 export const SandboxCustomImageDTOScanResultMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<SandboxCustomImageDTOScanResultMap>;
 
-export type TaskUserBasicInfoHedgehogConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type TaskUserBasicInfoHedgehogConfigMap = { [key: string]: unknown | undefined };
 export const TaskUserBasicInfoHedgehogConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -85,9 +75,7 @@ export const TaskUserBasicInfo = /*@__PURE__*/ S.suspend(() =>
     hedgehog_config: S.optional(S.NullOr(TaskUserBasicInfoHedgehogConfigMap)),
     role_at_organization: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "TaskUserBasicInfo",
-}) as any as S.Schema<TaskUserBasicInfo>;
+).annotate({ identifier: "TaskUserBasicInfo" }) as any as S.Schema<TaskUserBasicInfo>;
 
 /** Detail response for a custom sandbox base image. */
 export interface SandboxCustomImageDTO {
@@ -129,9 +117,7 @@ export const SandboxCustomImageDTO = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.NullOr(S.String)),
     updated_at: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "SandboxCustomImageDTO",
-}) as any as S.Schema<SandboxCustomImageDTO>;
+).annotate({ identifier: "SandboxCustomImageDTO" }) as any as S.Schema<SandboxCustomImageDTO>;
 
 export interface CreateSandboxCustomImagesBuildRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -210,11 +196,7 @@ export const ListSandboxCustomImagesRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/sandbox_custom_images/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/sandbox_custom_images/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListSandboxCustomImagesRequest",

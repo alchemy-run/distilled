@@ -120,9 +120,7 @@ export class ValidationException
 export interface GetPreferencesRequest {}
 export const GetPreferencesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetPreferencesRequest",
-}) as any as S.Schema<GetPreferencesRequest>;
+).annotate({ identifier: "GetPreferencesRequest" }) as any as S.Schema<GetPreferencesRequest>;
 export type SavingsEstimationMode = "BeforeDiscounts" | "AfterDiscounts" | (string & {});
 export const SavingsEstimationMode = S.String;
 
@@ -140,13 +138,8 @@ export interface PreferredCommitment {
   paymentOption?: PaymentOption;
 }
 export const PreferredCommitment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    term: S.optional(Term),
-    paymentOption: S.optional(PaymentOption),
-  }),
-).annotate({
-  identifier: "PreferredCommitment",
-}) as any as S.Schema<PreferredCommitment>;
+  S.Struct({ term: S.optional(Term), paymentOption: S.optional(PaymentOption) }),
+).annotate({ identifier: "PreferredCommitment" }) as any as S.Schema<PreferredCommitment>;
 export interface GetPreferencesResponse {
   savingsEstimationMode?: SavingsEstimationMode;
   memberAccountDiscountVisibility?: MemberAccountDiscountVisibility;
@@ -158,9 +151,7 @@ export const GetPreferencesResponse = /*@__PURE__*/ S.suspend(() =>
     memberAccountDiscountVisibility: S.optional(MemberAccountDiscountVisibility),
     preferredCommitment: S.optional(PreferredCommitment),
   }),
-).annotate({
-  identifier: "GetPreferencesResponse",
-}) as any as S.Schema<GetPreferencesResponse>;
+).annotate({ identifier: "GetPreferencesResponse" }) as any as S.Schema<GetPreferencesResponse>;
 export interface GetRecommendationRequest {
   recommendationId: string;
 }
@@ -168,9 +159,7 @@ export const GetRecommendationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ recommendationId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetRecommendationRequest",
-}) as any as S.Schema<GetRecommendationRequest>;
+).annotate({ identifier: "GetRecommendationRequest" }) as any as S.Schema<GetRecommendationRequest>;
 export type ResourceType =
   | "Ec2Instance"
   | "LambdaFunction"
@@ -238,9 +227,7 @@ export const ComputeConfiguration = /*@__PURE__*/ S.suspend(() =>
     architecture: S.optional(S.String),
     platform: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ComputeConfiguration",
-}) as any as S.Schema<ComputeConfiguration>;
+).annotate({ identifier: "ComputeConfiguration" }) as any as S.Schema<ComputeConfiguration>;
 export interface LambdaFunctionConfiguration {
   compute?: ComputeConfiguration;
 }
@@ -278,9 +265,7 @@ export const EstimatedDiscounts = /*@__PURE__*/ S.suspend(() =>
     reservedInstancesDiscount: S.optional(S.Number),
     otherDiscount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "EstimatedDiscounts",
-}) as any as S.Schema<EstimatedDiscounts>;
+).annotate({ identifier: "EstimatedDiscounts" }) as any as S.Schema<EstimatedDiscounts>;
 export interface ResourcePricing {
   estimatedCostBeforeDiscounts?: number;
   estimatedNetUnusedAmortizedCommitments?: number;
@@ -294,21 +279,14 @@ export const ResourcePricing = /*@__PURE__*/ S.suspend(() =>
     estimatedDiscounts: S.optional(EstimatedDiscounts),
     estimatedCostAfterDiscounts: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ResourcePricing",
-}) as any as S.Schema<ResourcePricing>;
+).annotate({ identifier: "ResourcePricing" }) as any as S.Schema<ResourcePricing>;
 export interface ResourceCostCalculation {
   usages?: Usage[];
   pricing?: ResourcePricing;
 }
 export const ResourceCostCalculation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    usages: S.optional(UsageList),
-    pricing: S.optional(ResourcePricing),
-  }),
-).annotate({
-  identifier: "ResourceCostCalculation",
-}) as any as S.Schema<ResourceCostCalculation>;
+  S.Struct({ usages: S.optional(UsageList), pricing: S.optional(ResourcePricing) }),
+).annotate({ identifier: "ResourceCostCalculation" }) as any as S.Schema<ResourceCostCalculation>;
 export interface LambdaFunction {
   configuration?: LambdaFunctionConfiguration;
   costCalculation?: ResourceCostCalculation;
@@ -324,9 +302,7 @@ export interface EcsServiceConfiguration {
 }
 export const EcsServiceConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ compute: S.optional(ComputeConfiguration) }),
-).annotate({
-  identifier: "EcsServiceConfiguration",
-}) as any as S.Schema<EcsServiceConfiguration>;
+).annotate({ identifier: "EcsServiceConfiguration" }) as any as S.Schema<EcsServiceConfiguration>;
 export interface EcsService {
   configuration?: EcsServiceConfiguration;
   costCalculation?: ResourceCostCalculation;
@@ -342,17 +318,13 @@ export interface InstanceConfiguration {
 }
 export const InstanceConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ type: S.optional(S.String) }),
-).annotate({
-  identifier: "InstanceConfiguration",
-}) as any as S.Schema<InstanceConfiguration>;
+).annotate({ identifier: "InstanceConfiguration" }) as any as S.Schema<InstanceConfiguration>;
 export interface Ec2InstanceConfiguration {
   instance?: InstanceConfiguration;
 }
 export const Ec2InstanceConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ instance: S.optional(InstanceConfiguration) }),
-).annotate({
-  identifier: "Ec2InstanceConfiguration",
-}) as any as S.Schema<Ec2InstanceConfiguration>;
+).annotate({ identifier: "Ec2InstanceConfiguration" }) as any as S.Schema<Ec2InstanceConfiguration>;
 export interface Ec2Instance {
   configuration?: Ec2InstanceConfiguration;
   costCalculation?: ResourceCostCalculation;
@@ -369,9 +341,7 @@ export interface StorageConfiguration {
 }
 export const StorageConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ type: S.optional(S.String), sizeInGb: S.optional(S.Number) }),
-).annotate({
-  identifier: "StorageConfiguration",
-}) as any as S.Schema<StorageConfiguration>;
+).annotate({ identifier: "StorageConfiguration" }) as any as S.Schema<StorageConfiguration>;
 export interface BlockStoragePerformanceConfiguration {
   iops?: number;
   throughput?: number;
@@ -392,9 +362,7 @@ export const EbsVolumeConfiguration = /*@__PURE__*/ S.suspend(() =>
     performance: S.optional(BlockStoragePerformanceConfiguration),
     attachmentState: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EbsVolumeConfiguration",
-}) as any as S.Schema<EbsVolumeConfiguration>;
+).annotate({ identifier: "EbsVolumeConfiguration" }) as any as S.Schema<EbsVolumeConfiguration>;
 export interface EbsVolume {
   configuration?: EbsVolumeConfiguration;
   costCalculation?: ResourceCostCalculation;
@@ -446,9 +414,7 @@ export const Ec2AutoScalingGroup = /*@__PURE__*/ S.suspend(() =>
     configuration: S.optional(Ec2AutoScalingGroupConfiguration),
     costCalculation: S.optional(ResourceCostCalculation),
   }),
-).annotate({
-  identifier: "Ec2AutoScalingGroup",
-}) as any as S.Schema<Ec2AutoScalingGroup>;
+).annotate({ identifier: "Ec2AutoScalingGroup" }) as any as S.Schema<Ec2AutoScalingGroup>;
 export interface Ec2ReservedInstancesConfiguration {
   accountScope?: string;
   service?: string;
@@ -502,9 +468,7 @@ export const ReservedInstancesPricing = /*@__PURE__*/ S.suspend(() =>
     savingsPercentage: S.optional(S.Number),
     estimatedMonthlyAmortizedReservationCost: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ReservedInstancesPricing",
-}) as any as S.Schema<ReservedInstancesPricing>;
+).annotate({ identifier: "ReservedInstancesPricing" }) as any as S.Schema<ReservedInstancesPricing>;
 export interface ReservedInstancesCostCalculation {
   pricing?: ReservedInstancesPricing;
 }
@@ -522,9 +486,7 @@ export const Ec2ReservedInstances = /*@__PURE__*/ S.suspend(() =>
     configuration: S.optional(Ec2ReservedInstancesConfiguration),
     costCalculation: S.optional(ReservedInstancesCostCalculation),
   }),
-).annotate({
-  identifier: "Ec2ReservedInstances",
-}) as any as S.Schema<Ec2ReservedInstances>;
+).annotate({ identifier: "Ec2ReservedInstances" }) as any as S.Schema<Ec2ReservedInstances>;
 export interface RdsReservedInstancesConfiguration {
   accountScope?: string;
   service?: string;
@@ -576,9 +538,7 @@ export const RdsReservedInstances = /*@__PURE__*/ S.suspend(() =>
     configuration: S.optional(RdsReservedInstancesConfiguration),
     costCalculation: S.optional(ReservedInstancesCostCalculation),
   }),
-).annotate({
-  identifier: "RdsReservedInstances",
-}) as any as S.Schema<RdsReservedInstances>;
+).annotate({ identifier: "RdsReservedInstances" }) as any as S.Schema<RdsReservedInstances>;
 export interface ElastiCacheReservedInstancesConfiguration {
   accountScope?: string;
   service?: string;
@@ -748,9 +708,7 @@ export const SavingsPlansPricing = /*@__PURE__*/ S.suspend(() =>
     savingsPercentage: S.optional(S.Number),
     estimatedOnDemandCost: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SavingsPlansPricing",
-}) as any as S.Schema<SavingsPlansPricing>;
+).annotate({ identifier: "SavingsPlansPricing" }) as any as S.Schema<SavingsPlansPricing>;
 export interface SavingsPlansCostCalculation {
   pricing?: SavingsPlansPricing;
 }
@@ -768,9 +726,7 @@ export const Ec2InstanceSavingsPlans = /*@__PURE__*/ S.suspend(() =>
     configuration: S.optional(Ec2InstanceSavingsPlansConfiguration),
     costCalculation: S.optional(SavingsPlansCostCalculation),
   }),
-).annotate({
-  identifier: "Ec2InstanceSavingsPlans",
-}) as any as S.Schema<Ec2InstanceSavingsPlans>;
+).annotate({ identifier: "Ec2InstanceSavingsPlans" }) as any as S.Schema<Ec2InstanceSavingsPlans>;
 export interface ComputeSavingsPlansConfiguration {
   accountScope?: string;
   term?: string;
@@ -796,9 +752,7 @@ export const ComputeSavingsPlans = /*@__PURE__*/ S.suspend(() =>
     configuration: S.optional(ComputeSavingsPlansConfiguration),
     costCalculation: S.optional(SavingsPlansCostCalculation),
   }),
-).annotate({
-  identifier: "ComputeSavingsPlans",
-}) as any as S.Schema<ComputeSavingsPlans>;
+).annotate({ identifier: "ComputeSavingsPlans" }) as any as S.Schema<ComputeSavingsPlans>;
 export interface SageMakerSavingsPlansConfiguration {
   accountScope?: string;
   term?: string;
@@ -824,17 +778,13 @@ export const SageMakerSavingsPlans = /*@__PURE__*/ S.suspend(() =>
     configuration: S.optional(SageMakerSavingsPlansConfiguration),
     costCalculation: S.optional(SavingsPlansCostCalculation),
   }),
-).annotate({
-  identifier: "SageMakerSavingsPlans",
-}) as any as S.Schema<SageMakerSavingsPlans>;
+).annotate({ identifier: "SageMakerSavingsPlans" }) as any as S.Schema<SageMakerSavingsPlans>;
 export interface DbInstanceConfiguration {
   dbInstanceClass?: string;
 }
 export const DbInstanceConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ dbInstanceClass: S.optional(S.String) }),
-).annotate({
-  identifier: "DbInstanceConfiguration",
-}) as any as S.Schema<DbInstanceConfiguration>;
+).annotate({ identifier: "DbInstanceConfiguration" }) as any as S.Schema<DbInstanceConfiguration>;
 export interface RdsDbInstanceConfiguration {
   instance?: DbInstanceConfiguration;
 }
@@ -878,9 +828,7 @@ export const RdsDbInstanceStorage = /*@__PURE__*/ S.suspend(() =>
     configuration: S.optional(RdsDbInstanceStorageConfiguration),
     costCalculation: S.optional(ResourceCostCalculation),
   }),
-).annotate({
-  identifier: "RdsDbInstanceStorage",
-}) as any as S.Schema<RdsDbInstanceStorage>;
+).annotate({ identifier: "RdsDbInstanceStorage" }) as any as S.Schema<RdsDbInstanceStorage>;
 export interface AuroraDbClusterStorageConfiguration {
   storageType?: string;
 }
@@ -898,9 +846,7 @@ export const AuroraDbClusterStorage = /*@__PURE__*/ S.suspend(() =>
     configuration: S.optional(AuroraDbClusterStorageConfiguration),
     costCalculation: S.optional(ResourceCostCalculation),
   }),
-).annotate({
-  identifier: "AuroraDbClusterStorage",
-}) as any as S.Schema<AuroraDbClusterStorage>;
+).annotate({ identifier: "AuroraDbClusterStorage" }) as any as S.Schema<AuroraDbClusterStorage>;
 export interface DynamoDbReservedCapacityConfiguration {
   accountScope?: string;
   service?: string;
@@ -936,9 +882,7 @@ export const DynamoDbReservedCapacity = /*@__PURE__*/ S.suspend(() =>
     configuration: S.optional(DynamoDbReservedCapacityConfiguration),
     costCalculation: S.optional(ReservedInstancesCostCalculation),
   }),
-).annotate({
-  identifier: "DynamoDbReservedCapacity",
-}) as any as S.Schema<DynamoDbReservedCapacity>;
+).annotate({ identifier: "DynamoDbReservedCapacity" }) as any as S.Schema<DynamoDbReservedCapacity>;
 export interface MemoryDbReservedInstancesConfiguration {
   accountScope?: string;
   service?: string;
@@ -996,9 +940,7 @@ export const NatGatewayConfiguration = /*@__PURE__*/ S.suspend(() =>
     packetsInFromSource: S.optional(S.Number),
     packetsInFromDestination: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NatGatewayConfiguration",
-}) as any as S.Schema<NatGatewayConfiguration>;
+).annotate({ identifier: "NatGatewayConfiguration" }) as any as S.Schema<NatGatewayConfiguration>;
 export interface NatGateway {
   configuration?: NatGatewayConfiguration;
   costCalculation?: ResourceCostCalculation;
@@ -1020,25 +962,19 @@ export interface ElastiCacheCluster {
 }
 export const ElastiCacheCluster = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ costCalculation: S.optional(ResourceCostCalculation) }),
-).annotate({
-  identifier: "ElastiCacheCluster",
-}) as any as S.Schema<ElastiCacheCluster>;
+).annotate({ identifier: "ElastiCacheCluster" }) as any as S.Schema<ElastiCacheCluster>;
 export interface MemoryDbCluster {
   costCalculation?: ResourceCostCalculation;
 }
 export const MemoryDbCluster = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ costCalculation: S.optional(ResourceCostCalculation) }),
-).annotate({
-  identifier: "MemoryDbCluster",
-}) as any as S.Schema<MemoryDbCluster>;
+).annotate({ identifier: "MemoryDbCluster" }) as any as S.Schema<MemoryDbCluster>;
 export interface DocumentDbCluster {
   costCalculation?: ResourceCostCalculation;
 }
 export const DocumentDbCluster = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ costCalculation: S.optional(ResourceCostCalculation) }),
-).annotate({
-  identifier: "DocumentDbCluster",
-}) as any as S.Schema<DocumentDbCluster>;
+).annotate({ identifier: "DocumentDbCluster" }) as any as S.Schema<DocumentDbCluster>;
 export interface WorkSpaces {
   costCalculation?: ResourceCostCalculation;
 }
@@ -1050,9 +986,7 @@ export interface SageMakerEndpoint {
 }
 export const SageMakerEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ costCalculation: S.optional(ResourceCostCalculation) }),
-).annotate({
-  identifier: "SageMakerEndpoint",
-}) as any as S.Schema<SageMakerEndpoint>;
+).annotate({ identifier: "SageMakerEndpoint" }) as any as S.Schema<SageMakerEndpoint>;
 export type ResourceDetails =
   | {
       lambdaFunction: LambdaFunction;
@@ -1887,9 +1821,7 @@ export const EfficiencyMetricsByGroup = /*@__PURE__*/ S.suspend(() =>
     group: S.optional(S.String),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EfficiencyMetricsByGroup",
-}) as any as S.Schema<EfficiencyMetricsByGroup>;
+).annotate({ identifier: "EfficiencyMetricsByGroup" }) as any as S.Schema<EfficiencyMetricsByGroup>;
 export type EfficiencyMetricsByGroupList = EfficiencyMetricsByGroup[];
 export const EfficiencyMetricsByGroupList = /*@__PURE__*/ S.Array(EfficiencyMetricsByGroup);
 export interface ListEfficiencyMetricsResponse {
@@ -1937,9 +1869,7 @@ export const AccountEnrollmentStatus = /*@__PURE__*/ S.suspend(() =>
     lastUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "AccountEnrollmentStatus",
-}) as any as S.Schema<AccountEnrollmentStatus>;
+).annotate({ identifier: "AccountEnrollmentStatus" }) as any as S.Schema<AccountEnrollmentStatus>;
 export type AccountEnrollmentStatuses = AccountEnrollmentStatus[];
 export const AccountEnrollmentStatuses = /*@__PURE__*/ S.Array(AccountEnrollmentStatus);
 export interface ListEnrollmentStatusesResponse {
@@ -2073,10 +2003,7 @@ export interface ListRecommendationsResponse {
   nextToken?: string;
 }
 export const ListRecommendationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(RecommendationList),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ items: S.optional(RecommendationList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListRecommendationsResponse",
 }) as any as S.Schema<ListRecommendationsResponse>;
@@ -2114,9 +2041,7 @@ export const RecommendationSummary = /*@__PURE__*/ S.suspend(() =>
     estimatedMonthlySavings: S.optional(S.Number),
     recommendationCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "RecommendationSummary",
-}) as any as S.Schema<RecommendationSummary>;
+).annotate({ identifier: "RecommendationSummary" }) as any as S.Schema<RecommendationSummary>;
 export type RecommendationSummariesList = RecommendationSummary[];
 export const RecommendationSummariesList = /*@__PURE__*/ S.Array(RecommendationSummary);
 export interface SummaryMetricsResult {
@@ -2124,9 +2049,7 @@ export interface SummaryMetricsResult {
 }
 export const SummaryMetricsResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ savingsPercentage: S.optional(S.String) }),
-).annotate({
-  identifier: "SummaryMetricsResult",
-}) as any as S.Schema<SummaryMetricsResult>;
+).annotate({ identifier: "SummaryMetricsResult" }) as any as S.Schema<SummaryMetricsResult>;
 export interface ListRecommendationSummariesResponse {
   estimatedTotalDedupedSavings?: number;
   items?: RecommendationSummary[];
@@ -2152,10 +2075,9 @@ export interface UpdateEnrollmentStatusRequest {
   includeMemberAccounts?: boolean;
 }
 export const UpdateEnrollmentStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: EnrollmentStatus,
-    includeMemberAccounts: S.optional(S.Boolean),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ status: EnrollmentStatus, includeMemberAccounts: S.optional(S.Boolean) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "UpdateEnrollmentStatusRequest",
 }) as any as S.Schema<UpdateEnrollmentStatusRequest>;
@@ -2178,9 +2100,7 @@ export const UpdatePreferencesRequest = /*@__PURE__*/ S.suspend(() =>
     memberAccountDiscountVisibility: S.optional(MemberAccountDiscountVisibility),
     preferredCommitment: S.optional(PreferredCommitment),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdatePreferencesRequest",
-}) as any as S.Schema<UpdatePreferencesRequest>;
+).annotate({ identifier: "UpdatePreferencesRequest" }) as any as S.Schema<UpdatePreferencesRequest>;
 export interface UpdatePreferencesResponse {
   savingsEstimationMode?: SavingsEstimationMode;
   memberAccountDiscountVisibility?: MemberAccountDiscountVisibility;

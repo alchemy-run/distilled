@@ -153,9 +153,7 @@ export const EventPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(EventPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "EventPropertyFilter",
-}) as any as S.Schema<EventPropertyFilter>;
+).annotate({ identifier: "EventPropertyFilter" }) as any as S.Schema<EventPropertyFilter>;
 
 export type PersonPropertyFilterValueCase0Item = string | number | boolean;
 export const PersonPropertyFilterValueCase0Item =
@@ -189,9 +187,7 @@ export const PersonPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(PersonPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "PersonPropertyFilter",
-}) as any as S.Schema<PersonPropertyFilter>;
+).annotate({ identifier: "PersonPropertyFilter" }) as any as S.Schema<PersonPropertyFilter>;
 
 export type PersonMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export const PersonMetadataPropertyFilterValueCase0Item =
@@ -265,9 +261,7 @@ export const ElementPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(ElementPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "ElementPropertyFilter",
-}) as any as S.Schema<ElementPropertyFilter>;
+).annotate({ identifier: "ElementPropertyFilter" }) as any as S.Schema<ElementPropertyFilter>;
 
 export type EventMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export const EventMetadataPropertyFilterValueCase0Item =
@@ -337,9 +331,7 @@ export const SessionPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(SessionPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "SessionPropertyFilter",
-}) as any as S.Schema<SessionPropertyFilter>;
+).annotate({ identifier: "SessionPropertyFilter" }) as any as S.Schema<SessionPropertyFilter>;
 
 export interface CohortPropertyFilter {
   cohort_name?: string | null;
@@ -358,9 +350,7 @@ export const CohortPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CohortPropertyFilter",
-}) as any as S.Schema<CohortPropertyFilter>;
+).annotate({ identifier: "CohortPropertyFilter" }) as any as S.Schema<CohortPropertyFilter>;
 
 export type DurationType = "duration" | "active_seconds" | "inactive_seconds";
 export const DurationType = S.String;
@@ -400,9 +390,7 @@ export const RecordingPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(RecordingPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "RecordingPropertyFilter",
-}) as any as S.Schema<RecordingPropertyFilter>;
+).annotate({ identifier: "RecordingPropertyFilter" }) as any as S.Schema<RecordingPropertyFilter>;
 
 export type LogEntryPropertyFilterValueCase0Item = string | number | boolean;
 export const LogEntryPropertyFilterValueCase0Item =
@@ -436,13 +424,9 @@ export const LogEntryPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(LogEntryPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "LogEntryPropertyFilter",
-}) as any as S.Schema<LogEntryPropertyFilter>;
+).annotate({ identifier: "LogEntryPropertyFilter" }) as any as S.Schema<LogEntryPropertyFilter>;
 
-export type GroupPropertyFilterGroupKeyNamesMap = {
-  [key: string]: string | undefined;
-};
+export type GroupPropertyFilterGroupKeyNamesMap = { [key: string]: string | undefined };
 export const GroupPropertyFilterGroupKeyNamesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -483,9 +467,7 @@ export const GroupPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(GroupPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "GroupPropertyFilter",
-}) as any as S.Schema<GroupPropertyFilter>;
+).annotate({ identifier: "GroupPropertyFilter" }) as any as S.Schema<GroupPropertyFilter>;
 
 export type FeaturePropertyFilterValueCase0Item = string | number | boolean;
 export const FeaturePropertyFilterValueCase0Item =
@@ -519,9 +501,7 @@ export const FeaturePropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(FeaturePropertyFilterValue)),
   }),
-).annotate({
-  identifier: "FeaturePropertyFilter",
-}) as any as S.Schema<FeaturePropertyFilter>;
+).annotate({ identifier: "FeaturePropertyFilter" }) as any as S.Schema<FeaturePropertyFilter>;
 
 /** The value can be true, false, or a variant name */
 export type FlagPropertyFilterValue = boolean | string;
@@ -546,9 +526,7 @@ export const FlagPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(FlagPropertyFilterValue),
   }),
-).annotate({
-  identifier: "FlagPropertyFilter",
-}) as any as S.Schema<FlagPropertyFilter>;
+).annotate({ identifier: "FlagPropertyFilter" }) as any as S.Schema<FlagPropertyFilter>;
 
 export type HogQLPropertyFilterValueCase0Item = string | number | boolean;
 export const HogQLPropertyFilterValueCase0Item =
@@ -579,9 +557,7 @@ export const HogQLPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(HogQLPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "HogQLPropertyFilter",
-}) as any as S.Schema<HogQLPropertyFilter>;
+).annotate({ identifier: "HogQLPropertyFilter" }) as any as S.Schema<HogQLPropertyFilter>;
 
 export interface EmptyPropertyFilter {
   type?: string;
@@ -590,9 +566,7 @@ export const EmptyPropertyFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EmptyPropertyFilter",
-}) as any as S.Schema<EmptyPropertyFilter>;
+).annotate({ identifier: "EmptyPropertyFilter" }) as any as S.Schema<EmptyPropertyFilter>;
 
 export type DataWarehousePropertyFilterValueCase0Item = string | number | boolean;
 export const DataWarehousePropertyFilterValueCase0Item =
@@ -700,9 +674,7 @@ export const ErrorTrackingIssueFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(ErrorTrackingIssueFilterValue)),
   }),
-).annotate({
-  identifier: "ErrorTrackingIssueFilter",
-}) as any as S.Schema<ErrorTrackingIssueFilter>;
+).annotate({ identifier: "ErrorTrackingIssueFilter" }) as any as S.Schema<ErrorTrackingIssueFilter>;
 
 export type LogPropertyFilterType = "log" | "log_attribute" | "log_resource_attribute";
 export const LogPropertyFilterType = S.String;
@@ -734,9 +706,7 @@ export const LogPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(LogPropertyFilterType),
     value: S.optional(S.NullOr(LogPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "LogPropertyFilter",
-}) as any as S.Schema<LogPropertyFilter>;
+).annotate({ identifier: "LogPropertyFilter" }) as any as S.Schema<LogPropertyFilter>;
 
 export type MetricPropertyFilterValueCase0Item = string | number | boolean;
 export const MetricPropertyFilterValueCase0Item =
@@ -769,9 +739,7 @@ export const MetricPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(MetricPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "MetricPropertyFilter",
-}) as any as S.Schema<MetricPropertyFilter>;
+).annotate({ identifier: "MetricPropertyFilter" }) as any as S.Schema<MetricPropertyFilter>;
 
 export type SpanPropertyFilterType = "span" | "span_attribute" | "span_resource_attribute";
 export const SpanPropertyFilterType = S.String;
@@ -803,9 +771,7 @@ export const SpanPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(SpanPropertyFilterType),
     value: S.optional(S.NullOr(SpanPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "SpanPropertyFilter",
-}) as any as S.Schema<SpanPropertyFilter>;
+).annotate({ identifier: "SpanPropertyFilter" }) as any as S.Schema<SpanPropertyFilter>;
 
 export type RevenueAnalyticsPropertyFilterValueCase0Item = string | number | boolean;
 export const RevenueAnalyticsPropertyFilterValueCase0Item =
@@ -982,9 +948,7 @@ export const BehavioralPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: InlineBehavioralType,
   }),
-).annotate({
-  identifier: "BehavioralPropertyFilter",
-}) as any as S.Schema<BehavioralPropertyFilter>;
+).annotate({ identifier: "BehavioralPropertyFilter" }) as any as S.Schema<BehavioralPropertyFilter>;
 
 export type ConversionGoalFilter1FixedPropertiesItem =
   | EventPropertyFilter
@@ -1297,9 +1261,7 @@ export const ConversionGoalFilter1PropertiesList = /*@__PURE__*/ S.Array(
   ConversionGoalFilter1PropertiesItem,
 ) as any as S.Schema<ConversionGoalFilter1PropertiesList>;
 
-export type ConversionGoalFilter1ResponseMap = {
-  [key: string]: unknown | undefined;
-};
+export type ConversionGoalFilter1ResponseMap = { [key: string]: unknown | undefined };
 export const ConversionGoalFilter1ResponseMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1375,9 +1337,7 @@ export const ConversionGoalFilter1 = /*@__PURE__*/ S.suspend(() =>
     schema_map: S.optional(ConversionGoalFilter1SchemaMapMap),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ConversionGoalFilter1",
-}) as any as S.Schema<ConversionGoalFilter1>;
+).annotate({ identifier: "ConversionGoalFilter1" }) as any as S.Schema<ConversionGoalFilter1>;
 
 export type ConversionGoalFilter2FixedPropertiesItem =
   | EventPropertyFilter
@@ -1457,9 +1417,7 @@ export const ConversionGoalFilter2PropertiesList = /*@__PURE__*/ S.Array(
   ConversionGoalFilter2PropertiesItem,
 ) as any as S.Schema<ConversionGoalFilter2PropertiesList>;
 
-export type ConversionGoalFilter2ResponseMap = {
-  [key: string]: unknown | undefined;
-};
+export type ConversionGoalFilter2ResponseMap = { [key: string]: unknown | undefined };
 export const ConversionGoalFilter2ResponseMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1529,9 +1487,7 @@ export const ConversionGoalFilter2 = /*@__PURE__*/ S.suspend(() =>
     schema_map: S.optional(ConversionGoalFilter2SchemaMapMap),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ConversionGoalFilter2",
-}) as any as S.Schema<ConversionGoalFilter2>;
+).annotate({ identifier: "ConversionGoalFilter2" }) as any as S.Schema<ConversionGoalFilter2>;
 
 export type ConversionGoalFilter3FixedPropertiesItem =
   | EventPropertyFilter
@@ -1611,9 +1567,7 @@ export const ConversionGoalFilter3PropertiesList = /*@__PURE__*/ S.Array(
   ConversionGoalFilter3PropertiesItem,
 ) as any as S.Schema<ConversionGoalFilter3PropertiesList>;
 
-export type ConversionGoalFilter3ResponseMap = {
-  [key: string]: unknown | undefined;
-};
+export type ConversionGoalFilter3ResponseMap = { [key: string]: unknown | undefined };
 export const ConversionGoalFilter3ResponseMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1693,9 +1647,7 @@ export const ConversionGoalFilter3 = /*@__PURE__*/ S.suspend(() =>
     timestamp_field: S.optional(S.String),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ConversionGoalFilter3",
-}) as any as S.Schema<ConversionGoalFilter3>;
+).annotate({ identifier: "ConversionGoalFilter3" }) as any as S.Schema<ConversionGoalFilter3>;
 
 /** Wrapper for OpenAPI schema generation - one goal, in any of the three node shapes. */
 export type ConversionGoal = ConversionGoalFilter1 | ConversionGoalFilter2 | ConversionGoalFilter3;
@@ -1798,9 +1750,7 @@ export const ConversionGoalSummary = /*@__PURE__*/ S.suspend(() =>
     is_approximate: S.Boolean,
     approximation_reason: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ConversionGoalSummary",
-}) as any as S.Schema<ConversionGoalSummary>;
+).annotate({ identifier: "ConversionGoalSummary" }) as any as S.Schema<ConversionGoalSummary>;
 
 /** One summary entry per configured conversion goal */
 export type ConversionGoalsListResponseGoalsList = Array<ConversionGoalSummary>;
@@ -1882,9 +1832,7 @@ export const RequiredTableStatus = /*@__PURE__*/ S.suspend(() =>
     status: S.NullOr(S.String),
     last_synced_at: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "RequiredTableStatus",
-}) as any as S.Schema<RequiredTableStatus>;
+).annotate({ identifier: "RequiredTableStatus" }) as any as S.Schema<RequiredTableStatus>;
 
 /** Per-required-table sync status for this integration */
 export type DataSourceHealthEntryRequiredTablesList = Array<RequiredTableStatus>;
@@ -1948,9 +1896,7 @@ export const DataSourceHealthEntry = /*@__PURE__*/ S.suspend(() =>
     diagnosis: S.String,
     fix_suggestion: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "DataSourceHealthEntry",
-}) as any as S.Schema<DataSourceHealthEntry>;
+).annotate({ identifier: "DataSourceHealthEntry" }) as any as S.Schema<DataSourceHealthEntry>;
 
 /** One health entry per native integration */
 export type DataSourceHealthResponseIntegrationsList = Array<DataSourceHealthEntry>;
@@ -1981,9 +1927,7 @@ export const DataSourceHealthResponse = /*@__PURE__*/ S.suspend(() =>
     overall_status: S.String,
     issues_summary: DataSourceHealthResponseIssuesSummaryList,
   }),
-).annotate({
-  identifier: "DataSourceHealthResponse",
-}) as any as S.Schema<DataSourceHealthResponse>;
+).annotate({ identifier: "DataSourceHealthResponse" }) as any as S.Schema<DataSourceHealthResponse>;
 
 export interface GetMarketingAnalyticsDiagnoseRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2026,9 +1970,7 @@ export const UnmatchedUtmSample = /*@__PURE__*/ S.suspend(() =>
     event_count: S.Number,
     suggested_integration: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "UnmatchedUtmSample",
-}) as any as S.Schema<UnmatchedUtmSample>;
+).annotate({ identifier: "UnmatchedUtmSample" }) as any as S.Schema<UnmatchedUtmSample>;
 
 /** Sample of likely-yours unmatched utm_source values */
 export type AttributionHealthEntrySampleUnmatchedUtmSourcesList = Array<UnmatchedUtmSample>;
@@ -2053,9 +1995,9 @@ export interface AttributionHealthEntry {
   matched_pct: number;
   /** Sample of likely-yours unmatched utm_source values */
   sample_unmatched_utm_sources: AttributionHealthEntrySampleUnmatchedUtmSourcesList;
-  /** Of the matched events, how many look paid: a cost-bearing utm_medium (cpc, cpm, cpv, cpa, ppc, retargeting, or anything starting with 'paid') or a gclid/gad_source click id. */
+  /** Of the matched events, how many show paid evidence for this integration: a cost-bearing utm_medium (cpc, cpm, cpv, cpa, ppc, retargeting, or anything starting with 'paid') or one of this integration's own ad click parameters in the event properties or the current URL (for example gclid for Google Ads or msclkid for Microsoft Ads). Pinterest clicks with pp=1 never count. Campaign names, fbclid, and epik alone do not count. */
   events_matched_paid_last_7d: number;
-  /** Of the matched events, how many carry any utm_medium. Zero paid with a non-zero count here means the traffic is tagged and organic; both zero means the team doesn't tag medium, which says nothing. */
+  /** Matched events carrying any utm_medium in the lookback window. Zero means no matched event carried a medium, including when no events matched. Missing paid signals do not prove organic traffic. */
   events_matched_tagged_medium_last_7d: number;
 }
 export const AttributionHealthEntry = /*@__PURE__*/ S.suspend(() =>
@@ -2071,9 +2013,7 @@ export const AttributionHealthEntry = /*@__PURE__*/ S.suspend(() =>
     events_matched_paid_last_7d: S.Number,
     events_matched_tagged_medium_last_7d: S.Number,
   }),
-).annotate({
-  identifier: "AttributionHealthEntry",
-}) as any as S.Schema<AttributionHealthEntry>;
+).annotate({ identifier: "AttributionHealthEntry" }) as any as S.Schema<AttributionHealthEntry>;
 
 export interface RecommendedAction {
   /** Short title of the recommended action */
@@ -2092,9 +2032,7 @@ export const RecommendedAction = /*@__PURE__*/ S.suspend(() =>
     severity: S.String,
     target_tool: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "RecommendedAction",
-}) as any as S.Schema<RecommendedAction>;
+).annotate({ identifier: "RecommendedAction" }) as any as S.Schema<RecommendedAction>;
 
 /** Recommended next steps for this integration */
 export type IntegrationDiagnosticRecommendedActionsList = Array<RecommendedAction>;
@@ -2131,9 +2069,7 @@ export const IntegrationDiagnostic = /*@__PURE__*/ S.suspend(() =>
     attribution: S.optional(S.NullOr(AttributionHealthEntry)),
     recommended_actions: IntegrationDiagnosticRecommendedActionsList,
   }),
-).annotate({
-  identifier: "IntegrationDiagnostic",
-}) as any as S.Schema<IntegrationDiagnostic>;
+).annotate({ identifier: "IntegrationDiagnostic" }) as any as S.Schema<IntegrationDiagnostic>;
 
 /** Per-integration cross-domain diagnostics */
 export type MarketingDiagnosticResponseIntegrationsList = Array<IntegrationDiagnostic>;
@@ -2209,9 +2145,7 @@ export const GoalExplanationPeriod = /*@__PURE__*/ S.suspend(() =>
     date_from: S.NullOr(S.String),
     date_to: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "GoalExplanationPeriod",
-}) as any as S.Schema<GoalExplanationPeriod>;
+).annotate({ identifier: "GoalExplanationPeriod" }) as any as S.Schema<GoalExplanationPeriod>;
 
 export type GoalExplanationByEventItemList = Array<unknown>;
 export const GoalExplanationByEventItemList = /*@__PURE__*/ S.Array(
@@ -2270,9 +2204,7 @@ export const GoalEventSample = /*@__PURE__*/ S.suspend(() =>
     utm_campaign: S.NullOr(S.String),
     matched_integration: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "GoalEventSample",
-}) as any as S.Schema<GoalEventSample>;
+).annotate({ identifier: "GoalEventSample" }) as any as S.Schema<GoalEventSample>;
 
 /** A small sample of matching events */
 export type GoalExplanationSamplesList = Array<GoalEventSample>;
@@ -2333,9 +2265,7 @@ export const GoalExplanation = /*@__PURE__*/ S.suspend(() =>
     samples: GoalExplanationSamplesList,
     notes: GoalExplanationNotesList,
   }),
-).annotate({
-  identifier: "GoalExplanation",
-}) as any as S.Schema<GoalExplanation>;
+).annotate({ identifier: "GoalExplanation" }) as any as S.Schema<GoalExplanation>;
 
 export interface GetMarketingAnalyticsSetupPlanRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2460,9 +2390,7 @@ export const CapabilityReadiness = /*@__PURE__*/ S.suspend(() =>
     explanation: S.String,
     blocked_by: CapabilityReadinessBlockedByList,
   }),
-).annotate({
-  identifier: "CapabilityReadiness",
-}) as any as S.Schema<CapabilityReadiness>;
+).annotate({ identifier: "CapabilityReadiness" }) as any as S.Schema<CapabilityReadiness>;
 
 /** Per-capability readiness, with the suggestions blocking each */
 export type SetupPlanResponseReadinessList = Array<CapabilityReadiness>;
@@ -2496,9 +2424,49 @@ export const SetupPlanResponse = /*@__PURE__*/ S.suspend(() =>
     truncated: S.Boolean,
     summary: S.String,
   }),
+).annotate({ identifier: "SetupPlanResponse" }) as any as S.Schema<SetupPlanResponse>;
+
+export interface GetMarketingAnalyticsSourceValidationRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export const GetMarketingAnalyticsSourceValidationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/marketing_analytics/source_validation/",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "SetupPlanResponse",
-}) as any as S.Schema<SetupPlanResponse>;
+  identifier: "GetMarketingAnalyticsSourceValidationRequest",
+}) as any as S.Schema<GetMarketingAnalyticsSourceValidationRequest>;
+
+export type SourceValidationErrorsBySourceValueList = Array<string>;
+export const SourceValidationErrorsBySourceValueList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SourceValidationErrorsBySourceValueList>;
+
+/** Validation errors keyed by the source or mapped table ID. Valid sources are omitted. */
+export type SourceValidationErrorsBySourceMap = {
+  [key: string]: SourceValidationErrorsBySourceValueList | undefined;
+};
+export const SourceValidationErrorsBySourceMap = /*@__PURE__*/ S.Record(
+  S.String,
+  SourceValidationErrorsBySourceValueList,
+) as any as S.Schema<SourceValidationErrorsBySourceMap>;
+
+export interface SourceValidation {
+  /** Validation errors keyed by the source or mapped table ID. Valid sources are omitted. */
+  errors_by_source: SourceValidationErrorsBySourceMap;
+}
+export const SourceValidation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    errors_by_source: SourceValidationErrorsBySourceMap,
+  }),
+).annotate({ identifier: "SourceValidation" }) as any as S.Schema<SourceValidation>;
 
 export interface GetMarketingAnalyticsSuggestConversionGoalRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2589,9 +2557,7 @@ export const EventSuggestionsResponse = /*@__PURE__*/ S.suspend(() =>
     lookback_days: S.Number,
     excluded_events_count: S.Number,
   }),
-).annotate({
-  identifier: "EventSuggestionsResponse",
-}) as any as S.Schema<EventSuggestionsResponse>;
+).annotate({ identifier: "EventSuggestionsResponse" }) as any as S.Schema<EventSuggestionsResponse>;
 
 export interface GetMarketingAnalyticsSuggestUtmMappingRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2637,9 +2603,7 @@ export const SourceMappingSuggestion = /*@__PURE__*/ S.suspend(() =>
     reason: S.String,
     event_count_30d: S.Number,
   }),
-).annotate({
-  identifier: "SourceMappingSuggestion",
-}) as any as S.Schema<SourceMappingSuggestion>;
+).annotate({ identifier: "SourceMappingSuggestion" }) as any as S.Schema<SourceMappingSuggestion>;
 
 /** Suggested custom_source_mappings entries */
 export type UtmMappingSuggestionsResponseSourceSuggestionsList = Array<SourceMappingSuggestion>;
@@ -2706,9 +2670,7 @@ export const RawUnmatchedSample = /*@__PURE__*/ S.suspend(() =>
     event_count: S.Number,
     suggested_integration: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "RawUnmatchedSample",
-}) as any as S.Schema<RawUnmatchedSample>;
+).annotate({ identifier: "RawUnmatchedSample" }) as any as S.Schema<RawUnmatchedSample>;
 
 /** All unmatched raw utm_source values worth reviewing */
 export type UtmMappingSuggestionsResponseRawUnmatchedSamplesList = Array<RawUnmatchedSample>;
@@ -2859,9 +2821,7 @@ export const UtmAlternativeSource = /*@__PURE__*/ S.suspend(() =>
     utm_source: S.String,
     event_count: S.Number,
   }),
-).annotate({
-  identifier: "UtmAlternativeSource",
-}) as any as S.Schema<UtmAlternativeSource>;
+).annotate({ identifier: "UtmAlternativeSource" }) as any as S.Schema<UtmAlternativeSource>;
 
 /** utm_source values actually found on this campaign's pageviews, ordered by event count */
 export type UtmIssueAlternativeSourcesList = Array<UtmAlternativeSource>;
@@ -2961,9 +2921,7 @@ export const CampaignAuditResult = /*@__PURE__*/ S.suspend(() =>
     event_count: S.Number,
     issues: CampaignAuditResultIssuesList,
   }),
-).annotate({
-  identifier: "CampaignAuditResult",
-}) as any as S.Schema<CampaignAuditResult>;
+).annotate({ identifier: "CampaignAuditResult" }) as any as S.Schema<CampaignAuditResult>;
 
 /** Audit results per campaign */
 export type UtmAuditResponseResultsList = Array<CampaignAuditResult>;
@@ -3029,9 +2987,1089 @@ export const UtmAuditResponse = /*@__PURE__*/ S.suspend(() =>
     results: UtmAuditResponseResultsList,
     all_utm_events: UtmAuditResponseAllUtmEventsList,
   }),
+).annotate({ identifier: "UtmAuditResponse" }) as any as S.Schema<UtmAuditResponse>;
+
+export interface CompareFilter {
+  /** Whether to compare the current date range to a previous date range. */
+  compare?: boolean | null;
+  /** The date range to compare to. The value is a relative date. Examples of relative dates are: `-1y` for 1 year ago, `-14m` for 14 months ago, `-100w` for 100 weeks ago, `-14d` for 14 days ago, `-30h` for 30 hours ago. */
+  compare_to?: string | null;
+}
+export const CompareFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    compare: S.optional(S.NullOr(S.Boolean)),
+    compare_to: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "CompareFilter" }) as any as S.Schema<CompareFilter>;
+
+export type ActionConversionGoalPropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter;
+export const ActionConversionGoalPropertiesItem =
+  S.Unknown as any as S.Schema<ActionConversionGoalPropertiesItem>;
+
+export type ActionConversionGoalPropertiesList = Array<ActionConversionGoalPropertiesItem>;
+export const ActionConversionGoalPropertiesList = /*@__PURE__*/ S.Array(
+  ActionConversionGoalPropertiesItem,
+) as any as S.Schema<ActionConversionGoalPropertiesList>;
+
+export interface ActionConversionGoal {
+  actionId?: number;
+  properties?: ActionConversionGoalPropertiesList | null;
+}
+export const ActionConversionGoal = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    actionId: S.optional(S.Number),
+    properties: S.optional(S.NullOr(ActionConversionGoalPropertiesList)),
+  }),
+).annotate({ identifier: "ActionConversionGoal" }) as any as S.Schema<ActionConversionGoal>;
+
+export type CustomEventConversionGoalPropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter;
+export const CustomEventConversionGoalPropertiesItem =
+  S.Unknown as any as S.Schema<CustomEventConversionGoalPropertiesItem>;
+
+export type CustomEventConversionGoalPropertiesList =
+  Array<CustomEventConversionGoalPropertiesItem>;
+export const CustomEventConversionGoalPropertiesList = /*@__PURE__*/ S.Array(
+  CustomEventConversionGoalPropertiesItem,
+) as any as S.Schema<CustomEventConversionGoalPropertiesList>;
+
+export interface CustomEventConversionGoal {
+  customEventName?: string;
+  properties?: CustomEventConversionGoalPropertiesList | null;
+}
+export const CustomEventConversionGoal = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    customEventName: S.optional(S.String),
+    properties: S.optional(S.NullOr(CustomEventConversionGoalPropertiesList)),
+  }),
 ).annotate({
-  identifier: "UtmAuditResponse",
-}) as any as S.Schema<UtmAuditResponse>;
+  identifier: "CustomEventConversionGoal",
+}) as any as S.Schema<CustomEventConversionGoal>;
+
+export type MarketingAnalyticsTableQueryConversionGoal =
+  | ActionConversionGoal
+  | CustomEventConversionGoal;
+export const MarketingAnalyticsTableQueryConversionGoal =
+  S.Unknown as any as S.Schema<MarketingAnalyticsTableQueryConversionGoal>;
+
+export type DaysOfWeekEnum = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+export const DaysOfWeekEnum = S.Number;
+
+export type DateRangeDaysOfWeekList = Array<DaysOfWeekEnum | (number & {})>;
+export const DateRangeDaysOfWeekList = /*@__PURE__*/ S.Array(
+  DaysOfWeekEnum,
+) as any as S.Schema<DateRangeDaysOfWeekList>;
+
+export interface DateRange {
+  /** Start of the date range. Accepts ISO 8601 timestamps (e.g., 2024-01-15T00:00:00Z) or relative formats: -7d (7 days ago), -2w (2 weeks ago), -1m (1 month ago), -1h (1 hour ago), -1mStart (start of last month), -1yStart (start of last year). */
+  date_from?: string | null;
+  /** End of the date range. Same format as date_from. Omit or null for "now". A calendar day without a time (2024-01-15) is inclusive: it rounds to the last moment of that day in the project timezone, unless explicitDate is set. */
+  date_to?: string | null;
+  /** Restrict the query to events occurring on these ISO days of week (1=Monday to 7=Sunday), evaluated in the project timezone. Omit or empty for all days. Only applied by insight queries. */
+  daysOfWeek?: DateRangeDaysOfWeekList | null;
+  /** Exclude the current, still-collecting period by clipping date_to to the end of the last complete interval (evaluated in the project timezone). No-op when the range contains no complete interval. Only applied by insight queries. */
+  excludeIncompletePeriods?: boolean | null;
+  /** Whether the date_from and date_to should be used verbatim. Disables rounding to the start and end of period. */
+  explicitDate?: boolean | null;
+}
+export const DateRange = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    date_from: S.optional(S.NullOr(S.String)),
+    date_to: S.optional(S.NullOr(S.String)),
+    daysOfWeek: S.optional(S.NullOr(DateRangeDaysOfWeekList)),
+    excludeIncompletePeriods: S.optional(S.NullOr(S.Boolean)),
+    explicitDate: S.optional(S.NullOr(S.Boolean)),
+  }),
+).annotate({ identifier: "DateRange" }) as any as S.Schema<DateRange>;
+
+/** Draft conversion goal that can be set in the UI without saving */
+export type MarketingAnalyticsTableQueryDraftConversionGoal =
+  | ConversionGoalFilter1
+  | ConversionGoalFilter2
+  | ConversionGoalFilter3;
+export const MarketingAnalyticsTableQueryDraftConversionGoal =
+  S.Unknown as any as S.Schema<MarketingAnalyticsTableQueryDraftConversionGoal>;
+
+export type MarketingAnalyticsDrillDownLevel =
+  | "channel"
+  | "channel_source"
+  | "source"
+  | "campaign"
+  | "ad_group"
+  | "ad"
+  | "medium"
+  | "content"
+  | "term";
+export const MarketingAnalyticsDrillDownLevel = S.String;
+
+export type IntegrationFilterIntegrationSourceIdsList = Array<string>;
+export const IntegrationFilterIntegrationSourceIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<IntegrationFilterIntegrationSourceIdsList>;
+
+export interface IntegrationFilter {
+  /** Keep rows that no integration reports cost for, such as organic, email or an unmapped source. Defaults to true. */
+  includeNonIntegrated?: boolean | null;
+  /** Selected integration source IDs to filter by (e.g., table IDs or source map IDs) */
+  integrationSourceIds?: IntegrationFilterIntegrationSourceIdsList | null;
+}
+export const IntegrationFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    includeNonIntegrated: S.optional(S.NullOr(S.Boolean)),
+    integrationSourceIds: S.optional(S.NullOr(IntegrationFilterIntegrationSourceIdsList)),
+  }),
+).annotate({ identifier: "IntegrationFilter" }) as any as S.Schema<IntegrationFilter>;
+
+export type IntervalType =
+  | "second"
+  | "minute"
+  | "hour"
+  | "day"
+  | "week"
+  | "month"
+  | "quarter"
+  | "year";
+export const IntervalType = S.String;
+
+export type BounceRatePageViewMode =
+  | "count_pageviews"
+  | "uniq_urls"
+  | "uniq_page_screen_autocaptures";
+export const BounceRatePageViewMode = S.String;
+
+export type FilterLogicalOperator = "AND" | "OR";
+export const FilterLogicalOperator = S.String;
+
+export type CustomBotField =
+  | "$raw_user_agent"
+  | "$ip"
+  | "$lib"
+  | "$host"
+  | "$pathname"
+  | "$current_url"
+  | "$browser"
+  | "$os"
+  | "$browser_language"
+  | "$screen_width"
+  | "$screen_height"
+  | "$geoip_country_code"
+  | "$referrer"
+  | "$referring_domain";
+export const CustomBotField = S.String;
+
+export type CustomBotMatcher = "contains" | "regex" | "exact" | "cidr";
+export const CustomBotMatcher = S.String;
+
+export interface CustomBotCondition {
+  id: string;
+  /** The event property this condition reads. */
+  key: CustomBotField | (string & {});
+  matcher: CustomBotMatcher | (string & {});
+  /** Matched against the property named by `key`. */
+  pattern: string;
+}
+export const CustomBotCondition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    key: CustomBotField,
+    matcher: CustomBotMatcher,
+    pattern: S.String,
+  }),
+).annotate({ identifier: "CustomBotCondition" }) as any as S.Schema<CustomBotCondition>;
+
+export type CustomBotRuleItemsList = Array<CustomBotCondition>;
+export const CustomBotRuleItemsList = /*@__PURE__*/ S.Array(
+  CustomBotCondition,
+) as any as S.Schema<CustomBotRuleItemsList>;
+
+export interface CustomBotRule {
+  /** Reported by `$virt_traffic_category`. Defaults to `custom`. */
+  category?: string | null;
+  /** Whether every condition must match (AND) or any one of them (OR). */
+  combiner: FilterLogicalOperator | (string & {});
+  id: string;
+  items: CustomBotRuleItemsList;
+  /** Reported by `$virt_bot_name` and `$virt_bot_operator` when the rule matches. */
+  name: string;
+}
+export const CustomBotRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    category: S.optional(S.NullOr(S.String)),
+    combiner: FilterLogicalOperator,
+    id: S.String,
+    items: CustomBotRuleItemsList,
+    name: S.String,
+  }),
+).annotate({ identifier: "CustomBotRule" }) as any as S.Schema<CustomBotRule>;
+
+export type HogQLQueryModifiersCustomBotDefinitionsList = Array<CustomBotRule>;
+export const HogQLQueryModifiersCustomBotDefinitionsList = /*@__PURE__*/ S.Array(
+  CustomBotRule,
+) as any as S.Schema<HogQLQueryModifiersCustomBotDefinitionsList>;
+
+export type CustomChannelField =
+  | "utm_source"
+  | "utm_medium"
+  | "utm_campaign"
+  | "referring_domain"
+  | "url"
+  | "pathname"
+  | "hostname";
+export const CustomChannelField = S.String;
+
+export type CustomChannelOperator =
+  | "exact"
+  | "is_not"
+  | "is_set"
+  | "is_not_set"
+  | "icontains"
+  | "not_icontains"
+  | "regex"
+  | "not_regex";
+export const CustomChannelOperator = S.String;
+
+export type CustomChannelConditionValueCase1List = Array<string>;
+export const CustomChannelConditionValueCase1List = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CustomChannelConditionValueCase1List>;
+
+export type CustomChannelConditionValue = string | CustomChannelConditionValueCase1List;
+export const CustomChannelConditionValue =
+  S.Unknown as any as S.Schema<CustomChannelConditionValue>;
+
+export interface CustomChannelCondition {
+  id?: string;
+  key?: CustomChannelField | (string & {});
+  op?: CustomChannelOperator | (string & {});
+  value?: CustomChannelConditionValue | null;
+}
+export const CustomChannelCondition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    key: S.optional(CustomChannelField),
+    op: S.optional(CustomChannelOperator),
+    value: S.optional(S.NullOr(CustomChannelConditionValue)),
+  }),
+).annotate({ identifier: "CustomChannelCondition" }) as any as S.Schema<CustomChannelCondition>;
+
+export type CustomChannelRuleItemsList = Array<CustomChannelCondition>;
+export const CustomChannelRuleItemsList = /*@__PURE__*/ S.Array(
+  CustomChannelCondition,
+) as any as S.Schema<CustomChannelRuleItemsList>;
+
+export interface CustomChannelRule {
+  channel_type?: string;
+  combiner?: FilterLogicalOperator | (string & {});
+  id?: string;
+  items?: CustomChannelRuleItemsList;
+}
+export const CustomChannelRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    channel_type: S.optional(S.String),
+    combiner: S.optional(FilterLogicalOperator),
+    id: S.optional(S.String),
+    items: S.optional(CustomChannelRuleItemsList),
+  }),
+).annotate({ identifier: "CustomChannelRule" }) as any as S.Schema<CustomChannelRule>;
+
+export type HogQLQueryModifiersCustomChannelTypeRulesList = Array<CustomChannelRule>;
+export const HogQLQueryModifiersCustomChannelTypeRulesList = /*@__PURE__*/ S.Array(
+  CustomChannelRule,
+) as any as S.Schema<HogQLQueryModifiersCustomChannelTypeRulesList>;
+
+export interface DataWarehouseEventsModifier {
+  distinct_id_field?: string;
+  id_field?: string;
+  table_name?: string;
+  timestamp_field?: string;
+}
+export const DataWarehouseEventsModifier = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    distinct_id_field: S.optional(S.String),
+    id_field: S.optional(S.String),
+    table_name: S.optional(S.String),
+    timestamp_field: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DataWarehouseEventsModifier",
+}) as any as S.Schema<DataWarehouseEventsModifier>;
+
+export type HogQLQueryModifiersDataWarehouseEventsModifiersList =
+  Array<DataWarehouseEventsModifier>;
+export const HogQLQueryModifiersDataWarehouseEventsModifiersList = /*@__PURE__*/ S.Array(
+  DataWarehouseEventsModifier,
+) as any as S.Schema<HogQLQueryModifiersDataWarehouseEventsModifiersList>;
+
+export type HogQLQueryModifiersForceClickhouseDataSkippingIndexesList = Array<string>;
+export const HogQLQueryModifiersForceClickhouseDataSkippingIndexesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<HogQLQueryModifiersForceClickhouseDataSkippingIndexesList>;
+
+export type InCohortVia = "auto" | "leftjoin" | "subquery" | "leftjoin_conjoined";
+export const InCohortVia = S.String;
+
+export type InlineCohortCalculation = "off" | "auto" | "always";
+export const InlineCohortCalculation = S.String;
+
+export type MaterializationMode =
+  | "auto"
+  | "legacy_null_as_string"
+  | "legacy_null_as_null"
+  | "disabled";
+export const MaterializationMode = S.String;
+
+export type MaterializedColumnsOptimizationMode = "disabled" | "optimized";
+export const MaterializedColumnsOptimizationMode = S.String;
+
+export type ParserMode =
+  | "cpp_only"
+  | "cpp_with_rust_shadow"
+  | "cpp_with_rust_py_shadow"
+  | "rust_with_cpp_shadow"
+  | "rust_only"
+  | "rust_py_only"
+  | "rust_py_with_cpp_shadow";
+export const ParserMode = S.String;
+
+export type PersonsArgMaxVersion = "auto" | "v1" | "v2";
+export const PersonsArgMaxVersion = S.String;
+
+export type PersonsJoinMode = "inner" | "left";
+export const PersonsJoinMode = S.String;
+
+export type PersonsOnEventsMode =
+  | "disabled"
+  | "person_id_no_override_properties_on_events"
+  | "person_id_override_properties_on_events"
+  | "person_id_override_properties_joined";
+export const PersonsOnEventsMode = S.String;
+
+export type PropertyGroupsMode = "enabled" | "disabled" | "optimized";
+export const PropertyGroupsMode = S.String;
+
+export type SessionTableVersion = "auto" | "v1" | "v2" | "v3";
+export const SessionTableVersion = S.String;
+
+export type SessionsV2JoinMode = "string" | "uuid";
+export const SessionsV2JoinMode = S.String;
+
+export interface HogQLQueryModifiers {
+  bounceRateDurationSeconds?: number | null;
+  bounceRatePageViewMode?: BounceRatePageViewMode | (string & {}) | null;
+  convertToProjectTimezone?: boolean | null;
+  /** Do not treat a missing user agent as automation on cookieless events. Positive bot signals and custom project rules still apply. Resolved server-side; not intended to be set by clients. */
+  cookielessTrafficIsRegular?: boolean | null;
+  customBotDefinitions?: HogQLQueryModifiersCustomBotDefinitionsList | null;
+  customChannelTypeRules?: HogQLQueryModifiersCustomChannelTypeRulesList | null;
+  dataWarehouseEventsModifiers?: HogQLQueryModifiersDataWarehouseEventsModifiersList | null;
+  debug?: boolean | null;
+  /** If these are provided, the query will fail if these skip indexes are not used */
+  forceClickhouseDataSkippingIndexes?: HogQLQueryModifiersForceClickhouseDataSkippingIndexesList | null;
+  formatCsvAllowDoubleQuotes?: boolean | null;
+  inCohortVia?: InCohortVia | (string & {}) | null;
+  inlineCohortCalculation?: InlineCohortCalculation | (string & {}) | null;
+  materializationMode?: MaterializationMode | (string & {}) | null;
+  materializedColumnsOptimizationMode?: MaterializedColumnsOptimizationMode | (string & {}) | null;
+  /** Merge sibling aggregating LEFT JOINs over federated Postgres tables into one UNION ALL join, so their scans overlap */
+  mergeFederatedAggregateJoins?: boolean | null;
+  optimizeJoinedFilters?: boolean | null;
+  optimizeProjections?: boolean | null;
+  /** HogQL parser backend; absent → `rust_py_with_cpp_shadow` (rust-py is primary, cpp runs as a sampled shadow). `*_shadow` modes return the primary result and sample-compare against the other parser, reporting divergences without failing the request. The `rust_py_*` modes drive the same hand-rolled Rust parser as `rust_*` but build `posthog.hogql.ast` dataclass instances directly via PyO3, skipping the JSON round-trip. */
+  parserMode?: ParserMode | (string & {}) | null;
+  /** Push an `id IN (SELECT person_id FROM <left table> WHERE …)` predicate into the joined persons subquery, so the latest-version lookup only reads persons that the outer query's left-table filters can reach. Applies only to a persons join from the query's own FROM table. */
+  personIdPushdown?: boolean | null;
+  personsArgMaxVersion?: PersonsArgMaxVersion | (string & {}) | null;
+  personsJoinMode?: PersonsJoinMode | (string & {}) | null;
+  personsOnEventsMode?: PersonsOnEventsMode | (string & {}) | null;
+  propertyGroupsMode?: PropertyGroupsMode | (string & {}) | null;
+  pushDownPredicates?: boolean | null;
+  s3TableUseInvalidColumns?: boolean | null;
+  /** Push a `session_id_v7 IN (SELECT … FROM events WHERE …)` predicate into the raw_sessions subquery to limit aggregation to sessions that participate in the outer events filter. */
+  sessionIdPushdown?: boolean | null;
+  /** Pre-filter raw_sessions aggregation by `session_id_v7 IN (cheap pre-aggregation that only materializes the columns referenced by the outer-WHERE session predicate)`. Useful when the breakdown/SELECT pulls in many session columns (e.g. `$channel_type`) but the filter only references one (e.g. `$entry_current_url`). */
+  sessionPropertyPreAggregation?: boolean | null;
+  sessionTableVersion?: SessionTableVersion | (string & {}) | null;
+  sessionsV2JoinMode?: SessionsV2JoinMode | (string & {}) | null;
+  timings?: boolean | null;
+  /** Remove provably redundant casts and nullability wrappers (e.g. `toString(String)`, `assumeNotNull(non_nullable)`, dead `ifNull` fallbacks) using inferred expression types */
+  typeAwareCastSimplification?: boolean | null;
+  useMaterializedViews?: boolean | null;
+  /** Read events from the native JSON events table (`true`) or the legacy events table (`false`). When unset, the project's stored value applies, then the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA` instance settings. This is an internal rollout switch. PostHog staff set the project value in Django admin and the project settings API ignores it. */
+  useNewEventsSchema?: boolean | null;
+  usePreaggregatedIntermediateResults?: boolean | null;
+  /** Try to automatically convert HogQL queries to use preaggregated tables at the AST level * */
+  usePreaggregatedTableTransforms?: boolean | null;
+  useWebAnalyticsPreAggregatedTables?: boolean | null;
+  /** Serve filters on the stored session-entry attribution properties (`$channel_type`, `$entry_utm_*`, `$entry_referring_domain`) by recomputing the value from the session's first pageview. Resolved server-side; not intended to be set by clients. */
+  webAnalyticsFirstPageviewFilters?: boolean | null;
+}
+export const HogQLQueryModifiers = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bounceRateDurationSeconds: S.optional(S.NullOr(S.Number)),
+    bounceRatePageViewMode: S.optional(S.NullOr(BounceRatePageViewMode)),
+    convertToProjectTimezone: S.optional(S.NullOr(S.Boolean)),
+    cookielessTrafficIsRegular: S.optional(S.NullOr(S.Boolean)),
+    customBotDefinitions: S.optional(S.NullOr(HogQLQueryModifiersCustomBotDefinitionsList)),
+    customChannelTypeRules: S.optional(S.NullOr(HogQLQueryModifiersCustomChannelTypeRulesList)),
+    dataWarehouseEventsModifiers: S.optional(
+      S.NullOr(HogQLQueryModifiersDataWarehouseEventsModifiersList),
+    ),
+    debug: S.optional(S.NullOr(S.Boolean)),
+    forceClickhouseDataSkippingIndexes: S.optional(
+      S.NullOr(HogQLQueryModifiersForceClickhouseDataSkippingIndexesList),
+    ),
+    formatCsvAllowDoubleQuotes: S.optional(S.NullOr(S.Boolean)),
+    inCohortVia: S.optional(S.NullOr(InCohortVia)),
+    inlineCohortCalculation: S.optional(S.NullOr(InlineCohortCalculation)),
+    materializationMode: S.optional(S.NullOr(MaterializationMode)),
+    materializedColumnsOptimizationMode: S.optional(S.NullOr(MaterializedColumnsOptimizationMode)),
+    mergeFederatedAggregateJoins: S.optional(S.NullOr(S.Boolean)),
+    optimizeJoinedFilters: S.optional(S.NullOr(S.Boolean)),
+    optimizeProjections: S.optional(S.NullOr(S.Boolean)),
+    parserMode: S.optional(S.NullOr(ParserMode)),
+    personIdPushdown: S.optional(S.NullOr(S.Boolean)),
+    personsArgMaxVersion: S.optional(S.NullOr(PersonsArgMaxVersion)),
+    personsJoinMode: S.optional(S.NullOr(PersonsJoinMode)),
+    personsOnEventsMode: S.optional(S.NullOr(PersonsOnEventsMode)),
+    propertyGroupsMode: S.optional(S.NullOr(PropertyGroupsMode)),
+    pushDownPredicates: S.optional(S.NullOr(S.Boolean)),
+    s3TableUseInvalidColumns: S.optional(S.NullOr(S.Boolean)),
+    sessionIdPushdown: S.optional(S.NullOr(S.Boolean)),
+    sessionPropertyPreAggregation: S.optional(S.NullOr(S.Boolean)),
+    sessionTableVersion: S.optional(S.NullOr(SessionTableVersion)),
+    sessionsV2JoinMode: S.optional(S.NullOr(SessionsV2JoinMode)),
+    timings: S.optional(S.NullOr(S.Boolean)),
+    typeAwareCastSimplification: S.optional(S.NullOr(S.Boolean)),
+    useMaterializedViews: S.optional(S.NullOr(S.Boolean)),
+    useNewEventsSchema: S.optional(S.NullOr(S.Boolean)),
+    usePreaggregatedIntermediateResults: S.optional(S.NullOr(S.Boolean)),
+    usePreaggregatedTableTransforms: S.optional(S.NullOr(S.Boolean)),
+    useWebAnalyticsPreAggregatedTables: S.optional(S.NullOr(S.Boolean)),
+    webAnalyticsFirstPageviewFilters: S.optional(S.NullOr(S.Boolean)),
+  }),
+).annotate({ identifier: "HogQLQueryModifiers" }) as any as S.Schema<HogQLQueryModifiers>;
+
+export type MarketingAnalyticsOrderByEnum = "ASC" | "DESC";
+export const MarketingAnalyticsOrderByEnum = S.String;
+
+export type MarketingAnalyticsTableQueryOrderByItemItem = string | MarketingAnalyticsOrderByEnum;
+export const MarketingAnalyticsTableQueryOrderByItemItem =
+  S.Unknown as any as S.Schema<MarketingAnalyticsTableQueryOrderByItemItem>;
+
+export type MarketingAnalyticsTableQueryOrderByItemList =
+  Array<MarketingAnalyticsTableQueryOrderByItemItem>;
+export const MarketingAnalyticsTableQueryOrderByItemList = /*@__PURE__*/ S.Array(
+  MarketingAnalyticsTableQueryOrderByItemItem,
+) as any as S.Schema<MarketingAnalyticsTableQueryOrderByItemList>;
+
+export type MarketingAnalyticsTableQueryOrderByList =
+  Array<MarketingAnalyticsTableQueryOrderByItemList>;
+export const MarketingAnalyticsTableQueryOrderByList = /*@__PURE__*/ S.Array(
+  MarketingAnalyticsTableQueryOrderByItemList,
+) as any as S.Schema<MarketingAnalyticsTableQueryOrderByList>;
+
+export type MarketingAnalyticsTableQueryPropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | SessionPropertyFilter
+  | CohortPropertyFilter;
+export const MarketingAnalyticsTableQueryPropertiesItem =
+  S.Unknown as any as S.Schema<MarketingAnalyticsTableQueryPropertiesItem>;
+
+export type MarketingAnalyticsTableQueryPropertiesList =
+  Array<MarketingAnalyticsTableQueryPropertiesItem>;
+export const MarketingAnalyticsTableQueryPropertiesList = /*@__PURE__*/ S.Array(
+  MarketingAnalyticsTableQueryPropertiesItem,
+) as any as S.Schema<MarketingAnalyticsTableQueryPropertiesList>;
+
+export type MarketingAnalyticsTableQueryResponseColumnsList = Array<unknown>;
+export const MarketingAnalyticsTableQueryResponseColumnsList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<MarketingAnalyticsTableQueryResponseColumnsList>;
+
+export type QueryStatusLabelsList = Array<string>;
+export const QueryStatusLabelsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<QueryStatusLabelsList>;
+
+export interface ClickhouseQueryProgress {
+  active_cpu_time?: number;
+  bytes_read?: number;
+  estimated_rows_total?: number;
+  rows_read?: number;
+  time_elapsed?: number;
+}
+export const ClickhouseQueryProgress = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    active_cpu_time: S.optional(S.Number),
+    bytes_read: S.optional(S.Number),
+    estimated_rows_total: S.optional(S.Number),
+    rows_read: S.optional(S.Number),
+    time_elapsed: S.optional(S.Number),
+  }),
+).annotate({ identifier: "ClickhouseQueryProgress" }) as any as S.Schema<ClickhouseQueryProgress>;
+
+export type QueryScanFixLocation =
+  | "query"
+  | "subquery"
+  | "view"
+  | "insight_date_range"
+  | "dashboard_date_filter";
+export const QueryScanFixLocation = S.String;
+
+export type QueryScanFindingKind = "no_event_filter" | "no_start_date" | "persons_join";
+export const QueryScanFindingKind = S.String;
+
+export interface QueryScanWarning {
+  /** Whether the person can change the query so it reads less and still answers the same question. Surfaces show the full advice and "Fix with AI" only when a finding is actionable. */
+  actionable: boolean;
+  /** True when the query reads this much on purpose, so reading less would change the answer. Absent means no. */
+  by_design?: boolean | null;
+  /** A label for what in the query text kept the read wide, such as `in_or`. Only analytics and the assistant read it, and the labels can change. */
+  cause?: string | null;
+  /** The one fact the finding rests on. */
+  evidence?: string | null;
+  /** What "Fix with AI" and the assistant are told to do. */
+  fix: string;
+  /** Where the change goes. Absent means the query itself. */
+  fix_location?: QueryScanFixLocation | (string & {}) | null;
+  kind: QueryScanFindingKind | (string & {});
+  /** Shown to the person: what happened and what to do. */
+  message: string;
+}
+export const QueryScanWarning = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    actionable: S.Boolean,
+    by_design: S.optional(S.NullOr(S.Boolean)),
+    cause: S.optional(S.NullOr(S.String)),
+    evidence: S.optional(S.NullOr(S.String)),
+    fix: S.String,
+    fix_location: S.optional(S.NullOr(QueryScanFixLocation)),
+    kind: QueryScanFindingKind,
+    message: S.String,
+  }),
+).annotate({ identifier: "QueryScanWarning" }) as any as S.Schema<QueryScanWarning>;
+
+/** Every finding, fixable or not. Empty when the analysis found none. */
+export type QueryScanAnalysisFindingsList = Array<QueryScanWarning>;
+export const QueryScanAnalysisFindingsList = /*@__PURE__*/ S.Array(
+  QueryScanWarning,
+) as any as S.Schema<QueryScanAnalysisFindingsList>;
+
+export interface QueryScanAnalysis {
+  /** The message the Fix with AI button sends to the assistant. Absent when no finding can be fixed in the query. */
+  assistant_prompt?: string | null;
+  /** Every finding, fixable or not. Empty when the analysis found none. */
+  findings: QueryScanAnalysisFindingsList;
+  /** How much of all the project's events the query read, 0 to 1. */
+  project_share?: number | null;
+  /** How much of the project's events in the query's date range the query read, 0 to 1. */
+  range_share?: number | null;
+}
+export const QueryScanAnalysis = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    assistant_prompt: S.optional(S.NullOr(S.String)),
+    findings: QueryScanAnalysisFindingsList,
+    project_share: S.optional(S.NullOr(S.Number)),
+    range_share: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({ identifier: "QueryScanAnalysis" }) as any as S.Schema<QueryScanAnalysis>;
+
+export interface QueryScanSummary {
+  /** The stored analysis, put on the response when it is served. Absent while the analysis runs, and when none was requested. */
+  analysis?: QueryScanAnalysis | null;
+  /** True when the run asked for an analysis, or found one stored. While `analysis` is absent, poll `GET /query/scan/{cache_key}` for it. */
+  analysis_requested?: boolean | null;
+  /** ClickHouse time for the last fresh run, summed over its ClickHouse queries. */
+  duration_ms: number;
+  /** True when ClickHouse stopped the run instead of finishing it. */
+  killed?: boolean | null;
+  /** Rows ClickHouse read for the last fresh run, all tables included. */
+  rows_read: number;
+}
+export const QueryScanSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    analysis: S.optional(S.NullOr(QueryScanAnalysis)),
+    analysis_requested: S.optional(S.NullOr(S.Boolean)),
+    duration_ms: S.Number,
+    killed: S.optional(S.NullOr(S.Boolean)),
+    rows_read: S.Number,
+  }),
+).annotate({ identifier: "QueryScanSummary" }) as any as S.Schema<QueryScanSummary>;
+
+export interface QueryStatus {
+  budget_remaining_bytes?: number | null;
+  bytes_read?: number | null;
+  /** Cache key of the run that failed, so clients can ask for its query scan. */
+  cache_key?: string | null;
+  /** Whether the query is still running. Will be true if the query is complete, even if it errored. Either result or error will be set. */
+  complete?: boolean | null;
+  dashboard_id?: number | null;
+  /** When did the query execution task finish (whether successfully or not). */
+  end_time?: string | null;
+  /** If the query failed, this will be set to true. More information can be found in the error_message field. */
+  error?: boolean | null;
+  /** Stable machine-readable code for the error (the DRF exception code), when known. */
+  error_code?: string | null;
+  error_message?: string | null;
+  expiration_time?: string | null;
+  id?: string;
+  insight_id?: number | null;
+  labels?: QueryStatusLabelsList | null;
+  /** When was the query execution task picked up by a worker. */
+  pickup_time?: string | null;
+  /** ONLY async queries use QueryStatus. */
+  query_async?: boolean;
+  query_progress?: ClickhouseQueryProgress | null;
+  query_scan?: QueryScanSummary | null;
+  results?: unknown;
+  /** When was query execution task enqueued. */
+  start_time?: string | null;
+  task_id?: string | null;
+  team_id?: number;
+}
+export const QueryStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    budget_remaining_bytes: S.optional(S.NullOr(S.Number)),
+    bytes_read: S.optional(S.NullOr(S.Number)),
+    cache_key: S.optional(S.NullOr(S.String)),
+    complete: S.optional(S.NullOr(S.Boolean)),
+    dashboard_id: S.optional(S.NullOr(S.Number)),
+    end_time: S.optional(S.NullOr(S.String)),
+    error: S.optional(S.NullOr(S.Boolean)),
+    error_code: S.optional(S.NullOr(S.String)),
+    error_message: S.optional(S.NullOr(S.String)),
+    expiration_time: S.optional(S.NullOr(S.String)),
+    id: S.optional(S.String),
+    insight_id: S.optional(S.NullOr(S.Number)),
+    labels: S.optional(S.NullOr(QueryStatusLabelsList)),
+    pickup_time: S.optional(S.NullOr(S.String)),
+    query_async: S.optional(S.Boolean),
+    query_progress: S.optional(S.NullOr(ClickhouseQueryProgress)),
+    query_scan: S.optional(S.NullOr(QueryScanSummary)),
+    results: S.optional(S.Unknown),
+    start_time: S.optional(S.NullOr(S.String)),
+    task_id: S.optional(S.NullOr(S.String)),
+    team_id: S.optional(S.Number),
+  }),
+).annotate({ identifier: "QueryStatus" }) as any as S.Schema<QueryStatus>;
+
+export interface ResolvedDateRangeResponse {
+  date_from?: string;
+  date_to?: string;
+}
+export const ResolvedDateRangeResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    date_from: S.optional(S.String),
+    date_to: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ResolvedDateRangeResponse",
+}) as any as S.Schema<ResolvedDateRangeResponse>;
+
+export type WebAnalyticsItemKind = "unit" | "duration_s" | "percentage" | "currency";
+export const WebAnalyticsItemKind = S.String;
+
+export type MarketingAnalyticsItemPrevious = number | string;
+export const MarketingAnalyticsItemPrevious =
+  S.Unknown as any as S.Schema<MarketingAnalyticsItemPrevious>;
+
+export type MarketingAnalyticsItemValue = number | string;
+export const MarketingAnalyticsItemValue =
+  S.Unknown as any as S.Schema<MarketingAnalyticsItemValue>;
+
+export interface MarketingAnalyticsItem {
+  changeFromPreviousPct?: number | null;
+  hasComparison?: boolean | null;
+  isIncreaseBad?: boolean | null;
+  key?: string;
+  kind?: WebAnalyticsItemKind | (string & {});
+  previous?: MarketingAnalyticsItemPrevious | null;
+  value?: MarketingAnalyticsItemValue | null;
+}
+export const MarketingAnalyticsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    changeFromPreviousPct: S.optional(S.NullOr(S.Number)),
+    hasComparison: S.optional(S.NullOr(S.Boolean)),
+    isIncreaseBad: S.optional(S.NullOr(S.Boolean)),
+    key: S.optional(S.String),
+    kind: S.optional(WebAnalyticsItemKind),
+    previous: S.optional(S.NullOr(MarketingAnalyticsItemPrevious)),
+    value: S.optional(S.NullOr(MarketingAnalyticsItemValue)),
+  }),
+).annotate({ identifier: "MarketingAnalyticsItem" }) as any as S.Schema<MarketingAnalyticsItem>;
+
+export type MarketingAnalyticsTableQueryResponseResultsItemList = Array<MarketingAnalyticsItem>;
+export const MarketingAnalyticsTableQueryResponseResultsItemList = /*@__PURE__*/ S.Array(
+  MarketingAnalyticsItem,
+) as any as S.Schema<MarketingAnalyticsTableQueryResponseResultsItemList>;
+
+export type MarketingAnalyticsTableQueryResponseResultsList =
+  Array<MarketingAnalyticsTableQueryResponseResultsItemList>;
+export const MarketingAnalyticsTableQueryResponseResultsList = /*@__PURE__*/ S.Array(
+  MarketingAnalyticsTableQueryResponseResultsItemList,
+) as any as S.Schema<MarketingAnalyticsTableQueryResponseResultsList>;
+
+export interface SamplingRate {
+  denominator?: number | null;
+  numerator?: number;
+}
+export const SamplingRate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    denominator: S.optional(S.NullOr(S.Number)),
+    numerator: S.optional(S.Number),
+  }),
+).annotate({ identifier: "SamplingRate" }) as any as S.Schema<SamplingRate>;
+
+export interface QueryTiming {
+  /** Key. Shortened to 'k' to save on data. */
+  k?: string;
+  /** Time in seconds. Shortened to 't' to save on data. */
+  t?: number;
+}
+export const QueryTiming = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    k: S.optional(S.String),
+    t: S.optional(S.Number),
+  }),
+).annotate({ identifier: "QueryTiming" }) as any as S.Schema<QueryTiming>;
+
+export type MarketingAnalyticsTableQueryResponseTimingsList = Array<QueryTiming>;
+export const MarketingAnalyticsTableQueryResponseTimingsList = /*@__PURE__*/ S.Array(
+  QueryTiming,
+) as any as S.Schema<MarketingAnalyticsTableQueryResponseTimingsList>;
+
+export type MarketingAnalyticsTableQueryResponseTypesList = Array<unknown>;
+export const MarketingAnalyticsTableQueryResponseTypesList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<MarketingAnalyticsTableQueryResponseTypesList>;
+
+export interface DataWarehouseSourceUsage {
+  /** ExternalDataSource id */
+  id: string;
+  /** Connector type of the source (e.g. Stripe, Postgres), if known */
+  source_type?: string | null;
+  /** Warehouse table name that was referenced */
+  table_name: string;
+}
+export const DataWarehouseSourceUsage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    source_type: S.optional(S.NullOr(S.String)),
+    table_name: S.String,
+  }),
+).annotate({ identifier: "DataWarehouseSourceUsage" }) as any as S.Schema<DataWarehouseSourceUsage>;
+
+export type MarketingAnalyticsTableQueryResponseUsedDataWarehouseSourcesList =
+  Array<DataWarehouseSourceUsage>;
+export const MarketingAnalyticsTableQueryResponseUsedDataWarehouseSourcesList =
+  /*@__PURE__*/ S.Array(
+    DataWarehouseSourceUsage,
+  ) as any as S.Schema<MarketingAnalyticsTableQueryResponseUsedDataWarehouseSourcesList>;
+
+export interface DataWarehouseSyncWarning {
+  /** Human-readable warning shown to the user */
+  message: string;
+  /** Name of the ExternalDataSchema responsible for syncing the table */
+  schema_name: string;
+  /** ID of the ExternalDataSource, used to link to its management page. Null for self-managed tables. */
+  source_id?: string | null;
+  /** Source type, e.g. "Stripe", "Hubspot" */
+  source_type: string;
+  /** Sync status that triggered the warning, e.g. "Failed", "Paused", "BillingLimitReached" */
+  status: string;
+  /** Name of the warehouse table the warning refers to */
+  table_name: string;
+  /** Tells warning kinds apart in the shared `warnings` list */
+  type?: string;
+}
+export const DataWarehouseSyncWarning = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message: S.String,
+    schema_name: S.String,
+    source_id: S.optional(S.NullOr(S.String)),
+    source_type: S.String,
+    status: S.String,
+    table_name: S.String,
+    type: S.optional(S.String),
+  }),
+).annotate({ identifier: "DataWarehouseSyncWarning" }) as any as S.Schema<DataWarehouseSyncWarning>;
+
+/** Resource types the user has access restrictions on, referenced by the query, e.g. ["insight", "dashboard"] */
+export type AccessControlFilterWarningResourcesList = Array<string>;
+export const AccessControlFilterWarningResourcesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AccessControlFilterWarningResourcesList>;
+
+export interface AccessControlFilterWarning {
+  /** Human-readable warning shown to the user */
+  message: string;
+  /** Resource types the user has access restrictions on, referenced by the query, e.g. ["insight", "dashboard"] */
+  resources: AccessControlFilterWarningResourcesList;
+  /** Tells warning kinds apart in the shared `warnings` list */
+  type?: string;
+}
+export const AccessControlFilterWarning = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message: S.String,
+    resources: AccessControlFilterWarningResourcesList,
+    type: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AccessControlFilterWarning",
+}) as any as S.Schema<AccessControlFilterWarning>;
+
+export type MarketingAnalyticsTableQueryResponseWarningsItem =
+  | DataWarehouseSyncWarning
+  | AccessControlFilterWarning;
+export const MarketingAnalyticsTableQueryResponseWarningsItem =
+  S.Unknown as any as S.Schema<MarketingAnalyticsTableQueryResponseWarningsItem>;
+
+export type MarketingAnalyticsTableQueryResponseWarningsList =
+  Array<MarketingAnalyticsTableQueryResponseWarningsItem>;
+export const MarketingAnalyticsTableQueryResponseWarningsList = /*@__PURE__*/ S.Array(
+  MarketingAnalyticsTableQueryResponseWarningsItem,
+) as any as S.Schema<MarketingAnalyticsTableQueryResponseWarningsList>;
+
+export interface MarketingAnalyticsTableQueryResponse {
+  columns?: MarketingAnalyticsTableQueryResponseColumnsList | null;
+  /** ISO timestamp of the oldest precompute window backing this result — surfaced as "data as of X". */
+  dataComputedAt?: string | null;
+  /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
+  error?: string | null;
+  hasMore?: boolean | null;
+  /** Generated HogQL query. */
+  hogql?: string | null;
+  limit?: number | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  offset?: number | null;
+  /** True when a conversion goal's precompute has not been warmed for this window yet — the UI shows a "computing" state rather than empty results. Marketing analytics serves exclusively from precompute. */
+  precomputeNotReady?: boolean | null;
+  /** Query status indicates whether next to the provided data, a query is still running. */
+  query_status?: QueryStatus | null;
+  /** The resolved previous/comparison period date range, when comparing against another period */
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  /** The date range used for the query */
+  resolved_date_range?: ResolvedDateRangeResponse | null;
+  results?: MarketingAnalyticsTableQueryResponseResultsList;
+  samplingRate?: SamplingRate | null;
+  /** Measured timings for different parts of the query generation process */
+  timings?: MarketingAnalyticsTableQueryResponseTimingsList | null;
+  types?: MarketingAnalyticsTableQueryResponseTypesList | null;
+  /** Connector-synced data warehouse sources referenced by this query, if any. */
+  used_data_warehouse_sources?: MarketingAnalyticsTableQueryResponseUsedDataWarehouseSourcesList | null;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response — so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
+  warnings?: MarketingAnalyticsTableQueryResponseWarningsList | null;
+}
+export const MarketingAnalyticsTableQueryResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    columns: S.optional(S.NullOr(MarketingAnalyticsTableQueryResponseColumnsList)),
+    dataComputedAt: S.optional(S.NullOr(S.String)),
+    error: S.optional(S.NullOr(S.String)),
+    hasMore: S.optional(S.NullOr(S.Boolean)),
+    hogql: S.optional(S.NullOr(S.String)),
+    limit: S.optional(S.NullOr(S.Number)),
+    modifiers: S.optional(S.NullOr(HogQLQueryModifiers)),
+    offset: S.optional(S.NullOr(S.Number)),
+    precomputeNotReady: S.optional(S.NullOr(S.Boolean)),
+    query_status: S.optional(S.NullOr(QueryStatus)),
+    resolved_compare_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
+    resolved_date_range: S.optional(S.NullOr(ResolvedDateRangeResponse)),
+    results: S.optional(MarketingAnalyticsTableQueryResponseResultsList),
+    samplingRate: S.optional(S.NullOr(SamplingRate)),
+    timings: S.optional(S.NullOr(MarketingAnalyticsTableQueryResponseTimingsList)),
+    types: S.optional(S.NullOr(MarketingAnalyticsTableQueryResponseTypesList)),
+    used_data_warehouse_sources: S.optional(
+      S.NullOr(MarketingAnalyticsTableQueryResponseUsedDataWarehouseSourcesList),
+    ),
+    warnings: S.optional(S.NullOr(MarketingAnalyticsTableQueryResponseWarningsList)),
+  }),
+).annotate({
+  identifier: "MarketingAnalyticsTableQueryResponse",
+}) as any as S.Schema<MarketingAnalyticsTableQueryResponse>;
+
+export interface WebAnalyticsSampling {
+  enabled?: boolean | null;
+  forceSamplingRate?: SamplingRate | null;
+}
+export const WebAnalyticsSampling = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.NullOr(S.Boolean)),
+    forceSamplingRate: S.optional(S.NullOr(SamplingRate)),
+  }),
+).annotate({ identifier: "WebAnalyticsSampling" }) as any as S.Schema<WebAnalyticsSampling>;
+
+export type MarketingAnalyticsTableQuerySelectList = Array<string>;
+export const MarketingAnalyticsTableQuerySelectList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<MarketingAnalyticsTableQuerySelectList>;
+
+export interface QueryLogTags {
+  /** Name of the query, preferably unique. For example web_analytics_vitals */
+  name?: string | null;
+  /** Short id of the saved Web analytics filter preset this query was run under, if any. */
+  presetId?: string | null;
+  /** Product responsible for this query. Use string, there's no need to churn the Schema when we add a new product * */
+  productKey?: string | null;
+  /** Scene where this query is shown in the UI. Use string, there's no need to churn the Schema when we add a new Scene * */
+  scene?: string | null;
+}
+export const QueryLogTags = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.NullOr(S.String)),
+    presetId: S.optional(S.NullOr(S.String)),
+    productKey: S.optional(S.NullOr(S.String)),
+    scene: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "QueryLogTags" }) as any as S.Schema<QueryLogTags>;
+
+export interface MarketingAnalyticsTableQuery {
+  /** Groups aggregation - not used in Web Analytics but required for type compatibility */
+  aggregation_group_type_index?: number | null;
+  /** Compare to date range */
+  compareFilter?: CompareFilter | null;
+  conversionGoal?: MarketingAnalyticsTableQueryConversionGoal | null;
+  /** Colors used in the insight's visualization - not used in Web Analytics but required for type compatibility */
+  dataColorTheme?: number | null;
+  dateRange?: DateRange | null;
+  doPathCleaning?: boolean | null;
+  /** Draft conversion goal that can be set in the UI without saving */
+  draftConversionGoal?: MarketingAnalyticsTableQueryDraftConversionGoal | null;
+  /** Drill-down hierarchy level: channel, source, or campaign (default) */
+  drillDownLevel?: MarketingAnalyticsDrillDownLevel | (string & {}) | null;
+  /** Filter test accounts */
+  filterTestAccounts?: boolean | null;
+  includeRevenue?: boolean | null;
+  /** Filter by integration type */
+  integrationFilter?: IntegrationFilter | null;
+  /** Interval for date range calculation (affects date_to rounding for hour vs day ranges) */
+  interval?: IntervalType | (string & {}) | null;
+  kind?: string;
+  /** Number of rows to return */
+  limit?: number | null;
+  /** Modifiers used when performing the query */
+  modifiers?: HogQLQueryModifiers | null;
+  /** Number of rows to skip before returning rows */
+  offset?: number | null;
+  /** Columns to order by - similar to EventsQuery format */
+  orderBy?: MarketingAnalyticsTableQueryOrderByList | null;
+  properties?: MarketingAnalyticsTableQueryPropertiesList;
+  response?: MarketingAnalyticsTableQueryResponse | null;
+  sampling?: WebAnalyticsSampling | null;
+  /** Sampling rate */
+  samplingFactor?: number | null;
+  /** Return a limited set of data. Will use default columns if empty. */
+  select?: MarketingAnalyticsTableQuerySelectList | null;
+  tags?: QueryLogTags | null;
+  useSessionsTable?: boolean | null;
+  /** version of the node, used for schema migrations */
+  version?: number | null;
+}
+export const MarketingAnalyticsTableQuery = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    aggregation_group_type_index: S.optional(S.NullOr(S.Number)),
+    compareFilter: S.optional(S.NullOr(CompareFilter)),
+    conversionGoal: S.optional(S.NullOr(MarketingAnalyticsTableQueryConversionGoal)),
+    dataColorTheme: S.optional(S.NullOr(S.Number)),
+    dateRange: S.optional(S.NullOr(DateRange)),
+    doPathCleaning: S.optional(S.NullOr(S.Boolean)),
+    draftConversionGoal: S.optional(S.NullOr(MarketingAnalyticsTableQueryDraftConversionGoal)),
+    drillDownLevel: S.optional(S.NullOr(MarketingAnalyticsDrillDownLevel)),
+    filterTestAccounts: S.optional(S.NullOr(S.Boolean)),
+    includeRevenue: S.optional(S.NullOr(S.Boolean)),
+    integrationFilter: S.optional(S.NullOr(IntegrationFilter)),
+    interval: S.optional(S.NullOr(IntervalType)),
+    kind: S.optional(S.String),
+    limit: S.optional(S.NullOr(S.Number)),
+    modifiers: S.optional(S.NullOr(HogQLQueryModifiers)),
+    offset: S.optional(S.NullOr(S.Number)),
+    orderBy: S.optional(S.NullOr(MarketingAnalyticsTableQueryOrderByList)),
+    properties: S.optional(MarketingAnalyticsTableQueryPropertiesList),
+    response: S.optional(S.NullOr(MarketingAnalyticsTableQueryResponse)),
+    sampling: S.optional(S.NullOr(WebAnalyticsSampling)),
+    samplingFactor: S.optional(S.NullOr(S.Number)),
+    select: S.optional(S.NullOr(MarketingAnalyticsTableQuerySelectList)),
+    tags: S.optional(S.NullOr(QueryLogTags)),
+    useSessionsTable: S.optional(S.NullOr(S.Boolean)),
+    version: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({
+  identifier: "MarketingAnalyticsTableQuery",
+}) as any as S.Schema<MarketingAnalyticsTableQuery>;
+
+export interface ListMarketingAnalyticsConversionRecordingsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A unique query ID for tracing this request in query logs. */
+  client_query_id?: string;
+  /** The table query whose conversion cell was selected. */
+  source: MarketingAnalyticsTableQuery;
+  /** The selected conversion goal ID. */
+  goal_id: string;
+  /** The displayed row grouping value. */
+  group: string;
+  /** The displayed row source. */
+  source_name?: string;
+  /** The displayed campaign ID, omitted for comparison rows. */
+  campaign_id?: string | null;
+  /** The last session ID returned by the previous page. Omit for the first page. */
+  after?: string;
+  /** The maximum number of conversion session IDs to return. */
+  limit?: number;
+}
+export const ListMarketingAnalyticsConversionRecordingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    client_query_id: S.optional(S.String),
+    source: MarketingAnalyticsTableQuery,
+    goal_id: S.String,
+    group: S.String,
+    source_name: S.optional(S.String),
+    campaign_id: S.optional(S.NullOr(S.String)),
+    after: S.optional(S.String),
+    limit: S.optional(S.Number),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/marketing_analytics/conversion_recordings/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListMarketingAnalyticsConversionRecordingsRequest",
+}) as any as S.Schema<ListMarketingAnalyticsConversionRecordingsRequest>;
+
+/** Sessions in which the attributed conversions occurred. A session might not have a recording. */
+export type ConversionRecordingsResponseSessionIdsList = Array<string>;
+export const ConversionRecordingsResponseSessionIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ConversionRecordingsResponseSessionIdsList>;
+
+export interface ConversionRecordingsResponse {
+  /** Sessions in which the attributed conversions occurred. A session might not have a recording. */
+  session_ids: ConversionRecordingsResponseSessionIdsList;
+  /** Whether another page of conversion sessions is available. */
+  has_more: boolean;
+  /** Whether the conversion data is still being prepared. */
+  preparing: boolean;
+}
+export const ConversionRecordingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    session_ids: ConversionRecordingsResponseSessionIdsList,
+    has_more: S.Boolean,
+    preparing: S.Boolean,
+  }),
+).annotate({
+  identifier: "ConversionRecordingsResponse",
+}) as any as S.Schema<ConversionRecordingsResponse>;
 
 /** Operations to apply, in order. Send `apply` payloads returned verbatim by setup_plan — never hand-craft one. Navigate-only ops (open_oauth, open_source_wizard, open_settings, fix_platform_urls) are rejected: they describe something a browser or a human does. */
 export type MarketingAnalyticsApplySetupOpsCreateRequestOpsList = Array<unknown>;
@@ -3093,9 +4131,7 @@ export const ApplySetupOpsResponse = /*@__PURE__*/ S.suspend(() =>
     undo_ops: ApplySetupOpsResponseUndoOpsList,
     marketing_analytics_config: S.Unknown,
   }),
-).annotate({
-  identifier: "ApplySetupOpsResponse",
-}) as any as S.Schema<ApplySetupOpsResponse>;
+).annotate({ identifier: "ApplySetupOpsResponse" }) as any as S.Schema<ApplySetupOpsResponse>;
 
 export interface MarketingAnalyticsConversionGoalsCreateCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -3203,9 +4239,7 @@ export const PartialConversionGoalFilter1PropertiesList = /*@__PURE__*/ S.Array(
   PartialConversionGoalFilter1PropertiesItem,
 ) as any as S.Schema<PartialConversionGoalFilter1PropertiesList>;
 
-export type PartialConversionGoalFilter1ResponseMap = {
-  [key: string]: unknown | undefined;
-};
+export type PartialConversionGoalFilter1ResponseMap = { [key: string]: unknown | undefined };
 export const PartialConversionGoalFilter1ResponseMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3359,9 +4393,7 @@ export const PartialConversionGoalFilter2PropertiesList = /*@__PURE__*/ S.Array(
   PartialConversionGoalFilter2PropertiesItem,
 ) as any as S.Schema<PartialConversionGoalFilter2PropertiesList>;
 
-export type PartialConversionGoalFilter2ResponseMap = {
-  [key: string]: unknown | undefined;
-};
+export type PartialConversionGoalFilter2ResponseMap = { [key: string]: unknown | undefined };
 export const PartialConversionGoalFilter2ResponseMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3511,9 +4543,7 @@ export const PartialConversionGoalFilter3PropertiesList = /*@__PURE__*/ S.Array(
   PartialConversionGoalFilter3PropertiesItem,
 ) as any as S.Schema<PartialConversionGoalFilter3PropertiesList>;
 
-export type PartialConversionGoalFilter3ResponseMap = {
-  [key: string]: unknown | undefined;
-};
+export type PartialConversionGoalFilter3ResponseMap = { [key: string]: unknown | undefined };
 export const PartialConversionGoalFilter3ResponseMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3730,6 +4760,21 @@ export const getMarketingAnalyticsSetupPlan: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetMarketingAnalyticsSourceValidationError = PosthogOpError;
+/** Validate marketing sources Check connected marketing sources using the same validators as campaign queries. Read-only. */
+export const getMarketingAnalyticsSourceValidation: API.OperationMethod<
+  GetMarketingAnalyticsSourceValidationRequest,
+  SourceValidation,
+  GetMarketingAnalyticsSourceValidationError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetMarketingAnalyticsSourceValidationRequest,
+  output: SourceValidation,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetMarketingAnalyticsSuggestConversionGoalError = PosthogOpError;
 /** Suggest conversion goals Rank existing custom events as conversion-goal candidates by volume, UTM-tag coverage, and unique users, excluding system/autocaptured events. Read-only. */
 export const getMarketingAnalyticsSuggestConversionGoal: API.OperationMethod<
@@ -3770,6 +4815,20 @@ export const getMarketingAnalyticsUtmAudit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetMarketingAnalyticsUtmAuditRequest,
   output: UtmAuditResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListMarketingAnalyticsConversionRecordingsError = PosthogOpError;
+export const listMarketingAnalyticsConversionRecordings: API.OperationMethod<
+  ListMarketingAnalyticsConversionRecordingsRequest,
+  ConversionRecordingsResponse,
+  ListMarketingAnalyticsConversionRecordingsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListMarketingAnalyticsConversionRecordingsRequest,
+  output: ConversionRecordingsResponse,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,

@@ -19,13 +19,7 @@ export const GetUserFacetSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.String.pipe(T.Label()),
     product: GetUserFacetSettingsRequestProduct.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/user_facet_settings/{uuid}/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/user_facet_settings/{uuid}/", code: 200 })),
 ).annotate({
   identifier: "GetUserFacetSettingsRequest",
 }) as any as S.Schema<GetUserFacetSettingsRequest>;
@@ -45,9 +39,7 @@ export const UserFacetSettingsEntry = /*@__PURE__*/ S.suspend(() =>
     key: S.String,
     source_type: UserFacetSettingsEntrySourceTypeEnum,
   }),
-).annotate({
-  identifier: "UserFacetSettingsEntry",
-}) as any as S.Schema<UserFacetSettingsEntry>;
+).annotate({ identifier: "UserFacetSettingsEntry" }) as any as S.Schema<UserFacetSettingsEntry>;
 
 /** Ordered list of custom facets the user has pinned for this product, within the current team. Send the full list to replace the existing set. */
 export type UserFacetSettingsCustomFacetsList = Array<UserFacetSettingsEntry>;
@@ -63,9 +55,7 @@ export const UserFacetSettings2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     custom_facets: UserFacetSettingsCustomFacetsList,
   }),
-).annotate({
-  identifier: "UserFacetSettings2",
-}) as any as S.Schema<UserFacetSettings2>;
+).annotate({ identifier: "UserFacetSettings2" }) as any as S.Schema<UserFacetSettings2>;
 
 export type UpdateUserFacetSettingsPartialRequestProduct = "logs" | "tracing";
 export const UpdateUserFacetSettingsPartialRequestProduct = S.String;
@@ -88,13 +78,7 @@ export const UpdateUserFacetSettingsPartialRequest = /*@__PURE__*/ S.suspend(() 
     uuid: S.String.pipe(T.Label()),
     product: UpdateUserFacetSettingsPartialRequestProduct.pipe(T.Query()),
     custom_facets: S.optional(UpdateUserFacetSettingsPartialRequestCustomFacetsList),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/user_facet_settings/{uuid}/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/user_facet_settings/{uuid}/", code: 200 })),
 ).annotate({
   identifier: "UpdateUserFacetSettingsPartialRequest",
 }) as any as S.Schema<UpdateUserFacetSettingsPartialRequest>;

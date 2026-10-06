@@ -208,7 +208,7 @@ export const IoK8sApimachineryPkgApisMetaV1GroupResource = /*@__PURE__*/ S.suspe
 
 /** Spec of the storage version migration. */
 export interface IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec {
-  /** The resource that is being migrated. The migrator sends requests to the endpoint serving the resource. Immutable. */
+  /** resource is the resource that is being migrated. The migrator sends requests to the endpoint serving the resource. Immutable. */
   resource: IoK8sApimachineryPkgApisMetaV1GroupResource;
 }
 export const IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec = /*@__PURE__*/ S.suspend(
@@ -248,7 +248,7 @@ export const IoK8sApimachineryPkgApisMetaV1Condition = /*@__PURE__*/ S.suspend((
   identifier: "IoK8sApimachineryPkgApisMetaV1Condition",
 }) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Condition>;
 
-/** The latest available observations of the migration's current state. */
+/** conditions is the latest available observations of the migration's current state. */
 export type IoK8sApiStoragemigrationV1beta1StorageVersionMigrationStatusConditionsList =
   Array<IoK8sApimachineryPkgApisMetaV1Condition>;
 export const IoK8sApiStoragemigrationV1beta1StorageVersionMigrationStatusConditionsList =
@@ -258,9 +258,9 @@ export const IoK8sApiStoragemigrationV1beta1StorageVersionMigrationStatusConditi
 
 /** Status of the storage version migration. */
 export interface IoK8sApiStoragemigrationV1beta1StorageVersionMigrationStatus {
-  /** The latest available observations of the migration's current state. */
+  /** conditions is the latest available observations of the migration's current state. */
   conditions?: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationStatusConditionsList;
-  /** ResourceVersion to compare with the GC cache for performing the migration. This is the current resource version of given group, version and resource when kube-controller-manager first observes this StorageVersionMigration resource. */
+  /** resourceVersion is the resource version to compare with the GC cache for performing the migration. This is the current resource version of given group, version and resource when kube-controller-manager first observes this StorageVersionMigration resource. */
   resourceVersion?: string;
 }
 export const IoK8sApiStoragemigrationV1beta1StorageVersionMigrationStatus = /*@__PURE__*/ S.suspend(
@@ -288,11 +288,11 @@ export interface CreateStoragemigrationV1beta1StorageVersionMigrationRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Specification of the migration. */
-  spec?: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec;
-  /** Status of the migration. */
+  /** spec is the specification of the migration. */
+  spec: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec;
+  /** status is the status of the migration. */
   status?: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationStatus;
 }
 export const CreateStoragemigrationV1beta1StorageVersionMigrationRequest = /*@__PURE__*/ S.suspend(
@@ -305,7 +305,7 @@ export const CreateStoragemigrationV1beta1StorageVersionMigrationRequest = /*@__
       apiVersion: S.optional(S.String),
       kind: S.optional(S.String),
       metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
-      spec: S.optional(IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec),
+      spec: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec,
       status: S.optional(IoK8sApiStoragemigrationV1beta1StorageVersionMigrationStatus),
     }).pipe(
       T.Http({
@@ -324,11 +324,11 @@ export interface IoK8sApiStoragemigrationV1beta1StorageVersionMigration {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Specification of the migration. */
-  spec?: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec;
-  /** Status of the migration. */
+  /** spec is the specification of the migration. */
+  spec: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec;
+  /** status is the status of the migration. */
   status?: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationStatus;
 }
 export const IoK8sApiStoragemigrationV1beta1StorageVersionMigration = /*@__PURE__*/ S.suspend(() =>
@@ -336,7 +336,7 @@ export const IoK8sApiStoragemigrationV1beta1StorageVersionMigration = /*@__PURE_
     apiVersion: S.optional(S.String),
     kind: S.optional(S.String),
     metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
-    spec: S.optional(IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec),
+    spec: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec,
     status: S.optional(IoK8sApiStoragemigrationV1beta1StorageVersionMigrationStatus),
   }),
 ).annotate({
@@ -349,7 +349,7 @@ export type IoK8sApiStoragemigrationV1StorageVersionMigrationSpec =
 export const IoK8sApiStoragemigrationV1StorageVersionMigrationSpec =
   IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec;
 
-/** The latest available observations of the migration's current state. */
+/** conditions is the latest available observations of the migration's current state. */
 export type IoK8sApiStoragemigrationV1StorageVersionMigrationStatusConditionsList =
   Array<IoK8sApimachineryPkgApisMetaV1Condition>;
 export const IoK8sApiStoragemigrationV1StorageVersionMigrationStatusConditionsList =
@@ -359,9 +359,9 @@ export const IoK8sApiStoragemigrationV1StorageVersionMigrationStatusConditionsLi
 
 /** Status of the storage version migration. */
 export interface IoK8sApiStoragemigrationV1StorageVersionMigrationStatus {
-  /** The latest available observations of the migration's current state. */
+  /** conditions is the latest available observations of the migration's current state. */
   conditions?: IoK8sApiStoragemigrationV1StorageVersionMigrationStatusConditionsList;
-  /** ResourceVersion to compare with the GC cache for performing the migration. This is the current resource version of given group, version and resource when kube-controller-manager first observes this StorageVersionMigration resource. */
+  /** resourceVersion is the resource version to compare with the GC cache for performing the migration. This is the current resource version of given group, version and resource when kube-controller-manager first observes this StorageVersionMigration resource. */
   resourceVersion?: string;
 }
 export const IoK8sApiStoragemigrationV1StorageVersionMigrationStatus = /*@__PURE__*/ S.suspend(() =>
@@ -386,11 +386,11 @@ export interface CreateStoragemigrationV1StorageVersionMigrationRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Specification of the migration. */
-  spec?: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec;
-  /** Status of the migration. */
+  /** spec is the specification of the migration. */
+  spec: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec;
+  /** status is the status of the migration. */
   status?: IoK8sApiStoragemigrationV1StorageVersionMigrationStatus;
 }
 export const CreateStoragemigrationV1StorageVersionMigrationRequest = /*@__PURE__*/ S.suspend(() =>
@@ -402,7 +402,7 @@ export const CreateStoragemigrationV1StorageVersionMigrationRequest = /*@__PURE_
     apiVersion: S.optional(S.String),
     kind: S.optional(S.String),
     metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
-    spec: S.optional(IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec),
+    spec: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec,
     status: S.optional(IoK8sApiStoragemigrationV1StorageVersionMigrationStatus),
   }).pipe(
     T.Http({
@@ -421,11 +421,11 @@ export interface IoK8sApiStoragemigrationV1StorageVersionMigration {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Specification of the migration. */
-  spec?: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec;
-  /** Status of the migration. */
+  /** spec is the specification of the migration. */
+  spec: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec;
+  /** status is the status of the migration. */
   status?: IoK8sApiStoragemigrationV1StorageVersionMigrationStatus;
 }
 export const IoK8sApiStoragemigrationV1StorageVersionMigration = /*@__PURE__*/ S.suspend(() =>
@@ -433,7 +433,7 @@ export const IoK8sApiStoragemigrationV1StorageVersionMigration = /*@__PURE__*/ S
     apiVersion: S.optional(S.String),
     kind: S.optional(S.String),
     metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
-    spec: S.optional(IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec),
+    spec: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec,
     status: S.optional(IoK8sApiStoragemigrationV1StorageVersionMigrationStatus),
   }),
 ).annotate({
@@ -899,13 +899,7 @@ export const IoK8sApimachineryPkgApisMetaV1APIGroup = /*@__PURE__*/ S.suspend(()
 
 export interface GetStoragemigrationV1APIResourcesRequest {}
 export const GetStoragemigrationV1APIResourcesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/storagemigration.k8s.io/v1/",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/apis/storagemigration.k8s.io/v1/", code: 200 })),
 ).annotate({
   identifier: "GetStoragemigrationV1APIResourcesRequest",
 }) as any as S.Schema<GetStoragemigrationV1APIResourcesRequest>;
@@ -1000,11 +994,7 @@ export const IoK8sApimachineryPkgApisMetaV1APIResourceList = /*@__PURE__*/ S.sus
 export interface GetStoragemigrationV1beta1APIResourcesRequest {}
 export const GetStoragemigrationV1beta1APIResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/storagemigration.k8s.io/v1beta1/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/storagemigration.k8s.io/v1beta1/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetStoragemigrationV1beta1APIResourcesRequest",
@@ -1410,11 +1400,11 @@ export interface ReplaceStoragemigrationV1beta1StorageVersionMigrationRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Specification of the migration. */
-  spec?: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec;
-  /** Status of the migration. */
+  /** spec is the specification of the migration. */
+  spec: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec;
+  /** status is the status of the migration. */
   status?: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationStatus;
 }
 export const ReplaceStoragemigrationV1beta1StorageVersionMigrationRequest = /*@__PURE__*/ S.suspend(
@@ -1428,7 +1418,7 @@ export const ReplaceStoragemigrationV1beta1StorageVersionMigrationRequest = /*@_
       apiVersion: S.optional(S.String),
       kind: S.optional(S.String),
       metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
-      spec: S.optional(IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec),
+      spec: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec,
       status: S.optional(IoK8sApiStoragemigrationV1beta1StorageVersionMigrationStatus),
     }).pipe(
       T.Http({
@@ -1456,11 +1446,11 @@ export interface ReplaceStoragemigrationV1beta1StorageVersionMigrationStatusRequ
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Specification of the migration. */
-  spec?: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec;
-  /** Status of the migration. */
+  /** spec is the specification of the migration. */
+  spec: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec;
+  /** status is the status of the migration. */
   status?: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationStatus;
 }
 export const ReplaceStoragemigrationV1beta1StorageVersionMigrationStatusRequest =
@@ -1474,7 +1464,7 @@ export const ReplaceStoragemigrationV1beta1StorageVersionMigrationStatusRequest 
       apiVersion: S.optional(S.String),
       kind: S.optional(S.String),
       metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
-      spec: S.optional(IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec),
+      spec: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec,
       status: S.optional(IoK8sApiStoragemigrationV1beta1StorageVersionMigrationStatus),
     }).pipe(
       T.Http({
@@ -1502,11 +1492,11 @@ export interface ReplaceStoragemigrationV1StorageVersionMigrationRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Specification of the migration. */
-  spec?: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec;
-  /** Status of the migration. */
+  /** spec is the specification of the migration. */
+  spec: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec;
+  /** status is the status of the migration. */
   status?: IoK8sApiStoragemigrationV1StorageVersionMigrationStatus;
 }
 export const ReplaceStoragemigrationV1StorageVersionMigrationRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1519,7 +1509,7 @@ export const ReplaceStoragemigrationV1StorageVersionMigrationRequest = /*@__PURE
     apiVersion: S.optional(S.String),
     kind: S.optional(S.String),
     metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
-    spec: S.optional(IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec),
+    spec: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec,
     status: S.optional(IoK8sApiStoragemigrationV1StorageVersionMigrationStatus),
   }).pipe(
     T.Http({
@@ -1547,11 +1537,11 @@ export interface ReplaceStoragemigrationV1StorageVersionMigrationStatusRequest {
   apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
+  /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
-  /** Specification of the migration. */
-  spec?: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec;
-  /** Status of the migration. */
+  /** spec is the specification of the migration. */
+  spec: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec;
+  /** status is the status of the migration. */
   status?: IoK8sApiStoragemigrationV1StorageVersionMigrationStatus;
 }
 export const ReplaceStoragemigrationV1StorageVersionMigrationStatusRequest =
@@ -1565,7 +1555,7 @@ export const ReplaceStoragemigrationV1StorageVersionMigrationStatusRequest =
       apiVersion: S.optional(S.String),
       kind: S.optional(S.String),
       metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
-      spec: S.optional(IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec),
+      spec: IoK8sApiStoragemigrationV1beta1StorageVersionMigrationSpec,
       status: S.optional(IoK8sApiStoragemigrationV1StorageVersionMigrationStatus),
     }).pipe(
       T.Http({

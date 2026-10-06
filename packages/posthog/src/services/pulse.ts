@@ -96,11 +96,7 @@ export const CreatePulseBriefConfigRequest = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     deleted: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/pulse/brief_configs/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/pulse/brief_configs/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreatePulseBriefConfigRequest",
@@ -202,15 +198,9 @@ export const GetPulseBriefRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/pulse/briefs/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/pulse/briefs/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetPulseBriefRequest",
-}) as any as S.Schema<GetPulseBriefRequest>;
+).annotate({ identifier: "GetPulseBriefRequest" }) as any as S.Schema<GetPulseBriefRequest>;
 
 /** * `generating` - Generating * `ready` - Ready * `quiet` - Quiet * `failed` - Failed */
 export type ProductBriefStatusEnum = "generating" | "ready" | "quiet" | "failed";
@@ -254,9 +244,7 @@ export const BriefSectionCitation = /*@__PURE__*/ S.suspend(() =>
     label: S.String,
     url: S.String,
   }),
-).annotate({
-  identifier: "BriefSectionCitation",
-}) as any as S.Schema<BriefSectionCitation>;
+).annotate({ identifier: "BriefSectionCitation" }) as any as S.Schema<BriefSectionCitation>;
 
 /** PostHog resources this section cites as evidence. */
 export type BriefSectionCitationsList = Array<BriefSectionCitation>;
@@ -370,11 +358,7 @@ export const ListPulseBriefConfigsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/pulse/brief_configs/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/pulse/brief_configs/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListPulseBriefConfigsRequest",
@@ -398,9 +382,7 @@ export const PaginatedBriefConfigList = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.String)),
     results: PaginatedBriefConfigListResultsList,
   }),
-).annotate({
-  identifier: "PaginatedBriefConfigList",
-}) as any as S.Schema<PaginatedBriefConfigList>;
+).annotate({ identifier: "PaginatedBriefConfigList" }) as any as S.Schema<PaginatedBriefConfigList>;
 
 export interface ListPulseBriefsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -415,16 +397,8 @@ export const ListPulseBriefsRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/pulse/briefs/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListPulseBriefsRequest",
-}) as any as S.Schema<ListPulseBriefsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/pulse/briefs/", code: 200 })),
+).annotate({ identifier: "ListPulseBriefsRequest" }) as any as S.Schema<ListPulseBriefsRequest>;
 
 /** Names of the brief sources that contributed items. */
 export type ProductBriefListSourcesUsedList = Array<string>;
@@ -464,9 +438,7 @@ export const ProductBriefList = /*@__PURE__*/ S.suspend(() =>
     created_by: S.NullOr(UserBasic),
     updated_at: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ProductBriefList",
-}) as any as S.Schema<ProductBriefList>;
+).annotate({ identifier: "ProductBriefList" }) as any as S.Schema<ProductBriefList>;
 
 export type PaginatedProductBriefListListResultsList = Array<ProductBriefList>;
 export const PaginatedProductBriefListListResultsList = /*@__PURE__*/ S.Array(
@@ -532,11 +504,7 @@ export const PulseBriefsGenerateCreateRequest = /*@__PURE__*/ S.suspend(() =>
     config_id: S.optional(S.NullOr(S.String)),
     period: S.optional(Period),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/pulse/briefs/generate/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/pulse/briefs/generate/", code: 200 }),
   ),
 ).annotate({
   identifier: "PulseBriefsGenerateCreateRequest",

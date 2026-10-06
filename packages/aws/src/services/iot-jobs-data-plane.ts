@@ -82,10 +82,7 @@ export class CertificateValidationException
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      resourceId: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), resourceId: S.optional(S.String) },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
@@ -133,10 +130,7 @@ export class TerminalStateException
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      payload: S.optional(T.Blob),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), payload: S.optional(T.Blob) },
     T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class ValidationException
@@ -260,9 +254,7 @@ export const JobExecutionSummary = /*@__PURE__*/ S.suspend(() =>
     versionNumber: S.optional(S.Number),
     executionNumber: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "JobExecutionSummary",
-}) as any as S.Schema<JobExecutionSummary>;
+).annotate({ identifier: "JobExecutionSummary" }) as any as S.Schema<JobExecutionSummary>;
 export type JobExecutionSummaryList = JobExecutionSummary[];
 export const JobExecutionSummaryList = /*@__PURE__*/ S.Array(JobExecutionSummary);
 export interface GetPendingJobExecutionsResponse {
@@ -306,12 +298,8 @@ export const CommandParameterValue = /*@__PURE__*/ S.suspend(() =>
     BIN: S.optional(T.Blob),
     UL: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CommandParameterValue",
-}) as any as S.Schema<CommandParameterValue>;
-export type CommandExecutionParameterMap = {
-  [key: string]: CommandParameterValue | undefined;
-};
+).annotate({ identifier: "CommandParameterValue" }) as any as S.Schema<CommandParameterValue>;
+export type CommandExecutionParameterMap = { [key: string]: CommandParameterValue | undefined };
 export const CommandExecutionParameterMap = /*@__PURE__*/ S.Record(
   S.String,
   CommandParameterValue.pipe(S.optional),
@@ -427,18 +415,13 @@ export const JobExecutionState = /*@__PURE__*/ S.suspend(() =>
     statusDetails: S.optional(DetailsMap),
     versionNumber: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "JobExecutionState",
-}) as any as S.Schema<JobExecutionState>;
+).annotate({ identifier: "JobExecutionState" }) as any as S.Schema<JobExecutionState>;
 export interface UpdateJobExecutionResponse {
   executionState?: JobExecutionState;
   jobDocument?: string;
 }
 export const UpdateJobExecutionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    executionState: S.optional(JobExecutionState),
-    jobDocument: S.optional(S.String),
-  }),
+  S.Struct({ executionState: S.optional(JobExecutionState), jobDocument: S.optional(S.String) }),
 ).annotate({
   identifier: "UpdateJobExecutionResponse",
 }) as any as S.Schema<UpdateJobExecutionResponse>;

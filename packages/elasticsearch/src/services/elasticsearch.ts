@@ -65,9 +65,7 @@ export const TypesErrorCause = /*@__PURE__*/ S.suspend(() =>
     root_cause: S.optional(TypesErrorCauseRootCauseList),
     suppressed: S.optional(TypesErrorCauseSuppressedList),
   }),
-).annotate({
-  identifier: "TypesErrorCause",
-}) as any as S.Schema<TypesErrorCause>;
+).annotate({ identifier: "TypesErrorCause" }) as any as S.Schema<TypesErrorCause>;
 
 export type TypesNodeStatisticsFailuresList = Array<TypesErrorCause>;
 export const TypesNodeStatisticsFailuresList = /*@__PURE__*/ S.Array(
@@ -91,9 +89,7 @@ export const TypesNodeStatistics = /*@__PURE__*/ S.suspend(() =>
     successful: S.Number,
     failed: S.Number,
   }),
-).annotate({
-  identifier: "TypesNodeStatistics",
-}) as any as S.Schema<TypesNodeStatistics>;
+).annotate({ identifier: "TypesNodeStatistics" }) as any as S.Schema<TypesNodeStatistics>;
 
 export interface NodesTypesRepositoryLocation {
   base_path: string;
@@ -150,9 +146,7 @@ export const NodesTypesRequestCounts = /*@__PURE__*/ S.suspend(() =>
     PutObject: S.optional(S.Number),
     PutMultipartObject: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NodesTypesRequestCounts",
-}) as any as S.Schema<NodesTypesRequestCounts>;
+).annotate({ identifier: "NodesTypesRequestCounts" }) as any as S.Schema<NodesTypesRequestCounts>;
 
 export interface NodesTypesRepositoryMeteringInformation {
   /** Repository name. */
@@ -225,9 +219,7 @@ export const AsyncSearchDeleteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/_async_search/{id}", code: 200 })),
-).annotate({
-  identifier: "AsyncSearchDeleteRequest",
-}) as any as S.Schema<AsyncSearchDeleteRequest>;
+).annotate({ identifier: "AsyncSearchDeleteRequest" }) as any as S.Schema<AsyncSearchDeleteRequest>;
 
 export interface TypesAcknowledgedResponseBase {
   /** For a successful response, this value is always true. On failure, an exception is returned instead. */
@@ -271,9 +263,7 @@ export const AsyncSearchGetRequest = /*@__PURE__*/ S.suspend(() =>
     wait_for_completion_timeout: S.optional(TypesDuration.pipe(T.Query())),
     return_intermediate_results: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_async_search/{id}", code: 200 })),
-).annotate({
-  identifier: "AsyncSearchGetRequest",
-}) as any as S.Schema<AsyncSearchGetRequest>;
+).annotate({ identifier: "AsyncSearchGetRequest" }) as any as S.Schema<AsyncSearchGetRequest>;
 
 /** A date and time, either as a string whose format can depend on the context (defaulting to ISO 8601), or a number of milliseconds since the Epoch. Elasticsearch accepts both as input, but will generally output a string representation. */
 export type TypesDateTime = string | number;
@@ -602,9 +592,7 @@ export const TypesAggregationsDip = /*@__PURE__*/ S.suspend(() =>
     p_value: S.Number,
     change_point: S.Number,
   }),
-).annotate({
-  identifier: "TypesAggregationsDip",
-}) as any as S.Schema<TypesAggregationsDip>;
+).annotate({ identifier: "TypesAggregationsDip" }) as any as S.Schema<TypesAggregationsDip>;
 
 export type TypesAggregationsDistributionChange = TypesAggregationsDip;
 export const TypesAggregationsDistributionChange = TypesAggregationsDip;
@@ -1067,9 +1055,7 @@ export const TypesLatLonGeoLocation = /*@__PURE__*/ S.suspend(() =>
     lat: S.Number,
     lon: S.Number,
   }),
-).annotate({
-  identifier: "TypesLatLonGeoLocation",
-}) as any as S.Schema<TypesLatLonGeoLocation>;
+).annotate({ identifier: "TypesLatLonGeoLocation" }) as any as S.Schema<TypesLatLonGeoLocation>;
 
 export interface TypesGeoHashLocation {
   geohash: string;
@@ -1078,9 +1064,7 @@ export const TypesGeoHashLocation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     geohash: S.String,
   }),
-).annotate({
-  identifier: "TypesGeoHashLocation",
-}) as any as S.Schema<TypesGeoHashLocation>;
+).annotate({ identifier: "TypesGeoHashLocation" }) as any as S.Schema<TypesGeoHashLocation>;
 
 export type TypesGeoLocationCase2List = Array<number>;
 export const TypesGeoLocationCase2List = /*@__PURE__*/ S.Array(
@@ -1130,9 +1114,7 @@ export const TypesCartesianPoint = /*@__PURE__*/ S.suspend(() =>
     x: S.Number,
     y: S.Number,
   }),
-).annotate({
-  identifier: "TypesCartesianPoint",
-}) as any as S.Schema<TypesCartesianPoint>;
+).annotate({ identifier: "TypesCartesianPoint" }) as any as S.Schema<TypesCartesianPoint>;
 
 export interface TypesAggregationsCartesianCentroidAggregate {
   meta?: TypesMetadata;
@@ -1162,9 +1144,7 @@ export const TypesCoordsGeoBounds = /*@__PURE__*/ S.suspend(() =>
     left: S.Number,
     right: S.Number,
   }),
-).annotate({
-  identifier: "TypesCoordsGeoBounds",
-}) as any as S.Schema<TypesCoordsGeoBounds>;
+).annotate({ identifier: "TypesCoordsGeoBounds" }) as any as S.Schema<TypesCoordsGeoBounds>;
 
 export interface TypesTopRightBottomLeftGeoBounds {
   top_right: TypesGeoLocation;
@@ -1186,9 +1166,7 @@ export const TypesWktGeoBounds = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     wkt: S.String,
   }),
-).annotate({
-  identifier: "TypesWktGeoBounds",
-}) as any as S.Schema<TypesWktGeoBounds>;
+).annotate({ identifier: "TypesWktGeoBounds" }) as any as S.Schema<TypesWktGeoBounds>;
 
 /** A geo bounding box. It can be represented in various ways: - as 4 top/bottom/left/right coordinates - as 2 top_left / bottom_right points - as 2 top_right / bottom_left points - as a WKT bounding box */
 export type TypesGeoBounds =
@@ -1536,9 +1514,7 @@ export const TypesAggregationsDoubleTermsAggregate = /*@__PURE__*/ S.suspend(() 
   identifier: "TypesAggregationsDoubleTermsAggregate",
 }) as any as S.Schema<TypesAggregationsDoubleTermsAggregate>;
 
-export type TypesAggregationsBucketsVoidCase0Map = {
-  [key: string]: unknown | undefined;
-};
+export type TypesAggregationsBucketsVoidCase0Map = { [key: string]: unknown | undefined };
 export const TypesAggregationsBucketsVoidCase0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2273,9 +2249,7 @@ export const TypesAggregationsUnmappedSignificantTermsAggregate = /*@__PURE__*/ 
   identifier: "TypesAggregationsUnmappedSignificantTermsAggregate",
 }) as any as S.Schema<TypesAggregationsUnmappedSignificantTermsAggregate>;
 
-export type TypesAggregationsCompositeAggregateKey = {
-  [key: string]: TypesFieldValue | undefined;
-};
+export type TypesAggregationsCompositeAggregateKey = { [key: string]: TypesFieldValue | undefined };
 export const TypesAggregationsCompositeAggregateKey = /*@__PURE__*/ S.Record(
   S.String,
   TypesFieldValue,
@@ -2520,13 +2494,9 @@ export const GlobalExplainExplanation = /*@__PURE__*/ S.suspend(() =>
     details: GlobalExplainExplanationDetailsList,
     value: S.Number,
   }),
-).annotate({
-  identifier: "GlobalExplainExplanation",
-}) as any as S.Schema<GlobalExplainExplanation>;
+).annotate({ identifier: "GlobalExplainExplanation" }) as any as S.Schema<GlobalExplainExplanation>;
 
-export type GlobalSearchTypesHitFieldsMap = {
-  [key: string]: unknown | undefined;
-};
+export type GlobalSearchTypesHitFieldsMap = { [key: string]: unknown | undefined };
 export const GlobalSearchTypesHitFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2569,9 +2539,7 @@ export const GlobalSearchTypesHitMatchedQueriesCase0List = /*@__PURE__*/ S.Array
   S.String,
 ) as any as S.Schema<GlobalSearchTypesHitMatchedQueriesCase0List>;
 
-export type GlobalSearchTypesHitMatchedQueriesCase1Map = {
-  [key: string]: number | undefined;
-};
+export type GlobalSearchTypesHitMatchedQueriesCase1Map = { [key: string]: number | undefined };
 export const GlobalSearchTypesHitMatchedQueriesCase1Map = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -2666,9 +2634,7 @@ export const GlobalSearchTypesHit = /*@__PURE__*/ S.suspend(() =>
     _version: S.optional(S.Number),
     sort: S.optional(TypesSortResults),
   }),
-).annotate({
-  identifier: "GlobalSearchTypesHit",
-}) as any as S.Schema<GlobalSearchTypesHit>;
+).annotate({ identifier: "GlobalSearchTypesHit" }) as any as S.Schema<GlobalSearchTypesHit>;
 
 export type GlobalSearchTypesHitsMetadataHitsList = Array<GlobalSearchTypesHit>;
 export const GlobalSearchTypesHitsMetadataHitsList = /*@__PURE__*/ S.Array(
@@ -2976,9 +2942,7 @@ export const TypesAggregationsRateAggregate = /*@__PURE__*/ S.suspend(() =>
 export type TypesAggregationsCumulativeCardinalityAggregate = TypesAggregationsRateAggregate;
 export const TypesAggregationsCumulativeCardinalityAggregate = TypesAggregationsRateAggregate;
 
-export type TypesAggregationsMatrixStatsFieldsCovarianceMap = {
-  [key: string]: number | undefined;
-};
+export type TypesAggregationsMatrixStatsFieldsCovarianceMap = { [key: string]: number | undefined };
 export const TypesAggregationsMatrixStatsFieldsCovarianceMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -3185,9 +3149,7 @@ export const TypesShardFailure = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     primary: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "TypesShardFailure",
-}) as any as S.Schema<TypesShardFailure>;
+).annotate({ identifier: "TypesShardFailure" }) as any as S.Schema<TypesShardFailure>;
 
 export type TypesShardStatisticsFailuresList = Array<TypesShardFailure>;
 export const TypesShardStatisticsFailuresList = /*@__PURE__*/ S.Array(
@@ -3212,9 +3174,7 @@ export const TypesShardStatistics = /*@__PURE__*/ S.suspend(() =>
     failures: S.optional(TypesShardStatisticsFailuresList),
     skipped: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TypesShardStatistics",
-}) as any as S.Schema<TypesShardStatistics>;
+).annotate({ identifier: "TypesShardStatistics" }) as any as S.Schema<TypesShardStatistics>;
 
 export type TypesClusterDetailsFailuresList = Array<TypesShardFailure>;
 export const TypesClusterDetailsFailuresList = /*@__PURE__*/ S.Array(
@@ -3238,13 +3198,9 @@ export const TypesClusterDetails = /*@__PURE__*/ S.suspend(() =>
     _shards: S.optional(TypesShardStatistics),
     failures: S.optional(TypesClusterDetailsFailuresList),
   }),
-).annotate({
-  identifier: "TypesClusterDetails",
-}) as any as S.Schema<TypesClusterDetails>;
+).annotate({ identifier: "TypesClusterDetails" }) as any as S.Schema<TypesClusterDetails>;
 
-export type TypesClusterStatisticsDetailsMap = {
-  [key: string]: TypesClusterDetails | undefined;
-};
+export type TypesClusterStatisticsDetailsMap = { [key: string]: TypesClusterDetails | undefined };
 export const TypesClusterStatisticsDetailsMap = /*@__PURE__*/ S.Record(
   S.String,
   TypesClusterDetails,
@@ -3269,13 +3225,9 @@ export const TypesClusterStatistics = /*@__PURE__*/ S.suspend(() =>
     failed: S.Number,
     details: S.optional(TypesClusterStatisticsDetailsMap),
   }),
-).annotate({
-  identifier: "TypesClusterStatistics",
-}) as any as S.Schema<TypesClusterStatistics>;
+).annotate({ identifier: "TypesClusterStatistics" }) as any as S.Schema<TypesClusterStatistics>;
 
-export type AsyncSearchTypesAsyncSearchFieldsMap = {
-  [key: string]: unknown | undefined;
-};
+export type AsyncSearchTypesAsyncSearchFieldsMap = { [key: string]: unknown | undefined };
 export const AsyncSearchTypesAsyncSearchFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3476,9 +3428,7 @@ export const GlobalSearchTypesDfsStatisticsBreakdown = /*@__PURE__*/ S.suspend((
   identifier: "GlobalSearchTypesDfsStatisticsBreakdown",
 }) as any as S.Schema<GlobalSearchTypesDfsStatisticsBreakdown>;
 
-export type GlobalSearchTypesDfsStatisticsProfileDebugMap = {
-  [key: string]: unknown | undefined;
-};
+export type GlobalSearchTypesDfsStatisticsProfileDebugMap = { [key: string]: unknown | undefined };
 export const GlobalSearchTypesDfsStatisticsProfileDebugMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3562,9 +3512,7 @@ export const GlobalSearchTypesKnnQueryProfileBreakdown = /*@__PURE__*/ S.suspend
   identifier: "GlobalSearchTypesKnnQueryProfileBreakdown",
 }) as any as S.Schema<GlobalSearchTypesKnnQueryProfileBreakdown>;
 
-export type GlobalSearchTypesKnnQueryProfileResultDebugMap = {
-  [key: string]: unknown | undefined;
-};
+export type GlobalSearchTypesKnnQueryProfileResultDebugMap = { [key: string]: unknown | undefined };
 export const GlobalSearchTypesKnnQueryProfileResultDebugMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3981,9 +3929,7 @@ export const TypesQueryDslBoolQuery = /*@__PURE__*/ S.suspend(() =>
     must_not: S.optional(TypesQueryDslBoolQueryMustNot),
     should: S.optional(TypesQueryDslBoolQueryShould),
   }),
-).annotate({
-  identifier: "TypesQueryDslBoolQuery",
-}) as any as S.Schema<TypesQueryDslBoolQuery>;
+).annotate({ identifier: "TypesQueryDslBoolQuery" }) as any as S.Schema<TypesQueryDslBoolQuery>;
 
 export interface TypesQueryDslBoostingQuery {
   /** Floating point number used to decrease or increase the relevance scores of the query. Boost values are relative to the default value of 1.0. A boost value between 0 and 1.0 decreases the relevance score. A value greater than 1.0 increases the relevance score. */
@@ -4128,9 +4074,7 @@ export const TypesQueryDslDisMaxQuery = /*@__PURE__*/ S.suspend(() =>
     queries: TypesQueryDslDisMaxQueryQueriesList,
     tie_breaker: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TypesQueryDslDisMaxQuery",
-}) as any as S.Schema<TypesQueryDslDisMaxQuery>;
+).annotate({ identifier: "TypesQueryDslDisMaxQuery" }) as any as S.Schema<TypesQueryDslDisMaxQuery>;
 
 export interface TypesQueryDslUntypedDistanceFeatureQuery {
   /** Floating point number used to decrease or increase the relevance scores of the query. Boost values are relative to the default value of 1.0. A boost value between 0 and 1.0 decreases the relevance score. A value greater than 1.0 increases the relevance score. */
@@ -4221,9 +4165,7 @@ export const TypesQueryDslExistsQuery = /*@__PURE__*/ S.suspend(() =>
     _name: S.optional(S.String),
     field: S.String,
   }),
-).annotate({
-  identifier: "TypesQueryDslExistsQuery",
-}) as any as S.Schema<TypesQueryDslExistsQuery>;
+).annotate({ identifier: "TypesQueryDslExistsQuery" }) as any as S.Schema<TypesQueryDslExistsQuery>;
 
 export type TypesQueryDslFunctionBoostMode = "multiply" | "replace" | "sum" | "avg" | "max" | "min";
 export const TypesQueryDslFunctionBoostMode = S.String;
@@ -4477,9 +4419,7 @@ export const TypesQueryDslFuzzyQuery = /*@__PURE__*/ S.suspend(() =>
     fuzziness: S.optional(TypesFuzziness),
     value: TypesQueryDslFuzzyQueryValue,
   }),
-).annotate({
-  identifier: "TypesQueryDslFuzzyQuery",
-}) as any as S.Schema<TypesQueryDslFuzzyQuery>;
+).annotate({ identifier: "TypesQueryDslFuzzyQuery" }) as any as S.Schema<TypesQueryDslFuzzyQuery>;
 
 /** Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance. */
 export type TypesQueryDslQueryContainerFuzzyMap = {
@@ -4679,9 +4619,7 @@ export const GlobalSearchTypesBoundaryScanner = S.String;
 export type GlobalSearchTypesHighlighterFragmenter = "simple" | "span";
 export const GlobalSearchTypesHighlighterFragmenter = S.String;
 
-export type GlobalSearchTypesHighlightOptionsMap = {
-  [key: string]: unknown | undefined;
-};
+export type GlobalSearchTypesHighlightOptionsMap = { [key: string]: unknown | undefined };
 export const GlobalSearchTypesHighlightOptionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -4708,9 +4646,7 @@ export const GlobalSearchTypesHighlighterTagsSchema = S.String;
 export type GlobalSearchTypesHighlighterEncoder = "default" | "html";
 export const GlobalSearchTypesHighlighterEncoder = S.String;
 
-export type GlobalSearchTypesHighlightFieldOptionsMap = {
-  [key: string]: unknown | undefined;
-};
+export type GlobalSearchTypesHighlightFieldOptionsMap = { [key: string]: unknown | undefined };
 export const GlobalSearchTypesHighlightFieldOptionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -4915,9 +4851,7 @@ export const TypesScriptField = /*@__PURE__*/ S.suspend(() =>
     script: TypesScript,
     ignore_failure: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "TypesScriptField",
-}) as any as S.Schema<TypesScriptField>;
+).annotate({ identifier: "TypesScriptField" }) as any as S.Schema<TypesScriptField>;
 
 export type GlobalSearchTypesInnerHitsScriptFieldsMap = {
   [key: string]: TypesScriptField | undefined;
@@ -4968,9 +4902,7 @@ export const TypesNestedSortValue = /*@__PURE__*/ S.suspend(() =>
     nested: S.optional(S.Unknown),
     path: S.Unknown,
   }),
-).annotate({
-  identifier: "TypesNestedSortValue",
-}) as any as S.Schema<TypesNestedSortValue>;
+).annotate({ identifier: "TypesNestedSortValue" }) as any as S.Schema<TypesNestedSortValue>;
 
 export interface TypesGeoDistanceSort {
   mode?: TypesSortMode | (string & {});
@@ -4989,9 +4921,7 @@ export const TypesGeoDistanceSort = /*@__PURE__*/ S.suspend(() =>
     unit: S.optional(TypesDistanceUnit),
     nested: S.optional(TypesNestedSortValue),
   }),
-).annotate({
-  identifier: "TypesGeoDistanceSort",
-}) as any as S.Schema<TypesGeoDistanceSort>;
+).annotate({ identifier: "TypesGeoDistanceSort" }) as any as S.Schema<TypesGeoDistanceSort>;
 
 export type TypesScriptSortType = "string" | "number" | "version";
 export const TypesScriptSortType = S.String;
@@ -5011,9 +4941,7 @@ export const TypesScriptSort = /*@__PURE__*/ S.suspend(() =>
     mode: S.optional(TypesSortMode),
     nested: S.optional(TypesNestedSortValue),
   }),
-).annotate({
-  identifier: "TypesScriptSort",
-}) as any as S.Schema<TypesScriptSort>;
+).annotate({ identifier: "TypesScriptSort" }) as any as S.Schema<TypesScriptSort>;
 
 export interface TypesSortOptions {
   _score?: TypesScoreSort;
@@ -5028,9 +4956,7 @@ export const TypesSortOptions = /*@__PURE__*/ S.suspend(() =>
     _geo_distance: S.optional(TypesGeoDistanceSort),
     _script: S.optional(TypesScriptSort),
   }),
-).annotate({
-  identifier: "TypesSortOptions",
-}) as any as S.Schema<TypesSortOptions>;
+).annotate({ identifier: "TypesSortOptions" }) as any as S.Schema<TypesSortOptions>;
 
 export type TypesSortCombinations = string | TypesSortOptions;
 export const TypesSortCombinations = S.Unknown as any as S.Schema<TypesSortCombinations>;
@@ -5201,9 +5127,7 @@ export const TypesQueryDslIdsQuery = /*@__PURE__*/ S.suspend(() =>
     _name: S.optional(S.String),
     values: S.optional(TypesIds),
   }),
-).annotate({
-  identifier: "TypesQueryDslIdsQuery",
-}) as any as S.Schema<TypesQueryDslIdsQuery>;
+).annotate({ identifier: "TypesQueryDslIdsQuery" }) as any as S.Schema<TypesQueryDslIdsQuery>;
 
 /** An array of rules to match. */
 export type TypesQueryDslIntervalsAnyOfIntervalsList = Array<TypesQueryDslIntervalsContainer>;
@@ -5508,7 +5432,7 @@ export const TypesQueryVector = /*@__PURE__*/ S.Array(
 export type InferenceTypesEmbeddingContentType = "text" | "image" | "audio" | "video" | "pdf";
 export const InferenceTypesEmbeddingContentType = S.String;
 
-export type InferenceTypesEmbeddingContentFormat = "text" | "base64";
+export type InferenceTypesEmbeddingContentFormat = "text" | "base64" | "url";
 export const InferenceTypesEmbeddingContentFormat = S.String;
 
 /** The format of the data. If null, the default data format for the given type is used. */
@@ -5520,7 +5444,7 @@ export interface TypesInferenceString {
   type: InferenceTypesEmbeddingContentType | (string & {});
   /** The format of the data. If null, the default data format for the given type is used. */
   format?: TypesInferenceStringFormat;
-  /** String which may be raw text, or the string representation of some other data such as an image in base64. */
+  /** String which may be raw text, the string representation of some other data such as an image in base64, or a URL that points to the data. */
   value: string;
 }
 export const TypesInferenceString = /*@__PURE__*/ S.suspend(() =>
@@ -5529,9 +5453,7 @@ export const TypesInferenceString = /*@__PURE__*/ S.suspend(() =>
     format: S.optional(TypesInferenceStringFormat),
     value: S.String,
   }),
-).annotate({
-  identifier: "TypesInferenceString",
-}) as any as S.Schema<TypesInferenceString>;
+).annotate({ identifier: "TypesInferenceString" }) as any as S.Schema<TypesInferenceString>;
 
 export type TypesInferenceStringGroupCase1List = Array<TypesInferenceString>;
 export const TypesInferenceStringGroupCase1List = /*@__PURE__*/ S.Array(
@@ -5569,9 +5491,7 @@ export const TypesTextEmbedding = /*@__PURE__*/ S.suspend(() =>
     model_id: S.optional(S.String),
     model_text: S.String,
   }),
-).annotate({
-  identifier: "TypesTextEmbedding",
-}) as any as S.Schema<TypesTextEmbedding>;
+).annotate({ identifier: "TypesTextEmbedding" }) as any as S.Schema<TypesTextEmbedding>;
 
 export interface TypesLookupQueryVectorBuilder {
   /** The ID of the document to fetch the vector from */
@@ -5606,9 +5526,7 @@ export const TypesQueryVectorBuilder = /*@__PURE__*/ S.suspend(() =>
     text_embedding: S.optional(TypesTextEmbedding),
     lookup: S.optional(TypesLookupQueryVectorBuilder),
   }),
-).annotate({
-  identifier: "TypesQueryVectorBuilder",
-}) as any as S.Schema<TypesQueryVectorBuilder>;
+).annotate({ identifier: "TypesQueryVectorBuilder" }) as any as S.Schema<TypesQueryVectorBuilder>;
 
 export type TypesKnnQueryFilterCase1List = Array<TypesQueryDslQueryContainer>;
 export const TypesKnnQueryFilterCase1List = /*@__PURE__*/ S.Array(
@@ -5627,9 +5545,7 @@ export const TypesRescoreVector = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     oversample: S.Number,
   }),
-).annotate({
-  identifier: "TypesRescoreVector",
-}) as any as S.Schema<TypesRescoreVector>;
+).annotate({ identifier: "TypesRescoreVector" }) as any as S.Schema<TypesRescoreVector>;
 
 export interface TypesKnnQuery {
   /** Floating point number used to decrease or increase the relevance scores of the query. Boost values are relative to the default value of 1.0. A boost value between 0 and 1.0 decreases the relevance score. A value greater than 1.0 increases the relevance score. */
@@ -5669,6 +5585,31 @@ export const TypesKnnQuery = /*@__PURE__*/ S.suspend(() =>
     rescore_vector: S.optional(TypesRescoreVector),
   }),
 ).annotate({ identifier: "TypesKnnQuery" }) as any as S.Schema<TypesKnnQuery>;
+
+/** Returns documents matching a provided Kibana Query Language (KQL) expression. The expression is parsed and rewritten into standard Query DSL. */
+export interface TypesQueryDslKqlQuery {
+  /** Floating point number used to decrease or increase the relevance scores of the query. Boost values are relative to the default value of 1.0. A boost value between 0 and 1.0 decreases the relevance score. A value greater than 1.0 increases the relevance score. */
+  boost?: number;
+  _name?: string;
+  /** If `true`, performs case-insensitive matching for field names and keyword or text terms. */
+  case_insensitive?: boolean;
+  /** Default field, or field pattern with wildcards, to target when a bare term does not specify a field. Defaults to the `index.query.default_field` index setting, which has a default value of `*`. */
+  default_field?: string;
+  /** The KQL expression to parse. */
+  query: string;
+  /** Coordinated Universal Time (UTC) offset or IANA time zone used to interpret date literals in the expression. */
+  time_zone?: string;
+}
+export const TypesQueryDslKqlQuery = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    boost: S.optional(S.Number),
+    _name: S.optional(S.String),
+    case_insensitive: S.optional(S.Boolean),
+    default_field: S.optional(S.String),
+    query: S.String,
+    time_zone: S.optional(S.String),
+  }),
+).annotate({ identifier: "TypesQueryDslKqlQuery" }) as any as S.Schema<TypesQueryDslKqlQuery>;
 
 /** Text, number, boolean value or date you wish to find in the provided field. */
 export type TypesQueryDslMatchQueryQuery = string | number | boolean;
@@ -5726,9 +5667,7 @@ export const TypesQueryDslMatchQuery = /*@__PURE__*/ S.suspend(() =>
     query: TypesQueryDslMatchQueryQuery,
     zero_terms_query: S.optional(TypesQueryDslZeroTermsQuery),
   }),
-).annotate({
-  identifier: "TypesQueryDslMatchQuery",
-}) as any as S.Schema<TypesQueryDslMatchQuery>;
+).annotate({ identifier: "TypesQueryDslMatchQuery" }) as any as S.Schema<TypesQueryDslMatchQuery>;
 
 /** Returns documents that match a provided text, number, date or boolean value. The provided text is analyzed before matching. */
 export type TypesQueryDslQueryContainerMatchMap = {
@@ -5891,9 +5830,7 @@ export const TypesQueryDslLikeDocumentFieldsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<TypesQueryDslLikeDocumentFieldsList>;
 
 /** Overrides the default analyzer. */
-export type TypesQueryDslLikeDocumentPerFieldAnalyzerMap = {
-  [key: string]: string | undefined;
-};
+export type TypesQueryDslLikeDocumentPerFieldAnalyzerMap = { [key: string]: string | undefined };
 export const TypesQueryDslLikeDocumentPerFieldAnalyzerMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6182,9 +6119,7 @@ export const TypesQueryDslNestedQuery = /*@__PURE__*/ S.suspend(() =>
     query: S.suspend(() => TypesQueryDslQueryContainer),
     score_mode: S.optional(TypesQueryDslChildScoreMode),
   }),
-).annotate({
-  identifier: "TypesQueryDslNestedQuery",
-}) as any as S.Schema<TypesQueryDslNestedQuery>;
+).annotate({ identifier: "TypesQueryDslNestedQuery" }) as any as S.Schema<TypesQueryDslNestedQuery>;
 
 export interface TypesQueryDslParentIdQuery {
   /** Floating point number used to decrease or increase the relevance scores of the query. Boost values are relative to the default value of 1.0. A boost value between 0 and 1.0 decreases the relevance score. A value greater than 1.0 increases the relevance score. */
@@ -6273,9 +6208,7 @@ export const TypesQueryDslPinnedDoc = /*@__PURE__*/ S.suspend(() =>
     _id: S.String,
     _index: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TypesQueryDslPinnedDoc",
-}) as any as S.Schema<TypesQueryDslPinnedDoc>;
+).annotate({ identifier: "TypesQueryDslPinnedDoc" }) as any as S.Schema<TypesQueryDslPinnedDoc>;
 
 /** Documents listed in the order they are to appear in results. Required if `ids` is not specified. */
 export type TypesQueryDslPinnedQueryDocsList = Array<TypesQueryDslPinnedDoc>;
@@ -6302,9 +6235,7 @@ export const TypesQueryDslPinnedQuery = /*@__PURE__*/ S.suspend(() =>
     ids: S.optional(TypesQueryDslPinnedQueryIdsList),
     docs: S.optional(TypesQueryDslPinnedQueryDocsList),
   }),
-).annotate({
-  identifier: "TypesQueryDslPinnedQuery",
-}) as any as S.Schema<TypesQueryDslPinnedQuery>;
+).annotate({ identifier: "TypesQueryDslPinnedQuery" }) as any as S.Schema<TypesQueryDslPinnedQuery>;
 
 export interface TypesQueryDslPrefixQuery {
   /** Floating point number used to decrease or increase the relevance scores of the query. Boost values are relative to the default value of 1.0. A boost value between 0 and 1.0 decreases the relevance score. A value greater than 1.0 increases the relevance score. */
@@ -6325,9 +6256,7 @@ export const TypesQueryDslPrefixQuery = /*@__PURE__*/ S.suspend(() =>
     value: S.String,
     case_insensitive: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "TypesQueryDslPrefixQuery",
-}) as any as S.Schema<TypesQueryDslPrefixQuery>;
+).annotate({ identifier: "TypesQueryDslPrefixQuery" }) as any as S.Schema<TypesQueryDslPrefixQuery>;
 
 /** Returns documents that contain a specific prefix in a provided field. */
 export type TypesQueryDslQueryContainerPrefixMap = {
@@ -6683,9 +6612,7 @@ export const TypesQueryDslRegexpQuery = /*@__PURE__*/ S.suspend(() =>
     rewrite: S.optional(S.String),
     value: S.String,
   }),
-).annotate({
-  identifier: "TypesQueryDslRegexpQuery",
-}) as any as S.Schema<TypesQueryDslRegexpQuery>;
+).annotate({ identifier: "TypesQueryDslRegexpQuery" }) as any as S.Schema<TypesQueryDslRegexpQuery>;
 
 /** Returns documents that contain terms matching a regular expression. */
 export type TypesQueryDslQueryContainerRegexpMap = {
@@ -6723,9 +6650,7 @@ export const TypesQueryDslRuleQuery = /*@__PURE__*/ S.suspend(() =>
     ruleset_id: S.optional(S.String),
     match_criteria: S.Unknown,
   }),
-).annotate({
-  identifier: "TypesQueryDslRuleQuery",
-}) as any as S.Schema<TypesQueryDslRuleQuery>;
+).annotate({ identifier: "TypesQueryDslRuleQuery" }) as any as S.Schema<TypesQueryDslRuleQuery>;
 
 export interface TypesQueryDslScriptQuery {
   /** Floating point number used to decrease or increase the relevance scores of the query. Boost values are relative to the default value of 1.0. A boost value between 0 and 1.0 decreases the relevance score. A value greater than 1.0 increases the relevance score. */
@@ -6740,9 +6665,7 @@ export const TypesQueryDslScriptQuery = /*@__PURE__*/ S.suspend(() =>
     _name: S.optional(S.String),
     script: TypesScript,
   }),
-).annotate({
-  identifier: "TypesQueryDslScriptQuery",
-}) as any as S.Schema<TypesQueryDslScriptQuery>;
+).annotate({ identifier: "TypesQueryDslScriptQuery" }) as any as S.Schema<TypesQueryDslScriptQuery>;
 
 export interface TypesQueryDslScriptScoreQuery {
   /** Floating point number used to decrease or increase the relevance scores of the query. Boost values are relative to the default value of 1.0. A boost value between 0 and 1.0 decreases the relevance score. A value greater than 1.0 increases the relevance score. */
@@ -6800,9 +6723,7 @@ export const TypesQueryDslShapeQuery = /*@__PURE__*/ S.suspend(() =>
     _name: S.optional(S.String),
     ignore_unmapped: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "TypesQueryDslShapeQuery",
-}) as any as S.Schema<TypesQueryDslShapeQuery>;
+).annotate({ identifier: "TypesQueryDslShapeQuery" }) as any as S.Schema<TypesQueryDslShapeQuery>;
 
 /** Array of fields you wish to search. Accepts wildcard expressions. You also can boost relevance scores for matches to particular fields using a caret (`^`) notation. Defaults to the `index.query.default_field index` setting, which has a default value of `*`. */
 export type TypesQueryDslSimpleQueryStringQueryFieldsList = Array<string>;
@@ -7025,9 +6946,7 @@ export const TypesQueryDslSpanOrQuery = /*@__PURE__*/ S.suspend(() =>
     _name: S.optional(S.String),
     clauses: TypesQueryDslSpanOrQueryClausesList,
   }),
-).annotate({
-  identifier: "TypesQueryDslSpanOrQuery",
-}) as any as S.Schema<TypesQueryDslSpanOrQuery>;
+).annotate({ identifier: "TypesQueryDslSpanOrQuery" }) as any as S.Schema<TypesQueryDslSpanOrQuery>;
 
 export interface TypesQueryDslSpanTermQuery {
   /** Floating point number used to decrease or increase the relevance scores of the query. Boost values are relative to the default value of 1.0. A boost value between 0 and 1.0 decreases the relevance score. A value greater than 1.0 increases the relevance score. */
@@ -7108,9 +7027,7 @@ export const TypesQueryDslSpanQuery = /*@__PURE__*/ S.suspend(() =>
     span_term: S.optional(TypesQueryDslSpanQuerySpanTermMap),
     span_within: S.optional(TypesQueryDslSpanWithinQuery),
   }),
-).annotate({
-  identifier: "TypesQueryDslSpanQuery",
-}) as any as S.Schema<TypesQueryDslSpanQuery>;
+).annotate({ identifier: "TypesQueryDslSpanQuery" }) as any as S.Schema<TypesQueryDslSpanQuery>;
 
 export interface TypesQueryDslSpanContainingQuery {
   /** Floating point number used to decrease or increase the relevance scores of the query. Boost values are relative to the default value of 1.0. A boost value between 0 and 1.0 decreases the relevance score. A value greater than 1.0 increases the relevance score. */
@@ -7155,14 +7072,10 @@ export const TypesTokenPruningConfig = /*@__PURE__*/ S.suspend(() =>
     tokens_weight_threshold: S.optional(S.Number),
     only_score_pruned_tokens: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "TypesTokenPruningConfig",
-}) as any as S.Schema<TypesTokenPruningConfig>;
+).annotate({ identifier: "TypesTokenPruningConfig" }) as any as S.Schema<TypesTokenPruningConfig>;
 
 /** Dictionary of precomputed sparse vectors and their associated weights. Only one of inference_id or query_vector may be supplied in a request. */
-export type TypesQueryDslSparseVectorQueryQueryVectorMap = {
-  [key: string]: number | undefined;
-};
+export type TypesQueryDslSparseVectorQueryQueryVectorMap = { [key: string]: number | undefined };
 export const TypesQueryDslSparseVectorQueryQueryVectorMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -7216,9 +7129,7 @@ export const TypesQueryDslTermQuery = /*@__PURE__*/ S.suspend(() =>
     value: TypesFieldValue,
     case_insensitive: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "TypesQueryDslTermQuery",
-}) as any as S.Schema<TypesQueryDslTermQuery>;
+).annotate({ identifier: "TypesQueryDslTermQuery" }) as any as S.Schema<TypesQueryDslTermQuery>;
 
 /** Returns documents that contain an exact term in a provided field. To return a document, the query term must exactly match the queried field's value, including whitespace and capitalization. */
 export type TypesQueryDslQueryContainerTermMap = {
@@ -7305,9 +7216,7 @@ export const TypesQueryDslQueryContainerTextExpansionMap = /*@__PURE__*/ S.Recor
   TypesQueryDslTextExpansionQuery,
 ) as any as S.Schema<TypesQueryDslQueryContainerTextExpansionMap>;
 
-export type TypesQueryDslWeightedTokensQueryTokensCase0Map = {
-  [key: string]: number | undefined;
-};
+export type TypesQueryDslWeightedTokensQueryTokensCase0Map = { [key: string]: number | undefined };
 export const TypesQueryDslWeightedTokensQueryTokensCase0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -7427,9 +7336,7 @@ export const TypesQueryDslTypeQuery = /*@__PURE__*/ S.suspend(() =>
     _name: S.optional(S.String),
     value: S.String,
   }),
-).annotate({
-  identifier: "TypesQueryDslTypeQuery",
-}) as any as S.Schema<TypesQueryDslTypeQuery>;
+).annotate({ identifier: "TypesQueryDslTypeQuery" }) as any as S.Schema<TypesQueryDslTypeQuery>;
 
 /** An Elasticsearch Query DSL (Domain Specific Language) object that defines a query. */
 export interface TypesQueryDslQueryContainer {
@@ -7471,6 +7378,8 @@ export interface TypesQueryDslQueryContainer {
   intervals?: TypesQueryDslQueryContainerIntervalsMap;
   /** Finds the k nearest vectors to a query vector, as measured by a similarity metric. knn query finds nearest vectors through approximate search on indexed dense_vectors. */
   knn?: TypesKnnQuery;
+  /** Returns documents matching a provided Kibana Query Language (KQL) expression. The expression is parsed and rewritten into standard Query DSL. */
+  kql?: TypesQueryDslKqlQuery;
   /** Returns documents that match a provided text, number, date or boolean value. The provided text is analyzed before matching. */
   match?: TypesQueryDslQueryContainerMatchMap;
   /** Matches all documents, giving them all a `_score` of 1.0. */
@@ -7574,6 +7483,7 @@ export const TypesQueryDslQueryContainer = /*@__PURE__*/ S.suspend(() =>
     ids: S.optional(TypesQueryDslIdsQuery),
     intervals: S.optional(TypesQueryDslQueryContainerIntervalsMap),
     knn: S.optional(TypesKnnQuery),
+    kql: S.optional(TypesQueryDslKqlQuery),
     match: S.optional(TypesQueryDslQueryContainerMatchMap),
     match_all: S.optional(TypesQueryDslMatchAllQuery),
     match_bool_prefix: S.optional(TypesQueryDslQueryContainerMatchBoolPrefixMap),
@@ -7729,9 +7639,7 @@ export const TypesAggregationsBucketsPathCase1List = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<TypesAggregationsBucketsPathCase1List>;
 
-export type TypesAggregationsBucketsPathCase2Map = {
-  [key: string]: string | undefined;
-};
+export type TypesAggregationsBucketsPathCase2Map = { [key: string]: string | undefined };
 export const TypesAggregationsBucketsPathCase2Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9577,9 +9485,7 @@ export const TypesAggregationsTDigest = /*@__PURE__*/ S.suspend(() =>
     compression: S.optional(S.Number),
     execution_hint: S.optional(TypesAggregationsTDigestExecutionHint),
   }),
-).annotate({
-  identifier: "TypesAggregationsTDigest",
-}) as any as S.Schema<TypesAggregationsTDigest>;
+).annotate({ identifier: "TypesAggregationsTDigest" }) as any as S.Schema<TypesAggregationsTDigest>;
 
 export interface TypesAggregationsPercentileRanksAggregation {
   /** The field on which to run the aggregation. */
@@ -10663,9 +10569,7 @@ export const GlobalSearchTypesSearchRequestBodyAggregationsMap = /*@__PURE__*/ S
 ) as any as S.Schema<GlobalSearchTypesSearchRequestBodyAggregationsMap>;
 
 /** Configuration of search extensions defined by Elasticsearch plugins. */
-export type GlobalSearchTypesSearchRequestBodyExtMap = {
-  [key: string]: unknown | undefined;
-};
+export type GlobalSearchTypesSearchRequestBodyExtMap = { [key: string]: unknown | undefined };
 export const GlobalSearchTypesSearchRequestBodyExtMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -10781,9 +10685,7 @@ export const TypesRankContainer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rrf: S.optional(TypesRrfRank),
   }),
-).annotate({
-  identifier: "TypesRankContainer",
-}) as any as S.Schema<TypesRankContainer>;
+).annotate({ identifier: "TypesRankContainer" }) as any as S.Schema<TypesRankContainer>;
 
 export type GlobalSearchTypesScoreMode = "avg" | "max" | "min" | "multiply" | "total";
 export const GlobalSearchTypesScoreMode = S.String;
@@ -10810,9 +10712,7 @@ export const GlobalSearchTypesRescoreQuery = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GlobalSearchTypesRescoreQuery>;
 
 /** Named parameters to be passed to the query templates used for feature */
-export type GlobalSearchTypesLearningToRankParamsMap = {
-  [key: string]: unknown | undefined;
-};
+export type GlobalSearchTypesLearningToRankParamsMap = { [key: string]: unknown | undefined };
 export const GlobalSearchTypesLearningToRankParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -10849,9 +10749,7 @@ export const GlobalSearchTypesRescore = /*@__PURE__*/ S.suspend(() =>
     learning_to_rank: S.optional(GlobalSearchTypesLearningToRank),
     script: S.optional(TypesAggregationsScriptedHeuristic),
   }),
-).annotate({
-  identifier: "GlobalSearchTypesRescore",
-}) as any as S.Schema<GlobalSearchTypesRescore>;
+).annotate({ identifier: "GlobalSearchTypesRescore" }) as any as S.Schema<GlobalSearchTypesRescore>;
 
 export type GlobalSearchTypesSearchRequestBodyRescoreCase1List = Array<GlobalSearchTypesRescore>;
 export const GlobalSearchTypesSearchRequestBodyRescoreCase1List = /*@__PURE__*/ S.Array(
@@ -10906,9 +10804,7 @@ export const TypesStandardRetriever = /*@__PURE__*/ S.suspend(() =>
     sort: S.optional(TypesSort),
     collapse: S.optional(GlobalSearchTypesFieldCollapse),
   }),
-).annotate({
-  identifier: "TypesStandardRetriever",
-}) as any as S.Schema<TypesStandardRetriever>;
+).annotate({ identifier: "TypesStandardRetriever" }) as any as S.Schema<TypesStandardRetriever>;
 
 export type TypesKnnRetrieverFilterCase1List = Array<TypesQueryDslQueryContainer>;
 export const TypesKnnRetrieverFilterCase1List = /*@__PURE__*/ S.Array(
@@ -10959,9 +10855,7 @@ export const TypesKnnRetriever = /*@__PURE__*/ S.suspend(() =>
     similarity: S.optional(S.Number),
     rescore_vector: S.optional(TypesRescoreVector),
   }),
-).annotate({
-  identifier: "TypesKnnRetriever",
-}) as any as S.Schema<TypesKnnRetriever>;
+).annotate({ identifier: "TypesKnnRetriever" }) as any as S.Schema<TypesKnnRetriever>;
 
 export type TypesRRFRetrieverFilterCase1List = Array<TypesQueryDslQueryContainer>;
 export const TypesRRFRetrieverFilterCase1List = /*@__PURE__*/ S.Array(
@@ -11032,9 +10926,7 @@ export const TypesRRFRetriever = /*@__PURE__*/ S.suspend(() =>
     query: S.optional(S.String),
     fields: S.optional(TypesRRFRetrieverFieldsList),
   }),
-).annotate({
-  identifier: "TypesRRFRetriever",
-}) as any as S.Schema<TypesRRFRetriever>;
+).annotate({ identifier: "TypesRRFRetriever" }) as any as S.Schema<TypesRRFRetriever>;
 
 export type TypesTextSimilarityRerankerFilterCase1List = Array<TypesQueryDslQueryContainer>;
 export const TypesTextSimilarityRerankerFilterCase1List = /*@__PURE__*/ S.Array(
@@ -11092,9 +10984,7 @@ export const TypesChunkRescorer = /*@__PURE__*/ S.suspend(() =>
     size: S.optional(S.Number),
     chunking_settings: S.optional(TypesMappingChunkRescorerChunkingSettings),
   }),
-).annotate({
-  identifier: "TypesChunkRescorer",
-}) as any as S.Schema<TypesChunkRescorer>;
+).annotate({ identifier: "TypesChunkRescorer" }) as any as S.Schema<TypesChunkRescorer>;
 
 export interface TypesTextSimilarityReranker {
   /** Query to filter the documents that can match. */
@@ -11179,9 +11069,7 @@ export const TypesRuleRetriever = /*@__PURE__*/ S.suspend(() =>
     retriever: S.suspend(() => TypesRetrieverContainer),
     rank_window_size: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TypesRuleRetriever",
-}) as any as S.Schema<TypesRuleRetriever>;
+).annotate({ identifier: "TypesRuleRetriever" }) as any as S.Schema<TypesRuleRetriever>;
 
 export type TypesRescorerRetrieverFilterCase1List = Array<TypesQueryDslQueryContainer>;
 export const TypesRescorerRetrieverFilterCase1List = /*@__PURE__*/ S.Array(
@@ -11225,9 +11113,7 @@ export const TypesRescorerRetriever = /*@__PURE__*/ S.suspend(() =>
     retriever: S.suspend(() => TypesRetrieverContainer),
     rescore: TypesRescorerRetrieverRescore,
   }),
-).annotate({
-  identifier: "TypesRescorerRetriever",
-}) as any as S.Schema<TypesRescorerRetriever>;
+).annotate({ identifier: "TypesRescorerRetriever" }) as any as S.Schema<TypesRescorerRetriever>;
 
 export type TypesLinearRetrieverFilterCase1List = Array<TypesQueryDslQueryContainer>;
 export const TypesLinearRetrieverFilterCase1List = /*@__PURE__*/ S.Array(
@@ -11244,19 +11130,20 @@ export type TypesScoreNormalizer = "none" | "minmax" | "l2_norm";
 export const TypesScoreNormalizer = S.String;
 
 export interface TypesInnerRetriever {
+  /** The nested retriever configuration. */
   retriever: TypesRetrieverContainer;
-  weight: number;
-  normalizer: TypesScoreNormalizer | (string & {});
+  /** Weight multiplier for this retriever's contribution to the linear combination. Must be non-negative. */
+  weight?: number;
+  /** Score normalizer to apply to this retriever's results before weighting. Falls back to the top-level `normalizer` on the linear retriever if unset, then to `none` (identity) if neither is set. */
+  normalizer?: TypesScoreNormalizer | (string & {});
 }
 export const TypesInnerRetriever = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     retriever: S.suspend(() => TypesRetrieverContainer),
-    weight: S.Number,
-    normalizer: TypesScoreNormalizer,
+    weight: S.optional(S.Number),
+    normalizer: S.optional(TypesScoreNormalizer),
   }),
-).annotate({
-  identifier: "TypesInnerRetriever",
-}) as any as S.Schema<TypesInnerRetriever>;
+).annotate({ identifier: "TypesInnerRetriever" }) as any as S.Schema<TypesInnerRetriever>;
 
 /** Inner retrievers. */
 export type TypesLinearRetrieverRetrieversList = Array<TypesInnerRetriever>;
@@ -11294,9 +11181,7 @@ export const TypesLinearRetriever = /*@__PURE__*/ S.suspend(() =>
     fields: S.optional(TypesLinearRetrieverFieldsList),
     normalizer: S.optional(TypesScoreNormalizer),
   }),
-).annotate({
-  identifier: "TypesLinearRetriever",
-}) as any as S.Schema<TypesLinearRetriever>;
+).annotate({ identifier: "TypesLinearRetriever" }) as any as S.Schema<TypesLinearRetriever>;
 
 export type TypesPinnedRetrieverFilterCase1List = Array<TypesQueryDslQueryContainer>;
 export const TypesPinnedRetrieverFilterCase1List = /*@__PURE__*/ S.Array(
@@ -11323,9 +11208,7 @@ export const TypesSpecifiedDocument = /*@__PURE__*/ S.suspend(() =>
     index: S.optional(S.String),
     id: S.String,
   }),
-).annotate({
-  identifier: "TypesSpecifiedDocument",
-}) as any as S.Schema<TypesSpecifiedDocument>;
+).annotate({ identifier: "TypesSpecifiedDocument" }) as any as S.Schema<TypesSpecifiedDocument>;
 
 export type TypesPinnedRetrieverDocsList = Array<TypesSpecifiedDocument>;
 export const TypesPinnedRetrieverDocsList = /*@__PURE__*/ S.Array(
@@ -11355,9 +11238,7 @@ export const TypesPinnedRetriever = /*@__PURE__*/ S.suspend(() =>
     docs: S.optional(TypesPinnedRetrieverDocsList),
     rank_window_size: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TypesPinnedRetriever",
-}) as any as S.Schema<TypesPinnedRetriever>;
+).annotate({ identifier: "TypesPinnedRetriever" }) as any as S.Schema<TypesPinnedRetriever>;
 
 export type TypesDiversifyRetrieverFilterCase1List = Array<TypesQueryDslQueryContainer>;
 export const TypesDiversifyRetrieverFilterCase1List = /*@__PURE__*/ S.Array(
@@ -11412,9 +11293,7 @@ export const TypesDiversifyRetriever = /*@__PURE__*/ S.suspend(() =>
     query_vector_builder: S.optional(TypesQueryVectorBuilder),
     lambda: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TypesDiversifyRetriever",
-}) as any as S.Schema<TypesDiversifyRetriever>;
+).annotate({ identifier: "TypesDiversifyRetriever" }) as any as S.Schema<TypesDiversifyRetriever>;
 
 export interface TypesRetrieverContainer {
   /** A retriever that replaces the functionality of a traditional query. */
@@ -11448,9 +11327,7 @@ export const TypesRetrieverContainer = /*@__PURE__*/ S.suspend(() =>
     pinned: S.optional(TypesPinnedRetriever),
     diversify: S.optional(TypesDiversifyRetriever),
   }),
-).annotate({
-  identifier: "TypesRetrieverContainer",
-}) as any as S.Schema<TypesRetrieverContainer>;
+).annotate({ identifier: "TypesRetrieverContainer" }) as any as S.Schema<TypesRetrieverContainer>;
 
 /** Retrieve a script evaluation (based on different fields) for each hit. */
 export type GlobalSearchTypesSearchRequestBodyScriptFieldsMap = {
@@ -11472,9 +11349,7 @@ export const TypesSlicedScroll = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     max: S.Number,
   }),
-).annotate({
-  identifier: "TypesSlicedScroll",
-}) as any as S.Schema<TypesSlicedScroll>;
+).annotate({ identifier: "TypesSlicedScroll" }) as any as S.Schema<TypesSlicedScroll>;
 
 /** An array of wildcard (`*`) field patterns. The request returns values for field names matching these patterns in the `hits.fields` property of the response. */
 export type GlobalSearchTypesSearchRequestBodyFieldsList = Array<TypesQueryDslFieldAndFormat>;
@@ -11593,13 +11468,9 @@ export const TypesMappingRuntimeField = /*@__PURE__*/ S.suspend(() =>
     on_script_error: S.optional(TypesMappingOnScriptError),
     type: TypesMappingRuntimeFieldType,
   }),
-).annotate({
-  identifier: "TypesMappingRuntimeField",
-}) as any as S.Schema<TypesMappingRuntimeField>;
+).annotate({ identifier: "TypesMappingRuntimeField" }) as any as S.Schema<TypesMappingRuntimeField>;
 
-export type TypesMappingRuntimeFields = {
-  [key: string]: TypesMappingRuntimeField | undefined;
-};
+export type TypesMappingRuntimeFields = { [key: string]: TypesMappingRuntimeField | undefined };
 export const TypesMappingRuntimeFields = /*@__PURE__*/ S.Record(
   S.String,
   TypesMappingRuntimeField,
@@ -11754,9 +11625,7 @@ export const GlobalSearchTypesProfile = /*@__PURE__*/ S.suspend(() =>
     shards: GlobalSearchTypesProfileShardsList,
     request: S.optional(GlobalSearchTypesSearchRequestCoordinatorMetadata),
   }),
-).annotate({
-  identifier: "GlobalSearchTypesProfile",
-}) as any as S.Schema<GlobalSearchTypesProfile>;
+).annotate({ identifier: "GlobalSearchTypesProfile" }) as any as S.Schema<GlobalSearchTypesProfile>;
 
 /** Text or location that we want similar documents for or a lookup to a document's field for the text. */
 export type GlobalSearchTypesContext = string | TypesGeoLocation;
@@ -12026,9 +11895,7 @@ export const AsyncSearchGetResponse = /*@__PURE__*/ S.suspend(() =>
     error: S.optional(TypesErrorCause),
     response: AsyncSearchTypesAsyncSearch,
   }),
-).annotate({
-  identifier: "AsyncSearchGetResponse",
-}) as any as S.Schema<AsyncSearchGetResponse>;
+).annotate({ identifier: "AsyncSearchGetResponse" }) as any as S.Schema<AsyncSearchGetResponse>;
 
 export interface AsyncSearchStatusRequest {
   /** A unique identifier for the async search. */
@@ -12041,9 +11908,7 @@ export const AsyncSearchStatusRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     keep_alive: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_async_search/status/{id}", code: 200 })),
-).annotate({
-  identifier: "AsyncSearchStatusRequest",
-}) as any as S.Schema<AsyncSearchStatusRequest>;
+).annotate({ identifier: "AsyncSearchStatusRequest" }) as any as S.Schema<AsyncSearchStatusRequest>;
 
 export interface AsyncSearchStatusResponse {
   id?: string;
@@ -12132,17 +11997,13 @@ export const AsyncSearchSubmitRequestAggregationsMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<AsyncSearchSubmitRequestAggregationsMap>;
 
 /** Configuration of search extensions defined by Elasticsearch plugins. */
-export type AsyncSearchSubmitRequestExtMap = {
-  [key: string]: unknown | undefined;
-};
+export type AsyncSearchSubmitRequestExtMap = { [key: string]: unknown | undefined };
 export const AsyncSearchSubmitRequestExtMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<AsyncSearchSubmitRequestExtMap>;
 
-export type AsyncSearchSubmitRequestIndicesBoostItemMap = {
-  [key: string]: number | undefined;
-};
+export type AsyncSearchSubmitRequestIndicesBoostItemMap = { [key: string]: number | undefined };
 export const AsyncSearchSubmitRequestIndicesBoostItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -12370,9 +12231,7 @@ export const AsyncSearchSubmitRequest = /*@__PURE__*/ S.suspend(() =>
     pit: S.optional(GlobalSearchTypesPointInTimeReference),
     runtime_mappings: S.optional(TypesMappingRuntimeFields),
   }).pipe(T.Http({ method: "POST", uri: "/_async_search", code: 200 })),
-).annotate({
-  identifier: "AsyncSearchSubmitRequest",
-}) as any as S.Schema<AsyncSearchSubmitRequest>;
+).annotate({ identifier: "AsyncSearchSubmitRequest" }) as any as S.Schema<AsyncSearchSubmitRequest>;
 
 export interface AsyncSearchSubmitResponse {
   id?: string;
@@ -12432,17 +12291,13 @@ export const AsyncSearchSubmit1RequestAggregationsMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<AsyncSearchSubmit1RequestAggregationsMap>;
 
 /** Configuration of search extensions defined by Elasticsearch plugins. */
-export type AsyncSearchSubmit1RequestExtMap = {
-  [key: string]: unknown | undefined;
-};
+export type AsyncSearchSubmit1RequestExtMap = { [key: string]: unknown | undefined };
 export const AsyncSearchSubmit1RequestExtMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<AsyncSearchSubmit1RequestExtMap>;
 
-export type AsyncSearchSubmit1RequestIndicesBoostItemMap = {
-  [key: string]: number | undefined;
-};
+export type AsyncSearchSubmit1RequestIndicesBoostItemMap = { [key: string]: number | undefined };
 export const AsyncSearchSubmit1RequestIndicesBoostItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -12748,9 +12603,7 @@ export const SecurityTypesRealmInfo = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     type: S.String,
   }),
-).annotate({
-  identifier: "SecurityTypesRealmInfo",
-}) as any as S.Schema<SecurityTypesRealmInfo>;
+).annotate({ identifier: "SecurityTypesRealmInfo" }) as any as S.Schema<SecurityTypesRealmInfo>;
 
 export type AuthenticateSecurityResponseRolesList = Array<string>;
 export const AuthenticateSecurityResponseRolesList = /*@__PURE__*/ S.Array(
@@ -12900,9 +12753,7 @@ export type TypesWaitForActiveShards = number | TypesWaitForActiveShardOptions;
 export const TypesWaitForActiveShards = S.Unknown as any as S.Schema<TypesWaitForActiveShards>;
 
 /** A map from the full name of fields to the name of dynamic templates. It defaults to an empty map. If a name matches a dynamic template, that template will be applied regardless of other match predicates defined in the template. If a field is already defined in the mapping, then this parameter won't be used. */
-export type GlobalBulkIndexOperationDynamicTemplatesMap = {
-  [key: string]: string | undefined;
-};
+export type GlobalBulkIndexOperationDynamicTemplatesMap = { [key: string]: string | undefined };
 export const GlobalBulkIndexOperationDynamicTemplatesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12939,14 +12790,10 @@ export const GlobalBulkIndexOperation = /*@__PURE__*/ S.suspend(() =>
     pipeline: S.optional(S.String),
     require_alias: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GlobalBulkIndexOperation",
-}) as any as S.Schema<GlobalBulkIndexOperation>;
+).annotate({ identifier: "GlobalBulkIndexOperation" }) as any as S.Schema<GlobalBulkIndexOperation>;
 
 /** A map from the full name of fields to the name of dynamic templates. It defaults to an empty map. If a name matches a dynamic template, that template will be applied regardless of other match predicates defined in the template. If a field is already defined in the mapping, then this parameter won't be used. */
-export type GlobalBulkCreateOperationDynamicTemplatesMap = {
-  [key: string]: string | undefined;
-};
+export type GlobalBulkCreateOperationDynamicTemplatesMap = { [key: string]: string | undefined };
 export const GlobalBulkCreateOperationDynamicTemplatesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -13094,9 +12941,7 @@ export const GlobalBulkUpdateAction = /*@__PURE__*/ S.suspend(() =>
     _source: S.optional(GlobalSearchTypesSourceConfig),
     upsert: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "GlobalBulkUpdateAction",
-}) as any as S.Schema<GlobalBulkUpdateAction>;
+).annotate({ identifier: "GlobalBulkUpdateAction" }) as any as S.Schema<GlobalBulkUpdateAction>;
 
 export type BulkRequestBodyItem = GlobalBulkOperationContainer | GlobalBulkUpdateAction | unknown;
 export const BulkRequestBodyItem = S.Unknown as any as S.Schema<BulkRequestBodyItem>;
@@ -13158,17 +13003,13 @@ export type GlobalBulkFailureStoreStatus =
   | "failed";
 export const GlobalBulkFailureStoreStatus = S.String;
 
-export type TypesInlineGetDictUserDefinedFieldsMap = {
-  [key: string]: unknown | undefined;
-};
+export type TypesInlineGetDictUserDefinedFieldsMap = { [key: string]: unknown | undefined };
 export const TypesInlineGetDictUserDefinedFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<TypesInlineGetDictUserDefinedFieldsMap>;
 
-export type TypesInlineGetDictUserDefinedSourceMap = {
-  [key: string]: unknown | undefined;
-};
+export type TypesInlineGetDictUserDefinedSourceMap = { [key: string]: unknown | undefined };
 export const TypesInlineGetDictUserDefinedSourceMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -13233,13 +13074,9 @@ export const GlobalBulkResponseItem = /*@__PURE__*/ S.suspend(() =>
     forced_refresh: S.optional(S.Boolean),
     get: S.optional(TypesInlineGetDictUserDefined),
   }),
-).annotate({
-  identifier: "GlobalBulkResponseItem",
-}) as any as S.Schema<GlobalBulkResponseItem>;
+).annotate({ identifier: "GlobalBulkResponseItem" }) as any as S.Schema<GlobalBulkResponseItem>;
 
-export type BulkResponseItemsItemMap = {
-  [key: string]: GlobalBulkResponseItem | undefined;
-};
+export type BulkResponseItemsItemMap = { [key: string]: GlobalBulkResponseItem | undefined };
 export const BulkResponseItemsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   GlobalBulkResponseItem,
@@ -13322,9 +13159,7 @@ export const Bulk1Request = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "PUT", uri: "/_bulk", code: 200 })),
 ).annotate({ identifier: "Bulk1Request" }) as any as S.Schema<Bulk1Request>;
 
-export type Bulk1ResponseItemsItemMap = {
-  [key: string]: GlobalBulkResponseItem | undefined;
-};
+export type Bulk1ResponseItemsItemMap = { [key: string]: GlobalBulkResponseItem | undefined };
 export const Bulk1ResponseItemsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   GlobalBulkResponseItem,
@@ -13410,9 +13245,7 @@ export const Bulk2Request = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_bulk", code: 200 })),
 ).annotate({ identifier: "Bulk2Request" }) as any as S.Schema<Bulk2Request>;
 
-export type Bulk2ResponseItemsItemMap = {
-  [key: string]: GlobalBulkResponseItem | undefined;
-};
+export type Bulk2ResponseItemsItemMap = { [key: string]: GlobalBulkResponseItem | undefined };
 export const Bulk2ResponseItemsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   GlobalBulkResponseItem,
@@ -13498,9 +13331,7 @@ export const Bulk3Request = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "PUT", uri: "/{index}/_bulk", code: 200 })),
 ).annotate({ identifier: "Bulk3Request" }) as any as S.Schema<Bulk3Request>;
 
-export type Bulk3ResponseItemsItemMap = {
-  [key: string]: GlobalBulkResponseItem | undefined;
-};
+export type Bulk3ResponseItemsItemMap = { [key: string]: GlobalBulkResponseItem | undefined };
 export const Bulk3ResponseItemsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   GlobalBulkResponseItem,
@@ -13573,9 +13404,7 @@ export const CancelReindexRequest = /*@__PURE__*/ S.suspend(() =>
     task_id: S.String.pipe(T.Label()),
     wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/_reindex/{task_id}/_cancel", code: 200 })),
-).annotate({
-  identifier: "CancelReindexRequest",
-}) as any as S.Schema<CancelReindexRequest>;
+).annotate({ identifier: "CancelReindexRequest" }) as any as S.Schema<CancelReindexRequest>;
 
 export interface TypesRetries {
   /** The number of bulk actions retried. */
@@ -13638,9 +13467,7 @@ export const TypesReindexStatus = /*@__PURE__*/ S.suspend(() =>
     version_conflicts: S.Number,
     cancelled: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TypesReindexStatus",
-}) as any as S.Schema<TypesReindexStatus>;
+).annotate({ identifier: "TypesReindexStatus" }) as any as S.Schema<TypesReindexStatus>;
 
 export interface TypesBulkIndexByScrollFailure {
   cause: TypesErrorCause;
@@ -13713,9 +13540,7 @@ export const TypesReindexTaskResult = /*@__PURE__*/ S.suspend(() =>
     updated: S.optional(S.Number),
     version_conflicts: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TypesReindexTaskResult",
-}) as any as S.Schema<TypesReindexTaskResult>;
+).annotate({ identifier: "TypesReindexTaskResult" }) as any as S.Schema<TypesReindexTaskResult>;
 
 export interface CancelReindexResponse {
   /** Present and `true` when `wait_for_completion=false`. */
@@ -13758,9 +13583,7 @@ export const CancelReindexResponse = /*@__PURE__*/ S.suspend(() =>
     error: S.optional(TypesErrorCause),
     response: S.optional(TypesReindexTaskResult),
   }),
-).annotate({
-  identifier: "CancelReindexResponse",
-}) as any as S.Schema<CancelReindexResponse>;
+).annotate({ identifier: "CancelReindexResponse" }) as any as S.Schema<CancelReindexResponse>;
 
 export type CancelTaskRequestActionsCase1List = Array<string>;
 export const CancelTaskRequestActionsCase1List = /*@__PURE__*/ S.Array(
@@ -13792,9 +13615,7 @@ export const CancelTaskRequest = /*@__PURE__*/ S.suspend(() =>
     parent_task_id: S.optional(S.String.pipe(T.Query())),
     wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/_tasks/_cancel", code: 200 })),
-).annotate({
-  identifier: "CancelTaskRequest",
-}) as any as S.Schema<CancelTaskRequest>;
+).annotate({ identifier: "CancelTaskRequest" }) as any as S.Schema<CancelTaskRequest>;
 
 export type TasksTypesTaskListResponseBaseNodeFailuresList = Array<TypesErrorCause>;
 export const TasksTypesTaskListResponseBaseNodeFailuresList = /*@__PURE__*/ S.Array(
@@ -13814,9 +13635,7 @@ export const TypesTaskFailure = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     reason: TypesErrorCause,
   }),
-).annotate({
-  identifier: "TypesTaskFailure",
-}) as any as S.Schema<TypesTaskFailure>;
+).annotate({ identifier: "TypesTaskFailure" }) as any as S.Schema<TypesTaskFailure>;
 
 export type TasksTypesTaskListResponseBaseTaskFailuresList = Array<TypesTaskFailure>;
 export const TasksTypesTaskListResponseBaseTaskFailuresList = /*@__PURE__*/ S.Array(
@@ -13828,17 +13647,13 @@ export const TasksTypesNodeTasksRolesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<TasksTypesNodeTasksRolesList>;
 
-export type TasksTypesNodeTasksAttributesMap = {
-  [key: string]: string | undefined;
-};
+export type TasksTypesNodeTasksAttributesMap = { [key: string]: string | undefined };
 export const TasksTypesNodeTasksAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<TasksTypesNodeTasksAttributesMap>;
 
-export type TasksTypesTaskInfoHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type TasksTypesTaskInfoHeadersMap = { [key: string]: string | undefined };
 export const TasksTypesTaskInfoHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -13886,13 +13701,9 @@ export const TasksTypesTaskInfo = /*@__PURE__*/ S.suspend(() =>
     original_start_time_in_millis: S.optional(S.Number),
     original_start_time: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TasksTypesTaskInfo",
-}) as any as S.Schema<TasksTypesTaskInfo>;
+).annotate({ identifier: "TasksTypesTaskInfo" }) as any as S.Schema<TasksTypesTaskInfo>;
 
-export type TasksTypesNodeTasksTasksMap = {
-  [key: string]: TasksTypesTaskInfo | undefined;
-};
+export type TasksTypesNodeTasksTasksMap = { [key: string]: TasksTypesTaskInfo | undefined };
 export const TasksTypesNodeTasksTasksMap = /*@__PURE__*/ S.Record(
   S.String,
   TasksTypesTaskInfo,
@@ -13917,9 +13728,7 @@ export const TasksTypesNodeTasks = /*@__PURE__*/ S.suspend(() =>
     attributes: S.optional(TasksTypesNodeTasksAttributesMap),
     tasks: TasksTypesNodeTasksTasksMap,
   }),
-).annotate({
-  identifier: "TasksTypesNodeTasks",
-}) as any as S.Schema<TasksTypesNodeTasks>;
+).annotate({ identifier: "TasksTypesNodeTasks" }) as any as S.Schema<TasksTypesNodeTasks>;
 
 /** Task information grouped by node, if `group_by` was set to `node` (the default). */
 export type TasksTypesTaskListResponseBaseNodesMap = {
@@ -13935,9 +13744,7 @@ export const TasksTypesTaskInfosCase0List = /*@__PURE__*/ S.Array(
   TasksTypesTaskInfo,
 ) as any as S.Schema<TasksTypesTaskInfosCase0List>;
 
-export type TasksTypesParentTaskInfoHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type TasksTypesParentTaskInfoHeadersMap = { [key: string]: string | undefined };
 export const TasksTypesParentTaskInfoHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -13992,13 +13799,9 @@ export const TasksTypesParentTaskInfo = /*@__PURE__*/ S.suspend(() =>
     original_start_time: S.optional(S.String),
     children: S.optional(TasksTypesParentTaskInfoChildrenList),
   }),
-).annotate({
-  identifier: "TasksTypesParentTaskInfo",
-}) as any as S.Schema<TasksTypesParentTaskInfo>;
+).annotate({ identifier: "TasksTypesParentTaskInfo" }) as any as S.Schema<TasksTypesParentTaskInfo>;
 
-export type TasksTypesTaskInfosCase1Map = {
-  [key: string]: TasksTypesParentTaskInfo | undefined;
-};
+export type TasksTypesTaskInfosCase1Map = { [key: string]: TasksTypesParentTaskInfo | undefined };
 export const TasksTypesTaskInfosCase1Map = /*@__PURE__*/ S.Record(
   S.String,
   TasksTypesParentTaskInfo,
@@ -14084,9 +13887,7 @@ export const CatAliasesRequest = /*@__PURE__*/ S.suspend(() =>
     expand_wildcards: S.optional(TypesExpandWildcards.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/aliases", code: 200 })),
-).annotate({
-  identifier: "CatAliasesRequest",
-}) as any as S.Schema<CatAliasesRequest>;
+).annotate({ identifier: "CatAliasesRequest" }) as any as S.Schema<CatAliasesRequest>;
 
 export interface CatAliasesAliasesRecord {
   /** alias name */
@@ -14111,9 +13912,7 @@ export const CatAliasesAliasesRecord = /*@__PURE__*/ S.suspend(() =>
     routing_search: S.optional(S.String.pipe(T.Body("routing.search"))),
     is_write_index: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CatAliasesAliasesRecord",
-}) as any as S.Schema<CatAliasesAliasesRecord>;
+).annotate({ identifier: "CatAliasesAliasesRecord" }) as any as S.Schema<CatAliasesAliasesRecord>;
 
 export type CatAliasesResponseBodyList = Array<CatAliasesAliasesRecord>;
 export const CatAliasesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -14123,9 +13922,7 @@ export const CatAliasesResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatAliasesResponse = CatAliasesResponseBodyList;
 export const CatAliasesResponse = /*@__PURE__*/ S.suspend(() =>
   CatAliasesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatAliasesResponse",
-}) as any as S.Schema<CatAliasesResponse>;
+).annotate({ identifier: "CatAliasesResponse" }) as any as S.Schema<CatAliasesResponse>;
 
 export interface CatAliases1Request {
   /** A comma-separated list of aliases to retrieve. Supports wildcards (`*`). To retrieve all aliases, omit this parameter or use `*` or `_all`. */
@@ -14147,9 +13944,7 @@ export const CatAliases1Request = /*@__PURE__*/ S.suspend(() =>
     expand_wildcards: S.optional(TypesExpandWildcards.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/aliases/{name}", code: 200 })),
-).annotate({
-  identifier: "CatAliases1Request",
-}) as any as S.Schema<CatAliases1Request>;
+).annotate({ identifier: "CatAliases1Request" }) as any as S.Schema<CatAliases1Request>;
 
 export type CatAliases1ResponseBodyList = Array<CatAliasesAliasesRecord>;
 export const CatAliases1ResponseBodyList = /*@__PURE__*/ S.Array(
@@ -14159,9 +13954,7 @@ export const CatAliases1ResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatAliases1Response = CatAliases1ResponseBodyList;
 export const CatAliases1Response = /*@__PURE__*/ S.suspend(() =>
   CatAliases1ResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatAliases1Response",
-}) as any as S.Schema<CatAliases1Response>;
+).annotate({ identifier: "CatAliases1Response" }) as any as S.Schema<CatAliases1Response>;
 
 export type CatTypesCatAllocationColumnCase0 =
   | "shards"
@@ -14231,9 +14024,7 @@ export const CatAllocationRequest = /*@__PURE__*/ S.suspend(() =>
     local: S.optional(S.Boolean.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/allocation", code: 200 })),
-).annotate({
-  identifier: "CatAllocationRequest",
-}) as any as S.Schema<CatAllocationRequest>;
+).annotate({ identifier: "CatAllocationRequest" }) as any as S.Schema<CatAllocationRequest>;
 
 /** Some APIs will return values such as numbers also as a string (notably epoch timestamps). This behavior is used to capture this behavior while keeping the semantics of the field type. Depending on the target language, code generators can keep the union or remove it and leniently parse strings to the target type. */
 export type SpecUtilsStringifieddouble = number | string;
@@ -14340,9 +14131,7 @@ export const CatAllocationResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatAllocationResponse = CatAllocationResponseBodyList;
 export const CatAllocationResponse = /*@__PURE__*/ S.suspend(() =>
   CatAllocationResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatAllocationResponse",
-}) as any as S.Schema<CatAllocationResponse>;
+).annotate({ identifier: "CatAllocationResponse" }) as any as S.Schema<CatAllocationResponse>;
 
 export interface CatAllocation1Request {
   /** A comma-separated list of node identifiers or names used to limit the returned information. */
@@ -14364,9 +14153,7 @@ export const CatAllocation1Request = /*@__PURE__*/ S.suspend(() =>
     local: S.optional(S.Boolean.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/allocation/{node_id}", code: 200 })),
-).annotate({
-  identifier: "CatAllocation1Request",
-}) as any as S.Schema<CatAllocation1Request>;
+).annotate({ identifier: "CatAllocation1Request" }) as any as S.Schema<CatAllocation1Request>;
 
 export type CatAllocation1ResponseBodyList = Array<CatAllocationAllocationRecord>;
 export const CatAllocation1ResponseBodyList = /*@__PURE__*/ S.Array(
@@ -14376,9 +14163,7 @@ export const CatAllocation1ResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatAllocation1Response = CatAllocation1ResponseBodyList;
 export const CatAllocation1Response = /*@__PURE__*/ S.suspend(() =>
   CatAllocation1ResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatAllocation1Response",
-}) as any as S.Schema<CatAllocation1Response>;
+).annotate({ identifier: "CatAllocation1Response" }) as any as S.Schema<CatAllocation1Response>;
 
 export type CatTypesCatCircuitBreakerColumnCase0 =
   | "node_id"
@@ -14433,9 +14218,7 @@ export const CatCircuitBreakerRequest = /*@__PURE__*/ S.suspend(() =>
     local: S.optional(S.Boolean.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/circuit_breaker", code: 200 })),
-).annotate({
-  identifier: "CatCircuitBreakerRequest",
-}) as any as S.Schema<CatCircuitBreakerRequest>;
+).annotate({ identifier: "CatCircuitBreakerRequest" }) as any as S.Schema<CatCircuitBreakerRequest>;
 
 export interface CatCircuitBreakerCircuitBreakerRecord {
   /** Persistent node ID */
@@ -14505,11 +14288,7 @@ export const CatCircuitBreaker1Request = /*@__PURE__*/ S.suspend(() =>
     local: S.optional(S.Boolean.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_cat/circuit_breaker/{circuit_breaker_patterns}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/_cat/circuit_breaker/{circuit_breaker_patterns}", code: 200 }),
   ),
 ).annotate({
   identifier: "CatCircuitBreaker1Request",
@@ -14633,13 +14412,7 @@ export const CatComponentTemplates1Request = /*@__PURE__*/ S.suspend(() =>
     s: S.optional(TypesNames.pipe(T.Query())),
     local: S.optional(S.Boolean.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_cat/component_templates/{name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_cat/component_templates/{name}", code: 200 })),
 ).annotate({
   identifier: "CatComponentTemplates1Request",
 }) as any as S.Schema<CatComponentTemplates1Request>;
@@ -14692,9 +14465,7 @@ export const CatCountRequest = /*@__PURE__*/ S.suspend(() =>
     h: S.optional(CatTypesCatCountColumns.pipe(T.Query())),
     s: S.optional(TypesNames.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/_cat/count", code: 200 })),
-).annotate({
-  identifier: "CatCountRequest",
-}) as any as S.Schema<CatCountRequest>;
+).annotate({ identifier: "CatCountRequest" }) as any as S.Schema<CatCountRequest>;
 
 /** Some APIs will return values such as numbers also as a string (notably epoch timestamps). This behavior is used to capture this behavior while keeping the semantics of the field type. Depending on the target language, code generators can keep the union or remove it and leniently parse strings to the target type. */
 export type SpecUtilsStringifiedEpochTimeUnitSeconds = number | string;
@@ -14715,9 +14486,7 @@ export const CatCountCountRecord = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.optional(S.String),
     count: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CatCountCountRecord",
-}) as any as S.Schema<CatCountCountRecord>;
+).annotate({ identifier: "CatCountCountRecord" }) as any as S.Schema<CatCountCountRecord>;
 
 export type CatCountResponseBodyList = Array<CatCountCountRecord>;
 export const CatCountResponseBodyList = /*@__PURE__*/ S.Array(
@@ -14727,9 +14496,7 @@ export const CatCountResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatCountResponse = CatCountResponseBodyList;
 export const CatCountResponse = /*@__PURE__*/ S.suspend(() =>
   CatCountResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatCountResponse",
-}) as any as S.Schema<CatCountResponse>;
+).annotate({ identifier: "CatCountResponse" }) as any as S.Schema<CatCountResponse>;
 
 export interface CatCount1Request {
   /** A comma-separated list of columns names to display. It supports simple wildcards. */
@@ -14742,9 +14509,7 @@ export const CatCount1Request = /*@__PURE__*/ S.suspend(() =>
     h: S.optional(CatTypesCatCountColumns.pipe(T.Query())),
     s: S.optional(TypesNames.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/count", code: 200 })),
-).annotate({
-  identifier: "CatCount1Request",
-}) as any as S.Schema<CatCount1Request>;
+).annotate({ identifier: "CatCount1Request" }) as any as S.Schema<CatCount1Request>;
 
 export type CatCount1ResponseBodyList = Array<CatCountCountRecord>;
 export const CatCount1ResponseBodyList = /*@__PURE__*/ S.Array(
@@ -14754,9 +14519,7 @@ export const CatCount1ResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatCount1Response = CatCount1ResponseBodyList;
 export const CatCount1Response = /*@__PURE__*/ S.suspend(() =>
   CatCount1ResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatCount1Response",
-}) as any as S.Schema<CatCount1Response>;
+).annotate({ identifier: "CatCount1Response" }) as any as S.Schema<CatCount1Response>;
 
 export interface CatCount2Request {
   /** A comma-separated list of data streams, indices, and aliases used to limit the request. It supports wildcards (`*`). To target all data streams and indices, omit this parameter or use `*` or `_all`. */
@@ -14772,9 +14535,7 @@ export const CatCount2Request = /*@__PURE__*/ S.suspend(() =>
     h: S.optional(CatTypesCatCountColumns.pipe(T.Query())),
     s: S.optional(TypesNames.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/_cat/count/{index}", code: 200 })),
-).annotate({
-  identifier: "CatCount2Request",
-}) as any as S.Schema<CatCount2Request>;
+).annotate({ identifier: "CatCount2Request" }) as any as S.Schema<CatCount2Request>;
 
 export type CatCount2ResponseBodyList = Array<CatCountCountRecord>;
 export const CatCount2ResponseBodyList = /*@__PURE__*/ S.Array(
@@ -14784,9 +14545,7 @@ export const CatCount2ResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatCount2Response = CatCount2ResponseBodyList;
 export const CatCount2Response = /*@__PURE__*/ S.suspend(() =>
   CatCount2ResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatCount2Response",
-}) as any as S.Schema<CatCount2Response>;
+).annotate({ identifier: "CatCount2Response" }) as any as S.Schema<CatCount2Response>;
 
 export interface CatCount3Request {
   /** A comma-separated list of data streams, indices, and aliases used to limit the request. It supports wildcards (`*`). To target all data streams and indices, omit this parameter or use `*` or `_all`. */
@@ -14802,9 +14561,7 @@ export const CatCount3Request = /*@__PURE__*/ S.suspend(() =>
     h: S.optional(CatTypesCatCountColumns.pipe(T.Query())),
     s: S.optional(TypesNames.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/count/{index}", code: 200 })),
-).annotate({
-  identifier: "CatCount3Request",
-}) as any as S.Schema<CatCount3Request>;
+).annotate({ identifier: "CatCount3Request" }) as any as S.Schema<CatCount3Request>;
 
 export type CatCount3ResponseBodyList = Array<CatCountCountRecord>;
 export const CatCount3ResponseBodyList = /*@__PURE__*/ S.Array(
@@ -14814,9 +14571,7 @@ export const CatCount3ResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatCount3Response = CatCount3ResponseBodyList;
 export const CatCount3Response = /*@__PURE__*/ S.suspend(() =>
   CatCount3ResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatCount3Response",
-}) as any as S.Schema<CatCount3Response>;
+).annotate({ identifier: "CatCount3Response" }) as any as S.Schema<CatCount3Response>;
 
 export type CatTypesCatFieldDataColumnCase0 =
   | "id"
@@ -14859,9 +14614,7 @@ export const CatFielddataRequest = /*@__PURE__*/ S.suspend(() =>
     h: S.optional(CatTypesCatFieldDataColumns.pipe(T.Query())),
     s: S.optional(TypesNames.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/fielddata", code: 200 })),
-).annotate({
-  identifier: "CatFielddataRequest",
-}) as any as S.Schema<CatFielddataRequest>;
+).annotate({ identifier: "CatFielddataRequest" }) as any as S.Schema<CatFielddataRequest>;
 
 export interface CatFielddataFielddataRecord {
   /** node id */
@@ -14898,9 +14651,7 @@ export const CatFielddataResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatFielddataResponse = CatFielddataResponseBodyList;
 export const CatFielddataResponse = /*@__PURE__*/ S.suspend(() =>
   CatFielddataResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatFielddataResponse",
-}) as any as S.Schema<CatFielddataResponse>;
+).annotate({ identifier: "CatFielddataResponse" }) as any as S.Schema<CatFielddataResponse>;
 
 export interface CatFielddata1Request {
   /** Comma-separated list of fields used to limit returned information. To retrieve all fields, omit this parameter. */
@@ -14916,9 +14667,7 @@ export const CatFielddata1Request = /*@__PURE__*/ S.suspend(() =>
     h: S.optional(CatTypesCatFieldDataColumns.pipe(T.Query())),
     s: S.optional(TypesNames.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/fielddata/{fields}", code: 200 })),
-).annotate({
-  identifier: "CatFielddata1Request",
-}) as any as S.Schema<CatFielddata1Request>;
+).annotate({ identifier: "CatFielddata1Request" }) as any as S.Schema<CatFielddata1Request>;
 
 export type CatFielddata1ResponseBodyList = Array<CatFielddataFielddataRecord>;
 export const CatFielddata1ResponseBodyList = /*@__PURE__*/ S.Array(
@@ -14928,9 +14677,7 @@ export const CatFielddata1ResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatFielddata1Response = CatFielddata1ResponseBodyList;
 export const CatFielddata1Response = /*@__PURE__*/ S.suspend(() =>
   CatFielddata1ResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatFielddata1Response",
-}) as any as S.Schema<CatFielddata1Response>;
+).annotate({ identifier: "CatFielddata1Response" }) as any as S.Schema<CatFielddata1Response>;
 
 export type CatTypesCatHealthColumnCase0 =
   | "epoch"
@@ -15011,9 +14758,7 @@ export const CatHealthRequest = /*@__PURE__*/ S.suspend(() =>
     h: S.optional(CatTypesCatHealthColumns.pipe(T.Query())),
     s: S.optional(TypesNames.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/health", code: 200 })),
-).annotate({
-  identifier: "CatHealthRequest",
-}) as any as S.Schema<CatHealthRequest>;
+).annotate({ identifier: "CatHealthRequest" }) as any as S.Schema<CatHealthRequest>;
 
 export interface CatHealthHealthRecord {
   /** seconds since 1970-01-01 00:00:00 */
@@ -15065,9 +14810,7 @@ export const CatHealthHealthRecord = /*@__PURE__*/ S.suspend(() =>
     max_task_wait_time: S.optional(S.String),
     active_shards_percent: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CatHealthHealthRecord",
-}) as any as S.Schema<CatHealthHealthRecord>;
+).annotate({ identifier: "CatHealthHealthRecord" }) as any as S.Schema<CatHealthHealthRecord>;
 
 export type CatHealthResponseBodyList = Array<CatHealthHealthRecord>;
 export const CatHealthResponseBodyList = /*@__PURE__*/ S.Array(
@@ -15077,9 +14820,7 @@ export const CatHealthResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatHealthResponse = CatHealthResponseBodyList;
 export const CatHealthResponse = /*@__PURE__*/ S.suspend(() =>
   CatHealthResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatHealthResponse",
-}) as any as S.Schema<CatHealthResponse>;
+).annotate({ identifier: "CatHealthResponse" }) as any as S.Schema<CatHealthResponse>;
 
 export interface CatHelpRequest {}
 export const CatHelpRequest = /*@__PURE__*/ S.suspend(() =>
@@ -15089,9 +14830,7 @@ export const CatHelpRequest = /*@__PURE__*/ S.suspend(() =>
 export type CatHelpResponse = unknown;
 export const CatHelpResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatHelpResponse",
-}) as any as S.Schema<CatHelpResponse>;
+).annotate({ identifier: "CatHelpResponse" }) as any as S.Schema<CatHelpResponse>;
 
 export type TypesHealthStatus =
   | "green"
@@ -15447,9 +15186,7 @@ export const CatIndicesRequest = /*@__PURE__*/ S.suspend(() =>
     h: S.optional(CatTypesCatIndicesColumns.pipe(T.Query())),
     s: S.optional(TypesNames.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/indices", code: 200 })),
-).annotate({
-  identifier: "CatIndicesRequest",
-}) as any as S.Schema<CatIndicesRequest>;
+).annotate({ identifier: "CatIndicesRequest" }) as any as S.Schema<CatIndicesRequest>;
 
 export interface CatIndicesIndicesRecord {
   /** current health status */
@@ -15890,9 +15627,7 @@ export const CatIndicesIndicesRecord = /*@__PURE__*/ S.suspend(() =>
     bulk_avg_size_in_bytes: S.optional(S.String.pipe(T.Body("bulk.avg_size_in_bytes"))),
     pri_bulk_avg_size_in_bytes: S.optional(S.String.pipe(T.Body("pri.bulk.avg_size_in_bytes"))),
   }),
-).annotate({
-  identifier: "CatIndicesIndicesRecord",
-}) as any as S.Schema<CatIndicesIndicesRecord>;
+).annotate({ identifier: "CatIndicesIndicesRecord" }) as any as S.Schema<CatIndicesIndicesRecord>;
 
 export type CatIndicesResponseBodyList = Array<CatIndicesIndicesRecord>;
 export const CatIndicesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -15902,9 +15637,7 @@ export const CatIndicesResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatIndicesResponse = CatIndicesResponseBodyList;
 export const CatIndicesResponse = /*@__PURE__*/ S.suspend(() =>
   CatIndicesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatIndicesResponse",
-}) as any as S.Schema<CatIndicesResponse>;
+).annotate({ identifier: "CatIndicesResponse" }) as any as S.Schema<CatIndicesResponse>;
 
 export interface CatIndices1Request {
   /** Comma-separated list of data streams, indices, and aliases used to limit the request. Supports wildcards (`*`). To target all data streams and indices, omit this parameter or use `*` or `_all`. */
@@ -15935,9 +15668,7 @@ export const CatIndices1Request = /*@__PURE__*/ S.suspend(() =>
     h: S.optional(CatTypesCatIndicesColumns.pipe(T.Query())),
     s: S.optional(TypesNames.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/indices/{index}", code: 200 })),
-).annotate({
-  identifier: "CatIndices1Request",
-}) as any as S.Schema<CatIndices1Request>;
+).annotate({ identifier: "CatIndices1Request" }) as any as S.Schema<CatIndices1Request>;
 
 export type CatIndices1ResponseBodyList = Array<CatIndicesIndicesRecord>;
 export const CatIndices1ResponseBodyList = /*@__PURE__*/ S.Array(
@@ -15947,9 +15678,7 @@ export const CatIndices1ResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatIndices1Response = CatIndices1ResponseBodyList;
 export const CatIndices1Response = /*@__PURE__*/ S.suspend(() =>
   CatIndices1ResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatIndices1Response",
-}) as any as S.Schema<CatIndices1Response>;
+).annotate({ identifier: "CatIndices1Response" }) as any as S.Schema<CatIndices1Response>;
 
 export type CatTypesCatMasterColumnCase0 = "id" | "host" | "h" | "ip" | "node" | "n";
 export const CatTypesCatMasterColumnCase0 = S.String;
@@ -15982,9 +15711,7 @@ export const CatMasterRequest = /*@__PURE__*/ S.suspend(() =>
     local: S.optional(S.Boolean.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/master", code: 200 })),
-).annotate({
-  identifier: "CatMasterRequest",
-}) as any as S.Schema<CatMasterRequest>;
+).annotate({ identifier: "CatMasterRequest" }) as any as S.Schema<CatMasterRequest>;
 
 export interface CatMasterMasterRecord {
   /** node id */
@@ -16003,9 +15730,7 @@ export const CatMasterMasterRecord = /*@__PURE__*/ S.suspend(() =>
     ip: S.optional(S.String),
     node: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CatMasterMasterRecord",
-}) as any as S.Schema<CatMasterMasterRecord>;
+).annotate({ identifier: "CatMasterMasterRecord" }) as any as S.Schema<CatMasterMasterRecord>;
 
 export type CatMasterResponseBodyList = Array<CatMasterMasterRecord>;
 export const CatMasterResponseBodyList = /*@__PURE__*/ S.Array(
@@ -16015,9 +15740,7 @@ export const CatMasterResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatMasterResponse = CatMasterResponseBodyList;
 export const CatMasterResponse = /*@__PURE__*/ S.suspend(() =>
   CatMasterResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatMasterResponse",
-}) as any as S.Schema<CatMasterResponse>;
+).annotate({ identifier: "CatMasterResponse" }) as any as S.Schema<CatMasterResponse>;
 
 export type CatTypesCatDatafeedColumn =
   | "ae"
@@ -16078,9 +15801,7 @@ export const CatMlDatafeedsRequest = /*@__PURE__*/ S.suspend(() =>
     h: S.optional(CatTypesCatDatafeedColumns.pipe(T.Query())),
     s: S.optional(CatTypesCatDatafeedColumns.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/ml/datafeeds", code: 200 })),
-).annotate({
-  identifier: "CatMlDatafeedsRequest",
-}) as any as S.Schema<CatMlDatafeedsRequest>;
+).annotate({ identifier: "CatMlDatafeedsRequest" }) as any as S.Schema<CatMlDatafeedsRequest>;
 
 export type MlTypesDatafeedState = "started" | "stopped" | "starting" | "stopping";
 export const MlTypesDatafeedState = S.String;
@@ -16138,9 +15859,7 @@ export const CatMlDatafeedsResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatMlDatafeedsResponse = CatMlDatafeedsResponseBodyList;
 export const CatMlDatafeedsResponse = /*@__PURE__*/ S.suspend(() =>
   CatMlDatafeedsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatMlDatafeedsResponse",
-}) as any as S.Schema<CatMlDatafeedsResponse>;
+).annotate({ identifier: "CatMlDatafeedsResponse" }) as any as S.Schema<CatMlDatafeedsResponse>;
 
 export interface CatMlDatafeeds1Request {
   /** A numerical character string that uniquely identifies the datafeed. */
@@ -16158,16 +15877,8 @@ export const CatMlDatafeeds1Request = /*@__PURE__*/ S.suspend(() =>
     allow_no_match: S.optional(S.Boolean.pipe(T.Query())),
     h: S.optional(CatTypesCatDatafeedColumns.pipe(T.Query())),
     s: S.optional(CatTypesCatDatafeedColumns.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_cat/ml/datafeeds/{datafeed_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CatMlDatafeeds1Request",
-}) as any as S.Schema<CatMlDatafeeds1Request>;
+  }).pipe(T.Http({ method: "GET", uri: "/_cat/ml/datafeeds/{datafeed_id}", code: 200 })),
+).annotate({ identifier: "CatMlDatafeeds1Request" }) as any as S.Schema<CatMlDatafeeds1Request>;
 
 export type CatMlDatafeeds1ResponseBodyList = Array<CatMlDatafeedsDatafeedsRecord>;
 export const CatMlDatafeeds1ResponseBodyList = /*@__PURE__*/ S.Array(
@@ -16177,9 +15888,7 @@ export const CatMlDatafeeds1ResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatMlDatafeeds1Response = CatMlDatafeeds1ResponseBodyList;
 export const CatMlDatafeeds1Response = /*@__PURE__*/ S.suspend(() =>
   CatMlDatafeeds1ResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatMlDatafeeds1Response",
-}) as any as S.Schema<CatMlDatafeeds1Response>;
+).annotate({ identifier: "CatMlDatafeeds1Response" }) as any as S.Schema<CatMlDatafeeds1Response>;
 
 export type CatTypesCatDfaColumn =
   | "assignment_explanation"
@@ -16336,13 +16045,7 @@ export const CatMlDataFrameAnalytics1Request = /*@__PURE__*/ S.suspend(() =>
     allow_no_match: S.optional(S.Boolean.pipe(T.Query())),
     h: S.optional(CatTypesCatDfaColumns.pipe(T.Query())),
     s: S.optional(CatTypesCatDfaColumns.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_cat/ml/data_frame/analytics/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_cat/ml/data_frame/analytics/{id}", code: 200 })),
 ).annotate({
   identifier: "CatMlDataFrameAnalytics1Request",
 }) as any as S.Schema<CatMlDataFrameAnalytics1Request>;
@@ -16565,9 +16268,7 @@ export const CatMlJobsRequest = /*@__PURE__*/ S.suspend(() =>
     h: S.optional(CatTypesCatAnomalyDetectorColumns.pipe(T.Query())),
     s: S.optional(CatTypesCatAnomalyDetectorColumns.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/ml/anomaly_detectors", code: 200 })),
-).annotate({
-  identifier: "CatMlJobsRequest",
-}) as any as S.Schema<CatMlJobsRequest>;
+).annotate({ identifier: "CatMlJobsRequest" }) as any as S.Schema<CatMlJobsRequest>;
 
 export type MlTypesJobState = "closing" | "closed" | "opened" | "failed" | "opening";
 export const MlTypesJobState = S.String;
@@ -16769,9 +16470,7 @@ export const CatMlJobsJobsRecord = /*@__PURE__*/ S.suspend(() =>
     buckets_time_exp_avg: S.optional(S.String.pipe(T.Body("buckets.time.exp_avg"))),
     buckets_time_exp_avg_hour: S.optional(S.String.pipe(T.Body("buckets.time.exp_avg_hour"))),
   }),
-).annotate({
-  identifier: "CatMlJobsJobsRecord",
-}) as any as S.Schema<CatMlJobsJobsRecord>;
+).annotate({ identifier: "CatMlJobsJobsRecord" }) as any as S.Schema<CatMlJobsJobsRecord>;
 
 export type CatMlJobsResponseBodyList = Array<CatMlJobsJobsRecord>;
 export const CatMlJobsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -16781,9 +16480,7 @@ export const CatMlJobsResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatMlJobsResponse = CatMlJobsResponseBodyList;
 export const CatMlJobsResponse = /*@__PURE__*/ S.suspend(() =>
   CatMlJobsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatMlJobsResponse",
-}) as any as S.Schema<CatMlJobsResponse>;
+).annotate({ identifier: "CatMlJobsResponse" }) as any as S.Schema<CatMlJobsResponse>;
 
 export interface CatMlJobs1Request {
   /** Identifier for the anomaly detection job. */
@@ -16801,16 +16498,8 @@ export const CatMlJobs1Request = /*@__PURE__*/ S.suspend(() =>
     allow_no_match: S.optional(S.Boolean.pipe(T.Query())),
     h: S.optional(CatTypesCatAnomalyDetectorColumns.pipe(T.Query())),
     s: S.optional(CatTypesCatAnomalyDetectorColumns.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_cat/ml/anomaly_detectors/{job_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CatMlJobs1Request",
-}) as any as S.Schema<CatMlJobs1Request>;
+  }).pipe(T.Http({ method: "GET", uri: "/_cat/ml/anomaly_detectors/{job_id}", code: 200 })),
+).annotate({ identifier: "CatMlJobs1Request" }) as any as S.Schema<CatMlJobs1Request>;
 
 export type CatMlJobs1ResponseBodyList = Array<CatMlJobsJobsRecord>;
 export const CatMlJobs1ResponseBodyList = /*@__PURE__*/ S.Array(
@@ -16820,9 +16509,7 @@ export const CatMlJobs1ResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatMlJobs1Response = CatMlJobs1ResponseBodyList;
 export const CatMlJobs1Response = /*@__PURE__*/ S.suspend(() =>
   CatMlJobs1ResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatMlJobs1Response",
-}) as any as S.Schema<CatMlJobs1Response>;
+).annotate({ identifier: "CatMlJobs1Response" }) as any as S.Schema<CatMlJobs1Response>;
 
 export type CatTypesCatTrainedModelsColumn =
   | "create_time"
@@ -16997,13 +16684,7 @@ export const CatMlTrainedModels1Request = /*@__PURE__*/ S.suspend(() =>
     s: S.optional(CatTypesCatTrainedModelsColumns.pipe(T.Query())),
     from: S.optional(S.Number.pipe(T.Query())),
     size: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_cat/ml/trained_models/{model_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_cat/ml/trained_models/{model_id}", code: 200 })),
 ).annotate({
   identifier: "CatMlTrainedModels1Request",
 }) as any as S.Schema<CatMlTrainedModels1Request>;
@@ -17070,9 +16751,7 @@ export const CatNodeattrsRequest = /*@__PURE__*/ S.suspend(() =>
     local: S.optional(S.Boolean.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/nodeattrs", code: 200 })),
-).annotate({
-  identifier: "CatNodeattrsRequest",
-}) as any as S.Schema<CatNodeattrsRequest>;
+).annotate({ identifier: "CatNodeattrsRequest" }) as any as S.Schema<CatNodeattrsRequest>;
 
 export interface CatNodeattrsNodeAttributesRecord {
   /** The node name. */
@@ -17115,9 +16794,7 @@ export const CatNodeattrsResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatNodeattrsResponse = CatNodeattrsResponseBodyList;
 export const CatNodeattrsResponse = /*@__PURE__*/ S.suspend(() =>
   CatNodeattrsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatNodeattrsResponse",
-}) as any as S.Schema<CatNodeattrsResponse>;
+).annotate({ identifier: "CatNodeattrsResponse" }) as any as S.Schema<CatNodeattrsResponse>;
 
 export type CatTypesCatNodeColumnCase0 =
   | "build"
@@ -17409,9 +17086,7 @@ export const CatNodesRequest = /*@__PURE__*/ S.suspend(() =>
     s: S.optional(TypesNames.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/nodes", code: 200 })),
-).annotate({
-  identifier: "CatNodesRequest",
-}) as any as S.Schema<CatNodesRequest>;
+).annotate({ identifier: "CatNodesRequest" }) as any as S.Schema<CatNodesRequest>;
 
 export interface CatNodesNodesRecord {
   /** The unique node identifier. */
@@ -17711,9 +17386,7 @@ export const CatNodesNodesRecord = /*@__PURE__*/ S.suspend(() =>
     bulk_avg_time: S.optional(S.String.pipe(T.Body("bulk.avg_time"))),
     bulk_avg_size_in_bytes: S.optional(S.String.pipe(T.Body("bulk.avg_size_in_bytes"))),
   }),
-).annotate({
-  identifier: "CatNodesNodesRecord",
-}) as any as S.Schema<CatNodesNodesRecord>;
+).annotate({ identifier: "CatNodesNodesRecord" }) as any as S.Schema<CatNodesNodesRecord>;
 
 export type CatNodesResponseBodyList = Array<CatNodesNodesRecord>;
 export const CatNodesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -17723,9 +17396,7 @@ export const CatNodesResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatNodesResponse = CatNodesResponseBodyList;
 export const CatNodesResponse = /*@__PURE__*/ S.suspend(() =>
   CatNodesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatNodesResponse",
-}) as any as S.Schema<CatNodesResponse>;
+).annotate({ identifier: "CatNodesResponse" }) as any as S.Schema<CatNodesResponse>;
 
 export type CatTypesCatPendingTasksColumnCase0 =
   | "insertOrder"
@@ -17770,9 +17441,7 @@ export const CatPendingTasksRequest = /*@__PURE__*/ S.suspend(() =>
     local: S.optional(S.Boolean.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/pending_tasks", code: 200 })),
-).annotate({
-  identifier: "CatPendingTasksRequest",
-}) as any as S.Schema<CatPendingTasksRequest>;
+).annotate({ identifier: "CatPendingTasksRequest" }) as any as S.Schema<CatPendingTasksRequest>;
 
 export interface CatPendingTasksPendingTasksRecord {
   /** The task insertion order. */
@@ -17803,9 +17472,7 @@ export const CatPendingTasksResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatPendingTasksResponse = CatPendingTasksResponseBodyList;
 export const CatPendingTasksResponse = /*@__PURE__*/ S.suspend(() =>
   CatPendingTasksResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatPendingTasksResponse",
-}) as any as S.Schema<CatPendingTasksResponse>;
+).annotate({ identifier: "CatPendingTasksResponse" }) as any as S.Schema<CatPendingTasksResponse>;
 
 export type CatTypesCatPluginsColumnCase0 =
   | "id"
@@ -17852,9 +17519,7 @@ export const CatPluginsRequest = /*@__PURE__*/ S.suspend(() =>
     local: S.optional(S.Boolean.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/plugins", code: 200 })),
-).annotate({
-  identifier: "CatPluginsRequest",
-}) as any as S.Schema<CatPluginsRequest>;
+).annotate({ identifier: "CatPluginsRequest" }) as any as S.Schema<CatPluginsRequest>;
 
 export interface CatPluginsPluginsRecord {
   /** The unique node identifier. */
@@ -17879,9 +17544,7 @@ export const CatPluginsPluginsRecord = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CatPluginsPluginsRecord",
-}) as any as S.Schema<CatPluginsPluginsRecord>;
+).annotate({ identifier: "CatPluginsPluginsRecord" }) as any as S.Schema<CatPluginsPluginsRecord>;
 
 export type CatPluginsResponseBodyList = Array<CatPluginsPluginsRecord>;
 export const CatPluginsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -17891,9 +17554,7 @@ export const CatPluginsResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatPluginsResponse = CatPluginsResponseBodyList;
 export const CatPluginsResponse = /*@__PURE__*/ S.suspend(() =>
   CatPluginsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatPluginsResponse",
-}) as any as S.Schema<CatPluginsResponse>;
+).annotate({ identifier: "CatPluginsResponse" }) as any as S.Schema<CatPluginsResponse>;
 
 export type TypesIndicesCase1List = Array<string>;
 export const TypesIndicesCase1List = /*@__PURE__*/ S.Array(
@@ -17925,8 +17586,14 @@ export type CatTypesCatRecoveryColumnCase0 =
   | "ty"
   | "stage"
   | "st"
+  | "local_retries"
+  | "lr"
   | "priority"
   | "pr"
+  | "gate"
+  | "g"
+  | "blocked_for_millis"
+  | "bf"
   | "source_host"
   | "shost"
   | "source_node"
@@ -17977,7 +17644,7 @@ export type CatTypesCatRecoveryColumns =
 export const CatTypesCatRecoveryColumns = S.Unknown as any as S.Schema<CatTypesCatRecoveryColumns>;
 
 export interface CatRecoveryRequest {
-  /** If `true`, the response only includes ongoing shard recoveries. */
+  /** If `true`, the response only includes shard recoveries that have not yet completed (excludes `done` stage). */
   active_only?: boolean;
   /** If `true`, the response includes detailed information about shard recoveries. */
   detailed?: boolean;
@@ -17996,31 +17663,35 @@ export const CatRecoveryRequest = /*@__PURE__*/ S.suspend(() =>
     h: S.optional(CatTypesCatRecoveryColumns.pipe(T.Query())),
     s: S.optional(TypesNames.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/recovery", code: 200 })),
-).annotate({
-  identifier: "CatRecoveryRequest",
-}) as any as S.Schema<CatRecoveryRequest>;
+).annotate({ identifier: "CatRecoveryRequest" }) as any as S.Schema<CatRecoveryRequest>;
 
 export interface CatRecoveryRecoveryRecord {
   /** The index name. */
   index?: string;
   /** The shard name. */
   shard?: string;
-  /** The recovery start time. */
+  /** The recovery start time. For recoveries in the `created` stage (not yet started), this value is the Unix epoch (1970-01-01T00:00:00.000Z). */
   start_time?: TypesDateTime;
-  /** The recovery start time in epoch milliseconds. */
+  /** The recovery start time in epoch milliseconds. For recoveries in the `created` stage (not yet started), this value is 0. */
   start_time_millis?: number;
-  /** The recovery stop time. */
+  /** The recovery stop time. For recoveries that have not yet completed, this value is the Unix epoch (1970-01-01T00:00:00.000Z). */
   stop_time?: TypesDateTime;
-  /** The recovery stop time in epoch milliseconds. */
+  /** The recovery stop time in epoch milliseconds. For recoveries that have not yet completed, this value is 0. */
   stop_time_millis?: number;
-  /** The recovery time. */
+  /** The recovery time. For recoveries in the `created` stage (not yet started), this value is 0. */
   time?: TypesDuration;
   /** The recovery type. */
   type?: string;
   /** The recovery stage. */
   stage?: string;
+  /** The number of times this recovery has failed in a way which is retried locally (i.e. on the data node). */
+  local_retries?: string;
   /** The recovery priority. */
   priority?: string;
+  /** The name of the recovery gate that blocked recovery on the target node. The value is `n/a` unless the recovery is queued in the `created` stage and blocked by a recovery gate. */
+  gate?: string;
+  /** The elapsed time in milliseconds recovery is blocked for. The value is `n/a` when the recovery is not blocked by a recovery gate. */
+  blocked_for_millis?: string;
   /** The source host. */
   source_host?: string;
   /** The source node name. */
@@ -18067,7 +17738,10 @@ export const CatRecoveryRecoveryRecord = /*@__PURE__*/ S.suspend(() =>
     time: S.optional(TypesDuration),
     type: S.optional(S.String),
     stage: S.optional(S.String),
+    local_retries: S.optional(S.String),
     priority: S.optional(S.String),
+    gate: S.optional(S.String),
+    blocked_for_millis: S.optional(S.String),
     source_host: S.optional(S.String),
     source_node: S.optional(S.String),
     target_host: S.optional(S.String),
@@ -18098,14 +17772,12 @@ export const CatRecoveryResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatRecoveryResponse = CatRecoveryResponseBodyList;
 export const CatRecoveryResponse = /*@__PURE__*/ S.suspend(() =>
   CatRecoveryResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatRecoveryResponse",
-}) as any as S.Schema<CatRecoveryResponse>;
+).annotate({ identifier: "CatRecoveryResponse" }) as any as S.Schema<CatRecoveryResponse>;
 
 export interface CatRecovery1Request {
   /** A comma-separated list of data streams, indices, and aliases used to limit the request. Supports wildcards (`*`). To target all data streams and indices, omit this parameter or use `*` or `_all`. */
   index: string;
-  /** If `true`, the response only includes ongoing shard recoveries. */
+  /** If `true`, the response only includes shard recoveries that have not yet completed (excludes `done` stage). */
   active_only?: boolean;
   /** If `true`, the response includes detailed information about shard recoveries. */
   detailed?: boolean;
@@ -18122,9 +17794,7 @@ export const CatRecovery1Request = /*@__PURE__*/ S.suspend(() =>
     h: S.optional(CatTypesCatRecoveryColumns.pipe(T.Query())),
     s: S.optional(TypesNames.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/recovery/{index}", code: 200 })),
-).annotate({
-  identifier: "CatRecovery1Request",
-}) as any as S.Schema<CatRecovery1Request>;
+).annotate({ identifier: "CatRecovery1Request" }) as any as S.Schema<CatRecovery1Request>;
 
 export type CatRecovery1ResponseBodyList = Array<CatRecoveryRecoveryRecord>;
 export const CatRecovery1ResponseBodyList = /*@__PURE__*/ S.Array(
@@ -18134,9 +17804,7 @@ export const CatRecovery1ResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatRecovery1Response = CatRecovery1ResponseBodyList;
 export const CatRecovery1Response = /*@__PURE__*/ S.suspend(() =>
   CatRecovery1ResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatRecovery1Response",
-}) as any as S.Schema<CatRecovery1Response>;
+).annotate({ identifier: "CatRecovery1Response" }) as any as S.Schema<CatRecovery1Response>;
 
 export interface CatRepositoriesRequest {
   /** List of columns to appear in the response. Supports simple wildcards. */
@@ -18155,9 +17823,7 @@ export const CatRepositoriesRequest = /*@__PURE__*/ S.suspend(() =>
     local: S.optional(S.Boolean.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/repositories", code: 200 })),
-).annotate({
-  identifier: "CatRepositoriesRequest",
-}) as any as S.Schema<CatRepositoriesRequest>;
+).annotate({ identifier: "CatRepositoriesRequest" }) as any as S.Schema<CatRepositoriesRequest>;
 
 export interface CatRepositoriesRepositoriesRecord {
   /** The unique repository identifier. */
@@ -18182,9 +17848,7 @@ export const CatRepositoriesResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatRepositoriesResponse = CatRepositoriesResponseBodyList;
 export const CatRepositoriesResponse = /*@__PURE__*/ S.suspend(() =>
   CatRepositoriesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatRepositoriesResponse",
-}) as any as S.Schema<CatRepositoriesResponse>;
+).annotate({ identifier: "CatRepositoriesResponse" }) as any as S.Schema<CatRepositoriesResponse>;
 
 export type CatTypesCatSegmentsColumnCase0 =
   | "index"
@@ -18256,9 +17920,7 @@ export const CatSegmentsRequest = /*@__PURE__*/ S.suspend(() =>
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
     allow_closed: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/segments", code: 200 })),
-).annotate({
-  identifier: "CatSegmentsRequest",
-}) as any as S.Schema<CatSegmentsRequest>;
+).annotate({ identifier: "CatSegmentsRequest" }) as any as S.Schema<CatSegmentsRequest>;
 
 export interface CatSegmentsSegmentsRecord {
   /** The index name. */
@@ -18322,9 +17984,7 @@ export const CatSegmentsResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatSegmentsResponse = CatSegmentsResponseBodyList;
 export const CatSegmentsResponse = /*@__PURE__*/ S.suspend(() =>
   CatSegmentsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatSegmentsResponse",
-}) as any as S.Schema<CatSegmentsResponse>;
+).annotate({ identifier: "CatSegmentsResponse" }) as any as S.Schema<CatSegmentsResponse>;
 
 export interface CatSegments1Request {
   /** A comma-separated list of data streams, indices, and aliases used to limit the request. Supports wildcards (`*`). To target all data streams and indices, omit this parameter or use `*` or `_all`. */
@@ -18361,9 +18021,7 @@ export const CatSegments1Request = /*@__PURE__*/ S.suspend(() =>
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
     allow_closed: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/segments/{index}", code: 200 })),
-).annotate({
-  identifier: "CatSegments1Request",
-}) as any as S.Schema<CatSegments1Request>;
+).annotate({ identifier: "CatSegments1Request" }) as any as S.Schema<CatSegments1Request>;
 
 export type CatSegments1ResponseBodyList = Array<CatSegmentsSegmentsRecord>;
 export const CatSegments1ResponseBodyList = /*@__PURE__*/ S.Array(
@@ -18373,9 +18031,7 @@ export const CatSegments1ResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatSegments1Response = CatSegments1ResponseBodyList;
 export const CatSegments1Response = /*@__PURE__*/ S.suspend(() =>
   CatSegments1ResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatSegments1Response",
-}) as any as S.Schema<CatSegments1Response>;
+).annotate({ identifier: "CatSegments1Response" }) as any as S.Schema<CatSegments1Response>;
 
 export type CatTypesCatShardColumnCase0 =
   | "completion.size"
@@ -18600,9 +18256,7 @@ export const CatShardsRequest = /*@__PURE__*/ S.suspend(() =>
     s: S.optional(TypesNames.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/shards", code: 200 })),
-).annotate({
-  identifier: "CatShardsRequest",
-}) as any as S.Schema<CatShardsRequest>;
+).annotate({ identifier: "CatShardsRequest" }) as any as S.Schema<CatShardsRequest>;
 
 export interface CatShardsShardsRecord {
   /** The index name. */
@@ -18840,9 +18494,7 @@ export const CatShardsShardsRecord = /*@__PURE__*/ S.suspend(() =>
     bulk_avg_time: S.optional(S.String.pipe(T.Body("bulk.avg_time"))),
     bulk_avg_size_in_bytes: S.optional(S.String.pipe(T.Body("bulk.avg_size_in_bytes"))),
   }),
-).annotate({
-  identifier: "CatShardsShardsRecord",
-}) as any as S.Schema<CatShardsShardsRecord>;
+).annotate({ identifier: "CatShardsShardsRecord" }) as any as S.Schema<CatShardsShardsRecord>;
 
 export type CatShardsResponseBodyList = Array<CatShardsShardsRecord>;
 export const CatShardsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -18852,9 +18504,7 @@ export const CatShardsResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatShardsResponse = CatShardsResponseBodyList;
 export const CatShardsResponse = /*@__PURE__*/ S.suspend(() =>
   CatShardsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatShardsResponse",
-}) as any as S.Schema<CatShardsResponse>;
+).annotate({ identifier: "CatShardsResponse" }) as any as S.Schema<CatShardsResponse>;
 
 export interface CatShards1Request {
   /** A comma-separated list of data streams, indices, and aliases used to limit the request. Supports wildcards (`*`). To target all data streams and indices, omit this parameter or use `*` or `_all`. */
@@ -18873,9 +18523,7 @@ export const CatShards1Request = /*@__PURE__*/ S.suspend(() =>
     s: S.optional(TypesNames.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/shards/{index}", code: 200 })),
-).annotate({
-  identifier: "CatShards1Request",
-}) as any as S.Schema<CatShards1Request>;
+).annotate({ identifier: "CatShards1Request" }) as any as S.Schema<CatShards1Request>;
 
 export type CatShards1ResponseBodyList = Array<CatShardsShardsRecord>;
 export const CatShards1ResponseBodyList = /*@__PURE__*/ S.Array(
@@ -18885,9 +18533,7 @@ export const CatShards1ResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatShards1Response = CatShards1ResponseBodyList;
 export const CatShards1Response = /*@__PURE__*/ S.suspend(() =>
   CatShards1ResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatShards1Response",
-}) as any as S.Schema<CatShards1Response>;
+).annotate({ identifier: "CatShards1Response" }) as any as S.Schema<CatShards1Response>;
 
 export type CatTypesCatSnapshotsColumnCase0 =
   | "id"
@@ -18954,9 +18600,7 @@ export const CatSnapshotsRequest = /*@__PURE__*/ S.suspend(() =>
     s: S.optional(TypesNames.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/snapshots", code: 200 })),
-).annotate({
-  identifier: "CatSnapshotsRequest",
-}) as any as S.Schema<CatSnapshotsRequest>;
+).annotate({ identifier: "CatSnapshotsRequest" }) as any as S.Schema<CatSnapshotsRequest>;
 
 export type WatcherTypesHourAndMinuteHourList = Array<number>;
 export const WatcherTypesHourAndMinuteHourList = /*@__PURE__*/ S.Array(
@@ -19042,9 +18686,7 @@ export const CatSnapshotsResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatSnapshotsResponse = CatSnapshotsResponseBodyList;
 export const CatSnapshotsResponse = /*@__PURE__*/ S.suspend(() =>
   CatSnapshotsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatSnapshotsResponse",
-}) as any as S.Schema<CatSnapshotsResponse>;
+).annotate({ identifier: "CatSnapshotsResponse" }) as any as S.Schema<CatSnapshotsResponse>;
 
 export interface CatSnapshots1Request {
   /** A comma-separated list of snapshot repositories used to limit the request. Accepts wildcard expressions. `_all` returns all repositories. If any repository fails during the request, Elasticsearch returns an error. */
@@ -19066,9 +18708,7 @@ export const CatSnapshots1Request = /*@__PURE__*/ S.suspend(() =>
     s: S.optional(TypesNames.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/snapshots/{repository}", code: 200 })),
-).annotate({
-  identifier: "CatSnapshots1Request",
-}) as any as S.Schema<CatSnapshots1Request>;
+).annotate({ identifier: "CatSnapshots1Request" }) as any as S.Schema<CatSnapshots1Request>;
 
 export type CatSnapshots1ResponseBodyList = Array<CatSnapshotsSnapshotsRecord>;
 export const CatSnapshots1ResponseBodyList = /*@__PURE__*/ S.Array(
@@ -19078,9 +18718,7 @@ export const CatSnapshots1ResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatSnapshots1Response = CatSnapshots1ResponseBodyList;
 export const CatSnapshots1Response = /*@__PURE__*/ S.suspend(() =>
   CatSnapshots1ResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatSnapshots1Response",
-}) as any as S.Schema<CatSnapshots1Response>;
+).annotate({ identifier: "CatSnapshots1Response" }) as any as S.Schema<CatSnapshots1Response>;
 
 export type CatTasksRequestActionsList = Array<string>;
 export const CatTasksRequestActionsList = /*@__PURE__*/ S.Array(
@@ -19166,9 +18804,7 @@ export const CatTasksRequest = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(TypesDuration.pipe(T.Query())),
     wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/tasks", code: 200 })),
-).annotate({
-  identifier: "CatTasksRequest",
-}) as any as S.Schema<CatTasksRequest>;
+).annotate({ identifier: "CatTasksRequest" }) as any as S.Schema<CatTasksRequest>;
 
 export interface CatTasksTasksRecord {
   /** The identifier of the task with the node. */
@@ -19223,9 +18859,7 @@ export const CatTasksTasksRecord = /*@__PURE__*/ S.suspend(() =>
     x_opaque_id: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CatTasksTasksRecord",
-}) as any as S.Schema<CatTasksTasksRecord>;
+).annotate({ identifier: "CatTasksTasksRecord" }) as any as S.Schema<CatTasksTasksRecord>;
 
 export type CatTasksResponseBodyList = Array<CatTasksTasksRecord>;
 export const CatTasksResponseBodyList = /*@__PURE__*/ S.Array(
@@ -19235,9 +18869,7 @@ export const CatTasksResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatTasksResponse = CatTasksResponseBodyList;
 export const CatTasksResponse = /*@__PURE__*/ S.suspend(() =>
   CatTasksResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatTasksResponse",
-}) as any as S.Schema<CatTasksResponse>;
+).annotate({ identifier: "CatTasksResponse" }) as any as S.Schema<CatTasksResponse>;
 
 export type CatTypesCatTemplatesColumnCase0 =
   | "name"
@@ -19284,9 +18916,7 @@ export const CatTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
     local: S.optional(S.Boolean.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/templates", code: 200 })),
-).annotate({
-  identifier: "CatTemplatesRequest",
-}) as any as S.Schema<CatTemplatesRequest>;
+).annotate({ identifier: "CatTemplatesRequest" }) as any as S.Schema<CatTemplatesRequest>;
 
 export interface CatTemplatesTemplatesRecord {
   /** The template name. */
@@ -19320,9 +18950,7 @@ export const CatTemplatesResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatTemplatesResponse = CatTemplatesResponseBodyList;
 export const CatTemplatesResponse = /*@__PURE__*/ S.suspend(() =>
   CatTemplatesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatTemplatesResponse",
-}) as any as S.Schema<CatTemplatesResponse>;
+).annotate({ identifier: "CatTemplatesResponse" }) as any as S.Schema<CatTemplatesResponse>;
 
 export interface CatTemplates1Request {
   /** The name of the template to return. Accepts wildcard expressions. If omitted, all templates are returned. */
@@ -19344,9 +18972,7 @@ export const CatTemplates1Request = /*@__PURE__*/ S.suspend(() =>
     local: S.optional(S.Boolean.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/templates/{name}", code: 200 })),
-).annotate({
-  identifier: "CatTemplates1Request",
-}) as any as S.Schema<CatTemplates1Request>;
+).annotate({ identifier: "CatTemplates1Request" }) as any as S.Schema<CatTemplates1Request>;
 
 export type CatTemplates1ResponseBodyList = Array<CatTemplatesTemplatesRecord>;
 export const CatTemplates1ResponseBodyList = /*@__PURE__*/ S.Array(
@@ -19356,9 +18982,7 @@ export const CatTemplates1ResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatTemplates1Response = CatTemplates1ResponseBodyList;
 export const CatTemplates1Response = /*@__PURE__*/ S.suspend(() =>
   CatTemplates1ResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatTemplates1Response",
-}) as any as S.Schema<CatTemplates1Response>;
+).annotate({ identifier: "CatTemplates1Response" }) as any as S.Schema<CatTemplates1Response>;
 
 export type CatTypesCatThreadPoolColumnCase0 =
   | "active"
@@ -19433,9 +19057,7 @@ export const CatThreadPoolRequest = /*@__PURE__*/ S.suspend(() =>
     local: S.optional(S.Boolean.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/thread_pool", code: 200 })),
-).annotate({
-  identifier: "CatThreadPoolRequest",
-}) as any as S.Schema<CatThreadPoolRequest>;
+).annotate({ identifier: "CatThreadPoolRequest" }) as any as S.Schema<CatThreadPoolRequest>;
 
 export interface CatThreadPoolThreadPoolRecord {
   /** The node name. */
@@ -19514,9 +19136,7 @@ export const CatThreadPoolResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatThreadPoolResponse = CatThreadPoolResponseBodyList;
 export const CatThreadPoolResponse = /*@__PURE__*/ S.suspend(() =>
   CatThreadPoolResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatThreadPoolResponse",
-}) as any as S.Schema<CatThreadPoolResponse>;
+).annotate({ identifier: "CatThreadPoolResponse" }) as any as S.Schema<CatThreadPoolResponse>;
 
 export interface CatThreadPool1Request {
   /** A comma-separated list of thread pool names used to limit the request. Accepts wildcard expressions. */
@@ -19537,16 +19157,8 @@ export const CatThreadPool1Request = /*@__PURE__*/ S.suspend(() =>
     s: S.optional(TypesNames.pipe(T.Query())),
     local: S.optional(S.Boolean.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_cat/thread_pool/{thread_pool_patterns}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CatThreadPool1Request",
-}) as any as S.Schema<CatThreadPool1Request>;
+  }).pipe(T.Http({ method: "GET", uri: "/_cat/thread_pool/{thread_pool_patterns}", code: 200 })),
+).annotate({ identifier: "CatThreadPool1Request" }) as any as S.Schema<CatThreadPool1Request>;
 
 export type CatThreadPool1ResponseBodyList = Array<CatThreadPoolThreadPoolRecord>;
 export const CatThreadPool1ResponseBodyList = /*@__PURE__*/ S.Array(
@@ -19556,9 +19168,7 @@ export const CatThreadPool1ResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatThreadPool1Response = CatThreadPool1ResponseBodyList;
 export const CatThreadPool1Response = /*@__PURE__*/ S.suspend(() =>
   CatThreadPool1ResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatThreadPool1Response",
-}) as any as S.Schema<CatThreadPool1Response>;
+).annotate({ identifier: "CatThreadPool1Response" }) as any as S.Schema<CatThreadPool1Response>;
 
 export type CatTypesCatTransformColumn =
   | "changes_last_detection_time"
@@ -19667,9 +19277,7 @@ export const CatTransformsRequest = /*@__PURE__*/ S.suspend(() =>
     s: S.optional(CatTypesCatTransformColumns.pipe(T.Query())),
     size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cat/transforms", code: 200 })),
-).annotate({
-  identifier: "CatTransformsRequest",
-}) as any as S.Schema<CatTransformsRequest>;
+).annotate({ identifier: "CatTransformsRequest" }) as any as S.Schema<CatTransformsRequest>;
 
 export interface CatTransformsTransformsRecord {
   /** The transform identifier. */
@@ -19787,9 +19395,7 @@ export const CatTransformsResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatTransformsResponse = CatTransformsResponseBodyList;
 export const CatTransformsResponse = /*@__PURE__*/ S.suspend(() =>
   CatTransformsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatTransformsResponse",
-}) as any as S.Schema<CatTransformsResponse>;
+).annotate({ identifier: "CatTransformsResponse" }) as any as S.Schema<CatTransformsResponse>;
 
 export interface CatTransforms1Request {
   /** A transform identifier or a wildcard expression. If you do not specify one of these options, the API returns information for all transforms. */
@@ -19813,16 +19419,8 @@ export const CatTransforms1Request = /*@__PURE__*/ S.suspend(() =>
     h: S.optional(CatTypesCatTransformColumns.pipe(T.Query())),
     s: S.optional(CatTypesCatTransformColumns.pipe(T.Query())),
     size: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_cat/transforms/{transform_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CatTransforms1Request",
-}) as any as S.Schema<CatTransforms1Request>;
+  }).pipe(T.Http({ method: "GET", uri: "/_cat/transforms/{transform_id}", code: 200 })),
+).annotate({ identifier: "CatTransforms1Request" }) as any as S.Schema<CatTransforms1Request>;
 
 export type CatTransforms1ResponseBodyList = Array<CatTransformsTransformsRecord>;
 export const CatTransforms1ResponseBodyList = /*@__PURE__*/ S.Array(
@@ -19832,9 +19430,7 @@ export const CatTransforms1ResponseBodyList = /*@__PURE__*/ S.Array(
 export type CatTransforms1Response = CatTransforms1ResponseBodyList;
 export const CatTransforms1Response = /*@__PURE__*/ S.suspend(() =>
   CatTransforms1ResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CatTransforms1Response",
-}) as any as S.Schema<CatTransforms1Response>;
+).annotate({ identifier: "CatTransforms1Response" }) as any as S.Schema<CatTransforms1Response>;
 
 export interface CcrDeleteAutoFollowPatternRequest {
   /** The auto-follow pattern collection to delete. */
@@ -19862,9 +19458,7 @@ export const CcrFollowInfoRequest = /*@__PURE__*/ S.suspend(() =>
     index: S.String.pipe(T.Label()),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_ccr/info", code: 200 })),
-).annotate({
-  identifier: "CcrFollowInfoRequest",
-}) as any as S.Schema<CcrFollowInfoRequest>;
+).annotate({ identifier: "CcrFollowInfoRequest" }) as any as S.Schema<CcrFollowInfoRequest>;
 
 export interface CcrFollowInfoFollowerIndexParameters {
   /** The maximum number of outstanding reads requests from the remote cluster. */
@@ -19944,9 +19538,7 @@ export const CcrFollowInfoResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     follower_indices: CcrFollowInfoResponseFollowerIndicesList,
   }),
-).annotate({
-  identifier: "CcrFollowInfoResponse",
-}) as any as S.Schema<CcrFollowInfoResponse>;
+).annotate({ identifier: "CcrFollowInfoResponse" }) as any as S.Schema<CcrFollowInfoResponse>;
 
 export interface CcrFollowStatsRequest {
   /** A comma-delimited list of index patterns. */
@@ -19959,9 +19551,7 @@ export const CcrFollowStatsRequest = /*@__PURE__*/ S.suspend(() =>
     index: S.String.pipe(T.Label()),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_ccr/stats", code: 200 })),
-).annotate({
-  identifier: "CcrFollowStatsRequest",
-}) as any as S.Schema<CcrFollowStatsRequest>;
+).annotate({ identifier: "CcrFollowStatsRequest" }) as any as S.Schema<CcrFollowStatsRequest>;
 
 export interface CcrTypesReadException {
   /** The exception that caused the read to fail. */
@@ -19977,9 +19567,7 @@ export const CcrTypesReadException = /*@__PURE__*/ S.suspend(() =>
     from_seq_no: S.Number,
     retries: S.Number,
   }),
-).annotate({
-  identifier: "CcrTypesReadException",
-}) as any as S.Schema<CcrTypesReadException>;
+).annotate({ identifier: "CcrTypesReadException" }) as any as S.Schema<CcrTypesReadException>;
 
 /** An array of objects representing failed reads. */
 export type CcrTypesShardStatsReadExceptionsList = Array<CcrTypesReadException>;
@@ -20086,9 +19674,7 @@ export const CcrTypesShardStats = /*@__PURE__*/ S.suspend(() =>
     write_buffer_operation_count: S.Number,
     write_buffer_size_in_bytes: TypesByteSize,
   }),
-).annotate({
-  identifier: "CcrTypesShardStats",
-}) as any as S.Schema<CcrTypesShardStats>;
+).annotate({ identifier: "CcrTypesShardStats" }) as any as S.Schema<CcrTypesShardStats>;
 
 /** An array of shard-level following task statistics. */
 export type CcrTypesFollowIndexStatsShardsList = Array<CcrTypesShardStats>;
@@ -20107,9 +19693,7 @@ export const CcrTypesFollowIndexStats = /*@__PURE__*/ S.suspend(() =>
     index: S.String,
     shards: CcrTypesFollowIndexStatsShardsList,
   }),
-).annotate({
-  identifier: "CcrTypesFollowIndexStats",
-}) as any as S.Schema<CcrTypesFollowIndexStats>;
+).annotate({ identifier: "CcrTypesFollowIndexStats" }) as any as S.Schema<CcrTypesFollowIndexStats>;
 
 /** An array of follower index statistics. */
 export type CcrFollowStatsResponseIndicesList = Array<CcrTypesFollowIndexStats>;
@@ -20125,9 +19709,7 @@ export const CcrFollowStatsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     indices: CcrFollowStatsResponseIndicesList,
   }),
-).annotate({
-  identifier: "CcrFollowStatsResponse",
-}) as any as S.Schema<CcrFollowStatsResponse>;
+).annotate({ identifier: "CcrFollowStatsResponse" }) as any as S.Schema<CcrFollowStatsResponse>;
 
 export interface CcrForgetFollowerRequest {
   /** Name of the leader index for which specified follower retention leases should be removed */
@@ -20148,9 +19730,7 @@ export const CcrForgetFollowerRequest = /*@__PURE__*/ S.suspend(() =>
     follower_index_uuid: S.optional(S.String),
     leader_remote_cluster: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_ccr/forget_follower", code: 200 })),
-).annotate({
-  identifier: "CcrForgetFollowerRequest",
-}) as any as S.Schema<CcrForgetFollowerRequest>;
+).annotate({ identifier: "CcrForgetFollowerRequest" }) as any as S.Schema<CcrForgetFollowerRequest>;
 
 export interface CcrForgetFollowerResponse {
   _shards: TypesShardStatistics;
@@ -20278,21 +19858,13 @@ export const CcrPauseAutoFollowPatternRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ccr/auto_follow/{name}/pause",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_ccr/auto_follow/{name}/pause", code: 200 })),
 ).annotate({
   identifier: "CcrPauseAutoFollowPatternRequest",
 }) as any as S.Schema<CcrPauseAutoFollowPatternRequest>;
 
 /** Settings to override from the leader index. Note that certain settings can not be overrode (e.g., index.number_of_shards). */
-export type CcrPutAutoFollowPatternRequestSettingsMap = {
-  [key: string]: unknown | undefined;
-};
+export type CcrPutAutoFollowPatternRequestSettingsMap = { [key: string]: unknown | undefined };
 export const CcrPutAutoFollowPatternRequestSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -20368,13 +19940,7 @@ export const CcrResumeAutoFollowPatternRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ccr/auto_follow/{name}/resume",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_ccr/auto_follow/{name}/resume", code: 200 })),
 ).annotate({
   identifier: "CcrResumeAutoFollowPatternRequest",
 }) as any as S.Schema<CcrResumeAutoFollowPatternRequest>;
@@ -20410,9 +19976,7 @@ export const CcrResumeFollowRequest = /*@__PURE__*/ S.suspend(() =>
     max_write_request_size: S.optional(S.String),
     read_poll_timeout: S.optional(TypesDuration),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_ccr/resume_follow", code: 200 })),
-).annotate({
-  identifier: "CcrResumeFollowRequest",
-}) as any as S.Schema<CcrResumeFollowRequest>;
+).annotate({ identifier: "CcrResumeFollowRequest" }) as any as S.Schema<CcrResumeFollowRequest>;
 
 export interface CcrStatsRequest {
   /** The period to wait for a connection to the master node. If the master node is not available before the timeout expires, the request fails and returns an error. It can also be set to `-1` to indicate that the request should never timeout. */
@@ -20425,9 +19989,7 @@ export const CcrStatsRequest = /*@__PURE__*/ S.suspend(() =>
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_ccr/stats", code: 200 })),
-).annotate({
-  identifier: "CcrStatsRequest",
-}) as any as S.Schema<CcrStatsRequest>;
+).annotate({ identifier: "CcrStatsRequest" }) as any as S.Schema<CcrStatsRequest>;
 
 export interface CcrStatsAutoFollowedCluster {
   cluster_name: string;
@@ -20474,9 +20036,7 @@ export const CcrStatsAutoFollowStats = /*@__PURE__*/ S.suspend(() =>
     number_of_successful_follow_indices: S.Number,
     recent_auto_follow_errors: CcrStatsAutoFollowStatsRecentAutoFollowErrorsList,
   }),
-).annotate({
-  identifier: "CcrStatsAutoFollowStats",
-}) as any as S.Schema<CcrStatsAutoFollowStats>;
+).annotate({ identifier: "CcrStatsAutoFollowStats" }) as any as S.Schema<CcrStatsAutoFollowStats>;
 
 export type CcrStatsFollowStatsIndicesList = Array<CcrTypesFollowIndexStats>;
 export const CcrStatsFollowStatsIndicesList = /*@__PURE__*/ S.Array(
@@ -20490,9 +20050,7 @@ export const CcrStatsFollowStats = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     indices: CcrStatsFollowStatsIndicesList,
   }),
-).annotate({
-  identifier: "CcrStatsFollowStats",
-}) as any as S.Schema<CcrStatsFollowStats>;
+).annotate({ identifier: "CcrStatsFollowStats" }) as any as S.Schema<CcrStatsFollowStats>;
 
 export interface CcrStatsResponse {
   /** Statistics for the auto-follow coordinator. */
@@ -20505,9 +20063,7 @@ export const CcrStatsResponse = /*@__PURE__*/ S.suspend(() =>
     auto_follow_stats: CcrStatsAutoFollowStats,
     follow_stats: CcrStatsFollowStats,
   }),
-).annotate({
-  identifier: "CcrStatsResponse",
-}) as any as S.Schema<CcrStatsResponse>;
+).annotate({ identifier: "CcrStatsResponse" }) as any as S.Schema<CcrStatsResponse>;
 
 export interface ClaimConnectorSyncJobRequest {
   /** The unique identifier of the connector sync job. */
@@ -20556,9 +20112,7 @@ export const ClearScrollRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     scroll_id: S.optional(TypesScrollIds),
   }).pipe(T.Http({ method: "DELETE", uri: "/_search/scroll", code: 200 })),
-).annotate({
-  identifier: "ClearScrollRequest",
-}) as any as S.Schema<ClearScrollRequest>;
+).annotate({ identifier: "ClearScrollRequest" }) as any as S.Schema<ClearScrollRequest>;
 
 export interface ClearScrollResponse {
   /** If `true`, the request succeeded. This does not indicate whether any scrolling search requests were cleared. */
@@ -20571,9 +20125,7 @@ export const ClearScrollResponse = /*@__PURE__*/ S.suspend(() =>
     succeeded: S.Boolean,
     num_freed: S.Number,
   }),
-).annotate({
-  identifier: "ClearScrollResponse",
-}) as any as S.Schema<ClearScrollResponse>;
+).annotate({ identifier: "ClearScrollResponse" }) as any as S.Schema<ClearScrollResponse>;
 
 export interface ClearScroll1Request {
   /** A comma-separated list of scroll IDs to clear. To clear all scroll IDs, use `_all`. IMPORTANT: Scroll IDs can be long. It is recommended to specify scroll IDs in the request body parameter. */
@@ -20583,9 +20135,7 @@ export const ClearScroll1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     scroll_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/_search/scroll/{scroll_id}", code: 200 })),
-).annotate({
-  identifier: "ClearScroll1Request",
-}) as any as S.Schema<ClearScroll1Request>;
+).annotate({ identifier: "ClearScroll1Request" }) as any as S.Schema<ClearScroll1Request>;
 
 export interface ClearScroll1Response {
   /** If `true`, the request succeeded. This does not indicate whether any scrolling search requests were cleared. */
@@ -20598,9 +20148,7 @@ export const ClearScroll1Response = /*@__PURE__*/ S.suspend(() =>
     succeeded: S.Boolean,
     num_freed: S.Number,
   }),
-).annotate({
-  identifier: "ClearScroll1Response",
-}) as any as S.Schema<ClearScroll1Response>;
+).annotate({ identifier: "ClearScroll1Response" }) as any as S.Schema<ClearScroll1Response>;
 
 export interface IndicesTypesAlias {
   /** Query used to limit documents the alias can access. */
@@ -20625,23 +20173,17 @@ export const IndicesTypesAlias = /*@__PURE__*/ S.suspend(() =>
     routing: S.optional(S.String),
     search_routing: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IndicesTypesAlias",
-}) as any as S.Schema<IndicesTypesAlias>;
+).annotate({ identifier: "IndicesTypesAlias" }) as any as S.Schema<IndicesTypesAlias>;
 
 /** Aliases for the resulting index. */
-export type CloneIndexRequestAliasesMap = {
-  [key: string]: IndicesTypesAlias | undefined;
-};
+export type CloneIndexRequestAliasesMap = { [key: string]: IndicesTypesAlias | undefined };
 export const CloneIndexRequestAliasesMap = /*@__PURE__*/ S.Record(
   S.String,
   IndicesTypesAlias,
 ) as any as S.Schema<CloneIndexRequestAliasesMap>;
 
 /** Configuration options for the target index. */
-export type CloneIndexRequestSettingsMap = {
-  [key: string]: unknown | undefined;
-};
+export type CloneIndexRequestSettingsMap = { [key: string]: unknown | undefined };
 export const CloneIndexRequestSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -20673,9 +20215,7 @@ export const CloneIndexRequest = /*@__PURE__*/ S.suspend(() =>
     aliases: S.optional(CloneIndexRequestAliasesMap),
     settings: S.optional(CloneIndexRequestSettingsMap),
   }).pipe(T.Http({ method: "PUT", uri: "/{index}/_clone/{target}", code: 200 })),
-).annotate({
-  identifier: "CloneIndexRequest",
-}) as any as S.Schema<CloneIndexRequest>;
+).annotate({ identifier: "CloneIndexRequest" }) as any as S.Schema<CloneIndexRequest>;
 
 export interface CloneIndexResponse {
   acknowledged: boolean;
@@ -20688,9 +20228,7 @@ export const CloneIndexResponse = /*@__PURE__*/ S.suspend(() =>
     index: S.String,
     shards_acknowledged: S.Boolean,
   }),
-).annotate({
-  identifier: "CloneIndexResponse",
-}) as any as S.Schema<CloneIndexResponse>;
+).annotate({ identifier: "CloneIndexResponse" }) as any as S.Schema<CloneIndexResponse>;
 
 export interface CloneSnapshotRequest {
   /** The name of the snapshot repository that both source and target snapshot belong to. */
@@ -20718,21 +20256,17 @@ export const CloneSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CloneSnapshotRequest",
-}) as any as S.Schema<CloneSnapshotRequest>;
+).annotate({ identifier: "CloneSnapshotRequest" }) as any as S.Schema<CloneSnapshotRequest>;
 
 export interface ClosePointInTimeRequest {
-  /** The ID of the point-in-time. */
+  /** The ID of the point-in-time. IMPORTANT: Each search request against a PIT returns in its response a `pit_id` field which may be different from the identifier you originally supplied. Always use the most recently-received PIT identifier for the next request. If you make concurrent search requests against the same PIT, Elasticsearch can return several different `pit_id` values in its responses. In that case, use any of these values for later requests, preferring more recently-received values whenever possible. */
   id: string;
 }
 export const ClosePointInTimeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }).pipe(T.Http({ method: "DELETE", uri: "/_pit", code: 200 })),
-).annotate({
-  identifier: "ClosePointInTimeRequest",
-}) as any as S.Schema<ClosePointInTimeRequest>;
+).annotate({ identifier: "ClosePointInTimeRequest" }) as any as S.Schema<ClosePointInTimeRequest>;
 
 export interface ClosePointInTimeResponse {
   /** If `true`, all search contexts associated with the point-in-time ID were successfully closed. */
@@ -20745,9 +20279,7 @@ export const ClosePointInTimeResponse = /*@__PURE__*/ S.suspend(() =>
     succeeded: S.Boolean,
     num_freed: S.Number,
   }),
-).annotate({
-  identifier: "ClosePointInTimeResponse",
-}) as any as S.Schema<ClosePointInTimeResponse>;
+).annotate({ identifier: "ClosePointInTimeResponse" }) as any as S.Schema<ClosePointInTimeResponse>;
 
 export interface ClusterAllocationExplainRequest {
   /** The name of the index that you would like an explanation for. */
@@ -21289,13 +20821,7 @@ export const ClusterDeleteComponentTemplateRequest = /*@__PURE__*/ S.suspend(() 
     name: S.String.pipe(T.Label()),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/_component_template/{name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/_component_template/{name}", code: 200 })),
 ).annotate({
   identifier: "ClusterDeleteComponentTemplateRequest",
 }) as any as S.Schema<ClusterDeleteComponentTemplateRequest>;
@@ -21310,13 +20836,7 @@ export const ClusterDeleteVotingConfigExclusionsRequest = /*@__PURE__*/ S.suspen
   S.Struct({
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     wait_for_removal: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/_cluster/voting_config_exclusions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/_cluster/voting_config_exclusions", code: 200 })),
 ).annotate({
   identifier: "ClusterDeleteVotingConfigExclusionsRequest",
 }) as any as S.Schema<ClusterDeleteVotingConfigExclusionsRequest>;
@@ -21491,9 +21011,7 @@ export const IndicesTypesSoftDeletes = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     retention_lease: S.optional(IndicesTypesRetentionLease),
   }),
-).annotate({
-  identifier: "IndicesTypesSoftDeletes",
-}) as any as S.Schema<IndicesTypesSoftDeletes>;
+).annotate({ identifier: "IndicesTypesSoftDeletes" }) as any as S.Schema<IndicesTypesSoftDeletes>;
 
 export type IndicesTypesSegmentSortOrder = "asc" | "ASC" | "desc" | "DESC";
 export const IndicesTypesSegmentSortOrder = S.String;
@@ -21600,9 +21118,7 @@ export const IndicesTypesMerge = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     scheduler: S.optional(IndicesTypesMergeScheduler),
   }),
-).annotate({
-  identifier: "IndicesTypesMerge",
-}) as any as S.Schema<IndicesTypesMerge>;
+).annotate({ identifier: "IndicesTypesMerge" }) as any as S.Schema<IndicesTypesMerge>;
 
 export interface IndicesTypesSearchIdle {
   after?: TypesDuration;
@@ -21611,9 +21127,7 @@ export const IndicesTypesSearchIdle = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     after: S.optional(TypesDuration),
   }),
-).annotate({
-  identifier: "IndicesTypesSearchIdle",
-}) as any as S.Schema<IndicesTypesSearchIdle>;
+).annotate({ identifier: "IndicesTypesSearchIdle" }) as any as S.Schema<IndicesTypesSearchIdle>;
 
 export interface IndicesTypesSlowlogTresholdLevels {
   warn?: TypesDuration;
@@ -21807,9 +21321,7 @@ export const IndicesTypesIndexRouting = /*@__PURE__*/ S.suspend(() =>
     allocation: S.optional(IndicesTypesIndexRoutingAllocation),
     rebalance: S.optional(IndicesTypesIndexRoutingRebalance),
   }),
-).annotate({
-  identifier: "IndicesTypesIndexRouting",
-}) as any as S.Schema<IndicesTypesIndexRouting>;
+).annotate({ identifier: "IndicesTypesIndexRouting" }) as any as S.Schema<IndicesTypesIndexRouting>;
 
 export interface IndicesTypesIndexSettingsUnassignedNodeLeft {
   /** The amount of time to wait for a node that has left before assuming its shards are permanently missing and starting to allocate replacement replicas. */
@@ -21940,9 +21452,7 @@ export const IndicesTypesTranslog = /*@__PURE__*/ S.suspend(() =>
     flush_threshold_size: S.optional(TypesByteSize),
     retention: S.optional(IndicesTypesTranslogRetention),
   }),
-).annotate({
-  identifier: "IndicesTypesTranslog",
-}) as any as S.Schema<IndicesTypesTranslog>;
+).annotate({ identifier: "IndicesTypesTranslog" }) as any as S.Schema<IndicesTypesTranslog>;
 
 export interface IndicesTypesSettingsQueryString {
   lenient: SpecUtilsStringifiedboolean;
@@ -22205,9 +21715,7 @@ export const TypesAnalysisIcuAnalyzer = /*@__PURE__*/ S.suspend(() =>
     method: TypesAnalysisIcuNormalizationType,
     mode: TypesAnalysisIcuNormalizationMode,
   }),
-).annotate({
-  identifier: "TypesAnalysisIcuAnalyzer",
-}) as any as S.Schema<TypesAnalysisIcuAnalyzer>;
+).annotate({ identifier: "TypesAnalysisIcuAnalyzer" }) as any as S.Schema<TypesAnalysisIcuAnalyzer>;
 
 export type TypesAnalysisKuromojiAnalyzerType = "kuromoji";
 export const TypesAnalysisKuromojiAnalyzerType = S.String;
@@ -22480,9 +21988,7 @@ export const TypesAnalysisCjkAnalyzer = /*@__PURE__*/ S.suspend(() =>
     stopwords: S.optional(TypesAnalysisStopWords),
     stopwords_path: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TypesAnalysisCjkAnalyzer",
-}) as any as S.Schema<TypesAnalysisCjkAnalyzer>;
+).annotate({ identifier: "TypesAnalysisCjkAnalyzer" }) as any as S.Schema<TypesAnalysisCjkAnalyzer>;
 
 export type TypesAnalysisCzechAnalyzerType = "czech";
 export const TypesAnalysisCzechAnalyzerType = S.String;
@@ -25822,9 +25328,7 @@ export const IndicesTypesCacheQueries = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.Boolean,
   }),
-).annotate({
-  identifier: "IndicesTypesCacheQueries",
-}) as any as S.Schema<IndicesTypesCacheQueries>;
+).annotate({ identifier: "IndicesTypesCacheQueries" }) as any as S.Schema<IndicesTypesCacheQueries>;
 
 export interface IndicesTypesQueries {
   cache?: IndicesTypesCacheQueries;
@@ -25833,9 +25337,7 @@ export const IndicesTypesQueries = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cache: S.optional(IndicesTypesCacheQueries),
   }),
-).annotate({
-  identifier: "IndicesTypesQueries",
-}) as any as S.Schema<IndicesTypesQueries>;
+).annotate({ identifier: "IndicesTypesQueries" }) as any as S.Schema<IndicesTypesQueries>;
 
 export type IndicesTypesSettingsSimilarityBm25Type = "BM25";
 export const IndicesTypesSettingsSimilarityBm25Type = S.String;
@@ -26220,9 +25722,7 @@ export const IndicesTypesStorage = /*@__PURE__*/ S.suspend(() =>
     allow_mmap: S.optional(S.Boolean),
     stats_refresh_interval: S.optional(TypesDuration),
   }),
-).annotate({
-  identifier: "IndicesTypesStorage",
-}) as any as S.Schema<IndicesTypesStorage>;
+).annotate({ identifier: "IndicesTypesStorage" }) as any as S.Schema<IndicesTypesStorage>;
 
 export interface IndicesTypesIndexSettings {
   index?: IndicesTypesIndexSettings;
@@ -26387,9 +25887,7 @@ export const TypesMappingAllField = /*@__PURE__*/ S.suspend(() =>
     store_term_vector_positions: S.Boolean,
     store_term_vectors: S.Boolean,
   }),
-).annotate({
-  identifier: "TypesMappingAllField",
-}) as any as S.Schema<TypesMappingAllField>;
+).annotate({ identifier: "TypesMappingAllField" }) as any as S.Schema<TypesMappingAllField>;
 
 export type TypesMappingDynamicMapping = "strict" | "runtime" | "true" | "false";
 export const TypesMappingDynamicMapping = S.String;
@@ -26467,9 +25965,7 @@ export type TypesMappingMatchType = "simple" | "regex";
 export const TypesMappingMatchType = S.String;
 
 /** Metadata about the field. */
-export type TypesMappingBinaryPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingBinaryPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingBinaryPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -26548,9 +26044,7 @@ export const TypesMappingBinaryProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingBinaryProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingBooleanPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingBooleanPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingBooleanPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -26637,9 +26131,7 @@ export const TypesMappingBooleanProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingBooleanProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingDynamicPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingDynamicPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingDynamicPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -26777,9 +26269,7 @@ export const TypesMappingDynamicProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingDynamicProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingJoinPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingJoinPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingJoinPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -26793,9 +26283,7 @@ export const TypesMappingJoinPropertyPropertiesMap = /*@__PURE__*/ S.Record(
   S.suspend(() => TypesMappingProperty),
 ) as any as S.Schema<TypesMappingJoinPropertyPropertiesMap>;
 
-export type TypesMappingJoinPropertyFieldsMap = {
-  [key: string]: TypesMappingProperty | undefined;
-};
+export type TypesMappingJoinPropertyFieldsMap = { [key: string]: TypesMappingProperty | undefined };
 export const TypesMappingJoinPropertyFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.suspend(() => TypesMappingProperty),
@@ -26847,14 +26335,10 @@ export const TypesMappingJoinProperty = /*@__PURE__*/ S.suspend(() =>
     eager_global_ordinals: S.optional(S.Boolean),
     type: TypesMappingJoinPropertyType,
   }),
-).annotate({
-  identifier: "TypesMappingJoinProperty",
-}) as any as S.Schema<TypesMappingJoinProperty>;
+).annotate({ identifier: "TypesMappingJoinProperty" }) as any as S.Schema<TypesMappingJoinProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingKeywordPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingKeywordPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingKeywordPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -26947,9 +26431,7 @@ export const TypesMappingMatchOnlyTextPropertyFieldsMap = /*@__PURE__*/ S.Record
 ) as any as S.Schema<TypesMappingMatchOnlyTextPropertyFieldsMap>;
 
 /** Metadata about the field. */
-export type TypesMappingMatchOnlyTextPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingMatchOnlyTextPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingMatchOnlyTextPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -26977,9 +26459,7 @@ export const TypesMappingMatchOnlyTextProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingMatchOnlyTextProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingPercolatorPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingPercolatorPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingPercolatorPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -27029,9 +26509,7 @@ export const TypesMappingPercolatorProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingPercolatorProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingRankFeaturePropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingRankFeaturePropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingRankFeaturePropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -27083,9 +26561,7 @@ export const TypesMappingRankFeatureProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingRankFeatureProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingRankFeaturesPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingRankFeaturesPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingRankFeaturesPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -27137,9 +26613,7 @@ export const TypesMappingRankFeaturesProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingRankFeaturesProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingSearchAsYouTypePropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingSearchAsYouTypePropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingSearchAsYouTypePropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -27211,9 +26685,7 @@ export const TypesMappingSearchAsYouTypeProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingSearchAsYouTypeProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingTextPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingTextPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingTextPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -27227,9 +26699,7 @@ export const TypesMappingTextPropertyPropertiesMap = /*@__PURE__*/ S.Record(
   S.suspend(() => TypesMappingProperty),
 ) as any as S.Schema<TypesMappingTextPropertyPropertiesMap>;
 
-export type TypesMappingTextPropertyFieldsMap = {
-  [key: string]: TypesMappingProperty | undefined;
-};
+export type TypesMappingTextPropertyFieldsMap = { [key: string]: TypesMappingProperty | undefined };
 export const TypesMappingTextPropertyFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.suspend(() => TypesMappingProperty),
@@ -27311,14 +26781,10 @@ export const TypesMappingTextProperty = /*@__PURE__*/ S.suspend(() =>
     term_vector: S.optional(TypesMappingTermVectorOption),
     type: TypesMappingTextPropertyType,
   }),
-).annotate({
-  identifier: "TypesMappingTextProperty",
-}) as any as S.Schema<TypesMappingTextProperty>;
+).annotate({ identifier: "TypesMappingTextProperty" }) as any as S.Schema<TypesMappingTextProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingVersionPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingVersionPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingVersionPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -27374,9 +26840,7 @@ export const TypesMappingVersionProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingVersionProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingWildcardPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingWildcardPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingWildcardPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -27434,9 +26898,7 @@ export const TypesMappingWildcardProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingWildcardProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingDateNanosPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingDateNanosPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingDateNanosPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -27508,9 +26970,7 @@ export const TypesMappingDateNanosProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingDateNanosProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingDatePropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingDatePropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingDatePropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -27524,9 +26984,7 @@ export const TypesMappingDatePropertyPropertiesMap = /*@__PURE__*/ S.Record(
   S.suspend(() => TypesMappingProperty),
 ) as any as S.Schema<TypesMappingDatePropertyPropertiesMap>;
 
-export type TypesMappingDatePropertyFieldsMap = {
-  [key: string]: TypesMappingProperty | undefined;
-};
+export type TypesMappingDatePropertyFieldsMap = { [key: string]: TypesMappingProperty | undefined };
 export const TypesMappingDatePropertyFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.suspend(() => TypesMappingProperty),
@@ -27581,9 +27039,7 @@ export const TypesMappingDateProperty = /*@__PURE__*/ S.suspend(() =>
     locale: S.optional(S.String),
     type: TypesMappingDatePropertyType,
   }),
-).annotate({
-  identifier: "TypesMappingDateProperty",
-}) as any as S.Schema<TypesMappingDateProperty>;
+).annotate({ identifier: "TypesMappingDateProperty" }) as any as S.Schema<TypesMappingDateProperty>;
 
 /** Metadata about the field. */
 export type TypesMappingAggregateMetricDoublePropertyMetaMap = {
@@ -27651,9 +27107,7 @@ export const TypesMappingAggregateMetricDoubleProperty = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<TypesMappingAggregateMetricDoubleProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingDenseVectorPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingDenseVectorPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingDenseVectorPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -27718,8 +27172,18 @@ export interface TypesMappingDenseVectorIndexOptions {
   rescore_vector?: TypesMappingDenseVectorIndexOptionsRescoreVector;
   /** `true` if vector rescoring should be done on-disk Only applicable to `bbq_disk`, `bbq_hnsw`, `int4_hnsw`, `int8_hnsw` */
   on_disk_rescore?: boolean;
-  /** The segment document count threshold below which HNSW graph construction is skipped in favor of brute-force flat search. `-1` (default) defers to format defaults: `300` for `bbq_hnsw`, `150` for `hnsw`, `int8_hnsw`, and `int4_hnsw`. `0` always builds the graph. A positive value overrides the format default. Only applicable to `hnsw`, `int8_hnsw`, `int4_hnsw`, and `bbq_hnsw` index types. */
+  /** The segment document count threshold below which HNSW graph construction is skipped in favor of brute-force flat search. `-1` (default) defers to format defaults: `300` for `bbq_hnsw`, `150` for `hnsw`, `int8_hnsw`, and `int4_hnsw`. `0` always builds the graph. A positive value overrides the format default. Only applicable to `hnsw`, `int8_hnsw`, `int4_hnsw`, `bbq_hnsw`, and `bbq_disk` index types. */
   flat_index_threshold?: number;
+  /** Only applicable to `bbq_disk`. The number of vectors per cluster. Must be between 64 and 65536. */
+  cluster_size?: number;
+  /** Only applicable to `bbq_disk`. The percentage of clusters to visit during search. Must be between 0 and 100. A value of 0 defaults to using `num_candidates` for calculating the visit percentage. */
+  default_visit_percentage?: number;
+  /** Only applicable to `bbq_disk`. The number of bits per dimension for quantization encoding. Valid values are `1`, `2`, `4`, or `7`. When no `rescore_vector` is explicitly set, the default oversampling is automatically adjusted based on the bits value. This setting can be changed without reindexing. */
+  bits?: number;
+  /** Only applicable to `bbq_disk`. When `true`, transforms indexed vectors using a random orthogonal projection before quantization, which can improve accuracy when vector components are not normally distributed. Cannot be changed after the field is created. */
+  precondition?: boolean;
+  /** Only applicable to `bbq_disk`. When `true`, Elasticsearch automatically selects the optimal quantization encoding, oversampling factor, and preconditioning for each merged segment based on estimated recall characteristics. Cannot be changed after the field is created. */
+  auto_calibrate?: boolean;
 }
 export const TypesMappingDenseVectorIndexOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -27730,6 +27194,11 @@ export const TypesMappingDenseVectorIndexOptions = /*@__PURE__*/ S.suspend(() =>
     rescore_vector: S.optional(TypesMappingDenseVectorIndexOptionsRescoreVector),
     on_disk_rescore: S.optional(S.Boolean),
     flat_index_threshold: S.optional(S.Number),
+    cluster_size: S.optional(S.Number),
+    default_visit_percentage: S.optional(S.Number),
+    bits: S.optional(S.Number),
+    precondition: S.optional(S.Boolean),
+    auto_calibrate: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "TypesMappingDenseVectorIndexOptions",
@@ -27782,9 +27251,7 @@ export const TypesMappingDenseVectorProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingDenseVectorProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingFlattenedPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingFlattenedPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingFlattenedPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -27865,9 +27332,7 @@ export const TypesMappingFlattenedProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingFlattenedProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingNestedPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingNestedPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingNestedPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -27927,9 +27392,7 @@ export const TypesMappingNestedProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingNestedProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingObjectPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingObjectPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingObjectPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -27990,9 +27453,7 @@ export const TypesMappingObjectProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingObjectProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingPassthroughObjectPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingPassthroughObjectPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingPassthroughObjectPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -28052,9 +27513,7 @@ export const TypesMappingPassthroughObjectProperty = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<TypesMappingPassthroughObjectProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingRankVectorPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingRankVectorPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingRankVectorPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -28114,9 +27573,7 @@ export const TypesMappingRankVectorProperty = /*@__PURE__*/ S.suspend(() =>
 export type TypesMappingSemanticTextPropertyType = "semantic_text";
 export const TypesMappingSemanticTextPropertyType = S.String;
 
-export type TypesMappingSemanticTextPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingSemanticTextPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingSemanticTextPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -28228,9 +27685,7 @@ export const TypesMappingSemanticTextProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingSemanticTextProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingSparseVectorPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingSparseVectorPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingSparseVectorPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -28285,9 +27740,7 @@ export const TypesMappingSparseVectorProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingSparseVectorProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingCompletionPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingCompletionPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingCompletionPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -28381,9 +27834,7 @@ export const TypesMappingCompletionProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingCompletionProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingConstantKeywordPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingConstantKeywordPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingConstantKeywordPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -28435,9 +27886,7 @@ export const TypesMappingConstantKeywordProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingConstantKeywordProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingCountedKeywordPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingCountedKeywordPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingCountedKeywordPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -28489,9 +27938,7 @@ export const TypesMappingCountedKeywordProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingCountedKeywordProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingFieldAliasPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingFieldAliasPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingFieldAliasPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -28543,9 +27990,7 @@ export const TypesMappingFieldAliasProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingFieldAliasProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingHistogramPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingHistogramPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingHistogramPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -28599,9 +28044,7 @@ export const TypesMappingHistogramProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingHistogramProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingExponentialHistogramPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingExponentialHistogramPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingExponentialHistogramPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -28653,9 +28096,7 @@ export const TypesMappingExponentialHistogramProperty = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<TypesMappingExponentialHistogramProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingIpPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingIpPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingIpPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -28669,9 +28110,7 @@ export const TypesMappingIpPropertyPropertiesMap = /*@__PURE__*/ S.Record(
   S.suspend(() => TypesMappingProperty),
 ) as any as S.Schema<TypesMappingIpPropertyPropertiesMap>;
 
-export type TypesMappingIpPropertyFieldsMap = {
-  [key: string]: TypesMappingProperty | undefined;
-};
+export type TypesMappingIpPropertyFieldsMap = { [key: string]: TypesMappingProperty | undefined };
 export const TypesMappingIpPropertyFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.suspend(() => TypesMappingProperty),
@@ -28721,14 +28160,10 @@ export const TypesMappingIpProperty = /*@__PURE__*/ S.suspend(() =>
     time_series_dimension: S.optional(S.Boolean),
     type: TypesMappingIpPropertyType,
   }),
-).annotate({
-  identifier: "TypesMappingIpProperty",
-}) as any as S.Schema<TypesMappingIpProperty>;
+).annotate({ identifier: "TypesMappingIpProperty" }) as any as S.Schema<TypesMappingIpProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingMurmur3HashPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingMurmur3HashPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingMurmur3HashPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -28784,9 +28219,7 @@ export const TypesMappingMurmur3HashProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingMurmur3HashProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingTokenCountPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingTokenCountPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingTokenCountPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -28852,9 +28285,7 @@ export const TypesMappingTokenCountProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingTokenCountProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingGeoPointPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingGeoPointPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingGeoPointPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -28927,9 +28358,7 @@ export const TypesMappingGeoPointProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingGeoPointProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingGeoShapePropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingGeoShapePropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingGeoShapePropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -29012,9 +28441,7 @@ export const TypesMappingGeoShapeProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingGeoShapeProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingPointPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingPointPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingPointPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -29076,9 +28503,7 @@ export const TypesMappingPointProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingPointProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingShapePropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingShapePropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingShapePropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -29143,9 +28568,7 @@ export const TypesMappingShapeProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingShapeProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingByteNumberPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingByteNumberPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingByteNumberPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -29221,9 +28644,7 @@ export const TypesMappingByteNumberProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingByteNumberProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingDoubleNumberPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingDoubleNumberPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingDoubleNumberPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -29299,9 +28720,7 @@ export const TypesMappingDoubleNumberProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingDoubleNumberProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingFloatNumberPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingFloatNumberPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingFloatNumberPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -29377,9 +28796,7 @@ export const TypesMappingFloatNumberProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingFloatNumberProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingHalfFloatNumberPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingHalfFloatNumberPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingHalfFloatNumberPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -29455,9 +28872,7 @@ export const TypesMappingHalfFloatNumberProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingHalfFloatNumberProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingIntegerNumberPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingIntegerNumberPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingIntegerNumberPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -29533,9 +28948,7 @@ export const TypesMappingIntegerNumberProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingIntegerNumberProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingLongNumberPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingLongNumberPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingLongNumberPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -29611,9 +29024,7 @@ export const TypesMappingLongNumberProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingLongNumberProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingScaledFloatNumberPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingScaledFloatNumberPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingScaledFloatNumberPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -29691,9 +29102,7 @@ export const TypesMappingScaledFloatNumberProperty = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<TypesMappingScaledFloatNumberProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingShortNumberPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingShortNumberPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingShortNumberPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -29769,9 +29178,7 @@ export const TypesMappingShortNumberProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingShortNumberProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingUnsignedLongNumberPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingUnsignedLongNumberPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingUnsignedLongNumberPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -29847,9 +29254,7 @@ export const TypesMappingUnsignedLongNumberProperty = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<TypesMappingUnsignedLongNumberProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingDateRangePropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingDateRangePropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingDateRangePropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -29913,9 +29318,7 @@ export const TypesMappingDateRangeProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingDateRangeProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingDoubleRangePropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingDoubleRangePropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingDoubleRangePropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -29977,9 +29380,7 @@ export const TypesMappingDoubleRangeProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingDoubleRangeProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingFloatRangePropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingFloatRangePropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingFloatRangePropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -30041,9 +29442,7 @@ export const TypesMappingFloatRangeProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingFloatRangeProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingIntegerRangePropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingIntegerRangePropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingIntegerRangePropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -30105,9 +29504,7 @@ export const TypesMappingIntegerRangeProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingIntegerRangeProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingIpRangePropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingIpRangePropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingIpRangePropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -30169,9 +29566,7 @@ export const TypesMappingIpRangeProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingIpRangeProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingLongRangePropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingLongRangePropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingLongRangePropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -30233,9 +29628,7 @@ export const TypesMappingLongRangeProperty = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TypesMappingLongRangeProperty>;
 
 /** Metadata about the field. */
-export type TypesMappingIcuCollationPropertyMetaMap = {
-  [key: string]: string | undefined;
-};
+export type TypesMappingIcuCollationPropertyMetaMap = { [key: string]: string | undefined };
 export const TypesMappingIcuCollationPropertyMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -30442,9 +29835,7 @@ export const TypesMappingRoutingField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     required: S.Boolean,
   }),
-).annotate({
-  identifier: "TypesMappingRoutingField",
-}) as any as S.Schema<TypesMappingRoutingField>;
+).annotate({ identifier: "TypesMappingRoutingField" }) as any as S.Schema<TypesMappingRoutingField>;
 
 export type TypesMappingSizeField = IndicesTypesCacheQueries;
 export const TypesMappingSizeField = IndicesTypesCacheQueries;
@@ -30459,7 +29850,7 @@ export const TypesMappingSourceFieldIncludesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<TypesMappingSourceFieldIncludesList>;
 
-export type TypesMappingSourceFieldMode = "disabled" | "stored" | "synthetic";
+export type TypesMappingSourceFieldMode = "disabled" | "stored" | "columnar_stored" | "synthetic";
 export const TypesMappingSourceFieldMode = S.String;
 
 export interface TypesMappingSourceField {
@@ -30475,9 +29866,7 @@ export const TypesMappingSourceField = /*@__PURE__*/ S.suspend(() =>
     includes: S.optional(TypesMappingSourceFieldIncludesList),
     mode: S.optional(TypesMappingSourceFieldMode),
   }),
-).annotate({
-  identifier: "TypesMappingSourceField",
-}) as any as S.Schema<TypesMappingSourceField>;
+).annotate({ identifier: "TypesMappingSourceField" }) as any as S.Schema<TypesMappingSourceField>;
 
 export type TypesMappingTypeMappingRuntimeMap = {
   [key: string]: TypesMappingRuntimeField | undefined;
@@ -30529,9 +29918,7 @@ export const TypesMappingTypeMapping = /*@__PURE__*/ S.suspend(() =>
     subobjects: S.optional(TypesMappingSubobjects),
     _data_stream_timestamp: S.optional(IndicesTypesCacheQueries),
   }),
-).annotate({
-  identifier: "TypesMappingTypeMapping",
-}) as any as S.Schema<TypesMappingTypeMapping>;
+).annotate({ identifier: "TypesMappingTypeMapping" }) as any as S.Schema<TypesMappingTypeMapping>;
 
 export interface IndicesTypesAliasDefinition {
   /** Query used to limit documents the alias can access. */
@@ -30772,27 +30159,21 @@ export const ClusterGetSettingsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ClusterGetSettingsRequest>;
 
 /** The settings that persist after the cluster restarts. */
-export type ClusterGetSettingsResponsePersistentMap = {
-  [key: string]: unknown | undefined;
-};
+export type ClusterGetSettingsResponsePersistentMap = { [key: string]: unknown | undefined };
 export const ClusterGetSettingsResponsePersistentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<ClusterGetSettingsResponsePersistentMap>;
 
 /** The settings that do not persist after the cluster restarts. */
-export type ClusterGetSettingsResponseTransientMap = {
-  [key: string]: unknown | undefined;
-};
+export type ClusterGetSettingsResponseTransientMap = { [key: string]: unknown | undefined };
 export const ClusterGetSettingsResponseTransientMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<ClusterGetSettingsResponseTransientMap>;
 
 /** The default setting values. */
-export type ClusterGetSettingsResponseDefaultsMap = {
-  [key: string]: unknown | undefined;
-};
+export type ClusterGetSettingsResponseDefaultsMap = { [key: string]: unknown | undefined };
 export const ClusterGetSettingsResponseDefaultsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -30863,9 +30244,7 @@ export const ClusterHealthRequest = /*@__PURE__*/ S.suspend(() =>
     wait_for_no_relocating_shards: S.optional(S.Boolean.pipe(T.Query())),
     wait_for_status: S.optional(TypesHealthStatus.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cluster/health", code: 200 })),
-).annotate({
-  identifier: "ClusterHealthRequest",
-}) as any as S.Schema<ClusterHealthRequest>;
+).annotate({ identifier: "ClusterHealthRequest" }) as any as S.Schema<ClusterHealthRequest>;
 
 export interface ClusterHealthShardHealthStats {
   active_shards: number;
@@ -31040,9 +30419,7 @@ export const ClusterHealth1Request = /*@__PURE__*/ S.suspend(() =>
     wait_for_no_relocating_shards: S.optional(S.Boolean.pipe(T.Query())),
     wait_for_status: S.optional(TypesHealthStatus.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cluster/health/{index}", code: 200 })),
-).annotate({
-  identifier: "ClusterHealth1Request",
-}) as any as S.Schema<ClusterHealth1Request>;
+).annotate({ identifier: "ClusterHealth1Request" }) as any as S.Schema<ClusterHealth1Request>;
 
 export interface ClusterInfoRequest {
   /** Limits the information returned to the specific target. Supports a comma-separated list, such as http,ingest. */
@@ -31052,9 +30429,7 @@ export const ClusterInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     target: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/_info/{target}", code: 200 })),
-).annotate({
-  identifier: "ClusterInfoRequest",
-}) as any as S.Schema<ClusterInfoRequest>;
+).annotate({ identifier: "ClusterInfoRequest" }) as any as S.Schema<ClusterInfoRequest>;
 
 export interface NodesTypesClient {
   /** Unique ID for the HTTP client. */
@@ -31103,9 +30478,7 @@ export const NodesTypesClient = /*@__PURE__*/ S.suspend(() =>
     request_size_bytes: S.optional(S.Number),
     x_opaque_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NodesTypesClient",
-}) as any as S.Schema<NodesTypesClient>;
+).annotate({ identifier: "NodesTypesClient" }) as any as S.Schema<NodesTypesClient>;
 
 /** Information on current and recently-closed HTTP client connections. Clients that have been closed longer than the `http.client_stats.closed_channels.max_age` setting will not be represented here. */
 export type NodesTypesHttpClientsList = Array<NodesTypesClient>;
@@ -31212,14 +30585,10 @@ export const NodesTypesHttpRoute = /*@__PURE__*/ S.suspend(() =>
     requests: NodesTypesHttpRouteRequests,
     responses: NodesTypesHttpRouteResponses,
   }),
-).annotate({
-  identifier: "NodesTypesHttpRoute",
-}) as any as S.Schema<NodesTypesHttpRoute>;
+).annotate({ identifier: "NodesTypesHttpRoute" }) as any as S.Schema<NodesTypesHttpRoute>;
 
 /** Detailed HTTP stats broken down by route */
-export type NodesTypesHttpRoutesMap = {
-  [key: string]: NodesTypesHttpRoute | undefined;
-};
+export type NodesTypesHttpRoutesMap = { [key: string]: NodesTypesHttpRoute | undefined };
 export const NodesTypesHttpRoutesMap = /*@__PURE__*/ S.Record(
   S.String,
   NodesTypesHttpRoute,
@@ -31264,9 +30633,7 @@ export const NodesTypesProcessor = /*@__PURE__*/ S.suspend(() =>
     time: S.optional(TypesDuration),
     time_in_millis: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NodesTypesProcessor",
-}) as any as S.Schema<NodesTypesProcessor>;
+).annotate({ identifier: "NodesTypesProcessor" }) as any as S.Schema<NodesTypesProcessor>;
 
 export interface NodesTypesKeyedProcessor {
   stats?: NodesTypesProcessor;
@@ -31277,9 +30644,7 @@ export const NodesTypesKeyedProcessor = /*@__PURE__*/ S.suspend(() =>
     stats: S.optional(NodesTypesProcessor),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NodesTypesKeyedProcessor",
-}) as any as S.Schema<NodesTypesKeyedProcessor>;
+).annotate({ identifier: "NodesTypesKeyedProcessor" }) as any as S.Schema<NodesTypesKeyedProcessor>;
 
 export type NodesTypesIngestStatsProcessorsItemMap = {
   [key: string]: NodesTypesKeyedProcessor | undefined;
@@ -31330,14 +30695,10 @@ export const NodesTypesIngestStats = /*@__PURE__*/ S.suspend(() =>
     produced_as_first_pipeline: S.optional(TypesByteSize),
     produced_as_first_pipeline_in_bytes: S.Number,
   }),
-).annotate({
-  identifier: "NodesTypesIngestStats",
-}) as any as S.Schema<NodesTypesIngestStats>;
+).annotate({ identifier: "NodesTypesIngestStats" }) as any as S.Schema<NodesTypesIngestStats>;
 
 /** Contains statistics about ingest pipelines for the node. */
-export type NodesTypesIngestPipelinesMap = {
-  [key: string]: NodesTypesIngestStats | undefined;
-};
+export type NodesTypesIngestPipelinesMap = { [key: string]: NodesTypesIngestStats | undefined };
 export const NodesTypesIngestPipelinesMap = /*@__PURE__*/ S.Record(
   S.String,
   NodesTypesIngestStats,
@@ -31363,9 +30724,7 @@ export const NodesTypesIngestTotal = /*@__PURE__*/ S.suspend(() =>
     time: S.optional(TypesDuration),
     time_in_millis: S.Number,
   }),
-).annotate({
-  identifier: "NodesTypesIngestTotal",
-}) as any as S.Schema<NodesTypesIngestTotal>;
+).annotate({ identifier: "NodesTypesIngestTotal" }) as any as S.Schema<NodesTypesIngestTotal>;
 
 export interface NodesTypesIngest {
   /** Contains statistics about ingest pipelines for the node. */
@@ -31378,9 +30737,7 @@ export const NodesTypesIngest = /*@__PURE__*/ S.suspend(() =>
     pipelines: S.optional(NodesTypesIngestPipelinesMap),
     total: S.optional(NodesTypesIngestTotal),
   }),
-).annotate({
-  identifier: "NodesTypesIngest",
-}) as any as S.Schema<NodesTypesIngest>;
+).annotate({ identifier: "NodesTypesIngest" }) as any as S.Schema<NodesTypesIngest>;
 
 export interface NodesTypesThreadCount {
   /** Number of active threads in the thread pool. */
@@ -31405,22 +30762,16 @@ export const NodesTypesThreadCount = /*@__PURE__*/ S.suspend(() =>
     rejected: S.optional(S.Number),
     threads: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NodesTypesThreadCount",
-}) as any as S.Schema<NodesTypesThreadCount>;
+).annotate({ identifier: "NodesTypesThreadCount" }) as any as S.Schema<NodesTypesThreadCount>;
 
-export type ClusterInfoResponseThreadPoolMap = {
-  [key: string]: NodesTypesThreadCount | undefined;
-};
+export type ClusterInfoResponseThreadPoolMap = { [key: string]: NodesTypesThreadCount | undefined };
 export const ClusterInfoResponseThreadPoolMap = /*@__PURE__*/ S.Record(
   S.String,
   NodesTypesThreadCount,
 ) as any as S.Schema<ClusterInfoResponseThreadPoolMap>;
 
 /** Contains this recent history of script compilations. */
-export type NodesTypesScriptingCompilationsHistoryMap = {
-  [key: string]: number | undefined;
-};
+export type NodesTypesScriptingCompilationsHistoryMap = { [key: string]: number | undefined };
 export const NodesTypesScriptingCompilationsHistoryMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -31439,9 +30790,7 @@ export const NodesTypesContext = /*@__PURE__*/ S.suspend(() =>
     cache_evictions: S.optional(S.Number),
     compilation_limit_triggered: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NodesTypesContext",
-}) as any as S.Schema<NodesTypesContext>;
+).annotate({ identifier: "NodesTypesContext" }) as any as S.Schema<NodesTypesContext>;
 
 export type NodesTypesScriptingContextsList = Array<NodesTypesContext>;
 export const NodesTypesScriptingContextsList = /*@__PURE__*/ S.Array(
@@ -31467,9 +30816,7 @@ export const NodesTypesScripting = /*@__PURE__*/ S.suspend(() =>
     compilation_limit_triggered: S.optional(S.Number),
     contexts: S.optional(NodesTypesScriptingContextsList),
   }),
-).annotate({
-  identifier: "NodesTypesScripting",
-}) as any as S.Schema<NodesTypesScripting>;
+).annotate({ identifier: "NodesTypesScripting" }) as any as S.Schema<NodesTypesScripting>;
 
 export interface ClusterInfoResponse {
   cluster_name: string;
@@ -31486,9 +30833,7 @@ export const ClusterInfoResponse = /*@__PURE__*/ S.suspend(() =>
     thread_pool: S.optional(ClusterInfoResponseThreadPoolMap),
     script: S.optional(NodesTypesScripting),
   }),
-).annotate({
-  identifier: "ClusterInfoResponse",
-}) as any as S.Schema<ClusterInfoResponse>;
+).annotate({ identifier: "ClusterInfoResponse" }) as any as S.Schema<ClusterInfoResponse>;
 
 export interface ClusterPendingTasksRequest {
   /** If `true`, the request retrieves information from the local node only. If `false`, information is retrieved from the master node. */
@@ -31564,13 +30909,7 @@ export const ClusterPostVotingConfigExclusionsRequest = /*@__PURE__*/ S.suspend(
     node_ids: S.optional(TypesIds.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_cluster/voting_config_exclusions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_cluster/voting_config_exclusions", code: 200 })),
 ).annotate({
   identifier: "ClusterPostVotingConfigExclusionsRequest",
 }) as any as S.Schema<ClusterPostVotingConfigExclusionsRequest>;
@@ -31790,18 +31129,14 @@ export const ClusterPutComponentTemplate1Request = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ClusterPutComponentTemplate1Request>;
 
 /** The settings that persist after the cluster restarts. */
-export type ClusterPutSettingsRequestPersistentMap = {
-  [key: string]: unknown | undefined;
-};
+export type ClusterPutSettingsRequestPersistentMap = { [key: string]: unknown | undefined };
 export const ClusterPutSettingsRequestPersistentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<ClusterPutSettingsRequestPersistentMap>;
 
 /** The settings that do not persist after the cluster restarts. */
-export type ClusterPutSettingsRequestTransientMap = {
-  [key: string]: unknown | undefined;
-};
+export type ClusterPutSettingsRequestTransientMap = { [key: string]: unknown | undefined };
 export const ClusterPutSettingsRequestTransientMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -31831,17 +31166,13 @@ export const ClusterPutSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ClusterPutSettingsRequest",
 }) as any as S.Schema<ClusterPutSettingsRequest>;
 
-export type ClusterPutSettingsResponsePersistentMap = {
-  [key: string]: unknown | undefined;
-};
+export type ClusterPutSettingsResponsePersistentMap = { [key: string]: unknown | undefined };
 export const ClusterPutSettingsResponsePersistentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<ClusterPutSettingsResponsePersistentMap>;
 
-export type ClusterPutSettingsResponseTransientMap = {
-  [key: string]: unknown | undefined;
-};
+export type ClusterPutSettingsResponseTransientMap = { [key: string]: unknown | undefined };
 export const ClusterPutSettingsResponseTransientMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -31865,9 +31196,7 @@ export const ClusterPutSettingsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ClusterRemoteInfoRequest {}
 export const ClusterRemoteInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/_remote/info", code: 200 })),
-).annotate({
-  identifier: "ClusterRemoteInfoRequest",
-}) as any as S.Schema<ClusterRemoteInfoRequest>;
+).annotate({ identifier: "ClusterRemoteInfoRequest" }) as any as S.Schema<ClusterRemoteInfoRequest>;
 
 /** The connection mode for the remote cluster. */
 export type ClusterRemoteInfoClusterRemoteSniffInfoMode = "sniff";
@@ -32067,9 +31396,7 @@ export const ClusterRerouteCommand = /*@__PURE__*/ S.suspend(() =>
     allocate_stale_primary: S.optional(ClusterRerouteCommandAllocatePrimaryAction),
     allocate_empty_primary: S.optional(ClusterRerouteCommandAllocatePrimaryAction),
   }),
-).annotate({
-  identifier: "ClusterRerouteCommand",
-}) as any as S.Schema<ClusterRerouteCommand>;
+).annotate({ identifier: "ClusterRerouteCommand" }) as any as S.Schema<ClusterRerouteCommand>;
 
 /** Defines the commands to perform. */
 export type ClusterRerouteRequestCommandsList = Array<ClusterRerouteCommand>;
@@ -32103,9 +31430,7 @@ export const ClusterRerouteRequest = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(TypesDuration.pipe(T.Query())),
     commands: S.optional(ClusterRerouteRequestCommandsList),
   }).pipe(T.Http({ method: "POST", uri: "/_cluster/reroute", code: 200 })),
-).annotate({
-  identifier: "ClusterRerouteRequest",
-}) as any as S.Schema<ClusterRerouteRequest>;
+).annotate({ identifier: "ClusterRerouteRequest" }) as any as S.Schema<ClusterRerouteRequest>;
 
 export interface ClusterRerouteRerouteDecision {
   decider: string;
@@ -32180,9 +31505,7 @@ export const ClusterRerouteResponse = /*@__PURE__*/ S.suspend(() =>
     explanations: S.optional(ClusterRerouteResponseExplanationsList),
     state: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ClusterRerouteResponse",
-}) as any as S.Schema<ClusterRerouteResponse>;
+).annotate({ identifier: "ClusterRerouteResponse" }) as any as S.Schema<ClusterRerouteResponse>;
 
 export interface ClusterStateRequest {
   /** A setting that does two separate checks on the index expression. If `false`, the request returns an error (1) if any wildcard expression (including `_all` and `*`) resolves to zero matching indices or (2) if the complete set of resolved indices, aliases or data streams is empty after all expressions are evaluated. If `true`, index expressions that resolve to no indices are allowed and the request returns an empty result. */
@@ -32213,16 +31536,12 @@ export const ClusterStateRequest = /*@__PURE__*/ S.suspend(() =>
     wait_for_metadata_version: S.optional(S.Number.pipe(T.Query())),
     wait_for_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cluster/state", code: 200 })),
-).annotate({
-  identifier: "ClusterStateRequest",
-}) as any as S.Schema<ClusterStateRequest>;
+).annotate({ identifier: "ClusterStateRequest" }) as any as S.Schema<ClusterStateRequest>;
 
 export type ClusterStateResponse = unknown;
 export const ClusterStateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ClusterStateResponse",
-}) as any as S.Schema<ClusterStateResponse>;
+).annotate({ identifier: "ClusterStateResponse" }) as any as S.Schema<ClusterStateResponse>;
 
 export interface ClusterState1Request {
   /** Limit the information returned to the specified metrics. */
@@ -32256,16 +31575,12 @@ export const ClusterState1Request = /*@__PURE__*/ S.suspend(() =>
     wait_for_metadata_version: S.optional(S.Number.pipe(T.Query())),
     wait_for_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cluster/state/{metric}", code: 200 })),
-).annotate({
-  identifier: "ClusterState1Request",
-}) as any as S.Schema<ClusterState1Request>;
+).annotate({ identifier: "ClusterState1Request" }) as any as S.Schema<ClusterState1Request>;
 
 export type ClusterState1Response = unknown;
 export const ClusterState1Response = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ClusterState1Response",
-}) as any as S.Schema<ClusterState1Response>;
+).annotate({ identifier: "ClusterState1Response" }) as any as S.Schema<ClusterState1Response>;
 
 export interface ClusterState2Request {
   /** Limit the information returned to the specified metrics. */
@@ -32301,23 +31616,13 @@ export const ClusterState2Request = /*@__PURE__*/ S.suspend(() =>
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     wait_for_metadata_version: S.optional(S.Number.pipe(T.Query())),
     wait_for_timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_cluster/state/{metric}/{index}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ClusterState2Request",
-}) as any as S.Schema<ClusterState2Request>;
+  }).pipe(T.Http({ method: "GET", uri: "/_cluster/state/{metric}/{index}", code: 200 })),
+).annotate({ identifier: "ClusterState2Request" }) as any as S.Schema<ClusterState2Request>;
 
 export type ClusterState2Response = unknown;
 export const ClusterState2Response = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ClusterState2Response",
-}) as any as S.Schema<ClusterState2Response>;
+).annotate({ identifier: "ClusterState2Response" }) as any as S.Schema<ClusterState2Response>;
 
 export interface ClusterStatsRequest {
   /** Include remote cluster data into the response */
@@ -32330,14 +31635,10 @@ export const ClusterStatsRequest = /*@__PURE__*/ S.suspend(() =>
     include_remotes: S.optional(S.Boolean.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_cluster/stats", code: 200 })),
-).annotate({
-  identifier: "ClusterStatsRequest",
-}) as any as S.Schema<ClusterStatsRequest>;
+).annotate({ identifier: "ClusterStatsRequest" }) as any as S.Schema<ClusterStatsRequest>;
 
 /** For dense_vector field types, count of mappings by index type */
-export type ClusterStatsFieldTypesVectorIndexTypeCountMap = {
-  [key: string]: number | undefined;
-};
+export type ClusterStatsFieldTypesVectorIndexTypeCountMap = { [key: string]: number | undefined };
 export const ClusterStatsFieldTypesVectorIndexTypeCountMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -32353,9 +31654,7 @@ export const ClusterStatsFieldTypesVectorSimilarityTypeCountMap = /*@__PURE__*/ 
 ) as any as S.Schema<ClusterStatsFieldTypesVectorSimilarityTypeCountMap>;
 
 /** For dense_vector field types, count of mappings by element type */
-export type ClusterStatsFieldTypesVectorElementTypeCountMap = {
-  [key: string]: number | undefined;
-};
+export type ClusterStatsFieldTypesVectorElementTypeCountMap = { [key: string]: number | undefined };
 export const ClusterStatsFieldTypesVectorElementTypeCountMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -32396,9 +31695,7 @@ export const ClusterStatsFieldTypes = /*@__PURE__*/ S.suspend(() =>
     vector_similarity_type_count: S.optional(ClusterStatsFieldTypesVectorSimilarityTypeCountMap),
     vector_element_type_count: S.optional(ClusterStatsFieldTypesVectorElementTypeCountMap),
   }),
-).annotate({
-  identifier: "ClusterStatsFieldTypes",
-}) as any as S.Schema<ClusterStatsFieldTypes>;
+).annotate({ identifier: "ClusterStatsFieldTypes" }) as any as S.Schema<ClusterStatsFieldTypes>;
 
 /** Contains statistics about analyzer types used in selected nodes. */
 export type ClusterStatsCharFilterTypesAnalyzerTypesList = Array<ClusterStatsFieldTypes>;
@@ -32532,13 +31829,9 @@ export const TypesFieldSizeUsage = /*@__PURE__*/ S.suspend(() =>
     size: S.optional(TypesByteSize),
     size_in_bytes: S.Number,
   }),
-).annotate({
-  identifier: "TypesFieldSizeUsage",
-}) as any as S.Schema<TypesFieldSizeUsage>;
+).annotate({ identifier: "TypesFieldSizeUsage" }) as any as S.Schema<TypesFieldSizeUsage>;
 
-export type TypesCompletionStatsFieldsMap = {
-  [key: string]: TypesFieldSizeUsage | undefined;
-};
+export type TypesCompletionStatsFieldsMap = { [key: string]: TypesFieldSizeUsage | undefined };
 export const TypesCompletionStatsFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   TypesFieldSizeUsage,
@@ -32557,9 +31850,7 @@ export const TypesCompletionStats = /*@__PURE__*/ S.suspend(() =>
     size: S.optional(TypesByteSize),
     fields: S.optional(TypesCompletionStatsFieldsMap),
   }),
-).annotate({
-  identifier: "TypesCompletionStats",
-}) as any as S.Schema<TypesCompletionStats>;
+).annotate({ identifier: "TypesCompletionStats" }) as any as S.Schema<TypesCompletionStats>;
 
 export interface TypesDocStats {
   /** Total number of non-deleted documents across all primary shards assigned to selected nodes. This number is based on documents in Lucene segments and may include documents from nested fields. */
@@ -32589,13 +31880,9 @@ export const TypesFieldMemoryUsage = /*@__PURE__*/ S.suspend(() =>
     memory_size: S.optional(TypesByteSize),
     memory_size_in_bytes: S.Number,
   }),
-).annotate({
-  identifier: "TypesFieldMemoryUsage",
-}) as any as S.Schema<TypesFieldMemoryUsage>;
+).annotate({ identifier: "TypesFieldMemoryUsage" }) as any as S.Schema<TypesFieldMemoryUsage>;
 
-export type TypesFielddataStatsFieldsMap = {
-  [key: string]: TypesFieldMemoryUsage | undefined;
-};
+export type TypesFielddataStatsFieldsMap = { [key: string]: TypesFieldMemoryUsage | undefined };
 export const TypesFielddataStatsFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   TypesFieldMemoryUsage,
@@ -32635,9 +31922,7 @@ export const TypesGlobalOrdinalsStats = /*@__PURE__*/ S.suspend(() =>
     build_time: S.optional(S.String),
     fields: S.optional(TypesGlobalOrdinalsStatsFieldsMap),
   }),
-).annotate({
-  identifier: "TypesGlobalOrdinalsStats",
-}) as any as S.Schema<TypesGlobalOrdinalsStats>;
+).annotate({ identifier: "TypesGlobalOrdinalsStats" }) as any as S.Schema<TypesGlobalOrdinalsStats>;
 
 export interface TypesFielddataStats {
   evictions?: number;
@@ -32654,9 +31939,7 @@ export const TypesFielddataStats = /*@__PURE__*/ S.suspend(() =>
     fields: S.optional(TypesFielddataStatsFieldsMap),
     global_ordinals: TypesGlobalOrdinalsStats,
   }),
-).annotate({
-  identifier: "TypesFielddataStats",
-}) as any as S.Schema<TypesFielddataStats>;
+).annotate({ identifier: "TypesFielddataStats" }) as any as S.Schema<TypesFielddataStats>;
 
 export interface TypesQueryCacheStats {
   /** Total number of entries added to the query cache across all shards assigned to selected nodes. This number includes current and evicted entries. */
@@ -32687,37 +31970,27 @@ export const TypesQueryCacheStats = /*@__PURE__*/ S.suspend(() =>
     miss_count: S.Number,
     total_count: S.Number,
   }),
-).annotate({
-  identifier: "TypesQueryCacheStats",
-}) as any as S.Schema<TypesQueryCacheStats>;
+).annotate({ identifier: "TypesQueryCacheStats" }) as any as S.Schema<TypesQueryCacheStats>;
 
-export type ClusterStatsSearchUsageStatsQueriesMap = {
-  [key: string]: number | undefined;
-};
+export type ClusterStatsSearchUsageStatsQueriesMap = { [key: string]: number | undefined };
 export const ClusterStatsSearchUsageStatsQueriesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
 ) as any as S.Schema<ClusterStatsSearchUsageStatsQueriesMap>;
 
-export type ClusterStatsSearchUsageStatsRescorersMap = {
-  [key: string]: number | undefined;
-};
+export type ClusterStatsSearchUsageStatsRescorersMap = { [key: string]: number | undefined };
 export const ClusterStatsSearchUsageStatsRescorersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
 ) as any as S.Schema<ClusterStatsSearchUsageStatsRescorersMap>;
 
-export type ClusterStatsSearchUsageStatsSectionsMap = {
-  [key: string]: number | undefined;
-};
+export type ClusterStatsSearchUsageStatsSectionsMap = { [key: string]: number | undefined };
 export const ClusterStatsSearchUsageStatsSectionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
 ) as any as S.Schema<ClusterStatsSearchUsageStatsSectionsMap>;
 
-export type ClusterStatsSearchUsageStatsRetrieversMap = {
-  [key: string]: number | undefined;
-};
+export type ClusterStatsSearchUsageStatsRetrieversMap = { [key: string]: number | undefined };
 export const ClusterStatsSearchUsageStatsRetrieversMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -32745,9 +32018,7 @@ export const ClusterStatsExtendedRetrieversSearchUsage = /*@__PURE__*/ S.suspend
   identifier: "ClusterStatsExtendedRetrieversSearchUsage",
 }) as any as S.Schema<ClusterStatsExtendedRetrieversSearchUsage>;
 
-export type ClusterStatsExtendedSectionSearchUsageSortMap = {
-  [key: string]: number | undefined;
-};
+export type ClusterStatsExtendedSectionSearchUsageSortMap = { [key: string]: number | undefined };
 export const ClusterStatsExtendedSectionSearchUsageSortMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -32902,9 +32173,7 @@ export const TypesSegmentsStats = /*@__PURE__*/ S.suspend(() =>
     version_map_memory: S.optional(TypesByteSize),
     version_map_memory_in_bytes: S.Number,
   }),
-).annotate({
-  identifier: "TypesSegmentsStats",
-}) as any as S.Schema<TypesSegmentsStats>;
+).annotate({ identifier: "TypesSegmentsStats" }) as any as S.Schema<TypesSegmentsStats>;
 
 export interface ClusterStatsClusterShardMetrics {
   /** Mean number of shards in an index, counting only shards assigned to selected nodes. */
@@ -32987,9 +32256,7 @@ export const TypesStoreStats = /*@__PURE__*/ S.suspend(() =>
     total_data_set_size: S.optional(TypesByteSize),
     total_data_set_size_in_bytes: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TypesStoreStats",
-}) as any as S.Schema<TypesStoreStats>;
+).annotate({ identifier: "TypesStoreStats" }) as any as S.Schema<TypesStoreStats>;
 
 /** Contains statistics about field data types used in selected nodes. */
 export type ClusterStatsFieldTypesMappingsFieldTypesList = Array<ClusterStatsFieldTypes>;
@@ -33062,9 +32329,7 @@ export const ClusterStatsFieldTypesMappingsRuntimeFieldTypesList = /*@__PURE__*/
 ) as any as S.Schema<ClusterStatsFieldTypesMappingsRuntimeFieldTypesList>;
 
 /** Source mode usage count. */
-export type ClusterStatsFieldTypesMappingsSourceModesMap = {
-  [key: string]: number | undefined;
-};
+export type ClusterStatsFieldTypesMappingsSourceModesMap = { [key: string]: number | undefined };
 export const ClusterStatsFieldTypesMappingsSourceModesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -33297,9 +32562,7 @@ export const ClusterStatsClusterNodeCount = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ClusterStatsClusterNodeCount>;
 
 /** Contains statistics about the discovery types used by selected nodes. */
-export type ClusterStatsClusterNodesDiscoveryTypesMap = {
-  [key: string]: number | undefined;
-};
+export type ClusterStatsClusterNodesDiscoveryTypesMap = { [key: string]: number | undefined };
 export const ClusterStatsClusterNodesDiscoveryTypesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -33402,9 +32665,7 @@ export const NodesTypesPressureMemory = /*@__PURE__*/ S.suspend(() =>
     primary_document_rejections: S.optional(S.Number),
     large_operation_rejections: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NodesTypesPressureMemory",
-}) as any as S.Schema<NodesTypesPressureMemory>;
+).annotate({ identifier: "NodesTypesPressureMemory" }) as any as S.Schema<NodesTypesPressureMemory>;
 
 export interface NodesTypesIndexingPressureMemory {
   /** Configured memory limit for the indexing requests. Replica requests have an automatic limit that is 1.5x this value. */
@@ -33555,14 +32816,10 @@ export const ClusterStatsClusterJvm = /*@__PURE__*/ S.suspend(() =>
     threads: S.Number,
     versions: ClusterStatsClusterJvmVersionsList,
   }),
-).annotate({
-  identifier: "ClusterStatsClusterJvm",
-}) as any as S.Schema<ClusterStatsClusterJvm>;
+).annotate({ identifier: "ClusterStatsClusterJvm" }) as any as S.Schema<ClusterStatsClusterJvm>;
 
 /** Contains statistics about the HTTP network types used by selected nodes. */
-export type ClusterStatsClusterNetworkTypesHttpTypesMap = {
-  [key: string]: number | undefined;
-};
+export type ClusterStatsClusterNetworkTypesHttpTypesMap = { [key: string]: number | undefined };
 export const ClusterStatsClusterNetworkTypesHttpTypesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -33776,9 +33033,7 @@ export const TypesPluginStats = /*@__PURE__*/ S.suspend(() =>
     version: S.String,
     licensed: S.Boolean,
   }),
-).annotate({
-  identifier: "TypesPluginStats",
-}) as any as S.Schema<TypesPluginStats>;
+).annotate({ identifier: "TypesPluginStats" }) as any as S.Schema<TypesPluginStats>;
 
 /** Contains statistics about installed plugins and modules by selected nodes. If no plugins or modules are installed, this array is empty. */
 export type ClusterStatsClusterNodesPluginsList = Array<TypesPluginStats>;
@@ -33876,13 +33131,9 @@ export const ClusterStatsClusterNodes = /*@__PURE__*/ S.suspend(() =>
     process: ClusterStatsClusterProcess,
     versions: ClusterStatsClusterNodesVersionsList,
   }),
-).annotate({
-  identifier: "ClusterStatsClusterNodes",
-}) as any as S.Schema<ClusterStatsClusterNodes>;
+).annotate({ identifier: "ClusterStatsClusterNodes" }) as any as S.Schema<ClusterStatsClusterNodes>;
 
-export type ClusterStatsResponseRepositoriesValueMap = {
-  [key: string]: number | undefined;
-};
+export type ClusterStatsResponseRepositoriesValueMap = { [key: string]: number | undefined };
 export const ClusterStatsResponseRepositoriesValueMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -33921,9 +33172,7 @@ export const ClusterStatsSnapshotCurrentCounts = /*@__PURE__*/ S.suspend(() =>
   identifier: "ClusterStatsSnapshotCurrentCounts",
 }) as any as S.Schema<ClusterStatsSnapshotCurrentCounts>;
 
-export type ClusterStatsRepositoryStatsShardsStatesMap = {
-  [key: string]: number | undefined;
-};
+export type ClusterStatsRepositoryStatsShardsStatesMap = { [key: string]: number | undefined };
 export const ClusterStatsRepositoryStatsShardsStatesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -34095,27 +33344,21 @@ export const ClusterStatsCCSUsageTimeValue = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ClusterStatsCCSUsageTimeValue>;
 
 /** Statistics about the reasons for cross-cluster search request failures. The keys are the failure reason names and the values are the number of requests that failed for that reason. */
-export type ClusterStatsCCSUsageStatsFailureReasonsMap = {
-  [key: string]: number | undefined;
-};
+export type ClusterStatsCCSUsageStatsFailureReasonsMap = { [key: string]: number | undefined };
 export const ClusterStatsCCSUsageStatsFailureReasonsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
 ) as any as S.Schema<ClusterStatsCCSUsageStatsFailureReasonsMap>;
 
 /** The keys are the names of the search feature, and the values are the number of requests that used that feature. Single request can use more than one feature (e.g. both `async` and `wildcard`). */
-export type ClusterStatsCCSUsageStatsFeaturesMap = {
-  [key: string]: number | undefined;
-};
+export type ClusterStatsCCSUsageStatsFeaturesMap = { [key: string]: number | undefined };
 export const ClusterStatsCCSUsageStatsFeaturesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
 ) as any as S.Schema<ClusterStatsCCSUsageStatsFeaturesMap>;
 
 /** Statistics about the clients that executed cross-cluster search requests. The keys are the names of the clients, and the values are the number of requests that were executed by that client. Only known clients (such as `kibana` or `elasticsearch`) are counted. */
-export type ClusterStatsCCSUsageStatsClientsMap = {
-  [key: string]: number | undefined;
-};
+export type ClusterStatsCCSUsageStatsClientsMap = { [key: string]: number | undefined };
 export const ClusterStatsCCSUsageStatsClientsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -34207,9 +33450,7 @@ export const ClusterStatsCCSStats = /*@__PURE__*/ S.suspend(() =>
     _search: ClusterStatsCCSUsageStats,
     _esql: S.optional(ClusterStatsCCSUsageStats),
   }),
-).annotate({
-  identifier: "ClusterStatsCCSStats",
-}) as any as S.Schema<ClusterStatsCCSStats>;
+).annotate({ identifier: "ClusterStatsCCSStats" }) as any as S.Schema<ClusterStatsCCSStats>;
 
 export interface ClusterStatsResponse {
   /** Contains statistics about the number of nodes selected by the request’s node filters. */
@@ -34246,9 +33487,7 @@ export const ClusterStatsResponse = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.Number,
     ccs: ClusterStatsCCSStats,
   }),
-).annotate({
-  identifier: "ClusterStatsResponse",
-}) as any as S.Schema<ClusterStatsResponse>;
+).annotate({ identifier: "ClusterStatsResponse" }) as any as S.Schema<ClusterStatsResponse>;
 
 export interface ClusterStats1Request {
   /** Comma-separated list of node filters used to limit returned information. Defaults to all nodes in the cluster. */
@@ -34263,20 +33502,10 @@ export const ClusterStats1Request = /*@__PURE__*/ S.suspend(() =>
     node_id: S.String.pipe(T.Label()),
     include_remotes: S.optional(S.Boolean.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_cluster/stats/nodes/{node_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ClusterStats1Request",
-}) as any as S.Schema<ClusterStats1Request>;
+  }).pipe(T.Http({ method: "GET", uri: "/_cluster/stats/nodes/{node_id}", code: 200 })),
+).annotate({ identifier: "ClusterStats1Request" }) as any as S.Schema<ClusterStats1Request>;
 
-export type ClusterStats1ResponseRepositoriesValueMap = {
-  [key: string]: number | undefined;
-};
+export type ClusterStats1ResponseRepositoriesValueMap = { [key: string]: number | undefined };
 export const ClusterStats1ResponseRepositoriesValueMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -34326,9 +33555,7 @@ export const ClusterStats1Response = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.Number,
     ccs: ClusterStatsCCSStats,
   }),
-).annotate({
-  identifier: "ClusterStats1Response",
-}) as any as S.Schema<ClusterStats1Response>;
+).annotate({ identifier: "ClusterStats1Response" }) as any as S.Schema<ClusterStats1Response>;
 
 export interface ConnectorCheckInRequest {
   /** The unique identifier of the connector to be checked in */
@@ -34337,16 +33564,8 @@ export interface ConnectorCheckInRequest {
 export const ConnectorCheckInRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     connector_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_connector/{connector_id}/_check_in",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ConnectorCheckInRequest",
-}) as any as S.Schema<ConnectorCheckInRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_check_in", code: 200 })),
+).annotate({ identifier: "ConnectorCheckInRequest" }) as any as S.Schema<ConnectorCheckInRequest>;
 
 export interface ConnectorCheckInResponse {
   result: TypesResult;
@@ -34355,9 +33574,7 @@ export const ConnectorCheckInResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     result: TypesResult,
   }),
-).annotate({
-  identifier: "ConnectorCheckInResponse",
-}) as any as S.Schema<ConnectorCheckInResponse>;
+).annotate({ identifier: "ConnectorCheckInResponse" }) as any as S.Schema<ConnectorCheckInResponse>;
 
 export interface ConnectorPut1Request {
   description?: string;
@@ -34376,9 +33593,7 @@ export const ConnectorPut1Request = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     service_type: S.optional(S.String),
   }).pipe(T.Http({ method: "PUT", uri: "/_connector", code: 200 })),
-).annotate({
-  identifier: "ConnectorPut1Request",
-}) as any as S.Schema<ConnectorPut1Request>;
+).annotate({ identifier: "ConnectorPut1Request" }) as any as S.Schema<ConnectorPut1Request>;
 
 export interface ConnectorPut1Response {
   result: TypesResult;
@@ -34389,9 +33604,7 @@ export const ConnectorPut1Response = /*@__PURE__*/ S.suspend(() =>
     result: TypesResult,
     id: S.String,
   }),
-).annotate({
-  identifier: "ConnectorPut1Response",
-}) as any as S.Schema<ConnectorPut1Response>;
+).annotate({ identifier: "ConnectorPut1Response" }) as any as S.Schema<ConnectorPut1Response>;
 
 export interface ConnectorSyncJobCheckInRequest {
   /** The unique identifier of the connector sync job to be checked in. */
@@ -34497,11 +33710,7 @@ export const ConnectorUpdateActiveFilteringRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     connector_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_connector/{connector_id}/_filtering/_activate",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_filtering/_activate", code: 200 }),
   ),
 ).annotate({
   identifier: "ConnectorUpdateActiveFilteringRequest",
@@ -34529,13 +33738,7 @@ export const ConnectorUpdateApiKeyIdRequest = /*@__PURE__*/ S.suspend(() =>
     connector_id: S.String.pipe(T.Label()),
     api_key_id: S.optional(S.String),
     api_key_secret_id: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_connector/{connector_id}/_api_key_id",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_api_key_id", code: 200 })),
 ).annotate({
   identifier: "ConnectorUpdateApiKeyIdRequest",
 }) as any as S.Schema<ConnectorUpdateApiKeyIdRequest>;
@@ -34564,9 +33767,7 @@ export const ConnectorTypesDependency = /*@__PURE__*/ S.suspend(() =>
     field: S.String,
     value: TypesScalarValue,
   }),
-).annotate({
-  identifier: "ConnectorTypesDependency",
-}) as any as S.Schema<ConnectorTypesDependency>;
+).annotate({ identifier: "ConnectorTypesDependency" }) as any as S.Schema<ConnectorTypesDependency>;
 
 export type ConnectorTypesConnectorConfigPropertiesDependsOnList = Array<ConnectorTypesDependency>;
 export const ConnectorTypesConnectorConfigPropertiesDependsOnList = /*@__PURE__*/ S.Array(
@@ -34748,9 +33949,7 @@ export const ConnectorTypesConnectorConfiguration = /*@__PURE__*/ S.Record(
   ConnectorTypesConnectorConfigProperties,
 ) as any as S.Schema<ConnectorTypesConnectorConfiguration>;
 
-export type ConnectorUpdateConfigurationRequestValuesMap = {
-  [key: string]: unknown | undefined;
-};
+export type ConnectorUpdateConfigurationRequestValuesMap = { [key: string]: unknown | undefined };
 export const ConnectorUpdateConfigurationRequestValuesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -34767,13 +33966,7 @@ export const ConnectorUpdateConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
     connector_id: S.String.pipe(T.Label()),
     configuration: S.optional(ConnectorTypesConnectorConfiguration),
     values: S.optional(ConnectorUpdateConfigurationRequestValuesMap),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_connector/{connector_id}/_configuration",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_configuration", code: 200 })),
 ).annotate({
   identifier: "ConnectorUpdateConfigurationRequest",
 }) as any as S.Schema<ConnectorUpdateConfigurationRequest>;
@@ -34798,13 +33991,7 @@ export const ConnectorUpdateErrorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     connector_id: S.String.pipe(T.Label()),
     error: S.String,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_connector/{connector_id}/_error",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_error", code: 200 })),
 ).annotate({
   identifier: "ConnectorUpdateErrorRequest",
 }) as any as S.Schema<ConnectorUpdateErrorRequest>;
@@ -34867,13 +34054,7 @@ export const ConnectorUpdateFeaturesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     connector_id: S.String.pipe(T.Label()),
     features: ConnectorTypesConnectorFeatures,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_connector/{connector_id}/_features",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_features", code: 200 })),
 ).annotate({
   identifier: "ConnectorUpdateFeaturesRequest",
 }) as any as S.Schema<ConnectorUpdateFeaturesRequest>;
@@ -35045,13 +34226,7 @@ export const ConnectorUpdateFilteringRequest = /*@__PURE__*/ S.suspend(() =>
     filtering: S.optional(ConnectorUpdateFilteringRequestFilteringList),
     rules: S.optional(ConnectorUpdateFilteringRequestRulesList),
     advanced_snippet: S.optional(ConnectorTypesFilteringAdvancedSnippet),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_connector/{connector_id}/_filtering",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_filtering", code: 200 })),
 ).annotate({
   identifier: "ConnectorUpdateFilteringRequest",
 }) as any as S.Schema<ConnectorUpdateFilteringRequest>;
@@ -35077,11 +34252,7 @@ export const ConnectorUpdateFilteringValidationRequest = /*@__PURE__*/ S.suspend
     connector_id: S.String.pipe(T.Label()),
     validation: ConnectorTypesFilteringRulesValidation,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_connector/{connector_id}/_filtering/_validation",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_filtering/_validation", code: 200 }),
   ),
 ).annotate({
   identifier: "ConnectorUpdateFilteringValidationRequest",
@@ -35107,13 +34278,7 @@ export const ConnectorUpdateIndexNameRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     connector_id: S.String.pipe(T.Label()),
     index_name: S.String,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_connector/{connector_id}/_index_name",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_index_name", code: 200 })),
 ).annotate({
   identifier: "ConnectorUpdateIndexNameRequest",
 }) as any as S.Schema<ConnectorUpdateIndexNameRequest>;
@@ -35140,13 +34305,7 @@ export const ConnectorUpdateNameRequest = /*@__PURE__*/ S.suspend(() =>
     connector_id: S.String.pipe(T.Label()),
     name: S.optional(S.String),
     description: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_connector/{connector_id}/_name",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_name", code: 200 })),
 ).annotate({
   identifier: "ConnectorUpdateNameRequest",
 }) as any as S.Schema<ConnectorUpdateNameRequest>;
@@ -35171,13 +34330,7 @@ export const ConnectorUpdateNativeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     connector_id: S.String.pipe(T.Label()),
     is_native: S.Boolean,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_connector/{connector_id}/_native",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_native", code: 200 })),
 ).annotate({
   identifier: "ConnectorUpdateNativeRequest",
 }) as any as S.Schema<ConnectorUpdateNativeRequest>;
@@ -35219,13 +34372,7 @@ export const ConnectorUpdatePipelineRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     connector_id: S.String.pipe(T.Label()),
     pipeline: ConnectorTypesIngestPipelineParams,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_connector/{connector_id}/_pipeline",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_pipeline", code: 200 })),
 ).annotate({
   identifier: "ConnectorUpdatePipelineRequest",
 }) as any as S.Schema<ConnectorUpdatePipelineRequest>;
@@ -35279,13 +34426,7 @@ export const ConnectorUpdateSchedulingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     connector_id: S.String.pipe(T.Label()),
     scheduling: ConnectorTypesSchedulingConfiguration,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_connector/{connector_id}/_scheduling",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_scheduling", code: 200 })),
 ).annotate({
   identifier: "ConnectorUpdateSchedulingRequest",
 }) as any as S.Schema<ConnectorUpdateSchedulingRequest>;
@@ -35310,13 +34451,7 @@ export const ConnectorUpdateServiceTypeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     connector_id: S.String.pipe(T.Label()),
     service_type: S.String,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_connector/{connector_id}/_service_type",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_service_type", code: 200 })),
 ).annotate({
   identifier: "ConnectorUpdateServiceTypeRequest",
 }) as any as S.Schema<ConnectorUpdateServiceTypeRequest>;
@@ -35349,13 +34484,7 @@ export const ConnectorUpdateStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     connector_id: S.String.pipe(T.Label()),
     status: ConnectorTypesConnectorStatus,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_connector/{connector_id}/_status",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}/_status", code: 200 })),
 ).annotate({
   identifier: "ConnectorUpdateStatusRequest",
 }) as any as S.Schema<ConnectorUpdateStatusRequest>;
@@ -35747,9 +34876,7 @@ export const TypesWriteResponseBase = /*@__PURE__*/ S.suspend(() =>
     failure_store: S.optional(GlobalBulkFailureStoreStatus),
     forced_refresh: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "TypesWriteResponseBase",
-}) as any as S.Schema<TypesWriteResponseBase>;
+).annotate({ identifier: "TypesWriteResponseBase" }) as any as S.Schema<TypesWriteResponseBase>;
 
 export interface Create1Request {
   /** The name of the data stream or index to target. If the target doesn't exist and matches the name or wildcard (`*`) pattern of an index template with a `data_stream` definition, this request creates the data stream. If the target doesn't exist and doesn’t match a data stream template, this request creates the index. */
@@ -35795,9 +34922,7 @@ export const Create1Request = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Create1Request" }) as any as S.Schema<Create1Request>;
 
 /** Aliases for the index. */
-export type CreateIndexRequestAliasesMap = {
-  [key: string]: IndicesTypesAlias | undefined;
-};
+export type CreateIndexRequestAliasesMap = { [key: string]: IndicesTypesAlias | undefined };
 export const CreateIndexRequestAliasesMap = /*@__PURE__*/ S.Record(
   S.String,
   IndicesTypesAlias,
@@ -35829,9 +34954,7 @@ export const CreateIndexRequest = /*@__PURE__*/ S.suspend(() =>
     mappings: S.optional(TypesMappingTypeMapping),
     settings: S.optional(IndicesTypesIndexSettings),
   }).pipe(T.Http({ method: "PUT", uri: "/{index}", code: 200 })),
-).annotate({
-  identifier: "CreateIndexRequest",
-}) as any as S.Schema<CreateIndexRequest>;
+).annotate({ identifier: "CreateIndexRequest" }) as any as S.Schema<CreateIndexRequest>;
 
 export interface CreateIndexResponse {
   index: string;
@@ -35844,9 +34967,7 @@ export const CreateIndexResponse = /*@__PURE__*/ S.suspend(() =>
     shards_acknowledged: S.Boolean,
     acknowledged: S.Boolean,
   }),
-).annotate({
-  identifier: "CreateIndexResponse",
-}) as any as S.Schema<CreateIndexResponse>;
+).annotate({ identifier: "CreateIndexResponse" }) as any as S.Schema<CreateIndexResponse>;
 
 /** The feature states to include in the snapshot. Each feature state includes one or more system indices containing related data. You can view a list of eligible features using the get features API. If `include_global_state` is `true`, all current feature states are included by default. If `include_global_state` is `false`, no feature states are included by default. Note that specifying an empty array will result in the default behavior. To exclude all feature states, regardless of the `include_global_state` value, specify an array with only the value `none` (`["none"]`). */
 export type CreateSnapshotRequestFeatureStatesList = Array<string>;
@@ -35891,16 +35012,8 @@ export const CreateSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     indices: S.optional(TypesIndices),
     metadata: S.optional(TypesMetadata),
     partial: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_snapshot/{repository}/{snapshot}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateSnapshotRequest",
-}) as any as S.Schema<CreateSnapshotRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/_snapshot/{repository}/{snapshot}", code: 200 })),
+).annotate({ identifier: "CreateSnapshotRequest" }) as any as S.Schema<CreateSnapshotRequest>;
 
 export type SnapshotTypesSnapshotInfoDataStreamsList = Array<string>;
 export const SnapshotTypesSnapshotInfoDataStreamsList = /*@__PURE__*/ S.Array(
@@ -36043,9 +35156,7 @@ export const CreateSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
     accepted: S.optional(S.Boolean),
     snapshot: S.optional(SnapshotTypesSnapshotInfo),
   }),
-).annotate({
-  identifier: "CreateSnapshotResponse",
-}) as any as S.Schema<CreateSnapshotResponse>;
+).annotate({ identifier: "CreateSnapshotResponse" }) as any as S.Schema<CreateSnapshotResponse>;
 
 export interface DanglingIndicesDeleteDanglingIndexRequest {
   /** The UUID of the index to delete. Use the get dangling indices API to find the UUID. */
@@ -36288,9 +35399,7 @@ export const DeleteByQueryRequest = /*@__PURE__*/ S.suspend(() =>
     query: S.optional(TypesQueryDslQueryContainer),
     slice: S.optional(TypesSlicedScroll),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_delete_by_query", code: 200 })),
-).annotate({
-  identifier: "DeleteByQueryRequest",
-}) as any as S.Schema<DeleteByQueryRequest>;
+).annotate({ identifier: "DeleteByQueryRequest" }) as any as S.Schema<DeleteByQueryRequest>;
 
 /** An array of failures if there were any unrecoverable errors during the process. If this array is not empty, the request ended abnormally because of those failures. Delete by query is implemented using batches and any failures cause the entire process to end but all failures in the current batch are collected into the array. You can use the `conflicts` option to prevent reindex from ending on version conflicts. */
 export type DeleteByQueryResponseFailuresList = Array<TypesBulkIndexByScrollFailure>;
@@ -36356,9 +35465,7 @@ export const DeleteByQueryResponse = /*@__PURE__*/ S.suspend(() =>
     total: S.optional(S.Number),
     version_conflicts: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DeleteByQueryResponse",
-}) as any as S.Schema<DeleteByQueryResponse>;
+).annotate({ identifier: "DeleteByQueryResponse" }) as any as S.Schema<DeleteByQueryResponse>;
 
 export interface DeleteByQueryRethrottleRequest {
   /** The ID for the task. */
@@ -36370,13 +35477,7 @@ export const DeleteByQueryRethrottleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     task_id: S.String.pipe(T.Label()),
     requests_per_second: S.Number.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_delete_by_query/{task_id}/_rethrottle",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_delete_by_query/{task_id}/_rethrottle", code: 200 })),
 ).annotate({
   identifier: "DeleteByQueryRethrottleRequest",
 }) as any as S.Schema<DeleteByQueryRethrottleRequest>;
@@ -36395,9 +35496,7 @@ export const DeleteConnectorRequest = /*@__PURE__*/ S.suspend(() =>
     delete_sync_jobs: S.optional(S.Boolean.pipe(T.Query())),
     hard: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/_connector/{connector_id}", code: 200 })),
-).annotate({
-  identifier: "DeleteConnectorRequest",
-}) as any as S.Schema<DeleteConnectorRequest>;
+).annotate({ identifier: "DeleteConnectorRequest" }) as any as S.Schema<DeleteConnectorRequest>;
 
 export interface DeleteConnectorSyncJobRequest {
   /** The unique identifier of the connector sync job to be deleted */
@@ -36407,11 +35506,7 @@ export const DeleteConnectorSyncJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     connector_sync_job_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/_connector/_sync_job/{connector_sync_job_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/_connector/_sync_job/{connector_sync_job_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteConnectorSyncJobRequest",
@@ -36425,9 +35520,7 @@ export const DeleteEqlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/_eql/search/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteEqlRequest",
-}) as any as S.Schema<DeleteEqlRequest>;
+).annotate({ identifier: "DeleteEqlRequest" }) as any as S.Schema<DeleteEqlRequest>;
 
 export interface DeleteEsqlAsyncQueryRequest {
   /** The unique identifier of the query. A query ID is provided in the ES|QL async query API response for a query that does not complete in the designated time. A query ID is also provided when the request was submitted with the `keep_on_completion` parameter set to `true`. */
@@ -36464,9 +35557,7 @@ export const DeleteIndexRequest = /*@__PURE__*/ S.suspend(() =>
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/{index}", code: 200 })),
-).annotate({
-  identifier: "DeleteIndexRequest",
-}) as any as S.Schema<DeleteIndexRequest>;
+).annotate({ identifier: "DeleteIndexRequest" }) as any as S.Schema<DeleteIndexRequest>;
 
 export interface DeleteIndexResponse {
   /** For a successful response, this value is always true. On failure, an exception is returned instead. */
@@ -36478,9 +35569,7 @@ export const DeleteIndexResponse = /*@__PURE__*/ S.suspend(() =>
     acknowledged: S.Boolean,
     _shards: S.optional(TypesShardStatistics),
   }),
-).annotate({
-  identifier: "DeleteIndexResponse",
-}) as any as S.Schema<DeleteIndexResponse>;
+).annotate({ identifier: "DeleteIndexResponse" }) as any as S.Schema<DeleteIndexResponse>;
 
 export interface DeleteIndexTemplateRequest {
   /** Comma-separated list of index template names used to limit the request. Wildcard (*) expressions are supported. */
@@ -36514,9 +35603,7 @@ export const DeleteInferenceRequest = /*@__PURE__*/ S.suspend(() =>
     dry_run: S.optional(S.Boolean.pipe(T.Query())),
     force: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/_inference/{inference_id}", code: 200 })),
-).annotate({
-  identifier: "DeleteInferenceRequest",
-}) as any as S.Schema<DeleteInferenceRequest>;
+).annotate({ identifier: "DeleteInferenceRequest" }) as any as S.Schema<DeleteInferenceRequest>;
 
 export type DeleteInferenceResponsePipelinesList = Array<string>;
 export const DeleteInferenceResponsePipelinesList = /*@__PURE__*/ S.Array(
@@ -36533,9 +35620,7 @@ export const DeleteInferenceResponse = /*@__PURE__*/ S.suspend(() =>
     acknowledged: S.Boolean,
     pipelines: DeleteInferenceResponsePipelinesList,
   }),
-).annotate({
-  identifier: "DeleteInferenceResponse",
-}) as any as S.Schema<DeleteInferenceResponse>;
+).annotate({ identifier: "DeleteInferenceResponse" }) as any as S.Schema<DeleteInferenceResponse>;
 
 export interface DeleteLicenseRequest {
   /** The period to wait for a connection to the master node. */
@@ -36548,9 +35633,7 @@ export const DeleteLicenseRequest = /*@__PURE__*/ S.suspend(() =>
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/_license", code: 200 })),
-).annotate({
-  identifier: "DeleteLicenseRequest",
-}) as any as S.Schema<DeleteLicenseRequest>;
+).annotate({ identifier: "DeleteLicenseRequest" }) as any as S.Schema<DeleteLicenseRequest>;
 
 export interface DeleteScriptRequest {
   /** The identifier for the stored script or search template. */
@@ -36566,9 +35649,7 @@ export const DeleteScriptRequest = /*@__PURE__*/ S.suspend(() =>
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/_scripts/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteScriptRequest",
-}) as any as S.Schema<DeleteScriptRequest>;
+).annotate({ identifier: "DeleteScriptRequest" }) as any as S.Schema<DeleteScriptRequest>;
 
 export interface DeleteSnapshotRequest {
   /** The name of the repository to delete a snapshot from. */
@@ -36577,7 +35658,7 @@ export interface DeleteSnapshotRequest {
   snapshot: string;
   /** The period to wait for the master node. If the master node is not available before the timeout expires, the request fails and returns an error. To indicate that the request should never timeout, set it to `-1`. */
   master_timeout?: TypesDuration;
-  /** If `true`, the request returns a response when the matching snapshots are all deleted. If `false`, the request returns a response as soon as the deletes are scheduled. */
+  /** If `false`, the request returns a response as soon as the deletes are scheduled. If `true`, the request returns a response when the matching snapshots are all deleted, and the post-deletion cleanup work associated with the request has completed. If you make several requests to the delete-snapshots API targetting overlapping collections of snapshots then some of those requests may perform different parts of the associated post-deletion cleanup work, returning their responses at different times. For example, if you make two requests to delete the same snapshot then sometimes all of the post-deletion cleanup work will be associated with the first request, delaying its response, while the second request has no associated post-deletion cleanup work and receives its response as soon as the snapshot has been deleted. */
   wait_for_completion?: boolean;
 }
 export const DeleteSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
@@ -36586,16 +35667,8 @@ export const DeleteSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     snapshot: S.String.pipe(T.Label()),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/_snapshot/{repository}/{snapshot}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteSnapshotRequest",
-}) as any as S.Schema<DeleteSnapshotRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/_snapshot/{repository}/{snapshot}", code: 200 })),
+).annotate({ identifier: "DeleteSnapshotRequest" }) as any as S.Schema<DeleteSnapshotRequest>;
 
 export interface DeleteSynonymRequest {
   /** The synonyms set identifier to delete. */
@@ -36605,9 +35678,7 @@ export const DeleteSynonymRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/_synonyms/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteSynonymRequest",
-}) as any as S.Schema<DeleteSynonymRequest>;
+).annotate({ identifier: "DeleteSynonymRequest" }) as any as S.Schema<DeleteSynonymRequest>;
 
 export interface DeleteSynonymRuleRequest {
   /** The ID of the synonym set to update. */
@@ -36622,16 +35693,8 @@ export const DeleteSynonymRuleRequest = /*@__PURE__*/ S.suspend(() =>
     set_id: S.String.pipe(T.Label()),
     rule_id: S.String.pipe(T.Label()),
     refresh: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/_synonyms/{set_id}/{rule_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteSynonymRuleRequest",
-}) as any as S.Schema<DeleteSynonymRuleRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/_synonyms/{set_id}/{rule_id}", code: 200 })),
+).annotate({ identifier: "DeleteSynonymRuleRequest" }) as any as S.Schema<DeleteSynonymRuleRequest>;
 
 export type IndicesReloadSearchAnalyzersReloadDetailsReloadedAnalyzersList = Array<string>;
 export const IndicesReloadSearchAnalyzersReloadDetailsReloadedAnalyzersList = /*@__PURE__*/ S.Array(
@@ -36709,9 +35772,7 @@ export const DeleteTransformRequest = /*@__PURE__*/ S.suspend(() =>
     delete_dest_index: S.optional(S.Boolean.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/_transform/{transform_id}", code: 200 })),
-).annotate({
-  identifier: "DeleteTransformRequest",
-}) as any as S.Schema<DeleteTransformRequest>;
+).annotate({ identifier: "DeleteTransformRequest" }) as any as S.Schema<DeleteTransformRequest>;
 
 export type DisableStreamsLogRequestName = "logs" | "logs.otel" | "logs.ecs";
 export const DisableStreamsLogRequestName = S.String;
@@ -36730,9 +35791,7 @@ export const DisableStreamsLogRequest = /*@__PURE__*/ S.suspend(() =>
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/_streams/{name}/_disable", code: 200 })),
-).annotate({
-  identifier: "DisableStreamsLogRequest",
-}) as any as S.Schema<DisableStreamsLogRequest>;
+).annotate({ identifier: "DisableStreamsLogRequest" }) as any as S.Schema<DisableStreamsLogRequest>;
 
 export type EnableStreamsLogRequestName = "logs" | "logs.otel" | "logs.ecs";
 export const EnableStreamsLogRequestName = S.String;
@@ -36751,9 +35810,7 @@ export const EnableStreamsLogRequest = /*@__PURE__*/ S.suspend(() =>
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/_streams/{name}/_enable", code: 200 })),
-).annotate({
-  identifier: "EnableStreamsLogRequest",
-}) as any as S.Schema<EnableStreamsLogRequest>;
+).annotate({ identifier: "EnableStreamsLogRequest" }) as any as S.Schema<EnableStreamsLogRequest>;
 
 export interface EnrichDeletePolicyRequest {
   /** Enrich policy to delete. */
@@ -36783,13 +35840,7 @@ export const EnrichExecutePolicyRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.Label()),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_enrich/policy/{name}/_execute",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_enrich/policy/{name}/_execute", code: 200 })),
 ).annotate({
   identifier: "EnrichExecutePolicyRequest",
 }) as any as S.Schema<EnrichExecutePolicyRequest>;
@@ -36839,9 +35890,7 @@ export const EnrichGetPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.Label()),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_enrich/policy/{name}", code: 200 })),
-).annotate({
-  identifier: "EnrichGetPolicyRequest",
-}) as any as S.Schema<EnrichGetPolicyRequest>;
+).annotate({ identifier: "EnrichGetPolicyRequest" }) as any as S.Schema<EnrichGetPolicyRequest>;
 
 export interface EnrichTypesPolicy {
   enrich_fields: TypesFields;
@@ -36860,13 +35909,9 @@ export const EnrichTypesPolicy = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     elasticsearch_version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EnrichTypesPolicy",
-}) as any as S.Schema<EnrichTypesPolicy>;
+).annotate({ identifier: "EnrichTypesPolicy" }) as any as S.Schema<EnrichTypesPolicy>;
 
-export type EnrichTypesSummaryConfigMap = {
-  [key: string]: EnrichTypesPolicy | undefined;
-};
+export type EnrichTypesSummaryConfigMap = { [key: string]: EnrichTypesPolicy | undefined };
 export const EnrichTypesSummaryConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   EnrichTypesPolicy,
@@ -36879,9 +35924,7 @@ export const EnrichTypesSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     config: EnrichTypesSummaryConfigMap,
   }),
-).annotate({
-  identifier: "EnrichTypesSummary",
-}) as any as S.Schema<EnrichTypesSummary>;
+).annotate({ identifier: "EnrichTypesSummary" }) as any as S.Schema<EnrichTypesSummary>;
 
 export type EnrichGetPolicyResponsePoliciesList = Array<EnrichTypesSummary>;
 export const EnrichGetPolicyResponsePoliciesList = /*@__PURE__*/ S.Array(
@@ -36895,9 +35938,7 @@ export const EnrichGetPolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     policies: EnrichGetPolicyResponsePoliciesList,
   }),
-).annotate({
-  identifier: "EnrichGetPolicyResponse",
-}) as any as S.Schema<EnrichGetPolicyResponse>;
+).annotate({ identifier: "EnrichGetPolicyResponse" }) as any as S.Schema<EnrichGetPolicyResponse>;
 
 export interface EnrichGetPolicy1Request {
   /** Period to wait for a connection to the master node. */
@@ -36907,9 +35948,7 @@ export const EnrichGetPolicy1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_enrich/policy", code: 200 })),
-).annotate({
-  identifier: "EnrichGetPolicy1Request",
-}) as any as S.Schema<EnrichGetPolicy1Request>;
+).annotate({ identifier: "EnrichGetPolicy1Request" }) as any as S.Schema<EnrichGetPolicy1Request>;
 
 export type EnrichGetPolicy1ResponsePoliciesList = Array<EnrichTypesSummary>;
 export const EnrichGetPolicy1ResponsePoliciesList = /*@__PURE__*/ S.Array(
@@ -36923,9 +35962,7 @@ export const EnrichGetPolicy1Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     policies: EnrichGetPolicy1ResponsePoliciesList,
   }),
-).annotate({
-  identifier: "EnrichGetPolicy1Response",
-}) as any as S.Schema<EnrichGetPolicy1Response>;
+).annotate({ identifier: "EnrichGetPolicy1Response" }) as any as S.Schema<EnrichGetPolicy1Response>;
 
 export interface EnrichPutPolicyRequest {
   /** Name of the enrich policy to create or update. */
@@ -36947,9 +35984,7 @@ export const EnrichPutPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     match: S.optional(EnrichTypesPolicy),
     range: S.optional(EnrichTypesPolicy),
   }).pipe(T.Http({ method: "PUT", uri: "/_enrich/policy/{name}", code: 200 })),
-).annotate({
-  identifier: "EnrichPutPolicyRequest",
-}) as any as S.Schema<EnrichPutPolicyRequest>;
+).annotate({ identifier: "EnrichPutPolicyRequest" }) as any as S.Schema<EnrichPutPolicyRequest>;
 
 export interface EnrichStatsRequest {
   /** Period to wait for a connection to the master node. */
@@ -36959,9 +35994,7 @@ export const EnrichStatsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_enrich/_stats", code: 200 })),
-).annotate({
-  identifier: "EnrichStatsRequest",
-}) as any as S.Schema<EnrichStatsRequest>;
+).annotate({ identifier: "EnrichStatsRequest" }) as any as S.Schema<EnrichStatsRequest>;
 
 export interface EnrichStatsCoordinatorStats {
   executed_searches_total: number;
@@ -37028,9 +36061,7 @@ export const EnrichStatsCacheStats = /*@__PURE__*/ S.suspend(() =>
     evictions: S.Number,
     size_in_bytes: S.Number,
   }),
-).annotate({
-  identifier: "EnrichStatsCacheStats",
-}) as any as S.Schema<EnrichStatsCacheStats>;
+).annotate({ identifier: "EnrichStatsCacheStats" }) as any as S.Schema<EnrichStatsCacheStats>;
 
 /** Objects containing information about the enrich cache stats on each ingest node. */
 export type EnrichStatsResponseCacheStatsList = Array<EnrichStatsCacheStats>;
@@ -37052,9 +36083,7 @@ export const EnrichStatsResponse = /*@__PURE__*/ S.suspend(() =>
     executing_policies: EnrichStatsResponseExecutingPoliciesList,
     cache_stats: S.optional(EnrichStatsResponseCacheStatsList),
   }),
-).annotate({
-  identifier: "EnrichStatsResponse",
-}) as any as S.Schema<EnrichStatsResponse>;
+).annotate({ identifier: "EnrichStatsResponse" }) as any as S.Schema<EnrichStatsResponse>;
 
 export interface EqlGetStatusRequest {
   /** Identifier for the search. */
@@ -37064,9 +36093,7 @@ export const EqlGetStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/_eql/search/status/{id}", code: 200 })),
-).annotate({
-  identifier: "EqlGetStatusRequest",
-}) as any as S.Schema<EqlGetStatusRequest>;
+).annotate({ identifier: "EqlGetStatusRequest" }) as any as S.Schema<EqlGetStatusRequest>;
 
 export interface EqlGetStatusResponse {
   /** Identifier for the search. */
@@ -37091,9 +36118,7 @@ export const EqlGetStatusResponse = /*@__PURE__*/ S.suspend(() =>
     expiration_time_in_millis: S.optional(S.Number),
     completion_status: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "EqlGetStatusResponse",
-}) as any as S.Schema<EqlGetStatusResponse>;
+).annotate({ identifier: "EqlGetStatusResponse" }) as any as S.Schema<EqlGetStatusResponse>;
 
 export type EqlSearch1RequestFilterCase1List = Array<TypesQueryDslQueryContainer>;
 export const EqlSearch1RequestFilterCase1List = /*@__PURE__*/ S.Array(
@@ -37188,9 +36213,7 @@ export const EqlSearch1Request = /*@__PURE__*/ S.suspend(() =>
     runtime_mappings: S.optional(TypesMappingRuntimeFields),
     max_samples_per_key: S.optional(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_eql/search", code: 200 })),
-).annotate({
-  identifier: "EqlSearch1Request",
-}) as any as S.Schema<EqlSearch1Request>;
+).annotate({ identifier: "EqlSearch1Request" }) as any as S.Schema<EqlSearch1Request>;
 
 export type EqlTypesHitsEventFieldsValueList = Array<unknown>;
 export const EqlTypesHitsEventFieldsValueList = /*@__PURE__*/ S.Array(
@@ -37224,9 +36247,7 @@ export const EqlTypesHitsEvent = /*@__PURE__*/ S.suspend(() =>
     missing: S.optional(S.Boolean),
     fields: S.optional(EqlTypesHitsEventFieldsMap),
   }),
-).annotate({
-  identifier: "EqlTypesHitsEvent",
-}) as any as S.Schema<EqlTypesHitsEvent>;
+).annotate({ identifier: "EqlTypesHitsEvent" }) as any as S.Schema<EqlTypesHitsEvent>;
 
 /** Contains events matching the query. Each object represents a matching event. */
 export type EqlTypesEqlHitsEventsList = Array<EqlTypesHitsEvent>;
@@ -37257,9 +36278,7 @@ export const EqlTypesHitsSequence = /*@__PURE__*/ S.suspend(() =>
     events: EqlTypesHitsSequenceEventsList,
     join_keys: S.optional(EqlTypesHitsSequenceJoinKeysList),
   }),
-).annotate({
-  identifier: "EqlTypesHitsSequence",
-}) as any as S.Schema<EqlTypesHitsSequence>;
+).annotate({ identifier: "EqlTypesHitsSequence" }) as any as S.Schema<EqlTypesHitsSequence>;
 
 /** Contains event sequences matching the query. Each object represents a matching sequence. This parameter is only returned for EQL queries containing a sequence. */
 export type EqlTypesEqlHitsSequencesList = Array<EqlTypesHitsSequence>;
@@ -37281,9 +36300,7 @@ export const EqlTypesEqlHits = /*@__PURE__*/ S.suspend(() =>
     events: S.optional(EqlTypesEqlHitsEventsList),
     sequences: S.optional(EqlTypesEqlHitsSequencesList),
   }),
-).annotate({
-  identifier: "EqlTypesEqlHits",
-}) as any as S.Schema<EqlTypesEqlHits>;
+).annotate({ identifier: "EqlTypesEqlHits" }) as any as S.Schema<EqlTypesEqlHits>;
 
 /** Contains information about shard failures (if any), in case allow_partial_search_results=true */
 export type EqlTypesEqlSearchResponseBaseShardFailuresList = Array<TypesShardFailure>;
@@ -37372,9 +36389,7 @@ export type EsqlTypesNamedParameterValue =
 export const EsqlTypesNamedParameterValue =
   S.Unknown as any as S.Schema<EsqlTypesNamedParameterValue>;
 
-export type EsqlTypesNamedValue = {
-  [key: string]: EsqlTypesNamedParameterValue | undefined;
-};
+export type EsqlTypesNamedValue = { [key: string]: EsqlTypesNamedParameterValue | undefined };
 export const EsqlTypesNamedValue = /*@__PURE__*/ S.Record(
   S.String,
   EsqlTypesNamedParameterValue,
@@ -37575,9 +36590,7 @@ export const EsqlAsyncQueryRequest = /*@__PURE__*/ S.suspend(() =>
     keep_on_completion: S.optional(S.Boolean),
     settings: S.optional(EsqlTypesEsqlQuerySettings),
   }).pipe(T.Http({ method: "POST", uri: "/_query/async", code: 200 })),
-).annotate({
-  identifier: "EsqlAsyncQueryRequest",
-}) as any as S.Schema<EsqlAsyncQueryRequest>;
+).annotate({ identifier: "EsqlAsyncQueryRequest" }) as any as S.Schema<EsqlAsyncQueryRequest>;
 
 export type EsqlTypesEsqlColumnInfo = SecurityTypesRealmInfo;
 export const EsqlTypesEsqlColumnInfo = SecurityTypesRealmInfo;
@@ -37623,9 +36636,7 @@ export const EsqlTypesEsqlShardInfo = /*@__PURE__*/ S.suspend(() =>
     skipped: S.optional(S.Number),
     failed: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "EsqlTypesEsqlShardInfo",
-}) as any as S.Schema<EsqlTypesEsqlShardInfo>;
+).annotate({ identifier: "EsqlTypesEsqlShardInfo" }) as any as S.Schema<EsqlTypesEsqlShardInfo>;
 
 export interface EsqlTypesEsqlShardFailure {
   shard: number;
@@ -37695,9 +36706,7 @@ export const EsqlTypesEsqlClusterInfo = /*@__PURE__*/ S.suspend(() =>
     failed: S.Number,
     details: EsqlTypesEsqlClusterInfoDetailsMap,
   }),
-).annotate({
-  identifier: "EsqlTypesEsqlClusterInfo",
-}) as any as S.Schema<EsqlTypesEsqlClusterInfo>;
+).annotate({ identifier: "EsqlTypesEsqlClusterInfo" }) as any as S.Schema<EsqlTypesEsqlClusterInfo>;
 
 export interface EsqlAsyncQueryResponse {
   took?: number;
@@ -37726,9 +36735,7 @@ export const EsqlAsyncQueryResponse = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     is_running: S.Boolean,
   }),
-).annotate({
-  identifier: "EsqlAsyncQueryResponse",
-}) as any as S.Schema<EsqlAsyncQueryResponse>;
+).annotate({ identifier: "EsqlAsyncQueryResponse" }) as any as S.Schema<EsqlAsyncQueryResponse>;
 
 export interface EsqlDeleteDatasetRequest {
   /** A comma-separated list of dataset names to delete. */
@@ -37744,9 +36751,7 @@ export const EsqlDeleteDatasetRequest = /*@__PURE__*/ S.suspend(() =>
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/_query/dataset/{name}", code: 200 })),
-).annotate({
-  identifier: "EsqlDeleteDatasetRequest",
-}) as any as S.Schema<EsqlDeleteDatasetRequest>;
+).annotate({ identifier: "EsqlDeleteDatasetRequest" }) as any as S.Schema<EsqlDeleteDatasetRequest>;
 
 export interface EsqlDeleteDataSourceRequest {
   /** A comma-separated list of data source names to delete. */
@@ -37774,9 +36779,7 @@ export const EsqlDeleteViewRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/_query/view/{name}", code: 200 })),
-).annotate({
-  identifier: "EsqlDeleteViewRequest",
-}) as any as S.Schema<EsqlDeleteViewRequest>;
+).annotate({ identifier: "EsqlDeleteViewRequest" }) as any as S.Schema<EsqlDeleteViewRequest>;
 
 export interface EsqlGetDatasetRequest {
   /** Period to wait for a connection to the master node. */
@@ -37786,14 +36789,10 @@ export const EsqlGetDatasetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_query/dataset", code: 200 })),
-).annotate({
-  identifier: "EsqlGetDatasetRequest",
-}) as any as S.Schema<EsqlGetDatasetRequest>;
+).annotate({ identifier: "EsqlGetDatasetRequest" }) as any as S.Schema<EsqlGetDatasetRequest>;
 
 /** Format- and parsing-specific settings that configure how the resource is read. Common keys include `format` and `partition_detection`. Additional keys depend on the format reader; compression can be inferred from the resource URI. */
-export type EsqlTypesESQLDatasetSettingsMap = {
-  [key: string]: unknown | undefined;
-};
+export type EsqlTypesESQLDatasetSettingsMap = { [key: string]: unknown | undefined };
 export const EsqlTypesESQLDatasetSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -37839,9 +36838,7 @@ export const EsqlTypesIdPath = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     path: S.String,
   }),
-).annotate({
-  identifier: "EsqlTypesIdPath",
-}) as any as S.Schema<EsqlTypesIdPath>;
+).annotate({ identifier: "EsqlTypesIdPath" }) as any as S.Schema<EsqlTypesIdPath>;
 
 /** A user-declared mapping (the `mappings` block) attached to a dataset. It is entirely optional: a dataset with no declared mapping relies on inference. */
 export interface EsqlTypesDatasetMapping {
@@ -37858,9 +36855,7 @@ export const EsqlTypesDatasetMapping = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(EsqlTypesDatasetMappingPropertiesMap),
     _id: S.optional(EsqlTypesIdPath),
   }),
-).annotate({
-  identifier: "EsqlTypesDatasetMapping",
-}) as any as S.Schema<EsqlTypesDatasetMapping>;
+).annotate({ identifier: "EsqlTypesDatasetMapping" }) as any as S.Schema<EsqlTypesDatasetMapping>;
 
 /** Represents a dataset definition stored in cluster state. A dataset is a named reference to external data that participates in the index namespace alongside indices, aliases, and views. Datasets inherit credentials from their referenced data source at query time. */
 export interface EsqlTypesESQLDataset {
@@ -37886,9 +36881,7 @@ export const EsqlTypesESQLDataset = /*@__PURE__*/ S.suspend(() =>
     settings: S.optional(EsqlTypesESQLDatasetSettingsMap),
     mappings: S.optional(EsqlTypesDatasetMapping),
   }),
-).annotate({
-  identifier: "EsqlTypesESQLDataset",
-}) as any as S.Schema<EsqlTypesESQLDataset>;
+).annotate({ identifier: "EsqlTypesESQLDataset" }) as any as S.Schema<EsqlTypesESQLDataset>;
 
 /** The matching datasets. */
 export type EsqlGetDatasetResponseDatasetsList = Array<EsqlTypesESQLDataset>;
@@ -37904,9 +36897,7 @@ export const EsqlGetDatasetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     datasets: EsqlGetDatasetResponseDatasetsList,
   }),
-).annotate({
-  identifier: "EsqlGetDatasetResponse",
-}) as any as S.Schema<EsqlGetDatasetResponse>;
+).annotate({ identifier: "EsqlGetDatasetResponse" }) as any as S.Schema<EsqlGetDatasetResponse>;
 
 export interface EsqlGetDataset1Request {
   /** A comma-separated list of dataset names or wildcard patterns. Omit to return all datasets. */
@@ -37919,9 +36910,7 @@ export const EsqlGetDataset1Request = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.Label()),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_query/dataset/{name}", code: 200 })),
-).annotate({
-  identifier: "EsqlGetDataset1Request",
-}) as any as S.Schema<EsqlGetDataset1Request>;
+).annotate({ identifier: "EsqlGetDataset1Request" }) as any as S.Schema<EsqlGetDataset1Request>;
 
 /** The matching datasets. */
 export type EsqlGetDataset1ResponseDatasetsList = Array<EsqlTypesESQLDataset>;
@@ -37937,9 +36926,7 @@ export const EsqlGetDataset1Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     datasets: EsqlGetDataset1ResponseDatasetsList,
   }),
-).annotate({
-  identifier: "EsqlGetDataset1Response",
-}) as any as S.Schema<EsqlGetDataset1Response>;
+).annotate({ identifier: "EsqlGetDataset1Response" }) as any as S.Schema<EsqlGetDataset1Response>;
 
 export interface EsqlGetDataSourceRequest {
   /** Period to wait for a connection to the master node. */
@@ -37949,14 +36936,10 @@ export const EsqlGetDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_query/data_source", code: 200 })),
-).annotate({
-  identifier: "EsqlGetDataSourceRequest",
-}) as any as S.Schema<EsqlGetDataSourceRequest>;
+).annotate({ identifier: "EsqlGetDataSourceRequest" }) as any as S.Schema<EsqlGetDataSourceRequest>;
 
 /** Type-specific connection and authentication settings. */
-export type EsqlTypesESQLDataSourceSettingsMap = {
-  [key: string]: unknown | undefined;
-};
+export type EsqlTypesESQLDataSourceSettingsMap = { [key: string]: unknown | undefined };
 export const EsqlTypesESQLDataSourceSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -37980,9 +36963,7 @@ export const EsqlTypesESQLDataSource = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     settings: EsqlTypesESQLDataSourceSettingsMap,
   }),
-).annotate({
-  identifier: "EsqlTypesESQLDataSource",
-}) as any as S.Schema<EsqlTypesESQLDataSource>;
+).annotate({ identifier: "EsqlTypesESQLDataSource" }) as any as S.Schema<EsqlTypesESQLDataSource>;
 
 /** The matching data sources. Credential values in each data source's settings are redacted as `::es_redacted::` in the response. */
 export type EsqlGetDataSourceResponseDataSourcesList = Array<EsqlTypesESQLDataSource>;
@@ -38043,9 +37024,7 @@ export const EsqlGetQueryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/_query/queries/{id}", code: 200 })),
-).annotate({
-  identifier: "EsqlGetQueryRequest",
-}) as any as S.Schema<EsqlGetQueryRequest>;
+).annotate({ identifier: "EsqlGetQueryRequest" }) as any as S.Schema<EsqlGetQueryRequest>;
 
 export type EsqlGetQueryResponseDataNodesList = Array<string>;
 export const EsqlGetQueryResponseDataNodesList = /*@__PURE__*/ S.Array(
@@ -38071,16 +37050,12 @@ export const EsqlGetQueryResponse = /*@__PURE__*/ S.suspend(() =>
     coordinating_node: S.String,
     data_nodes: EsqlGetQueryResponseDataNodesList,
   }),
-).annotate({
-  identifier: "EsqlGetQueryResponse",
-}) as any as S.Schema<EsqlGetQueryResponse>;
+).annotate({ identifier: "EsqlGetQueryResponse" }) as any as S.Schema<EsqlGetQueryResponse>;
 
 export interface EsqlGetViewRequest {}
 export const EsqlGetViewRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/_query/view", code: 200 })),
-).annotate({
-  identifier: "EsqlGetViewRequest",
-}) as any as S.Schema<EsqlGetViewRequest>;
+).annotate({ identifier: "EsqlGetViewRequest" }) as any as S.Schema<EsqlGetViewRequest>;
 
 /** A non-materialized ES|QL view. */
 export interface EsqlTypesESQLView {
@@ -38097,9 +37072,7 @@ export const EsqlTypesESQLView = /*@__PURE__*/ S.suspend(() =>
     query: S.String,
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EsqlTypesESQLView",
-}) as any as S.Schema<EsqlTypesESQLView>;
+).annotate({ identifier: "EsqlTypesESQLView" }) as any as S.Schema<EsqlTypesESQLView>;
 
 export type EsqlGetViewResponseViewsList = Array<EsqlTypesESQLView>;
 export const EsqlGetViewResponseViewsList = /*@__PURE__*/ S.Array(
@@ -38113,9 +37086,7 @@ export const EsqlGetViewResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     views: EsqlGetViewResponseViewsList,
   }),
-).annotate({
-  identifier: "EsqlGetViewResponse",
-}) as any as S.Schema<EsqlGetViewResponse>;
+).annotate({ identifier: "EsqlGetViewResponse" }) as any as S.Schema<EsqlGetViewResponse>;
 
 export interface EsqlGetView1Request {
   /** The comma-separated view names to retrieve. */
@@ -38125,9 +37096,7 @@ export const EsqlGetView1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/_query/view/{name}", code: 200 })),
-).annotate({
-  identifier: "EsqlGetView1Request",
-}) as any as S.Schema<EsqlGetView1Request>;
+).annotate({ identifier: "EsqlGetView1Request" }) as any as S.Schema<EsqlGetView1Request>;
 
 export type EsqlGetView1ResponseViewsList = Array<EsqlTypesESQLView>;
 export const EsqlGetView1ResponseViewsList = /*@__PURE__*/ S.Array(
@@ -38141,16 +37110,12 @@ export const EsqlGetView1Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     views: EsqlGetView1ResponseViewsList,
   }),
-).annotate({
-  identifier: "EsqlGetView1Response",
-}) as any as S.Schema<EsqlGetView1Response>;
+).annotate({ identifier: "EsqlGetView1Response" }) as any as S.Schema<EsqlGetView1Response>;
 
 export interface EsqlListQueriesRequest {}
 export const EsqlListQueriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/_query/queries", code: 200 })),
-).annotate({
-  identifier: "EsqlListQueriesRequest",
-}) as any as S.Schema<EsqlListQueriesRequest>;
+).annotate({ identifier: "EsqlListQueriesRequest" }) as any as S.Schema<EsqlListQueriesRequest>;
 
 export interface EsqlListQueriesBody {
   id: number;
@@ -38167,13 +37132,9 @@ export const EsqlListQueriesBody = /*@__PURE__*/ S.suspend(() =>
     running_time_nanos: S.Number,
     query: S.String,
   }),
-).annotate({
-  identifier: "EsqlListQueriesBody",
-}) as any as S.Schema<EsqlListQueriesBody>;
+).annotate({ identifier: "EsqlListQueriesBody" }) as any as S.Schema<EsqlListQueriesBody>;
 
-export type EsqlListQueriesResponseQueriesMap = {
-  [key: string]: EsqlListQueriesBody | undefined;
-};
+export type EsqlListQueriesResponseQueriesMap = { [key: string]: EsqlListQueriesBody | undefined };
 export const EsqlListQueriesResponseQueriesMap = /*@__PURE__*/ S.Record(
   S.String,
   EsqlListQueriesBody,
@@ -38186,14 +37147,10 @@ export const EsqlListQueriesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     queries: EsqlListQueriesResponseQueriesMap,
   }),
-).annotate({
-  identifier: "EsqlListQueriesResponse",
-}) as any as S.Schema<EsqlListQueriesResponse>;
+).annotate({ identifier: "EsqlListQueriesResponse" }) as any as S.Schema<EsqlListQueriesResponse>;
 
 /** Format and parsing-specific settings that configure how the resource is read. Common keys include `format`, which explicitly selects a registered format, and `partition_detection`, which accepts `auto`, `hive`, `template`, or `none`. Additional keys depend on the format reader. Compression can be inferred from the resource URI. */
-export type EsqlPutDatasetRequestSettingsMap = {
-  [key: string]: unknown | undefined;
-};
+export type EsqlPutDatasetRequestSettingsMap = { [key: string]: unknown | undefined };
 export const EsqlPutDatasetRequestSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -38228,14 +37185,10 @@ export const EsqlPutDatasetRequest = /*@__PURE__*/ S.suspend(() =>
     mappings: S.optional(EsqlTypesDatasetMapping),
     settings: S.optional(EsqlPutDatasetRequestSettingsMap),
   }).pipe(T.Http({ method: "PUT", uri: "/_query/dataset/{name}", code: 200 })),
-).annotate({
-  identifier: "EsqlPutDatasetRequest",
-}) as any as S.Schema<EsqlPutDatasetRequest>;
+).annotate({ identifier: "EsqlPutDatasetRequest" }) as any as S.Schema<EsqlPutDatasetRequest>;
 
 /** Type-specific connection and authentication settings. For `s3`, connection settings include `region` and `endpoint`. Authentication settings include `auth` and the credentials required by the selected authentication method. */
-export type EsqlPutDataSourceRequestSettingsMap = {
-  [key: string]: unknown | undefined;
-};
+export type EsqlPutDataSourceRequestSettingsMap = { [key: string]: unknown | undefined };
 export const EsqlPutDataSourceRequestSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -38264,9 +37217,7 @@ export const EsqlPutDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     settings: S.optional(EsqlPutDataSourceRequestSettingsMap),
   }).pipe(T.Http({ method: "PUT", uri: "/_query/data_source/{name}", code: 200 })),
-).annotate({
-  identifier: "EsqlPutDataSourceRequest",
-}) as any as S.Schema<EsqlPutDataSourceRequest>;
+).annotate({ identifier: "EsqlPutDataSourceRequest" }) as any as S.Schema<EsqlPutDataSourceRequest>;
 
 export interface EsqlPutViewRequest {
   /** The view name to create or update. */
@@ -38282,9 +37233,7 @@ export const EsqlPutViewRequest = /*@__PURE__*/ S.suspend(() =>
     query: S.String,
     description: S.optional(S.String),
   }).pipe(T.Http({ method: "PUT", uri: "/_query/view/{name}", code: 200 })),
-).annotate({
-  identifier: "EsqlPutViewRequest",
-}) as any as S.Schema<EsqlPutViewRequest>;
+).annotate({ identifier: "EsqlPutViewRequest" }) as any as S.Schema<EsqlPutViewRequest>;
 
 export type EsqlQueryRequestTablesValueMap = {
   [key: string]: EsqlTypesTableValuesContainer | undefined;
@@ -38353,9 +37302,7 @@ export const EsqlQueryRequest = /*@__PURE__*/ S.suspend(() =>
     include_execution_metadata: S.optional(S.Boolean),
     settings: S.optional(EsqlTypesEsqlQuerySettings),
   }).pipe(T.Http({ method: "POST", uri: "/_query", code: 200 })),
-).annotate({
-  identifier: "EsqlQueryRequest",
-}) as any as S.Schema<EsqlQueryRequest>;
+).annotate({ identifier: "EsqlQueryRequest" }) as any as S.Schema<EsqlQueryRequest>;
 
 export type EsqlTypesEsqlResultAllColumnsList = Array<SecurityTypesRealmInfo>;
 export const EsqlTypesEsqlResultAllColumnsList = /*@__PURE__*/ S.Array(
@@ -38398,9 +37345,7 @@ export const EsqlTypesEsqlResult = /*@__PURE__*/ S.suspend(() =>
     _clusters: S.optional(EsqlTypesEsqlClusterInfo),
     profile: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "EsqlTypesEsqlResult",
-}) as any as S.Schema<EsqlTypesEsqlResult>;
+).annotate({ identifier: "EsqlTypesEsqlResult" }) as any as S.Schema<EsqlTypesEsqlResult>;
 
 export type GlobalScriptsPainlessExecutePainlessContext =
   | "painless_test"
@@ -38555,9 +37500,7 @@ export const ExplainResponse = /*@__PURE__*/ S.suspend(() =>
     explanation: S.optional(GlobalExplainExplanationDetail),
     get: S.optional(TypesInlineGet),
   }),
-).annotate({
-  identifier: "ExplainResponse",
-}) as any as S.Schema<ExplainResponse>;
+).annotate({ identifier: "ExplainResponse" }) as any as S.Schema<ExplainResponse>;
 
 export interface Explain1Request {
   /** Index names that are used to limit the request. Only a single index name can be provided to this parameter. */
@@ -38609,9 +37552,7 @@ export const Explain1Request = /*@__PURE__*/ S.suspend(() =>
     q: S.optional(S.String.pipe(T.Query())),
     query: S.optional(TypesQueryDslQueryContainer),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_explain/{id}", code: 200 })),
-).annotate({
-  identifier: "Explain1Request",
-}) as any as S.Schema<Explain1Request>;
+).annotate({ identifier: "Explain1Request" }) as any as S.Schema<Explain1Request>;
 
 export interface Explain1Response {
   _index: string;
@@ -38628,9 +37569,7 @@ export const Explain1Response = /*@__PURE__*/ S.suspend(() =>
     explanation: S.optional(GlobalExplainExplanationDetail),
     get: S.optional(TypesInlineGet),
   }),
-).annotate({
-  identifier: "Explain1Response",
-}) as any as S.Schema<Explain1Response>;
+).annotate({ identifier: "Explain1Response" }) as any as S.Schema<Explain1Response>;
 
 export type FieldCapsRequestFiltersCase1List = Array<string>;
 export const FieldCapsRequestFiltersCase1List = /*@__PURE__*/ S.Array(
@@ -38680,9 +37619,7 @@ export const FieldCapsRequest = /*@__PURE__*/ S.suspend(() =>
     index_filter: S.optional(TypesQueryDslQueryContainer),
     runtime_mappings: S.optional(TypesMappingRuntimeFields),
   }).pipe(T.Http({ method: "GET", uri: "/_field_caps", code: 200 })),
-).annotate({
-  identifier: "FieldCapsRequest",
-}) as any as S.Schema<FieldCapsRequest>;
+).annotate({ identifier: "FieldCapsRequest" }) as any as S.Schema<FieldCapsRequest>;
 
 /** If this list is present in response then some indices have the field marked as a dimension and other indices, the ones in this list, do not. */
 export type GlobalFieldCapsFieldCapabilityNonDimensionIndicesList = Array<string>;
@@ -38772,9 +37709,7 @@ export const FieldCapsResponse = /*@__PURE__*/ S.suspend(() =>
     indices: TypesIndices,
     fields: FieldCapsResponseFieldsMap,
   }),
-).annotate({
-  identifier: "FieldCapsResponse",
-}) as any as S.Schema<FieldCapsResponse>;
+).annotate({ identifier: "FieldCapsResponse" }) as any as S.Schema<FieldCapsResponse>;
 
 export type FieldCaps1RequestFiltersCase1List = Array<string>;
 export const FieldCaps1RequestFiltersCase1List = /*@__PURE__*/ S.Array(
@@ -38824,9 +37759,7 @@ export const FieldCaps1Request = /*@__PURE__*/ S.suspend(() =>
     index_filter: S.optional(TypesQueryDslQueryContainer),
     runtime_mappings: S.optional(TypesMappingRuntimeFields),
   }).pipe(T.Http({ method: "POST", uri: "/_field_caps", code: 200 })),
-).annotate({
-  identifier: "FieldCaps1Request",
-}) as any as S.Schema<FieldCaps1Request>;
+).annotate({ identifier: "FieldCaps1Request" }) as any as S.Schema<FieldCaps1Request>;
 
 export type FieldCaps1ResponseFieldsValueMap = {
   [key: string]: GlobalFieldCapsFieldCapability | undefined;
@@ -38854,9 +37787,7 @@ export const FieldCaps1Response = /*@__PURE__*/ S.suspend(() =>
     indices: TypesIndices,
     fields: FieldCaps1ResponseFieldsMap,
   }),
-).annotate({
-  identifier: "FieldCaps1Response",
-}) as any as S.Schema<FieldCaps1Response>;
+).annotate({ identifier: "FieldCaps1Response" }) as any as S.Schema<FieldCaps1Response>;
 
 export type FieldCaps2RequestFiltersCase1List = Array<string>;
 export const FieldCaps2RequestFiltersCase1List = /*@__PURE__*/ S.Array(
@@ -38909,9 +37840,7 @@ export const FieldCaps2Request = /*@__PURE__*/ S.suspend(() =>
     index_filter: S.optional(TypesQueryDslQueryContainer),
     runtime_mappings: S.optional(TypesMappingRuntimeFields),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_field_caps", code: 200 })),
-).annotate({
-  identifier: "FieldCaps2Request",
-}) as any as S.Schema<FieldCaps2Request>;
+).annotate({ identifier: "FieldCaps2Request" }) as any as S.Schema<FieldCaps2Request>;
 
 export type FieldCaps2ResponseFieldsValueMap = {
   [key: string]: GlobalFieldCapsFieldCapability | undefined;
@@ -38939,9 +37868,7 @@ export const FieldCaps2Response = /*@__PURE__*/ S.suspend(() =>
     indices: TypesIndices,
     fields: FieldCaps2ResponseFieldsMap,
   }),
-).annotate({
-  identifier: "FieldCaps2Response",
-}) as any as S.Schema<FieldCaps2Response>;
+).annotate({ identifier: "FieldCaps2Response" }) as any as S.Schema<FieldCaps2Response>;
 
 export type FieldCaps3RequestFiltersCase1List = Array<string>;
 export const FieldCaps3RequestFiltersCase1List = /*@__PURE__*/ S.Array(
@@ -38994,9 +37921,7 @@ export const FieldCaps3Request = /*@__PURE__*/ S.suspend(() =>
     index_filter: S.optional(TypesQueryDslQueryContainer),
     runtime_mappings: S.optional(TypesMappingRuntimeFields),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_field_caps", code: 200 })),
-).annotate({
-  identifier: "FieldCaps3Request",
-}) as any as S.Schema<FieldCaps3Request>;
+).annotate({ identifier: "FieldCaps3Request" }) as any as S.Schema<FieldCaps3Request>;
 
 export type FieldCaps3ResponseFieldsValueMap = {
   [key: string]: GlobalFieldCapsFieldCapability | undefined;
@@ -39024,9 +37949,7 @@ export const FieldCaps3Response = /*@__PURE__*/ S.suspend(() =>
     indices: TypesIndices,
     fields: FieldCaps3ResponseFieldsMap,
   }),
-).annotate({
-  identifier: "FieldCaps3Response",
-}) as any as S.Schema<FieldCaps3Response>;
+).annotate({ identifier: "FieldCaps3Response" }) as any as S.Schema<FieldCaps3Response>;
 
 export type FleetGlobalCheckpointsRequestCheckpointsList = Array<number>;
 export const FleetGlobalCheckpointsRequestCheckpointsList = /*@__PURE__*/ S.Array(
@@ -39052,13 +37975,7 @@ export const FleetGlobalCheckpointsRequest = /*@__PURE__*/ S.suspend(() =>
     wait_for_index: S.optional(S.Boolean.pipe(T.Query())),
     checkpoints: S.optional(FleetGlobalCheckpointsRequestCheckpointsList.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/{index}/_fleet/global_checkpoints",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/{index}/_fleet/global_checkpoints", code: 200 })),
 ).annotate({
   identifier: "FleetGlobalCheckpointsRequest",
 }) as any as S.Schema<FleetGlobalCheckpointsRequest>;
@@ -39179,9 +38096,7 @@ export const FleetMsearchRequest = /*@__PURE__*/ S.suspend(() =>
     allow_partial_search_results: S.optional(S.Boolean.pipe(T.Query())),
     body: FleetMsearchRequestBodyList.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "GET", uri: "/_fleet/_fleet_msearch", code: 200 })),
-).annotate({
-  identifier: "FleetMsearchRequest",
-}) as any as S.Schema<FleetMsearchRequest>;
+).annotate({ identifier: "FleetMsearchRequest" }) as any as S.Schema<FleetMsearchRequest>;
 
 export type GlobalMsearchMultiSearchItemAggregationsMap = {
   [key: string]: TypesAggregationsAggregate | undefined;
@@ -39191,9 +38106,7 @@ export const GlobalMsearchMultiSearchItemAggregationsMap = /*@__PURE__*/ S.Recor
   TypesAggregationsAggregate,
 ) as any as S.Schema<GlobalMsearchMultiSearchItemAggregationsMap>;
 
-export type GlobalMsearchMultiSearchItemFieldsMap = {
-  [key: string]: unknown | undefined;
-};
+export type GlobalMsearchMultiSearchItemFieldsMap = { [key: string]: unknown | undefined };
 export const GlobalMsearchMultiSearchItemFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -39227,6 +38140,7 @@ export interface GlobalMsearchMultiSearchItem {
   max_score?: number;
   num_reduce_phases?: number;
   profile?: GlobalSearchTypesProfile;
+  /** An updated identifier for the point-in-time that was searched. IMPORTANT: Each search request against a PIT returns in its response a `pit_id` field which may be different from the identifier you originally supplied. Always use the most recently-received PIT identifier for the next request. If you make concurrent search requests against the same PIT, Elasticsearch can return several different `pit_id` values in its responses. In that case, use any of these values for later requests, preferring more recently-received values whenever possible. */
   pit_id?: string;
   /** The identifier for the search and its search context. You can use this scroll ID with the scroll API to retrieve the next batch of search results for the request. This property is returned only if the `scroll` query parameter is specified in the request. */
   _scroll_id?: string;
@@ -39266,9 +38180,7 @@ export const TypesErrorResponseBase = /*@__PURE__*/ S.suspend(() =>
     error: TypesErrorCause,
     status: S.Number,
   }),
-).annotate({
-  identifier: "TypesErrorResponseBase",
-}) as any as S.Schema<TypesErrorResponseBase>;
+).annotate({ identifier: "TypesErrorResponseBase" }) as any as S.Schema<TypesErrorResponseBase>;
 
 export type GlobalMsearchResponseItem = GlobalMsearchMultiSearchItem | TypesErrorResponseBase;
 export const GlobalMsearchResponseItem = S.Unknown as any as S.Schema<GlobalMsearchResponseItem>;
@@ -39285,9 +38197,7 @@ export const FleetMsearchResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     docs: FleetMsearchResponseDocsList,
   }),
-).annotate({
-  identifier: "FleetMsearchResponse",
-}) as any as S.Schema<FleetMsearchResponse>;
+).annotate({ identifier: "FleetMsearchResponse" }) as any as S.Schema<FleetMsearchResponse>;
 
 export type FleetMsearch1RequestWaitForCheckpointsList = Array<number>;
 export const FleetMsearch1RequestWaitForCheckpointsList = /*@__PURE__*/ S.Array(
@@ -39345,9 +38255,7 @@ export const FleetMsearch1Request = /*@__PURE__*/ S.suspend(() =>
     allow_partial_search_results: S.optional(S.Boolean.pipe(T.Query())),
     body: FleetMsearch1RequestBodyList.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/_fleet/_fleet_msearch", code: 200 })),
-).annotate({
-  identifier: "FleetMsearch1Request",
-}) as any as S.Schema<FleetMsearch1Request>;
+).annotate({ identifier: "FleetMsearch1Request" }) as any as S.Schema<FleetMsearch1Request>;
 
 export type FleetMsearch1ResponseDocsList = Array<GlobalMsearchResponseItem>;
 export const FleetMsearch1ResponseDocsList = /*@__PURE__*/ S.Array(
@@ -39361,9 +38269,7 @@ export const FleetMsearch1Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     docs: FleetMsearch1ResponseDocsList,
   }),
-).annotate({
-  identifier: "FleetMsearch1Response",
-}) as any as S.Schema<FleetMsearch1Response>;
+).annotate({ identifier: "FleetMsearch1Response" }) as any as S.Schema<FleetMsearch1Response>;
 
 export type FleetMsearch2RequestWaitForCheckpointsList = Array<number>;
 export const FleetMsearch2RequestWaitForCheckpointsList = /*@__PURE__*/ S.Array(
@@ -39424,9 +38330,7 @@ export const FleetMsearch2Request = /*@__PURE__*/ S.suspend(() =>
     allow_partial_search_results: S.optional(S.Boolean.pipe(T.Query())),
     body: FleetMsearch2RequestBodyList.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_fleet/_fleet_msearch", code: 200 })),
-).annotate({
-  identifier: "FleetMsearch2Request",
-}) as any as S.Schema<FleetMsearch2Request>;
+).annotate({ identifier: "FleetMsearch2Request" }) as any as S.Schema<FleetMsearch2Request>;
 
 export type FleetMsearch2ResponseDocsList = Array<GlobalMsearchResponseItem>;
 export const FleetMsearch2ResponseDocsList = /*@__PURE__*/ S.Array(
@@ -39440,9 +38344,7 @@ export const FleetMsearch2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     docs: FleetMsearch2ResponseDocsList,
   }),
-).annotate({
-  identifier: "FleetMsearch2Response",
-}) as any as S.Schema<FleetMsearch2Response>;
+).annotate({ identifier: "FleetMsearch2Response" }) as any as S.Schema<FleetMsearch2Response>;
 
 export type FleetMsearch3RequestWaitForCheckpointsList = Array<number>;
 export const FleetMsearch3RequestWaitForCheckpointsList = /*@__PURE__*/ S.Array(
@@ -39502,16 +38404,8 @@ export const FleetMsearch3Request = /*@__PURE__*/ S.suspend(() =>
     wait_for_checkpoints: S.optional(FleetMsearch3RequestWaitForCheckpointsList.pipe(T.Query())),
     allow_partial_search_results: S.optional(S.Boolean.pipe(T.Query())),
     body: FleetMsearch3RequestBodyList.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/{index}/_fleet/_fleet_msearch",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "FleetMsearch3Request",
-}) as any as S.Schema<FleetMsearch3Request>;
+  }).pipe(T.Http({ method: "POST", uri: "/{index}/_fleet/_fleet_msearch", code: 200 })),
+).annotate({ identifier: "FleetMsearch3Request" }) as any as S.Schema<FleetMsearch3Request>;
 
 export type FleetMsearch3ResponseDocsList = Array<GlobalMsearchResponseItem>;
 export const FleetMsearch3ResponseDocsList = /*@__PURE__*/ S.Array(
@@ -39525,9 +38419,7 @@ export const FleetMsearch3Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     docs: FleetMsearch3ResponseDocsList,
   }),
-).annotate({
-  identifier: "FleetMsearch3Response",
-}) as any as S.Schema<FleetMsearch3Response>;
+).annotate({ identifier: "FleetMsearch3Response" }) as any as S.Schema<FleetMsearch3Response>;
 
 export type FleetSearch1RequestStatsList = Array<string>;
 export const FleetSearch1RequestStatsList = /*@__PURE__*/ S.Array(
@@ -39562,9 +38454,7 @@ export const FleetSearch1RequestExtMap = /*@__PURE__*/ S.Record(
   S.Unknown,
 ) as any as S.Schema<FleetSearch1RequestExtMap>;
 
-export type FleetSearch1RequestIndicesBoostItemMap = {
-  [key: string]: number | undefined;
-};
+export type FleetSearch1RequestIndicesBoostItemMap = { [key: string]: number | undefined };
 export const FleetSearch1RequestIndicesBoostItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -39587,9 +38477,7 @@ export type FleetSearch1RequestRescore =
 export const FleetSearch1RequestRescore = S.Unknown as any as S.Schema<FleetSearch1RequestRescore>;
 
 /** Retrieve a script evaluation (based on different fields) for each hit. */
-export type FleetSearch1RequestScriptFieldsMap = {
-  [key: string]: TypesScriptField | undefined;
-};
+export type FleetSearch1RequestScriptFieldsMap = { [key: string]: TypesScriptField | undefined };
 export const FleetSearch1RequestScriptFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   TypesScriptField,
@@ -39743,9 +38631,7 @@ export const FleetSearch1Request = /*@__PURE__*/ S.suspend(() =>
     pit: S.optional(GlobalSearchTypesPointInTimeReference),
     runtime_mappings: S.optional(TypesMappingRuntimeFields),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_fleet/_fleet_search", code: 200 })),
-).annotate({
-  identifier: "FleetSearch1Request",
-}) as any as S.Schema<FleetSearch1Request>;
+).annotate({ identifier: "FleetSearch1Request" }) as any as S.Schema<FleetSearch1Request>;
 
 export type FleetSearch1ResponseAggregationsMap = {
   [key: string]: TypesAggregationsAggregate | undefined;
@@ -39755,9 +38641,7 @@ export const FleetSearch1ResponseAggregationsMap = /*@__PURE__*/ S.Record(
   TypesAggregationsAggregate,
 ) as any as S.Schema<FleetSearch1ResponseAggregationsMap>;
 
-export type FleetSearch1ResponseFieldsMap = {
-  [key: string]: unknown | undefined;
-};
+export type FleetSearch1ResponseFieldsMap = { [key: string]: unknown | undefined };
 export const FleetSearch1ResponseFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -39809,9 +38693,7 @@ export const FleetSearch1Response = /*@__PURE__*/ S.suspend(() =>
     suggest: S.optional(FleetSearch1ResponseSuggestMap),
     terminated_early: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "FleetSearch1Response",
-}) as any as S.Schema<FleetSearch1Response>;
+).annotate({ identifier: "FleetSearch1Response" }) as any as S.Schema<FleetSearch1Response>;
 
 export interface FlushIndexRequest {
   /** A setting that does two separate checks on the index expression. If `false`, the request returns an error (1) if any wildcard expression (including `_all` and `*`) resolves to zero matching indices or (2) if the complete set of resolved indices, aliases or data streams is empty after all expressions are evaluated. If `true`, index expressions that resolve to no indices are allowed and the request returns an empty result. */
@@ -39833,9 +38715,7 @@ export const FlushIndexRequest = /*@__PURE__*/ S.suspend(() =>
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
     wait_if_ongoing: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/_flush", code: 200 })),
-).annotate({
-  identifier: "FlushIndexRequest",
-}) as any as S.Schema<FlushIndexRequest>;
+).annotate({ identifier: "FlushIndexRequest" }) as any as S.Schema<FlushIndexRequest>;
 
 export interface TypesShardsOperationResponseBase {
   _shards?: TypesShardStatistics;
@@ -39904,9 +38784,7 @@ export const FollowCcrRequest = /*@__PURE__*/ S.suspend(() =>
     remote_cluster: S.String,
     settings: S.optional(IndicesTypesIndexSettings),
   }).pipe(T.Http({ method: "PUT", uri: "/{index}/_ccr/follow", code: 200 })),
-).annotate({
-  identifier: "FollowCcrRequest",
-}) as any as S.Schema<FollowCcrRequest>;
+).annotate({ identifier: "FollowCcrRequest" }) as any as S.Schema<FollowCcrRequest>;
 
 export interface FollowCcrResponse {
   follow_index_created: boolean;
@@ -39919,9 +38797,7 @@ export const FollowCcrResponse = /*@__PURE__*/ S.suspend(() =>
     follow_index_shards_acked: S.Boolean,
     index_following_started: S.Boolean,
   }),
-).annotate({
-  identifier: "FollowCcrResponse",
-}) as any as S.Schema<FollowCcrResponse>;
+).annotate({ identifier: "FollowCcrResponse" }) as any as S.Schema<FollowCcrResponse>;
 
 export interface FollowCcrPauseRequest {
   /** The name of the follower index. */
@@ -39934,9 +38810,7 @@ export const FollowCcrPauseRequest = /*@__PURE__*/ S.suspend(() =>
     index: S.String.pipe(T.Label()),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_ccr/pause_follow", code: 200 })),
-).annotate({
-  identifier: "FollowCcrPauseRequest",
-}) as any as S.Schema<FollowCcrPauseRequest>;
+).annotate({ identifier: "FollowCcrPauseRequest" }) as any as S.Schema<FollowCcrPauseRequest>;
 
 export interface GetRequest {
   /** The name of the index that contains the document. */
@@ -39985,9 +38859,7 @@ export const GetRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "GetRequest" }) as any as S.Schema<GetRequest>;
 
 /** If the `stored_fields` parameter is set to `true` and `found` is `true`, it contains the document fields stored in the index. */
-export type GlobalGetGetResultFieldsMap = {
-  [key: string]: unknown | undefined;
-};
+export type GlobalGetGetResultFieldsMap = { [key: string]: unknown | undefined };
 export const GlobalGetGetResultFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -40032,9 +38904,7 @@ export const GlobalGetGetResult = /*@__PURE__*/ S.suspend(() =>
     _source: S.optional(S.Unknown),
     _version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "GlobalGetGetResult",
-}) as any as S.Schema<GlobalGetGetResult>;
+).annotate({ identifier: "GlobalGetGetResult" }) as any as S.Schema<GlobalGetGetResult>;
 
 export interface GetConnectorRequest {
   /** The unique identifier of the connector */
@@ -40047,9 +38917,7 @@ export const GetConnectorRequest = /*@__PURE__*/ S.suspend(() =>
     connector_id: S.String.pipe(T.Label()),
     include_deleted: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_connector/{connector_id}", code: 200 })),
-).annotate({
-  identifier: "GetConnectorRequest",
-}) as any as S.Schema<GetConnectorRequest>;
+).annotate({ identifier: "GetConnectorRequest" }) as any as S.Schema<GetConnectorRequest>;
 
 export type ConnectorTypesCustomSchedulingConfigurationOverridesDomainAllowlistList = Array<string>;
 export const ConnectorTypesCustomSchedulingConfigurationOverridesDomainAllowlistList =
@@ -40199,9 +39067,7 @@ export const ConnectorTypesConnector = /*@__PURE__*/ S.suspend(() =>
     sync_cursor: S.optional(S.Unknown),
     sync_now: S.Boolean,
   }),
-).annotate({
-  identifier: "ConnectorTypesConnector",
-}) as any as S.Schema<ConnectorTypesConnector>;
+).annotate({ identifier: "ConnectorTypesConnector" }) as any as S.Schema<ConnectorTypesConnector>;
 
 export interface GetConnectorSyncJobRequest {
   /** The unique identifier of the connector sync job */
@@ -40211,11 +39077,7 @@ export const GetConnectorSyncJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     connector_sync_job_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_connector/_sync_job/{connector_sync_job_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/_connector/_sync_job/{connector_sync_job_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetConnectorSyncJobRequest",
@@ -40249,9 +39111,7 @@ export const ConnectorTypesSyncJobConnectorReference = /*@__PURE__*/ S.suspend((
 export type ConnectorTypesSyncJobType = "full" | "incremental" | "access_control";
 export const ConnectorTypesSyncJobType = S.String;
 
-export type ConnectorTypesConnectorSyncJobMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type ConnectorTypesConnectorSyncJobMetadataMap = { [key: string]: unknown | undefined };
 export const ConnectorTypesConnectorSyncJobMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -40341,9 +39201,7 @@ export const GetEsqlAsyncQueryRequest = /*@__PURE__*/ S.suspend(() =>
     keep_alive: S.optional(TypesDuration.pipe(T.Query())),
     wait_for_completion_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_query/async/{id}", code: 200 })),
-).annotate({
-  identifier: "GetEsqlAsyncQueryRequest",
-}) as any as S.Schema<GetEsqlAsyncQueryRequest>;
+).annotate({ identifier: "GetEsqlAsyncQueryRequest" }) as any as S.Schema<GetEsqlAsyncQueryRequest>;
 
 export type GetEsqlAsyncQueryResponseAllColumnsList = Array<SecurityTypesRealmInfo>;
 export const GetEsqlAsyncQueryResponseAllColumnsList = /*@__PURE__*/ S.Array(
@@ -40404,9 +39262,7 @@ export const GetFeaturesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_features", code: 200 })),
-).annotate({
-  identifier: "GetFeaturesRequest",
-}) as any as S.Schema<GetFeaturesRequest>;
+).annotate({ identifier: "GetFeaturesRequest" }) as any as S.Schema<GetFeaturesRequest>;
 
 export interface FeaturesTypesFeature {
   name: string;
@@ -40417,9 +39273,7 @@ export const FeaturesTypesFeature = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     description: S.String,
   }),
-).annotate({
-  identifier: "FeaturesTypesFeature",
-}) as any as S.Schema<FeaturesTypesFeature>;
+).annotate({ identifier: "FeaturesTypesFeature" }) as any as S.Schema<FeaturesTypesFeature>;
 
 export type GetFeaturesResponseFeaturesList = Array<FeaturesTypesFeature>;
 export const GetFeaturesResponseFeaturesList = /*@__PURE__*/ S.Array(
@@ -40433,9 +39287,7 @@ export const GetFeaturesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     features: GetFeaturesResponseFeaturesList,
   }),
-).annotate({
-  identifier: "GetFeaturesResponse",
-}) as any as S.Schema<GetFeaturesResponse>;
+).annotate({ identifier: "GetFeaturesResponse" }) as any as S.Schema<GetFeaturesResponse>;
 
 export type IndicesGetFeature = "aliases" | "mappings" | "settings";
 export const IndicesGetFeature = S.String;
@@ -40480,13 +39332,9 @@ export const GetIndexRequest = /*@__PURE__*/ S.suspend(() =>
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     features: S.optional(IndicesGetFeatures.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/{index}", code: 200 })),
-).annotate({
-  identifier: "GetIndexRequest",
-}) as any as S.Schema<GetIndexRequest>;
+).annotate({ identifier: "GetIndexRequest" }) as any as S.Schema<GetIndexRequest>;
 
-export type IndicesTypesIndexStateAliasesMap = {
-  [key: string]: IndicesTypesAlias | undefined;
-};
+export type IndicesTypesIndexStateAliasesMap = { [key: string]: IndicesTypesAlias | undefined };
 export const IndicesTypesIndexStateAliasesMap = /*@__PURE__*/ S.Record(
   S.String,
   IndicesTypesAlias,
@@ -40511,13 +39359,9 @@ export const IndicesTypesIndexState = /*@__PURE__*/ S.suspend(() =>
     data_stream: S.optional(S.String),
     lifecycle: S.optional(IndicesTypesDataStreamLifecycle),
   }),
-).annotate({
-  identifier: "IndicesTypesIndexState",
-}) as any as S.Schema<IndicesTypesIndexState>;
+).annotate({ identifier: "IndicesTypesIndexState" }) as any as S.Schema<IndicesTypesIndexState>;
 
-export type GetIndexResponseBodyMap = {
-  [key: string]: IndicesTypesIndexState | undefined;
-};
+export type GetIndexResponseBodyMap = { [key: string]: IndicesTypesIndexState | undefined };
 export const GetIndexResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   IndicesTypesIndexState,
@@ -40526,9 +39370,7 @@ export const GetIndexResponseBodyMap = /*@__PURE__*/ S.Record(
 export type GetIndexResponse = GetIndexResponseBodyMap;
 export const GetIndexResponse = /*@__PURE__*/ S.suspend(() =>
   GetIndexResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetIndexResponse",
-}) as any as S.Schema<GetIndexResponse>;
+).annotate({ identifier: "GetIndexResponse" }) as any as S.Schema<GetIndexResponse>;
 
 export interface GetIndexTemplateRequest {
   /** If true, the request retrieves information from the local node only. Defaults to false, which means information is retrieved from the master node. */
@@ -40547,9 +39389,7 @@ export const GetIndexTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     include_defaults: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_index_template", code: 200 })),
-).annotate({
-  identifier: "GetIndexTemplateRequest",
-}) as any as S.Schema<GetIndexTemplateRequest>;
+).annotate({ identifier: "GetIndexTemplateRequest" }) as any as S.Schema<GetIndexTemplateRequest>;
 
 /** Aliases to add. If the index template includes a `data_stream` object, these are data stream aliases. Otherwise, these are index aliases. Data stream aliases ignore the `index_routing`, `routing`, and `search_routing` options. */
 export type IndicesTypesIndexTemplateSummaryWithRolloverAliasesMap = {
@@ -40679,9 +39519,7 @@ export const GetIndexTemplateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index_templates: GetIndexTemplateResponseIndexTemplatesList,
   }),
-).annotate({
-  identifier: "GetIndexTemplateResponse",
-}) as any as S.Schema<GetIndexTemplateResponse>;
+).annotate({ identifier: "GetIndexTemplateResponse" }) as any as S.Schema<GetIndexTemplateResponse>;
 
 export interface GetIndexTemplate1Request {
   /** Name of index template to retrieve. Wildcard (*) expressions are supported. */
@@ -40703,9 +39541,7 @@ export const GetIndexTemplate1Request = /*@__PURE__*/ S.suspend(() =>
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     include_defaults: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_index_template/{name}", code: 200 })),
-).annotate({
-  identifier: "GetIndexTemplate1Request",
-}) as any as S.Schema<GetIndexTemplate1Request>;
+).annotate({ identifier: "GetIndexTemplate1Request" }) as any as S.Schema<GetIndexTemplate1Request>;
 
 export type GetIndexTemplate1ResponseIndexTemplatesList =
   Array<IndicesGetIndexTemplateIndexTemplateItem>;
@@ -40727,9 +39563,7 @@ export const GetIndexTemplate1Response = /*@__PURE__*/ S.suspend(() =>
 export interface GetInferenceRequest {}
 export const GetInferenceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/_inference", code: 200 })),
-).annotate({
-  identifier: "GetInferenceRequest",
-}) as any as S.Schema<GetInferenceRequest>;
+).annotate({ identifier: "GetInferenceRequest" }) as any as S.Schema<GetInferenceRequest>;
 
 /** Only applicable to the `recursive` strategy and required when using it. A list of strings used as possible split points when chunking text. Each string can be a plain string or a regular expression (regex) pattern. The system tries each separator in order to split the text, starting from the first item in the list. After splitting, it attempts to recombine smaller pieces into larger chunks that stay within the `max_chunk_size` limit, to reduce the total number of chunks generated. */
 export type InferenceTypesInferenceChunkingSettingsSeparatorsList = Array<string>;
@@ -40814,9 +39648,7 @@ export const GetInferenceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endpoints: GetInferenceResponseEndpointsList,
   }),
-).annotate({
-  identifier: "GetInferenceResponse",
-}) as any as S.Schema<GetInferenceResponse>;
+).annotate({ identifier: "GetInferenceResponse" }) as any as S.Schema<GetInferenceResponse>;
 
 export interface GetLicenseRequest {
   /** If `true`, this parameter returns enterprise for Enterprise license types. If `false`, this parameter returns platinum for both platinum and enterprise license types. This behavior is maintained for backwards compatibility. This parameter is deprecated and will always be set to true in 8.x. */
@@ -40829,9 +39661,7 @@ export const GetLicenseRequest = /*@__PURE__*/ S.suspend(() =>
     accept_enterprise: S.optional(S.Boolean.pipe(T.Query())),
     local: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_license", code: 200 })),
-).annotate({
-  identifier: "GetLicenseRequest",
-}) as any as S.Schema<GetLicenseRequest>;
+).annotate({ identifier: "GetLicenseRequest" }) as any as S.Schema<GetLicenseRequest>;
 
 /** The maximum number of nodes the license allows. */
 export type LicenseGetLicenseInformationMaxNodes = number | string;
@@ -40910,9 +39740,7 @@ export const GetLicenseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     license: LicenseGetLicenseInformation,
   }),
-).annotate({
-  identifier: "GetLicenseResponse",
-}) as any as S.Schema<GetLicenseResponse>;
+).annotate({ identifier: "GetLicenseResponse" }) as any as S.Schema<GetLicenseResponse>;
 
 export interface GetReindexRequest {
   /** The ID of the reindex task to retrieve. */
@@ -40928,9 +39756,7 @@ export const GetReindexRequest = /*@__PURE__*/ S.suspend(() =>
     wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_reindex/{task_id}", code: 200 })),
-).annotate({
-  identifier: "GetReindexRequest",
-}) as any as S.Schema<GetReindexRequest>;
+).annotate({ identifier: "GetReindexRequest" }) as any as S.Schema<GetReindexRequest>;
 
 export interface GetReindexResponse {
   /** Whether the reindex task has completed. */
@@ -40970,9 +39796,7 @@ export const GetReindexResponse = /*@__PURE__*/ S.suspend(() =>
     error: S.optional(TypesErrorCause),
     response: S.optional(TypesReindexTaskResult),
   }),
-).annotate({
-  identifier: "GetReindexResponse",
-}) as any as S.Schema<GetReindexResponse>;
+).annotate({ identifier: "GetReindexResponse" }) as any as S.Schema<GetReindexResponse>;
 
 export interface GetScriptRequest {
   /** The identifier for the stored script or search template. */
@@ -40985,9 +39809,7 @@ export const GetScriptRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_scripts/{id}", code: 200 })),
-).annotate({
-  identifier: "GetScriptRequest",
-}) as any as S.Schema<GetScriptRequest>;
+).annotate({ identifier: "GetScriptRequest" }) as any as S.Schema<GetScriptRequest>;
 
 export type TypesStoredScriptOptionsMap = { [key: string]: string | undefined };
 export const TypesStoredScriptOptionsMap = /*@__PURE__*/ S.Record(
@@ -41008,9 +39830,7 @@ export const TypesStoredScript = /*@__PURE__*/ S.suspend(() =>
     options: S.optional(TypesStoredScriptOptionsMap),
     source: TypesScriptSource,
   }),
-).annotate({
-  identifier: "TypesStoredScript",
-}) as any as S.Schema<TypesStoredScript>;
+).annotate({ identifier: "TypesStoredScript" }) as any as S.Schema<TypesStoredScript>;
 
 export interface GetScriptResponse {
   _id: string;
@@ -41023,16 +39843,12 @@ export const GetScriptResponse = /*@__PURE__*/ S.suspend(() =>
     found: S.Boolean,
     script: S.optional(TypesStoredScript),
   }),
-).annotate({
-  identifier: "GetScriptResponse",
-}) as any as S.Schema<GetScriptResponse>;
+).annotate({ identifier: "GetScriptResponse" }) as any as S.Schema<GetScriptResponse>;
 
 export interface GetScriptContextRequest {}
 export const GetScriptContextRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/_script_context", code: 200 })),
-).annotate({
-  identifier: "GetScriptContextRequest",
-}) as any as S.Schema<GetScriptContextRequest>;
+).annotate({ identifier: "GetScriptContextRequest" }) as any as S.Schema<GetScriptContextRequest>;
 
 export type GlobalGetScriptContextContextMethodParam = SecurityTypesRealmInfo;
 export const GlobalGetScriptContextContextMethodParam = SecurityTypesRealmInfo;
@@ -41087,9 +39903,7 @@ export const GetScriptContextResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contexts: GetScriptContextResponseContextsList,
   }),
-).annotate({
-  identifier: "GetScriptContextResponse",
-}) as any as S.Schema<GetScriptContextResponse>;
+).annotate({ identifier: "GetScriptContextResponse" }) as any as S.Schema<GetScriptContextResponse>;
 
 export interface GetScriptLanguagesRequest {}
 export const GetScriptLanguagesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -41218,16 +40032,8 @@ export const GetSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     sort: S.optional(SnapshotTypesSnapshotSort.pipe(T.Query())),
     state: S.optional(GetSnapshotRequestState.pipe(T.Query())),
     verbose: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_snapshot/{repository}/{snapshot}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSnapshotRequest",
-}) as any as S.Schema<GetSnapshotRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/_snapshot/{repository}/{snapshot}", code: 200 })),
+).annotate({ identifier: "GetSnapshotRequest" }) as any as S.Schema<GetSnapshotRequest>;
 
 export type SnapshotGetSnapshotResponseItemSnapshotsList = Array<SnapshotTypesSnapshotInfo>;
 export const SnapshotGetSnapshotResponseItemSnapshotsList = /*@__PURE__*/ S.Array(
@@ -41277,9 +40083,7 @@ export const GetSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
     responses: S.optional(GetSnapshotResponseResponsesList),
     snapshots: S.optional(GetSnapshotResponseSnapshotsList),
   }),
-).annotate({
-  identifier: "GetSnapshotResponse",
-}) as any as S.Schema<GetSnapshotResponse>;
+).annotate({ identifier: "GetSnapshotResponse" }) as any as S.Schema<GetSnapshotResponse>;
 
 export interface GetSourceRequest {
   /** The name of the index that contains the document. */
@@ -41319,16 +40123,12 @@ export const GetSourceRequest = /*@__PURE__*/ S.suspend(() =>
     version: S.optional(S.Number.pipe(T.Query())),
     version_type: S.optional(TypesVersionType.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_source/{id}", code: 200 })),
-).annotate({
-  identifier: "GetSourceRequest",
-}) as any as S.Schema<GetSourceRequest>;
+).annotate({ identifier: "GetSourceRequest" }) as any as S.Schema<GetSourceRequest>;
 
 export type GetSourceResponse = unknown;
 export const GetSourceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetSourceResponse",
-}) as any as S.Schema<GetSourceResponse>;
+).annotate({ identifier: "GetSourceResponse" }) as any as S.Schema<GetSourceResponse>;
 
 export interface GetSynonymRequest {
   /** The synonyms set identifier to retrieve. */
@@ -41347,9 +40147,7 @@ export const GetSynonymRequest = /*@__PURE__*/ S.suspend(() =>
     size: S.optional(S.Number.pipe(T.Query())),
     search_after: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_synonyms/{id}", code: 200 })),
-).annotate({
-  identifier: "GetSynonymRequest",
-}) as any as S.Schema<GetSynonymRequest>;
+).annotate({ identifier: "GetSynonymRequest" }) as any as S.Schema<GetSynonymRequest>;
 
 export interface SynonymsTypesSynonymRuleRead {
   /** The identifier for the synonym rule. If you do not specify a synonym rule ID when you create a rule, an identifier is created automatically by Elasticsearch. */
@@ -41383,9 +40181,7 @@ export const GetSynonymResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.Number,
     synonyms_set: GetSynonymResponseSynonymsSetList,
   }),
-).annotate({
-  identifier: "GetSynonymResponse",
-}) as any as S.Schema<GetSynonymResponse>;
+).annotate({ identifier: "GetSynonymResponse" }) as any as S.Schema<GetSynonymResponse>;
 
 export interface GetSynonymRuleRequest {
   /** The ID of the synonym set to retrieve the synonym rule from. */
@@ -41398,9 +40194,7 @@ export const GetSynonymRuleRequest = /*@__PURE__*/ S.suspend(() =>
     set_id: S.String.pipe(T.Label()),
     rule_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/_synonyms/{set_id}/{rule_id}", code: 200 })),
-).annotate({
-  identifier: "GetSynonymRuleRequest",
-}) as any as S.Schema<GetSynonymRuleRequest>;
+).annotate({ identifier: "GetSynonymRuleRequest" }) as any as S.Schema<GetSynonymRuleRequest>;
 
 export interface GetSynonymsSetsRequest {
   /** The starting offset for synonyms sets to retrieve. */
@@ -41413,9 +40207,7 @@ export const GetSynonymsSetsRequest = /*@__PURE__*/ S.suspend(() =>
     from: S.optional(S.Number.pipe(T.Query())),
     size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_synonyms", code: 200 })),
-).annotate({
-  identifier: "GetSynonymsSetsRequest",
-}) as any as S.Schema<GetSynonymsSetsRequest>;
+).annotate({ identifier: "GetSynonymsSetsRequest" }) as any as S.Schema<GetSynonymsSetsRequest>;
 
 export interface SynonymsGetSynonymsSetsSynonymsSetItem {
   /** Synonyms set identifier */
@@ -41449,9 +40241,7 @@ export const GetSynonymsSetsResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.Number,
     results: GetSynonymsSetsResponseResultsList,
   }),
-).annotate({
-  identifier: "GetSynonymsSetsResponse",
-}) as any as S.Schema<GetSynonymsSetsResponse>;
+).annotate({ identifier: "GetSynonymsSetsResponse" }) as any as S.Schema<GetSynonymsSetsResponse>;
 
 export interface GetTaskRequest {
   /** The task identifier. */
@@ -41482,9 +40272,7 @@ export const GetTaskResponse = /*@__PURE__*/ S.suspend(() =>
     response: S.optional(S.Unknown),
     error: S.optional(TypesErrorCause),
   }),
-).annotate({
-  identifier: "GetTaskResponse",
-}) as any as S.Schema<GetTaskResponse>;
+).annotate({ identifier: "GetTaskResponse" }) as any as S.Schema<GetTaskResponse>;
 
 export interface GetTransformRequest {
   /** Identifier for the transform. It can be a transform identifier or a wildcard expression. You can get information for all transforms by using `_all`, by specifying `*` as the `<transform_id>`, or by omitting the `<transform_id>`. */
@@ -41506,9 +40294,7 @@ export const GetTransformRequest = /*@__PURE__*/ S.suspend(() =>
     size: S.optional(S.Number.pipe(T.Query())),
     exclude_generated: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_transform/{transform_id}", code: 200 })),
-).annotate({
-  identifier: "GetTransformRequest",
-}) as any as S.Schema<GetTransformRequest>;
+).annotate({ identifier: "GetTransformRequest" }) as any as S.Schema<GetTransformRequest>;
 
 export interface MlTypesApiKeyAuthorization {
   /** The identifier for the API key. */
@@ -41605,9 +40391,7 @@ export const TransformTypesLatest = /*@__PURE__*/ S.suspend(() =>
     sort: S.String,
     unique_key: TransformTypesLatestUniqueKeyList,
   }),
-).annotate({
-  identifier: "TransformTypesLatest",
-}) as any as S.Schema<TransformTypesLatest>;
+).annotate({ identifier: "TransformTypesLatest" }) as any as S.Schema<TransformTypesLatest>;
 
 /** Defines how to aggregate the grouped data. The following aggregations are currently supported: average, bucket script, bucket selector, cardinality, filter, geo bounds, geo centroid, geo line, max, median absolute deviation, min, missing, percentiles, rare terms, scripted metric, stats, sum, terms, top metrics, value count, weighted average. */
 export type TransformTypesPivotAggregationsMap = {
@@ -41655,9 +40439,7 @@ export const TransformTypesPivot = /*@__PURE__*/ S.suspend(() =>
     aggregations: S.optional(TransformTypesPivotAggregationsMap),
     group_by: S.optional(TransformTypesPivotGroupByMap),
   }),
-).annotate({
-  identifier: "TransformTypesPivot",
-}) as any as S.Schema<TransformTypesPivot>;
+).annotate({ identifier: "TransformTypesPivot" }) as any as S.Schema<TransformTypesPivot>;
 
 export interface TransformTypesRetentionPolicy {
   /** The date field that is used to calculate the age of the document. */
@@ -41716,9 +40498,7 @@ export const TransformTypesSettings = /*@__PURE__*/ S.suspend(() =>
     num_failure_retries: S.optional(S.Number),
     unattended: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "TransformTypesSettings",
-}) as any as S.Schema<TransformTypesSettings>;
+).annotate({ identifier: "TransformTypesSettings" }) as any as S.Schema<TransformTypesSettings>;
 
 export interface TransformTypesSource {
   /** The source indices for the transform. It can be a single index, an index pattern (for example, `"my-index-*""`), an array of indices (for example, `["my-index-000001", "my-index-000002"]`), or an array of index patterns (for example, `["my-index-*", "my-other-index-*"]`. For remote indices use the syntax `"remote_name:index_name"`. If any indices are in remote clusters then the master node and at least one transform node must have the `remote_cluster_client` node role. */
@@ -41734,9 +40514,7 @@ export const TransformTypesSource = /*@__PURE__*/ S.suspend(() =>
     query: S.optional(TypesQueryDslQueryContainer),
     runtime_mappings: S.optional(TypesMappingRuntimeFields),
   }),
-).annotate({
-  identifier: "TransformTypesSource",
-}) as any as S.Schema<TransformTypesSource>;
+).annotate({ identifier: "TransformTypesSource" }) as any as S.Schema<TransformTypesSource>;
 
 export interface TransformTypesTimeSync {
   /** The time delay between the current time and the latest input data time. */
@@ -41749,9 +40527,7 @@ export const TransformTypesTimeSync = /*@__PURE__*/ S.suspend(() =>
     delay: S.optional(TypesDuration),
     field: S.String,
   }),
-).annotate({
-  identifier: "TransformTypesTimeSync",
-}) as any as S.Schema<TransformTypesTimeSync>;
+).annotate({ identifier: "TransformTypesTimeSync" }) as any as S.Schema<TransformTypesTimeSync>;
 
 export interface TransformTypesSyncContainer {
   /** Specifies that the transform uses a time field to synchronize the source and destination indices. */
@@ -41827,9 +40603,7 @@ export const GetTransformResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.Number,
     transforms: GetTransformResponseTransformsList,
   }),
-).annotate({
-  identifier: "GetTransformResponse",
-}) as any as S.Schema<GetTransformResponse>;
+).annotate({ identifier: "GetTransformResponse" }) as any as S.Schema<GetTransformResponse>;
 
 export interface GetTransform1Request {
   /** Specifies what to do when the request: 1. Contains wildcard expressions and there are no transforms that match. 2. Contains the _all string or no identifiers and there are no matches. 3. Contains wildcard expressions and there are only partial matches. If this parameter is false, the request returns a 404 status code when there are no matches or only partial matches. */
@@ -41848,9 +40622,7 @@ export const GetTransform1Request = /*@__PURE__*/ S.suspend(() =>
     size: S.optional(S.Number.pipe(T.Query())),
     exclude_generated: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_transform", code: 200 })),
-).annotate({
-  identifier: "GetTransform1Request",
-}) as any as S.Schema<GetTransform1Request>;
+).annotate({ identifier: "GetTransform1Request" }) as any as S.Schema<GetTransform1Request>;
 
 export type GetTransform1ResponseTransformsList = Array<TransformGetTransformTransformSummary>;
 export const GetTransform1ResponseTransformsList = /*@__PURE__*/ S.Array(
@@ -41866,9 +40638,7 @@ export const GetTransform1Response = /*@__PURE__*/ S.suspend(() =>
     count: S.Number,
     transforms: GetTransform1ResponseTransformsList,
   }),
-).annotate({
-  identifier: "GetTransform1Response",
-}) as any as S.Schema<GetTransform1Response>;
+).annotate({ identifier: "GetTransform1Response" }) as any as S.Schema<GetTransform1Response>;
 
 export interface GetTransformStatsRequest {
   /** Identifier for the transform. It can be a transform identifier or a wildcard expression. You can get information for all transforms by using `_all`, by specifying `*` as the `<transform_id>`, or by omitting the `<transform_id>`. */
@@ -41892,16 +40662,8 @@ export const GetTransformStatsRequest = /*@__PURE__*/ S.suspend(() =>
     from: S.optional(S.Number.pipe(T.Query())),
     size: S.optional(S.Number.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_transform/{transform_id}/_stats",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetTransformStatsRequest",
-}) as any as S.Schema<GetTransformStatsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/_transform/{transform_id}/_stats", code: 200 })),
+).annotate({ identifier: "GetTransformStatsRequest" }) as any as S.Schema<GetTransformStatsRequest>;
 
 export interface TransformGetTransformStatsTransformProgress {
   docs_indexed: number;
@@ -42014,9 +40776,7 @@ export const TransformGetTransformStatsTransformStatsHealth = /*@__PURE__*/ S.su
 }) as any as S.Schema<TransformGetTransformStatsTransformStatsHealth>;
 
 /** Lists node attributes. */
-export type TypesNodeAttributesAttributesMap = {
-  [key: string]: string | undefined;
-};
+export type TypesNodeAttributesAttributesMap = { [key: string]: string | undefined };
 export const TypesNodeAttributesAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -42042,9 +40802,7 @@ export const TypesNodeAttributes = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     transport_address: S.String,
   }),
-).annotate({
-  identifier: "TypesNodeAttributes",
-}) as any as S.Schema<TypesNodeAttributes>;
+).annotate({ identifier: "TypesNodeAttributes" }) as any as S.Schema<TypesNodeAttributes>;
 
 export interface TransformGetTransformStatsTransformIndexerStats {
   delete_time_in_ms?: number;
@@ -42146,9 +40904,7 @@ export const GraphTypesVertexInclude = /*@__PURE__*/ S.suspend(() =>
     boost: S.optional(S.Number),
     term: S.String,
   }),
-).annotate({
-  identifier: "GraphTypesVertexInclude",
-}) as any as S.Schema<GraphTypesVertexInclude>;
+).annotate({ identifier: "GraphTypesVertexInclude" }) as any as S.Schema<GraphTypesVertexInclude>;
 
 /** Identifies the terms of interest that form the starting points from which you want to spider out. */
 export type GraphTypesVertexDefinitionIncludeList = Array<GraphTypesVertexInclude>;
@@ -42271,9 +41027,7 @@ export const GraphExploreRequest = /*@__PURE__*/ S.suspend(() =>
     query: S.optional(TypesQueryDslQueryContainer),
     vertices: S.optional(GraphExploreRequestVerticesList),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_graph/explore", code: 200 })),
-).annotate({
-  identifier: "GraphExploreRequest",
-}) as any as S.Schema<GraphExploreRequest>;
+).annotate({ identifier: "GraphExploreRequest" }) as any as S.Schema<GraphExploreRequest>;
 
 export interface GraphTypesConnection {
   doc_count: number;
@@ -42288,9 +41042,7 @@ export const GraphTypesConnection = /*@__PURE__*/ S.suspend(() =>
     target: S.Number,
     weight: S.Number,
   }),
-).annotate({
-  identifier: "GraphTypesConnection",
-}) as any as S.Schema<GraphTypesConnection>;
+).annotate({ identifier: "GraphTypesConnection" }) as any as S.Schema<GraphTypesConnection>;
 
 export type GraphExploreResponseConnectionsList = Array<GraphTypesConnection>;
 export const GraphExploreResponseConnectionsList = /*@__PURE__*/ S.Array(
@@ -42315,9 +41067,7 @@ export const GraphTypesVertex = /*@__PURE__*/ S.suspend(() =>
     term: S.String,
     weight: S.Number,
   }),
-).annotate({
-  identifier: "GraphTypesVertex",
-}) as any as S.Schema<GraphTypesVertex>;
+).annotate({ identifier: "GraphTypesVertex" }) as any as S.Schema<GraphTypesVertex>;
 
 export type GraphExploreResponseVerticesList = Array<GraphTypesVertex>;
 export const GraphExploreResponseVerticesList = /*@__PURE__*/ S.Array(
@@ -42339,9 +41089,7 @@ export const GraphExploreResponse = /*@__PURE__*/ S.suspend(() =>
     took: S.Number,
     vertices: GraphExploreResponseVerticesList,
   }),
-).annotate({
-  identifier: "GraphExploreResponse",
-}) as any as S.Schema<GraphExploreResponse>;
+).annotate({ identifier: "GraphExploreResponse" }) as any as S.Schema<GraphExploreResponse>;
 
 /** Specifies one or more fields that contain the terms you want to include in the graph as vertices. */
 export type GraphExplore1RequestVerticesList = Array<GraphTypesVertexDefinition>;
@@ -42375,9 +41123,7 @@ export const GraphExplore1Request = /*@__PURE__*/ S.suspend(() =>
     query: S.optional(TypesQueryDslQueryContainer),
     vertices: S.optional(GraphExplore1RequestVerticesList),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_graph/explore", code: 200 })),
-).annotate({
-  identifier: "GraphExplore1Request",
-}) as any as S.Schema<GraphExplore1Request>;
+).annotate({ identifier: "GraphExplore1Request" }) as any as S.Schema<GraphExplore1Request>;
 
 export type GraphExplore1ResponseConnectionsList = Array<GraphTypesConnection>;
 export const GraphExplore1ResponseConnectionsList = /*@__PURE__*/ S.Array(
@@ -42409,9 +41155,7 @@ export const GraphExplore1Response = /*@__PURE__*/ S.suspend(() =>
     took: S.Number,
     vertices: GraphExplore1ResponseVerticesList,
   }),
-).annotate({
-  identifier: "GraphExplore1Response",
-}) as any as S.Schema<GraphExplore1Response>;
+).annotate({ identifier: "GraphExplore1Response" }) as any as S.Schema<GraphExplore1Response>;
 
 export interface HealthReportRequest {
   /** Explicit operation timeout. */
@@ -42427,9 +41171,7 @@ export const HealthReportRequest = /*@__PURE__*/ S.suspend(() =>
     verbose: S.optional(S.Boolean.pipe(T.Query())),
     size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_health_report", code: 200 })),
-).annotate({
-  identifier: "HealthReportRequest",
-}) as any as S.Schema<HealthReportRequest>;
+).annotate({ identifier: "HealthReportRequest" }) as any as S.Schema<HealthReportRequest>;
 
 export type GlobalHealthReportIndicatorHealthStatus =
   | "green"
@@ -42460,9 +41202,7 @@ export const GlobalHealthReportImpact = /*@__PURE__*/ S.suspend(() =>
     impact_areas: GlobalHealthReportImpactImpactAreasList,
     severity: S.Number,
   }),
-).annotate({
-  identifier: "GlobalHealthReportImpact",
-}) as any as S.Schema<GlobalHealthReportImpact>;
+).annotate({ identifier: "GlobalHealthReportImpact" }) as any as S.Schema<GlobalHealthReportImpact>;
 
 export type GlobalHealthReportMasterIsStableIndicatorImpactsList = Array<GlobalHealthReportImpact>;
 export const GlobalHealthReportMasterIsStableIndicatorImpactsList = /*@__PURE__*/ S.Array(
@@ -43141,6 +41881,102 @@ export const GlobalHealthReportProjectEncryptionKeyIndicator = /*@__PURE__*/ S.s
   identifier: "GlobalHealthReportProjectEncryptionKeyIndicator",
 }) as any as S.Schema<GlobalHealthReportProjectEncryptionKeyIndicator>;
 
+export type GlobalHealthReportDlmFrozenTransitionsIndicatorImpactsList =
+  Array<GlobalHealthReportImpact>;
+export const GlobalHealthReportDlmFrozenTransitionsIndicatorImpactsList = /*@__PURE__*/ S.Array(
+  GlobalHealthReportImpact,
+) as any as S.Schema<GlobalHealthReportDlmFrozenTransitionsIndicatorImpactsList>;
+
+export type GlobalHealthReportDlmFrozenTransitionsIndicatorDiagnosisList =
+  Array<GlobalHealthReportDiagnosis>;
+export const GlobalHealthReportDlmFrozenTransitionsIndicatorDiagnosisList = /*@__PURE__*/ S.Array(
+  GlobalHealthReportDiagnosis,
+) as any as S.Schema<GlobalHealthReportDlmFrozenTransitionsIndicatorDiagnosisList>;
+
+export type GlobalHealthReportDlmFrozenTransitionsIndicatorDetailsOverdueIndicesCountByStateMap = {
+  [key: string]: number | undefined;
+};
+export const GlobalHealthReportDlmFrozenTransitionsIndicatorDetailsOverdueIndicesCountByStateMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Number,
+  ) as any as S.Schema<GlobalHealthReportDlmFrozenTransitionsIndicatorDetailsOverdueIndicesCountByStateMap>;
+
+export type GlobalHealthReportDlmFrozenTransitionState =
+  | "unmarked"
+  | "marked"
+  | "queued"
+  | "running";
+export const GlobalHealthReportDlmFrozenTransitionState = S.String;
+
+export interface GlobalHealthReportDlmFrozenTransitionOverdueIndex {
+  index_name: string;
+  transition_state: GlobalHealthReportDlmFrozenTransitionState;
+}
+export const GlobalHealthReportDlmFrozenTransitionOverdueIndex = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    index_name: S.String,
+    transition_state: GlobalHealthReportDlmFrozenTransitionState,
+  }),
+).annotate({
+  identifier: "GlobalHealthReportDlmFrozenTransitionOverdueIndex",
+}) as any as S.Schema<GlobalHealthReportDlmFrozenTransitionOverdueIndex>;
+
+export type GlobalHealthReportDlmFrozenTransitionsIndicatorDetailsOverdueIndicesSampleList =
+  Array<GlobalHealthReportDlmFrozenTransitionOverdueIndex>;
+export const GlobalHealthReportDlmFrozenTransitionsIndicatorDetailsOverdueIndicesSampleList =
+  /*@__PURE__*/ S.Array(
+    GlobalHealthReportDlmFrozenTransitionOverdueIndex,
+  ) as any as S.Schema<GlobalHealthReportDlmFrozenTransitionsIndicatorDetailsOverdueIndicesSampleList>;
+
+export interface GlobalHealthReportDlmFrozenTransitionsIndicatorDetails {
+  transitions_enabled?: boolean;
+  service_running?: boolean;
+  default_repository_configured?: boolean;
+  overdue_indices_count?: number;
+  overdue_indices_count_by_state?: GlobalHealthReportDlmFrozenTransitionsIndicatorDetailsOverdueIndicesCountByStateMap;
+  overdue_indices_sample?: GlobalHealthReportDlmFrozenTransitionsIndicatorDetailsOverdueIndicesSampleList;
+  /** Only present when the indicator status is `unknown`, meaning the health snapshot is stale. */
+  generated_at_millis?: number;
+}
+export const GlobalHealthReportDlmFrozenTransitionsIndicatorDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    transitions_enabled: S.optional(S.Boolean),
+    service_running: S.optional(S.Boolean),
+    default_repository_configured: S.optional(S.Boolean),
+    overdue_indices_count: S.optional(S.Number),
+    overdue_indices_count_by_state: S.optional(
+      GlobalHealthReportDlmFrozenTransitionsIndicatorDetailsOverdueIndicesCountByStateMap,
+    ),
+    overdue_indices_sample: S.optional(
+      GlobalHealthReportDlmFrozenTransitionsIndicatorDetailsOverdueIndicesSampleList,
+    ),
+    generated_at_millis: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "GlobalHealthReportDlmFrozenTransitionsIndicatorDetails",
+}) as any as S.Schema<GlobalHealthReportDlmFrozenTransitionsIndicatorDetails>;
+
+/** DLM_FROZEN_TRANSITIONS */
+export interface GlobalHealthReportDlmFrozenTransitionsIndicator {
+  status: GlobalHealthReportIndicatorHealthStatus;
+  symptom: string;
+  impacts?: GlobalHealthReportDlmFrozenTransitionsIndicatorImpactsList;
+  diagnosis?: GlobalHealthReportDlmFrozenTransitionsIndicatorDiagnosisList;
+  details?: GlobalHealthReportDlmFrozenTransitionsIndicatorDetails;
+}
+export const GlobalHealthReportDlmFrozenTransitionsIndicator = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: GlobalHealthReportIndicatorHealthStatus,
+    symptom: S.String,
+    impacts: S.optional(GlobalHealthReportDlmFrozenTransitionsIndicatorImpactsList),
+    diagnosis: S.optional(GlobalHealthReportDlmFrozenTransitionsIndicatorDiagnosisList),
+    details: S.optional(GlobalHealthReportDlmFrozenTransitionsIndicatorDetails),
+  }),
+).annotate({
+  identifier: "GlobalHealthReportDlmFrozenTransitionsIndicator",
+}) as any as S.Schema<GlobalHealthReportDlmFrozenTransitionsIndicator>;
+
 export interface GlobalHealthReportIndicators {
   master_is_stable?: GlobalHealthReportMasterIsStableIndicator;
   shards_availability?: GlobalHealthReportShardsAvailabilityIndicator;
@@ -43152,6 +41988,7 @@ export interface GlobalHealthReportIndicators {
   shards_capacity?: GlobalHealthReportShardsCapacityIndicator;
   file_settings?: GlobalHealthReportFileSettingsIndicator;
   project_encryption_key?: GlobalHealthReportProjectEncryptionKeyIndicator;
+  dlm_frozen_transitions?: GlobalHealthReportDlmFrozenTransitionsIndicator;
 }
 export const GlobalHealthReportIndicators = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -43165,6 +42002,7 @@ export const GlobalHealthReportIndicators = /*@__PURE__*/ S.suspend(() =>
     shards_capacity: S.optional(GlobalHealthReportShardsCapacityIndicator),
     file_settings: S.optional(GlobalHealthReportFileSettingsIndicator),
     project_encryption_key: S.optional(GlobalHealthReportProjectEncryptionKeyIndicator),
+    dlm_frozen_transitions: S.optional(GlobalHealthReportDlmFrozenTransitionsIndicator),
   }),
 ).annotate({
   identifier: "GlobalHealthReportIndicators",
@@ -43181,9 +42019,7 @@ export const HealthReportResponse = /*@__PURE__*/ S.suspend(() =>
     indicators: GlobalHealthReportIndicators,
     status: S.optional(GlobalHealthReportIndicatorHealthStatus),
   }),
-).annotate({
-  identifier: "HealthReportResponse",
-}) as any as S.Schema<HealthReportResponse>;
+).annotate({ identifier: "HealthReportResponse" }) as any as S.Schema<HealthReportResponse>;
 
 export interface HealthReport1Request {
   /** A feature of the cluster, as returned by the top-level health report API. */
@@ -43202,9 +42038,7 @@ export const HealthReport1Request = /*@__PURE__*/ S.suspend(() =>
     verbose: S.optional(S.Boolean.pipe(T.Query())),
     size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_health_report/{feature}", code: 200 })),
-).annotate({
-  identifier: "HealthReport1Request",
-}) as any as S.Schema<HealthReport1Request>;
+).annotate({ identifier: "HealthReport1Request" }) as any as S.Schema<HealthReport1Request>;
 
 export interface HealthReport1Response {
   cluster_name: string;
@@ -43217,9 +42051,7 @@ export const HealthReport1Response = /*@__PURE__*/ S.suspend(() =>
     indicators: GlobalHealthReportIndicators,
     status: S.optional(GlobalHealthReportIndicatorHealthStatus),
   }),
-).annotate({
-  identifier: "HealthReport1Response",
-}) as any as S.Schema<HealthReport1Response>;
+).annotate({ identifier: "HealthReport1Response" }) as any as S.Schema<HealthReport1Response>;
 
 export interface IlmDeleteLifecycleRequest {
   /** Identifier for the policy. */
@@ -43279,25 +42111,19 @@ export const IlmExplainLifecycleLifecycleExplainManagedStepInfoMap = /*@__PURE__
   S.Unknown,
 ) as any as S.Schema<IlmExplainLifecycleLifecycleExplainManagedStepInfoMap>;
 
-export type IlmTypesAllocateActionIncludeMap = {
-  [key: string]: string | undefined;
-};
+export type IlmTypesAllocateActionIncludeMap = { [key: string]: string | undefined };
 export const IlmTypesAllocateActionIncludeMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<IlmTypesAllocateActionIncludeMap>;
 
-export type IlmTypesAllocateActionExcludeMap = {
-  [key: string]: string | undefined;
-};
+export type IlmTypesAllocateActionExcludeMap = { [key: string]: string | undefined };
 export const IlmTypesAllocateActionExcludeMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<IlmTypesAllocateActionExcludeMap>;
 
-export type IlmTypesAllocateActionRequireMap = {
-  [key: string]: string | undefined;
-};
+export type IlmTypesAllocateActionRequireMap = { [key: string]: string | undefined };
 export const IlmTypesAllocateActionRequireMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -43318,9 +42144,7 @@ export const IlmTypesAllocateAction = /*@__PURE__*/ S.suspend(() =>
     exclude: S.optional(IlmTypesAllocateActionExcludeMap),
     require: S.optional(IlmTypesAllocateActionRequireMap),
   }),
-).annotate({
-  identifier: "IlmTypesAllocateAction",
-}) as any as S.Schema<IlmTypesAllocateAction>;
+).annotate({ identifier: "IlmTypesAllocateAction" }) as any as S.Schema<IlmTypesAllocateAction>;
 
 export interface IlmTypesDeleteAction {
   delete_searchable_snapshot?: boolean;
@@ -43329,9 +42153,7 @@ export const IlmTypesDeleteAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     delete_searchable_snapshot: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "IlmTypesDeleteAction",
-}) as any as S.Schema<IlmTypesDeleteAction>;
+).annotate({ identifier: "IlmTypesDeleteAction" }) as any as S.Schema<IlmTypesDeleteAction>;
 
 export interface IlmTypesDownsampleAction {
   fixed_interval: string;
@@ -43342,9 +42164,7 @@ export const IlmTypesDownsampleAction = /*@__PURE__*/ S.suspend(() =>
     fixed_interval: S.String,
     wait_timeout: S.optional(TypesDuration),
   }),
-).annotate({
-  identifier: "IlmTypesDownsampleAction",
-}) as any as S.Schema<IlmTypesDownsampleAction>;
+).annotate({ identifier: "IlmTypesDownsampleAction" }) as any as S.Schema<IlmTypesDownsampleAction>;
 
 export interface IlmTypesForceMergeAction {
   max_num_segments: number;
@@ -43355,9 +42175,7 @@ export const IlmTypesForceMergeAction = /*@__PURE__*/ S.suspend(() =>
     max_num_segments: S.Number,
     index_codec: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IlmTypesForceMergeAction",
-}) as any as S.Schema<IlmTypesForceMergeAction>;
+).annotate({ identifier: "IlmTypesForceMergeAction" }) as any as S.Schema<IlmTypesForceMergeAction>;
 
 export interface IlmTypesMigrateAction {
   enabled?: boolean;
@@ -43366,9 +42184,7 @@ export const IlmTypesMigrateAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "IlmTypesMigrateAction",
-}) as any as S.Schema<IlmTypesMigrateAction>;
+).annotate({ identifier: "IlmTypesMigrateAction" }) as any as S.Schema<IlmTypesMigrateAction>;
 
 export interface IlmTypesRolloverAction {
   /** The `max_size` condition has been deprecated in 9.3.0 and `max_primary_shard_size` should be used instead */
@@ -43396,9 +42212,7 @@ export const IlmTypesRolloverAction = /*@__PURE__*/ S.suspend(() =>
     min_docs: S.optional(S.Number),
     min_primary_shard_docs: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "IlmTypesRolloverAction",
-}) as any as S.Schema<IlmTypesRolloverAction>;
+).annotate({ identifier: "IlmTypesRolloverAction" }) as any as S.Schema<IlmTypesRolloverAction>;
 
 export interface IlmTypesSetPriorityAction {
   priority?: number;
@@ -43435,9 +42249,7 @@ export const IlmTypesShrinkAction = /*@__PURE__*/ S.suspend(() =>
     max_primary_shard_size: S.optional(TypesByteSize),
     allow_write_after_shrink: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "IlmTypesShrinkAction",
-}) as any as S.Schema<IlmTypesShrinkAction>;
+).annotate({ identifier: "IlmTypesShrinkAction" }) as any as S.Schema<IlmTypesShrinkAction>;
 
 export interface IlmTypesWaitForSnapshotAction {
   policy: string;
@@ -43494,9 +42306,7 @@ export const IlmTypesActions = /*@__PURE__*/ S.suspend(() =>
     unfollow: S.optional(S.Unknown),
     wait_for_snapshot: S.optional(IlmTypesWaitForSnapshotAction),
   }),
-).annotate({
-  identifier: "IlmTypesActions",
-}) as any as S.Schema<IlmTypesActions>;
+).annotate({ identifier: "IlmTypesActions" }) as any as S.Schema<IlmTypesActions>;
 
 export interface IlmTypesPhase {
   actions?: IlmTypesActions;
@@ -43648,9 +42458,7 @@ export const IlmGetLifecycleRequest = /*@__PURE__*/ S.suspend(() =>
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_ilm/policy/{policy}", code: 200 })),
-).annotate({
-  identifier: "IlmGetLifecycleRequest",
-}) as any as S.Schema<IlmGetLifecycleRequest>;
+).annotate({ identifier: "IlmGetLifecycleRequest" }) as any as S.Schema<IlmGetLifecycleRequest>;
 
 export interface IlmTypesPhases {
   cold?: IlmTypesPhase;
@@ -43692,9 +42500,7 @@ export const IlmGetLifecycleLifecycle = /*@__PURE__*/ S.suspend(() =>
     policy: IlmTypesPolicy,
     version: S.Number,
   }),
-).annotate({
-  identifier: "IlmGetLifecycleLifecycle",
-}) as any as S.Schema<IlmGetLifecycleLifecycle>;
+).annotate({ identifier: "IlmGetLifecycleLifecycle" }) as any as S.Schema<IlmGetLifecycleLifecycle>;
 
 export type IlmGetLifecycleResponseBodyMap = {
   [key: string]: IlmGetLifecycleLifecycle | undefined;
@@ -43707,9 +42513,7 @@ export const IlmGetLifecycleResponseBodyMap = /*@__PURE__*/ S.Record(
 export type IlmGetLifecycleResponse = IlmGetLifecycleResponseBodyMap;
 export const IlmGetLifecycleResponse = /*@__PURE__*/ S.suspend(() =>
   IlmGetLifecycleResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "IlmGetLifecycleResponse",
-}) as any as S.Schema<IlmGetLifecycleResponse>;
+).annotate({ identifier: "IlmGetLifecycleResponse" }) as any as S.Schema<IlmGetLifecycleResponse>;
 
 export interface IlmGetLifecycle1Request {
   /** Period to wait for a connection to the master node. If no response is received before the timeout expires, the request fails and returns an error. */
@@ -43722,9 +42526,7 @@ export const IlmGetLifecycle1Request = /*@__PURE__*/ S.suspend(() =>
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_ilm/policy", code: 200 })),
-).annotate({
-  identifier: "IlmGetLifecycle1Request",
-}) as any as S.Schema<IlmGetLifecycle1Request>;
+).annotate({ identifier: "IlmGetLifecycle1Request" }) as any as S.Schema<IlmGetLifecycle1Request>;
 
 export type IlmGetLifecycle1ResponseBodyMap = {
   [key: string]: IlmGetLifecycleLifecycle | undefined;
@@ -43737,16 +42539,12 @@ export const IlmGetLifecycle1ResponseBodyMap = /*@__PURE__*/ S.Record(
 export type IlmGetLifecycle1Response = IlmGetLifecycle1ResponseBodyMap;
 export const IlmGetLifecycle1Response = /*@__PURE__*/ S.suspend(() =>
   IlmGetLifecycle1ResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "IlmGetLifecycle1Response",
-}) as any as S.Schema<IlmGetLifecycle1Response>;
+).annotate({ identifier: "IlmGetLifecycle1Response" }) as any as S.Schema<IlmGetLifecycle1Response>;
 
 export interface IlmGetStatusRequest {}
 export const IlmGetStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/_ilm/status", code: 200 })),
-).annotate({
-  identifier: "IlmGetStatusRequest",
-}) as any as S.Schema<IlmGetStatusRequest>;
+).annotate({ identifier: "IlmGetStatusRequest" }) as any as S.Schema<IlmGetStatusRequest>;
 
 export interface IlmGetStatusResponse {
   operation_mode: TypesLifecycleOperationMode;
@@ -43755,9 +42553,7 @@ export const IlmGetStatusResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     operation_mode: TypesLifecycleOperationMode,
   }),
-).annotate({
-  identifier: "IlmGetStatusResponse",
-}) as any as S.Schema<IlmGetStatusResponse>;
+).annotate({ identifier: "IlmGetStatusResponse" }) as any as S.Schema<IlmGetStatusResponse>;
 
 export interface IlmMigrateToDataTiersRequest {
   /** If true, simulates the migration from node attributes based allocation filters to data tiers, but does not perform the migration. This provides a way to retrieve the indices and ILM policies that need to be migrated. */
@@ -43844,9 +42640,7 @@ export const IlmMoveToStepStepKey = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     phase: S.String,
   }),
-).annotate({
-  identifier: "IlmMoveToStepStepKey",
-}) as any as S.Schema<IlmMoveToStepStepKey>;
+).annotate({ identifier: "IlmMoveToStepStepKey" }) as any as S.Schema<IlmMoveToStepStepKey>;
 
 export interface IlmMoveToStepRequest {
   /** The name of the index whose lifecycle step is to change */
@@ -43862,9 +42656,7 @@ export const IlmMoveToStepRequest = /*@__PURE__*/ S.suspend(() =>
     current_step: IlmMoveToStepStepKey,
     next_step: IlmMoveToStepStepKey,
   }).pipe(T.Http({ method: "POST", uri: "/_ilm/move/{index}", code: 200 })),
-).annotate({
-  identifier: "IlmMoveToStepRequest",
-}) as any as S.Schema<IlmMoveToStepRequest>;
+).annotate({ identifier: "IlmMoveToStepRequest" }) as any as S.Schema<IlmMoveToStepRequest>;
 
 export interface IlmPutLifecycleRequest {
   /** Identifier for the policy. */
@@ -43880,9 +42672,7 @@ export const IlmPutLifecycleRequest = /*@__PURE__*/ S.suspend(() =>
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "PUT", uri: "/_ilm/policy/{policy}", code: 200 })),
-).annotate({
-  identifier: "IlmPutLifecycleRequest",
-}) as any as S.Schema<IlmPutLifecycleRequest>;
+).annotate({ identifier: "IlmPutLifecycleRequest" }) as any as S.Schema<IlmPutLifecycleRequest>;
 
 export interface IlmRemovePolicyRequest {
   /** The name of the index to remove policy on */
@@ -43892,9 +42682,7 @@ export const IlmRemovePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_ilm/remove", code: 200 })),
-).annotate({
-  identifier: "IlmRemovePolicyRequest",
-}) as any as S.Schema<IlmRemovePolicyRequest>;
+).annotate({ identifier: "IlmRemovePolicyRequest" }) as any as S.Schema<IlmRemovePolicyRequest>;
 
 export type IlmRemovePolicyResponseFailedIndexesList = Array<string>;
 export const IlmRemovePolicyResponseFailedIndexesList = /*@__PURE__*/ S.Array(
@@ -43910,9 +42698,7 @@ export const IlmRemovePolicyResponse = /*@__PURE__*/ S.suspend(() =>
     failed_indexes: IlmRemovePolicyResponseFailedIndexesList,
     has_failures: S.Boolean,
   }),
-).annotate({
-  identifier: "IlmRemovePolicyResponse",
-}) as any as S.Schema<IlmRemovePolicyResponse>;
+).annotate({ identifier: "IlmRemovePolicyResponse" }) as any as S.Schema<IlmRemovePolicyResponse>;
 
 export type IndicesAddBlockRequestBlock = "metadata" | "read" | "read_only" | "write";
 export const IndicesAddBlockRequestBlock = S.String;
@@ -43943,9 +42729,7 @@ export const IndicesAddBlockRequest = /*@__PURE__*/ S.suspend(() =>
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "PUT", uri: "/{index}/_block/{block}", code: 200 })),
-).annotate({
-  identifier: "IndicesAddBlockRequest",
-}) as any as S.Schema<IndicesAddBlockRequest>;
+).annotate({ identifier: "IndicesAddBlockRequest" }) as any as S.Schema<IndicesAddBlockRequest>;
 
 export interface IndicesAddBlockAddIndicesBlockStatus {
   name: string;
@@ -43976,9 +42760,7 @@ export const IndicesAddBlockResponse = /*@__PURE__*/ S.suspend(() =>
     shards_acknowledged: S.Boolean,
     indices: IndicesAddBlockResponseIndicesList,
   }),
-).annotate({
-  identifier: "IndicesAddBlockResponse",
-}) as any as S.Schema<IndicesAddBlockResponse>;
+).annotate({ identifier: "IndicesAddBlockResponse" }) as any as S.Schema<IndicesAddBlockResponse>;
 
 /** Array of token attributes used to filter the output of the `explain` parameter. */
 export type IndicesAnalyzeRequestAttributesList = Array<string>;
@@ -44042,9 +42824,7 @@ export const IndicesAnalyzeRequest = /*@__PURE__*/ S.suspend(() =>
     text: S.optional(IndicesAnalyzeTextToAnalyze),
     tokenizer: S.optional(TypesAnalysisTokenizer),
   }).pipe(T.Http({ method: "GET", uri: "/_analyze", code: 200 })),
-).annotate({
-  identifier: "IndicesAnalyzeRequest",
-}) as any as S.Schema<IndicesAnalyzeRequest>;
+).annotate({ identifier: "IndicesAnalyzeRequest" }) as any as S.Schema<IndicesAnalyzeRequest>;
 
 export interface IndicesAnalyzeExplainAnalyzeToken {
   bytes: string;
@@ -44191,9 +42971,7 @@ export const IndicesAnalyzeResponse = /*@__PURE__*/ S.suspend(() =>
     detail: S.optional(IndicesAnalyzeAnalyzeDetail),
     tokens: S.optional(IndicesAnalyzeResponseTokensList),
   }),
-).annotate({
-  identifier: "IndicesAnalyzeResponse",
-}) as any as S.Schema<IndicesAnalyzeResponse>;
+).annotate({ identifier: "IndicesAnalyzeResponse" }) as any as S.Schema<IndicesAnalyzeResponse>;
 
 /** Array of token attributes used to filter the output of the `explain` parameter. */
 export type IndicesAnalyze1RequestAttributesList = Array<string>;
@@ -44248,9 +43026,7 @@ export const IndicesAnalyze1Request = /*@__PURE__*/ S.suspend(() =>
     text: S.optional(IndicesAnalyzeTextToAnalyze),
     tokenizer: S.optional(TypesAnalysisTokenizer),
   }).pipe(T.Http({ method: "POST", uri: "/_analyze", code: 200 })),
-).annotate({
-  identifier: "IndicesAnalyze1Request",
-}) as any as S.Schema<IndicesAnalyze1Request>;
+).annotate({ identifier: "IndicesAnalyze1Request" }) as any as S.Schema<IndicesAnalyze1Request>;
 
 export type IndicesAnalyze1ResponseTokensList = Array<IndicesAnalyzeAnalyzeToken>;
 export const IndicesAnalyze1ResponseTokensList = /*@__PURE__*/ S.Array(
@@ -44266,9 +43042,7 @@ export const IndicesAnalyze1Response = /*@__PURE__*/ S.suspend(() =>
     detail: S.optional(IndicesAnalyzeAnalyzeDetail),
     tokens: S.optional(IndicesAnalyze1ResponseTokensList),
   }),
-).annotate({
-  identifier: "IndicesAnalyze1Response",
-}) as any as S.Schema<IndicesAnalyze1Response>;
+).annotate({ identifier: "IndicesAnalyze1Response" }) as any as S.Schema<IndicesAnalyze1Response>;
 
 /** Array of token attributes used to filter the output of the `explain` parameter. */
 export type IndicesAnalyze2RequestAttributesList = Array<string>;
@@ -44323,9 +43097,7 @@ export const IndicesAnalyze2Request = /*@__PURE__*/ S.suspend(() =>
     text: S.optional(IndicesAnalyzeTextToAnalyze),
     tokenizer: S.optional(TypesAnalysisTokenizer),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_analyze", code: 200 })),
-).annotate({
-  identifier: "IndicesAnalyze2Request",
-}) as any as S.Schema<IndicesAnalyze2Request>;
+).annotate({ identifier: "IndicesAnalyze2Request" }) as any as S.Schema<IndicesAnalyze2Request>;
 
 export type IndicesAnalyze2ResponseTokensList = Array<IndicesAnalyzeAnalyzeToken>;
 export const IndicesAnalyze2ResponseTokensList = /*@__PURE__*/ S.Array(
@@ -44341,9 +43113,7 @@ export const IndicesAnalyze2Response = /*@__PURE__*/ S.suspend(() =>
     detail: S.optional(IndicesAnalyzeAnalyzeDetail),
     tokens: S.optional(IndicesAnalyze2ResponseTokensList),
   }),
-).annotate({
-  identifier: "IndicesAnalyze2Response",
-}) as any as S.Schema<IndicesAnalyze2Response>;
+).annotate({ identifier: "IndicesAnalyze2Response" }) as any as S.Schema<IndicesAnalyze2Response>;
 
 /** Array of token attributes used to filter the output of the `explain` parameter. */
 export type IndicesAnalyze3RequestAttributesList = Array<string>;
@@ -44398,9 +43168,7 @@ export const IndicesAnalyze3Request = /*@__PURE__*/ S.suspend(() =>
     text: S.optional(IndicesAnalyzeTextToAnalyze),
     tokenizer: S.optional(TypesAnalysisTokenizer),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_analyze", code: 200 })),
-).annotate({
-  identifier: "IndicesAnalyze3Request",
-}) as any as S.Schema<IndicesAnalyze3Request>;
+).annotate({ identifier: "IndicesAnalyze3Request" }) as any as S.Schema<IndicesAnalyze3Request>;
 
 export type IndicesAnalyze3ResponseTokensList = Array<IndicesAnalyzeAnalyzeToken>;
 export const IndicesAnalyze3ResponseTokensList = /*@__PURE__*/ S.Array(
@@ -44416,9 +43184,7 @@ export const IndicesAnalyze3Response = /*@__PURE__*/ S.suspend(() =>
     detail: S.optional(IndicesAnalyzeAnalyzeDetail),
     tokens: S.optional(IndicesAnalyze3ResponseTokensList),
   }),
-).annotate({
-  identifier: "IndicesAnalyze3Response",
-}) as any as S.Schema<IndicesAnalyze3Response>;
+).annotate({ identifier: "IndicesAnalyze3Response" }) as any as S.Schema<IndicesAnalyze3Response>;
 
 export interface IndicesCancelMigrateReindexRequest {
   /** The index or data stream name */
@@ -44427,13 +43193,7 @@ export interface IndicesCancelMigrateReindexRequest {
 export const IndicesCancelMigrateReindexRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_migration/reindex/{index}/_cancel",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_migration/reindex/{index}/_cancel", code: 200 })),
 ).annotate({
   identifier: "IndicesCancelMigrateReindexRequest",
 }) as any as S.Schema<IndicesCancelMigrateReindexRequest>;
@@ -44467,9 +43227,7 @@ export const IndicesClearCacheRequest = /*@__PURE__*/ S.suspend(() =>
     query: S.optional(S.Boolean.pipe(T.Query())),
     request: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/_cache/clear", code: 200 })),
-).annotate({
-  identifier: "IndicesClearCacheRequest",
-}) as any as S.Schema<IndicesClearCacheRequest>;
+).annotate({ identifier: "IndicesClearCacheRequest" }) as any as S.Schema<IndicesClearCacheRequest>;
 
 export interface IndicesClearCache1Request {
   /** Comma-separated list of data streams, indices, and aliases used to limit the request. Supports wildcards (`*`). To target all data streams and indices, omit this parameter or use `*` or `_all`. */
@@ -44505,18 +43263,14 @@ export const IndicesClearCache1Request = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<IndicesClearCache1Request>;
 
 /** Aliases for the resulting index. */
-export type IndicesClone1RequestAliasesMap = {
-  [key: string]: IndicesTypesAlias | undefined;
-};
+export type IndicesClone1RequestAliasesMap = { [key: string]: IndicesTypesAlias | undefined };
 export const IndicesClone1RequestAliasesMap = /*@__PURE__*/ S.Record(
   S.String,
   IndicesTypesAlias,
 ) as any as S.Schema<IndicesClone1RequestAliasesMap>;
 
 /** Configuration options for the target index. */
-export type IndicesClone1RequestSettingsMap = {
-  [key: string]: unknown | undefined;
-};
+export type IndicesClone1RequestSettingsMap = { [key: string]: unknown | undefined };
 export const IndicesClone1RequestSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -44548,9 +43302,7 @@ export const IndicesClone1Request = /*@__PURE__*/ S.suspend(() =>
     aliases: S.optional(IndicesClone1RequestAliasesMap),
     settings: S.optional(IndicesClone1RequestSettingsMap),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_clone/{target}", code: 200 })),
-).annotate({
-  identifier: "IndicesClone1Request",
-}) as any as S.Schema<IndicesClone1Request>;
+).annotate({ identifier: "IndicesClone1Request" }) as any as S.Schema<IndicesClone1Request>;
 
 export interface IndicesClone1Response {
   acknowledged: boolean;
@@ -44563,9 +43315,7 @@ export const IndicesClone1Response = /*@__PURE__*/ S.suspend(() =>
     index: S.String,
     shards_acknowledged: S.Boolean,
   }),
-).annotate({
-  identifier: "IndicesClone1Response",
-}) as any as S.Schema<IndicesClone1Response>;
+).annotate({ identifier: "IndicesClone1Response" }) as any as S.Schema<IndicesClone1Response>;
 
 export interface IndicesCloseRequest {
   /** Comma-separated list or wildcard expression of index names used to limit the request. */
@@ -44593,9 +43343,7 @@ export const IndicesCloseRequest = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(TypesDuration.pipe(T.Query())),
     wait_for_active_shards: S.optional(TypesWaitForActiveShards.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_close", code: 200 })),
-).annotate({
-  identifier: "IndicesCloseRequest",
-}) as any as S.Schema<IndicesCloseRequest>;
+).annotate({ identifier: "IndicesCloseRequest" }) as any as S.Schema<IndicesCloseRequest>;
 
 export type IndicesCloseCloseShardResultFailuresList = Array<TypesShardFailure>;
 export const IndicesCloseCloseShardResultFailuresList = /*@__PURE__*/ S.Array(
@@ -44653,9 +43401,7 @@ export const IndicesCloseResponse = /*@__PURE__*/ S.suspend(() =>
     indices: IndicesCloseResponseIndicesMap,
     shards_acknowledged: S.Boolean,
   }),
-).annotate({
-  identifier: "IndicesCloseResponse",
-}) as any as S.Schema<IndicesCloseResponse>;
+).annotate({ identifier: "IndicesCloseResponse" }) as any as S.Schema<IndicesCloseResponse>;
 
 export interface IndicesCreateDataStreamRequest {
   /** Name of the data stream, which must meet the following criteria: Lowercase only; Cannot include `\`, `/`, `*`, `?`, `"`, `<`, `>`, `|`, `,`, `#`, `:`, or a space character; Cannot start with `-`, `_`, `+`, or `.ds-`; Cannot be `.` or `..`; Cannot be longer than 255 bytes. Multi-byte characters count towards this limit faster. */
@@ -44695,9 +43441,7 @@ export const IndicesCreateFromRequest = /*@__PURE__*/ S.suspend(() =>
     settings_override: S.optional(IndicesTypesIndexSettings),
     remove_index_blocks: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PUT", uri: "/_create_from/{source}/{dest}", code: 200 })),
-).annotate({
-  identifier: "IndicesCreateFromRequest",
-}) as any as S.Schema<IndicesCreateFromRequest>;
+).annotate({ identifier: "IndicesCreateFromRequest" }) as any as S.Schema<IndicesCreateFromRequest>;
 
 export interface IndicesCreateFromResponse {
   acknowledged: boolean;
@@ -44958,13 +43702,7 @@ export const IndicesDeleteDataLifecycleRequest = /*@__PURE__*/ S.suspend(() =>
     expand_wildcards: S.optional(TypesExpandWildcards.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/_data_stream/{name}/_lifecycle",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/_data_stream/{name}/_lifecycle", code: 200 })),
 ).annotate({
   identifier: "IndicesDeleteDataLifecycleRequest",
 }) as any as S.Schema<IndicesDeleteDataLifecycleRequest>;
@@ -45003,13 +43741,7 @@ export const IndicesDeleteDataStreamOptionsRequest = /*@__PURE__*/ S.suspend(() 
     expand_wildcards: S.optional(TypesExpandWildcards.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/_data_stream/{name}/_options",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/_data_stream/{name}/_options", code: 200 })),
 ).annotate({
   identifier: "IndicesDeleteDataStreamOptionsRequest",
 }) as any as S.Schema<IndicesDeleteDataStreamOptionsRequest>;
@@ -45037,16 +43769,12 @@ export const IndicesDiskUsageRequest = /*@__PURE__*/ S.suspend(() =>
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
     run_expensive_tasks: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_disk_usage", code: 200 })),
-).annotate({
-  identifier: "IndicesDiskUsageRequest",
-}) as any as S.Schema<IndicesDiskUsageRequest>;
+).annotate({ identifier: "IndicesDiskUsageRequest" }) as any as S.Schema<IndicesDiskUsageRequest>;
 
 export type IndicesDiskUsageResponse = unknown;
 export const IndicesDiskUsageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "IndicesDiskUsageResponse",
-}) as any as S.Schema<IndicesDiskUsageResponse>;
+).annotate({ identifier: "IndicesDiskUsageResponse" }) as any as S.Schema<IndicesDiskUsageResponse>;
 
 export interface IndicesDownsampleRequest {
   /** Name of the time series index to downsample. */
@@ -45064,16 +43792,8 @@ export const IndicesDownsampleRequest = /*@__PURE__*/ S.suspend(() =>
     target_index: S.String.pipe(T.Label()),
     fixed_interval: S.String,
     sampling_method: S.optional(IndicesTypesSamplingMethod),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/{index}/_downsample/{target_index}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "IndicesDownsampleRequest",
-}) as any as S.Schema<IndicesDownsampleRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/{index}/_downsample/{target_index}", code: 200 })),
+).annotate({ identifier: "IndicesDownsampleRequest" }) as any as S.Schema<IndicesDownsampleRequest>;
 
 export type IndicesDownsampleResponse = unknown;
 export const IndicesDownsampleResponse = /*@__PURE__*/ S.suspend(() =>
@@ -45201,9 +43921,7 @@ export const IndicesFlush1Request = /*@__PURE__*/ S.suspend(() =>
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
     wait_if_ongoing: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_flush", code: 200 })),
-).annotate({
-  identifier: "IndicesFlush1Request",
-}) as any as S.Schema<IndicesFlush1Request>;
+).annotate({ identifier: "IndicesFlush1Request" }) as any as S.Schema<IndicesFlush1Request>;
 
 export interface IndicesFlush2Request {
   /** Comma-separated list of data streams, indices, and aliases to flush. Supports wildcards (`*`). To flush all data streams and indices, omit this parameter or use `*` or `_all`. */
@@ -45228,9 +43946,7 @@ export const IndicesFlush2Request = /*@__PURE__*/ S.suspend(() =>
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
     wait_if_ongoing: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_flush", code: 200 })),
-).annotate({
-  identifier: "IndicesFlush2Request",
-}) as any as S.Schema<IndicesFlush2Request>;
+).annotate({ identifier: "IndicesFlush2Request" }) as any as S.Schema<IndicesFlush2Request>;
 
 export interface IndicesFlush3Request {
   /** Comma-separated list of data streams, indices, and aliases to flush. Supports wildcards (`*`). To flush all data streams and indices, omit this parameter or use `*` or `_all`. */
@@ -45255,9 +43971,7 @@ export const IndicesFlush3Request = /*@__PURE__*/ S.suspend(() =>
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
     wait_if_ongoing: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_flush", code: 200 })),
-).annotate({
-  identifier: "IndicesFlush3Request",
-}) as any as S.Schema<IndicesFlush3Request>;
+).annotate({ identifier: "IndicesFlush3Request" }) as any as S.Schema<IndicesFlush3Request>;
 
 export interface IndicesForcemergeRequest {
   /** A setting that does two separate checks on the index expression. If `false`, the request returns an error (1) if any wildcard expression (including `_all` and `*`) resolves to zero matching indices or (2) if the complete set of resolved indices, aliases or data streams is empty after all expressions are evaluated. If `true`, index expressions that resolve to no indices are allowed and the request returns an empty result. */
@@ -45285,9 +43999,7 @@ export const IndicesForcemergeRequest = /*@__PURE__*/ S.suspend(() =>
     only_expunge_deletes: S.optional(S.Boolean.pipe(T.Query())),
     wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/_forcemerge", code: 200 })),
-).annotate({
-  identifier: "IndicesForcemergeRequest",
-}) as any as S.Schema<IndicesForcemergeRequest>;
+).annotate({ identifier: "IndicesForcemergeRequest" }) as any as S.Schema<IndicesForcemergeRequest>;
 
 export interface IndicesForcemergeResponse {
   _shards?: TypesShardStatistics;
@@ -45367,9 +44079,7 @@ export const IndicesGetAliasRequest = /*@__PURE__*/ S.suspend(() =>
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_alias", code: 200 })),
-).annotate({
-  identifier: "IndicesGetAliasRequest",
-}) as any as S.Schema<IndicesGetAliasRequest>;
+).annotate({ identifier: "IndicesGetAliasRequest" }) as any as S.Schema<IndicesGetAliasRequest>;
 
 export type IndicesGetAliasTypesIndexAliasesAliasesMap = {
   [key: string]: IndicesTypesAliasDefinition | undefined;
@@ -45401,9 +44111,7 @@ export const IndicesGetAliasResponseBodyMap = /*@__PURE__*/ S.Record(
 export type IndicesGetAliasResponse = IndicesGetAliasResponseBodyMap;
 export const IndicesGetAliasResponse = /*@__PURE__*/ S.suspend(() =>
   IndicesGetAliasResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "IndicesGetAliasResponse",
-}) as any as S.Schema<IndicesGetAliasResponse>;
+).annotate({ identifier: "IndicesGetAliasResponse" }) as any as S.Schema<IndicesGetAliasResponse>;
 
 export interface IndicesGetAlias1Request {
   /** Comma-separated list of aliases to retrieve. Supports wildcards (`*`). To retrieve all aliases, omit this parameter or use `*` or `_all`. */
@@ -45425,9 +44133,7 @@ export const IndicesGetAlias1Request = /*@__PURE__*/ S.suspend(() =>
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_alias/{name}", code: 200 })),
-).annotate({
-  identifier: "IndicesGetAlias1Request",
-}) as any as S.Schema<IndicesGetAlias1Request>;
+).annotate({ identifier: "IndicesGetAlias1Request" }) as any as S.Schema<IndicesGetAlias1Request>;
 
 export type IndicesGetAlias1ResponseBodyMap = {
   [key: string]: IndicesGetAliasTypesIndexAliases | undefined;
@@ -45440,9 +44146,7 @@ export const IndicesGetAlias1ResponseBodyMap = /*@__PURE__*/ S.Record(
 export type IndicesGetAlias1Response = IndicesGetAlias1ResponseBodyMap;
 export const IndicesGetAlias1Response = /*@__PURE__*/ S.suspend(() =>
   IndicesGetAlias1ResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "IndicesGetAlias1Response",
-}) as any as S.Schema<IndicesGetAlias1Response>;
+).annotate({ identifier: "IndicesGetAlias1Response" }) as any as S.Schema<IndicesGetAlias1Response>;
 
 export interface IndicesGetAlias2Request {
   /** Comma-separated list of data streams or indices used to limit the request. Supports wildcards (`*`). To target all data streams and indices, omit this parameter or use `*` or `_all`. */
@@ -45467,9 +44171,7 @@ export const IndicesGetAlias2Request = /*@__PURE__*/ S.suspend(() =>
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_alias/{name}", code: 200 })),
-).annotate({
-  identifier: "IndicesGetAlias2Request",
-}) as any as S.Schema<IndicesGetAlias2Request>;
+).annotate({ identifier: "IndicesGetAlias2Request" }) as any as S.Schema<IndicesGetAlias2Request>;
 
 export type IndicesGetAlias2ResponseBodyMap = {
   [key: string]: IndicesGetAliasTypesIndexAliases | undefined;
@@ -45482,9 +44184,7 @@ export const IndicesGetAlias2ResponseBodyMap = /*@__PURE__*/ S.Record(
 export type IndicesGetAlias2Response = IndicesGetAlias2ResponseBodyMap;
 export const IndicesGetAlias2Response = /*@__PURE__*/ S.suspend(() =>
   IndicesGetAlias2ResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "IndicesGetAlias2Response",
-}) as any as S.Schema<IndicesGetAlias2Response>;
+).annotate({ identifier: "IndicesGetAlias2Response" }) as any as S.Schema<IndicesGetAlias2Response>;
 
 export interface IndicesGetAlias3Request {
   /** Comma-separated list of data streams or indices used to limit the request. Supports wildcards (`*`). To target all data streams and indices, omit this parameter or use `*` or `_all`. */
@@ -45506,9 +44206,7 @@ export const IndicesGetAlias3Request = /*@__PURE__*/ S.suspend(() =>
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_alias", code: 200 })),
-).annotate({
-  identifier: "IndicesGetAlias3Request",
-}) as any as S.Schema<IndicesGetAlias3Request>;
+).annotate({ identifier: "IndicesGetAlias3Request" }) as any as S.Schema<IndicesGetAlias3Request>;
 
 export type IndicesGetAlias3ResponseBodyMap = {
   [key: string]: IndicesGetAliasTypesIndexAliases | undefined;
@@ -45521,9 +44219,7 @@ export const IndicesGetAlias3ResponseBodyMap = /*@__PURE__*/ S.Record(
 export type IndicesGetAlias3Response = IndicesGetAlias3ResponseBodyMap;
 export const IndicesGetAlias3Response = /*@__PURE__*/ S.suspend(() =>
   IndicesGetAlias3ResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "IndicesGetAlias3Response",
-}) as any as S.Schema<IndicesGetAlias3Response>;
+).annotate({ identifier: "IndicesGetAlias3Response" }) as any as S.Schema<IndicesGetAlias3Response>;
 
 export interface IndicesGetDataLifecycleRequest {
   /** Comma-separated list of data streams to limit the request. Supports wildcards (`*`). To target all data streams, omit this parameter or use `*` or `_all`. */
@@ -45541,13 +44237,7 @@ export const IndicesGetDataLifecycleRequest = /*@__PURE__*/ S.suspend(() =>
     expand_wildcards: S.optional(TypesExpandWildcards.pipe(T.Query())),
     include_defaults: S.optional(S.Boolean.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_data_stream/{name}/_lifecycle",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_data_stream/{name}/_lifecycle", code: 200 })),
 ).annotate({
   identifier: "IndicesGetDataLifecycleRequest",
 }) as any as S.Schema<IndicesGetDataLifecycleRequest>;
@@ -45723,9 +44413,7 @@ export const IndicesTypesFailureStore = /*@__PURE__*/ S.suspend(() =>
     indices: IndicesTypesFailureStoreIndicesList,
     rollover_on_write: S.Boolean,
   }),
-).annotate({
-  identifier: "IndicesTypesFailureStore",
-}) as any as S.Schema<IndicesTypesFailureStore>;
+).annotate({ identifier: "IndicesTypesFailureStore" }) as any as S.Schema<IndicesTypesFailureStore>;
 
 /** Array of objects containing information about the data stream’s backing indices. The last item in this array contains information about the stream’s current write index. */
 export type IndicesTypesDataStreamIndicesList = Array<IndicesTypesDataStreamIndex>;
@@ -45810,9 +44498,7 @@ export const IndicesTypesDataStream = /*@__PURE__*/ S.suspend(() =>
     timestamp_field: IndicesTypesDataStreamTimestampField,
     index_mode: S.optional(IndicesTypesIndexMode),
   }),
-).annotate({
-  identifier: "IndicesTypesDataStream",
-}) as any as S.Schema<IndicesTypesDataStream>;
+).annotate({ identifier: "IndicesTypesDataStream" }) as any as S.Schema<IndicesTypesDataStream>;
 
 export type IndicesGetDataStreamResponseDataStreamsList = Array<IndicesTypesDataStream>;
 export const IndicesGetDataStreamResponseDataStreamsList = /*@__PURE__*/ S.Array(
@@ -46059,9 +44745,7 @@ export const TypesMappingFieldMapping = /*@__PURE__*/ S.suspend(() =>
     full_name: S.String,
     mapping: TypesMappingFieldMappingMappingMap,
   }),
-).annotate({
-  identifier: "TypesMappingFieldMapping",
-}) as any as S.Schema<TypesMappingFieldMapping>;
+).annotate({ identifier: "TypesMappingFieldMapping" }) as any as S.Schema<TypesMappingFieldMapping>;
 
 export type IndicesGetFieldMappingTypeFieldMappingsMappingsMap = {
   [key: string]: TypesMappingFieldMapping | undefined;
@@ -46119,13 +44803,7 @@ export const IndicesGetFieldMapping1Request = /*@__PURE__*/ S.suspend(() =>
     expand_wildcards: S.optional(TypesExpandWildcards.pipe(T.Query())),
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
     include_defaults: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/{index}/_mapping/field/{fields}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/{index}/_mapping/field/{fields}", code: 200 })),
 ).annotate({
   identifier: "IndicesGetFieldMapping1Request",
 }) as any as S.Schema<IndicesGetFieldMapping1Request>;
@@ -46165,9 +44843,7 @@ export const IndicesGetMappingRequest = /*@__PURE__*/ S.suspend(() =>
     local: S.optional(S.Boolean.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_mapping", code: 200 })),
-).annotate({
-  identifier: "IndicesGetMappingRequest",
-}) as any as S.Schema<IndicesGetMappingRequest>;
+).annotate({ identifier: "IndicesGetMappingRequest" }) as any as S.Schema<IndicesGetMappingRequest>;
 
 export interface IndicesGetMappingIndexMappingRecord {
   item?: TypesMappingTypeMapping;
@@ -46246,13 +44922,7 @@ export interface IndicesGetMigrateReindexStatusRequest {
 export const IndicesGetMigrateReindexStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_migration/reindex/{index}/_status",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_migration/reindex/{index}/_status", code: 200 })),
 ).annotate({
   identifier: "IndicesGetMigrateReindexStatusRequest",
 }) as any as S.Schema<IndicesGetMigrateReindexStatusRequest>;
@@ -46642,9 +45312,7 @@ export const IndicesOpenRequest = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(TypesDuration.pipe(T.Query())),
     wait_for_active_shards: S.optional(TypesWaitForActiveShards.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_open", code: 200 })),
-).annotate({
-  identifier: "IndicesOpenRequest",
-}) as any as S.Schema<IndicesOpenRequest>;
+).annotate({ identifier: "IndicesOpenRequest" }) as any as S.Schema<IndicesOpenRequest>;
 
 export interface IndicesOpenResponse {
   acknowledged: boolean;
@@ -46655,9 +45323,7 @@ export const IndicesOpenResponse = /*@__PURE__*/ S.suspend(() =>
     acknowledged: S.Boolean,
     shards_acknowledged: S.Boolean,
   }),
-).annotate({
-  identifier: "IndicesOpenResponse",
-}) as any as S.Schema<IndicesOpenResponse>;
+).annotate({ identifier: "IndicesOpenResponse" }) as any as S.Schema<IndicesOpenResponse>;
 
 export interface IndicesPromoteDataStreamRequest {
   /** The name of the data stream to promote */
@@ -46713,9 +45379,7 @@ export const IndicesPutAliasRequest = /*@__PURE__*/ S.suspend(() =>
     routing: S.optional(S.String),
     search_routing: S.optional(S.String),
   }).pipe(T.Http({ method: "PUT", uri: "/{index}/_alias/{name}", code: 200 })),
-).annotate({
-  identifier: "IndicesPutAliasRequest",
-}) as any as S.Schema<IndicesPutAliasRequest>;
+).annotate({ identifier: "IndicesPutAliasRequest" }) as any as S.Schema<IndicesPutAliasRequest>;
 
 export interface IndicesPutAlias1Request {
   /** Comma-separated list of data streams or indices to add. Supports wildcards (`*`). Wildcard patterns that match both data streams and indices return an error. */
@@ -46749,9 +45413,7 @@ export const IndicesPutAlias1Request = /*@__PURE__*/ S.suspend(() =>
     routing: S.optional(S.String),
     search_routing: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_alias/{name}", code: 200 })),
-).annotate({
-  identifier: "IndicesPutAlias1Request",
-}) as any as S.Schema<IndicesPutAlias1Request>;
+).annotate({ identifier: "IndicesPutAlias1Request" }) as any as S.Schema<IndicesPutAlias1Request>;
 
 export interface IndicesPutAlias2Request {
   /** Comma-separated list of data streams or indices to add. Supports wildcards (`*`). Wildcard patterns that match both data streams and indices return an error. */
@@ -46785,9 +45447,7 @@ export const IndicesPutAlias2Request = /*@__PURE__*/ S.suspend(() =>
     routing: S.optional(S.String),
     search_routing: S.optional(S.String),
   }).pipe(T.Http({ method: "PUT", uri: "/{index}/_aliases/{name}", code: 200 })),
-).annotate({
-  identifier: "IndicesPutAlias2Request",
-}) as any as S.Schema<IndicesPutAlias2Request>;
+).annotate({ identifier: "IndicesPutAlias2Request" }) as any as S.Schema<IndicesPutAlias2Request>;
 
 export interface IndicesPutAlias3Request {
   /** Comma-separated list of data streams or indices to add. Supports wildcards (`*`). Wildcard patterns that match both data streams and indices return an error. */
@@ -46821,9 +45481,7 @@ export const IndicesPutAlias3Request = /*@__PURE__*/ S.suspend(() =>
     routing: S.optional(S.String),
     search_routing: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_aliases/{name}", code: 200 })),
-).annotate({
-  identifier: "IndicesPutAlias3Request",
-}) as any as S.Schema<IndicesPutAlias3Request>;
+).annotate({ identifier: "IndicesPutAlias3Request" }) as any as S.Schema<IndicesPutAlias3Request>;
 
 /** The downsampling configuration to execute for the managed backing index after rollover. */
 export type IndicesPutDataLifecycleRequestDownsamplingList = Array<IndicesTypesDownsamplingRound>;
@@ -46859,13 +45517,7 @@ export const IndicesPutDataLifecycleRequest = /*@__PURE__*/ S.suspend(() =>
     downsampling: S.optional(IndicesPutDataLifecycleRequestDownsamplingList),
     downsampling_method: S.optional(IndicesTypesSamplingMethod),
     enabled: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_data_stream/{name}/_lifecycle",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_data_stream/{name}/_lifecycle", code: 200 })),
 ).annotate({
   identifier: "IndicesPutDataLifecycleRequest",
 }) as any as S.Schema<IndicesPutDataLifecycleRequest>;
@@ -47399,9 +46051,7 @@ export const IndicesPutMappingRequest = /*@__PURE__*/ S.suspend(() =>
     _source: S.optional(TypesMappingSourceField),
     runtime: S.optional(TypesMappingRuntimeFields),
   }).pipe(T.Http({ method: "PUT", uri: "/{index}/_mapping", code: 200 })),
-).annotate({
-  identifier: "IndicesPutMappingRequest",
-}) as any as S.Schema<IndicesPutMappingRequest>;
+).annotate({ identifier: "IndicesPutMappingRequest" }) as any as S.Schema<IndicesPutMappingRequest>;
 
 export interface IndicesPutMappingResponse {
   /** For a successful response, this value is always true. On failure, an exception is returned instead. */
@@ -47922,7 +46572,7 @@ export const IndicesPutSettings1Request = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<IndicesPutSettings1Request>;
 
 export interface IndicesRecoveryRequest {
-  /** If `true`, the response only includes ongoing shard recoveries. */
+  /** If `true`, the response only includes shard recoveries that have not yet completed (excludes `DONE` stage). */
   active_only?: boolean;
   /** If `true`, the response includes detailed information about shard recoveries. */
   detailed?: boolean;
@@ -47941,9 +46591,7 @@ export const IndicesRecoveryRequest = /*@__PURE__*/ S.suspend(() =>
     expand_wildcards: S.optional(TypesExpandWildcards.pipe(T.Query())),
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_recovery", code: 200 })),
-).annotate({
-  identifier: "IndicesRecoveryRequest",
-}) as any as S.Schema<IndicesRecoveryRequest>;
+).annotate({ identifier: "IndicesRecoveryRequest" }) as any as S.Schema<IndicesRecoveryRequest>;
 
 export interface IndicesRecoveryRecoveryBytes {
   percent: TypesPercentage;
@@ -48072,6 +46720,7 @@ export const IndicesRecoveryRecoveryOrigin = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<IndicesRecoveryRecoveryOrigin>;
 
 export type IndicesRecoveryRecoveryStage =
+  | "CREATED"
   | "INIT"
   | "INDEX"
   | "VERIFY_INDEX"
@@ -48146,15 +46795,26 @@ export interface IndicesRecoveryShardRecovery {
   source: IndicesRecoveryRecoveryOrigin;
   /** The recovery stage. */
   stage: IndicesRecoveryRecoveryStage;
+  /** The number of times this recovery has failed in a way which is retried locally (i.e. on the data node). */
+  local_retries?: number;
   /** The recovery priority. */
   priority?: IndicesRecoveryRecoveryPriority;
+  /** The name of the recovery gate that blocked recovery on the target node. Only present for queued recoveries in the `CREATED` stage that are blocked by a recovery gate. */
+  gate?: string;
+  /** The elapsed time in milliseconds recovery is blocked for. Only present with `gate`. */
+  blocked_for_millis?: number;
   start?: IndicesRecoveryRecoveryStartStatus;
+  /** The time the recovery started. For recoveries in the `CREATED` stage (not yet started), this value is the Unix epoch (1970-01-01T00:00:00.000Z). */
   start_time?: TypesDateTime;
+  /** The time the recovery started, in milliseconds since the Unix epoch. For recoveries in the `CREATED` stage (not yet started), this value is 0. */
   start_time_in_millis: number;
+  /** The time the recovery completed. Only present for completed recoveries (`DONE` stage). */
   stop_time?: TypesDateTime;
+  /** The time the recovery completed, in milliseconds since the Unix epoch. Only present for completed recoveries (`DONE` stage). */
   stop_time_in_millis?: number;
   target: IndicesRecoveryRecoveryOrigin;
   total_time?: TypesDuration;
+  /** The total elapsed recovery time in milliseconds. For recoveries in the `CREATED` stage (not yet started), this value is 0. */
   total_time_in_millis: number;
   translog: IndicesRecoveryTranslogStatus;
   /** The recovery source type. */
@@ -48168,7 +46828,10 @@ export const IndicesRecoveryShardRecovery = /*@__PURE__*/ S.suspend(() =>
     primary: S.Boolean,
     source: IndicesRecoveryRecoveryOrigin,
     stage: IndicesRecoveryRecoveryStage,
+    local_retries: S.optional(S.Number),
     priority: S.optional(IndicesRecoveryRecoveryPriority),
+    gate: S.optional(S.String),
+    blocked_for_millis: S.optional(S.Number),
     start: S.optional(IndicesRecoveryRecoveryStartStatus),
     start_time: S.optional(TypesDateTime),
     start_time_in_millis: S.Number,
@@ -48212,14 +46875,12 @@ export const IndicesRecoveryResponseBodyMap = /*@__PURE__*/ S.Record(
 export type IndicesRecoveryResponse = IndicesRecoveryResponseBodyMap;
 export const IndicesRecoveryResponse = /*@__PURE__*/ S.suspend(() =>
   IndicesRecoveryResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "IndicesRecoveryResponse",
-}) as any as S.Schema<IndicesRecoveryResponse>;
+).annotate({ identifier: "IndicesRecoveryResponse" }) as any as S.Schema<IndicesRecoveryResponse>;
 
 export interface IndicesRecovery1Request {
   /** Comma-separated list of data streams, indices, and aliases used to limit the request. Supports wildcards (`*`). To target all data streams and indices, omit this parameter or use `*` or `_all`. */
   index: string;
-  /** If `true`, the response only includes ongoing shard recoveries. */
+  /** If `true`, the response only includes shard recoveries that have not yet completed (excludes `DONE` stage). */
   active_only?: boolean;
   /** If `true`, the response includes detailed information about shard recoveries. */
   detailed?: boolean;
@@ -48239,9 +46900,7 @@ export const IndicesRecovery1Request = /*@__PURE__*/ S.suspend(() =>
     expand_wildcards: S.optional(TypesExpandWildcards.pipe(T.Query())),
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_recovery", code: 200 })),
-).annotate({
-  identifier: "IndicesRecovery1Request",
-}) as any as S.Schema<IndicesRecovery1Request>;
+).annotate({ identifier: "IndicesRecovery1Request" }) as any as S.Schema<IndicesRecovery1Request>;
 
 export type IndicesRecovery1ResponseBodyMap = {
   [key: string]: IndicesRecoveryRecoveryStatus | undefined;
@@ -48254,9 +46913,7 @@ export const IndicesRecovery1ResponseBodyMap = /*@__PURE__*/ S.Record(
 export type IndicesRecovery1Response = IndicesRecovery1ResponseBodyMap;
 export const IndicesRecovery1Response = /*@__PURE__*/ S.suspend(() =>
   IndicesRecovery1ResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "IndicesRecovery1Response",
-}) as any as S.Schema<IndicesRecovery1Response>;
+).annotate({ identifier: "IndicesRecovery1Response" }) as any as S.Schema<IndicesRecovery1Response>;
 
 export interface IndicesRefresh1Request {
   /** A setting that does two separate checks on the index expression. If `false`, the request returns an error (1) if any wildcard expression (including `_all` and `*`) resolves to zero matching indices or (2) if the complete set of resolved indices, aliases or data streams is empty after all expressions are evaluated. If `true`, index expressions that resolve to no indices are allowed and the request returns an empty result. */
@@ -48272,9 +46929,7 @@ export const IndicesRefresh1Request = /*@__PURE__*/ S.suspend(() =>
     expand_wildcards: S.optional(TypesExpandWildcards.pipe(T.Query())),
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_refresh", code: 200 })),
-).annotate({
-  identifier: "IndicesRefresh1Request",
-}) as any as S.Schema<IndicesRefresh1Request>;
+).annotate({ identifier: "IndicesRefresh1Request" }) as any as S.Schema<IndicesRefresh1Request>;
 
 export interface IndicesRefresh2Request {
   /** Comma-separated list of data streams, indices, and aliases used to limit the request. Supports wildcards (`*`). To target all data streams and indices, omit this parameter or use `*` or `_all`. */
@@ -48293,9 +46948,7 @@ export const IndicesRefresh2Request = /*@__PURE__*/ S.suspend(() =>
     expand_wildcards: S.optional(TypesExpandWildcards.pipe(T.Query())),
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_refresh", code: 200 })),
-).annotate({
-  identifier: "IndicesRefresh2Request",
-}) as any as S.Schema<IndicesRefresh2Request>;
+).annotate({ identifier: "IndicesRefresh2Request" }) as any as S.Schema<IndicesRefresh2Request>;
 
 export interface IndicesRefresh3Request {
   /** Comma-separated list of data streams, indices, and aliases used to limit the request. Supports wildcards (`*`). To target all data streams and indices, omit this parameter or use `*` or `_all`. */
@@ -48314,9 +46967,7 @@ export const IndicesRefresh3Request = /*@__PURE__*/ S.suspend(() =>
     expand_wildcards: S.optional(TypesExpandWildcards.pipe(T.Query())),
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_refresh", code: 200 })),
-).annotate({
-  identifier: "IndicesRefresh3Request",
-}) as any as S.Schema<IndicesRefresh3Request>;
+).annotate({ identifier: "IndicesRefresh3Request" }) as any as S.Schema<IndicesRefresh3Request>;
 
 export interface IndicesReloadSearchAnalyzersRequest {
   /** A comma-separated list of index names to reload analyzers for */
@@ -48337,13 +46988,7 @@ export const IndicesReloadSearchAnalyzersRequest = /*@__PURE__*/ S.suspend(() =>
     expand_wildcards: S.optional(TypesExpandWildcards.pipe(T.Query())),
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
     resource: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/{index}/_reload_search_analyzers",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/{index}/_reload_search_analyzers", code: 200 })),
 ).annotate({
   identifier: "IndicesReloadSearchAnalyzersRequest",
 }) as any as S.Schema<IndicesReloadSearchAnalyzersRequest>;
@@ -48367,13 +47012,7 @@ export const IndicesReloadSearchAnalyzers1Request = /*@__PURE__*/ S.suspend(() =
     expand_wildcards: S.optional(TypesExpandWildcards.pipe(T.Query())),
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
     resource: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/{index}/_reload_search_analyzers",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/{index}/_reload_search_analyzers", code: 200 })),
 ).annotate({
   identifier: "IndicesReloadSearchAnalyzers1Request",
 }) as any as S.Schema<IndicesReloadSearchAnalyzers1Request>;
@@ -48761,9 +47400,7 @@ export const IndicesResolveIndex1Response = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<IndicesResolveIndex1Response>;
 
 /** Aliases for the target index. Data streams do not support this parameter. */
-export type IndicesRolloverRequestAliasesMap = {
-  [key: string]: IndicesTypesAlias | undefined;
-};
+export type IndicesRolloverRequestAliasesMap = { [key: string]: IndicesTypesAlias | undefined };
 export const IndicesRolloverRequestAliasesMap = /*@__PURE__*/ S.Record(
   S.String,
   IndicesTypesAlias,
@@ -48810,9 +47447,7 @@ export const IndicesRolloverRolloverConditions = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<IndicesRolloverRolloverConditions>;
 
 /** Configuration options for the index. Data streams do not support this parameter. */
-export type IndicesRolloverRequestSettingsMap = {
-  [key: string]: unknown | undefined;
-};
+export type IndicesRolloverRequestSettingsMap = { [key: string]: unknown | undefined };
 export const IndicesRolloverRequestSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -48853,13 +47488,9 @@ export const IndicesRolloverRequest = /*@__PURE__*/ S.suspend(() =>
     mappings: S.optional(TypesMappingTypeMapping),
     settings: S.optional(IndicesRolloverRequestSettingsMap),
   }).pipe(T.Http({ method: "POST", uri: "/{alias}/_rollover", code: 200 })),
-).annotate({
-  identifier: "IndicesRolloverRequest",
-}) as any as S.Schema<IndicesRolloverRequest>;
+).annotate({ identifier: "IndicesRolloverRequest" }) as any as S.Schema<IndicesRolloverRequest>;
 
-export type IndicesRolloverResponseConditionsMap = {
-  [key: string]: boolean | undefined;
-};
+export type IndicesRolloverResponseConditionsMap = { [key: string]: boolean | undefined };
 export const IndicesRolloverResponseConditionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Boolean,
@@ -48884,23 +47515,17 @@ export const IndicesRolloverResponse = /*@__PURE__*/ S.suspend(() =>
     rolled_over: S.Boolean,
     shards_acknowledged: S.Boolean,
   }),
-).annotate({
-  identifier: "IndicesRolloverResponse",
-}) as any as S.Schema<IndicesRolloverResponse>;
+).annotate({ identifier: "IndicesRolloverResponse" }) as any as S.Schema<IndicesRolloverResponse>;
 
 /** Aliases for the target index. Data streams do not support this parameter. */
-export type IndicesRollover1RequestAliasesMap = {
-  [key: string]: IndicesTypesAlias | undefined;
-};
+export type IndicesRollover1RequestAliasesMap = { [key: string]: IndicesTypesAlias | undefined };
 export const IndicesRollover1RequestAliasesMap = /*@__PURE__*/ S.Record(
   S.String,
   IndicesTypesAlias,
 ) as any as S.Schema<IndicesRollover1RequestAliasesMap>;
 
 /** Configuration options for the index. Data streams do not support this parameter. */
-export type IndicesRollover1RequestSettingsMap = {
-  [key: string]: unknown | undefined;
-};
+export type IndicesRollover1RequestSettingsMap = { [key: string]: unknown | undefined };
 export const IndicesRollover1RequestSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -48943,20 +47568,10 @@ export const IndicesRollover1Request = /*@__PURE__*/ S.suspend(() =>
     conditions: S.optional(IndicesRolloverRolloverConditions),
     mappings: S.optional(TypesMappingTypeMapping),
     settings: S.optional(IndicesRollover1RequestSettingsMap),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/{alias}/_rollover/{new_index}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "IndicesRollover1Request",
-}) as any as S.Schema<IndicesRollover1Request>;
+  }).pipe(T.Http({ method: "POST", uri: "/{alias}/_rollover/{new_index}", code: 200 })),
+).annotate({ identifier: "IndicesRollover1Request" }) as any as S.Schema<IndicesRollover1Request>;
 
-export type IndicesRollover1ResponseConditionsMap = {
-  [key: string]: boolean | undefined;
-};
+export type IndicesRollover1ResponseConditionsMap = { [key: string]: boolean | undefined };
 export const IndicesRollover1ResponseConditionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Boolean,
@@ -48981,9 +47596,7 @@ export const IndicesRollover1Response = /*@__PURE__*/ S.suspend(() =>
     rolled_over: S.Boolean,
     shards_acknowledged: S.Boolean,
   }),
-).annotate({
-  identifier: "IndicesRollover1Response",
-}) as any as S.Schema<IndicesRollover1Response>;
+).annotate({ identifier: "IndicesRollover1Response" }) as any as S.Schema<IndicesRollover1Response>;
 
 export interface IndicesSegmentsRequest {
   /** A setting that does two separate checks on the index expression. If `false`, the request returns an error (1) if any wildcard expression (including `_all` and `*`) resolves to zero matching indices or (2) if the complete set of resolved indices, aliases or data streams is empty after all expressions are evaluated. If `true`, index expressions that resolve to no indices are allowed and the request returns an empty result. */
@@ -48999,9 +47612,7 @@ export const IndicesSegmentsRequest = /*@__PURE__*/ S.suspend(() =>
     expand_wildcards: S.optional(TypesExpandWildcards.pipe(T.Query())),
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_segments", code: 200 })),
-).annotate({
-  identifier: "IndicesSegmentsRequest",
-}) as any as S.Schema<IndicesSegmentsRequest>;
+).annotate({ identifier: "IndicesSegmentsRequest" }) as any as S.Schema<IndicesSegmentsRequest>;
 
 export interface IndicesSegmentsShardSegmentRouting {
   /** The node ID of the node that holds the shard. */
@@ -49022,9 +47633,7 @@ export const IndicesSegmentsShardSegmentRouting = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<IndicesSegmentsShardSegmentRouting>;
 
 /** Contains information about whether high compression was enabled and per-field vector formats. */
-export type IndicesSegmentsSegmentAttributesMap = {
-  [key: string]: string | undefined;
-};
+export type IndicesSegmentsSegmentAttributesMap = { [key: string]: string | undefined };
 export const IndicesSegmentsSegmentAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -49062,9 +47671,7 @@ export const IndicesSegmentsSegment = /*@__PURE__*/ S.suspend(() =>
     num_docs: S.Number,
     version: S.String,
   }),
-).annotate({
-  identifier: "IndicesSegmentsSegment",
-}) as any as S.Schema<IndicesSegmentsSegment>;
+).annotate({ identifier: "IndicesSegmentsSegment" }) as any as S.Schema<IndicesSegmentsSegment>;
 
 export type IndicesSegmentsShardsSegmentSegmentsMap = {
   [key: string]: IndicesSegmentsSegment | undefined;
@@ -49138,9 +47745,7 @@ export const IndicesSegmentsResponse = /*@__PURE__*/ S.suspend(() =>
     indices: IndicesSegmentsResponseIndicesMap,
     _shards: TypesShardStatistics,
   }),
-).annotate({
-  identifier: "IndicesSegmentsResponse",
-}) as any as S.Schema<IndicesSegmentsResponse>;
+).annotate({ identifier: "IndicesSegmentsResponse" }) as any as S.Schema<IndicesSegmentsResponse>;
 
 export interface IndicesSegments1Request {
   /** Comma-separated list of data streams, indices, and aliases used to limit the request. Supports wildcards (`*`). To target all data streams and indices, omit this parameter or use `*` or `_all`. */
@@ -49159,9 +47764,7 @@ export const IndicesSegments1Request = /*@__PURE__*/ S.suspend(() =>
     expand_wildcards: S.optional(TypesExpandWildcards.pipe(T.Query())),
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_segments", code: 200 })),
-).annotate({
-  identifier: "IndicesSegments1Request",
-}) as any as S.Schema<IndicesSegments1Request>;
+).annotate({ identifier: "IndicesSegments1Request" }) as any as S.Schema<IndicesSegments1Request>;
 
 export type IndicesSegments1ResponseIndicesMap = {
   [key: string]: IndicesSegmentsIndexSegment | undefined;
@@ -49180,9 +47783,7 @@ export const IndicesSegments1Response = /*@__PURE__*/ S.suspend(() =>
     indices: IndicesSegments1ResponseIndicesMap,
     _shards: TypesShardStatistics,
   }),
-).annotate({
-  identifier: "IndicesSegments1Response",
-}) as any as S.Schema<IndicesSegments1Response>;
+).annotate({ identifier: "IndicesSegments1Response" }) as any as S.Schema<IndicesSegments1Response>;
 
 export type IndicesShardStoresShardStoreStatus = "green" | "yellow" | "red" | "all";
 export const IndicesShardStoresShardStoreStatus = S.String;
@@ -49366,18 +47967,14 @@ export const IndicesShardStores1Response = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<IndicesShardStores1Response>;
 
 /** The key is the alias name. Index alias names support date math. */
-export type IndicesShrinkRequestAliasesMap = {
-  [key: string]: IndicesTypesAlias | undefined;
-};
+export type IndicesShrinkRequestAliasesMap = { [key: string]: IndicesTypesAlias | undefined };
 export const IndicesShrinkRequestAliasesMap = /*@__PURE__*/ S.Record(
   S.String,
   IndicesTypesAlias,
 ) as any as S.Schema<IndicesShrinkRequestAliasesMap>;
 
 /** Configuration options for the target index. */
-export type IndicesShrinkRequestSettingsMap = {
-  [key: string]: unknown | undefined;
-};
+export type IndicesShrinkRequestSettingsMap = { [key: string]: unknown | undefined };
 export const IndicesShrinkRequestSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -49409,9 +48006,7 @@ export const IndicesShrinkRequest = /*@__PURE__*/ S.suspend(() =>
     aliases: S.optional(IndicesShrinkRequestAliasesMap),
     settings: S.optional(IndicesShrinkRequestSettingsMap),
   }).pipe(T.Http({ method: "PUT", uri: "/{index}/_shrink/{target}", code: 200 })),
-).annotate({
-  identifier: "IndicesShrinkRequest",
-}) as any as S.Schema<IndicesShrinkRequest>;
+).annotate({ identifier: "IndicesShrinkRequest" }) as any as S.Schema<IndicesShrinkRequest>;
 
 export interface IndicesShrinkResponse {
   acknowledged: boolean;
@@ -49424,23 +48019,17 @@ export const IndicesShrinkResponse = /*@__PURE__*/ S.suspend(() =>
     shards_acknowledged: S.Boolean,
     index: S.String,
   }),
-).annotate({
-  identifier: "IndicesShrinkResponse",
-}) as any as S.Schema<IndicesShrinkResponse>;
+).annotate({ identifier: "IndicesShrinkResponse" }) as any as S.Schema<IndicesShrinkResponse>;
 
 /** The key is the alias name. Index alias names support date math. */
-export type IndicesShrink1RequestAliasesMap = {
-  [key: string]: IndicesTypesAlias | undefined;
-};
+export type IndicesShrink1RequestAliasesMap = { [key: string]: IndicesTypesAlias | undefined };
 export const IndicesShrink1RequestAliasesMap = /*@__PURE__*/ S.Record(
   S.String,
   IndicesTypesAlias,
 ) as any as S.Schema<IndicesShrink1RequestAliasesMap>;
 
 /** Configuration options for the target index. */
-export type IndicesShrink1RequestSettingsMap = {
-  [key: string]: unknown | undefined;
-};
+export type IndicesShrink1RequestSettingsMap = { [key: string]: unknown | undefined };
 export const IndicesShrink1RequestSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -49472,9 +48061,7 @@ export const IndicesShrink1Request = /*@__PURE__*/ S.suspend(() =>
     aliases: S.optional(IndicesShrink1RequestAliasesMap),
     settings: S.optional(IndicesShrink1RequestSettingsMap),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_shrink/{target}", code: 200 })),
-).annotate({
-  identifier: "IndicesShrink1Request",
-}) as any as S.Schema<IndicesShrink1Request>;
+).annotate({ identifier: "IndicesShrink1Request" }) as any as S.Schema<IndicesShrink1Request>;
 
 export interface IndicesShrink1Response {
   acknowledged: boolean;
@@ -49487,9 +48074,7 @@ export const IndicesShrink1Response = /*@__PURE__*/ S.suspend(() =>
     shards_acknowledged: S.Boolean,
     index: S.String,
   }),
-).annotate({
-  identifier: "IndicesShrink1Response",
-}) as any as S.Schema<IndicesShrink1Response>;
+).annotate({ identifier: "IndicesShrink1Response" }) as any as S.Schema<IndicesShrink1Response>;
 
 /** An ordered list of component template names. Component templates are merged in the order specified, meaning that the last component template specified has the highest precedence. */
 export type IndicesSimulateIndexTemplateRequestComposedOfList = Array<string>;
@@ -49588,13 +48173,7 @@ export const IndicesSimulateIndexTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     created_date_millis: S.optional(S.Number),
     modified_date: S.optional(TypesDateTime),
     modified_date_millis: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_index_template/_simulate_index/{name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_index_template/_simulate_index/{name}", code: 200 })),
 ).annotate({
   identifier: "IndicesSimulateIndexTemplateRequest",
 }) as any as S.Schema<IndicesSimulateIndexTemplateRequest>;
@@ -49823,13 +48402,7 @@ export const IndicesSimulateTemplate1Request = /*@__PURE__*/ S.suspend(() =>
       IndicesSimulateTemplate1RequestIgnoreMissingComponentTemplatesList,
     ),
     deprecated: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_index_template/_simulate/{name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_index_template/_simulate/{name}", code: 200 })),
 ).annotate({
   identifier: "IndicesSimulateTemplate1Request",
 }) as any as S.Schema<IndicesSimulateTemplate1Request>;
@@ -49854,18 +48427,14 @@ export const IndicesSimulateTemplate1Response = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<IndicesSimulateTemplate1Response>;
 
 /** Aliases for the resulting index. */
-export type IndicesSplitRequestAliasesMap = {
-  [key: string]: IndicesTypesAlias | undefined;
-};
+export type IndicesSplitRequestAliasesMap = { [key: string]: IndicesTypesAlias | undefined };
 export const IndicesSplitRequestAliasesMap = /*@__PURE__*/ S.Record(
   S.String,
   IndicesTypesAlias,
 ) as any as S.Schema<IndicesSplitRequestAliasesMap>;
 
 /** Configuration options for the target index. */
-export type IndicesSplitRequestSettingsMap = {
-  [key: string]: unknown | undefined;
-};
+export type IndicesSplitRequestSettingsMap = { [key: string]: unknown | undefined };
 export const IndicesSplitRequestSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -49897,9 +48466,7 @@ export const IndicesSplitRequest = /*@__PURE__*/ S.suspend(() =>
     aliases: S.optional(IndicesSplitRequestAliasesMap),
     settings: S.optional(IndicesSplitRequestSettingsMap),
   }).pipe(T.Http({ method: "PUT", uri: "/{index}/_split/{target}", code: 200 })),
-).annotate({
-  identifier: "IndicesSplitRequest",
-}) as any as S.Schema<IndicesSplitRequest>;
+).annotate({ identifier: "IndicesSplitRequest" }) as any as S.Schema<IndicesSplitRequest>;
 
 export interface IndicesSplitResponse {
   acknowledged: boolean;
@@ -49912,23 +48479,17 @@ export const IndicesSplitResponse = /*@__PURE__*/ S.suspend(() =>
     shards_acknowledged: S.Boolean,
     index: S.String,
   }),
-).annotate({
-  identifier: "IndicesSplitResponse",
-}) as any as S.Schema<IndicesSplitResponse>;
+).annotate({ identifier: "IndicesSplitResponse" }) as any as S.Schema<IndicesSplitResponse>;
 
 /** Aliases for the resulting index. */
-export type IndicesSplit1RequestAliasesMap = {
-  [key: string]: IndicesTypesAlias | undefined;
-};
+export type IndicesSplit1RequestAliasesMap = { [key: string]: IndicesTypesAlias | undefined };
 export const IndicesSplit1RequestAliasesMap = /*@__PURE__*/ S.Record(
   S.String,
   IndicesTypesAlias,
 ) as any as S.Schema<IndicesSplit1RequestAliasesMap>;
 
 /** Configuration options for the target index. */
-export type IndicesSplit1RequestSettingsMap = {
-  [key: string]: unknown | undefined;
-};
+export type IndicesSplit1RequestSettingsMap = { [key: string]: unknown | undefined };
 export const IndicesSplit1RequestSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -49960,9 +48521,7 @@ export const IndicesSplit1Request = /*@__PURE__*/ S.suspend(() =>
     aliases: S.optional(IndicesSplit1RequestAliasesMap),
     settings: S.optional(IndicesSplit1RequestSettingsMap),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_split/{target}", code: 200 })),
-).annotate({
-  identifier: "IndicesSplit1Request",
-}) as any as S.Schema<IndicesSplit1Request>;
+).annotate({ identifier: "IndicesSplit1Request" }) as any as S.Schema<IndicesSplit1Request>;
 
 export interface IndicesSplit1Response {
   acknowledged: boolean;
@@ -49975,9 +48534,7 @@ export const IndicesSplit1Response = /*@__PURE__*/ S.suspend(() =>
     shards_acknowledged: S.Boolean,
     index: S.String,
   }),
-).annotate({
-  identifier: "IndicesSplit1Response",
-}) as any as S.Schema<IndicesSplit1Response>;
+).annotate({ identifier: "IndicesSplit1Response" }) as any as S.Schema<IndicesSplit1Response>;
 
 export type IndicesStatsRequestGroupsCase1List = Array<string>;
 export const IndicesStatsRequestGroupsCase1List = /*@__PURE__*/ S.Array(
@@ -50019,9 +48576,7 @@ export const IndicesStatsRequest = /*@__PURE__*/ S.suspend(() =>
     include_unloaded_segments: S.optional(S.Boolean.pipe(T.Query())),
     level: S.optional(TypesLevel.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_stats", code: 200 })),
-).annotate({
-  identifier: "IndicesStatsRequest",
-}) as any as S.Schema<IndicesStatsRequest>;
+).annotate({ identifier: "IndicesStatsRequest" }) as any as S.Schema<IndicesStatsRequest>;
 
 export interface TypesFlushStats {
   periodic: number;
@@ -50040,9 +48595,7 @@ export const TypesFlushStats = /*@__PURE__*/ S.suspend(() =>
     total_time_excluding_waiting: S.optional(TypesDuration),
     total_time_excluding_waiting_on_lock_in_millis: S.Number,
   }),
-).annotate({
-  identifier: "TypesFlushStats",
-}) as any as S.Schema<TypesFlushStats>;
+).annotate({ identifier: "TypesFlushStats" }) as any as S.Schema<TypesFlushStats>;
 
 export interface TypesGetStats {
   current: number;
@@ -50071,9 +48624,7 @@ export const TypesGetStats = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "TypesGetStats" }) as any as S.Schema<TypesGetStats>;
 
-export type TypesIndexingStatsTypesMap = {
-  [key: string]: TypesIndexingStats | undefined;
-};
+export type TypesIndexingStatsTypesMap = { [key: string]: TypesIndexingStats | undefined };
 export const TypesIndexingStatsTypesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.suspend(() => TypesIndexingStats),
@@ -50120,9 +48671,7 @@ export const TypesIndexingStats = /*@__PURE__*/ S.suspend(() =>
     recent_write_load: S.optional(S.Number),
     peak_write_load: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TypesIndexingStats",
-}) as any as S.Schema<TypesIndexingStats>;
+).annotate({ identifier: "TypesIndexingStats" }) as any as S.Schema<TypesIndexingStats>;
 
 export interface TypesMergesStats {
   current: number;
@@ -50161,9 +48710,7 @@ export const TypesMergesStats = /*@__PURE__*/ S.suspend(() =>
     total_time: S.optional(TypesDuration),
     total_time_in_millis: S.Number,
   }),
-).annotate({
-  identifier: "TypesMergesStats",
-}) as any as S.Schema<TypesMergesStats>;
+).annotate({ identifier: "TypesMergesStats" }) as any as S.Schema<TypesMergesStats>;
 
 export interface TypesRecoveryStats {
   current_as_source: number;
@@ -50186,9 +48733,7 @@ export const TypesRecoveryStats = /*@__PURE__*/ S.suspend(() =>
     throttle_time: S.optional(TypesDuration),
     throttle_time_in_millis: S.Number,
   }),
-).annotate({
-  identifier: "TypesRecoveryStats",
-}) as any as S.Schema<TypesRecoveryStats>;
+).annotate({ identifier: "TypesRecoveryStats" }) as any as S.Schema<TypesRecoveryStats>;
 
 export interface TypesRefreshStats {
   external_total: number;
@@ -50209,9 +48754,7 @@ export const TypesRefreshStats = /*@__PURE__*/ S.suspend(() =>
     total_time: S.optional(TypesDuration),
     total_time_in_millis: S.Number,
   }),
-).annotate({
-  identifier: "TypesRefreshStats",
-}) as any as S.Schema<TypesRefreshStats>;
+).annotate({ identifier: "TypesRefreshStats" }) as any as S.Schema<TypesRefreshStats>;
 
 export interface TypesRequestCacheStats {
   evictions: number;
@@ -50228,13 +48771,9 @@ export const TypesRequestCacheStats = /*@__PURE__*/ S.suspend(() =>
     memory_size_in_bytes: S.Number,
     miss_count: S.Number,
   }),
-).annotate({
-  identifier: "TypesRequestCacheStats",
-}) as any as S.Schema<TypesRequestCacheStats>;
+).annotate({ identifier: "TypesRequestCacheStats" }) as any as S.Schema<TypesRequestCacheStats>;
 
-export type TypesSearchStatsGroupsMap = {
-  [key: string]: TypesSearchStats | undefined;
-};
+export type TypesSearchStatsGroupsMap = { [key: string]: TypesSearchStats | undefined };
 export const TypesSearchStatsGroupsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.suspend(() => TypesSearchStats),
@@ -50287,9 +48826,7 @@ export const TypesSearchStats = /*@__PURE__*/ S.suspend(() =>
     recent_search_load: S.optional(S.Number),
     groups: S.optional(TypesSearchStatsGroupsMap),
   }),
-).annotate({
-  identifier: "TypesSearchStats",
-}) as any as S.Schema<TypesSearchStats>;
+).annotate({ identifier: "TypesSearchStats" }) as any as S.Schema<TypesSearchStats>;
 
 export interface TypesTranslogStats {
   earliest_last_modified_age: number;
@@ -50310,9 +48847,7 @@ export const TypesTranslogStats = /*@__PURE__*/ S.suspend(() =>
     uncommitted_size: S.optional(S.String),
     uncommitted_size_in_bytes: S.Number,
   }),
-).annotate({
-  identifier: "TypesTranslogStats",
-}) as any as S.Schema<TypesTranslogStats>;
+).annotate({ identifier: "TypesTranslogStats" }) as any as S.Schema<TypesTranslogStats>;
 
 export interface TypesWarmerStats {
   current: number;
@@ -50327,9 +48862,7 @@ export const TypesWarmerStats = /*@__PURE__*/ S.suspend(() =>
     total_time: S.optional(TypesDuration),
     total_time_in_millis: S.Number,
   }),
-).annotate({
-  identifier: "TypesWarmerStats",
-}) as any as S.Schema<TypesWarmerStats>;
+).annotate({ identifier: "TypesWarmerStats" }) as any as S.Schema<TypesWarmerStats>;
 
 export interface TypesBulkStats {
   total_operations: number;
@@ -50427,13 +48960,9 @@ export const IndicesStatsIndexStats = /*@__PURE__*/ S.suspend(() =>
     bulk: S.optional(TypesBulkStats),
     shard_stats: S.optional(IndicesStatsShardsTotalStats),
   }),
-).annotate({
-  identifier: "IndicesStatsIndexStats",
-}) as any as S.Schema<IndicesStatsIndexStats>;
+).annotate({ identifier: "IndicesStatsIndexStats" }) as any as S.Schema<IndicesStatsIndexStats>;
 
-export type IndicesStatsShardCommitUserDataMap = {
-  [key: string]: string | undefined;
-};
+export type IndicesStatsShardCommitUserDataMap = { [key: string]: string | undefined };
 export const IndicesStatsShardCommitUserDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -50452,9 +48981,7 @@ export const IndicesStatsShardCommit = /*@__PURE__*/ S.suspend(() =>
     num_docs: S.Number,
     user_data: IndicesStatsShardCommitUserDataMap,
   }),
-).annotate({
-  identifier: "IndicesStatsShardCommit",
-}) as any as S.Schema<IndicesStatsShardCommit>;
+).annotate({ identifier: "IndicesStatsShardCommit" }) as any as S.Schema<IndicesStatsShardCommit>;
 
 export interface IndicesStatsMappingStats {
   total_count: number;
@@ -50473,9 +49000,7 @@ export const IndicesStatsMappingStats = /*@__PURE__*/ S.suspend(() =>
     total_segment_fields: S.Number,
     average_fields_per_segment: S.Number,
   }),
-).annotate({
-  identifier: "IndicesStatsMappingStats",
-}) as any as S.Schema<IndicesStatsMappingStats>;
+).annotate({ identifier: "IndicesStatsMappingStats" }) as any as S.Schema<IndicesStatsMappingStats>;
 
 export interface IndicesStatsShardPath {
   data_path: string;
@@ -50488,9 +49013,7 @@ export const IndicesStatsShardPath = /*@__PURE__*/ S.suspend(() =>
     is_custom_data_path: S.Boolean,
     state_path: S.String,
   }),
-).annotate({
-  identifier: "IndicesStatsShardPath",
-}) as any as S.Schema<IndicesStatsShardPath>;
+).annotate({ identifier: "IndicesStatsShardPath" }) as any as S.Schema<IndicesStatsShardPath>;
 
 export interface IndicesStatsShardQueryCache {
   cache_count: number;
@@ -50530,9 +49053,7 @@ export const IndicesStatsShardLease = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.Number,
     source: S.String,
   }),
-).annotate({
-  identifier: "IndicesStatsShardLease",
-}) as any as S.Schema<IndicesStatsShardLease>;
+).annotate({ identifier: "IndicesStatsShardLease" }) as any as S.Schema<IndicesStatsShardLease>;
 
 export type IndicesStatsShardRetentionLeasesLeasesList = Array<IndicesStatsShardLease>;
 export const IndicesStatsShardRetentionLeasesLeasesList = /*@__PURE__*/ S.Array(
@@ -50574,9 +49095,7 @@ export const IndicesStatsShardRouting = /*@__PURE__*/ S.suspend(() =>
     relocating_node: S.optional(S.String),
     state: IndicesStatsShardRoutingState,
   }),
-).annotate({
-  identifier: "IndicesStatsShardRouting",
-}) as any as S.Schema<IndicesStatsShardRouting>;
+).annotate({ identifier: "IndicesStatsShardRouting" }) as any as S.Schema<IndicesStatsShardRouting>;
 
 export interface IndicesStatsShardSequenceNumber {
   global_checkpoint: number;
@@ -50593,9 +49112,7 @@ export const IndicesStatsShardSequenceNumber = /*@__PURE__*/ S.suspend(() =>
   identifier: "IndicesStatsShardSequenceNumber",
 }) as any as S.Schema<IndicesStatsShardSequenceNumber>;
 
-export type IndicesStatsShardStatsShardsMap = {
-  [key: string]: unknown | undefined;
-};
+export type IndicesStatsShardStatsShardsMap = { [key: string]: unknown | undefined };
 export const IndicesStatsShardStatsShardsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -50670,9 +49187,7 @@ export const IndicesStatsShardStats = /*@__PURE__*/ S.suspend(() =>
     shard_stats: S.optional(IndicesStatsShardsTotalStats),
     indices: S.optional(IndicesStatsShardStatsIndicesMap),
   }),
-).annotate({
-  identifier: "IndicesStatsShardStats",
-}) as any as S.Schema<IndicesStatsShardStats>;
+).annotate({ identifier: "IndicesStatsShardStats" }) as any as S.Schema<IndicesStatsShardStats>;
 
 export type IndicesStatsIndicesStatsShardsValueList = Array<IndicesStatsShardStats>;
 export const IndicesStatsIndicesStatsShardsValueList = /*@__PURE__*/ S.Array(
@@ -50707,9 +49222,7 @@ export const IndicesStatsIndicesStats = /*@__PURE__*/ S.suspend(() =>
     health: S.optional(TypesHealthStatus),
     status: S.optional(IndicesStatsIndexMetadataState),
   }),
-).annotate({
-  identifier: "IndicesStatsIndicesStats",
-}) as any as S.Schema<IndicesStatsIndicesStats>;
+).annotate({ identifier: "IndicesStatsIndicesStats" }) as any as S.Schema<IndicesStatsIndicesStats>;
 
 export type IndicesStatsResponseIndicesMap = {
   [key: string]: IndicesStatsIndicesStats | undefined;
@@ -50730,9 +49243,7 @@ export const IndicesStatsResponse = /*@__PURE__*/ S.suspend(() =>
     _shards: TypesShardStatistics,
     _all: IndicesStatsIndicesStats,
   }),
-).annotate({
-  identifier: "IndicesStatsResponse",
-}) as any as S.Schema<IndicesStatsResponse>;
+).annotate({ identifier: "IndicesStatsResponse" }) as any as S.Schema<IndicesStatsResponse>;
 
 export type IndicesStats1RequestGroupsCase1List = Array<string>;
 export const IndicesStats1RequestGroupsCase1List = /*@__PURE__*/ S.Array(
@@ -50777,9 +49288,7 @@ export const IndicesStats1Request = /*@__PURE__*/ S.suspend(() =>
     include_unloaded_segments: S.optional(S.Boolean.pipe(T.Query())),
     level: S.optional(TypesLevel.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_stats/{metric}", code: 200 })),
-).annotate({
-  identifier: "IndicesStats1Request",
-}) as any as S.Schema<IndicesStats1Request>;
+).annotate({ identifier: "IndicesStats1Request" }) as any as S.Schema<IndicesStats1Request>;
 
 export type IndicesStats1ResponseIndicesMap = {
   [key: string]: IndicesStatsIndicesStats | undefined;
@@ -50800,9 +49309,7 @@ export const IndicesStats1Response = /*@__PURE__*/ S.suspend(() =>
     _shards: TypesShardStatistics,
     _all: IndicesStatsIndicesStats,
   }),
-).annotate({
-  identifier: "IndicesStats1Response",
-}) as any as S.Schema<IndicesStats1Response>;
+).annotate({ identifier: "IndicesStats1Response" }) as any as S.Schema<IndicesStats1Response>;
 
 export type IndicesStats2RequestGroupsCase1List = Array<string>;
 export const IndicesStats2RequestGroupsCase1List = /*@__PURE__*/ S.Array(
@@ -50847,9 +49354,7 @@ export const IndicesStats2Request = /*@__PURE__*/ S.suspend(() =>
     include_unloaded_segments: S.optional(S.Boolean.pipe(T.Query())),
     level: S.optional(TypesLevel.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_stats", code: 200 })),
-).annotate({
-  identifier: "IndicesStats2Request",
-}) as any as S.Schema<IndicesStats2Request>;
+).annotate({ identifier: "IndicesStats2Request" }) as any as S.Schema<IndicesStats2Request>;
 
 export type IndicesStats2ResponseIndicesMap = {
   [key: string]: IndicesStatsIndicesStats | undefined;
@@ -50870,9 +49375,7 @@ export const IndicesStats2Response = /*@__PURE__*/ S.suspend(() =>
     _shards: TypesShardStatistics,
     _all: IndicesStatsIndicesStats,
   }),
-).annotate({
-  identifier: "IndicesStats2Response",
-}) as any as S.Schema<IndicesStats2Response>;
+).annotate({ identifier: "IndicesStats2Response" }) as any as S.Schema<IndicesStats2Response>;
 
 export type IndicesStats3RequestGroupsCase1List = Array<string>;
 export const IndicesStats3RequestGroupsCase1List = /*@__PURE__*/ S.Array(
@@ -50920,9 +49423,7 @@ export const IndicesStats3Request = /*@__PURE__*/ S.suspend(() =>
     include_unloaded_segments: S.optional(S.Boolean.pipe(T.Query())),
     level: S.optional(TypesLevel.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_stats/{metric}", code: 200 })),
-).annotate({
-  identifier: "IndicesStats3Request",
-}) as any as S.Schema<IndicesStats3Request>;
+).annotate({ identifier: "IndicesStats3Request" }) as any as S.Schema<IndicesStats3Request>;
 
 export type IndicesStats3ResponseIndicesMap = {
   [key: string]: IndicesStatsIndicesStats | undefined;
@@ -50943,9 +49444,7 @@ export const IndicesStats3Response = /*@__PURE__*/ S.suspend(() =>
     _shards: TypesShardStatistics,
     _all: IndicesStatsIndicesStats,
   }),
-).annotate({
-  identifier: "IndicesStats3Response",
-}) as any as S.Schema<IndicesStats3Response>;
+).annotate({ identifier: "IndicesStats3Response" }) as any as S.Schema<IndicesStats3Response>;
 
 export type IndicesUpdateAliasesAddActionAliasesCase1List = Array<string>;
 export const IndicesUpdateAliasesAddActionAliasesCase1List = /*@__PURE__*/ S.Array(
@@ -51435,9 +49934,7 @@ export const InferenceTypesImageUrl = /*@__PURE__*/ S.suspend(() =>
     url: S.String,
     detail: S.optional(InferenceTypesImageUrlDetail),
   }),
-).annotate({
-  identifier: "InferenceTypesImageUrl",
-}) as any as S.Schema<InferenceTypesImageUrl>;
+).annotate({ identifier: "InferenceTypesImageUrl" }) as any as S.Schema<InferenceTypesImageUrl>;
 
 export interface InferenceTypesFileContent {
   /** The base64 encoded file data */
@@ -51516,9 +50013,7 @@ export const InferenceTypesToolCall = /*@__PURE__*/ S.suspend(() =>
     function: InferenceTypesToolCallFunction,
     type: S.String,
   }),
-).annotate({
-  identifier: "InferenceTypesToolCall",
-}) as any as S.Schema<InferenceTypesToolCall>;
+).annotate({ identifier: "InferenceTypesToolCall" }) as any as S.Schema<InferenceTypesToolCall>;
 
 /** Only for `assistant` role messages. The tool calls generated by the model. If it's specified, the `content` field is optional. Example: ``` { "tool_calls": [ { "id": "call_KcAjWtAww20AihPHphUh46Gd", "type": "function", "function": { "name": "get_current_weather", "arguments": "{\"location\":\"Boston, MA\"}" } } ] } ``` */
 export type InferenceTypesMessageToolCallsList = Array<InferenceTypesToolCall>;
@@ -51648,9 +50143,7 @@ export const InferenceTypesMessage = /*@__PURE__*/ S.suspend(() =>
     reasoning: S.optional(S.String),
     reasoning_details: S.optional(InferenceTypesMessageReasoningDetailsList),
   }),
-).annotate({
-  identifier: "InferenceTypesMessage",
-}) as any as S.Schema<InferenceTypesMessage>;
+).annotate({ identifier: "InferenceTypesMessage" }) as any as S.Schema<InferenceTypesMessage>;
 
 /** A list of objects representing the conversation. Requests should generally only add new messages from the user (role `user`). The other message roles (`assistant`, `system`, or `tool`) should generally only be copied from the response to a previous completion request, such that the messages array is built up throughout a conversation. */
 export type InferenceChatCompletionUnifiedRequestMessagesList = Array<InferenceTypesMessage>;
@@ -51688,9 +50181,7 @@ export const InferenceTypesReasoning = /*@__PURE__*/ S.suspend(() =>
     exclude: S.optional(S.Boolean),
     summary: S.optional(InferenceTypesReasoningSummary),
   }),
-).annotate({
-  identifier: "InferenceTypesReasoning",
-}) as any as S.Schema<InferenceTypesReasoning>;
+).annotate({ identifier: "InferenceTypesReasoning" }) as any as S.Schema<InferenceTypesReasoning>;
 
 /** A sequence of strings to control when the model should stop generating additional tokens. */
 export type InferenceChatCompletionUnifiedRequestStopList = Array<string>;
@@ -51856,13 +50347,7 @@ export const InferenceCompletionRequest = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(TypesDuration.pipe(T.Query())),
     input: InferenceCompletionRequestInput,
     task_settings: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_inference/completion/{inference_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_inference/completion/{inference_id}", code: 200 })),
 ).annotate({
   identifier: "InferenceCompletionRequest",
 }) as any as S.Schema<InferenceCompletionRequest>;
@@ -51922,16 +50407,8 @@ export const InferenceDelete1Request = /*@__PURE__*/ S.suspend(() =>
     inference_id: S.String.pipe(T.Label()),
     dry_run: S.optional(S.Boolean.pipe(T.Query())),
     force: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/_inference/{task_type}/{inference_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "InferenceDelete1Request",
-}) as any as S.Schema<InferenceDelete1Request>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/_inference/{task_type}/{inference_id}", code: 200 })),
+).annotate({ identifier: "InferenceDelete1Request" }) as any as S.Schema<InferenceDelete1Request>;
 
 export type InferenceDelete1ResponsePipelinesList = Array<string>;
 export const InferenceDelete1ResponsePipelinesList = /*@__PURE__*/ S.Array(
@@ -51948,9 +50425,7 @@ export const InferenceDelete1Response = /*@__PURE__*/ S.suspend(() =>
     acknowledged: S.Boolean,
     pipelines: InferenceDelete1ResponsePipelinesList,
   }),
-).annotate({
-  identifier: "InferenceDelete1Response",
-}) as any as S.Schema<InferenceDelete1Response>;
+).annotate({ identifier: "InferenceDelete1Response" }) as any as S.Schema<InferenceDelete1Response>;
 
 export interface InferenceDeleteRegionPolicyRequest {}
 export const InferenceDeleteRegionPolicyRequest = /*@__PURE__*/ S.suspend(() =>
@@ -51975,9 +50450,9 @@ export const InferenceTypesEmbeddingStringInput =
 export interface InferenceTypesEmbeddingContentObjectItem {
   /** The type of input to embed. Not all models support all input types. The `audio`, `video`, and `pdf` types are available in Elasticsearch 9.5.0 and later. */
   type: InferenceTypesEmbeddingContentType | (string & {});
-  /** The format of the input. For the `text` type this must be `text`. For all other types, this must be `base64`. If not specified, this will default to `text` for the `text` type and `base64` for all other types. */
+  /** The format of the input. For the `text` type this must be `text`. For all other types, this must be `base64` or `url`. If not specified, this will default to `text` for the `text` type and `base64` for all other types. The `url` format is available in Elasticsearch 9.6.0 and later. Not all services and models support all formats. */
   format?: InferenceTypesEmbeddingContentFormat | (string & {});
-  /** The value of the input to embed. For images, this must be a base64-encoded data URI, i.e. "data:content/type;base64,..." */
+  /** The value of the input to embed. For the `base64` format, this must be a base64-encoded data URI, i.e. "data:content/type;base64,...". For the `url` format, this must be a URL that points to the content, i.e. "https://example.com/image.jpg". */
   value: string;
 }
 export const InferenceTypesEmbeddingContentObjectItem = /*@__PURE__*/ S.suspend(() =>
@@ -52041,7 +50516,7 @@ export interface InferenceEmbeddingRequest {
   inference_id: string;
   /** Specifies the amount of time to wait for the inference request to complete. */
   timeout?: TypesDuration;
-  /** Inference input. Either a string, an array of strings, a `content` object, or an array of `content` objects. `content` objects may contain a single item or an array of items. Models that support multiple items per `content` object will return a single embedding for each `content` object, regardless of how many items it contains. Support for multiple items in a single `content` object is available in Elasticsearch 9.5.0 and later. string example: ``` "input": "Some text" ``` string array example: ``` "input": ["Some text", "Some more text"] ``` `content` object example: ``` "input": { "content": { "type": "image", "format": "base64", "value": "data:image/jpeg;base64,..." } } ``` `content` object array example: ``` "input": [ { "content": { "type": "text", "format": "text", "value": "Some text to generate an embedding" } }, { "content": { "type": "image", "format": "base64", "value": "data:image/jpeg;base64,..." } } ] ``` Multiple items in one `content` object example (available in Elasticsearch 9.5.0 and later): ``` "input": [ { "content": [ { "type": "image", "format": "base64", "value": "data:image/jpeg;base64,..." }, { "type": "text", "value": "Some text to create an embedding" } ] } ] ``` */
+  /** Inference input. Either a string, an array of strings, a `content` object, or an array of `content` objects. `content` objects may contain a single item or an array of items. Models that support multiple items per `content` object will return a single embedding for each `content` object, regardless of how many items it contains. Support for multiple items in a single `content` object is available in Elasticsearch 9.5.0 and later. string example: ``` "input": "Some text" ``` string array example: ``` "input": ["Some text", "Some more text"] ``` `content` object example: ``` "input": { "content": { "type": "image", "format": "base64", "value": "data:image/jpeg;base64,..." } } ``` `content` object array example: ``` "input": [ { "content": { "type": "text", "format": "text", "value": "Some text to generate an embedding" } }, { "content": { "type": "image", "format": "base64", "value": "data:image/jpeg;base64,..." } } ] ``` `content` object using the `url` format example (available in Elasticsearch 9.6.0 and later): ``` "input": { "content": { "type": "image", "format": "url", "value": "https://example.com/image.jpg" } } ``` Multiple items in one `content` object example (available in Elasticsearch 9.5.0 and later): ``` "input": [ { "content": [ { "type": "image", "format": "base64", "value": "data:image/jpeg;base64,..." }, { "type": "text", "value": "Some text to create an embedding" } ] } ] ``` */
   input: InferenceTypesEmbeddingInput;
   /** The input data type for the embedding model. Possible values include: * `SEARCH` * `INGEST` * `CLASSIFICATION` * `CLUSTERING` Not all models support all values. Unsupported values will trigger a validation exception. Accepted values depend on the configured inference service, refer to the relevant service-specific documentation for more info. > info > The `input_type` parameter specified on the root level of the request body will take precedence over the `input_type` parameter specified in `task_settings`. */
   input_type?: string;
@@ -52055,13 +50530,7 @@ export const InferenceEmbeddingRequest = /*@__PURE__*/ S.suspend(() =>
     input: InferenceTypesEmbeddingInput,
     input_type: S.optional(S.String),
     task_settings: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_inference/embedding/{inference_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_inference/embedding/{inference_id}", code: 200 })),
 ).annotate({
   identifier: "InferenceEmbeddingRequest",
 }) as any as S.Schema<InferenceEmbeddingRequest>;
@@ -52144,9 +50613,7 @@ export const InferenceGet1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     inference_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/_inference/{inference_id}", code: 200 })),
-).annotate({
-  identifier: "InferenceGet1Request",
-}) as any as S.Schema<InferenceGet1Request>;
+).annotate({ identifier: "InferenceGet1Request" }) as any as S.Schema<InferenceGet1Request>;
 
 export type InferenceGet1ResponseEndpointsList = Array<InferenceTypesInferenceEndpointInfo>;
 export const InferenceGet1ResponseEndpointsList = /*@__PURE__*/ S.Array(
@@ -52160,9 +50627,7 @@ export const InferenceGet1Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endpoints: InferenceGet1ResponseEndpointsList,
   }),
-).annotate({
-  identifier: "InferenceGet1Response",
-}) as any as S.Schema<InferenceGet1Response>;
+).annotate({ identifier: "InferenceGet1Response" }) as any as S.Schema<InferenceGet1Response>;
 
 export type InferenceGet2RequestTaskType =
   | "sparse_embedding"
@@ -52183,16 +50648,8 @@ export const InferenceGet2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     task_type: InferenceGet2RequestTaskType.pipe(T.Label()),
     inference_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_inference/{task_type}/{inference_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "InferenceGet2Request",
-}) as any as S.Schema<InferenceGet2Request>;
+  }).pipe(T.Http({ method: "GET", uri: "/_inference/{task_type}/{inference_id}", code: 200 })),
+).annotate({ identifier: "InferenceGet2Request" }) as any as S.Schema<InferenceGet2Request>;
 
 export type InferenceGet2ResponseEndpointsList = Array<InferenceTypesInferenceEndpointInfo>;
 export const InferenceGet2ResponseEndpointsList = /*@__PURE__*/ S.Array(
@@ -52206,9 +50663,7 @@ export const InferenceGet2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endpoints: InferenceGet2ResponseEndpointsList,
   }),
-).annotate({
-  identifier: "InferenceGet2Response",
-}) as any as S.Schema<InferenceGet2Response>;
+).annotate({ identifier: "InferenceGet2Response" }) as any as S.Schema<InferenceGet2Response>;
 
 export type InferenceGet3RequestTaskType =
   | "sparse_embedding"
@@ -52227,9 +50682,7 @@ export const InferenceGet3Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     task_type: InferenceGet3RequestTaskType.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/_inference/{task_type}/_all", code: 200 })),
-).annotate({
-  identifier: "InferenceGet3Request",
-}) as any as S.Schema<InferenceGet3Request>;
+).annotate({ identifier: "InferenceGet3Request" }) as any as S.Schema<InferenceGet3Request>;
 
 export type InferenceGet3ResponseEndpointsList = Array<InferenceTypesInferenceEndpointInfo>;
 export const InferenceGet3ResponseEndpointsList = /*@__PURE__*/ S.Array(
@@ -52243,9 +50696,7 @@ export const InferenceGet3Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endpoints: InferenceGet3ResponseEndpointsList,
   }),
-).annotate({
-  identifier: "InferenceGet3Response",
-}) as any as S.Schema<InferenceGet3Response>;
+).annotate({ identifier: "InferenceGet3Response" }) as any as S.Schema<InferenceGet3Response>;
 
 export interface InferenceGetRegionPolicyRequest {}
 export const InferenceGetRegionPolicyRequest = /*@__PURE__*/ S.suspend(() =>
@@ -52272,9 +50723,7 @@ export const InferenceTypesCspRegion = /*@__PURE__*/ S.suspend(() =>
     csp: S.String,
     region: S.String,
   }),
-).annotate({
-  identifier: "InferenceTypesCspRegion",
-}) as any as S.Schema<InferenceTypesCspRegion>;
+).annotate({ identifier: "InferenceTypesCspRegion" }) as any as S.Schema<InferenceTypesCspRegion>;
 
 /** The list of allowed cloud service provider regions. Mutually exclusive with `allowed_geos`. */
 export type InferenceTypesRegionPolicyAllowedRegionsList = Array<InferenceTypesCspRegion>;
@@ -52519,16 +50968,256 @@ export const InferenceInference1Request = /*@__PURE__*/ S.suspend(() =>
     input: InferenceInference1RequestInput,
     input_type: S.optional(S.String),
     task_settings: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_inference/{task_type}/{inference_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_inference/{task_type}/{inference_id}", code: 200 })),
 ).annotate({
   identifier: "InferenceInference1Request",
 }) as any as S.Schema<InferenceInference1Request>;
+
+/** A list of objects representing the conversation. Requests should generally only add new messages from the user (role `user`). The other message roles (`assistant`, `system`, or `tool`) should generally only be copied from the response to a previous completion request, such that the messages array is built up throughout a conversation. */
+export type InferenceNonStreamingChatCompletionRequestMessagesList = Array<InferenceTypesMessage>;
+export const InferenceNonStreamingChatCompletionRequestMessagesList = /*@__PURE__*/ S.Array(
+  InferenceTypesMessage,
+) as any as S.Schema<InferenceNonStreamingChatCompletionRequestMessagesList>;
+
+/** A sequence of strings to control when the model should stop generating additional tokens. */
+export type InferenceNonStreamingChatCompletionRequestStopList = Array<string>;
+export const InferenceNonStreamingChatCompletionRequestStopList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<InferenceNonStreamingChatCompletionRequestStopList>;
+
+/** A list of tools that the model can call. Example: ``` { "tools": [ { "type": "function", "function": { "name": "get_price_of_item", "description": "Get the current price of an item", "parameters": { "type": "object", "properties": { "item": { "id": "12345" }, "unit": { "type": "currency" } } } } } ] } ``` */
+export type InferenceNonStreamingChatCompletionRequestToolsList =
+  Array<InferenceTypesCompletionTool>;
+export const InferenceNonStreamingChatCompletionRequestToolsList = /*@__PURE__*/ S.Array(
+  InferenceTypesCompletionTool,
+) as any as S.Schema<InferenceNonStreamingChatCompletionRequestToolsList>;
+
+export interface InferenceNonStreamingChatCompletionRequest {
+  /** The inference Id */
+  inference_id: string;
+  /** Specifies the amount of time to wait for the inference request to complete. */
+  timeout?: TypesDuration;
+  /** A list of objects representing the conversation. Requests should generally only add new messages from the user (role `user`). The other message roles (`assistant`, `system`, or `tool`) should generally only be copied from the response to a previous completion request, such that the messages array is built up throughout a conversation. */
+  messages: InferenceNonStreamingChatCompletionRequestMessagesList;
+  /** The ID of the model to use. By default, the model ID is set to the value included when creating the inference endpoint. */
+  model?: string;
+  /** The upper bound limit for the number of tokens that can be generated for a completion request. */
+  max_completion_tokens?: number;
+  /** The reasoning configuration for the completion request. This controls the model's reasoning process in one of two ways: * By specifying the model’s reasoning effort level with the `effort` field. * By enabling reasoning with default settings by setting `enabled` field to `true`. It also includes optional settings to control: * The level of detail in the summary returned in the response with the `summary` field. * Whether reasoning details are included in the response at all with the `exclude` field. Example (effort): ``` { "reasoning": { "effort": "high", "summary": "concise", "exclude": false } } ``` Example (enabled): ``` { "reasoning": { "enabled": true, "summary": "concise", "exclude": false } } ``` Currently supported only for `elastic` provider. */
+  reasoning?: InferenceTypesReasoning;
+  /** A sequence of strings to control when the model should stop generating additional tokens. */
+  stop?: InferenceNonStreamingChatCompletionRequestStopList;
+  /** The sampling temperature to use. */
+  temperature?: number;
+  /** Controls which tool is called by the model. String representation: One of `auto`, `none`, or `requrired`. `auto` allows the model to choose between calling tools and generating a message. `none` causes the model to not call any tools. `required` forces the model to call one or more tools. Example (object representation): ``` { "tool_choice": { "type": "function", "function": { "name": "get_current_weather" } } } ``` */
+  tool_choice?: InferenceTypesCompletionToolType;
+  /** A list of tools that the model can call. Example: ``` { "tools": [ { "type": "function", "function": { "name": "get_price_of_item", "description": "Get the current price of an item", "parameters": { "type": "object", "properties": { "item": { "id": "12345" }, "unit": { "type": "currency" } } } } } ] } ``` */
+  tools?: InferenceNonStreamingChatCompletionRequestToolsList;
+  /** Nucleus sampling, an alternative to sampling with temperature. */
+  top_p?: number;
+}
+export const InferenceNonStreamingChatCompletionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    inference_id: S.String.pipe(T.Label()),
+    timeout: S.optional(TypesDuration.pipe(T.Query())),
+    messages: InferenceNonStreamingChatCompletionRequestMessagesList,
+    model: S.optional(S.String),
+    max_completion_tokens: S.optional(S.Number),
+    reasoning: S.optional(InferenceTypesReasoning),
+    stop: S.optional(InferenceNonStreamingChatCompletionRequestStopList),
+    temperature: S.optional(S.Number),
+    tool_choice: S.optional(InferenceTypesCompletionToolType),
+    tools: S.optional(InferenceNonStreamingChatCompletionRequestToolsList),
+    top_p: S.optional(S.Number),
+  }).pipe(T.Http({ method: "POST", uri: "/_inference/chat_completion/{inference_id}", code: 200 })),
+).annotate({
+  identifier: "InferenceNonStreamingChatCompletionRequest",
+}) as any as S.Schema<InferenceNonStreamingChatCompletionRequest>;
+
+/** The function called by the tool. */
+export interface InferenceTypesChatCompletionToolCallFunction {
+  /** The arguments to call the function with, as a JSON string. */
+  arguments?: string;
+  /** The name of the function. */
+  name?: string;
+}
+export const InferenceTypesChatCompletionToolCallFunction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    arguments: S.optional(S.String),
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "InferenceTypesChatCompletionToolCallFunction",
+}) as any as S.Schema<InferenceTypesChatCompletionToolCallFunction>;
+
+/** A tool call generated by the model. */
+export interface InferenceTypesChatCompletionToolCall {
+  /** The index of the tool call in the list of tool calls generated by the model. */
+  index: number;
+  /** The identifier of the tool call. */
+  id?: string;
+  /** The function that the model called. */
+  function?: InferenceTypesChatCompletionToolCallFunction;
+  /** The type of the tool call. */
+  type: string;
+}
+export const InferenceTypesChatCompletionToolCall = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    index: S.Number,
+    id: S.optional(S.String),
+    function: S.optional(InferenceTypesChatCompletionToolCallFunction),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "InferenceTypesChatCompletionToolCall",
+}) as any as S.Schema<InferenceTypesChatCompletionToolCall>;
+
+/** The tool calls generated by the model. */
+export type InferenceTypesChatCompletionMessageToolCallsList =
+  Array<InferenceTypesChatCompletionToolCall>;
+export const InferenceTypesChatCompletionMessageToolCallsList = /*@__PURE__*/ S.Array(
+  InferenceTypesChatCompletionToolCall,
+) as any as S.Schema<InferenceTypesChatCompletionMessageToolCallsList>;
+
+/** The reasoning details generated by the model as structured data. Currently supported only for the `elastic` provider. */
+export type InferenceTypesChatCompletionMessageReasoningDetailsList =
+  Array<InferenceTypesReasoningDetail>;
+export const InferenceTypesChatCompletionMessageReasoningDetailsList = /*@__PURE__*/ S.Array(
+  InferenceTypesReasoningDetail,
+) as any as S.Schema<InferenceTypesChatCompletionMessageReasoningDetailsList>;
+
+/** The message returned by the model. */
+export interface InferenceTypesChatCompletionMessage {
+  /** The content of the message. */
+  content?: string;
+  /** The refusal message generated by the model. */
+  refusal?: string;
+  /** The role of the message author. */
+  role?: string;
+  /** The reasoning generated by the model as plaintext. Currently supported only for the `elastic` provider. */
+  reasoning?: string;
+  /** The tool calls generated by the model. */
+  tool_calls?: InferenceTypesChatCompletionMessageToolCallsList;
+  /** The reasoning details generated by the model as structured data. Currently supported only for the `elastic` provider. */
+  reasoning_details?: InferenceTypesChatCompletionMessageReasoningDetailsList;
+}
+export const InferenceTypesChatCompletionMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    content: S.optional(S.String),
+    refusal: S.optional(S.String),
+    role: S.optional(S.String),
+    reasoning: S.optional(S.String),
+    tool_calls: S.optional(InferenceTypesChatCompletionMessageToolCallsList),
+    reasoning_details: S.optional(InferenceTypesChatCompletionMessageReasoningDetailsList),
+  }),
+).annotate({
+  identifier: "InferenceTypesChatCompletionMessage",
+}) as any as S.Schema<InferenceTypesChatCompletionMessage>;
+
+/** A single completion choice returned by the model. */
+export interface InferenceTypesChatCompletionChoice {
+  /** The message generated by the model for this choice. */
+  message: InferenceTypesChatCompletionMessage;
+  /** The reason the model stopped generating tokens. Common values are `stop` (natural stopping point) and `tool_calls` (the model called a tool). Omitted when the reason is not available. */
+  finish_reason?: string;
+  /** The index of this choice in the list of choices. */
+  index: number;
+}
+export const InferenceTypesChatCompletionChoice = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message: InferenceTypesChatCompletionMessage,
+    finish_reason: S.optional(S.String),
+    index: S.Number,
+  }),
+).annotate({
+  identifier: "InferenceTypesChatCompletionChoice",
+}) as any as S.Schema<InferenceTypesChatCompletionChoice>;
+
+/** The list of completion choices the model generated for the input message. */
+export type InferenceTypesChatCompletionInferenceResultChoicesList =
+  Array<InferenceTypesChatCompletionChoice>;
+export const InferenceTypesChatCompletionInferenceResultChoicesList = /*@__PURE__*/ S.Array(
+  InferenceTypesChatCompletionChoice,
+) as any as S.Schema<InferenceTypesChatCompletionInferenceResultChoicesList>;
+
+/** Breakdown of tokens used in the prompt. */
+export interface InferenceTypesChatCompletionPromptTokensDetails {
+  /** The number of tokens that were cached from a previous request. */
+  cached_tokens?: number;
+  /** The number of tokens written to the cache. */
+  cache_write_tokens?: number;
+}
+export const InferenceTypesChatCompletionPromptTokensDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cached_tokens: S.optional(S.Number),
+    cache_write_tokens: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "InferenceTypesChatCompletionPromptTokensDetails",
+}) as any as S.Schema<InferenceTypesChatCompletionPromptTokensDetails>;
+
+/** Breakdown of tokens used in the request. */
+export interface InferenceTypesChatCompletionCompletionTokensDetails {
+  /** The number of tokens used for reasoning by the model. */
+  reasoning_tokens?: number;
+}
+export const InferenceTypesChatCompletionCompletionTokensDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reasoning_tokens: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "InferenceTypesChatCompletionCompletionTokensDetails",
+}) as any as S.Schema<InferenceTypesChatCompletionCompletionTokensDetails>;
+
+/** Token usage statistics for the request. */
+export interface InferenceTypesChatCompletionUsage {
+  /** The number of tokens in the generated completion. */
+  completion_tokens: number;
+  /** The number of tokens in the prompt. */
+  prompt_tokens: number;
+  /** The total number of tokens used (prompt + completion). */
+  total_tokens: number;
+  /** Breakdown of the tokens used in the prompt. Omitted when no details are available. */
+  prompt_tokens_details?: InferenceTypesChatCompletionPromptTokensDetails;
+  /** Breakdown of the tokens used in the completion. Omitted when no details are available. */
+  completion_tokens_details?: InferenceTypesChatCompletionCompletionTokensDetails;
+}
+export const InferenceTypesChatCompletionUsage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    completion_tokens: S.Number,
+    prompt_tokens: S.Number,
+    total_tokens: S.Number,
+    prompt_tokens_details: S.optional(InferenceTypesChatCompletionPromptTokensDetails),
+    completion_tokens_details: S.optional(InferenceTypesChatCompletionCompletionTokensDetails),
+  }),
+).annotate({
+  identifier: "InferenceTypesChatCompletionUsage",
+}) as any as S.Schema<InferenceTypesChatCompletionUsage>;
+
+/** The response format for the non-streaming unified chat completion request. */
+export interface InferenceTypesChatCompletionInferenceResult {
+  /** The unique identifier for the completion. */
+  id: string;
+  /** The list of completion choices the model generated for the input message. */
+  choices?: InferenceTypesChatCompletionInferenceResultChoicesList;
+  /** The model used to generate the completion. */
+  model: string;
+  /** The object type. */
+  object: string;
+  /** The token usage statistics for the completion request. Omitted when usage information is not available. */
+  usage?: InferenceTypesChatCompletionUsage;
+}
+export const InferenceTypesChatCompletionInferenceResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    choices: S.optional(InferenceTypesChatCompletionInferenceResultChoicesList),
+    model: S.String,
+    object: S.String,
+    usage: S.optional(InferenceTypesChatCompletionUsage),
+  }),
+).annotate({
+  identifier: "InferenceTypesChatCompletionInferenceResult",
+}) as any as S.Schema<InferenceTypesChatCompletionInferenceResult>;
 
 export type InferencePut1RequestTaskType =
   | "sparse_embedding"
@@ -52564,16 +51253,8 @@ export const InferencePut1Request = /*@__PURE__*/ S.suspend(() =>
     service: S.String,
     service_settings: S.Unknown,
     task_settings: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_inference/{task_type}/{inference_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "InferencePut1Request",
-}) as any as S.Schema<InferencePut1Request>;
+  }).pipe(T.Http({ method: "PUT", uri: "/_inference/{task_type}/{inference_id}", code: 200 })),
+).annotate({ identifier: "InferencePut1Request" }) as any as S.Schema<InferencePut1Request>;
 
 export interface InferencePut1Response {
   /** The chunking configuration object. Applies only to the `embedding`, `sparse_embedding` and `text_embedding` task types. Not applicable to the `rerank`, `completion`, or `chat_completion` task types. */
@@ -52598,9 +51279,7 @@ export const InferencePut1Response = /*@__PURE__*/ S.suspend(() =>
     inference_id: S.String,
     task_type: InferenceTypesTaskType,
   }),
-).annotate({
-  identifier: "InferencePut1Response",
-}) as any as S.Schema<InferencePut1Response>;
+).annotate({ identifier: "InferencePut1Response" }) as any as S.Schema<InferencePut1Response>;
 
 export type InferencePutAi21RequestTaskType = "completion" | "chat_completion";
 export const InferencePutAi21RequestTaskType = S.String;
@@ -52658,16 +51337,8 @@ export const InferencePutAi21Request = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(TypesDuration.pipe(T.Query())),
     service: InferenceTypesAi21ServiceType,
     service_settings: InferenceTypesAi21ServiceSettings,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_inference/{task_type}/{ai21_inference_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "InferencePutAi21Request",
-}) as any as S.Schema<InferencePutAi21Request>;
+  }).pipe(T.Http({ method: "PUT", uri: "/_inference/{task_type}/{ai21_inference_id}", code: 200 })),
+).annotate({ identifier: "InferencePutAi21Request" }) as any as S.Schema<InferencePutAi21Request>;
 
 export type InferenceTypesTaskTypeAi21 = "completion" | "chat_completion";
 export const InferenceTypesTaskTypeAi21 = S.String;
@@ -52695,9 +51366,7 @@ export const InferencePutAi21Response = /*@__PURE__*/ S.suspend(() =>
     inference_id: S.String,
     task_type: InferenceTypesTaskTypeAi21,
   }),
-).annotate({
-  identifier: "InferencePutAi21Response",
-}) as any as S.Schema<InferencePutAi21Response>;
+).annotate({ identifier: "InferencePutAi21Response" }) as any as S.Schema<InferencePutAi21Response>;
 
 export type InferencePutAlibabacloudRequestTaskType =
   | "completion"
@@ -53172,11 +51841,7 @@ export const InferencePutAnthropicRequest = /*@__PURE__*/ S.suspend(() =>
     service_settings: InferenceTypesAnthropicServiceSettings,
     task_settings: S.optional(InferenceTypesAnthropicTaskSettings),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_inference/{task_type}/{anthropic_inference_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/_inference/{task_type}/{anthropic_inference_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "InferencePutAnthropicRequest",
@@ -53393,9 +52058,7 @@ export const InferenceTypesAzureOpenAIServiceSettings = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<InferenceTypesAzureOpenAIServiceSettings>;
 
 /** Specifies custom HTTP header parameters. For example: ``` "headers": { "Custom-Header": "Some-Value", "Another-Custom-Header": "Another-Value" } ``` */
-export type InferenceTypesAzureOpenAITaskSettingsHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type InferenceTypesAzureOpenAITaskSettingsHeadersMap = { [key: string]: string | undefined };
 export const InferenceTypesAzureOpenAITaskSettingsHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -53442,11 +52105,7 @@ export const InferencePutAzureopenaiRequest = /*@__PURE__*/ S.suspend(() =>
     service_settings: InferenceTypesAzureOpenAIServiceSettings,
     task_settings: S.optional(InferenceTypesAzureOpenAITaskSettings),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_inference/{task_type}/{azureopenai_inference_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/_inference/{task_type}/{azureopenai_inference_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "InferencePutAzureopenaiRequest",
@@ -53571,11 +52230,7 @@ export const InferencePutCohereRequest = /*@__PURE__*/ S.suspend(() =>
     service_settings: InferenceTypesCohereServiceSettings,
     task_settings: S.optional(InferenceTypesCohereTaskSettings),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_inference/{task_type}/{cohere_inference_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/_inference/{task_type}/{cohere_inference_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "InferencePutCohereRequest",
@@ -53724,18 +52379,14 @@ export type InferenceTypesCustomServiceType = "custom";
 export const InferenceTypesCustomServiceType = S.String;
 
 /** Specifies the HTTP header parameters – such as `Authorization` or `Content-Type` – that are required to access the custom service. For example: ``` "headers": { "Authorization": "Bearer ${api_key}", "Content-Type": "application/json;charset=utf-8" } ``` */
-export type InferenceTypesCustomServiceSettingsHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type InferenceTypesCustomServiceSettingsHeadersMap = { [key: string]: string | undefined };
 export const InferenceTypesCustomServiceSettingsHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<InferenceTypesCustomServiceSettingsHeadersMap>;
 
 /** Specifies the input type translation values that are used to replace the `${input_type}` template in the request body. For example: ``` "input_type": { "translation": { "ingest": "do_ingest", "search": "do_search" }, "default": "a_default" }, ``` If the subsequent inference requests come from a search context, the `search` key will be used and the template will be replaced with `do_search`. If it comes from the ingest context `do_ingest` is used. If it's a different context that is not specified, the default value will be used. If no default is specified an empty string is used. `translation` can be: * `classification` * `clustering` * `ingest` * `search` */
-export type InferenceTypesCustomServiceSettingsInputTypeMap = {
-  [key: string]: string | undefined;
-};
+export type InferenceTypesCustomServiceSettingsInputTypeMap = { [key: string]: string | undefined };
 export const InferenceTypesCustomServiceSettingsInputTypeMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -53766,9 +52417,7 @@ export const InferenceTypesCustomRequestParams = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<InferenceTypesCustomRequestParams>;
 
 /** Specifies the JSON parser that is used to parse the response from the custom service. Different task types require different json_parser parameters. For example: ``` # text_embedding # For a response like this: { "object": "list", "data": [ { "object": "embedding", "index": 0, "embedding": [ 0.014539449, -0.015288644 ] } ], "model": "text-embedding-ada-002-v2", "usage": { "prompt_tokens": 8, "total_tokens": 8 } } # the json_parser definition should look like this: "response":{ "json_parser":{ "text_embeddings":"$.data[*].embedding[*]" } } # Elasticsearch supports the following embedding types: * float * byte * bit (or binary) To specify the embedding type for the response, the `embedding_type` field should be added in the `json_parser` object. Here's an example: "response":{ "json_parser":{ "text_embeddings":"$.data[*].embedding[*]", "embedding_type":"bit" } } If `embedding_type` is not specified, it defaults to `float`. # sparse_embedding # For a response like this: { "request_id": "75C50B5B-E79E-4930-****-F48DBB392231", "latency": 22, "usage": { "token_count": 11 }, "result": { "sparse_embeddings": [ { "index": 0, "embedding": [ { "token_id": 6, "weight": 0.101 }, { "token_id": 163040, "weight": 0.28417 } ] } ] } } # the json_parser definition should look like this: "response":{ "json_parser":{ "token_path":"$.result.sparse_embeddings[*].embedding[*].token_id", "weight_path":"$.result.sparse_embeddings[*].embedding[*].weight" } } # rerank # For a response like this: { "results": [ { "index": 3, "relevance_score": 0.999071, "document": "abc" }, { "index": 4, "relevance_score": 0.7867867, "document": "123" }, { "index": 0, "relevance_score": 0.32713068, "document": "super" } ], } # the json_parser definition should look like this: "response":{ "json_parser":{ "reranked_index":"$.result.scores[*].index", // optional "relevance_score":"$.result.scores[*].score", "document_text":"xxx" // optional } } # completion # For a response like this: { "id": "chatcmpl-B9MBs8CjcvOU2jLn4n570S5qMJKcT", "object": "chat.completion", "created": 1741569952, "model": "gpt-4.1-2025-04-14", "choices": [ { "index": 0, "message": { "role": "assistant", "content": "Hello! How can I assist you today?", "refusal": null, "annotations": [] }, "logprobs": null, "finish_reason": "stop" } ] } # the json_parser definition should look like this: "response":{ "json_parser":{ "completion_result":"$.choices[*].message.content" } } */
-export type InferenceTypesCustomResponseParamsJsonParserMap = {
-  [key: string]: string | undefined;
-};
+export type InferenceTypesCustomResponseParamsJsonParserMap = { [key: string]: string | undefined };
 export const InferenceTypesCustomResponseParamsJsonParserMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -53876,11 +52525,7 @@ export const InferencePutCustomRequest = /*@__PURE__*/ S.suspend(() =>
     service_settings: InferenceTypesCustomServiceSettings,
     task_settings: S.optional(InferenceTypesCustomTaskSettings),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_inference/{task_type}/{custom_inference_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/_inference/{task_type}/{custom_inference_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "InferencePutCustomRequest",
@@ -53964,11 +52609,7 @@ export const InferencePutDeepseekRequest = /*@__PURE__*/ S.suspend(() =>
     service: InferenceTypesDeepSeekServiceType,
     service_settings: InferenceTypesDeepSeekServiceSettings,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_inference/{task_type}/{deepseek_inference_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/_inference/{task_type}/{deepseek_inference_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "InferencePutDeepseekRequest",
@@ -54179,9 +52820,7 @@ export const InferenceTypesFireworksAIServiceSettings = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<InferenceTypesFireworksAIServiceSettings>;
 
 /** For a `completion` or`chat_completion` task. Specifies custom HTTP header parameters. For example: ``` "headers": { "Custom-Header": "Some-Value", "Another-Custom-Header": "Another-Value" } ``` */
-export type InferenceTypesFireworksAITaskSettingsHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type InferenceTypesFireworksAITaskSettingsHeadersMap = { [key: string]: string | undefined };
 export const InferenceTypesFireworksAITaskSettingsHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -54228,11 +52867,7 @@ export const InferencePutFireworksaiRequest = /*@__PURE__*/ S.suspend(() =>
     service_settings: InferenceTypesFireworksAIServiceSettings,
     task_settings: S.optional(InferenceTypesFireworksAITaskSettings),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_inference/{task_type}/{fireworksai_inference_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/_inference/{task_type}/{fireworksai_inference_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "InferencePutFireworksaiRequest",
@@ -54559,16 +53194,8 @@ export const InferencePutGroqRequest = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(TypesDuration.pipe(T.Query())),
     service: InferenceTypesGroqServiceType,
     service_settings: InferenceTypesGroqServiceSettings,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_inference/{task_type}/{groq_inference_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "InferencePutGroqRequest",
-}) as any as S.Schema<InferencePutGroqRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/_inference/{task_type}/{groq_inference_id}", code: 200 })),
+).annotate({ identifier: "InferencePutGroqRequest" }) as any as S.Schema<InferencePutGroqRequest>;
 
 export type InferenceTypesTaskTypeGroq = "chat_completion";
 export const InferenceTypesTaskTypeGroq = S.String;
@@ -54596,9 +53223,7 @@ export const InferencePutGroqResponse = /*@__PURE__*/ S.suspend(() =>
     inference_id: S.String,
     task_type: InferenceTypesTaskTypeGroq,
   }),
-).annotate({
-  identifier: "InferencePutGroqResponse",
-}) as any as S.Schema<InferencePutGroqResponse>;
+).annotate({ identifier: "InferencePutGroqResponse" }) as any as S.Schema<InferencePutGroqResponse>;
 
 export type InferencePutHuggingFaceRequestTaskType =
   | "chat_completion"
@@ -54672,11 +53297,7 @@ export const InferencePutHuggingFaceRequest = /*@__PURE__*/ S.suspend(() =>
     service_settings: InferenceTypesHuggingFaceServiceSettings,
     task_settings: S.optional(InferenceTypesHuggingFaceTaskSettings),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_inference/{task_type}/{huggingface_inference_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/_inference/{task_type}/{huggingface_inference_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "InferencePutHuggingFaceRequest",
@@ -54812,11 +53433,7 @@ export const InferencePutJinaaiRequest = /*@__PURE__*/ S.suspend(() =>
     service_settings: InferenceTypesJinaAIServiceSettings,
     task_settings: S.optional(InferenceTypesJinaAITaskSettings),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_inference/{task_type}/{jinaai_inference_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/_inference/{task_type}/{jinaai_inference_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "InferencePutJinaaiRequest",
@@ -54908,15 +53525,9 @@ export const InferencePutLlamaRequest = /*@__PURE__*/ S.suspend(() =>
     service: InferenceTypesLlamaServiceType,
     service_settings: InferenceTypesLlamaServiceSettings,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_inference/{task_type}/{llama_inference_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/_inference/{task_type}/{llama_inference_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "InferencePutLlamaRequest",
-}) as any as S.Schema<InferencePutLlamaRequest>;
+).annotate({ identifier: "InferencePutLlamaRequest" }) as any as S.Schema<InferencePutLlamaRequest>;
 
 export type InferenceTypesTaskTypeLlama = "text_embedding" | "chat_completion" | "completion";
 export const InferenceTypesTaskTypeLlama = S.String;
@@ -55001,11 +53612,7 @@ export const InferencePutMistralRequest = /*@__PURE__*/ S.suspend(() =>
     service: InferenceTypesMistralServiceType,
     service_settings: InferenceTypesMistralServiceSettings,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_inference/{task_type}/{mistral_inference_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/_inference/{task_type}/{mistral_inference_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "InferencePutMistralRequest",
@@ -55125,11 +53732,7 @@ export const InferencePutNvidiaRequest = /*@__PURE__*/ S.suspend(() =>
     service_settings: InferenceTypesNvidiaServiceSettings,
     task_settings: S.optional(InferenceTypesNvidiaTaskSettings),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_inference/{task_type}/{nvidia_inference_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/_inference/{task_type}/{nvidia_inference_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "InferencePutNvidiaRequest",
@@ -55231,9 +53834,7 @@ export const InferenceTypesOpenAIServiceSettings = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<InferenceTypesOpenAIServiceSettings>;
 
 /** Specifies custom HTTP header parameters. For example: ``` "headers": { "Custom-Header": "Some-Value", "Another-Custom-Header": "Another-Value" } ``` */
-export type InferenceTypesOpenAITaskSettingsHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type InferenceTypesOpenAITaskSettingsHeadersMap = { [key: string]: string | undefined };
 export const InferenceTypesOpenAITaskSettingsHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -55280,11 +53881,7 @@ export const InferencePutOpenaiRequest = /*@__PURE__*/ S.suspend(() =>
     service_settings: InferenceTypesOpenAIServiceSettings,
     task_settings: S.optional(InferenceTypesOpenAITaskSettings),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_inference/{task_type}/{openai_inference_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/_inference/{task_type}/{openai_inference_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "InferencePutOpenaiRequest",
@@ -55405,11 +54002,7 @@ export const InferencePutOpenshiftAiRequest = /*@__PURE__*/ S.suspend(() =>
     service_settings: InferenceTypesOpenShiftAiServiceSettings,
     task_settings: S.optional(InferenceTypesOpenShiftAiTaskSettings),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_inference/{task_type}/{openshiftai_inference_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/_inference/{task_type}/{openshiftai_inference_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "InferencePutOpenshiftAiRequest",
@@ -55538,11 +54131,7 @@ export const InferencePutVoyageaiRequest = /*@__PURE__*/ S.suspend(() =>
     service_settings: InferenceTypesVoyageAIServiceSettings,
     task_settings: S.optional(InferenceTypesVoyageAITaskSettings),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_inference/{task_type}/{voyageai_inference_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/_inference/{task_type}/{voyageai_inference_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "InferencePutVoyageaiRequest",
@@ -55638,11 +54227,7 @@ export const InferencePutWatsonxRequest = /*@__PURE__*/ S.suspend(() =>
     service: InferenceTypesWatsonxServiceType,
     service_settings: InferenceTypesWatsonxServiceSettings,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_inference/{task_type}/{watsonx_inference_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/_inference/{task_type}/{watsonx_inference_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "InferencePutWatsonxRequest",
@@ -55681,16 +54266,16 @@ export const InferencePutWatsonxResponse = /*@__PURE__*/ S.suspend(() =>
 export type InferenceRerankRerankInputType = "text" | "image";
 export const InferenceRerankRerankInputType = S.String;
 
-export type InferenceRerankRerankInputFormat = "text" | "base64";
+export type InferenceRerankRerankInputFormat = "text" | "base64" | "url";
 export const InferenceRerankRerankInputFormat = S.String;
 
 /** An object describing a single input for the `rerank` task, which additionally allows specifying non-text inputs, such as images. */
 export interface InferenceRerankRerankInputObject {
   /** The type of input. Not all services and models support all input types. */
   type: InferenceRerankRerankInputType | (string & {});
-  /** The format of the input. For the `text` type this must be `text`. For the `image` type this must be `base64`. If not specified, this defaults to `text` for the `text` type and `base64` for the `image` type. */
+  /** The format of the input. For the `text` type this must be `text`. For the `image` type this must be `base64` or `url`. If not specified, this defaults to `text` for the `text` type and `base64` for the `image` type. The `url` format is available in Elasticsearch 9.6.0 and later. Not all services and models support all formats. */
   format?: InferenceRerankRerankInputFormat | (string & {});
-  /** The value of the input. For images, this must be a base64-encoded data URI, that is, "data:content/type;base64,...". */
+  /** The value of the input. For the `base64` format, this must be a base64-encoded data URI, that is, "data:content/type;base64,...". For the `url` format, this must be a URL that points to the content, that is, "https://example.com/image.jpg". */
   value: string;
 }
 export const InferenceRerankRerankInputObject = /*@__PURE__*/ S.suspend(() =>
@@ -55740,9 +54325,9 @@ export interface InferenceRerankRequest {
   inference_id: string;
   /** The amount of time to wait for the inference request to complete. */
   timeout?: TypesDuration;
-  /** Query input. The query can be specified as a single string, or as an object. The object form additionally allows specifying non-text inputs, such as images. > info > Only the `elastic` service currently supports non-text queries for the `rerank` task. For all other services, the query must be a string. string example: ``` "query": "some query text" ``` object example: ``` "query": { "type": "image", "format": "base64", "value": "data:image/jpeg;base64,..." } ``` */
+  /** Query input. The query can be specified as a single string, or as an object. The object form additionally allows specifying non-text inputs, such as images. > info > Only the `elastic` service currently supports non-text queries for the `rerank` task. For all other services, the query must be a string. string example: ``` "query": "some query text" ``` object example: ``` "query": { "type": "image", "format": "base64", "value": "data:image/jpeg;base64,..." } ``` object example using the `url` format (available in Elasticsearch 9.6.0 and later): ``` "query": { "type": "image", "format": "url", "value": "https://example.com/image.jpg" } ``` */
   query: InferenceRerankRerankQuery;
-  /** The documents to rank. The input can be specified as a single string or an array of strings, or as an object or an array of objects. The object form additionally allows specifying non-text inputs, such as images. > info > Only the `elastic` service currently supports non-text inputs for the `rerank` task. For all other services, the input must be a string or an array of strings. string example: ``` "input": "some document text" ``` string array example: ``` "input": ["some document text", "some more document text"] ``` object example: ``` "input": { "type": "image", "format": "base64", "value": "data:image/jpeg;base64,..." } ``` object array example: ``` "input": [ { "type": "text", "format": "text", "value": "some document text" }, { "type": "image", "format": "base64", "value": "data:image/jpeg;base64,..." } ] ``` */
+  /** The documents to rank. The input can be specified as a single string or an array of strings, or as an object or an array of objects. The object form additionally allows specifying non-text inputs, such as images. > info > Only the `elastic` service currently supports non-text inputs for the `rerank` task. For all other services, the input must be a string or an array of strings. string example: ``` "input": "some document text" ``` string array example: ``` "input": ["some document text", "some more document text"] ``` object example: ``` "input": { "type": "image", "format": "base64", "value": "data:image/jpeg;base64,..." } ``` object array example: ``` "input": [ { "type": "text", "format": "text", "value": "some document text" }, { "type": "image", "format": "base64", "value": "data:image/jpeg;base64,..." } ] ``` object array example using the `url` format (available in Elasticsearch 9.6.0 and later): ``` "input": [ { "type": "image", "format": "url", "value": "https://example.com/image.jpg" } ] ``` */
   input: InferenceRerankRerankInput;
   /** Include the document text in the response. */
   return_documents?: boolean;
@@ -55760,16 +54345,8 @@ export const InferenceRerankRequest = /*@__PURE__*/ S.suspend(() =>
     return_documents: S.optional(S.Boolean),
     top_n: S.optional(S.Number),
     task_settings: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_inference/rerank/{inference_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "InferenceRerankRequest",
-}) as any as S.Schema<InferenceRerankRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/_inference/rerank/{inference_id}", code: 200 })),
+).annotate({ identifier: "InferenceRerankRequest" }) as any as S.Schema<InferenceRerankRequest>;
 
 export type InferenceTypesRerankedInferenceResultRerankList = Array<InferenceTypesRankedDocument>;
 export const InferenceTypesRerankedInferenceResultRerankList = /*@__PURE__*/ S.Array(
@@ -55817,11 +54394,7 @@ export const InferenceSparseEmbeddingRequest = /*@__PURE__*/ S.suspend(() =>
     input: InferenceSparseEmbeddingRequestInput,
     task_settings: S.optional(S.Unknown),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_inference/sparse_embedding/{inference_id}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/_inference/sparse_embedding/{inference_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "InferenceSparseEmbeddingRequest",
@@ -55875,11 +54448,7 @@ export const InferenceStreamCompletionRequest = /*@__PURE__*/ S.suspend(() =>
     input: InferenceStreamCompletionRequestInput,
     task_settings: S.optional(S.Unknown),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_inference/completion/{inference_id}/_stream",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/_inference/completion/{inference_id}/_stream", code: 200 }),
   ),
 ).annotate({
   identifier: "InferenceStreamCompletionRequest",
@@ -55923,13 +54492,7 @@ export const InferenceTextEmbeddingRequest = /*@__PURE__*/ S.suspend(() =>
     input: InferenceTextEmbeddingRequestInput,
     input_type: S.optional(S.String),
     task_settings: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_inference/text_embedding/{inference_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_inference/text_embedding/{inference_id}", code: 200 })),
 ).annotate({
   identifier: "InferenceTextEmbeddingRequest",
 }) as any as S.Schema<InferenceTextEmbeddingRequest>;
@@ -56009,15 +54572,9 @@ export const InferenceUpdate1Request = /*@__PURE__*/ S.suspend(() =>
     service_settings: S.Unknown,
     task_settings: S.optional(S.Unknown),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_inference/{task_type}/{inference_id}/_update",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/_inference/{task_type}/{inference_id}/_update", code: 200 }),
   ),
-).annotate({
-  identifier: "InferenceUpdate1Request",
-}) as any as S.Schema<InferenceUpdate1Request>;
+).annotate({ identifier: "InferenceUpdate1Request" }) as any as S.Schema<InferenceUpdate1Request>;
 
 export interface InferenceUpdate1Response {
   /** The chunking configuration object. Applies only to the `embedding`, `sparse_embedding` and `text_embedding` task types. Not applicable to the `rerank`, `completion`, or `chat_completion` task types. */
@@ -56042,9 +54599,7 @@ export const InferenceUpdate1Response = /*@__PURE__*/ S.suspend(() =>
     inference_id: S.String,
     task_type: InferenceTypesTaskType,
   }),
-).annotate({
-  identifier: "InferenceUpdate1Response",
-}) as any as S.Schema<InferenceUpdate1Response>;
+).annotate({ identifier: "InferenceUpdate1Response" }) as any as S.Schema<InferenceUpdate1Response>;
 
 export interface InfoRequest {}
 export const InfoRequest = /*@__PURE__*/ S.suspend(() =>
@@ -56120,13 +54675,7 @@ export const IngestDeleteGeoipDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/_ingest/geoip/database/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/_ingest/geoip/database/{id}", code: 200 })),
 ).annotate({
   identifier: "IngestDeleteGeoipDatabaseRequest",
 }) as any as S.Schema<IngestDeleteGeoipDatabaseRequest>;
@@ -56144,13 +54693,7 @@ export const IngestDeleteIpLocationDatabaseRequest = /*@__PURE__*/ S.suspend(() 
     id: S.String.pipe(T.Label()),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/_ingest/ip_location/database/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/_ingest/ip_location/database/{id}", code: 200 })),
 ).annotate({
   identifier: "IngestDeleteIpLocationDatabaseRequest",
 }) as any as S.Schema<IngestDeleteIpLocationDatabaseRequest>;
@@ -56176,9 +54719,7 @@ export const IngestDeletePipelineRequest = /*@__PURE__*/ S.suspend(() =>
 export interface IngestGeoIpStatsRequest {}
 export const IngestGeoIpStatsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/_ingest/geoip/stats", code: 200 })),
-).annotate({
-  identifier: "IngestGeoIpStatsRequest",
-}) as any as S.Schema<IngestGeoIpStatsRequest>;
+).annotate({ identifier: "IngestGeoIpStatsRequest" }) as any as S.Schema<IngestGeoIpStatsRequest>;
 
 export interface IngestGeoIpStatsGeoIpDownloadStatistics {
   /** Total number of successful database downloads. */
@@ -56268,9 +54809,7 @@ export const IngestGeoIpStatsResponse = /*@__PURE__*/ S.suspend(() =>
     stats: IngestGeoIpStatsGeoIpDownloadStatistics,
     nodes: IngestGeoIpStatsResponseNodesMap,
   }),
-).annotate({
-  identifier: "IngestGeoIpStatsResponse",
-}) as any as S.Schema<IngestGeoIpStatsResponse>;
+).annotate({ identifier: "IngestGeoIpStatsResponse" }) as any as S.Schema<IngestGeoIpStatsResponse>;
 
 export interface IngestGetGeoipDatabaseRequest {}
 export const IngestGetGeoipDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
@@ -56286,9 +54825,7 @@ export const IngestTypesMaxmind = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     account_id: S.String,
   }),
-).annotate({
-  identifier: "IngestTypesMaxmind",
-}) as any as S.Schema<IngestTypesMaxmind>;
+).annotate({ identifier: "IngestTypesMaxmind" }) as any as S.Schema<IngestTypesMaxmind>;
 
 /** The configuration necessary to identify which IP geolocation provider to use to download a database, as well as any provider-specific configuration necessary for such downloading. At present, the only supported providers are `maxmind` and `ipinfo`, and the `maxmind` provider requires that an `account_id` (string) is configured. A provider (either `maxmind` or `ipinfo`) must be specified. The web and local providers can be returned as read only configurations. */
 export interface IngestTypesDatabaseConfiguration {
@@ -56384,9 +54921,7 @@ export const IngestTypesLocal = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.String,
   }),
-).annotate({
-  identifier: "IngestTypesLocal",
-}) as any as S.Schema<IngestTypesLocal>;
+).annotate({ identifier: "IngestTypesLocal" }) as any as S.Schema<IngestTypesLocal>;
 
 export interface IngestTypesDatabaseConfigurationFull {
   /** The provider-assigned name of the IP geolocation database to download. */
@@ -56452,13 +54987,7 @@ export interface IngestGetIpLocationDatabase1Request {
 export const IngestGetIpLocationDatabase1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_ingest/ip_location/database/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_ingest/ip_location/database/{id}", code: 200 })),
 ).annotate({
   identifier: "IngestGetIpLocationDatabase1Request",
 }) as any as S.Schema<IngestGetIpLocationDatabase1Request>;
@@ -56491,9 +55020,7 @@ export const IngestGetPipelineRequest = /*@__PURE__*/ S.suspend(() =>
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     summary: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_ingest/pipeline", code: 200 })),
-).annotate({
-  identifier: "IngestGetPipelineRequest",
-}) as any as S.Schema<IngestGetPipelineRequest>;
+).annotate({ identifier: "IngestGetPipelineRequest" }) as any as S.Schema<IngestGetPipelineRequest>;
 
 /** Handle failures for the processor. */
 export type IngestTypesAppendProcessorOnFailureList = Array<IngestTypesProcessorContainer>;
@@ -56696,9 +55223,7 @@ export const IngestTypesCefProcessor = /*@__PURE__*/ S.suspend(() =>
     ignore_empty_values: S.optional(S.Boolean),
     timezone: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IngestTypesCefProcessor",
-}) as any as S.Schema<IngestTypesCefProcessor>;
+).annotate({ identifier: "IngestTypesCefProcessor" }) as any as S.Schema<IngestTypesCefProcessor>;
 
 /** Handle failures for the processor. */
 export type IngestTypesCircleProcessorOnFailureList = Array<IngestTypesProcessorContainer>;
@@ -56911,9 +55436,7 @@ export const IngestTypesCsvProcessor = /*@__PURE__*/ S.suspend(() =>
     target_fields: TypesFields,
     trim: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "IngestTypesCsvProcessor",
-}) as any as S.Schema<IngestTypesCsvProcessor>;
+).annotate({ identifier: "IngestTypesCsvProcessor" }) as any as S.Schema<IngestTypesCsvProcessor>;
 
 /** Handle failures for the processor. */
 export type IngestTypesDateProcessorOnFailureList = Array<IngestTypesProcessorContainer>;
@@ -56965,9 +55488,7 @@ export const IngestTypesDateProcessor = /*@__PURE__*/ S.suspend(() =>
     timezone: S.optional(S.String),
     output_format: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IngestTypesDateProcessor",
-}) as any as S.Schema<IngestTypesDateProcessor>;
+).annotate({ identifier: "IngestTypesDateProcessor" }) as any as S.Schema<IngestTypesDateProcessor>;
 
 /** Handle failures for the processor. */
 export type IngestTypesDateIndexNameProcessorOnFailureList = Array<IngestTypesProcessorContainer>;
@@ -57133,9 +55654,7 @@ export const IngestTypesDropProcessor = /*@__PURE__*/ S.suspend(() =>
     on_failure: S.optional(IngestTypesDropProcessorOnFailureList),
     tag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IngestTypesDropProcessor",
-}) as any as S.Schema<IngestTypesDropProcessor>;
+).annotate({ identifier: "IngestTypesDropProcessor" }) as any as S.Schema<IngestTypesDropProcessor>;
 
 /** Handle failures for the processor. */
 export type IngestTypesEnrichProcessorOnFailureList = Array<IngestTypesProcessorContainer>;
@@ -57220,9 +55739,7 @@ export const IngestTypesFailProcessor = /*@__PURE__*/ S.suspend(() =>
     tag: S.optional(S.String),
     message: S.String,
   }),
-).annotate({
-  identifier: "IngestTypesFailProcessor",
-}) as any as S.Schema<IngestTypesFailProcessor>;
+).annotate({ identifier: "IngestTypesFailProcessor" }) as any as S.Schema<IngestTypesFailProcessor>;
 
 /** Handle failures for the processor. */
 export type IngestTypesFingerprintProcessorOnFailureList = Array<IngestTypesProcessorContainer>;
@@ -57495,9 +56012,7 @@ export const IngestTypesGrokProcessorOnFailureList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<IngestTypesGrokProcessorOnFailureList>;
 
 /** A map of pattern-name and pattern tuples defining custom patterns to be used by the current processor. Patterns matching existing names will override the pre-existing definition. */
-export type IngestTypesGrokProcessorPatternDefinitionsMap = {
-  [key: string]: string | undefined;
-};
+export type IngestTypesGrokProcessorPatternDefinitionsMap = { [key: string]: string | undefined };
 export const IngestTypesGrokProcessorPatternDefinitionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -57550,9 +56065,7 @@ export const IngestTypesGrokProcessor = /*@__PURE__*/ S.suspend(() =>
     trace_match: S.optional(S.Boolean),
     validate_only: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "IngestTypesGrokProcessor",
-}) as any as S.Schema<IngestTypesGrokProcessor>;
+).annotate({ identifier: "IngestTypesGrokProcessor" }) as any as S.Schema<IngestTypesGrokProcessor>;
 
 /** Handle failures for the processor. */
 export type IngestTypesGsubProcessorOnFailureList = Array<IngestTypesProcessorContainer>;
@@ -57595,9 +56108,7 @@ export const IngestTypesGsubProcessor = /*@__PURE__*/ S.suspend(() =>
     replacement: S.String,
     target_field: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IngestTypesGsubProcessor",
-}) as any as S.Schema<IngestTypesGsubProcessor>;
+).annotate({ identifier: "IngestTypesGsubProcessor" }) as any as S.Schema<IngestTypesGsubProcessor>;
 
 /** Handle failures for the processor. */
 export type IngestTypesHtmlStripProcessorOnFailureList = Array<IngestTypesProcessorContainer>;
@@ -57645,9 +56156,7 @@ export const IngestTypesInferenceProcessorOnFailureList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<IngestTypesInferenceProcessorOnFailureList>;
 
 /** Maps the document field names to the known field names of the model. This mapping takes precedence over any default mappings provided in the model configuration. */
-export type IngestTypesInferenceProcessorFieldMapMap = {
-  [key: string]: unknown | undefined;
-};
+export type IngestTypesInferenceProcessorFieldMapMap = { [key: string]: unknown | undefined };
 export const IngestTypesInferenceProcessorFieldMapMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -57716,9 +56225,7 @@ export const IngestTypesInputConfig = /*@__PURE__*/ S.suspend(() =>
     input_field: S.String,
     output_field: S.String,
   }),
-).annotate({
-  identifier: "IngestTypesInputConfig",
-}) as any as S.Schema<IngestTypesInputConfig>;
+).annotate({ identifier: "IngestTypesInputConfig" }) as any as S.Schema<IngestTypesInputConfig>;
 
 export type IngestTypesInferenceProcessorInputOutputCase1List = Array<IngestTypesInputConfig>;
 export const IngestTypesInferenceProcessorInputOutputCase1List = /*@__PURE__*/ S.Array(
@@ -57809,9 +56316,7 @@ export const IngestTypesJoinProcessor = /*@__PURE__*/ S.suspend(() =>
     separator: S.String,
     target_field: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IngestTypesJoinProcessor",
-}) as any as S.Schema<IngestTypesJoinProcessor>;
+).annotate({ identifier: "IngestTypesJoinProcessor" }) as any as S.Schema<IngestTypesJoinProcessor>;
 
 /** Handle failures for the processor. */
 export type IngestTypesJsonProcessorOnFailureList = Array<IngestTypesProcessorContainer>;
@@ -57857,9 +56362,7 @@ export const IngestTypesJsonProcessor = /*@__PURE__*/ S.suspend(() =>
     field: S.String,
     target_field: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IngestTypesJsonProcessor",
-}) as any as S.Schema<IngestTypesJsonProcessor>;
+).annotate({ identifier: "IngestTypesJsonProcessor" }) as any as S.Schema<IngestTypesJsonProcessor>;
 
 /** Handle failures for the processor. */
 export type IngestTypesKeyValueProcessorOnFailureList = Array<IngestTypesProcessorContainer>;
@@ -58078,9 +56581,7 @@ export const IngestTypesRedactProcessorPatternsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<IngestTypesRedactProcessorPatternsList>;
 
-export type IngestTypesRedactProcessorPatternDefinitionsMap = {
-  [key: string]: string | undefined;
-};
+export type IngestTypesRedactProcessorPatternDefinitionsMap = { [key: string]: string | undefined };
 export const IngestTypesRedactProcessorPatternDefinitionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -58321,9 +56822,7 @@ export const IngestTypesScriptProcessorOnFailureList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<IngestTypesScriptProcessorOnFailureList>;
 
 /** Object containing parameters for the script. */
-export type IngestTypesScriptProcessorParamsMap = {
-  [key: string]: unknown | undefined;
-};
+export type IngestTypesScriptProcessorParamsMap = { [key: string]: unknown | undefined };
 export const IngestTypesScriptProcessorParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -58409,9 +56908,7 @@ export const IngestTypesSetProcessor = /*@__PURE__*/ S.suspend(() =>
     override: S.optional(S.Boolean),
     value: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "IngestTypesSetProcessor",
-}) as any as S.Schema<IngestTypesSetProcessor>;
+).annotate({ identifier: "IngestTypesSetProcessor" }) as any as S.Schema<IngestTypesSetProcessor>;
 
 /** Handle failures for the processor. */
 export type IngestTypesSetSecurityUserProcessorOnFailureList = Array<IngestTypesProcessorContainer>;
@@ -58490,9 +56987,7 @@ export const IngestTypesSortProcessor = /*@__PURE__*/ S.suspend(() =>
     order: S.optional(TypesSortOrder),
     target_field: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IngestTypesSortProcessor",
-}) as any as S.Schema<IngestTypesSortProcessor>;
+).annotate({ identifier: "IngestTypesSortProcessor" }) as any as S.Schema<IngestTypesSortProcessor>;
 
 /** Handle failures for the processor. */
 export type IngestTypesSplitProcessorOnFailureList = Array<IngestTypesProcessorContainer>;
@@ -58604,9 +57099,7 @@ export const IngestTypesTrimProcessor = /*@__PURE__*/ S.suspend(() =>
     ignore_missing: S.optional(S.Boolean),
     target_field: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IngestTypesTrimProcessor",
-}) as any as S.Schema<IngestTypesTrimProcessor>;
+).annotate({ identifier: "IngestTypesTrimProcessor" }) as any as S.Schema<IngestTypesTrimProcessor>;
 
 /** Handle failures for the processor. */
 export type IngestTypesUppercaseProcessorOnFailureList = Array<IngestTypesProcessorContainer>;
@@ -58990,13 +57483,9 @@ export const IngestTypesPipeline = /*@__PURE__*/ S.suspend(() =>
     modified_date_millis: S.optional(S.Number),
     field_access_pattern: S.optional(IngestTypesFieldAccessPattern),
   }),
-).annotate({
-  identifier: "IngestTypesPipeline",
-}) as any as S.Schema<IngestTypesPipeline>;
+).annotate({ identifier: "IngestTypesPipeline" }) as any as S.Schema<IngestTypesPipeline>;
 
-export type IngestGetPipelineResponseBodyMap = {
-  [key: string]: IngestTypesPipeline | undefined;
-};
+export type IngestGetPipelineResponseBodyMap = { [key: string]: IngestTypesPipeline | undefined };
 export const IngestGetPipelineResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   IngestTypesPipeline,
@@ -59027,9 +57516,7 @@ export const IngestGetPipeline1Request = /*@__PURE__*/ S.suspend(() =>
   identifier: "IngestGetPipeline1Request",
 }) as any as S.Schema<IngestGetPipeline1Request>;
 
-export type IngestGetPipeline1ResponseBodyMap = {
-  [key: string]: IngestTypesPipeline | undefined;
-};
+export type IngestGetPipeline1ResponseBodyMap = { [key: string]: IngestTypesPipeline | undefined };
 export const IngestGetPipeline1ResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   IngestTypesPipeline,
@@ -59049,9 +57536,7 @@ export const IngestProcessorGrokRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "IngestProcessorGrokRequest",
 }) as any as S.Schema<IngestProcessorGrokRequest>;
 
-export type IngestProcessorGrokResponsePatternsMap = {
-  [key: string]: string | undefined;
-};
+export type IngestProcessorGrokResponsePatternsMap = { [key: string]: string | undefined };
 export const IngestProcessorGrokResponsePatternsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -59112,13 +57597,7 @@ export const IngestPutIpLocationDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     maxmind: S.optional(IngestTypesMaxmind),
     ipinfo: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_ingest/ip_location/database/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_ingest/ip_location/database/{id}", code: 200 })),
 ).annotate({
   identifier: "IngestPutIpLocationDatabaseRequest",
 }) as any as S.Schema<IngestPutIpLocationDatabaseRequest>;
@@ -59173,9 +57652,7 @@ export const IngestPutPipelineRequest = /*@__PURE__*/ S.suspend(() =>
     deprecated: S.optional(S.Boolean),
     field_access_pattern: S.optional(IngestTypesFieldAccessPattern),
   }).pipe(T.Http({ method: "PUT", uri: "/_ingest/pipeline/{id}", code: 200 })),
-).annotate({
-  identifier: "IngestPutPipelineRequest",
-}) as any as S.Schema<IngestPutPipelineRequest>;
+).annotate({ identifier: "IngestPutPipelineRequest" }) as any as S.Schema<IngestPutPipelineRequest>;
 
 export interface IngestTypesDocument {
   /** Unique identifier for the document. This ID must be unique within the `_index`. */
@@ -59191,9 +57668,7 @@ export const IngestTypesDocument = /*@__PURE__*/ S.suspend(() =>
     _index: S.optional(S.String),
     _source: S.Unknown,
   }),
-).annotate({
-  identifier: "IngestTypesDocument",
-}) as any as S.Schema<IngestTypesDocument>;
+).annotate({ identifier: "IngestTypesDocument" }) as any as S.Schema<IngestTypesDocument>;
 
 /** Sample documents to test in the pipeline. */
 export type IngestSimulateRequestDocsList = Array<IngestTypesDocument>;
@@ -59215,9 +57690,7 @@ export const IngestSimulateRequest = /*@__PURE__*/ S.suspend(() =>
     docs: IngestSimulateRequestDocsList,
     pipeline: S.optional(IngestTypesPipeline),
   }).pipe(T.Http({ method: "GET", uri: "/_ingest/pipeline/_simulate", code: 200 })),
-).annotate({
-  identifier: "IngestSimulateRequest",
-}) as any as S.Schema<IngestSimulateRequest>;
+).annotate({ identifier: "IngestSimulateRequest" }) as any as S.Schema<IngestSimulateRequest>;
 
 export interface IngestTypesRedact {
   /** indicates if document has been redacted */
@@ -59227,9 +57700,7 @@ export const IngestTypesRedact = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _is_redacted: S.Boolean,
   }),
-).annotate({
-  identifier: "IngestTypesRedact",
-}) as any as S.Schema<IngestTypesRedact>;
+).annotate({ identifier: "IngestTypesRedact" }) as any as S.Schema<IngestTypesRedact>;
 
 export interface IngestTypesIngest {
   _redact?: IngestTypesRedact;
@@ -59242,14 +57713,10 @@ export const IngestTypesIngest = /*@__PURE__*/ S.suspend(() =>
     timestamp: TypesDateTime,
     pipeline: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IngestTypesIngest",
-}) as any as S.Schema<IngestTypesIngest>;
+).annotate({ identifier: "IngestTypesIngest" }) as any as S.Schema<IngestTypesIngest>;
 
 /** JSON body for the document. */
-export type IngestTypesDocumentSimulationSourceMap = {
-  [key: string]: unknown | undefined;
-};
+export type IngestTypesDocumentSimulationSourceMap = { [key: string]: unknown | undefined };
 export const IngestTypesDocumentSimulationSourceMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -59352,9 +57819,7 @@ export const IngestSimulateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     docs: IngestSimulateResponseDocsList,
   }),
-).annotate({
-  identifier: "IngestSimulateResponse",
-}) as any as S.Schema<IngestSimulateResponse>;
+).annotate({ identifier: "IngestSimulateResponse" }) as any as S.Schema<IngestSimulateResponse>;
 
 /** Sample documents to test in the pipeline. */
 export type IngestSimulate1RequestDocsList = Array<IngestTypesDocument>;
@@ -59376,9 +57841,7 @@ export const IngestSimulate1Request = /*@__PURE__*/ S.suspend(() =>
     docs: IngestSimulate1RequestDocsList,
     pipeline: S.optional(IngestTypesPipeline),
   }).pipe(T.Http({ method: "POST", uri: "/_ingest/pipeline/_simulate", code: 200 })),
-).annotate({
-  identifier: "IngestSimulate1Request",
-}) as any as S.Schema<IngestSimulate1Request>;
+).annotate({ identifier: "IngestSimulate1Request" }) as any as S.Schema<IngestSimulate1Request>;
 
 export type IngestSimulate1ResponseDocsList = Array<IngestTypesSimulateDocumentResult>;
 export const IngestSimulate1ResponseDocsList = /*@__PURE__*/ S.Array(
@@ -59392,9 +57855,7 @@ export const IngestSimulate1Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     docs: IngestSimulate1ResponseDocsList,
   }),
-).annotate({
-  identifier: "IngestSimulate1Response",
-}) as any as S.Schema<IngestSimulate1Response>;
+).annotate({ identifier: "IngestSimulate1Response" }) as any as S.Schema<IngestSimulate1Response>;
 
 /** Sample documents to test in the pipeline. */
 export type IngestSimulate2RequestDocsList = Array<IngestTypesDocument>;
@@ -59418,16 +57879,8 @@ export const IngestSimulate2Request = /*@__PURE__*/ S.suspend(() =>
     verbose: S.optional(S.Boolean.pipe(T.Query())),
     docs: IngestSimulate2RequestDocsList,
     pipeline: S.optional(IngestTypesPipeline),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_ingest/pipeline/{id}/_simulate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "IngestSimulate2Request",
-}) as any as S.Schema<IngestSimulate2Request>;
+  }).pipe(T.Http({ method: "GET", uri: "/_ingest/pipeline/{id}/_simulate", code: 200 })),
+).annotate({ identifier: "IngestSimulate2Request" }) as any as S.Schema<IngestSimulate2Request>;
 
 export type IngestSimulate2ResponseDocsList = Array<IngestTypesSimulateDocumentResult>;
 export const IngestSimulate2ResponseDocsList = /*@__PURE__*/ S.Array(
@@ -59441,9 +57894,7 @@ export const IngestSimulate2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     docs: IngestSimulate2ResponseDocsList,
   }),
-).annotate({
-  identifier: "IngestSimulate2Response",
-}) as any as S.Schema<IngestSimulate2Response>;
+).annotate({ identifier: "IngestSimulate2Response" }) as any as S.Schema<IngestSimulate2Response>;
 
 /** Sample documents to test in the pipeline. */
 export type IngestSimulate3RequestDocsList = Array<IngestTypesDocument>;
@@ -59467,16 +57918,8 @@ export const IngestSimulate3Request = /*@__PURE__*/ S.suspend(() =>
     verbose: S.optional(S.Boolean.pipe(T.Query())),
     docs: IngestSimulate3RequestDocsList,
     pipeline: S.optional(IngestTypesPipeline),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ingest/pipeline/{id}/_simulate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "IngestSimulate3Request",
-}) as any as S.Schema<IngestSimulate3Request>;
+  }).pipe(T.Http({ method: "POST", uri: "/_ingest/pipeline/{id}/_simulate", code: 200 })),
+).annotate({ identifier: "IngestSimulate3Request" }) as any as S.Schema<IngestSimulate3Request>;
 
 export type IngestSimulate3ResponseDocsList = Array<IngestTypesSimulateDocumentResult>;
 export const IngestSimulate3ResponseDocsList = /*@__PURE__*/ S.Array(
@@ -59490,9 +57933,7 @@ export const IngestSimulate3Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     docs: IngestSimulate3ResponseDocsList,
   }),
-).annotate({
-  identifier: "IngestSimulate3Response",
-}) as any as S.Schema<IngestSimulate3Response>;
+).annotate({ identifier: "IngestSimulate3Response" }) as any as S.Schema<IngestSimulate3Response>;
 
 export interface InvalidateSecuritySamlRequest {
   /** The Assertion Consumer Service URL that matches the one of the SAML realm in Elasticsearch that should be used. You must specify either this parameter or the `realm` parameter. */
@@ -59595,9 +58036,7 @@ export const LicenseTypesLicense = /*@__PURE__*/ S.suspend(() =>
     type: LicenseTypesLicenseType,
     uid: S.String,
   }),
-).annotate({
-  identifier: "LicenseTypesLicense",
-}) as any as S.Schema<LicenseTypesLicense>;
+).annotate({ identifier: "LicenseTypesLicense" }) as any as S.Schema<LicenseTypesLicense>;
 
 /** A sequence of one or more JSON documents containing the license information. */
 export type LicensePost1RequestLicensesList = Array<LicenseTypesLicense>;
@@ -59624,9 +58063,7 @@ export const LicensePost1Request = /*@__PURE__*/ S.suspend(() =>
     license: S.optional(LicenseTypesLicense),
     licenses: S.optional(LicensePost1RequestLicensesList),
   }).pipe(T.Http({ method: "POST", uri: "/_license", code: 200 })),
-).annotate({
-  identifier: "LicensePost1Request",
-}) as any as S.Schema<LicensePost1Request>;
+).annotate({ identifier: "LicensePost1Request" }) as any as S.Schema<LicensePost1Request>;
 
 export type LicensePostAcknowledgementLicenseList = Array<string>;
 export const LicensePostAcknowledgementLicenseList = /*@__PURE__*/ S.Array(
@@ -59657,9 +58094,7 @@ export const LicensePost1Response = /*@__PURE__*/ S.suspend(() =>
     acknowledged: S.Boolean,
     license_status: LicenseTypesLicenseStatus,
   }),
-).annotate({
-  identifier: "LicensePost1Response",
-}) as any as S.Schema<LicensePost1Response>;
+).annotate({ identifier: "LicensePost1Response" }) as any as S.Schema<LicensePost1Response>;
 
 export interface LicensePostStartBasicRequest {
   /** To start a basic license, you must accept the acknowledge messages and set this parameter to `true`. */
@@ -59934,9 +58369,7 @@ export const ListConnectorRequest = /*@__PURE__*/ S.suspend(() =>
     include_deleted: S.optional(S.Boolean.pipe(T.Query())),
     query: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_connector", code: 200 })),
-).annotate({
-  identifier: "ListConnectorRequest",
-}) as any as S.Schema<ListConnectorRequest>;
+).annotate({ identifier: "ListConnectorRequest" }) as any as S.Schema<ListConnectorRequest>;
 
 export type ListConnectorResponseResultsList = Array<ConnectorTypesConnector>;
 export const ListConnectorResponseResultsList = /*@__PURE__*/ S.Array(
@@ -59952,9 +58385,7 @@ export const ListConnectorResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.Number,
     results: ListConnectorResponseResultsList,
   }),
-).annotate({
-  identifier: "ListConnectorResponse",
-}) as any as S.Schema<ListConnectorResponse>;
+).annotate({ identifier: "ListConnectorResponse" }) as any as S.Schema<ListConnectorResponse>;
 
 export type ListConnectorSyncJobRequestJobTypeCase1List = Array<
   ConnectorTypesSyncJobType | (string & {})
@@ -60019,9 +58450,7 @@ export const ListReindexRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     detailed: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_reindex", code: 200 })),
-).annotate({
-  identifier: "ListReindexRequest",
-}) as any as S.Schema<ListReindexRequest>;
+).annotate({ identifier: "ListReindexRequest" }) as any as S.Schema<ListReindexRequest>;
 
 /** Information about a single parent reindex task, as returned by the reindex management APIs. */
 export interface TypesReindexTaskInfo {
@@ -60053,9 +58482,7 @@ export const TypesReindexTaskInfo = /*@__PURE__*/ S.suspend(() =>
     cancelled: S.Boolean,
     status: S.optional(TypesReindexStatus),
   }),
-).annotate({
-  identifier: "TypesReindexTaskInfo",
-}) as any as S.Schema<TypesReindexTaskInfo>;
+).annotate({ identifier: "TypesReindexTaskInfo" }) as any as S.Schema<TypesReindexTaskInfo>;
 
 /** The list of currently running reindex tasks. */
 export type ListReindexResponseReindexList = Array<TypesReindexTaskInfo>;
@@ -60089,9 +58516,7 @@ export const ListReindexResponse = /*@__PURE__*/ S.suspend(() =>
     task_failures: S.optional(ListReindexResponseTaskFailuresList),
     node_failures: S.optional(ListReindexResponseNodeFailuresList),
   }),
-).annotate({
-  identifier: "ListReindexResponse",
-}) as any as S.Schema<ListReindexResponse>;
+).annotate({ identifier: "ListReindexResponse" }) as any as S.Schema<ListReindexResponse>;
 
 export type ListTasksRequestActionsCase1List = Array<string>;
 export const ListTasksRequestActionsCase1List = /*@__PURE__*/ S.Array(
@@ -60138,9 +58563,7 @@ export const ListTasksRequest = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(TypesDuration.pipe(T.Query())),
     wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_tasks", code: 200 })),
-).annotate({
-  identifier: "ListTasksRequest",
-}) as any as S.Schema<ListTasksRequest>;
+).annotate({ identifier: "ListTasksRequest" }) as any as S.Schema<ListTasksRequest>;
 
 export interface LogoutSecurityOidcRequest {
   /** The access token to be invalidated. */
@@ -60212,13 +58635,7 @@ export const LogoutSecuritySamlCompleteRequest = /*@__PURE__*/ S.suspend(() =>
     ids: TypesIds,
     query_string: S.optional(S.String),
     content: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_security/saml/complete_logout",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_security/saml/complete_logout", code: 200 })),
 ).annotate({
   identifier: "LogoutSecuritySamlCompleteRequest",
 }) as any as S.Schema<LogoutSecuritySamlCompleteRequest>;
@@ -60317,9 +58734,7 @@ export const LogstashTypesPipeline = /*@__PURE__*/ S.suspend(() =>
     pipeline_settings: LogstashTypesPipelineSettings,
     username: S.String,
   }),
-).annotate({
-  identifier: "LogstashTypesPipeline",
-}) as any as S.Schema<LogstashTypesPipeline>;
+).annotate({ identifier: "LogstashTypesPipeline" }) as any as S.Schema<LogstashTypesPipeline>;
 
 export type LogstashGetPipelineResponseBodyMap = {
   [key: string]: LogstashTypesPipeline | undefined;
@@ -60422,9 +58837,7 @@ export const GlobalMgetOperation = /*@__PURE__*/ S.suspend(() =>
     version: S.optional(S.Number),
     version_type: S.optional(TypesVersionType),
   }),
-).annotate({
-  identifier: "GlobalMgetOperation",
-}) as any as S.Schema<GlobalMgetOperation>;
+).annotate({ identifier: "GlobalMgetOperation" }) as any as S.Schema<GlobalMgetOperation>;
 
 /** The documents you want to retrieve. Required if no index is specified in the request URI. */
 export type MgetRequestDocsList = Array<GlobalMgetOperation>;
@@ -60480,9 +58893,7 @@ export const GlobalMgetMultiGetError = /*@__PURE__*/ S.suspend(() =>
     _id: S.String,
     _index: S.String,
   }),
-).annotate({
-  identifier: "GlobalMgetMultiGetError",
-}) as any as S.Schema<GlobalMgetMultiGetError>;
+).annotate({ identifier: "GlobalMgetMultiGetError" }) as any as S.Schema<GlobalMgetMultiGetError>;
 
 export type GlobalMgetResponseItem = GlobalGetGetResult | GlobalMgetMultiGetError;
 export const GlobalMgetResponseItem = S.Unknown as any as S.Schema<GlobalMgetResponseItem>;
@@ -60696,9 +59107,7 @@ export const MigrationDeprecationsRequest = /*@__PURE__*/ S.suspend(() =>
 export type MigrationDeprecationsDeprecationLevel = "none" | "info" | "warning" | "critical";
 export const MigrationDeprecationsDeprecationLevel = S.String;
 
-export type MigrationDeprecationsDeprecationMetaMap = {
-  [key: string]: unknown | undefined;
-};
+export type MigrationDeprecationsDeprecationMetaMap = { [key: string]: unknown | undefined };
 export const MigrationDeprecationsDeprecationMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -60843,13 +59252,7 @@ export interface MigrationDeprecations1Request {
 export const MigrationDeprecations1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/{index}/_migration/deprecations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/{index}/_migration/deprecations", code: 200 })),
 ).annotate({
   identifier: "MigrationDeprecations1Request",
 }) as any as S.Schema<MigrationDeprecations1Request>;
@@ -61118,16 +59521,8 @@ export const MlCloseJobRequest = /*@__PURE__*/ S.suspend(() =>
     allow_no_match: S.optional(S.Boolean.pipe(T.Query())),
     force: S.optional(S.Boolean.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/anomaly_detectors/{job_id}/_close",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "MlCloseJobRequest",
-}) as any as S.Schema<MlCloseJobRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/_ml/anomaly_detectors/{job_id}/_close", code: 200 })),
+).annotate({ identifier: "MlCloseJobRequest" }) as any as S.Schema<MlCloseJobRequest>;
 
 export interface MlCloseJobResponse {
   closed: boolean;
@@ -61136,9 +59531,7 @@ export const MlCloseJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     closed: S.Boolean,
   }),
-).annotate({
-  identifier: "MlCloseJobResponse",
-}) as any as S.Schema<MlCloseJobResponse>;
+).annotate({ identifier: "MlCloseJobResponse" }) as any as S.Schema<MlCloseJobResponse>;
 
 export interface MlDeleteCalendarRequest {
   /** A string that uniquely identifies a calendar. */
@@ -61147,16 +59540,8 @@ export interface MlDeleteCalendarRequest {
 export const MlDeleteCalendarRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     calendar_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/_ml/calendars/{calendar_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "MlDeleteCalendarRequest",
-}) as any as S.Schema<MlDeleteCalendarRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/_ml/calendars/{calendar_id}", code: 200 })),
+).annotate({ identifier: "MlDeleteCalendarRequest" }) as any as S.Schema<MlDeleteCalendarRequest>;
 
 export interface MlDeleteCalendarEventRequest {
   /** A string that uniquely identifies a calendar. */
@@ -61169,11 +59554,7 @@ export const MlDeleteCalendarEventRequest = /*@__PURE__*/ S.suspend(() =>
     calendar_id: S.String.pipe(T.Label()),
     event_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/_ml/calendars/{calendar_id}/events/{event_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/_ml/calendars/{calendar_id}/events/{event_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "MlDeleteCalendarEventRequest",
@@ -61190,11 +59571,7 @@ export const MlDeleteCalendarJobRequest = /*@__PURE__*/ S.suspend(() =>
     calendar_id: S.String.pipe(T.Label()),
     job_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/_ml/calendars/{calendar_id}/jobs/{job_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/_ml/calendars/{calendar_id}/jobs/{job_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "MlDeleteCalendarJobRequest",
@@ -61228,16 +59605,8 @@ export const MlDeleteDatafeedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     datafeed_id: S.String.pipe(T.Label()),
     force: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/_ml/datafeeds/{datafeed_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "MlDeleteDatafeedRequest",
-}) as any as S.Schema<MlDeleteDatafeedRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/_ml/datafeeds/{datafeed_id}", code: 200 })),
+).annotate({ identifier: "MlDeleteDatafeedRequest" }) as any as S.Schema<MlDeleteDatafeedRequest>;
 
 export interface MlDeleteDataFrameAnalyticsRequest {
   /** Identifier for the data frame analytics job. */
@@ -61252,13 +59621,7 @@ export const MlDeleteDataFrameAnalyticsRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     force: S.optional(S.Boolean.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/_ml/data_frame/analytics/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/_ml/data_frame/analytics/{id}", code: 200 })),
 ).annotate({
   identifier: "MlDeleteDataFrameAnalyticsRequest",
 }) as any as S.Schema<MlDeleteDataFrameAnalyticsRequest>;
@@ -61276,13 +59639,7 @@ export const MlDeleteExpiredDataRequest = /*@__PURE__*/ S.suspend(() =>
     job_id: S.String.pipe(T.Label()),
     requests_per_second: S.optional(S.Number.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/_ml/_delete_expired_data/{job_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/_ml/_delete_expired_data/{job_id}", code: 200 })),
 ).annotate({
   identifier: "MlDeleteExpiredDataRequest",
 }) as any as S.Schema<MlDeleteExpiredDataRequest>;
@@ -61332,9 +59689,7 @@ export const MlDeleteFilterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     filter_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/_ml/filters/{filter_id}", code: 200 })),
-).annotate({
-  identifier: "MlDeleteFilterRequest",
-}) as any as S.Schema<MlDeleteFilterRequest>;
+).annotate({ identifier: "MlDeleteFilterRequest" }) as any as S.Schema<MlDeleteFilterRequest>;
 
 export interface MlDeleteForecastRequest {
   /** Identifier for the anomaly detection job. */
@@ -61350,15 +59705,9 @@ export const MlDeleteForecastRequest = /*@__PURE__*/ S.suspend(() =>
     allow_no_forecasts: S.optional(S.Boolean.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/_ml/anomaly_detectors/{job_id}/_forecast",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/_ml/anomaly_detectors/{job_id}/_forecast", code: 200 }),
   ),
-).annotate({
-  identifier: "MlDeleteForecastRequest",
-}) as any as S.Schema<MlDeleteForecastRequest>;
+).annotate({ identifier: "MlDeleteForecastRequest" }) as any as S.Schema<MlDeleteForecastRequest>;
 
 export interface MlDeleteForecast1Request {
   /** Identifier for the anomaly detection job. */
@@ -61383,9 +59732,7 @@ export const MlDeleteForecast1Request = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "MlDeleteForecast1Request",
-}) as any as S.Schema<MlDeleteForecast1Request>;
+).annotate({ identifier: "MlDeleteForecast1Request" }) as any as S.Schema<MlDeleteForecast1Request>;
 
 export interface MlDeleteJobRequest {
   /** Identifier for the anomaly detection job. */
@@ -61403,16 +59750,8 @@ export const MlDeleteJobRequest = /*@__PURE__*/ S.suspend(() =>
     force: S.optional(S.Boolean.pipe(T.Query())),
     delete_user_annotations: S.optional(S.Boolean.pipe(T.Query())),
     wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/_ml/anomaly_detectors/{job_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "MlDeleteJobRequest",
-}) as any as S.Schema<MlDeleteJobRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/_ml/anomaly_detectors/{job_id}", code: 200 })),
+).annotate({ identifier: "MlDeleteJobRequest" }) as any as S.Schema<MlDeleteJobRequest>;
 
 export interface MlDeleteModelSnapshotRequest {
   /** Identifier for the anomaly detection job. */
@@ -61448,13 +59787,7 @@ export const MlDeleteTrainedModelRequest = /*@__PURE__*/ S.suspend(() =>
     model_id: S.String.pipe(T.Label()),
     force: S.optional(S.Boolean.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/_ml/trained_models/{model_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/_ml/trained_models/{model_id}", code: 200 })),
 ).annotate({
   identifier: "MlDeleteTrainedModelRequest",
 }) as any as S.Schema<MlDeleteTrainedModelRequest>;
@@ -61549,9 +59882,7 @@ export const MlTypesRuleCondition = /*@__PURE__*/ S.suspend(() =>
     operator: MlTypesConditionOperator,
     value: S.Number,
   }),
-).annotate({
-  identifier: "MlTypesRuleCondition",
-}) as any as S.Schema<MlTypesRuleCondition>;
+).annotate({ identifier: "MlTypesRuleCondition" }) as any as S.Schema<MlTypesRuleCondition>;
 
 /** An array of numeric conditions when the rule applies. A rule must either have a non-empty scope or at least one condition. Multiple conditions are combined together with a logical AND. */
 export type MlTypesDetectionRuleConditionsList = Array<MlTypesRuleCondition>;
@@ -61573,14 +59904,10 @@ export const MlTypesFilterRef = /*@__PURE__*/ S.suspend(() =>
     filter_id: S.String,
     filter_type: S.optional(MlTypesFilterType),
   }),
-).annotate({
-  identifier: "MlTypesFilterRef",
-}) as any as S.Schema<MlTypesFilterRef>;
+).annotate({ identifier: "MlTypesFilterRef" }) as any as S.Schema<MlTypesFilterRef>;
 
 /** A scope of series where the rule applies. A rule must either have a non-empty scope or at least one condition. By default, the scope includes all series. Scoping is allowed for any of the fields that are also specified in `by_field_name`, `over_field_name`, or `partition_field_name`. */
-export type MlTypesDetectionRuleScopeMap = {
-  [key: string]: MlTypesFilterRef | undefined;
-};
+export type MlTypesDetectionRuleScopeMap = { [key: string]: MlTypesFilterRef | undefined };
 export const MlTypesDetectionRuleScopeMap = /*@__PURE__*/ S.Record(
   S.String,
   MlTypesFilterRef,
@@ -61600,9 +59927,7 @@ export const MlTypesDetectionRule = /*@__PURE__*/ S.suspend(() =>
     conditions: S.optional(MlTypesDetectionRuleConditionsList),
     scope: S.optional(MlTypesDetectionRuleScopeMap),
   }),
-).annotate({
-  identifier: "MlTypesDetectionRule",
-}) as any as S.Schema<MlTypesDetectionRule>;
+).annotate({ identifier: "MlTypesDetectionRule" }) as any as S.Schema<MlTypesDetectionRule>;
 
 /** Custom rules enable you to customize the way detectors operate. For example, a rule may dictate conditions under which results should be skipped. Kibana refers to custom rules as job rules. */
 export type MlTypesDetectorCustomRulesList = Array<MlTypesDetectionRule>;
@@ -61648,9 +59973,7 @@ export const MlTypesDetector = /*@__PURE__*/ S.suspend(() =>
     partition_field_name: S.optional(S.String),
     use_null: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MlTypesDetector",
-}) as any as S.Schema<MlTypesDetector>;
+).annotate({ identifier: "MlTypesDetector" }) as any as S.Schema<MlTypesDetector>;
 
 /** Detector configuration objects specify which data fields a job analyzes. They also specify which analytical functions are used. You can specify multiple detectors for a job. If the detectors array does not contain at least one detector, no analysis can occur and an error is returned. */
 export type MlTypesAnalysisConfigDetectorsList = Array<MlTypesDetector>;
@@ -61717,9 +60040,7 @@ export const MlTypesAnalysisConfig = /*@__PURE__*/ S.suspend(() =>
     per_partition_categorization: S.optional(MlTypesPerPartitionCategorization),
     summary_count_field_name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MlTypesAnalysisConfig",
-}) as any as S.Schema<MlTypesAnalysisConfig>;
+).annotate({ identifier: "MlTypesAnalysisConfig" }) as any as S.Schema<MlTypesAnalysisConfig>;
 
 /** Estimates of the highest cardinality in a single bucket that is observed for influencer fields over the time period that the job analyzes data. To produce a good answer, values must be provided for all influencer fields. Providing values for fields that are not listed as `influencers` has no effect on the estimation. */
 export type MlEstimateModelMemoryRequestMaxBucketCardinalityMap = {
@@ -61753,11 +60074,7 @@ export const MlEstimateModelMemoryRequest = /*@__PURE__*/ S.suspend(() =>
     max_bucket_cardinality: S.optional(MlEstimateModelMemoryRequestMaxBucketCardinalityMap),
     overall_cardinality: S.optional(MlEstimateModelMemoryRequestOverallCardinalityMap),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/anomaly_detectors/_estimate_model_memory",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/_ml/anomaly_detectors/_estimate_model_memory", code: 200 }),
   ),
 ).annotate({
   identifier: "MlEstimateModelMemoryRequest",
@@ -62814,13 +61131,7 @@ export const MlExplainDataFrameAnalyticsRequest = /*@__PURE__*/ S.suspend(() =>
     max_num_threads: S.optional(S.Number),
     analyzed_fields: S.optional(MlTypesDataframeAnalysisAnalyzedFields),
     allow_lazy_start: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_ml/data_frame/analytics/_explain",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_ml/data_frame/analytics/_explain", code: 200 })),
 ).annotate({
   identifier: "MlExplainDataFrameAnalyticsRequest",
 }) as any as S.Schema<MlExplainDataFrameAnalyticsRequest>;
@@ -62923,13 +61234,7 @@ export const MlExplainDataFrameAnalytics1Request = /*@__PURE__*/ S.suspend(() =>
     max_num_threads: S.optional(S.Number),
     analyzed_fields: S.optional(MlTypesDataframeAnalysisAnalyzedFields),
     allow_lazy_start: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/data_frame/analytics/_explain",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_ml/data_frame/analytics/_explain", code: 200 })),
 ).annotate({
   identifier: "MlExplainDataFrameAnalytics1Request",
 }) as any as S.Schema<MlExplainDataFrameAnalytics1Request>;
@@ -62987,13 +61292,7 @@ export const MlExplainDataFrameAnalytics2Request = /*@__PURE__*/ S.suspend(() =>
     max_num_threads: S.optional(S.Number),
     analyzed_fields: S.optional(MlTypesDataframeAnalysisAnalyzedFields),
     allow_lazy_start: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_ml/data_frame/analytics/{id}/_explain",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_ml/data_frame/analytics/{id}/_explain", code: 200 })),
 ).annotate({
   identifier: "MlExplainDataFrameAnalytics2Request",
 }) as any as S.Schema<MlExplainDataFrameAnalytics2Request>;
@@ -63051,13 +61350,7 @@ export const MlExplainDataFrameAnalytics3Request = /*@__PURE__*/ S.suspend(() =>
     max_num_threads: S.optional(S.Number),
     analyzed_fields: S.optional(MlTypesDataframeAnalysisAnalyzedFields),
     allow_lazy_start: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/data_frame/analytics/{id}/_explain",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_ml/data_frame/analytics/{id}/_explain", code: 200 })),
 ).annotate({
   identifier: "MlExplainDataFrameAnalytics3Request",
 }) as any as S.Schema<MlExplainDataFrameAnalytics3Request>;
@@ -63100,16 +61393,8 @@ export const MlForecastRequest = /*@__PURE__*/ S.suspend(() =>
     duration: S.optional(TypesDuration.pipe(T.Query())),
     expires_in: S.optional(TypesDuration.pipe(T.Query())),
     max_model_memory: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/anomaly_detectors/{job_id}/_forecast",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "MlForecastRequest",
-}) as any as S.Schema<MlForecastRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/_ml/anomaly_detectors/{job_id}/_forecast", code: 200 })),
+).annotate({ identifier: "MlForecastRequest" }) as any as S.Schema<MlForecastRequest>;
 
 export interface MlForecastResponse {
   acknowledged: boolean;
@@ -63120,9 +61405,7 @@ export const MlForecastResponse = /*@__PURE__*/ S.suspend(() =>
     acknowledged: S.Boolean,
     forecast_id: S.String,
   }),
-).annotate({
-  identifier: "MlForecastResponse",
-}) as any as S.Schema<MlForecastResponse>;
+).annotate({ identifier: "MlForecastResponse" }) as any as S.Schema<MlForecastResponse>;
 
 export interface MlTypesPage {
   /** Skips the specified number of items. */
@@ -63183,9 +61466,7 @@ export const MlGetBucketsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "MlGetBucketsRequest",
-}) as any as S.Schema<MlGetBucketsRequest>;
+).annotate({ identifier: "MlGetBucketsRequest" }) as any as S.Schema<MlGetBucketsRequest>;
 
 export interface MlTypesBucketInfluencer {
   /** A normalized score between 0-100, which is calculated for each bucket influencer. This score might be updated as newer data is analyzed. */
@@ -63225,9 +61506,7 @@ export const MlTypesBucketInfluencer = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.Number,
     timestamp_string: S.optional(TypesDateTime),
   }),
-).annotate({
-  identifier: "MlTypesBucketInfluencer",
-}) as any as S.Schema<MlTypesBucketInfluencer>;
+).annotate({ identifier: "MlTypesBucketInfluencer" }) as any as S.Schema<MlTypesBucketInfluencer>;
 
 export type MlTypesBucketSummaryBucketInfluencersList = Array<MlTypesBucketInfluencer>;
 export const MlTypesBucketSummaryBucketInfluencersList = /*@__PURE__*/ S.Array(
@@ -63271,9 +61550,7 @@ export const MlTypesBucketSummary = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.Number,
     timestamp_string: S.optional(TypesDateTime),
   }),
-).annotate({
-  identifier: "MlTypesBucketSummary",
-}) as any as S.Schema<MlTypesBucketSummary>;
+).annotate({ identifier: "MlTypesBucketSummary" }) as any as S.Schema<MlTypesBucketSummary>;
 
 export type MlGetBucketsResponseBucketsList = Array<MlTypesBucketSummary>;
 export const MlGetBucketsResponseBucketsList = /*@__PURE__*/ S.Array(
@@ -63289,9 +61566,7 @@ export const MlGetBucketsResponse = /*@__PURE__*/ S.suspend(() =>
     buckets: MlGetBucketsResponseBucketsList,
     count: S.Number,
   }),
-).annotate({
-  identifier: "MlGetBucketsResponse",
-}) as any as S.Schema<MlGetBucketsResponse>;
+).annotate({ identifier: "MlGetBucketsResponse" }) as any as S.Schema<MlGetBucketsResponse>;
 
 export interface MlGetBuckets1Request {
   /** Identifier for the anomaly detection job. */
@@ -63339,9 +61614,7 @@ export const MlGetBuckets1Request = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "MlGetBuckets1Request",
-}) as any as S.Schema<MlGetBuckets1Request>;
+).annotate({ identifier: "MlGetBuckets1Request" }) as any as S.Schema<MlGetBuckets1Request>;
 
 export type MlGetBuckets1ResponseBucketsList = Array<MlTypesBucketSummary>;
 export const MlGetBuckets1ResponseBucketsList = /*@__PURE__*/ S.Array(
@@ -63357,9 +61630,7 @@ export const MlGetBuckets1Response = /*@__PURE__*/ S.suspend(() =>
     buckets: MlGetBuckets1ResponseBucketsList,
     count: S.Number,
   }),
-).annotate({
-  identifier: "MlGetBuckets1Response",
-}) as any as S.Schema<MlGetBuckets1Response>;
+).annotate({ identifier: "MlGetBuckets1Response" }) as any as S.Schema<MlGetBuckets1Response>;
 
 export interface MlGetBuckets2Request {
   /** Identifier for the anomaly detection job. */
@@ -63398,15 +61669,9 @@ export const MlGetBuckets2Request = /*@__PURE__*/ S.suspend(() =>
     start: S.optional(TypesDateTime.pipe(T.Query())),
     page: S.optional(MlTypesPage),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_ml/anomaly_detectors/{job_id}/results/buckets",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/_ml/anomaly_detectors/{job_id}/results/buckets", code: 200 }),
   ),
-).annotate({
-  identifier: "MlGetBuckets2Request",
-}) as any as S.Schema<MlGetBuckets2Request>;
+).annotate({ identifier: "MlGetBuckets2Request" }) as any as S.Schema<MlGetBuckets2Request>;
 
 export type MlGetBuckets2ResponseBucketsList = Array<MlTypesBucketSummary>;
 export const MlGetBuckets2ResponseBucketsList = /*@__PURE__*/ S.Array(
@@ -63422,9 +61687,7 @@ export const MlGetBuckets2Response = /*@__PURE__*/ S.suspend(() =>
     buckets: MlGetBuckets2ResponseBucketsList,
     count: S.Number,
   }),
-).annotate({
-  identifier: "MlGetBuckets2Response",
-}) as any as S.Schema<MlGetBuckets2Response>;
+).annotate({ identifier: "MlGetBuckets2Response" }) as any as S.Schema<MlGetBuckets2Response>;
 
 export interface MlGetBuckets3Request {
   /** Identifier for the anomaly detection job. */
@@ -63463,15 +61726,9 @@ export const MlGetBuckets3Request = /*@__PURE__*/ S.suspend(() =>
     start: S.optional(TypesDateTime.pipe(T.Query())),
     page: S.optional(MlTypesPage),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/anomaly_detectors/{job_id}/results/buckets",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/_ml/anomaly_detectors/{job_id}/results/buckets", code: 200 }),
   ),
-).annotate({
-  identifier: "MlGetBuckets3Request",
-}) as any as S.Schema<MlGetBuckets3Request>;
+).annotate({ identifier: "MlGetBuckets3Request" }) as any as S.Schema<MlGetBuckets3Request>;
 
 export type MlGetBuckets3ResponseBucketsList = Array<MlTypesBucketSummary>;
 export const MlGetBuckets3ResponseBucketsList = /*@__PURE__*/ S.Array(
@@ -63487,9 +61744,7 @@ export const MlGetBuckets3Response = /*@__PURE__*/ S.suspend(() =>
     buckets: MlGetBuckets3ResponseBucketsList,
     count: S.Number,
   }),
-).annotate({
-  identifier: "MlGetBuckets3Response",
-}) as any as S.Schema<MlGetBuckets3Response>;
+).annotate({ identifier: "MlGetBuckets3Response" }) as any as S.Schema<MlGetBuckets3Response>;
 
 export interface MlGetCalendarEventsRequest {
   /** A string that uniquely identifies a calendar. You can get information for multiple calendars by using a comma-separated list of ids or a wildcard expression. You can get information for all calendars by using `_all` or `*` or by omitting the calendar identifier. */
@@ -63513,13 +61768,7 @@ export const MlGetCalendarEventsRequest = /*@__PURE__*/ S.suspend(() =>
     job_id: S.optional(S.String.pipe(T.Query())),
     size: S.optional(S.Number.pipe(T.Query())),
     start: S.optional(TypesDateTime.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_ml/calendars/{calendar_id}/events",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_ml/calendars/{calendar_id}/events", code: 200 })),
 ).annotate({
   identifier: "MlGetCalendarEventsRequest",
 }) as any as S.Schema<MlGetCalendarEventsRequest>;
@@ -63552,9 +61801,7 @@ export const MlTypesCalendarEvent = /*@__PURE__*/ S.suspend(() =>
     skip_model_update: S.optional(S.Boolean),
     force_time_shift: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MlTypesCalendarEvent",
-}) as any as S.Schema<MlTypesCalendarEvent>;
+).annotate({ identifier: "MlTypesCalendarEvent" }) as any as S.Schema<MlTypesCalendarEvent>;
 
 export type MlGetCalendarEventsResponseEventsList = Array<MlTypesCalendarEvent>;
 export const MlGetCalendarEventsResponseEventsList = /*@__PURE__*/ S.Array(
@@ -63588,9 +61835,7 @@ export const MlGetCalendarsRequest = /*@__PURE__*/ S.suspend(() =>
     size: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(MlTypesPage),
   }).pipe(T.Http({ method: "GET", uri: "/_ml/calendars", code: 200 })),
-).annotate({
-  identifier: "MlGetCalendarsRequest",
-}) as any as S.Schema<MlGetCalendarsRequest>;
+).annotate({ identifier: "MlGetCalendarsRequest" }) as any as S.Schema<MlGetCalendarsRequest>;
 
 /** An array of anomaly detection job identifiers. */
 export type MlGetCalendarsCalendarJobIdsList = Array<string>;
@@ -63612,9 +61857,7 @@ export const MlGetCalendarsCalendar = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     job_ids: MlGetCalendarsCalendarJobIdsList,
   }),
-).annotate({
-  identifier: "MlGetCalendarsCalendar",
-}) as any as S.Schema<MlGetCalendarsCalendar>;
+).annotate({ identifier: "MlGetCalendarsCalendar" }) as any as S.Schema<MlGetCalendarsCalendar>;
 
 export type MlGetCalendarsResponseCalendarsList = Array<MlGetCalendarsCalendar>;
 export const MlGetCalendarsResponseCalendarsList = /*@__PURE__*/ S.Array(
@@ -63630,9 +61873,7 @@ export const MlGetCalendarsResponse = /*@__PURE__*/ S.suspend(() =>
     calendars: MlGetCalendarsResponseCalendarsList,
     count: S.Number,
   }),
-).annotate({
-  identifier: "MlGetCalendarsResponse",
-}) as any as S.Schema<MlGetCalendarsResponse>;
+).annotate({ identifier: "MlGetCalendarsResponse" }) as any as S.Schema<MlGetCalendarsResponse>;
 
 export interface MlGetCalendars1Request {
   /** Skips the specified number of calendars. This parameter is supported only when you omit the calendar identifier. */
@@ -63648,9 +61889,7 @@ export const MlGetCalendars1Request = /*@__PURE__*/ S.suspend(() =>
     size: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(MlTypesPage),
   }).pipe(T.Http({ method: "POST", uri: "/_ml/calendars", code: 200 })),
-).annotate({
-  identifier: "MlGetCalendars1Request",
-}) as any as S.Schema<MlGetCalendars1Request>;
+).annotate({ identifier: "MlGetCalendars1Request" }) as any as S.Schema<MlGetCalendars1Request>;
 
 export type MlGetCalendars1ResponseCalendarsList = Array<MlGetCalendarsCalendar>;
 export const MlGetCalendars1ResponseCalendarsList = /*@__PURE__*/ S.Array(
@@ -63666,9 +61905,7 @@ export const MlGetCalendars1Response = /*@__PURE__*/ S.suspend(() =>
     calendars: MlGetCalendars1ResponseCalendarsList,
     count: S.Number,
   }),
-).annotate({
-  identifier: "MlGetCalendars1Response",
-}) as any as S.Schema<MlGetCalendars1Response>;
+).annotate({ identifier: "MlGetCalendars1Response" }) as any as S.Schema<MlGetCalendars1Response>;
 
 export interface MlGetCalendars2Request {
   /** A string that uniquely identifies a calendar. You can get information for multiple calendars by using a comma-separated list of ids or a wildcard expression. You can get information for all calendars by using `_all` or `*` or by omitting the calendar identifier. */
@@ -63687,9 +61924,7 @@ export const MlGetCalendars2Request = /*@__PURE__*/ S.suspend(() =>
     size: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(MlTypesPage),
   }).pipe(T.Http({ method: "GET", uri: "/_ml/calendars/{calendar_id}", code: 200 })),
-).annotate({
-  identifier: "MlGetCalendars2Request",
-}) as any as S.Schema<MlGetCalendars2Request>;
+).annotate({ identifier: "MlGetCalendars2Request" }) as any as S.Schema<MlGetCalendars2Request>;
 
 export type MlGetCalendars2ResponseCalendarsList = Array<MlGetCalendarsCalendar>;
 export const MlGetCalendars2ResponseCalendarsList = /*@__PURE__*/ S.Array(
@@ -63705,9 +61940,7 @@ export const MlGetCalendars2Response = /*@__PURE__*/ S.suspend(() =>
     calendars: MlGetCalendars2ResponseCalendarsList,
     count: S.Number,
   }),
-).annotate({
-  identifier: "MlGetCalendars2Response",
-}) as any as S.Schema<MlGetCalendars2Response>;
+).annotate({ identifier: "MlGetCalendars2Response" }) as any as S.Schema<MlGetCalendars2Response>;
 
 export interface MlGetCalendars3Request {
   /** A string that uniquely identifies a calendar. You can get information for multiple calendars by using a comma-separated list of ids or a wildcard expression. You can get information for all calendars by using `_all` or `*` or by omitting the calendar identifier. */
@@ -63726,9 +61959,7 @@ export const MlGetCalendars3Request = /*@__PURE__*/ S.suspend(() =>
     size: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(MlTypesPage),
   }).pipe(T.Http({ method: "POST", uri: "/_ml/calendars/{calendar_id}", code: 200 })),
-).annotate({
-  identifier: "MlGetCalendars3Request",
-}) as any as S.Schema<MlGetCalendars3Request>;
+).annotate({ identifier: "MlGetCalendars3Request" }) as any as S.Schema<MlGetCalendars3Request>;
 
 export type MlGetCalendars3ResponseCalendarsList = Array<MlGetCalendarsCalendar>;
 export const MlGetCalendars3ResponseCalendarsList = /*@__PURE__*/ S.Array(
@@ -63744,9 +61975,7 @@ export const MlGetCalendars3Response = /*@__PURE__*/ S.suspend(() =>
     calendars: MlGetCalendars3ResponseCalendarsList,
     count: S.Number,
   }),
-).annotate({
-  identifier: "MlGetCalendars3Response",
-}) as any as S.Schema<MlGetCalendars3Response>;
+).annotate({ identifier: "MlGetCalendars3Response" }) as any as S.Schema<MlGetCalendars3Response>;
 
 export interface MlGetCategoriesRequest {
   /** Identifier for the anomaly detection job. */
@@ -63777,9 +62006,7 @@ export const MlGetCategoriesRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "MlGetCategoriesRequest",
-}) as any as S.Schema<MlGetCategoriesRequest>;
+).annotate({ identifier: "MlGetCategoriesRequest" }) as any as S.Schema<MlGetCategoriesRequest>;
 
 /** A list of examples of actual values that matched the category. */
 export type MlTypesCategoryExamplesList = Array<string>;
@@ -63837,9 +62064,7 @@ export const MlTypesCategory = /*@__PURE__*/ S.suspend(() =>
     result_type: S.String,
     mlcategory: S.String,
   }),
-).annotate({
-  identifier: "MlTypesCategory",
-}) as any as S.Schema<MlTypesCategory>;
+).annotate({ identifier: "MlTypesCategory" }) as any as S.Schema<MlTypesCategory>;
 
 export type MlGetCategoriesResponseCategoriesList = Array<MlTypesCategory>;
 export const MlGetCategoriesResponseCategoriesList = /*@__PURE__*/ S.Array(
@@ -63855,9 +62080,7 @@ export const MlGetCategoriesResponse = /*@__PURE__*/ S.suspend(() =>
     categories: MlGetCategoriesResponseCategoriesList,
     count: S.Number,
   }),
-).annotate({
-  identifier: "MlGetCategoriesResponse",
-}) as any as S.Schema<MlGetCategoriesResponse>;
+).annotate({ identifier: "MlGetCategoriesResponse" }) as any as S.Schema<MlGetCategoriesResponse>;
 
 export interface MlGetCategories1Request {
   /** Identifier for the anomaly detection job. */
@@ -63888,9 +62111,7 @@ export const MlGetCategories1Request = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "MlGetCategories1Request",
-}) as any as S.Schema<MlGetCategories1Request>;
+).annotate({ identifier: "MlGetCategories1Request" }) as any as S.Schema<MlGetCategories1Request>;
 
 export type MlGetCategories1ResponseCategoriesList = Array<MlTypesCategory>;
 export const MlGetCategories1ResponseCategoriesList = /*@__PURE__*/ S.Array(
@@ -63906,9 +62127,7 @@ export const MlGetCategories1Response = /*@__PURE__*/ S.suspend(() =>
     categories: MlGetCategories1ResponseCategoriesList,
     count: S.Number,
   }),
-).annotate({
-  identifier: "MlGetCategories1Response",
-}) as any as S.Schema<MlGetCategories1Response>;
+).annotate({ identifier: "MlGetCategories1Response" }) as any as S.Schema<MlGetCategories1Response>;
 
 export interface MlGetCategories2Request {
   /** Identifier for the anomaly detection job. */
@@ -63930,15 +62149,9 @@ export const MlGetCategories2Request = /*@__PURE__*/ S.suspend(() =>
     size: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(MlTypesPage),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_ml/anomaly_detectors/{job_id}/results/categories",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/_ml/anomaly_detectors/{job_id}/results/categories", code: 200 }),
   ),
-).annotate({
-  identifier: "MlGetCategories2Request",
-}) as any as S.Schema<MlGetCategories2Request>;
+).annotate({ identifier: "MlGetCategories2Request" }) as any as S.Schema<MlGetCategories2Request>;
 
 export type MlGetCategories2ResponseCategoriesList = Array<MlTypesCategory>;
 export const MlGetCategories2ResponseCategoriesList = /*@__PURE__*/ S.Array(
@@ -63954,9 +62167,7 @@ export const MlGetCategories2Response = /*@__PURE__*/ S.suspend(() =>
     categories: MlGetCategories2ResponseCategoriesList,
     count: S.Number,
   }),
-).annotate({
-  identifier: "MlGetCategories2Response",
-}) as any as S.Schema<MlGetCategories2Response>;
+).annotate({ identifier: "MlGetCategories2Response" }) as any as S.Schema<MlGetCategories2Response>;
 
 export interface MlGetCategories3Request {
   /** Identifier for the anomaly detection job. */
@@ -63984,9 +62195,7 @@ export const MlGetCategories3Request = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "MlGetCategories3Request",
-}) as any as S.Schema<MlGetCategories3Request>;
+).annotate({ identifier: "MlGetCategories3Request" }) as any as S.Schema<MlGetCategories3Request>;
 
 export type MlGetCategories3ResponseCategoriesList = Array<MlTypesCategory>;
 export const MlGetCategories3ResponseCategoriesList = /*@__PURE__*/ S.Array(
@@ -64002,9 +62211,7 @@ export const MlGetCategories3Response = /*@__PURE__*/ S.suspend(() =>
     categories: MlGetCategories3ResponseCategoriesList,
     count: S.Number,
   }),
-).annotate({
-  identifier: "MlGetCategories3Response",
-}) as any as S.Schema<MlGetCategories3Response>;
+).annotate({ identifier: "MlGetCategories3Response" }) as any as S.Schema<MlGetCategories3Response>;
 
 export interface MlGetDatafeedsRequest {
   /** Identifier for the datafeed. It can be a datafeed identifier or a wildcard expression. If you do not specify one of these options, the API returns information about all datafeeds. */
@@ -64020,9 +62227,7 @@ export const MlGetDatafeedsRequest = /*@__PURE__*/ S.suspend(() =>
     allow_no_match: S.optional(S.Boolean.pipe(T.Query())),
     exclude_generated: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_ml/datafeeds/{datafeed_id}", code: 200 })),
-).annotate({
-  identifier: "MlGetDatafeedsRequest",
-}) as any as S.Schema<MlGetDatafeedsRequest>;
+).annotate({ identifier: "MlGetDatafeedsRequest" }) as any as S.Schema<MlGetDatafeedsRequest>;
 
 export type MlTypesDatafeedAggregationsMap = {
   [key: string]: TypesAggregationsAggregationContainer | undefined;
@@ -64070,9 +62275,7 @@ export const MlTypesChunkingConfig = /*@__PURE__*/ S.suspend(() =>
     mode: MlTypesChunkingMode,
     time_span: S.optional(TypesDuration),
   }),
-).annotate({
-  identifier: "MlTypesChunkingConfig",
-}) as any as S.Schema<MlTypesChunkingConfig>;
+).annotate({ identifier: "MlTypesChunkingConfig" }) as any as S.Schema<MlTypesChunkingConfig>;
 
 export type MlTypesDatafeedIndicesList = Array<string>;
 export const MlTypesDatafeedIndicesList = /*@__PURE__*/ S.Array(
@@ -64084,9 +62287,7 @@ export const MlTypesDatafeedIndexesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<MlTypesDatafeedIndexesList>;
 
-export type MlTypesDatafeedScriptFieldsMap = {
-  [key: string]: TypesScriptField | undefined;
-};
+export type MlTypesDatafeedScriptFieldsMap = { [key: string]: TypesScriptField | undefined };
 export const MlTypesDatafeedScriptFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   TypesScriptField,
@@ -64125,9 +62326,7 @@ export const TypesIndicesOptions = /*@__PURE__*/ S.suspend(() =>
     ignore_unavailable: S.optional(S.Boolean),
     ignore_throttled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "TypesIndicesOptions",
-}) as any as S.Schema<TypesIndicesOptions>;
+).annotate({ identifier: "TypesIndicesOptions" }) as any as S.Schema<TypesIndicesOptions>;
 
 export interface MlTypesDatafeed {
   aggregations?: MlTypesDatafeedAggregationsMap;
@@ -64168,9 +62367,7 @@ export const MlTypesDatafeed = /*@__PURE__*/ S.suspend(() =>
     runtime_mappings: S.optional(TypesMappingRuntimeFields),
     indices_options: S.optional(TypesIndicesOptions),
   }),
-).annotate({
-  identifier: "MlTypesDatafeed",
-}) as any as S.Schema<MlTypesDatafeed>;
+).annotate({ identifier: "MlTypesDatafeed" }) as any as S.Schema<MlTypesDatafeed>;
 
 export type MlGetDatafeedsResponseDatafeedsList = Array<MlTypesDatafeed>;
 export const MlGetDatafeedsResponseDatafeedsList = /*@__PURE__*/ S.Array(
@@ -64186,9 +62383,7 @@ export const MlGetDatafeedsResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.Number,
     datafeeds: MlGetDatafeedsResponseDatafeedsList,
   }),
-).annotate({
-  identifier: "MlGetDatafeedsResponse",
-}) as any as S.Schema<MlGetDatafeedsResponse>;
+).annotate({ identifier: "MlGetDatafeedsResponse" }) as any as S.Schema<MlGetDatafeedsResponse>;
 
 export interface MlGetDatafeeds1Request {
   /** Specifies what to do when the request: 1. Contains wildcard expressions and there are no datafeeds that match. 2. Contains the `_all` string or no identifiers and there are no matches. 3. Contains wildcard expressions and there are only partial matches. The default value is `true`, which returns an empty `datafeeds` array when there are no matches and the subset of results when there are partial matches. If this parameter is `false`, the request returns a `404` status code when there are no matches or only partial matches. */
@@ -64201,9 +62396,7 @@ export const MlGetDatafeeds1Request = /*@__PURE__*/ S.suspend(() =>
     allow_no_match: S.optional(S.Boolean.pipe(T.Query())),
     exclude_generated: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_ml/datafeeds", code: 200 })),
-).annotate({
-  identifier: "MlGetDatafeeds1Request",
-}) as any as S.Schema<MlGetDatafeeds1Request>;
+).annotate({ identifier: "MlGetDatafeeds1Request" }) as any as S.Schema<MlGetDatafeeds1Request>;
 
 export type MlGetDatafeeds1ResponseDatafeedsList = Array<MlTypesDatafeed>;
 export const MlGetDatafeeds1ResponseDatafeedsList = /*@__PURE__*/ S.Array(
@@ -64219,9 +62412,7 @@ export const MlGetDatafeeds1Response = /*@__PURE__*/ S.suspend(() =>
     count: S.Number,
     datafeeds: MlGetDatafeeds1ResponseDatafeedsList,
   }),
-).annotate({
-  identifier: "MlGetDatafeeds1Response",
-}) as any as S.Schema<MlGetDatafeeds1Response>;
+).annotate({ identifier: "MlGetDatafeeds1Response" }) as any as S.Schema<MlGetDatafeeds1Response>;
 
 export interface MlGetDatafeedStatsRequest {
   /** Identifier for the datafeed. It can be a datafeed identifier or a wildcard expression. If you do not specify one of these options, the API returns information about all datafeeds. */
@@ -64233,20 +62424,12 @@ export const MlGetDatafeedStatsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     datafeed_id: S.String.pipe(T.Label()),
     allow_no_match: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_ml/datafeeds/{datafeed_id}/_stats",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_ml/datafeeds/{datafeed_id}/_stats", code: 200 })),
 ).annotate({
   identifier: "MlGetDatafeedStatsRequest",
 }) as any as S.Schema<MlGetDatafeedStatsRequest>;
 
-export type MlTypesDiscoveryNodeCompactAttributesMap = {
-  [key: string]: string | undefined;
-};
+export type MlTypesDiscoveryNodeCompactAttributesMap = { [key: string]: string | undefined };
 export const MlTypesDiscoveryNodeCompactAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -64380,9 +62563,7 @@ export const MlTypesDatafeedStats = /*@__PURE__*/ S.suspend(() =>
     timing_stats: S.optional(MlTypesDatafeedTimingStats),
     running_state: S.optional(MlTypesDatafeedRunningState),
   }),
-).annotate({
-  identifier: "MlTypesDatafeedStats",
-}) as any as S.Schema<MlTypesDatafeedStats>;
+).annotate({ identifier: "MlTypesDatafeedStats" }) as any as S.Schema<MlTypesDatafeedStats>;
 
 export type MlGetDatafeedStatsResponseDatafeedsList = Array<MlTypesDatafeedStats>;
 export const MlGetDatafeedStatsResponseDatafeedsList = /*@__PURE__*/ S.Array(
@@ -64595,13 +62776,7 @@ export const MlGetDataFrameAnalyticsStatsRequest = /*@__PURE__*/ S.suspend(() =>
     from: S.optional(S.Number.pipe(T.Query())),
     size: S.optional(S.Number.pipe(T.Query())),
     verbose: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_ml/data_frame/analytics/_stats",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_ml/data_frame/analytics/_stats", code: 200 })),
 ).annotate({
   identifier: "MlGetDataFrameAnalyticsStatsRequest",
 }) as any as S.Schema<MlGetDataFrameAnalyticsStatsRequest>;
@@ -64653,9 +62828,7 @@ export const MlTypesHyperparameters = /*@__PURE__*/ S.suspend(() =>
     soft_tree_depth_limit: S.optional(S.Number),
     soft_tree_depth_tolerance: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MlTypesHyperparameters",
-}) as any as S.Schema<MlTypesHyperparameters>;
+).annotate({ identifier: "MlTypesHyperparameters" }) as any as S.Schema<MlTypesHyperparameters>;
 
 export interface MlTypesTimingStats {
   /** Runtime of the analysis in milliseconds. */
@@ -64668,9 +62841,7 @@ export const MlTypesTimingStats = /*@__PURE__*/ S.suspend(() =>
     elapsed_time: S.Number,
     iteration_time: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MlTypesTimingStats",
-}) as any as S.Schema<MlTypesTimingStats>;
+).annotate({ identifier: "MlTypesTimingStats" }) as any as S.Schema<MlTypesTimingStats>;
 
 /** Validation loss values for every added decision tree during the forest growing procedure. */
 export type MlTypesValidationLossFoldValuesList = Array<string>;
@@ -64689,9 +62860,7 @@ export const MlTypesValidationLoss = /*@__PURE__*/ S.suspend(() =>
     fold_values: MlTypesValidationLossFoldValuesList,
     loss_type: S.String,
   }),
-).annotate({
-  identifier: "MlTypesValidationLoss",
-}) as any as S.Schema<MlTypesValidationLoss>;
+).annotate({ identifier: "MlTypesValidationLoss" }) as any as S.Schema<MlTypesValidationLoss>;
 
 export interface MlTypesDataframeAnalyticsStatsHyperparameters {
   /** An object containing the parameters of the classification analysis job. */
@@ -64916,13 +63085,7 @@ export const MlGetDataFrameAnalyticsStats1Request = /*@__PURE__*/ S.suspend(() =
     from: S.optional(S.Number.pipe(T.Query())),
     size: S.optional(S.Number.pipe(T.Query())),
     verbose: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_ml/data_frame/analytics/{id}/_stats",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_ml/data_frame/analytics/{id}/_stats", code: 200 })),
 ).annotate({
   identifier: "MlGetDataFrameAnalyticsStats1Request",
 }) as any as S.Schema<MlGetDataFrameAnalyticsStats1Request>;
@@ -64959,9 +63122,7 @@ export const MlGetFiltersRequest = /*@__PURE__*/ S.suspend(() =>
     from: S.optional(S.Number.pipe(T.Query())),
     size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_ml/filters", code: 200 })),
-).annotate({
-  identifier: "MlGetFiltersRequest",
-}) as any as S.Schema<MlGetFiltersRequest>;
+).annotate({ identifier: "MlGetFiltersRequest" }) as any as S.Schema<MlGetFiltersRequest>;
 
 /** An array of strings which is the filter item list. */
 export type MlTypesFilterItemsList = Array<string>;
@@ -64999,9 +63160,7 @@ export const MlGetFiltersResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.Number,
     filters: MlGetFiltersResponseFiltersList,
   }),
-).annotate({
-  identifier: "MlGetFiltersResponse",
-}) as any as S.Schema<MlGetFiltersResponse>;
+).annotate({ identifier: "MlGetFiltersResponse" }) as any as S.Schema<MlGetFiltersResponse>;
 
 export interface MlGetFilters1Request {
   /** A string that uniquely identifies a filter. */
@@ -65017,9 +63176,7 @@ export const MlGetFilters1Request = /*@__PURE__*/ S.suspend(() =>
     from: S.optional(S.Number.pipe(T.Query())),
     size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_ml/filters/{filter_id}", code: 200 })),
-).annotate({
-  identifier: "MlGetFilters1Request",
-}) as any as S.Schema<MlGetFilters1Request>;
+).annotate({ identifier: "MlGetFilters1Request" }) as any as S.Schema<MlGetFilters1Request>;
 
 export type MlGetFilters1ResponseFiltersList = Array<MlTypesFilter>;
 export const MlGetFilters1ResponseFiltersList = /*@__PURE__*/ S.Array(
@@ -65035,9 +63192,7 @@ export const MlGetFilters1Response = /*@__PURE__*/ S.suspend(() =>
     count: S.Number,
     filters: MlGetFilters1ResponseFiltersList,
   }),
-).annotate({
-  identifier: "MlGetFilters1Response",
-}) as any as S.Schema<MlGetFilters1Response>;
+).annotate({ identifier: "MlGetFilters1Response" }) as any as S.Schema<MlGetFilters1Response>;
 
 export interface MlGetInfluencersRequest {
   /** Identifier for the anomaly detection job. */
@@ -65080,9 +63235,7 @@ export const MlGetInfluencersRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "MlGetInfluencersRequest",
-}) as any as S.Schema<MlGetInfluencersRequest>;
+).annotate({ identifier: "MlGetInfluencersRequest" }) as any as S.Schema<MlGetInfluencersRequest>;
 
 export interface MlTypesInfluencer {
   /** The length of the bucket in seconds. This value matches the bucket span that is specified in the job. */
@@ -65122,9 +63275,7 @@ export const MlTypesInfluencer = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.Number,
     foo: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MlTypesInfluencer",
-}) as any as S.Schema<MlTypesInfluencer>;
+).annotate({ identifier: "MlTypesInfluencer" }) as any as S.Schema<MlTypesInfluencer>;
 
 /** Array of influencer objects */
 export type MlGetInfluencersResponseInfluencersList = Array<MlTypesInfluencer>;
@@ -65142,9 +63293,7 @@ export const MlGetInfluencersResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.Number,
     influencers: MlGetInfluencersResponseInfluencersList,
   }),
-).annotate({
-  identifier: "MlGetInfluencersResponse",
-}) as any as S.Schema<MlGetInfluencersResponse>;
+).annotate({ identifier: "MlGetInfluencersResponse" }) as any as S.Schema<MlGetInfluencersResponse>;
 
 export interface MlGetInfluencers1Request {
   /** Identifier for the anomaly detection job. */
@@ -65187,9 +63336,7 @@ export const MlGetInfluencers1Request = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "MlGetInfluencers1Request",
-}) as any as S.Schema<MlGetInfluencers1Request>;
+).annotate({ identifier: "MlGetInfluencers1Request" }) as any as S.Schema<MlGetInfluencers1Request>;
 
 /** Array of influencer objects */
 export type MlGetInfluencers1ResponseInfluencersList = Array<MlTypesInfluencer>;
@@ -65224,16 +63371,8 @@ export const MlGetJobsRequest = /*@__PURE__*/ S.suspend(() =>
     job_id: S.String.pipe(T.Label()),
     allow_no_match: S.optional(S.Boolean.pipe(T.Query())),
     exclude_generated: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_ml/anomaly_detectors/{job_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "MlGetJobsRequest",
-}) as any as S.Schema<MlGetJobsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/_ml/anomaly_detectors/{job_id}", code: 200 })),
+).annotate({ identifier: "MlGetJobsRequest" }) as any as S.Schema<MlGetJobsRequest>;
 
 export interface MlTypesAnalysisLimits {
   /** The maximum number of examples stored per category in memory and in the results data store. If you increase this value, more examples are available, however it requires that you have more storage available. If you set this value to 0, no examples are stored. NOTE: The `categorization_examples_limit` applies only to analysis that uses categorization. */
@@ -65246,9 +63385,7 @@ export const MlTypesAnalysisLimits = /*@__PURE__*/ S.suspend(() =>
     categorization_examples_limit: S.optional(S.Number),
     model_memory_limit: S.optional(TypesByteSize),
   }),
-).annotate({
-  identifier: "MlTypesAnalysisLimits",
-}) as any as S.Schema<MlTypesAnalysisLimits>;
+).annotate({ identifier: "MlTypesAnalysisLimits" }) as any as S.Schema<MlTypesAnalysisLimits>;
 
 export type MlTypesJobBlockedReason = "delete" | "reset" | "revert";
 export const MlTypesJobBlockedReason = S.String;
@@ -65262,9 +63399,7 @@ export const MlTypesJobBlocked = /*@__PURE__*/ S.suspend(() =>
     reason: MlTypesJobBlockedReason,
     task_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MlTypesJobBlocked",
-}) as any as S.Schema<MlTypesJobBlocked>;
+).annotate({ identifier: "MlTypesJobBlocked" }) as any as S.Schema<MlTypesJobBlocked>;
 
 export interface MlTypesDataDescription {
   /** Only JSON format is supported at this time. */
@@ -65282,9 +63417,7 @@ export const MlTypesDataDescription = /*@__PURE__*/ S.suspend(() =>
     time_format: S.optional(S.String),
     field_delimiter: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MlTypesDataDescription",
-}) as any as S.Schema<MlTypesDataDescription>;
+).annotate({ identifier: "MlTypesDataDescription" }) as any as S.Schema<MlTypesDataDescription>;
 
 /** A list of job groups. A job can belong to no groups or many. */
 export type MlTypesJobGroupsList = Array<string>;
@@ -65306,9 +63439,7 @@ export const MlTypesModelPlotConfig = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     terms: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MlTypesModelPlotConfig",
-}) as any as S.Schema<MlTypesModelPlotConfig>;
+).annotate({ identifier: "MlTypesModelPlotConfig" }) as any as S.Schema<MlTypesModelPlotConfig>;
 
 export interface MlTypesJob {
   /** Advanced configuration option. Specifies whether this job can open when there is insufficient machine learning node capacity for it to be immediately assigned to a node. */
@@ -65397,9 +63528,7 @@ export const MlGetJobsResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.Number,
     jobs: MlGetJobsResponseJobsList,
   }),
-).annotate({
-  identifier: "MlGetJobsResponse",
-}) as any as S.Schema<MlGetJobsResponse>;
+).annotate({ identifier: "MlGetJobsResponse" }) as any as S.Schema<MlGetJobsResponse>;
 
 export interface MlGetJobs1Request {
   /** Specifies what to do when the request: 1. Contains wildcard expressions and there are no jobs that match. 2. Contains the _all string or no identifiers and there are no matches. 3. Contains wildcard expressions and there are only partial matches. The default value is `true`, which returns an empty `jobs` array when there are no matches and the subset of results when there are partial matches. If this parameter is `false`, the request returns a `404` status code when there are no matches or only partial matches. */
@@ -65412,9 +63541,7 @@ export const MlGetJobs1Request = /*@__PURE__*/ S.suspend(() =>
     allow_no_match: S.optional(S.Boolean.pipe(T.Query())),
     exclude_generated: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_ml/anomaly_detectors", code: 200 })),
-).annotate({
-  identifier: "MlGetJobs1Request",
-}) as any as S.Schema<MlGetJobs1Request>;
+).annotate({ identifier: "MlGetJobs1Request" }) as any as S.Schema<MlGetJobs1Request>;
 
 export type MlGetJobs1ResponseJobsList = Array<MlTypesJob>;
 export const MlGetJobs1ResponseJobsList = /*@__PURE__*/ S.Array(
@@ -65430,9 +63557,7 @@ export const MlGetJobs1Response = /*@__PURE__*/ S.suspend(() =>
     count: S.Number,
     jobs: MlGetJobs1ResponseJobsList,
   }),
-).annotate({
-  identifier: "MlGetJobs1Response",
-}) as any as S.Schema<MlGetJobs1Response>;
+).annotate({ identifier: "MlGetJobs1Response" }) as any as S.Schema<MlGetJobs1Response>;
 
 export interface MlGetJobStatsRequest {
   /** Specifies what to do when the request: 1. Contains wildcard expressions and there are no jobs that match. 2. Contains the _all string or no identifiers and there are no matches. 3. Contains wildcard expressions and there are only partial matches. If `true`, the API returns an empty `jobs` array when there are no matches and the subset of results when there are partial matches. If `false`, the API returns a `404` status code when there are no matches or only partial matches. */
@@ -65442,9 +63567,7 @@ export const MlGetJobStatsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     allow_no_match: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_ml/anomaly_detectors/_stats", code: 200 })),
-).annotate({
-  identifier: "MlGetJobStatsRequest",
-}) as any as S.Schema<MlGetJobStatsRequest>;
+).annotate({ identifier: "MlGetJobStatsRequest" }) as any as S.Schema<MlGetJobStatsRequest>;
 
 export interface MlTypesDataCounts {
   bucket_count: number;
@@ -65489,9 +63612,7 @@ export const MlTypesDataCounts = /*@__PURE__*/ S.suspend(() =>
     processed_record_count: S.Number,
     sparse_bucket_count: S.Number,
   }),
-).annotate({
-  identifier: "MlTypesDataCounts",
-}) as any as S.Schema<MlTypesDataCounts>;
+).annotate({ identifier: "MlTypesDataCounts" }) as any as S.Schema<MlTypesDataCounts>;
 
 export interface MlTypesJobStatistics {
   avg: number;
@@ -65506,13 +63627,9 @@ export const MlTypesJobStatistics = /*@__PURE__*/ S.suspend(() =>
     min: S.Number,
     total: S.Number,
   }),
-).annotate({
-  identifier: "MlTypesJobStatistics",
-}) as any as S.Schema<MlTypesJobStatistics>;
+).annotate({ identifier: "MlTypesJobStatistics" }) as any as S.Schema<MlTypesJobStatistics>;
 
-export type MlTypesJobForecastStatisticsStatusMap = {
-  [key: string]: number | undefined;
-};
+export type MlTypesJobForecastStatisticsStatusMap = { [key: string]: number | undefined };
 export const MlTypesJobForecastStatisticsStatusMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -65588,9 +63705,7 @@ export const MlTypesModelSizeStats = /*@__PURE__*/ S.suspend(() =>
     total_category_count: S.Number,
     timestamp: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MlTypesModelSizeStats",
-}) as any as S.Schema<MlTypesModelSizeStats>;
+).annotate({ identifier: "MlTypesModelSizeStats" }) as any as S.Schema<MlTypesModelSizeStats>;
 
 export interface MlTypesJobTimingStats {
   average_bucket_processing_time_ms?: number;
@@ -65613,9 +63728,7 @@ export const MlTypesJobTimingStats = /*@__PURE__*/ S.suspend(() =>
     maximum_bucket_processing_time_ms: S.optional(S.Number),
     minimum_bucket_processing_time_ms: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MlTypesJobTimingStats",
-}) as any as S.Schema<MlTypesJobTimingStats>;
+).annotate({ identifier: "MlTypesJobTimingStats" }) as any as S.Schema<MlTypesJobTimingStats>;
 
 export interface MlTypesJobStats {
   /** For open anomaly detection jobs only, contains messages relating to the selection of a node to run the job. */
@@ -65652,9 +63765,7 @@ export const MlTypesJobStats = /*@__PURE__*/ S.suspend(() =>
     timing_stats: MlTypesJobTimingStats,
     deleting: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MlTypesJobStats",
-}) as any as S.Schema<MlTypesJobStats>;
+).annotate({ identifier: "MlTypesJobStats" }) as any as S.Schema<MlTypesJobStats>;
 
 export type MlGetJobStatsResponseJobsList = Array<MlTypesJobStats>;
 export const MlGetJobStatsResponseJobsList = /*@__PURE__*/ S.Array(
@@ -65670,9 +63781,7 @@ export const MlGetJobStatsResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.Number,
     jobs: MlGetJobStatsResponseJobsList,
   }),
-).annotate({
-  identifier: "MlGetJobStatsResponse",
-}) as any as S.Schema<MlGetJobStatsResponse>;
+).annotate({ identifier: "MlGetJobStatsResponse" }) as any as S.Schema<MlGetJobStatsResponse>;
 
 export interface MlGetJobStats1Request {
   /** Identifier for the anomaly detection job. It can be a job identifier, a group name, a comma-separated list of jobs, or a wildcard expression. If you do not specify one of these options, the API returns information for all anomaly detection jobs. */
@@ -65684,16 +63793,8 @@ export const MlGetJobStats1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     job_id: S.String.pipe(T.Label()),
     allow_no_match: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_ml/anomaly_detectors/{job_id}/_stats",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "MlGetJobStats1Request",
-}) as any as S.Schema<MlGetJobStats1Request>;
+  }).pipe(T.Http({ method: "GET", uri: "/_ml/anomaly_detectors/{job_id}/_stats", code: 200 })),
+).annotate({ identifier: "MlGetJobStats1Request" }) as any as S.Schema<MlGetJobStats1Request>;
 
 export type MlGetJobStats1ResponseJobsList = Array<MlTypesJobStats>;
 export const MlGetJobStats1ResponseJobsList = /*@__PURE__*/ S.Array(
@@ -65709,9 +63810,7 @@ export const MlGetJobStats1Response = /*@__PURE__*/ S.suspend(() =>
     count: S.Number,
     jobs: MlGetJobStats1ResponseJobsList,
   }),
-).annotate({
-  identifier: "MlGetJobStats1Response",
-}) as any as S.Schema<MlGetJobStats1Response>;
+).annotate({ identifier: "MlGetJobStats1Response" }) as any as S.Schema<MlGetJobStats1Response>;
 
 export interface MlGetMemoryStatsRequest {
   /** Period to wait for a connection to the master node. If no response is received before the timeout expires, the request fails and returns an error. */
@@ -65724,13 +63823,9 @@ export const MlGetMemoryStatsRequest = /*@__PURE__*/ S.suspend(() =>
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_ml/memory/_stats", code: 200 })),
-).annotate({
-  identifier: "MlGetMemoryStatsRequest",
-}) as any as S.Schema<MlGetMemoryStatsRequest>;
+).annotate({ identifier: "MlGetMemoryStatsRequest" }) as any as S.Schema<MlGetMemoryStatsRequest>;
 
-export type MlGetMemoryStatsMemoryAttributesMap = {
-  [key: string]: string | undefined;
-};
+export type MlGetMemoryStatsMemoryAttributesMap = { [key: string]: string | undefined };
 export const MlGetMemoryStatsMemoryAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -65759,9 +63854,7 @@ export const MlGetMemoryStatsJvmStats = /*@__PURE__*/ S.suspend(() =>
     java_inference_max: S.optional(TypesByteSize),
     java_inference_max_in_bytes: S.Number,
   }),
-).annotate({
-  identifier: "MlGetMemoryStatsJvmStats",
-}) as any as S.Schema<MlGetMemoryStatsJvmStats>;
+).annotate({ identifier: "MlGetMemoryStatsJvmStats" }) as any as S.Schema<MlGetMemoryStatsJvmStats>;
 
 export interface MlGetMemoryStatsMemMlStats {
   /** Amount of native memory set aside for anomaly detection jobs. */
@@ -65822,9 +63915,7 @@ export const MlGetMemoryStatsMemStats = /*@__PURE__*/ S.suspend(() =>
     total_in_bytes: S.Number,
     ml: MlGetMemoryStatsMemMlStats,
   }),
-).annotate({
-  identifier: "MlGetMemoryStatsMemStats",
-}) as any as S.Schema<MlGetMemoryStatsMemStats>;
+).annotate({ identifier: "MlGetMemoryStatsMemStats" }) as any as S.Schema<MlGetMemoryStatsMemStats>;
 
 /** Roles assigned to the node. */
 export type MlGetMemoryStatsMemoryRolesList = Array<string>;
@@ -65856,9 +63947,7 @@ export const MlGetMemoryStatsMemory = /*@__PURE__*/ S.suspend(() =>
     transport_address: S.String,
     ephemeral_id: S.String,
   }),
-).annotate({
-  identifier: "MlGetMemoryStatsMemory",
-}) as any as S.Schema<MlGetMemoryStatsMemory>;
+).annotate({ identifier: "MlGetMemoryStatsMemory" }) as any as S.Schema<MlGetMemoryStatsMemory>;
 
 export type MlGetMemoryStatsResponseNodesMap = {
   [key: string]: MlGetMemoryStatsMemory | undefined;
@@ -65879,9 +63968,7 @@ export const MlGetMemoryStatsResponse = /*@__PURE__*/ S.suspend(() =>
     cluster_name: S.String,
     nodes: MlGetMemoryStatsResponseNodesMap,
   }),
-).annotate({
-  identifier: "MlGetMemoryStatsResponse",
-}) as any as S.Schema<MlGetMemoryStatsResponse>;
+).annotate({ identifier: "MlGetMemoryStatsResponse" }) as any as S.Schema<MlGetMemoryStatsResponse>;
 
 export interface MlGetMemoryStats1Request {
   /** The names of particular nodes in the cluster to target. For example, `nodeId1,nodeId2` or `ml:true` */
@@ -65897,9 +63984,7 @@ export const MlGetMemoryStats1Request = /*@__PURE__*/ S.suspend(() =>
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_ml/memory/{node_id}/_stats", code: 200 })),
-).annotate({
-  identifier: "MlGetMemoryStats1Request",
-}) as any as S.Schema<MlGetMemoryStats1Request>;
+).annotate({ identifier: "MlGetMemoryStats1Request" }) as any as S.Schema<MlGetMemoryStats1Request>;
 
 export type MlGetMemoryStats1ResponseNodesMap = {
   [key: string]: MlGetMemoryStatsMemory | undefined;
@@ -66000,9 +64085,7 @@ export const MlTypesModelSnapshot = /*@__PURE__*/ S.suspend(() =>
     snapshot_id: S.String,
     timestamp: S.Number,
   }),
-).annotate({
-  identifier: "MlTypesModelSnapshot",
-}) as any as S.Schema<MlTypesModelSnapshot>;
+).annotate({ identifier: "MlTypesModelSnapshot" }) as any as S.Schema<MlTypesModelSnapshot>;
 
 export type MlGetModelSnapshotsResponseModelSnapshotsList = Array<MlTypesModelSnapshot>;
 export const MlGetModelSnapshotsResponseModelSnapshotsList = /*@__PURE__*/ S.Array(
@@ -66109,11 +64192,7 @@ export const MlGetModelSnapshots2Request = /*@__PURE__*/ S.suspend(() =>
     start: S.optional(TypesDateTime.pipe(T.Query())),
     page: S.optional(MlTypesPage),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_ml/anomaly_detectors/{job_id}/model_snapshots",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/_ml/anomaly_detectors/{job_id}/model_snapshots", code: 200 }),
   ),
 ).annotate({
   identifier: "MlGetModelSnapshots2Request",
@@ -66165,11 +64244,7 @@ export const MlGetModelSnapshots3Request = /*@__PURE__*/ S.suspend(() =>
     start: S.optional(TypesDateTime.pipe(T.Query())),
     page: S.optional(MlTypesPage),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/anomaly_detectors/{job_id}/model_snapshots",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/_ml/anomaly_detectors/{job_id}/model_snapshots", code: 200 }),
   ),
 ).annotate({
   identifier: "MlGetModelSnapshots3Request",
@@ -66224,9 +64299,7 @@ export type MlTypesSnapshotUpgradeState =
   | "failed";
 export const MlTypesSnapshotUpgradeState = S.String;
 
-export type MlTypesDiscoveryNodeContentAttributesMap = {
-  [key: string]: string | undefined;
-};
+export type MlTypesDiscoveryNodeContentAttributesMap = { [key: string]: string | undefined };
 export const MlTypesDiscoveryNodeContentAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -66264,9 +64337,7 @@ export const MlTypesDiscoveryNodeContent = /*@__PURE__*/ S.suspend(() =>
   identifier: "MlTypesDiscoveryNodeContent",
 }) as any as S.Schema<MlTypesDiscoveryNodeContent>;
 
-export type MlTypesDiscoveryNode = {
-  [key: string]: MlTypesDiscoveryNodeContent | undefined;
-};
+export type MlTypesDiscoveryNode = { [key: string]: MlTypesDiscoveryNodeContent | undefined };
 export const MlTypesDiscoveryNode = /*@__PURE__*/ S.Record(
   S.String,
   MlTypesDiscoveryNodeContent,
@@ -66359,9 +64430,7 @@ export const MlTypesOverallBucketJob = /*@__PURE__*/ S.suspend(() =>
     job_id: S.String,
     max_anomaly_score: S.Number,
   }),
-).annotate({
-  identifier: "MlTypesOverallBucketJob",
-}) as any as S.Schema<MlTypesOverallBucketJob>;
+).annotate({ identifier: "MlTypesOverallBucketJob" }) as any as S.Schema<MlTypesOverallBucketJob>;
 
 /** An array of objects that contain the max_anomaly_score per job_id. */
 export type MlTypesOverallBucketJobsList = Array<MlTypesOverallBucketJob>;
@@ -66395,9 +64464,7 @@ export const MlTypesOverallBucket = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.Number,
     timestamp_string: S.optional(TypesDateTime),
   }),
-).annotate({
-  identifier: "MlTypesOverallBucket",
-}) as any as S.Schema<MlTypesOverallBucket>;
+).annotate({ identifier: "MlTypesOverallBucket" }) as any as S.Schema<MlTypesOverallBucket>;
 
 /** Array of overall bucket objects */
 export type MlGetOverallBucketsResponseOverallBucketsList = Array<MlTypesOverallBucket>;
@@ -66512,15 +64579,9 @@ export const MlGetRecordsRequest = /*@__PURE__*/ S.suspend(() =>
     start: S.optional(TypesDateTime.pipe(T.Query())),
     page: S.optional(MlTypesPage),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_ml/anomaly_detectors/{job_id}/results/records",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/_ml/anomaly_detectors/{job_id}/results/records", code: 200 }),
   ),
-).annotate({
-  identifier: "MlGetRecordsRequest",
-}) as any as S.Schema<MlGetRecordsRequest>;
+).annotate({ identifier: "MlGetRecordsRequest" }) as any as S.Schema<MlGetRecordsRequest>;
 
 /** The actual value for the bucket. */
 export type MlTypesAnomalyActualList = Array<number>;
@@ -66583,9 +64644,7 @@ export const MlTypesGeoResults = /*@__PURE__*/ S.suspend(() =>
     actual_point: S.optional(S.String),
     typical_point: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MlTypesGeoResults",
-}) as any as S.Schema<MlTypesGeoResults>;
+).annotate({ identifier: "MlTypesGeoResults" }) as any as S.Schema<MlTypesGeoResults>;
 
 export type MlTypesInfluenceInfluencerFieldValuesList = Array<string>;
 export const MlTypesInfluenceInfluencerFieldValuesList = /*@__PURE__*/ S.Array(
@@ -66601,9 +64660,7 @@ export const MlTypesInfluence = /*@__PURE__*/ S.suspend(() =>
     influencer_field_name: S.String,
     influencer_field_values: MlTypesInfluenceInfluencerFieldValuesList,
   }),
-).annotate({
-  identifier: "MlTypesInfluence",
-}) as any as S.Schema<MlTypesInfluence>;
+).annotate({ identifier: "MlTypesInfluence" }) as any as S.Schema<MlTypesInfluence>;
 
 export type MlTypesAnomalyCauseInfluencersList = Array<MlTypesInfluence>;
 export const MlTypesAnomalyCauseInfluencersList = /*@__PURE__*/ S.Array(
@@ -66650,9 +64707,7 @@ export const MlTypesAnomalyCause = /*@__PURE__*/ S.suspend(() =>
     probability: S.Number,
     typical: S.optional(MlTypesAnomalyCauseTypicalList),
   }),
-).annotate({
-  identifier: "MlTypesAnomalyCause",
-}) as any as S.Schema<MlTypesAnomalyCause>;
+).annotate({ identifier: "MlTypesAnomalyCause" }) as any as S.Schema<MlTypesAnomalyCause>;
 
 /** For population analysis, an over field must be specified in the detector. This property contains an array of anomaly records that are the causes for the anomaly that has been identified for the over field. This sub-resource contains the most anomalous records for the `over_field_name`. For scalability reasons, a maximum of the 10 most significant causes of the anomaly are returned. As part of the core analytical modeling, these low-level anomaly records are aggregated for their parent over field record. The `causes` resource contains similar elements to the record resource, namely `actual`, `typical`, `geo_results.actual_point`, `geo_results.typical_point`, `*_field_name` and `*_field_value`. Probability and scores are not applicable to causes. */
 export type MlTypesAnomalyCausesList = Array<MlTypesAnomalyCause>;
@@ -66765,9 +64820,7 @@ export const MlGetRecordsResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.Number,
     records: MlGetRecordsResponseRecordsList,
   }),
-).annotate({
-  identifier: "MlGetRecordsResponse",
-}) as any as S.Schema<MlGetRecordsResponse>;
+).annotate({ identifier: "MlGetRecordsResponse" }) as any as S.Schema<MlGetRecordsResponse>;
 
 export interface MlGetRecords1Request {
   /** Identifier for the anomaly detection job. */
@@ -66803,15 +64856,9 @@ export const MlGetRecords1Request = /*@__PURE__*/ S.suspend(() =>
     start: S.optional(TypesDateTime.pipe(T.Query())),
     page: S.optional(MlTypesPage),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/anomaly_detectors/{job_id}/results/records",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/_ml/anomaly_detectors/{job_id}/results/records", code: 200 }),
   ),
-).annotate({
-  identifier: "MlGetRecords1Request",
-}) as any as S.Schema<MlGetRecords1Request>;
+).annotate({ identifier: "MlGetRecords1Request" }) as any as S.Schema<MlGetRecords1Request>;
 
 export type MlGetRecords1ResponseRecordsList = Array<MlTypesAnomaly>;
 export const MlGetRecords1ResponseRecordsList = /*@__PURE__*/ S.Array(
@@ -66827,9 +64874,7 @@ export const MlGetRecords1Response = /*@__PURE__*/ S.suspend(() =>
     count: S.Number,
     records: MlGetRecords1ResponseRecordsList,
   }),
-).annotate({
-  identifier: "MlGetRecords1Response",
-}) as any as S.Schema<MlGetRecords1Response>;
+).annotate({ identifier: "MlGetRecords1Response" }) as any as S.Schema<MlGetRecords1Response>;
 
 export type MlTypesInclude =
   | "definition"
@@ -66891,9 +64936,7 @@ export const MlTypesTrainedModelConfigTagsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<MlTypesTrainedModelConfigTagsList>;
 
 /** Any field map described in the inference configuration takes precedence. */
-export type MlTypesTrainedModelConfigDefaultFieldMapMap = {
-  [key: string]: string | undefined;
-};
+export type MlTypesTrainedModelConfigDefaultFieldMapMap = { [key: string]: string | undefined };
 export const MlTypesTrainedModelConfigDefaultFieldMapMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -67083,9 +65126,7 @@ export const MlTypesFillMaskInferenceOptions = /*@__PURE__*/ S.suspend(() =>
   identifier: "MlTypesFillMaskInferenceOptions",
 }) as any as S.Schema<MlTypesFillMaskInferenceOptions>;
 
-export type MlTypesLearningToRankConfigDefaultParamsMap = {
-  [key: string]: unknown | undefined;
-};
+export type MlTypesLearningToRankConfigDefaultParamsMap = { [key: string]: unknown | undefined };
 export const MlTypesLearningToRankConfigDefaultParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -67321,9 +65362,7 @@ export const MlTypesHyperparameter = /*@__PURE__*/ S.suspend(() =>
     supplied: S.Boolean,
     value: S.Number,
   }),
-).annotate({
-  identifier: "MlTypesHyperparameter",
-}) as any as S.Schema<MlTypesHyperparameter>;
+).annotate({ identifier: "MlTypesHyperparameter" }) as any as S.Schema<MlTypesHyperparameter>;
 
 /** List of the available hyperparameters optimized during the fine_parameter_tuning phase as well as specified by the user. */
 export type MlTypesTrainedModelConfigMetadataHyperparametersList = Array<MlTypesHyperparameter>;
@@ -67433,9 +65472,7 @@ export const MlTypesTrainedModelConfigMetadata = /*@__PURE__*/ S.suspend(() =>
   identifier: "MlTypesTrainedModelConfigMetadata",
 }) as any as S.Schema<MlTypesTrainedModelConfigMetadata>;
 
-export type MlTypesModelPackageConfigInferenceConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type MlTypesModelPackageConfigInferenceConfigMap = { [key: string]: unknown | undefined };
 export const MlTypesModelPackageConfigInferenceConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -67681,13 +65718,7 @@ export const MlGetTrainedModelsStatsRequest = /*@__PURE__*/ S.suspend(() =>
     allow_no_match: S.optional(S.Boolean.pipe(T.Query())),
     from: S.optional(S.Number.pipe(T.Query())),
     size: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_ml/trained_models/{model_id}/_stats",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_ml/trained_models/{model_id}/_stats", code: 200 })),
 ).annotate({
   identifier: "MlGetTrainedModelsStatsRequest",
 }) as any as S.Schema<MlGetTrainedModelsStatsRequest>;
@@ -67906,9 +65937,7 @@ export const MlTypesTrainedModelInferenceStats = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<MlTypesTrainedModelInferenceStats>;
 
 /** A collection of ingest stats for the model across all nodes. The values are summations of the individual node statistics. The format matches the ingest section in the nodes stats API. */
-export type MlTypesTrainedModelStatsIngestMap = {
-  [key: string]: unknown | undefined;
-};
+export type MlTypesTrainedModelStatsIngestMap = { [key: string]: unknown | undefined };
 export const MlTypesTrainedModelStatsIngestMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -67952,9 +65981,7 @@ export const MlTypesTrainedModelStats = /*@__PURE__*/ S.suspend(() =>
     model_size_stats: MlTypesTrainedModelSizeStats,
     pipeline_count: S.Number,
   }),
-).annotate({
-  identifier: "MlTypesTrainedModelStats",
-}) as any as S.Schema<MlTypesTrainedModelStats>;
+).annotate({ identifier: "MlTypesTrainedModelStats" }) as any as S.Schema<MlTypesTrainedModelStats>;
 
 /** An array of trained model statistics, which are sorted by the model_id value in ascending order. */
 export type MlGetTrainedModelsStatsResponseTrainedModelStatsList = Array<MlTypesTrainedModelStats>;
@@ -68016,9 +66043,7 @@ export const MlGetTrainedModelsStats1Response = /*@__PURE__*/ S.suspend(() =>
   identifier: "MlGetTrainedModelsStats1Response",
 }) as any as S.Schema<MlGetTrainedModelsStats1Response>;
 
-export type MlInferTrainedModelRequestDocsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type MlInferTrainedModelRequestDocsItemMap = { [key: string]: unknown | undefined };
 export const MlInferTrainedModelRequestDocsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -68235,13 +66260,7 @@ export const MlInferTrainedModelRequest = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(TypesDuration.pipe(T.Query())),
     docs: MlInferTrainedModelRequestDocsList,
     inference_config: S.optional(MlTypesInferenceConfigUpdateContainer),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/trained_models/{model_id}/_infer",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_ml/trained_models/{model_id}/_infer", code: 200 })),
 ).annotate({
   identifier: "MlInferTrainedModelRequest",
 }) as any as S.Schema<MlInferTrainedModelRequest>;
@@ -68302,9 +66321,7 @@ export const MlTypesTopClassEntry = /*@__PURE__*/ S.suspend(() =>
     class_probability: S.Number,
     class_score: S.Number,
   }),
-).annotate({
-  identifier: "MlTypesTopClassEntry",
-}) as any as S.Schema<MlTypesTopClassEntry>;
+).annotate({ identifier: "MlTypesTopClassEntry" }) as any as S.Schema<MlTypesTopClassEntry>;
 
 /** For fill mask, text classification, and zero shot classification tasks, the response contains a list of top class entries. */
 export type MlTypesInferenceResponseResultTopClassesList = Array<MlTypesTopClassEntry>;
@@ -68416,9 +66433,7 @@ export const MlInfoAnomalyDetectors = /*@__PURE__*/ S.suspend(() =>
     model_snapshot_retention_days: S.Number,
     daily_model_snapshot_retention_after_days: S.Number,
   }),
-).annotate({
-  identifier: "MlInfoAnomalyDetectors",
-}) as any as S.Schema<MlInfoAnomalyDetectors>;
+).annotate({ identifier: "MlInfoAnomalyDetectors" }) as any as S.Schema<MlInfoAnomalyDetectors>;
 
 export interface MlInfoDatafeeds {
   scroll_size: number;
@@ -68427,9 +66442,7 @@ export const MlInfoDatafeeds = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     scroll_size: S.Number,
   }),
-).annotate({
-  identifier: "MlInfoDatafeeds",
-}) as any as S.Schema<MlInfoDatafeeds>;
+).annotate({ identifier: "MlInfoDatafeeds" }) as any as S.Schema<MlInfoDatafeeds>;
 
 export type MlInfoModelPlatformVariant = "linux-x86_64" | "platform_agnostic";
 export const MlInfoModelPlatformVariant = S.String;
@@ -68474,9 +66487,7 @@ export const MlInfoNativeCode = /*@__PURE__*/ S.suspend(() =>
     build_hash: S.String,
     version: S.String,
   }),
-).annotate({
-  identifier: "MlInfoNativeCode",
-}) as any as S.Schema<MlInfoNativeCode>;
+).annotate({ identifier: "MlInfoNativeCode" }) as any as S.Schema<MlInfoNativeCode>;
 
 export interface MlInfoResponse {
   defaults: MlInfoDefaults;
@@ -68503,16 +66514,8 @@ export const MlOpenJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     job_id: S.String.pipe(T.Label()),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/anomaly_detectors/{job_id}/_open",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "MlOpenJobRequest",
-}) as any as S.Schema<MlOpenJobRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/_ml/anomaly_detectors/{job_id}/_open", code: 200 })),
+).annotate({ identifier: "MlOpenJobRequest" }) as any as S.Schema<MlOpenJobRequest>;
 
 export interface MlOpenJobResponse {
   opened: boolean;
@@ -68524,9 +66527,7 @@ export const MlOpenJobResponse = /*@__PURE__*/ S.suspend(() =>
     opened: S.Boolean,
     node: S.String,
   }),
-).annotate({
-  identifier: "MlOpenJobResponse",
-}) as any as S.Schema<MlOpenJobResponse>;
+).annotate({ identifier: "MlOpenJobResponse" }) as any as S.Schema<MlOpenJobResponse>;
 
 /** A list of one of more scheduled events. The event’s start and end times can be specified as integer milliseconds since the epoch or as a string in ISO 8601 format. */
 export type MlPostCalendarEventsRequestEventsList = Array<MlTypesCalendarEvent>;
@@ -68544,13 +66545,7 @@ export const MlPostCalendarEventsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     calendar_id: S.String.pipe(T.Label()),
     events: MlPostCalendarEventsRequestEventsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/calendars/{calendar_id}/events",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_ml/calendars/{calendar_id}/events", code: 200 })),
 ).annotate({
   identifier: "MlPostCalendarEventsRequest",
 }) as any as S.Schema<MlPostCalendarEventsRequest>;
@@ -68581,9 +66576,7 @@ export const MlTypesDatafeedConfigAggregationsMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<MlTypesDatafeedConfigAggregationsMap>;
 
 /** Specifies scripts that evaluate custom expressions and returns script fields to the datafeed. The detector configuration objects in a job can contain functions that use these script fields. */
-export type MlTypesDatafeedConfigScriptFieldsMap = {
-  [key: string]: TypesScriptField | undefined;
-};
+export type MlTypesDatafeedConfigScriptFieldsMap = { [key: string]: TypesScriptField | undefined };
 export const MlTypesDatafeedConfigScriptFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   TypesScriptField,
@@ -68607,6 +66600,8 @@ export interface MlTypesDatafeedConfig {
   job_id?: string;
   /** If a real-time datafeed has never seen any data (including during any initial training period) then it will automatically stop itself and close its associated job after this many real-time searches that return no documents. In other words, it will stop after `frequency` times `max_empty_searches` of real-time operation. If not set then a datafeed with no end time that sees no data will remain started until it is explicitly stopped. */
   max_empty_searches?: number;
+  /** The maximum number of consecutive real-time data extraction failures the datafeed tolerates before it automatically stops itself, leaving the associated job open. The consecutive-failure counter resets on any cycle that extracts successfully, including empty-data cycles. If not set, the threshold defaults to roughly one day's worth of searches based on the datafeed `frequency` (floored at 1). Set to `-1` to disable auto-stop and retry indefinitely. Values of `0` or less than `-1` are rejected. */
+  max_consecutive_extraction_failures?: number;
   /** The Elasticsearch query domain-specific language (DSL). This value corresponds to the query object in an Elasticsearch search POST body. All the options that are supported by Elasticsearch can be used, as this object is passed verbatim to Elasticsearch. */
   query?: TypesQueryDslQueryContainer;
   /** The number of seconds behind real time that data is queried. For example, if data from 10:04 a.m. might not be searchable in Elasticsearch until 10:06 a.m., set this property to 120 seconds. The default value is randomly selected between `60s` and `120s`. This randomness improves the query performance when there are multiple jobs running on the same node. */
@@ -68629,15 +66624,14 @@ export const MlTypesDatafeedConfig = /*@__PURE__*/ S.suspend(() =>
     indices_options: S.optional(TypesIndicesOptions),
     job_id: S.optional(S.String),
     max_empty_searches: S.optional(S.Number),
+    max_consecutive_extraction_failures: S.optional(S.Number),
     query: S.optional(TypesQueryDslQueryContainer),
     query_delay: S.optional(TypesDuration),
     runtime_mappings: S.optional(TypesMappingRuntimeFields),
     script_fields: S.optional(MlTypesDatafeedConfigScriptFieldsMap),
     scroll_size: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MlTypesDatafeedConfig",
-}) as any as S.Schema<MlTypesDatafeedConfig>;
+).annotate({ identifier: "MlTypesDatafeedConfig" }) as any as S.Schema<MlTypesDatafeedConfig>;
 
 /** A list of job groups. A job can belong to no groups or many. */
 export type MlTypesJobConfigGroupsList = Array<string>;
@@ -68698,9 +66692,7 @@ export const MlTypesJobConfig = /*@__PURE__*/ S.suspend(() =>
     results_index_name: S.optional(S.String),
     results_retention_days: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MlTypesJobConfig",
-}) as any as S.Schema<MlTypesJobConfig>;
+).annotate({ identifier: "MlTypesJobConfig" }) as any as S.Schema<MlTypesJobConfig>;
 
 export interface MlPreviewDatafeedRequest {
   /** A numerical character string that uniquely identifies the datafeed. This identifier can contain lowercase alphanumeric characters (a-z and 0-9), hyphens, and underscores. It must start and end with alphanumeric characters. NOTE: If you use this path parameter, you cannot provide datafeed or anomaly detection job configuration details in the request body. */
@@ -68721,16 +66713,8 @@ export const MlPreviewDatafeedRequest = /*@__PURE__*/ S.suspend(() =>
     end: S.optional(TypesDateTime.pipe(T.Query())),
     datafeed_config: S.optional(MlTypesDatafeedConfig),
     job_config: S.optional(MlTypesJobConfig),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_ml/datafeeds/{datafeed_id}/_preview",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "MlPreviewDatafeedRequest",
-}) as any as S.Schema<MlPreviewDatafeedRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/_ml/datafeeds/{datafeed_id}/_preview", code: 200 })),
+).annotate({ identifier: "MlPreviewDatafeedRequest" }) as any as S.Schema<MlPreviewDatafeedRequest>;
 
 export type MlPreviewDatafeedResponseBodyList = Array<unknown>;
 export const MlPreviewDatafeedResponseBodyList = /*@__PURE__*/ S.Array(
@@ -68763,13 +66747,7 @@ export const MlPreviewDatafeed1Request = /*@__PURE__*/ S.suspend(() =>
     end: S.optional(TypesDateTime.pipe(T.Query())),
     datafeed_config: S.optional(MlTypesDatafeedConfig),
     job_config: S.optional(MlTypesJobConfig),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/datafeeds/{datafeed_id}/_preview",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_ml/datafeeds/{datafeed_id}/_preview", code: 200 })),
 ).annotate({
   identifier: "MlPreviewDatafeed1Request",
 }) as any as S.Schema<MlPreviewDatafeed1Request>;
@@ -68878,13 +66856,7 @@ export interface MlPreviewDataFrameAnalyticsRequest {
 export const MlPreviewDataFrameAnalyticsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     config: S.optional(MlPreviewDataFrameAnalyticsDataframePreviewConfig),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_ml/data_frame/analytics/_preview",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_ml/data_frame/analytics/_preview", code: 200 })),
 ).annotate({
   identifier: "MlPreviewDataFrameAnalyticsRequest",
 }) as any as S.Schema<MlPreviewDataFrameAnalyticsRequest>;
@@ -68923,13 +66895,7 @@ export interface MlPreviewDataFrameAnalytics1Request {
 export const MlPreviewDataFrameAnalytics1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     config: S.optional(MlPreviewDataFrameAnalyticsDataframePreviewConfig),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/data_frame/analytics/_preview",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_ml/data_frame/analytics/_preview", code: 200 })),
 ).annotate({
   identifier: "MlPreviewDataFrameAnalytics1Request",
 }) as any as S.Schema<MlPreviewDataFrameAnalytics1Request>;
@@ -68971,13 +66937,7 @@ export const MlPreviewDataFrameAnalytics2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     config: S.optional(MlPreviewDataFrameAnalyticsDataframePreviewConfig),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_ml/data_frame/analytics/{id}/_preview",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_ml/data_frame/analytics/{id}/_preview", code: 200 })),
 ).annotate({
   identifier: "MlPreviewDataFrameAnalytics2Request",
 }) as any as S.Schema<MlPreviewDataFrameAnalytics2Request>;
@@ -69019,13 +66979,7 @@ export const MlPreviewDataFrameAnalytics3Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     config: S.optional(MlPreviewDataFrameAnalyticsDataframePreviewConfig),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/data_frame/analytics/{id}/_preview",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_ml/data_frame/analytics/{id}/_preview", code: 200 })),
 ).annotate({
   identifier: "MlPreviewDataFrameAnalytics3Request",
 }) as any as S.Schema<MlPreviewDataFrameAnalytics3Request>;
@@ -69077,9 +67031,7 @@ export const MlPutCalendarRequest = /*@__PURE__*/ S.suspend(() =>
     job_ids: S.optional(MlPutCalendarRequestJobIdsList),
     description: S.optional(S.String),
   }).pipe(T.Http({ method: "PUT", uri: "/_ml/calendars/{calendar_id}", code: 200 })),
-).annotate({
-  identifier: "MlPutCalendarRequest",
-}) as any as S.Schema<MlPutCalendarRequest>;
+).annotate({ identifier: "MlPutCalendarRequest" }) as any as S.Schema<MlPutCalendarRequest>;
 
 export interface MlPutCalendarResponse {
   /** A string that uniquely identifies a calendar. */
@@ -69095,9 +67047,7 @@ export const MlPutCalendarResponse = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     job_ids: TypesIds,
   }),
-).annotate({
-  identifier: "MlPutCalendarResponse",
-}) as any as S.Schema<MlPutCalendarResponse>;
+).annotate({ identifier: "MlPutCalendarResponse" }) as any as S.Schema<MlPutCalendarResponse>;
 
 export interface MlPutCalendarJobRequest {
   /** A string that uniquely identifies a calendar. */
@@ -69109,16 +67059,8 @@ export const MlPutCalendarJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     calendar_id: S.String.pipe(T.Label()),
     job_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_ml/calendars/{calendar_id}/jobs/{job_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "MlPutCalendarJobRequest",
-}) as any as S.Schema<MlPutCalendarJobRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/_ml/calendars/{calendar_id}/jobs/{job_id}", code: 200 })),
+).annotate({ identifier: "MlPutCalendarJobRequest" }) as any as S.Schema<MlPutCalendarJobRequest>;
 
 export interface MlPutCalendarJobResponse {
   /** A string that uniquely identifies a calendar. */
@@ -69134,9 +67076,7 @@ export const MlPutCalendarJobResponse = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     job_ids: TypesIds,
   }),
-).annotate({
-  identifier: "MlPutCalendarJobResponse",
-}) as any as S.Schema<MlPutCalendarJobResponse>;
+).annotate({ identifier: "MlPutCalendarJobResponse" }) as any as S.Schema<MlPutCalendarJobResponse>;
 
 /** If set, the datafeed performs aggregation searches. Support for aggregations is limited and should be used only with low cardinality data. */
 export type MlPutDatafeedRequestAggregationsMap = {
@@ -69148,9 +67088,7 @@ export const MlPutDatafeedRequestAggregationsMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<MlPutDatafeedRequestAggregationsMap>;
 
 /** Specifies scripts that evaluate custom expressions and returns script fields to the datafeed. The detector configuration objects in a job can contain functions that use these script fields. */
-export type MlPutDatafeedRequestScriptFieldsMap = {
-  [key: string]: TypesScriptField | undefined;
-};
+export type MlPutDatafeedRequestScriptFieldsMap = { [key: string]: TypesScriptField | undefined };
 export const MlPutDatafeedRequestScriptFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   TypesScriptField,
@@ -69164,9 +67102,7 @@ export const TypesHttpHeadersValueCase1List = /*@__PURE__*/ S.Array(
 export type TypesHttpHeadersValue = string | TypesHttpHeadersValueCase1List;
 export const TypesHttpHeadersValue = S.Unknown as any as S.Schema<TypesHttpHeadersValue>;
 
-export type TypesHttpHeaders = {
-  [key: string]: TypesHttpHeadersValue | undefined;
-};
+export type TypesHttpHeaders = { [key: string]: TypesHttpHeadersValue | undefined };
 export const TypesHttpHeaders = /*@__PURE__*/ S.Record(
   S.String,
   TypesHttpHeadersValue,
@@ -69199,6 +67135,8 @@ export interface MlPutDatafeedRequest {
   job_id?: string;
   /** If a real-time datafeed has never seen any data (including during any initial training period), it automatically stops and closes the associated job after this many real-time searches return no documents. In other words, it stops after `frequency` times `max_empty_searches` of real-time operation. If not set, a datafeed with no end time that sees no data remains started until it is explicitly stopped. By default, it is not set. */
   max_empty_searches?: number;
+  /** The maximum number of consecutive real-time data extraction failures the datafeed tolerates before it automatically stops itself, leaving the associated job open. The consecutive-failure counter resets on any cycle that extracts successfully, including empty-data cycles. If not set, the threshold defaults to roughly one day's worth of searches based on the datafeed `frequency` (floored at 1). Set to `-1` to disable auto-stop and retry indefinitely. Values of `0` or less than `-1` are rejected. */
+  max_consecutive_extraction_failures?: number;
   /** The Elasticsearch query domain-specific language (DSL). This value corresponds to the query object in an Elasticsearch search POST body. All the options that are supported by Elasticsearch can be used, as this object is passed verbatim to Elasticsearch. */
   query?: TypesQueryDslQueryContainer;
   /** The number of seconds behind real time that data is queried. For example, if data from 10:04 a.m. might not be searchable in Elasticsearch until 10:06 a.m., set this property to 120 seconds. The default value is randomly selected between `60s` and `120s`. This randomness improves the query performance when there are multiple jobs running on the same node. */
@@ -69226,6 +67164,7 @@ export const MlPutDatafeedRequest = /*@__PURE__*/ S.suspend(() =>
     indices_options: S.optional(TypesIndicesOptions),
     job_id: S.optional(S.String),
     max_empty_searches: S.optional(S.Number),
+    max_consecutive_extraction_failures: S.optional(S.Number),
     query: S.optional(TypesQueryDslQueryContainer),
     query_delay: S.optional(TypesDuration),
     runtime_mappings: S.optional(TypesMappingRuntimeFields),
@@ -69233,9 +67172,7 @@ export const MlPutDatafeedRequest = /*@__PURE__*/ S.suspend(() =>
     scroll_size: S.optional(S.Number),
     headers: S.optional(TypesHttpHeaders),
   }).pipe(T.Http({ method: "PUT", uri: "/_ml/datafeeds/{datafeed_id}", code: 200 })),
-).annotate({
-  identifier: "MlPutDatafeedRequest",
-}) as any as S.Schema<MlPutDatafeedRequest>;
+).annotate({ identifier: "MlPutDatafeedRequest" }) as any as S.Schema<MlPutDatafeedRequest>;
 
 export type MlPutDatafeedResponseAggregationsMap = {
   [key: string]: TypesAggregationsAggregationContainer | undefined;
@@ -69250,9 +67187,7 @@ export const MlPutDatafeedResponseIndicesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<MlPutDatafeedResponseIndicesList>;
 
-export type MlPutDatafeedResponseScriptFieldsMap = {
-  [key: string]: TypesScriptField | undefined;
-};
+export type MlPutDatafeedResponseScriptFieldsMap = { [key: string]: TypesScriptField | undefined };
 export const MlPutDatafeedResponseScriptFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   TypesScriptField,
@@ -69269,6 +67204,7 @@ export interface MlPutDatafeedResponse {
   job_id: string;
   indices_options?: TypesIndicesOptions;
   max_empty_searches?: number;
+  max_consecutive_extraction_failures?: number;
   query: TypesQueryDslQueryContainer;
   query_delay: TypesDuration;
   runtime_mappings?: TypesMappingRuntimeFields;
@@ -69287,15 +67223,14 @@ export const MlPutDatafeedResponse = /*@__PURE__*/ S.suspend(() =>
     job_id: S.String,
     indices_options: S.optional(TypesIndicesOptions),
     max_empty_searches: S.optional(S.Number),
+    max_consecutive_extraction_failures: S.optional(S.Number),
     query: TypesQueryDslQueryContainer,
     query_delay: TypesDuration,
     runtime_mappings: S.optional(TypesMappingRuntimeFields),
     script_fields: S.optional(MlPutDatafeedResponseScriptFieldsMap),
     scroll_size: S.Number,
   }),
-).annotate({
-  identifier: "MlPutDatafeedResponse",
-}) as any as S.Schema<MlPutDatafeedResponse>;
+).annotate({ identifier: "MlPutDatafeedResponse" }) as any as S.Schema<MlPutDatafeedResponse>;
 
 export interface MlPutDataFrameAnalyticsRequest {
   /** Identifier for the data frame analytics job. This identifier can contain lowercase alphanumeric characters (a-z and 0-9), hyphens, and underscores. It must start and end with alphanumeric characters. */
@@ -69394,9 +67329,7 @@ export const MlPutFilterRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     items: S.optional(MlPutFilterRequestItemsList),
   }).pipe(T.Http({ method: "PUT", uri: "/_ml/filters/{filter_id}", code: 200 })),
-).annotate({
-  identifier: "MlPutFilterRequest",
-}) as any as S.Schema<MlPutFilterRequest>;
+).annotate({ identifier: "MlPutFilterRequest" }) as any as S.Schema<MlPutFilterRequest>;
 
 export type MlPutFilterResponseItemsList = Array<string>;
 export const MlPutFilterResponseItemsList = /*@__PURE__*/ S.Array(
@@ -69414,9 +67347,7 @@ export const MlPutFilterResponse = /*@__PURE__*/ S.suspend(() =>
     filter_id: S.String,
     items: MlPutFilterResponseItemsList,
   }),
-).annotate({
-  identifier: "MlPutFilterResponse",
-}) as any as S.Schema<MlPutFilterResponse>;
+).annotate({ identifier: "MlPutFilterResponse" }) as any as S.Schema<MlPutFilterResponse>;
 
 /** A list of job groups. A job can belong to no groups or many. */
 export type MlPutJobRequestGroupsList = Array<string>;
@@ -69488,16 +67419,8 @@ export const MlPutJobRequest = /*@__PURE__*/ S.suspend(() =>
     renormalization_window_days: S.optional(S.Number),
     results_index_name: S.optional(S.String),
     results_retention_days: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_ml/anomaly_detectors/{job_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "MlPutJobRequest",
-}) as any as S.Schema<MlPutJobRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/_ml/anomaly_detectors/{job_id}", code: 200 })),
+).annotate({ identifier: "MlPutJobRequest" }) as any as S.Schema<MlPutJobRequest>;
 
 /** Custom rules enable you to customize the way detectors operate. For example, a rule may dictate conditions under which results should be skipped. Kibana refers to custom rules as job rules. */
 export type MlTypesDetectorReadCustomRulesList = Array<MlTypesDetectionRule>;
@@ -69540,9 +67463,7 @@ export const MlTypesDetectorRead = /*@__PURE__*/ S.suspend(() =>
     partition_field_name: S.optional(S.String),
     use_null: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MlTypesDetectorRead",
-}) as any as S.Schema<MlTypesDetectorRead>;
+).annotate({ identifier: "MlTypesDetectorRead" }) as any as S.Schema<MlTypesDetectorRead>;
 
 /** Detector configuration objects specify which data fields a job analyzes. They also specify which analytical functions are used. You can specify multiple detectors for a job. If the detectors array does not contain at least one detector, no analysis can occur and an error is returned. */
 export type MlTypesAnalysisConfigReadDetectorsList = Array<MlTypesDetectorRead>;
@@ -69654,9 +67575,7 @@ export const MlPutJobResponse = /*@__PURE__*/ S.suspend(() =>
     results_index_name: S.String,
     results_retention_days: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MlPutJobResponse",
-}) as any as S.Schema<MlPutJobResponse>;
+).annotate({ identifier: "MlPutJobResponse" }) as any as S.Schema<MlPutJobResponse>;
 
 export type MlPutTrainedModelFrequencyEncodingPreprocessorFrequencyMapMap = {
   [key: string]: number | undefined;
@@ -69815,9 +67734,7 @@ export const MlPutTrainedModelWeights = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     weights: S.Number,
   }),
-).annotate({
-  identifier: "MlPutTrainedModelWeights",
-}) as any as S.Schema<MlPutTrainedModelWeights>;
+).annotate({ identifier: "MlPutTrainedModelWeights" }) as any as S.Schema<MlPutTrainedModelWeights>;
 
 export interface MlPutTrainedModelAggregateOutput {
   logistic_regression?: MlPutTrainedModelWeights;
@@ -69910,9 +67827,7 @@ export const MlPutTrainedModelInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     field_names: TypesNames,
   }),
-).annotate({
-  identifier: "MlPutTrainedModelInput",
-}) as any as S.Schema<MlPutTrainedModelInput>;
+).annotate({ identifier: "MlPutTrainedModelInput" }) as any as S.Schema<MlPutTrainedModelInput>;
 
 /** An array of tags to organize the model. */
 export type MlPutTrainedModelRequestTagsList = Array<string>;
@@ -69967,9 +67882,7 @@ export const MlPutTrainedModelRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(MlPutTrainedModelRequestTagsList),
     prefix_strings: S.optional(MlTypesTrainedModelPrefixStrings),
   }).pipe(T.Http({ method: "PUT", uri: "/_ml/trained_models/{model_id}", code: 200 })),
-).annotate({
-  identifier: "MlPutTrainedModelRequest",
-}) as any as S.Schema<MlPutTrainedModelRequest>;
+).annotate({ identifier: "MlPutTrainedModelRequest" }) as any as S.Schema<MlPutTrainedModelRequest>;
 
 export interface MlPutTrainedModelAliasRequest {
   /** The identifier for the trained model that the alias refers to. */
@@ -70015,11 +67928,7 @@ export const MlPutTrainedModelDefinitionPartRequest = /*@__PURE__*/ S.suspend(()
     total_definition_length: S.Number,
     total_parts: S.Number,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_ml/trained_models/{model_id}/definition/{part}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/_ml/trained_models/{model_id}/definition/{part}", code: 200 }),
   ),
 ).annotate({
   identifier: "MlPutTrainedModelDefinitionPartRequest",
@@ -70059,13 +67968,7 @@ export const MlPutTrainedModelVocabularyRequest = /*@__PURE__*/ S.suspend(() =>
     vocabulary: MlPutTrainedModelVocabularyRequestVocabularyList,
     merges: S.optional(MlPutTrainedModelVocabularyRequestMergesList),
     scores: S.optional(MlPutTrainedModelVocabularyRequestScoresList),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_ml/trained_models/{model_id}/vocabulary",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_ml/trained_models/{model_id}/vocabulary", code: 200 })),
 ).annotate({
   identifier: "MlPutTrainedModelVocabularyRequest",
 }) as any as S.Schema<MlPutTrainedModelVocabularyRequest>;
@@ -70083,16 +67986,8 @@ export const MlResetJobRequest = /*@__PURE__*/ S.suspend(() =>
     job_id: S.String.pipe(T.Label()),
     wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
     delete_user_annotations: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/anomaly_detectors/{job_id}/_reset",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "MlResetJobRequest",
-}) as any as S.Schema<MlResetJobRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/_ml/anomaly_detectors/{job_id}/_reset", code: 200 })),
+).annotate({ identifier: "MlResetJobRequest" }) as any as S.Schema<MlResetJobRequest>;
 
 export interface MlRevertModelSnapshotRequest {
   /** Identifier for the anomaly detection job. */
@@ -70140,9 +68035,7 @@ export const MlSetUpgradeModeRequest = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/_ml/set_upgrade_mode", code: 200 })),
-).annotate({
-  identifier: "MlSetUpgradeModeRequest",
-}) as any as S.Schema<MlSetUpgradeModeRequest>;
+).annotate({ identifier: "MlSetUpgradeModeRequest" }) as any as S.Schema<MlSetUpgradeModeRequest>;
 
 export interface MlStartDatafeedRequest {
   /** A numerical character string that uniquely identifies the datafeed. This identifier can contain lowercase alphanumeric characters (a-z and 0-9), hyphens, and underscores. It must start and end with alphanumeric characters. */
@@ -70160,16 +68053,8 @@ export const MlStartDatafeedRequest = /*@__PURE__*/ S.suspend(() =>
     end: S.optional(TypesDateTime.pipe(T.Query())),
     start: S.optional(TypesDateTime.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/datafeeds/{datafeed_id}/_start",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "MlStartDatafeedRequest",
-}) as any as S.Schema<MlStartDatafeedRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/_ml/datafeeds/{datafeed_id}/_start", code: 200 })),
+).annotate({ identifier: "MlStartDatafeedRequest" }) as any as S.Schema<MlStartDatafeedRequest>;
 
 export interface MlStartDatafeedResponse {
   /** The ID of the node that the job was started on. In serverless this will be the "serverless". If the job is allowed to open lazily and has not yet been assigned to a node, this value is an empty string. */
@@ -70182,9 +68067,7 @@ export const MlStartDatafeedResponse = /*@__PURE__*/ S.suspend(() =>
     node: TypesNodeIds,
     started: S.Boolean,
   }),
-).annotate({
-  identifier: "MlStartDatafeedResponse",
-}) as any as S.Schema<MlStartDatafeedResponse>;
+).annotate({ identifier: "MlStartDatafeedResponse" }) as any as S.Schema<MlStartDatafeedResponse>;
 
 export interface MlStartDataFrameAnalyticsRequest {
   /** Identifier for the data frame analytics job. This identifier can contain lowercase alphanumeric characters (a-z and 0-9), hyphens, and underscores. It must start and end with alphanumeric characters. */
@@ -70196,13 +68079,7 @@ export const MlStartDataFrameAnalyticsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/data_frame/analytics/{id}/_start",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_ml/data_frame/analytics/{id}/_start", code: 200 })),
 ).annotate({
   identifier: "MlStartDataFrameAnalyticsRequest",
 }) as any as S.Schema<MlStartDataFrameAnalyticsRequest>;
@@ -70256,11 +68133,7 @@ export const MlStartTrainedModelDeploymentRequest = /*@__PURE__*/ S.suspend(() =
     wait_for: S.optional(MlTypesDeploymentAllocationState.pipe(T.Query())),
     adaptive_allocations: S.optional(MlTypesAdaptiveAllocationsSettings),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/trained_models/{model_id}/deployment/_start",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/_ml/trained_models/{model_id}/deployment/_start", code: 200 }),
   ),
 ).annotate({
   identifier: "MlStartTrainedModelDeploymentRequest",
@@ -70394,16 +68267,8 @@ export const MlStopDatafeedRequest = /*@__PURE__*/ S.suspend(() =>
     force: S.optional(S.Boolean.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
     close_job: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/datafeeds/{datafeed_id}/_stop",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "MlStopDatafeedRequest",
-}) as any as S.Schema<MlStopDatafeedRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/_ml/datafeeds/{datafeed_id}/_stop", code: 200 })),
+).annotate({ identifier: "MlStopDatafeedRequest" }) as any as S.Schema<MlStopDatafeedRequest>;
 
 export interface MlStopDatafeedResponse {
   stopped: boolean;
@@ -70412,9 +68277,7 @@ export const MlStopDatafeedResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     stopped: S.Boolean,
   }),
-).annotate({
-  identifier: "MlStopDatafeedResponse",
-}) as any as S.Schema<MlStopDatafeedResponse>;
+).annotate({ identifier: "MlStopDatafeedResponse" }) as any as S.Schema<MlStopDatafeedResponse>;
 
 export interface MlStopDataFrameAnalyticsRequest {
   /** Identifier for the data frame analytics job. This identifier can contain lowercase alphanumeric characters (a-z and 0-9), hyphens, and underscores. It must start and end with alphanumeric characters. */
@@ -70432,13 +68295,7 @@ export const MlStopDataFrameAnalyticsRequest = /*@__PURE__*/ S.suspend(() =>
     allow_no_match: S.optional(S.Boolean.pipe(T.Query())),
     force: S.optional(S.Boolean.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/data_frame/analytics/{id}/_stop",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_ml/data_frame/analytics/{id}/_stop", code: 200 })),
 ).annotate({
   identifier: "MlStopDataFrameAnalyticsRequest",
 }) as any as S.Schema<MlStopDataFrameAnalyticsRequest>;
@@ -70471,11 +68328,7 @@ export const MlStopTrainedModelDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
     force: S.optional(S.Boolean.pipe(T.Query())),
     id: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/trained_models/{model_id}/deployment/_stop",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/_ml/trained_models/{model_id}/deployment/_stop", code: 200 }),
   ),
 ).annotate({
   identifier: "MlStopTrainedModelDeploymentRequest",
@@ -70542,6 +68395,8 @@ export interface MlUpdateDatafeedRequest {
   job_id?: string;
   /** If a real-time datafeed has never seen any data (including during any initial training period), it automatically stops and closes the associated job after this many real-time searches return no documents. In other words, it stops after `frequency` times `max_empty_searches` of real-time operation. If not set, a datafeed with no end time that sees no data remains started until it is explicitly stopped. By default, it is not set. */
   max_empty_searches?: number;
+  /** The maximum number of consecutive real-time data extraction failures the datafeed tolerates before it automatically stops itself, leaving the associated job open. The consecutive-failure counter resets on any cycle that extracts successfully, including empty-data cycles. If not set, the threshold defaults to roughly one day's worth of searches based on the datafeed `frequency` (floored at 1). Set to `-1` to disable auto-stop and retry indefinitely. Values of `0` or less than `-1` are rejected. */
+  max_consecutive_extraction_failures?: number;
   /** The Elasticsearch query domain-specific language (DSL). This value corresponds to the query object in an Elasticsearch search POST body. All the options that are supported by Elasticsearch can be used, as this object is passed verbatim to Elasticsearch. Note that if you change the query, the analyzed data is also changed. Therefore, the time required to learn might be long and the understandability of the results is unpredictable. If you want to make significant changes to the source data, it is recommended that you clone the job and datafeed and make the amendments in the clone. Let both run in parallel and close one when you are satisfied with the results of the job. */
   query?: TypesQueryDslQueryContainer;
   /** The number of seconds behind real time that data is queried. For example, if data from 10:04 a.m. might not be searchable in Elasticsearch until 10:06 a.m., set this property to 120 seconds. The default value is randomly selected between `60s` and `120s`. This randomness improves the query performance when there are multiple jobs running on the same node. */
@@ -70568,21 +68423,14 @@ export const MlUpdateDatafeedRequest = /*@__PURE__*/ S.suspend(() =>
     indices_options: S.optional(TypesIndicesOptions),
     job_id: S.optional(S.String),
     max_empty_searches: S.optional(S.Number),
+    max_consecutive_extraction_failures: S.optional(S.Number),
     query: S.optional(TypesQueryDslQueryContainer),
     query_delay: S.optional(TypesDuration),
     runtime_mappings: S.optional(TypesMappingRuntimeFields),
     script_fields: S.optional(MlUpdateDatafeedRequestScriptFieldsMap),
     scroll_size: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/datafeeds/{datafeed_id}/_update",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "MlUpdateDatafeedRequest",
-}) as any as S.Schema<MlUpdateDatafeedRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/_ml/datafeeds/{datafeed_id}/_update", code: 200 })),
+).annotate({ identifier: "MlUpdateDatafeedRequest" }) as any as S.Schema<MlUpdateDatafeedRequest>;
 
 export type MlUpdateDatafeedResponseAggregationsMap = {
   [key: string]: TypesAggregationsAggregationContainer | undefined;
@@ -70617,6 +68465,7 @@ export interface MlUpdateDatafeedResponse {
   indices_options?: TypesIndicesOptions;
   job_id: string;
   max_empty_searches?: number;
+  max_consecutive_extraction_failures?: number;
   query: TypesQueryDslQueryContainer;
   query_delay: TypesDuration;
   runtime_mappings?: TypesMappingRuntimeFields;
@@ -70635,15 +68484,14 @@ export const MlUpdateDatafeedResponse = /*@__PURE__*/ S.suspend(() =>
     indices_options: S.optional(TypesIndicesOptions),
     job_id: S.String,
     max_empty_searches: S.optional(S.Number),
+    max_consecutive_extraction_failures: S.optional(S.Number),
     query: TypesQueryDslQueryContainer,
     query_delay: TypesDuration,
     runtime_mappings: S.optional(TypesMappingRuntimeFields),
     script_fields: S.optional(MlUpdateDatafeedResponseScriptFieldsMap),
     scroll_size: S.Number,
   }),
-).annotate({
-  identifier: "MlUpdateDatafeedResponse",
-}) as any as S.Schema<MlUpdateDatafeedResponse>;
+).annotate({ identifier: "MlUpdateDatafeedResponse" }) as any as S.Schema<MlUpdateDatafeedResponse>;
 
 export interface MlUpdateDataFrameAnalyticsRequest {
   /** Identifier for the data frame analytics job. This identifier can contain lowercase alphanumeric characters (a-z and 0-9), hyphens, and underscores. It must start and end with alphanumeric characters. */
@@ -70664,13 +68512,7 @@ export const MlUpdateDataFrameAnalyticsRequest = /*@__PURE__*/ S.suspend(() =>
     model_memory_limit: S.optional(S.String),
     max_num_threads: S.optional(S.Number),
     allow_lazy_start: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/data_frame/analytics/{id}/_update",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_ml/data_frame/analytics/{id}/_update", code: 200 })),
 ).annotate({
   identifier: "MlUpdateDataFrameAnalyticsRequest",
 }) as any as S.Schema<MlUpdateDataFrameAnalyticsRequest>;
@@ -70736,16 +68578,8 @@ export const MlUpdateFilterRequest = /*@__PURE__*/ S.suspend(() =>
     add_items: S.optional(MlUpdateFilterRequestAddItemsList),
     description: S.optional(S.String),
     remove_items: S.optional(MlUpdateFilterRequestRemoveItemsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/filters/{filter_id}/_update",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "MlUpdateFilterRequest",
-}) as any as S.Schema<MlUpdateFilterRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/_ml/filters/{filter_id}/_update", code: 200 })),
+).annotate({ identifier: "MlUpdateFilterRequest" }) as any as S.Schema<MlUpdateFilterRequest>;
 
 export type MlUpdateFilterResponseItemsList = Array<string>;
 export const MlUpdateFilterResponseItemsList = /*@__PURE__*/ S.Array(
@@ -70763,9 +68597,7 @@ export const MlUpdateFilterResponse = /*@__PURE__*/ S.suspend(() =>
     filter_id: S.String,
     items: MlUpdateFilterResponseItemsList,
   }),
-).annotate({
-  identifier: "MlUpdateFilterResponse",
-}) as any as S.Schema<MlUpdateFilterResponse>;
+).annotate({ identifier: "MlUpdateFilterResponse" }) as any as S.Schema<MlUpdateFilterResponse>;
 
 export interface MlTypesAnalysisMemoryLimit {
   /** Limits can be applied for the resources required to hold the mathematical models in memory. These limits are approximate and can be set per job. They do not control the memory used by other processes, for example the Elasticsearch Java processes. */
@@ -70780,9 +68612,7 @@ export const MlTypesAnalysisMemoryLimit = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<MlTypesAnalysisMemoryLimit>;
 
 /** Advanced configuration option. Contains custom meta data about the job. For example, it can contain custom URL information as shown in Adding custom URLs to machine learning results. */
-export type MlUpdateJobRequestCustomSettingsMap = {
-  [key: string]: unknown | undefined;
-};
+export type MlUpdateJobRequestCustomSettingsMap = { [key: string]: unknown | undefined };
 export const MlUpdateJobRequestCustomSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -70819,9 +68649,7 @@ export const MlTypesDetectorUpdate = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     custom_rules: S.optional(MlTypesDetectorUpdateCustomRulesList),
   }),
-).annotate({
-  identifier: "MlTypesDetectorUpdate",
-}) as any as S.Schema<MlTypesDetectorUpdate>;
+).annotate({ identifier: "MlTypesDetectorUpdate" }) as any as S.Schema<MlTypesDetectorUpdate>;
 
 /** An array of detector update objects. */
 export type MlUpdateJobRequestDetectorsList = Array<MlTypesDetectorUpdate>;
@@ -70877,20 +68705,10 @@ export const MlUpdateJobRequest = /*@__PURE__*/ S.suspend(() =>
     groups: S.optional(MlUpdateJobRequestGroupsList),
     detectors: S.optional(MlUpdateJobRequestDetectorsList),
     per_partition_categorization: S.optional(MlTypesPerPartitionCategorization),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/anomaly_detectors/{job_id}/_update",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "MlUpdateJobRequest",
-}) as any as S.Schema<MlUpdateJobRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/_ml/anomaly_detectors/{job_id}/_update", code: 200 })),
+).annotate({ identifier: "MlUpdateJobRequest" }) as any as S.Schema<MlUpdateJobRequest>;
 
-export type MlUpdateJobResponseCustomSettingsMap = {
-  [key: string]: string | undefined;
-};
+export type MlUpdateJobResponseCustomSettingsMap = { [key: string]: string | undefined };
 export const MlUpdateJobResponseCustomSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -70948,9 +68766,7 @@ export const MlUpdateJobResponse = /*@__PURE__*/ S.suspend(() =>
     results_index_name: S.String,
     results_retention_days: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MlUpdateJobResponse",
-}) as any as S.Schema<MlUpdateJobResponse>;
+).annotate({ identifier: "MlUpdateJobResponse" }) as any as S.Schema<MlUpdateJobResponse>;
 
 export interface MlUpdateModelSnapshotRequest {
   /** Identifier for the anomaly detection job. */
@@ -71006,11 +68822,7 @@ export const MlUpdateTrainedModelDeploymentRequest = /*@__PURE__*/ S.suspend(() 
     number_of_allocations: S.optional(S.Number.pipe(T.Query())),
     adaptive_allocations: S.optional(MlTypesAdaptiveAllocationsSettings),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_ml/trained_models/{model_id}/deployment/_update",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/_ml/trained_models/{model_id}/deployment/_update", code: 200 }),
   ),
 ).annotate({
   identifier: "MlUpdateTrainedModelDeploymentRequest",
@@ -71197,9 +69009,7 @@ export const Msearch1Request = /*@__PURE__*/ S.suspend(() =>
     typed_keys: S.optional(S.Boolean.pipe(T.Query())),
     body: Msearch1RequestBodyList.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/_msearch", code: 200 })),
-).annotate({
-  identifier: "Msearch1Request",
-}) as any as S.Schema<Msearch1Request>;
+).annotate({ identifier: "Msearch1Request" }) as any as S.Schema<Msearch1Request>;
 
 export type Msearch2RequestBodyList = Array<GlobalMsearchRequestItem>;
 export const Msearch2RequestBodyList = /*@__PURE__*/ S.Array(
@@ -71255,9 +69065,7 @@ export const Msearch2Request = /*@__PURE__*/ S.suspend(() =>
     typed_keys: S.optional(S.Boolean.pipe(T.Query())),
     body: Msearch2RequestBodyList.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_msearch", code: 200 })),
-).annotate({
-  identifier: "Msearch2Request",
-}) as any as S.Schema<Msearch2Request>;
+).annotate({ identifier: "Msearch2Request" }) as any as S.Schema<Msearch2Request>;
 
 export type Msearch3RequestBodyList = Array<GlobalMsearchRequestItem>;
 export const Msearch3RequestBodyList = /*@__PURE__*/ S.Array(
@@ -71313,14 +69121,10 @@ export const Msearch3Request = /*@__PURE__*/ S.suspend(() =>
     typed_keys: S.optional(S.Boolean.pipe(T.Query())),
     body: Msearch3RequestBodyList.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_msearch", code: 200 })),
-).annotate({
-  identifier: "Msearch3Request",
-}) as any as S.Schema<Msearch3Request>;
+).annotate({ identifier: "Msearch3Request" }) as any as S.Schema<Msearch3Request>;
 
 /** Key-value pairs used to replace Mustache variables in the template. The key is the variable name. The value is the variable value. */
-export type GlobalMsearchTemplateTemplateConfigParamsMap = {
-  [key: string]: unknown | undefined;
-};
+export type GlobalMsearchTemplateTemplateConfigParamsMap = { [key: string]: unknown | undefined };
 export const GlobalMsearchTemplateTemplateConfigParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -71383,9 +69187,7 @@ export const MsearchTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     typed_keys: S.optional(S.Boolean.pipe(T.Query())),
     body: MsearchTemplateRequestBodyList.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "GET", uri: "/_msearch/template", code: 200 })),
-).annotate({
-  identifier: "MsearchTemplateRequest",
-}) as any as S.Schema<MsearchTemplateRequest>;
+).annotate({ identifier: "MsearchTemplateRequest" }) as any as S.Schema<MsearchTemplateRequest>;
 
 export type MsearchTemplate1RequestBodyList = Array<GlobalMsearchTemplateRequestItem>;
 export const MsearchTemplate1RequestBodyList = /*@__PURE__*/ S.Array(
@@ -71414,9 +69216,7 @@ export const MsearchTemplate1Request = /*@__PURE__*/ S.suspend(() =>
     typed_keys: S.optional(S.Boolean.pipe(T.Query())),
     body: MsearchTemplate1RequestBodyList.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/_msearch/template", code: 200 })),
-).annotate({
-  identifier: "MsearchTemplate1Request",
-}) as any as S.Schema<MsearchTemplate1Request>;
+).annotate({ identifier: "MsearchTemplate1Request" }) as any as S.Schema<MsearchTemplate1Request>;
 
 export type MsearchTemplate2RequestBodyList = Array<GlobalMsearchTemplateRequestItem>;
 export const MsearchTemplate2RequestBodyList = /*@__PURE__*/ S.Array(
@@ -71448,9 +69248,7 @@ export const MsearchTemplate2Request = /*@__PURE__*/ S.suspend(() =>
     typed_keys: S.optional(S.Boolean.pipe(T.Query())),
     body: MsearchTemplate2RequestBodyList.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_msearch/template", code: 200 })),
-).annotate({
-  identifier: "MsearchTemplate2Request",
-}) as any as S.Schema<MsearchTemplate2Request>;
+).annotate({ identifier: "MsearchTemplate2Request" }) as any as S.Schema<MsearchTemplate2Request>;
 
 export type MsearchTemplate3RequestBodyList = Array<GlobalMsearchTemplateRequestItem>;
 export const MsearchTemplate3RequestBodyList = /*@__PURE__*/ S.Array(
@@ -71482,9 +69280,7 @@ export const MsearchTemplate3Request = /*@__PURE__*/ S.suspend(() =>
     typed_keys: S.optional(S.Boolean.pipe(T.Query())),
     body: MsearchTemplate3RequestBodyList.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_msearch/template", code: 200 })),
-).annotate({
-  identifier: "MsearchTemplate3Request",
-}) as any as S.Schema<MsearchTemplate3Request>;
+).annotate({ identifier: "MsearchTemplate3Request" }) as any as S.Schema<MsearchTemplate3Request>;
 
 export type MtermvectorsRequestIdsList = Array<string>;
 export const MtermvectorsRequestIdsList = /*@__PURE__*/ S.Array(
@@ -71517,9 +69313,7 @@ export const GlobalTermvectorsFilter = /*@__PURE__*/ S.suspend(() =>
     min_term_freq: S.optional(S.Number),
     min_word_length: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "GlobalTermvectorsFilter",
-}) as any as S.Schema<GlobalTermvectorsFilter>;
+).annotate({ identifier: "GlobalTermvectorsFilter" }) as any as S.Schema<GlobalTermvectorsFilter>;
 
 export interface GlobalMtermvectorsOperation {
   /** The ID of the document. */
@@ -71619,9 +69413,7 @@ export const MtermvectorsRequest = /*@__PURE__*/ S.suspend(() =>
     version_type: S.optional(TypesVersionType.pipe(T.Query())),
     docs: S.optional(MtermvectorsRequestDocsList),
   }).pipe(T.Http({ method: "GET", uri: "/_mtermvectors", code: 200 })),
-).annotate({
-  identifier: "MtermvectorsRequest",
-}) as any as S.Schema<MtermvectorsRequest>;
+).annotate({ identifier: "MtermvectorsRequest" }) as any as S.Schema<MtermvectorsRequest>;
 
 export interface GlobalTermvectorsFieldStatistics {
   doc_count: number;
@@ -71651,9 +69443,7 @@ export const GlobalTermvectorsToken = /*@__PURE__*/ S.suspend(() =>
     position: S.Number,
     start_offset: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "GlobalTermvectorsToken",
-}) as any as S.Schema<GlobalTermvectorsToken>;
+).annotate({ identifier: "GlobalTermvectorsToken" }) as any as S.Schema<GlobalTermvectorsToken>;
 
 export type GlobalTermvectorsTermTokensList = Array<GlobalTermvectorsToken>;
 export const GlobalTermvectorsTermTokensList = /*@__PURE__*/ S.Array(
@@ -71675,9 +69465,7 @@ export const GlobalTermvectorsTerm = /*@__PURE__*/ S.suspend(() =>
     tokens: S.optional(GlobalTermvectorsTermTokensList),
     ttf: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "GlobalTermvectorsTerm",
-}) as any as S.Schema<GlobalTermvectorsTerm>;
+).annotate({ identifier: "GlobalTermvectorsTerm" }) as any as S.Schema<GlobalTermvectorsTerm>;
 
 export type GlobalTermvectorsTermVectorTermsMap = {
   [key: string]: GlobalTermvectorsTerm | undefined;
@@ -71743,9 +69531,7 @@ export const MtermvectorsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     docs: MtermvectorsResponseDocsList,
   }),
-).annotate({
-  identifier: "MtermvectorsResponse",
-}) as any as S.Schema<MtermvectorsResponse>;
+).annotate({ identifier: "MtermvectorsResponse" }) as any as S.Schema<MtermvectorsResponse>;
 
 export type Mtermvectors1RequestIdsList = Array<string>;
 export const Mtermvectors1RequestIdsList = /*@__PURE__*/ S.Array(
@@ -71802,9 +69588,7 @@ export const Mtermvectors1Request = /*@__PURE__*/ S.suspend(() =>
     version_type: S.optional(TypesVersionType.pipe(T.Query())),
     docs: S.optional(Mtermvectors1RequestDocsList),
   }).pipe(T.Http({ method: "POST", uri: "/_mtermvectors", code: 200 })),
-).annotate({
-  identifier: "Mtermvectors1Request",
-}) as any as S.Schema<Mtermvectors1Request>;
+).annotate({ identifier: "Mtermvectors1Request" }) as any as S.Schema<Mtermvectors1Request>;
 
 export type Mtermvectors1ResponseDocsList = Array<GlobalMtermvectorsTermVectorsResult>;
 export const Mtermvectors1ResponseDocsList = /*@__PURE__*/ S.Array(
@@ -71818,9 +69602,7 @@ export const Mtermvectors1Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     docs: Mtermvectors1ResponseDocsList,
   }),
-).annotate({
-  identifier: "Mtermvectors1Response",
-}) as any as S.Schema<Mtermvectors1Response>;
+).annotate({ identifier: "Mtermvectors1Response" }) as any as S.Schema<Mtermvectors1Response>;
 
 export type Mtermvectors2RequestIdsList = Array<string>;
 export const Mtermvectors2RequestIdsList = /*@__PURE__*/ S.Array(
@@ -71880,9 +69662,7 @@ export const Mtermvectors2Request = /*@__PURE__*/ S.suspend(() =>
     version_type: S.optional(TypesVersionType.pipe(T.Query())),
     docs: S.optional(Mtermvectors2RequestDocsList),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_mtermvectors", code: 200 })),
-).annotate({
-  identifier: "Mtermvectors2Request",
-}) as any as S.Schema<Mtermvectors2Request>;
+).annotate({ identifier: "Mtermvectors2Request" }) as any as S.Schema<Mtermvectors2Request>;
 
 export type Mtermvectors2ResponseDocsList = Array<GlobalMtermvectorsTermVectorsResult>;
 export const Mtermvectors2ResponseDocsList = /*@__PURE__*/ S.Array(
@@ -71896,9 +69676,7 @@ export const Mtermvectors2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     docs: Mtermvectors2ResponseDocsList,
   }),
-).annotate({
-  identifier: "Mtermvectors2Response",
-}) as any as S.Schema<Mtermvectors2Response>;
+).annotate({ identifier: "Mtermvectors2Response" }) as any as S.Schema<Mtermvectors2Response>;
 
 export type Mtermvectors3RequestIdsList = Array<string>;
 export const Mtermvectors3RequestIdsList = /*@__PURE__*/ S.Array(
@@ -71958,9 +69736,7 @@ export const Mtermvectors3Request = /*@__PURE__*/ S.suspend(() =>
     version_type: S.optional(TypesVersionType.pipe(T.Query())),
     docs: S.optional(Mtermvectors3RequestDocsList),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_mtermvectors", code: 200 })),
-).annotate({
-  identifier: "Mtermvectors3Request",
-}) as any as S.Schema<Mtermvectors3Request>;
+).annotate({ identifier: "Mtermvectors3Request" }) as any as S.Schema<Mtermvectors3Request>;
 
 export type Mtermvectors3ResponseDocsList = Array<GlobalMtermvectorsTermVectorsResult>;
 export const Mtermvectors3ResponseDocsList = /*@__PURE__*/ S.Array(
@@ -71974,9 +69750,7 @@ export const Mtermvectors3Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     docs: Mtermvectors3ResponseDocsList,
   }),
-).annotate({
-  identifier: "Mtermvectors3Response",
-}) as any as S.Schema<Mtermvectors3Response>;
+).annotate({ identifier: "Mtermvectors3Response" }) as any as S.Schema<Mtermvectors3Response>;
 
 export interface NodesGetRepositoriesMeteringInfoRequest {
   /** Comma-separated list of node IDs or names used to limit returned information. */
@@ -71985,13 +69759,7 @@ export interface NodesGetRepositoriesMeteringInfoRequest {
 export const NodesGetRepositoriesMeteringInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     node_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_nodes/{node_id}/_repositories_metering",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_nodes/{node_id}/_repositories_metering", code: 200 })),
 ).annotate({
   identifier: "NodesGetRepositoriesMeteringInfoRequest",
 }) as any as S.Schema<NodesGetRepositoriesMeteringInfoRequest>;
@@ -72052,16 +69820,12 @@ export const NodesHotThreadsRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(TypesThreadType.pipe(T.Query())),
     sort: S.optional(TypesThreadType.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_nodes/hot_threads", code: 200 })),
-).annotate({
-  identifier: "NodesHotThreadsRequest",
-}) as any as S.Schema<NodesHotThreadsRequest>;
+).annotate({ identifier: "NodesHotThreadsRequest" }) as any as S.Schema<NodesHotThreadsRequest>;
 
 export type NodesHotThreadsResponse = unknown;
 export const NodesHotThreadsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "NodesHotThreadsResponse",
-}) as any as S.Schema<NodesHotThreadsResponse>;
+).annotate({ identifier: "NodesHotThreadsResponse" }) as any as S.Schema<NodesHotThreadsResponse>;
 
 export interface NodesHotThreads1Request {
   /** List of node IDs or names used to limit returned information. */
@@ -72092,16 +69856,12 @@ export const NodesHotThreads1Request = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(TypesThreadType.pipe(T.Query())),
     sort: S.optional(TypesThreadType.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_nodes/{node_id}/hot_threads", code: 200 })),
-).annotate({
-  identifier: "NodesHotThreads1Request",
-}) as any as S.Schema<NodesHotThreads1Request>;
+).annotate({ identifier: "NodesHotThreads1Request" }) as any as S.Schema<NodesHotThreads1Request>;
 
 export type NodesHotThreads1Response = unknown;
 export const NodesHotThreads1Response = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "NodesHotThreads1Response",
-}) as any as S.Schema<NodesHotThreads1Response>;
+).annotate({ identifier: "NodesHotThreads1Response" }) as any as S.Schema<NodesHotThreads1Response>;
 
 export interface NodesInfoRequest {
   /** If true, returns settings in flat format. */
@@ -72114,21 +69874,15 @@ export const NodesInfoRequest = /*@__PURE__*/ S.suspend(() =>
     flat_settings: S.optional(S.Boolean.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_nodes", code: 200 })),
-).annotate({
-  identifier: "NodesInfoRequest",
-}) as any as S.Schema<NodesInfoRequest>;
+).annotate({ identifier: "NodesInfoRequest" }) as any as S.Schema<NodesInfoRequest>;
 
-export type NodesInfoNodeInfoAttributesMap = {
-  [key: string]: string | undefined;
-};
+export type NodesInfoNodeInfoAttributesMap = { [key: string]: string | undefined };
 export const NodesInfoNodeInfoAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<NodesInfoNodeInfoAttributesMap>;
 
-export type NodesInfoNodeInfoComponentVersionsMap = {
-  [key: string]: number | undefined;
-};
+export type NodesInfoNodeInfoComponentVersionsMap = { [key: string]: number | undefined };
 export const NodesInfoNodeInfoComponentVersionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -72152,9 +69906,7 @@ export const NodesInfoNodeInfoHttp = /*@__PURE__*/ S.suspend(() =>
     max_content_length_in_bytes: S.Number,
     publish_address: S.String,
   }),
-).annotate({
-  identifier: "NodesInfoNodeInfoHttp",
-}) as any as S.Schema<NodesInfoNodeInfoHttp>;
+).annotate({ identifier: "NodesInfoNodeInfoHttp" }) as any as S.Schema<NodesInfoNodeInfoHttp>;
 
 export type NodesInfoNodeJvmInfoGcCollectorsList = Array<string>;
 export const NodesInfoNodeJvmInfoGcCollectorsList = /*@__PURE__*/ S.Array(
@@ -72235,9 +69987,7 @@ export const NodesInfoNodeJvmInfo = /*@__PURE__*/ S.suspend(() =>
     ),
     input_arguments: NodesInfoNodeJvmInfoInputArgumentsList,
   }),
-).annotate({
-  identifier: "NodesInfoNodeJvmInfo",
-}) as any as S.Schema<NodesInfoNodeJvmInfo>;
+).annotate({ identifier: "NodesInfoNodeJvmInfo" }) as any as S.Schema<NodesInfoNodeJvmInfo>;
 
 export interface NodesInfoNodeInfoOSCPU {
   cache_size: string;
@@ -72260,9 +70010,7 @@ export const NodesInfoNodeInfoOSCPU = /*@__PURE__*/ S.suspend(() =>
     total_sockets: S.Number,
     vendor: S.String,
   }),
-).annotate({
-  identifier: "NodesInfoNodeInfoOSCPU",
-}) as any as S.Schema<NodesInfoNodeInfoOSCPU>;
+).annotate({ identifier: "NodesInfoNodeInfoOSCPU" }) as any as S.Schema<NodesInfoNodeInfoOSCPU>;
 
 export interface NodesInfoNodeInfoMemory {
   total: string;
@@ -72273,9 +70021,7 @@ export const NodesInfoNodeInfoMemory = /*@__PURE__*/ S.suspend(() =>
     total: S.String,
     total_in_bytes: S.Number,
   }),
-).annotate({
-  identifier: "NodesInfoNodeInfoMemory",
-}) as any as S.Schema<NodesInfoNodeInfoMemory>;
+).annotate({ identifier: "NodesInfoNodeInfoMemory" }) as any as S.Schema<NodesInfoNodeInfoMemory>;
 
 export interface NodesInfoNodeOperatingSystemInfo {
   /** Name of the JVM architecture (ex: amd64, x86) */
@@ -72331,9 +70077,7 @@ export const NodesInfoNodeProcessInfo = /*@__PURE__*/ S.suspend(() =>
     mlockall: S.Boolean,
     refresh_interval_in_millis: S.Number,
   }),
-).annotate({
-  identifier: "NodesInfoNodeProcessInfo",
-}) as any as S.Schema<NodesInfoNodeProcessInfo>;
+).annotate({ identifier: "NodesInfoNodeProcessInfo" }) as any as S.Schema<NodesInfoNodeProcessInfo>;
 
 export interface NodesInfoNodeInfoSettingsClusterElection {
   strategy: string;
@@ -72391,9 +70135,7 @@ export const NodesInfoNodeInfoSettingsCluster = /*@__PURE__*/ S.suspend(() =>
   identifier: "NodesInfoNodeInfoSettingsCluster",
 }) as any as S.Schema<NodesInfoNodeInfoSettingsCluster>;
 
-export type NodesInfoNodeInfoSettingsNodeAttrMap = {
-  [key: string]: unknown | undefined;
-};
+export type NodesInfoNodeInfoSettingsNodeAttrMap = { [key: string]: unknown | undefined };
 export const NodesInfoNodeInfoSettingsNodeAttrMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -72440,9 +70182,7 @@ export const NodesInfoNodeInfoPath = /*@__PURE__*/ S.suspend(() =>
     repo: S.optional(NodesInfoNodeInfoPathRepoList),
     data: S.optional(NodesInfoNodeInfoPathData),
   }),
-).annotate({
-  identifier: "NodesInfoNodeInfoPath",
-}) as any as S.Schema<NodesInfoNodeInfoPath>;
+).annotate({ identifier: "NodesInfoNodeInfoPath" }) as any as S.Schema<NodesInfoNodeInfoPath>;
 
 export interface NodesInfoNodeInfoRepositoriesUrl {
   allowed_urls: string;
@@ -72510,9 +70250,7 @@ export const NodesInfoNodeInfoAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     destructive_requires_name: S.String,
   }),
-).annotate({
-  identifier: "NodesInfoNodeInfoAction",
-}) as any as S.Schema<NodesInfoNodeInfoAction>;
+).annotate({ identifier: "NodesInfoNodeInfoAction" }) as any as S.Schema<NodesInfoNodeInfoAction>;
 
 export type NodesInfoNodeInfoClient = IngestTypesLocal;
 export const NodesInfoNodeInfoClient = IngestTypesLocal;
@@ -72629,9 +70367,7 @@ export const NodesInfoNodeInfoXpackLicense = /*@__PURE__*/ S.suspend(() =>
   identifier: "NodesInfoNodeInfoXpackLicense",
 }) as any as S.Schema<NodesInfoNodeInfoXpackLicense>;
 
-export type NodesInfoNodeInfoXpackSecuritySslSslMap = {
-  [key: string]: string | undefined;
-};
+export type NodesInfoNodeInfoXpackSecuritySslSslMap = { [key: string]: string | undefined };
 export const NodesInfoNodeInfoXpackSecuritySslSslMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -72741,9 +70477,7 @@ export const NodesInfoNodeInfoXpackSecurity = /*@__PURE__*/ S.suspend(() =>
   identifier: "NodesInfoNodeInfoXpackSecurity",
 }) as any as S.Schema<NodesInfoNodeInfoXpackSecurity>;
 
-export type NodesInfoNodeInfoXpackNotificationMap = {
-  [key: string]: unknown | undefined;
-};
+export type NodesInfoNodeInfoXpackNotificationMap = { [key: string]: unknown | undefined };
 export const NodesInfoNodeInfoXpackNotificationMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -72756,9 +70490,7 @@ export const NodesInfoNodeInfoXpackMl = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     use_auto_machine_memory_percent: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "NodesInfoNodeInfoXpackMl",
-}) as any as S.Schema<NodesInfoNodeInfoXpackMl>;
+).annotate({ identifier: "NodesInfoNodeInfoXpackMl" }) as any as S.Schema<NodesInfoNodeInfoXpackMl>;
 
 export interface NodesInfoNodeInfoXpack {
   license?: NodesInfoNodeInfoXpackLicense;
@@ -72773,9 +70505,7 @@ export const NodesInfoNodeInfoXpack = /*@__PURE__*/ S.suspend(() =>
     notification: S.optional(NodesInfoNodeInfoXpackNotificationMap),
     ml: S.optional(NodesInfoNodeInfoXpackMl),
   }),
-).annotate({
-  identifier: "NodesInfoNodeInfoXpack",
-}) as any as S.Schema<NodesInfoNodeInfoXpack>;
+).annotate({ identifier: "NodesInfoNodeInfoXpack" }) as any as S.Schema<NodesInfoNodeInfoXpack>;
 
 export interface NodesInfoNodeInfoScript {
   allowed_types: string;
@@ -72786,9 +70516,7 @@ export const NodesInfoNodeInfoScript = /*@__PURE__*/ S.suspend(() =>
     allowed_types: S.String,
     disable_max_compilations_rate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NodesInfoNodeInfoScript",
-}) as any as S.Schema<NodesInfoNodeInfoScript>;
+).annotate({ identifier: "NodesInfoNodeInfoScript" }) as any as S.Schema<NodesInfoNodeInfoScript>;
 
 export interface NodesInfoNodeInfoSearchRemote {
   connect: string;
@@ -72808,9 +70536,7 @@ export const NodesInfoNodeInfoSearch = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     remote: NodesInfoNodeInfoSearchRemote,
   }),
-).annotate({
-  identifier: "NodesInfoNodeInfoSearch",
-}) as any as S.Schema<NodesInfoNodeInfoSearch>;
+).annotate({ identifier: "NodesInfoNodeInfoSearch" }) as any as S.Schema<NodesInfoNodeInfoSearch>;
 
 export type NodesInfoNodeInfoIngestDownloader = NodesInfoNodeInfoXpackSecurityAuthcToken;
 export const NodesInfoNodeInfoIngestDownloader = NodesInfoNodeInfoXpackSecurityAuthcToken;
@@ -72976,9 +70702,7 @@ export const NodesInfoNodeInfoTransportBoundAddressList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<NodesInfoNodeInfoTransportBoundAddressList>;
 
-export type NodesInfoNodeInfoTransportProfilesMap = {
-  [key: string]: string | undefined;
-};
+export type NodesInfoNodeInfoTransportProfilesMap = { [key: string]: string | undefined };
 export const NodesInfoNodeInfoTransportProfilesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -73019,9 +70743,7 @@ export const NodesInfoNodeInfoIngest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     processors: NodesInfoNodeInfoIngestProcessorsList,
   }),
-).annotate({
-  identifier: "NodesInfoNodeInfoIngest",
-}) as any as S.Schema<NodesInfoNodeInfoIngest>;
+).annotate({ identifier: "NodesInfoNodeInfoIngest" }) as any as S.Schema<NodesInfoNodeInfoIngest>;
 
 export type NodesInfoNodeInfoAggregationTypesList = Array<string>;
 export const NodesInfoNodeInfoAggregationTypesList = /*@__PURE__*/ S.Array(
@@ -73132,13 +70854,9 @@ export const NodesInfoNodeInfo = /*@__PURE__*/ S.suspend(() =>
     aggregations: S.optional(NodesInfoNodeInfoAggregationsMap),
     remote_cluster_server: S.optional(NodesInfoRemoveClusterServer),
   }),
-).annotate({
-  identifier: "NodesInfoNodeInfo",
-}) as any as S.Schema<NodesInfoNodeInfo>;
+).annotate({ identifier: "NodesInfoNodeInfo" }) as any as S.Schema<NodesInfoNodeInfo>;
 
-export type NodesInfoResponseNodesMap = {
-  [key: string]: NodesInfoNodeInfo | undefined;
-};
+export type NodesInfoResponseNodesMap = { [key: string]: NodesInfoNodeInfo | undefined };
 export const NodesInfoResponseNodesMap = /*@__PURE__*/ S.Record(
   S.String,
   NodesInfoNodeInfo,
@@ -73156,9 +70874,7 @@ export const NodesInfoResponse = /*@__PURE__*/ S.suspend(() =>
     cluster_name: S.String,
     nodes: NodesInfoResponseNodesMap,
   }),
-).annotate({
-  identifier: "NodesInfoResponse",
-}) as any as S.Schema<NodesInfoResponse>;
+).annotate({ identifier: "NodesInfoResponse" }) as any as S.Schema<NodesInfoResponse>;
 
 export interface NodesInfo1Request {
   /** Comma-separated list of node IDs or names used to limit returned information. */
@@ -73174,13 +70890,9 @@ export const NodesInfo1Request = /*@__PURE__*/ S.suspend(() =>
     flat_settings: S.optional(S.Boolean.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_nodes/{node_id}", code: 200 })),
-).annotate({
-  identifier: "NodesInfo1Request",
-}) as any as S.Schema<NodesInfo1Request>;
+).annotate({ identifier: "NodesInfo1Request" }) as any as S.Schema<NodesInfo1Request>;
 
-export type NodesInfo1ResponseNodesMap = {
-  [key: string]: NodesInfoNodeInfo | undefined;
-};
+export type NodesInfo1ResponseNodesMap = { [key: string]: NodesInfoNodeInfo | undefined };
 export const NodesInfo1ResponseNodesMap = /*@__PURE__*/ S.Record(
   S.String,
   NodesInfoNodeInfo,
@@ -73198,9 +70910,7 @@ export const NodesInfo1Response = /*@__PURE__*/ S.suspend(() =>
     cluster_name: S.String,
     nodes: NodesInfo1ResponseNodesMap,
   }),
-).annotate({
-  identifier: "NodesInfo1Response",
-}) as any as S.Schema<NodesInfo1Response>;
+).annotate({ identifier: "NodesInfo1Response" }) as any as S.Schema<NodesInfo1Response>;
 
 export interface NodesInfo2Request {
   /** Limits the information returned to the specific metrics. Supports a comma-separated list, such as http,ingest. */
@@ -73216,13 +70926,9 @@ export const NodesInfo2Request = /*@__PURE__*/ S.suspend(() =>
     flat_settings: S.optional(S.Boolean.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_nodes/{metric}", code: 200 })),
-).annotate({
-  identifier: "NodesInfo2Request",
-}) as any as S.Schema<NodesInfo2Request>;
+).annotate({ identifier: "NodesInfo2Request" }) as any as S.Schema<NodesInfo2Request>;
 
-export type NodesInfo2ResponseNodesMap = {
-  [key: string]: NodesInfoNodeInfo | undefined;
-};
+export type NodesInfo2ResponseNodesMap = { [key: string]: NodesInfoNodeInfo | undefined };
 export const NodesInfo2ResponseNodesMap = /*@__PURE__*/ S.Record(
   S.String,
   NodesInfoNodeInfo,
@@ -73240,9 +70946,7 @@ export const NodesInfo2Response = /*@__PURE__*/ S.suspend(() =>
     cluster_name: S.String,
     nodes: NodesInfo2ResponseNodesMap,
   }),
-).annotate({
-  identifier: "NodesInfo2Response",
-}) as any as S.Schema<NodesInfo2Response>;
+).annotate({ identifier: "NodesInfo2Response" }) as any as S.Schema<NodesInfo2Response>;
 
 export interface NodesInfo3Request {
   /** Comma-separated list of node IDs or names used to limit returned information. */
@@ -73261,13 +70965,9 @@ export const NodesInfo3Request = /*@__PURE__*/ S.suspend(() =>
     flat_settings: S.optional(S.Boolean.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_nodes/{node_id}/{metric}", code: 200 })),
-).annotate({
-  identifier: "NodesInfo3Request",
-}) as any as S.Schema<NodesInfo3Request>;
+).annotate({ identifier: "NodesInfo3Request" }) as any as S.Schema<NodesInfo3Request>;
 
-export type NodesInfo3ResponseNodesMap = {
-  [key: string]: NodesInfoNodeInfo | undefined;
-};
+export type NodesInfo3ResponseNodesMap = { [key: string]: NodesInfoNodeInfo | undefined };
 export const NodesInfo3ResponseNodesMap = /*@__PURE__*/ S.Record(
   S.String,
   NodesInfoNodeInfo,
@@ -73285,9 +70985,7 @@ export const NodesInfo3Response = /*@__PURE__*/ S.suspend(() =>
     cluster_name: S.String,
     nodes: NodesInfo3ResponseNodesMap,
   }),
-).annotate({
-  identifier: "NodesInfo3Response",
-}) as any as S.Schema<NodesInfo3Response>;
+).annotate({ identifier: "NodesInfo3Response" }) as any as S.Schema<NodesInfo3Response>;
 
 export interface NodesReloadSecureSettingsRequest {
   /** Period to wait for a response. If no response is received before the timeout expires, the request fails and returns an error. */
@@ -73299,13 +70997,7 @@ export const NodesReloadSecureSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     timeout: S.optional(TypesDuration.pipe(T.Query())),
     secure_settings_password: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_nodes/reload_secure_settings",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_nodes/reload_secure_settings", code: 200 })),
 ).annotate({
   identifier: "NodesReloadSecureSettingsRequest",
 }) as any as S.Schema<NodesReloadSecureSettingsRequest>;
@@ -73378,13 +71070,7 @@ export const NodesReloadSecureSettings1Request = /*@__PURE__*/ S.suspend(() =>
     node_id: S.String.pipe(T.Label()),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
     secure_settings_password: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_nodes/{node_id}/reload_secure_settings",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_nodes/{node_id}/reload_secure_settings", code: 200 })),
 ).annotate({
   identifier: "NodesReloadSecureSettings1Request",
 }) as any as S.Schema<NodesReloadSecureSettings1Request>;
@@ -73453,9 +71139,7 @@ export const NodesStatsRequest = /*@__PURE__*/ S.suspend(() =>
     types: S.optional(NodesStatsRequestTypesList.pipe(T.Query())),
     include_unloaded_segments: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_nodes/stats", code: 200 })),
-).annotate({
-  identifier: "NodesStatsRequest",
-}) as any as S.Schema<NodesStatsRequest>;
+).annotate({ identifier: "NodesStatsRequest" }) as any as S.Schema<NodesStatsRequest>;
 
 export interface NodesTypesAdaptiveSelection {
   /** The exponentially weighted moving average queue size of search requests on the keyed node. */
@@ -73522,9 +71206,7 @@ export const NodesTypesAllocations = /*@__PURE__*/ S.suspend(() =>
     current_disk_usage: S.optional(S.String),
     current_disk_usage_in_bytes: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NodesTypesAllocations",
-}) as any as S.Schema<NodesTypesAllocations>;
+).annotate({ identifier: "NodesTypesAllocations" }) as any as S.Schema<NodesTypesAllocations>;
 
 export interface NodesTypesBreaker {
   /** Estimated memory used for the operation. */
@@ -73549,14 +71231,10 @@ export const NodesTypesBreaker = /*@__PURE__*/ S.suspend(() =>
     overhead: S.optional(S.Number),
     tripped: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NodesTypesBreaker",
-}) as any as S.Schema<NodesTypesBreaker>;
+).annotate({ identifier: "NodesTypesBreaker" }) as any as S.Schema<NodesTypesBreaker>;
 
 /** Statistics about the field data circuit breaker. */
-export type NodesTypesStatsBreakersMap = {
-  [key: string]: NodesTypesBreaker | undefined;
-};
+export type NodesTypesStatsBreakersMap = { [key: string]: NodesTypesBreaker | undefined };
 export const NodesTypesStatsBreakersMap = /*@__PURE__*/ S.Record(
   S.String,
   NodesTypesBreaker,
@@ -73632,9 +71310,7 @@ export const NodesTypesDataPathStats = /*@__PURE__*/ S.suspend(() =>
     total_in_bytes: S.optional(S.Number),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NodesTypesDataPathStats",
-}) as any as S.Schema<NodesTypesDataPathStats>;
+).annotate({ identifier: "NodesTypesDataPathStats" }) as any as S.Schema<NodesTypesDataPathStats>;
 
 /** List of all file stores. */
 export type NodesTypesFileSystemDataList = Array<NodesTypesDataPathStats>;
@@ -73692,9 +71368,7 @@ export const NodesTypesIoStatDevice = /*@__PURE__*/ S.suspend(() =>
     write_kilobytes: S.optional(S.Number),
     write_operations: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NodesTypesIoStatDevice",
-}) as any as S.Schema<NodesTypesIoStatDevice>;
+).annotate({ identifier: "NodesTypesIoStatDevice" }) as any as S.Schema<NodesTypesIoStatDevice>;
 
 /** Array of disk metrics for each device that is backing an Elasticsearch data path. These disk metrics are probed periodically and averages between the last probe and the current probe are computed. */
 export type NodesTypesIoStatsDevicesList = Array<NodesTypesIoStatDevice>;
@@ -73713,9 +71387,7 @@ export const NodesTypesIoStats = /*@__PURE__*/ S.suspend(() =>
     devices: S.optional(NodesTypesIoStatsDevicesList),
     total: S.optional(NodesTypesIoStatDevice),
   }),
-).annotate({
-  identifier: "NodesTypesIoStats",
-}) as any as S.Schema<NodesTypesIoStats>;
+).annotate({ identifier: "NodesTypesIoStats" }) as any as S.Schema<NodesTypesIoStats>;
 
 export interface NodesTypesFileSystem {
   /** List of all file stores. */
@@ -73734,9 +71406,7 @@ export const NodesTypesFileSystem = /*@__PURE__*/ S.suspend(() =>
     total: S.optional(NodesTypesFileSystemTotal),
     io_stats: S.optional(NodesTypesIoStats),
   }),
-).annotate({
-  identifier: "NodesTypesFileSystem",
-}) as any as S.Schema<NodesTypesFileSystem>;
+).annotate({ identifier: "NodesTypesFileSystem" }) as any as S.Schema<NodesTypesFileSystem>;
 
 export type NodesTypesStatsIpCase1List = Array<string>;
 export const NodesTypesStatsIpCase1List = /*@__PURE__*/ S.Array(
@@ -73767,14 +71437,10 @@ export const NodesTypesNodeBufferPool = /*@__PURE__*/ S.suspend(() =>
     used: S.optional(S.String),
     used_in_bytes: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NodesTypesNodeBufferPool",
-}) as any as S.Schema<NodesTypesNodeBufferPool>;
+).annotate({ identifier: "NodesTypesNodeBufferPool" }) as any as S.Schema<NodesTypesNodeBufferPool>;
 
 /** Contains statistics about JVM buffer pools for the node. */
-export type NodesTypesJvmBufferPoolsMap = {
-  [key: string]: NodesTypesNodeBufferPool | undefined;
-};
+export type NodesTypesJvmBufferPoolsMap = { [key: string]: NodesTypesNodeBufferPool | undefined };
 export const NodesTypesJvmBufferPoolsMap = /*@__PURE__*/ S.Record(
   S.String,
   NodesTypesNodeBufferPool,
@@ -73794,9 +71460,7 @@ export const NodesTypesJvmClasses = /*@__PURE__*/ S.suspend(() =>
     total_loaded_count: S.optional(S.Number),
     total_unloaded_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NodesTypesJvmClasses",
-}) as any as S.Schema<NodesTypesJvmClasses>;
+).annotate({ identifier: "NodesTypesJvmClasses" }) as any as S.Schema<NodesTypesJvmClasses>;
 
 export interface NodesTypesGarbageCollectorTotal {
   /** Total number of JVM garbage collectors that collect objects. */
@@ -73869,9 +71533,7 @@ export const NodesTypesPool = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "NodesTypesPool" }) as any as S.Schema<NodesTypesPool>;
 
 /** Contains statistics about heap memory usage for the node. */
-export type NodesTypesJvmMemoryStatsPoolsMap = {
-  [key: string]: NodesTypesPool | undefined;
-};
+export type NodesTypesJvmMemoryStatsPoolsMap = { [key: string]: NodesTypesPool | undefined };
 export const NodesTypesJvmMemoryStatsPoolsMap = /*@__PURE__*/ S.Record(
   S.String,
   NodesTypesPool,
@@ -73918,9 +71580,7 @@ export const NodesTypesJvmMemoryStats = /*@__PURE__*/ S.suspend(() =>
     non_heap_committed_in_bytes: S.optional(S.Number),
     pools: S.optional(NodesTypesJvmMemoryStatsPoolsMap),
   }),
-).annotate({
-  identifier: "NodesTypesJvmMemoryStats",
-}) as any as S.Schema<NodesTypesJvmMemoryStats>;
+).annotate({ identifier: "NodesTypesJvmMemoryStats" }) as any as S.Schema<NodesTypesJvmMemoryStats>;
 
 export interface NodesTypesJvmThreads {
   /** Number of active threads in use by JVM. */
@@ -73933,9 +71593,7 @@ export const NodesTypesJvmThreads = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     peak_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NodesTypesJvmThreads",
-}) as any as S.Schema<NodesTypesJvmThreads>;
+).annotate({ identifier: "NodesTypesJvmThreads" }) as any as S.Schema<NodesTypesJvmThreads>;
 
 export interface NodesTypesJvm {
   /** Contains statistics about JVM buffer pools for the node. */
@@ -74092,9 +71750,7 @@ export const NodesTypesMemoryStats = /*@__PURE__*/ S.suspend(() =>
     used: S.optional(S.String),
     used_in_bytes: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NodesTypesMemoryStats",
-}) as any as S.Schema<NodesTypesMemoryStats>;
+).annotate({ identifier: "NodesTypesMemoryStats" }) as any as S.Schema<NodesTypesMemoryStats>;
 
 export interface NodesTypesCpuAcct {
   /** The `cpuacct` control group to which the Elasticsearch process belongs. */
@@ -74107,9 +71763,7 @@ export const NodesTypesCpuAcct = /*@__PURE__*/ S.suspend(() =>
     control_group: S.optional(S.String),
     usage_nanos: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NodesTypesCpuAcct",
-}) as any as S.Schema<NodesTypesCpuAcct>;
+).annotate({ identifier: "NodesTypesCpuAcct" }) as any as S.Schema<NodesTypesCpuAcct>;
 
 export interface NodesTypesCgroupCpuStat {
   /** The number of reporting periods (as specified by `cfs_period_micros`) that have elapsed. */
@@ -74125,9 +71779,7 @@ export const NodesTypesCgroupCpuStat = /*@__PURE__*/ S.suspend(() =>
     number_of_times_throttled: S.optional(S.Number),
     time_throttled_nanos: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NodesTypesCgroupCpuStat",
-}) as any as S.Schema<NodesTypesCgroupCpuStat>;
+).annotate({ identifier: "NodesTypesCgroupCpuStat" }) as any as S.Schema<NodesTypesCgroupCpuStat>;
 
 export interface NodesTypesCgroupCpu {
   /** The `cpu` control group to which the Elasticsearch process belongs. */
@@ -74146,9 +71798,7 @@ export const NodesTypesCgroupCpu = /*@__PURE__*/ S.suspend(() =>
     cfs_quota_micros: S.optional(S.Number),
     stat: S.optional(NodesTypesCgroupCpuStat),
   }),
-).annotate({
-  identifier: "NodesTypesCgroupCpu",
-}) as any as S.Schema<NodesTypesCgroupCpu>;
+).annotate({ identifier: "NodesTypesCgroupCpu" }) as any as S.Schema<NodesTypesCgroupCpu>;
 
 export interface NodesTypesCgroupMemory {
   /** The `memory` control group to which the Elasticsearch process belongs. */
@@ -74164,9 +71814,7 @@ export const NodesTypesCgroupMemory = /*@__PURE__*/ S.suspend(() =>
     limit_in_bytes: S.optional(S.String),
     usage_in_bytes: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NodesTypesCgroupMemory",
-}) as any as S.Schema<NodesTypesCgroupMemory>;
+).annotate({ identifier: "NodesTypesCgroupMemory" }) as any as S.Schema<NodesTypesCgroupMemory>;
 
 export interface NodesTypesCgroup {
   /** Contains statistics about `cpuacct` control group for the node. */
@@ -74182,9 +71830,7 @@ export const NodesTypesCgroup = /*@__PURE__*/ S.suspend(() =>
     cpu: S.optional(NodesTypesCgroupCpu),
     memory: S.optional(NodesTypesCgroupMemory),
   }),
-).annotate({
-  identifier: "NodesTypesCgroup",
-}) as any as S.Schema<NodesTypesCgroup>;
+).annotate({ identifier: "NodesTypesCgroup" }) as any as S.Schema<NodesTypesCgroup>;
 
 export interface NodesTypesOperatingSystem {
   cpu?: NodesTypesCpu;
@@ -74225,9 +71871,7 @@ export const NodesTypesProcess = /*@__PURE__*/ S.suspend(() =>
     max_file_descriptors: S.optional(S.Number),
     timestamp: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NodesTypesProcess",
-}) as any as S.Schema<NodesTypesProcess>;
+).annotate({ identifier: "NodesTypesProcess" }) as any as S.Schema<NodesTypesProcess>;
 
 export interface NodesTypesScriptCache {
   /** Total number of times the script cache has evicted old data. */
@@ -74245,9 +71889,7 @@ export const NodesTypesScriptCache = /*@__PURE__*/ S.suspend(() =>
     compilations: S.optional(S.Number),
     context: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NodesTypesScriptCache",
-}) as any as S.Schema<NodesTypesScriptCache>;
+).annotate({ identifier: "NodesTypesScriptCache" }) as any as S.Schema<NodesTypesScriptCache>;
 
 export type NodesTypesStatsScriptCacheValueCase1List = Array<NodesTypesScriptCache>;
 export const NodesTypesStatsScriptCacheValueCase1List = /*@__PURE__*/ S.Array(
@@ -74269,9 +71911,7 @@ export const NodesTypesStatsScriptCacheMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<NodesTypesStatsScriptCacheMap>;
 
 /** Statistics about each thread pool, including current size, queue and rejected tasks. */
-export type NodesTypesStatsThreadPoolMap = {
-  [key: string]: NodesTypesThreadCount | undefined;
-};
+export type NodesTypesStatsThreadPoolMap = { [key: string]: NodesTypesThreadCount | undefined };
 export const NodesTypesStatsThreadPoolMap = /*@__PURE__*/ S.Record(
   S.String,
   NodesTypesThreadCount,
@@ -74433,14 +72073,10 @@ export const NodesTypesTransport = /*@__PURE__*/ S.suspend(() =>
     total_outbound_connections: S.optional(S.Number),
     actions: S.optional(NodesTypesTransportActionsMap),
   }),
-).annotate({
-  identifier: "NodesTypesTransport",
-}) as any as S.Schema<NodesTypesTransport>;
+).annotate({ identifier: "NodesTypesTransport" }) as any as S.Schema<NodesTypesTransport>;
 
 /** Contains a list of attributes for the node. */
-export type NodesTypesStatsAttributesMap = {
-  [key: string]: string | undefined;
-};
+export type NodesTypesStatsAttributesMap = { [key: string]: string | undefined };
 export const NodesTypesStatsAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -74591,9 +72227,7 @@ export const NodesTypesRecording = /*@__PURE__*/ S.suspend(() =>
     cumulative_execution_time: S.optional(TypesDuration),
     cumulative_execution_time_millis: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NodesTypesRecording",
-}) as any as S.Schema<NodesTypesRecording>;
+).annotate({ identifier: "NodesTypesRecording" }) as any as S.Schema<NodesTypesRecording>;
 
 export type NodesTypesClusterAppliedStatsRecordingsList = Array<NodesTypesRecording>;
 export const NodesTypesClusterAppliedStatsRecordingsList = /*@__PURE__*/ S.Array(
@@ -74629,9 +72263,7 @@ export const NodesTypesDiscovery = /*@__PURE__*/ S.suspend(() =>
     serialized_cluster_states: S.optional(NodesTypesSerializedClusterState),
     cluster_applier_stats: S.optional(NodesTypesClusterAppliedStats),
   }),
-).annotate({
-  identifier: "NodesTypesDiscovery",
-}) as any as S.Schema<NodesTypesDiscovery>;
+).annotate({ identifier: "NodesTypesDiscovery" }) as any as S.Schema<NodesTypesDiscovery>;
 
 export interface NodesTypesIndexingPressure {
   /** Contains statistics for memory consumption from indexing load. */
@@ -74780,13 +72412,9 @@ export const NodesTypesStats = /*@__PURE__*/ S.suspend(() =>
     indices: S.optional(IndicesStatsShardStats),
     repositories: S.optional(NodesTypesStatsRepositoriesMap),
   }),
-).annotate({
-  identifier: "NodesTypesStats",
-}) as any as S.Schema<NodesTypesStats>;
+).annotate({ identifier: "NodesTypesStats" }) as any as S.Schema<NodesTypesStats>;
 
-export type NodesStatsResponseNodesMap = {
-  [key: string]: NodesTypesStats | undefined;
-};
+export type NodesStatsResponseNodesMap = { [key: string]: NodesTypesStats | undefined };
 export const NodesStatsResponseNodesMap = /*@__PURE__*/ S.Record(
   S.String,
   NodesTypesStats,
@@ -74804,9 +72432,7 @@ export const NodesStatsResponse = /*@__PURE__*/ S.suspend(() =>
     cluster_name: S.optional(S.String),
     nodes: NodesStatsResponseNodesMap,
   }),
-).annotate({
-  identifier: "NodesStatsResponse",
-}) as any as S.Schema<NodesStatsResponse>;
+).annotate({ identifier: "NodesStatsResponse" }) as any as S.Schema<NodesStatsResponse>;
 
 export type NodesStats1RequestTypesList = Array<string>;
 export const NodesStats1RequestTypesList = /*@__PURE__*/ S.Array(
@@ -74848,13 +72474,9 @@ export const NodesStats1Request = /*@__PURE__*/ S.suspend(() =>
     types: S.optional(NodesStats1RequestTypesList.pipe(T.Query())),
     include_unloaded_segments: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_nodes/{node_id}/stats", code: 200 })),
-).annotate({
-  identifier: "NodesStats1Request",
-}) as any as S.Schema<NodesStats1Request>;
+).annotate({ identifier: "NodesStats1Request" }) as any as S.Schema<NodesStats1Request>;
 
-export type NodesStats1ResponseNodesMap = {
-  [key: string]: NodesTypesStats | undefined;
-};
+export type NodesStats1ResponseNodesMap = { [key: string]: NodesTypesStats | undefined };
 export const NodesStats1ResponseNodesMap = /*@__PURE__*/ S.Record(
   S.String,
   NodesTypesStats,
@@ -74872,9 +72494,7 @@ export const NodesStats1Response = /*@__PURE__*/ S.suspend(() =>
     cluster_name: S.optional(S.String),
     nodes: NodesStats1ResponseNodesMap,
   }),
-).annotate({
-  identifier: "NodesStats1Response",
-}) as any as S.Schema<NodesStats1Response>;
+).annotate({ identifier: "NodesStats1Response" }) as any as S.Schema<NodesStats1Response>;
 
 export type NodesStats2RequestTypesList = Array<string>;
 export const NodesStats2RequestTypesList = /*@__PURE__*/ S.Array(
@@ -74916,13 +72536,9 @@ export const NodesStats2Request = /*@__PURE__*/ S.suspend(() =>
     types: S.optional(NodesStats2RequestTypesList.pipe(T.Query())),
     include_unloaded_segments: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_nodes/stats/{metric}", code: 200 })),
-).annotate({
-  identifier: "NodesStats2Request",
-}) as any as S.Schema<NodesStats2Request>;
+).annotate({ identifier: "NodesStats2Request" }) as any as S.Schema<NodesStats2Request>;
 
-export type NodesStats2ResponseNodesMap = {
-  [key: string]: NodesTypesStats | undefined;
-};
+export type NodesStats2ResponseNodesMap = { [key: string]: NodesTypesStats | undefined };
 export const NodesStats2ResponseNodesMap = /*@__PURE__*/ S.Record(
   S.String,
   NodesTypesStats,
@@ -74940,9 +72556,7 @@ export const NodesStats2Response = /*@__PURE__*/ S.suspend(() =>
     cluster_name: S.optional(S.String),
     nodes: NodesStats2ResponseNodesMap,
   }),
-).annotate({
-  identifier: "NodesStats2Response",
-}) as any as S.Schema<NodesStats2Response>;
+).annotate({ identifier: "NodesStats2Response" }) as any as S.Schema<NodesStats2Response>;
 
 export type NodesStats3RequestTypesList = Array<string>;
 export const NodesStats3RequestTypesList = /*@__PURE__*/ S.Array(
@@ -74986,20 +72600,10 @@ export const NodesStats3Request = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(TypesDuration.pipe(T.Query())),
     types: S.optional(NodesStats3RequestTypesList.pipe(T.Query())),
     include_unloaded_segments: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_nodes/{node_id}/stats/{metric}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "NodesStats3Request",
-}) as any as S.Schema<NodesStats3Request>;
+  }).pipe(T.Http({ method: "GET", uri: "/_nodes/{node_id}/stats/{metric}", code: 200 })),
+).annotate({ identifier: "NodesStats3Request" }) as any as S.Schema<NodesStats3Request>;
 
-export type NodesStats3ResponseNodesMap = {
-  [key: string]: NodesTypesStats | undefined;
-};
+export type NodesStats3ResponseNodesMap = { [key: string]: NodesTypesStats | undefined };
 export const NodesStats3ResponseNodesMap = /*@__PURE__*/ S.Record(
   S.String,
   NodesTypesStats,
@@ -75017,9 +72621,7 @@ export const NodesStats3Response = /*@__PURE__*/ S.suspend(() =>
     cluster_name: S.optional(S.String),
     nodes: NodesStats3ResponseNodesMap,
   }),
-).annotate({
-  identifier: "NodesStats3Response",
-}) as any as S.Schema<NodesStats3Response>;
+).annotate({ identifier: "NodesStats3Response" }) as any as S.Schema<NodesStats3Response>;
 
 export type NodesStats4RequestTypesList = Array<string>;
 export const NodesStats4RequestTypesList = /*@__PURE__*/ S.Array(
@@ -75063,20 +72665,10 @@ export const NodesStats4Request = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(TypesDuration.pipe(T.Query())),
     types: S.optional(NodesStats4RequestTypesList.pipe(T.Query())),
     include_unloaded_segments: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_nodes/stats/{metric}/{index_metric}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "NodesStats4Request",
-}) as any as S.Schema<NodesStats4Request>;
+  }).pipe(T.Http({ method: "GET", uri: "/_nodes/stats/{metric}/{index_metric}", code: 200 })),
+).annotate({ identifier: "NodesStats4Request" }) as any as S.Schema<NodesStats4Request>;
 
-export type NodesStats4ResponseNodesMap = {
-  [key: string]: NodesTypesStats | undefined;
-};
+export type NodesStats4ResponseNodesMap = { [key: string]: NodesTypesStats | undefined };
 export const NodesStats4ResponseNodesMap = /*@__PURE__*/ S.Record(
   S.String,
   NodesTypesStats,
@@ -75094,9 +72686,7 @@ export const NodesStats4Response = /*@__PURE__*/ S.suspend(() =>
     cluster_name: S.optional(S.String),
     nodes: NodesStats4ResponseNodesMap,
   }),
-).annotate({
-  identifier: "NodesStats4Response",
-}) as any as S.Schema<NodesStats4Response>;
+).annotate({ identifier: "NodesStats4Response" }) as any as S.Schema<NodesStats4Response>;
 
 export type NodesStats5RequestTypesList = Array<string>;
 export const NodesStats5RequestTypesList = /*@__PURE__*/ S.Array(
@@ -75144,19 +72734,11 @@ export const NodesStats5Request = /*@__PURE__*/ S.suspend(() =>
     types: S.optional(NodesStats5RequestTypesList.pipe(T.Query())),
     include_unloaded_segments: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_nodes/{node_id}/stats/{metric}/{index_metric}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/_nodes/{node_id}/stats/{metric}/{index_metric}", code: 200 }),
   ),
-).annotate({
-  identifier: "NodesStats5Request",
-}) as any as S.Schema<NodesStats5Request>;
+).annotate({ identifier: "NodesStats5Request" }) as any as S.Schema<NodesStats5Request>;
 
-export type NodesStats5ResponseNodesMap = {
-  [key: string]: NodesTypesStats | undefined;
-};
+export type NodesStats5ResponseNodesMap = { [key: string]: NodesTypesStats | undefined };
 export const NodesStats5ResponseNodesMap = /*@__PURE__*/ S.Record(
   S.String,
   NodesTypesStats,
@@ -75174,9 +72756,7 @@ export const NodesStats5Response = /*@__PURE__*/ S.suspend(() =>
     cluster_name: S.optional(S.String),
     nodes: NodesStats5ResponseNodesMap,
   }),
-).annotate({
-  identifier: "NodesStats5Response",
-}) as any as S.Schema<NodesStats5Response>;
+).annotate({ identifier: "NodesStats5Response" }) as any as S.Schema<NodesStats5Response>;
 
 export interface NodesUsageRequest {
   /** Period to wait for a response. If no response is received before the timeout expires, the request fails and returns an error. */
@@ -75186,23 +72766,17 @@ export const NodesUsageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_nodes/usage", code: 200 })),
-).annotate({
-  identifier: "NodesUsageRequest",
-}) as any as S.Schema<NodesUsageRequest>;
+).annotate({ identifier: "NodesUsageRequest" }) as any as S.Schema<NodesUsageRequest>;
 
 /** The total number of times each REST endpoint has been called on this node since the last restart. Note that the REST endpoint names are not considered stable. */
-export type NodesUsageNodeUsageRestActionsMap = {
-  [key: string]: number | undefined;
-};
+export type NodesUsageNodeUsageRestActionsMap = { [key: string]: number | undefined };
 export const NodesUsageNodeUsageRestActionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
 ) as any as S.Schema<NodesUsageNodeUsageRestActionsMap>;
 
 /** The total number of times search aggregations have been called on this node since the last restart. */
-export type NodesUsageNodeUsageAggregationsMap = {
-  [key: string]: unknown | undefined;
-};
+export type NodesUsageNodeUsageAggregationsMap = { [key: string]: unknown | undefined };
 export const NodesUsageNodeUsageAggregationsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -75225,13 +72799,9 @@ export const NodesUsageNodeUsage = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.Number,
     aggregations: NodesUsageNodeUsageAggregationsMap,
   }),
-).annotate({
-  identifier: "NodesUsageNodeUsage",
-}) as any as S.Schema<NodesUsageNodeUsage>;
+).annotate({ identifier: "NodesUsageNodeUsage" }) as any as S.Schema<NodesUsageNodeUsage>;
 
-export type NodesUsageResponseNodesMap = {
-  [key: string]: NodesUsageNodeUsage | undefined;
-};
+export type NodesUsageResponseNodesMap = { [key: string]: NodesUsageNodeUsage | undefined };
 export const NodesUsageResponseNodesMap = /*@__PURE__*/ S.Record(
   S.String,
   NodesUsageNodeUsage,
@@ -75249,9 +72819,7 @@ export const NodesUsageResponse = /*@__PURE__*/ S.suspend(() =>
     cluster_name: S.String,
     nodes: NodesUsageResponseNodesMap,
   }),
-).annotate({
-  identifier: "NodesUsageResponse",
-}) as any as S.Schema<NodesUsageResponse>;
+).annotate({ identifier: "NodesUsageResponse" }) as any as S.Schema<NodesUsageResponse>;
 
 export interface NodesUsage1Request {
   /** A comma-separated list of node IDs or names to limit the returned information. Use `_local` to return information from the node you're connecting to, leave empty to get information from all nodes. */
@@ -75264,13 +72832,9 @@ export const NodesUsage1Request = /*@__PURE__*/ S.suspend(() =>
     node_id: S.String.pipe(T.Label()),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_nodes/{node_id}/usage", code: 200 })),
-).annotate({
-  identifier: "NodesUsage1Request",
-}) as any as S.Schema<NodesUsage1Request>;
+).annotate({ identifier: "NodesUsage1Request" }) as any as S.Schema<NodesUsage1Request>;
 
-export type NodesUsage1ResponseNodesMap = {
-  [key: string]: NodesUsageNodeUsage | undefined;
-};
+export type NodesUsage1ResponseNodesMap = { [key: string]: NodesUsageNodeUsage | undefined };
 export const NodesUsage1ResponseNodesMap = /*@__PURE__*/ S.Record(
   S.String,
   NodesUsageNodeUsage,
@@ -75288,9 +72852,7 @@ export const NodesUsage1Response = /*@__PURE__*/ S.suspend(() =>
     cluster_name: S.String,
     nodes: NodesUsage1ResponseNodesMap,
   }),
-).annotate({
-  identifier: "NodesUsage1Response",
-}) as any as S.Schema<NodesUsage1Response>;
+).annotate({ identifier: "NodesUsage1Response" }) as any as S.Schema<NodesUsage1Response>;
 
 export interface NodesUsage2Request {
   /** Limits the information returned to the specific metrics. A comma-separated list of the following options: `_all`, `rest_actions`, `aggregations`. */
@@ -75303,13 +72865,9 @@ export const NodesUsage2Request = /*@__PURE__*/ S.suspend(() =>
     metric: S.String.pipe(T.Label()),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_nodes/usage/{metric}", code: 200 })),
-).annotate({
-  identifier: "NodesUsage2Request",
-}) as any as S.Schema<NodesUsage2Request>;
+).annotate({ identifier: "NodesUsage2Request" }) as any as S.Schema<NodesUsage2Request>;
 
-export type NodesUsage2ResponseNodesMap = {
-  [key: string]: NodesUsageNodeUsage | undefined;
-};
+export type NodesUsage2ResponseNodesMap = { [key: string]: NodesUsageNodeUsage | undefined };
 export const NodesUsage2ResponseNodesMap = /*@__PURE__*/ S.Record(
   S.String,
   NodesUsageNodeUsage,
@@ -75327,9 +72885,7 @@ export const NodesUsage2Response = /*@__PURE__*/ S.suspend(() =>
     cluster_name: S.String,
     nodes: NodesUsage2ResponseNodesMap,
   }),
-).annotate({
-  identifier: "NodesUsage2Response",
-}) as any as S.Schema<NodesUsage2Response>;
+).annotate({ identifier: "NodesUsage2Response" }) as any as S.Schema<NodesUsage2Response>;
 
 export interface NodesUsage3Request {
   /** A comma-separated list of node IDs or names to limit the returned information. Use `_local` to return information from the node you're connecting to, leave empty to get information from all nodes. */
@@ -75344,20 +72900,10 @@ export const NodesUsage3Request = /*@__PURE__*/ S.suspend(() =>
     node_id: S.String.pipe(T.Label()),
     metric: S.String.pipe(T.Label()),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_nodes/{node_id}/usage/{metric}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "NodesUsage3Request",
-}) as any as S.Schema<NodesUsage3Request>;
+  }).pipe(T.Http({ method: "GET", uri: "/_nodes/{node_id}/usage/{metric}", code: 200 })),
+).annotate({ identifier: "NodesUsage3Request" }) as any as S.Schema<NodesUsage3Request>;
 
-export type NodesUsage3ResponseNodesMap = {
-  [key: string]: NodesUsageNodeUsage | undefined;
-};
+export type NodesUsage3ResponseNodesMap = { [key: string]: NodesUsageNodeUsage | undefined };
 export const NodesUsage3ResponseNodesMap = /*@__PURE__*/ S.Record(
   S.String,
   NodesUsageNodeUsage,
@@ -75375,9 +72921,7 @@ export const NodesUsage3Response = /*@__PURE__*/ S.suspend(() =>
     cluster_name: S.String,
     nodes: NodesUsage3ResponseNodesMap,
   }),
-).annotate({
-  identifier: "NodesUsage3Response",
-}) as any as S.Schema<NodesUsage3Response>;
+).annotate({ identifier: "NodesUsage3Response" }) as any as S.Schema<NodesUsage3Response>;
 
 export interface OpenPointInTimeRequest {
   /** A comma-separated list of index names to open point in time; use `_all` or empty string to perform the operation on all indices */
@@ -75411,9 +72955,7 @@ export const OpenPointInTimeRequest = /*@__PURE__*/ S.suspend(() =>
     max_concurrent_shard_requests: S.optional(S.Number.pipe(T.Query())),
     index_filter: S.optional(TypesQueryDslQueryContainer),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_pit", code: 200 })),
-).annotate({
-  identifier: "OpenPointInTimeRequest",
-}) as any as S.Schema<OpenPointInTimeRequest>;
+).annotate({ identifier: "OpenPointInTimeRequest" }) as any as S.Schema<OpenPointInTimeRequest>;
 
 export interface OpenPointInTimeResponse {
   /** Shards used to create the PIT */
@@ -75428,9 +72970,7 @@ export const OpenPointInTimeResponse = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     _clusters: S.optional(TypesClusterStatistics),
   }),
-).annotate({
-  identifier: "OpenPointInTimeResponse",
-}) as any as S.Schema<OpenPointInTimeResponse>;
+).annotate({ identifier: "OpenPointInTimeResponse" }) as any as S.Schema<OpenPointInTimeResponse>;
 
 export interface PostConnectorRequest {
   description?: string;
@@ -75449,9 +72989,7 @@ export const PostConnectorRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     service_type: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/_connector", code: 200 })),
-).annotate({
-  identifier: "PostConnectorRequest",
-}) as any as S.Schema<PostConnectorRequest>;
+).annotate({ identifier: "PostConnectorRequest" }) as any as S.Schema<PostConnectorRequest>;
 
 export interface PostConnectorResponse {
   result: TypesResult;
@@ -75462,9 +73000,7 @@ export const PostConnectorResponse = /*@__PURE__*/ S.suspend(() =>
     result: TypesResult,
     id: S.String,
   }),
-).annotate({
-  identifier: "PostConnectorResponse",
-}) as any as S.Schema<PostConnectorResponse>;
+).annotate({ identifier: "PostConnectorResponse" }) as any as S.Schema<PostConnectorResponse>;
 
 export interface PostConnectorSyncJobRequest {
   /** The id of the associated connector */
@@ -75518,9 +73054,7 @@ export const PostLicenseRequest = /*@__PURE__*/ S.suspend(() =>
     license: S.optional(LicenseTypesLicense),
     licenses: S.optional(PostLicenseRequestLicensesList),
   }).pipe(T.Http({ method: "PUT", uri: "/_license", code: 200 })),
-).annotate({
-  identifier: "PostLicenseRequest",
-}) as any as S.Schema<PostLicenseRequest>;
+).annotate({ identifier: "PostLicenseRequest" }) as any as S.Schema<PostLicenseRequest>;
 
 export interface PostLicenseResponse {
   acknowledge?: LicensePostAcknowledgement;
@@ -75533,9 +73067,7 @@ export const PostLicenseResponse = /*@__PURE__*/ S.suspend(() =>
     acknowledged: S.Boolean,
     license_status: LicenseTypesLicenseStatus,
   }),
-).annotate({
-  identifier: "PostLicenseResponse",
-}) as any as S.Schema<PostLicenseResponse>;
+).annotate({ identifier: "PostLicenseResponse" }) as any as S.Schema<PostLicenseResponse>;
 
 export interface PutConnectorRequest {
   /** The unique identifier of the connector to be created or updated. ID is auto-generated if not provided. */
@@ -75557,9 +73089,7 @@ export const PutConnectorRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     service_type: S.optional(S.String),
   }).pipe(T.Http({ method: "PUT", uri: "/_connector/{connector_id}", code: 200 })),
-).annotate({
-  identifier: "PutConnectorRequest",
-}) as any as S.Schema<PutConnectorRequest>;
+).annotate({ identifier: "PutConnectorRequest" }) as any as S.Schema<PutConnectorRequest>;
 
 export interface PutConnectorResponse {
   result: TypesResult;
@@ -75570,9 +73100,7 @@ export const PutConnectorResponse = /*@__PURE__*/ S.suspend(() =>
     result: TypesResult,
     id: S.String,
   }),
-).annotate({
-  identifier: "PutConnectorResponse",
-}) as any as S.Schema<PutConnectorResponse>;
+).annotate({ identifier: "PutConnectorResponse" }) as any as S.Schema<PutConnectorResponse>;
 
 /** An ordered list of component template names. Component templates are merged in the order specified, meaning that the last component template specified has the highest precedence. */
 export type PutIndexTemplateRequestComposedOfList = Array<string>;
@@ -75635,9 +73163,7 @@ export const PutIndexTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     deprecated: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PUT", uri: "/_index_template/{name}", code: 200 })),
-).annotate({
-  identifier: "PutIndexTemplateRequest",
-}) as any as S.Schema<PutIndexTemplateRequest>;
+).annotate({ identifier: "PutIndexTemplateRequest" }) as any as S.Schema<PutIndexTemplateRequest>;
 
 /** An ordered list of component template names. Component templates are merged in the order specified, meaning that the last component template specified has the highest precedence. */
 export type PutIndexTemplate1RequestComposedOfList = Array<string>;
@@ -75700,9 +73226,7 @@ export const PutIndexTemplate1Request = /*@__PURE__*/ S.suspend(() =>
     ),
     deprecated: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/_index_template/{name}", code: 200 })),
-).annotate({
-  identifier: "PutIndexTemplate1Request",
-}) as any as S.Schema<PutIndexTemplate1Request>;
+).annotate({ identifier: "PutIndexTemplate1Request" }) as any as S.Schema<PutIndexTemplate1Request>;
 
 export interface PutInferenceRequest {
   /** The inference Id */
@@ -75727,9 +73251,7 @@ export const PutInferenceRequest = /*@__PURE__*/ S.suspend(() =>
     service_settings: S.Unknown,
     task_settings: S.optional(S.Unknown),
   }).pipe(T.Http({ method: "PUT", uri: "/_inference/{inference_id}", code: 200 })),
-).annotate({
-  identifier: "PutInferenceRequest",
-}) as any as S.Schema<PutInferenceRequest>;
+).annotate({ identifier: "PutInferenceRequest" }) as any as S.Schema<PutInferenceRequest>;
 
 export interface PutInferenceResponse {
   /** The chunking configuration object. Applies only to the `embedding`, `sparse_embedding` and `text_embedding` task types. Not applicable to the `rerank`, `completion`, or `chat_completion` task types. */
@@ -75754,9 +73276,7 @@ export const PutInferenceResponse = /*@__PURE__*/ S.suspend(() =>
     inference_id: S.String,
     task_type: InferenceTypesTaskType,
   }),
-).annotate({
-  identifier: "PutInferenceResponse",
-}) as any as S.Schema<PutInferenceResponse>;
+).annotate({ identifier: "PutInferenceResponse" }) as any as S.Schema<PutInferenceResponse>;
 
 export interface PutScriptRequest {
   /** The identifier for the stored script or search template. It must be unique within the cluster. */
@@ -75778,9 +73298,7 @@ export const PutScriptRequest = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(TypesDuration.pipe(T.Query())),
     script: TypesStoredScript,
   }).pipe(T.Http({ method: "PUT", uri: "/_scripts/{id}", code: 200 })),
-).annotate({
-  identifier: "PutScriptRequest",
-}) as any as S.Schema<PutScriptRequest>;
+).annotate({ identifier: "PutScriptRequest" }) as any as S.Schema<PutScriptRequest>;
 
 export interface PutScript1Request {
   /** The identifier for the stored script or search template. It must be unique within the cluster. */
@@ -75802,9 +73320,7 @@ export const PutScript1Request = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(TypesDuration.pipe(T.Query())),
     script: TypesStoredScript,
   }).pipe(T.Http({ method: "POST", uri: "/_scripts/{id}", code: 200 })),
-).annotate({
-  identifier: "PutScript1Request",
-}) as any as S.Schema<PutScript1Request>;
+).annotate({ identifier: "PutScript1Request" }) as any as S.Schema<PutScript1Request>;
 
 export interface PutScript2Request {
   /** The identifier for the stored script or search template. It must be unique within the cluster. */
@@ -75826,9 +73342,7 @@ export const PutScript2Request = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(TypesDuration.pipe(T.Query())),
     script: TypesStoredScript,
   }).pipe(T.Http({ method: "PUT", uri: "/_scripts/{id}/{context}", code: 200 })),
-).annotate({
-  identifier: "PutScript2Request",
-}) as any as S.Schema<PutScript2Request>;
+).annotate({ identifier: "PutScript2Request" }) as any as S.Schema<PutScript2Request>;
 
 export interface PutScript3Request {
   /** The identifier for the stored script or search template. It must be unique within the cluster. */
@@ -75850,9 +73364,7 @@ export const PutScript3Request = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(TypesDuration.pipe(T.Query())),
     script: TypesStoredScript,
   }).pipe(T.Http({ method: "POST", uri: "/_scripts/{id}/{context}", code: 200 })),
-).annotate({
-  identifier: "PutScript3Request",
-}) as any as S.Schema<PutScript3Request>;
+).annotate({ identifier: "PutScript3Request" }) as any as S.Schema<PutScript3Request>;
 
 export interface SynonymsTypesSynonymRule {
   /** The identifier for the synonym rule. If you do not specify a synonym rule ID when you create a rule, an identifier is created automatically by Elasticsearch. */
@@ -75865,9 +73377,7 @@ export const SynonymsTypesSynonymRule = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     synonyms: S.String,
   }),
-).annotate({
-  identifier: "SynonymsTypesSynonymRule",
-}) as any as S.Schema<SynonymsTypesSynonymRule>;
+).annotate({ identifier: "SynonymsTypesSynonymRule" }) as any as S.Schema<SynonymsTypesSynonymRule>;
 
 export type PutSynonymRequestSynonymsSetCase1List = Array<SynonymsTypesSynonymRule>;
 export const PutSynonymRequestSynonymsSetCase1List = /*@__PURE__*/ S.Array(
@@ -75898,9 +73408,7 @@ export const PutSynonymRequest = /*@__PURE__*/ S.suspend(() =>
     append: S.optional(S.Boolean.pipe(T.Query())),
     synonyms_set: PutSynonymRequestSynonymsSet,
   }).pipe(T.Http({ method: "PUT", uri: "/_synonyms/{id}", code: 200 })),
-).annotate({
-  identifier: "PutSynonymRequest",
-}) as any as S.Schema<PutSynonymRequest>;
+).annotate({ identifier: "PutSynonymRequest" }) as any as S.Schema<PutSynonymRequest>;
 
 export interface PutSynonymResponse {
   /** The update operation result. */
@@ -75913,9 +73421,7 @@ export const PutSynonymResponse = /*@__PURE__*/ S.suspend(() =>
     result: TypesResult,
     reload_analyzers_details: S.optional(IndicesReloadSearchAnalyzersReloadResult),
   }),
-).annotate({
-  identifier: "PutSynonymResponse",
-}) as any as S.Schema<PutSynonymResponse>;
+).annotate({ identifier: "PutSynonymResponse" }) as any as S.Schema<PutSynonymResponse>;
 
 export interface PutSynonymRuleRequest {
   /** The ID of the synonym set. */
@@ -75934,9 +73440,7 @@ export const PutSynonymRuleRequest = /*@__PURE__*/ S.suspend(() =>
     refresh: S.optional(S.Boolean.pipe(T.Query())),
     synonyms: S.String,
   }).pipe(T.Http({ method: "PUT", uri: "/_synonyms/{set_id}/{rule_id}", code: 200 })),
-).annotate({
-  identifier: "PutSynonymRuleRequest",
-}) as any as S.Schema<PutSynonymRuleRequest>;
+).annotate({ identifier: "PutSynonymRuleRequest" }) as any as S.Schema<PutSynonymRuleRequest>;
 
 export interface PutTransformRequest {
   /** Identifier for the transform. This identifier can contain lowercase alphanumeric characters (a-z and 0-9), hyphens, and underscores. It has a 64 character limit and must start and end with alphanumeric characters. */
@@ -75982,9 +73486,7 @@ export const PutTransformRequest = /*@__PURE__*/ S.suspend(() =>
     source: TransformTypesSource,
     sync: S.optional(TransformTypesSyncContainer),
   }).pipe(T.Http({ method: "PUT", uri: "/_transform/{transform_id}", code: 200 })),
-).annotate({
-  identifier: "PutTransformRequest",
-}) as any as S.Schema<PutTransformRequest>;
+).annotate({ identifier: "PutTransformRequest" }) as any as S.Schema<PutTransformRequest>;
 
 export interface QueryRulesDeleteRuleRequest {
   /** The unique identifier of the query ruleset containing the rule to delete */
@@ -75997,11 +73499,7 @@ export const QueryRulesDeleteRuleRequest = /*@__PURE__*/ S.suspend(() =>
     ruleset_id: S.String.pipe(T.Label()),
     rule_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/_query_rules/{ruleset_id}/_rule/{rule_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/_query_rules/{ruleset_id}/_rule/{rule_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "QueryRulesDeleteRuleRequest",
@@ -76029,16 +73527,8 @@ export const QueryRulesGetRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ruleset_id: S.String.pipe(T.Label()),
     rule_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_query_rules/{ruleset_id}/_rule/{rule_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "QueryRulesGetRuleRequest",
-}) as any as S.Schema<QueryRulesGetRuleRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/_query_rules/{ruleset_id}/_rule/{rule_id}", code: 200 })),
+).annotate({ identifier: "QueryRulesGetRuleRequest" }) as any as S.Schema<QueryRulesGetRuleRequest>;
 
 export type QueryRulesTypesQueryRuleType = "pinned" | "exclude";
 export const QueryRulesTypesQueryRuleType = S.String;
@@ -76139,9 +73629,7 @@ export const QueryRulesTypesQueryRule = /*@__PURE__*/ S.suspend(() =>
     actions: QueryRulesTypesQueryRuleActions,
     priority: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "QueryRulesTypesQueryRule",
-}) as any as S.Schema<QueryRulesTypesQueryRule>;
+).annotate({ identifier: "QueryRulesTypesQueryRule" }) as any as S.Schema<QueryRulesTypesQueryRule>;
 
 export interface QueryRulesGetRulesetRequest {
   /** The unique identifier of the query ruleset */
@@ -76284,16 +73772,8 @@ export const QueryRulesPutRuleRequest = /*@__PURE__*/ S.suspend(() =>
     criteria: QueryRulesPutRuleRequestCriteria,
     actions: QueryRulesTypesQueryRuleActions,
     priority: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_query_rules/{ruleset_id}/_rule/{rule_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "QueryRulesPutRuleRequest",
-}) as any as S.Schema<QueryRulesPutRuleRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/_query_rules/{ruleset_id}/_rule/{rule_id}", code: 200 })),
+).annotate({ identifier: "QueryRulesPutRuleRequest" }) as any as S.Schema<QueryRulesPutRuleRequest>;
 
 export interface QueryRulesPutRuleResponse {
   result: TypesResult;
@@ -76343,9 +73823,7 @@ export const QueryRulesPutRulesetResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<QueryRulesPutRulesetResponse>;
 
 /** The match criteria to apply to rules in the given query ruleset. Match criteria should match the keys defined in the `criteria.metadata` field of the rule. */
-export type QueryRulesTestRequestMatchCriteriaMap = {
-  [key: string]: unknown | undefined;
-};
+export type QueryRulesTestRequestMatchCriteriaMap = { [key: string]: unknown | undefined };
 export const QueryRulesTestRequestMatchCriteriaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -76361,16 +73839,8 @@ export const QueryRulesTestRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ruleset_id: S.String.pipe(T.Label()),
     match_criteria: QueryRulesTestRequestMatchCriteriaMap,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_query_rules/{ruleset_id}/_test",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "QueryRulesTestRequest",
-}) as any as S.Schema<QueryRulesTestRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/_query_rules/{ruleset_id}/_test", code: 200 })),
+).annotate({ identifier: "QueryRulesTestRequest" }) as any as S.Schema<QueryRulesTestRequest>;
 
 export interface QueryRulesTestQueryRulesetMatchedRule {
   /** Ruleset unique identifier */
@@ -76401,9 +73871,7 @@ export const QueryRulesTestResponse = /*@__PURE__*/ S.suspend(() =>
     total_matched_rules: S.Number,
     matched_rules: QueryRulesTestResponseMatchedRulesList,
   }),
-).annotate({
-  identifier: "QueryRulesTestResponse",
-}) as any as S.Schema<QueryRulesTestResponse>;
+).annotate({ identifier: "QueryRulesTestResponse" }) as any as S.Schema<QueryRulesTestResponse>;
 
 export interface GlobalRankEvalRankEvalQuery {
   query: TypesQueryDslQueryContainer;
@@ -76443,9 +73911,7 @@ export const GlobalRankEvalRankEvalRequestItemRatingsList = /*@__PURE__*/ S.Arra
 ) as any as S.Schema<GlobalRankEvalRankEvalRequestItemRatingsList>;
 
 /** The search template parameters. */
-export type GlobalRankEvalRankEvalRequestItemParamsMap = {
-  [key: string]: unknown | undefined;
-};
+export type GlobalRankEvalRankEvalRequestItemParamsMap = { [key: string]: unknown | undefined };
 export const GlobalRankEvalRankEvalRequestItemParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -76594,9 +74060,7 @@ export const RankEvalRequest = /*@__PURE__*/ S.suspend(() =>
     requests: RankEvalRequestRequestsList,
     metric: S.optional(GlobalRankEvalRankEvalMetric),
   }).pipe(T.Http({ method: "GET", uri: "/_rank_eval", code: 200 })),
-).annotate({
-  identifier: "RankEvalRequest",
-}) as any as S.Schema<RankEvalRequest>;
+).annotate({ identifier: "RankEvalRequest" }) as any as S.Schema<RankEvalRequest>;
 
 export interface GlobalRankEvalUnratedDocument {
   _id: string;
@@ -76703,9 +74167,7 @@ export const RankEvalResponseDetailsMap = /*@__PURE__*/ S.Record(
   GlobalRankEvalRankEvalMetricDetail,
 ) as any as S.Schema<RankEvalResponseDetailsMap>;
 
-export type RankEvalResponseFailuresMap = {
-  [key: string]: unknown | undefined;
-};
+export type RankEvalResponseFailuresMap = { [key: string]: unknown | undefined };
 export const RankEvalResponseFailuresMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -76724,9 +74186,7 @@ export const RankEvalResponse = /*@__PURE__*/ S.suspend(() =>
     details: RankEvalResponseDetailsMap,
     failures: RankEvalResponseFailuresMap,
   }),
-).annotate({
-  identifier: "RankEvalResponse",
-}) as any as S.Schema<RankEvalResponse>;
+).annotate({ identifier: "RankEvalResponse" }) as any as S.Schema<RankEvalResponse>;
 
 /** A set of typical search requests, together with their provided ratings. */
 export type RankEval1RequestRequestsList = Array<GlobalRankEvalRankEvalRequestItem>;
@@ -76757,9 +74217,7 @@ export const RankEval1Request = /*@__PURE__*/ S.suspend(() =>
     requests: RankEval1RequestRequestsList,
     metric: S.optional(GlobalRankEvalRankEvalMetric),
   }).pipe(T.Http({ method: "POST", uri: "/_rank_eval", code: 200 })),
-).annotate({
-  identifier: "RankEval1Request",
-}) as any as S.Schema<RankEval1Request>;
+).annotate({ identifier: "RankEval1Request" }) as any as S.Schema<RankEval1Request>;
 
 /** The details section contains one entry for every query in the original requests section, keyed by the search request id */
 export type RankEval1ResponseDetailsMap = {
@@ -76770,9 +74228,7 @@ export const RankEval1ResponseDetailsMap = /*@__PURE__*/ S.Record(
   GlobalRankEvalRankEvalMetricDetail,
 ) as any as S.Schema<RankEval1ResponseDetailsMap>;
 
-export type RankEval1ResponseFailuresMap = {
-  [key: string]: unknown | undefined;
-};
+export type RankEval1ResponseFailuresMap = { [key: string]: unknown | undefined };
 export const RankEval1ResponseFailuresMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -76791,9 +74247,7 @@ export const RankEval1Response = /*@__PURE__*/ S.suspend(() =>
     details: RankEval1ResponseDetailsMap,
     failures: RankEval1ResponseFailuresMap,
   }),
-).annotate({
-  identifier: "RankEval1Response",
-}) as any as S.Schema<RankEval1Response>;
+).annotate({ identifier: "RankEval1Response" }) as any as S.Schema<RankEval1Response>;
 
 /** A set of typical search requests, together with their provided ratings. */
 export type RankEval2RequestRequestsList = Array<GlobalRankEvalRankEvalRequestItem>;
@@ -76827,9 +74281,7 @@ export const RankEval2Request = /*@__PURE__*/ S.suspend(() =>
     requests: RankEval2RequestRequestsList,
     metric: S.optional(GlobalRankEvalRankEvalMetric),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_rank_eval", code: 200 })),
-).annotate({
-  identifier: "RankEval2Request",
-}) as any as S.Schema<RankEval2Request>;
+).annotate({ identifier: "RankEval2Request" }) as any as S.Schema<RankEval2Request>;
 
 /** The details section contains one entry for every query in the original requests section, keyed by the search request id */
 export type RankEval2ResponseDetailsMap = {
@@ -76840,9 +74292,7 @@ export const RankEval2ResponseDetailsMap = /*@__PURE__*/ S.Record(
   GlobalRankEvalRankEvalMetricDetail,
 ) as any as S.Schema<RankEval2ResponseDetailsMap>;
 
-export type RankEval2ResponseFailuresMap = {
-  [key: string]: unknown | undefined;
-};
+export type RankEval2ResponseFailuresMap = { [key: string]: unknown | undefined };
 export const RankEval2ResponseFailuresMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -76861,9 +74311,7 @@ export const RankEval2Response = /*@__PURE__*/ S.suspend(() =>
     details: RankEval2ResponseDetailsMap,
     failures: RankEval2ResponseFailuresMap,
   }),
-).annotate({
-  identifier: "RankEval2Response",
-}) as any as S.Schema<RankEval2Response>;
+).annotate({ identifier: "RankEval2Response" }) as any as S.Schema<RankEval2Response>;
 
 /** A set of typical search requests, together with their provided ratings. */
 export type RankEval3RequestRequestsList = Array<GlobalRankEvalRankEvalRequestItem>;
@@ -76897,9 +74345,7 @@ export const RankEval3Request = /*@__PURE__*/ S.suspend(() =>
     requests: RankEval3RequestRequestsList,
     metric: S.optional(GlobalRankEvalRankEvalMetric),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_rank_eval", code: 200 })),
-).annotate({
-  identifier: "RankEval3Request",
-}) as any as S.Schema<RankEval3Request>;
+).annotate({ identifier: "RankEval3Request" }) as any as S.Schema<RankEval3Request>;
 
 /** The details section contains one entry for every query in the original requests section, keyed by the search request id */
 export type RankEval3ResponseDetailsMap = {
@@ -76910,9 +74356,7 @@ export const RankEval3ResponseDetailsMap = /*@__PURE__*/ S.Record(
   GlobalRankEvalRankEvalMetricDetail,
 ) as any as S.Schema<RankEval3ResponseDetailsMap>;
 
-export type RankEval3ResponseFailuresMap = {
-  [key: string]: unknown | undefined;
-};
+export type RankEval3ResponseFailuresMap = { [key: string]: unknown | undefined };
 export const RankEval3ResponseFailuresMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -76931,9 +74375,7 @@ export const RankEval3Response = /*@__PURE__*/ S.suspend(() =>
     details: RankEval3ResponseDetailsMap,
     failures: RankEval3ResponseFailuresMap,
   }),
-).annotate({
-  identifier: "RankEval3Response",
-}) as any as S.Schema<RankEval3Response>;
+).annotate({ identifier: "RankEval3Response" }) as any as S.Schema<RankEval3Response>;
 
 export interface RefreshIndexRequest {
   /** A setting that does two separate checks on the index expression. If `false`, the request returns an error (1) if any wildcard expression (including `_all` and `*`) resolves to zero matching indices or (2) if the complete set of resolved indices, aliases or data streams is empty after all expressions are evaluated. If `true`, index expressions that resolve to no indices are allowed and the request returns an empty result. */
@@ -76949,9 +74391,7 @@ export const RefreshIndexRequest = /*@__PURE__*/ S.suspend(() =>
     expand_wildcards: S.optional(TypesExpandWildcards.pipe(T.Query())),
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/_refresh", code: 200 })),
-).annotate({
-  identifier: "RefreshIndexRequest",
-}) as any as S.Schema<RefreshIndexRequest>;
+).annotate({ identifier: "RefreshIndexRequest" }) as any as S.Schema<RefreshIndexRequest>;
 
 export interface GlobalReindexDestination {
   /** The name of the data stream, index, or index alias you are copying to. */
@@ -76973,14 +74413,10 @@ export const GlobalReindexDestination = /*@__PURE__*/ S.suspend(() =>
     routing: S.optional(S.String),
     version_type: S.optional(TypesVersionType),
   }),
-).annotate({
-  identifier: "GlobalReindexDestination",
-}) as any as S.Schema<GlobalReindexDestination>;
+).annotate({ identifier: "GlobalReindexDestination" }) as any as S.Schema<GlobalReindexDestination>;
 
 /** An object containing the headers of the request. */
-export type GlobalReindexRemoteSourceHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type GlobalReindexRemoteSourceHeadersMap = { [key: string]: string | undefined };
 export const GlobalReindexRemoteSourceHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -77044,9 +74480,7 @@ export const GlobalReindexSource = /*@__PURE__*/ S.suspend(() =>
     _source: S.optional(GlobalSearchTypesSourceConfig),
     runtime_mappings: S.optional(TypesMappingRuntimeFields),
   }),
-).annotate({
-  identifier: "GlobalReindexSource",
-}) as any as S.Schema<GlobalReindexSource>;
+).annotate({ identifier: "GlobalReindexSource" }) as any as S.Schema<GlobalReindexSource>;
 
 export interface ReindexRequest {
   /** If `true`, the request refreshes affected shards to make this operation visible to search. */
@@ -77160,9 +74594,7 @@ export const ReindexResponse = /*@__PURE__*/ S.suspend(() =>
     updated: S.optional(S.Number),
     version_conflicts: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ReindexResponse",
-}) as any as S.Schema<ReindexResponse>;
+).annotate({ identifier: "ReindexResponse" }) as any as S.Schema<ReindexResponse>;
 
 export interface ReindexRethrottleRequest {
   /** The task identifier, returned when creating a reindex task, or by listing tasks via `GET /_reindex` or `GET /_tasks`. In stack, can be either the original task ID or the task ID of the relocated task. */
@@ -77177,16 +74609,8 @@ export const ReindexRethrottleRequest = /*@__PURE__*/ S.suspend(() =>
     task_id: S.String.pipe(T.Label()),
     requests_per_second: S.Number.pipe(T.Query()),
     group_by: S.optional(TasksTypesGroupBy.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_reindex/{task_id}/_rethrottle",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReindexRethrottleRequest",
-}) as any as S.Schema<ReindexRethrottleRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/_reindex/{task_id}/_rethrottle", code: 200 })),
+).annotate({ identifier: "ReindexRethrottleRequest" }) as any as S.Schema<ReindexRethrottleRequest>;
 
 /** Node-level failures encountered while applying the rethrottle request. Will return a `failed_node_exception` wrapping a `no_such_node_exception`, if a node handling the task either never existed, or has left the cluster, and one of the following is true: 1. The task has completed. 2. The task cannot be found. Note: Rethrottle handles relocations, so it should succeed if the task can be found and has not completed. */
 export type ReindexRethrottleResponseNodeFailuresList = Array<TypesErrorCause>;
@@ -77200,9 +74624,7 @@ export const ReindexRethrottleResponseTaskFailuresList = /*@__PURE__*/ S.Array(
   TypesTaskFailure,
 ) as any as S.Schema<ReindexRethrottleResponseTaskFailuresList>;
 
-export type GlobalReindexRethrottleReindexNodeAttributesMap = {
-  [key: string]: string | undefined;
-};
+export type GlobalReindexRethrottleReindexNodeAttributesMap = { [key: string]: string | undefined };
 export const GlobalReindexRethrottleReindexNodeAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -77419,9 +74841,7 @@ export const ReindexRethrottleResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ReindexRethrottleResponse>;
 
 /** Key-value pairs used to replace Mustache variables in the template. The key is the variable name. The value is the variable value. */
-export type RenderSearchTemplateRequestParamsMap = {
-  [key: string]: unknown | undefined;
-};
+export type RenderSearchTemplateRequestParamsMap = { [key: string]: unknown | undefined };
 export const RenderSearchTemplateRequestParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -77447,9 +74867,7 @@ export const RenderSearchTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RenderSearchTemplateRequest",
 }) as any as S.Schema<RenderSearchTemplateRequest>;
 
-export type RenderSearchTemplateResponseTemplateOutputMap = {
-  [key: string]: unknown | undefined;
-};
+export type RenderSearchTemplateResponseTemplateOutputMap = { [key: string]: unknown | undefined };
 export const RenderSearchTemplateResponseTemplateOutputMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -77467,9 +74885,7 @@ export const RenderSearchTemplateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RenderSearchTemplateResponse>;
 
 /** Key-value pairs used to replace Mustache variables in the template. The key is the variable name. The value is the variable value. */
-export type RenderSearchTemplate1RequestParamsMap = {
-  [key: string]: unknown | undefined;
-};
+export type RenderSearchTemplate1RequestParamsMap = { [key: string]: unknown | undefined };
 export const RenderSearchTemplate1RequestParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -77495,9 +74911,7 @@ export const RenderSearchTemplate1Request = /*@__PURE__*/ S.suspend(() =>
   identifier: "RenderSearchTemplate1Request",
 }) as any as S.Schema<RenderSearchTemplate1Request>;
 
-export type RenderSearchTemplate1ResponseTemplateOutputMap = {
-  [key: string]: unknown | undefined;
-};
+export type RenderSearchTemplate1ResponseTemplateOutputMap = { [key: string]: unknown | undefined };
 export const RenderSearchTemplate1ResponseTemplateOutputMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -77515,9 +74929,7 @@ export const RenderSearchTemplate1Response = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RenderSearchTemplate1Response>;
 
 /** Key-value pairs used to replace Mustache variables in the template. The key is the variable name. The value is the variable value. */
-export type RenderSearchTemplate2RequestParamsMap = {
-  [key: string]: unknown | undefined;
-};
+export type RenderSearchTemplate2RequestParamsMap = { [key: string]: unknown | undefined };
 export const RenderSearchTemplate2RequestParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -77543,9 +74955,7 @@ export const RenderSearchTemplate2Request = /*@__PURE__*/ S.suspend(() =>
   identifier: "RenderSearchTemplate2Request",
 }) as any as S.Schema<RenderSearchTemplate2Request>;
 
-export type RenderSearchTemplate2ResponseTemplateOutputMap = {
-  [key: string]: unknown | undefined;
-};
+export type RenderSearchTemplate2ResponseTemplateOutputMap = { [key: string]: unknown | undefined };
 export const RenderSearchTemplate2ResponseTemplateOutputMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -77563,9 +74973,7 @@ export const RenderSearchTemplate2Response = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RenderSearchTemplate2Response>;
 
 /** Key-value pairs used to replace Mustache variables in the template. The key is the variable name. The value is the variable value. */
-export type RenderSearchTemplate3RequestParamsMap = {
-  [key: string]: unknown | undefined;
-};
+export type RenderSearchTemplate3RequestParamsMap = { [key: string]: unknown | undefined };
 export const RenderSearchTemplate3RequestParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -77591,9 +74999,7 @@ export const RenderSearchTemplate3Request = /*@__PURE__*/ S.suspend(() =>
   identifier: "RenderSearchTemplate3Request",
 }) as any as S.Schema<RenderSearchTemplate3Request>;
 
-export type RenderSearchTemplate3ResponseTemplateOutputMap = {
-  [key: string]: unknown | undefined;
-};
+export type RenderSearchTemplate3ResponseTemplateOutputMap = { [key: string]: unknown | undefined };
 export const RenderSearchTemplate3ResponseTemplateOutputMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -77624,9 +75030,7 @@ export const ResetEncryptionRequest = /*@__PURE__*/ S.suspend(() =>
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/_encryption/_reset", code: 200 })),
-).annotate({
-  identifier: "ResetEncryptionRequest",
-}) as any as S.Schema<ResetEncryptionRequest>;
+).annotate({ identifier: "ResetEncryptionRequest" }) as any as S.Schema<ResetEncryptionRequest>;
 
 export interface ResetFeaturesRequest {
   /** Period to wait for a connection to the master node. */
@@ -77636,9 +75040,7 @@ export const ResetFeaturesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/_features/_reset", code: 200 })),
-).annotate({
-  identifier: "ResetFeaturesRequest",
-}) as any as S.Schema<ResetFeaturesRequest>;
+).annotate({ identifier: "ResetFeaturesRequest" }) as any as S.Schema<ResetFeaturesRequest>;
 
 export type ResetFeaturesResponseFeaturesList = Array<FeaturesTypesFeature>;
 export const ResetFeaturesResponseFeaturesList = /*@__PURE__*/ S.Array(
@@ -77652,9 +75054,7 @@ export const ResetFeaturesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     features: ResetFeaturesResponseFeaturesList,
   }),
-).annotate({
-  identifier: "ResetFeaturesResponse",
-}) as any as S.Schema<ResetFeaturesResponse>;
+).annotate({ identifier: "ResetFeaturesResponse" }) as any as S.Schema<ResetFeaturesResponse>;
 
 export interface ResetTransformRequest {
   /** Identifier for the transform. This identifier can contain lowercase alphanumeric characters (a-z and 0-9), hyphens, and underscores. It has a 64 character limit and must start and end with alphanumeric characters. */
@@ -77669,16 +75069,8 @@ export const ResetTransformRequest = /*@__PURE__*/ S.suspend(() =>
     transform_id: S.String.pipe(T.Label()),
     force: S.optional(S.Boolean.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_transform/{transform_id}/_reset",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ResetTransformRequest",
-}) as any as S.Schema<ResetTransformRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/_transform/{transform_id}/_reset", code: 200 })),
+).annotate({ identifier: "ResetTransformRequest" }) as any as S.Schema<ResetTransformRequest>;
 
 /** The feature states to restore. If `include_global_state` is `true`, the request restores all feature states in the snapshot by default. If `include_global_state` is `false`, the request restores no feature states by default. Note that specifying an empty array will result in the default behavior. To restore no feature states, regardless of the `include_global_state` value, specify an array containing only the value `none` (`["none"]`). */
 export type RestoreSnapshotRequestFeatureStatesList = Array<string>;
@@ -77739,15 +75131,9 @@ export const RestoreSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     rename_pattern: S.optional(S.String),
     rename_replacement: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_snapshot/{repository}/{snapshot}/_restore",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/_snapshot/{repository}/{snapshot}/_restore", code: 200 }),
   ),
-).annotate({
-  identifier: "RestoreSnapshotRequest",
-}) as any as S.Schema<RestoreSnapshotRequest>;
+).annotate({ identifier: "RestoreSnapshotRequest" }) as any as S.Schema<RestoreSnapshotRequest>;
 
 export type SnapshotRestoreSnapshotRestoreIndicesList = Array<string>;
 export const SnapshotRestoreSnapshotRestoreIndicesList = /*@__PURE__*/ S.Array(
@@ -77778,9 +75164,7 @@ export const RestoreSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
     accepted: S.optional(S.Boolean),
     snapshot: S.optional(SnapshotRestoreSnapshotRestore),
   }),
-).annotate({
-  identifier: "RestoreSnapshotResponse",
-}) as any as S.Schema<RestoreSnapshotResponse>;
+).annotate({ identifier: "RestoreSnapshotResponse" }) as any as S.Schema<RestoreSnapshotResponse>;
 
 export interface RetryIlmRequest {
   /** The name of the indices (comma-separated) whose failed lifecycle step is to be retry */
@@ -77790,9 +75174,7 @@ export const RetryIlmRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_ilm/retry", code: 200 })),
-).annotate({
-  identifier: "RetryIlmRequest",
-}) as any as S.Schema<RetryIlmRequest>;
+).annotate({ identifier: "RetryIlmRequest" }) as any as S.Schema<RetryIlmRequest>;
 
 export interface ScriptsPainlessExecute1Request {
   /** The context that the script should run in. NOTE: Result ordering in the field contexts is not guaranteed. */
@@ -77847,9 +75229,7 @@ export const GlobalSearchResponseBodyAggregationsMap = /*@__PURE__*/ S.Record(
   TypesAggregationsAggregate,
 ) as any as S.Schema<GlobalSearchResponseBodyAggregationsMap>;
 
-export type GlobalSearchResponseBodyFieldsMap = {
-  [key: string]: unknown | undefined;
-};
+export type GlobalSearchResponseBodyFieldsMap = { [key: string]: unknown | undefined };
 export const GlobalSearchResponseBodyFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -77883,6 +75263,7 @@ export interface GlobalSearchResponseBody {
   max_score?: number;
   num_reduce_phases?: number;
   profile?: GlobalSearchTypesProfile;
+  /** An updated identifier for the point-in-time that was searched. IMPORTANT: Each search request against a PIT returns in its response a `pit_id` field which may be different from the identifier you originally supplied. Always use the most recently-received PIT identifier for the next request. If you make concurrent search requests against the same PIT, Elasticsearch can return several different `pit_id` values in its responses. In that case, use any of these values for later requests, preferring more recently-received values whenever possible. */
   pit_id?: string;
   /** The identifier for the search and its search context. You can use this scroll ID with the scroll API to retrieve the next batch of search results for the request. This property is returned only if the `scroll` query parameter is specified in the request. */
   _scroll_id?: string;
@@ -77906,9 +75287,7 @@ export const GlobalSearchResponseBody = /*@__PURE__*/ S.suspend(() =>
     suggest: S.optional(GlobalSearchResponseBodySuggestMap),
     terminated_early: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GlobalSearchResponseBody",
-}) as any as S.Schema<GlobalSearchResponseBody>;
+).annotate({ identifier: "GlobalSearchResponseBody" }) as any as S.Schema<GlobalSearchResponseBody>;
 
 export interface Scroll1Request {
   /** The period to retain the search context for scrolling. */
@@ -77990,9 +75369,7 @@ export const SearchRequestExtMap = /*@__PURE__*/ S.Record(
   S.Unknown,
 ) as any as S.Schema<SearchRequestExtMap>;
 
-export type SearchRequestIndicesBoostItemMap = {
-  [key: string]: number | undefined;
-};
+export type SearchRequestIndicesBoostItemMap = { [key: string]: number | undefined };
 export const SearchRequestIndicesBoostItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -78023,9 +75400,7 @@ export type SearchRequestRescore = GlobalSearchTypesRescore | SearchRequestResco
 export const SearchRequestRescore = S.Unknown as any as S.Schema<SearchRequestRescore>;
 
 /** Retrieve a script evaluation (based on different fields) for each hit. */
-export type SearchRequestScriptFieldsMap = {
-  [key: string]: TypesScriptField | undefined;
-};
+export type SearchRequestScriptFieldsMap = { [key: string]: TypesScriptField | undefined };
 export const SearchRequestScriptFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   TypesScriptField,
@@ -78268,9 +75643,7 @@ export const Search1RequestExtMap = /*@__PURE__*/ S.Record(
   S.Unknown,
 ) as any as S.Schema<Search1RequestExtMap>;
 
-export type Search1RequestIndicesBoostItemMap = {
-  [key: string]: number | undefined;
-};
+export type Search1RequestIndicesBoostItemMap = { [key: string]: number | undefined };
 export const Search1RequestIndicesBoostItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -78301,9 +75674,7 @@ export type Search1RequestRescore = GlobalSearchTypesRescore | Search1RequestRes
 export const Search1RequestRescore = S.Unknown as any as S.Schema<Search1RequestRescore>;
 
 /** Retrieve a script evaluation (based on different fields) for each hit. */
-export type Search1RequestScriptFieldsMap = {
-  [key: string]: TypesScriptField | undefined;
-};
+export type Search1RequestScriptFieldsMap = { [key: string]: TypesScriptField | undefined };
 export const Search1RequestScriptFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   TypesScriptField,
@@ -78546,9 +75917,7 @@ export const Search2RequestExtMap = /*@__PURE__*/ S.Record(
   S.Unknown,
 ) as any as S.Schema<Search2RequestExtMap>;
 
-export type Search2RequestIndicesBoostItemMap = {
-  [key: string]: number | undefined;
-};
+export type Search2RequestIndicesBoostItemMap = { [key: string]: number | undefined };
 export const Search2RequestIndicesBoostItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -78579,9 +75948,7 @@ export type Search2RequestRescore = GlobalSearchTypesRescore | Search2RequestRes
 export const Search2RequestRescore = S.Unknown as any as S.Schema<Search2RequestRescore>;
 
 /** Retrieve a script evaluation (based on different fields) for each hit. */
-export type Search2RequestScriptFieldsMap = {
-  [key: string]: TypesScriptField | undefined;
-};
+export type Search2RequestScriptFieldsMap = { [key: string]: TypesScriptField | undefined };
 export const Search2RequestScriptFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   TypesScriptField,
@@ -78827,9 +76194,7 @@ export const Search3RequestExtMap = /*@__PURE__*/ S.Record(
   S.Unknown,
 ) as any as S.Schema<Search3RequestExtMap>;
 
-export type Search3RequestIndicesBoostItemMap = {
-  [key: string]: number | undefined;
-};
+export type Search3RequestIndicesBoostItemMap = { [key: string]: number | undefined };
 export const Search3RequestIndicesBoostItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -78860,9 +76225,7 @@ export type Search3RequestRescore = GlobalSearchTypesRescore | Search3RequestRes
 export const Search3RequestRescore = S.Unknown as any as S.Schema<Search3RequestRescore>;
 
 /** Retrieve a script evaluation (based on different fields) for each hit. */
-export type Search3RequestScriptFieldsMap = {
-  [key: string]: TypesScriptField | undefined;
-};
+export type Search3RequestScriptFieldsMap = { [key: string]: TypesScriptField | undefined };
 export const Search3RequestScriptFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   TypesScriptField,
@@ -79079,11 +76442,7 @@ export const Search3Request = /*@__PURE__*/ S.suspend(() =>
 export interface SearchableSnapshotsCacheStatsRequest {}
 export const SearchableSnapshotsCacheStatsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_searchable_snapshots/cache/stats",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/_searchable_snapshots/cache/stats", code: 200 }),
   ),
 ).annotate({
   identifier: "SearchableSnapshotsCacheStatsRequest",
@@ -79152,11 +76511,7 @@ export const SearchableSnapshotsCacheStats1Request = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     node_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_searchable_snapshots/{node_id}/cache/stats",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/_searchable_snapshots/{node_id}/cache/stats", code: 200 }),
   ),
 ).annotate({
   identifier: "SearchableSnapshotsCacheStats1Request",
@@ -79194,13 +76549,7 @@ export const SearchableSnapshotsClearCacheRequest = /*@__PURE__*/ S.suspend(() =
     expand_wildcards: S.optional(TypesExpandWildcards.pipe(T.Query())),
     allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_searchable_snapshots/cache/clear",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_searchable_snapshots/cache/clear", code: 200 })),
 ).annotate({
   identifier: "SearchableSnapshotsClearCacheRequest",
 }) as any as S.Schema<SearchableSnapshotsClearCacheRequest>;
@@ -79228,13 +76577,7 @@ export const SearchableSnapshotsClearCache1Request = /*@__PURE__*/ S.suspend(() 
     expand_wildcards: S.optional(TypesExpandWildcards.pipe(T.Query())),
     allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/{index}/_searchable_snapshots/cache/clear",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/{index}/_searchable_snapshots/cache/clear", code: 200 })),
 ).annotate({
   identifier: "SearchableSnapshotsClearCache1Request",
 }) as any as S.Schema<SearchableSnapshotsClearCache1Request>;
@@ -79295,13 +76638,7 @@ export const SearchableSnapshotsMountRequest = /*@__PURE__*/ S.suspend(() =>
     renamed_index: S.optional(S.String),
     index_settings: S.optional(SearchableSnapshotsMountRequestIndexSettingsMap),
     ignore_index_settings: S.optional(SearchableSnapshotsMountRequestIgnoreIndexSettingsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_snapshot/{repository}/{snapshot}/_mount",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_snapshot/{repository}/{snapshot}/_mount", code: 200 })),
 ).annotate({
   identifier: "SearchableSnapshotsMountRequest",
 }) as any as S.Schema<SearchableSnapshotsMountRequest>;
@@ -79370,13 +76707,7 @@ export const SearchableSnapshotsStats1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     index: S.String.pipe(T.Label()),
     level: S.optional(SearchableSnapshotsTypesStatsLevel.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/{index}/_searchable_snapshots/stats",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/{index}/_searchable_snapshots/stats", code: 200 })),
 ).annotate({
   identifier: "SearchableSnapshotsStats1Request",
 }) as any as S.Schema<SearchableSnapshotsStats1Request>;
@@ -79401,13 +76732,7 @@ export interface SearchApplicationDeleteRequest {
 export const SearchApplicationDeleteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/_application/search_application/{name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/_application/search_application/{name}", code: 200 })),
 ).annotate({
   identifier: "SearchApplicationDeleteRequest",
 }) as any as S.Schema<SearchApplicationDeleteRequest>;
@@ -79419,13 +76744,7 @@ export interface SearchApplicationGetRequest {
 export const SearchApplicationGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_application/search_application/{name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_application/search_application/{name}", code: 200 })),
 ).annotate({
   identifier: "SearchApplicationGetRequest",
 }) as any as S.Schema<SearchApplicationGetRequest>;
@@ -79485,13 +76804,7 @@ export const SearchApplicationListRequest = /*@__PURE__*/ S.suspend(() =>
     q: S.optional(S.String.pipe(T.Query())),
     from: S.optional(S.Number.pipe(T.Query())),
     size: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_application/search_application",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_application/search_application", code: 200 })),
 ).annotate({
   identifier: "SearchApplicationListRequest",
 }) as any as S.Schema<SearchApplicationListRequest>;
@@ -79570,13 +76883,7 @@ export const SearchApplicationPutRequest = /*@__PURE__*/ S.suspend(() =>
     indices: SearchApplicationPutRequestIndicesList,
     analytics_collection_name: S.optional(S.String),
     template: S.optional(SearchApplicationTypesSearchApplicationTemplate),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_application/search_application/{name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_application/search_application/{name}", code: 200 })),
 ).annotate({
   identifier: "SearchApplicationPutRequest",
 }) as any as S.Schema<SearchApplicationPutRequest>;
@@ -79592,9 +76899,7 @@ export const SearchApplicationPutResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "SearchApplicationPutResponse",
 }) as any as S.Schema<SearchApplicationPutResponse>;
 
-export type SearchApplicationRenderQueryRequestParamsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SearchApplicationRenderQueryRequestParamsMap = { [key: string]: unknown | undefined };
 export const SearchApplicationRenderQueryRequestParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -79628,9 +76933,7 @@ export const SearchApplicationRenderQueryResponse = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<SearchApplicationRenderQueryResponse>;
 
 /** Query parameters specific to this request, which will override any defaults specified in the template. */
-export type SearchApplicationSearchRequestParamsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SearchApplicationSearchRequestParamsMap = { [key: string]: unknown | undefined };
 export const SearchApplicationSearchRequestParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -79650,20 +76953,14 @@ export const SearchApplicationSearchRequest = /*@__PURE__*/ S.suspend(() =>
     typed_keys: S.optional(S.Boolean.pipe(T.Query())),
     params: S.optional(SearchApplicationSearchRequestParamsMap),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_application/search_application/{name}/_search",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/_application/search_application/{name}/_search", code: 200 }),
   ),
 ).annotate({
   identifier: "SearchApplicationSearchRequest",
 }) as any as S.Schema<SearchApplicationSearchRequest>;
 
 /** Query parameters specific to this request, which will override any defaults specified in the template. */
-export type SearchApplicationSearch1RequestParamsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SearchApplicationSearch1RequestParamsMap = { [key: string]: unknown | undefined };
 export const SearchApplicationSearch1RequestParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -79683,11 +76980,7 @@ export const SearchApplicationSearch1Request = /*@__PURE__*/ S.suspend(() =>
     typed_keys: S.optional(S.Boolean.pipe(T.Query())),
     params: S.optional(SearchApplicationSearch1RequestParamsMap),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_application/search_application/{name}/_search",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/_application/search_application/{name}/_search", code: 200 }),
   ),
 ).annotate({
   identifier: "SearchApplicationSearch1Request",
@@ -79779,9 +77072,7 @@ export const SearchEqlRequest = /*@__PURE__*/ S.suspend(() =>
     runtime_mappings: S.optional(TypesMappingRuntimeFields),
     max_samples_per_key: S.optional(S.Number),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_eql/search", code: 200 })),
-).annotate({
-  identifier: "SearchEqlRequest",
-}) as any as S.Schema<SearchEqlRequest>;
+).annotate({ identifier: "SearchEqlRequest" }) as any as S.Schema<SearchEqlRequest>;
 
 export type SearchFleetRequestStatsList = Array<string>;
 export const SearchFleetRequestStatsList = /*@__PURE__*/ S.Array(
@@ -79816,9 +77107,7 @@ export const SearchFleetRequestExtMap = /*@__PURE__*/ S.Record(
   S.Unknown,
 ) as any as S.Schema<SearchFleetRequestExtMap>;
 
-export type SearchFleetRequestIndicesBoostItemMap = {
-  [key: string]: number | undefined;
-};
+export type SearchFleetRequestIndicesBoostItemMap = { [key: string]: number | undefined };
 export const SearchFleetRequestIndicesBoostItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -79841,9 +77130,7 @@ export type SearchFleetRequestRescore =
 export const SearchFleetRequestRescore = S.Unknown as any as S.Schema<SearchFleetRequestRescore>;
 
 /** Retrieve a script evaluation (based on different fields) for each hit. */
-export type SearchFleetRequestScriptFieldsMap = {
-  [key: string]: TypesScriptField | undefined;
-};
+export type SearchFleetRequestScriptFieldsMap = { [key: string]: TypesScriptField | undefined };
 export const SearchFleetRequestScriptFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   TypesScriptField,
@@ -79997,9 +77284,7 @@ export const SearchFleetRequest = /*@__PURE__*/ S.suspend(() =>
     pit: S.optional(GlobalSearchTypesPointInTimeReference),
     runtime_mappings: S.optional(TypesMappingRuntimeFields),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_fleet/_fleet_search", code: 200 })),
-).annotate({
-  identifier: "SearchFleetRequest",
-}) as any as S.Schema<SearchFleetRequest>;
+).annotate({ identifier: "SearchFleetRequest" }) as any as S.Schema<SearchFleetRequest>;
 
 export type SearchFleetResponseAggregationsMap = {
   [key: string]: TypesAggregationsAggregate | undefined;
@@ -80009,9 +77294,7 @@ export const SearchFleetResponseAggregationsMap = /*@__PURE__*/ S.Record(
   TypesAggregationsAggregate,
 ) as any as S.Schema<SearchFleetResponseAggregationsMap>;
 
-export type SearchFleetResponseFieldsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SearchFleetResponseFieldsMap = { [key: string]: unknown | undefined };
 export const SearchFleetResponseFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -80063,9 +77346,7 @@ export const SearchFleetResponse = /*@__PURE__*/ S.suspend(() =>
     suggest: S.optional(SearchFleetResponseSuggestMap),
     terminated_early: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SearchFleetResponse",
-}) as any as S.Schema<SearchFleetResponse>;
+).annotate({ identifier: "SearchFleetResponse" }) as any as S.Schema<SearchFleetResponse>;
 
 export type GlobalSearchMvtTypesGridAggregationType = "geotile" | "geohex";
 export const GlobalSearchMvtTypesGridAggregationType = S.String;
@@ -80143,23 +77424,13 @@ export const SearchMvtRequest = /*@__PURE__*/ S.suspend(() =>
     query: S.optional(TypesQueryDslQueryContainer),
     runtime_mappings: S.optional(TypesMappingRuntimeFields),
     sort: S.optional(TypesSort),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/{index}/_mvt/{field}/{zoom}/{x}/{y}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "SearchMvtRequest",
-}) as any as S.Schema<SearchMvtRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/{index}/_mvt/{field}/{zoom}/{x}/{y}", code: 200 })),
+).annotate({ identifier: "SearchMvtRequest" }) as any as S.Schema<SearchMvtRequest>;
 
 export type SearchMvtResponse = unknown;
 export const SearchMvtResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "SearchMvtResponse",
-}) as any as S.Schema<SearchMvtResponse>;
+).annotate({ identifier: "SearchMvtResponse" }) as any as S.Schema<SearchMvtResponse>;
 
 /** Sub-aggregations for the geotile_grid. It supports the following aggregation types: - `avg` - `boxplot` - `cardinality` - `extended stats` - `max` - `median absolute deviation` - `min` - `percentile` - `percentile-rank` - `stats` - `sum` - `value count` The aggregation names can't start with `_mvt_`. The `_mvt_` prefix is reserved for internal aggregations. */
 export type SearchMvt1RequestAggsMap = {
@@ -80231,23 +77502,13 @@ export const SearchMvt1Request = /*@__PURE__*/ S.suspend(() =>
     query: S.optional(TypesQueryDslQueryContainer),
     runtime_mappings: S.optional(TypesMappingRuntimeFields),
     sort: S.optional(TypesSort),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/{index}/_mvt/{field}/{zoom}/{x}/{y}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "SearchMvt1Request",
-}) as any as S.Schema<SearchMvt1Request>;
+  }).pipe(T.Http({ method: "GET", uri: "/{index}/_mvt/{field}/{zoom}/{x}/{y}", code: 200 })),
+).annotate({ identifier: "SearchMvt1Request" }) as any as S.Schema<SearchMvt1Request>;
 
 export type SearchMvt1Response = unknown;
 export const SearchMvt1Response = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "SearchMvt1Response",
-}) as any as S.Schema<SearchMvt1Response>;
+).annotate({ identifier: "SearchMvt1Response" }) as any as S.Schema<SearchMvt1Response>;
 
 export interface SearchShardsRequest {
   /** A setting that does two separate checks on the index expression. If `false`, the request returns an error (1) if any wildcard expression (including `_all` and `*`) resolves to zero matching indices or (2) if the complete set of resolved indices, aliases or data streams is empty after all expressions are evaluated. If `true`, index expressions that resolve to no indices are allowed and the request returns an empty result. */
@@ -80275,9 +77536,7 @@ export const SearchShardsRequest = /*@__PURE__*/ S.suspend(() =>
     preference: S.optional(S.String.pipe(T.Query())),
     routing: S.optional(TypesRouting.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_search_shards", code: 200 })),
-).annotate({
-  identifier: "SearchShardsRequest",
-}) as any as S.Schema<SearchShardsRequest>;
+).annotate({ identifier: "SearchShardsRequest" }) as any as S.Schema<SearchShardsRequest>;
 
 /** Lists node attributes. */
 export type GlobalSearchShardsSearchShardsNodeAttributesAttributesMap = {
@@ -80327,17 +77586,13 @@ export const SearchShardsResponseNodesMap = /*@__PURE__*/ S.Record(
   GlobalSearchShardsSearchShardsNodeAttributes,
 ) as any as S.Schema<SearchShardsResponseNodesMap>;
 
-export type TypesNodeShardAllocationIdMap = {
-  [key: string]: string | undefined;
-};
+export type TypesNodeShardAllocationIdMap = { [key: string]: string | undefined };
 export const TypesNodeShardAllocationIdMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<TypesNodeShardAllocationIdMap>;
 
-export type TypesNodeShardRecoverySourceMap = {
-  [key: string]: string | undefined;
-};
+export type TypesNodeShardRecoverySourceMap = { [key: string]: string | undefined };
 export const TypesNodeShardRecoverySourceMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -80428,9 +77683,7 @@ export const SearchShardsResponse = /*@__PURE__*/ S.suspend(() =>
     shards: SearchShardsResponseShardsList,
     indices: SearchShardsResponseIndicesMap,
   }),
-).annotate({
-  identifier: "SearchShardsResponse",
-}) as any as S.Schema<SearchShardsResponse>;
+).annotate({ identifier: "SearchShardsResponse" }) as any as S.Schema<SearchShardsResponse>;
 
 export interface SearchShards1Request {
   /** A setting that does two separate checks on the index expression. If `false`, the request returns an error (1) if any wildcard expression (including `_all` and `*`) resolves to zero matching indices or (2) if the complete set of resolved indices, aliases or data streams is empty after all expressions are evaluated. If `true`, index expressions that resolve to no indices are allowed and the request returns an empty result. */
@@ -80458,9 +77711,7 @@ export const SearchShards1Request = /*@__PURE__*/ S.suspend(() =>
     preference: S.optional(S.String.pipe(T.Query())),
     routing: S.optional(TypesRouting.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/_search_shards", code: 200 })),
-).annotate({
-  identifier: "SearchShards1Request",
-}) as any as S.Schema<SearchShards1Request>;
+).annotate({ identifier: "SearchShards1Request" }) as any as S.Schema<SearchShards1Request>;
 
 export type SearchShards1ResponseNodesMap = {
   [key: string]: GlobalSearchShardsSearchShardsNodeAttributes | undefined;
@@ -80499,9 +77750,7 @@ export const SearchShards1Response = /*@__PURE__*/ S.suspend(() =>
     shards: SearchShards1ResponseShardsList,
     indices: SearchShards1ResponseIndicesMap,
   }),
-).annotate({
-  identifier: "SearchShards1Response",
-}) as any as S.Schema<SearchShards1Response>;
+).annotate({ identifier: "SearchShards1Response" }) as any as S.Schema<SearchShards1Response>;
 
 export interface SearchShards2Request {
   /** A comma-separated list of data streams, indices, and aliases to search. It supports wildcards (`*`). To search all data streams and indices, omit this parameter or use `*` or `_all`. */
@@ -80532,9 +77781,7 @@ export const SearchShards2Request = /*@__PURE__*/ S.suspend(() =>
     preference: S.optional(S.String.pipe(T.Query())),
     routing: S.optional(TypesRouting.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_search_shards", code: 200 })),
-).annotate({
-  identifier: "SearchShards2Request",
-}) as any as S.Schema<SearchShards2Request>;
+).annotate({ identifier: "SearchShards2Request" }) as any as S.Schema<SearchShards2Request>;
 
 export type SearchShards2ResponseNodesMap = {
   [key: string]: GlobalSearchShardsSearchShardsNodeAttributes | undefined;
@@ -80573,9 +77820,7 @@ export const SearchShards2Response = /*@__PURE__*/ S.suspend(() =>
     shards: SearchShards2ResponseShardsList,
     indices: SearchShards2ResponseIndicesMap,
   }),
-).annotate({
-  identifier: "SearchShards2Response",
-}) as any as S.Schema<SearchShards2Response>;
+).annotate({ identifier: "SearchShards2Response" }) as any as S.Schema<SearchShards2Response>;
 
 export interface SearchShards3Request {
   /** A comma-separated list of data streams, indices, and aliases to search. It supports wildcards (`*`). To search all data streams and indices, omit this parameter or use `*` or `_all`. */
@@ -80606,9 +77851,7 @@ export const SearchShards3Request = /*@__PURE__*/ S.suspend(() =>
     preference: S.optional(S.String.pipe(T.Query())),
     routing: S.optional(TypesRouting.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_search_shards", code: 200 })),
-).annotate({
-  identifier: "SearchShards3Request",
-}) as any as S.Schema<SearchShards3Request>;
+).annotate({ identifier: "SearchShards3Request" }) as any as S.Schema<SearchShards3Request>;
 
 export type SearchShards3ResponseNodesMap = {
   [key: string]: GlobalSearchShardsSearchShardsNodeAttributes | undefined;
@@ -80647,14 +77890,10 @@ export const SearchShards3Response = /*@__PURE__*/ S.suspend(() =>
     shards: SearchShards3ResponseShardsList,
     indices: SearchShards3ResponseIndicesMap,
   }),
-).annotate({
-  identifier: "SearchShards3Response",
-}) as any as S.Schema<SearchShards3Response>;
+).annotate({ identifier: "SearchShards3Response" }) as any as S.Schema<SearchShards3Response>;
 
 /** Key-value pairs used to replace Mustache variables in the template. The key is the variable name. The value is the variable value. */
-export type SearchTemplateRequestParamsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SearchTemplateRequestParamsMap = { [key: string]: unknown | undefined };
 export const SearchTemplateRequestParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -80713,9 +77952,7 @@ export const SearchTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     params: S.optional(SearchTemplateRequestParamsMap),
     source: S.optional(TypesScriptSource),
   }).pipe(T.Http({ method: "GET", uri: "/_search/template", code: 200 })),
-).annotate({
-  identifier: "SearchTemplateRequest",
-}) as any as S.Schema<SearchTemplateRequest>;
+).annotate({ identifier: "SearchTemplateRequest" }) as any as S.Schema<SearchTemplateRequest>;
 
 export type SearchTemplateResponseAggregationsMap = {
   [key: string]: TypesAggregationsAggregate | undefined;
@@ -80725,9 +77962,7 @@ export const SearchTemplateResponseAggregationsMap = /*@__PURE__*/ S.Record(
   TypesAggregationsAggregate,
 ) as any as S.Schema<SearchTemplateResponseAggregationsMap>;
 
-export type SearchTemplateResponseFieldsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SearchTemplateResponseFieldsMap = { [key: string]: unknown | undefined };
 export const SearchTemplateResponseFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -80779,14 +78014,10 @@ export const SearchTemplateResponse = /*@__PURE__*/ S.suspend(() =>
     suggest: S.optional(SearchTemplateResponseSuggestMap),
     terminated_early: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SearchTemplateResponse",
-}) as any as S.Schema<SearchTemplateResponse>;
+).annotate({ identifier: "SearchTemplateResponse" }) as any as S.Schema<SearchTemplateResponse>;
 
 /** Key-value pairs used to replace Mustache variables in the template. The key is the variable name. The value is the variable value. */
-export type SearchTemplate1RequestParamsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SearchTemplate1RequestParamsMap = { [key: string]: unknown | undefined };
 export const SearchTemplate1RequestParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -80845,9 +78076,7 @@ export const SearchTemplate1Request = /*@__PURE__*/ S.suspend(() =>
     params: S.optional(SearchTemplate1RequestParamsMap),
     source: S.optional(TypesScriptSource),
   }).pipe(T.Http({ method: "POST", uri: "/_search/template", code: 200 })),
-).annotate({
-  identifier: "SearchTemplate1Request",
-}) as any as S.Schema<SearchTemplate1Request>;
+).annotate({ identifier: "SearchTemplate1Request" }) as any as S.Schema<SearchTemplate1Request>;
 
 export type SearchTemplate1ResponseAggregationsMap = {
   [key: string]: TypesAggregationsAggregate | undefined;
@@ -80857,9 +78086,7 @@ export const SearchTemplate1ResponseAggregationsMap = /*@__PURE__*/ S.Record(
   TypesAggregationsAggregate,
 ) as any as S.Schema<SearchTemplate1ResponseAggregationsMap>;
 
-export type SearchTemplate1ResponseFieldsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SearchTemplate1ResponseFieldsMap = { [key: string]: unknown | undefined };
 export const SearchTemplate1ResponseFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -80911,14 +78138,10 @@ export const SearchTemplate1Response = /*@__PURE__*/ S.suspend(() =>
     suggest: S.optional(SearchTemplate1ResponseSuggestMap),
     terminated_early: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SearchTemplate1Response",
-}) as any as S.Schema<SearchTemplate1Response>;
+).annotate({ identifier: "SearchTemplate1Response" }) as any as S.Schema<SearchTemplate1Response>;
 
 /** Key-value pairs used to replace Mustache variables in the template. The key is the variable name. The value is the variable value. */
-export type SearchTemplate2RequestParamsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SearchTemplate2RequestParamsMap = { [key: string]: unknown | undefined };
 export const SearchTemplate2RequestParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -80980,9 +78203,7 @@ export const SearchTemplate2Request = /*@__PURE__*/ S.suspend(() =>
     params: S.optional(SearchTemplate2RequestParamsMap),
     source: S.optional(TypesScriptSource),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_search/template", code: 200 })),
-).annotate({
-  identifier: "SearchTemplate2Request",
-}) as any as S.Schema<SearchTemplate2Request>;
+).annotate({ identifier: "SearchTemplate2Request" }) as any as S.Schema<SearchTemplate2Request>;
 
 export type SearchTemplate2ResponseAggregationsMap = {
   [key: string]: TypesAggregationsAggregate | undefined;
@@ -80992,9 +78213,7 @@ export const SearchTemplate2ResponseAggregationsMap = /*@__PURE__*/ S.Record(
   TypesAggregationsAggregate,
 ) as any as S.Schema<SearchTemplate2ResponseAggregationsMap>;
 
-export type SearchTemplate2ResponseFieldsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SearchTemplate2ResponseFieldsMap = { [key: string]: unknown | undefined };
 export const SearchTemplate2ResponseFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -81046,14 +78265,10 @@ export const SearchTemplate2Response = /*@__PURE__*/ S.suspend(() =>
     suggest: S.optional(SearchTemplate2ResponseSuggestMap),
     terminated_early: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SearchTemplate2Response",
-}) as any as S.Schema<SearchTemplate2Response>;
+).annotate({ identifier: "SearchTemplate2Response" }) as any as S.Schema<SearchTemplate2Response>;
 
 /** Key-value pairs used to replace Mustache variables in the template. The key is the variable name. The value is the variable value. */
-export type SearchTemplate3RequestParamsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SearchTemplate3RequestParamsMap = { [key: string]: unknown | undefined };
 export const SearchTemplate3RequestParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -81115,9 +78330,7 @@ export const SearchTemplate3Request = /*@__PURE__*/ S.suspend(() =>
     params: S.optional(SearchTemplate3RequestParamsMap),
     source: S.optional(TypesScriptSource),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_search/template", code: 200 })),
-).annotate({
-  identifier: "SearchTemplate3Request",
-}) as any as S.Schema<SearchTemplate3Request>;
+).annotate({ identifier: "SearchTemplate3Request" }) as any as S.Schema<SearchTemplate3Request>;
 
 export type SearchTemplate3ResponseAggregationsMap = {
   [key: string]: TypesAggregationsAggregate | undefined;
@@ -81127,9 +78340,7 @@ export const SearchTemplate3ResponseAggregationsMap = /*@__PURE__*/ S.Record(
   TypesAggregationsAggregate,
 ) as any as S.Schema<SearchTemplate3ResponseAggregationsMap>;
 
-export type SearchTemplate3ResponseFieldsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SearchTemplate3ResponseFieldsMap = { [key: string]: unknown | undefined };
 export const SearchTemplate3ResponseFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -81181,9 +78392,7 @@ export const SearchTemplate3Response = /*@__PURE__*/ S.suspend(() =>
     suggest: S.optional(SearchTemplate3ResponseSuggestMap),
     terminated_early: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SearchTemplate3Response",
-}) as any as S.Schema<SearchTemplate3Response>;
+).annotate({ identifier: "SearchTemplate3Response" }) as any as S.Schema<SearchTemplate3Response>;
 
 export type SecurityTypesGrantType = "password" | "access_token";
 export const SecurityTypesGrantType = S.String;
@@ -81235,17 +78444,13 @@ export const SecurityTypesUserProfileUser = /*@__PURE__*/ S.suspend(() =>
   identifier: "SecurityTypesUserProfileUser",
 }) as any as S.Schema<SecurityTypesUserProfileUser>;
 
-export type SecurityActivateUserProfileResponseDataMap = {
-  [key: string]: unknown | undefined;
-};
+export type SecurityActivateUserProfileResponseDataMap = { [key: string]: unknown | undefined };
 export const SecurityActivateUserProfileResponseDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<SecurityActivateUserProfileResponseDataMap>;
 
-export type SecurityActivateUserProfileResponseLabelsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SecurityActivateUserProfileResponseLabelsMap = { [key: string]: unknown | undefined };
 export const SecurityActivateUserProfileResponseLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -81321,9 +78526,7 @@ export const SecurityBulkDeleteRoleResponseNotFoundList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<SecurityBulkDeleteRoleResponseNotFoundList>;
 
 /** Details about the errors, keyed by role name */
-export type SecurityTypesBulkErrorDetailsMap = {
-  [key: string]: TypesErrorCause | undefined;
-};
+export type SecurityTypesBulkErrorDetailsMap = { [key: string]: TypesErrorCause | undefined };
 export const SecurityTypesBulkErrorDetailsMap = /*@__PURE__*/ S.Record(
   S.String,
   TypesErrorCause,
@@ -81340,9 +78543,7 @@ export const SecurityTypesBulkError = /*@__PURE__*/ S.suspend(() =>
     count: S.Number,
     details: SecurityTypesBulkErrorDetailsMap,
   }),
-).annotate({
-  identifier: "SecurityTypesBulkError",
-}) as any as S.Schema<SecurityTypesBulkError>;
+).annotate({ identifier: "SecurityTypesBulkError" }) as any as S.Schema<SecurityTypesBulkError>;
 
 export interface SecurityBulkDeleteRoleResponse {
   /** Array of deleted roles */
@@ -81365,6 +78566,7 @@ export const SecurityBulkDeleteRoleResponse = /*@__PURE__*/ S.suspend(() =>
 export type SecurityTypesClusterPrivilegeCase0 =
   | "all"
   | "cancel_task"
+  | "clone_api_key"
   | "create_snapshot"
   | "cross_cluster_replication"
   | "cross_cluster_search"
@@ -81507,17 +78709,13 @@ export const SecurityTypesRoleTemplateInlineQuery =
   S.Unknown as any as S.Schema<SecurityTypesRoleTemplateInlineQuery>;
 
 /** Specifies any named parameters that are passed into the script as variables. Use parameters instead of hard-coded values to decrease compile time. */
-export type SecurityTypesRoleTemplateScriptParamsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SecurityTypesRoleTemplateScriptParamsMap = { [key: string]: unknown | undefined };
 export const SecurityTypesRoleTemplateScriptParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<SecurityTypesRoleTemplateScriptParamsMap>;
 
-export type SecurityTypesRoleTemplateScriptOptionsMap = {
-  [key: string]: string | undefined;
-};
+export type SecurityTypesRoleTemplateScriptOptionsMap = { [key: string]: string | undefined };
 export const SecurityTypesRoleTemplateScriptOptionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -81709,6 +78907,74 @@ export const SecurityTypesApplicationGlobalUserPrivileges = /*@__PURE__*/ S.susp
   identifier: "SecurityTypesApplicationGlobalUserPrivileges",
 }) as any as S.Schema<SecurityTypesApplicationGlobalUserPrivileges>;
 
+export interface SecurityTypesWriteProfileGlobalUserPrivileges {
+  /** The applications for which user profile data can be written. Absent when the `profile` section is present but grants no privileges. */
+  write?: SecurityTypesManageUserPrivileges;
+}
+export const SecurityTypesWriteProfileGlobalUserPrivileges = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    write: S.optional(SecurityTypesManageUserPrivileges),
+  }),
+).annotate({
+  identifier: "SecurityTypesWriteProfileGlobalUserPrivileges",
+}) as any as S.Schema<SecurityTypesWriteProfileGlobalUserPrivileges>;
+
+/** A list of indices (or index name patterns) that the owners of the role can manage roles for. */
+export type SecurityTypesManageRolesIndexPermissionsNamesList = Array<string>;
+export const SecurityTypesManageRolesIndexPermissionsNamesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SecurityTypesManageRolesIndexPermissionsNamesList>;
+
+/** The index privileges that the managed roles are allowed to grant on the specified indices. */
+export type SecurityTypesManageRolesIndexPermissionsPrivilegesList = Array<string>;
+export const SecurityTypesManageRolesIndexPermissionsPrivilegesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SecurityTypesManageRolesIndexPermissionsPrivilegesList>;
+
+export interface SecurityTypesManageRolesIndexPermissions {
+  /** A list of indices (or index name patterns) that the owners of the role can manage roles for. */
+  names: SecurityTypesManageRolesIndexPermissionsNamesList;
+  /** The index privileges that the managed roles are allowed to grant on the specified indices. */
+  privileges: SecurityTypesManageRolesIndexPermissionsPrivilegesList;
+}
+export const SecurityTypesManageRolesIndexPermissions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    names: SecurityTypesManageRolesIndexPermissionsNamesList,
+    privileges: SecurityTypesManageRolesIndexPermissionsPrivilegesList,
+  }),
+).annotate({
+  identifier: "SecurityTypesManageRolesIndexPermissions",
+}) as any as S.Schema<SecurityTypesManageRolesIndexPermissions>;
+
+export type SecurityTypesManageRolesPrivilegesIndicesList =
+  Array<SecurityTypesManageRolesIndexPermissions>;
+export const SecurityTypesManageRolesPrivilegesIndicesList = /*@__PURE__*/ S.Array(
+  SecurityTypesManageRolesIndexPermissions,
+) as any as S.Schema<SecurityTypesManageRolesPrivilegesIndicesList>;
+
+export interface SecurityTypesManageRolesPrivileges {
+  indices: SecurityTypesManageRolesPrivilegesIndicesList;
+}
+export const SecurityTypesManageRolesPrivileges = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    indices: SecurityTypesManageRolesPrivilegesIndicesList,
+  }),
+).annotate({
+  identifier: "SecurityTypesManageRolesPrivileges",
+}) as any as S.Schema<SecurityTypesManageRolesPrivileges>;
+
+export interface SecurityTypesManageRolesGlobalUserPrivileges {
+  /** The index-scoped role management privileges. Absent when the `role` section is present but grants no privileges. */
+  manage?: SecurityTypesManageRolesPrivileges;
+}
+export const SecurityTypesManageRolesGlobalUserPrivileges = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    manage: S.optional(SecurityTypesManageRolesPrivileges),
+  }),
+).annotate({
+  identifier: "SecurityTypesManageRolesGlobalUserPrivileges",
+}) as any as S.Schema<SecurityTypesManageRolesGlobalUserPrivileges>;
+
 /** A list of data source names or wildcard patterns to which the permissions in this entry apply. */
 export type SecurityTypesDataSourcePrivilegesNamesList = Array<string>;
 export const SecurityTypesDataSourcePrivilegesNamesList = /*@__PURE__*/ S.Array(
@@ -81756,30 +79022,24 @@ export const SecurityTypesGlobalPrivilegeDataSourceList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<SecurityTypesGlobalPrivilegeDataSourceList>;
 
 export interface SecurityTypesGlobalPrivilege {
-  application: SecurityTypesApplicationGlobalUserPrivileges;
+  application?: SecurityTypesApplicationGlobalUserPrivileges;
+  /** A privilege that grants the ability to write the `data` and `access` sections of user profiles for the specified applications. */
+  profile?: SecurityTypesWriteProfileGlobalUserPrivileges;
+  /** A privilege that grants the ability to manage roles that are scoped to the specified indices. */
+  role?: SecurityTypesManageRolesGlobalUserPrivileges;
   /** A list of data source privilege entries, used to grant access to ES|QL data sources. */
   data_source?: SecurityTypesGlobalPrivilegeDataSourceList;
 }
 export const SecurityTypesGlobalPrivilege = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    application: SecurityTypesApplicationGlobalUserPrivileges,
+    application: S.optional(SecurityTypesApplicationGlobalUserPrivileges),
+    profile: S.optional(SecurityTypesWriteProfileGlobalUserPrivileges),
+    role: S.optional(SecurityTypesManageRolesGlobalUserPrivileges),
     data_source: S.optional(SecurityTypesGlobalPrivilegeDataSourceList),
   }),
 ).annotate({
   identifier: "SecurityTypesGlobalPrivilege",
 }) as any as S.Schema<SecurityTypesGlobalPrivilege>;
-
-export type SecurityTypesRoleDescriptorGlobalCase0List = Array<SecurityTypesGlobalPrivilege>;
-export const SecurityTypesRoleDescriptorGlobalCase0List = /*@__PURE__*/ S.Array(
-  SecurityTypesGlobalPrivilege,
-) as any as S.Schema<SecurityTypesRoleDescriptorGlobalCase0List>;
-
-/** An object defining global privileges. A global privilege is a form of cluster privilege that is request-aware. */
-export type SecurityTypesRoleDescriptorGlobal =
-  | SecurityTypesRoleDescriptorGlobalCase0List
-  | SecurityTypesGlobalPrivilege;
-export const SecurityTypesRoleDescriptorGlobal =
-  S.Unknown as any as S.Schema<SecurityTypesRoleDescriptorGlobal>;
 
 /** A list of strings, where each element is the name of an application privilege or action. */
 export type SecurityTypesApplicationPrivilegesPrivilegesList = Array<string>;
@@ -81844,9 +79104,7 @@ export const SecurityTypesRestriction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     workflows: SecurityTypesRestrictionWorkflowsList,
   }),
-).annotate({
-  identifier: "SecurityTypesRestriction",
-}) as any as S.Schema<SecurityTypesRestriction>;
+).annotate({ identifier: "SecurityTypesRestriction" }) as any as S.Schema<SecurityTypesRestriction>;
 
 export type SecurityTypesRoleDescriptorTransientMetadataMap = {
   [key: string]: unknown | undefined;
@@ -81866,7 +79124,7 @@ export interface SecurityTypesRoleDescriptor {
   /** A list of cluster permissions for remote clusters. NOTE: This is limited a subset of the cluster permissions. */
   remote_cluster?: SecurityTypesRoleDescriptorRemoteClusterList;
   /** An object defining global privileges. A global privilege is a form of cluster privilege that is request-aware. */
-  global?: SecurityTypesRoleDescriptorGlobal;
+  global?: SecurityTypesGlobalPrivilege;
   /** A list of application privilege entries */
   applications?: SecurityTypesRoleDescriptorApplicationsList;
   /** Optional meta-data. Within the metadata object, keys that begin with `_` are reserved for system usage. */
@@ -81885,7 +79143,7 @@ export const SecurityTypesRoleDescriptor = /*@__PURE__*/ S.suspend(() =>
     indices: S.optional(SecurityTypesRoleDescriptorIndicesList),
     remote_indices: S.optional(SecurityTypesRoleDescriptorRemoteIndicesList),
     remote_cluster: S.optional(SecurityTypesRoleDescriptorRemoteClusterList),
-    global: S.optional(SecurityTypesRoleDescriptorGlobal),
+    global: S.optional(SecurityTypesGlobalPrivilege),
     applications: S.optional(SecurityTypesRoleDescriptorApplicationsList),
     metadata: S.optional(TypesMetadata),
     run_as: S.optional(SecurityTypesRoleDescriptorRunAsList),
@@ -81997,13 +79255,7 @@ export const SecurityBulkUpdateApiKeysRequest = /*@__PURE__*/ S.suspend(() =>
     ids: SecurityBulkUpdateApiKeysRequestIds,
     metadata: S.optional(TypesMetadata),
     role_descriptors: S.optional(SecurityBulkUpdateApiKeysRequestRoleDescriptorsMap),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_security/api_key/_bulk_update",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_security/api_key/_bulk_update", code: 200 })),
 ).annotate({
   identifier: "SecurityBulkUpdateApiKeysRequest",
 }) as any as S.Schema<SecurityBulkUpdateApiKeysRequest>;
@@ -82049,13 +79301,7 @@ export const SecurityChangePasswordRequest = /*@__PURE__*/ S.suspend(() =>
     refresh: S.optional(TypesRefresh.pipe(T.Query())),
     password: S.optional(S.String),
     password_hash: S.optional(S.String.pipe(T.SensitiveValue({}))),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_security/user/{username}/_password",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_security/user/{username}/_password", code: 200 })),
 ).annotate({
   identifier: "SecurityChangePasswordRequest",
 }) as any as S.Schema<SecurityChangePasswordRequest>;
@@ -82083,13 +79329,7 @@ export const SecurityChangePassword1Request = /*@__PURE__*/ S.suspend(() =>
     refresh: S.optional(TypesRefresh.pipe(T.Query())),
     password: S.optional(S.String),
     password_hash: S.optional(S.String.pipe(T.SensitiveValue({}))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_security/user/{username}/_password",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_security/user/{username}/_password", code: 200 })),
 ).annotate({
   identifier: "SecurityChangePassword1Request",
 }) as any as S.Schema<SecurityChangePassword1Request>;
@@ -82158,13 +79398,7 @@ export interface SecurityClearApiKeyCacheRequest {
 export const SecurityClearApiKeyCacheRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ids: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_security/api_key/{ids}/_clear_cache",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_security/api_key/{ids}/_clear_cache", code: 200 })),
 ).annotate({
   identifier: "SecurityClearApiKeyCacheRequest",
 }) as any as S.Schema<SecurityClearApiKeyCacheRequest>;
@@ -82203,11 +79437,7 @@ export const SecurityClearCachedPrivilegesRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     application: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_security/privilege/{application}/_clear_cache",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/_security/privilege/{application}/_clear_cache", code: 200 }),
   ),
 ).annotate({
   identifier: "SecurityClearCachedPrivilegesRequest",
@@ -82251,13 +79481,7 @@ export const SecurityClearCachedRealmsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     realms: S.String.pipe(T.Label()),
     usernames: S.optional(SecurityClearCachedRealmsRequestUsernamesList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_security/realm/{realms}/_clear_cache",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_security/realm/{realms}/_clear_cache", code: 200 })),
 ).annotate({
   identifier: "SecurityClearCachedRealmsRequest",
 }) as any as S.Schema<SecurityClearCachedRealmsRequest>;
@@ -82292,13 +79516,7 @@ export interface SecurityClearCachedRolesRequest {
 export const SecurityClearCachedRolesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_security/role/{name}/_clear_cache",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_security/role/{name}/_clear_cache", code: 200 })),
 ).annotate({
   identifier: "SecurityClearCachedRolesRequest",
 }) as any as S.Schema<SecurityClearCachedRolesRequest>;
@@ -82664,9 +79882,7 @@ export const SecurityTypesAccess = /*@__PURE__*/ S.suspend(() =>
     replication: S.optional(SecurityTypesAccessReplicationList),
     search: S.optional(SecurityTypesAccessSearchList),
   }),
-).annotate({
-  identifier: "SecurityTypesAccess",
-}) as any as S.Schema<SecurityTypesAccess>;
+).annotate({ identifier: "SecurityTypesAccess" }) as any as S.Schema<SecurityTypesAccess>;
 
 export interface SecurityCreateCrossClusterApiKeyRequest {
   /** The access to be granted to this API key. The access is composed of permissions for cross-cluster search and cross-cluster replication. At least one of them must be specified. NOTE: No explicit privileges should be specified for either search or replication access. The creation process automatically converts the access specification to a role descriptor which has relevant privileges assigned accordingly. */
@@ -82687,13 +79903,7 @@ export const SecurityCreateCrossClusterApiKeyRequest = /*@__PURE__*/ S.suspend((
     metadata: S.optional(TypesMetadata),
     name: S.String,
     certificate_identity: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_security/cross_cluster/api_key",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_security/cross_cluster/api_key", code: 200 })),
 ).annotate({
   identifier: "SecurityCreateCrossClusterApiKeyRequest",
 }) as any as S.Schema<SecurityCreateCrossClusterApiKeyRequest>;
@@ -82875,9 +80085,7 @@ export const SecurityDelegatePkiAuthenticationRolesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<SecurityDelegatePkiAuthenticationRolesList>;
 
-export type SecurityDelegatePkiAuthenticationTokenMap = {
-  [key: string]: string | undefined;
-};
+export type SecurityDelegatePkiAuthenticationTokenMap = { [key: string]: string | undefined };
 export const SecurityDelegatePkiAuthenticationTokenMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -82898,9 +80106,7 @@ export const SecurityDelegatePkiAuthenticationRealm = /*@__PURE__*/ S.suspend(()
   identifier: "SecurityDelegatePkiAuthenticationRealm",
 }) as any as S.Schema<SecurityDelegatePkiAuthenticationRealm>;
 
-export type SecurityDelegatePkiAuthenticationApiKeyMap = {
-  [key: string]: string | undefined;
-};
+export type SecurityDelegatePkiAuthenticationApiKeyMap = { [key: string]: string | undefined };
 export const SecurityDelegatePkiAuthenticationApiKeyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -82971,11 +80177,7 @@ export const SecurityDeletePrivilegesRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.Label()),
     refresh: S.optional(TypesRefresh.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/_security/privilege/{application}/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/_security/privilege/{application}/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "SecurityDeletePrivilegesRequest",
@@ -83052,13 +80254,7 @@ export const SecurityDeleteRoleMappingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
     refresh: S.optional(TypesRefresh.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/_security/role_mapping/{name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/_security/role_mapping/{name}", code: 200 })),
 ).annotate({
   identifier: "SecurityDeleteRoleMappingRequest",
 }) as any as S.Schema<SecurityDeleteRoleMappingRequest>;
@@ -83141,6 +80337,39 @@ export const SecurityDeleteUserResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "SecurityDeleteUserResponse",
 }) as any as S.Schema<SecurityDeleteUserResponse>;
 
+export interface SecurityDeleteUserManagedServiceAccountRequest {
+  /** The namespace, which is a top-level grouping of service accounts. It must start with a letter or digit and can contain only letters, digits, hyphens, and underscores, up to a maximum of 128 characters. It cannot be `elastic`, which is reserved for built-in service accounts. */
+  namespace: string;
+  /** The service name. It must start with a letter or digit and can contain only letters, digits, hyphens, and underscores, up to a maximum of 128 characters. */
+  service: string;
+  /** If `wait_for` (the default) then wait for a refresh to make this operation visible to search, if `true` then refresh the affected shards to make this operation visible to search, if `false` then do nothing with refreshes. */
+  refresh?: TypesRefresh | (string & {});
+  /** If `false` (the default), deleting a service account that still has service tokens is rejected. If `true`, the account is deleted and its tokens are left in place. */
+  force?: boolean;
+}
+export const SecurityDeleteUserManagedServiceAccountRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    namespace: S.String.pipe(T.Label()),
+    service: S.String.pipe(T.Label()),
+    refresh: S.optional(TypesRefresh.pipe(T.Query())),
+    force: S.optional(S.Boolean.pipe(T.Query())),
+  }).pipe(T.Http({ method: "DELETE", uri: "/_security/service/{namespace}/{service}", code: 200 })),
+).annotate({
+  identifier: "SecurityDeleteUserManagedServiceAccountRequest",
+}) as any as S.Schema<SecurityDeleteUserManagedServiceAccountRequest>;
+
+export interface SecurityDeleteUserManagedServiceAccountResponse {
+  /** If the service account is successfully deleted, the request returns `{"found": true}`. Otherwise, the response will have status code 404 and `found` is set to `false`. */
+  found: boolean;
+}
+export const SecurityDeleteUserManagedServiceAccountResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    found: S.Boolean,
+  }),
+).annotate({
+  identifier: "SecurityDeleteUserManagedServiceAccountResponse",
+}) as any as S.Schema<SecurityDeleteUserManagedServiceAccountResponse>;
+
 export interface SecurityDisableUserRequest {
   /** An identifier for the user. */
   username: string;
@@ -83151,13 +80380,7 @@ export const SecurityDisableUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String.pipe(T.Label()),
     refresh: S.optional(TypesRefresh.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_security/user/{username}/_disable",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_security/user/{username}/_disable", code: 200 })),
 ).annotate({
   identifier: "SecurityDisableUserRequest",
 }) as any as S.Schema<SecurityDisableUserRequest>;
@@ -83179,13 +80402,7 @@ export const SecurityDisableUser1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String.pipe(T.Label()),
     refresh: S.optional(TypesRefresh.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_security/user/{username}/_disable",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_security/user/{username}/_disable", code: 200 })),
 ).annotate({
   identifier: "SecurityDisableUser1Request",
 }) as any as S.Schema<SecurityDisableUser1Request>;
@@ -83207,13 +80424,7 @@ export const SecurityDisableUserProfileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uid: S.String.pipe(T.Label()),
     refresh: S.optional(TypesRefresh.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_security/profile/{uid}/_disable",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_security/profile/{uid}/_disable", code: 200 })),
 ).annotate({
   identifier: "SecurityDisableUserProfileRequest",
 }) as any as S.Schema<SecurityDisableUserProfileRequest>;
@@ -83228,13 +80439,7 @@ export const SecurityDisableUserProfile1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uid: S.String.pipe(T.Label()),
     refresh: S.optional(TypesRefresh.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_security/profile/{uid}/_disable",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_security/profile/{uid}/_disable", code: 200 })),
 ).annotate({
   identifier: "SecurityDisableUserProfile1Request",
 }) as any as S.Schema<SecurityDisableUserProfile1Request>;
@@ -83249,13 +80454,7 @@ export const SecurityEnableUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String.pipe(T.Label()),
     refresh: S.optional(TypesRefresh.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_security/user/{username}/_enable",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_security/user/{username}/_enable", code: 200 })),
 ).annotate({
   identifier: "SecurityEnableUserRequest",
 }) as any as S.Schema<SecurityEnableUserRequest>;
@@ -83277,13 +80476,7 @@ export const SecurityEnableUser1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String.pipe(T.Label()),
     refresh: S.optional(TypesRefresh.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_security/user/{username}/_enable",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_security/user/{username}/_enable", code: 200 })),
 ).annotate({
   identifier: "SecurityEnableUser1Request",
 }) as any as S.Schema<SecurityEnableUser1Request>;
@@ -83305,13 +80498,7 @@ export const SecurityEnableUserProfileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uid: S.String.pipe(T.Label()),
     refresh: S.optional(TypesRefresh.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_security/profile/{uid}/_enable",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_security/profile/{uid}/_enable", code: 200 })),
 ).annotate({
   identifier: "SecurityEnableUserProfileRequest",
 }) as any as S.Schema<SecurityEnableUserProfileRequest>;
@@ -83326,13 +80513,7 @@ export const SecurityEnableUserProfile1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uid: S.String.pipe(T.Label()),
     refresh: S.optional(TypesRefresh.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_security/profile/{uid}/_enable",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_security/profile/{uid}/_enable", code: 200 })),
 ).annotate({
   identifier: "SecurityEnableUserProfile1Request",
 }) as any as S.Schema<SecurityEnableUserProfile1Request>;
@@ -83442,9 +80623,7 @@ export const SecurityGetApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
     active_only: S.optional(S.Boolean.pipe(T.Query())),
     with_profile_uid: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_security/api_key", code: 200 })),
-).annotate({
-  identifier: "SecurityGetApiKeyRequest",
-}) as any as S.Schema<SecurityGetApiKeyRequest>;
+).annotate({ identifier: "SecurityGetApiKeyRequest" }) as any as S.Schema<SecurityGetApiKeyRequest>;
 
 export type SecurityTypesApiKeyType = "rest" | "cross_cluster";
 export const SecurityTypesApiKeyType = S.String;
@@ -83528,9 +80707,7 @@ export const SecurityTypesApiKey = /*@__PURE__*/ S.suspend(() =>
     profile_uid: S.optional(S.String),
     _sort: S.optional(TypesSortResults),
   }),
-).annotate({
-  identifier: "SecurityTypesApiKey",
-}) as any as S.Schema<SecurityTypesApiKey>;
+).annotate({ identifier: "SecurityTypesApiKey" }) as any as S.Schema<SecurityTypesApiKey>;
 
 export type SecurityGetApiKeyResponseApiKeysList = Array<SecurityTypesApiKey>;
 export const SecurityGetApiKeyResponseApiKeysList = /*@__PURE__*/ S.Array(
@@ -83651,13 +80828,7 @@ export interface SecurityGetPrivileges1Request {
 export const SecurityGetPrivileges1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     application: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_security/privilege/{application}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_security/privilege/{application}", code: 200 })),
 ).annotate({
   identifier: "SecurityGetPrivileges1Request",
 }) as any as S.Schema<SecurityGetPrivileges1Request>;
@@ -83695,13 +80866,7 @@ export const SecurityGetPrivileges2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     application: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_security/privilege/{application}/{name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_security/privilege/{application}/{name}", code: 200 })),
 ).annotate({
   identifier: "SecurityGetPrivileges2Request",
 }) as any as S.Schema<SecurityGetPrivileges2Request>;
@@ -83740,9 +80905,7 @@ export const SecurityGetRoleRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.Label()),
     include_implicit: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_security/role/{name}", code: 200 })),
-).annotate({
-  identifier: "SecurityGetRoleRequest",
-}) as any as S.Schema<SecurityGetRoleRequest>;
+).annotate({ identifier: "SecurityGetRoleRequest" }) as any as S.Schema<SecurityGetRoleRequest>;
 
 export type SecurityGetRoleRoleClusterList = Array<SecurityTypesClusterPrivilege>;
 export const SecurityGetRoleRoleClusterList = /*@__PURE__*/ S.Array(
@@ -83815,9 +80978,7 @@ export const SecurityGetRoleRoleRunAsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<SecurityGetRoleRoleRunAsList>;
 
-export type SecurityGetRoleRoleTransientMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type SecurityGetRoleRoleTransientMetadataMap = { [key: string]: unknown | undefined };
 export const SecurityGetRoleRoleTransientMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -83905,13 +81066,9 @@ export const SecurityGetRoleRole = /*@__PURE__*/ S.suspend(() =>
     role_templates: S.optional(SecurityGetRoleRoleRoleTemplatesList),
     global: S.optional(SecurityGetRoleRoleGlobalMap),
   }),
-).annotate({
-  identifier: "SecurityGetRoleRole",
-}) as any as S.Schema<SecurityGetRoleRole>;
+).annotate({ identifier: "SecurityGetRoleRole" }) as any as S.Schema<SecurityGetRoleRole>;
 
-export type SecurityGetRoleResponseBodyMap = {
-  [key: string]: SecurityGetRoleRole | undefined;
-};
+export type SecurityGetRoleResponseBodyMap = { [key: string]: SecurityGetRoleRole | undefined };
 export const SecurityGetRoleResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   SecurityGetRoleRole,
@@ -83920,9 +81077,7 @@ export const SecurityGetRoleResponseBodyMap = /*@__PURE__*/ S.Record(
 export type SecurityGetRoleResponse = SecurityGetRoleResponseBodyMap;
 export const SecurityGetRoleResponse = /*@__PURE__*/ S.suspend(() =>
   SecurityGetRoleResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "SecurityGetRoleResponse",
-}) as any as S.Schema<SecurityGetRoleResponse>;
+).annotate({ identifier: "SecurityGetRoleResponse" }) as any as S.Schema<SecurityGetRoleResponse>;
 
 export interface SecurityGetRole1Request {
   /** If `true`, include privileges that are implicitly granted by registered `ImplicitPrivilegesProviders` alongside the explicitly configured privileges. Each implicit entry in the response is annotated with `implicitly_granted: true`. */
@@ -83932,13 +81087,9 @@ export const SecurityGetRole1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     include_implicit: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_security/role", code: 200 })),
-).annotate({
-  identifier: "SecurityGetRole1Request",
-}) as any as S.Schema<SecurityGetRole1Request>;
+).annotate({ identifier: "SecurityGetRole1Request" }) as any as S.Schema<SecurityGetRole1Request>;
 
-export type SecurityGetRole1ResponseBodyMap = {
-  [key: string]: SecurityGetRoleRole | undefined;
-};
+export type SecurityGetRole1ResponseBodyMap = { [key: string]: SecurityGetRoleRole | undefined };
 export const SecurityGetRole1ResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   SecurityGetRoleRole,
@@ -83947,9 +81098,7 @@ export const SecurityGetRole1ResponseBodyMap = /*@__PURE__*/ S.Record(
 export type SecurityGetRole1Response = SecurityGetRole1ResponseBodyMap;
 export const SecurityGetRole1Response = /*@__PURE__*/ S.suspend(() =>
   SecurityGetRole1ResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "SecurityGetRole1Response",
-}) as any as S.Schema<SecurityGetRole1Response>;
+).annotate({ identifier: "SecurityGetRole1Response" }) as any as S.Schema<SecurityGetRole1Response>;
 
 export interface SecurityGetRoleMappingRequest {
   /** The distinct name that identifies the role mapping. The name is used solely as an identifier to facilitate interaction via the API; it does not affect the behavior of the mapping in any way. You can specify multiple mapping names as a comma-separated list. If you do not specify this parameter, the API returns information about all role mappings. */
@@ -84034,9 +81183,7 @@ export const SecurityTypesRoleMapping = /*@__PURE__*/ S.suspend(() =>
     role_templates: S.optional(SecurityTypesRoleMappingRoleTemplatesList),
     rules: SecurityTypesRoleMappingRule,
   }),
-).annotate({
-  identifier: "SecurityTypesRoleMapping",
-}) as any as S.Schema<SecurityTypesRoleMapping>;
+).annotate({ identifier: "SecurityTypesRoleMapping" }) as any as S.Schema<SecurityTypesRoleMapping>;
 
 export type SecurityGetRoleMappingResponseBodyMap = {
   [key: string]: SecurityTypesRoleMapping | undefined;
@@ -84075,26 +81222,43 @@ export const SecurityGetRoleMapping1Response = /*@__PURE__*/ S.suspend(() =>
   identifier: "SecurityGetRoleMapping1Response",
 }) as any as S.Schema<SecurityGetRoleMapping1Response>;
 
+export type SecurityGetServiceAccountsServiceAccountType = "built_in" | "user_managed";
+export const SecurityGetServiceAccountsServiceAccountType = S.String;
+
+export type SecurityGetServiceAccountsRequestTypeCase1List = Array<
+  SecurityGetServiceAccountsServiceAccountType | (string & {})
+>;
+export const SecurityGetServiceAccountsRequestTypeCase1List = /*@__PURE__*/ S.Array(
+  SecurityGetServiceAccountsServiceAccountType,
+) as any as S.Schema<SecurityGetServiceAccountsRequestTypeCase1List>;
+
+export type SecurityGetServiceAccountsRequestType =
+  | SecurityGetServiceAccountsServiceAccountType
+  | SecurityGetServiceAccountsRequestTypeCase1List;
+export const SecurityGetServiceAccountsRequestType =
+  S.Unknown as any as S.Schema<SecurityGetServiceAccountsRequestType>;
+
 export interface SecurityGetServiceAccountsRequest {
   /** The name of the namespace. Omit this parameter to retrieve information about all service accounts. If you omit this parameter, you must also omit the `service` parameter. */
   namespace: string;
   /** The service name. Omit this parameter to retrieve information about all service accounts that belong to the specified `namespace`. */
   service: string;
+  /** A comma-separated list of the kinds of service account to return. If it is omitted, it defaults to `built_in` when no namespace is given and to `built_in,user_managed` otherwise. */
+  type?: SecurityGetServiceAccountsRequestType;
 }
 export const SecurityGetServiceAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     service: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_security/service/{namespace}/{service}",
-      code: 200,
-    }),
-  ),
+    type: S.optional(SecurityGetServiceAccountsRequestType.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/_security/service/{namespace}/{service}", code: 200 })),
 ).annotate({
   identifier: "SecurityGetServiceAccountsRequest",
 }) as any as S.Schema<SecurityGetServiceAccountsRequest>;
+
+/** The account ships with Elasticsearch. */
+export type SecurityGetServiceAccountsBuiltInServiceAccountType = "built_in";
+export const SecurityGetServiceAccountsBuiltInServiceAccountType = S.String;
 
 /** A list of cluster privileges. These privileges define the cluster level actions that API keys are able to execute. */
 export type SecurityTypesRoleDescriptorReadClusterList = Array<SecurityTypesClusterPrivilege>;
@@ -84121,18 +81285,6 @@ export type SecurityTypesRoleDescriptorReadRemoteClusterList =
 export const SecurityTypesRoleDescriptorReadRemoteClusterList = /*@__PURE__*/ S.Array(
   SecurityTypesRemoteClusterPrivileges,
 ) as any as S.Schema<SecurityTypesRoleDescriptorReadRemoteClusterList>;
-
-export type SecurityTypesRoleDescriptorReadGlobalCase0List = Array<SecurityTypesGlobalPrivilege>;
-export const SecurityTypesRoleDescriptorReadGlobalCase0List = /*@__PURE__*/ S.Array(
-  SecurityTypesGlobalPrivilege,
-) as any as S.Schema<SecurityTypesRoleDescriptorReadGlobalCase0List>;
-
-/** An object defining global privileges. A global privilege is a form of cluster privilege that is request-aware. */
-export type SecurityTypesRoleDescriptorReadGlobal =
-  | SecurityTypesRoleDescriptorReadGlobalCase0List
-  | SecurityTypesGlobalPrivilege;
-export const SecurityTypesRoleDescriptorReadGlobal =
-  S.Unknown as any as S.Schema<SecurityTypesRoleDescriptorReadGlobal>;
 
 /** A list of application privilege entries */
 export type SecurityTypesRoleDescriptorReadApplicationsList =
@@ -84165,7 +81317,7 @@ export interface SecurityTypesRoleDescriptorRead {
   /** A list of cluster permissions for remote clusters. NOTE: This is limited a subset of the cluster permissions. */
   remote_cluster?: SecurityTypesRoleDescriptorReadRemoteClusterList;
   /** An object defining global privileges. A global privilege is a form of cluster privilege that is request-aware. */
-  global?: SecurityTypesRoleDescriptorReadGlobal;
+  global?: SecurityTypesGlobalPrivilege;
   /** A list of application privilege entries */
   applications?: SecurityTypesRoleDescriptorReadApplicationsList;
   /** Optional meta-data. Within the metadata object, keys that begin with `_` are reserved for system usage. */
@@ -84184,7 +81336,7 @@ export const SecurityTypesRoleDescriptorRead = /*@__PURE__*/ S.suspend(() =>
     indices: SecurityTypesRoleDescriptorReadIndicesList,
     remote_indices: S.optional(SecurityTypesRoleDescriptorReadRemoteIndicesList),
     remote_cluster: S.optional(SecurityTypesRoleDescriptorReadRemoteClusterList),
-    global: S.optional(SecurityTypesRoleDescriptorReadGlobal),
+    global: S.optional(SecurityTypesGlobalPrivilege),
     applications: S.optional(SecurityTypesRoleDescriptorReadApplicationsList),
     metadata: S.optional(TypesMetadata),
     run_as: S.optional(SecurityTypesRoleDescriptorReadRunAsList),
@@ -84196,23 +81348,65 @@ export const SecurityTypesRoleDescriptorRead = /*@__PURE__*/ S.suspend(() =>
   identifier: "SecurityTypesRoleDescriptorRead",
 }) as any as S.Schema<SecurityTypesRoleDescriptorRead>;
 
-export interface SecurityGetServiceAccountsRoleDescriptorWrapper {
+export interface SecurityGetServiceAccountsBuiltInServiceAccount {
+  /** The account ships with Elasticsearch. */
+  type: SecurityGetServiceAccountsBuiltInServiceAccountType;
+  /** The role descriptor declared for the account in the Elasticsearch distribution. */
   role_descriptor: SecurityTypesRoleDescriptorRead;
 }
-export const SecurityGetServiceAccountsRoleDescriptorWrapper = /*@__PURE__*/ S.suspend(() =>
+export const SecurityGetServiceAccountsBuiltInServiceAccount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    type: SecurityGetServiceAccountsBuiltInServiceAccountType,
     role_descriptor: SecurityTypesRoleDescriptorRead,
   }),
 ).annotate({
-  identifier: "SecurityGetServiceAccountsRoleDescriptorWrapper",
-}) as any as S.Schema<SecurityGetServiceAccountsRoleDescriptorWrapper>;
+  identifier: "SecurityGetServiceAccountsBuiltInServiceAccount",
+}) as any as S.Schema<SecurityGetServiceAccountsBuiltInServiceAccount>;
+
+/** The account was created with the put user-managed service account API. */
+export type SecurityGetServiceAccountsUserManagedServiceAccountType = "user_managed";
+export const SecurityGetServiceAccountsUserManagedServiceAccountType = S.String;
+
+/** The names of the roles granted to the account, as sent on the last PUT of the account. They are resolved when the account authenticates. */
+export type SecurityGetServiceAccountsUserManagedServiceAccountRolesList = Array<string>;
+export const SecurityGetServiceAccountsUserManagedServiceAccountRolesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SecurityGetServiceAccountsUserManagedServiceAccountRolesList>;
+
+export interface SecurityGetServiceAccountsUserManagedServiceAccount {
+  /** The account was created with the put user-managed service account API. */
+  type: SecurityGetServiceAccountsUserManagedServiceAccountType;
+  /** The names of the roles granted to the account, as sent on the last PUT of the account. They are resolved when the account authenticates. */
+  roles: SecurityGetServiceAccountsUserManagedServiceAccountRolesList;
+  /** Whether the account can authenticate. */
+  enabled: boolean;
+  /** A free-text description of the account, as sent on the last PUT of the account. It has no meaning to Elasticsearch. Absent when the account has no description. */
+  description?: string;
+}
+export const SecurityGetServiceAccountsUserManagedServiceAccount = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: SecurityGetServiceAccountsUserManagedServiceAccountType,
+    roles: SecurityGetServiceAccountsUserManagedServiceAccountRolesList,
+    enabled: S.Boolean,
+    description: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SecurityGetServiceAccountsUserManagedServiceAccount",
+}) as any as S.Schema<SecurityGetServiceAccountsUserManagedServiceAccount>;
+
+/** The two kinds of service account describe their privileges differently. A built-in account includes its role descriptor. A user-managed account includes its role names and whether it is enabled. */
+export type SecurityGetServiceAccountsServiceAccountInfo =
+  | SecurityGetServiceAccountsBuiltInServiceAccount
+  | SecurityGetServiceAccountsUserManagedServiceAccount;
+export const SecurityGetServiceAccountsServiceAccountInfo =
+  S.Unknown as any as S.Schema<SecurityGetServiceAccountsServiceAccountInfo>;
 
 export type SecurityGetServiceAccountsResponseBodyMap = {
-  [key: string]: SecurityGetServiceAccountsRoleDescriptorWrapper | undefined;
+  [key: string]: SecurityGetServiceAccountsServiceAccountInfo | undefined;
 };
 export const SecurityGetServiceAccountsResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
-  SecurityGetServiceAccountsRoleDescriptorWrapper,
+  SecurityGetServiceAccountsServiceAccountInfo,
 ) as any as S.Schema<SecurityGetServiceAccountsResponseBodyMap>;
 
 export type SecurityGetServiceAccountsResponse = SecurityGetServiceAccountsResponseBodyMap;
@@ -84222,24 +81416,40 @@ export const SecurityGetServiceAccountsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "SecurityGetServiceAccountsResponse",
 }) as any as S.Schema<SecurityGetServiceAccountsResponse>;
 
+export type SecurityGetServiceAccounts1RequestTypeCase1List = Array<
+  SecurityGetServiceAccountsServiceAccountType | (string & {})
+>;
+export const SecurityGetServiceAccounts1RequestTypeCase1List = /*@__PURE__*/ S.Array(
+  SecurityGetServiceAccountsServiceAccountType,
+) as any as S.Schema<SecurityGetServiceAccounts1RequestTypeCase1List>;
+
+export type SecurityGetServiceAccounts1RequestType =
+  | SecurityGetServiceAccountsServiceAccountType
+  | SecurityGetServiceAccounts1RequestTypeCase1List;
+export const SecurityGetServiceAccounts1RequestType =
+  S.Unknown as any as S.Schema<SecurityGetServiceAccounts1RequestType>;
+
 export interface SecurityGetServiceAccounts1Request {
   /** The name of the namespace. Omit this parameter to retrieve information about all service accounts. If you omit this parameter, you must also omit the `service` parameter. */
   namespace: string;
+  /** A comma-separated list of the kinds of service account to return. If it is omitted, it defaults to `built_in` when no namespace is given and to `built_in,user_managed` otherwise. */
+  type?: SecurityGetServiceAccounts1RequestType;
 }
 export const SecurityGetServiceAccounts1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
+    type: S.optional(SecurityGetServiceAccounts1RequestType.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_security/service/{namespace}", code: 200 })),
 ).annotate({
   identifier: "SecurityGetServiceAccounts1Request",
 }) as any as S.Schema<SecurityGetServiceAccounts1Request>;
 
 export type SecurityGetServiceAccounts1ResponseBodyMap = {
-  [key: string]: SecurityGetServiceAccountsRoleDescriptorWrapper | undefined;
+  [key: string]: SecurityGetServiceAccountsServiceAccountInfo | undefined;
 };
 export const SecurityGetServiceAccounts1ResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
-  SecurityGetServiceAccountsRoleDescriptorWrapper,
+  SecurityGetServiceAccountsServiceAccountInfo,
 ) as any as S.Schema<SecurityGetServiceAccounts1ResponseBodyMap>;
 
 export type SecurityGetServiceAccounts1Response = SecurityGetServiceAccounts1ResponseBodyMap;
@@ -84249,19 +81459,37 @@ export const SecurityGetServiceAccounts1Response = /*@__PURE__*/ S.suspend(() =>
   identifier: "SecurityGetServiceAccounts1Response",
 }) as any as S.Schema<SecurityGetServiceAccounts1Response>;
 
-export interface SecurityGetServiceAccounts2Request {}
+export type SecurityGetServiceAccounts2RequestTypeCase1List = Array<
+  SecurityGetServiceAccountsServiceAccountType | (string & {})
+>;
+export const SecurityGetServiceAccounts2RequestTypeCase1List = /*@__PURE__*/ S.Array(
+  SecurityGetServiceAccountsServiceAccountType,
+) as any as S.Schema<SecurityGetServiceAccounts2RequestTypeCase1List>;
+
+export type SecurityGetServiceAccounts2RequestType =
+  | SecurityGetServiceAccountsServiceAccountType
+  | SecurityGetServiceAccounts2RequestTypeCase1List;
+export const SecurityGetServiceAccounts2RequestType =
+  S.Unknown as any as S.Schema<SecurityGetServiceAccounts2RequestType>;
+
+export interface SecurityGetServiceAccounts2Request {
+  /** A comma-separated list of the kinds of service account to return. If it is omitted, it defaults to `built_in` when no namespace is given and to `built_in,user_managed` otherwise. */
+  type?: SecurityGetServiceAccounts2RequestType;
+}
 export const SecurityGetServiceAccounts2Request = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/_security/service", code: 200 })),
+  S.Struct({
+    type: S.optional(SecurityGetServiceAccounts2RequestType.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/_security/service", code: 200 })),
 ).annotate({
   identifier: "SecurityGetServiceAccounts2Request",
 }) as any as S.Schema<SecurityGetServiceAccounts2Request>;
 
 export type SecurityGetServiceAccounts2ResponseBodyMap = {
-  [key: string]: SecurityGetServiceAccountsRoleDescriptorWrapper | undefined;
+  [key: string]: SecurityGetServiceAccountsServiceAccountInfo | undefined;
 };
 export const SecurityGetServiceAccounts2ResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
-  SecurityGetServiceAccountsRoleDescriptorWrapper,
+  SecurityGetServiceAccountsServiceAccountInfo,
 ) as any as S.Schema<SecurityGetServiceAccounts2ResponseBodyMap>;
 
 export type SecurityGetServiceAccounts2Response = SecurityGetServiceAccounts2ResponseBodyMap;
@@ -84403,9 +81631,7 @@ export const SecurityGetSettingsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface SecurityGetStatsRequest {}
 export const SecurityGetStatsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/_security/stats", code: 200 })),
-).annotate({
-  identifier: "SecurityGetStatsRequest",
-}) as any as S.Schema<SecurityGetStatsRequest>;
+).annotate({ identifier: "SecurityGetStatsRequest" }) as any as S.Schema<SecurityGetStatsRequest>;
 
 export interface XpackUsageSecurityRolesDlsBitSetCache {
   /** Number of entries in the cache. */
@@ -84459,9 +81685,7 @@ export const SecurityTypesRolesStats = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dls: XpackUsageSecurityRolesDls,
   }),
-).annotate({
-  identifier: "SecurityTypesRolesStats",
-}) as any as S.Schema<SecurityTypesRolesStats>;
+).annotate({ identifier: "SecurityTypesRolesStats" }) as any as S.Schema<SecurityTypesRolesStats>;
 
 export interface SecurityTypesNodeSecurityStats {
   /** Role statistics. */
@@ -84492,19 +81716,18 @@ export const SecurityGetStatsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nodes: SecurityGetStatsResponseNodesMap,
   }),
-).annotate({
-  identifier: "SecurityGetStatsResponse",
-}) as any as S.Schema<SecurityGetStatsResponse>;
+).annotate({ identifier: "SecurityGetStatsResponse" }) as any as S.Schema<SecurityGetStatsResponse>;
 
 export type SecurityGetTokenAccessTokenGrantType =
   | "password"
   | "client_credentials"
   | "_kerberos"
-  | "refresh_token";
+  | "refresh_token"
+  | "_user_managed_service_account";
 export const SecurityGetTokenAccessTokenGrantType = S.String;
 
 export interface SecurityGetTokenRequest {
-  /** The type of grant. Supported grant types are: `password`, `_kerberos`, `client_credentials`, and `refresh_token`. */
+  /** The type of grant. Supported grant types are: `password`, `_kerberos`, `client_credentials`, `refresh_token`, and `_user_managed_service_account`. */
   grant_type?: SecurityGetTokenAccessTokenGrantType | (string & {});
   /** The scope of the token. Currently tokens are only issued for a scope of FULL regardless of the value sent with the request. */
   scope?: string;
@@ -84514,6 +81737,8 @@ export interface SecurityGetTokenRequest {
   kerberos_ticket?: string;
   /** The string that was returned when you created the token, which enables you to extend its life. If you specify the `refresh_token` grant type, this parameter is required. This parameter is not valid with any other supported grant type. */
   refresh_token?: string | Redacted.Redacted<string>;
+  /** The service account token of a user-managed service account, as returned by the create service account token API. If you specify the `_user_managed_service_account` grant type, this parameter is required. This parameter is not valid with any other supported grant type. */
+  service_account_token?: string;
   /** The username that identifies the user. If you specify the `password` grant type, this parameter is required. This parameter is not valid with any other supported grant type. */
   username?: string;
 }
@@ -84524,11 +81749,10 @@ export const SecurityGetTokenRequest = /*@__PURE__*/ S.suspend(() =>
     password: S.optional(S.String),
     kerberos_ticket: S.optional(S.String),
     refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+    service_account_token: S.optional(S.String),
     username: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/_security/oauth2/token", code: 200 })),
-).annotate({
-  identifier: "SecurityGetTokenRequest",
-}) as any as S.Schema<SecurityGetTokenRequest>;
+).annotate({ identifier: "SecurityGetTokenRequest" }) as any as S.Schema<SecurityGetTokenRequest>;
 
 export type SecurityGetTokenAuthenticatedUserRolesList = Array<string>;
 export const SecurityGetTokenAuthenticatedUserRolesList = /*@__PURE__*/ S.Array(
@@ -84601,9 +81825,7 @@ export const SecurityGetTokenResponse = /*@__PURE__*/ S.suspend(() =>
     kerberos_authentication_response_token: S.optional(S.String),
     authentication: SecurityGetTokenAuthenticatedUser,
   }),
-).annotate({
-  identifier: "SecurityGetTokenResponse",
-}) as any as S.Schema<SecurityGetTokenResponse>;
+).annotate({ identifier: "SecurityGetTokenResponse" }) as any as S.Schema<SecurityGetTokenResponse>;
 
 export interface SecurityGetUserRequest {
   /** An identifier for the user. You can specify multiple usernames as a comma-separated list. If you omit this parameter, the API retrieves information about all users. */
@@ -84616,9 +81838,7 @@ export const SecurityGetUserRequest = /*@__PURE__*/ S.suspend(() =>
     username: S.String.pipe(T.Label()),
     with_profile_uid: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_security/user/{username}", code: 200 })),
-).annotate({
-  identifier: "SecurityGetUserRequest",
-}) as any as S.Schema<SecurityGetUserRequest>;
+).annotate({ identifier: "SecurityGetUserRequest" }) as any as S.Schema<SecurityGetUserRequest>;
 
 export type SecurityTypesUserRolesList = Array<string>;
 export const SecurityTypesUserRolesList = /*@__PURE__*/ S.Array(
@@ -84644,13 +81864,9 @@ export const SecurityTypesUser = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     profile_uid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SecurityTypesUser",
-}) as any as S.Schema<SecurityTypesUser>;
+).annotate({ identifier: "SecurityTypesUser" }) as any as S.Schema<SecurityTypesUser>;
 
-export type SecurityGetUserResponseBodyMap = {
-  [key: string]: SecurityTypesUser | undefined;
-};
+export type SecurityGetUserResponseBodyMap = { [key: string]: SecurityTypesUser | undefined };
 export const SecurityGetUserResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   SecurityTypesUser,
@@ -84659,9 +81875,7 @@ export const SecurityGetUserResponseBodyMap = /*@__PURE__*/ S.Record(
 export type SecurityGetUserResponse = SecurityGetUserResponseBodyMap;
 export const SecurityGetUserResponse = /*@__PURE__*/ S.suspend(() =>
   SecurityGetUserResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "SecurityGetUserResponse",
-}) as any as S.Schema<SecurityGetUserResponse>;
+).annotate({ identifier: "SecurityGetUserResponse" }) as any as S.Schema<SecurityGetUserResponse>;
 
 export interface SecurityGetUser1Request {
   /** Determines whether to retrieve the user profile UID, if it exists, for the users. */
@@ -84671,13 +81885,9 @@ export const SecurityGetUser1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     with_profile_uid: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_security/user", code: 200 })),
-).annotate({
-  identifier: "SecurityGetUser1Request",
-}) as any as S.Schema<SecurityGetUser1Request>;
+).annotate({ identifier: "SecurityGetUser1Request" }) as any as S.Schema<SecurityGetUser1Request>;
 
-export type SecurityGetUser1ResponseBodyMap = {
-  [key: string]: SecurityTypesUser | undefined;
-};
+export type SecurityGetUser1ResponseBodyMap = { [key: string]: SecurityTypesUser | undefined };
 export const SecurityGetUser1ResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   SecurityTypesUser,
@@ -84686,9 +81896,7 @@ export const SecurityGetUser1ResponseBodyMap = /*@__PURE__*/ S.Record(
 export type SecurityGetUser1Response = SecurityGetUser1ResponseBodyMap;
 export const SecurityGetUser1Response = /*@__PURE__*/ S.suspend(() =>
   SecurityGetUser1ResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "SecurityGetUser1Response",
-}) as any as S.Schema<SecurityGetUser1Response>;
+).annotate({ identifier: "SecurityGetUser1Response" }) as any as S.Schema<SecurityGetUser1Response>;
 
 export interface SecurityGetUserPrivilegesRequest {}
 export const SecurityGetUserPrivilegesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -84902,17 +82110,13 @@ export const SecurityGetUserProfileRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "SecurityGetUserProfileRequest",
 }) as any as S.Schema<SecurityGetUserProfileRequest>;
 
-export type SecurityTypesUserProfileWithMetadataDataMap = {
-  [key: string]: unknown | undefined;
-};
+export type SecurityTypesUserProfileWithMetadataDataMap = { [key: string]: unknown | undefined };
 export const SecurityTypesUserProfileWithMetadataDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<SecurityTypesUserProfileWithMetadataDataMap>;
 
-export type SecurityTypesUserProfileWithMetadataLabelsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SecurityTypesUserProfileWithMetadataLabelsMap = { [key: string]: unknown | undefined };
 export const SecurityTypesUserProfileWithMetadataLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -85168,20 +82372,12 @@ export const SecurityHasPrivilegesRequest = /*@__PURE__*/ S.suspend(() =>
     application: S.optional(SecurityHasPrivilegesRequestApplicationList),
     cluster: S.optional(SecurityHasPrivilegesRequestClusterList),
     index: S.optional(SecurityHasPrivilegesRequestIndexList),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_security/user/_has_privileges",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_security/user/_has_privileges", code: 200 })),
 ).annotate({
   identifier: "SecurityHasPrivilegesRequest",
 }) as any as S.Schema<SecurityHasPrivilegesRequest>;
 
-export type SecurityHasPrivilegesPrivileges = {
-  [key: string]: boolean | undefined;
-};
+export type SecurityHasPrivilegesPrivileges = { [key: string]: boolean | undefined };
 export const SecurityHasPrivilegesPrivileges = /*@__PURE__*/ S.Record(
   S.String,
   S.Boolean,
@@ -85203,9 +82399,7 @@ export const SecurityHasPrivilegesApplicationsPrivileges = /*@__PURE__*/ S.Recor
   SecurityHasPrivilegesResourcePrivileges,
 ) as any as S.Schema<SecurityHasPrivilegesApplicationsPrivileges>;
 
-export type SecurityHasPrivilegesResponseClusterMap = {
-  [key: string]: boolean | undefined;
-};
+export type SecurityHasPrivilegesResponseClusterMap = { [key: string]: boolean | undefined };
 export const SecurityHasPrivilegesResponseClusterMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Boolean,
@@ -85267,20 +82461,12 @@ export const SecurityHasPrivileges1Request = /*@__PURE__*/ S.suspend(() =>
     application: S.optional(SecurityHasPrivileges1RequestApplicationList),
     cluster: S.optional(SecurityHasPrivileges1RequestClusterList),
     index: S.optional(SecurityHasPrivileges1RequestIndexList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_security/user/_has_privileges",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_security/user/_has_privileges", code: 200 })),
 ).annotate({
   identifier: "SecurityHasPrivileges1Request",
 }) as any as S.Schema<SecurityHasPrivileges1Request>;
 
-export type SecurityHasPrivileges1ResponseClusterMap = {
-  [key: string]: boolean | undefined;
-};
+export type SecurityHasPrivileges1ResponseClusterMap = { [key: string]: boolean | undefined };
 export const SecurityHasPrivileges1ResponseClusterMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Boolean,
@@ -85345,20 +82531,12 @@ export const SecurityHasPrivileges2Request = /*@__PURE__*/ S.suspend(() =>
     application: S.optional(SecurityHasPrivileges2RequestApplicationList),
     cluster: S.optional(SecurityHasPrivileges2RequestClusterList),
     index: S.optional(SecurityHasPrivileges2RequestIndexList),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_security/user/{user}/_has_privileges",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_security/user/{user}/_has_privileges", code: 200 })),
 ).annotate({
   identifier: "SecurityHasPrivileges2Request",
 }) as any as S.Schema<SecurityHasPrivileges2Request>;
 
-export type SecurityHasPrivileges2ResponseClusterMap = {
-  [key: string]: boolean | undefined;
-};
+export type SecurityHasPrivileges2ResponseClusterMap = { [key: string]: boolean | undefined };
 export const SecurityHasPrivileges2ResponseClusterMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Boolean,
@@ -85423,20 +82601,12 @@ export const SecurityHasPrivileges3Request = /*@__PURE__*/ S.suspend(() =>
     application: S.optional(SecurityHasPrivileges3RequestApplicationList),
     cluster: S.optional(SecurityHasPrivileges3RequestClusterList),
     index: S.optional(SecurityHasPrivileges3RequestIndexList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_security/user/{user}/_has_privileges",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_security/user/{user}/_has_privileges", code: 200 })),
 ).annotate({
   identifier: "SecurityHasPrivileges3Request",
 }) as any as S.Schema<SecurityHasPrivileges3Request>;
 
-export type SecurityHasPrivileges3ResponseClusterMap = {
-  [key: string]: boolean | undefined;
-};
+export type SecurityHasPrivileges3ResponseClusterMap = { [key: string]: boolean | undefined };
 export const SecurityHasPrivileges3ResponseClusterMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Boolean,
@@ -85520,13 +82690,7 @@ export const SecurityHasPrivilegesUserProfileRequest = /*@__PURE__*/ S.suspend((
   S.Struct({
     uids: SecurityHasPrivilegesUserProfileRequestUidsList,
     privileges: SecurityHasPrivilegesUserProfilePrivilegesCheck,
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_security/profile/_has_privileges",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_security/profile/_has_privileges", code: 200 })),
 ).annotate({
   identifier: "SecurityHasPrivilegesUserProfileRequest",
 }) as any as S.Schema<SecurityHasPrivilegesUserProfileRequest>;
@@ -85591,13 +82755,7 @@ export const SecurityHasPrivilegesUserProfile1Request = /*@__PURE__*/ S.suspend(
   S.Struct({
     uids: SecurityHasPrivilegesUserProfile1RequestUidsList,
     privileges: SecurityHasPrivilegesUserProfilePrivilegesCheck,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_security/profile/_has_privileges",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_security/profile/_has_privileges", code: 200 })),
 ).annotate({
   identifier: "SecurityHasPrivilegesUserProfile1Request",
 }) as any as S.Schema<SecurityHasPrivilegesUserProfile1Request>;
@@ -85916,9 +83074,7 @@ export const SecurityPutRoleRequestClusterList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<SecurityPutRoleRequestClusterList>;
 
 /** An object defining global privileges. A global privilege is a form of cluster privilege that is request-aware. Support for global privileges is currently limited to the management of application privileges. */
-export type SecurityPutRoleRequestGlobalMap = {
-  [key: string]: unknown | undefined;
-};
+export type SecurityPutRoleRequestGlobalMap = { [key: string]: unknown | undefined };
 export const SecurityPutRoleRequestGlobalMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -85949,9 +83105,7 @@ export const SecurityPutRoleRequestRunAsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<SecurityPutRoleRequestRunAsList>;
 
 /** Indicates roles that might be incompatible with the current cluster license, specifically roles with document and field level security. When the cluster license doesn’t allow certain features for a given role, this parameter is updated dynamically to list the incompatible features. If `enabled` is `false`, the role is ignored, but is still listed in the response from the authenticate API. */
-export type SecurityPutRoleRequestTransientMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type SecurityPutRoleRequestTransientMetadataMap = { [key: string]: unknown | undefined };
 export const SecurityPutRoleRequestTransientMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -85998,9 +83152,7 @@ export const SecurityPutRoleRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     transient_metadata: S.optional(SecurityPutRoleRequestTransientMetadataMap),
   }).pipe(T.Http({ method: "PUT", uri: "/_security/role/{name}", code: 200 })),
-).annotate({
-  identifier: "SecurityPutRoleRequest",
-}) as any as S.Schema<SecurityPutRoleRequest>;
+).annotate({ identifier: "SecurityPutRoleRequest" }) as any as S.Schema<SecurityPutRoleRequest>;
 
 export interface SecurityPutRoleResponse {
   /** When an existing role is updated, `created` is set to `false`. */
@@ -86010,9 +83162,7 @@ export const SecurityPutRoleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     role: SecurityTypesCreatedStatus,
   }),
-).annotate({
-  identifier: "SecurityPutRoleResponse",
-}) as any as S.Schema<SecurityPutRoleResponse>;
+).annotate({ identifier: "SecurityPutRoleResponse" }) as any as S.Schema<SecurityPutRoleResponse>;
 
 /** A list of application privilege entries. */
 export type SecurityPutRole1RequestApplicationsList = Array<SecurityTypesApplicationPrivileges>;
@@ -86027,9 +83177,7 @@ export const SecurityPutRole1RequestClusterList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<SecurityPutRole1RequestClusterList>;
 
 /** An object defining global privileges. A global privilege is a form of cluster privilege that is request-aware. Support for global privileges is currently limited to the management of application privileges. */
-export type SecurityPutRole1RequestGlobalMap = {
-  [key: string]: unknown | undefined;
-};
+export type SecurityPutRole1RequestGlobalMap = { [key: string]: unknown | undefined };
 export const SecurityPutRole1RequestGlobalMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -86060,9 +83208,7 @@ export const SecurityPutRole1RequestRunAsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<SecurityPutRole1RequestRunAsList>;
 
 /** Indicates roles that might be incompatible with the current cluster license, specifically roles with document and field level security. When the cluster license doesn’t allow certain features for a given role, this parameter is updated dynamically to list the incompatible features. If `enabled` is `false`, the role is ignored, but is still listed in the response from the authenticate API. */
-export type SecurityPutRole1RequestTransientMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type SecurityPutRole1RequestTransientMetadataMap = { [key: string]: unknown | undefined };
 export const SecurityPutRole1RequestTransientMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -86109,9 +83255,7 @@ export const SecurityPutRole1Request = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     transient_metadata: S.optional(SecurityPutRole1RequestTransientMetadataMap),
   }).pipe(T.Http({ method: "POST", uri: "/_security/role/{name}", code: 200 })),
-).annotate({
-  identifier: "SecurityPutRole1Request",
-}) as any as S.Schema<SecurityPutRole1Request>;
+).annotate({ identifier: "SecurityPutRole1Request" }) as any as S.Schema<SecurityPutRole1Request>;
 
 export interface SecurityPutRole1Response {
   /** When an existing role is updated, `created` is set to `false`. */
@@ -86121,9 +83265,7 @@ export const SecurityPutRole1Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     role: SecurityTypesCreatedStatus,
   }),
-).annotate({
-  identifier: "SecurityPutRole1Response",
-}) as any as S.Schema<SecurityPutRole1Response>;
+).annotate({ identifier: "SecurityPutRole1Response" }) as any as S.Schema<SecurityPutRole1Response>;
 
 /** A list of role names that are granted to the users that match the role mapping rules. Exactly one of `roles` or `role_templates` must be specified. */
 export type SecurityPutRoleMappingRequestRolesList = Array<string>;
@@ -86231,13 +83373,7 @@ export const SecurityPutRoleMapping1Request = /*@__PURE__*/ S.suspend(() =>
     role_templates: S.optional(SecurityPutRoleMapping1RequestRoleTemplatesList),
     rules: S.optional(SecurityTypesRoleMappingRule),
     run_as: S.optional(SecurityPutRoleMapping1RequestRunAsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_security/role_mapping/{name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_security/role_mapping/{name}", code: 200 })),
 ).annotate({
   identifier: "SecurityPutRoleMapping1Request",
 }) as any as S.Schema<SecurityPutRoleMapping1Request>;
@@ -86293,9 +83429,7 @@ export const SecurityPutUserRequest = /*@__PURE__*/ S.suspend(() =>
     roles: S.optional(SecurityPutUserRequestRolesList),
     enabled: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PUT", uri: "/_security/user/{username}", code: 200 })),
-).annotate({
-  identifier: "SecurityPutUserRequest",
-}) as any as S.Schema<SecurityPutUserRequest>;
+).annotate({ identifier: "SecurityPutUserRequest" }) as any as S.Schema<SecurityPutUserRequest>;
 
 export interface SecurityPutUserResponse {
   /** A successful call returns a JSON structure that shows whether the user has been created or updated. When an existing user is updated, `created` is set to `false`. */
@@ -86305,9 +83439,7 @@ export const SecurityPutUserResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     created: S.Boolean,
   }),
-).annotate({
-  identifier: "SecurityPutUserResponse",
-}) as any as S.Schema<SecurityPutUserResponse>;
+).annotate({ identifier: "SecurityPutUserResponse" }) as any as S.Schema<SecurityPutUserResponse>;
 
 /** A set of roles the user has. The roles determine the user's access permissions. To create a user without any roles, specify an empty list (`[]`). */
 export type SecurityPutUser1RequestRolesList = Array<string>;
@@ -86347,9 +83479,7 @@ export const SecurityPutUser1Request = /*@__PURE__*/ S.suspend(() =>
     roles: S.optional(SecurityPutUser1RequestRolesList),
     enabled: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/_security/user/{username}", code: 200 })),
-).annotate({
-  identifier: "SecurityPutUser1Request",
-}) as any as S.Schema<SecurityPutUser1Request>;
+).annotate({ identifier: "SecurityPutUser1Request" }) as any as S.Schema<SecurityPutUser1Request>;
 
 export interface SecurityPutUser1Response {
   /** A successful call returns a JSON structure that shows whether the user has been created or updated. When an existing user is updated, `created` is set to `false`. */
@@ -86359,9 +83489,52 @@ export const SecurityPutUser1Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     created: S.Boolean,
   }),
+).annotate({ identifier: "SecurityPutUser1Response" }) as any as S.Schema<SecurityPutUser1Response>;
+
+/** The names of the roles to grant to the service account, up to a maximum of 1000. The roles are resolved when the account authenticates, so they do not have to exist yet. */
+export type SecurityPutUserManagedServiceAccountRequestRolesList = Array<string>;
+export const SecurityPutUserManagedServiceAccountRequestRolesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SecurityPutUserManagedServiceAccountRequestRolesList>;
+
+export interface SecurityPutUserManagedServiceAccountRequest {
+  /** The namespace, which is a top-level grouping of service accounts. It must start with a letter or digit and can contain only letters, digits, hyphens, and underscores, up to a maximum of 128 characters. It cannot be `elastic`, which is reserved for built-in service accounts. */
+  namespace: string;
+  /** The service name. It must start with a letter or digit and can contain only letters, digits, hyphens, and underscores, up to a maximum of 128 characters. */
+  service: string;
+  /** If `wait_for` (the default) then wait for a refresh to make this operation visible to search, if `true` then refresh the affected shards to make this operation visible to search, if `false` then do nothing with refreshes. */
+  refresh?: TypesRefresh | (string & {});
+  /** The names of the roles to grant to the service account, up to a maximum of 1000. The roles are resolved when the account authenticates, so they do not have to exist yet. */
+  roles: SecurityPutUserManagedServiceAccountRequestRolesList;
+  /** Whether the account can authenticate. Tokens can still be created for a disabled account; they just cannot be used until the account is enabled. */
+  enabled?: boolean;
+  /** A free-text description of the account, as sent on the last PUT of the account. It has no meaning to Elasticsearch. Absent when the account has no description. */
+  description?: string;
+}
+export const SecurityPutUserManagedServiceAccountRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    namespace: S.String.pipe(T.Label()),
+    service: S.String.pipe(T.Label()),
+    refresh: S.optional(TypesRefresh.pipe(T.Query())),
+    roles: SecurityPutUserManagedServiceAccountRequestRolesList,
+    enabled: S.optional(S.Boolean),
+    description: S.optional(S.String),
+  }).pipe(T.Http({ method: "PUT", uri: "/_security/service/{namespace}/{service}", code: 200 })),
 ).annotate({
-  identifier: "SecurityPutUser1Response",
-}) as any as S.Schema<SecurityPutUser1Response>;
+  identifier: "SecurityPutUserManagedServiceAccountRequest",
+}) as any as S.Schema<SecurityPutUserManagedServiceAccountRequest>;
+
+export interface SecurityPutUserManagedServiceAccountResponse {
+  /** A successful call returns a JSON structure that shows whether the service account has been created or updated. When an existing service account is replaced, `created` is set to `false`. */
+  created: boolean;
+}
+export const SecurityPutUserManagedServiceAccountResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    created: S.Boolean,
+  }),
+).annotate({
+  identifier: "SecurityPutUserManagedServiceAccountResponse",
+}) as any as S.Schema<SecurityPutUserManagedServiceAccountResponse>;
 
 /** Sub-aggregations for this aggregation. Only applies to bucket aggregations. */
 export type SecurityQueryApiKeysApiKeyAggregationContainerAggregationsMap = {
@@ -86827,9 +84000,7 @@ export const SecurityQueryRoleRequest = /*@__PURE__*/ S.suspend(() =>
     size: S.optional(S.Number),
     search_after: S.optional(TypesSortResults),
   }).pipe(T.Http({ method: "GET", uri: "/_security/_query/role", code: 200 })),
-).annotate({
-  identifier: "SecurityQueryRoleRequest",
-}) as any as S.Schema<SecurityQueryRoleRequest>;
+).annotate({ identifier: "SecurityQueryRoleRequest" }) as any as S.Schema<SecurityQueryRoleRequest>;
 
 /** A list of cluster privileges. These privileges define the cluster level actions that API keys are able to execute. */
 export type SecurityQueryRoleQueryRoleClusterList = Array<SecurityTypesClusterPrivilege>;
@@ -86857,18 +84028,6 @@ export const SecurityQueryRoleQueryRoleRemoteClusterList = /*@__PURE__*/ S.Array
   SecurityTypesRemoteClusterPrivileges,
 ) as any as S.Schema<SecurityQueryRoleQueryRoleRemoteClusterList>;
 
-export type SecurityQueryRoleQueryRoleGlobalCase0List = Array<SecurityTypesGlobalPrivilege>;
-export const SecurityQueryRoleQueryRoleGlobalCase0List = /*@__PURE__*/ S.Array(
-  SecurityTypesGlobalPrivilege,
-) as any as S.Schema<SecurityQueryRoleQueryRoleGlobalCase0List>;
-
-/** An object defining global privileges. A global privilege is a form of cluster privilege that is request-aware. */
-export type SecurityQueryRoleQueryRoleGlobal =
-  | SecurityQueryRoleQueryRoleGlobalCase0List
-  | SecurityTypesGlobalPrivilege;
-export const SecurityQueryRoleQueryRoleGlobal =
-  S.Unknown as any as S.Schema<SecurityQueryRoleQueryRoleGlobal>;
-
 /** A list of application privilege entries */
 export type SecurityQueryRoleQueryRoleApplicationsList = Array<SecurityTypesApplicationPrivileges>;
 export const SecurityQueryRoleQueryRoleApplicationsList = /*@__PURE__*/ S.Array(
@@ -86881,9 +84040,7 @@ export const SecurityQueryRoleQueryRoleRunAsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<SecurityQueryRoleQueryRoleRunAsList>;
 
-export type SecurityQueryRoleQueryRoleTransientMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type SecurityQueryRoleQueryRoleTransientMetadataMap = { [key: string]: unknown | undefined };
 export const SecurityQueryRoleQueryRoleTransientMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -86899,7 +84056,7 @@ export interface SecurityQueryRoleQueryRole {
   /** A list of cluster permissions for remote clusters. NOTE: This is limited a subset of the cluster permissions. */
   remote_cluster?: SecurityQueryRoleQueryRoleRemoteClusterList;
   /** An object defining global privileges. A global privilege is a form of cluster privilege that is request-aware. */
-  global?: SecurityQueryRoleQueryRoleGlobal;
+  global?: SecurityTypesGlobalPrivilege;
   /** A list of application privilege entries */
   applications?: SecurityQueryRoleQueryRoleApplicationsList;
   /** Optional meta-data. Within the metadata object, keys that begin with `_` are reserved for system usage. */
@@ -86921,7 +84078,7 @@ export const SecurityQueryRoleQueryRole = /*@__PURE__*/ S.suspend(() =>
     indices: S.optional(SecurityQueryRoleQueryRoleIndicesList),
     remote_indices: S.optional(SecurityQueryRoleQueryRoleRemoteIndicesList),
     remote_cluster: S.optional(SecurityQueryRoleQueryRoleRemoteClusterList),
-    global: S.optional(SecurityQueryRoleQueryRoleGlobal),
+    global: S.optional(SecurityTypesGlobalPrivilege),
     applications: S.optional(SecurityQueryRoleQueryRoleApplicationsList),
     metadata: S.optional(TypesMetadata),
     run_as: S.optional(SecurityQueryRoleQueryRoleRunAsList),
@@ -87117,9 +84274,7 @@ export const SecurityQueryUserRequest = /*@__PURE__*/ S.suspend(() =>
     size: S.optional(S.Number),
     search_after: S.optional(TypesSortResults),
   }).pipe(T.Http({ method: "GET", uri: "/_security/_query/user", code: 200 })),
-).annotate({
-  identifier: "SecurityQueryUserRequest",
-}) as any as S.Schema<SecurityQueryUserRequest>;
+).annotate({ identifier: "SecurityQueryUserRequest" }) as any as S.Schema<SecurityQueryUserRequest>;
 
 export type SecurityQueryUserQueryUserRolesList = Array<string>;
 export const SecurityQueryUserQueryUserRolesList = /*@__PURE__*/ S.Array(
@@ -87269,13 +84424,7 @@ export interface SecuritySamlServiceProviderMetadataRequest {
 export const SecuritySamlServiceProviderMetadataRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     realm_name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_security/saml/metadata/{realm_name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_security/saml/metadata/{realm_name}", code: 200 })),
 ).annotate({
   identifier: "SecuritySamlServiceProviderMetadataRequest",
 }) as any as S.Schema<SecuritySamlServiceProviderMetadataRequest>;
@@ -87378,17 +84527,13 @@ export const SecuritySuggestUserProfilesTotalUserProfiles = /*@__PURE__*/ S.susp
   identifier: "SecuritySuggestUserProfilesTotalUserProfiles",
 }) as any as S.Schema<SecuritySuggestUserProfilesTotalUserProfiles>;
 
-export type SecurityTypesUserProfileDataMap = {
-  [key: string]: unknown | undefined;
-};
+export type SecurityTypesUserProfileDataMap = { [key: string]: unknown | undefined };
 export const SecurityTypesUserProfileDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<SecurityTypesUserProfileDataMap>;
 
-export type SecurityTypesUserProfileLabelsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SecurityTypesUserProfileLabelsMap = { [key: string]: unknown | undefined };
 export const SecurityTypesUserProfileLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -87409,9 +84554,7 @@ export const SecurityTypesUserProfile = /*@__PURE__*/ S.suspend(() =>
     labels: SecurityTypesUserProfileLabelsMap,
     enabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SecurityTypesUserProfile",
-}) as any as S.Schema<SecurityTypesUserProfile>;
+).annotate({ identifier: "SecurityTypesUserProfile" }) as any as S.Schema<SecurityTypesUserProfile>;
 
 /** A list of profile documents, ordered by relevance, that match the search criteria. */
 export type SecuritySuggestUserProfilesResponseProfilesList = Array<SecurityTypesUserProfile>;
@@ -87554,13 +84697,7 @@ export const SecurityUpdateCrossClusterApiKeyRequest = /*@__PURE__*/ S.suspend((
     expiration: S.optional(TypesDuration),
     metadata: S.optional(TypesMetadata),
     certificate_identity: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_security/cross_cluster/api_key/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_security/cross_cluster/api_key/{id}", code: 200 })),
 ).annotate({
   identifier: "SecurityUpdateCrossClusterApiKeyRequest",
 }) as any as S.Schema<SecurityUpdateCrossClusterApiKeyRequest>;
@@ -87613,18 +84750,14 @@ export const SecurityUpdateSettingsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SecurityUpdateSettingsResponse>;
 
 /** Searchable data that you want to associate with the user profile. This field supports a nested data structure. Within the labels object, top-level keys cannot begin with an underscore (`_`) or contain a period (`.`). */
-export type SecurityUpdateUserProfileDataRequestLabelsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SecurityUpdateUserProfileDataRequestLabelsMap = { [key: string]: unknown | undefined };
 export const SecurityUpdateUserProfileDataRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<SecurityUpdateUserProfileDataRequestLabelsMap>;
 
 /** Non-searchable data that you want to associate with the user profile. This field supports a nested data structure. Within the `data` object, top-level keys cannot begin with an underscore (`_`) or contain a period (`.`). The data object is not searchable, but can be retrieved with the get user profile API. */
-export type SecurityUpdateUserProfileDataRequestDataMap = {
-  [key: string]: unknown | undefined;
-};
+export type SecurityUpdateUserProfileDataRequestDataMap = { [key: string]: unknown | undefined };
 export const SecurityUpdateUserProfileDataRequestDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -87652,30 +84785,20 @@ export const SecurityUpdateUserProfileDataRequest = /*@__PURE__*/ S.suspend(() =
     refresh: S.optional(TypesRefresh.pipe(T.Query())),
     labels: S.optional(SecurityUpdateUserProfileDataRequestLabelsMap),
     data: S.optional(SecurityUpdateUserProfileDataRequestDataMap),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_security/profile/{uid}/_data",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_security/profile/{uid}/_data", code: 200 })),
 ).annotate({
   identifier: "SecurityUpdateUserProfileDataRequest",
 }) as any as S.Schema<SecurityUpdateUserProfileDataRequest>;
 
 /** Searchable data that you want to associate with the user profile. This field supports a nested data structure. Within the labels object, top-level keys cannot begin with an underscore (`_`) or contain a period (`.`). */
-export type SecurityUpdateUserProfileData1RequestLabelsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SecurityUpdateUserProfileData1RequestLabelsMap = { [key: string]: unknown | undefined };
 export const SecurityUpdateUserProfileData1RequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<SecurityUpdateUserProfileData1RequestLabelsMap>;
 
 /** Non-searchable data that you want to associate with the user profile. This field supports a nested data structure. Within the `data` object, top-level keys cannot begin with an underscore (`_`) or contain a period (`.`). The data object is not searchable, but can be retrieved with the get user profile API. */
-export type SecurityUpdateUserProfileData1RequestDataMap = {
-  [key: string]: unknown | undefined;
-};
+export type SecurityUpdateUserProfileData1RequestDataMap = { [key: string]: unknown | undefined };
 export const SecurityUpdateUserProfileData1RequestDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -87703,13 +84826,7 @@ export const SecurityUpdateUserProfileData1Request = /*@__PURE__*/ S.suspend(() 
     refresh: S.optional(TypesRefresh.pipe(T.Query())),
     labels: S.optional(SecurityUpdateUserProfileData1RequestLabelsMap),
     data: S.optional(SecurityUpdateUserProfileData1RequestDataMap),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_security/profile/{uid}/_data",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_security/profile/{uid}/_data", code: 200 })),
 ).annotate({
   identifier: "SecurityUpdateUserProfileData1Request",
 }) as any as S.Schema<SecurityUpdateUserProfileData1Request>;
@@ -87901,9 +85018,7 @@ export const SimulateIngestRequest = /*@__PURE__*/ S.suspend(() =>
     mapping_addition: S.optional(TypesMappingTypeMapping),
     pipeline_substitutions: S.optional(SimulateIngestRequestPipelineSubstitutionsMap),
   }).pipe(T.Http({ method: "GET", uri: "/_ingest/_simulate", code: 200 })),
-).annotate({
-  identifier: "SimulateIngestRequest",
-}) as any as S.Schema<SimulateIngestRequest>;
+).annotate({ identifier: "SimulateIngestRequest" }) as any as S.Schema<SimulateIngestRequest>;
 
 /** JSON body for the document. */
 export type SimulateIngestIngestDocumentSimulationSourceMap = {
@@ -87990,9 +85105,7 @@ export const SimulateIngestResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     docs: SimulateIngestResponseDocsList,
   }),
-).annotate({
-  identifier: "SimulateIngestResponse",
-}) as any as S.Schema<SimulateIngestResponse>;
+).annotate({ identifier: "SimulateIngestResponse" }) as any as S.Schema<SimulateIngestResponse>;
 
 /** Sample documents to test in the pipeline. */
 export type SimulateIngest1RequestDocsList = Array<IngestTypesDocument>;
@@ -88054,9 +85167,7 @@ export const SimulateIngest1Request = /*@__PURE__*/ S.suspend(() =>
     mapping_addition: S.optional(TypesMappingTypeMapping),
     pipeline_substitutions: S.optional(SimulateIngest1RequestPipelineSubstitutionsMap),
   }).pipe(T.Http({ method: "POST", uri: "/_ingest/_simulate", code: 200 })),
-).annotate({
-  identifier: "SimulateIngest1Request",
-}) as any as S.Schema<SimulateIngest1Request>;
+).annotate({ identifier: "SimulateIngest1Request" }) as any as S.Schema<SimulateIngest1Request>;
 
 export type SimulateIngest1ResponseDocsList = Array<SimulateIngestSimulateIngestDocumentResult>;
 export const SimulateIngest1ResponseDocsList = /*@__PURE__*/ S.Array(
@@ -88070,9 +85181,7 @@ export const SimulateIngest1Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     docs: SimulateIngest1ResponseDocsList,
   }),
-).annotate({
-  identifier: "SimulateIngest1Response",
-}) as any as S.Schema<SimulateIngest1Response>;
+).annotate({ identifier: "SimulateIngest1Response" }) as any as S.Schema<SimulateIngest1Response>;
 
 /** Sample documents to test in the pipeline. */
 export type SimulateIngest2RequestDocsList = Array<IngestTypesDocument>;
@@ -88137,9 +85246,7 @@ export const SimulateIngest2Request = /*@__PURE__*/ S.suspend(() =>
     mapping_addition: S.optional(TypesMappingTypeMapping),
     pipeline_substitutions: S.optional(SimulateIngest2RequestPipelineSubstitutionsMap),
   }).pipe(T.Http({ method: "GET", uri: "/_ingest/{index}/_simulate", code: 200 })),
-).annotate({
-  identifier: "SimulateIngest2Request",
-}) as any as S.Schema<SimulateIngest2Request>;
+).annotate({ identifier: "SimulateIngest2Request" }) as any as S.Schema<SimulateIngest2Request>;
 
 export type SimulateIngest2ResponseDocsList = Array<SimulateIngestSimulateIngestDocumentResult>;
 export const SimulateIngest2ResponseDocsList = /*@__PURE__*/ S.Array(
@@ -88153,9 +85260,7 @@ export const SimulateIngest2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     docs: SimulateIngest2ResponseDocsList,
   }),
-).annotate({
-  identifier: "SimulateIngest2Response",
-}) as any as S.Schema<SimulateIngest2Response>;
+).annotate({ identifier: "SimulateIngest2Response" }) as any as S.Schema<SimulateIngest2Response>;
 
 /** Sample documents to test in the pipeline. */
 export type SimulateIngest3RequestDocsList = Array<IngestTypesDocument>;
@@ -88220,9 +85325,7 @@ export const SimulateIngest3Request = /*@__PURE__*/ S.suspend(() =>
     mapping_addition: S.optional(TypesMappingTypeMapping),
     pipeline_substitutions: S.optional(SimulateIngest3RequestPipelineSubstitutionsMap),
   }).pipe(T.Http({ method: "POST", uri: "/_ingest/{index}/_simulate", code: 200 })),
-).annotate({
-  identifier: "SimulateIngest3Request",
-}) as any as S.Schema<SimulateIngest3Request>;
+).annotate({ identifier: "SimulateIngest3Request" }) as any as S.Schema<SimulateIngest3Request>;
 
 export type SimulateIngest3ResponseDocsList = Array<SimulateIngestSimulateIngestDocumentResult>;
 export const SimulateIngest3ResponseDocsList = /*@__PURE__*/ S.Array(
@@ -88236,9 +85339,7 @@ export const SimulateIngest3Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     docs: SimulateIngest3ResponseDocsList,
   }),
-).annotate({
-  identifier: "SimulateIngest3Response",
-}) as any as S.Schema<SimulateIngest3Response>;
+).annotate({ identifier: "SimulateIngest3Response" }) as any as S.Schema<SimulateIngest3Response>;
 
 export interface SlmDeleteLifecycleRequest {
   /** The id of the snapshot lifecycle policy to remove */
@@ -88271,13 +85372,7 @@ export const SlmExecuteLifecycleRequest = /*@__PURE__*/ S.suspend(() =>
     policy_id: S.String.pipe(T.Label()),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_slm/policy/{policy_id}/_execute",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_slm/policy/{policy_id}/_execute", code: 200 })),
 ).annotate({
   identifier: "SlmExecuteLifecycleRequest",
 }) as any as S.Schema<SlmExecuteLifecycleRequest>;
@@ -88322,9 +85417,7 @@ export const SlmGetLifecycleRequest = /*@__PURE__*/ S.suspend(() =>
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_slm/policy/{policy_id}", code: 200 })),
-).annotate({
-  identifier: "SlmGetLifecycleRequest",
-}) as any as S.Schema<SlmGetLifecycleRequest>;
+).annotate({ identifier: "SlmGetLifecycleRequest" }) as any as S.Schema<SlmGetLifecycleRequest>;
 
 export interface SlmTypesInProgress {
   name: string;
@@ -88339,9 +85432,7 @@ export const SlmTypesInProgress = /*@__PURE__*/ S.suspend(() =>
     state: S.String,
     uuid: S.String,
   }),
-).annotate({
-  identifier: "SlmTypesInProgress",
-}) as any as S.Schema<SlmTypesInProgress>;
+).annotate({ identifier: "SlmTypesInProgress" }) as any as S.Schema<SlmTypesInProgress>;
 
 export interface SlmTypesInvocation {
   snapshot_name: string;
@@ -88352,9 +85443,7 @@ export const SlmTypesInvocation = /*@__PURE__*/ S.suspend(() =>
     snapshot_name: S.String,
     time: TypesDateTime,
   }),
-).annotate({
-  identifier: "SlmTypesInvocation",
-}) as any as S.Schema<SlmTypesInvocation>;
+).annotate({ identifier: "SlmTypesInvocation" }) as any as S.Schema<SlmTypesInvocation>;
 
 /** A list of feature states to be included in this snapshot. A list of features available for inclusion in the snapshot and their descriptions be can be retrieved using the get features API. Each feature state includes one or more system indices containing data necessary for the function of that feature. Providing an empty array will include no feature states in the snapshot, regardless of the value of include_global_state. By default, all available feature states will be included in the snapshot if include_global_state is true, or no feature states if include_global_state is false. */
 export type SlmTypesConfigurationFeatureStatesList = Array<string>;
@@ -88385,9 +85474,7 @@ export const SlmTypesConfiguration = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(TypesMetadata),
     partial: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SlmTypesConfiguration",
-}) as any as S.Schema<SlmTypesConfiguration>;
+).annotate({ identifier: "SlmTypesConfiguration" }) as any as S.Schema<SlmTypesConfiguration>;
 
 export interface SlmTypesRetention {
   /** Time period after which a snapshot is considered expired and eligible for deletion. SLM deletes expired snapshots based on the slm.retention_schedule. */
@@ -88403,9 +85490,7 @@ export const SlmTypesRetention = /*@__PURE__*/ S.suspend(() =>
     max_count: S.Number,
     min_count: S.Number,
   }),
-).annotate({
-  identifier: "SlmTypesRetention",
-}) as any as S.Schema<SlmTypesRetention>;
+).annotate({ identifier: "SlmTypesRetention" }) as any as S.Schema<SlmTypesRetention>;
 
 export interface SlmTypesPolicy {
   config?: SlmTypesConfiguration;
@@ -88449,9 +85534,7 @@ export const SlmTypesStatistics = /*@__PURE__*/ S.suspend(() =>
     total_snapshots_failed: S.optional(S.Number),
     total_snapshots_taken: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SlmTypesStatistics",
-}) as any as S.Schema<SlmTypesStatistics>;
+).annotate({ identifier: "SlmTypesStatistics" }) as any as S.Schema<SlmTypesStatistics>;
 
 export interface SlmTypesSnapshotLifecycle {
   in_progress?: SlmTypesInProgress;
@@ -88496,9 +85579,7 @@ export const SlmGetLifecycleResponseBodyMap = /*@__PURE__*/ S.Record(
 export type SlmGetLifecycleResponse = SlmGetLifecycleResponseBodyMap;
 export const SlmGetLifecycleResponse = /*@__PURE__*/ S.suspend(() =>
   SlmGetLifecycleResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "SlmGetLifecycleResponse",
-}) as any as S.Schema<SlmGetLifecycleResponse>;
+).annotate({ identifier: "SlmGetLifecycleResponse" }) as any as S.Schema<SlmGetLifecycleResponse>;
 
 export interface SlmGetLifecycle1Request {
   /** The period to wait for a connection to the master node. If no response is received before the timeout expires, the request fails and returns an error. */
@@ -88511,9 +85592,7 @@ export const SlmGetLifecycle1Request = /*@__PURE__*/ S.suspend(() =>
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_slm/policy", code: 200 })),
-).annotate({
-  identifier: "SlmGetLifecycle1Request",
-}) as any as S.Schema<SlmGetLifecycle1Request>;
+).annotate({ identifier: "SlmGetLifecycle1Request" }) as any as S.Schema<SlmGetLifecycle1Request>;
 
 export type SlmGetLifecycle1ResponseBodyMap = {
   [key: string]: SlmTypesSnapshotLifecycle | undefined;
@@ -88526,9 +85605,7 @@ export const SlmGetLifecycle1ResponseBodyMap = /*@__PURE__*/ S.Record(
 export type SlmGetLifecycle1Response = SlmGetLifecycle1ResponseBodyMap;
 export const SlmGetLifecycle1Response = /*@__PURE__*/ S.suspend(() =>
   SlmGetLifecycle1ResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "SlmGetLifecycle1Response",
-}) as any as S.Schema<SlmGetLifecycle1Response>;
+).annotate({ identifier: "SlmGetLifecycle1Response" }) as any as S.Schema<SlmGetLifecycle1Response>;
 
 export interface SlmGetStatsRequest {
   /** Period to wait for a connection to the master node. If no response is received before the timeout expires, the request fails and returns an error. */
@@ -88541,9 +85618,7 @@ export const SlmGetStatsRequest = /*@__PURE__*/ S.suspend(() =>
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_slm/stats", code: 200 })),
-).annotate({
-  identifier: "SlmGetStatsRequest",
-}) as any as S.Schema<SlmGetStatsRequest>;
+).annotate({ identifier: "SlmGetStatsRequest" }) as any as S.Schema<SlmGetStatsRequest>;
 
 export interface SlmTypesSnapshotPolicyStats {
   policy: string;
@@ -88594,9 +85669,7 @@ export const SlmGetStatsResponse = /*@__PURE__*/ S.suspend(() =>
     total_snapshots_taken: S.Number,
     policy_stats: SlmGetStatsResponsePolicyStatsList,
   }),
-).annotate({
-  identifier: "SlmGetStatsResponse",
-}) as any as S.Schema<SlmGetStatsResponse>;
+).annotate({ identifier: "SlmGetStatsResponse" }) as any as S.Schema<SlmGetStatsResponse>;
 
 export interface SlmGetStatusRequest {
   /** The period to wait for a connection to the master node. If no response is received before the timeout expires, the request fails and returns an error. To indicate that the request should never timeout, set it to `-1`. */
@@ -88609,9 +85682,7 @@ export const SlmGetStatusRequest = /*@__PURE__*/ S.suspend(() =>
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_slm/status", code: 200 })),
-).annotate({
-  identifier: "SlmGetStatusRequest",
-}) as any as S.Schema<SlmGetStatusRequest>;
+).annotate({ identifier: "SlmGetStatusRequest" }) as any as S.Schema<SlmGetStatusRequest>;
 
 export interface SlmGetStatusResponse {
   operation_mode: TypesLifecycleOperationMode;
@@ -88620,9 +85691,7 @@ export const SlmGetStatusResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     operation_mode: TypesLifecycleOperationMode,
   }),
-).annotate({
-  identifier: "SlmGetStatusResponse",
-}) as any as S.Schema<SlmGetStatusResponse>;
+).annotate({ identifier: "SlmGetStatusResponse" }) as any as S.Schema<SlmGetStatusResponse>;
 
 export interface SlmPutLifecycleRequest {
   /** The identifier for the snapshot lifecycle policy you want to create or update. */
@@ -88653,9 +85722,7 @@ export const SlmPutLifecycleRequest = /*@__PURE__*/ S.suspend(() =>
     retention: S.optional(SlmTypesRetention),
     schedule: S.optional(S.String),
   }).pipe(T.Http({ method: "PUT", uri: "/_slm/policy/{policy_id}", code: 200 })),
-).annotate({
-  identifier: "SlmPutLifecycleRequest",
-}) as any as S.Schema<SlmPutLifecycleRequest>;
+).annotate({ identifier: "SlmPutLifecycleRequest" }) as any as S.Schema<SlmPutLifecycleRequest>;
 
 export interface SnapshotCleanupRepositoryRequest {
   /** The name of the snapshot repository to clean up. */
@@ -88670,13 +85737,7 @@ export const SnapshotCleanupRepositoryRequest = /*@__PURE__*/ S.suspend(() =>
     repository: S.String.pipe(T.Label()),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_snapshot/{repository}/_cleanup",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_snapshot/{repository}/_cleanup", code: 200 })),
 ).annotate({
   identifier: "SnapshotCleanupRepositoryRequest",
 }) as any as S.Schema<SnapshotCleanupRepositoryRequest>;
@@ -88751,16 +85812,8 @@ export const SnapshotCreate1Request = /*@__PURE__*/ S.suspend(() =>
     indices: S.optional(TypesIndices),
     metadata: S.optional(TypesMetadata),
     partial: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_snapshot/{repository}/{snapshot}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "SnapshotCreate1Request",
-}) as any as S.Schema<SnapshotCreate1Request>;
+  }).pipe(T.Http({ method: "POST", uri: "/_snapshot/{repository}/{snapshot}", code: 200 })),
+).annotate({ identifier: "SnapshotCreate1Request" }) as any as S.Schema<SnapshotCreate1Request>;
 
 export interface SnapshotCreate1Response {
   /** Equals `true` if the snapshot was accepted. Present when the request had `wait_for_completion` set to `false` */
@@ -88773,9 +85826,7 @@ export const SnapshotCreate1Response = /*@__PURE__*/ S.suspend(() =>
     accepted: S.optional(S.Boolean),
     snapshot: S.optional(SnapshotTypesSnapshotInfo),
   }),
-).annotate({
-  identifier: "SnapshotCreate1Response",
-}) as any as S.Schema<SnapshotCreate1Response>;
+).annotate({ identifier: "SnapshotCreate1Response" }) as any as S.Schema<SnapshotCreate1Response>;
 
 /** The Azure repository type. */
 export type SnapshotTypesAzureRepositoryType = "azure";
@@ -89487,13 +86538,7 @@ export const SnapshotRepositoryAnalyzeRequest = /*@__PURE__*/ S.suspend(() =>
     register_operation_count: S.optional(S.Number.pipe(T.Query())),
     seed: S.optional(S.Number.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_snapshot/{repository}/_analyze",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_snapshot/{repository}/_analyze", code: 200 })),
 ).annotate({
   identifier: "SnapshotRepositoryAnalyzeRequest",
 }) as any as S.Schema<SnapshotRepositoryAnalyzeRequest>;
@@ -89805,13 +86850,7 @@ export const SnapshotRepositoryVerifyIntegrityRequest = /*@__PURE__*/ S.suspend(
     meta_thread_pool_concurrency: S.optional(S.Number.pipe(T.Query())),
     snapshot_verification_concurrency: S.optional(S.Number.pipe(T.Query())),
     verify_blob_contents: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_snapshot/{repository}/_verify_integrity",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_snapshot/{repository}/_verify_integrity", code: 200 })),
 ).annotate({
   identifier: "SnapshotRepositoryVerifyIntegrityRequest",
 }) as any as S.Schema<SnapshotRepositoryVerifyIntegrityRequest>;
@@ -89834,9 +86873,7 @@ export const SnapshotStatusRequest = /*@__PURE__*/ S.suspend(() =>
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_snapshot/_status", code: 200 })),
-).annotate({
-  identifier: "SnapshotStatusRequest",
-}) as any as S.Schema<SnapshotStatusRequest>;
+).annotate({ identifier: "SnapshotStatusRequest" }) as any as S.Schema<SnapshotStatusRequest>;
 
 export type SnapshotTypesShardsStatsStage = "DONE" | "FAILURE" | "FINALIZE" | "INIT" | "STARTED";
 export const SnapshotTypesShardsStatsStage = S.String;
@@ -89917,9 +86954,7 @@ export const SnapshotTypesShardsStats = /*@__PURE__*/ S.suspend(() =>
     started: S.Number,
     total: S.Number,
   }),
-).annotate({
-  identifier: "SnapshotTypesShardsStats",
-}) as any as S.Schema<SnapshotTypesShardsStats>;
+).annotate({ identifier: "SnapshotTypesShardsStats" }) as any as S.Schema<SnapshotTypesShardsStats>;
 
 export type SnapshotTypesFileCountSnapshotStats = SnapshotTypesShardsStatsSummaryItem;
 export const SnapshotTypesFileCountSnapshotStats = SnapshotTypesShardsStatsSummaryItem;
@@ -89998,9 +87033,7 @@ export const SnapshotTypesStatus = /*@__PURE__*/ S.suspend(() =>
     stats: SnapshotTypesSnapshotStats,
     uuid: S.String,
   }),
-).annotate({
-  identifier: "SnapshotTypesStatus",
-}) as any as S.Schema<SnapshotTypesStatus>;
+).annotate({ identifier: "SnapshotTypesStatus" }) as any as S.Schema<SnapshotTypesStatus>;
 
 export type SnapshotStatusResponseSnapshotsList = Array<SnapshotTypesStatus>;
 export const SnapshotStatusResponseSnapshotsList = /*@__PURE__*/ S.Array(
@@ -90014,9 +87047,7 @@ export const SnapshotStatusResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     snapshots: SnapshotStatusResponseSnapshotsList,
   }),
-).annotate({
-  identifier: "SnapshotStatusResponse",
-}) as any as S.Schema<SnapshotStatusResponse>;
+).annotate({ identifier: "SnapshotStatusResponse" }) as any as S.Schema<SnapshotStatusResponse>;
 
 export interface SnapshotStatus1Request {
   /** The snapshot repository name used to limit the request. It supports wildcards (`*`) if `<snapshot>` isn't specified. */
@@ -90031,16 +87062,8 @@ export const SnapshotStatus1Request = /*@__PURE__*/ S.suspend(() =>
     repository: S.String.pipe(T.Label()),
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_snapshot/{repository}/_status",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "SnapshotStatus1Request",
-}) as any as S.Schema<SnapshotStatus1Request>;
+  }).pipe(T.Http({ method: "GET", uri: "/_snapshot/{repository}/_status", code: 200 })),
+).annotate({ identifier: "SnapshotStatus1Request" }) as any as S.Schema<SnapshotStatus1Request>;
 
 export type SnapshotStatus1ResponseSnapshotsList = Array<SnapshotTypesStatus>;
 export const SnapshotStatus1ResponseSnapshotsList = /*@__PURE__*/ S.Array(
@@ -90054,9 +87077,7 @@ export const SnapshotStatus1Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     snapshots: SnapshotStatus1ResponseSnapshotsList,
   }),
-).annotate({
-  identifier: "SnapshotStatus1Response",
-}) as any as S.Schema<SnapshotStatus1Response>;
+).annotate({ identifier: "SnapshotStatus1Response" }) as any as S.Schema<SnapshotStatus1Response>;
 
 export interface SnapshotStatus2Request {
   /** The snapshot repository name used to limit the request. It supports wildcards (`*`) if `<snapshot>` isn't specified. */
@@ -90074,16 +87095,8 @@ export const SnapshotStatus2Request = /*@__PURE__*/ S.suspend(() =>
     snapshot: S.String.pipe(T.Label()),
     ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_snapshot/{repository}/{snapshot}/_status",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "SnapshotStatus2Request",
-}) as any as S.Schema<SnapshotStatus2Request>;
+  }).pipe(T.Http({ method: "GET", uri: "/_snapshot/{repository}/{snapshot}/_status", code: 200 })),
+).annotate({ identifier: "SnapshotStatus2Request" }) as any as S.Schema<SnapshotStatus2Request>;
 
 export type SnapshotStatus2ResponseSnapshotsList = Array<SnapshotTypesStatus>;
 export const SnapshotStatus2ResponseSnapshotsList = /*@__PURE__*/ S.Array(
@@ -90097,9 +87110,7 @@ export const SnapshotStatus2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     snapshots: SnapshotStatus2ResponseSnapshotsList,
   }),
-).annotate({
-  identifier: "SnapshotStatus2Response",
-}) as any as S.Schema<SnapshotStatus2Response>;
+).annotate({ identifier: "SnapshotStatus2Response" }) as any as S.Schema<SnapshotStatus2Response>;
 
 export interface SnapshotVerifyRepositoryRequest {
   /** The name of the snapshot repository to verify. */
@@ -90114,13 +87125,7 @@ export const SnapshotVerifyRepositoryRequest = /*@__PURE__*/ S.suspend(() =>
     repository: S.String.pipe(T.Label()),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_snapshot/{repository}/_verify",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_snapshot/{repository}/_verify", code: 200 })),
 ).annotate({
   identifier: "SnapshotVerifyRepositoryRequest",
 }) as any as S.Schema<SnapshotVerifyRepositoryRequest>;
@@ -90166,9 +87171,7 @@ export const SqlClearCursorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cursor: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/_sql/close", code: 200 })),
-).annotate({
-  identifier: "SqlClearCursorRequest",
-}) as any as S.Schema<SqlClearCursorRequest>;
+).annotate({ identifier: "SqlClearCursorRequest" }) as any as S.Schema<SqlClearCursorRequest>;
 
 export interface SqlClearCursorResponse {
   succeeded: boolean;
@@ -90177,9 +87180,7 @@ export const SqlClearCursorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     succeeded: S.Boolean,
   }),
-).annotate({
-  identifier: "SqlClearCursorResponse",
-}) as any as S.Schema<SqlClearCursorResponse>;
+).annotate({ identifier: "SqlClearCursorResponse" }) as any as S.Schema<SqlClearCursorResponse>;
 
 export interface SqlDeleteAsyncRequest {
   /** The identifier for the search. */
@@ -90189,9 +87190,7 @@ export const SqlDeleteAsyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/_sql/async/delete/{id}", code: 200 })),
-).annotate({
-  identifier: "SqlDeleteAsyncRequest",
-}) as any as S.Schema<SqlDeleteAsyncRequest>;
+).annotate({ identifier: "SqlDeleteAsyncRequest" }) as any as S.Schema<SqlDeleteAsyncRequest>;
 
 export interface SqlGetAsyncRequest {
   /** The identifier for the search. */
@@ -90213,9 +87212,7 @@ export const SqlGetAsyncRequest = /*@__PURE__*/ S.suspend(() =>
     keep_alive: S.optional(TypesDuration.pipe(T.Query())),
     wait_for_completion_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_sql/async/{id}", code: 200 })),
-).annotate({
-  identifier: "SqlGetAsyncRequest",
-}) as any as S.Schema<SqlGetAsyncRequest>;
+).annotate({ identifier: "SqlGetAsyncRequest" }) as any as S.Schema<SqlGetAsyncRequest>;
 
 export type SqlTypesColumn = SecurityTypesRealmInfo;
 export const SqlTypesColumn = SecurityTypesRealmInfo;
@@ -90258,9 +87255,7 @@ export const SqlGetAsyncResponse = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String),
     rows: SqlGetAsyncResponseRowsList,
   }),
-).annotate({
-  identifier: "SqlGetAsyncResponse",
-}) as any as S.Schema<SqlGetAsyncResponse>;
+).annotate({ identifier: "SqlGetAsyncResponse" }) as any as S.Schema<SqlGetAsyncResponse>;
 
 export interface SqlGetAsyncStatusRequest {
   /** The identifier for the search. */
@@ -90270,9 +87265,7 @@ export const SqlGetAsyncStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/_sql/async/status/{id}", code: 200 })),
-).annotate({
-  identifier: "SqlGetAsyncStatusRequest",
-}) as any as S.Schema<SqlGetAsyncStatusRequest>;
+).annotate({ identifier: "SqlGetAsyncStatusRequest" }) as any as S.Schema<SqlGetAsyncStatusRequest>;
 
 export interface SqlGetAsyncStatusResponse {
   /** The timestamp, in milliseconds since the Unix epoch, when Elasticsearch will delete the search and its results, even if the search is still running. */
@@ -90369,9 +87362,7 @@ export const SqlQueryRequest = /*@__PURE__*/ S.suspend(() =>
     time_zone: S.optional(S.String),
     wait_for_completion_timeout: S.optional(TypesDuration),
   }).pipe(T.Http({ method: "POST", uri: "/_sql", code: 200 })),
-).annotate({
-  identifier: "SqlQueryRequest",
-}) as any as S.Schema<SqlQueryRequest>;
+).annotate({ identifier: "SqlQueryRequest" }) as any as S.Schema<SqlQueryRequest>;
 
 /** Column headings for the search results. Each object is a column. */
 export type SqlQueryResponseColumnsList = Array<SecurityTypesRealmInfo>;
@@ -90408,9 +87399,7 @@ export const SqlQueryResponse = /*@__PURE__*/ S.suspend(() =>
     is_partial: S.optional(S.Boolean),
     rows: SqlQueryResponseRowsList,
   }),
-).annotate({
-  identifier: "SqlQueryResponse",
-}) as any as S.Schema<SqlQueryResponse>;
+).annotate({ identifier: "SqlQueryResponse" }) as any as S.Schema<SqlQueryResponse>;
 
 /** The values for parameters in the query. */
 export type SqlQuery1RequestParamsList = Array<unknown>;
@@ -90477,9 +87466,7 @@ export const SqlQuery1Request = /*@__PURE__*/ S.suspend(() =>
     time_zone: S.optional(S.String),
     wait_for_completion_timeout: S.optional(TypesDuration),
   }).pipe(T.Http({ method: "GET", uri: "/_sql", code: 200 })),
-).annotate({
-  identifier: "SqlQuery1Request",
-}) as any as S.Schema<SqlQuery1Request>;
+).annotate({ identifier: "SqlQuery1Request" }) as any as S.Schema<SqlQuery1Request>;
 
 /** Column headings for the search results. Each object is a column. */
 export type SqlQuery1ResponseColumnsList = Array<SecurityTypesRealmInfo>;
@@ -90516,9 +87503,7 @@ export const SqlQuery1Response = /*@__PURE__*/ S.suspend(() =>
     is_partial: S.optional(S.Boolean),
     rows: SqlQuery1ResponseRowsList,
   }),
-).annotate({
-  identifier: "SqlQuery1Response",
-}) as any as S.Schema<SqlQuery1Response>;
+).annotate({ identifier: "SqlQuery1Response" }) as any as S.Schema<SqlQuery1Response>;
 
 export interface SqlTranslateRequest {
   /** The maximum number of rows (or entries) to return in one response. */
@@ -90537,9 +87522,7 @@ export const SqlTranslateRequest = /*@__PURE__*/ S.suspend(() =>
     query: S.String,
     time_zone: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/_sql/translate", code: 200 })),
-).annotate({
-  identifier: "SqlTranslateRequest",
-}) as any as S.Schema<SqlTranslateRequest>;
+).annotate({ identifier: "SqlTranslateRequest" }) as any as S.Schema<SqlTranslateRequest>;
 
 export type SqlTranslateResponseAggregationsMap = {
   [key: string]: TypesAggregationsAggregationContainer | undefined;
@@ -90573,9 +87556,7 @@ export const SqlTranslateResponse = /*@__PURE__*/ S.suspend(() =>
     sort: S.optional(TypesSort),
     track_total_hits: S.optional(GlobalSearchTypesTrackHits),
   }),
-).annotate({
-  identifier: "SqlTranslateResponse",
-}) as any as S.Schema<SqlTranslateResponse>;
+).annotate({ identifier: "SqlTranslateResponse" }) as any as S.Schema<SqlTranslateResponse>;
 
 export interface SqlTranslate1Request {
   /** The maximum number of rows (or entries) to return in one response. */
@@ -90594,9 +87575,7 @@ export const SqlTranslate1Request = /*@__PURE__*/ S.suspend(() =>
     query: S.String,
     time_zone: S.optional(S.String),
   }).pipe(T.Http({ method: "GET", uri: "/_sql/translate", code: 200 })),
-).annotate({
-  identifier: "SqlTranslate1Request",
-}) as any as S.Schema<SqlTranslate1Request>;
+).annotate({ identifier: "SqlTranslate1Request" }) as any as S.Schema<SqlTranslate1Request>;
 
 export type SqlTranslate1ResponseAggregationsMap = {
   [key: string]: TypesAggregationsAggregationContainer | undefined;
@@ -90630,16 +87609,12 @@ export const SqlTranslate1Response = /*@__PURE__*/ S.suspend(() =>
     sort: S.optional(TypesSort),
     track_total_hits: S.optional(GlobalSearchTypesTrackHits),
   }),
-).annotate({
-  identifier: "SqlTranslate1Response",
-}) as any as S.Schema<SqlTranslate1Response>;
+).annotate({ identifier: "SqlTranslate1Response" }) as any as S.Schema<SqlTranslate1Response>;
 
 export interface SslCertificatesRequest {}
 export const SslCertificatesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/_ssl/certificates", code: 200 })),
-).annotate({
-  identifier: "SslCertificatesRequest",
-}) as any as S.Schema<SslCertificatesRequest>;
+).annotate({ identifier: "SslCertificatesRequest" }) as any as S.Schema<SslCertificatesRequest>;
 
 export interface SslCertificatesCertificateInformation {
   /** If the path refers to a container file (a jks keystore, or a PKCS#12 file), it is the alias of the certificate. Otherwise, it is null. */
@@ -90682,9 +87657,7 @@ export const SslCertificatesResponseBodyList = /*@__PURE__*/ S.Array(
 export type SslCertificatesResponse = SslCertificatesResponseBodyList;
 export const SslCertificatesResponse = /*@__PURE__*/ S.suspend(() =>
   SslCertificatesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "SslCertificatesResponse",
-}) as any as S.Schema<SslCertificatesResponse>;
+).annotate({ identifier: "SslCertificatesResponse" }) as any as S.Schema<SslCertificatesResponse>;
 
 export interface StartIlmRequest {
   /** Period to wait for a connection to the master node. If no response is received before the timeout expires, the request fails and returns an error. */
@@ -90697,9 +87670,7 @@ export const StartIlmRequest = /*@__PURE__*/ S.suspend(() =>
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/_ilm/start", code: 200 })),
-).annotate({
-  identifier: "StartIlmRequest",
-}) as any as S.Schema<StartIlmRequest>;
+).annotate({ identifier: "StartIlmRequest" }) as any as S.Schema<StartIlmRequest>;
 
 export interface StartSlmRequest {
   /** The period to wait for a connection to the master node. If no response is received before the timeout expires, the request fails and returns an error. To indicate that the request should never timeout, set it to `-1`. */
@@ -90712,9 +87683,7 @@ export const StartSlmRequest = /*@__PURE__*/ S.suspend(() =>
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/_slm/start", code: 200 })),
-).annotate({
-  identifier: "StartSlmRequest",
-}) as any as S.Schema<StartSlmRequest>;
+).annotate({ identifier: "StartSlmRequest" }) as any as S.Schema<StartSlmRequest>;
 
 export interface StartTransformRequest {
   /** Identifier for the transform. */
@@ -90729,16 +87698,8 @@ export const StartTransformRequest = /*@__PURE__*/ S.suspend(() =>
     transform_id: S.String.pipe(T.Label()),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
     from: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_transform/{transform_id}/_start",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "StartTransformRequest",
-}) as any as S.Schema<StartTransformRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/_transform/{transform_id}/_start", code: 200 })),
+).annotate({ identifier: "StartTransformRequest" }) as any as S.Schema<StartTransformRequest>;
 
 export interface StartWatcherRequest {
   /** Period to wait for a connection to the master node. */
@@ -90748,9 +87709,7 @@ export const StartWatcherRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/_watcher/_start", code: 200 })),
-).annotate({
-  identifier: "StartWatcherRequest",
-}) as any as S.Schema<StartWatcherRequest>;
+).annotate({ identifier: "StartWatcherRequest" }) as any as S.Schema<StartWatcherRequest>;
 
 export interface StopEsqlAsyncQueryRequest {
   /** The unique identifier of the query. A query ID is provided in the ES|QL async query API response for a query that does not complete in the designated time. A query ID is also provided when the request was submitted with the `keep_on_completion` parameter set to `true`. */
@@ -90815,16 +87774,8 @@ export const StopTransformRequest = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(TypesDuration.pipe(T.Query())),
     wait_for_checkpoint: S.optional(S.Boolean.pipe(T.Query())),
     wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_transform/{transform_id}/_stop",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "StopTransformRequest",
-}) as any as S.Schema<StopTransformRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/_transform/{transform_id}/_stop", code: 200 })),
+).annotate({ identifier: "StopTransformRequest" }) as any as S.Schema<StopTransformRequest>;
 
 export interface StopWatcherRequest {
   /** The period to wait for the master node. If the master node is not available before the timeout expires, the request fails and returns an error. To indicate that the request should never timeout, set it to `-1`. */
@@ -90834,9 +87785,7 @@ export const StopWatcherRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/_watcher/_stop", code: 200 })),
-).annotate({
-  identifier: "StopWatcherRequest",
-}) as any as S.Schema<StopWatcherRequest>;
+).annotate({ identifier: "StopWatcherRequest" }) as any as S.Schema<StopWatcherRequest>;
 
 export interface StreamsStatusRequest {
   /** Period to wait for a connection to the master node. If no response is received before the timeout expires, the request fails and returns an error. */
@@ -90846,9 +87795,7 @@ export const StreamsStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_streams/status", code: 200 })),
-).annotate({
-  identifier: "StreamsStatusRequest",
-}) as any as S.Schema<StreamsStatusRequest>;
+).annotate({ identifier: "StreamsStatusRequest" }) as any as S.Schema<StreamsStatusRequest>;
 
 export interface StreamsStatusStreamStatus {
   /** If true, the stream feature is enabled. */
@@ -90873,9 +87820,7 @@ export const StreamsStatusResponse = /*@__PURE__*/ S.suspend(() =>
     logs_otel: StreamsStatusStreamStatus.pipe(T.Body("logs.otel")),
     logs_ecs: StreamsStatusStreamStatus.pipe(T.Body("logs.ecs")),
   }),
-).annotate({
-  identifier: "StreamsStatusResponse",
-}) as any as S.Schema<StreamsStatusResponse>;
+).annotate({ identifier: "StreamsStatusResponse" }) as any as S.Schema<StreamsStatusResponse>;
 
 export type TasksCancel1RequestActionsCase1List = Array<string>;
 export const TasksCancel1RequestActionsCase1List = /*@__PURE__*/ S.Array(
@@ -90910,9 +87855,7 @@ export const TasksCancel1Request = /*@__PURE__*/ S.suspend(() =>
     parent_task_id: S.optional(S.String.pipe(T.Query())),
     wait_for_completion: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/_tasks/{task_id}/_cancel", code: 200 })),
-).annotate({
-  identifier: "TasksCancel1Request",
-}) as any as S.Schema<TasksCancel1Request>;
+).annotate({ identifier: "TasksCancel1Request" }) as any as S.Schema<TasksCancel1Request>;
 
 export interface TermsEnumRequest {
   /** A comma-separated list of data streams, indices, and index aliases to search. Wildcard (`*`) expressions are supported. To search all data streams or indices, omit this parameter or use `*` or `_all`. */
@@ -90943,9 +87886,7 @@ export const TermsEnumRequest = /*@__PURE__*/ S.suspend(() =>
     string: S.optional(S.String),
     search_after: S.optional(S.String),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_terms_enum", code: 200 })),
-).annotate({
-  identifier: "TermsEnumRequest",
-}) as any as S.Schema<TermsEnumRequest>;
+).annotate({ identifier: "TermsEnumRequest" }) as any as S.Schema<TermsEnumRequest>;
 
 export type TermsEnumResponseTermsList = Array<string>;
 export const TermsEnumResponseTermsList = /*@__PURE__*/ S.Array(
@@ -90964,9 +87905,7 @@ export const TermsEnumResponse = /*@__PURE__*/ S.suspend(() =>
     terms: TermsEnumResponseTermsList,
     complete: S.Boolean,
   }),
-).annotate({
-  identifier: "TermsEnumResponse",
-}) as any as S.Schema<TermsEnumResponse>;
+).annotate({ identifier: "TermsEnumResponse" }) as any as S.Schema<TermsEnumResponse>;
 
 export interface TermsEnum1Request {
   /** A comma-separated list of data streams, indices, and index aliases to search. Wildcard (`*`) expressions are supported. To search all data streams or indices, omit this parameter or use `*` or `_all`. */
@@ -90997,9 +87936,7 @@ export const TermsEnum1Request = /*@__PURE__*/ S.suspend(() =>
     string: S.optional(S.String),
     search_after: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_terms_enum", code: 200 })),
-).annotate({
-  identifier: "TermsEnum1Request",
-}) as any as S.Schema<TermsEnum1Request>;
+).annotate({ identifier: "TermsEnum1Request" }) as any as S.Schema<TermsEnum1Request>;
 
 export type TermsEnum1ResponseTermsList = Array<string>;
 export const TermsEnum1ResponseTermsList = /*@__PURE__*/ S.Array(
@@ -91018,14 +87955,10 @@ export const TermsEnum1Response = /*@__PURE__*/ S.suspend(() =>
     terms: TermsEnum1ResponseTermsList,
     complete: S.Boolean,
   }),
-).annotate({
-  identifier: "TermsEnum1Response",
-}) as any as S.Schema<TermsEnum1Response>;
+).annotate({ identifier: "TermsEnum1Response" }) as any as S.Schema<TermsEnum1Response>;
 
 /** Override the default per-field analyzer. This is useful in order to generate term vectors in any fashion, especially when using artificial documents. When providing an analyzer for a field that already stores term vectors, the term vectors will be regenerated. */
-export type TermvectorsRequestPerFieldAnalyzerMap = {
-  [key: string]: string | undefined;
-};
+export type TermvectorsRequestPerFieldAnalyzerMap = { [key: string]: string | undefined };
 export const TermvectorsRequestPerFieldAnalyzerMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -91084,9 +88017,7 @@ export const TermvectorsRequest = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(GlobalTermvectorsFilter),
     per_field_analyzer: S.optional(TermvectorsRequestPerFieldAnalyzerMap),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_termvectors/{id}", code: 200 })),
-).annotate({
-  identifier: "TermvectorsRequest",
-}) as any as S.Schema<TermvectorsRequest>;
+).annotate({ identifier: "TermvectorsRequest" }) as any as S.Schema<TermvectorsRequest>;
 
 export type TermvectorsResponseTermVectorsMap = {
   [key: string]: GlobalTermvectorsTermVector | undefined;
@@ -91113,14 +88044,10 @@ export const TermvectorsResponse = /*@__PURE__*/ S.suspend(() =>
     took: S.Number,
     _version: S.Number,
   }),
-).annotate({
-  identifier: "TermvectorsResponse",
-}) as any as S.Schema<TermvectorsResponse>;
+).annotate({ identifier: "TermvectorsResponse" }) as any as S.Schema<TermvectorsResponse>;
 
 /** Override the default per-field analyzer. This is useful in order to generate term vectors in any fashion, especially when using artificial documents. When providing an analyzer for a field that already stores term vectors, the term vectors will be regenerated. */
-export type Termvectors1RequestPerFieldAnalyzerMap = {
-  [key: string]: string | undefined;
-};
+export type Termvectors1RequestPerFieldAnalyzerMap = { [key: string]: string | undefined };
 export const Termvectors1RequestPerFieldAnalyzerMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -91179,9 +88106,7 @@ export const Termvectors1Request = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(GlobalTermvectorsFilter),
     per_field_analyzer: S.optional(Termvectors1RequestPerFieldAnalyzerMap),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_termvectors/{id}", code: 200 })),
-).annotate({
-  identifier: "Termvectors1Request",
-}) as any as S.Schema<Termvectors1Request>;
+).annotate({ identifier: "Termvectors1Request" }) as any as S.Schema<Termvectors1Request>;
 
 export type Termvectors1ResponseTermVectorsMap = {
   [key: string]: GlobalTermvectorsTermVector | undefined;
@@ -91208,14 +88133,10 @@ export const Termvectors1Response = /*@__PURE__*/ S.suspend(() =>
     took: S.Number,
     _version: S.Number,
   }),
-).annotate({
-  identifier: "Termvectors1Response",
-}) as any as S.Schema<Termvectors1Response>;
+).annotate({ identifier: "Termvectors1Response" }) as any as S.Schema<Termvectors1Response>;
 
 /** Override the default per-field analyzer. This is useful in order to generate term vectors in any fashion, especially when using artificial documents. When providing an analyzer for a field that already stores term vectors, the term vectors will be regenerated. */
-export type Termvectors2RequestPerFieldAnalyzerMap = {
-  [key: string]: string | undefined;
-};
+export type Termvectors2RequestPerFieldAnalyzerMap = { [key: string]: string | undefined };
 export const Termvectors2RequestPerFieldAnalyzerMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -91271,9 +88192,7 @@ export const Termvectors2Request = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(GlobalTermvectorsFilter),
     per_field_analyzer: S.optional(Termvectors2RequestPerFieldAnalyzerMap),
   }).pipe(T.Http({ method: "GET", uri: "/{index}/_termvectors", code: 200 })),
-).annotate({
-  identifier: "Termvectors2Request",
-}) as any as S.Schema<Termvectors2Request>;
+).annotate({ identifier: "Termvectors2Request" }) as any as S.Schema<Termvectors2Request>;
 
 export type Termvectors2ResponseTermVectorsMap = {
   [key: string]: GlobalTermvectorsTermVector | undefined;
@@ -91300,14 +88219,10 @@ export const Termvectors2Response = /*@__PURE__*/ S.suspend(() =>
     took: S.Number,
     _version: S.Number,
   }),
-).annotate({
-  identifier: "Termvectors2Response",
-}) as any as S.Schema<Termvectors2Response>;
+).annotate({ identifier: "Termvectors2Response" }) as any as S.Schema<Termvectors2Response>;
 
 /** Override the default per-field analyzer. This is useful in order to generate term vectors in any fashion, especially when using artificial documents. When providing an analyzer for a field that already stores term vectors, the term vectors will be regenerated. */
-export type Termvectors3RequestPerFieldAnalyzerMap = {
-  [key: string]: string | undefined;
-};
+export type Termvectors3RequestPerFieldAnalyzerMap = { [key: string]: string | undefined };
 export const Termvectors3RequestPerFieldAnalyzerMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -91363,9 +88278,7 @@ export const Termvectors3Request = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(GlobalTermvectorsFilter),
     per_field_analyzer: S.optional(Termvectors3RequestPerFieldAnalyzerMap),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_termvectors", code: 200 })),
-).annotate({
-  identifier: "Termvectors3Request",
-}) as any as S.Schema<Termvectors3Request>;
+).annotate({ identifier: "Termvectors3Request" }) as any as S.Schema<Termvectors3Request>;
 
 export type Termvectors3ResponseTermVectorsMap = {
   [key: string]: GlobalTermvectorsTermVector | undefined;
@@ -91392,9 +88305,7 @@ export const Termvectors3Response = /*@__PURE__*/ S.suspend(() =>
     took: S.Number,
     _version: S.Number,
   }),
-).annotate({
-  identifier: "Termvectors3Response",
-}) as any as S.Schema<Termvectors3Response>;
+).annotate({ identifier: "Termvectors3Response" }) as any as S.Schema<Termvectors3Response>;
 
 export type TextStructureFindFieldStructureRequestColumnNamesCase1List = Array<string>;
 export const TextStructureFindFieldStructureRequestColumnNamesCase1List = /*@__PURE__*/ S.Array(
@@ -91462,13 +88373,7 @@ export const TextStructureFindFieldStructureRequest = /*@__PURE__*/ S.suspend(()
     timeout: S.optional(TypesDuration.pipe(T.Query())),
     timestamp_field: S.optional(S.String.pipe(T.Query())),
     timestamp_format: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_text_structure/find_field_structure",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_text_structure/find_field_structure", code: 200 })),
 ).annotate({
   identifier: "TextStructureFindFieldStructureRequest",
 }) as any as S.Schema<TextStructureFindFieldStructureRequest>;
@@ -91482,9 +88387,7 @@ export const TextStructureTypesTopHit = /*@__PURE__*/ S.suspend(() =>
     count: S.Number,
     value: S.Unknown,
   }),
-).annotate({
-  identifier: "TextStructureTypesTopHit",
-}) as any as S.Schema<TextStructureTypesTopHit>;
+).annotate({ identifier: "TextStructureTypesTopHit" }) as any as S.Schema<TextStructureTypesTopHit>;
 
 export type TextStructureTypesFieldStatTopHitsList = Array<TextStructureTypesTopHit>;
 export const TextStructureTypesFieldStatTopHitsList = /*@__PURE__*/ S.Array(
@@ -91665,13 +88568,7 @@ export const TextStructureFindMessageStructureRequest = /*@__PURE__*/ S.suspend(
     timestamp_field: S.optional(S.String.pipe(T.Query())),
     timestamp_format: S.optional(S.String.pipe(T.Query())),
     messages: TextStructureFindMessageStructureRequestMessagesList,
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_text_structure/find_message_structure",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_text_structure/find_message_structure", code: 200 })),
 ).annotate({
   identifier: "TextStructureFindMessageStructureRequest",
 }) as any as S.Schema<TextStructureFindMessageStructureRequest>;
@@ -91799,13 +88696,7 @@ export const TextStructureFindMessageStructure1Request = /*@__PURE__*/ S.suspend
     timestamp_field: S.optional(S.String.pipe(T.Query())),
     timestamp_format: S.optional(S.String.pipe(T.Query())),
     messages: TextStructureFindMessageStructure1RequestMessagesList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_text_structure/find_message_structure",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_text_structure/find_message_structure", code: 200 })),
 ).annotate({
   identifier: "TextStructureFindMessageStructure1Request",
 }) as any as S.Schema<TextStructureFindMessageStructure1Request>;
@@ -91950,13 +88841,7 @@ export const TextStructureFindStructureRequest = /*@__PURE__*/ S.suspend(() =>
     timestamp_field: S.optional(S.String.pipe(T.Query())),
     timestamp_format: S.optional(S.String.pipe(T.Query())),
     body: TextStructureFindStructureRequestBodyList.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_text_structure/find_structure",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_text_structure/find_structure", code: 200 })),
 ).annotate({
   identifier: "TextStructureFindStructureRequest",
 }) as any as S.Schema<TextStructureFindStructureRequest>;
@@ -92078,13 +88963,7 @@ export const TextStructureTestGrokPatternRequest = /*@__PURE__*/ S.suspend(() =>
     ecs_compatibility: S.optional(S.String.pipe(T.Query())),
     grok_pattern: S.String,
     text: TextStructureTestGrokPatternRequestTextList,
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_text_structure/test_grok_pattern",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_text_structure/test_grok_pattern", code: 200 })),
 ).annotate({
   identifier: "TextStructureTestGrokPatternRequest",
 }) as any as S.Schema<TextStructureTestGrokPatternRequest>;
@@ -92167,13 +89046,7 @@ export const TextStructureTestGrokPattern1Request = /*@__PURE__*/ S.suspend(() =
     ecs_compatibility: S.optional(S.String.pipe(T.Query())),
     grok_pattern: S.String,
     text: TextStructureTestGrokPattern1RequestTextList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_text_structure/test_grok_pattern",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_text_structure/test_grok_pattern", code: 200 })),
 ).annotate({
   identifier: "TextStructureTestGrokPattern1Request",
 }) as any as S.Schema<TextStructureTestGrokPattern1Request>;
@@ -92274,13 +89147,7 @@ export const TransformPreviewTransformRequest = /*@__PURE__*/ S.suspend(() =>
     sync: S.optional(TransformTypesSyncContainer),
     retention_policy: S.optional(TransformTypesRetentionPolicyContainer),
     latest: S.optional(TransformTypesLatest),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/_transform/{transform_id}/_preview",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/_transform/{transform_id}/_preview", code: 200 })),
 ).annotate({
   identifier: "TransformPreviewTransformRequest",
 }) as any as S.Schema<TransformPreviewTransformRequest>;
@@ -92340,13 +89207,7 @@ export const TransformPreviewTransform1Request = /*@__PURE__*/ S.suspend(() =>
     sync: S.optional(TransformTypesSyncContainer),
     retention_policy: S.optional(TransformTypesRetentionPolicyContainer),
     latest: S.optional(TransformTypesLatest),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_transform/{transform_id}/_preview",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_transform/{transform_id}/_preview", code: 200 })),
 ).annotate({
   identifier: "TransformPreviewTransform1Request",
 }) as any as S.Schema<TransformPreviewTransform1Request>;
@@ -92496,13 +89357,7 @@ export const TransformScheduleNowTransformRequest = /*@__PURE__*/ S.suspend(() =
     transform_id: S.String.pipe(T.Label()),
     timeout: S.optional(TypesDuration.pipe(T.Query())),
     defer: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_transform/{transform_id}/_schedule_now",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_transform/{transform_id}/_schedule_now", code: 200 })),
 ).annotate({
   identifier: "TransformScheduleNowTransformRequest",
 }) as any as S.Schema<TransformScheduleNowTransformRequest>;
@@ -92566,9 +89421,7 @@ export const UnfollowCcrRequest = /*@__PURE__*/ S.suspend(() =>
     index: S.String.pipe(T.Label()),
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_ccr/unfollow", code: 200 })),
-).annotate({
-  identifier: "UnfollowCcrRequest",
-}) as any as S.Schema<UnfollowCcrRequest>;
+).annotate({ identifier: "UnfollowCcrRequest" }) as any as S.Schema<UnfollowCcrRequest>;
 
 export interface UpdateRequest {
   /** The name of the target index. By default, the index is created automatically if it doesn't exist. */
@@ -92795,9 +89648,7 @@ export const UpdateByQueryRequest = /*@__PURE__*/ S.suspend(() =>
     script: S.optional(TypesScript),
     slice: S.optional(TypesSlicedScroll),
   }).pipe(T.Http({ method: "POST", uri: "/{index}/_update_by_query", code: 200 })),
-).annotate({
-  identifier: "UpdateByQueryRequest",
-}) as any as S.Schema<UpdateByQueryRequest>;
+).annotate({ identifier: "UpdateByQueryRequest" }) as any as S.Schema<UpdateByQueryRequest>;
 
 /** Array of failures if there were any unrecoverable errors during the process. If this is non-empty then the request ended because of those failures. Update by query is implemented using batches. Any failure causes the entire process to end, but all failures in the current batch are collected into the array. You can use the `conflicts` option to prevent reindex from ending when version conflicts occur. */
 export type UpdateByQueryResponseFailuresList = Array<TypesBulkIndexByScrollFailure>;
@@ -92864,9 +89715,7 @@ export const UpdateByQueryResponse = /*@__PURE__*/ S.suspend(() =>
     throttled_until: S.optional(TypesDuration),
     throttled_until_millis: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "UpdateByQueryResponse",
-}) as any as S.Schema<UpdateByQueryResponse>;
+).annotate({ identifier: "UpdateByQueryResponse" }) as any as S.Schema<UpdateByQueryResponse>;
 
 export interface UpdateByQueryRethrottleRequest {
   /** The ID for the task. */
@@ -92878,13 +89727,7 @@ export const UpdateByQueryRethrottleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     task_id: S.String.pipe(T.Label()),
     requests_per_second: S.Number.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_update_by_query/{task_id}/_rethrottle",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_update_by_query/{task_id}/_rethrottle", code: 200 })),
 ).annotate({
   identifier: "UpdateByQueryRethrottleRequest",
 }) as any as S.Schema<UpdateByQueryRethrottleRequest>;
@@ -92972,16 +89815,8 @@ export const UpdateInferenceRequest = /*@__PURE__*/ S.suspend(() =>
     service: S.String,
     service_settings: S.Unknown,
     task_settings: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_inference/{inference_id}/_update",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateInferenceRequest",
-}) as any as S.Schema<UpdateInferenceRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/_inference/{inference_id}/_update", code: 200 })),
+).annotate({ identifier: "UpdateInferenceRequest" }) as any as S.Schema<UpdateInferenceRequest>;
 
 export interface UpdateInferenceResponse {
   /** The chunking configuration object. Applies only to the `embedding`, `sparse_embedding` and `text_embedding` task types. Not applicable to the `rerank`, `completion`, or `chat_completion` task types. */
@@ -93006,9 +89841,7 @@ export const UpdateInferenceResponse = /*@__PURE__*/ S.suspend(() =>
     inference_id: S.String,
     task_type: InferenceTypesTaskType,
   }),
-).annotate({
-  identifier: "UpdateInferenceResponse",
-}) as any as S.Schema<UpdateInferenceResponse>;
+).annotate({ identifier: "UpdateInferenceResponse" }) as any as S.Schema<UpdateInferenceResponse>;
 
 /** Defines a retention policy for the transform. Data that meets the defined criteria is deleted from the destination index. */
 export type UpdateTransformRequestRetentionPolicy = TransformTypesRetentionPolicyContainer | string;
@@ -93052,16 +89885,8 @@ export const UpdateTransformRequest = /*@__PURE__*/ S.suspend(() =>
     settings: S.optional(TransformTypesSettings),
     sync: S.optional(TransformTypesSyncContainer),
     retention_policy: S.optional(UpdateTransformRequestRetentionPolicy),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_transform/{transform_id}/_update",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateTransformRequest",
-}) as any as S.Schema<UpdateTransformRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/_transform/{transform_id}/_update", code: 200 })),
+).annotate({ identifier: "UpdateTransformRequest" }) as any as S.Schema<UpdateTransformRequest>;
 
 export interface UpdateTransformResponse {
   authorization?: MlTypesTransformAuthorization;
@@ -93096,9 +89921,7 @@ export const UpdateTransformResponse = /*@__PURE__*/ S.suspend(() =>
     version: S.String,
     _meta: S.optional(TypesMetadata),
   }),
-).annotate({
-  identifier: "UpdateTransformResponse",
-}) as any as S.Schema<UpdateTransformResponse>;
+).annotate({ identifier: "UpdateTransformResponse" }) as any as S.Schema<UpdateTransformResponse>;
 
 export interface WatcherAckWatch1Request {
   /** The watch identifier. */
@@ -93107,16 +89930,8 @@ export interface WatcherAckWatch1Request {
 export const WatcherAckWatch1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     watch_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_watcher/watch/{watch_id}/_ack",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "WatcherAckWatch1Request",
-}) as any as S.Schema<WatcherAckWatch1Request>;
+  }).pipe(T.Http({ method: "POST", uri: "/_watcher/watch/{watch_id}/_ack", code: 200 })),
+).annotate({ identifier: "WatcherAckWatch1Request" }) as any as S.Schema<WatcherAckWatch1Request>;
 
 export type WatcherTypesAcknowledgementOptions =
   | "awaits_successful_execution"
@@ -93178,13 +89993,9 @@ export const WatcherTypesActionStatus = /*@__PURE__*/ S.suspend(() =>
     last_successful_execution: S.optional(WatcherTypesExecutionState),
     last_throttle: S.optional(WatcherTypesThrottleState),
   }),
-).annotate({
-  identifier: "WatcherTypesActionStatus",
-}) as any as S.Schema<WatcherTypesActionStatus>;
+).annotate({ identifier: "WatcherTypesActionStatus" }) as any as S.Schema<WatcherTypesActionStatus>;
 
-export type WatcherTypesActions = {
-  [key: string]: WatcherTypesActionStatus | undefined;
-};
+export type WatcherTypesActions = { [key: string]: WatcherTypesActionStatus | undefined };
 export const WatcherTypesActions = /*@__PURE__*/ S.Record(
   S.String,
   WatcherTypesActionStatus,
@@ -93220,9 +90031,7 @@ export const WatcherTypesWatchStatus = /*@__PURE__*/ S.suspend(() =>
     version: S.Number,
     execution_state: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WatcherTypesWatchStatus",
-}) as any as S.Schema<WatcherTypesWatchStatus>;
+).annotate({ identifier: "WatcherTypesWatchStatus" }) as any as S.Schema<WatcherTypesWatchStatus>;
 
 export interface WatcherAckWatch1Response {
   status: WatcherTypesWatchStatus;
@@ -93231,9 +90040,7 @@ export const WatcherAckWatch1Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: WatcherTypesWatchStatus,
   }),
-).annotate({
-  identifier: "WatcherAckWatch1Response",
-}) as any as S.Schema<WatcherAckWatch1Response>;
+).annotate({ identifier: "WatcherAckWatch1Response" }) as any as S.Schema<WatcherAckWatch1Response>;
 
 export interface WatcherAckWatch2Request {
   /** The watch identifier. */
@@ -93245,16 +90052,8 @@ export const WatcherAckWatch2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     watch_id: S.String.pipe(T.Label()),
     action_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_watcher/watch/{watch_id}/_ack/{action_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "WatcherAckWatch2Request",
-}) as any as S.Schema<WatcherAckWatch2Request>;
+  }).pipe(T.Http({ method: "PUT", uri: "/_watcher/watch/{watch_id}/_ack/{action_id}", code: 200 })),
+).annotate({ identifier: "WatcherAckWatch2Request" }) as any as S.Schema<WatcherAckWatch2Request>;
 
 export interface WatcherAckWatch2Response {
   status: WatcherTypesWatchStatus;
@@ -93263,9 +90062,7 @@ export const WatcherAckWatch2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: WatcherTypesWatchStatus,
   }),
-).annotate({
-  identifier: "WatcherAckWatch2Response",
-}) as any as S.Schema<WatcherAckWatch2Response>;
+).annotate({ identifier: "WatcherAckWatch2Response" }) as any as S.Schema<WatcherAckWatch2Response>;
 
 export interface WatcherAckWatch3Request {
   /** The watch identifier. */
@@ -93278,15 +90075,9 @@ export const WatcherAckWatch3Request = /*@__PURE__*/ S.suspend(() =>
     watch_id: S.String.pipe(T.Label()),
     action_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_watcher/watch/{watch_id}/_ack/{action_id}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/_watcher/watch/{watch_id}/_ack/{action_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "WatcherAckWatch3Request",
-}) as any as S.Schema<WatcherAckWatch3Request>;
+).annotate({ identifier: "WatcherAckWatch3Request" }) as any as S.Schema<WatcherAckWatch3Request>;
 
 export interface WatcherAckWatch3Response {
   status: WatcherTypesWatchStatus;
@@ -93295,9 +90086,7 @@ export const WatcherAckWatch3Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: WatcherTypesWatchStatus,
   }),
-).annotate({
-  identifier: "WatcherAckWatch3Response",
-}) as any as S.Schema<WatcherAckWatch3Response>;
+).annotate({ identifier: "WatcherAckWatch3Response" }) as any as S.Schema<WatcherAckWatch3Response>;
 
 export interface WatcherActivateWatchRequest {
   /** The watch identifier. */
@@ -93306,13 +90095,7 @@ export interface WatcherActivateWatchRequest {
 export const WatcherActivateWatchRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     watch_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_watcher/watch/{watch_id}/_activate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_watcher/watch/{watch_id}/_activate", code: 200 })),
 ).annotate({
   identifier: "WatcherActivateWatchRequest",
 }) as any as S.Schema<WatcherActivateWatchRequest>;
@@ -93350,13 +90133,7 @@ export interface WatcherActivateWatch1Request {
 export const WatcherActivateWatch1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     watch_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_watcher/watch/{watch_id}/_activate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_watcher/watch/{watch_id}/_activate", code: 200 })),
 ).annotate({
   identifier: "WatcherActivateWatch1Request",
 }) as any as S.Schema<WatcherActivateWatch1Request>;
@@ -93379,13 +90156,7 @@ export interface WatcherDeactivateWatchRequest {
 export const WatcherDeactivateWatchRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     watch_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_watcher/watch/{watch_id}/_deactivate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/_watcher/watch/{watch_id}/_deactivate", code: 200 })),
 ).annotate({
   identifier: "WatcherDeactivateWatchRequest",
 }) as any as S.Schema<WatcherDeactivateWatchRequest>;
@@ -93408,13 +90179,7 @@ export interface WatcherDeactivateWatch1Request {
 export const WatcherDeactivateWatch1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     watch_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/_watcher/watch/{watch_id}/_deactivate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/_watcher/watch/{watch_id}/_deactivate", code: 200 })),
 ).annotate({
   identifier: "WatcherDeactivateWatch1Request",
 }) as any as S.Schema<WatcherDeactivateWatch1Request>;
@@ -93475,9 +90240,7 @@ export const WatcherExecuteWatchRequestActionModesMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<WatcherExecuteWatchRequestActionModesMap>;
 
 /** When present, the watch uses this object as a payload instead of executing its own input. */
-export type WatcherExecuteWatchRequestAlternativeInputMap = {
-  [key: string]: unknown | undefined;
-};
+export type WatcherExecuteWatchRequestAlternativeInputMap = { [key: string]: unknown | undefined };
 export const WatcherExecuteWatchRequestAlternativeInputMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -93560,9 +90323,7 @@ export const WatcherTypesConditionContainerCompareMap = /*@__PURE__*/ S.Record(
   WatcherTypesConditionContainerCompareValueMap,
 ) as any as S.Schema<WatcherTypesConditionContainerCompareMap>;
 
-export type WatcherTypesScriptConditionParamsMap = {
-  [key: string]: unknown | undefined;
-};
+export type WatcherTypesScriptConditionParamsMap = { [key: string]: unknown | undefined };
 export const WatcherTypesScriptConditionParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -93609,9 +90370,7 @@ export const TypesTransformContainerChainList = /*@__PURE__*/ S.Array(
   S.suspend(() => TypesTransformContainer),
 ) as any as S.Schema<TypesTransformContainerChainList>;
 
-export type TypesScriptTransformParamsMap = {
-  [key: string]: unknown | undefined;
-};
+export type TypesScriptTransformParamsMap = { [key: string]: unknown | undefined };
 export const TypesScriptTransformParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -93630,13 +90389,9 @@ export const TypesScriptTransform = /*@__PURE__*/ S.suspend(() =>
     source: S.optional(TypesScriptSource),
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TypesScriptTransform",
-}) as any as S.Schema<TypesScriptTransform>;
+).annotate({ identifier: "TypesScriptTransform" }) as any as S.Schema<TypesScriptTransform>;
 
-export type WatcherTypesSearchTemplateRequestBodyParamsMap = {
-  [key: string]: unknown | undefined;
-};
+export type WatcherTypesSearchTemplateRequestBodyParamsMap = { [key: string]: unknown | undefined };
 export const WatcherTypesSearchTemplateRequestBodyParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -93696,9 +90451,7 @@ export const TypesSearchTransform = /*@__PURE__*/ S.suspend(() =>
     request: WatcherTypesSearchInputRequestDefinition,
     timeout: S.optional(TypesDuration),
   }),
-).annotate({
-  identifier: "TypesSearchTransform",
-}) as any as S.Schema<TypesSearchTransform>;
+).annotate({ identifier: "TypesSearchTransform" }) as any as S.Schema<TypesSearchTransform>;
 
 export interface TypesTransformContainer {
   chain?: TypesTransformContainerChainList;
@@ -93711,9 +90464,7 @@ export const TypesTransformContainer = /*@__PURE__*/ S.suspend(() =>
     script: S.optional(TypesScriptTransform),
     search: S.optional(TypesSearchTransform),
   }),
-).annotate({
-  identifier: "TypesTransformContainer",
-}) as any as S.Schema<TypesTransformContainer>;
+).annotate({ identifier: "TypesTransformContainer" }) as any as S.Schema<TypesTransformContainer>;
 
 export interface WatcherTypesIndexAction {
   index?: string;
@@ -93732,9 +90483,7 @@ export const WatcherTypesIndexAction = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(TypesDuration),
     execution_time_field: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WatcherTypesIndexAction",
-}) as any as S.Schema<WatcherTypesIndexAction>;
+).annotate({ identifier: "WatcherTypesIndexAction" }) as any as S.Schema<WatcherTypesIndexAction>;
 
 export interface WatcherTypesLoggingAction {
   level?: string;
@@ -93768,9 +90517,7 @@ export const WatcherTypesEmailBody = /*@__PURE__*/ S.suspend(() =>
     html: S.optional(S.String),
     text: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WatcherTypesEmailBody",
-}) as any as S.Schema<WatcherTypesEmailBody>;
+).annotate({ identifier: "WatcherTypesEmailBody" }) as any as S.Schema<WatcherTypesEmailBody>;
 
 export type WatcherTypesEmailActionCcCase1List = Array<string>;
 export const WatcherTypesEmailActionCcCase1List = /*@__PURE__*/ S.Array(
@@ -93835,9 +90582,7 @@ export const WatcherTypesHttpInputRequestDefinitionHeadersMap = /*@__PURE__*/ S.
 export type WatcherTypesHttpInputMethod = "head" | "get" | "post" | "put" | "delete";
 export const WatcherTypesHttpInputMethod = S.String;
 
-export type WatcherTypesHttpInputRequestDefinitionParamsMap = {
-  [key: string]: string | undefined;
-};
+export type WatcherTypesHttpInputRequestDefinitionParamsMap = { [key: string]: string | undefined };
 export const WatcherTypesHttpInputRequestDefinitionParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -93992,9 +90737,7 @@ export const WatcherTypesEmailAction = /*@__PURE__*/ S.suspend(() =>
     to: WatcherTypesEmailActionTo,
     attachments: S.optional(WatcherTypesEmailActionAttachmentsMap),
   }),
-).annotate({
-  identifier: "WatcherTypesEmailAction",
-}) as any as S.Schema<WatcherTypesEmailAction>;
+).annotate({ identifier: "WatcherTypesEmailAction" }) as any as S.Schema<WatcherTypesEmailAction>;
 
 export type WatcherTypesPagerDutyContextType = "link" | "image";
 export const WatcherTypesPagerDutyContextType = S.String;
@@ -94161,9 +90904,7 @@ export const WatcherTypesSlackMessage = /*@__PURE__*/ S.suspend(() =>
     text: S.String,
     to: WatcherTypesSlackMessageToList,
   }),
-).annotate({
-  identifier: "WatcherTypesSlackMessage",
-}) as any as S.Schema<WatcherTypesSlackMessage>;
+).annotate({ identifier: "WatcherTypesSlackMessage" }) as any as S.Schema<WatcherTypesSlackMessage>;
 
 export interface WatcherTypesSlackAction {
   account?: string;
@@ -94174,21 +90915,15 @@ export const WatcherTypesSlackAction = /*@__PURE__*/ S.suspend(() =>
     account: S.optional(S.String),
     message: WatcherTypesSlackMessage,
   }),
-).annotate({
-  identifier: "WatcherTypesSlackAction",
-}) as any as S.Schema<WatcherTypesSlackAction>;
+).annotate({ identifier: "WatcherTypesSlackAction" }) as any as S.Schema<WatcherTypesSlackAction>;
 
-export type WatcherTypesWebhookActionHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type WatcherTypesWebhookActionHeadersMap = { [key: string]: string | undefined };
 export const WatcherTypesWebhookActionHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<WatcherTypesWebhookActionHeadersMap>;
 
-export type WatcherTypesWebhookActionParamsMap = {
-  [key: string]: string | undefined;
-};
+export type WatcherTypesWebhookActionParamsMap = { [key: string]: string | undefined };
 export const WatcherTypesWebhookActionParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -94262,13 +90997,9 @@ export const WatcherTypesAction = /*@__PURE__*/ S.suspend(() =>
     slack: S.optional(WatcherTypesSlackAction),
     webhook: S.optional(WatcherTypesWebhookAction),
   }),
-).annotate({
-  identifier: "WatcherTypesAction",
-}) as any as S.Schema<WatcherTypesAction>;
+).annotate({ identifier: "WatcherTypesAction" }) as any as S.Schema<WatcherTypesAction>;
 
-export type WatcherTypesWatchActionsMap = {
-  [key: string]: WatcherTypesAction | undefined;
-};
+export type WatcherTypesWatchActionsMap = { [key: string]: WatcherTypesAction | undefined };
 export const WatcherTypesWatchActionsMap = /*@__PURE__*/ S.Record(
   S.String,
   WatcherTypesAction,
@@ -94294,9 +91025,7 @@ export const WatcherTypesChainInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     inputs: WatcherTypesChainInputInputsList,
   }),
-).annotate({
-  identifier: "WatcherTypesChainInput",
-}) as any as S.Schema<WatcherTypesChainInput>;
+).annotate({ identifier: "WatcherTypesChainInput" }) as any as S.Schema<WatcherTypesChainInput>;
 
 export type WatcherTypesHttpInputExtractList = Array<string>;
 export const WatcherTypesHttpInputExtractList = /*@__PURE__*/ S.Array(
@@ -94317,9 +91046,7 @@ export const WatcherTypesHttpInput = /*@__PURE__*/ S.suspend(() =>
     request: S.optional(WatcherTypesHttpInputRequestDefinition),
     response_content_type: S.optional(WatcherTypesResponseContentType),
   }),
-).annotate({
-  identifier: "WatcherTypesHttpInput",
-}) as any as S.Schema<WatcherTypesHttpInput>;
+).annotate({ identifier: "WatcherTypesHttpInput" }) as any as S.Schema<WatcherTypesHttpInput>;
 
 export type WatcherTypesSearchInputExtractList = Array<string>;
 export const WatcherTypesSearchInputExtractList = /*@__PURE__*/ S.Array(
@@ -94337,13 +91064,9 @@ export const WatcherTypesSearchInput = /*@__PURE__*/ S.suspend(() =>
     request: WatcherTypesSearchInputRequestDefinition,
     timeout: S.optional(TypesDuration),
   }),
-).annotate({
-  identifier: "WatcherTypesSearchInput",
-}) as any as S.Schema<WatcherTypesSearchInput>;
+).annotate({ identifier: "WatcherTypesSearchInput" }) as any as S.Schema<WatcherTypesSearchInput>;
 
-export type WatcherTypesInputContainerSimpleMap = {
-  [key: string]: unknown | undefined;
-};
+export type WatcherTypesInputContainerSimpleMap = { [key: string]: unknown | undefined };
 export const WatcherTypesInputContainerSimpleMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -94419,9 +91142,7 @@ export const WatcherTypesTimeOfMonth = /*@__PURE__*/ S.suspend(() =>
     at: WatcherTypesTimeOfMonthAtList,
     on: WatcherTypesTimeOfMonthOnList,
   }),
-).annotate({
-  identifier: "WatcherTypesTimeOfMonth",
-}) as any as S.Schema<WatcherTypesTimeOfMonth>;
+).annotate({ identifier: "WatcherTypesTimeOfMonth" }) as any as S.Schema<WatcherTypesTimeOfMonth>;
 
 export type WatcherTypesScheduleContainerMonthlyCase1List = Array<WatcherTypesTimeOfMonth>;
 export const WatcherTypesScheduleContainerMonthlyCase1List = /*@__PURE__*/ S.Array(
@@ -94463,9 +91184,7 @@ export const WatcherTypesTimeOfWeek = /*@__PURE__*/ S.suspend(() =>
     at: WatcherTypesTimeOfWeekAtList,
     on: WatcherTypesTimeOfWeekOnList,
   }),
-).annotate({
-  identifier: "WatcherTypesTimeOfWeek",
-}) as any as S.Schema<WatcherTypesTimeOfWeek>;
+).annotate({ identifier: "WatcherTypesTimeOfWeek" }) as any as S.Schema<WatcherTypesTimeOfWeek>;
 
 export type WatcherTypesScheduleContainerWeeklyCase1List = Array<WatcherTypesTimeOfWeek>;
 export const WatcherTypesScheduleContainerWeeklyCase1List = /*@__PURE__*/ S.Array(
@@ -94519,9 +91238,7 @@ export const WatcherTypesTimeOfYear = /*@__PURE__*/ S.suspend(() =>
     int: WatcherTypesTimeOfYearIntList,
     on: WatcherTypesTimeOfYearOnList,
   }),
-).annotate({
-  identifier: "WatcherTypesTimeOfYear",
-}) as any as S.Schema<WatcherTypesTimeOfYear>;
+).annotate({ identifier: "WatcherTypesTimeOfYear" }) as any as S.Schema<WatcherTypesTimeOfYear>;
 
 export type WatcherTypesScheduleContainerYearlyCase1List = Array<WatcherTypesTimeOfYear>;
 export const WatcherTypesScheduleContainerYearlyCase1List = /*@__PURE__*/ S.Array(
@@ -94593,9 +91310,7 @@ export const WatcherTypesWatch = /*@__PURE__*/ S.suspend(() =>
     transform: S.optional(TypesTransformContainer),
     trigger: WatcherTypesTriggerContainer,
   }),
-).annotate({
-  identifier: "WatcherTypesWatch",
-}) as any as S.Schema<WatcherTypesWatch>;
+).annotate({ identifier: "WatcherTypesWatch" }) as any as S.Schema<WatcherTypesWatch>;
 
 export interface WatcherExecuteWatchRequest {
   /** The watch identifier. */
@@ -94736,9 +91451,7 @@ export const WatcherTypesEmail = /*@__PURE__*/ S.suspend(() =>
     to: WatcherTypesEmailTo,
     attachments: S.optional(WatcherTypesEmailAttachmentsMap),
   }),
-).annotate({
-  identifier: "WatcherTypesEmail",
-}) as any as S.Schema<WatcherTypesEmail>;
+).annotate({ identifier: "WatcherTypesEmail" }) as any as S.Schema<WatcherTypesEmail>;
 
 export interface WatcherTypesEmailResult {
   account?: string;
@@ -94751,9 +91464,7 @@ export const WatcherTypesEmailResult = /*@__PURE__*/ S.suspend(() =>
     message: WatcherTypesEmail,
     reason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WatcherTypesEmailResult",
-}) as any as S.Schema<WatcherTypesEmailResult>;
+).annotate({ identifier: "WatcherTypesEmailResult" }) as any as S.Schema<WatcherTypesEmailResult>;
 
 /** A single item of an index action result. Successful items and failed items expose different fields; only `id` and `index` are present in both. Failed items appear when a bulk index action ends in `failure` or `partial_failure`. */
 export interface WatcherTypesIndexResultSummary {
@@ -94822,9 +91533,7 @@ export const WatcherTypesIndexResult = /*@__PURE__*/ S.suspend(() =>
     response: S.optional(WatcherTypesIndexResultResponse),
     request: S.optional(WatcherTypesIndexResultRequestSummary),
   }),
-).annotate({
-  identifier: "WatcherTypesIndexResult",
-}) as any as S.Schema<WatcherTypesIndexResult>;
+).annotate({ identifier: "WatcherTypesIndexResult" }) as any as S.Schema<WatcherTypesIndexResult>;
 
 export interface WatcherTypesLoggingResult {
   logged_text: string;
@@ -94869,17 +91578,13 @@ export const WatcherTypesPagerDutyEvent = /*@__PURE__*/ S.suspend(() =>
   identifier: "WatcherTypesPagerDutyEvent",
 }) as any as S.Schema<WatcherTypesPagerDutyEvent>;
 
-export type WatcherTypesHttpInputRequestResultHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type WatcherTypesHttpInputRequestResultHeadersMap = { [key: string]: string | undefined };
 export const WatcherTypesHttpInputRequestResultHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<WatcherTypesHttpInputRequestResultHeadersMap>;
 
-export type WatcherTypesHttpInputRequestResultParamsMap = {
-  [key: string]: string | undefined;
-};
+export type WatcherTypesHttpInputRequestResultParamsMap = { [key: string]: string | undefined };
 export const WatcherTypesHttpInputRequestResultParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -95022,9 +91727,7 @@ export const WatcherTypesExecutionResultCondition = /*@__PURE__*/ S.suspend(() =
   identifier: "WatcherTypesExecutionResultCondition",
 }) as any as S.Schema<WatcherTypesExecutionResultCondition>;
 
-export type WatcherTypesExecutionResultTransformPayloadMap = {
-  [key: string]: unknown | undefined;
-};
+export type WatcherTypesExecutionResultTransformPayloadMap = { [key: string]: unknown | undefined };
 export const WatcherTypesExecutionResultTransformPayloadMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -95143,9 +91846,7 @@ export const WatcherTypesExecutionResultActionsList = /*@__PURE__*/ S.Array(
   WatcherTypesExecutionResultAction,
 ) as any as S.Schema<WatcherTypesExecutionResultActionsList>;
 
-export type WatcherTypesExecutionResultInputPayloadMap = {
-  [key: string]: unknown | undefined;
-};
+export type WatcherTypesExecutionResultInputPayloadMap = { [key: string]: unknown | undefined };
 export const WatcherTypesExecutionResultInputPayloadMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -95229,9 +91930,7 @@ export const WatcherExecuteWatchWatchRecordMessagesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<WatcherExecuteWatchWatchRecordMessagesList>;
 
-export type WatcherExecuteWatchWatchRecordVarsMap = {
-  [key: string]: unknown | undefined;
-};
+export type WatcherExecuteWatchWatchRecordVarsMap = { [key: string]: unknown | undefined };
 export const WatcherExecuteWatchWatchRecordVarsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -95299,9 +91998,7 @@ export const WatcherExecuteWatch1RequestActionModesMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<WatcherExecuteWatch1RequestActionModesMap>;
 
 /** When present, the watch uses this object as a payload instead of executing its own input. */
-export type WatcherExecuteWatch1RequestAlternativeInputMap = {
-  [key: string]: unknown | undefined;
-};
+export type WatcherExecuteWatch1RequestAlternativeInputMap = { [key: string]: unknown | undefined };
 export const WatcherExecuteWatch1RequestAlternativeInputMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -95367,9 +92064,7 @@ export const WatcherExecuteWatch2RequestActionModesMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<WatcherExecuteWatch2RequestActionModesMap>;
 
 /** When present, the watch uses this object as a payload instead of executing its own input. */
-export type WatcherExecuteWatch2RequestAlternativeInputMap = {
-  [key: string]: unknown | undefined;
-};
+export type WatcherExecuteWatch2RequestAlternativeInputMap = { [key: string]: unknown | undefined };
 export const WatcherExecuteWatch2RequestAlternativeInputMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -95432,9 +92127,7 @@ export const WatcherExecuteWatch3RequestActionModesMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<WatcherExecuteWatch3RequestActionModesMap>;
 
 /** When present, the watch uses this object as a payload instead of executing its own input. */
-export type WatcherExecuteWatch3RequestAlternativeInputMap = {
-  [key: string]: unknown | undefined;
-};
+export type WatcherExecuteWatch3RequestAlternativeInputMap = { [key: string]: unknown | undefined };
 export const WatcherExecuteWatch3RequestAlternativeInputMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -95518,9 +92211,7 @@ export const WatcherGetWatchRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/_watcher/watch/{id}", code: 200 })),
-).annotate({
-  identifier: "WatcherGetWatchRequest",
-}) as any as S.Schema<WatcherGetWatchRequest>;
+).annotate({ identifier: "WatcherGetWatchRequest" }) as any as S.Schema<WatcherGetWatchRequest>;
 
 export interface WatcherGetWatchResponse {
   found: boolean;
@@ -95541,14 +92232,10 @@ export const WatcherGetWatchResponse = /*@__PURE__*/ S.suspend(() =>
     _seq_no: S.optional(S.Number),
     _version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "WatcherGetWatchResponse",
-}) as any as S.Schema<WatcherGetWatchResponse>;
+).annotate({ identifier: "WatcherGetWatchResponse" }) as any as S.Schema<WatcherGetWatchResponse>;
 
 /** The list of actions that will be run if the condition matches. */
-export type WatcherPutWatchRequestActionsMap = {
-  [key: string]: WatcherTypesAction | undefined;
-};
+export type WatcherPutWatchRequestActionsMap = { [key: string]: WatcherTypesAction | undefined };
 export const WatcherPutWatchRequestActionsMap = /*@__PURE__*/ S.Record(
   S.String,
   WatcherTypesAction,
@@ -95598,9 +92285,7 @@ export const WatcherPutWatchRequest = /*@__PURE__*/ S.suspend(() =>
     transform: S.optional(TypesTransformContainer),
     trigger: S.optional(WatcherTypesTriggerContainer),
   }).pipe(T.Http({ method: "PUT", uri: "/_watcher/watch/{id}", code: 200 })),
-).annotate({
-  identifier: "WatcherPutWatchRequest",
-}) as any as S.Schema<WatcherPutWatchRequest>;
+).annotate({ identifier: "WatcherPutWatchRequest" }) as any as S.Schema<WatcherPutWatchRequest>;
 
 export interface WatcherPutWatchResponse {
   created: boolean;
@@ -95617,14 +92302,10 @@ export const WatcherPutWatchResponse = /*@__PURE__*/ S.suspend(() =>
     _seq_no: S.Number,
     _version: S.Number,
   }),
-).annotate({
-  identifier: "WatcherPutWatchResponse",
-}) as any as S.Schema<WatcherPutWatchResponse>;
+).annotate({ identifier: "WatcherPutWatchResponse" }) as any as S.Schema<WatcherPutWatchResponse>;
 
 /** The list of actions that will be run if the condition matches. */
-export type WatcherPutWatch1RequestActionsMap = {
-  [key: string]: WatcherTypesAction | undefined;
-};
+export type WatcherPutWatch1RequestActionsMap = { [key: string]: WatcherTypesAction | undefined };
 export const WatcherPutWatch1RequestActionsMap = /*@__PURE__*/ S.Record(
   S.String,
   WatcherTypesAction,
@@ -95674,9 +92355,7 @@ export const WatcherPutWatch1Request = /*@__PURE__*/ S.suspend(() =>
     transform: S.optional(TypesTransformContainer),
     trigger: S.optional(WatcherTypesTriggerContainer),
   }).pipe(T.Http({ method: "POST", uri: "/_watcher/watch/{id}", code: 200 })),
-).annotate({
-  identifier: "WatcherPutWatch1Request",
-}) as any as S.Schema<WatcherPutWatch1Request>;
+).annotate({ identifier: "WatcherPutWatch1Request" }) as any as S.Schema<WatcherPutWatch1Request>;
 
 export interface WatcherPutWatch1Response {
   created: boolean;
@@ -95693,9 +92372,7 @@ export const WatcherPutWatch1Response = /*@__PURE__*/ S.suspend(() =>
     _seq_no: S.Number,
     _version: S.Number,
   }),
-).annotate({
-  identifier: "WatcherPutWatch1Response",
-}) as any as S.Schema<WatcherPutWatch1Response>;
+).annotate({ identifier: "WatcherPutWatch1Response" }) as any as S.Schema<WatcherPutWatch1Response>;
 
 export interface WatcherQueryWatchesRequest {
   /** The offset from the first result to fetch. It must be non-negative. */
@@ -95736,9 +92413,7 @@ export const WatcherTypesQueryWatch = /*@__PURE__*/ S.suspend(() =>
     _primary_term: S.optional(S.Number),
     _seq_no: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "WatcherTypesQueryWatch",
-}) as any as S.Schema<WatcherTypesQueryWatch>;
+).annotate({ identifier: "WatcherTypesQueryWatch" }) as any as S.Schema<WatcherTypesQueryWatch>;
 
 /** A list of watches based on the `from`, `size`, or `search_after` request body parameters. */
 export type WatcherQueryWatchesResponseWatchesList = Array<WatcherTypesQueryWatch>;
@@ -95835,9 +92510,7 @@ export const WatcherStatsRequest = /*@__PURE__*/ S.suspend(() =>
     emit_stacktraces: S.optional(S.Boolean.pipe(T.Query())),
     metric: S.optional(WatcherStatsRequestMetric.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_watcher/stats", code: 200 })),
-).annotate({
-  identifier: "WatcherStatsRequest",
-}) as any as S.Schema<WatcherStatsRequest>;
+).annotate({ identifier: "WatcherStatsRequest" }) as any as S.Schema<WatcherStatsRequest>;
 
 export type WatcherTypesExecutionPhase =
   | "awaits_execution"
@@ -95966,9 +92639,7 @@ export const WatcherStatsResponse = /*@__PURE__*/ S.suspend(() =>
     manually_stopped: S.Boolean,
     stats: WatcherStatsResponseStatsList,
   }),
-).annotate({
-  identifier: "WatcherStatsResponse",
-}) as any as S.Schema<WatcherStatsResponse>;
+).annotate({ identifier: "WatcherStatsResponse" }) as any as S.Schema<WatcherStatsResponse>;
 
 export interface WatcherStats1Request {
   /** Defines which additional metrics are included in the response. */
@@ -95981,9 +92652,7 @@ export const WatcherStats1Request = /*@__PURE__*/ S.suspend(() =>
     metric: S.String.pipe(T.Label()),
     emit_stacktraces: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_watcher/stats/{metric}", code: 200 })),
-).annotate({
-  identifier: "WatcherStats1Request",
-}) as any as S.Schema<WatcherStats1Request>;
+).annotate({ identifier: "WatcherStats1Request" }) as any as S.Schema<WatcherStats1Request>;
 
 export type WatcherStats1ResponseStatsList = Array<WatcherStatsWatcherNodeStats>;
 export const WatcherStats1ResponseStatsList = /*@__PURE__*/ S.Array(
@@ -96003,9 +92672,7 @@ export const WatcherStats1Response = /*@__PURE__*/ S.suspend(() =>
     manually_stopped: S.Boolean,
     stats: WatcherStats1ResponseStatsList,
   }),
-).annotate({
-  identifier: "WatcherStats1Response",
-}) as any as S.Schema<WatcherStats1Response>;
+).annotate({ identifier: "WatcherStats1Response" }) as any as S.Schema<WatcherStats1Response>;
 
 export interface WatcherUpdateSettingsRequest {
   /** The period to wait for a connection to the master node. If no response is received before the timeout expires, the request fails and returns an error. */
@@ -96044,16 +92711,8 @@ export interface WatchWatcherAckRequest {
 export const WatchWatcherAckRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     watch_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/_watcher/watch/{watch_id}/_ack",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "WatchWatcherAckRequest",
-}) as any as S.Schema<WatchWatcherAckRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/_watcher/watch/{watch_id}/_ack", code: 200 })),
+).annotate({ identifier: "WatchWatcherAckRequest" }) as any as S.Schema<WatchWatcherAckRequest>;
 
 export interface WatchWatcherAckResponse {
   status: WatcherTypesWatchStatus;
@@ -96062,9 +92721,7 @@ export const WatchWatcherAckResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: WatcherTypesWatchStatus,
   }),
-).annotate({
-  identifier: "WatchWatcherAckResponse",
-}) as any as S.Schema<WatchWatcherAckResponse>;
+).annotate({ identifier: "WatchWatcherAckResponse" }) as any as S.Schema<WatchWatcherAckResponse>;
 
 export type XpackInfoXPackCategory = "build" | "features" | "license";
 export const XpackInfoXPackCategory = S.String;
@@ -96088,9 +92745,7 @@ export const XpackInfoRequest = /*@__PURE__*/ S.suspend(() =>
     accept_enterprise: S.optional(S.Boolean.pipe(T.Query())),
     human: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_xpack", code: 200 })),
-).annotate({
-  identifier: "XpackInfoRequest",
-}) as any as S.Schema<XpackInfoRequest>;
+).annotate({ identifier: "XpackInfoRequest" }) as any as S.Schema<XpackInfoRequest>;
 
 export interface XpackInfoBuildInformation {
   date: TypesDateTime;
@@ -96121,9 +92776,7 @@ export const XpackInfoFeature = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     native_code_info: S.optional(MlInfoNativeCode),
   }),
-).annotate({
-  identifier: "XpackInfoFeature",
-}) as any as S.Schema<XpackInfoFeature>;
+).annotate({ identifier: "XpackInfoFeature" }) as any as S.Schema<XpackInfoFeature>;
 
 export interface XpackInfoFeatures {
   aggregate_metric: XpackInfoFeature;
@@ -96186,9 +92839,7 @@ export const XpackInfoFeatures = /*@__PURE__*/ S.suspend(() =>
     watcher: XpackInfoFeature,
     archive: XpackInfoFeature,
   }),
-).annotate({
-  identifier: "XpackInfoFeatures",
-}) as any as S.Schema<XpackInfoFeatures>;
+).annotate({ identifier: "XpackInfoFeatures" }) as any as S.Schema<XpackInfoFeatures>;
 
 export interface XpackInfoMinimalLicenseInformation {
   expiry_date_in_millis: number;
@@ -96222,9 +92873,7 @@ export const XpackInfoResponse = /*@__PURE__*/ S.suspend(() =>
     license: XpackInfoMinimalLicenseInformation,
     tagline: S.String,
   }),
-).annotate({
-  identifier: "XpackInfoResponse",
-}) as any as S.Schema<XpackInfoResponse>;
+).annotate({ identifier: "XpackInfoResponse" }) as any as S.Schema<XpackInfoResponse>;
 
 export interface XpackUsageRequest {
   /** The period to wait for a connection to the master node. If no response is received before the timeout expires, the request fails and returns an error. To indicate that the request should never timeout, set it to `-1`. */
@@ -96234,9 +92883,7 @@ export const XpackUsageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     master_timeout: S.optional(TypesDuration.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/_xpack/usage", code: 200 })),
-).annotate({
-  identifier: "XpackUsageRequest",
-}) as any as S.Schema<XpackUsageRequest>;
+).annotate({ identifier: "XpackUsageRequest" }) as any as S.Schema<XpackUsageRequest>;
 
 export interface XpackUsageBase {
   available: boolean;
@@ -96287,9 +92934,7 @@ export const XpackUsageAnalytics = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     stats: XpackUsageAnalyticsStatistics,
   }),
-).annotate({
-  identifier: "XpackUsageAnalytics",
-}) as any as S.Schema<XpackUsageAnalytics>;
+).annotate({ identifier: "XpackUsageAnalytics" }) as any as S.Schema<XpackUsageAnalytics>;
 
 export interface XpackUsageArchive {
   available: boolean;
@@ -96302,9 +92947,7 @@ export const XpackUsageArchive = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     indices_count: S.Number,
   }),
-).annotate({
-  identifier: "XpackUsageArchive",
-}) as any as S.Schema<XpackUsageArchive>;
+).annotate({ identifier: "XpackUsageArchive" }) as any as S.Schema<XpackUsageArchive>;
 
 export interface XpackUsageWatcherActionTotals {
   total: TypesDuration;
@@ -96334,9 +92977,7 @@ export const XpackUsageWatcherActions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     actions: XpackUsageWatcherActionsActionsMap,
   }),
-).annotate({
-  identifier: "XpackUsageWatcherActions",
-}) as any as S.Schema<XpackUsageWatcherActions>;
+).annotate({ identifier: "XpackUsageWatcherActions" }) as any as S.Schema<XpackUsageWatcherActions>;
 
 export interface XpackUsageCounter {
   active: number;
@@ -96347,29 +92988,21 @@ export const XpackUsageCounter = /*@__PURE__*/ S.suspend(() =>
     active: S.Number,
     total: S.Number,
   }),
-).annotate({
-  identifier: "XpackUsageCounter",
-}) as any as S.Schema<XpackUsageCounter>;
+).annotate({ identifier: "XpackUsageCounter" }) as any as S.Schema<XpackUsageCounter>;
 
-export type XpackUsageWatcherWatchInputMap = {
-  [key: string]: XpackUsageCounter | undefined;
-};
+export type XpackUsageWatcherWatchInputMap = { [key: string]: XpackUsageCounter | undefined };
 export const XpackUsageWatcherWatchInputMap = /*@__PURE__*/ S.Record(
   S.String,
   XpackUsageCounter,
 ) as any as S.Schema<XpackUsageWatcherWatchInputMap>;
 
-export type XpackUsageWatcherWatchConditionMap = {
-  [key: string]: XpackUsageCounter | undefined;
-};
+export type XpackUsageWatcherWatchConditionMap = { [key: string]: XpackUsageCounter | undefined };
 export const XpackUsageWatcherWatchConditionMap = /*@__PURE__*/ S.Record(
   S.String,
   XpackUsageCounter,
 ) as any as S.Schema<XpackUsageWatcherWatchConditionMap>;
 
-export type XpackUsageWatcherWatchActionMap = {
-  [key: string]: XpackUsageCounter | undefined;
-};
+export type XpackUsageWatcherWatchActionMap = { [key: string]: XpackUsageCounter | undefined };
 export const XpackUsageWatcherWatchActionMap = /*@__PURE__*/ S.Record(
   S.String,
   XpackUsageCounter,
@@ -96418,9 +93051,7 @@ export const XpackUsageWatcherWatch = /*@__PURE__*/ S.suspend(() =>
     action: S.optional(XpackUsageWatcherWatchActionMap),
     trigger: XpackUsageWatcherWatchTrigger,
   }),
-).annotate({
-  identifier: "XpackUsageWatcherWatch",
-}) as any as S.Schema<XpackUsageWatcherWatch>;
+).annotate({ identifier: "XpackUsageWatcherWatch" }) as any as S.Schema<XpackUsageWatcherWatch>;
 
 export interface XpackUsageWatcher {
   available: boolean;
@@ -96437,9 +93068,7 @@ export const XpackUsageWatcher = /*@__PURE__*/ S.suspend(() =>
     watch: XpackUsageWatcherWatch,
     count: XpackUsageCounter,
   }),
-).annotate({
-  identifier: "XpackUsageWatcher",
-}) as any as S.Schema<XpackUsageWatcher>;
+).annotate({ identifier: "XpackUsageWatcher" }) as any as S.Schema<XpackUsageWatcher>;
 
 export interface XpackUsageCcr {
   available: boolean;
@@ -96577,9 +93206,7 @@ export const XpackUsageDataStreams = /*@__PURE__*/ S.suspend(() =>
     data_streams: S.Number,
     indices_count: S.Number,
   }),
-).annotate({
-  identifier: "XpackUsageDataStreams",
-}) as any as S.Schema<XpackUsageDataStreams>;
+).annotate({ identifier: "XpackUsageDataStreams" }) as any as S.Schema<XpackUsageDataStreams>;
 
 export interface XpackUsageDataTierPhaseStatistics {
   node_count: number;
@@ -96629,9 +93256,7 @@ export const XpackUsageDataTiers = /*@__PURE__*/ S.suspend(() =>
     data_content: XpackUsageDataTierPhaseStatistics,
     data_hot: XpackUsageDataTierPhaseStatistics,
   }),
-).annotate({
-  identifier: "XpackUsageDataTiers",
-}) as any as S.Schema<XpackUsageDataTiers>;
+).annotate({ identifier: "XpackUsageDataTiers" }) as any as S.Schema<XpackUsageDataTiers>;
 
 export interface XpackUsageEqlFeaturesJoin {
   join_queries_two: number;
@@ -96724,9 +93349,7 @@ export const XpackUsageEqlFeatures = /*@__PURE__*/ S.suspend(() =>
     sequence: S.Number,
     sequences: XpackUsageEqlFeaturesSequences,
   }),
-).annotate({
-  identifier: "XpackUsageEqlFeatures",
-}) as any as S.Schema<XpackUsageEqlFeatures>;
+).annotate({ identifier: "XpackUsageEqlFeatures" }) as any as S.Schema<XpackUsageEqlFeatures>;
 
 export interface XpackUsageQuery {
   count?: number;
@@ -96741,13 +93364,9 @@ export const XpackUsageQuery = /*@__PURE__*/ S.suspend(() =>
     paging: S.optional(S.Number),
     total: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "XpackUsageQuery",
-}) as any as S.Schema<XpackUsageQuery>;
+).annotate({ identifier: "XpackUsageQuery" }) as any as S.Schema<XpackUsageQuery>;
 
-export type XpackUsageEqlQueriesMap = {
-  [key: string]: XpackUsageQuery | undefined;
-};
+export type XpackUsageEqlQueriesMap = { [key: string]: XpackUsageQuery | undefined };
 export const XpackUsageEqlQueriesMap = /*@__PURE__*/ S.Record(
   S.String,
   XpackUsageQuery,
@@ -96779,9 +93398,7 @@ export const XpackUsageFlattened = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     field_count: S.Number,
   }),
-).annotate({
-  identifier: "XpackUsageFlattened",
-}) as any as S.Schema<XpackUsageFlattened>;
+).annotate({ identifier: "XpackUsageFlattened" }) as any as S.Schema<XpackUsageFlattened>;
 
 /** Per-node GPU statistics for vector indexing. */
 export interface XpackUsageGpuNodeStats {
@@ -96801,9 +93418,7 @@ export const XpackUsageGpuNodeStats = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     index_build_count: S.Number,
   }),
-).annotate({
-  identifier: "XpackUsageGpuNodeStats",
-}) as any as S.Schema<XpackUsageGpuNodeStats>;
+).annotate({ identifier: "XpackUsageGpuNodeStats" }) as any as S.Schema<XpackUsageGpuNodeStats>;
 
 /** Per-node GPU details including type, memory, enabled status, and build count. */
 export type XpackUsageGpuVectorIndexingNodesList = Array<XpackUsageGpuNodeStats>;
@@ -96841,9 +93456,7 @@ export const XpackUsageInvocations = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     total: S.Number,
   }),
-).annotate({
-  identifier: "XpackUsageInvocations",
-}) as any as S.Schema<XpackUsageInvocations>;
+).annotate({ identifier: "XpackUsageInvocations" }) as any as S.Schema<XpackUsageInvocations>;
 
 export interface XpackUsageHealthStatistics {
   available: boolean;
@@ -96874,9 +93487,7 @@ export const XpackUsagePhase = /*@__PURE__*/ S.suspend(() =>
     actions: XpackUsagePhaseActionsList,
     min_age: S.Number,
   }),
-).annotate({
-  identifier: "XpackUsagePhase",
-}) as any as S.Schema<XpackUsagePhase>;
+).annotate({ identifier: "XpackUsagePhase" }) as any as S.Schema<XpackUsagePhase>;
 
 export interface XpackUsagePhases {
   cold?: XpackUsagePhase;
@@ -96893,9 +93504,7 @@ export const XpackUsagePhases = /*@__PURE__*/ S.suspend(() =>
     hot: S.optional(XpackUsagePhase),
     warm: S.optional(XpackUsagePhase),
   }),
-).annotate({
-  identifier: "XpackUsagePhases",
-}) as any as S.Schema<XpackUsagePhases>;
+).annotate({ identifier: "XpackUsagePhases" }) as any as S.Schema<XpackUsagePhases>;
 
 export interface XpackUsageIlmPolicyStatistics {
   indices_managed: number;
@@ -96948,9 +93557,7 @@ export const XpackUsageQueryLoggingConfig = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<XpackUsageQueryLoggingConfig>;
 
 /** The configured logging thresholds, keyed by threshold name, if any. */
-export type XpackUsageEsqlLoggingConfigThresholdsMap = {
-  [key: string]: TypesDuration | undefined;
-};
+export type XpackUsageEsqlLoggingConfigThresholdsMap = { [key: string]: TypesDuration | undefined };
 export const XpackUsageEsqlLoggingConfigThresholdsMap = /*@__PURE__*/ S.Record(
   S.String,
   TypesDuration,
@@ -96986,9 +93593,7 @@ export const XpackUsageLogging = /*@__PURE__*/ S.suspend(() =>
     querylog: XpackUsageQueryLoggingConfig,
     esql: XpackUsageEsqlLoggingConfig,
   }),
-).annotate({
-  identifier: "XpackUsageLogging",
-}) as any as S.Schema<XpackUsageLogging>;
+).annotate({ identifier: "XpackUsageLogging" }) as any as S.Schema<XpackUsageLogging>;
 
 export interface XpackUsageDatafeed {
   count: number;
@@ -96997,9 +93602,7 @@ export const XpackUsageDatafeed = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     count: S.Number,
   }),
-).annotate({
-  identifier: "XpackUsageDatafeed",
-}) as any as S.Schema<XpackUsageDatafeed>;
+).annotate({ identifier: "XpackUsageDatafeed" }) as any as S.Schema<XpackUsageDatafeed>;
 
 export type XpackUsageMachineLearningDatafeedsMap = {
   [key: string]: XpackUsageDatafeed | undefined;
@@ -97009,9 +93612,7 @@ export const XpackUsageMachineLearningDatafeedsMap = /*@__PURE__*/ S.Record(
   XpackUsageDatafeed,
 ) as any as S.Schema<XpackUsageMachineLearningDatafeedsMap>;
 
-export type XpackUsageJobUsageCreatedByMap = {
-  [key: string]: number | undefined;
-};
+export type XpackUsageJobUsageCreatedByMap = { [key: string]: number | undefined };
 export const XpackUsageJobUsageCreatedByMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -97026,9 +93627,7 @@ export const XpackUsageMlJobForecasts = /*@__PURE__*/ S.suspend(() =>
     total: S.Number,
     forecasted_jobs: S.Number,
   }),
-).annotate({
-  identifier: "XpackUsageMlJobForecasts",
-}) as any as S.Schema<XpackUsageMlJobForecasts>;
+).annotate({ identifier: "XpackUsageMlJobForecasts" }) as any as S.Schema<XpackUsageMlJobForecasts>;
 
 export interface XpackUsageJobUsage {
   count: number;
@@ -97045,14 +93644,10 @@ export const XpackUsageJobUsage = /*@__PURE__*/ S.suspend(() =>
     forecasts: XpackUsageMlJobForecasts,
     model_size: MlTypesJobStatistics,
   }),
-).annotate({
-  identifier: "XpackUsageJobUsage",
-}) as any as S.Schema<XpackUsageJobUsage>;
+).annotate({ identifier: "XpackUsageJobUsage" }) as any as S.Schema<XpackUsageJobUsage>;
 
 /** Job usage statistics. The `_all` entry is always present and gathers statistics for all jobs. */
-export type XpackUsageMachineLearningJobsMap = {
-  [key: string]: XpackUsageJobUsage | undefined;
-};
+export type XpackUsageMachineLearningJobsMap = { [key: string]: XpackUsageJobUsage | undefined };
 export const XpackUsageMachineLearningJobsMap = /*@__PURE__*/ S.Record(
   S.String,
   XpackUsageJobUsage,
@@ -97230,9 +93825,7 @@ export const XpackUsageMlInference = /*@__PURE__*/ S.suspend(() =>
     trained_models: XpackUsageMlInferenceTrainedModels,
     deployments: S.optional(XpackUsageMlInferenceDeployments),
   }),
-).annotate({
-  identifier: "XpackUsageMlInference",
-}) as any as S.Schema<XpackUsageMlInference>;
+).annotate({ identifier: "XpackUsageMlInference" }) as any as S.Schema<XpackUsageMlInference>;
 
 export interface XpackUsageMachineLearning {
   available: boolean;
@@ -97258,9 +93851,7 @@ export const XpackUsageMachineLearning = /*@__PURE__*/ S.suspend(() =>
   identifier: "XpackUsageMachineLearning",
 }) as any as S.Schema<XpackUsageMachineLearning>;
 
-export type XpackUsageMonitoringEnabledExportersMap = {
-  [key: string]: number | undefined;
-};
+export type XpackUsageMonitoringEnabledExportersMap = { [key: string]: number | undefined };
 export const XpackUsageMonitoringEnabledExportersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -97279,9 +93870,7 @@ export const XpackUsageMonitoring = /*@__PURE__*/ S.suspend(() =>
     collection_enabled: S.Boolean,
     enabled_exporters: XpackUsageMonitoringEnabledExportersMap,
   }),
-).annotate({
-  identifier: "XpackUsageMonitoring",
-}) as any as S.Schema<XpackUsageMonitoring>;
+).annotate({ identifier: "XpackUsageMonitoring" }) as any as S.Schema<XpackUsageMonitoring>;
 
 export type XpackUsageRuntimeFieldsTypeLangList = Array<string>;
 export const XpackUsageRuntimeFieldsTypeLangList = /*@__PURE__*/ S.Array(
@@ -97381,9 +93970,7 @@ export const XpackUsageAudit = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     outputs: S.optional(XpackUsageAuditOutputsList),
   }),
-).annotate({
-  identifier: "XpackUsageAudit",
-}) as any as S.Schema<XpackUsageAudit>;
+).annotate({ identifier: "XpackUsageAudit" }) as any as S.Schema<XpackUsageAudit>;
 
 export interface XpackUsageIpFilter {
   http: boolean;
@@ -97394,9 +93981,7 @@ export const XpackUsageIpFilter = /*@__PURE__*/ S.suspend(() =>
     http: S.Boolean,
     transport: S.Boolean,
   }),
-).annotate({
-  identifier: "XpackUsageIpFilter",
-}) as any as S.Schema<XpackUsageIpFilter>;
+).annotate({ identifier: "XpackUsageIpFilter" }) as any as S.Schema<XpackUsageIpFilter>;
 
 export type XpackUsageRealmNameList = Array<string>;
 export const XpackUsageRealmNameList = /*@__PURE__*/ S.Array(
@@ -97420,9 +94005,7 @@ export const XpackUsageRealmCache = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     size: S.Number,
   }),
-).annotate({
-  identifier: "XpackUsageRealmCache",
-}) as any as S.Schema<XpackUsageRealmCache>;
+).annotate({ identifier: "XpackUsageRealmCache" }) as any as S.Schema<XpackUsageRealmCache>;
 
 export type XpackUsageRealmCacheList = Array<XpackUsageRealmCache>;
 export const XpackUsageRealmCacheList = /*@__PURE__*/ S.Array(
@@ -97474,13 +94057,9 @@ export const XpackUsageRealm = /*@__PURE__*/ S.suspend(() =>
     has_truststore: S.optional(XpackUsageRealmHasTruststoreList),
     is_authentication_delegated: S.optional(XpackUsageRealmIsAuthenticationDelegatedList),
   }),
-).annotate({
-  identifier: "XpackUsageRealm",
-}) as any as S.Schema<XpackUsageRealm>;
+).annotate({ identifier: "XpackUsageRealm" }) as any as S.Schema<XpackUsageRealm>;
 
-export type XpackUsageSecurityRealmsMap = {
-  [key: string]: XpackUsageRealm | undefined;
-};
+export type XpackUsageSecurityRealmsMap = { [key: string]: XpackUsageRealm | undefined };
 export const XpackUsageSecurityRealmsMap = /*@__PURE__*/ S.Record(
   S.String,
   XpackUsageRealm,
@@ -97495,13 +94074,9 @@ export const XpackUsageRoleMapping = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Number,
     size: S.Number,
   }),
-).annotate({
-  identifier: "XpackUsageRoleMapping",
-}) as any as S.Schema<XpackUsageRoleMapping>;
+).annotate({ identifier: "XpackUsageRoleMapping" }) as any as S.Schema<XpackUsageRoleMapping>;
 
-export type XpackUsageSecurityRoleMappingMap = {
-  [key: string]: XpackUsageRoleMapping | undefined;
-};
+export type XpackUsageSecurityRoleMappingMap = { [key: string]: XpackUsageRoleMapping | undefined };
 export const XpackUsageSecurityRoleMappingMap = /*@__PURE__*/ S.Record(
   S.String,
   XpackUsageRoleMapping,
@@ -97536,9 +94111,7 @@ export const XpackUsageSecurityRoles = /*@__PURE__*/ S.suspend(() =>
     dls: XpackUsageSecurityRolesDls,
     file: XpackUsageSecurityRolesNative,
   }),
-).annotate({
-  identifier: "XpackUsageSecurityRoles",
-}) as any as S.Schema<XpackUsageSecurityRoles>;
+).annotate({ identifier: "XpackUsageSecurityRoles" }) as any as S.Schema<XpackUsageSecurityRoles>;
 
 export interface XpackUsageSsl {
   http: IndicesTypesCacheQueries;
@@ -97584,9 +94157,7 @@ export const XpackUsageSecurity = /*@__PURE__*/ S.suspend(() =>
     token_service: IndicesTypesCacheQueries,
     operator_privileges: XpackUsageBase,
   }),
-).annotate({
-  identifier: "XpackUsageSecurity",
-}) as any as S.Schema<XpackUsageSecurity>;
+).annotate({ identifier: "XpackUsageSecurity" }) as any as S.Schema<XpackUsageSecurity>;
 
 export interface XpackUsageSlm {
   available: boolean;
@@ -97609,9 +94180,7 @@ export const XpackUsageSqlFeaturesMap = /*@__PURE__*/ S.Record(
   S.Number,
 ) as any as S.Schema<XpackUsageSqlFeaturesMap>;
 
-export type XpackUsageSqlQueriesMap = {
-  [key: string]: XpackUsageQuery | undefined;
-};
+export type XpackUsageSqlQueriesMap = { [key: string]: XpackUsageQuery | undefined };
 export const XpackUsageSqlQueriesMap = /*@__PURE__*/ S.Record(
   S.String,
   XpackUsageQuery,
@@ -97647,9 +94216,7 @@ export const XpackUsageVector = /*@__PURE__*/ S.suspend(() =>
     dense_vector_fields_count: S.Number,
     sparse_vector_fields_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "XpackUsageVector",
-}) as any as S.Schema<XpackUsageVector>;
+).annotate({ identifier: "XpackUsageVector" }) as any as S.Schema<XpackUsageVector>;
 
 /** Usage statistics for indices using the `vectordb_document` index mode. */
 export interface XpackUsageVectorDbDocument {
@@ -97740,9 +94307,7 @@ export const XpackUsageResponse = /*@__PURE__*/ S.suspend(() =>
     vectordb_document: S.optional(XpackUsageVectorDbDocument),
     voting_only: XpackUsageBase,
   }),
-).annotate({
-  identifier: "XpackUsageResponse",
-}) as any as S.Schema<XpackUsageResponse>;
+).annotate({ identifier: "XpackUsageResponse" }) as any as S.Schema<XpackUsageResponse>;
 
 export type ArchiveNodesClearRepositoriesMeteringError = ElasticsearchOpError;
 /** Clear the archived repositories metering Clear the archived repositories metering information in the cluster. ## Required authorization * Cluster privileges: `monitor`,`manage` */
@@ -102650,7 +99215,7 @@ export const indicesValidateQuery3: API.OperationMethod<
 }));
 
 export type InferenceChatCompletionUnifiedError = ElasticsearchOpError;
-/** Perform chat completion inference on the service The chat completion inference API enables real-time responses for chat completion tasks by delivering answers incrementally, reducing response times during computation. It only works with the `chat_completion` task type. NOTE: The `chat_completion` task type is only available within the _stream API and only supports streaming. The Chat completion inference API and the Stream inference API differ in their response structure and capabilities. The Chat completion inference API provides more comprehensive customization options through more fields and function calling support. To determine whether a given inference service supports this task type, please see the page for that service. */
+/** Perform streaming chat completion inference on the service The chat completion inference API enables real-time responses for chat completion tasks by delivering answers incrementally, reducing response times during computation. It only works with the `chat_completion` task type. NOTE: The `chat_completion` task type supports both streaming and non-streaming. The Chat completion inference API and the Stream inference API differ in their response structure and capabilities. The Chat completion inference API provides more comprehensive customization options through more fields and function calling support. To determine whether a given inference service supports this task type, please see the page for that service. */
 export const inferenceChatCompletionUnified: API.OperationMethod<
   InferenceChatCompletionUnifiedRequest,
   InferenceChatCompletionUnifiedResponse,
@@ -102809,6 +99374,21 @@ export const inferenceInference1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: InferenceInference1Request,
   output: InferenceTypesInferenceResult,
+  errors: [UnknownElasticsearchError],
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+}));
+
+export type InferenceNonStreamingChatCompletionError = ElasticsearchOpError;
+/** Perform non-streaming chat completion inference on the service The chat completion inference API enables rich responses for chat completion tasks. It only works with the `chat_completion` task type. NOTE: The `chat_completion` task type supports both streaming and non-streaming. The Chat completion inference API provides more comprehensive customization options through more fields and function calling support. To determine whether a given inference service supports this task type, please see the page for that service. These services support non-streaming chat completion inference: - AI21 - Azure OpenAI - Deepseek - Elastic - FireworksAI - Groq - Huggingface - IBMWatsonX - Llama - Mistral - NVIDIA - OpenAI - OpenShiftAI */
+export const inferenceNonStreamingChatCompletion: API.OperationMethod<
+  InferenceNonStreamingChatCompletionRequest,
+  InferenceTypesChatCompletionInferenceResult,
+  InferenceNonStreamingChatCompletionError,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: InferenceNonStreamingChatCompletionRequest,
+  output: InferenceTypesChatCompletionInferenceResult,
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
@@ -106040,7 +102620,7 @@ export const nodesUsage3: API.OperationMethod<
 }));
 
 export type OpenPointInTimeError = ElasticsearchOpError;
-/** Open a point in time A search request by default runs against the most recent visible data of the target indices, which is called point in time. Elasticsearch pit (point in time) is a lightweight view into the state of the data as it existed when initiated. In some cases, it’s preferred to perform multiple search requests using the same point in time. For example, if refreshes happen between `search_after` requests, then the results of those requests might not be consistent as changes happening between searches are only visible to the more recent point in time. A point in time must be opened explicitly before being used in search requests. A subsequent search request with the `pit` parameter must not specify `index`, `routing`, or `preference` values as these parameters are copied from the point in time. Just like regular searches, you can use `from` and `size` to page through point in time search results, up to the first 10,000 hits. If you want to retrieve more hits, use PIT with `search_after`. IMPORTANT: The open point in time request and each subsequent search request can return different identifiers; always use the most recently received ID for the next search request. When a PIT that contains shard failures is used in a search request, the missing are always reported in the search response as a `NoShardAvailableActionException` exception. To get rid of these exceptions, a new PIT needs to be created so that shards missing from the previous PIT can be handled, assuming they become available in the meantime. **Keeping point in time alive** The `keep_alive` parameter, which is passed to a open point in time request and search request, extends the time to live of the corresponding point in time. The value does not need to be long enough to process all data — it just needs to be long enough for the next request. Normally, the background merge process optimizes the index by merging together smaller segments to create new, bigger segments. Once the smaller segments are no longer needed they are deleted. However, open point-in-times prevent the old segments from being deleted since they are still in use. TIP: Keeping older segments alive means that more disk space and file handles are needed. Ensure that you have configured your nodes to have ample free file handles. Additionally, if a segment contains deleted or updated documents then the point in time must keep track of whether each document in the segment was live at the time of the initial search request. Ensure that your nodes have sufficient heap space if you have many open point-in-times on an index that is subject to ongoing deletes or updates. Note that a point-in-time doesn't prevent its associated indices from being deleted. You can check how many point-in-times (that is, search contexts) are open with the nodes stats API. ## Required authorization * Index privileges: `read` */
+/** Open a point in time A search request by default runs against the most recent visible data of the target indices, which is called point in time. Elasticsearch pit (point in time) is a lightweight view into the state of the data as it existed when initiated. In some cases, it’s preferred to perform multiple search requests using the same point in time. For example, if refreshes happen between `search_after` requests, then the results of those requests might not be consistent as changes happening between searches are only visible to the more recent point in time. A point in time must be opened explicitly before being used in search requests. A subsequent search request with the `pit` parameter must not specify `index`, `routing`, or `preference` values as these parameters are copied from the point in time. Just like regular searches, you can use `from` and `size` to page through point in time search results, up to the first 10,000 hits. If you want to retrieve more hits, use PIT with `search_after`. IMPORTANT: Each search request against a PIT returns in its response a `pit_id` field which may be different from the identifier you originally supplied. Always use the most recently-received PIT identifier for the next request. If you make concurrent search requests against the same PIT, Elasticsearch can return several different `pit_id` values in its responses. In that case, use any of these values for later requests, preferring more recently-received values whenever possible. When a PIT that contains shard failures is used in a search request, the missing are always reported in the search response as a `NoShardAvailableActionException` exception. To get rid of these exceptions, a new PIT needs to be created so that shards missing from the previous PIT can be handled, assuming they become available in the meantime. **Keeping point in time alive** The `keep_alive` parameter, which is passed to a open point in time request and search request, extends the time to live of the corresponding point in time. The value does not need to be long enough to process all data — it just needs to be long enough for the next request. Normally, the background merge process optimizes the index by merging together smaller segments to create new, bigger segments. Once the smaller segments are no longer needed they are deleted. However, open point-in-times prevent the old segments from being deleted since they are still in use. TIP: Keeping older segments alive means that more disk space and file handles are needed. Ensure that you have configured your nodes to have ample free file handles. Additionally, if a segment contains deleted or updated documents then the point in time must keep track of whether each document in the segment was live at the time of the initial search request. Ensure that your nodes have sufficient heap space if you have many open point-in-times on an index that is subject to ongoing deletes or updates. Note that a point-in-time doesn't prevent its associated indices from being deleted. You can check how many point-in-times (that is, search contexts) are open with the nodes stats API. ## Required authorization * Index privileges: `read` */
 export const openPointInTime: API.OperationMethod<
   OpenPointInTimeRequest,
   OpenPointInTimeResponse,
@@ -107345,7 +103925,7 @@ export const securityClearCachedServiceTokens: API.OperationMethod<
 }));
 
 export type SecurityCloneApiKeyError = ElasticsearchOpError;
-/** Clone an API key Create a copy of an existing API key with a new ID. The cloned key inherits the role descriptors of the source key. This is intended for applications (such as Kibana) that need to create API keys on behalf of a user using an existing API key credential, since derived API keys (API keys created by API keys) are not otherwise supported. ## Required authorization * Cluster privileges: `manage_own_api_key` */
+/** Clone an API key Create a copy of an existing API key with a new ID. The cloned key inherits the role descriptors of the source key. This is intended for applications (such as Kibana) that need to create API keys on behalf of a user using an existing API key credential, since derived API keys (API keys created by API keys) are not otherwise supported. ## Required authorization * Cluster privileges: `clone_api_key` */
 export const securityCloneApiKey: API.OperationMethod<
   SecurityCloneApiKeyRequest,
   SecurityCloneApiKeyResponse,
@@ -107360,7 +103940,7 @@ export const securityCloneApiKey: API.OperationMethod<
 }));
 
 export type SecurityCloneApiKey1Error = ElasticsearchOpError;
-/** Clone an API key Create a copy of an existing API key with a new ID. The cloned key inherits the role descriptors of the source key. This is intended for applications (such as Kibana) that need to create API keys on behalf of a user using an existing API key credential, since derived API keys (API keys created by API keys) are not otherwise supported. ## Required authorization * Cluster privileges: `manage_own_api_key` */
+/** Clone an API key Create a copy of an existing API key with a new ID. The cloned key inherits the role descriptors of the source key. This is intended for applications (such as Kibana) that need to create API keys on behalf of a user using an existing API key credential, since derived API keys (API keys created by API keys) are not otherwise supported. ## Required authorization * Cluster privileges: `clone_api_key` */
 export const securityCloneApiKey1: API.OperationMethod<
   SecurityCloneApiKey1Request,
   SecurityCloneApiKey1Response,
@@ -107420,7 +104000,7 @@ export const securityCreateCrossClusterApiKey: API.OperationMethod<
 }));
 
 export type SecurityCreateServiceTokenError = ElasticsearchOpError;
-/** Create a service account token Create a service accounts token for access without requiring basic authentication. NOTE: Service account tokens never expire. You must actively delete them if they are no longer needed. IMPORTANT: On Serverless, non-operator users can create tokens for only `elastic/fleet-server` and `elastic/fleet-server-remote`. Creating tokens for any other service account requires operator privileges. ## Required authorization * Cluster privileges: `manage_service_account` */
+/** Create a service account token Create a service accounts token for access without requiring basic authentication. This route serves both kinds of service account, but the privileges differ: `manage_service_account` authorizes tokens of built-in accounts in the `elastic` namespace only, and tokens of a user-managed account require `manage_security`. NOTE: Service account tokens never expire. You must actively delete them if they are no longer needed. IMPORTANT: On Serverless, non-operator users can create tokens for only `elastic/fleet-server` and `elastic/fleet-server-remote`. Creating tokens for any other service account requires operator privileges. ## Required authorization * Cluster privileges: `manage_service_account` */
 export const securityCreateServiceToken: API.OperationMethod<
   SecurityCreateServiceTokenRequest,
   SecurityCreateServiceTokenResponse,
@@ -107435,7 +104015,7 @@ export const securityCreateServiceToken: API.OperationMethod<
 }));
 
 export type SecurityCreateServiceToken1Error = ElasticsearchOpError;
-/** Create a service account token Create a service accounts token for access without requiring basic authentication. NOTE: Service account tokens never expire. You must actively delete them if they are no longer needed. IMPORTANT: On Serverless, non-operator users can create tokens for only `elastic/fleet-server` and `elastic/fleet-server-remote`. Creating tokens for any other service account requires operator privileges. ## Required authorization * Cluster privileges: `manage_service_account` */
+/** Create a service account token Create a service accounts token for access without requiring basic authentication. This route serves both kinds of service account, but the privileges differ: `manage_service_account` authorizes tokens of built-in accounts in the `elastic` namespace only, and tokens of a user-managed account require `manage_security`. NOTE: Service account tokens never expire. You must actively delete them if they are no longer needed. IMPORTANT: On Serverless, non-operator users can create tokens for only `elastic/fleet-server` and `elastic/fleet-server-remote`. Creating tokens for any other service account requires operator privileges. ## Required authorization * Cluster privileges: `manage_service_account` */
 export const securityCreateServiceToken1: API.OperationMethod<
   SecurityCreateServiceToken1Request,
   SecurityCreateServiceToken1Response,
@@ -107450,7 +104030,7 @@ export const securityCreateServiceToken1: API.OperationMethod<
 }));
 
 export type SecurityCreateServiceToken2Error = ElasticsearchOpError;
-/** Create a service account token Create a service accounts token for access without requiring basic authentication. NOTE: Service account tokens never expire. You must actively delete them if they are no longer needed. IMPORTANT: On Serverless, non-operator users can create tokens for only `elastic/fleet-server` and `elastic/fleet-server-remote`. Creating tokens for any other service account requires operator privileges. ## Required authorization * Cluster privileges: `manage_service_account` */
+/** Create a service account token Create a service accounts token for access without requiring basic authentication. This route serves both kinds of service account, but the privileges differ: `manage_service_account` authorizes tokens of built-in accounts in the `elastic` namespace only, and tokens of a user-managed account require `manage_security`. NOTE: Service account tokens never expire. You must actively delete them if they are no longer needed. IMPORTANT: On Serverless, non-operator users can create tokens for only `elastic/fleet-server` and `elastic/fleet-server-remote`. Creating tokens for any other service account requires operator privileges. ## Required authorization * Cluster privileges: `manage_service_account` */
 export const securityCreateServiceToken2: API.OperationMethod<
   SecurityCreateServiceToken2Request,
   SecurityCreateServiceToken2Response,
@@ -107525,7 +104105,7 @@ export const securityDeleteRoleMapping: API.OperationMethod<
 }));
 
 export type SecurityDeleteServiceTokenError = ElasticsearchOpError;
-/** Delete service account tokens Delete service account tokens for a service in a specified namespace. IMPORTANT: On Serverless, non-operator users can delete tokens for only `elastic/fleet-server` and `elastic/fleet-server-remote`. Deleting tokens for any other service account requires operator privileges. ## Required authorization * Cluster privileges: `manage_service_account` */
+/** Delete service account tokens Delete service account tokens for a service in a specified namespace. This route serves both kinds of service account, but the privileges differ: `manage_service_account` authorizes tokens of built-in accounts in the `elastic` namespace only, and tokens of a user-managed account require `manage_security`. IMPORTANT: On Serverless, non-operator users can delete tokens for only `elastic/fleet-server` and `elastic/fleet-server-remote`. Deleting tokens for any other service account requires operator privileges. ## Required authorization * Cluster privileges: `manage_service_account` */
 export const securityDeleteServiceToken: API.OperationMethod<
   SecurityDeleteServiceTokenRequest,
   SecurityDeleteServiceTokenResponse,
@@ -107549,6 +104129,21 @@ export const securityDeleteUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SecurityDeleteUserRequest,
   output: SecurityDeleteUserResponse,
+  errors: [UnknownElasticsearchError],
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SecurityDeleteUserManagedServiceAccountError = ElasticsearchOpError;
+/** Delete user-managed service accounts Delete a service account from a namespace of your own. Deleting an account that still has service tokens is rejected unless `force` is `true`. A forced delete leaves the tokens behind: they cannot authenticate while no account of that name exists, and recreating the account is rejected until they are deleted. NOTE: The `elastic` namespace is reserved for the built-in service accounts that ship with Elasticsearch. A name that no user-managed service account could have is rejected rather than reported as not found. The `manage_service_account` privilege does not authorize this API. ## Required authorization * Cluster privileges: `manage_security` */
+export const securityDeleteUserManagedServiceAccount: API.OperationMethod<
+  SecurityDeleteUserManagedServiceAccountRequest,
+  SecurityDeleteUserManagedServiceAccountResponse,
+  SecurityDeleteUserManagedServiceAccountError,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SecurityDeleteUserManagedServiceAccountRequest,
+  output: SecurityDeleteUserManagedServiceAccountResponse,
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
@@ -107840,7 +104435,7 @@ export const securityGetRoleMapping1: API.OperationMethod<
 }));
 
 export type SecurityGetServiceAccountsError = ElasticsearchOpError;
-/** Get service accounts Get a list of service accounts that match the provided path parameters. NOTE: Currently, only the `elastic/fleet-server` service account is available. ## Required authorization * Cluster privileges: `manage_service_account` */
+/** Get service accounts Get a list of service accounts that match the provided path parameters. Built-in service accounts ship with Elasticsearch in the `elastic` namespace; user-managed service accounts are created with the put user-managed service account API. NOTE: When `type` is omitted, a request without a namespace reports built-in accounts only, which preserves the response of a whole-cluster listing. A request scoped to a namespace reports both kinds, so an account you created is found without naming its kind. ## Required authorization * Cluster privileges: `manage_service_account` */
 export const securityGetServiceAccounts: API.OperationMethod<
   SecurityGetServiceAccountsRequest,
   SecurityGetServiceAccountsResponse,
@@ -107855,7 +104450,7 @@ export const securityGetServiceAccounts: API.OperationMethod<
 }));
 
 export type SecurityGetServiceAccounts1Error = ElasticsearchOpError;
-/** Get service accounts Get a list of service accounts that match the provided path parameters. NOTE: Currently, only the `elastic/fleet-server` service account is available. ## Required authorization * Cluster privileges: `manage_service_account` */
+/** Get service accounts Get a list of service accounts that match the provided path parameters. Built-in service accounts ship with Elasticsearch in the `elastic` namespace; user-managed service accounts are created with the put user-managed service account API. NOTE: When `type` is omitted, a request without a namespace reports built-in accounts only, which preserves the response of a whole-cluster listing. A request scoped to a namespace reports both kinds, so an account you created is found without naming its kind. ## Required authorization * Cluster privileges: `manage_service_account` */
 export const securityGetServiceAccounts1: API.OperationMethod<
   SecurityGetServiceAccounts1Request,
   SecurityGetServiceAccounts1Response,
@@ -107870,7 +104465,7 @@ export const securityGetServiceAccounts1: API.OperationMethod<
 }));
 
 export type SecurityGetServiceAccounts2Error = ElasticsearchOpError;
-/** Get service accounts Get a list of service accounts that match the provided path parameters. NOTE: Currently, only the `elastic/fleet-server` service account is available. ## Required authorization * Cluster privileges: `manage_service_account` */
+/** Get service accounts Get a list of service accounts that match the provided path parameters. Built-in service accounts ship with Elasticsearch in the `elastic` namespace; user-managed service accounts are created with the put user-managed service account API. NOTE: When `type` is omitted, a request without a namespace reports built-in accounts only, which preserves the response of a whole-cluster listing. A request scoped to a namespace reports both kinds, so an account you created is found without naming its kind. ## Required authorization * Cluster privileges: `manage_service_account` */
 export const securityGetServiceAccounts2: API.OperationMethod<
   SecurityGetServiceAccounts2Request,
   SecurityGetServiceAccounts2Response,
@@ -108269,6 +104864,21 @@ export const securityPutUser1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SecurityPutUser1Request,
   output: SecurityPutUser1Response,
+  errors: [UnknownElasticsearchError],
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SecurityPutUserManagedServiceAccountError = ElasticsearchOpError;
+/** Create user-managed service accounts Create a service account in a namespace of your own, or replace one that already exists. A replacement is not a partial update: every write applies the defaults, so an account that was disabled and is then written again without `enabled` comes back enabled. Creating an account whose name still has leftover service tokens is rejected. Delete those tokens first. NOTE: The `elastic` namespace is reserved for the built-in service accounts that ship with Elasticsearch. The `manage_service_account` privilege does not authorize this API. ## Required authorization * Cluster privileges: `manage_security` */
+export const securityPutUserManagedServiceAccount: API.OperationMethod<
+  SecurityPutUserManagedServiceAccountRequest,
+  SecurityPutUserManagedServiceAccountResponse,
+  SecurityPutUserManagedServiceAccountError,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SecurityPutUserManagedServiceAccountRequest,
+  output: SecurityPutUserManagedServiceAccountResponse,
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,

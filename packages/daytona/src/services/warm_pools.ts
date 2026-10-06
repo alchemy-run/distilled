@@ -25,9 +25,7 @@ export const CreateWarmPoolRequest = /*@__PURE__*/ S.suspend(() =>
     pool: S.Number,
     target: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/warm-pools", code: 200 })),
-).annotate({
-  identifier: "CreateWarmPoolRequest",
-}) as any as S.Schema<CreateWarmPoolRequest>;
+).annotate({ identifier: "CreateWarmPoolRequest" }) as any as S.Schema<CreateWarmPoolRequest>;
 
 export type WarmPoolEnvMap = { [key: string]: string | undefined };
 export const WarmPoolEnvMap = /*@__PURE__*/ S.Record(
@@ -83,9 +81,7 @@ export const DeleteWarmPoolRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "DELETE", uri: "/warm-pools/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteWarmPoolRequest",
-}) as any as S.Schema<DeleteWarmPoolRequest>;
+).annotate({ identifier: "DeleteWarmPoolRequest" }) as any as S.Schema<DeleteWarmPoolRequest>;
 
 export interface DeleteWarmPoolResponse {}
 export const DeleteWarmPoolResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -100,9 +96,7 @@ export const ListWarmPoolsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "GET", uri: "/warm-pools", code: 200 })),
-).annotate({
-  identifier: "ListWarmPoolsRequest",
-}) as any as S.Schema<ListWarmPoolsRequest>;
+).annotate({ identifier: "ListWarmPoolsRequest" }) as any as S.Schema<ListWarmPoolsRequest>;
 
 export type ListWarmPoolsResponseBodyList = Array<WarmPool>;
 export const ListWarmPoolsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -112,9 +106,7 @@ export const ListWarmPoolsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListWarmPoolsResponse = ListWarmPoolsResponseBodyList;
 export const ListWarmPoolsResponse = /*@__PURE__*/ S.suspend(() =>
   ListWarmPoolsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListWarmPoolsResponse",
-}) as any as S.Schema<ListWarmPoolsResponse>;
+).annotate({ identifier: "ListWarmPoolsResponse" }) as any as S.Schema<ListWarmPoolsResponse>;
 
 export interface UpdateWarmPoolRequest {
   /** Warm pool ID */
@@ -130,9 +122,7 @@ export const UpdateWarmPoolRequest = /*@__PURE__*/ S.suspend(() =>
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
     pool: S.Number,
   }).pipe(T.Http({ method: "PATCH", uri: "/warm-pools/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateWarmPoolRequest",
-}) as any as S.Schema<UpdateWarmPoolRequest>;
+).annotate({ identifier: "UpdateWarmPoolRequest" }) as any as S.Schema<UpdateWarmPoolRequest>;
 
 export type CreateWarmPoolError = DaytonaOpError;
 /** Create a warm pool */

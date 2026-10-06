@@ -43,6 +43,12 @@
     "com.vercel.observability#GetObservabilityConfigurationProjectsResponseDisabledProjectsItem": {
       "type": "structure",
       "members": {
+        "disabledAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
@@ -51,12 +57,6 @@
         },
         "name": {
           "target": "smithy.api#String"
-        },
-        "disabledAt": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#required": {}
-          }
         }
       },
       "traits": {}
@@ -150,14 +150,14 @@
     "com.vercel.observability#UpdateObservabilityConfigurationProjectResponse": {
       "type": "structure",
       "members": {
+        "disabledAt": {
+          "target": "smithy.api#Double"
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
-        },
-        "disabledAt": {
-          "target": "smithy.api#Double"
         }
       },
       "traits": {
@@ -335,6 +335,12 @@
         },
         {
           "target": "com.vercel.observability#Forbidden"
+        },
+        {
+          "target": "com.vercel.observability#NotFound"
+        },
+        {
+          "target": "com.vercel.observability#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -348,13 +354,13 @@
     "com.vercel.observability#GetObservabilitySchemaResponseMetricsItem": {
       "type": "structure",
       "members": {
-        "id": {
+        "description": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "description": {
+        "id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -398,6 +404,9 @@
         },
         {
           "target": "com.vercel.observability#Forbidden"
+        },
+        {
+          "target": "com.vercel.observability#NotFound"
         }
       ],
       "traits": {
@@ -423,14 +432,18 @@
         "smithy.api#input": {}
       }
     },
+    "com.vercel.observability#GetObservabilitySchemaByMetricIdResponseBodyItemAggregationsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
     "com.vercel.observability#GetObservabilitySchemaByMetricIdResponseBodyItemDimensionsItem": {
       "type": "structure",
       "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+        "description": {
+          "target": "smithy.api#String"
         },
         "label": {
           "target": "smithy.api#String",
@@ -438,8 +451,11 @@
             "smithy.api#required": {}
           }
         },
-        "description": {
-          "target": "smithy.api#String"
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {}
@@ -451,17 +467,16 @@
       },
       "traits": {}
     },
-    "com.vercel.observability#GetObservabilitySchemaByMetricIdResponseBodyItemAggregationsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
     "com.vercel.observability#GetObservabilitySchemaByMetricIdResponseBodyItem": {
       "type": "structure",
       "members": {
-        "id": {
+        "aggregations": {
+          "target": "com.vercel.observability#GetObservabilitySchemaByMetricIdResponseBodyItemAggregationsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "defaultAggregation": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -479,19 +494,13 @@
             "smithy.api#required": {}
           }
         },
-        "unit": {
+        "id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "aggregations": {
-          "target": "com.vercel.observability#GetObservabilitySchemaByMetricIdResponseBodyItemAggregationsList",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "defaultAggregation": {
+        "unit": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -536,6 +545,9 @@
         },
         {
           "target": "com.vercel.observability#Forbidden"
+        },
+        {
+          "target": "com.vercel.observability#NotFound"
         }
       ],
       "traits": {
@@ -594,6 +606,19 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 402
+          }
+        ]
+      }
+    },
+    "com.vercel.observability#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
           }
         ]
       }

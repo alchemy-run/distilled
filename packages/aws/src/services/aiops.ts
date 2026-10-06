@@ -134,13 +134,8 @@ export interface EncryptionConfiguration {
   kmsKeyId?: string;
 }
 export const EncryptionConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(EncryptionConfigurationType),
-    kmsKeyId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EncryptionConfiguration",
-}) as any as S.Schema<EncryptionConfiguration>;
+  S.Struct({ type: S.optional(EncryptionConfigurationType), kmsKeyId: S.optional(S.String) }),
+).annotate({ identifier: "EncryptionConfiguration" }) as any as S.Schema<EncryptionConfiguration>;
 export type Retention = number;
 export type TagKey = string;
 export type TagValue = string;
@@ -152,9 +147,7 @@ export type SNSTopicArn = string;
 export type ChatConfigurationArn = string;
 export type ChatConfigurationArns = string[];
 export const ChatConfigurationArns = /*@__PURE__*/ S.Array(S.String);
-export type ChatbotNotificationChannel = {
-  [key: string]: string[] | undefined;
-};
+export type ChatbotNotificationChannel = { [key: string]: string[] | undefined };
 export const ChatbotNotificationChannel = /*@__PURE__*/ S.Record(
   S.String,
   ChatConfigurationArns.pipe(S.optional),
@@ -236,10 +229,7 @@ export interface DeleteInvestigationGroupPolicyRequest {
 export const DeleteInvestigationGroupPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/investigationGroups/{identifier}/policy",
-      }),
+      T.Http({ method: "DELETE", uri: "/investigationGroups/{identifier}/policy" }),
       svc,
       auth,
       proto,
@@ -314,10 +304,7 @@ export interface GetInvestigationGroupPolicyRequest {
 export const GetInvestigationGroupPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/investigationGroups/{identifier}/policy",
-      }),
+      T.Http({ method: "GET", uri: "/investigationGroups/{identifier}/policy" }),
       svc,
       auth,
       proto,
@@ -334,10 +321,7 @@ export interface GetInvestigationGroupPolicyResponse {
   policy?: string;
 }
 export const GetInvestigationGroupPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    investigationGroupArn: S.optional(S.String),
-    policy: S.optional(S.String),
-  }),
+  S.Struct({ investigationGroupArn: S.optional(S.String), policy: S.optional(S.String) }),
 ).annotate({
   identifier: "GetInvestigationGroupPolicyResponse",
 }) as any as S.Schema<GetInvestigationGroupPolicyResponse>;
@@ -402,15 +386,9 @@ export interface PutInvestigationGroupPolicyRequest {
   policy: string;
 }
 export const PutInvestigationGroupPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    policy: S.String,
-  }).pipe(
+  S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")), policy: S.String }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/investigationGroups/{identifier}/policy",
-      }),
+      T.Http({ method: "POST", uri: "/investigationGroups/{identifier}/policy" }),
       svc,
       auth,
       proto,
@@ -434,15 +412,10 @@ export interface TagResourceRequest {
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: Tags,
-  }).pipe(
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: Tags }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -460,9 +433,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",

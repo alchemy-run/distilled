@@ -14,6 +14,8 @@ export interface EnvironmentSettings {
   webhookSuffix?: string;
   maxConcurrentGpus?: number;
   maxConcurrentTasks?: number;
+  /** When true, new unauthenticated web functions, Servers, tunnels, and Endpoints in this environment are rejected. Unset inherits the workspace default. */
+  blockUnauthenticatedResources?: boolean;
 }
 export const EnvironmentSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -21,10 +23,9 @@ export const EnvironmentSettings = /*@__PURE__*/ S.suspend(() =>
     webhookSuffix: S.optional(S.String),
     maxConcurrentGpus: S.optional(S.Number),
     maxConcurrentTasks: S.optional(S.Number),
+    blockUnauthenticatedResources: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "EnvironmentSettings",
-}) as any as S.Schema<EnvironmentSettings>;
+).annotate({ identifier: "EnvironmentSettings" }) as any as S.Schema<EnvironmentSettings>;
 
 /** Creation-time environment classification. Captures whether an environment is public. is_managed and machine_generated may be folded in as future values. */
 export type EnvironmentType = "ENVIRONMENT_TYPE_UNSPECIFIED" | "ENVIRONMENT_TYPE_PUBLIC";
@@ -54,15 +55,9 @@ export const CreateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     defaultMemberRole: S.optional(EnvironmentRole),
     defaultMemberRoleStr: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/EnvironmentCreate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/EnvironmentCreate", code: 200 }),
   ),
-).annotate({
-  identifier: "CreateEnvironmentRequest",
-}) as any as S.Schema<CreateEnvironmentRequest>;
+).annotate({ identifier: "CreateEnvironmentRequest" }) as any as S.Schema<CreateEnvironmentRequest>;
 
 export interface CreateEnvironmentResponse {}
 export const CreateEnvironmentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -76,15 +71,9 @@ export const DeleteEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/EnvironmentDelete",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/EnvironmentDelete", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteEnvironmentRequest",
-}) as any as S.Schema<DeleteEnvironmentRequest>;
+).annotate({ identifier: "DeleteEnvironmentRequest" }) as any as S.Schema<DeleteEnvironmentRequest>;
 
 export interface DeleteEnvironmentResponse {}
 export const DeleteEnvironmentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -119,7 +108,7 @@ export interface EnvironmentBillingSummaryResponse {
   endTimestamp?: string;
   /** not showing credits, reservations, etc as those are applied at the workspace level */
   meteredCost?: string;
-  /** keyed by deployed, ephemeral, volume, notebook */
+  /** keyed by app type (deployed, ephemeral, notebook, endpoint, ...), volume, tokens, network egress */
   meteredCostBreakdown?: StringMap;
 }
 export const EnvironmentBillingSummaryResponse = /*@__PURE__*/ S.suspend(() =>
@@ -140,11 +129,7 @@ export const EnvironmentGetBudgetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     environmentId: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/EnvironmentGetBudget",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/EnvironmentGetBudget", code: 200 }),
   ),
 ).annotate({
   identifier: "EnvironmentGetBudgetRequest",
@@ -174,11 +159,7 @@ export const EnvironmentGetManagedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     environmentId: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/EnvironmentGetManaged",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/EnvironmentGetManaged", code: 200 }),
   ),
 ).annotate({
   identifier: "EnvironmentGetManagedRequest",
@@ -259,11 +240,7 @@ export const EnvironmentGetOrCreateRequest = /*@__PURE__*/ S.suspend(() =>
     deploymentName: S.optional(S.String),
     objectCreationType: S.optional(ObjectCreationType),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/EnvironmentGetOrCreate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/EnvironmentGetOrCreate", code: 200 }),
   ),
 ).annotate({
   identifier: "EnvironmentGetOrCreateRequest",
@@ -280,9 +257,7 @@ export const EnvironmentMetadata = /*@__PURE__*/ S.suspend(() =>
     settings: S.optional(EnvironmentSettings),
     environmentType: S.optional(EnvironmentType),
   }),
-).annotate({
-  identifier: "EnvironmentMetadata",
-}) as any as S.Schema<EnvironmentMetadata>;
+).annotate({ identifier: "EnvironmentMetadata" }) as any as S.Schema<EnvironmentMetadata>;
 
 export interface EnvironmentGetOrCreateResponse {
   environmentId?: string;
@@ -304,11 +279,7 @@ export const EnvironmentGetRolesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     environmentId: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/EnvironmentGetRoles",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/EnvironmentGetRoles", code: 200 }),
   ),
 ).annotate({
   identifier: "EnvironmentGetRolesRequest",
@@ -386,11 +357,7 @@ export const EnvironmentSetBudgetRequest = /*@__PURE__*/ S.suspend(() =>
     cycleBudgetDollars: S.optional(S.Number),
     clearBudget: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/EnvironmentSetBudget",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/EnvironmentSetBudget", code: 200 }),
   ),
 ).annotate({
   identifier: "EnvironmentSetBudgetRequest",
@@ -438,11 +405,7 @@ export const EnvironmentSetManagedRequest = /*@__PURE__*/ S.suspend(() =>
     managed: S.optional(S.Boolean),
     defaultMemberRole: S.optional(EnvironmentRole),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/EnvironmentSetManaged",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/EnvironmentSetManaged", code: 200 }),
   ),
 ).annotate({
   identifier: "EnvironmentSetManagedRequest",
@@ -456,15 +419,9 @@ export const EnvironmentSetManagedResponse = /*@__PURE__*/ S.suspend(() => S.Str
 export interface ListEnvironmentRequest {}
 export const ListEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/EnvironmentList",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/EnvironmentList", code: 200 }),
   ),
-).annotate({
-  identifier: "ListEnvironmentRequest",
-}) as any as S.Schema<ListEnvironmentRequest>;
+).annotate({ identifier: "ListEnvironmentRequest" }) as any as S.Schema<ListEnvironmentRequest>;
 
 export interface EnvironmentListItem {
   name?: string;
@@ -484,6 +441,8 @@ export interface EnvironmentListItem {
   spendLimitReached?: boolean;
   environmentType?: EnvironmentType;
   defaultMemberRole?: EnvironmentRole;
+  blockUnauthenticatedResources?: boolean;
+  effectiveRole?: EnvironmentRole;
 }
 export const EnvironmentListItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -503,10 +462,10 @@ export const EnvironmentListItem = /*@__PURE__*/ S.suspend(() =>
     spendLimitReached: S.optional(S.Boolean),
     environmentType: S.optional(EnvironmentType),
     defaultMemberRole: S.optional(EnvironmentRole),
+    blockUnauthenticatedResources: S.optional(S.Boolean),
+    effectiveRole: S.optional(EnvironmentRole),
   }),
-).annotate({
-  identifier: "EnvironmentListItem",
-}) as any as S.Schema<EnvironmentListItem>;
+).annotate({ identifier: "EnvironmentListItem" }) as any as S.Schema<EnvironmentListItem>;
 
 export type EnvironmentListItemList = Array<EnvironmentListItem>;
 export const EnvironmentListItemList = /*@__PURE__*/ S.Array(
@@ -520,9 +479,7 @@ export const ListEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(EnvironmentListItemList),
   }),
-).annotate({
-  identifier: "ListEnvironmentResponse",
-}) as any as S.Schema<ListEnvironmentResponse>;
+).annotate({ identifier: "ListEnvironmentResponse" }) as any as S.Schema<ListEnvironmentResponse>;
 
 export interface SetEnvironmentRoleRequest {
   environmentId?: string;
@@ -539,11 +496,7 @@ export const SetEnvironmentRoleRequest = /*@__PURE__*/ S.suspend(() =>
     role: S.optional(EnvironmentRole),
     roleStr: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/EnvironmentRoleSet",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/EnvironmentRoleSet", code: 200 }),
   ),
 ).annotate({
   identifier: "SetEnvironmentRoleRequest",
@@ -554,12 +507,21 @@ export const SetEnvironmentRoleResponse = /*@__PURE__*/ S.suspend(() => S.Struct
   identifier: "SetEnvironmentRoleResponse",
 }) as any as S.Schema<SetEnvironmentRoleResponse>;
 
+/** Partial-update signal for EnvironmentUpdateRequest. Omitted means no-op. INHERIT clears the environment override so the workspace default applies. */
+export type EnvironmentBlockUnauthenticatedResources =
+  | "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_UNSPECIFIED"
+  | "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_INHERIT"
+  | "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_BLOCK"
+  | "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_ALLOW";
+export const EnvironmentBlockUnauthenticatedResources = S.String;
+
 export interface UpdateEnvironmentRequest {
   currentName?: string;
   name?: string;
   webSuffix?: string;
   maxConcurrentTasks?: number;
   maxConcurrentGpus?: number;
+  blockUnauthenticatedResources?: EnvironmentBlockUnauthenticatedResources | (string & {});
 }
 export const UpdateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -568,16 +530,11 @@ export const UpdateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     webSuffix: S.optional(S.String),
     maxConcurrentTasks: S.optional(S.Number),
     maxConcurrentGpus: S.optional(S.Number),
+    blockUnauthenticatedResources: S.optional(EnvironmentBlockUnauthenticatedResources),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/EnvironmentUpdate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/EnvironmentUpdate", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateEnvironmentRequest",
-}) as any as S.Schema<UpdateEnvironmentRequest>;
+).annotate({ identifier: "UpdateEnvironmentRequest" }) as any as S.Schema<UpdateEnvironmentRequest>;
 
 export interface UpdateEnvironmentResponse {
   name?: string;
@@ -597,6 +554,8 @@ export interface UpdateEnvironmentResponse {
   spendLimitReached?: boolean;
   environmentType?: EnvironmentType;
   defaultMemberRole?: EnvironmentRole;
+  blockUnauthenticatedResources?: boolean;
+  effectiveRole?: EnvironmentRole;
 }
 export const UpdateEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -616,6 +575,8 @@ export const UpdateEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
     spendLimitReached: S.optional(S.Boolean),
     environmentType: S.optional(EnvironmentType),
     defaultMemberRole: S.optional(EnvironmentRole),
+    blockUnauthenticatedResources: S.optional(S.Boolean),
+    effectiveRole: S.optional(EnvironmentRole),
   }),
 ).annotate({
   identifier: "UpdateEnvironmentResponse",

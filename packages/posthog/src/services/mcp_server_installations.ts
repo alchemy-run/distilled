@@ -107,9 +107,7 @@ export const MCPServerInstallation = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     updated_at: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "MCPServerInstallation",
-}) as any as S.Schema<MCPServerInstallation>;
+).annotate({ identifier: "MCPServerInstallation" }) as any as S.Schema<MCPServerInstallation>;
 
 /** Arguments object passed straight to the tool, matching its input schema. */
 export type CreateMcpServerInstallationsCallToolRequestArgumentsMap = {
@@ -147,9 +145,7 @@ export const CreateMcpServerInstallationsCallToolRequest = /*@__PURE__*/ S.suspe
   identifier: "CreateMcpServerInstallationsCallToolRequest",
 }) as any as S.Schema<CreateMcpServerInstallationsCallToolRequest>;
 
-export type CallToolResponseContentItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type CallToolResponseContentItemMap = { [key: string]: unknown | undefined };
 export const CallToolResponseContentItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -162,9 +158,7 @@ export const CallToolResponseContentList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CallToolResponseContentList>;
 
 /** Structured result the tool returned alongside `content`, when it provides one. */
-export type CallToolResponseStructuredContentMap = {
-  [key: string]: unknown | undefined;
-};
+export type CallToolResponseStructuredContentMap = { [key: string]: unknown | undefined };
 export const CallToolResponseStructuredContentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -184,9 +178,7 @@ export const CallToolResponse = /*@__PURE__*/ S.suspend(() =>
     is_error: S.Boolean,
     structured_content: S.optional(S.NullOr(CallToolResponseStructuredContentMap)),
   }),
-).annotate({
-  identifier: "CallToolResponse",
-}) as any as S.Schema<CallToolResponse>;
+).annotate({ identifier: "CallToolResponse" }) as any as S.Schema<CallToolResponse>;
 
 export interface CreateMcpServerInstallationsProxyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -285,18 +277,14 @@ export const GetMcpServerInstallationsAvailableToolRequest = /*@__PURE__*/ S.sus
 }) as any as S.Schema<GetMcpServerInstallationsAvailableToolRequest>;
 
 /** JSON Schema for the tool's arguments. */
-export type AvailableToolInputSchemaMap = {
-  [key: string]: unknown | undefined;
-};
+export type AvailableToolInputSchemaMap = { [key: string]: unknown | undefined };
 export const AvailableToolInputSchemaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<AvailableToolInputSchemaMap>;
 
 /** MCP tool annotations the upstream server declared (destructiveHint, readOnlyHint, ...). Advisory only — policy may escalate them, never loosen them. */
-export type AvailableToolAnnotationsMap = {
-  [key: string]: unknown | undefined;
-};
+export type AvailableToolAnnotationsMap = { [key: string]: unknown | undefined };
 export const AvailableToolAnnotationsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -351,9 +339,7 @@ export const AvailableServer = /*@__PURE__*/ S.suspend(() =>
     slug: S.String,
     tools: AvailableServerToolsList,
   }),
-).annotate({
-  identifier: "AvailableServer",
-}) as any as S.Schema<AvailableServer>;
+).annotate({ identifier: "AvailableServer" }) as any as S.Schema<AvailableServer>;
 
 /** Connected servers the caller can reach. */
 export type AvailableToolsResponseServersList = Array<AvailableServer>;
@@ -369,9 +355,7 @@ export const AvailableToolsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     servers: AvailableToolsResponseServersList,
   }),
-).annotate({
-  identifier: "AvailableToolsResponse",
-}) as any as S.Schema<AvailableToolsResponse>;
+).annotate({ identifier: "AvailableToolsResponse" }) as any as S.Schema<AvailableToolsResponse>;
 
 export interface GetMcpServerInstallationsToolRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -644,9 +628,7 @@ export const OAuthRedirectResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     redirect_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OAuthRedirectResponse",
-}) as any as S.Schema<OAuthRedirectResponse>;
+).annotate({ identifier: "OAuthRedirectResponse" }) as any as S.Schema<OAuthRedirectResponse>;
 
 export interface McpServerInstallationsInstallTemplateCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */

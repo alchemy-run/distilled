@@ -39,11 +39,7 @@ export const GetWorkspaceDashboardUrlResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListWorkspaceMembersRequest {}
 export const ListWorkspaceMembersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/WorkspaceMembersList",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/WorkspaceMembersList", code: 200 }),
   ),
 ).annotate({
   identifier: "ListWorkspaceMembersRequest",
@@ -59,7 +55,7 @@ export const MemberRole = S.String;
 export type IdentityProviderType =
   | "IDENTITY_PROVIDER_TYPE_UNSPECIFIED"
   | "IDENTITY_PROVIDER_TYPE_GITHUB"
-  | "IDENTITY_PROVIDER_TYPE_OKTA"
+  | "IDENTITY_PROVIDER_TYPE_SAML"
   | "IDENTITY_PROVIDER_TYPE_GOOGLE_OAUTH";
 export const IdentityProviderType = S.String;
 
@@ -90,9 +86,7 @@ export const WorkspaceMembersListItem = /*@__PURE__*/ S.suspend(() =>
     avatarUrl: S.optional(S.String),
     idpExternalId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkspaceMembersListItem",
-}) as any as S.Schema<WorkspaceMembersListItem>;
+).annotate({ identifier: "WorkspaceMembersListItem" }) as any as S.Schema<WorkspaceMembersListItem>;
 
 export type WorkspaceMembersListItemList = Array<WorkspaceMembersListItem>;
 export const WorkspaceMembersListItemList = /*@__PURE__*/ S.Array(
@@ -113,11 +107,7 @@ export const ListWorkspaceMembersResponse = /*@__PURE__*/ S.suspend(() =>
 export interface LookupWorkspaceNameRequest {}
 export const LookupWorkspaceNameRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/WorkspaceNameLookup",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/WorkspaceNameLookup", code: 200 }),
   ),
 ).annotate({
   identifier: "LookupWorkspaceNameRequest",
@@ -139,11 +129,7 @@ export const LookupWorkspaceNameResponse = /*@__PURE__*/ S.suspend(() =>
 export interface WorkspaceBillingRatesRequest {}
 export const WorkspaceBillingRatesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/WorkspaceBillingRates",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/WorkspaceBillingRates", code: 200 }),
   ),
 ).annotate({
   identifier: "WorkspaceBillingRatesRequest",
@@ -178,11 +164,7 @@ export const WorkspaceBillingSummaryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     startTimestamp: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/WorkspaceBillingSummary",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/WorkspaceBillingSummary", code: 200 }),
   ),
 ).annotate({
   identifier: "WorkspaceBillingSummaryRequest",
@@ -195,7 +177,7 @@ export interface WorkspaceBillingSummaryResponse {
   billedCost?: string;
   /** keyed by deployed, ephemeral, volume, notebook, tokens */
   meteredCostBreakdown?: StringMap;
-  /** keyed by plan, credits, reservations, storage */
+  /** keyed by plan, credits, reservations, storage, network egress allowance */
   adjustments?: StringMap;
 }
 export const WorkspaceBillingSummaryResponse = /*@__PURE__*/ S.suspend(() =>
@@ -235,6 +217,62 @@ export const WorkspaceSetDefaultEnvironmentResponse = /*@__PURE__*/ S.suspend(()
   identifier: "WorkspaceSetDefaultEnvironmentResponse",
 }) as any as S.Schema<WorkspaceSetDefaultEnvironmentResponse>;
 
+/** Partial-update signal for EnvironmentUpdateRequest. Omitted means no-op. INHERIT clears the environment override so the workspace default applies. */
+export type EnvironmentBlockUnauthenticatedResources =
+  | "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_UNSPECIFIED"
+  | "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_INHERIT"
+  | "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_BLOCK"
+  | "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_ALLOW";
+export const EnvironmentBlockUnauthenticatedResources = S.String;
+
+export interface WorkspaceSetDefaultEnvironmentSettingsRequest {
+  /** Omitted = no-op. INHERIT clears the workspace default so environments with no override have no block. Rejects UNSPECIFIED. */
+  blockUnauthenticatedResources?: EnvironmentBlockUnauthenticatedResources | (string & {});
+}
+export const WorkspaceSetDefaultEnvironmentSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    blockUnauthenticatedResources: S.optional(EnvironmentBlockUnauthenticatedResources),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/modal.client.ModalClient/WorkspaceSetDefaultEnvironmentSettings",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "WorkspaceSetDefaultEnvironmentSettingsRequest",
+}) as any as S.Schema<WorkspaceSetDefaultEnvironmentSettingsRequest>;
+
+/** Environment-scoped settings, with workspace-level defaults. Note that we use MergeFrom to combine workspace / environment settings, which will *append* any `repeated` fields! */
+export interface EnvironmentSettings {
+  imageBuilderVersion?: string;
+  webhookSuffix?: string;
+  maxConcurrentGpus?: number;
+  maxConcurrentTasks?: number;
+  /** When true, new unauthenticated web functions, Servers, tunnels, and Endpoints in this environment are rejected. Unset inherits the workspace default. */
+  blockUnauthenticatedResources?: boolean;
+}
+export const EnvironmentSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    imageBuilderVersion: S.optional(S.String),
+    webhookSuffix: S.optional(S.String),
+    maxConcurrentGpus: S.optional(S.Number),
+    maxConcurrentTasks: S.optional(S.Number),
+    blockUnauthenticatedResources: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "EnvironmentSettings" }) as any as S.Schema<EnvironmentSettings>;
+
+export interface WorkspaceSetDefaultEnvironmentSettingsResponse {
+  defaultEnvironmentSettings?: EnvironmentSettings;
+}
+export const WorkspaceSetDefaultEnvironmentSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    defaultEnvironmentSettings: S.optional(EnvironmentSettings),
+  }),
+).annotate({
+  identifier: "WorkspaceSetDefaultEnvironmentSettingsResponse",
+}) as any as S.Schema<WorkspaceSetDefaultEnvironmentSettingsResponse>;
+
 export interface WorkspaceSetImageBuilderVersionRequest {
   newImageBuilderVersion?: string;
 }
@@ -266,15 +304,9 @@ export const WorkspaceSetImageBuilderVersionResponse = /*@__PURE__*/ S.suspend((
 export interface WorkspaceSettingsRequest {}
 export const WorkspaceSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/WorkspaceSettings",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/WorkspaceSettings", code: 200 }),
   ),
-).annotate({
-  identifier: "WorkspaceSettingsRequest",
-}) as any as S.Schema<WorkspaceSettingsRequest>;
+).annotate({ identifier: "WorkspaceSettingsRequest" }) as any as S.Schema<WorkspaceSettingsRequest>;
 
 export interface WorkspaceSettingsResponse {
   defaultEnvironmentName?: string;
@@ -369,6 +401,20 @@ export const workspaceSetDefaultEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: WorkspaceSetDefaultEnvironmentRequest,
   output: WorkspaceSetDefaultEnvironmentResponse,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+}));
+
+export type WorkspaceSetDefaultEnvironmentSettingsError = ModalOpError;
+export const workspaceSetDefaultEnvironmentSettings: API.OperationMethod<
+  WorkspaceSetDefaultEnvironmentSettingsRequest,
+  WorkspaceSetDefaultEnvironmentSettingsResponse,
+  WorkspaceSetDefaultEnvironmentSettingsError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: WorkspaceSetDefaultEnvironmentSettingsRequest,
+  output: WorkspaceSetDefaultEnvironmentSettingsResponse,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,

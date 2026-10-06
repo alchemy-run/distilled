@@ -61,161 +61,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export type GoogleCloudAiplatformV1beta1FunctionDeclarationBehaviorEnum =
-  | "UNSPECIFIED"
-  | "BLOCKING"
-  | "NON_BLOCKING";
-export const GoogleCloudAiplatformV1beta1FunctionDeclarationBehaviorEnum = S.String;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
-export type GoogleCloudAiplatformV1beta1SchemaMap = {
-  [key: string]: GoogleCloudAiplatformV1beta1Schema | undefined;
-};
-export const GoogleCloudAiplatformV1beta1SchemaMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.suspend(() => GoogleCloudAiplatformV1beta1Schema),
-) as any as S.Schema<GoogleCloudAiplatformV1beta1SchemaMap>;
-
-export type GoogleCloudAiplatformV1beta1SchemaList = Array<GoogleCloudAiplatformV1beta1Schema>;
-export const GoogleCloudAiplatformV1beta1SchemaList = /*@__PURE__*/ S.Array(
-  S.suspend(() => GoogleCloudAiplatformV1beta1Schema),
-) as any as S.Schema<GoogleCloudAiplatformV1beta1SchemaList>;
-
-export type GoogleCloudAiplatformV1beta1SchemaTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "STRING"
-  | "NUMBER"
-  | "INTEGER"
-  | "BOOLEAN"
-  | "ARRAY"
-  | "OBJECT"
-  | "NULL";
-export const GoogleCloudAiplatformV1beta1SchemaTypeEnum = S.String;
-
-/** Defines the schema of input and output data. This is a subset of the [OpenAPI 3.0 Schema Object](https://spec.openapis.org/oas/v3.0.3#schema-object). */
-export interface GoogleCloudAiplatformV1beta1Schema {
-  /** Optional. If type is `ARRAY`, `max_items` specifies the maximum number of items in an array. */
-  maxItems?: string;
-  /** Optional. If `type` is `OBJECT`, specifies how to handle properties not defined in `properties`. If it is a boolean `false`, no additional properties are allowed. If it is a schema, additional properties are allowed if they conform to the schema. */
-  additionalProperties?: unknown;
-  /** Optional. If type is `STRING`, `max_length` specifies the maximum length of the string. */
-  maxLength?: string;
-  /** Optional. Default value to use if the field is not specified. */
-  default?: unknown;
-  /** Optional. If type is `OBJECT`, `max_properties` specifies the maximum number of properties that can be provided. */
-  maxProperties?: string;
-  /** Optional. If type is `INTEGER` or `NUMBER`, `minimum` specifies the minimum allowed value. */
-  minimum?: number;
-  /** Optional. If type is `OBJECT`, `min_properties` specifies the minimum number of properties that can be provided. */
-  minProperties?: string;
-  /** Optional. The format of the data. For `NUMBER` type, format can be `float` or `double`. For `INTEGER` type, format can be `int32` or `int64`. For `STRING` type, format can be `email`, `byte`, `date`, `date-time`, `password`, and other formats to further refine the data type. */
-  format?: string;
-  /** Optional. If type is `STRING`, `pattern` specifies a regular expression that the string must match. */
-  pattern?: string;
-  /** Optional. Title for the schema. */
-  title?: string;
-  /** Optional. If type is `INTEGER` or `NUMBER`, `maximum` specifies the maximum allowed value. */
-  maximum?: number;
-  /** Optional. Describes the data. The model uses this field to understand the purpose of the schema and how to use it. It is a best practice to provide a clear and descriptive explanation for the schema and its properties here, rather than in the prompt. */
-  description?: string;
-  /** Optional. If type is `ARRAY`, `items` specifies the schema of elements in the array. */
-  items?: GoogleCloudAiplatformV1beta1Schema;
-  /** Optional. Possible values of the field. This field can be used to restrict a value to a fixed set of values. To mark a field as an enum, set `format` to `enum` and provide the list of possible values in `enum`. For example: 1. To define directions: `{type:STRING, format:enum, enum:["EAST", "NORTH", "SOUTH", "WEST"]}` 2. To define apartment numbers: `{type:INTEGER, format:enum, enum:["101", "201", "301"]}` */
-  enum?: StringList;
-  /** Optional. If type is `ARRAY`, `min_items` specifies the minimum number of items in an array. */
-  minItems?: string;
-  /** Optional. If type is `STRING`, `min_length` specifies the minimum length of the string. */
-  minLength?: string;
-  /** Optional. If type is `OBJECT`, `properties` is a map of property names to schema definitions for each property of the object. */
-  properties?: GoogleCloudAiplatformV1beta1SchemaMap;
-  /** Optional. `defs` provides a map of schema definitions that can be reused by `ref` elsewhere in the schema. Only allowed at root level of the schema. */
-  defs?: GoogleCloudAiplatformV1beta1SchemaMap;
-  /** Optional. Allows referencing another schema definition to use in place of this schema. The value must be a valid reference to a schema in `defs`. For example, the following schema defines a reference to a schema node named "Pet": type: object properties: pet: ref: #/defs/Pet defs: Pet: type: object properties: name: type: string The value of the "pet" property is a reference to the schema node named "Pet". See details in https://json-schema.org/understanding-json-schema/structuring */
-  ref?: string;
-  /** Optional. The instance must be valid against any (one or more) of the subschemas listed in `any_of`. */
-  anyOf?: GoogleCloudAiplatformV1beta1SchemaList;
-  /** Optional. Example of an instance of this schema. */
-  example?: unknown;
-  /** Optional. If type is `OBJECT`, `required` lists the names of properties that must be present. */
-  required?: StringList;
-  /** Optional. Indicates if the value of this field can be null. */
-  nullable?: boolean;
-  /** Optional. Order of properties displayed or used where order matters. This is not a standard field in OpenAPI specification, but can be used to control the order of properties. */
-  propertyOrdering?: StringList;
-  /** Optional. Data type of the schema field. */
-  type?: GoogleCloudAiplatformV1beta1SchemaTypeEnum | (string & {});
-}
-export const GoogleCloudAiplatformV1beta1Schema = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxItems: S.optional(S.String),
-    additionalProperties: S.optional(S.Unknown),
-    maxLength: S.optional(S.String),
-    default: S.optional(S.Unknown),
-    maxProperties: S.optional(S.String),
-    minimum: S.optional(S.Number),
-    minProperties: S.optional(S.String),
-    format: S.optional(S.String),
-    pattern: S.optional(S.String),
-    title: S.optional(S.String),
-    maximum: S.optional(S.Number),
-    description: S.optional(S.String),
-    items: S.optional(GoogleCloudAiplatformV1beta1Schema),
-    enum: S.optional(StringList),
-    minItems: S.optional(S.String),
-    minLength: S.optional(S.String),
-    properties: S.optional(GoogleCloudAiplatformV1beta1SchemaMap),
-    defs: S.optional(GoogleCloudAiplatformV1beta1SchemaMap),
-    ref: S.optional(S.String),
-    anyOf: S.optional(GoogleCloudAiplatformV1beta1SchemaList),
-    example: S.optional(S.Unknown),
-    required: S.optional(StringList),
-    nullable: S.optional(S.Boolean),
-    propertyOrdering: S.optional(StringList),
-    type: S.optional(GoogleCloudAiplatformV1beta1SchemaTypeEnum),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1Schema",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1Schema>;
-
-/** Structured representation of a function declaration as defined by the [OpenAPI 3.0 specification](https://spec.openapis.org/oas/v3.0.3). Included in this declaration are the function name, description, parameters and response type. This FunctionDeclaration is a representation of a block of code that can be used as a `Tool` by the model and executed by the client. */
-export interface GoogleCloudAiplatformV1beta1FunctionDeclaration {
-  /** Optional. Specifies the function Behavior. If not specified, the system keeps the current function call behavior. This field is currently only supported by the BidiGenerateContent method. */
-  behavior?: GoogleCloudAiplatformV1beta1FunctionDeclarationBehaviorEnum | (string & {});
-  /** Optional. Describes the parameters to this function in JSON Schema Object format. Reflects the Open API 3.03 Parameter Object. string Key: the name of the parameter. Parameter names are case sensitive. Schema Value: the Schema defining the type used for the parameter. For function with no parameters, this can be left unset. Parameter names must start with a letter or an underscore and must only contain chars a-z, A-Z, 0-9, or underscores with a maximum length of 64. Example with 1 required and 1 optional parameter: type: OBJECT properties: param1: type: STRING param2: type: INTEGER required: - param1 */
-  parameters?: GoogleCloudAiplatformV1beta1Schema;
-  /** Optional. Description and purpose of the function. Model uses it to decide how and whether to call the function. */
-  description?: string;
-  /** Optional. Describes the output from this function in JSON Schema format. Reflects the Open API 3.03 Response Object. The Schema defines the type used for the response value of the function. */
-  response?: GoogleCloudAiplatformV1beta1Schema;
-  /** Required. The name of the function to call. Must start with a letter or an underscore. Must be a-z, A-Z, 0-9, or contain underscores, dots, colons and dashes, with a maximum length of 128. */
-  name?: string;
-  /** Optional. Describes the parameters to the function in JSON Schema format. The schema must describe an object where the properties are the parameters to the function. For example: ``` { "type": "object", "properties": { "name": { "type": "string" }, "age": { "type": "integer" } }, "additionalProperties": false, "required": ["name", "age"], "propertyOrdering": ["name", "age"] } ``` This field is mutually exclusive with `parameters`. */
-  parametersJsonSchema?: unknown;
-  /** Optional. Describes the output from this function in JSON Schema format. The value specified by the schema is the response value of the function. This field is mutually exclusive with `response`. */
-  responseJsonSchema?: unknown;
-}
-export const GoogleCloudAiplatformV1beta1FunctionDeclaration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    behavior: S.optional(GoogleCloudAiplatformV1beta1FunctionDeclarationBehaviorEnum),
-    parameters: S.optional(GoogleCloudAiplatformV1beta1Schema),
-    description: S.optional(S.String),
-    response: S.optional(GoogleCloudAiplatformV1beta1Schema),
-    name: S.optional(S.String),
-    parametersJsonSchema: S.optional(S.Unknown),
-    responseJsonSchema: S.optional(S.Unknown),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1FunctionDeclaration",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1FunctionDeclaration>;
-
-export type GoogleCloudAiplatformV1beta1FunctionDeclarationList =
-  Array<GoogleCloudAiplatformV1beta1FunctionDeclaration>;
-export const GoogleCloudAiplatformV1beta1FunctionDeclarationList = /*@__PURE__*/ S.Array(
-  GoogleCloudAiplatformV1beta1FunctionDeclaration,
-) as any as S.Schema<GoogleCloudAiplatformV1beta1FunctionDeclarationList>;
-
 export type GoogleCloudAiplatformV1beta1DynamicRetrievalConfigModeEnum =
   | "MODE_UNSPECIFIED"
   | "MODE_DYNAMIC";
@@ -223,15 +68,15 @@ export const GoogleCloudAiplatformV1beta1DynamicRetrievalConfigModeEnum = S.Stri
 
 /** Describes the options to customize dynamic retrieval. */
 export interface GoogleCloudAiplatformV1beta1DynamicRetrievalConfig {
-  /** The mode of the predictor to be used in dynamic retrieval. */
-  mode?: GoogleCloudAiplatformV1beta1DynamicRetrievalConfigModeEnum | (string & {});
   /** Optional. The threshold to be used in dynamic retrieval. If not set, a system default value is used. */
   dynamicThreshold?: number;
+  /** The mode of the predictor to be used in dynamic retrieval. */
+  mode?: GoogleCloudAiplatformV1beta1DynamicRetrievalConfigModeEnum | (string & {});
 }
 export const GoogleCloudAiplatformV1beta1DynamicRetrievalConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mode: S.optional(GoogleCloudAiplatformV1beta1DynamicRetrievalConfigModeEnum),
     dynamicThreshold: S.optional(S.Number),
+    mode: S.optional(GoogleCloudAiplatformV1beta1DynamicRetrievalConfigModeEnum),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1DynamicRetrievalConfig",
@@ -250,99 +95,70 @@ export const GoogleCloudAiplatformV1beta1GoogleSearchRetrieval = /*@__PURE__*/ S
   identifier: "GoogleCloudAiplatformV1beta1GoogleSearchRetrieval",
 }) as any as S.Schema<GoogleCloudAiplatformV1beta1GoogleSearchRetrieval>;
 
-/** Tool that executes code generated by the model, and automatically returns the result to the model. See also ExecutableCode and CodeExecutionResult, which are input and output to this tool. */
-export interface GoogleCloudAiplatformV1beta1ToolCodeExecution {}
-export const GoogleCloudAiplatformV1beta1ToolCodeExecution = /*@__PURE__*/ S.suspend(() =>
+/** Tool to support URL context. */
+export interface GoogleCloudAiplatformV1beta1UrlContext {}
+export const GoogleCloudAiplatformV1beta1UrlContext = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}),
 ).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1ToolCodeExecution",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1ToolCodeExecution>;
+  identifier: "GoogleCloudAiplatformV1beta1UrlContext",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1UrlContext>;
 
-/** Grounding with Google Maps Places data (e.g. QueryPlaces). This is the default Google Maps grounding type when no other type is specified. */
-export type GoogleCloudAiplatformV1beta1GoogleMapsPlaces =
-  GoogleCloudAiplatformV1beta1ToolCodeExecution;
-export const GoogleCloudAiplatformV1beta1GoogleMapsPlaces =
-  GoogleCloudAiplatformV1beta1ToolCodeExecution;
+/** Tool that executes code generated by the model, and automatically returns the result to the model. See also ExecutableCode and CodeExecutionResult, which are input and output to this tool. */
+export type GoogleCloudAiplatformV1beta1ToolCodeExecution = GoogleCloudAiplatformV1beta1UrlContext;
+export const GoogleCloudAiplatformV1beta1ToolCodeExecution = GoogleCloudAiplatformV1beta1UrlContext;
 
-/** Grounding with Google Maps Routing APIs (ComputeRoutes and SearchAlongRoute). */
-export type GoogleCloudAiplatformV1beta1GoogleMapsRouting =
-  GoogleCloudAiplatformV1beta1ToolCodeExecution;
-export const GoogleCloudAiplatformV1beta1GoogleMapsRouting =
-  GoogleCloudAiplatformV1beta1ToolCodeExecution;
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
-/** Defines the types of Google Maps grounding that can be enabled and their configurations. */
-export interface GoogleCloudAiplatformV1beta1GoogleMapsGroundingTypes {
-  /** Optional. Enables grounding with Google Maps Places. This is the default grounding type when no `GroundingTypes` are specified. */
-  places?: GoogleCloudAiplatformV1beta1ToolCodeExecution;
-  /** Optional. Enables grounding with Google Maps Routing APIs (ComputeRoutes and SearchAlongRoute). */
-  routing?: GoogleCloudAiplatformV1beta1ToolCodeExecution;
+export type GoogleCloudAiplatformV1beta1ToolComputerUseEnvironmentEnum =
+  | "ENVIRONMENT_UNSPECIFIED"
+  | "ENVIRONMENT_BROWSER"
+  | "ENVIRONMENT_MOBILE"
+  | "ENVIRONMENT_DESKTOP";
+export const GoogleCloudAiplatformV1beta1ToolComputerUseEnvironmentEnum = S.String;
+
+export type GoogleCloudAiplatformV1beta1ToolComputerUseDisabledSafetyPoliciesItemEnum =
+  | "SAFETY_POLICY_UNSPECIFIED"
+  | "FINANCIAL_TRANSACTIONS"
+  | "SENSITIVE_DATA_MODIFICATION"
+  | "COMMUNICATION_TOOL"
+  | "ACCOUNT_CREATION"
+  | "DATA_MODIFICATION"
+  | "USER_CONSENT_MANAGEMENT"
+  | "LEGAL_TERMS_AND_AGREEMENTS";
+export const GoogleCloudAiplatformV1beta1ToolComputerUseDisabledSafetyPoliciesItemEnum = S.String;
+
+export type GoogleCloudAiplatformV1beta1ToolComputerUseDisabledSafetyPoliciesItemEnumList = Array<
+  GoogleCloudAiplatformV1beta1ToolComputerUseDisabledSafetyPoliciesItemEnum | (string & {})
+>;
+export const GoogleCloudAiplatformV1beta1ToolComputerUseDisabledSafetyPoliciesItemEnumList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudAiplatformV1beta1ToolComputerUseDisabledSafetyPoliciesItemEnum,
+  ) as any as S.Schema<GoogleCloudAiplatformV1beta1ToolComputerUseDisabledSafetyPoliciesItemEnumList>;
+
+/** A tool that enables the model to interact directly with a computer environment. */
+export interface GoogleCloudAiplatformV1beta1ToolComputerUse {
+  /** Optional. A list of predefined functions to explicitly exclude from the model call. By default, [predefined functions](https://cloud.google.com/vertex-ai/generative-ai/docs/computer-use#supported-actions) are included. Excluding functions allows for a more restricted action space or custom definitions for predefined functions. */
+  excludedPredefinedFunctions?: StringList;
+  /** Required. The target environment where the computer use tool operates. */
+  environment?: GoogleCloudAiplatformV1beta1ToolComputerUseEnvironmentEnum | (string & {});
+  /** Optional. Whether to enable the prompt injection detection check on the computer use request. */
+  enablePromptInjectionDetection?: boolean;
+  /** Optional. A list of safety policies to disable for the computer use tool. */
+  disabledSafetyPolicies?: GoogleCloudAiplatformV1beta1ToolComputerUseDisabledSafetyPoliciesItemEnumList;
 }
-export const GoogleCloudAiplatformV1beta1GoogleMapsGroundingTypes = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudAiplatformV1beta1ToolComputerUse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    places: S.optional(GoogleCloudAiplatformV1beta1ToolCodeExecution),
-    routing: S.optional(GoogleCloudAiplatformV1beta1ToolCodeExecution),
+    excludedPredefinedFunctions: S.optional(StringList),
+    environment: S.optional(GoogleCloudAiplatformV1beta1ToolComputerUseEnvironmentEnum),
+    enablePromptInjectionDetection: S.optional(S.Boolean),
+    disabledSafetyPolicies: S.optional(
+      GoogleCloudAiplatformV1beta1ToolComputerUseDisabledSafetyPoliciesItemEnumList,
+    ),
   }),
 ).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1GoogleMapsGroundingTypes",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1GoogleMapsGroundingTypes>;
-
-/** Tool to retrieve public maps data for grounding, powered by Google. */
-export interface GoogleCloudAiplatformV1beta1GoogleMaps {
-  /** Optional. Deprecated: The Google Maps contextual widget behavior in Grounding with Google Maps is being deprecated; this field is planned for removal and no longer has any effect once removed. If true, include the widget context token in the response. */
-  enableWidget?: boolean;
-  /** Optional. Specifies the types of Google Maps grounding to enable. Defaults to `places` when unset. */
-  groundingTypes?: GoogleCloudAiplatformV1beta1GoogleMapsGroundingTypes;
-}
-export const GoogleCloudAiplatformV1beta1GoogleMaps = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enableWidget: S.optional(S.Boolean),
-    groundingTypes: S.optional(GoogleCloudAiplatformV1beta1GoogleMapsGroundingTypes),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1GoogleMaps",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1GoogleMaps>;
-
-export type DocumentMap = { [key: string]: unknown | undefined };
-export const DocumentMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<DocumentMap>;
-
-/** ParallelAiSearch tool type. A tool that uses the Parallel.ai search engine for grounding. */
-export interface GoogleCloudAiplatformV1beta1ToolParallelAiSearch {
-  /** Optional. Custom configs for ParallelAiSearch. This field can be used to pass any parameter from the Parallel.ai Search API. See the Parallel.ai documentation for the full list of available parameters and their usage: https://docs.parallel.ai/api-reference/search-beta/search Currently only `source_policy`, `excerpts`, `max_results`, `mode`, `fetch_policy` can be set via this field. For example: { "source_policy": { "include_domains": ["google.com", "wikipedia.org"], "exclude_domains": ["example.com"] }, "fetch_policy": { "max_age_seconds": 3600 } } */
-  customConfigs?: DocumentMap;
-  /** Optional. Instructs Vertex Grounding to use Parallel's Zero Data Retention Marketplace product. If this value is "false" or omitted, the Parallel Web Search for Grounding standard subscription will be used. If this value is "true", the Parallel Web Search for Grounding - ZDR subscription will be used. */
-  enableZeroDataRetention?: boolean;
-  /** Optional. Deprecated: Use `enable_zero_data_retention` instead. Instructs Vertex Grounding to use Parallel's Zero Data Retention Marketplace product. If this value is "false" or omitted, the Parallel Web Search for Grounding standard subscription will be used. If this value is "true", the Parallel Web Search for Grounding - ZDR subscription will be used. */
-  enableDataRetention?: boolean;
-  /** Optional. The API key for ParallelAiSearch. If an API key is not provided, the system will attempt to verify access by checking for an active Parallel.ai subscription through the Google Cloud Marketplace. See https://docs.parallel.ai/search/search-quickstart for more details. */
-  apiKey?: string;
-}
-export const GoogleCloudAiplatformV1beta1ToolParallelAiSearch = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    customConfigs: S.optional(DocumentMap),
-    enableZeroDataRetention: S.optional(S.Boolean),
-    enableDataRetention: S.optional(S.Boolean),
-    apiKey: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1ToolParallelAiSearch",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1ToolParallelAiSearch>;
-
-/** Config for Hybrid Search. */
-export interface GoogleCloudAiplatformV1beta1RagRetrievalConfigHybridSearch {
-  /** Optional. Alpha value controls the weight between dense and sparse vector search results. The range is [0, 1], while 0 means sparse vector search only and 1 means dense vector search only. The default value is 0.5 which balances sparse and dense vector search equally. */
-  alpha?: number;
-}
-export const GoogleCloudAiplatformV1beta1RagRetrievalConfigHybridSearch = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      alpha: S.optional(S.Number),
-    }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1RagRetrievalConfigHybridSearch",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1RagRetrievalConfigHybridSearch>;
+  identifier: "GoogleCloudAiplatformV1beta1ToolComputerUse",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1ToolComputerUse>;
 
 /** Config for Rank Service. */
 export interface GoogleCloudAiplatformV1beta1RagRetrievalConfigRankingRankService {
@@ -388,20 +204,34 @@ export const GoogleCloudAiplatformV1beta1RagRetrievalConfigRanking = /*@__PURE__
   identifier: "GoogleCloudAiplatformV1beta1RagRetrievalConfigRanking",
 }) as any as S.Schema<GoogleCloudAiplatformV1beta1RagRetrievalConfigRanking>;
 
+/** Config for Hybrid Search. */
+export interface GoogleCloudAiplatformV1beta1RagRetrievalConfigHybridSearch {
+  /** Optional. Alpha value controls the weight between dense and sparse vector search results. The range is [0, 1], while 0 means sparse vector search only and 1 means dense vector search only. The default value is 0.5 which balances sparse and dense vector search equally. */
+  alpha?: number;
+}
+export const GoogleCloudAiplatformV1beta1RagRetrievalConfigHybridSearch = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      alpha: S.optional(S.Number),
+    }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1RagRetrievalConfigHybridSearch",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1RagRetrievalConfigHybridSearch>;
+
 /** Config for filters. */
 export interface GoogleCloudAiplatformV1beta1RagRetrievalConfigFilter {
+  /** Optional. String for metadata filtering. */
+  metadataFilter?: string;
   /** Optional. Only returns contexts with vector distance smaller than the threshold. */
   vectorDistanceThreshold?: number;
   /** Optional. Only returns contexts with vector similarity larger than the threshold. */
   vectorSimilarityThreshold?: number;
-  /** Optional. String for metadata filtering. */
-  metadataFilter?: string;
 }
 export const GoogleCloudAiplatformV1beta1RagRetrievalConfigFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    metadataFilter: S.optional(S.String),
     vectorDistanceThreshold: S.optional(S.Number),
     vectorSimilarityThreshold: S.optional(S.Number),
-    metadataFilter: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1RagRetrievalConfigFilter",
@@ -409,21 +239,21 @@ export const GoogleCloudAiplatformV1beta1RagRetrievalConfigFilter = /*@__PURE__*
 
 /** Specifies the context retrieval config. */
 export interface GoogleCloudAiplatformV1beta1RagRetrievalConfig {
-  /** Optional. Config for Hybrid Search. */
-  hybridSearch?: GoogleCloudAiplatformV1beta1RagRetrievalConfigHybridSearch;
   /** Optional. Config for ranking and reranking. */
   ranking?: GoogleCloudAiplatformV1beta1RagRetrievalConfigRanking;
-  /** Optional. Config for filters. */
-  filter?: GoogleCloudAiplatformV1beta1RagRetrievalConfigFilter;
+  /** Optional. Config for Hybrid Search. */
+  hybridSearch?: GoogleCloudAiplatformV1beta1RagRetrievalConfigHybridSearch;
   /** Optional. The number of contexts to retrieve. */
   topK?: number;
+  /** Optional. Config for filters. */
+  filter?: GoogleCloudAiplatformV1beta1RagRetrievalConfigFilter;
 }
 export const GoogleCloudAiplatformV1beta1RagRetrievalConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    hybridSearch: S.optional(GoogleCloudAiplatformV1beta1RagRetrievalConfigHybridSearch),
     ranking: S.optional(GoogleCloudAiplatformV1beta1RagRetrievalConfigRanking),
-    filter: S.optional(GoogleCloudAiplatformV1beta1RagRetrievalConfigFilter),
+    hybridSearch: S.optional(GoogleCloudAiplatformV1beta1RagRetrievalConfigHybridSearch),
     topK: S.optional(S.Number),
+    filter: S.optional(GoogleCloudAiplatformV1beta1RagRetrievalConfigFilter),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1RagRetrievalConfig",
@@ -431,15 +261,15 @@ export const GoogleCloudAiplatformV1beta1RagRetrievalConfig = /*@__PURE__*/ S.su
 
 /** The definition of the Rag resource. */
 export interface GoogleCloudAiplatformV1beta1VertexRagStoreRagResource {
-  /** Optional. rag_file_id. The files should be in the same rag_corpus set in rag_corpus field. */
-  ragFileIds?: StringList;
   /** Optional. RagCorpora resource name. Format: `projects/{project}/locations/{location}/ragCorpora/{rag_corpus}` */
   ragCorpus?: string;
+  /** Optional. rag_file_id. The files should be in the same rag_corpus set in rag_corpus field. */
+  ragFileIds?: StringList;
 }
 export const GoogleCloudAiplatformV1beta1VertexRagStoreRagResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ragFileIds: S.optional(StringList),
     ragCorpus: S.optional(S.String),
+    ragFileIds: S.optional(StringList),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1VertexRagStoreRagResource",
@@ -455,29 +285,253 @@ export const GoogleCloudAiplatformV1beta1VertexRagStoreRagResourceList = /*@__PU
 export interface GoogleCloudAiplatformV1beta1VertexRagStore {
   /** Optional. The retrieval config for the Rag query. */
   ragRetrievalConfig?: GoogleCloudAiplatformV1beta1RagRetrievalConfig;
-  /** Optional. Number of top k results to return from the selected corpora. */
-  similarityTopK?: number;
-  /** Optional. The representation of the rag source. It can be used to specify corpus only or ragfiles. Currently only support one corpus or multiple files from one corpus. In the future we may open up multiple corpora support. */
-  ragResources?: GoogleCloudAiplatformV1beta1VertexRagStoreRagResourceList;
-  /** Optional. Only return results with vector distance smaller than the threshold. */
-  vectorDistanceThreshold?: number;
   /** Optional. Currently only supported for Gemini Multimodal Live API. In Gemini Multimodal Live API, if `store_context` bool is specified, Gemini will leverage it to automatically memorize the interactions between the client and Gemini, and retrieve context when needed to augment the response generation for users' ongoing and future interactions. */
   storeContext?: boolean;
   /** Optional. Deprecated. Please use rag_resources instead. */
   ragCorpora?: StringList;
+  /** Optional. Only return results with vector distance smaller than the threshold. */
+  vectorDistanceThreshold?: number;
+  /** Optional. The representation of the rag source. It can be used to specify corpus only or ragfiles. Currently only support one corpus or multiple files from one corpus. In the future we may open up multiple corpora support. */
+  ragResources?: GoogleCloudAiplatformV1beta1VertexRagStoreRagResourceList;
+  /** Optional. Number of top k results to return from the selected corpora. */
+  similarityTopK?: number;
 }
 export const GoogleCloudAiplatformV1beta1VertexRagStore = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ragRetrievalConfig: S.optional(GoogleCloudAiplatformV1beta1RagRetrievalConfig),
-    similarityTopK: S.optional(S.Number),
-    ragResources: S.optional(GoogleCloudAiplatformV1beta1VertexRagStoreRagResourceList),
-    vectorDistanceThreshold: S.optional(S.Number),
     storeContext: S.optional(S.Boolean),
     ragCorpora: S.optional(StringList),
+    vectorDistanceThreshold: S.optional(S.Number),
+    ragResources: S.optional(GoogleCloudAiplatformV1beta1VertexRagStoreRagResourceList),
+    similarityTopK: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1VertexRagStore",
 }) as any as S.Schema<GoogleCloudAiplatformV1beta1VertexRagStore>;
+
+/** The search parameters to use for SIMPLE_SEARCH spec. */
+export type GoogleCloudAiplatformV1beta1ExternalApiSimpleSearchParams =
+  GoogleCloudAiplatformV1beta1UrlContext;
+export const GoogleCloudAiplatformV1beta1ExternalApiSimpleSearchParams =
+  GoogleCloudAiplatformV1beta1UrlContext;
+
+/** The API secret. */
+export interface GoogleCloudAiplatformV1beta1ApiAuthApiKeyConfig {
+  /** The API key string. Either this or `api_key_secret_version` must be set. */
+  apiKeyString?: string;
+  /** Required. The SecretManager secret version resource name storing API key. e.g. projects/{project}/secrets/{secret}/versions/{version} */
+  apiKeySecretVersion?: string;
+}
+export const GoogleCloudAiplatformV1beta1ApiAuthApiKeyConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    apiKeyString: S.optional(S.String),
+    apiKeySecretVersion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1ApiAuthApiKeyConfig",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1ApiAuthApiKeyConfig>;
+
+/** The generic reusable api auth config. Deprecated. Please use AuthConfig (google/cloud/aiplatform/master/auth.proto) instead. */
+export interface GoogleCloudAiplatformV1beta1ApiAuth {
+  /** The API secret. */
+  apiKeyConfig?: GoogleCloudAiplatformV1beta1ApiAuthApiKeyConfig;
+}
+export const GoogleCloudAiplatformV1beta1ApiAuth = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    apiKeyConfig: S.optional(GoogleCloudAiplatformV1beta1ApiAuthApiKeyConfig),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1ApiAuth",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1ApiAuth>;
+
+export type GoogleCloudAiplatformV1beta1ExternalApiApiSpecEnum =
+  | "API_SPEC_UNSPECIFIED"
+  | "SIMPLE_SEARCH"
+  | "ELASTIC_SEARCH";
+export const GoogleCloudAiplatformV1beta1ExternalApiApiSpecEnum = S.String;
+
+/** Config for user oauth. */
+export interface GoogleCloudAiplatformV1beta1AuthConfigOauthConfig {
+  /** The service account used to generate access tokens for executing the Extension. - If the service account is specified, the `iam.serviceAccounts.getAccessToken` permission should be granted to Vertex AI Extension Service Agent (https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents) on the provided service account. */
+  serviceAccount?: string;
+  /** Access token for extension endpoint. Only used to propagate token from [[ExecuteExtensionRequest.runtime_auth_config]] at request time. */
+  accessToken?: string;
+}
+export const GoogleCloudAiplatformV1beta1AuthConfigOauthConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serviceAccount: S.optional(S.String),
+    accessToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1AuthConfigOauthConfig",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1AuthConfigOauthConfig>;
+
+/** Config for user OIDC auth. */
+export interface GoogleCloudAiplatformV1beta1AuthConfigOidcConfig {
+  /** OpenID Connect formatted ID token for extension endpoint. Only used to propagate token from [[ExecuteExtensionRequest.runtime_auth_config]] at request time. */
+  idToken?: string;
+  /** The service account used to generate an OpenID Connect (OIDC)-compatible JWT token signed by the Google OIDC Provider (accounts.google.com) for extension endpoint (https://cloud.google.com/iam/docs/create-short-lived-credentials-direct#sa-credentials-oidc). - The audience for the token will be set to the URL in the server url defined in the OpenApi spec. - If the service account is provided, the service account should grant `iam.serviceAccounts.getOpenIdToken` permission to Vertex AI Extension Service Agent (https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents). */
+  serviceAccount?: string;
+}
+export const GoogleCloudAiplatformV1beta1AuthConfigOidcConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    idToken: S.optional(S.String),
+    serviceAccount: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1AuthConfigOidcConfig",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1AuthConfigOidcConfig>;
+
+/** Config for Google Service Account Authentication. */
+export interface GoogleCloudAiplatformV1beta1AuthConfigGoogleServiceAccountConfig {
+  /** Optional. The service account that the extension execution service runs as. - If the service account is specified, the `iam.serviceAccounts.getAccessToken` permission should be granted to Vertex AI Extension Service Agent (https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents) on the specified service account. - If not specified, the Vertex AI Extension Service Agent will be used to execute the Extension. */
+  serviceAccount?: string;
+}
+export const GoogleCloudAiplatformV1beta1AuthConfigGoogleServiceAccountConfig =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      serviceAccount: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudAiplatformV1beta1AuthConfigGoogleServiceAccountConfig",
+  }) as any as S.Schema<GoogleCloudAiplatformV1beta1AuthConfigGoogleServiceAccountConfig>;
+
+export type GoogleCloudAiplatformV1beta1AuthConfigAuthTypeEnum =
+  | "AUTH_TYPE_UNSPECIFIED"
+  | "NO_AUTH"
+  | "API_KEY_AUTH"
+  | "HTTP_BASIC_AUTH"
+  | "GOOGLE_SERVICE_ACCOUNT_AUTH"
+  | "OAUTH"
+  | "OIDC_AUTH";
+export const GoogleCloudAiplatformV1beta1AuthConfigAuthTypeEnum = S.String;
+
+export type GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfigHttpElementLocationEnum =
+  | "HTTP_IN_UNSPECIFIED"
+  | "HTTP_IN_QUERY"
+  | "HTTP_IN_HEADER"
+  | "HTTP_IN_PATH"
+  | "HTTP_IN_BODY"
+  | "HTTP_IN_COOKIE";
+export const GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfigHttpElementLocationEnum = S.String;
+
+/** Config for authentication with API key. */
+export interface GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfig {
+  /** Optional. The parameter name of the API key. E.g. If the API request is "https://example.com/act?api_key=", "api_key" would be the parameter name. */
+  name?: string;
+  /** Optional. The location of the API key. */
+  httpElementLocation?:
+    | GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfigHttpElementLocationEnum
+    | (string & {});
+  /** Optional. The API key to be used in the request directly. */
+  apiKeyString?: string;
+  /** Optional. The name of the SecretManager secret version resource storing the API key. Format: `projects/{project}/secrets/{secrete}/versions/{version}` - If both `api_key_secret` and `api_key_string` are specified, this field takes precedence over `api_key_string`. - If specified, the `secretmanager.versions.access` permission should be granted to Vertex AI Extension Service Agent (https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents) on the specified resource. */
+  apiKeySecret?: string;
+}
+export const GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    httpElementLocation: S.optional(
+      GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfigHttpElementLocationEnum,
+    ),
+    apiKeyString: S.optional(S.String),
+    apiKeySecret: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfig",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfig>;
+
+/** Config for HTTP Basic Authentication. */
+export interface GoogleCloudAiplatformV1beta1AuthConfigHttpBasicAuthConfig {
+  /** Required. The name of the SecretManager secret version resource storing the base64 encoded credentials. Format: `projects/{project}/secrets/{secrete}/versions/{version}` - If specified, the `secretmanager.versions.access` permission should be granted to Vertex AI Extension Service Agent (https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents) on the specified resource. */
+  credentialSecret?: string;
+}
+export const GoogleCloudAiplatformV1beta1AuthConfigHttpBasicAuthConfig = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      credentialSecret: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1AuthConfigHttpBasicAuthConfig",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1AuthConfigHttpBasicAuthConfig>;
+
+/** Auth configuration to run the extension. */
+export interface GoogleCloudAiplatformV1beta1AuthConfig {
+  /** Config for user oauth. */
+  oauthConfig?: GoogleCloudAiplatformV1beta1AuthConfigOauthConfig;
+  /** Config for user OIDC auth. */
+  oidcConfig?: GoogleCloudAiplatformV1beta1AuthConfigOidcConfig;
+  /** Config for Google Service Account auth. */
+  googleServiceAccountConfig?: GoogleCloudAiplatformV1beta1AuthConfigGoogleServiceAccountConfig;
+  /** Type of auth scheme. */
+  authType?: GoogleCloudAiplatformV1beta1AuthConfigAuthTypeEnum | (string & {});
+  /** Config for API key auth. */
+  apiKeyConfig?: GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfig;
+  /** Config for HTTP Basic auth. */
+  httpBasicAuthConfig?: GoogleCloudAiplatformV1beta1AuthConfigHttpBasicAuthConfig;
+}
+export const GoogleCloudAiplatformV1beta1AuthConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    oauthConfig: S.optional(GoogleCloudAiplatformV1beta1AuthConfigOauthConfig),
+    oidcConfig: S.optional(GoogleCloudAiplatformV1beta1AuthConfigOidcConfig),
+    googleServiceAccountConfig: S.optional(
+      GoogleCloudAiplatformV1beta1AuthConfigGoogleServiceAccountConfig,
+    ),
+    authType: S.optional(GoogleCloudAiplatformV1beta1AuthConfigAuthTypeEnum),
+    apiKeyConfig: S.optional(GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfig),
+    httpBasicAuthConfig: S.optional(GoogleCloudAiplatformV1beta1AuthConfigHttpBasicAuthConfig),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1AuthConfig",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1AuthConfig>;
+
+/** The search parameters to use for the ELASTIC_SEARCH spec. */
+export interface GoogleCloudAiplatformV1beta1ExternalApiElasticSearchParams {
+  /** The ElasticSearch index to use. */
+  index?: string;
+  /** The ElasticSearch search template to use. */
+  searchTemplate?: string;
+  /** Optional. Number of hits (chunks) to request. When specified, it is passed to Elasticsearch as the `num_hits` param. */
+  numHits?: number;
+}
+export const GoogleCloudAiplatformV1beta1ExternalApiElasticSearchParams = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      index: S.optional(S.String),
+      searchTemplate: S.optional(S.String),
+      numHits: S.optional(S.Number),
+    }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1ExternalApiElasticSearchParams",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1ExternalApiElasticSearchParams>;
+
+/** Retrieve from data source powered by external API for grounding. The external API is not owned by Google, but need to follow the pre-defined API spec. */
+export interface GoogleCloudAiplatformV1beta1ExternalApi {
+  /** Parameters for the simple search API. */
+  simpleSearchParams?: GoogleCloudAiplatformV1beta1UrlContext;
+  /** The authentication config to access the API. Deprecated. Please use auth_config instead. */
+  apiAuth?: GoogleCloudAiplatformV1beta1ApiAuth;
+  /** The endpoint of the external API. The system will call the API at this endpoint to retrieve the data for grounding. Example: https://acme.com:443/search */
+  endpoint?: string;
+  /** The API spec that the external API implements. */
+  apiSpec?: GoogleCloudAiplatformV1beta1ExternalApiApiSpecEnum | (string & {});
+  /** The authentication config to access the API. */
+  authConfig?: GoogleCloudAiplatformV1beta1AuthConfig;
+  /** Parameters for the elastic search API. */
+  elasticSearchParams?: GoogleCloudAiplatformV1beta1ExternalApiElasticSearchParams;
+}
+export const GoogleCloudAiplatformV1beta1ExternalApi = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    simpleSearchParams: S.optional(GoogleCloudAiplatformV1beta1UrlContext),
+    apiAuth: S.optional(GoogleCloudAiplatformV1beta1ApiAuth),
+    endpoint: S.optional(S.String),
+    apiSpec: S.optional(GoogleCloudAiplatformV1beta1ExternalApiApiSpecEnum),
+    authConfig: S.optional(GoogleCloudAiplatformV1beta1AuthConfig),
+    elasticSearchParams: S.optional(GoogleCloudAiplatformV1beta1ExternalApiElasticSearchParams),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1ExternalApi",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1ExternalApi>;
 
 /** Define data stores within engine to filter on in a search call and configurations for those data stores. For more information, see https://cloud.google.com/generative-ai-app-builder/docs/reference/rpc/google.cloud.discoveryengine.v1#datastorespec */
 export interface GoogleCloudAiplatformV1beta1VertexAISearchDataStoreSpec {
@@ -503,320 +557,347 @@ export const GoogleCloudAiplatformV1beta1VertexAISearchDataStoreSpecList = /*@__
 
 /** Retrieve from Vertex AI Search datastore or engine for grounding. datastore and engine are mutually exclusive. See https://cloud.google.com/products/agent-builder */
 export interface GoogleCloudAiplatformV1beta1VertexAISearch {
-  /** Specifications that define the specific DataStores to be searched, along with configurations for those data stores. This is only considered for Engines with multiple data stores. It should only be set if engine is used. */
-  dataStoreSpecs?: GoogleCloudAiplatformV1beta1VertexAISearchDataStoreSpecList;
   /** Optional. Filter strings to be passed to the search API. */
   filter?: string;
+  /** Optional. Fully-qualified Vertex AI Search engine resource ID. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
+  engine?: string;
+  /** Specifications that define the specific DataStores to be searched, along with configurations for those data stores. This is only considered for Engines with multiple data stores. It should only be set if engine is used. */
+  dataStoreSpecs?: GoogleCloudAiplatformV1beta1VertexAISearchDataStoreSpecList;
   /** Optional. Fully-qualified Vertex AI Search data store resource ID. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{dataStore}` */
   datastore?: string;
   /** Optional. Number of search results to return per query. The default value is 10. The maximumm allowed value is 10. */
   maxResults?: number;
-  /** Optional. Fully-qualified Vertex AI Search engine resource ID. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
-  engine?: string;
 }
 export const GoogleCloudAiplatformV1beta1VertexAISearch = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dataStoreSpecs: S.optional(GoogleCloudAiplatformV1beta1VertexAISearchDataStoreSpecList),
     filter: S.optional(S.String),
+    engine: S.optional(S.String),
+    dataStoreSpecs: S.optional(GoogleCloudAiplatformV1beta1VertexAISearchDataStoreSpecList),
     datastore: S.optional(S.String),
     maxResults: S.optional(S.Number),
-    engine: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1VertexAISearch",
 }) as any as S.Schema<GoogleCloudAiplatformV1beta1VertexAISearch>;
 
-/** The search parameters to use for the ELASTIC_SEARCH spec. */
-export interface GoogleCloudAiplatformV1beta1ExternalApiElasticSearchParams {
-  /** Optional. Number of hits (chunks) to request. When specified, it is passed to Elasticsearch as the `num_hits` param. */
-  numHits?: number;
-  /** The ElasticSearch index to use. */
-  index?: string;
-  /** The ElasticSearch search template to use. */
-  searchTemplate?: string;
-}
-export const GoogleCloudAiplatformV1beta1ExternalApiElasticSearchParams = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      numHits: S.optional(S.Number),
-      index: S.optional(S.String),
-      searchTemplate: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1ExternalApiElasticSearchParams",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1ExternalApiElasticSearchParams>;
-
-/** The API secret. */
-export interface GoogleCloudAiplatformV1beta1ApiAuthApiKeyConfig {
-  /** Required. The SecretManager secret version resource name storing API key. e.g. projects/{project}/secrets/{secret}/versions/{version} */
-  apiKeySecretVersion?: string;
-  /** The API key string. Either this or `api_key_secret_version` must be set. */
-  apiKeyString?: string;
-}
-export const GoogleCloudAiplatformV1beta1ApiAuthApiKeyConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiKeySecretVersion: S.optional(S.String),
-    apiKeyString: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1ApiAuthApiKeyConfig",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1ApiAuthApiKeyConfig>;
-
-/** The generic reusable api auth config. Deprecated. Please use AuthConfig (google/cloud/aiplatform/master/auth.proto) instead. */
-export interface GoogleCloudAiplatformV1beta1ApiAuth {
-  /** The API secret. */
-  apiKeyConfig?: GoogleCloudAiplatformV1beta1ApiAuthApiKeyConfig;
-}
-export const GoogleCloudAiplatformV1beta1ApiAuth = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    apiKeyConfig: S.optional(GoogleCloudAiplatformV1beta1ApiAuthApiKeyConfig),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1ApiAuth",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1ApiAuth>;
-
-/** Config for user oauth. */
-export interface GoogleCloudAiplatformV1beta1AuthConfigOauthConfig {
-  /** Access token for extension endpoint. Only used to propagate token from [[ExecuteExtensionRequest.runtime_auth_config]] at request time. */
-  accessToken?: string;
-  /** The service account used to generate access tokens for executing the Extension. - If the service account is specified, the `iam.serviceAccounts.getAccessToken` permission should be granted to Vertex AI Extension Service Agent (https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents) on the provided service account. */
-  serviceAccount?: string;
-}
-export const GoogleCloudAiplatformV1beta1AuthConfigOauthConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accessToken: S.optional(S.String),
-    serviceAccount: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1AuthConfigOauthConfig",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1AuthConfigOauthConfig>;
-
-export type GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfigHttpElementLocationEnum =
-  | "HTTP_IN_UNSPECIFIED"
-  | "HTTP_IN_QUERY"
-  | "HTTP_IN_HEADER"
-  | "HTTP_IN_PATH"
-  | "HTTP_IN_BODY"
-  | "HTTP_IN_COOKIE";
-export const GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfigHttpElementLocationEnum = S.String;
-
-/** Config for authentication with API key. */
-export interface GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfig {
-  /** Optional. The parameter name of the API key. E.g. If the API request is "https://example.com/act?api_key=", "api_key" would be the parameter name. */
-  name?: string;
-  /** Optional. The location of the API key. */
-  httpElementLocation?:
-    | GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfigHttpElementLocationEnum
-    | (string & {});
-  /** Optional. The name of the SecretManager secret version resource storing the API key. Format: `projects/{project}/secrets/{secrete}/versions/{version}` - If both `api_key_secret` and `api_key_string` are specified, this field takes precedence over `api_key_string`. - If specified, the `secretmanager.versions.access` permission should be granted to Vertex AI Extension Service Agent (https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents) on the specified resource. */
-  apiKeySecret?: string;
-  /** Optional. The API key to be used in the request directly. */
-  apiKeyString?: string;
-}
-export const GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    httpElementLocation: S.optional(
-      GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfigHttpElementLocationEnum,
-    ),
-    apiKeySecret: S.optional(S.String),
-    apiKeyString: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfig",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfig>;
-
-export type GoogleCloudAiplatformV1beta1AuthConfigAuthTypeEnum =
-  | "AUTH_TYPE_UNSPECIFIED"
-  | "NO_AUTH"
-  | "API_KEY_AUTH"
-  | "HTTP_BASIC_AUTH"
-  | "GOOGLE_SERVICE_ACCOUNT_AUTH"
-  | "OAUTH"
-  | "OIDC_AUTH";
-export const GoogleCloudAiplatformV1beta1AuthConfigAuthTypeEnum = S.String;
-
-/** Config for Google Service Account Authentication. */
-export interface GoogleCloudAiplatformV1beta1AuthConfigGoogleServiceAccountConfig {
-  /** Optional. The service account that the extension execution service runs as. - If the service account is specified, the `iam.serviceAccounts.getAccessToken` permission should be granted to Vertex AI Extension Service Agent (https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents) on the specified service account. - If not specified, the Vertex AI Extension Service Agent will be used to execute the Extension. */
-  serviceAccount?: string;
-}
-export const GoogleCloudAiplatformV1beta1AuthConfigGoogleServiceAccountConfig =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      serviceAccount: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudAiplatformV1beta1AuthConfigGoogleServiceAccountConfig",
-  }) as any as S.Schema<GoogleCloudAiplatformV1beta1AuthConfigGoogleServiceAccountConfig>;
-
-/** Config for HTTP Basic Authentication. */
-export interface GoogleCloudAiplatformV1beta1AuthConfigHttpBasicAuthConfig {
-  /** Required. The name of the SecretManager secret version resource storing the base64 encoded credentials. Format: `projects/{project}/secrets/{secrete}/versions/{version}` - If specified, the `secretmanager.versions.access` permission should be granted to Vertex AI Extension Service Agent (https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents) on the specified resource. */
-  credentialSecret?: string;
-}
-export const GoogleCloudAiplatformV1beta1AuthConfigHttpBasicAuthConfig = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      credentialSecret: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1AuthConfigHttpBasicAuthConfig",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1AuthConfigHttpBasicAuthConfig>;
-
-/** Config for user OIDC auth. */
-export interface GoogleCloudAiplatformV1beta1AuthConfigOidcConfig {
-  /** OpenID Connect formatted ID token for extension endpoint. Only used to propagate token from [[ExecuteExtensionRequest.runtime_auth_config]] at request time. */
-  idToken?: string;
-  /** The service account used to generate an OpenID Connect (OIDC)-compatible JWT token signed by the Google OIDC Provider (accounts.google.com) for extension endpoint (https://cloud.google.com/iam/docs/create-short-lived-credentials-direct#sa-credentials-oidc). - The audience for the token will be set to the URL in the server url defined in the OpenApi spec. - If the service account is provided, the service account should grant `iam.serviceAccounts.getOpenIdToken` permission to Vertex AI Extension Service Agent (https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents). */
-  serviceAccount?: string;
-}
-export const GoogleCloudAiplatformV1beta1AuthConfigOidcConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    idToken: S.optional(S.String),
-    serviceAccount: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1AuthConfigOidcConfig",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1AuthConfigOidcConfig>;
-
-/** Auth configuration to run the extension. */
-export interface GoogleCloudAiplatformV1beta1AuthConfig {
-  /** Config for user oauth. */
-  oauthConfig?: GoogleCloudAiplatformV1beta1AuthConfigOauthConfig;
-  /** Config for API key auth. */
-  apiKeyConfig?: GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfig;
-  /** Type of auth scheme. */
-  authType?: GoogleCloudAiplatformV1beta1AuthConfigAuthTypeEnum | (string & {});
-  /** Config for Google Service Account auth. */
-  googleServiceAccountConfig?: GoogleCloudAiplatformV1beta1AuthConfigGoogleServiceAccountConfig;
-  /** Config for HTTP Basic auth. */
-  httpBasicAuthConfig?: GoogleCloudAiplatformV1beta1AuthConfigHttpBasicAuthConfig;
-  /** Config for user OIDC auth. */
-  oidcConfig?: GoogleCloudAiplatformV1beta1AuthConfigOidcConfig;
-}
-export const GoogleCloudAiplatformV1beta1AuthConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    oauthConfig: S.optional(GoogleCloudAiplatformV1beta1AuthConfigOauthConfig),
-    apiKeyConfig: S.optional(GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfig),
-    authType: S.optional(GoogleCloudAiplatformV1beta1AuthConfigAuthTypeEnum),
-    googleServiceAccountConfig: S.optional(
-      GoogleCloudAiplatformV1beta1AuthConfigGoogleServiceAccountConfig,
-    ),
-    httpBasicAuthConfig: S.optional(GoogleCloudAiplatformV1beta1AuthConfigHttpBasicAuthConfig),
-    oidcConfig: S.optional(GoogleCloudAiplatformV1beta1AuthConfigOidcConfig),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1AuthConfig",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1AuthConfig>;
-
-/** The search parameters to use for SIMPLE_SEARCH spec. */
-export type GoogleCloudAiplatformV1beta1ExternalApiSimpleSearchParams =
-  GoogleCloudAiplatformV1beta1ToolCodeExecution;
-export const GoogleCloudAiplatformV1beta1ExternalApiSimpleSearchParams =
-  GoogleCloudAiplatformV1beta1ToolCodeExecution;
-
-export type GoogleCloudAiplatformV1beta1ExternalApiApiSpecEnum =
-  | "API_SPEC_UNSPECIFIED"
-  | "SIMPLE_SEARCH"
-  | "ELASTIC_SEARCH";
-export const GoogleCloudAiplatformV1beta1ExternalApiApiSpecEnum = S.String;
-
-/** Retrieve from data source powered by external API for grounding. The external API is not owned by Google, but need to follow the pre-defined API spec. */
-export interface GoogleCloudAiplatformV1beta1ExternalApi {
-  /** Parameters for the elastic search API. */
-  elasticSearchParams?: GoogleCloudAiplatformV1beta1ExternalApiElasticSearchParams;
-  /** The authentication config to access the API. Deprecated. Please use auth_config instead. */
-  apiAuth?: GoogleCloudAiplatformV1beta1ApiAuth;
-  /** The authentication config to access the API. */
-  authConfig?: GoogleCloudAiplatformV1beta1AuthConfig;
-  /** The endpoint of the external API. The system will call the API at this endpoint to retrieve the data for grounding. Example: https://acme.com:443/search */
-  endpoint?: string;
-  /** Parameters for the simple search API. */
-  simpleSearchParams?: GoogleCloudAiplatformV1beta1ToolCodeExecution;
-  /** The API spec that the external API implements. */
-  apiSpec?: GoogleCloudAiplatformV1beta1ExternalApiApiSpecEnum | (string & {});
-}
-export const GoogleCloudAiplatformV1beta1ExternalApi = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    elasticSearchParams: S.optional(GoogleCloudAiplatformV1beta1ExternalApiElasticSearchParams),
-    apiAuth: S.optional(GoogleCloudAiplatformV1beta1ApiAuth),
-    authConfig: S.optional(GoogleCloudAiplatformV1beta1AuthConfig),
-    endpoint: S.optional(S.String),
-    simpleSearchParams: S.optional(GoogleCloudAiplatformV1beta1ToolCodeExecution),
-    apiSpec: S.optional(GoogleCloudAiplatformV1beta1ExternalApiApiSpecEnum),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1ExternalApi",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1ExternalApi>;
-
 /** Defines a retrieval tool that model can call to access external knowledge. */
 export interface GoogleCloudAiplatformV1beta1Retrieval {
   /** Set to use data source powered by Vertex RAG store. User data is uploaded via the VertexRagDataService. */
   vertexRagStore?: GoogleCloudAiplatformV1beta1VertexRagStore;
-  /** Optional. Deprecated. This option is no longer supported. */
-  disableAttribution?: boolean;
-  /** Set to use data source powered by Vertex AI Search. */
-  vertexAiSearch?: GoogleCloudAiplatformV1beta1VertexAISearch;
   /** Use data source powered by external API for grounding. */
   externalApi?: GoogleCloudAiplatformV1beta1ExternalApi;
+  /** Set to use data source powered by Vertex AI Search. */
+  vertexAiSearch?: GoogleCloudAiplatformV1beta1VertexAISearch;
+  /** Optional. Deprecated. This option is no longer supported. */
+  disableAttribution?: boolean;
 }
 export const GoogleCloudAiplatformV1beta1Retrieval = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vertexRagStore: S.optional(GoogleCloudAiplatformV1beta1VertexRagStore),
-    disableAttribution: S.optional(S.Boolean),
-    vertexAiSearch: S.optional(GoogleCloudAiplatformV1beta1VertexAISearch),
     externalApi: S.optional(GoogleCloudAiplatformV1beta1ExternalApi),
+    vertexAiSearch: S.optional(GoogleCloudAiplatformV1beta1VertexAISearch),
+    disableAttribution: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1Retrieval",
 }) as any as S.Schema<GoogleCloudAiplatformV1beta1Retrieval>;
 
+export type GoogleCloudAiplatformV1beta1SchemaTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "STRING"
+  | "NUMBER"
+  | "INTEGER"
+  | "BOOLEAN"
+  | "ARRAY"
+  | "OBJECT"
+  | "NULL";
+export const GoogleCloudAiplatformV1beta1SchemaTypeEnum = S.String;
+
+export type GoogleCloudAiplatformV1beta1SchemaMap = {
+  [key: string]: GoogleCloudAiplatformV1beta1Schema | undefined;
+};
+export const GoogleCloudAiplatformV1beta1SchemaMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.suspend(() => GoogleCloudAiplatformV1beta1Schema),
+) as any as S.Schema<GoogleCloudAiplatformV1beta1SchemaMap>;
+
+export type GoogleCloudAiplatformV1beta1SchemaList = Array<GoogleCloudAiplatformV1beta1Schema>;
+export const GoogleCloudAiplatformV1beta1SchemaList = /*@__PURE__*/ S.Array(
+  S.suspend(() => GoogleCloudAiplatformV1beta1Schema),
+) as any as S.Schema<GoogleCloudAiplatformV1beta1SchemaList>;
+
+/** Defines the schema of input and output data. This is a subset of the [OpenAPI 3.0 Schema Object](https://spec.openapis.org/oas/v3.0.3#schema-object). */
+export interface GoogleCloudAiplatformV1beta1Schema {
+  /** Optional. Allows referencing another schema definition to use in place of this schema. The value must be a valid reference to a schema in `defs`. For example, the following schema defines a reference to a schema node named "Pet": type: object properties: pet: ref: #/defs/Pet defs: Pet: type: object properties: name: type: string The value of the "pet" property is a reference to the schema node named "Pet". See details in https://json-schema.org/understanding-json-schema/structuring */
+  ref?: string;
+  /** Optional. Title for the schema. */
+  title?: string;
+  /** Optional. If type is `OBJECT`, `max_properties` specifies the maximum number of properties that can be provided. */
+  maxProperties?: string;
+  /** Optional. If type is `STRING`, `max_length` specifies the maximum length of the string. */
+  maxLength?: string;
+  /** Optional. If type is `INTEGER` or `NUMBER`, `minimum` specifies the minimum allowed value. */
+  minimum?: number;
+  /** Optional. Indicates if the value of this field can be null. */
+  nullable?: boolean;
+  /** Optional. Order of properties displayed or used where order matters. This is not a standard field in OpenAPI specification, but can be used to control the order of properties. */
+  propertyOrdering?: StringList;
+  /** Optional. The format of the data. For `NUMBER` type, format can be `float` or `double`. For `INTEGER` type, format can be `int32` or `int64`. For `STRING` type, format can be `email`, `byte`, `date`, `date-time`, `password`, and other formats to further refine the data type. */
+  format?: string;
+  /** Optional. Data type of the schema field. */
+  type?: GoogleCloudAiplatformV1beta1SchemaTypeEnum | (string & {});
+  /** Optional. If type is `STRING`, `min_length` specifies the minimum length of the string. */
+  minLength?: string;
+  /** Optional. If type is `ARRAY`, `items` specifies the schema of elements in the array. */
+  items?: GoogleCloudAiplatformV1beta1Schema;
+  /** Optional. If type is `OBJECT`, `required` lists the names of properties that must be present. */
+  required?: StringList;
+  /** Optional. If type is `ARRAY`, `max_items` specifies the maximum number of items in an array. */
+  maxItems?: string;
+  /** Optional. If type is `OBJECT`, `properties` is a map of property names to schema definitions for each property of the object. */
+  properties?: GoogleCloudAiplatformV1beta1SchemaMap;
+  /** Optional. If type is `STRING`, `pattern` specifies a regular expression that the string must match. */
+  pattern?: string;
+  /** Optional. If `type` is `OBJECT`, specifies how to handle properties not defined in `properties`. If it is a boolean `false`, no additional properties are allowed. If it is a schema, additional properties are allowed if they conform to the schema. */
+  additionalProperties?: unknown;
+  /** Optional. If type is `INTEGER` or `NUMBER`, `maximum` specifies the maximum allowed value. */
+  maximum?: number;
+  /** Optional. If type is `OBJECT`, `min_properties` specifies the minimum number of properties that can be provided. */
+  minProperties?: string;
+  /** Optional. If type is `ARRAY`, `min_items` specifies the minimum number of items in an array. */
+  minItems?: string;
+  /** Optional. Default value to use if the field is not specified. */
+  default?: unknown;
+  /** Optional. Possible values of the field. This field can be used to restrict a value to a fixed set of values. To mark a field as an enum, set `format` to `enum` and provide the list of possible values in `enum`. For example: 1. To define directions: `{type:STRING, format:enum, enum:["EAST", "NORTH", "SOUTH", "WEST"]}` 2. To define apartment numbers: `{type:INTEGER, format:enum, enum:["101", "201", "301"]}` */
+  enum?: StringList;
+  /** Optional. Describes the data. The model uses this field to understand the purpose of the schema and how to use it. It is a best practice to provide a clear and descriptive explanation for the schema and its properties here, rather than in the prompt. */
+  description?: string;
+  /** Optional. Example of an instance of this schema. */
+  example?: unknown;
+  /** Optional. `defs` provides a map of schema definitions that can be reused by `ref` elsewhere in the schema. Only allowed at root level of the schema. */
+  defs?: GoogleCloudAiplatformV1beta1SchemaMap;
+  /** Optional. The instance must be valid against any (one or more) of the subschemas listed in `any_of`. */
+  anyOf?: GoogleCloudAiplatformV1beta1SchemaList;
+}
+export const GoogleCloudAiplatformV1beta1Schema = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ref: S.optional(S.String),
+    title: S.optional(S.String),
+    maxProperties: S.optional(S.String),
+    maxLength: S.optional(S.String),
+    minimum: S.optional(S.Number),
+    nullable: S.optional(S.Boolean),
+    propertyOrdering: S.optional(StringList),
+    format: S.optional(S.String),
+    type: S.optional(GoogleCloudAiplatformV1beta1SchemaTypeEnum),
+    minLength: S.optional(S.String),
+    items: S.optional(GoogleCloudAiplatformV1beta1Schema),
+    required: S.optional(StringList),
+    maxItems: S.optional(S.String),
+    properties: S.optional(GoogleCloudAiplatformV1beta1SchemaMap),
+    pattern: S.optional(S.String),
+    additionalProperties: S.optional(S.Unknown),
+    maximum: S.optional(S.Number),
+    minProperties: S.optional(S.String),
+    minItems: S.optional(S.String),
+    default: S.optional(S.Unknown),
+    enum: S.optional(StringList),
+    description: S.optional(S.String),
+    example: S.optional(S.Unknown),
+    defs: S.optional(GoogleCloudAiplatformV1beta1SchemaMap),
+    anyOf: S.optional(GoogleCloudAiplatformV1beta1SchemaList),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1Schema",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1Schema>;
+
+export type GoogleCloudAiplatformV1beta1FunctionDeclarationBehaviorEnum =
+  | "UNSPECIFIED"
+  | "BLOCKING"
+  | "NON_BLOCKING";
+export const GoogleCloudAiplatformV1beta1FunctionDeclarationBehaviorEnum = S.String;
+
+/** Structured representation of a function declaration as defined by the [OpenAPI 3.0 specification](https://spec.openapis.org/oas/v3.0.3). Included in this declaration are the function name, description, parameters and response type. This FunctionDeclaration is a representation of a block of code that can be used as a `Tool` by the model and executed by the client. */
+export interface GoogleCloudAiplatformV1beta1FunctionDeclaration {
+  /** Optional. Describes the output from this function in JSON Schema format. The value specified by the schema is the response value of the function. This field is mutually exclusive with `response`. */
+  responseJsonSchema?: unknown;
+  /** Optional. Describes the parameters to this function in JSON Schema Object format. Reflects the Open API 3.03 Parameter Object. string Key: the name of the parameter. Parameter names are case sensitive. Schema Value: the Schema defining the type used for the parameter. For function with no parameters, this can be left unset. Parameter names must start with a letter or an underscore and must only contain chars a-z, A-Z, 0-9, or underscores with a maximum length of 64. Example with 1 required and 1 optional parameter: type: OBJECT properties: param1: type: STRING param2: type: INTEGER required: - param1 */
+  parameters?: GoogleCloudAiplatformV1beta1Schema;
+  /** Optional. Describes the output from this function in JSON Schema format. Reflects the Open API 3.03 Response Object. The Schema defines the type used for the response value of the function. */
+  response?: GoogleCloudAiplatformV1beta1Schema;
+  /** Required. The name of the function to call. Must start with a letter or an underscore. Must be a-z, A-Z, 0-9, or contain underscores, dots, colons and dashes, with a maximum length of 128. */
+  name?: string;
+  /** Optional. Description and purpose of the function. Model uses it to decide how and whether to call the function. */
+  description?: string;
+  /** Optional. Specifies the function Behavior. If not specified, the system keeps the current function call behavior. This field is currently only supported by the BidiGenerateContent method. */
+  behavior?: GoogleCloudAiplatformV1beta1FunctionDeclarationBehaviorEnum | (string & {});
+  /** Optional. Describes the parameters to the function in JSON Schema format. The schema must describe an object where the properties are the parameters to the function. For example: ``` { "type": "object", "properties": { "name": { "type": "string" }, "age": { "type": "integer" } }, "additionalProperties": false, "required": ["name", "age"], "propertyOrdering": ["name", "age"] } ``` This field is mutually exclusive with `parameters`. */
+  parametersJsonSchema?: unknown;
+}
+export const GoogleCloudAiplatformV1beta1FunctionDeclaration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    responseJsonSchema: S.optional(S.Unknown),
+    parameters: S.optional(GoogleCloudAiplatformV1beta1Schema),
+    response: S.optional(GoogleCloudAiplatformV1beta1Schema),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    behavior: S.optional(GoogleCloudAiplatformV1beta1FunctionDeclarationBehaviorEnum),
+    parametersJsonSchema: S.optional(S.Unknown),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1FunctionDeclaration",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1FunctionDeclaration>;
+
+export type GoogleCloudAiplatformV1beta1FunctionDeclarationList =
+  Array<GoogleCloudAiplatformV1beta1FunctionDeclaration>;
+export const GoogleCloudAiplatformV1beta1FunctionDeclarationList = /*@__PURE__*/ S.Array(
+  GoogleCloudAiplatformV1beta1FunctionDeclaration,
+) as any as S.Schema<GoogleCloudAiplatformV1beta1FunctionDeclarationList>;
+
+/** Standard web search for grounding and related configurations. Only text results are returned. */
+export type GoogleCloudAiplatformV1beta1ToolGoogleSearchWebSearch =
+  GoogleCloudAiplatformV1beta1UrlContext;
+export const GoogleCloudAiplatformV1beta1ToolGoogleSearchWebSearch =
+  GoogleCloudAiplatformV1beta1UrlContext;
+
+/** Image search for grounding and related configurations. */
+export type GoogleCloudAiplatformV1beta1ToolGoogleSearchImageSearch =
+  GoogleCloudAiplatformV1beta1UrlContext;
+export const GoogleCloudAiplatformV1beta1ToolGoogleSearchImageSearch =
+  GoogleCloudAiplatformV1beta1UrlContext;
+
+/** Different types of search that can be enabled on the GoogleSearch tool. */
+export interface GoogleCloudAiplatformV1beta1ToolGoogleSearchSearchTypes {
+  /** Optional. Setting this field enables web search. Only text results are returned. */
+  webSearch?: GoogleCloudAiplatformV1beta1UrlContext;
+  /** Optional. Setting this field enables image search. Image bytes are returned. */
+  imageSearch?: GoogleCloudAiplatformV1beta1UrlContext;
+}
+export const GoogleCloudAiplatformV1beta1ToolGoogleSearchSearchTypes = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    webSearch: S.optional(GoogleCloudAiplatformV1beta1UrlContext),
+    imageSearch: S.optional(GoogleCloudAiplatformV1beta1UrlContext),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1ToolGoogleSearchSearchTypes",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1ToolGoogleSearchSearchTypes>;
+
+export type GoogleCloudAiplatformV1beta1ToolGoogleSearchBlockingConfidenceEnum =
+  | "PHISH_BLOCK_THRESHOLD_UNSPECIFIED"
+  | "BLOCK_LOW_AND_ABOVE"
+  | "BLOCK_MEDIUM_AND_ABOVE"
+  | "BLOCK_HIGH_AND_ABOVE"
+  | "BLOCK_HIGHER_AND_ABOVE"
+  | "BLOCK_VERY_HIGH_AND_ABOVE"
+  | "BLOCK_ONLY_EXTREMELY_HIGH";
+export const GoogleCloudAiplatformV1beta1ToolGoogleSearchBlockingConfidenceEnum = S.String;
+
+/** GoogleSearch tool type. Tool to support Google Search in Model. Powered by Google. */
+export interface GoogleCloudAiplatformV1beta1ToolGoogleSearch {
+  /** Optional. The set of search types to enable. If not set, web search is enabled by default. */
+  searchTypes?: GoogleCloudAiplatformV1beta1ToolGoogleSearchSearchTypes;
+  /** Optional. Sites with confidence level chosen & above this value will be blocked from the search results. */
+  blockingConfidence?:
+    | GoogleCloudAiplatformV1beta1ToolGoogleSearchBlockingConfidenceEnum
+    | (string & {});
+  /** Optional. List of domains to be excluded from the search results. The default limit is 2000 domains. Example: ["amazon.com", "facebook.com"]. */
+  excludeDomains?: StringList;
+}
+export const GoogleCloudAiplatformV1beta1ToolGoogleSearch = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    searchTypes: S.optional(GoogleCloudAiplatformV1beta1ToolGoogleSearchSearchTypes),
+    blockingConfidence: S.optional(
+      GoogleCloudAiplatformV1beta1ToolGoogleSearchBlockingConfidenceEnum,
+    ),
+    excludeDomains: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1ToolGoogleSearch",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1ToolGoogleSearch>;
+
+export type DocumentMap = { [key: string]: unknown | undefined };
+export const DocumentMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<DocumentMap>;
+
 /** ExaAiSearch tool type. A tool that uses the Exa.ai search engine for grounding. */
 export interface GoogleCloudAiplatformV1beta1ToolExaAiSearch {
-  /** Optional. This field can be used to pass any parameter from the Exa.ai Search API. */
-  customConfigs?: DocumentMap;
   /** Required. The API key for ExaAiSearch. */
   apiKey?: string;
+  /** Optional. This field can be used to pass any parameter from the Exa.ai Search API. */
+  customConfigs?: DocumentMap;
 }
 export const GoogleCloudAiplatformV1beta1ToolExaAiSearch = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customConfigs: S.optional(DocumentMap),
     apiKey: S.optional(S.String),
+    customConfigs: S.optional(DocumentMap),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1ToolExaAiSearch",
 }) as any as S.Schema<GoogleCloudAiplatformV1beta1ToolExaAiSearch>;
 
-/** Tool to support URL context. */
-export type GoogleCloudAiplatformV1beta1UrlContext = GoogleCloudAiplatformV1beta1ToolCodeExecution;
-export const GoogleCloudAiplatformV1beta1UrlContext = GoogleCloudAiplatformV1beta1ToolCodeExecution;
+/** Grounding with Google Maps Places data (e.g. QueryPlaces). This is the default Google Maps grounding type when no other type is specified. */
+export type GoogleCloudAiplatformV1beta1GoogleMapsPlaces = GoogleCloudAiplatformV1beta1UrlContext;
+export const GoogleCloudAiplatformV1beta1GoogleMapsPlaces = GoogleCloudAiplatformV1beta1UrlContext;
 
-export type GoogleCloudAiplatformV1beta1ToolComputerUseEnvironmentEnum =
-  | "ENVIRONMENT_UNSPECIFIED"
-  | "ENVIRONMENT_BROWSER"
-  | "ENVIRONMENT_MOBILE"
-  | "ENVIRONMENT_DESKTOP";
-export const GoogleCloudAiplatformV1beta1ToolComputerUseEnvironmentEnum = S.String;
+/** Grounding with Google Maps Routing APIs (ComputeRoutes and SearchAlongRoute). */
+export type GoogleCloudAiplatformV1beta1GoogleMapsRouting = GoogleCloudAiplatformV1beta1UrlContext;
+export const GoogleCloudAiplatformV1beta1GoogleMapsRouting = GoogleCloudAiplatformV1beta1UrlContext;
 
-/** Tool to support computer use. */
-export interface GoogleCloudAiplatformV1beta1ToolComputerUse {
-  /** Optional. Enables the prompt injection detection check on computer-use request. */
-  enablePromptInjectionDetection?: boolean;
-  /** Required. The environment being operated. */
-  environment?: GoogleCloudAiplatformV1beta1ToolComputerUseEnvironmentEnum | (string & {});
-  /** Optional. By default, [predefined functions](https://cloud.google.com/vertex-ai/generative-ai/docs/computer-use#supported-actions) are included in the final model call. Some of them can be explicitly excluded from being automatically included. This can serve two purposes: 1. Using a more restricted / different action space. 2. Improving the definitions / instructions of predefined functions. */
-  excludedPredefinedFunctions?: StringList;
+/** Defines the types of Google Maps grounding that can be enabled and their configurations. */
+export interface GoogleCloudAiplatformV1beta1GoogleMapsGroundingTypes {
+  /** Optional. Enables grounding with Google Maps Places. This is the default grounding type when no `GroundingTypes` are specified. */
+  places?: GoogleCloudAiplatformV1beta1UrlContext;
+  /** Optional. Enables grounding with Google Maps Routing APIs (ComputeRoutes and SearchAlongRoute). */
+  routing?: GoogleCloudAiplatformV1beta1UrlContext;
 }
-export const GoogleCloudAiplatformV1beta1ToolComputerUse = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudAiplatformV1beta1GoogleMapsGroundingTypes = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    enablePromptInjectionDetection: S.optional(S.Boolean),
-    environment: S.optional(GoogleCloudAiplatformV1beta1ToolComputerUseEnvironmentEnum),
-    excludedPredefinedFunctions: S.optional(StringList),
+    places: S.optional(GoogleCloudAiplatformV1beta1UrlContext),
+    routing: S.optional(GoogleCloudAiplatformV1beta1UrlContext),
   }),
 ).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1ToolComputerUse",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1ToolComputerUse>;
+  identifier: "GoogleCloudAiplatformV1beta1GoogleMapsGroundingTypes",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1GoogleMapsGroundingTypes>;
+
+/** Tool to retrieve public maps data for grounding, powered by Google. */
+export interface GoogleCloudAiplatformV1beta1GoogleMaps {
+  /** Optional. Specifies the types of Google Maps grounding to enable. Defaults to `places` when unset. */
+  groundingTypes?: GoogleCloudAiplatformV1beta1GoogleMapsGroundingTypes;
+  /** Optional. Deprecated: The Google Maps contextual widget behavior in Grounding with Google Maps is being deprecated; this field is planned for removal and no longer has any effect once removed. If true, include the widget context token in the response. */
+  enableWidget?: boolean;
+}
+export const GoogleCloudAiplatformV1beta1GoogleMaps = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    groundingTypes: S.optional(GoogleCloudAiplatformV1beta1GoogleMapsGroundingTypes),
+    enableWidget: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1GoogleMaps",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1GoogleMaps>;
+
+/** ParallelAiSearch tool type. A tool that uses the Parallel.ai search engine for grounding. */
+export interface GoogleCloudAiplatformV1beta1ToolParallelAiSearch {
+  /** Optional. The API key for ParallelAiSearch. If an API key is not provided, the system will attempt to verify access by checking for an active Parallel.ai subscription through the Google Cloud Marketplace. See https://docs.parallel.ai/search/search-quickstart for more details. */
+  apiKey?: string;
+  /** Optional. Custom configs for ParallelAiSearch. This field can be used to pass any parameter from the Parallel.ai Search API. See the Parallel.ai documentation for the full list of available parameters and their usage: https://docs.parallel.ai/api-reference/search-beta/search Currently only `source_policy`, `excerpts`, `max_results`, `mode`, `fetch_policy` can be set via this field. For example: { "source_policy": { "include_domains": ["google.com", "wikipedia.org"], "exclude_domains": ["example.com"] }, "fetch_policy": { "max_age_seconds": 3600 } } */
+  customConfigs?: DocumentMap;
+  /** Optional. Instructs Vertex Grounding to use Parallel's Zero Data Retention Marketplace product. If this value is "false" or omitted, the Parallel Web Search for Grounding standard subscription will be used. If this value is "true", the Parallel Web Search for Grounding - ZDR subscription will be used. */
+  enableZeroDataRetention?: boolean;
+  /** Optional. Deprecated: Use `enable_zero_data_retention` instead. Instructs Vertex Grounding to use Parallel's Zero Data Retention Marketplace product. If this value is "false" or omitted, the Parallel Web Search for Grounding standard subscription will be used. If this value is "true", the Parallel Web Search for Grounding - ZDR subscription will be used. */
+  enableDataRetention?: boolean;
+}
+export const GoogleCloudAiplatformV1beta1ToolParallelAiSearch = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    apiKey: S.optional(S.String),
+    customConfigs: S.optional(DocumentMap),
+    enableZeroDataRetention: S.optional(S.Boolean),
+    enableDataRetention: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1ToolParallelAiSearch",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1ToolParallelAiSearch>;
 
 export type GoogleCloudAiplatformV1beta1EnterpriseWebSearchBlockingConfidenceEnum =
   | "PHISH_BLOCK_THRESHOLD_UNSPECIFIED"
@@ -848,105 +929,44 @@ export const GoogleCloudAiplatformV1beta1EnterpriseWebSearch = /*@__PURE__*/ S.s
   identifier: "GoogleCloudAiplatformV1beta1EnterpriseWebSearch",
 }) as any as S.Schema<GoogleCloudAiplatformV1beta1EnterpriseWebSearch>;
 
-export type GoogleCloudAiplatformV1beta1ToolGoogleSearchBlockingConfidenceEnum =
-  | "PHISH_BLOCK_THRESHOLD_UNSPECIFIED"
-  | "BLOCK_LOW_AND_ABOVE"
-  | "BLOCK_MEDIUM_AND_ABOVE"
-  | "BLOCK_HIGH_AND_ABOVE"
-  | "BLOCK_HIGHER_AND_ABOVE"
-  | "BLOCK_VERY_HIGH_AND_ABOVE"
-  | "BLOCK_ONLY_EXTREMELY_HIGH";
-export const GoogleCloudAiplatformV1beta1ToolGoogleSearchBlockingConfidenceEnum = S.String;
-
-/** Standard web search for grounding and related configurations. Only text results are returned. */
-export type GoogleCloudAiplatformV1beta1ToolGoogleSearchWebSearch =
-  GoogleCloudAiplatformV1beta1ToolCodeExecution;
-export const GoogleCloudAiplatformV1beta1ToolGoogleSearchWebSearch =
-  GoogleCloudAiplatformV1beta1ToolCodeExecution;
-
-/** Image search for grounding and related configurations. */
-export type GoogleCloudAiplatformV1beta1ToolGoogleSearchImageSearch =
-  GoogleCloudAiplatformV1beta1ToolCodeExecution;
-export const GoogleCloudAiplatformV1beta1ToolGoogleSearchImageSearch =
-  GoogleCloudAiplatformV1beta1ToolCodeExecution;
-
-/** Different types of search that can be enabled on the GoogleSearch tool. */
-export interface GoogleCloudAiplatformV1beta1ToolGoogleSearchSearchTypes {
-  /** Optional. Setting this field enables web search. Only text results are returned. */
-  webSearch?: GoogleCloudAiplatformV1beta1ToolCodeExecution;
-  /** Optional. Setting this field enables image search. Image bytes are returned. */
-  imageSearch?: GoogleCloudAiplatformV1beta1ToolCodeExecution;
-}
-export const GoogleCloudAiplatformV1beta1ToolGoogleSearchSearchTypes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    webSearch: S.optional(GoogleCloudAiplatformV1beta1ToolCodeExecution),
-    imageSearch: S.optional(GoogleCloudAiplatformV1beta1ToolCodeExecution),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1ToolGoogleSearchSearchTypes",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1ToolGoogleSearchSearchTypes>;
-
-/** GoogleSearch tool type. Tool to support Google Search in Model. Powered by Google. */
-export interface GoogleCloudAiplatformV1beta1ToolGoogleSearch {
-  /** Optional. Sites with confidence level chosen & above this value will be blocked from the search results. */
-  blockingConfidence?:
-    | GoogleCloudAiplatformV1beta1ToolGoogleSearchBlockingConfidenceEnum
-    | (string & {});
-  /** Optional. The set of search types to enable. If not set, web search is enabled by default. */
-  searchTypes?: GoogleCloudAiplatformV1beta1ToolGoogleSearchSearchTypes;
-  /** Optional. List of domains to be excluded from the search results. The default limit is 2000 domains. Example: ["amazon.com", "facebook.com"]. */
-  excludeDomains?: StringList;
-}
-export const GoogleCloudAiplatformV1beta1ToolGoogleSearch = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    blockingConfidence: S.optional(
-      GoogleCloudAiplatformV1beta1ToolGoogleSearchBlockingConfidenceEnum,
-    ),
-    searchTypes: S.optional(GoogleCloudAiplatformV1beta1ToolGoogleSearchSearchTypes),
-    excludeDomains: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1ToolGoogleSearch",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1ToolGoogleSearch>;
-
 /** Tool details that the model may use to generate response. A `Tool` is a piece of code that enables the system to interact with external systems to perform an action, or set of actions, outside of knowledge and scope of the model. A Tool object should contain exactly one type of Tool (e.g FunctionDeclaration, Retrieval or GoogleSearchRetrieval). */
 export interface GoogleCloudAiplatformV1beta1Tool {
-  /** Optional. Function tool type. One or more function declarations to be passed to the model along with the current user query. Model may decide to call a subset of these functions by populating FunctionCall in the response. User should provide a FunctionResponse for each function call in the next turn. Based on the function responses, Model will generate the final response back to the user. Maximum 512 function declarations can be provided. */
-  functionDeclarations?: GoogleCloudAiplatformV1beta1FunctionDeclarationList;
   /** Optional. Specialized retrieval tool that is powered by Google Search. */
   googleSearchRetrieval?: GoogleCloudAiplatformV1beta1GoogleSearchRetrieval;
+  /** Optional. Tool to support URL context retrieval. */
+  urlContext?: GoogleCloudAiplatformV1beta1UrlContext;
   /** Optional. CodeExecution tool type. Enables the model to execute code as part of generation. */
-  codeExecution?: GoogleCloudAiplatformV1beta1ToolCodeExecution;
+  codeExecution?: GoogleCloudAiplatformV1beta1UrlContext;
+  /** Optional. Tool to support the model interacting directly with the computer. If enabled, it automatically populates computer-use specific Function Declarations. */
+  computerUse?: GoogleCloudAiplatformV1beta1ToolComputerUse;
+  /** Optional. Retrieval tool type. System will always execute the provided retrieval tool(s) to get external knowledge to answer the prompt. Retrieval results are presented to the model for generation. */
+  retrieval?: GoogleCloudAiplatformV1beta1Retrieval;
+  /** Optional. Function tool type. One or more function declarations to be passed to the model along with the current user query. Model may decide to call a subset of these functions by populating FunctionCall in the response. User should provide a FunctionResponse for each function call in the next turn. Based on the function responses, Model will generate the final response back to the user. Maximum 512 function declarations can be provided. */
+  functionDeclarations?: GoogleCloudAiplatformV1beta1FunctionDeclarationList;
+  /** Optional. GoogleSearch tool type. Tool to support Google Search in Model. Powered by Google. */
+  googleSearch?: GoogleCloudAiplatformV1beta1ToolGoogleSearch;
+  /** Optional. Uses Exa.ai to search for information to answer user queries. The search results will be grounded on Exa.ai and presented to the model for response generation */
+  exaAiSearch?: GoogleCloudAiplatformV1beta1ToolExaAiSearch;
   /** Optional. GoogleMaps tool type. Tool to support Google Maps in Model. */
   googleMaps?: GoogleCloudAiplatformV1beta1GoogleMaps;
   /** Optional. If specified, Vertex AI will use Parallel.ai to search for information to answer user queries. The search results will be grounded on Parallel.ai and presented to the model for response generation */
   parallelAiSearch?: GoogleCloudAiplatformV1beta1ToolParallelAiSearch;
-  /** Optional. Retrieval tool type. System will always execute the provided retrieval tool(s) to get external knowledge to answer the prompt. Retrieval results are presented to the model for generation. */
-  retrieval?: GoogleCloudAiplatformV1beta1Retrieval;
-  /** Optional. Uses Exa.ai to search for information to answer user queries. The search results will be grounded on Exa.ai and presented to the model for response generation */
-  exaAiSearch?: GoogleCloudAiplatformV1beta1ToolExaAiSearch;
-  /** Optional. Tool to support URL context retrieval. */
-  urlContext?: GoogleCloudAiplatformV1beta1ToolCodeExecution;
-  /** Optional. Tool to support the model interacting directly with the computer. If enabled, it automatically populates computer-use specific Function Declarations. */
-  computerUse?: GoogleCloudAiplatformV1beta1ToolComputerUse;
   /** Optional. Tool to support searching public web data, powered by Vertex AI Search and Sec4 compliance. */
   enterpriseWebSearch?: GoogleCloudAiplatformV1beta1EnterpriseWebSearch;
-  /** Optional. GoogleSearch tool type. Tool to support Google Search in Model. Powered by Google. */
-  googleSearch?: GoogleCloudAiplatformV1beta1ToolGoogleSearch;
 }
 export const GoogleCloudAiplatformV1beta1Tool = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    functionDeclarations: S.optional(GoogleCloudAiplatformV1beta1FunctionDeclarationList),
     googleSearchRetrieval: S.optional(GoogleCloudAiplatformV1beta1GoogleSearchRetrieval),
-    codeExecution: S.optional(GoogleCloudAiplatformV1beta1ToolCodeExecution),
+    urlContext: S.optional(GoogleCloudAiplatformV1beta1UrlContext),
+    codeExecution: S.optional(GoogleCloudAiplatformV1beta1UrlContext),
+    computerUse: S.optional(GoogleCloudAiplatformV1beta1ToolComputerUse),
+    retrieval: S.optional(GoogleCloudAiplatformV1beta1Retrieval),
+    functionDeclarations: S.optional(GoogleCloudAiplatformV1beta1FunctionDeclarationList),
+    googleSearch: S.optional(GoogleCloudAiplatformV1beta1ToolGoogleSearch),
+    exaAiSearch: S.optional(GoogleCloudAiplatformV1beta1ToolExaAiSearch),
     googleMaps: S.optional(GoogleCloudAiplatformV1beta1GoogleMaps),
     parallelAiSearch: S.optional(GoogleCloudAiplatformV1beta1ToolParallelAiSearch),
-    retrieval: S.optional(GoogleCloudAiplatformV1beta1Retrieval),
-    exaAiSearch: S.optional(GoogleCloudAiplatformV1beta1ToolExaAiSearch),
-    urlContext: S.optional(GoogleCloudAiplatformV1beta1ToolCodeExecution),
-    computerUse: S.optional(GoogleCloudAiplatformV1beta1ToolComputerUse),
     enterpriseWebSearch: S.optional(GoogleCloudAiplatformV1beta1EnterpriseWebSearch),
-    googleSearch: S.optional(GoogleCloudAiplatformV1beta1ToolGoogleSearch),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1Tool",
@@ -956,13 +976,6 @@ export type GoogleCloudAiplatformV1beta1ToolList = Array<GoogleCloudAiplatformV1
 export const GoogleCloudAiplatformV1beta1ToolList = /*@__PURE__*/ S.Array(
   GoogleCloudAiplatformV1beta1Tool,
 ) as any as S.Schema<GoogleCloudAiplatformV1beta1ToolList>;
-
-export type GoogleCloudAiplatformV1beta1GenerationConfigMediaResolutionEnum =
-  | "MEDIA_RESOLUTION_UNSPECIFIED"
-  | "MEDIA_RESOLUTION_LOW"
-  | "MEDIA_RESOLUTION_MEDIUM"
-  | "MEDIA_RESOLUTION_HIGH";
-export const GoogleCloudAiplatformV1beta1GenerationConfigMediaResolutionEnum = S.String;
 
 export type GoogleCloudAiplatformV1beta1GenerationConfigModelConfigFeatureSelectionPreferenceEnum =
   | "FEATURE_SELECTION_PREFERENCE_UNSPECIFIED"
@@ -989,125 +1002,37 @@ export const GoogleCloudAiplatformV1beta1GenerationConfigModelConfig = /*@__PURE
   identifier: "GoogleCloudAiplatformV1beta1GenerationConfigModelConfig",
 }) as any as S.Schema<GoogleCloudAiplatformV1beta1GenerationConfigModelConfig>;
 
-export type GoogleCloudAiplatformV1beta1ImageConfigProminentPeopleEnum =
-  | "PROMINENT_PEOPLE_UNSPECIFIED"
-  | "ALLOW_PROMINENT_PEOPLE"
-  | "BLOCK_PROMINENT_PEOPLE";
-export const GoogleCloudAiplatformV1beta1ImageConfigProminentPeopleEnum = S.String;
+export type GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfigThinkingLevelEnum =
+  | "THINKING_LEVEL_UNSPECIFIED"
+  | "LOW"
+  | "MEDIUM"
+  | "HIGH"
+  | "MINIMAL";
+export const GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfigThinkingLevelEnum = S.String;
 
-export type GoogleCloudAiplatformV1beta1ImageConfigPersonGenerationEnum =
-  | "PERSON_GENERATION_UNSPECIFIED"
-  | "ALLOW_ALL"
-  | "ALLOW_ADULT"
-  | "ALLOW_NONE";
-export const GoogleCloudAiplatformV1beta1ImageConfigPersonGenerationEnum = S.String;
-
-/** The image output format for generated images. */
-export interface GoogleCloudAiplatformV1beta1ImageConfigImageOutputOptions {
-  /** Optional. The image format that the output should be saved as. */
-  mimeType?: string;
-  /** Optional. The compression quality of the output image. */
-  compressionQuality?: number;
+/** Configuration for the model's thinking features. "Thinking" is a process where the model breaks down a complex task into smaller, manageable steps. This allows the model to reason about the task, plan its approach, and execute the plan to generate a high-quality response. */
+export interface GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfig {
+  /** Optional. The token budget for the model's thinking process. The model will make a best effort to stay within this budget. This can be used to control the trade-off between response quality and latency. */
+  thinkingBudget?: number;
+  /** Optional. If true, the model will include its thoughts in the response. "Thoughts" are the intermediate steps the model takes to arrive at the final response. They can provide insights into the model's reasoning process and help with debugging. If this is true, thoughts are returned only when available. */
+  includeThoughts?: boolean;
+  /** Optional. The number of thoughts tokens that the model should generate. */
+  thinkingLevel?:
+    | GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfigThinkingLevelEnum
+    | (string & {});
 }
-export const GoogleCloudAiplatformV1beta1ImageConfigImageOutputOptions = /*@__PURE__*/ S.suspend(
+export const GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfig = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      mimeType: S.optional(S.String),
-      compressionQuality: S.optional(S.Number),
+      thinkingBudget: S.optional(S.Number),
+      includeThoughts: S.optional(S.Boolean),
+      thinkingLevel: S.optional(
+        GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfigThinkingLevelEnum,
+      ),
     }),
 ).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1ImageConfigImageOutputOptions",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1ImageConfigImageOutputOptions>;
-
-/** Configuration for image generation. This message allows you to control various aspects of image generation, such as the output format, aspect ratio, and whether the model can generate images of people. */
-export interface GoogleCloudAiplatformV1beta1ImageConfig {
-  /** Optional. Controls whether prominent people (celebrities) generation is allowed. If used with personGeneration, personGeneration enum would take precedence. For instance, if ALLOW_NONE is set, all person generation would be blocked. If this field is unspecified, the default behavior is to allow prominent people. */
-  prominentPeople?: GoogleCloudAiplatformV1beta1ImageConfigProminentPeopleEnum | (string & {});
-  /** Optional. Specifies the size of generated images. Supported values are `1K`, `2K`, `4K`. If not specified, the model will use default value `1K`. */
-  imageSize?: string;
-  /** Optional. Controls whether the model can generate people. */
-  personGeneration?: GoogleCloudAiplatformV1beta1ImageConfigPersonGenerationEnum | (string & {});
-  /** Optional. The desired aspect ratio for the generated images. The following aspect ratios are supported: "1:1" "2:3", "3:2" "3:4", "4:3" "4:5", "5:4" "9:16", "16:9" "21:9" */
-  aspectRatio?: string;
-  /** Optional. The image output format for generated images. */
-  imageOutputOptions?: GoogleCloudAiplatformV1beta1ImageConfigImageOutputOptions;
-}
-export const GoogleCloudAiplatformV1beta1ImageConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    prominentPeople: S.optional(GoogleCloudAiplatformV1beta1ImageConfigProminentPeopleEnum),
-    imageSize: S.optional(S.String),
-    personGeneration: S.optional(GoogleCloudAiplatformV1beta1ImageConfigPersonGenerationEnum),
-    aspectRatio: S.optional(S.String),
-    imageOutputOptions: S.optional(GoogleCloudAiplatformV1beta1ImageConfigImageOutputOptions),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1ImageConfig",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1ImageConfig>;
-
-/** Deprecated: Use top-level `language_codes` instead. Indicates the language of the audio should be automatically detected. */
-export type GoogleCloudAiplatformV1beta1AudioTranscriptionConfigLanguageAuto =
-  GoogleCloudAiplatformV1beta1ToolCodeExecution;
-export const GoogleCloudAiplatformV1beta1AudioTranscriptionConfigLanguageAuto =
-  GoogleCloudAiplatformV1beta1ToolCodeExecution;
-
-/** Deprecated: Use top-level `language_codes` instead. Provides hints to the model about possible languages present in the audio. */
-export interface GoogleCloudAiplatformV1beta1AudioTranscriptionConfigLanguageHints {
-  /** Required. Deprecated: Use top-level `language_codes` instead. BCP-47 language codes. At least one must be specified. */
-  languageCodes?: StringList;
-}
-export const GoogleCloudAiplatformV1beta1AudioTranscriptionConfigLanguageHints =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      languageCodes: S.optional(StringList),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudAiplatformV1beta1AudioTranscriptionConfigLanguageHints",
-  }) as any as S.Schema<GoogleCloudAiplatformV1beta1AudioTranscriptionConfigLanguageHints>;
-
-/** Configuration for speech recognition (transcription). */
-export interface GoogleCloudAiplatformV1beta1AudioTranscriptionConfig {
-  /** Optional. A list of custom vocabulary phrases to bias the speech recognition model toward recognizing specific terms. */
-  customVocabulary?: StringList;
-  /** Optional. Configures word-level timestamp generation. */
-  wordTimestamp?: boolean;
-  /** Optional. Configures speaker diarization. */
-  diarization?: boolean;
-  /** Optional. Deprecated: Use top-level `language_codes` instead. The model will detect the language automatically. */
-  languageAuto?: GoogleCloudAiplatformV1beta1ToolCodeExecution;
-  /** Optional. Deprecated: Use `custom_vocabulary` instead. A list of phrases to bias the speech recognition model towards. */
-  adaptationPhrases?: StringList;
-  /** Optional. BCP-47 language codes providing hints about the languages present in the audio. If omitted or empty, defaults to automatic language detection. */
-  languageCodes?: StringList;
-  /** Optional. Deprecated: Use top-level `language_codes` instead. Specifies one or more languages in the audio. */
-  languageHints?: GoogleCloudAiplatformV1beta1AudioTranscriptionConfigLanguageHints;
-}
-export const GoogleCloudAiplatformV1beta1AudioTranscriptionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    customVocabulary: S.optional(StringList),
-    wordTimestamp: S.optional(S.Boolean),
-    diarization: S.optional(S.Boolean),
-    languageAuto: S.optional(GoogleCloudAiplatformV1beta1ToolCodeExecution),
-    adaptationPhrases: S.optional(StringList),
-    languageCodes: S.optional(StringList),
-    languageHints: S.optional(GoogleCloudAiplatformV1beta1AudioTranscriptionConfigLanguageHints),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1AudioTranscriptionConfig",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1AudioTranscriptionConfig>;
-
-/** The configuration for manual routing. When manual routing is specified, the model will be selected based on the model name provided. */
-export interface GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfigManualRoutingMode {
-  /** The name of the model to use. Only public LLM models are accepted. */
-  modelName?: string;
-}
-export const GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfigManualRoutingMode =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      modelName: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfigManualRoutingMode",
-  }) as any as S.Schema<GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfigManualRoutingMode>;
+  identifier: "GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfig",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfig>;
 
 export type GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfigAutoRoutingModeModelRoutingPreferenceEnum =
   | "UNKNOWN"
@@ -1135,26 +1060,132 @@ export const GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfigAutoRoutin
     identifier: "GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfigAutoRoutingMode",
   }) as any as S.Schema<GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfigAutoRoutingMode>;
 
+/** The configuration for manual routing. When manual routing is specified, the model will be selected based on the model name provided. */
+export interface GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfigManualRoutingMode {
+  /** The name of the model to use. Only public LLM models are accepted. */
+  modelName?: string;
+}
+export const GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfigManualRoutingMode =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      modelName: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfigManualRoutingMode",
+  }) as any as S.Schema<GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfigManualRoutingMode>;
+
 /** The configuration for routing the request to a specific model. This can be used to control which model is used for the generation, either automatically or by specifying a model name. */
 export interface GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfig {
-  /** In this mode, the model is specified manually. */
-  manualMode?: GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfigManualRoutingMode;
   /** In this mode, the model is selected automatically based on the content of the request. */
   autoMode?: GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfigAutoRoutingMode;
+  /** In this mode, the model is specified manually. */
+  manualMode?: GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfigManualRoutingMode;
 }
 export const GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfig = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      manualMode: S.optional(
-        GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfigManualRoutingMode,
-      ),
       autoMode: S.optional(
         GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfigAutoRoutingMode,
+      ),
+      manualMode: S.optional(
+        GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfigManualRoutingMode,
       ),
     }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfig",
 }) as any as S.Schema<GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfig>;
+
+export type GoogleCloudAiplatformV1beta1ImageConfigPersonGenerationEnum =
+  | "PERSON_GENERATION_UNSPECIFIED"
+  | "ALLOW_ALL"
+  | "ALLOW_ADULT"
+  | "ALLOW_NONE";
+export const GoogleCloudAiplatformV1beta1ImageConfigPersonGenerationEnum = S.String;
+
+/** The image output format for generated images. */
+export interface GoogleCloudAiplatformV1beta1ImageConfigImageOutputOptions {
+  /** Optional. The image format that the output should be saved as. */
+  mimeType?: string;
+  /** Optional. The compression quality of the output image. */
+  compressionQuality?: number;
+}
+export const GoogleCloudAiplatformV1beta1ImageConfigImageOutputOptions = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      mimeType: S.optional(S.String),
+      compressionQuality: S.optional(S.Number),
+    }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1ImageConfigImageOutputOptions",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1ImageConfigImageOutputOptions>;
+
+export type GoogleCloudAiplatformV1beta1ImageConfigProminentPeopleEnum =
+  | "PROMINENT_PEOPLE_UNSPECIFIED"
+  | "ALLOW_PROMINENT_PEOPLE"
+  | "BLOCK_PROMINENT_PEOPLE";
+export const GoogleCloudAiplatformV1beta1ImageConfigProminentPeopleEnum = S.String;
+
+/** Configuration for image generation. This message allows you to control various aspects of image generation, such as the output format, aspect ratio, and whether the model can generate images of people. */
+export interface GoogleCloudAiplatformV1beta1ImageConfig {
+  /** Optional. Specifies the size of generated images. Supported values are `1K`, `2K`, `4K`. If not specified, the model will use default value `1K`. */
+  imageSize?: string;
+  /** Optional. Controls whether the model can generate people. */
+  personGeneration?: GoogleCloudAiplatformV1beta1ImageConfigPersonGenerationEnum | (string & {});
+  /** Optional. The desired aspect ratio for the generated images. The following aspect ratios are supported: "1:1" "2:3", "3:2" "3:4", "4:3" "4:5", "5:4" "9:16", "16:9" "21:9" */
+  aspectRatio?: string;
+  /** Optional. The image output format for generated images. */
+  imageOutputOptions?: GoogleCloudAiplatformV1beta1ImageConfigImageOutputOptions;
+  /** Optional. Controls whether prominent people (celebrities) generation is allowed. If used with personGeneration, personGeneration enum would take precedence. For instance, if ALLOW_NONE is set, all person generation would be blocked. If this field is unspecified, the default behavior is to allow prominent people. */
+  prominentPeople?: GoogleCloudAiplatformV1beta1ImageConfigProminentPeopleEnum | (string & {});
+}
+export const GoogleCloudAiplatformV1beta1ImageConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    imageSize: S.optional(S.String),
+    personGeneration: S.optional(GoogleCloudAiplatformV1beta1ImageConfigPersonGenerationEnum),
+    aspectRatio: S.optional(S.String),
+    imageOutputOptions: S.optional(GoogleCloudAiplatformV1beta1ImageConfigImageOutputOptions),
+    prominentPeople: S.optional(GoogleCloudAiplatformV1beta1ImageConfigProminentPeopleEnum),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1ImageConfig",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1ImageConfig>;
+
+export type GoogleCloudAiplatformV1beta1VideoResponseFormatDeliveryEnum =
+  | "DELIVERY_UNSPECIFIED"
+  | "INLINE"
+  | "URI";
+export const GoogleCloudAiplatformV1beta1VideoResponseFormatDeliveryEnum = S.String;
+
+export type GoogleCloudAiplatformV1beta1VideoResponseFormatAspectRatioEnum =
+  | "ASPECT_RATIO_UNSPECIFIED"
+  | "ASPECT_RATIO_SIXTEEN_BY_NINE"
+  | "ASPECT_RATIO_NINE_BY_SIXTEEN";
+export const GoogleCloudAiplatformV1beta1VideoResponseFormatAspectRatioEnum = S.String;
+
+/** Configuration for video-specific output formatting. */
+export interface GoogleCloudAiplatformV1beta1VideoResponseFormat {
+  /** Optional. The Google Cloud Storage URI to store the video output. Required for Vertex if delivery is URI. */
+  gcsUri?: string;
+  /** Optional. Delivery mode for the generated content. */
+  delivery?: GoogleCloudAiplatformV1beta1VideoResponseFormatDeliveryEnum | (string & {});
+  /** Optional. The duration for the video output. */
+  duration?: string;
+  /** The aspect ratio for the video output. */
+  aspectRatio?: GoogleCloudAiplatformV1beta1VideoResponseFormatAspectRatioEnum | (string & {});
+  /** Optional. The video output resolution. Supported values: "360p", "720p", "1080p", "4k". */
+  resolution?: string;
+}
+export const GoogleCloudAiplatformV1beta1VideoResponseFormat = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    gcsUri: S.optional(S.String),
+    delivery: S.optional(GoogleCloudAiplatformV1beta1VideoResponseFormatDeliveryEnum),
+    duration: S.optional(S.String),
+    aspectRatio: S.optional(GoogleCloudAiplatformV1beta1VideoResponseFormatAspectRatioEnum),
+    resolution: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1VideoResponseFormat",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1VideoResponseFormat>;
 
 export type GoogleCloudAiplatformV1beta1AudioResponseFormatMimeTypeEnum =
   | "MIME_TYPE_UNSPECIFIED"
@@ -1174,70 +1205,25 @@ export const GoogleCloudAiplatformV1beta1AudioResponseFormatDeliveryEnum = S.Str
 
 /** Configuration for audio-specific output formatting. */
 export interface GoogleCloudAiplatformV1beta1AudioResponseFormat {
-  /** Optional. Sample rate for the generated audio in Hertz. */
-  sampleRate?: number;
   /** Optional. The MIME type of the audio output. */
   mimeType?: GoogleCloudAiplatformV1beta1AudioResponseFormatMimeTypeEnum | (string & {});
   /** Optional. Delivery mode for the generated content. */
   delivery?: GoogleCloudAiplatformV1beta1AudioResponseFormatDeliveryEnum | (string & {});
+  /** Optional. Sample rate for the generated audio in Hertz. */
+  sampleRate?: number;
   /** Optional. Bit rate in bits per second (bps). Only applicable for compressed formats (MP3, Opus). */
   bitRate?: number;
 }
 export const GoogleCloudAiplatformV1beta1AudioResponseFormat = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sampleRate: S.optional(S.Number),
     mimeType: S.optional(GoogleCloudAiplatformV1beta1AudioResponseFormatMimeTypeEnum),
     delivery: S.optional(GoogleCloudAiplatformV1beta1AudioResponseFormatDeliveryEnum),
+    sampleRate: S.optional(S.Number),
     bitRate: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1AudioResponseFormat",
 }) as any as S.Schema<GoogleCloudAiplatformV1beta1AudioResponseFormat>;
-
-export type GoogleCloudAiplatformV1beta1VideoResponseFormatDeliveryEnum =
-  | "DELIVERY_UNSPECIFIED"
-  | "INLINE"
-  | "URI";
-export const GoogleCloudAiplatformV1beta1VideoResponseFormatDeliveryEnum = S.String;
-
-export type GoogleCloudAiplatformV1beta1VideoResponseFormatAspectRatioEnum =
-  | "ASPECT_RATIO_UNSPECIFIED"
-  | "ASPECT_RATIO_SIXTEEN_BY_NINE"
-  | "ASPECT_RATIO_NINE_BY_SIXTEEN";
-export const GoogleCloudAiplatformV1beta1VideoResponseFormatAspectRatioEnum = S.String;
-
-/** Configuration for video-specific output formatting. */
-export interface GoogleCloudAiplatformV1beta1VideoResponseFormat {
-  /** Optional. The video output resolution. Supported values: "360p", "720p", "1080p", "4k". */
-  resolution?: string;
-  /** Optional. Delivery mode for the generated content. */
-  delivery?: GoogleCloudAiplatformV1beta1VideoResponseFormatDeliveryEnum | (string & {});
-  /** The aspect ratio for the video output. */
-  aspectRatio?: GoogleCloudAiplatformV1beta1VideoResponseFormatAspectRatioEnum | (string & {});
-  /** Optional. The Google Cloud Storage URI to store the video output. Required for Vertex if delivery is URI. */
-  gcsUri?: string;
-  /** Optional. The duration for the video output. */
-  duration?: string;
-}
-export const GoogleCloudAiplatformV1beta1VideoResponseFormat = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resolution: S.optional(S.String),
-    delivery: S.optional(GoogleCloudAiplatformV1beta1VideoResponseFormatDeliveryEnum),
-    aspectRatio: S.optional(GoogleCloudAiplatformV1beta1VideoResponseFormatAspectRatioEnum),
-    gcsUri: S.optional(S.String),
-    duration: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1VideoResponseFormat",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1VideoResponseFormat>;
-
-export type GoogleCloudAiplatformV1beta1ImageResponseFormatImageSizeEnum =
-  | "IMAGE_SIZE_UNSPECIFIED"
-  | "IMAGE_SIZE_FIVE_TWELVE"
-  | "IMAGE_SIZE_ONE_K"
-  | "IMAGE_SIZE_TWO_K"
-  | "IMAGE_SIZE_FOUR_K";
-export const GoogleCloudAiplatformV1beta1ImageResponseFormatImageSizeEnum = S.String;
 
 export type GoogleCloudAiplatformV1beta1ImageResponseFormatAspectRatioEnum =
   | "ASPECT_RATIO_UNSPECIFIED"
@@ -1257,34 +1243,42 @@ export type GoogleCloudAiplatformV1beta1ImageResponseFormatAspectRatioEnum =
   | "ASPECT_RATIO_FOUR_BY_ONE";
 export const GoogleCloudAiplatformV1beta1ImageResponseFormatAspectRatioEnum = S.String;
 
-export type GoogleCloudAiplatformV1beta1ImageResponseFormatMimeTypeEnum =
-  | "MIME_TYPE_UNSPECIFIED"
-  | "IMAGE_JPEG";
-export const GoogleCloudAiplatformV1beta1ImageResponseFormatMimeTypeEnum = S.String;
-
 export type GoogleCloudAiplatformV1beta1ImageResponseFormatDeliveryEnum =
   | "DELIVERY_UNSPECIFIED"
   | "INLINE"
   | "URI";
 export const GoogleCloudAiplatformV1beta1ImageResponseFormatDeliveryEnum = S.String;
 
+export type GoogleCloudAiplatformV1beta1ImageResponseFormatMimeTypeEnum =
+  | "MIME_TYPE_UNSPECIFIED"
+  | "IMAGE_JPEG";
+export const GoogleCloudAiplatformV1beta1ImageResponseFormatMimeTypeEnum = S.String;
+
+export type GoogleCloudAiplatformV1beta1ImageResponseFormatImageSizeEnum =
+  | "IMAGE_SIZE_UNSPECIFIED"
+  | "IMAGE_SIZE_FIVE_TWELVE"
+  | "IMAGE_SIZE_ONE_K"
+  | "IMAGE_SIZE_TWO_K"
+  | "IMAGE_SIZE_FOUR_K";
+export const GoogleCloudAiplatformV1beta1ImageResponseFormatImageSizeEnum = S.String;
+
 /** Configuration for image-specific output formatting. */
 export interface GoogleCloudAiplatformV1beta1ImageResponseFormat {
-  /** Optional. The size of the image output. */
-  imageSize?: GoogleCloudAiplatformV1beta1ImageResponseFormatImageSizeEnum | (string & {});
   /** Optional. The aspect ratio for the image output. */
   aspectRatio?: GoogleCloudAiplatformV1beta1ImageResponseFormatAspectRatioEnum | (string & {});
-  /** Optional. The MIME type of the image output. */
-  mimeType?: GoogleCloudAiplatformV1beta1ImageResponseFormatMimeTypeEnum | (string & {});
   /** Optional. Delivery mode for the generated content. */
   delivery?: GoogleCloudAiplatformV1beta1ImageResponseFormatDeliveryEnum | (string & {});
+  /** Optional. The MIME type of the image output. */
+  mimeType?: GoogleCloudAiplatformV1beta1ImageResponseFormatMimeTypeEnum | (string & {});
+  /** Optional. The size of the image output. */
+  imageSize?: GoogleCloudAiplatformV1beta1ImageResponseFormatImageSizeEnum | (string & {});
 }
 export const GoogleCloudAiplatformV1beta1ImageResponseFormat = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    imageSize: S.optional(GoogleCloudAiplatformV1beta1ImageResponseFormatImageSizeEnum),
     aspectRatio: S.optional(GoogleCloudAiplatformV1beta1ImageResponseFormatAspectRatioEnum),
-    mimeType: S.optional(GoogleCloudAiplatformV1beta1ImageResponseFormatMimeTypeEnum),
     delivery: S.optional(GoogleCloudAiplatformV1beta1ImageResponseFormatDeliveryEnum),
+    mimeType: S.optional(GoogleCloudAiplatformV1beta1ImageResponseFormatMimeTypeEnum),
+    imageSize: S.optional(GoogleCloudAiplatformV1beta1ImageResponseFormatImageSizeEnum),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1ImageResponseFormat",
@@ -1298,15 +1292,15 @@ export const GoogleCloudAiplatformV1beta1TextResponseFormatMimeTypeEnum = S.Stri
 
 /** Configuration for text-specific output formatting. */
 export interface GoogleCloudAiplatformV1beta1TextResponseFormat {
-  /** Optional. The JSON schema that the output should conform to. Only applicable when mime_type is APPLICATION_JSON. */
-  schema?: unknown;
   /** Optional. The IANA standard MIME type of the response. */
   mimeType?: GoogleCloudAiplatformV1beta1TextResponseFormatMimeTypeEnum | (string & {});
+  /** Optional. The JSON schema that the output should conform to. Only applicable when mime_type is APPLICATION_JSON. */
+  schema?: unknown;
 }
 export const GoogleCloudAiplatformV1beta1TextResponseFormat = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    schema: S.optional(S.Unknown),
     mimeType: S.optional(GoogleCloudAiplatformV1beta1TextResponseFormatMimeTypeEnum),
+    schema: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1TextResponseFormat",
@@ -1314,10 +1308,10 @@ export const GoogleCloudAiplatformV1beta1TextResponseFormat = /*@__PURE__*/ S.su
 
 /** Configuration for the model to configure output formatting and delivery. */
 export interface GoogleCloudAiplatformV1beta1ResponseFormat {
-  /** Audio output format. */
-  audio?: GoogleCloudAiplatformV1beta1AudioResponseFormat;
   /** Video output format. */
   video?: GoogleCloudAiplatformV1beta1VideoResponseFormat;
+  /** Audio output format. */
+  audio?: GoogleCloudAiplatformV1beta1AudioResponseFormat;
   /** Image output format. */
   image?: GoogleCloudAiplatformV1beta1ImageResponseFormat;
   /** Text output format. */
@@ -1325,8 +1319,8 @@ export interface GoogleCloudAiplatformV1beta1ResponseFormat {
 }
 export const GoogleCloudAiplatformV1beta1ResponseFormat = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    audio: S.optional(GoogleCloudAiplatformV1beta1AudioResponseFormat),
     video: S.optional(GoogleCloudAiplatformV1beta1VideoResponseFormat),
+    audio: S.optional(GoogleCloudAiplatformV1beta1AudioResponseFormat),
     image: S.optional(GoogleCloudAiplatformV1beta1ImageResponseFormat),
     text: S.optional(GoogleCloudAiplatformV1beta1TextResponseFormat),
   }),
@@ -1339,6 +1333,29 @@ export type GoogleCloudAiplatformV1beta1ResponseFormatList =
 export const GoogleCloudAiplatformV1beta1ResponseFormatList = /*@__PURE__*/ S.Array(
   GoogleCloudAiplatformV1beta1ResponseFormat,
 ) as any as S.Schema<GoogleCloudAiplatformV1beta1ResponseFormatList>;
+
+export type GoogleCloudAiplatformV1beta1GenerationConfigMediaResolutionEnum =
+  | "MEDIA_RESOLUTION_UNSPECIFIED"
+  | "MEDIA_RESOLUTION_LOW"
+  | "MEDIA_RESOLUTION_MEDIUM"
+  | "MEDIA_RESOLUTION_HIGH";
+export const GoogleCloudAiplatformV1beta1GenerationConfigMediaResolutionEnum = S.String;
+
+/** Config for translation features. */
+export interface GoogleCloudAiplatformV1beta1TranslationConfig {
+  /** Optional. If `true`, the model will generate audio when the target language is spoken, essentially it will parrot the input. If `false`, we will not produce audio for the target language. */
+  echoTargetLanguage?: boolean;
+  /** Required. The target language for translation. Supported values are BCP-47 language codes (e.g. "en", "es", "fr"). */
+  targetLanguageCode?: string;
+}
+export const GoogleCloudAiplatformV1beta1TranslationConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    echoTargetLanguage: S.optional(S.Boolean),
+    targetLanguageCode: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1TranslationConfig",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1TranslationConfig>;
 
 /** The configuration for the replicated voice to use. */
 export interface GoogleCloudAiplatformV1beta1ReplicatedVoiceConfig {
@@ -1371,6 +1388,8 @@ export const GoogleCloudAiplatformV1beta1PrebuiltVoiceConfig = /*@__PURE__*/ S.s
 
 /** Configuration for a voice. */
 export interface GoogleCloudAiplatformV1beta1VoiceConfig {
+  /** Optional. The speaker identifier for synthesis. Supported formats: * Speaker name for prebuilt voices (for example, `Orus` or `Kore`). * Voice ID for stored voices (for example, `voice_xxx`). * Voice replication key (for example, `voicekey_xxx`). */
+  voice?: string;
   /** Optional. The configuration for a replicated voice. This enables users to replicate a voice from an audio sample. */
   replicatedVoiceConfig?: GoogleCloudAiplatformV1beta1ReplicatedVoiceConfig;
   /** The configuration for a prebuilt voice. */
@@ -1378,6 +1397,7 @@ export interface GoogleCloudAiplatformV1beta1VoiceConfig {
 }
 export const GoogleCloudAiplatformV1beta1VoiceConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    voice: S.optional(S.String),
     replicatedVoiceConfig: S.optional(GoogleCloudAiplatformV1beta1ReplicatedVoiceConfig),
     prebuiltVoiceConfig: S.optional(GoogleCloudAiplatformV1beta1PrebuiltVoiceConfig),
   }),
@@ -1455,205 +1475,355 @@ export const GoogleCloudAiplatformV1beta1GenerationConfigResponseModalitiesItemE
     GoogleCloudAiplatformV1beta1GenerationConfigResponseModalitiesItemEnum,
   ) as any as S.Schema<GoogleCloudAiplatformV1beta1GenerationConfigResponseModalitiesItemEnumList>;
 
-export type GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfigThinkingLevelEnum =
-  | "THINKING_LEVEL_UNSPECIFIED"
-  | "LOW"
-  | "MEDIUM"
-  | "HIGH"
-  | "MINIMAL";
-export const GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfigThinkingLevelEnum = S.String;
-
-/** Configuration for the model's thinking features. "Thinking" is a process where the model breaks down a complex task into smaller, manageable steps. This allows the model to reason about the task, plan its approach, and execute the plan to generate a high-quality response. */
-export interface GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfig {
-  /** Optional. The number of thoughts tokens that the model should generate. */
-  thinkingLevel?:
-    | GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfigThinkingLevelEnum
-    | (string & {});
-  /** Optional. If true, the model will include its thoughts in the response. "Thoughts" are the intermediate steps the model takes to arrive at the final response. They can provide insights into the model's reasoning process and help with debugging. If this is true, thoughts are returned only when available. */
-  includeThoughts?: boolean;
-  /** Optional. The token budget for the model's thinking process. The model will make a best effort to stay within this budget. This can be used to control the trade-off between response quality and latency. */
-  thinkingBudget?: number;
+/** Deprecated: Use top-level `language_codes` instead. Provides hints to the model about possible languages present in the audio. */
+export interface GoogleCloudAiplatformV1beta1AudioTranscriptionConfigLanguageHints {
+  /** Required. Deprecated: Use top-level `language_codes` instead. BCP-47 language codes. At least one must be specified. */
+  languageCodes?: StringList;
 }
-export const GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfig = /*@__PURE__*/ S.suspend(
-  () =>
+export const GoogleCloudAiplatformV1beta1AudioTranscriptionConfigLanguageHints =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      thinkingLevel: S.optional(
-        GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfigThinkingLevelEnum,
-      ),
-      includeThoughts: S.optional(S.Boolean),
-      thinkingBudget: S.optional(S.Number),
+      languageCodes: S.optional(StringList),
     }),
+  ).annotate({
+    identifier: "GoogleCloudAiplatformV1beta1AudioTranscriptionConfigLanguageHints",
+  }) as any as S.Schema<GoogleCloudAiplatformV1beta1AudioTranscriptionConfigLanguageHints>;
+
+/** Deprecated: Use top-level `language_codes` instead. Indicates the language of the audio should be automatically detected. */
+export type GoogleCloudAiplatformV1beta1AudioTranscriptionConfigLanguageAuto =
+  GoogleCloudAiplatformV1beta1UrlContext;
+export const GoogleCloudAiplatformV1beta1AudioTranscriptionConfigLanguageAuto =
+  GoogleCloudAiplatformV1beta1UrlContext;
+
+export type GoogleCloudAiplatformV1beta1AudioTranscriptionConfigModeEnum =
+  | "MODE_UNSPECIFIED"
+  | "VERBATIM"
+  | "SMART";
+export const GoogleCloudAiplatformV1beta1AudioTranscriptionConfigModeEnum = S.String;
+
+/** Configuration for speech recognition (transcription). */
+export interface GoogleCloudAiplatformV1beta1AudioTranscriptionConfig {
+  /** Optional. Deprecated: Use `custom_vocabulary` instead. A list of phrases to bias the speech recognition model towards. */
+  adaptationPhrases?: StringList;
+  /** Optional. Deprecated: Use top-level `language_codes` instead. Specifies one or more languages in the audio. */
+  languageHints?: GoogleCloudAiplatformV1beta1AudioTranscriptionConfigLanguageHints;
+  /** Optional. Deprecated: Use top-level `language_codes` instead. The model will detect the language automatically. */
+  languageAuto?: GoogleCloudAiplatformV1beta1UrlContext;
+  /** Optional. Configures transcription mode. Supported values: `VERBATIM`, `SMART`. If unspecified, defaults to `VERBATIM` transcription. In `SMART` mode, the model performs disfluency removal (eliminating filler words, repetitions, and false starts), light grammatical cleanup, automatic formatting (paragraphs, bullet points, numbered lists), and minor user edits (inline self-corrections). Timestamps and diarization are incompatible with mode `SMART`. */
+  mode?: GoogleCloudAiplatformV1beta1AudioTranscriptionConfigModeEnum | (string & {});
+  /** Optional. A list of custom vocabulary phrases to bias the speech recognition model toward recognizing specific terms. */
+  customVocabulary?: StringList;
+  /** Optional. BCP-47 language codes providing hints about the languages present in the audio. If omitted or empty, defaults to automatic language detection. */
+  languageCodes?: StringList;
+  /** Optional. Configures speaker diarization. */
+  diarization?: boolean;
+  /** Optional. Configures word-level timestamp generation. */
+  wordTimestamp?: boolean;
+}
+export const GoogleCloudAiplatformV1beta1AudioTranscriptionConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    adaptationPhrases: S.optional(StringList),
+    languageHints: S.optional(GoogleCloudAiplatformV1beta1AudioTranscriptionConfigLanguageHints),
+    languageAuto: S.optional(GoogleCloudAiplatformV1beta1UrlContext),
+    mode: S.optional(GoogleCloudAiplatformV1beta1AudioTranscriptionConfigModeEnum),
+    customVocabulary: S.optional(StringList),
+    languageCodes: S.optional(StringList),
+    diarization: S.optional(S.Boolean),
+    wordTimestamp: S.optional(S.Boolean),
+  }),
 ).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfig",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfig>;
+  identifier: "GoogleCloudAiplatformV1beta1AudioTranscriptionConfig",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1AudioTranscriptionConfig>;
 
 /** Configuration for content generation. This message contains all the parameters that control how the model generates content. It allows you to influence the randomness, length, and structure of the output. */
 export interface GoogleCloudAiplatformV1beta1GenerationConfig {
-  /** Optional. The number of top log probabilities to return for each token. This can be used to see which other tokens were considered likely candidates for a given position. A higher value will return more options, but it will also increase the size of the response. */
-  logprobs?: number;
-  /** Optional. Penalizes tokens based on their frequency in the generated text. A positive value helps to reduce the repetition of words and phrases. Valid values can range from [-2.0, 2.0]. */
-  frequencyPenalty?: number;
-  /** Optional. The token resolution at which input media content is sampled. This is used to control the trade-off between the quality of the response and the number of tokens used to represent the media. A higher resolution allows the model to perceive more detail, which can lead to a more nuanced response, but it will also use more tokens. This does not affect the image dimensions sent to the model. */
-  mediaResolution?: GoogleCloudAiplatformV1beta1GenerationConfigMediaResolutionEnum | (string & {});
+  /** Optional. Lets you to specify a schema for the model's response, ensuring that the output conforms to a particular structure. This is useful for generating structured data such as JSON. The schema is a subset of the [OpenAPI 3.0 schema object](https://spec.openapis.org/oas/v3.0.3#schema) object. When this field is set, you must also set the `response_mime_type` to `application/json`. Deprecated: Use `response_format` instead. */
+  responseSchema?: GoogleCloudAiplatformV1beta1Schema;
+  /** Optional. The number of candidate responses to generate. A higher `candidate_count` can provide more options to choose from, but it also consumes more resources. This can be useful for generating a variety of responses and selecting the best one. */
+  candidateCount?: number;
+  /** Optional. Specifies the nucleus sampling threshold. The model considers only the smallest set of tokens whose cumulative probability is at least `top_p`. This helps generate more diverse and less repetitive responses. For example, a `top_p` of 0.9 means the model considers tokens until the cumulative probability of the tokens to select from reaches 0.9. It's recommended to adjust either temperature or `top_p`, but not both. */
+  topP?: number;
+  /** Optional. Penalizes tokens that have already appeared in the generated text. A positive value encourages the model to generate more diverse and less repetitive text. Valid values can range from [-2.0, 2.0]. */
+  presencePenalty?: number;
+  /** Optional. If enabled, the model will detect emotions and adapt its responses accordingly. For example, if the model detects that the user is frustrated, it may provide a more empathetic response. */
+  enableAffectiveDialog?: boolean;
+  /** Optional. The maximum number of tokens to generate in the response. A token is approximately four characters. The default value varies by model. This parameter can be used to control the length of the generated text and prevent overly long responses. */
+  maxOutputTokens?: number;
   /** Optional. Config for model selection. */
   modelConfig?: GoogleCloudAiplatformV1beta1GenerationConfigModelConfig;
-  /** Optional. If set to true, the log probabilities of the output tokens are returned. Log probabilities are the logarithm of the probability of a token appearing in the output. A higher log probability means the token is more likely to be generated. This can be useful for analyzing the model's confidence in its own output and for debugging. */
-  responseLogprobs?: boolean;
+  /** Optional. Specifies the top-k sampling threshold. The model considers only the top k most probable tokens for the next token. This can be useful for generating more coherent and less random text. For example, a `top_k` of 40 means the model will choose the next word from the 40 most likely words. */
+  topK?: number;
+  /** Optional. Configuration for thinking features. An error will be returned if this field is set for models that don't support thinking. */
+  thinkingConfig?: GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfig;
+  /** Optional. When this field is set, response_schema must be omitted and response_mime_type must be set to `application/json`. Deprecated: Use `response_format` instead. */
+  responseJsonSchema?: unknown;
+  /** Optional. Routing configuration. */
+  routingConfig?: GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfig;
   /** Optional. Config for image generation features. Deprecated: Use `response_format.image` instead. */
   imageConfig?: GoogleCloudAiplatformV1beta1ImageConfig;
   /** Optional. The IANA standard MIME type of the response. The model will generate output that conforms to this MIME type. Supported values include 'text/plain' (default) and 'application/json'. The model needs to be prompted to output the appropriate response type, otherwise the behavior is undefined. Deprecated: Use `response_format` instead. */
   responseMimeType?: string;
-  /** Optional. The number of candidate responses to generate. A higher `candidate_count` can provide more options to choose from, but it also consumes more resources. This can be useful for generating a variety of responses and selecting the best one. */
-  candidateCount?: number;
-  /** Optional. If enabled, the model will detect emotions and adapt its responses accordingly. For example, if the model detects that the user is frustrated, it may provide a more empathetic response. */
-  enableAffectiveDialog?: boolean;
-  /** Optional. Penalizes tokens that have already appeared in the generated text. A positive value encourages the model to generate more diverse and less repetitive text. Valid values can range from [-2.0, 2.0]. */
-  presencePenalty?: number;
-  /** Optional. Lets you to specify a schema for the model's response, ensuring that the output conforms to a particular structure. This is useful for generating structured data such as JSON. The schema is a subset of the [OpenAPI 3.0 schema object](https://spec.openapis.org/oas/v3.0.3#schema) object. When this field is set, you must also set the `response_mime_type` to `application/json`. Deprecated: Use `response_format` instead. */
-  responseSchema?: GoogleCloudAiplatformV1beta1Schema;
-  /** Optional. Configuration for audio transcription (speech recognition). */
-  audioTranscriptionConfig?: GoogleCloudAiplatformV1beta1AudioTranscriptionConfig;
-  /** Optional. When this field is set, response_schema must be omitted and response_mime_type must be set to `application/json`. Deprecated: Use `response_format` instead. */
-  responseJsonSchema?: unknown;
-  /** Optional. If enabled, audio timestamps will be included in the request to the model. This can be useful for synchronizing audio with other modalities in the response. */
-  audioTimestamp?: boolean;
-  /** Optional. The maximum number of tokens to generate in the response. A token is approximately four characters. The default value varies by model. This parameter can be used to control the length of the generated text and prevent overly long responses. */
-  maxOutputTokens?: number;
-  /** Optional. A list of character sequences that will stop the model from generating further tokens. If a stop sequence is generated, the output will end at that point. This is useful for controlling the length and structure of the output. For example, you can use ["\n", "###"] to stop generation at a new line or a specific marker. */
-  stopSequences?: StringList;
-  /** Optional. Routing configuration. */
-  routingConfig?: GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfig;
   /** Optional. New response format field for the model to configure output formatting and delivery. */
   responseFormat?: GoogleCloudAiplatformV1beta1ResponseFormatList;
+  /** Optional. A list of character sequences that will stop the model from generating further tokens. If a stop sequence is generated, the output will end at that point. This is useful for controlling the length and structure of the output. For example, you can use ["\n", "###"] to stop generation at a new line or a specific marker. */
+  stopSequences?: StringList;
+  /** Optional. The token resolution at which input media content is sampled. This is used to control the trade-off between the quality of the response and the number of tokens used to represent the media. A higher resolution allows the model to perceive more detail, which can lead to a more nuanced response, but it will also use more tokens. This does not affect the image dimensions sent to the model. */
+  mediaResolution?: GoogleCloudAiplatformV1beta1GenerationConfigMediaResolutionEnum | (string & {});
+  /** Optional. Config for translation. */
+  translationConfig?: GoogleCloudAiplatformV1beta1TranslationConfig;
   /** Optional. The speech generation config. */
   speechConfig?: GoogleCloudAiplatformV1beta1SpeechConfig;
-  /** Optional. The modalities of the response. The model will generate a response that includes all the specified modalities. For example, if this is set to `[TEXT, IMAGE]`, the response will include both text and an image. */
-  responseModalities?: GoogleCloudAiplatformV1beta1GenerationConfigResponseModalitiesItemEnumList;
-  /** Optional. Specifies the nucleus sampling threshold. The model considers only the smallest set of tokens whose cumulative probability is at least `top_p`. This helps generate more diverse and less repetitive responses. For example, a `top_p` of 0.9 means the model considers tokens until the cumulative probability of the tokens to select from reaches 0.9. It's recommended to adjust either temperature or `top_p`, but not both. */
-  topP?: number;
-  /** Optional. Specifies the top-k sampling threshold. The model considers only the top k most probable tokens for the next token. This can be useful for generating more coherent and less random text. For example, a `top_k` of 40 means the model will choose the next word from the 40 most likely words. */
-  topK?: number;
   /** Optional. Controls the randomness of the output. A higher temperature results in more creative and diverse responses, while a lower temperature makes the output more predictable and focused. The valid range is (0.0, 2.0]. */
   temperature?: number;
+  /** Optional. The modalities of the response. The model will generate a response that includes all the specified modalities. For example, if this is set to `[TEXT, IMAGE]`, the response will include both text and an image. */
+  responseModalities?: GoogleCloudAiplatformV1beta1GenerationConfigResponseModalitiesItemEnumList;
+  /** Optional. If enabled, audio timestamps will be included in the request to the model. This can be useful for synchronizing audio with other modalities in the response. */
+  audioTimestamp?: boolean;
+  /** Optional. Penalizes tokens based on their frequency in the generated text. A positive value helps to reduce the repetition of words and phrases. Valid values can range from [-2.0, 2.0]. */
+  frequencyPenalty?: number;
+  /** Optional. If set to true, the log probabilities of the output tokens are returned. Log probabilities are the logarithm of the probability of a token appearing in the output. A higher log probability means the token is more likely to be generated. This can be useful for analyzing the model's confidence in its own output and for debugging. */
+  responseLogprobs?: boolean;
+  /** Optional. Configuration for audio transcription (speech recognition). */
+  audioTranscriptionConfig?: GoogleCloudAiplatformV1beta1AudioTranscriptionConfig;
+  /** Optional. The number of top log probabilities to return for each token. This can be used to see which other tokens were considered likely candidates for a given position. A higher value will return more options, but it will also increase the size of the response. */
+  logprobs?: number;
   /** Optional. A seed for the random number generator. By setting a seed, you can make the model's output mostly deterministic. For a given prompt and parameters (like temperature, top_p, etc.), the model will produce the same response every time. However, it's not a guaranteed absolute deterministic behavior. This is different from parameters like `temperature`, which control the *level* of randomness. `seed` ensures that the "random" choices the model makes are the same on every run, making it essential for testing and ensuring reproducible results. */
   seed?: number;
-  /** Optional. Configuration for thinking features. An error will be returned if this field is set for models that don't support thinking. */
-  thinkingConfig?: GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfig;
 }
 export const GoogleCloudAiplatformV1beta1GenerationConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    logprobs: S.optional(S.Number),
-    frequencyPenalty: S.optional(S.Number),
-    mediaResolution: S.optional(GoogleCloudAiplatformV1beta1GenerationConfigMediaResolutionEnum),
+    responseSchema: S.optional(GoogleCloudAiplatformV1beta1Schema),
+    candidateCount: S.optional(S.Number),
+    topP: S.optional(S.Number),
+    presencePenalty: S.optional(S.Number),
+    enableAffectiveDialog: S.optional(S.Boolean),
+    maxOutputTokens: S.optional(S.Number),
     modelConfig: S.optional(GoogleCloudAiplatformV1beta1GenerationConfigModelConfig),
-    responseLogprobs: S.optional(S.Boolean),
+    topK: S.optional(S.Number),
+    thinkingConfig: S.optional(GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfig),
+    responseJsonSchema: S.optional(S.Unknown),
+    routingConfig: S.optional(GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfig),
     imageConfig: S.optional(GoogleCloudAiplatformV1beta1ImageConfig),
     responseMimeType: S.optional(S.String),
-    candidateCount: S.optional(S.Number),
-    enableAffectiveDialog: S.optional(S.Boolean),
-    presencePenalty: S.optional(S.Number),
-    responseSchema: S.optional(GoogleCloudAiplatformV1beta1Schema),
-    audioTranscriptionConfig: S.optional(GoogleCloudAiplatformV1beta1AudioTranscriptionConfig),
-    responseJsonSchema: S.optional(S.Unknown),
-    audioTimestamp: S.optional(S.Boolean),
-    maxOutputTokens: S.optional(S.Number),
-    stopSequences: S.optional(StringList),
-    routingConfig: S.optional(GoogleCloudAiplatformV1beta1GenerationConfigRoutingConfig),
     responseFormat: S.optional(GoogleCloudAiplatformV1beta1ResponseFormatList),
+    stopSequences: S.optional(StringList),
+    mediaResolution: S.optional(GoogleCloudAiplatformV1beta1GenerationConfigMediaResolutionEnum),
+    translationConfig: S.optional(GoogleCloudAiplatformV1beta1TranslationConfig),
     speechConfig: S.optional(GoogleCloudAiplatformV1beta1SpeechConfig),
+    temperature: S.optional(S.Number),
     responseModalities: S.optional(
       GoogleCloudAiplatformV1beta1GenerationConfigResponseModalitiesItemEnumList,
     ),
-    topP: S.optional(S.Number),
-    topK: S.optional(S.Number),
-    temperature: S.optional(S.Number),
+    audioTimestamp: S.optional(S.Boolean),
+    frequencyPenalty: S.optional(S.Number),
+    responseLogprobs: S.optional(S.Boolean),
+    audioTranscriptionConfig: S.optional(GoogleCloudAiplatformV1beta1AudioTranscriptionConfig),
+    logprobs: S.optional(S.Number),
     seed: S.optional(S.Number),
-    thinkingConfig: S.optional(GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfig),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1GenerationConfig",
 }) as any as S.Schema<GoogleCloudAiplatformV1beta1GenerationConfig>;
 
-export type GoogleCloudAiplatformV1beta1PartialArgNullValueEnum = "NULL_VALUE";
-export const GoogleCloudAiplatformV1beta1PartialArgNullValueEnum = S.String;
-
-/** Partial argument value of the function call. */
-export interface GoogleCloudAiplatformV1beta1PartialArg {
-  /** Optional. Represents a boolean value. */
-  boolValue?: boolean;
-  /** Optional. Represents a null value. */
-  nullValue?: GoogleCloudAiplatformV1beta1PartialArgNullValueEnum | (string & {});
-  /** Optional. Represents a double value. */
-  numberValue?: number;
-  /** Optional. Whether this is not the last part of the same json_path. If true, another PartialArg message for the current json_path is expected to follow. */
-  willContinue?: boolean;
-  /** Optional. Represents a string value. */
-  stringValue?: string;
-  /** Required. A JSON Path (RFC 9535) to the argument being streamed. https://datatracker.ietf.org/doc/html/rfc9535. e.g. "$.foo.bar[0].data". */
-  jsonPath?: string;
-}
-export const GoogleCloudAiplatformV1beta1PartialArg = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    boolValue: S.optional(S.Boolean),
-    nullValue: S.optional(GoogleCloudAiplatformV1beta1PartialArgNullValueEnum),
-    numberValue: S.optional(S.Number),
-    willContinue: S.optional(S.Boolean),
-    stringValue: S.optional(S.String),
-    jsonPath: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1PartialArg",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1PartialArg>;
-
-export type GoogleCloudAiplatformV1beta1PartialArgList =
-  Array<GoogleCloudAiplatformV1beta1PartialArg>;
-export const GoogleCloudAiplatformV1beta1PartialArgList = /*@__PURE__*/ S.Array(
-  GoogleCloudAiplatformV1beta1PartialArg,
-) as any as S.Schema<GoogleCloudAiplatformV1beta1PartialArgList>;
-
-/** A predicted FunctionCall returned from the model that contains a string representing the FunctionDeclaration.name and a structured JSON object containing the parameters and their values. */
-export interface GoogleCloudAiplatformV1beta1FunctionCall {
-  /** Optional. The partial argument value of the function call. If provided, represents the arguments/fields that are streamed incrementally. */
-  partialArgs?: GoogleCloudAiplatformV1beta1PartialArgList;
-  /** Optional. Whether this is the last part of the FunctionCall. If true, another partial message for the current FunctionCall is expected to follow. */
-  willContinue?: boolean;
-  /** Optional. The unique id of the function call. If populated, the client to execute the `function_call` and return the response with the matching `id`. */
-  id?: string;
-  /** Optional. The name of the function to call. Matches FunctionDeclaration.name. */
-  name?: string;
-  /** Optional. The function parameters and values in JSON object format. See FunctionDeclaration.parameters for parameter details. */
-  args?: DocumentMap;
-}
-export const GoogleCloudAiplatformV1beta1FunctionCall = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    partialArgs: S.optional(GoogleCloudAiplatformV1beta1PartialArgList),
-    willContinue: S.optional(S.Boolean),
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    args: S.optional(DocumentMap),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1FunctionCall",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1FunctionCall>;
-
 /** A content blob. A Blob contains data of a specific media type. It is used to represent images, audio, and video. */
 export interface GoogleCloudAiplatformV1beta1Blob {
   /** Optional. The display name of the blob. Used to provide a label or filename to distinguish blobs. This field is only returned in `PromptMessage` for prompt management. It is used in the Gemini calls only when server-side tools (`code_execution`, `google_search`, and `url_context`) are enabled. */
   displayName?: string;
-  /** Required. The raw bytes of the data. */
-  data?: string;
   /** Required. The IANA standard MIME type of the source data. */
   mimeType?: string;
+  /** Required. The raw bytes of the data. */
+  data?: string;
 }
 export const GoogleCloudAiplatformV1beta1Blob = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     displayName: S.optional(S.String),
-    data: S.optional(S.String),
     mimeType: S.optional(S.String),
+    data: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1Blob",
 }) as any as S.Schema<GoogleCloudAiplatformV1beta1Blob>;
+
+export type GoogleCloudAiplatformV1beta1FunctionResponseSchedulingEnum =
+  | "SCHEDULING_UNSPECIFIED"
+  | "SILENT"
+  | "WHEN_IDLE"
+  | "INTERRUPT";
+export const GoogleCloudAiplatformV1beta1FunctionResponseSchedulingEnum = S.String;
+
+/** URI based data for function response. */
+export interface GoogleCloudAiplatformV1beta1FunctionResponseFileData {
+  /** Required. The IANA standard MIME type of the source data. */
+  mimeType?: string;
+  /** Required. URI. */
+  fileUri?: string;
+  /** Optional. Display name of the file data. Used to provide a label or filename to distinguish file datas. This field is only returned in PromptMessage for prompt management. It is currently used in the Gemini GenerateContent calls only when server side tools (code_execution, google_search, and url_context) are enabled. */
+  displayName?: string;
+}
+export const GoogleCloudAiplatformV1beta1FunctionResponseFileData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mimeType: S.optional(S.String),
+    fileUri: S.optional(S.String),
+    displayName: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1FunctionResponseFileData",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1FunctionResponseFileData>;
+
+/** Raw media bytes for function response. Text should not be sent as raw bytes, use the 'text' field. */
+export interface GoogleCloudAiplatformV1beta1FunctionResponseBlob {
+  /** Required. Raw bytes. */
+  data?: string;
+  /** Optional. Display name of the blob. Used to provide a label or filename to distinguish blobs. This field is only returned in PromptMessage for prompt management. It is currently used in the Gemini GenerateContent calls only when server side tools (code_execution, google_search, and url_context) are enabled. */
+  displayName?: string;
+  /** Required. The IANA standard MIME type of the source data. */
+  mimeType?: string;
+}
+export const GoogleCloudAiplatformV1beta1FunctionResponseBlob = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(S.String),
+    displayName: S.optional(S.String),
+    mimeType: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1FunctionResponseBlob",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1FunctionResponseBlob>;
+
+/** A datatype containing media that is part of a `FunctionResponse` message. A `FunctionResponsePart` consists of data which has an associated datatype. A `FunctionResponsePart` can only contain one of the accepted types in `FunctionResponsePart.data`. A `FunctionResponsePart` must have a fixed IANA MIME type identifying the type and subtype of the media if the `inline_data` field is filled with raw bytes. */
+export interface GoogleCloudAiplatformV1beta1FunctionResponsePart {
+  /** URI based data. */
+  fileData?: GoogleCloudAiplatformV1beta1FunctionResponseFileData;
+  /** Inline media bytes. */
+  inlineData?: GoogleCloudAiplatformV1beta1FunctionResponseBlob;
+}
+export const GoogleCloudAiplatformV1beta1FunctionResponsePart = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fileData: S.optional(GoogleCloudAiplatformV1beta1FunctionResponseFileData),
+    inlineData: S.optional(GoogleCloudAiplatformV1beta1FunctionResponseBlob),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1FunctionResponsePart",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1FunctionResponsePart>;
+
+export type GoogleCloudAiplatformV1beta1FunctionResponsePartList =
+  Array<GoogleCloudAiplatformV1beta1FunctionResponsePart>;
+export const GoogleCloudAiplatformV1beta1FunctionResponsePartList = /*@__PURE__*/ S.Array(
+  GoogleCloudAiplatformV1beta1FunctionResponsePart,
+) as any as S.Schema<GoogleCloudAiplatformV1beta1FunctionResponsePartList>;
+
+/** The result output from a FunctionCall that contains a string representing the FunctionDeclaration.name and a structured JSON object containing any output from the function is used as context to the model. This should contain the result of a `FunctionCall` made based on model prediction. */
+export interface GoogleCloudAiplatformV1beta1FunctionResponse {
+  /** Optional. Specifies how the response should be scheduled in the conversation. Only applicable to NON_BLOCKING function calls, is ignored otherwise. Defaults to WHEN_IDLE. */
+  scheduling?: GoogleCloudAiplatformV1beta1FunctionResponseSchedulingEnum | (string & {});
+  /** Required. The name of the function to call. Matches FunctionDeclaration.name and FunctionCall.name. */
+  name?: string;
+  /** Required. The function response in JSON object format. Use "output" key to specify function output and "error" key to specify error details (if any). If "output" and "error" keys are not specified, then whole "response" is treated as function output. */
+  response?: DocumentMap;
+  /** Optional. Ordered `Parts` that constitute a function response. Parts may have different IANA MIME types. */
+  parts?: GoogleCloudAiplatformV1beta1FunctionResponsePartList;
+  /** Optional. The id of the function call this response is for. Populated by the client to match the corresponding function call `id`. */
+  id?: string;
+}
+export const GoogleCloudAiplatformV1beta1FunctionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scheduling: S.optional(GoogleCloudAiplatformV1beta1FunctionResponseSchedulingEnum),
+    name: S.optional(S.String),
+    response: S.optional(DocumentMap),
+    parts: S.optional(GoogleCloudAiplatformV1beta1FunctionResponsePartList),
+    id: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1FunctionResponse",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1FunctionResponse>;
+
+/** Information about a single recognized word. */
+export interface GoogleCloudAiplatformV1beta1AudioTranscriptionWordInfo {
+  /** Required. Transcript of the word. */
+  word?: string;
+  /** Optional. Start offset in time of the word relative to the start of the audio. */
+  startOffset?: string;
+  /** Optional. End offset in time of the word relative to the start of the audio. */
+  endOffset?: string;
+}
+export const GoogleCloudAiplatformV1beta1AudioTranscriptionWordInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    word: S.optional(S.String),
+    startOffset: S.optional(S.String),
+    endOffset: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1AudioTranscriptionWordInfo",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1AudioTranscriptionWordInfo>;
+
+export type GoogleCloudAiplatformV1beta1AudioTranscriptionWordInfoList =
+  Array<GoogleCloudAiplatformV1beta1AudioTranscriptionWordInfo>;
+export const GoogleCloudAiplatformV1beta1AudioTranscriptionWordInfoList = /*@__PURE__*/ S.Array(
+  GoogleCloudAiplatformV1beta1AudioTranscriptionWordInfo,
+) as any as S.Schema<GoogleCloudAiplatformV1beta1AudioTranscriptionWordInfoList>;
+
+/** The transcription of an audio part. For multi-speaker audio, each speaker segment is a separate `Part` with its own `AudioTranscription` carrying the `speaker_label`. */
+export interface GoogleCloudAiplatformV1beta1AudioTranscription {
+  /** Required. The transcription text of this audio segment. */
+  text?: string;
+  /** Optional. Detailed word-level transcriptions and timing details. Present when `word_timestamp` is set. */
+  words?: GoogleCloudAiplatformV1beta1AudioTranscriptionWordInfoList;
+  /** Optional. A label identifying the speaker of this audio segment (e.g. `spk_1`, `spk_2`). Present when `diarization` is set. */
+  speakerLabel?: string;
+}
+export const GoogleCloudAiplatformV1beta1AudioTranscription = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    text: S.optional(S.String),
+    words: S.optional(GoogleCloudAiplatformV1beta1AudioTranscriptionWordInfoList),
+    speakerLabel: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1AudioTranscription",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1AudioTranscription>;
+
+export type GoogleCloudAiplatformV1beta1CodeExecutionResultOutcomeEnum =
+  | "OUTCOME_UNSPECIFIED"
+  | "OUTCOME_OK"
+  | "OUTCOME_FAILED"
+  | "OUTCOME_DEADLINE_EXCEEDED";
+export const GoogleCloudAiplatformV1beta1CodeExecutionResultOutcomeEnum = S.String;
+
+/** Result of executing the ExecutableCode. Generated only when the `CodeExecution` tool is used. */
+export interface GoogleCloudAiplatformV1beta1CodeExecutionResult {
+  /** Required. Outcome of the code execution. */
+  outcome?: GoogleCloudAiplatformV1beta1CodeExecutionResultOutcomeEnum | (string & {});
+  /** Optional. Contains stdout when code execution is successful, stderr or other description otherwise. */
+  output?: string;
+  /** Optional. The identifier of the `ExecutableCode` part this result is for. Only populated if the corresponding `ExecutableCode` has an id. */
+  id?: string;
+}
+export const GoogleCloudAiplatformV1beta1CodeExecutionResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    outcome: S.optional(GoogleCloudAiplatformV1beta1CodeExecutionResultOutcomeEnum),
+    output: S.optional(S.String),
+    id: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1CodeExecutionResult",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1CodeExecutionResult>;
+
+/** URI-based data. A FileData message contains a URI pointing to data of a specific media type. It is used to represent images, audio, and video stored in Google Cloud Storage. */
+export interface GoogleCloudAiplatformV1beta1FileData {
+  /** Required. The IANA standard MIME type of the source data. */
+  mimeType?: string;
+  /** Required. The URI of the file in Google Cloud Storage. */
+  fileUri?: string;
+  /** Optional. The display name of the file. Used to provide a label or filename to distinguish files. This field is only returned in `PromptMessage` for prompt management. It is used in the Gemini calls only when server side tools (`code_execution`, `google_search`, and `url_context`) are enabled. */
+  displayName?: string;
+}
+export const GoogleCloudAiplatformV1beta1FileData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mimeType: S.optional(S.String),
+    fileUri: S.optional(S.String),
+    displayName: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1FileData",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1FileData>;
 
 export type GoogleCloudAiplatformV1beta1PartMediaResolutionLevelEnum =
   | "MEDIA_RESOLUTION_UNSPECIFIED"
@@ -1676,24 +1846,11 @@ export const GoogleCloudAiplatformV1beta1PartMediaResolution = /*@__PURE__*/ S.s
   identifier: "GoogleCloudAiplatformV1beta1PartMediaResolution",
 }) as any as S.Schema<GoogleCloudAiplatformV1beta1PartMediaResolution>;
 
-/** URI-based data. A FileData message contains a URI pointing to data of a specific media type. It is used to represent images, audio, and video stored in Google Cloud Storage. */
-export interface GoogleCloudAiplatformV1beta1FileData {
-  /** Required. The IANA standard MIME type of the source data. */
-  mimeType?: string;
-  /** Required. The URI of the file in Google Cloud Storage. */
-  fileUri?: string;
-  /** Optional. The display name of the file. Used to provide a label or filename to distinguish files. This field is only returned in `PromptMessage` for prompt management. It is used in the Gemini calls only when server side tools (`code_execution`, `google_search`, and `url_context`) are enabled. */
-  displayName?: string;
-}
-export const GoogleCloudAiplatformV1beta1FileData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mimeType: S.optional(S.String),
-    fileUri: S.optional(S.String),
-    displayName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1FileData",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1FileData>;
+export type GoogleCloudAiplatformV1beta1PartMediaProcessingEnum =
+  | "MEDIA_PROCESSING_UNSPECIFIED"
+  | "STATIC"
+  | "AGENTIC";
+export const GoogleCloudAiplatformV1beta1PartMediaProcessingEnum = S.String;
 
 export type GoogleCloudAiplatformV1beta1ExecutableCodeLanguageEnum =
   | "LANGUAGE_UNSPECIFIED"
@@ -1719,237 +1876,150 @@ export const GoogleCloudAiplatformV1beta1ExecutableCode = /*@__PURE__*/ S.suspen
   identifier: "GoogleCloudAiplatformV1beta1ExecutableCode",
 }) as any as S.Schema<GoogleCloudAiplatformV1beta1ExecutableCode>;
 
-export type GoogleCloudAiplatformV1beta1CodeExecutionResultOutcomeEnum =
-  | "OUTCOME_UNSPECIFIED"
-  | "OUTCOME_OK"
-  | "OUTCOME_FAILED"
-  | "OUTCOME_DEADLINE_EXCEEDED";
-export const GoogleCloudAiplatformV1beta1CodeExecutionResultOutcomeEnum = S.String;
+export type GoogleCloudAiplatformV1beta1PartialArgNullValueEnum = "NULL_VALUE";
+export const GoogleCloudAiplatformV1beta1PartialArgNullValueEnum = S.String;
 
-/** Result of executing the ExecutableCode. Generated only when the `CodeExecution` tool is used. */
-export interface GoogleCloudAiplatformV1beta1CodeExecutionResult {
-  /** Optional. Contains stdout when code execution is successful, stderr or other description otherwise. */
-  output?: string;
-  /** Required. Outcome of the code execution. */
-  outcome?: GoogleCloudAiplatformV1beta1CodeExecutionResultOutcomeEnum | (string & {});
-  /** Optional. The identifier of the `ExecutableCode` part this result is for. Only populated if the corresponding `ExecutableCode` has an id. */
+/** Partial argument value of the function call. */
+export interface GoogleCloudAiplatformV1beta1PartialArg {
+  /** Optional. Whether this is not the last part of the same json_path. If true, another PartialArg message for the current json_path is expected to follow. */
+  willContinue?: boolean;
+  /** Optional. Represents a string value. */
+  stringValue?: string;
+  /** Optional. Represents a boolean value. */
+  boolValue?: boolean;
+  /** Optional. Represents a double value. */
+  numberValue?: number;
+  /** Required. A JSON Path (RFC 9535) to the argument being streamed. https://datatracker.ietf.org/doc/html/rfc9535. e.g. "$.foo.bar[0].data". */
+  jsonPath?: string;
+  /** Optional. Represents a null value. */
+  nullValue?: GoogleCloudAiplatformV1beta1PartialArgNullValueEnum | (string & {});
+}
+export const GoogleCloudAiplatformV1beta1PartialArg = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    willContinue: S.optional(S.Boolean),
+    stringValue: S.optional(S.String),
+    boolValue: S.optional(S.Boolean),
+    numberValue: S.optional(S.Number),
+    jsonPath: S.optional(S.String),
+    nullValue: S.optional(GoogleCloudAiplatformV1beta1PartialArgNullValueEnum),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1PartialArg",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1PartialArg>;
+
+export type GoogleCloudAiplatformV1beta1PartialArgList =
+  Array<GoogleCloudAiplatformV1beta1PartialArg>;
+export const GoogleCloudAiplatformV1beta1PartialArgList = /*@__PURE__*/ S.Array(
+  GoogleCloudAiplatformV1beta1PartialArg,
+) as any as S.Schema<GoogleCloudAiplatformV1beta1PartialArgList>;
+
+/** A predicted FunctionCall returned from the model that contains a string representing the FunctionDeclaration.name and a structured JSON object containing the parameters and their values. */
+export interface GoogleCloudAiplatformV1beta1FunctionCall {
+  /** Optional. The name of the function to call. Matches FunctionDeclaration.name. */
+  name?: string;
+  /** Optional. Whether this is the last part of the FunctionCall. If true, another partial message for the current FunctionCall is expected to follow. */
+  willContinue?: boolean;
+  /** Optional. The unique id of the function call. If populated, the client to execute the `function_call` and return the response with the matching `id`. */
   id?: string;
+  /** Optional. The partial argument value of the function call. If provided, represents the arguments/fields that are streamed incrementally. */
+  partialArgs?: GoogleCloudAiplatformV1beta1PartialArgList;
+  /** Optional. The function parameters and values in JSON object format. See FunctionDeclaration.parameters for parameter details. */
+  args?: DocumentMap;
 }
-export const GoogleCloudAiplatformV1beta1CodeExecutionResult = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudAiplatformV1beta1FunctionCall = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    output: S.optional(S.String),
-    outcome: S.optional(GoogleCloudAiplatformV1beta1CodeExecutionResultOutcomeEnum),
+    name: S.optional(S.String),
+    willContinue: S.optional(S.Boolean),
     id: S.optional(S.String),
+    partialArgs: S.optional(GoogleCloudAiplatformV1beta1PartialArgList),
+    args: S.optional(DocumentMap),
   }),
 ).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1CodeExecutionResult",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1CodeExecutionResult>;
-
-/** Information about a single recognized word. */
-export interface GoogleCloudAiplatformV1beta1AudioTranscriptionWordInfo {
-  /** Required. Transcript of the word. */
-  word?: string;
-  /** Optional. End offset in time of the word relative to the start of the audio. */
-  endOffset?: string;
-  /** Optional. Start offset in time of the word relative to the start of the audio. */
-  startOffset?: string;
-}
-export const GoogleCloudAiplatformV1beta1AudioTranscriptionWordInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    word: S.optional(S.String),
-    endOffset: S.optional(S.String),
-    startOffset: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1AudioTranscriptionWordInfo",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1AudioTranscriptionWordInfo>;
-
-export type GoogleCloudAiplatformV1beta1AudioTranscriptionWordInfoList =
-  Array<GoogleCloudAiplatformV1beta1AudioTranscriptionWordInfo>;
-export const GoogleCloudAiplatformV1beta1AudioTranscriptionWordInfoList = /*@__PURE__*/ S.Array(
-  GoogleCloudAiplatformV1beta1AudioTranscriptionWordInfo,
-) as any as S.Schema<GoogleCloudAiplatformV1beta1AudioTranscriptionWordInfoList>;
-
-/** The transcription of an audio part. For multi-speaker audio, each speaker segment is a separate `Part` with its own `AudioTranscription` carrying the `speaker_label`. */
-export interface GoogleCloudAiplatformV1beta1AudioTranscription {
-  /** Optional. Detailed word-level transcriptions and timing details. Present when `word_timestamp` is set. */
-  words?: GoogleCloudAiplatformV1beta1AudioTranscriptionWordInfoList;
-  /** Required. The transcription text of this audio segment. */
-  text?: string;
-  /** Optional. A label identifying the speaker of this audio segment (e.g. `spk_1`, `spk_2`). Present when `diarization` is set. */
-  speakerLabel?: string;
-}
-export const GoogleCloudAiplatformV1beta1AudioTranscription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    words: S.optional(GoogleCloudAiplatformV1beta1AudioTranscriptionWordInfoList),
-    text: S.optional(S.String),
-    speakerLabel: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1AudioTranscription",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1AudioTranscription>;
+  identifier: "GoogleCloudAiplatformV1beta1FunctionCall",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1FunctionCall>;
 
 /** Provides metadata for a video, including the start and end offsets for clipping and the frame rate. */
 export interface GoogleCloudAiplatformV1beta1VideoMetadata {
-  /** Optional. The frame rate of the video sent to the model. If not specified, the default value is 1.0. The valid range is (0.0, 24.0]. */
-  fps?: number;
   /** Optional. The end offset of the video. */
   endOffset?: string;
   /** Optional. The start offset of the video. */
   startOffset?: string;
+  /** Optional. The frame rate of the video sent to the model. If not specified, the default value is 1.0. The valid range is (0.0, 24.0]. */
+  fps?: number;
 }
 export const GoogleCloudAiplatformV1beta1VideoMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fps: S.optional(S.Number),
     endOffset: S.optional(S.String),
     startOffset: S.optional(S.String),
+    fps: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1VideoMetadata",
 }) as any as S.Schema<GoogleCloudAiplatformV1beta1VideoMetadata>;
 
-/** Raw media bytes for function response. Text should not be sent as raw bytes, use the 'text' field. */
-export interface GoogleCloudAiplatformV1beta1FunctionResponseBlob {
-  /** Required. Raw bytes. */
-  data?: string;
-  /** Required. The IANA standard MIME type of the source data. */
-  mimeType?: string;
-  /** Optional. Display name of the blob. Used to provide a label or filename to distinguish blobs. This field is only returned in PromptMessage for prompt management. It is currently used in the Gemini GenerateContent calls only when server side tools (code_execution, google_search, and url_context) are enabled. */
-  displayName?: string;
+/** Structured Metadata Sub-Message for Part */
+export interface GoogleCloudAiplatformV1beta1SpeechMetadata {
+  /** Optional. Natural language description of the vocal style (e.g., "cheerful"). */
+  style?: string;
+  /** Optional. Identifies which speaker is speaking this turn. */
+  speaker?: string;
 }
-export const GoogleCloudAiplatformV1beta1FunctionResponseBlob = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudAiplatformV1beta1SpeechMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    data: S.optional(S.String),
-    mimeType: S.optional(S.String),
-    displayName: S.optional(S.String),
+    style: S.optional(S.String),
+    speaker: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1FunctionResponseBlob",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1FunctionResponseBlob>;
-
-/** URI based data for function response. */
-export interface GoogleCloudAiplatformV1beta1FunctionResponseFileData {
-  /** Required. The IANA standard MIME type of the source data. */
-  mimeType?: string;
-  /** Required. URI. */
-  fileUri?: string;
-  /** Optional. Display name of the file data. Used to provide a label or filename to distinguish file datas. This field is only returned in PromptMessage for prompt management. It is currently used in the Gemini GenerateContent calls only when server side tools (code_execution, google_search, and url_context) are enabled. */
-  displayName?: string;
-}
-export const GoogleCloudAiplatformV1beta1FunctionResponseFileData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mimeType: S.optional(S.String),
-    fileUri: S.optional(S.String),
-    displayName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1FunctionResponseFileData",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1FunctionResponseFileData>;
-
-/** A datatype containing media that is part of a `FunctionResponse` message. A `FunctionResponsePart` consists of data which has an associated datatype. A `FunctionResponsePart` can only contain one of the accepted types in `FunctionResponsePart.data`. A `FunctionResponsePart` must have a fixed IANA MIME type identifying the type and subtype of the media if the `inline_data` field is filled with raw bytes. */
-export interface GoogleCloudAiplatformV1beta1FunctionResponsePart {
-  /** Inline media bytes. */
-  inlineData?: GoogleCloudAiplatformV1beta1FunctionResponseBlob;
-  /** URI based data. */
-  fileData?: GoogleCloudAiplatformV1beta1FunctionResponseFileData;
-}
-export const GoogleCloudAiplatformV1beta1FunctionResponsePart = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    inlineData: S.optional(GoogleCloudAiplatformV1beta1FunctionResponseBlob),
-    fileData: S.optional(GoogleCloudAiplatformV1beta1FunctionResponseFileData),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1FunctionResponsePart",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1FunctionResponsePart>;
-
-export type GoogleCloudAiplatformV1beta1FunctionResponsePartList =
-  Array<GoogleCloudAiplatformV1beta1FunctionResponsePart>;
-export const GoogleCloudAiplatformV1beta1FunctionResponsePartList = /*@__PURE__*/ S.Array(
-  GoogleCloudAiplatformV1beta1FunctionResponsePart,
-) as any as S.Schema<GoogleCloudAiplatformV1beta1FunctionResponsePartList>;
-
-export type GoogleCloudAiplatformV1beta1FunctionResponseSchedulingEnum =
-  | "SCHEDULING_UNSPECIFIED"
-  | "SILENT"
-  | "WHEN_IDLE"
-  | "INTERRUPT";
-export const GoogleCloudAiplatformV1beta1FunctionResponseSchedulingEnum = S.String;
-
-/** The result output from a FunctionCall that contains a string representing the FunctionDeclaration.name and a structured JSON object containing any output from the function is used as context to the model. This should contain the result of a `FunctionCall` made based on model prediction. */
-export interface GoogleCloudAiplatformV1beta1FunctionResponse {
-  /** Required. The function response in JSON object format. Use "output" key to specify function output and "error" key to specify error details (if any). If "output" and "error" keys are not specified, then whole "response" is treated as function output. */
-  response?: DocumentMap;
-  /** Optional. Ordered `Parts` that constitute a function response. Parts may have different IANA MIME types. */
-  parts?: GoogleCloudAiplatformV1beta1FunctionResponsePartList;
-  /** Required. The name of the function to call. Matches FunctionDeclaration.name and FunctionCall.name. */
-  name?: string;
-  /** Optional. Specifies how the response should be scheduled in the conversation. Only applicable to NON_BLOCKING function calls, is ignored otherwise. Defaults to WHEN_IDLE. */
-  scheduling?: GoogleCloudAiplatformV1beta1FunctionResponseSchedulingEnum | (string & {});
-  /** Optional. The id of the function call this response is for. Populated by the client to match the corresponding function call `id`. */
-  id?: string;
-}
-export const GoogleCloudAiplatformV1beta1FunctionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    response: S.optional(DocumentMap),
-    parts: S.optional(GoogleCloudAiplatformV1beta1FunctionResponsePartList),
-    name: S.optional(S.String),
-    scheduling: S.optional(GoogleCloudAiplatformV1beta1FunctionResponseSchedulingEnum),
-    id: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1FunctionResponse",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1FunctionResponse>;
-
-export type GoogleCloudAiplatformV1beta1PartMediaProcessingEnum =
-  | "MEDIA_PROCESSING_UNSPECIFIED"
-  | "STATIC"
-  | "AGENTIC";
-export const GoogleCloudAiplatformV1beta1PartMediaProcessingEnum = S.String;
+  identifier: "GoogleCloudAiplatformV1beta1SpeechMetadata",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1SpeechMetadata>;
 
 /** A datatype containing media that is part of a multi-part Content message. A `Part` consists of data which has an associated datatype. A `Part` can only contain one of the accepted types in `Part.data`. For media types that are not text, `Part` must have a fixed IANA MIME type identifying the type and subtype of the media if `inline_data` or `file_data` field is filled with raw bytes. */
 export interface GoogleCloudAiplatformV1beta1Part {
-  /** Optional. A predicted function call returned from the model. This contains the name of the function to call and the arguments to pass to the function. */
-  functionCall?: GoogleCloudAiplatformV1beta1FunctionCall;
   /** Optional. The inline data content of the part. This can be used to include images, audio, or video in a request. */
   inlineData?: GoogleCloudAiplatformV1beta1Blob;
-  /** per part media resolution. Media resolution for the input media. */
-  mediaResolution?: GoogleCloudAiplatformV1beta1PartMediaResolution;
-  /** Optional. The URI-based data of the part. This can be used to include files from Google Cloud Storage. */
-  fileData?: GoogleCloudAiplatformV1beta1FileData;
-  /** Optional. Code generated by the model that is intended to be executed. */
-  executableCode?: GoogleCloudAiplatformV1beta1ExecutableCode;
-  /** Optional. The text content of the part. When sent from the VSCode Gemini Code Assist extension, references to @mentioned items will be converted to markdown boldface text. For example `@my-repo` will be converted to and sent as `**my-repo**` by the IDE agent. */
-  text?: string;
-  /** Optional. The result of executing the ExecutableCode. */
-  codeExecutionResult?: GoogleCloudAiplatformV1beta1CodeExecutionResult;
-  /** Optional. Indicates whether the `part` represents the model's thought process or reasoning. */
-  thought?: boolean;
-  /** Optional. Audio (input or output) transcription. This is only set when this `Part` contains audio data. */
-  audioTranscription?: GoogleCloudAiplatformV1beta1AudioTranscription;
-  /** Optional. Video metadata. The metadata should only be specified while the video data is presented in inline_data or file_data. */
-  videoMetadata?: GoogleCloudAiplatformV1beta1VideoMetadata;
   /** Optional. The result of a function call. This is used to provide the model with the result of a function call that it predicted. */
   functionResponse?: GoogleCloudAiplatformV1beta1FunctionResponse;
+  /** Optional. Audio (input or output) transcription. This is only set when this `Part` contains audio data. */
+  audioTranscription?: GoogleCloudAiplatformV1beta1AudioTranscription;
+  /** Optional. Indicates whether the `part` represents the model's thought process or reasoning. */
+  thought?: boolean;
   /** Optional. An opaque signature for the thought so it can be reused in subsequent requests. */
   thoughtSignature?: string;
+  /** Optional. The result of executing the ExecutableCode. */
+  codeExecutionResult?: GoogleCloudAiplatformV1beta1CodeExecutionResult;
+  /** Optional. The text content of the part. When sent from the VSCode Gemini Code Assist extension, references to @mentioned items will be converted to markdown boldface text. For example `@my-repo` will be converted to and sent as `**my-repo**` by the IDE agent. */
+  text?: string;
+  /** Optional. The URI-based data of the part. This can be used to include files from Google Cloud Storage. */
+  fileData?: GoogleCloudAiplatformV1beta1FileData;
+  /** per part media resolution. Media resolution for the input media. */
+  mediaResolution?: GoogleCloudAiplatformV1beta1PartMediaResolution;
   /** Optional. How the model processes this part's media for understanding. Only meaningful for video parts (`inline_data` or `file_data` with video mime). Non-video parts ignore this field. */
   mediaProcessing?: GoogleCloudAiplatformV1beta1PartMediaProcessingEnum | (string & {});
+  /** Optional. Code generated by the model that is intended to be executed. */
+  executableCode?: GoogleCloudAiplatformV1beta1ExecutableCode;
+  /** Optional. A predicted function call returned from the model. This contains the name of the function to call and the arguments to pass to the function. */
+  functionCall?: GoogleCloudAiplatformV1beta1FunctionCall;
+  /** Optional. Video metadata. The metadata should only be specified while the video data is presented in inline_data or file_data. */
+  videoMetadata?: GoogleCloudAiplatformV1beta1VideoMetadata;
+  /** Optional. Turn-level metadata for speech generation (e.g. Daikon speaker/style). May be set alongside `text` to attach speaker and style information to a text part. */
+  speechMetadata?: GoogleCloudAiplatformV1beta1SpeechMetadata;
 }
 export const GoogleCloudAiplatformV1beta1Part = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    functionCall: S.optional(GoogleCloudAiplatformV1beta1FunctionCall),
     inlineData: S.optional(GoogleCloudAiplatformV1beta1Blob),
-    mediaResolution: S.optional(GoogleCloudAiplatformV1beta1PartMediaResolution),
-    fileData: S.optional(GoogleCloudAiplatformV1beta1FileData),
-    executableCode: S.optional(GoogleCloudAiplatformV1beta1ExecutableCode),
-    text: S.optional(S.String),
-    codeExecutionResult: S.optional(GoogleCloudAiplatformV1beta1CodeExecutionResult),
-    thought: S.optional(S.Boolean),
-    audioTranscription: S.optional(GoogleCloudAiplatformV1beta1AudioTranscription),
-    videoMetadata: S.optional(GoogleCloudAiplatformV1beta1VideoMetadata),
     functionResponse: S.optional(GoogleCloudAiplatformV1beta1FunctionResponse),
+    audioTranscription: S.optional(GoogleCloudAiplatformV1beta1AudioTranscription),
+    thought: S.optional(S.Boolean),
     thoughtSignature: S.optional(S.String),
+    codeExecutionResult: S.optional(GoogleCloudAiplatformV1beta1CodeExecutionResult),
+    text: S.optional(S.String),
+    fileData: S.optional(GoogleCloudAiplatformV1beta1FileData),
+    mediaResolution: S.optional(GoogleCloudAiplatformV1beta1PartMediaResolution),
     mediaProcessing: S.optional(GoogleCloudAiplatformV1beta1PartMediaProcessingEnum),
+    executableCode: S.optional(GoogleCloudAiplatformV1beta1ExecutableCode),
+    functionCall: S.optional(GoogleCloudAiplatformV1beta1FunctionCall),
+    videoMetadata: S.optional(GoogleCloudAiplatformV1beta1VideoMetadata),
+    speechMetadata: S.optional(GoogleCloudAiplatformV1beta1SpeechMetadata),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1Part",
@@ -1986,27 +2056,27 @@ export const DocumentList = /*@__PURE__*/ S.Array(S.Unknown) as any as S.Schema<
 
 /** Request message for PredictionService.CountTokens. */
 export interface GoogleCloudAiplatformV1beta1CountTokensRequest {
-  /** Optional. A list of `Tools` the model may use to generate the next response. A `Tool` is a piece of code that enables the system to interact with external systems to perform an action, or set of actions, outside of knowledge and scope of the model. */
-  tools?: GoogleCloudAiplatformV1beta1ToolList;
   /** Optional. The name of the publisher model requested to serve the prediction. Format: `projects/{project}/locations/{location}/publishers/*\/models/*` */
   model?: string;
+  /** Optional. A list of `Tools` the model may use to generate the next response. A `Tool` is a piece of code that enables the system to interact with external systems to perform an action, or set of actions, outside of knowledge and scope of the model. */
+  tools?: GoogleCloudAiplatformV1beta1ToolList;
   /** Optional. Generation config that the model will use to generate the response. */
   generationConfig?: GoogleCloudAiplatformV1beta1GenerationConfig;
+  /** Optional. The user provided system instructions for the model. Note: only text should be used in parts and content in each part will be in a separate paragraph. */
+  systemInstruction?: GoogleCloudAiplatformV1beta1Content;
   /** Optional. Input content. */
   contents?: GoogleCloudAiplatformV1beta1ContentList;
   /** Optional. The instances that are the input to token counting call. Schema is identical to the prediction schema of the underlying model. */
   instances?: DocumentList;
-  /** Optional. The user provided system instructions for the model. Note: only text should be used in parts and content in each part will be in a separate paragraph. */
-  systemInstruction?: GoogleCloudAiplatformV1beta1Content;
 }
 export const GoogleCloudAiplatformV1beta1CountTokensRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tools: S.optional(GoogleCloudAiplatformV1beta1ToolList),
     model: S.optional(S.String),
+    tools: S.optional(GoogleCloudAiplatformV1beta1ToolList),
     generationConfig: S.optional(GoogleCloudAiplatformV1beta1GenerationConfig),
+    systemInstruction: S.optional(GoogleCloudAiplatformV1beta1Content),
     contents: S.optional(GoogleCloudAiplatformV1beta1ContentList),
     instances: S.optional(DocumentList),
-    systemInstruction: S.optional(GoogleCloudAiplatformV1beta1Content),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1CountTokensRequest",
@@ -2066,95 +2136,52 @@ export const GoogleCloudAiplatformV1beta1ModalityTokenCountList = /*@__PURE__*/ 
 
 /** Response message for PredictionService.CountTokens. */
 export interface GoogleCloudAiplatformV1beta1CountTokensResponse {
+  /** The total number of billable characters counted across all instances from the request. */
+  totalBillableCharacters?: number;
   /** The total number of tokens counted across all instances from the request. */
   totalTokens?: number;
   /** Output only. List of modalities that were processed in the request input. */
   promptTokensDetails?: GoogleCloudAiplatformV1beta1ModalityTokenCountList;
-  /** The total number of billable characters counted across all instances from the request. */
-  totalBillableCharacters?: number;
 }
 export const GoogleCloudAiplatformV1beta1CountTokensResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    totalBillableCharacters: S.optional(S.Number),
     totalTokens: S.optional(S.Number),
     promptTokensDetails: S.optional(GoogleCloudAiplatformV1beta1ModalityTokenCountList),
-    totalBillableCharacters: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1CountTokensResponse",
 }) as any as S.Schema<GoogleCloudAiplatformV1beta1CountTokensResponse>;
 
-export type GoogleCloudAiplatformV1beta1SafetySettingMethodEnum =
-  | "HARM_BLOCK_METHOD_UNSPECIFIED"
-  | "SEVERITY"
-  | "PROBABILITY";
-export const GoogleCloudAiplatformV1beta1SafetySettingMethodEnum = S.String;
-
-export type GoogleCloudAiplatformV1beta1SafetySettingThresholdEnum =
-  | "HARM_BLOCK_THRESHOLD_UNSPECIFIED"
-  | "BLOCK_LOW_AND_ABOVE"
-  | "BLOCK_MEDIUM_AND_ABOVE"
-  | "BLOCK_ONLY_HIGH"
-  | "BLOCK_NONE"
-  | "OFF";
-export const GoogleCloudAiplatformV1beta1SafetySettingThresholdEnum = S.String;
-
-export type GoogleCloudAiplatformV1beta1SafetySettingCategoryEnum =
-  | "HARM_CATEGORY_UNSPECIFIED"
-  | "HARM_CATEGORY_HATE_SPEECH"
-  | "HARM_CATEGORY_DANGEROUS_CONTENT"
-  | "HARM_CATEGORY_HARASSMENT"
-  | "HARM_CATEGORY_SEXUALLY_EXPLICIT"
-  | "HARM_CATEGORY_CIVIC_INTEGRITY"
-  | "HARM_CATEGORY_IMAGE_HATE"
-  | "HARM_CATEGORY_IMAGE_DANGEROUS_CONTENT"
-  | "HARM_CATEGORY_IMAGE_HARASSMENT"
-  | "HARM_CATEGORY_IMAGE_SEXUALLY_EXPLICIT"
-  | "HARM_CATEGORY_JAILBREAK";
-export const GoogleCloudAiplatformV1beta1SafetySettingCategoryEnum = S.String;
-
-/** A safety setting that affects the safety-blocking behavior. A SafetySetting consists of a harm category and a threshold for that category. */
-export interface GoogleCloudAiplatformV1beta1SafetySetting {
-  /** Optional. The method for blocking content. If not specified, the default behavior is to use the probability score. */
-  method?: GoogleCloudAiplatformV1beta1SafetySettingMethodEnum | (string & {});
-  /** Required. The threshold for blocking content. If the harm probability exceeds this threshold, the content will be blocked. */
-  threshold?: GoogleCloudAiplatformV1beta1SafetySettingThresholdEnum | (string & {});
-  /** Required. The harm category to be blocked. */
-  category?: GoogleCloudAiplatformV1beta1SafetySettingCategoryEnum | (string & {});
+/** An object that represents a latitude/longitude pair. This is expressed as a pair of doubles to represent degrees latitude and degrees longitude. Unless specified otherwise, this object must conform to the WGS84 standard. Values must be within normalized ranges. */
+export interface LatLng {
+  /** The latitude in degrees. It must be in the range [-90.0, +90.0]. */
+  latitude?: number;
+  /** The longitude in degrees. It must be in the range [-180.0, +180.0]. */
+  longitude?: number;
 }
-export const GoogleCloudAiplatformV1beta1SafetySetting = /*@__PURE__*/ S.suspend(() =>
+export const LatLng = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    method: S.optional(GoogleCloudAiplatformV1beta1SafetySettingMethodEnum),
-    threshold: S.optional(GoogleCloudAiplatformV1beta1SafetySettingThresholdEnum),
-    category: S.optional(GoogleCloudAiplatformV1beta1SafetySettingCategoryEnum),
+    latitude: S.optional(S.Number),
+    longitude: S.optional(S.Number),
+  }),
+).annotate({ identifier: "LatLng" }) as any as S.Schema<LatLng>;
+
+/** Retrieval config. */
+export interface GoogleCloudAiplatformV1beta1RetrievalConfig {
+  /** The location of the user. */
+  latLng?: LatLng;
+  /** The language code of the user. */
+  languageCode?: string;
+}
+export const GoogleCloudAiplatformV1beta1RetrievalConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    latLng: S.optional(LatLng),
+    languageCode: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1SafetySetting",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1SafetySetting>;
-
-export type GoogleCloudAiplatformV1beta1SafetySettingList =
-  Array<GoogleCloudAiplatformV1beta1SafetySetting>;
-export const GoogleCloudAiplatformV1beta1SafetySettingList = /*@__PURE__*/ S.Array(
-  GoogleCloudAiplatformV1beta1SafetySetting,
-) as any as S.Schema<GoogleCloudAiplatformV1beta1SafetySettingList>;
-
-/** Configuration for Model Armor. Model Armor is a Google Cloud service that provides safety and security filtering for prompts and responses. It helps protect your AI applications from risks such as harmful content, sensitive data leakage, and prompt injection attacks. */
-export interface GoogleCloudAiplatformV1beta1ModelArmorConfig {
-  /** Optional. The resource name of the Model Armor template to use for response screening. A Model Armor template is a set of customized filters and thresholds that define how Model Armor screens content. If specified, Model Armor will use this template to check the model's response for safety and security risks before it is returned to the user. The name must be in the format `projects/{project}/locations/{location}/templates/{template}`. */
-  responseTemplateName?: string;
-  /** Optional. The resource name of the Model Armor template to use for prompt screening. A Model Armor template is a set of customized filters and thresholds that define how Model Armor screens content. If specified, Model Armor will use this template to check the user's prompt for safety and security risks before it is sent to the model. The name must be in the format `projects/{project}/locations/{location}/templates/{template}`. */
-  promptTemplateName?: string;
-}
-export const GoogleCloudAiplatformV1beta1ModelArmorConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    responseTemplateName: S.optional(S.String),
-    promptTemplateName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1ModelArmorConfig",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1ModelArmorConfig>;
-
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+  identifier: "GoogleCloudAiplatformV1beta1RetrievalConfig",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1RetrievalConfig>;
 
 export type GoogleCloudAiplatformV1beta1FunctionCallingConfigModeEnum =
   | "MODE_UNSPECIFIED"
@@ -2183,84 +2210,130 @@ export const GoogleCloudAiplatformV1beta1FunctionCallingConfig = /*@__PURE__*/ S
   identifier: "GoogleCloudAiplatformV1beta1FunctionCallingConfig",
 }) as any as S.Schema<GoogleCloudAiplatformV1beta1FunctionCallingConfig>;
 
-/** An object that represents a latitude/longitude pair. This is expressed as a pair of doubles to represent degrees latitude and degrees longitude. Unless specified otherwise, this object must conform to the WGS84 standard. Values must be within normalized ranges. */
-export interface LatLng {
-  /** The longitude in degrees. It must be in the range [-180.0, +180.0]. */
-  longitude?: number;
-  /** The latitude in degrees. It must be in the range [-90.0, +90.0]. */
-  latitude?: number;
-}
-export const LatLng = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    longitude: S.optional(S.Number),
-    latitude: S.optional(S.Number),
-  }),
-).annotate({ identifier: "LatLng" }) as any as S.Schema<LatLng>;
-
-/** Retrieval config. */
-export interface GoogleCloudAiplatformV1beta1RetrievalConfig {
-  /** The location of the user. */
-  latLng?: LatLng;
-  /** The language code of the user. */
-  languageCode?: string;
-}
-export const GoogleCloudAiplatformV1beta1RetrievalConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    latLng: S.optional(LatLng),
-    languageCode: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1RetrievalConfig",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1RetrievalConfig>;
-
 /** Tool config. This config is shared for all tools provided in the request. */
 export interface GoogleCloudAiplatformV1beta1ToolConfig {
-  /** Optional. Function calling config. */
-  functionCallingConfig?: GoogleCloudAiplatformV1beta1FunctionCallingConfig;
   /** Optional. Retrieval config. */
   retrievalConfig?: GoogleCloudAiplatformV1beta1RetrievalConfig;
+  /** Optional. Function calling config. */
+  functionCallingConfig?: GoogleCloudAiplatformV1beta1FunctionCallingConfig;
 }
 export const GoogleCloudAiplatformV1beta1ToolConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    functionCallingConfig: S.optional(GoogleCloudAiplatformV1beta1FunctionCallingConfig),
     retrievalConfig: S.optional(GoogleCloudAiplatformV1beta1RetrievalConfig),
+    functionCallingConfig: S.optional(GoogleCloudAiplatformV1beta1FunctionCallingConfig),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1ToolConfig",
 }) as any as S.Schema<GoogleCloudAiplatformV1beta1ToolConfig>;
 
+/** Configuration for Model Armor. Model Armor is a Google Cloud service that provides safety and security filtering for prompts and responses. It helps protect your AI applications from risks such as harmful content, sensitive data leakage, and prompt injection attacks. */
+export interface GoogleCloudAiplatformV1beta1ModelArmorConfig {
+  /** Optional. The resource name of the Model Armor template to use for response screening. A Model Armor template is a set of customized filters and thresholds that define how Model Armor screens content. If specified, Model Armor will use this template to check the model's response for safety and security risks before it is returned to the user. The name must be in the format `projects/{project}/locations/{location}/templates/{template}`. */
+  responseTemplateName?: string;
+  /** Optional. The resource name of the Model Armor template to use for prompt screening. A Model Armor template is a set of customized filters and thresholds that define how Model Armor screens content. If specified, Model Armor will use this template to check the user's prompt for safety and security risks before it is sent to the model. The name must be in the format `projects/{project}/locations/{location}/templates/{template}`. */
+  promptTemplateName?: string;
+}
+export const GoogleCloudAiplatformV1beta1ModelArmorConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    responseTemplateName: S.optional(S.String),
+    promptTemplateName: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1ModelArmorConfig",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1ModelArmorConfig>;
+
+export type GoogleCloudAiplatformV1beta1SafetySettingCategoryEnum =
+  | "HARM_CATEGORY_UNSPECIFIED"
+  | "HARM_CATEGORY_HATE_SPEECH"
+  | "HARM_CATEGORY_DANGEROUS_CONTENT"
+  | "HARM_CATEGORY_HARASSMENT"
+  | "HARM_CATEGORY_SEXUALLY_EXPLICIT"
+  | "HARM_CATEGORY_CIVIC_INTEGRITY"
+  | "HARM_CATEGORY_IMAGE_HATE"
+  | "HARM_CATEGORY_IMAGE_DANGEROUS_CONTENT"
+  | "HARM_CATEGORY_IMAGE_HARASSMENT"
+  | "HARM_CATEGORY_IMAGE_SEXUALLY_EXPLICIT"
+  | "HARM_CATEGORY_JAILBREAK";
+export const GoogleCloudAiplatformV1beta1SafetySettingCategoryEnum = S.String;
+
+export type GoogleCloudAiplatformV1beta1SafetySettingThresholdEnum =
+  | "HARM_BLOCK_THRESHOLD_UNSPECIFIED"
+  | "BLOCK_LOW_AND_ABOVE"
+  | "BLOCK_MEDIUM_AND_ABOVE"
+  | "BLOCK_ONLY_HIGH"
+  | "BLOCK_NONE"
+  | "OFF";
+export const GoogleCloudAiplatformV1beta1SafetySettingThresholdEnum = S.String;
+
+export type GoogleCloudAiplatformV1beta1SafetySettingMethodEnum =
+  | "HARM_BLOCK_METHOD_UNSPECIFIED"
+  | "SEVERITY"
+  | "PROBABILITY";
+export const GoogleCloudAiplatformV1beta1SafetySettingMethodEnum = S.String;
+
+/** A safety setting that affects the safety-blocking behavior. A SafetySetting consists of a harm category and a threshold for that category. */
+export interface GoogleCloudAiplatformV1beta1SafetySetting {
+  /** Required. The harm category to be blocked. */
+  category?: GoogleCloudAiplatformV1beta1SafetySettingCategoryEnum | (string & {});
+  /** Required. The threshold for blocking content. If the harm probability exceeds this threshold, the content will be blocked. */
+  threshold?: GoogleCloudAiplatformV1beta1SafetySettingThresholdEnum | (string & {});
+  /** Optional. The method for blocking content. If not specified, the default behavior is to use the probability score. */
+  method?: GoogleCloudAiplatformV1beta1SafetySettingMethodEnum | (string & {});
+}
+export const GoogleCloudAiplatformV1beta1SafetySetting = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    category: S.optional(GoogleCloudAiplatformV1beta1SafetySettingCategoryEnum),
+    threshold: S.optional(GoogleCloudAiplatformV1beta1SafetySettingThresholdEnum),
+    method: S.optional(GoogleCloudAiplatformV1beta1SafetySettingMethodEnum),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1SafetySetting",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1SafetySetting>;
+
+export type GoogleCloudAiplatformV1beta1SafetySettingList =
+  Array<GoogleCloudAiplatformV1beta1SafetySetting>;
+export const GoogleCloudAiplatformV1beta1SafetySettingList = /*@__PURE__*/ S.Array(
+  GoogleCloudAiplatformV1beta1SafetySetting,
+) as any as S.Schema<GoogleCloudAiplatformV1beta1SafetySettingList>;
+
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+
 /** Request message for [PredictionService.GenerateContent]. */
 export interface GoogleCloudAiplatformV1beta1GenerateContentRequest {
-  /** Optional. Per request settings for blocking unsafe content. Enforced on GenerateContentResponse.candidates. */
-  safetySettings?: GoogleCloudAiplatformV1beta1SafetySettingList;
-  /** Optional. Settings for prompt and response sanitization using the Model Armor service. If supplied, safety_settings must not be supplied. */
-  modelArmorConfig?: GoogleCloudAiplatformV1beta1ModelArmorConfig;
-  /** Optional. A list of `Tools` the model may use to generate the next response. A `Tool` is a piece of code that enables the system to interact with external systems to perform an action, or set of actions, outside of knowledge and scope of the model. */
-  tools?: GoogleCloudAiplatformV1beta1ToolList;
-  /** Optional. The name of the cached content used as context to serve the prediction. Note: only used in explicit caching, where users can have control over caching (e.g. what content to cache) and enjoy guaranteed cost savings. Format: `projects/{project}/locations/{location}/cachedContents/{cachedContent}` */
-  cachedContent?: string;
-  /** Optional. The labels with user-defined metadata for the request. It is used for billing and reporting only. Label keys and values can be no longer than 63 characters (Unicode codepoints) and can only contain lowercase letters, numeric characters, underscores, and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter. */
-  labels?: StringMap;
-  /** Optional. Generation config. */
-  generationConfig?: GoogleCloudAiplatformV1beta1GenerationConfig;
-  /** Optional. The user provided system instructions for the model. Note: only text should be used in parts and content in each part will be in a separate paragraph. */
-  systemInstruction?: GoogleCloudAiplatformV1beta1Content;
-  /** Required. The content of the current conversation with the model. For single-turn queries, this is a single instance. For multi-turn queries, this is a repeated field that contains conversation history + latest request. */
-  contents?: GoogleCloudAiplatformV1beta1ContentList;
   /** Optional. Tool config. This config is shared for all tools provided in the request. */
   toolConfig?: GoogleCloudAiplatformV1beta1ToolConfig;
+  /** Optional. Settings for prompt and response sanitization using the Model Armor service. If supplied, safety_settings must not be supplied. */
+  modelArmorConfig?: GoogleCloudAiplatformV1beta1ModelArmorConfig;
+  /** Optional. Generation config. */
+  generationConfig?: GoogleCloudAiplatformV1beta1GenerationConfig;
+  /** Optional. Per request settings for blocking unsafe content. Enforced on GenerateContentResponse.candidates. */
+  safetySettings?: GoogleCloudAiplatformV1beta1SafetySettingList;
+  /** Optional. The user provided system instructions for the model. Note: only text should be used in parts and content in each part will be in a separate paragraph. */
+  systemInstruction?: GoogleCloudAiplatformV1beta1Content;
+  /** Optional. An opaque continuation token used to resume generation from a previous `GenerateContent` or `StreamGenerateContent` response that stopped with `finish_reason` set to `CONTINUATION`. */
+  continuationToken?: string;
+  /** Optional. A list of `Tools` the model may use to generate the next response. A `Tool` is a piece of code that enables the system to interact with external systems to perform an action, or set of actions, outside of knowledge and scope of the model. */
+  tools?: GoogleCloudAiplatformV1beta1ToolList;
+  /** Optional. The labels with user-defined metadata for the request. It is used for billing and reporting only. Label keys and values can be no longer than 63 characters (Unicode codepoints) and can only contain lowercase letters, numeric characters, underscores, and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter. */
+  labels?: StringMap;
+  /** Required. The content of the current conversation with the model. For single-turn queries, this is a single instance. For multi-turn queries, this is a repeated field that contains conversation history + latest request. */
+  contents?: GoogleCloudAiplatformV1beta1ContentList;
+  /** Optional. The name of the cached content used as context to serve the prediction. Note: only used in explicit caching, where users can have control over caching (e.g. what content to cache) and enjoy guaranteed cost savings. Format: `projects/{project}/locations/{location}/cachedContents/{cachedContent}` */
+  cachedContent?: string;
 }
 export const GoogleCloudAiplatformV1beta1GenerateContentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    safetySettings: S.optional(GoogleCloudAiplatformV1beta1SafetySettingList),
-    modelArmorConfig: S.optional(GoogleCloudAiplatformV1beta1ModelArmorConfig),
-    tools: S.optional(GoogleCloudAiplatformV1beta1ToolList),
-    cachedContent: S.optional(S.String),
-    labels: S.optional(StringMap),
-    generationConfig: S.optional(GoogleCloudAiplatformV1beta1GenerationConfig),
-    systemInstruction: S.optional(GoogleCloudAiplatformV1beta1Content),
-    contents: S.optional(GoogleCloudAiplatformV1beta1ContentList),
     toolConfig: S.optional(GoogleCloudAiplatformV1beta1ToolConfig),
+    modelArmorConfig: S.optional(GoogleCloudAiplatformV1beta1ModelArmorConfig),
+    generationConfig: S.optional(GoogleCloudAiplatformV1beta1GenerationConfig),
+    safetySettings: S.optional(GoogleCloudAiplatformV1beta1SafetySettingList),
+    systemInstruction: S.optional(GoogleCloudAiplatformV1beta1Content),
+    continuationToken: S.optional(S.String),
+    tools: S.optional(GoogleCloudAiplatformV1beta1ToolList),
+    labels: S.optional(StringMap),
+    contents: S.optional(GoogleCloudAiplatformV1beta1ContentList),
+    cachedContent: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1GenerateContentRequest",
@@ -2287,6 +2360,15 @@ export const GenerateContentProjectsLocationsPublishersModelsRequest = /*@__PURE
   identifier: "GenerateContentProjectsLocationsPublishersModelsRequest",
 }) as any as S.Schema<GenerateContentProjectsLocationsPublishersModelsRequest>;
 
+export type GoogleCloudAiplatformV1beta1SafetyRatingOverwrittenThresholdEnum =
+  | "HARM_BLOCK_THRESHOLD_UNSPECIFIED"
+  | "BLOCK_LOW_AND_ABOVE"
+  | "BLOCK_MEDIUM_AND_ABOVE"
+  | "BLOCK_ONLY_HIGH"
+  | "BLOCK_NONE"
+  | "OFF";
+export const GoogleCloudAiplatformV1beta1SafetyRatingOverwrittenThresholdEnum = S.String;
+
 export type GoogleCloudAiplatformV1beta1SafetyRatingProbabilityEnum =
   | "HARM_PROBABILITY_UNSPECIFIED"
   | "NEGLIGIBLE"
@@ -2294,14 +2376,6 @@ export type GoogleCloudAiplatformV1beta1SafetyRatingProbabilityEnum =
   | "MEDIUM"
   | "HIGH";
 export const GoogleCloudAiplatformV1beta1SafetyRatingProbabilityEnum = S.String;
-
-export type GoogleCloudAiplatformV1beta1SafetyRatingSeverityEnum =
-  | "HARM_SEVERITY_UNSPECIFIED"
-  | "HARM_SEVERITY_NEGLIGIBLE"
-  | "HARM_SEVERITY_LOW"
-  | "HARM_SEVERITY_MEDIUM"
-  | "HARM_SEVERITY_HIGH";
-export const GoogleCloudAiplatformV1beta1SafetyRatingSeverityEnum = S.String;
 
 export type GoogleCloudAiplatformV1beta1SafetyRatingCategoryEnum =
   | "HARM_CATEGORY_UNSPECIFIED"
@@ -2317,43 +2391,42 @@ export type GoogleCloudAiplatformV1beta1SafetyRatingCategoryEnum =
   | "HARM_CATEGORY_JAILBREAK";
 export const GoogleCloudAiplatformV1beta1SafetyRatingCategoryEnum = S.String;
 
-export type GoogleCloudAiplatformV1beta1SafetyRatingOverwrittenThresholdEnum =
-  | "HARM_BLOCK_THRESHOLD_UNSPECIFIED"
-  | "BLOCK_LOW_AND_ABOVE"
-  | "BLOCK_MEDIUM_AND_ABOVE"
-  | "BLOCK_ONLY_HIGH"
-  | "BLOCK_NONE"
-  | "OFF";
-export const GoogleCloudAiplatformV1beta1SafetyRatingOverwrittenThresholdEnum = S.String;
+export type GoogleCloudAiplatformV1beta1SafetyRatingSeverityEnum =
+  | "HARM_SEVERITY_UNSPECIFIED"
+  | "HARM_SEVERITY_NEGLIGIBLE"
+  | "HARM_SEVERITY_LOW"
+  | "HARM_SEVERITY_MEDIUM"
+  | "HARM_SEVERITY_HIGH";
+export const GoogleCloudAiplatformV1beta1SafetyRatingSeverityEnum = S.String;
 
 /** A safety rating for a piece of content. The safety rating contains the harm category and the harm probability level. */
 export interface GoogleCloudAiplatformV1beta1SafetyRating {
-  /** Output only. Indicates whether the content was blocked because of this rating. */
-  blocked?: boolean;
-  /** Output only. The probability of harm for this category. */
-  probability?: GoogleCloudAiplatformV1beta1SafetyRatingProbabilityEnum;
-  /** Output only. The severity of harm for this category. */
-  severity?: GoogleCloudAiplatformV1beta1SafetyRatingSeverityEnum;
-  /** Output only. The harm category of this rating. */
-  category?: GoogleCloudAiplatformV1beta1SafetyRatingCategoryEnum;
-  /** Output only. The severity score of harm for this category. */
-  severityScore?: number;
   /** Output only. The overwritten threshold for the safety category of Gemini 2.0 image out. If minors are detected in the output image, the threshold of each safety category will be overwritten if user sets a lower threshold. */
   overwrittenThreshold?: GoogleCloudAiplatformV1beta1SafetyRatingOverwrittenThresholdEnum;
+  /** Output only. The probability of harm for this category. */
+  probability?: GoogleCloudAiplatformV1beta1SafetyRatingProbabilityEnum;
   /** Output only. The probability score of harm for this category. */
   probabilityScore?: number;
+  /** Output only. The harm category of this rating. */
+  category?: GoogleCloudAiplatformV1beta1SafetyRatingCategoryEnum;
+  /** Output only. The severity of harm for this category. */
+  severity?: GoogleCloudAiplatformV1beta1SafetyRatingSeverityEnum;
+  /** Output only. The severity score of harm for this category. */
+  severityScore?: number;
+  /** Output only. Indicates whether the content was blocked because of this rating. */
+  blocked?: boolean;
 }
 export const GoogleCloudAiplatformV1beta1SafetyRating = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    blocked: S.optional(S.Boolean),
-    probability: S.optional(GoogleCloudAiplatformV1beta1SafetyRatingProbabilityEnum),
-    severity: S.optional(GoogleCloudAiplatformV1beta1SafetyRatingSeverityEnum),
-    category: S.optional(GoogleCloudAiplatformV1beta1SafetyRatingCategoryEnum),
-    severityScore: S.optional(S.Number),
     overwrittenThreshold: S.optional(
       GoogleCloudAiplatformV1beta1SafetyRatingOverwrittenThresholdEnum,
     ),
+    probability: S.optional(GoogleCloudAiplatformV1beta1SafetyRatingProbabilityEnum),
     probabilityScore: S.optional(S.Number),
+    category: S.optional(GoogleCloudAiplatformV1beta1SafetyRatingCategoryEnum),
+    severity: S.optional(GoogleCloudAiplatformV1beta1SafetyRatingSeverityEnum),
+    severityScore: S.optional(S.Number),
+    blocked: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1SafetyRating",
@@ -2399,235 +2472,146 @@ export const GoogleCloudAiplatformV1beta1GenerateContentResponsePromptFeedback =
     identifier: "GoogleCloudAiplatformV1beta1GenerateContentResponsePromptFeedback",
   }) as any as S.Schema<GoogleCloudAiplatformV1beta1GenerateContentResponsePromptFeedback>;
 
-/** A URI that can be used to flag a place or review for inappropriate content. This is populated only when the grounding source is Google Maps. */
-export interface GoogleCloudAiplatformV1beta1GroundingMetadataSourceFlaggingUri {
-  /** The URI that can be used to flag the content. */
-  flagContentUri?: string;
-  /** The ID of the place or review. */
-  sourceId?: string;
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface Firebaseml_Date {
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number;
 }
-export const GoogleCloudAiplatformV1beta1GroundingMetadataSourceFlaggingUri =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      flagContentUri: S.optional(S.String),
-      sourceId: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudAiplatformV1beta1GroundingMetadataSourceFlaggingUri",
-  }) as any as S.Schema<GoogleCloudAiplatformV1beta1GroundingMetadataSourceFlaggingUri>;
+export const Firebaseml_Date = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    month: S.optional(S.Number),
+    year: S.optional(S.Number),
+    day: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Firebaseml_Date" }) as any as S.Schema<Firebaseml_Date>;
 
-export type GoogleCloudAiplatformV1beta1GroundingMetadataSourceFlaggingUriList =
-  Array<GoogleCloudAiplatformV1beta1GroundingMetadataSourceFlaggingUri>;
-export const GoogleCloudAiplatformV1beta1GroundingMetadataSourceFlaggingUriList =
-  /*@__PURE__*/ S.Array(
-    GoogleCloudAiplatformV1beta1GroundingMetadataSourceFlaggingUri,
-  ) as any as S.Schema<GoogleCloudAiplatformV1beta1GroundingMetadataSourceFlaggingUriList>;
-
-export type IntegerList = Array<number>;
-export const IntegerList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<IntegerList>;
-
-/** A segment of the content. */
-export interface GoogleCloudAiplatformV1beta1Segment {
-  /** Output only. The index of the `Part` object that this segment belongs to. This is useful for associating the segment with a specific part of the content. */
-  partIndex?: number;
-  /** Output only. The text of the segment. */
-  text?: string;
-  /** Output only. The start index of the segment in the `Part`, measured in bytes. This marks the beginning of the segment and is inclusive, meaning the byte at this index is the first byte of the segment. */
+/** A citation for a piece of generatedcontent. */
+export interface GoogleCloudAiplatformV1beta1Citation {
+  /** Output only. The URI of the source of the citation. */
+  uri?: string;
+  /** Output only. The title of the source of the citation. */
+  title?: string;
+  /** Output only. The publication date of the source of the citation. */
+  publicationDate?: Firebaseml_Date;
+  /** Output only. The start index of the citation in the content. */
   startIndex?: number;
-  /** Output only. The end index of the segment in the `Part`, measured in bytes. This marks the end of the segment and is exclusive, meaning the segment includes content up to, but not including, the byte at this index. */
+  /** Output only. The license of the source of the citation. */
+  license?: string;
+  /** Output only. The end index of the citation in the content. */
   endIndex?: number;
 }
-export const GoogleCloudAiplatformV1beta1Segment = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudAiplatformV1beta1Citation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    partIndex: S.optional(S.Number),
-    text: S.optional(S.String),
+    uri: S.optional(S.String),
+    title: S.optional(S.String),
+    publicationDate: S.optional(Firebaseml_Date),
     startIndex: S.optional(S.Number),
+    license: S.optional(S.String),
     endIndex: S.optional(S.Number),
   }),
 ).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1Segment",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1Segment>;
+  identifier: "GoogleCloudAiplatformV1beta1Citation",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1Citation>;
 
-export type DoubleList = Array<number>;
-export const DoubleList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<DoubleList>;
+export type GoogleCloudAiplatformV1beta1CitationList = Array<GoogleCloudAiplatformV1beta1Citation>;
+export const GoogleCloudAiplatformV1beta1CitationList = /*@__PURE__*/ S.Array(
+  GoogleCloudAiplatformV1beta1Citation,
+) as any as S.Schema<GoogleCloudAiplatformV1beta1CitationList>;
 
-/** A collection of supporting references for a segment or part of the model's response. */
-export interface GoogleCloudAiplatformV1beta1GroundingSupport {
-  /** Indices into the `rendered_parts` field of the `GroundingMetadata` message. These indices specify which rendered parts are associated with this support message. */
-  renderedParts?: IntegerList;
-  /** A list of indices into the `grounding_chunks` field of the `GroundingMetadata` message. These indices specify which grounding chunks support the claim made in the content segment. For example, if this field has the values `[1, 3]`, it means that `grounding_chunks[1]` and `grounding_chunks[3]` are the sources for the claim in the content segment. */
-  groundingChunkIndices?: IntegerList;
-  /** The content segment that this support message applies to. */
-  segment?: GoogleCloudAiplatformV1beta1Segment;
-  /** The confidence scores for the support references. This list is parallel to the `grounding_chunk_indices` list. A score is a value between 0.0 and 1.0, with a higher score indicating a higher confidence that the reference supports the claim. For Gemini 2.0 and before, this list has the same size as `grounding_chunk_indices`. For Gemini 2.5 and later, this list is empty and should be ignored. */
-  confidenceScores?: DoubleList;
+/** A collection of citations that apply to a piece of generated content. */
+export interface GoogleCloudAiplatformV1beta1CitationMetadata {
+  /** Output only. A list of citations for the content. */
+  citations?: GoogleCloudAiplatformV1beta1CitationList;
 }
-export const GoogleCloudAiplatformV1beta1GroundingSupport = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudAiplatformV1beta1CitationMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    renderedParts: S.optional(IntegerList),
-    groundingChunkIndices: S.optional(IntegerList),
-    segment: S.optional(GoogleCloudAiplatformV1beta1Segment),
-    confidenceScores: S.optional(DoubleList),
+    citations: S.optional(GoogleCloudAiplatformV1beta1CitationList),
   }),
 ).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1GroundingSupport",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1GroundingSupport>;
+  identifier: "GoogleCloudAiplatformV1beta1CitationMetadata",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1CitationMetadata>;
 
-export type GoogleCloudAiplatformV1beta1GroundingSupportList =
-  Array<GoogleCloudAiplatformV1beta1GroundingSupport>;
-export const GoogleCloudAiplatformV1beta1GroundingSupportList = /*@__PURE__*/ S.Array(
-  GoogleCloudAiplatformV1beta1GroundingSupport,
-) as any as S.Schema<GoogleCloudAiplatformV1beta1GroundingSupportList>;
+export type GoogleCloudAiplatformV1beta1UrlMetadataUrlRetrievalStatusEnum =
+  | "URL_RETRIEVAL_STATUS_UNSPECIFIED"
+  | "URL_RETRIEVAL_STATUS_SUCCESS"
+  | "URL_RETRIEVAL_STATUS_ERROR";
+export const GoogleCloudAiplatformV1beta1UrlMetadataUrlRetrievalStatusEnum = S.String;
 
-/** An entry point for displaying Google Search results. A `SearchEntryPoint` is populated when the grounding source for a model's response is Google Search. It provides information that you can use to display the search results in your application. */
-export interface GoogleCloudAiplatformV1beta1SearchEntryPoint {
-  /** Optional. A base64-encoded JSON object that contains a list of search queries and their corresponding search URLs. This information can be used to build a custom search UI. */
-  sdkBlob?: string;
-  /** Optional. An HTML snippet that can be embedded in a web page or an application's webview. This snippet displays a search result, including the title, URL, and a brief description of the search result. */
-  renderedContent?: string;
+/** The metadata for a single URL retrieval. */
+export interface GoogleCloudAiplatformV1beta1UrlMetadata {
+  /** The status of the URL retrieval. */
+  urlRetrievalStatus?: GoogleCloudAiplatformV1beta1UrlMetadataUrlRetrievalStatusEnum;
+  /** The URL retrieved by the tool. */
+  retrievedUrl?: string;
 }
-export const GoogleCloudAiplatformV1beta1SearchEntryPoint = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudAiplatformV1beta1UrlMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sdkBlob: S.optional(S.String),
-    renderedContent: S.optional(S.String),
+    urlRetrievalStatus: S.optional(GoogleCloudAiplatformV1beta1UrlMetadataUrlRetrievalStatusEnum),
+    retrievedUrl: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1SearchEntryPoint",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1SearchEntryPoint>;
+  identifier: "GoogleCloudAiplatformV1beta1UrlMetadata",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1UrlMetadata>;
 
-/** Metadata related to the retrieval grounding source. This is part of the `GroundingMetadata` returned when grounding is enabled. */
-export interface GoogleCloudAiplatformV1beta1RetrievalMetadata {
-  /** Optional. A score indicating how likely it is that a Google Search query could help answer the prompt. The score is in the range of `[0, 1]`. A score of 1 means the model is confident that a search will be helpful, and 0 means it is not. This score is populated only when Google Search grounding and dynamic retrieval are enabled. The score is used to determine whether to trigger a search. */
-  googleSearchDynamicRetrievalScore?: number;
+export type GoogleCloudAiplatformV1beta1UrlMetadataList =
+  Array<GoogleCloudAiplatformV1beta1UrlMetadata>;
+export const GoogleCloudAiplatformV1beta1UrlMetadataList = /*@__PURE__*/ S.Array(
+  GoogleCloudAiplatformV1beta1UrlMetadata,
+) as any as S.Schema<GoogleCloudAiplatformV1beta1UrlMetadataList>;
+
+/** Metadata returned when the model uses the `url_context` tool to get information from a user-provided URL. */
+export interface GoogleCloudAiplatformV1beta1UrlContextMetadata {
+  /** Output only. A list of URL metadata, with one entry for each URL retrieved by the tool. */
+  urlMetadata?: GoogleCloudAiplatformV1beta1UrlMetadataList;
 }
-export const GoogleCloudAiplatformV1beta1RetrievalMetadata = /*@__PURE__*/ S.suspend(() =>
+export const GoogleCloudAiplatformV1beta1UrlContextMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    googleSearchDynamicRetrievalScore: S.optional(S.Number),
+    urlMetadata: S.optional(GoogleCloudAiplatformV1beta1UrlMetadataList),
   }),
 ).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1RetrievalMetadata",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1RetrievalMetadata>;
+  identifier: "GoogleCloudAiplatformV1beta1UrlContextMetadata",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1UrlContextMetadata>;
 
-/** Represents where the chunk starts and ends in the document. */
-export interface GoogleCloudAiplatformV1beta1RagChunkPageSpan {
-  /** Page where chunk starts in the document. Inclusive. 1-indexed. */
-  firstPage?: number;
-  /** Page where chunk ends in the document. Inclusive. 1-indexed. */
-  lastPage?: number;
-}
-export const GoogleCloudAiplatformV1beta1RagChunkPageSpan = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    firstPage: S.optional(S.Number),
-    lastPage: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1RagChunkPageSpan",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1RagChunkPageSpan>;
-
-/** A RagChunk includes the content of a chunk of a RagFile, and associated metadata. */
-export interface GoogleCloudAiplatformV1beta1RagChunk {
-  /** If populated, represents where the chunk starts and ends in the document. */
-  pageSpan?: GoogleCloudAiplatformV1beta1RagChunkPageSpan;
-  /** The ID of the chunk. */
-  chunkId?: string;
-  /** The ID of the file that the chunk belongs to. */
-  fileId?: string;
-  /** The content of the chunk. */
-  text?: string;
-}
-export const GoogleCloudAiplatformV1beta1RagChunk = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pageSpan: S.optional(GoogleCloudAiplatformV1beta1RagChunkPageSpan),
-    chunkId: S.optional(S.String),
-    fileId: S.optional(S.String),
-    text: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1RagChunk",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1RagChunk>;
-
-/** Context retrieved from a data source to ground the model's response. This is used when a retrieval tool fetches information from a user-provided corpus or a public dataset. */
-export interface GoogleCloudAiplatformV1beta1GroundingChunkRetrievedContext {
-  /** The title of the retrieved data source. */
-  title?: string;
-  /** The URI of the retrieved data source. */
-  uri?: string;
-  /** Additional context for a Retrieval-Augmented Generation (RAG) retrieval result. This is populated only when the RAG retrieval tool is used. */
-  ragChunk?: GoogleCloudAiplatformV1beta1RagChunk;
-  /** Output only. The full resource name of the referenced Vertex AI Search document. This is used to identify the specific document that was retrieved. The format is `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document}`. */
-  documentName?: string;
-  /** The content of the retrieved data source. */
-  text?: string;
-}
-export const GoogleCloudAiplatformV1beta1GroundingChunkRetrievedContext = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      title: S.optional(S.String),
-      uri: S.optional(S.String),
-      ragChunk: S.optional(GoogleCloudAiplatformV1beta1RagChunk),
-      documentName: S.optional(S.String),
-      text: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1GroundingChunkRetrievedContext",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1GroundingChunkRetrievedContext>;
-
-/** A `Web` chunk is a piece of evidence that comes from a web page. It contains the URI of the web page, the title of the page, and the domain of the page. This is used to provide the user with a link to the source of the information. */
-export interface GoogleCloudAiplatformV1beta1GroundingChunkWeb {
-  /** The title of the web page that contains the evidence. */
-  title?: string;
-  /** The domain of the web page that contains the evidence. This can be used to filter out low-quality sources. */
-  domain?: string;
-  /** The URI of the web page that contains the evidence. */
-  uri?: string;
-}
-export const GoogleCloudAiplatformV1beta1GroundingChunkWeb = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    title: S.optional(S.String),
-    domain: S.optional(S.String),
-    uri: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1GroundingChunkWeb",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1GroundingChunkWeb>;
-
-/** An `Image` chunk is a piece of evidence that comes from an image search result. It contains the URI of the image search result and the URI of the image. This is used to provide the user with a link to the source of the information. */
-export interface GoogleCloudAiplatformV1beta1GroundingChunkImage {
-  /** The URI of the image. */
-  imageUri?: string;
-  /** The domain of the image search result page. */
-  domain?: string;
-  /** The title of the image search result page. */
-  title?: string;
-  /** The URI of the image search result page. */
-  sourceUri?: string;
-}
-export const GoogleCloudAiplatformV1beta1GroundingChunkImage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageUri: S.optional(S.String),
-    domain: S.optional(S.String),
-    title: S.optional(S.String),
-    sourceUri: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1GroundingChunkImage",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1GroundingChunkImage>;
+export type GoogleCloudAiplatformV1beta1CandidateFinishReasonEnum =
+  | "FINISH_REASON_UNSPECIFIED"
+  | "STOP"
+  | "MAX_TOKENS"
+  | "SAFETY"
+  | "RECITATION"
+  | "OTHER"
+  | "BLOCKLIST"
+  | "PROHIBITED_CONTENT"
+  | "SPII"
+  | "MALFORMED_FUNCTION_CALL"
+  | "MODEL_ARMOR"
+  | "IMAGE_SAFETY"
+  | "IMAGE_PROHIBITED_CONTENT"
+  | "IMAGE_RECITATION"
+  | "IMAGE_OTHER"
+  | "UNEXPECTED_TOOL_CALL"
+  | "NO_IMAGE"
+  | "CONTINUATION";
+export const GoogleCloudAiplatformV1beta1CandidateFinishReasonEnum = S.String;
 
 /** A review snippet that is used to generate the answer. */
 export interface GoogleCloudAiplatformV1beta1GroundingChunkMapsPlaceAnswerSourcesReviewSnippet {
-  /** The title of the review. */
-  title?: string;
-  /** The ID of the review that is being referenced. */
-  reviewId?: string;
   /** A link to show the review on Google Maps. */
   googleMapsUri?: string;
+  /** The ID of the review that is being referenced. */
+  reviewId?: string;
+  /** The title of the review. */
+  title?: string;
 }
 export const GoogleCloudAiplatformV1beta1GroundingChunkMapsPlaceAnswerSourcesReviewSnippet =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      title: S.optional(S.String),
-      reviewId: S.optional(S.String),
       googleMapsUri: S.optional(S.String),
+      reviewId: S.optional(S.String),
+      title: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudAiplatformV1beta1GroundingChunkMapsPlaceAnswerSourcesReviewSnippet",
@@ -2660,16 +2644,16 @@ export const GoogleCloudAiplatformV1beta1GroundingChunkMapsPlaceAnswerSources =
 export interface GoogleCloudAiplatformV1beta1GroundingChunkMapsRoute {
   /** An encoded polyline of the route. See https://developers.google.com/maps/documentation/utilities/polylinealgorithm */
   encodedPolyline?: string;
-  /** The total duration of the route. */
-  duration?: string;
   /** The total distance of the route, in meters. */
   distanceMeters?: number;
+  /** The total duration of the route. */
+  duration?: string;
 }
 export const GoogleCloudAiplatformV1beta1GroundingChunkMapsRoute = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     encodedPolyline: S.optional(S.String),
-    duration: S.optional(S.String),
     distanceMeters: S.optional(S.Number),
+    duration: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1GroundingChunkMapsRoute",
@@ -2677,51 +2661,156 @@ export const GoogleCloudAiplatformV1beta1GroundingChunkMapsRoute = /*@__PURE__*/
 
 /** A `Maps` chunk is a piece of evidence that comes from Google Maps, containing information about places or routes. This is used to provide the user with rich, location-based information. */
 export interface GoogleCloudAiplatformV1beta1GroundingChunkMaps {
-  /** The sources that were used to generate the place answer. This includes review snippets and photos that were used to generate the answer, as well as URIs to flag content. */
-  placeAnswerSources?: GoogleCloudAiplatformV1beta1GroundingChunkMapsPlaceAnswerSources;
   /** This Place's resource name, in `places/{place_id}` format. This can be used to look up the place in the Google Maps API. */
   placeId?: string;
   /** The URI of the place. */
   uri?: string;
-  /** The title of the place. */
-  title?: string;
+  /** The sources that were used to generate the place answer. This includes review snippets and photos that were used to generate the answer, as well as URIs to flag content. */
+  placeAnswerSources?: GoogleCloudAiplatformV1beta1GroundingChunkMapsPlaceAnswerSources;
   /** The text of the place answer. */
   text?: string;
+  /** The title of the place. */
+  title?: string;
   /** Output only. Route information. */
   route?: GoogleCloudAiplatformV1beta1GroundingChunkMapsRoute;
 }
 export const GoogleCloudAiplatformV1beta1GroundingChunkMaps = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    placeId: S.optional(S.String),
+    uri: S.optional(S.String),
     placeAnswerSources: S.optional(
       GoogleCloudAiplatformV1beta1GroundingChunkMapsPlaceAnswerSources,
     ),
-    placeId: S.optional(S.String),
-    uri: S.optional(S.String),
-    title: S.optional(S.String),
     text: S.optional(S.String),
+    title: S.optional(S.String),
     route: S.optional(GoogleCloudAiplatformV1beta1GroundingChunkMapsRoute),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1GroundingChunkMaps",
 }) as any as S.Schema<GoogleCloudAiplatformV1beta1GroundingChunkMaps>;
 
+/** Represents where the chunk starts and ends in the document. */
+export interface GoogleCloudAiplatformV1beta1RagChunkPageSpan {
+  /** Page where chunk starts in the document. Inclusive. 1-indexed. */
+  firstPage?: number;
+  /** Page where chunk ends in the document. Inclusive. 1-indexed. */
+  lastPage?: number;
+}
+export const GoogleCloudAiplatformV1beta1RagChunkPageSpan = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    firstPage: S.optional(S.Number),
+    lastPage: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1RagChunkPageSpan",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1RagChunkPageSpan>;
+
+/** A RagChunk includes the content of a chunk of a RagFile, and associated metadata. */
+export interface GoogleCloudAiplatformV1beta1RagChunk {
+  /** The ID of the chunk. */
+  chunkId?: string;
+  /** If populated, represents where the chunk starts and ends in the document. */
+  pageSpan?: GoogleCloudAiplatformV1beta1RagChunkPageSpan;
+  /** The content of the chunk. */
+  text?: string;
+  /** The ID of the file that the chunk belongs to. */
+  fileId?: string;
+}
+export const GoogleCloudAiplatformV1beta1RagChunk = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    chunkId: S.optional(S.String),
+    pageSpan: S.optional(GoogleCloudAiplatformV1beta1RagChunkPageSpan),
+    text: S.optional(S.String),
+    fileId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1RagChunk",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1RagChunk>;
+
+/** Context retrieved from a data source to ground the model's response. This is used when a retrieval tool fetches information from a user-provided corpus or a public dataset. */
+export interface GoogleCloudAiplatformV1beta1GroundingChunkRetrievedContext {
+  /** The content of the retrieved data source. */
+  text?: string;
+  /** The URI of the retrieved data source. */
+  uri?: string;
+  /** The title of the retrieved data source. */
+  title?: string;
+  /** Additional context for a Retrieval-Augmented Generation (RAG) retrieval result. This is populated only when the RAG retrieval tool is used. */
+  ragChunk?: GoogleCloudAiplatformV1beta1RagChunk;
+  /** Output only. The full resource name of the referenced Vertex AI Search document. This is used to identify the specific document that was retrieved. The format is `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document}`. */
+  documentName?: string;
+}
+export const GoogleCloudAiplatformV1beta1GroundingChunkRetrievedContext = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      text: S.optional(S.String),
+      uri: S.optional(S.String),
+      title: S.optional(S.String),
+      ragChunk: S.optional(GoogleCloudAiplatformV1beta1RagChunk),
+      documentName: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1GroundingChunkRetrievedContext",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1GroundingChunkRetrievedContext>;
+
+/** A `Web` chunk is a piece of evidence that comes from a web page. It contains the URI of the web page, the title of the page, and the domain of the page. This is used to provide the user with a link to the source of the information. */
+export interface GoogleCloudAiplatformV1beta1GroundingChunkWeb {
+  /** The domain of the web page that contains the evidence. This can be used to filter out low-quality sources. */
+  domain?: string;
+  /** The URI of the web page that contains the evidence. */
+  uri?: string;
+  /** The title of the web page that contains the evidence. */
+  title?: string;
+}
+export const GoogleCloudAiplatformV1beta1GroundingChunkWeb = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.optional(S.String),
+    uri: S.optional(S.String),
+    title: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1GroundingChunkWeb",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1GroundingChunkWeb>;
+
+/** An `Image` chunk is a piece of evidence that comes from an image search result. It contains the URI of the image search result and the URI of the image. This is used to provide the user with a link to the source of the information. */
+export interface GoogleCloudAiplatformV1beta1GroundingChunkImage {
+  /** The URI of the image. */
+  imageUri?: string;
+  /** The URI of the image search result page. */
+  sourceUri?: string;
+  /** The domain of the image search result page. */
+  domain?: string;
+  /** The title of the image search result page. */
+  title?: string;
+}
+export const GoogleCloudAiplatformV1beta1GroundingChunkImage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    imageUri: S.optional(S.String),
+    sourceUri: S.optional(S.String),
+    domain: S.optional(S.String),
+    title: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1GroundingChunkImage",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1GroundingChunkImage>;
+
 /** A piece of evidence that supports a claim made by the model. This is used to show a citation for a claim made by the model. When grounding is enabled, the model returns a `GroundingChunk` that contains a reference to the source of the information. */
 export interface GoogleCloudAiplatformV1beta1GroundingChunk {
+  /** A grounding chunk from Google Maps. See the `Maps` message for details. */
+  maps?: GoogleCloudAiplatformV1beta1GroundingChunkMaps;
   /** A grounding chunk from a data source retrieved by a retrieval tool, such as Vertex AI Search. See the `RetrievedContext` message for details */
   retrievedContext?: GoogleCloudAiplatformV1beta1GroundingChunkRetrievedContext;
   /** A grounding chunk from a web page, typically from Google Search. See the `Web` message for details. */
   web?: GoogleCloudAiplatformV1beta1GroundingChunkWeb;
   /** A grounding chunk from an image search result. See the `Image` message for details. */
   image?: GoogleCloudAiplatformV1beta1GroundingChunkImage;
-  /** A grounding chunk from Google Maps. See the `Maps` message for details. */
-  maps?: GoogleCloudAiplatformV1beta1GroundingChunkMaps;
 }
 export const GoogleCloudAiplatformV1beta1GroundingChunk = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    maps: S.optional(GoogleCloudAiplatformV1beta1GroundingChunkMaps),
     retrievedContext: S.optional(GoogleCloudAiplatformV1beta1GroundingChunkRetrievedContext),
     web: S.optional(GoogleCloudAiplatformV1beta1GroundingChunkWeb),
     image: S.optional(GoogleCloudAiplatformV1beta1GroundingChunkImage),
-    maps: S.optional(GoogleCloudAiplatformV1beta1GroundingChunkMaps),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1GroundingChunk",
@@ -2733,40 +2822,149 @@ export const GoogleCloudAiplatformV1beta1GroundingChunkList = /*@__PURE__*/ S.Ar
   GoogleCloudAiplatformV1beta1GroundingChunk,
 ) as any as S.Schema<GoogleCloudAiplatformV1beta1GroundingChunkList>;
 
+export type DoubleList = Array<number>;
+export const DoubleList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<DoubleList>;
+
+export type IntegerList = Array<number>;
+export const IntegerList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<IntegerList>;
+
+/** A segment of the content. */
+export interface GoogleCloudAiplatformV1beta1Segment {
+  /** Output only. The text of the segment. */
+  text?: string;
+  /** Output only. The start index of the segment in the `Part`, measured in bytes. This marks the beginning of the segment and is inclusive, meaning the byte at this index is the first byte of the segment. */
+  startIndex?: number;
+  /** Output only. The end index of the segment in the `Part`, measured in bytes. This marks the end of the segment and is exclusive, meaning the segment includes content up to, but not including, the byte at this index. */
+  endIndex?: number;
+  /** Output only. The index of the `Part` object that this segment belongs to. This is useful for associating the segment with a specific part of the content. */
+  partIndex?: number;
+}
+export const GoogleCloudAiplatformV1beta1Segment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    text: S.optional(S.String),
+    startIndex: S.optional(S.Number),
+    endIndex: S.optional(S.Number),
+    partIndex: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1Segment",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1Segment>;
+
+/** A collection of supporting references for a segment or part of the model's response. */
+export interface GoogleCloudAiplatformV1beta1GroundingSupport {
+  /** The confidence scores for the support references. This list is parallel to the `grounding_chunk_indices` list. A score is a value between 0.0 and 1.0, with a higher score indicating a higher confidence that the reference supports the claim. For Gemini 2.0 and before, this list has the same size as `grounding_chunk_indices`. For Gemini 2.5 and later, this list is empty and should be ignored. */
+  confidenceScores?: DoubleList;
+  /** A list of indices into the `grounding_chunks` field of the `GroundingMetadata` message. These indices specify which grounding chunks support the claim made in the content segment. For example, if this field has the values `[1, 3]`, it means that `grounding_chunks[1]` and `grounding_chunks[3]` are the sources for the claim in the content segment. */
+  groundingChunkIndices?: IntegerList;
+  /** Indices into the `rendered_parts` field of the `GroundingMetadata` message. These indices specify which rendered parts are associated with this support message. */
+  renderedParts?: IntegerList;
+  /** The content segment that this support message applies to. */
+  segment?: GoogleCloudAiplatformV1beta1Segment;
+}
+export const GoogleCloudAiplatformV1beta1GroundingSupport = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    confidenceScores: S.optional(DoubleList),
+    groundingChunkIndices: S.optional(IntegerList),
+    renderedParts: S.optional(IntegerList),
+    segment: S.optional(GoogleCloudAiplatformV1beta1Segment),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1GroundingSupport",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1GroundingSupport>;
+
+export type GoogleCloudAiplatformV1beta1GroundingSupportList =
+  Array<GoogleCloudAiplatformV1beta1GroundingSupport>;
+export const GoogleCloudAiplatformV1beta1GroundingSupportList = /*@__PURE__*/ S.Array(
+  GoogleCloudAiplatformV1beta1GroundingSupport,
+) as any as S.Schema<GoogleCloudAiplatformV1beta1GroundingSupportList>;
+
+/** A URI that can be used to flag a place or review for inappropriate content. This is populated only when the grounding source is Google Maps. */
+export interface GoogleCloudAiplatformV1beta1GroundingMetadataSourceFlaggingUri {
+  /** The URI that can be used to flag the content. */
+  flagContentUri?: string;
+  /** The ID of the place or review. */
+  sourceId?: string;
+}
+export const GoogleCloudAiplatformV1beta1GroundingMetadataSourceFlaggingUri =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      flagContentUri: S.optional(S.String),
+      sourceId: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudAiplatformV1beta1GroundingMetadataSourceFlaggingUri",
+  }) as any as S.Schema<GoogleCloudAiplatformV1beta1GroundingMetadataSourceFlaggingUri>;
+
+export type GoogleCloudAiplatformV1beta1GroundingMetadataSourceFlaggingUriList =
+  Array<GoogleCloudAiplatformV1beta1GroundingMetadataSourceFlaggingUri>;
+export const GoogleCloudAiplatformV1beta1GroundingMetadataSourceFlaggingUriList =
+  /*@__PURE__*/ S.Array(
+    GoogleCloudAiplatformV1beta1GroundingMetadataSourceFlaggingUri,
+  ) as any as S.Schema<GoogleCloudAiplatformV1beta1GroundingMetadataSourceFlaggingUriList>;
+
+/** Metadata related to the retrieval grounding source. This is part of the `GroundingMetadata` returned when grounding is enabled. */
+export interface GoogleCloudAiplatformV1beta1RetrievalMetadata {
+  /** Optional. A score indicating how likely it is that a Google Search query could help answer the prompt. The score is in the range of `[0, 1]`. A score of 1 means the model is confident that a search will be helpful, and 0 means it is not. This score is populated only when Google Search grounding and dynamic retrieval are enabled. The score is used to determine whether to trigger a search. */
+  googleSearchDynamicRetrievalScore?: number;
+}
+export const GoogleCloudAiplatformV1beta1RetrievalMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    googleSearchDynamicRetrievalScore: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1RetrievalMetadata",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1RetrievalMetadata>;
+
+/** An entry point for displaying Google Search results. A `SearchEntryPoint` is populated when the grounding source for a model's response is Google Search. It provides information that you can use to display the search results in your application. */
+export interface GoogleCloudAiplatformV1beta1SearchEntryPoint {
+  /** Optional. An HTML snippet that can be embedded in a web page or an application's webview. This snippet displays a search result, including the title, URL, and a brief description of the search result. */
+  renderedContent?: string;
+  /** Optional. A base64-encoded JSON object that contains a list of search queries and their corresponding search URLs. This information can be used to build a custom search UI. */
+  sdkBlob?: string;
+}
+export const GoogleCloudAiplatformV1beta1SearchEntryPoint = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    renderedContent: S.optional(S.String),
+    sdkBlob: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudAiplatformV1beta1SearchEntryPoint",
+}) as any as S.Schema<GoogleCloudAiplatformV1beta1SearchEntryPoint>;
+
 /** Information about the sources that support the content of a response. When grounding is enabled, the model returns citations for claims in the response. This object contains the retrieved sources. */
 export interface GoogleCloudAiplatformV1beta1GroundingMetadata {
-  /** Optional. Output only. A list of URIs that can be used to flag a place or review for inappropriate content. This field is populated only when the grounding source is Google Maps. */
-  sourceFlaggingUris?: GoogleCloudAiplatformV1beta1GroundingMetadataSourceFlaggingUriList;
-  /** Optional. A list of grounding supports that connect the generated content to the grounding chunks. This field is populated when the grounding source is Google Search or Vertex AI Search. */
-  groundingSupports?: GoogleCloudAiplatformV1beta1GroundingSupportList;
-  /** Optional. The queries that were executed by the retrieval tools. This field is populated only when the grounding source is a retrieval tool, such as Vertex AI Search. */
-  retrievalQueries?: StringList;
-  /** Optional. The image search queries that were used to generate the content. This field is populated only when the grounding source is Google Search with the Image Search search_type enabled. */
-  imageSearchQueries?: StringList;
   /** Optional. Output only. Deprecated: The Google Maps contextual widget behavior in Grounding with Google Maps is being deprecated; this field is planned for removal and will no longer be populated once removed. A token that can be used to render a Google Maps widget with the contextual data. This field is populated only when the grounding source is Google Maps. */
   googleMapsWidgetContextToken?: string;
-  /** Optional. A web search entry point that can be used to display search results. This field is populated only when the grounding source is Google Search. */
-  searchEntryPoint?: GoogleCloudAiplatformV1beta1SearchEntryPoint;
-  /** Optional. The web search queries that were used to generate the content. This field is populated only when the grounding source is Google Search. */
-  webSearchQueries?: StringList;
-  /** Optional. Output only. Metadata related to the retrieval grounding source. */
-  retrievalMetadata?: GoogleCloudAiplatformV1beta1RetrievalMetadata;
   /** A list of supporting references retrieved from the grounding source. This field is populated when the grounding source is Google Search, Vertex AI Search, or Google Maps. */
   groundingChunks?: GoogleCloudAiplatformV1beta1GroundingChunkList;
+  /** Optional. A list of grounding supports that connect the generated content to the grounding chunks. This field is populated when the grounding source is Google Search or Vertex AI Search. */
+  groundingSupports?: GoogleCloudAiplatformV1beta1GroundingSupportList;
+  /** Optional. The image search queries that were used to generate the content. This field is populated only when the grounding source is Google Search with the Image Search search_type enabled. */
+  imageSearchQueries?: StringList;
+  /** Optional. Output only. A list of URIs that can be used to flag a place or review for inappropriate content. This field is populated only when the grounding source is Google Maps. */
+  sourceFlaggingUris?: GoogleCloudAiplatformV1beta1GroundingMetadataSourceFlaggingUriList;
+  /** Optional. Output only. Metadata related to the retrieval grounding source. */
+  retrievalMetadata?: GoogleCloudAiplatformV1beta1RetrievalMetadata;
+  /** Optional. The web search queries that were used to generate the content. This field is populated only when the grounding source is Google Search. */
+  webSearchQueries?: StringList;
+  /** Optional. A web search entry point that can be used to display search results. This field is populated only when the grounding source is Google Search. */
+  searchEntryPoint?: GoogleCloudAiplatformV1beta1SearchEntryPoint;
+  /** Optional. The queries that were executed by the retrieval tools. This field is populated only when the grounding source is a retrieval tool, such as Vertex AI Search. */
+  retrievalQueries?: StringList;
 }
 export const GoogleCloudAiplatformV1beta1GroundingMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    googleMapsWidgetContextToken: S.optional(S.String),
+    groundingChunks: S.optional(GoogleCloudAiplatformV1beta1GroundingChunkList),
+    groundingSupports: S.optional(GoogleCloudAiplatformV1beta1GroundingSupportList),
+    imageSearchQueries: S.optional(StringList),
     sourceFlaggingUris: S.optional(
       GoogleCloudAiplatformV1beta1GroundingMetadataSourceFlaggingUriList,
     ),
-    groundingSupports: S.optional(GoogleCloudAiplatformV1beta1GroundingSupportList),
-    retrievalQueries: S.optional(StringList),
-    imageSearchQueries: S.optional(StringList),
-    googleMapsWidgetContextToken: S.optional(S.String),
-    searchEntryPoint: S.optional(GoogleCloudAiplatformV1beta1SearchEntryPoint),
-    webSearchQueries: S.optional(StringList),
     retrievalMetadata: S.optional(GoogleCloudAiplatformV1beta1RetrievalMetadata),
-    groundingChunks: S.optional(GoogleCloudAiplatformV1beta1GroundingChunkList),
+    webSearchQueries: S.optional(StringList),
+    searchEntryPoint: S.optional(GoogleCloudAiplatformV1beta1SearchEntryPoint),
+    retrievalQueries: S.optional(StringList),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1GroundingMetadata",
@@ -2774,18 +2972,18 @@ export const GoogleCloudAiplatformV1beta1GroundingMetadata = /*@__PURE__*/ S.sus
 
 /** A single token and its associated log probability. */
 export interface GoogleCloudAiplatformV1beta1LogprobsResultCandidate {
-  /** The token's numerical ID. While the `token` field provides the string representation of the token, the `token_id` is the numerical representation that the model uses internally. This can be useful for developers who want to build custom logic based on the model's vocabulary. */
-  tokenId?: number;
   /** The token's string representation. */
   token?: string;
   /** The log probability of this token. A higher value indicates that the model was more confident in this token. The log probability can be used to assess the relative likelihood of different tokens and to identify when the model is uncertain. */
   logProbability?: number;
+  /** The token's numerical ID. While the `token` field provides the string representation of the token, the `token_id` is the numerical representation that the model uses internally. This can be useful for developers who want to build custom logic based on the model's vocabulary. */
+  tokenId?: number;
 }
 export const GoogleCloudAiplatformV1beta1LogprobsResultCandidate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tokenId: S.optional(S.Number),
     token: S.optional(S.String),
     logProbability: S.optional(S.Number),
+    tokenId: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1LogprobsResultCandidate",
@@ -2832,167 +3030,44 @@ export const GoogleCloudAiplatformV1beta1LogprobsResult = /*@__PURE__*/ S.suspen
   identifier: "GoogleCloudAiplatformV1beta1LogprobsResult",
 }) as any as S.Schema<GoogleCloudAiplatformV1beta1LogprobsResult>;
 
-export type GoogleCloudAiplatformV1beta1UrlMetadataUrlRetrievalStatusEnum =
-  | "URL_RETRIEVAL_STATUS_UNSPECIFIED"
-  | "URL_RETRIEVAL_STATUS_SUCCESS"
-  | "URL_RETRIEVAL_STATUS_ERROR";
-export const GoogleCloudAiplatformV1beta1UrlMetadataUrlRetrievalStatusEnum = S.String;
-
-/** The metadata for a single URL retrieval. */
-export interface GoogleCloudAiplatformV1beta1UrlMetadata {
-  /** The URL retrieved by the tool. */
-  retrievedUrl?: string;
-  /** The status of the URL retrieval. */
-  urlRetrievalStatus?: GoogleCloudAiplatformV1beta1UrlMetadataUrlRetrievalStatusEnum;
-}
-export const GoogleCloudAiplatformV1beta1UrlMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    retrievedUrl: S.optional(S.String),
-    urlRetrievalStatus: S.optional(GoogleCloudAiplatformV1beta1UrlMetadataUrlRetrievalStatusEnum),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1UrlMetadata",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1UrlMetadata>;
-
-export type GoogleCloudAiplatformV1beta1UrlMetadataList =
-  Array<GoogleCloudAiplatformV1beta1UrlMetadata>;
-export const GoogleCloudAiplatformV1beta1UrlMetadataList = /*@__PURE__*/ S.Array(
-  GoogleCloudAiplatformV1beta1UrlMetadata,
-) as any as S.Schema<GoogleCloudAiplatformV1beta1UrlMetadataList>;
-
-/** Metadata returned when the model uses the `url_context` tool to get information from a user-provided URL. */
-export interface GoogleCloudAiplatformV1beta1UrlContextMetadata {
-  /** Output only. A list of URL metadata, with one entry for each URL retrieved by the tool. */
-  urlMetadata?: GoogleCloudAiplatformV1beta1UrlMetadataList;
-}
-export const GoogleCloudAiplatformV1beta1UrlContextMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    urlMetadata: S.optional(GoogleCloudAiplatformV1beta1UrlMetadataList),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1UrlContextMetadata",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1UrlContextMetadata>;
-
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface Firebaseml_Date {
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
-}
-export const Firebaseml_Date = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    year: S.optional(S.Number),
-    day: S.optional(S.Number),
-    month: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "Firebaseml_Date",
-}) as any as S.Schema<Firebaseml_Date>;
-
-/** A citation for a piece of generatedcontent. */
-export interface GoogleCloudAiplatformV1beta1Citation {
-  /** Output only. The start index of the citation in the content. */
-  startIndex?: number;
-  /** Output only. The URI of the source of the citation. */
-  uri?: string;
-  /** Output only. The publication date of the source of the citation. */
-  publicationDate?: Firebaseml_Date;
-  /** Output only. The end index of the citation in the content. */
-  endIndex?: number;
-  /** Output only. The license of the source of the citation. */
-  license?: string;
-  /** Output only. The title of the source of the citation. */
-  title?: string;
-}
-export const GoogleCloudAiplatformV1beta1Citation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    startIndex: S.optional(S.Number),
-    uri: S.optional(S.String),
-    publicationDate: S.optional(Firebaseml_Date),
-    endIndex: S.optional(S.Number),
-    license: S.optional(S.String),
-    title: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1Citation",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1Citation>;
-
-export type GoogleCloudAiplatformV1beta1CitationList = Array<GoogleCloudAiplatformV1beta1Citation>;
-export const GoogleCloudAiplatformV1beta1CitationList = /*@__PURE__*/ S.Array(
-  GoogleCloudAiplatformV1beta1Citation,
-) as any as S.Schema<GoogleCloudAiplatformV1beta1CitationList>;
-
-/** A collection of citations that apply to a piece of generated content. */
-export interface GoogleCloudAiplatformV1beta1CitationMetadata {
-  /** Output only. A list of citations for the content. */
-  citations?: GoogleCloudAiplatformV1beta1CitationList;
-}
-export const GoogleCloudAiplatformV1beta1CitationMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    citations: S.optional(GoogleCloudAiplatformV1beta1CitationList),
-  }),
-).annotate({
-  identifier: "GoogleCloudAiplatformV1beta1CitationMetadata",
-}) as any as S.Schema<GoogleCloudAiplatformV1beta1CitationMetadata>;
-
-export type GoogleCloudAiplatformV1beta1CandidateFinishReasonEnum =
-  | "FINISH_REASON_UNSPECIFIED"
-  | "STOP"
-  | "MAX_TOKENS"
-  | "SAFETY"
-  | "RECITATION"
-  | "OTHER"
-  | "BLOCKLIST"
-  | "PROHIBITED_CONTENT"
-  | "SPII"
-  | "MALFORMED_FUNCTION_CALL"
-  | "MODEL_ARMOR"
-  | "IMAGE_SAFETY"
-  | "IMAGE_PROHIBITED_CONTENT"
-  | "IMAGE_RECITATION"
-  | "IMAGE_OTHER"
-  | "UNEXPECTED_TOOL_CALL"
-  | "NO_IMAGE";
-export const GoogleCloudAiplatformV1beta1CandidateFinishReasonEnum = S.String;
-
 /** A response candidate generated from the model. */
 export interface GoogleCloudAiplatformV1beta1Candidate {
-  /** Output only. A list of ratings for the safety of a response candidate. There is at most one rating per category. */
-  safetyRatings?: GoogleCloudAiplatformV1beta1SafetyRatingList;
+  /** Output only. A collection of citations that apply to the generated content. */
+  citationMetadata?: GoogleCloudAiplatformV1beta1CitationMetadata;
+  /** Output only. Metadata returned when the model uses the `url_context` tool to get information from a user-provided URL. */
+  urlContextMetadata?: GoogleCloudAiplatformV1beta1UrlContextMetadata;
+  /** Output only. The reason why the model stopped generating tokens. If empty, the model has not stopped generating. */
+  finishReason?: GoogleCloudAiplatformV1beta1CandidateFinishReasonEnum;
+  /** Output only. The content of the candidate. */
+  content?: GoogleCloudAiplatformV1beta1Content;
   /** Output only. Metadata returned when grounding is enabled. It contains the sources used to ground the generated content. */
   groundingMetadata?: GoogleCloudAiplatformV1beta1GroundingMetadata;
-  /** Output only. The average log probability of the tokens in this candidate. This is a length-normalized score that can be used to compare the quality of candidates of different lengths. A higher average log probability suggests a more confident and coherent response. */
-  avgLogprobs?: number;
-  /** Output only. The 0-based index of this candidate in the list of generated responses. This is useful for distinguishing between multiple candidates when `candidate_count` > 1. */
-  index?: number;
+  /** Output only. A list of ratings for the safety of a response candidate. There is at most one rating per category. */
+  safetyRatings?: GoogleCloudAiplatformV1beta1SafetyRatingList;
   /** Output only. The detailed log probability information for the tokens in this candidate. This is useful for debugging, understanding model uncertainty, and identifying potential "hallucinations". */
   logprobsResult?: GoogleCloudAiplatformV1beta1LogprobsResult;
   /** Output only. Describes the reason the model stopped generating tokens in more detail. This field is returned only when `finish_reason` is set. */
   finishMessage?: string;
-  /** Output only. The content of the candidate. */
-  content?: GoogleCloudAiplatformV1beta1Content;
-  /** Output only. Metadata returned when the model uses the `url_context` tool to get information from a user-provided URL. */
-  urlContextMetadata?: GoogleCloudAiplatformV1beta1UrlContextMetadata;
-  /** Output only. A collection of citations that apply to the generated content. */
-  citationMetadata?: GoogleCloudAiplatformV1beta1CitationMetadata;
-  /** Output only. The reason why the model stopped generating tokens. If empty, the model has not stopped generating. */
-  finishReason?: GoogleCloudAiplatformV1beta1CandidateFinishReasonEnum;
+  /** Output only. The average log probability of the tokens in this candidate. This is a length-normalized score that can be used to compare the quality of candidates of different lengths. A higher average log probability suggests a more confident and coherent response. */
+  avgLogprobs?: number;
+  /** Output only. An optional opaque continuation token returned when `finish_reason` is `CONTINUATION`. Clients can pass this token in a subsequent `GenerateContentRequest` to continue generation. */
+  continuationToken?: string;
+  /** Output only. The 0-based index of this candidate in the list of generated responses. This is useful for distinguishing between multiple candidates when `candidate_count` > 1. */
+  index?: number;
 }
 export const GoogleCloudAiplatformV1beta1Candidate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    safetyRatings: S.optional(GoogleCloudAiplatformV1beta1SafetyRatingList),
+    citationMetadata: S.optional(GoogleCloudAiplatformV1beta1CitationMetadata),
+    urlContextMetadata: S.optional(GoogleCloudAiplatformV1beta1UrlContextMetadata),
+    finishReason: S.optional(GoogleCloudAiplatformV1beta1CandidateFinishReasonEnum),
+    content: S.optional(GoogleCloudAiplatformV1beta1Content),
     groundingMetadata: S.optional(GoogleCloudAiplatformV1beta1GroundingMetadata),
-    avgLogprobs: S.optional(S.Number),
-    index: S.optional(S.Number),
+    safetyRatings: S.optional(GoogleCloudAiplatformV1beta1SafetyRatingList),
     logprobsResult: S.optional(GoogleCloudAiplatformV1beta1LogprobsResult),
     finishMessage: S.optional(S.String),
-    content: S.optional(GoogleCloudAiplatformV1beta1Content),
-    urlContextMetadata: S.optional(GoogleCloudAiplatformV1beta1UrlContextMetadata),
-    citationMetadata: S.optional(GoogleCloudAiplatformV1beta1CitationMetadata),
-    finishReason: S.optional(GoogleCloudAiplatformV1beta1CandidateFinishReasonEnum),
+    avgLogprobs: S.optional(S.Number),
+    continuationToken: S.optional(S.String),
+    index: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1Candidate",
@@ -3016,45 +3091,45 @@ export const GoogleCloudAiplatformV1beta1GenerateContentResponseUsageMetadataTra
 
 /** Usage metadata about the content generation request and response. This message provides a detailed breakdown of token usage and other relevant metrics. */
 export interface GoogleCloudAiplatformV1beta1GenerateContentResponseUsageMetadata {
-  /** Output only. A detailed breakdown of the token count for each modality in the cached content. */
-  cacheTokensDetails?: GoogleCloudAiplatformV1beta1ModalityTokenCountList;
-  /** Output only. The number of tokens that were part of the model's generated "thoughts" output, if applicable. */
-  thoughtsTokenCount?: number;
-  /** The total number of tokens for the entire request. This is the sum of `prompt_token_count`, `candidates_token_count`, `tool_use_prompt_token_count`, and `thoughts_token_count`. */
-  totalTokenCount?: number;
-  /** Output only. A detailed breakdown by modality of the token counts from the results of tool executions, which are provided back to the model as input. */
-  toolUsePromptTokensDetails?: GoogleCloudAiplatformV1beta1ModalityTokenCountList;
   /** Output only. The traffic type for this request. */
   trafficType?: GoogleCloudAiplatformV1beta1GenerateContentResponseUsageMetadataTrafficTypeEnum;
-  /** The total number of tokens in the prompt. This includes any text, images, or other media provided in the request. When `cached_content` is set, this also includes the number of tokens in the cached content. */
-  promptTokenCount?: number;
-  /** Output only. A detailed breakdown of the token count for each modality in the generated candidates. */
-  candidatesTokensDetails?: GoogleCloudAiplatformV1beta1ModalityTokenCountList;
   /** Output only. The number of tokens in the cached content that was used for this request. */
   cachedContentTokenCount?: number;
+  /** The total number of tokens in the prompt. This includes any text, images, or other media provided in the request. When `cached_content` is set, this also includes the number of tokens in the cached content. */
+  promptTokenCount?: number;
+  /** Output only. A detailed breakdown by modality of the token counts from the results of tool executions, which are provided back to the model as input. */
+  toolUsePromptTokensDetails?: GoogleCloudAiplatformV1beta1ModalityTokenCountList;
   /** Output only. A detailed breakdown of the token count for each modality in the prompt. */
   promptTokensDetails?: GoogleCloudAiplatformV1beta1ModalityTokenCountList;
+  /** Output only. The number of tokens that were part of the model's generated "thoughts" output, if applicable. */
+  thoughtsTokenCount?: number;
   /** Output only. The number of tokens in the results from tool executions, which are provided back to the model as input, if applicable. */
   toolUsePromptTokenCount?: number;
   /** The total number of tokens in the generated candidates. */
   candidatesTokenCount?: number;
+  /** Output only. A detailed breakdown of the token count for each modality in the cached content. */
+  cacheTokensDetails?: GoogleCloudAiplatformV1beta1ModalityTokenCountList;
+  /** Output only. A detailed breakdown of the token count for each modality in the generated candidates. */
+  candidatesTokensDetails?: GoogleCloudAiplatformV1beta1ModalityTokenCountList;
+  /** The total number of tokens for the entire request. This is the sum of `prompt_token_count`, `candidates_token_count`, `tool_use_prompt_token_count`, and `thoughts_token_count`. */
+  totalTokenCount?: number;
 }
 export const GoogleCloudAiplatformV1beta1GenerateContentResponseUsageMetadata =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      cacheTokensDetails: S.optional(GoogleCloudAiplatformV1beta1ModalityTokenCountList),
-      thoughtsTokenCount: S.optional(S.Number),
-      totalTokenCount: S.optional(S.Number),
-      toolUsePromptTokensDetails: S.optional(GoogleCloudAiplatformV1beta1ModalityTokenCountList),
       trafficType: S.optional(
         GoogleCloudAiplatformV1beta1GenerateContentResponseUsageMetadataTrafficTypeEnum,
       ),
-      promptTokenCount: S.optional(S.Number),
-      candidatesTokensDetails: S.optional(GoogleCloudAiplatformV1beta1ModalityTokenCountList),
       cachedContentTokenCount: S.optional(S.Number),
+      promptTokenCount: S.optional(S.Number),
+      toolUsePromptTokensDetails: S.optional(GoogleCloudAiplatformV1beta1ModalityTokenCountList),
       promptTokensDetails: S.optional(GoogleCloudAiplatformV1beta1ModalityTokenCountList),
+      thoughtsTokenCount: S.optional(S.Number),
       toolUsePromptTokenCount: S.optional(S.Number),
       candidatesTokenCount: S.optional(S.Number),
+      cacheTokensDetails: S.optional(GoogleCloudAiplatformV1beta1ModalityTokenCountList),
+      candidatesTokensDetails: S.optional(GoogleCloudAiplatformV1beta1ModalityTokenCountList),
+      totalTokenCount: S.optional(S.Number),
     }),
   ).annotate({
     identifier: "GoogleCloudAiplatformV1beta1GenerateContentResponseUsageMetadata",
@@ -3064,25 +3139,25 @@ export const GoogleCloudAiplatformV1beta1GenerateContentResponseUsageMetadata =
 export interface GoogleCloudAiplatformV1beta1GenerateContentResponse {
   /** Output only. Content filter results for a prompt sent in the request. Note: Sent only in the first stream chunk. Only happens when no candidates were generated due to content violations. */
   promptFeedback?: GoogleCloudAiplatformV1beta1GenerateContentResponsePromptFeedback;
-  /** Output only. Timestamp when the request is made to the server. */
-  createTime?: string;
-  /** Output only. The model version used to generate the response. */
-  modelVersion?: string;
   /** Output only. Generated candidates. */
   candidates?: GoogleCloudAiplatformV1beta1CandidateList;
-  /** Output only. response_id is used to identify each response. It is the encoding of the event_id. */
-  responseId?: string;
   /** Usage metadata about the response(s). */
   usageMetadata?: GoogleCloudAiplatformV1beta1GenerateContentResponseUsageMetadata;
+  /** Output only. The model version used to generate the response. */
+  modelVersion?: string;
+  /** Output only. response_id is used to identify each response. It is the encoding of the event_id. */
+  responseId?: string;
+  /** Output only. Timestamp when the request is made to the server. */
+  createTime?: string;
 }
 export const GoogleCloudAiplatformV1beta1GenerateContentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     promptFeedback: S.optional(GoogleCloudAiplatformV1beta1GenerateContentResponsePromptFeedback),
-    createTime: S.optional(S.String),
-    modelVersion: S.optional(S.String),
     candidates: S.optional(GoogleCloudAiplatformV1beta1CandidateList),
-    responseId: S.optional(S.String),
     usageMetadata: S.optional(GoogleCloudAiplatformV1beta1GenerateContentResponseUsageMetadata),
+    modelVersion: S.optional(S.String),
+    responseId: S.optional(S.String),
+    createTime: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudAiplatformV1beta1GenerateContentResponse",

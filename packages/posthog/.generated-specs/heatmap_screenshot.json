@@ -1,0 +1,152 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.heatmap_screenshot#GetHeatmapScreenshotSettingsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.heatmap_screenshot#HeatmapScreenshotSettings": {
+      "type": "structure",
+      "members": {
+        "allowed_hostnames": {
+          "target": "com.posthog.heatmap_screenshot#HeatmapScreenshotSettingsAllowedHostnamesList",
+          "traits": {
+            "smithy.api#documentation": "Exact DNS hostnames approved to receive the screenshot cookie. No URLs, wildcards, or IP addresses.",
+            "smithy.api#required": {}
+          }
+        },
+        "cookie_delivery_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this installation permits screenshot cookie delivery to its renderer.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_secret": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a screenshot bypass secret has been generated.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.heatmap_screenshot#HeatmapScreenshotSettingsAllowedHostnamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Exact DNS hostnames approved to receive the screenshot cookie. No URLs, wildcards, or IP addresses."
+      }
+    },
+    "com.posthog.heatmap_screenshot#GetHeatmapScreenshotSettings": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.heatmap_screenshot#GetHeatmapScreenshotSettingsRequest"
+      },
+      "output": {
+        "target": "com.posthog.heatmap_screenshot#HeatmapScreenshotSettings"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/heatmap_screenshot/settings/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.heatmap_screenshot#UpdateHeatmapScreenshotSettingsRequestAllowedHostnamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Exact DNS hostnames approved to receive the screenshot cookie. No URLs, wildcards, or IP addresses."
+      }
+    },
+    "com.posthog.heatmap_screenshot#UpdateHeatmapScreenshotSettingsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "allowed_hostnames": {
+          "target": "com.posthog.heatmap_screenshot#UpdateHeatmapScreenshotSettingsRequestAllowedHostnamesList",
+          "traits": {
+            "smithy.api#documentation": "Exact DNS hostnames approved to receive the screenshot cookie. No URLs, wildcards, or IP addresses."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.heatmap_screenshot#UpdateHeatmapScreenshotSettings": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.heatmap_screenshot#UpdateHeatmapScreenshotSettingsRequest"
+      },
+      "output": {
+        "target": "com.posthog.heatmap_screenshot#HeatmapScreenshotSettings"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/heatmap_screenshot/settings/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.heatmap_screenshot#HeatmapScreenshot": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.heatmap_screenshot#GetHeatmapScreenshotSettings"
+        },
+        {
+          "target": "com.posthog.heatmap_screenshot#UpdateHeatmapScreenshotSettings"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

@@ -201,14 +201,8 @@ export interface SourceS3Location {
   region?: S3BucketRegion;
 }
 export const SourceS3Location = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bucket: S.String,
-    key: S.String,
-    region: S.optional(S3BucketRegion),
-  }),
-).annotate({
-  identifier: "SourceS3Location",
-}) as any as S.Schema<SourceS3Location>;
+  S.Struct({ bucket: S.String, key: S.String, region: S.optional(S3BucketRegion) }),
+).annotate({ identifier: "SourceS3Location" }) as any as S.Schema<SourceS3Location>;
 export interface ImportApplicationUsageRequest {
   sourceS3Location: SourceS3Location;
 }
@@ -260,9 +254,7 @@ export const ReportDefinition = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "ReportDefinition",
-}) as any as S.Schema<ReportDefinition>;
+).annotate({ identifier: "ReportDefinition" }) as any as S.Schema<ReportDefinition>;
 export type ReportDefinitionList = ReportDefinition[];
 export const ReportDefinitionList = /*@__PURE__*/ S.Array(ReportDefinition);
 export interface ListReportDefinitionsResult {
