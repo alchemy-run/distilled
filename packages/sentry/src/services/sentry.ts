@@ -46,6 +46,10 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** Deprecated, use `orgRole`. The organization-level role to assign. * `member` - Member * `admin` - Admin * `manager` - Manager * `owner` - Owner */
+export type AddOrganizationMemberRequestRole = "member" | "admin" | "manager" | "owner";
+export const AddOrganizationMemberRequestRole = S.String;
+
 /** The organization-level role of the new member. Roles include: * `billing` - Can manage payment and compliance details. * `member` - Can view and act on events, as well as view most other data within the organization. * `manager` - Has full management access to all teams and projects. Can also manage the organization's membership. * `owner` - Has unrestricted access to the organization, its data, and its settings. Can add, modify, and delete projects and members, as well as make billing and plan changes. * `admin` - Can edit global integrations, manage projects, and add/remove teams. They automatically assume the Team Admin role for teams they join. Note: This role can no longer be assigned in Business and Enterprise plans. Use `TeamRoles` instead. */
 export type AddOrganizationMemberRequestOrgRole =
   | "billing"
@@ -55,9 +59,13 @@ export type AddOrganizationMemberRequestOrgRole =
   | "admin";
 export const AddOrganizationMemberRequestOrgRole = S.String;
 
-export type AddOrganizationMemberRequestTeamRolesItemMap = {
-  [key: string]: unknown | undefined;
-};
+/** Deprecated, use `teamRoles`. Slugs of teams to add the member to. */
+export type AddOrganizationMemberRequestTeamsList = Array<unknown>;
+export const AddOrganizationMemberRequestTeamsList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<AddOrganizationMemberRequestTeamsList>;
+
+export type AddOrganizationMemberRequestTeamRolesItemMap = { [key: string]: unknown | undefined };
 export const AddOrganizationMemberRequestTeamRolesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -75,23 +83,32 @@ export interface AddOrganizationMemberRequest {
   organization_id_or_slug: string;
   /** The email address to send the invitation to. */
   email: string;
+  /** Deprecated, use `orgRole`. The organization-level role to assign. * `member` - Member * `admin` - Admin * `manager` - Manager * `owner` - Owner */
+  role?: AddOrganizationMemberRequestRole | (string & {});
   /** The organization-level role of the new member. Roles include: * `billing` - Can manage payment and compliance details. * `member` - Can view and act on events, as well as view most other data within the organization. * `manager` - Has full management access to all teams and projects. Can also manage the organization's membership. * `owner` - Has unrestricted access to the organization, its data, and its settings. Can add, modify, and delete projects and members, as well as make billing and plan changes. * `admin` - Can edit global integrations, manage projects, and add/remove teams. They automatically assume the Team Admin role for teams they join. Note: This role can no longer be assigned in Business and Enterprise plans. Use `TeamRoles` instead. */
   orgRole?: AddOrganizationMemberRequestOrgRole | (string & {});
+  /** Deprecated, use `teamRoles`. Slugs of teams to add the member to. */
+  teams?: AddOrganizationMemberRequestTeamsList;
   /** The team and team-roles assigned to the member. Team roles can be either: - `contributor` - Can view and act on issues. Depending on organization settings, they can also add team members. - `admin` - Has full management access to their team's membership and projects. */
   teamRoles?: AddOrganizationMemberRequestTeamRolesList | null;
   /** Whether or not to send an invite notification through email. Defaults to True. */
   sendInvite?: boolean;
   /** Whether or not to re-invite a user who has already been invited to the organization. Defaults to True. */
   reinvite?: boolean;
+  /** Reissue the invite token, invalidating any previously sent invite link. */
+  regenerate?: boolean;
 }
 export const AddOrganizationMemberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organization_id_or_slug: S.String.pipe(T.Label()),
     email: S.String,
+    role: S.optional(AddOrganizationMemberRequestRole),
     orgRole: S.optional(AddOrganizationMemberRequestOrgRole),
+    teams: S.optional(AddOrganizationMemberRequestTeamsList),
     teamRoles: S.optional(S.NullOr(AddOrganizationMemberRequestTeamRolesList)),
     sendInvite: S.optional(S.Boolean),
     reinvite: S.optional(S.Boolean),
+    regenerate: S.optional(S.Boolean),
   }).pipe(
     T.Http({
       method: "POST",
@@ -364,9 +381,7 @@ export const AddOrganizationMemberTeamRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "AddOrganizationMemberTeamRequest",
 }) as any as S.Schema<AddOrganizationMemberTeamRequest>;
 
-export type AddOrganizationMemberTeamResponseFlagsMap = {
-  [key: string]: unknown | undefined;
-};
+export type AddOrganizationMemberTeamResponseFlagsMap = { [key: string]: unknown | undefined };
 export const AddOrganizationMemberTeamResponseFlagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -413,8 +428,8 @@ export const AddOrganizationMemberTeamResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "AddOrganizationMemberTeamResponse",
 }) as any as S.Schema<AddOrganizationMemberTeamResponse>;
 
-/** The type of the source. * `http` - SymbolServer (HTTP) * `gcs` - Google Cloud Storage * `s3` - Amazon S3 */
-export type AddProjectSymbolSourceRequestType = "http" | "gcs" | "s3";
+/** The type of the source. * `http` - SymbolServer (HTTP) * `gcs` - Google Cloud Storage * `s3` - Amazon S3 * `azure` - Azure Blob Storage */
+export type AddProjectSymbolSourceRequestType = "http" | "gcs" | "s3" | "azure";
 export const AddProjectSymbolSourceRequestType = S.String;
 
 /** The source's layout type. * `native` * `symstore` * `symstore_index2` * `ssqp` * `unified` * `debuginfod` * `slashsymbols` */
@@ -531,7 +546,7 @@ export interface AddProjectSymbolSourceRequest {
   organization_id_or_slug: string;
   /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
   project_id_or_slug: string;
-  /** The type of the source. * `http` - SymbolServer (HTTP) * `gcs` - Google Cloud Storage * `s3` - Amazon S3 */
+  /** The type of the source. * `http` - SymbolServer (HTTP) * `gcs` - Google Cloud Storage * `s3` - Amazon S3 * `azure` - Azure Blob Storage */
   type: AddProjectSymbolSourceRequestType | (string & {});
   /** The human-readable name of the source. */
   name: string;
@@ -555,12 +570,22 @@ export interface AddProjectSymbolSourceRequest {
   access_key?: string;
   /** The [AWS Secret Access Key](https://docs.aws.amazon.com/IAM/latest/UserGuide/security-creds.html#access-keys-and-secret-access-keys).Required for S3 sources, invalid for all others. */
   secret_key?: string | Redacted.Redacted<string>;
-  /** The GCS or [S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html) prefix. Optional for GCS and S3 sourcse, invalid for HTTP. */
+  /** The GCS, Azure or [S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html) prefix. Optional for GCS, Azure and S3 sources, invalid for HTTP. */
   prefix?: string;
   /** The GCS email address for authentication. Required for GCS sources, invalid for all others. */
   client_email?: string;
   /** The GCS private key. Required for GCS sources if not using impersonated tokens. Invalid for all others. */
   private_key?: string | Redacted.Redacted<string>;
+  /** The Azure storage account name. Required for Azure sources, invalid for all others. */
+  account?: string;
+  /** The Azure blob container name. Required for Azure sources, invalid for all others. */
+  container?: string;
+  /** The Microsoft Entra tenant ID. Required for Azure sources, invalid for all others. */
+  tenant_id?: string;
+  /** The Microsoft Entra application (client) ID. Required for Azure sources, invalid for all others. */
+  client_id?: string;
+  /** The Microsoft Entra client secret. Required for Azure sources, invalid for all others. */
+  client_secret?: string | Redacted.Redacted<string>;
 }
 export const AddProjectSymbolSourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -581,6 +606,11 @@ export const AddProjectSymbolSourceRequest = /*@__PURE__*/ S.suspend(() =>
     prefix: S.optional(S.String),
     client_email: S.optional(S.String),
     private_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
+    account: S.optional(S.String),
+    container: S.optional(S.String),
+    tenant_id: S.optional(S.String),
+    client_id: S.optional(S.String),
+    client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -958,11 +988,135 @@ export const AddProjectSymbolSourceResponseBodyCase2 = /*@__PURE__*/ S.suspend((
   identifier: "AddProjectSymbolSourceResponseBodyCase2",
 }) as any as S.Schema<AddProjectSymbolSourceResponseBodyCase2>;
 
-export type AddProjectSymbolSourceResponseBodyCase3Type = "appStoreConnect";
+export type AddProjectSymbolSourceResponseBodyCase3Type = "azure";
 export const AddProjectSymbolSourceResponseBodyCase3Type = S.String;
+
+export type AddProjectSymbolSourceResponseBodyCase3ClientSecret =
+  AddProjectSymbolSourceResponseBodyCase0Password;
+export const AddProjectSymbolSourceResponseBodyCase3ClientSecret =
+  AddProjectSymbolSourceResponseBodyCase0Password;
+
+export type AddProjectSymbolSourceResponseBodyCase3LayoutType =
+  | "native"
+  | "symstore"
+  | "symstore_index2"
+  | "ssqp"
+  | "unified"
+  | "debuginfod"
+  | "slashsymbols";
+export const AddProjectSymbolSourceResponseBodyCase3LayoutType = S.String;
+
+export type AddProjectSymbolSourceResponseBodyCase3LayoutCasing =
+  | "lowercase"
+  | "uppercase"
+  | "default";
+export const AddProjectSymbolSourceResponseBodyCase3LayoutCasing = S.String;
+
+export interface AddProjectSymbolSourceResponseBodyCase3Layout {
+  type: AddProjectSymbolSourceResponseBodyCase3LayoutType;
+  casing?: AddProjectSymbolSourceResponseBodyCase3LayoutCasing;
+}
+export const AddProjectSymbolSourceResponseBodyCase3Layout = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: AddProjectSymbolSourceResponseBodyCase3LayoutType,
+    casing: S.optional(AddProjectSymbolSourceResponseBodyCase3LayoutCasing),
+  }),
+).annotate({
+  identifier: "AddProjectSymbolSourceResponseBodyCase3Layout",
+}) as any as S.Schema<AddProjectSymbolSourceResponseBodyCase3Layout>;
+
+export type AddProjectSymbolSourceResponseBodyCase3FiltersFiletypesItem =
+  | "pe"
+  | "pdb"
+  | "portablepdb"
+  | "mach_debug"
+  | "mach_code"
+  | "elf_debug"
+  | "elf_code"
+  | "wasm_debug"
+  | "wasm_code"
+  | "breakpad"
+  | "sourcebundle"
+  | "uuidmap"
+  | "bcsymbolmap"
+  | "il2cpp"
+  | "proguard"
+  | "dartsymbolmap";
+export const AddProjectSymbolSourceResponseBodyCase3FiltersFiletypesItem = S.String;
+
+export type AddProjectSymbolSourceResponseBodyCase3FiltersFiletypesList =
+  Array<AddProjectSymbolSourceResponseBodyCase3FiltersFiletypesItem>;
+export const AddProjectSymbolSourceResponseBodyCase3FiltersFiletypesList = /*@__PURE__*/ S.Array(
+  AddProjectSymbolSourceResponseBodyCase3FiltersFiletypesItem,
+) as any as S.Schema<AddProjectSymbolSourceResponseBodyCase3FiltersFiletypesList>;
+
+export type AddProjectSymbolSourceResponseBodyCase3FiltersPathPatternsList = Array<string>;
+export const AddProjectSymbolSourceResponseBodyCase3FiltersPathPatternsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AddProjectSymbolSourceResponseBodyCase3FiltersPathPatternsList>;
+
+export interface AddProjectSymbolSourceResponseBodyCase3Filters {
+  filetypes?: AddProjectSymbolSourceResponseBodyCase3FiltersFiletypesList;
+  path_patterns?: AddProjectSymbolSourceResponseBodyCase3FiltersPathPatternsList;
+  requires_checksum?: boolean;
+}
+export const AddProjectSymbolSourceResponseBodyCase3Filters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    filetypes: S.optional(AddProjectSymbolSourceResponseBodyCase3FiltersFiletypesList),
+    path_patterns: S.optional(AddProjectSymbolSourceResponseBodyCase3FiltersPathPatternsList),
+    requires_checksum: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "AddProjectSymbolSourceResponseBodyCase3Filters",
+}) as any as S.Schema<AddProjectSymbolSourceResponseBodyCase3Filters>;
+
+export type AddProjectSymbolSourceResponseBodyCase3PlatformsList = Array<string>;
+export const AddProjectSymbolSourceResponseBodyCase3PlatformsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AddProjectSymbolSourceResponseBodyCase3PlatformsList>;
 
 export interface AddProjectSymbolSourceResponseBodyCase3 {
   type: AddProjectSymbolSourceResponseBodyCase3Type;
+  account: string;
+  container: string;
+  tenant_id: string;
+  client_id: string;
+  client_secret: AddProjectSymbolSourceResponseBodyCase0Password;
+  prefix?: string;
+  id: string;
+  name?: string;
+  layout: AddProjectSymbolSourceResponseBodyCase3Layout;
+  filters?: AddProjectSymbolSourceResponseBodyCase3Filters;
+  is_public?: boolean;
+  has_index?: boolean;
+  platforms?: AddProjectSymbolSourceResponseBodyCase3PlatformsList;
+}
+export const AddProjectSymbolSourceResponseBodyCase3 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: AddProjectSymbolSourceResponseBodyCase3Type,
+    account: S.String,
+    container: S.String,
+    tenant_id: S.String,
+    client_id: S.String,
+    client_secret: AddProjectSymbolSourceResponseBodyCase0Password,
+    prefix: S.optional(S.String),
+    id: S.String,
+    name: S.optional(S.String),
+    layout: AddProjectSymbolSourceResponseBodyCase3Layout,
+    filters: S.optional(AddProjectSymbolSourceResponseBodyCase3Filters),
+    is_public: S.optional(S.Boolean),
+    has_index: S.optional(S.Boolean),
+    platforms: S.optional(AddProjectSymbolSourceResponseBodyCase3PlatformsList),
+  }),
+).annotate({
+  identifier: "AddProjectSymbolSourceResponseBodyCase3",
+}) as any as S.Schema<AddProjectSymbolSourceResponseBodyCase3>;
+
+export type AddProjectSymbolSourceResponseBodyCase4Type = "appStoreConnect";
+export const AddProjectSymbolSourceResponseBodyCase4Type = S.String;
+
+export interface AddProjectSymbolSourceResponseBodyCase4 {
+  type: AddProjectSymbolSourceResponseBodyCase4Type;
   id: string;
   name: string;
   appconnectIssuer: string;
@@ -972,9 +1126,9 @@ export interface AddProjectSymbolSourceResponseBodyCase3 {
   appId: string;
   bundleId: string;
 }
-export const AddProjectSymbolSourceResponseBodyCase3 = /*@__PURE__*/ S.suspend(() =>
+export const AddProjectSymbolSourceResponseBodyCase4 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: AddProjectSymbolSourceResponseBodyCase3Type,
+    type: AddProjectSymbolSourceResponseBodyCase4Type,
     id: S.String,
     name: S.String,
     appconnectIssuer: S.String,
@@ -985,14 +1139,15 @@ export const AddProjectSymbolSourceResponseBodyCase3 = /*@__PURE__*/ S.suspend((
     bundleId: S.String,
   }),
 ).annotate({
-  identifier: "AddProjectSymbolSourceResponseBodyCase3",
-}) as any as S.Schema<AddProjectSymbolSourceResponseBodyCase3>;
+  identifier: "AddProjectSymbolSourceResponseBodyCase4",
+}) as any as S.Schema<AddProjectSymbolSourceResponseBodyCase4>;
 
 export type AddProjectSymbolSourceResponseBody =
   | AddProjectSymbolSourceResponseBodyCase0
   | AddProjectSymbolSourceResponseBodyCase1
   | AddProjectSymbolSourceResponseBodyCase2
-  | AddProjectSymbolSourceResponseBodyCase3;
+  | AddProjectSymbolSourceResponseBodyCase3
+  | AddProjectSymbolSourceResponseBodyCase4;
 export const AddProjectSymbolSourceResponseBody =
   S.Unknown as any as S.Schema<AddProjectSymbolSourceResponseBody>;
 
@@ -1023,9 +1178,7 @@ export const AddProjectTeamRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "AddProjectTeamRequest",
-}) as any as S.Schema<AddProjectTeamRequest>;
+).annotate({ identifier: "AddProjectTeamRequest" }) as any as S.Schema<AddProjectTeamRequest>;
 
 export type AddProjectTeamResponseFeaturesList = Array<string>;
 export const AddProjectTeamResponseFeaturesList = /*@__PURE__*/ S.Array(
@@ -1152,9 +1305,7 @@ export const AddProjectTeamResponse = /*@__PURE__*/ S.suspend(() =>
     team: S.optional(AddProjectTeamResponseTeam),
     teams: AddProjectTeamResponseTeamsList,
   }),
-).annotate({
-  identifier: "AddProjectTeamResponse",
-}) as any as S.Schema<AddProjectTeamResponse>;
+).annotate({ identifier: "AddProjectTeamResponse" }) as any as S.Schema<AddProjectTeamResponse>;
 
 /** Additional details about the resolution. Valid values are `"inRelease"`, `"inNextRelease"`, `"inCommit"`, `"ignoreDuration"`, `"ignoreCount"`, `"ignoreWindow"`, `"ignoreUserCount"`, and `"ignoreUserWindow"`. */
 export interface BulkMutateAListOfIssuesRequestStatusDetails {
@@ -1274,9 +1425,7 @@ export const BulkRemoveAListOfIssuesRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface BulkRemoveAListOfIssuesResponse {}
 export const BulkRemoveAListOfIssuesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "BulkRemoveAListOfIssuesResponse",
-  },
+  { identifier: "BulkRemoveAListOfIssuesResponse" },
 ) as any as S.Schema<BulkRemoveAListOfIssuesResponse>;
 
 /** List of environment names to update. Maximum 1000. */
@@ -1339,6 +1488,158 @@ export const BulkUpdateProjectEnvironmentsResponse = /*@__PURE__*/ S.suspend(() 
 ).annotate({
   identifier: "BulkUpdateProjectEnvironmentsResponse",
 }) as any as S.Schema<BulkUpdateProjectEnvironmentsResponse>;
+
+/** The data the filter matches against. `all` is the catch-all: it filters every data type Sentry ingests, including ones added later, and accepts only the conditions that every data type carries a field for. * `all` * `error` * `log` * `metric` * `span` */
+export type CreateACustomInboundFilterRequestDataType = "all" | "error" | "log" | "metric" | "span";
+export const CreateACustomInboundFilterRequestDataType = S.String;
+
+/** The field the condition matches against. Every `dataType` accepts `release` and `ip_address`. In addition, `error` accepts `error_type` and `error_message`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `ip_address` */
+export type CreateACustomInboundFilterRequestConditionsItemType =
+  | "error_type"
+  | "error_message"
+  | "log_message"
+  | "metric_name"
+  | "release"
+  | "ip_address";
+export const CreateACustomInboundFilterRequestConditionsItemType = S.String;
+
+/** Glob patterns the field is matched against. The condition matches when any pattern matches, so multiple values act as OR. */
+export type CreateACustomInboundFilterRequestConditionsItemValueList = Array<string>;
+export const CreateACustomInboundFilterRequestConditionsItemValueList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateACustomInboundFilterRequestConditionsItemValueList>;
+
+export interface CreateACustomInboundFilterRequestConditionsItem {
+  /** The field the condition matches against. Every `dataType` accepts `release` and `ip_address`. In addition, `error` accepts `error_type` and `error_message`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `ip_address` */
+  type: CreateACustomInboundFilterRequestConditionsItemType | (string & {});
+  /** Glob patterns the field is matched against. The condition matches when any pattern matches, so multiple values act as OR. */
+  value: CreateACustomInboundFilterRequestConditionsItemValueList;
+}
+export const CreateACustomInboundFilterRequestConditionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: CreateACustomInboundFilterRequestConditionsItemType,
+    value: CreateACustomInboundFilterRequestConditionsItemValueList,
+  }),
+).annotate({
+  identifier: "CreateACustomInboundFilterRequestConditionsItem",
+}) as any as S.Schema<CreateACustomInboundFilterRequestConditionsItem>;
+
+/** Conditions are combined with AND: an event must match every condition to be filtered out. There is no OR between conditions, so e.g. two release conditions can express a range (`>2 AND <4`). To broaden matching, widen a condition's values or add separate filters. */
+export type CreateACustomInboundFilterRequestConditionsList =
+  Array<CreateACustomInboundFilterRequestConditionsItem>;
+export const CreateACustomInboundFilterRequestConditionsList = /*@__PURE__*/ S.Array(
+  CreateACustomInboundFilterRequestConditionsItem,
+) as any as S.Schema<CreateACustomInboundFilterRequestConditionsList>;
+
+export interface CreateACustomInboundFilterRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
+  project_id_or_slug: string;
+  /** The data the filter matches against. `all` is the catch-all: it filters every data type Sentry ingests, including ones added later, and accepts only the conditions that every data type carries a field for. * `all` * `error` * `log` * `metric` * `span` */
+  dataType: CreateACustomInboundFilterRequestDataType | (string & {});
+  /** Conditions are combined with AND: an event must match every condition to be filtered out. There is no OR between conditions, so e.g. two release conditions can express a range (`>2 AND <4`). To broaden matching, widen a condition's values or add separate filters. */
+  conditions: CreateACustomInboundFilterRequestConditionsList;
+  /** A human-readable label for the filter. */
+  name?: string | null;
+  /** Whether the filter drops matching data. An inactive filter is kept but ignored. */
+  active?: boolean;
+}
+export const CreateACustomInboundFilterRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id_or_slug: S.String.pipe(T.Label()),
+    project_id_or_slug: S.String.pipe(T.Label()),
+    dataType: CreateACustomInboundFilterRequestDataType,
+    conditions: CreateACustomInboundFilterRequestConditionsList,
+    name: S.optional(S.NullOr(S.String)),
+    active: S.optional(S.Boolean),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/0/projects/{organization_id_or_slug}/{project_id_or_slug}/custom-inbound-filters/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateACustomInboundFilterRequest",
+}) as any as S.Schema<CreateACustomInboundFilterRequest>;
+
+/** The data the filter matches against. `all` is the catch-all: it filters every data type Sentry ingests, including ones added later, and accepts only the conditions that every data type carries a field for. * `all` * `error` * `log` * `metric` * `span` */
+export type CreateACustomInboundFilterResponseDataType =
+  | "all"
+  | "error"
+  | "log"
+  | "metric"
+  | "span";
+export const CreateACustomInboundFilterResponseDataType = S.String;
+
+/** The field the condition matches against. Every `dataType` accepts `release` and `ip_address`. In addition, `error` accepts `error_type` and `error_message`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `ip_address` */
+export type CreateACustomInboundFilterResponseConditionsItemType =
+  | "error_type"
+  | "error_message"
+  | "log_message"
+  | "metric_name"
+  | "release"
+  | "ip_address";
+export const CreateACustomInboundFilterResponseConditionsItemType = S.String;
+
+/** Glob patterns the field is matched against. The condition matches when any pattern matches, so multiple values act as OR. */
+export type CreateACustomInboundFilterResponseConditionsItemValueList = Array<string>;
+export const CreateACustomInboundFilterResponseConditionsItemValueList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateACustomInboundFilterResponseConditionsItemValueList>;
+
+export interface CreateACustomInboundFilterResponseConditionsItem {
+  /** The field the condition matches against. Every `dataType` accepts `release` and `ip_address`. In addition, `error` accepts `error_type` and `error_message`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `ip_address` */
+  type: CreateACustomInboundFilterResponseConditionsItemType;
+  /** Glob patterns the field is matched against. The condition matches when any pattern matches, so multiple values act as OR. */
+  value: CreateACustomInboundFilterResponseConditionsItemValueList;
+}
+export const CreateACustomInboundFilterResponseConditionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: CreateACustomInboundFilterResponseConditionsItemType,
+    value: CreateACustomInboundFilterResponseConditionsItemValueList,
+  }),
+).annotate({
+  identifier: "CreateACustomInboundFilterResponseConditionsItem",
+}) as any as S.Schema<CreateACustomInboundFilterResponseConditionsItem>;
+
+/** Conditions are combined with AND: an event must match every condition to be filtered out. There is no OR between conditions, so e.g. two release conditions can express a range (`>2 AND <4`). To broaden matching, widen a condition's values or add separate filters. */
+export type CreateACustomInboundFilterResponseConditionsList =
+  Array<CreateACustomInboundFilterResponseConditionsItem>;
+export const CreateACustomInboundFilterResponseConditionsList = /*@__PURE__*/ S.Array(
+  CreateACustomInboundFilterResponseConditionsItem,
+) as any as S.Schema<CreateACustomInboundFilterResponseConditionsList>;
+
+export interface CreateACustomInboundFilterResponse {
+  /** The ID of the filter. */
+  id: string;
+  /** The data the filter matches against. `all` is the catch-all: it filters every data type Sentry ingests, including ones added later, and accepts only the conditions that every data type carries a field for. * `all` * `error` * `log` * `metric` * `span` */
+  dataType: CreateACustomInboundFilterResponseDataType;
+  /** Conditions are combined with AND: an event must match every condition to be filtered out. There is no OR between conditions, so e.g. two release conditions can express a range (`>2 AND <4`). To broaden matching, widen a condition's values or add separate filters. */
+  conditions: CreateACustomInboundFilterResponseConditionsList;
+  /** When the filter was created. */
+  dateCreated: string;
+  /** When the filter was last changed. */
+  dateUpdated: string;
+  /** A human-readable label for the filter. */
+  name?: string | null;
+  /** Whether the filter drops matching data. An inactive filter is kept but ignored. */
+  active?: boolean;
+}
+export const CreateACustomInboundFilterResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    dataType: CreateACustomInboundFilterResponseDataType,
+    conditions: CreateACustomInboundFilterResponseConditionsList,
+    dateCreated: S.String,
+    dateUpdated: S.String,
+    name: S.optional(S.NullOr(S.String)),
+    active: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "CreateACustomInboundFilterResponse",
+}) as any as S.Schema<CreateACustomInboundFilterResponse>;
 
 export interface CreateAnExternalIssueAndLinkItToAnIssueRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -1631,9 +1932,7 @@ export const CreateOrganizationDashboardRequestEnvironmentList = /*@__PURE__*/ S
 ) as any as S.Schema<CreateOrganizationDashboardRequestEnvironmentList>;
 
 /** The saved filters for this dashboard. */
-export type CreateOrganizationDashboardRequestFiltersMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateOrganizationDashboardRequestFiltersMap = { [key: string]: unknown | undefined };
 export const CreateOrganizationDashboardRequestFiltersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1835,6 +2134,7 @@ export const CreateOrganizationDashboardResponseWidgetsItemThresholdsMaxValuesMa
 
 export interface CreateOrganizationDashboardResponseWidgetsItemThresholds {
   preferredPolarity?: string;
+  timeWindow?: string;
   max_values: CreateOrganizationDashboardResponseWidgetsItemThresholdsMaxValuesMap;
   unit: string;
 }
@@ -1842,6 +2142,7 @@ export const CreateOrganizationDashboardResponseWidgetsItemThresholds = /*@__PUR
   () =>
     S.Struct({
       preferredPolarity: S.optional(S.String),
+      timeWindow: S.optional(S.String),
       max_values: CreateOrganizationDashboardResponseWidgetsItemThresholdsMaxValuesMap,
       unit: S.String,
     }),
@@ -2229,11 +2530,48 @@ export const CreateOrganizationDiscoverSavedQueryRequestFieldsList = /*@__PURE__
   S.String,
 ) as any as S.Schema<CreateOrganizationDiscoverSavedQueryRequestFieldsList>;
 
+export type CreateOrganizationDiscoverSavedQueryRequestAggregationsItemList = Array<unknown>;
+export const CreateOrganizationDiscoverSavedQueryRequestAggregationsItemList =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<CreateOrganizationDiscoverSavedQueryRequestAggregationsItemList>;
+
+/** Aggregate functions to apply, each as a `[function, column, alias]` triple. */
+export type CreateOrganizationDiscoverSavedQueryRequestAggregationsList =
+  Array<CreateOrganizationDiscoverSavedQueryRequestAggregationsItemList>;
+export const CreateOrganizationDiscoverSavedQueryRequestAggregationsList = /*@__PURE__*/ S.Array(
+  CreateOrganizationDiscoverSavedQueryRequestAggregationsItemList,
+) as any as S.Schema<CreateOrganizationDiscoverSavedQueryRequestAggregationsList>;
+
+/** Columns to group results by. */
+export type CreateOrganizationDiscoverSavedQueryRequestGroupbyList = Array<string>;
+export const CreateOrganizationDiscoverSavedQueryRequestGroupbyList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateOrganizationDiscoverSavedQueryRequestGroupbyList>;
+
+export type CreateOrganizationDiscoverSavedQueryRequestConditionsItemList = Array<unknown>;
+export const CreateOrganizationDiscoverSavedQueryRequestConditionsItemList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<CreateOrganizationDiscoverSavedQueryRequestConditionsItemList>;
+
+/** Filter conditions, each as a `[column, operator, value]` triple. */
+export type CreateOrganizationDiscoverSavedQueryRequestConditionsList =
+  Array<CreateOrganizationDiscoverSavedQueryRequestConditionsItemList>;
+export const CreateOrganizationDiscoverSavedQueryRequestConditionsList = /*@__PURE__*/ S.Array(
+  CreateOrganizationDiscoverSavedQueryRequestConditionsItemList,
+) as any as S.Schema<CreateOrganizationDiscoverSavedQueryRequestConditionsList>;
+
 /** The name of environments to filter by. */
 export type CreateOrganizationDiscoverSavedQueryRequestEnvironmentList = Array<string>;
 export const CreateOrganizationDiscoverSavedQueryRequestEnvironmentList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<CreateOrganizationDiscoverSavedQueryRequestEnvironmentList>;
+
+/** Rendered column widths, in the same order as the query's fields. */
+export type CreateOrganizationDiscoverSavedQueryRequestWidthsList = Array<string>;
+export const CreateOrganizationDiscoverSavedQueryRequestWidthsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateOrganizationDiscoverSavedQueryRequestWidthsList>;
 
 /** Aggregate functions to be plotted on the chart. */
 export type CreateOrganizationDiscoverSavedQueryRequestYAxisList = Array<string>;
@@ -2260,10 +2598,24 @@ export interface CreateOrganizationDiscoverSavedQueryRequest {
   fields?: CreateOrganizationDiscoverSavedQueryRequestFieldsList | null;
   /** How to order the query results. Must be something in the `field` list, excluding equations. */
   orderby?: string | null;
+  /** Time-bucket granularity in seconds for the saved query. */
+  rollup?: number | null;
+  /** Aggregate functions to apply, each as a `[function, column, alias]` triple. */
+  aggregations?: CreateOrganizationDiscoverSavedQueryRequestAggregationsList | null;
+  /** Columns to group results by. */
+  groupby?: CreateOrganizationDiscoverSavedQueryRequestGroupbyList | null;
+  /** Filter conditions, each as a `[column, operator, value]` triple. */
+  conditions?: CreateOrganizationDiscoverSavedQueryRequestConditionsList | null;
+  /** Maximum number of rows to return, from `0` to `1000`. */
+  limit?: number | null;
+  /** Saved query schema version. `1` for the legacy shape, `2` for the current one. */
+  version?: number | null;
   /** The name of environments to filter by. */
   environment?: CreateOrganizationDiscoverSavedQueryRequestEnvironmentList | null;
   /** Filters results by using [query syntax](/product/sentry-basics/search/). */
   query?: string | null;
+  /** Rendered column widths, in the same order as the query's fields. */
+  widths?: CreateOrganizationDiscoverSavedQueryRequestWidthsList | null;
   /** Aggregate functions to be plotted on the chart. */
   yAxis?: CreateOrganizationDiscoverSavedQueryRequestYAxisList | null;
   /** Visualization type for saved query chart. Allowed values are: - default - previous - top5 - daily - dailytop5 - bar */
@@ -2284,8 +2636,15 @@ export const CreateOrganizationDiscoverSavedQueryRequest = /*@__PURE__*/ S.suspe
     range: S.optional(S.NullOr(S.String)),
     fields: S.optional(S.NullOr(CreateOrganizationDiscoverSavedQueryRequestFieldsList)),
     orderby: S.optional(S.NullOr(S.String)),
+    rollup: S.optional(S.NullOr(S.Number)),
+    aggregations: S.optional(S.NullOr(CreateOrganizationDiscoverSavedQueryRequestAggregationsList)),
+    groupby: S.optional(S.NullOr(CreateOrganizationDiscoverSavedQueryRequestGroupbyList)),
+    conditions: S.optional(S.NullOr(CreateOrganizationDiscoverSavedQueryRequestConditionsList)),
+    limit: S.optional(S.NullOr(S.Number)),
+    version: S.optional(S.NullOr(S.Number)),
     environment: S.optional(S.NullOr(CreateOrganizationDiscoverSavedQueryRequestEnvironmentList)),
     query: S.optional(S.NullOr(S.String)),
+    widths: S.optional(S.NullOr(CreateOrganizationDiscoverSavedQueryRequestWidthsList)),
     yAxis: S.optional(S.NullOr(CreateOrganizationDiscoverSavedQueryRequestYAxisList)),
     display: S.optional(S.NullOr(S.String)),
     topEvents: S.optional(S.NullOr(S.Number)),
@@ -2469,6 +2828,9 @@ export interface CreateOrganizationDiscoverSavedQueryResponse {
   topEvents?: number;
   interval?: string;
   exploreQuery?: CreateOrganizationDiscoverSavedQueryResponseExploreQueryMap;
+  lastVisited?: string;
+  starred?: boolean;
+  position?: number | null;
   id: string;
   name: string;
   projects: CreateOrganizationDiscoverSavedQueryResponseProjectsList;
@@ -2498,6 +2860,9 @@ export const CreateOrganizationDiscoverSavedQueryResponse = /*@__PURE__*/ S.susp
     topEvents: S.optional(S.Number),
     interval: S.optional(S.String),
     exploreQuery: S.optional(CreateOrganizationDiscoverSavedQueryResponseExploreQueryMap),
+    lastVisited: S.optional(S.String),
+    starred: S.optional(S.Boolean),
+    position: S.optional(S.NullOr(S.Number)),
     id: S.String,
     name: S.String,
     projects: CreateOrganizationDiscoverSavedQueryResponseProjectsList,
@@ -2513,7 +2878,7 @@ export const CreateOrganizationDiscoverSavedQueryResponse = /*@__PURE__*/ S.susp
   identifier: "CreateOrganizationDiscoverSavedQueryResponse",
 }) as any as S.Schema<CreateOrganizationDiscoverSavedQueryResponse>;
 
-/** The provider of the external actor. * `github` * `github_enterprise` * `jira_server` * `slack` * `slack_staging` * `perforce` * `gitlab` * `msteams` * `custom_scm` */
+/** The provider of the external actor. * `github` * `github_enterprise` * `jira_server` * `slack` * `slack_staging` * `perforce` * `gitlab` * `cursor_origin` * `msteams` * `custom_scm` */
 export type CreateOrganizationExternalUserRequestProvider =
   | "github"
   | "github_enterprise"
@@ -2522,6 +2887,7 @@ export type CreateOrganizationExternalUserRequestProvider =
   | "slack_staging"
   | "perforce"
   | "gitlab"
+  | "cursor_origin"
   | "msteams"
   | "custom_scm";
 export const CreateOrganizationExternalUserRequestProvider = S.String;
@@ -2533,7 +2899,7 @@ export interface CreateOrganizationExternalUserRequest {
   user_id: number;
   /** The associated name for the provider. */
   external_name: string;
-  /** The provider of the external actor. * `github` * `github_enterprise` * `jira_server` * `slack` * `slack_staging` * `perforce` * `gitlab` * `msteams` * `custom_scm` */
+  /** The provider of the external actor. * `github` * `github_enterprise` * `jira_server` * `slack` * `slack_staging` * `perforce` * `gitlab` * `cursor_origin` * `msteams` * `custom_scm` */
   provider: CreateOrganizationExternalUserRequestProvider | (string & {});
   /** The Integration ID. */
   integration_id: number;
@@ -2587,9 +2953,7 @@ export type CreateOrganizationForwardingRequestProvider = "segment" | "sqs" | "s
 export const CreateOrganizationForwardingRequestProvider = S.String;
 
 /** The configuration for the data forwarder, specific to the provider type. For a 'sqs' provider, the required keys are queue_url, region, access_key, secret_key. If using a FIFO queue, you must also provide a message_group_id, though s3_bucket is optional. For a 'segment' provider, the required keys are write_key. For a 'splunk' provider, the required keys are instance_url, index, source, token. */
-export type CreateOrganizationForwardingRequestConfigMap = {
-  [key: string]: string | undefined;
-};
+export type CreateOrganizationForwardingRequestConfigMap = { [key: string]: string | undefined };
 export const CreateOrganizationForwardingRequestConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2659,9 +3023,7 @@ export const CreateOrganizationForwardingResponseEnrolledProjectsList = /*@__PUR
   CreateOrganizationForwardingResponseEnrolledProjectsItem,
 ) as any as S.Schema<CreateOrganizationForwardingResponseEnrolledProjectsList>;
 
-export type CreateOrganizationForwardingResponseConfigMap = {
-  [key: string]: string | undefined;
-};
+export type CreateOrganizationForwardingResponseConfigMap = { [key: string]: string | undefined };
 export const CreateOrganizationForwardingResponseConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2749,6 +3111,262 @@ export const CreateOrganizationForwardingResponse = /*@__PURE__*/ S.suspend(() =
 ).annotate({
   identifier: "CreateOrganizationForwardingResponse",
 }) as any as S.Schema<CreateOrganizationForwardingResponse>;
+
+/** The project IDs included in the view. Use `-1` to include all projects. */
+export type CreateOrganizationIssueViewRequestProjectsList = Array<number>;
+export const CreateOrganizationIssueViewRequestProjectsList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<CreateOrganizationIssueViewRequestProjectsList>;
+
+/** The environment names included in the view. An empty list includes all environments. */
+export type CreateOrganizationIssueViewRequestEnvironmentsList = Array<string>;
+export const CreateOrganizationIssueViewRequestEnvironmentsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateOrganizationIssueViewRequestEnvironmentsList>;
+
+export interface CreateOrganizationIssueViewRequestTimeFilters {
+  /** The start of the time range in ISO-8601 format. */
+  start?: string | null;
+  /** The end of the time range in ISO-8601 format. */
+  end?: string | null;
+  /** The relative time period, such as `14d`. */
+  period?: string | null;
+  /** Whether to interpret the time range as UTC. */
+  utc?: boolean | null;
+}
+export const CreateOrganizationIssueViewRequestTimeFilters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    start: S.optional(S.NullOr(S.String)),
+    end: S.optional(S.NullOr(S.String)),
+    period: S.optional(S.NullOr(S.String)),
+    utc: S.optional(S.NullOr(S.Boolean)),
+  }),
+).annotate({
+  identifier: "CreateOrganizationIssueViewRequestTimeFilters",
+}) as any as S.Schema<CreateOrganizationIssueViewRequestTimeFilters>;
+
+/** How to sort issues in the view. * `date` - Last Seen * `new` - First Seen * `trends` - Trends * `freq` - Events * `user` - Users * `inbox` - Date Added * `recommended` - Recommended */
+export type CreateOrganizationIssueViewRequestQuerySort =
+  | "date"
+  | "new"
+  | "trends"
+  | "freq"
+  | "user"
+  | "inbox"
+  | "recommended";
+export const CreateOrganizationIssueViewRequestQuerySort = S.String;
+
+export interface CreateOrganizationIssueViewRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** The name of the issue view. */
+  name: string;
+  /** The issue search query. Issue search does not support the `AND`/`OR` boolean operators or parenthesized boolean groups. To match any of several values, use the list form instead: `issue:[PROJ-AB1, PROJ-CD2]`, `issue.priority:[high, medium]`. */
+  query: string;
+  /** The project IDs included in the view. Use `-1` to include all projects. */
+  projects: CreateOrganizationIssueViewRequestProjectsList;
+  /** The environment names included in the view. An empty list includes all environments. */
+  environments: CreateOrganizationIssueViewRequestEnvironmentsList;
+  /** The time range for the view. */
+  timeFilters: CreateOrganizationIssueViewRequestTimeFilters;
+  /** How to sort issues in the view. * `date` - Last Seen * `new` - First Seen * `trends` - Trends * `freq` - Events * `user` - Users * `inbox` - Date Added * `recommended` - Recommended */
+  querySort?: CreateOrganizationIssueViewRequestQuerySort | (string & {});
+  /** Whether to star the issue view for the current user. */
+  starred?: boolean;
+}
+export const CreateOrganizationIssueViewRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id_or_slug: S.String.pipe(T.Label()),
+    name: S.String,
+    query: S.String,
+    projects: CreateOrganizationIssueViewRequestProjectsList,
+    environments: CreateOrganizationIssueViewRequestEnvironmentsList,
+    timeFilters: CreateOrganizationIssueViewRequestTimeFilters,
+    querySort: S.optional(CreateOrganizationIssueViewRequestQuerySort),
+    starred: S.optional(S.Boolean),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/0/organizations/{organization_id_or_slug}/group-search-views/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateOrganizationIssueViewRequest",
+}) as any as S.Schema<CreateOrganizationIssueViewRequest>;
+
+export type CreateOrganizationIssueViewResponseCreatedByIdentitiesItemOrganization =
+  AddOrganizationMemberResponseUserIdentitiesItemOrganization;
+export const CreateOrganizationIssueViewResponseCreatedByIdentitiesItemOrganization =
+  AddOrganizationMemberResponseUserIdentitiesItemOrganization;
+
+export type CreateOrganizationIssueViewResponseCreatedByIdentitiesItemProvider =
+  AddOrganizationMemberResponseUserIdentitiesItemProvider;
+export const CreateOrganizationIssueViewResponseCreatedByIdentitiesItemProvider =
+  AddOrganizationMemberResponseUserIdentitiesItemProvider;
+
+export type CreateOrganizationIssueViewResponseCreatedByIdentitiesItem =
+  AddOrganizationMemberResponseUserIdentitiesItem;
+export const CreateOrganizationIssueViewResponseCreatedByIdentitiesItem =
+  AddOrganizationMemberResponseUserIdentitiesItem;
+
+export type CreateOrganizationIssueViewResponseCreatedByIdentitiesList =
+  Array<AddOrganizationMemberResponseUserIdentitiesItem>;
+export const CreateOrganizationIssueViewResponseCreatedByIdentitiesList = /*@__PURE__*/ S.Array(
+  AddOrganizationMemberResponseUserIdentitiesItem,
+) as any as S.Schema<CreateOrganizationIssueViewResponseCreatedByIdentitiesList>;
+
+export type CreateOrganizationIssueViewResponseCreatedByAvatar =
+  AddOrganizationMemberResponseUserAvatar;
+export const CreateOrganizationIssueViewResponseCreatedByAvatar =
+  AddOrganizationMemberResponseUserAvatar;
+
+export type CreateOrganizationIssueViewResponseCreatedByAuthenticatorsList = Array<unknown>;
+export const CreateOrganizationIssueViewResponseCreatedByAuthenticatorsList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<CreateOrganizationIssueViewResponseCreatedByAuthenticatorsList>;
+
+export type CreateOrganizationIssueViewResponseCreatedByExperimentsMap = {
+  [key: string]: unknown | undefined;
+};
+export const CreateOrganizationIssueViewResponseCreatedByExperimentsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<CreateOrganizationIssueViewResponseCreatedByExperimentsMap>;
+
+export type CreateOrganizationIssueViewResponseCreatedByEmailsItem =
+  AddOrganizationMemberResponseUserEmailsItem;
+export const CreateOrganizationIssueViewResponseCreatedByEmailsItem =
+  AddOrganizationMemberResponseUserEmailsItem;
+
+export type CreateOrganizationIssueViewResponseCreatedByEmailsList =
+  Array<AddOrganizationMemberResponseUserEmailsItem>;
+export const CreateOrganizationIssueViewResponseCreatedByEmailsList = /*@__PURE__*/ S.Array(
+  AddOrganizationMemberResponseUserEmailsItem,
+) as any as S.Schema<CreateOrganizationIssueViewResponseCreatedByEmailsList>;
+
+export interface CreateOrganizationIssueViewResponseCreatedBy {
+  identities?: CreateOrganizationIssueViewResponseCreatedByIdentitiesList;
+  avatar?: AddOrganizationMemberResponseUserAvatar;
+  authenticators?: CreateOrganizationIssueViewResponseCreatedByAuthenticatorsList;
+  canReset2fa?: boolean;
+  id: string;
+  name: string;
+  username: string;
+  email: string;
+  avatarUrl: string;
+  isActive: boolean;
+  isSuspended: boolean;
+  hasPasswordAuth: boolean;
+  isManaged: boolean;
+  dateJoined: string;
+  lastLogin: string | null;
+  has2fa: boolean;
+  lastActive: string | null;
+  isSuperuser: boolean;
+  isStaff: boolean;
+  experiments: CreateOrganizationIssueViewResponseCreatedByExperimentsMap;
+  emails: CreateOrganizationIssueViewResponseCreatedByEmailsList;
+}
+export const CreateOrganizationIssueViewResponseCreatedBy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    identities: S.optional(CreateOrganizationIssueViewResponseCreatedByIdentitiesList),
+    avatar: S.optional(AddOrganizationMemberResponseUserAvatar),
+    authenticators: S.optional(CreateOrganizationIssueViewResponseCreatedByAuthenticatorsList),
+    canReset2fa: S.optional(S.Boolean),
+    id: S.String,
+    name: S.String,
+    username: S.String,
+    email: S.String,
+    avatarUrl: S.String,
+    isActive: S.Boolean,
+    isSuspended: S.Boolean,
+    hasPasswordAuth: S.Boolean,
+    isManaged: S.Boolean,
+    dateJoined: S.String,
+    lastLogin: S.NullOr(S.String),
+    has2fa: S.Boolean,
+    lastActive: S.NullOr(S.String),
+    isSuperuser: S.Boolean,
+    isStaff: S.Boolean,
+    experiments: CreateOrganizationIssueViewResponseCreatedByExperimentsMap,
+    emails: CreateOrganizationIssueViewResponseCreatedByEmailsList,
+  }),
+).annotate({
+  identifier: "CreateOrganizationIssueViewResponseCreatedBy",
+}) as any as S.Schema<CreateOrganizationIssueViewResponseCreatedBy>;
+
+export type CreateOrganizationIssueViewResponseQuerySort =
+  | "date"
+  | "new"
+  | "trends"
+  | "freq"
+  | "user"
+  | "inbox"
+  | "recommended";
+export const CreateOrganizationIssueViewResponseQuerySort = S.String;
+
+export type CreateOrganizationIssueViewResponseProjectsList = Array<number>;
+export const CreateOrganizationIssueViewResponseProjectsList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<CreateOrganizationIssueViewResponseProjectsList>;
+
+export type CreateOrganizationIssueViewResponseEnvironmentsList = Array<string>;
+export const CreateOrganizationIssueViewResponseEnvironmentsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateOrganizationIssueViewResponseEnvironmentsList>;
+
+export interface CreateOrganizationIssueViewResponseTimeFilters {
+  start?: string | null;
+  end?: string | null;
+  period?: string | null;
+  utc?: boolean | null;
+}
+export const CreateOrganizationIssueViewResponseTimeFilters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    start: S.optional(S.NullOr(S.String)),
+    end: S.optional(S.NullOr(S.String)),
+    period: S.optional(S.NullOr(S.String)),
+    utc: S.optional(S.NullOr(S.Boolean)),
+  }),
+).annotate({
+  identifier: "CreateOrganizationIssueViewResponseTimeFilters",
+}) as any as S.Schema<CreateOrganizationIssueViewResponseTimeFilters>;
+
+export interface CreateOrganizationIssueViewResponse {
+  id: string;
+  createdBy: CreateOrganizationIssueViewResponseCreatedBy | null;
+  name: string;
+  query: string;
+  querySort: CreateOrganizationIssueViewResponseQuerySort;
+  projects: CreateOrganizationIssueViewResponseProjectsList;
+  environments: CreateOrganizationIssueViewResponseEnvironmentsList;
+  timeFilters: CreateOrganizationIssueViewResponseTimeFilters;
+  lastVisited: string | null;
+  dateCreated: string;
+  dateUpdated: string;
+  starred: boolean;
+  stars: number;
+}
+export const CreateOrganizationIssueViewResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    createdBy: S.NullOr(CreateOrganizationIssueViewResponseCreatedBy),
+    name: S.String,
+    query: S.String,
+    querySort: CreateOrganizationIssueViewResponseQuerySort,
+    projects: CreateOrganizationIssueViewResponseProjectsList,
+    environments: CreateOrganizationIssueViewResponseEnvironmentsList,
+    timeFilters: CreateOrganizationIssueViewResponseTimeFilters,
+    lastVisited: S.NullOr(S.String),
+    dateCreated: S.String,
+    dateUpdated: S.String,
+    starred: S.Boolean,
+    stars: S.Number,
+  }),
+).annotate({
+  identifier: "CreateOrganizationIssueViewResponse",
+}) as any as S.Schema<CreateOrganizationIssueViewResponse>;
 
 /** Currently supports "crontab" or "interval" * `crontab` * `interval` */
 export type CreateOrganizationMonitorRequestConfigScheduleType = "crontab" | "interval";
@@ -3364,7 +3982,7 @@ export interface CreateOrganizationMonitorRequestConfig {
   schedule: unknown;
   /** How long (in minutes) after the expected checkin time will we wait until we consider the checkin to have been missed. */
   checkin_margin?: number | null;
-  /** How long (in minutes) is the checkin allowed to run for in CheckInStatus.IN_PROGRESS before it is considered failed. */
+  /** How long (in minutes) is the checkin allowed to run for in CheckInStatus.IN_PROGRESS before it is considered failed. Maximum 10080 (7 days). */
   max_runtime?: number | null;
   /** tz database style timezone string * `Africa/Abidjan` * `Africa/Accra` * `Africa/Addis_Ababa` * `Africa/Algiers` * `Africa/Asmara` * `Africa/Asmera` * `Africa/Bamako` * `Africa/Bangui` * `Africa/Banjul` * `Africa/Bissau` * `Africa/Blantyre` * `Africa/Brazzaville` * `Africa/Bujumbura` * `Africa/Cairo` * `Africa/Casablanca` * `Africa/Ceuta` * `Africa/Conakry` * `Africa/Dakar` * `Africa/Dar_es_Salaam` * `Africa/Djibouti` * `Africa/Douala` * `Africa/El_Aaiun` * `Africa/Freetown` * `Africa/Gaborone` * `Africa/Harare` * `Africa/Johannesburg` * `Africa/Juba` * `Africa/Kampala` * `Africa/Khartoum` * `Africa/Kigali` * `Africa/Kinshasa` * `Africa/Lagos` * `Africa/Libreville` * `Africa/Lome` * `Africa/Luanda` * `Africa/Lubumbashi` * `Africa/Lusaka` * `Africa/Malabo` * `Africa/Maputo` * `Africa/Maseru` * `Africa/Mbabane` * `Africa/Mogadishu` * `Africa/Monrovia` * `Africa/Nairobi` * `Africa/Ndjamena` * `Africa/Niamey` * `Africa/Nouakchott` * `Africa/Ouagadougou` * `Africa/Porto-Novo` * `Africa/Sao_Tome` * `Africa/Timbuktu` * `Africa/Tripoli` * `Africa/Tunis` * `Africa/Windhoek` * `America/Adak` * `America/Anchorage` * `America/Anguilla` * `America/Antigua` * `America/Araguaina` * `America/Argentina/Buenos_Aires` * `America/Argentina/Catamarca` * `America/Argentina/ComodRivadavia` * `America/Argentina/Cordoba` * `America/Argentina/Jujuy` * `America/Argentina/La_Rioja` * `America/Argentina/Mendoza` * `America/Argentina/Rio_Gallegos` * `America/Argentina/Salta` * `America/Argentina/San_Juan` * `America/Argentina/San_Luis` * `America/Argentina/Tucuman` * `America/Argentina/Ushuaia` * `America/Aruba` * `America/Asuncion` * `America/Atikokan` * `America/Atka` * `America/Bahia` * `America/Bahia_Banderas` * `America/Barbados` * `America/Belem` * `America/Belize` * `America/Blanc-Sablon` * `America/Boa_Vista` * `America/Bogota` * `America/Boise` * `America/Buenos_Aires` * `America/Cambridge_Bay` * `America/Campo_Grande` * `America/Cancun` * `America/Caracas` * `America/Catamarca` * `America/Cayenne` * `America/Cayman` * `America/Chicago` * `America/Chihuahua` * `America/Ciudad_Juarez` * `America/Coral_Harbour` * `America/Cordoba` * `America/Costa_Rica` * `America/Coyhaique` * `America/Creston` * `America/Cuiaba` * `America/Curacao` * `America/Danmarkshavn` * `America/Dawson` * `America/Dawson_Creek` * `America/Denver` * `America/Detroit` * `America/Dominica` * `America/Edmonton` * `America/Eirunepe` * `America/El_Salvador` * `America/Ensenada` * `America/Fort_Nelson` * `America/Fort_Wayne` * `America/Fortaleza` * `America/Glace_Bay` * `America/Godthab` * `America/Goose_Bay` * `America/Grand_Turk` * `America/Grenada` * `America/Guadeloupe` * `America/Guatemala` * `America/Guayaquil` * `America/Guyana` * `America/Halifax` * `America/Havana` * `America/Hermosillo` * `America/Indiana/Indianapolis` * `America/Indiana/Knox` * `America/Indiana/Marengo` * `America/Indiana/Petersburg` * `America/Indiana/Tell_City` * `America/Indiana/Vevay` * `America/Indiana/Vincennes` * `America/Indiana/Winamac` * `America/Indianapolis` * `America/Inuvik` * `America/Iqaluit` * `America/Jamaica` * `America/Jujuy` * `America/Juneau` * `America/Kentucky/Louisville` * `America/Kentucky/Monticello` * `America/Knox_IN` * `America/Kralendijk` * `America/La_Paz` * `America/Lima` * `America/Los_Angeles` * `America/Louisville` * `America/Lower_Princes` * `America/Maceio` * `America/Managua` * `America/Manaus` * `America/Marigot` * `America/Martinique` * `America/Matamoros` * `America/Mazatlan` * `America/Mendoza` * `America/Menominee` * `America/Merida` * `America/Metlakatla` * `America/Mexico_City` * `America/Miquelon` * `America/Moncton` * `America/Monterrey` * `America/Montevideo` * `America/Montreal` * `America/Montserrat` * `America/Nassau` * `America/New_York` * `America/Nipigon` * `America/Nome` * `America/Noronha` * `America/North_Dakota/Beulah` * `America/North_Dakota/Center` * `America/North_Dakota/New_Salem` * `America/Nuuk` * `America/Ojinaga` * `America/Panama` * `America/Pangnirtung` * `America/Paramaribo` * `America/Phoenix` * `America/Port-au-Prince` * `America/Port_of_Spain` * `America/Porto_Acre` * `America/Porto_Velho` * `America/Puerto_Rico` * `America/Punta_Arenas` * `America/Rainy_River` * `America/Rankin_Inlet` * `America/Recife` * `America/Regina` * `America/Resolute` * `America/Rio_Branco` * `America/Rosario` * `America/Santa_Isabel` * `America/Santarem` * `America/Santiago` * `America/Santo_Domingo` * `America/Sao_Paulo` * `America/Scoresbysund` * `America/Shiprock` * `America/Sitka` * `America/St_Barthelemy` * `America/St_Johns` * `America/St_Kitts` * `America/St_Lucia` * `America/St_Thomas` * `America/St_Vincent` * `America/Swift_Current` * `America/Tegucigalpa` * `America/Thule` * `America/Thunder_Bay` * `America/Tijuana` * `America/Toronto` * `America/Tortola` * `America/Vancouver` * `America/Virgin` * `America/Whitehorse` * `America/Winnipeg` * `America/Yakutat` * `America/Yellowknife` * `Antarctica/Casey` * `Antarctica/Davis` * `Antarctica/DumontDUrville` * `Antarctica/Macquarie` * `Antarctica/Mawson` * `Antarctica/McMurdo` * `Antarctica/Palmer` * `Antarctica/Rothera` * `Antarctica/South_Pole` * `Antarctica/Syowa` * `Antarctica/Troll` * `Antarctica/Vostok` * `Arctic/Longyearbyen` * `Asia/Aden` * `Asia/Almaty` * `Asia/Amman` * `Asia/Anadyr` * `Asia/Aqtau` * `Asia/Aqtobe` * `Asia/Ashgabat` * `Asia/Ashkhabad` * `Asia/Atyrau` * `Asia/Baghdad` * `Asia/Bahrain` * `Asia/Baku` * `Asia/Bangkok` * `Asia/Barnaul` * `Asia/Beirut` * `Asia/Bishkek` * `Asia/Brunei` * `Asia/Calcutta` * `Asia/Chita` * `Asia/Choibalsan` * `Asia/Chongqing` * `Asia/Chungking` * `Asia/Colombo` * `Asia/Dacca` * `Asia/Damascus` * `Asia/Dhaka` * `Asia/Dili` * `Asia/Dubai` * `Asia/Dushanbe` * `Asia/Famagusta` * `Asia/Gaza` * `Asia/Harbin` * `Asia/Hebron` * `Asia/Ho_Chi_Minh` * `Asia/Hong_Kong` * `Asia/Hovd` * `Asia/Irkutsk` * `Asia/Istanbul` * `Asia/Jakarta` * `Asia/Jayapura` * `Asia/Jerusalem` * `Asia/Kabul` * `Asia/Kamchatka` * `Asia/Karachi` * `Asia/Kashgar` * `Asia/Kathmandu` * `Asia/Katmandu` * `Asia/Khandyga` * `Asia/Kolkata` * `Asia/Krasnoyarsk` * `Asia/Kuala_Lumpur` * `Asia/Kuching` * `Asia/Kuwait` * `Asia/Macao` * `Asia/Macau` * `Asia/Magadan` * `Asia/Makassar` * `Asia/Manila` * `Asia/Muscat` * `Asia/Nicosia` * `Asia/Novokuznetsk` * `Asia/Novosibirsk` * `Asia/Omsk` * `Asia/Oral` * `Asia/Phnom_Penh` * `Asia/Pontianak` * `Asia/Pyongyang` * `Asia/Qatar` * `Asia/Qostanay` * `Asia/Qyzylorda` * `Asia/Rangoon` * `Asia/Riyadh` * `Asia/Saigon` * `Asia/Sakhalin` * `Asia/Samarkand` * `Asia/Seoul` * `Asia/Shanghai` * `Asia/Singapore` * `Asia/Srednekolymsk` * `Asia/Taipei` * `Asia/Tashkent` * `Asia/Tbilisi` * `Asia/Tehran` * `Asia/Tel_Aviv` * `Asia/Thimbu` * `Asia/Thimphu` * `Asia/Tokyo` * `Asia/Tomsk` * `Asia/Ujung_Pandang` * `Asia/Ulaanbaatar` * `Asia/Ulan_Bator` * `Asia/Urumqi` * `Asia/Ust-Nera` * `Asia/Vientiane` * `Asia/Vladivostok` * `Asia/Yakutsk` * `Asia/Yangon` * `Asia/Yekaterinburg` * `Asia/Yerevan` * `Atlantic/Azores` * `Atlantic/Bermuda` * `Atlantic/Canary` * `Atlantic/Cape_Verde` * `Atlantic/Faeroe` * `Atlantic/Faroe` * `Atlantic/Jan_Mayen` * `Atlantic/Madeira` * `Atlantic/Reykjavik` * `Atlantic/South_Georgia` * `Atlantic/St_Helena` * `Atlantic/Stanley` * `Australia/ACT` * `Australia/Adelaide` * `Australia/Brisbane` * `Australia/Broken_Hill` * `Australia/Canberra` * `Australia/Currie` * `Australia/Darwin` * `Australia/Eucla` * `Australia/Hobart` * `Australia/LHI` * `Australia/Lindeman` * `Australia/Lord_Howe` * `Australia/Melbourne` * `Australia/NSW` * `Australia/North` * `Australia/Perth` * `Australia/Queensland` * `Australia/South` * `Australia/Sydney` * `Australia/Tasmania` * `Australia/Victoria` * `Australia/West` * `Australia/Yancowinna` * `Brazil/Acre` * `Brazil/DeNoronha` * `Brazil/East` * `Brazil/West` * `CET` * `CST6CDT` * `Canada/Atlantic` * `Canada/Central` * `Canada/Eastern` * `Canada/Mountain` * `Canada/Newfoundland` * `Canada/Pacific` * `Canada/Saskatchewan` * `Canada/Yukon` * `Chile/Continental` * `Chile/EasterIsland` * `Cuba` * `EET` * `EST` * `EST5EDT` * `Egypt` * `Eire` * `Etc/GMT` * `Etc/GMT+0` * `Etc/GMT+1` * `Etc/GMT+10` * `Etc/GMT+11` * `Etc/GMT+12` * `Etc/GMT+2` * `Etc/GMT+3` * `Etc/GMT+4` * `Etc/GMT+5` * `Etc/GMT+6` * `Etc/GMT+7` * `Etc/GMT+8` * `Etc/GMT+9` * `Etc/GMT-0` * `Etc/GMT-1` * `Etc/GMT-10` * `Etc/GMT-11` * `Etc/GMT-12` * `Etc/GMT-13` * `Etc/GMT-14` * `Etc/GMT-2` * `Etc/GMT-3` * `Etc/GMT-4` * `Etc/GMT-5` * `Etc/GMT-6` * `Etc/GMT-7` * `Etc/GMT-8` * `Etc/GMT-9` * `Etc/GMT0` * `Etc/Greenwich` * `Etc/UCT` * `Etc/UTC` * `Etc/Universal` * `Etc/Zulu` * `Europe/Amsterdam` * `Europe/Andorra` * `Europe/Astrakhan` * `Europe/Athens` * `Europe/Belfast` * `Europe/Belgrade` * `Europe/Berlin` * `Europe/Bratislava` * `Europe/Brussels` * `Europe/Bucharest` * `Europe/Budapest` * `Europe/Busingen` * `Europe/Chisinau` * `Europe/Copenhagen` * `Europe/Dublin` * `Europe/Gibraltar` * `Europe/Guernsey` * `Europe/Helsinki` * `Europe/Isle_of_Man` * `Europe/Istanbul` * `Europe/Jersey` * `Europe/Kaliningrad` * `Europe/Kiev` * `Europe/Kirov` * `Europe/Kyiv` * `Europe/Lisbon` * `Europe/Ljubljana` * `Europe/London` * `Europe/Luxembourg` * `Europe/Madrid` * `Europe/Malta` * `Europe/Mariehamn` * `Europe/Minsk` * `Europe/Monaco` * `Europe/Moscow` * `Europe/Nicosia` * `Europe/Oslo` * `Europe/Paris` * `Europe/Podgorica` * `Europe/Prague` * `Europe/Riga` * `Europe/Rome` * `Europe/Samara` * `Europe/San_Marino` * `Europe/Sarajevo` * `Europe/Saratov` * `Europe/Simferopol` * `Europe/Skopje` * `Europe/Sofia` * `Europe/Stockholm` * `Europe/Tallinn` * `Europe/Tirane` * `Europe/Tiraspol` * `Europe/Ulyanovsk` * `Europe/Uzhgorod` * `Europe/Vaduz` * `Europe/Vatican` * `Europe/Vienna` * `Europe/Vilnius` * `Europe/Volgograd` * `Europe/Warsaw` * `Europe/Zagreb` * `Europe/Zaporozhye` * `Europe/Zurich` * `GB` * `GB-Eire` * `GMT` * `GMT+0` * `GMT-0` * `GMT0` * `Greenwich` * `HST` * `Hongkong` * `Iceland` * `Indian/Antananarivo` * `Indian/Chagos` * `Indian/Christmas` * `Indian/Cocos` * `Indian/Comoro` * `Indian/Kerguelen` * `Indian/Mahe` * `Indian/Maldives` * `Indian/Mauritius` * `Indian/Mayotte` * `Indian/Reunion` * `Iran` * `Israel` * `Jamaica` * `Japan` * `Kwajalein` * `Libya` * `MET` * `MST` * `MST7MDT` * `Mexico/BajaNorte` * `Mexico/BajaSur` * `Mexico/General` * `NZ` * `NZ-CHAT` * `Navajo` * `PRC` * `PST8PDT` * `Pacific/Apia` * `Pacific/Auckland` * `Pacific/Bougainville` * `Pacific/Chatham` * `Pacific/Chuuk` * `Pacific/Easter` * `Pacific/Efate` * `Pacific/Enderbury` * `Pacific/Fakaofo` * `Pacific/Fiji` * `Pacific/Funafuti` * `Pacific/Galapagos` * `Pacific/Gambier` * `Pacific/Guadalcanal` * `Pacific/Guam` * `Pacific/Honolulu` * `Pacific/Johnston` * `Pacific/Kanton` * `Pacific/Kiritimati` * `Pacific/Kosrae` * `Pacific/Kwajalein` * `Pacific/Majuro` * `Pacific/Marquesas` * `Pacific/Midway` * `Pacific/Nauru` * `Pacific/Niue` * `Pacific/Norfolk` * `Pacific/Noumea` * `Pacific/Pago_Pago` * `Pacific/Palau` * `Pacific/Pitcairn` * `Pacific/Pohnpei` * `Pacific/Ponape` * `Pacific/Port_Moresby` * `Pacific/Rarotonga` * `Pacific/Saipan` * `Pacific/Samoa` * `Pacific/Tahiti` * `Pacific/Tarawa` * `Pacific/Tongatapu` * `Pacific/Truk` * `Pacific/Wake` * `Pacific/Wallis` * `Pacific/Yap` * `Poland` * `Portugal` * `ROC` * `ROK` * `Singapore` * `Turkey` * `UCT` * `US/Alaska` * `US/Aleutian` * `US/Arizona` * `US/Central` * `US/East-Indiana` * `US/Eastern` * `US/Hawaii` * `US/Indiana-Starke` * `US/Michigan` * `US/Mountain` * `US/Pacific` * `US/Samoa` * `UTC` * `Universal` * `W-SU` * `WET` * `Zulu` * `localtime` */
   timezone?: CreateOrganizationMonitorRequestConfigTimezone | (string & {});
@@ -3391,6 +4009,43 @@ export const CreateOrganizationMonitorRequestConfig = /*@__PURE__*/ S.suspend(()
 export type CreateOrganizationMonitorRequestStatus = "active" | "disabled";
 export const CreateOrganizationMonitorRequestStatus = S.String;
 
+export interface CreateOrganizationMonitorRequestAlertRuleTargetsItem {
+  /** ID of target object */
+  target_identifier: number;
+  /** One of [Member, Team] */
+  target_type: string;
+}
+export const CreateOrganizationMonitorRequestAlertRuleTargetsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    target_identifier: S.Number,
+    target_type: S.String,
+  }),
+).annotate({
+  identifier: "CreateOrganizationMonitorRequestAlertRuleTargetsItem",
+}) as any as S.Schema<CreateOrganizationMonitorRequestAlertRuleTargetsItem>;
+
+/** Array of dictionaries with information of the user or team to be notified */
+export type CreateOrganizationMonitorRequestAlertRuleTargetsList =
+  Array<CreateOrganizationMonitorRequestAlertRuleTargetsItem>;
+export const CreateOrganizationMonitorRequestAlertRuleTargetsList = /*@__PURE__*/ S.Array(
+  CreateOrganizationMonitorRequestAlertRuleTargetsItem,
+) as any as S.Schema<CreateOrganizationMonitorRequestAlertRuleTargetsList>;
+
+export interface CreateOrganizationMonitorRequestAlertRule {
+  /** Name of the environment */
+  environment?: string | null;
+  /** Array of dictionaries with information of the user or team to be notified */
+  targets: CreateOrganizationMonitorRequestAlertRuleTargetsList;
+}
+export const CreateOrganizationMonitorRequestAlertRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    environment: S.optional(S.NullOr(S.String)),
+    targets: CreateOrganizationMonitorRequestAlertRuleTargetsList,
+  }),
+).annotate({
+  identifier: "CreateOrganizationMonitorRequestAlertRule",
+}) as any as S.Schema<CreateOrganizationMonitorRequestAlertRule>;
+
 export interface CreateOrganizationMonitorRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
@@ -3408,6 +4063,8 @@ export interface CreateOrganizationMonitorRequest {
   owner?: string | null;
   /** Disable creation of monitor incidents */
   is_muted?: boolean;
+  /** Alert rule configuration created alongside the monitor. */
+  alert_rule?: CreateOrganizationMonitorRequestAlertRule;
 }
 export const CreateOrganizationMonitorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3419,6 +4076,7 @@ export const CreateOrganizationMonitorRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(CreateOrganizationMonitorRequestStatus),
     owner: S.optional(S.NullOr(S.String)),
     is_muted: S.optional(S.Boolean),
+    alert_rule: S.optional(CreateOrganizationMonitorRequestAlertRule),
   }).pipe(
     T.Http({
       method: "POST",
@@ -3736,6 +4394,10 @@ export interface CreateOrganizationNotificationsActionRequest {
   target_display?: string;
   /** List of project IDs or slugs that the Notification Action is created for. */
   projects?: CreateOrganizationNotificationsActionRequestProjectsList;
+  /** ID of the custom integration to notify, when the target is a Sentry app. */
+  sentry_app_id?: number;
+  /** How the notification target is addressed. */
+  target_type?: string;
 }
 export const CreateOrganizationNotificationsActionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3746,6 +4408,8 @@ export const CreateOrganizationNotificationsActionRequest = /*@__PURE__*/ S.susp
     target_identifier: S.optional(S.String),
     target_display: S.optional(S.String),
     projects: S.optional(CreateOrganizationNotificationsActionRequestProjectsList),
+    sentry_app_id: S.optional(S.Number),
+    target_type: S.optional(S.String),
   }).pipe(
     T.Http({
       method: "POST",
@@ -3837,9 +4501,7 @@ export const CreateOrganizationProjectResponseLatestDeploysMap = /*@__PURE__*/ S
   CreateOrganizationProjectResponseLatestDeploysValueMap,
 ) as any as S.Schema<CreateOrganizationProjectResponseLatestDeploysMap>;
 
-export type CreateOrganizationProjectResponseOptionsMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateOrganizationProjectResponseOptionsMap = { [key: string]: unknown | undefined };
 export const CreateOrganizationProjectResponseOptionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -4331,17 +4993,13 @@ export const CreateOrganizationReleaseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateOrganizationReleaseRequest",
 }) as any as S.Schema<CreateOrganizationReleaseRequest>;
 
-export type CreateOrganizationReleaseResponseOwnerMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateOrganizationReleaseResponseOwnerMap = { [key: string]: unknown | undefined };
 export const CreateOrganizationReleaseResponseOwnerMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<CreateOrganizationReleaseResponseOwnerMap>;
 
-export type CreateOrganizationReleaseResponseLastCommitMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateOrganizationReleaseResponseLastCommitMap = { [key: string]: unknown | undefined };
 export const CreateOrganizationReleaseResponseLastCommitMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -4409,9 +5067,7 @@ export const CreateOrganizationReleaseResponseVersionInfo = /*@__PURE__*/ S.susp
   identifier: "CreateOrganizationReleaseResponseVersionInfo",
 }) as any as S.Schema<CreateOrganizationReleaseResponseVersionInfo>;
 
-export type CreateOrganizationReleaseResponseDataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateOrganizationReleaseResponseDataMap = { [key: string]: unknown | undefined };
 export const CreateOrganizationReleaseResponseDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -4793,9 +5449,7 @@ export const CreateOrganizationTeamRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateOrganizationTeamRequest",
 }) as any as S.Schema<CreateOrganizationTeamRequest>;
 
-export type CreateOrganizationTeamResponseFlagsMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateOrganizationTeamResponseFlagsMap = { [key: string]: unknown | undefined };
 export const CreateOrganizationTeamResponseFlagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -5095,9 +5749,7 @@ export const CreateOrganizationWorkflowRequestDetectorIdsList = /*@__PURE__*/ S.
 ) as any as S.Schema<CreateOrganizationWorkflowRequestDetectorIdsList>;
 
 /** Typically the frequency at which the alert will fire, in minutes. - `0`: 0 minutes - `5`: 5 minutes - `10`: 10 minutes - `30`: 30 minutes - `60`: 1 hour - `180`: 3 hours - `720`: 12 hours - `1440`: 24 hours ```json { "frequency":3600 } ``` */
-export type CreateOrganizationWorkflowRequestConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateOrganizationWorkflowRequestConfigMap = { [key: string]: unknown | undefined };
 export const CreateOrganizationWorkflowRequestConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -5181,7 +5833,7 @@ export const CreateOrganizationWorkflowRequestActionFiltersItem = /*@__PURE__*/ 
   identifier: "CreateOrganizationWorkflowRequestActionFiltersItem",
 }) as any as S.Schema<CreateOrganizationWorkflowRequestActionFiltersItem>;
 
-/** The filters to run before the action will fire and the action(s) to fire. `logicType` can be one of `any-short`, `all`, or `none`. Below is a basic example. See below for all other options. ```json "actionFilters": [ { "logicType": "any", "conditions": [ { "type": "level", "comparison": { "level": 50, "match": "eq" }, "conditionResult": true } ], "actions": [ { "id": "123", "type": "email", "integrationId": null, "data": {}, "config": { "targetType": "user", "targetDisplay": null, "targetIdentifier": "56789" }, "status": "active" } ] } ] ``` ## Conditions **Issue Age** - `time`: One of `minute`, `hour`, `day`, or `week`. - `value`: A positive integer. - `comparisonType`: One of `older` or `newer`. ```json { "type": "age_comparison", "comparison": { "time": "minute", "value": 10, "comparisonType": "older" }, "conditionResult": true } ``` **Issue Assignment** - `targetType`: Who the issue is assigned to - `Unassigned`: Unassigned - `Member`: Assigned to a user - `Team`: Assigned to a team - `targetIdentifier`: The ID of the user or team from the `targetType`. Enter "" if `targetType` is `Unassigned`. ```json { "type": "assigned_to", "comparison": { "targetType": "Member", "targetIdentifier": 123456 }, "conditionResult": true } ``` **Issue Category** - `value`: The issue category to filter to. - `1`: Error issues - `6`: Feedback issues - `10`: Outage issues - `11`: Metric issues - `12`: DB Query issues - `13`: HTTP Client issues - `14`: Front end issues - `15`: Mobile issues ```json { "type": "issue_category", "comparison": { "value": 1 }, "conditionResult": true } ``` **Issue Frequency** - `value`: A positive integer representing how many times the issue has to happen before the alert will fire. ```json { "type": "issue_occurrences", "comparison": { "value": 10 }, "conditionResult": true } ``` **De-escalation** ```json { "type": "issue_priority_deescalating", "comparison": true, "conditionResult": true } ``` **Issue Priority** - `comparison`: The priority the issue must be for the alert to fire. - `75`: High priority - `50`: Medium priority - `25`: Low priority ```json { "type": "issue_priority_greater_or_equal", "comparison": 75, "conditionResult": true } ``` **Number of Users Affected** - `value`: A positive integer representing the number of users that must be affected before the alert will fire. - `filters`: A list of additional sub-filters to evaluate before the alert will fire. - `interval`: The time period in which to evaluate the value. e.g. Number of users affected by an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "event_unique_user_frequency_count", "comparison": { "value": 100, "filters": [{"key": "foo", "match": "eq", "value": "bar"}], "interval": "1h" }, "conditionResult": true } ``` **Number of Events** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Number of events in an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "event_frequency_count", "comparison": { "value": 100, "interval": "1h" }, "conditionResult": true } ``` **Percent of Events** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Number of events in an issue is `comparisonInterval` percent higher `value` compared to `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days - `comparisonInterval`: The time period to compare against. See `interval` for options. ```json { "type": "event_frequency_percent", "comparison": { "value": 100, "interval": "1h", "comparisonInterval": "1w" }, "conditionResult": true } ``` **Percentage of Sessions Affected Count** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Percentage of sessions affected by an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "percent_sessions_count", "comparison": { "value": 10, "interval": "1h" }, "conditionResult": true } ``` **Percentage of Sessions Affected Percent** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Percentage of sessions affected by an issue is `comparisonInterval` percent higher `value` compared to `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days - `comparisonInterval`: The time period to compare against. See `interval` for options. ```json { "type": "percent_sessions_percent", "comparison": { "value": 10, "interval": "1h" }, "conditionResult": true } ``` **Event Attribute** The event's `attribute` value `match` `value` - `attribute`: The event attribute to match on. Valid values are: `message`, `platform`, `environment`, `type`, `error.handled`, `error.unhandled`, `error.main_thread`, `exception.type`, `exception.value`, `user.id`, `user.email`, `user.username`, `user.ip_address`, `http.method`, `http.url`, `http.status_code`, `sdk.name`, `stacktrace.code`, `stacktrace.module`, `stacktrace.filename`, `stacktrace.abs_path`, `stacktrace.package`, `unreal.crash_type`, `app.in_foreground`. - `match`: The comparison operator - `co`: Contains - `nc`: Does not contain - `eq`: Equals - `ne`: Does not equal - `sw`: Starts with - `ew`: Ends with - `is`: Is set - `ns`: Is not set - `value`: A string. Not required when match is `is` or `ns`. ```json { "type": "event_attribute", "comparison": { "match": "co", "value": "bar", "attribute": "message" }, "conditionResult": true } ``` **Tagged Event** The event's tags `key` match `value` - `key`: The tag value - `match`: The comparison operator - `co`: Contains - `nc`: Does not contain - `eq`: Equals - `ne`: Does not equal - `sw`: Starts with - `ew`: Ends with - `is`: Is set - `ns`: Is not set - `value`: A string. Not required when match is `is` or `ns`. ```json { "type": "tagged_event", "comparison": { "key": "level", "match": "eq", "value": "error" }, "conditionResult": true } ``` **Latest Release** The event is from the latest release ```json { "type": "latest_release", "comparison": true, "conditionResult": true } ``` **Release Age** ```json { "type": "latest_adopted_release", "comparison": { "environment": "production", "ageComparison": "older", "releaseAgeType": "oldest" }, "conditionResult": true } ``` **Event Level** The event's level is `match` `level` - `match`: The comparison operator - `eq`: Equal - `gte`: Greater than or equal - `lte`: Less than or equal - `level`: The event level - `50`: Fatal - `40`: Error - `30`: Warning - `20`: Info - `10`: Debug - `0`: Sample ```json { "type": "level", "comparison": { "level": 50, "match": "eq" }, "conditionResult": true } ``` ## Actions A list of actions that take place when all required conditions and filters for the alert are met. See below for a list of possible actions. **Notify on Preferred Channel** - `data`: A dictionary with the fallthrough type option when choosing to notify Suggested Assignees. Leave empty if notifying a user or team. - `fallthroughType` - `ActiveMembers` - `AllMembers` - `NoOne` - `config`: A dictionary with the configuration options for notification. - `targetType`: The type of recipient to notify - `user`: User - `team`: Team - `issue_owners`: Suggested Assignees - `targetDisplay`: null - `targetIdentifier`: The id of the user or team to notify. Leave null for Suggested Assignees. ```json { "type":"email", "integrationId":null, "data":{}, "config":{ "targetType":"user", "targetDisplay":null, "targetIdentifier":"232692" }, "status":"active" }, { "type":"email", "integrationId":null, "data":{ "fallthroughType":"ActiveMembers" }, "config":{ "targetType":"issue_owners", "targetDisplay":null, "targetIdentifier":""} , "status":"active" } ``` **Notify on Slack** - `targetDisplay`: The name of the channel to notify in. `integrationId`: The stringified ID of the integration. ```json { "type":"slack", "config":{ "targetType":"specific", "targetIdentifier":"", "targetDisplay":"notify-errors" }, "integrationId":"1", "data":{}, "status":"active" } ``` **Notify on PagerDuty** - `targetDisplay`: The name of the service to create the ticket in. - `integrationId`: The stringified ID of the integration. - `data["priority"]`: The severity level for the notification. ```json { "type":"pagerduty", "config":{ "targetType":"specific", "targetIdentifier":"123456", "targetDisplay":"Error Service" }, "integrationId":"2345", "data":{ "priority":"default" }, "status":"active" } ``` **Notify on Discord** - `targetDisplay`: The name of the service to create the ticket in. - `integrationId`: The stringified ID of the integration. - `data["tags"]`: Comma separated list of tags to add to the notification. ```json { "type":"discord", "config":{ "targetType":"specific", "targetIdentifier":"12345", "targetDisplay":"", }, "integrationId":"1234", "data":{ "tags":"transaction,environment" }, "status":"active" } ``` **Notify on MSTeams** - `targetIdentifier` - The integration ID associated with the Microsoft Teams team. - `targetDisplay` - The name of the channel to send the notification to. - `integrationId`: The stringified ID of the integration. ```json { "type":"msteams", "config":{ "targetType":"specific", "targetIdentifier":"19:a4b3kghaghgkjah357y6847@thread.skype", "targetDisplay":"notify-errors" }, "integrationId":"1", "data":{}, "status":"active" } ``` **Notify on OpsGenie** - `targetDisplay`: The name of the Opsgenie team. - `targetIdentifier`: The ID of the Opsgenie team to send the notification to. - `integrationId`: The stringified ID of the integration. - `data["priority"]`: The priority level for the notification. ```json { "type":"opsgenie", "config":{ "targetType":"specific", "targetIdentifier":"123456-Error-Service", "targetDisplay":"Error Service" }, "integrationId":"2345", "data":{ "priority":"P3" }, "status":"active" } ``` **Notify on Azure DevOps** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"vsts", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a Jira ticket** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"jira", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a Jira Server ticket** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"jira_server", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a GitHub issue** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"github", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{ "additional_fields": { "assignee": "", "integration": "2345", "labels": [], "repo": "example-repo", }, "dynamic_form_fields": [ { "choices": [["YourOrg/example-repo", "example-repo"]], "default": "YourOrg/example-repo", "label": "GitHub Repository", "name": "repo", "required": true "type": "select", "updatesForm": true, "url": "/extensions/github/search/example-repo/1234567/", }, ], }, "status":"active" } ``` */
+/** The filters to run before the action will fire and the action(s) to fire. `logicType` can be one of `any-short`, `all`, or `none`. Below is a basic example. See below for all other options. ```json "actionFilters": [ { "logicType": "any", "conditions": [ { "type": "level", "comparison": { "level": 50, "match": "eq" }, "conditionResult": true } ], "actions": [ { "id": "123", "type": "email", "integrationId": null, "data": {}, "config": { "targetType": "user", "targetDisplay": null, "targetIdentifier": "56789" }, "status": "active" } ] } ] ``` ## Conditions **Issue Age** - `time`: One of `minute`, `hour`, `day`, or `week`. - `value`: A positive integer. - `comparisonType`: One of `older` or `newer`. ```json { "type": "age_comparison", "comparison": { "time": "minute", "value": 10, "comparisonType": "older" }, "conditionResult": true } ``` **Issue Assignment** - `targetType`: Who the issue is assigned to - `Unassigned`: Unassigned - `Member`: Assigned to a user - `Team`: Assigned to a team - `targetIdentifier`: The ID of the user or team from the `targetType`. Enter "" if `targetType` is `Unassigned`. ```json { "type": "assigned_to", "comparison": { "targetType": "Member", "targetIdentifier": 123456 }, "conditionResult": true } ``` **Issue Category** - `value`: The issue category to filter to. - `1`: Error issues - `6`: Feedback issues - `10`: Outage issues - `11`: Metric issues - `12`: DB Query issues - `13`: HTTP Client issues - `14`: Front end issues - `15`: Mobile issues - `17`: Preprod issues - `19`: Configuration issues ```json { "type": "issue_category", "comparison": { "value": 1 }, "conditionResult": true } ``` **Issue Frequency** - `value`: A positive integer representing how many times the issue has to happen before the alert will fire. ```json { "type": "issue_occurrences", "comparison": { "value": 10 }, "conditionResult": true } ``` **De-escalation** - `comparison`: The priority threshold the issue must de-escalate below. - `75`: High priority - `50`: Medium priority - `25`: Low priority ```json { "type": "issue_priority_deescalating", "comparison": 75, "conditionResult": true } ``` **Issue Priority** - `comparison`: The priority the issue must be for the alert to fire. - `75`: High priority - `50`: Medium priority - `25`: Low priority ```json { "type": "issue_priority_greater_or_equal", "comparison": 75, "conditionResult": true } ``` **Number of Users Affected** - `value`: A positive integer representing the number of users that must be affected before the alert will fire. - `filters`: A list of additional sub-filters to evaluate before the alert will fire. - `interval`: The time period in which to evaluate the value. e.g. Number of users affected by an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "event_unique_user_frequency_count", "comparison": { "value": 100, "filters": [{"key": "foo", "match": "eq", "value": "bar"}], "interval": "1h" }, "conditionResult": true } ``` **Number of Events** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Number of events in an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "event_frequency_count", "comparison": { "value": 100, "interval": "1h" }, "conditionResult": true } ``` **Percent of Events** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Number of events in an issue is `comparisonInterval` percent higher `value` compared to `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days - `comparisonInterval`: The time period to compare against. See `interval` for options. ```json { "type": "event_frequency_percent", "comparison": { "value": 100, "interval": "1h", "comparisonInterval": "1w" }, "conditionResult": true } ``` **Percentage of Sessions Affected Count** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Percentage of sessions affected by an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "percent_sessions_count", "comparison": { "value": 10, "interval": "1h" }, "conditionResult": true } ``` **Percentage of Sessions Affected Percent** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Percentage of sessions affected by an issue is `comparisonInterval` percent higher `value` compared to `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days - `comparisonInterval`: The time period to compare against. See `interval` for options. ```json { "type": "percent_sessions_percent", "comparison": { "value": 10, "interval": "1h" }, "conditionResult": true } ``` **Event Attribute** The event's `attribute` value `match` `value` - `attribute`: The event attribute to match on. Valid values are: `message`, `platform`, `environment`, `type`, `error.handled`, `error.unhandled`, `error.main_thread`, `exception.type`, `exception.value`, `user.id`, `user.email`, `user.username`, `user.ip_address`, `http.method`, `http.url`, `http.status_code`, `sdk.name`, `stacktrace.code`, `stacktrace.module`, `stacktrace.filename`, `stacktrace.abs_path`, `stacktrace.package`, `unreal.crash_type`, `app.in_foreground`. - `match`: The comparison operator - `co`: Contains - `nc`: Does not contain - `eq`: Equals - `ne`: Does not equal - `sw`: Starts with - `ew`: Ends with - `is`: Is set - `ns`: Is not set - `value`: A string. Not required when match is `is` or `ns`. ```json { "type": "event_attribute", "comparison": { "match": "co", "value": "bar", "attribute": "message" }, "conditionResult": true } ``` **Tagged Event** The event's tags `key` match `value` - `key`: The tag value - `match`: The comparison operator - `co`: Contains - `nc`: Does not contain - `eq`: Equals - `ne`: Does not equal - `sw`: Starts with - `ew`: Ends with - `is`: Is set - `ns`: Is not set - `value`: A string. Not required when match is `is` or `ns`. ```json { "type": "tagged_event", "comparison": { "key": "level", "match": "eq", "value": "error" }, "conditionResult": true } ``` **Latest Release** The event is from the latest release ```json { "type": "latest_release", "comparison": true, "conditionResult": true } ``` **Release Age** ```json { "type": "latest_adopted_release", "comparison": { "environment": "production", "ageComparison": "older", "releaseAgeType": "oldest" }, "conditionResult": true } ``` **Event Level** The event's level is `match` `level` - `match`: The comparison operator - `eq`: Equal - `gte`: Greater than or equal - `lte`: Less than or equal - `level`: The event level - `50`: Fatal - `40`: Error - `30`: Warning - `20`: Info - `10`: Debug - `0`: Sample ```json { "type": "level", "comparison": { "level": 50, "match": "eq" }, "conditionResult": true } ``` ## Actions A list of actions that take place when all required conditions and filters for the alert are met. See below for a list of possible actions. **Notify on Preferred Channel** - `data`: A dictionary with the fallthrough type option when choosing to notify Suggested Assignees. Leave empty if notifying a user or team. - `fallthroughType` - `ActiveMembers` - `AllMembers` - `NoOne` - `config`: A dictionary with the configuration options for notification. - `targetType`: The type of recipient to notify - `user`: User - `team`: Team - `issue_owners`: Suggested Assignees - `targetDisplay`: null - `targetIdentifier`: The id of the user or team to notify. Leave null for Suggested Assignees. ```json { "type":"email", "integrationId":null, "data":{}, "config":{ "targetType":"user", "targetDisplay":null, "targetIdentifier":"232692" }, "status":"active" }, { "type":"email", "integrationId":null, "data":{ "fallthroughType":"ActiveMembers" }, "config":{ "targetType":"issue_owners", "targetDisplay":null, "targetIdentifier":""} , "status":"active" } ``` **Notify on Slack** - `targetDisplay`: The name of the channel to notify in. `integrationId`: The stringified ID of the integration. ```json { "type":"slack", "config":{ "targetType":"specific", "targetIdentifier":"", "targetDisplay":"notify-errors" }, "integrationId":"1", "data":{}, "status":"active" } ``` **Notify on PagerDuty** - `targetDisplay`: The name of the service to create the ticket in. - `integrationId`: The stringified ID of the integration. - `data["priority"]`: The severity level for the notification. ```json { "type":"pagerduty", "config":{ "targetType":"specific", "targetIdentifier":"123456", "targetDisplay":"Error Service" }, "integrationId":"2345", "data":{ "priority":"default" }, "status":"active" } ``` **Notify on Discord** - `targetDisplay`: The name of the service to create the ticket in. - `integrationId`: The stringified ID of the integration. - `data["tags"]`: Comma separated list of tags to add to the notification. ```json { "type":"discord", "config":{ "targetType":"specific", "targetIdentifier":"12345", "targetDisplay":"", }, "integrationId":"1234", "data":{ "tags":"transaction,environment" }, "status":"active" } ``` **Notify on MSTeams** - `targetIdentifier` - The integration ID associated with the Microsoft Teams team. - `targetDisplay` - The name of the channel to send the notification to. - `integrationId`: The stringified ID of the integration. ```json { "type":"msteams", "config":{ "targetType":"specific", "targetIdentifier":"19:a4b3kghaghgkjah357y6847@thread.skype", "targetDisplay":"notify-errors" }, "integrationId":"1", "data":{}, "status":"active" } ``` **Notify on OpsGenie** - `targetDisplay`: The name of the Opsgenie team. - `targetIdentifier`: The ID of the Opsgenie team to send the notification to. - `integrationId`: The stringified ID of the integration. - `data["priority"]`: The priority level for the notification. ```json { "type":"opsgenie", "config":{ "targetType":"specific", "targetIdentifier":"123456-Error-Service", "targetDisplay":"Error Service" }, "integrationId":"2345", "data":{ "priority":"P3" }, "status":"active" } ``` **Notify on Azure DevOps** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"vsts", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a Jira ticket** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"jira", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a Jira Server ticket** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"jira_server", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a GitHub issue** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"github", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{ "additional_fields": { "assignee": "", "integration": "2345", "labels": [], "repo": "example-repo", }, "dynamic_form_fields": [ { "choices": [["YourOrg/example-repo", "example-repo"]], "default": "YourOrg/example-repo", "label": "GitHub Repository", "name": "repo", "required": true "type": "select", "updatesForm": true, "url": "/extensions/github/search/example-repo/1234567/", }, ], }, "status":"active" } ``` */
 export type CreateOrganizationWorkflowRequestActionFiltersList =
   Array<CreateOrganizationWorkflowRequestActionFiltersItem>;
 export const CreateOrganizationWorkflowRequestActionFiltersList = /*@__PURE__*/ S.Array(
@@ -5205,7 +5857,7 @@ export interface CreateOrganizationWorkflowRequest {
   environment?: string | null;
   /** The conditions on which the alert will trigger. See available options below. ```json "triggers": { "organizationId": "1", "logicType": "any-short", "conditions": [ { "type": "first_seen_event", "comparison": true, "conditionResult": true }, { "type": "issue_resolved_trigger", "comparison": true, "conditionResult": true }, { "type": "reappeared_event", "comparison": true, "conditionResult": true }, { "type": "regression_event", "comparison": true, "conditionResult": true }, { "type": "seer_activity_trigger", "comparison": [ "rca_completed", "solution_completed", "coding_completed", "pr_ready_for_review" ], "conditionResult": true } ], "actions": [] } ``` */
   triggers?: CreateOrganizationWorkflowRequestTriggers;
-  /** The filters to run before the action will fire and the action(s) to fire. `logicType` can be one of `any-short`, `all`, or `none`. Below is a basic example. See below for all other options. ```json "actionFilters": [ { "logicType": "any", "conditions": [ { "type": "level", "comparison": { "level": 50, "match": "eq" }, "conditionResult": true } ], "actions": [ { "id": "123", "type": "email", "integrationId": null, "data": {}, "config": { "targetType": "user", "targetDisplay": null, "targetIdentifier": "56789" }, "status": "active" } ] } ] ``` ## Conditions **Issue Age** - `time`: One of `minute`, `hour`, `day`, or `week`. - `value`: A positive integer. - `comparisonType`: One of `older` or `newer`. ```json { "type": "age_comparison", "comparison": { "time": "minute", "value": 10, "comparisonType": "older" }, "conditionResult": true } ``` **Issue Assignment** - `targetType`: Who the issue is assigned to - `Unassigned`: Unassigned - `Member`: Assigned to a user - `Team`: Assigned to a team - `targetIdentifier`: The ID of the user or team from the `targetType`. Enter "" if `targetType` is `Unassigned`. ```json { "type": "assigned_to", "comparison": { "targetType": "Member", "targetIdentifier": 123456 }, "conditionResult": true } ``` **Issue Category** - `value`: The issue category to filter to. - `1`: Error issues - `6`: Feedback issues - `10`: Outage issues - `11`: Metric issues - `12`: DB Query issues - `13`: HTTP Client issues - `14`: Front end issues - `15`: Mobile issues ```json { "type": "issue_category", "comparison": { "value": 1 }, "conditionResult": true } ``` **Issue Frequency** - `value`: A positive integer representing how many times the issue has to happen before the alert will fire. ```json { "type": "issue_occurrences", "comparison": { "value": 10 }, "conditionResult": true } ``` **De-escalation** ```json { "type": "issue_priority_deescalating", "comparison": true, "conditionResult": true } ``` **Issue Priority** - `comparison`: The priority the issue must be for the alert to fire. - `75`: High priority - `50`: Medium priority - `25`: Low priority ```json { "type": "issue_priority_greater_or_equal", "comparison": 75, "conditionResult": true } ``` **Number of Users Affected** - `value`: A positive integer representing the number of users that must be affected before the alert will fire. - `filters`: A list of additional sub-filters to evaluate before the alert will fire. - `interval`: The time period in which to evaluate the value. e.g. Number of users affected by an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "event_unique_user_frequency_count", "comparison": { "value": 100, "filters": [{"key": "foo", "match": "eq", "value": "bar"}], "interval": "1h" }, "conditionResult": true } ``` **Number of Events** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Number of events in an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "event_frequency_count", "comparison": { "value": 100, "interval": "1h" }, "conditionResult": true } ``` **Percent of Events** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Number of events in an issue is `comparisonInterval` percent higher `value` compared to `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days - `comparisonInterval`: The time period to compare against. See `interval` for options. ```json { "type": "event_frequency_percent", "comparison": { "value": 100, "interval": "1h", "comparisonInterval": "1w" }, "conditionResult": true } ``` **Percentage of Sessions Affected Count** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Percentage of sessions affected by an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "percent_sessions_count", "comparison": { "value": 10, "interval": "1h" }, "conditionResult": true } ``` **Percentage of Sessions Affected Percent** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Percentage of sessions affected by an issue is `comparisonInterval` percent higher `value` compared to `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days - `comparisonInterval`: The time period to compare against. See `interval` for options. ```json { "type": "percent_sessions_percent", "comparison": { "value": 10, "interval": "1h" }, "conditionResult": true } ``` **Event Attribute** The event's `attribute` value `match` `value` - `attribute`: The event attribute to match on. Valid values are: `message`, `platform`, `environment`, `type`, `error.handled`, `error.unhandled`, `error.main_thread`, `exception.type`, `exception.value`, `user.id`, `user.email`, `user.username`, `user.ip_address`, `http.method`, `http.url`, `http.status_code`, `sdk.name`, `stacktrace.code`, `stacktrace.module`, `stacktrace.filename`, `stacktrace.abs_path`, `stacktrace.package`, `unreal.crash_type`, `app.in_foreground`. - `match`: The comparison operator - `co`: Contains - `nc`: Does not contain - `eq`: Equals - `ne`: Does not equal - `sw`: Starts with - `ew`: Ends with - `is`: Is set - `ns`: Is not set - `value`: A string. Not required when match is `is` or `ns`. ```json { "type": "event_attribute", "comparison": { "match": "co", "value": "bar", "attribute": "message" }, "conditionResult": true } ``` **Tagged Event** The event's tags `key` match `value` - `key`: The tag value - `match`: The comparison operator - `co`: Contains - `nc`: Does not contain - `eq`: Equals - `ne`: Does not equal - `sw`: Starts with - `ew`: Ends with - `is`: Is set - `ns`: Is not set - `value`: A string. Not required when match is `is` or `ns`. ```json { "type": "tagged_event", "comparison": { "key": "level", "match": "eq", "value": "error" }, "conditionResult": true } ``` **Latest Release** The event is from the latest release ```json { "type": "latest_release", "comparison": true, "conditionResult": true } ``` **Release Age** ```json { "type": "latest_adopted_release", "comparison": { "environment": "production", "ageComparison": "older", "releaseAgeType": "oldest" }, "conditionResult": true } ``` **Event Level** The event's level is `match` `level` - `match`: The comparison operator - `eq`: Equal - `gte`: Greater than or equal - `lte`: Less than or equal - `level`: The event level - `50`: Fatal - `40`: Error - `30`: Warning - `20`: Info - `10`: Debug - `0`: Sample ```json { "type": "level", "comparison": { "level": 50, "match": "eq" }, "conditionResult": true } ``` ## Actions A list of actions that take place when all required conditions and filters for the alert are met. See below for a list of possible actions. **Notify on Preferred Channel** - `data`: A dictionary with the fallthrough type option when choosing to notify Suggested Assignees. Leave empty if notifying a user or team. - `fallthroughType` - `ActiveMembers` - `AllMembers` - `NoOne` - `config`: A dictionary with the configuration options for notification. - `targetType`: The type of recipient to notify - `user`: User - `team`: Team - `issue_owners`: Suggested Assignees - `targetDisplay`: null - `targetIdentifier`: The id of the user or team to notify. Leave null for Suggested Assignees. ```json { "type":"email", "integrationId":null, "data":{}, "config":{ "targetType":"user", "targetDisplay":null, "targetIdentifier":"232692" }, "status":"active" }, { "type":"email", "integrationId":null, "data":{ "fallthroughType":"ActiveMembers" }, "config":{ "targetType":"issue_owners", "targetDisplay":null, "targetIdentifier":""} , "status":"active" } ``` **Notify on Slack** - `targetDisplay`: The name of the channel to notify in. `integrationId`: The stringified ID of the integration. ```json { "type":"slack", "config":{ "targetType":"specific", "targetIdentifier":"", "targetDisplay":"notify-errors" }, "integrationId":"1", "data":{}, "status":"active" } ``` **Notify on PagerDuty** - `targetDisplay`: The name of the service to create the ticket in. - `integrationId`: The stringified ID of the integration. - `data["priority"]`: The severity level for the notification. ```json { "type":"pagerduty", "config":{ "targetType":"specific", "targetIdentifier":"123456", "targetDisplay":"Error Service" }, "integrationId":"2345", "data":{ "priority":"default" }, "status":"active" } ``` **Notify on Discord** - `targetDisplay`: The name of the service to create the ticket in. - `integrationId`: The stringified ID of the integration. - `data["tags"]`: Comma separated list of tags to add to the notification. ```json { "type":"discord", "config":{ "targetType":"specific", "targetIdentifier":"12345", "targetDisplay":"", }, "integrationId":"1234", "data":{ "tags":"transaction,environment" }, "status":"active" } ``` **Notify on MSTeams** - `targetIdentifier` - The integration ID associated with the Microsoft Teams team. - `targetDisplay` - The name of the channel to send the notification to. - `integrationId`: The stringified ID of the integration. ```json { "type":"msteams", "config":{ "targetType":"specific", "targetIdentifier":"19:a4b3kghaghgkjah357y6847@thread.skype", "targetDisplay":"notify-errors" }, "integrationId":"1", "data":{}, "status":"active" } ``` **Notify on OpsGenie** - `targetDisplay`: The name of the Opsgenie team. - `targetIdentifier`: The ID of the Opsgenie team to send the notification to. - `integrationId`: The stringified ID of the integration. - `data["priority"]`: The priority level for the notification. ```json { "type":"opsgenie", "config":{ "targetType":"specific", "targetIdentifier":"123456-Error-Service", "targetDisplay":"Error Service" }, "integrationId":"2345", "data":{ "priority":"P3" }, "status":"active" } ``` **Notify on Azure DevOps** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"vsts", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a Jira ticket** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"jira", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a Jira Server ticket** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"jira_server", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a GitHub issue** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"github", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{ "additional_fields": { "assignee": "", "integration": "2345", "labels": [], "repo": "example-repo", }, "dynamic_form_fields": [ { "choices": [["YourOrg/example-repo", "example-repo"]], "default": "YourOrg/example-repo", "label": "GitHub Repository", "name": "repo", "required": true "type": "select", "updatesForm": true, "url": "/extensions/github/search/example-repo/1234567/", }, ], }, "status":"active" } ``` */
+  /** The filters to run before the action will fire and the action(s) to fire. `logicType` can be one of `any-short`, `all`, or `none`. Below is a basic example. See below for all other options. ```json "actionFilters": [ { "logicType": "any", "conditions": [ { "type": "level", "comparison": { "level": 50, "match": "eq" }, "conditionResult": true } ], "actions": [ { "id": "123", "type": "email", "integrationId": null, "data": {}, "config": { "targetType": "user", "targetDisplay": null, "targetIdentifier": "56789" }, "status": "active" } ] } ] ``` ## Conditions **Issue Age** - `time`: One of `minute`, `hour`, `day`, or `week`. - `value`: A positive integer. - `comparisonType`: One of `older` or `newer`. ```json { "type": "age_comparison", "comparison": { "time": "minute", "value": 10, "comparisonType": "older" }, "conditionResult": true } ``` **Issue Assignment** - `targetType`: Who the issue is assigned to - `Unassigned`: Unassigned - `Member`: Assigned to a user - `Team`: Assigned to a team - `targetIdentifier`: The ID of the user or team from the `targetType`. Enter "" if `targetType` is `Unassigned`. ```json { "type": "assigned_to", "comparison": { "targetType": "Member", "targetIdentifier": 123456 }, "conditionResult": true } ``` **Issue Category** - `value`: The issue category to filter to. - `1`: Error issues - `6`: Feedback issues - `10`: Outage issues - `11`: Metric issues - `12`: DB Query issues - `13`: HTTP Client issues - `14`: Front end issues - `15`: Mobile issues - `17`: Preprod issues - `19`: Configuration issues ```json { "type": "issue_category", "comparison": { "value": 1 }, "conditionResult": true } ``` **Issue Frequency** - `value`: A positive integer representing how many times the issue has to happen before the alert will fire. ```json { "type": "issue_occurrences", "comparison": { "value": 10 }, "conditionResult": true } ``` **De-escalation** - `comparison`: The priority threshold the issue must de-escalate below. - `75`: High priority - `50`: Medium priority - `25`: Low priority ```json { "type": "issue_priority_deescalating", "comparison": 75, "conditionResult": true } ``` **Issue Priority** - `comparison`: The priority the issue must be for the alert to fire. - `75`: High priority - `50`: Medium priority - `25`: Low priority ```json { "type": "issue_priority_greater_or_equal", "comparison": 75, "conditionResult": true } ``` **Number of Users Affected** - `value`: A positive integer representing the number of users that must be affected before the alert will fire. - `filters`: A list of additional sub-filters to evaluate before the alert will fire. - `interval`: The time period in which to evaluate the value. e.g. Number of users affected by an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "event_unique_user_frequency_count", "comparison": { "value": 100, "filters": [{"key": "foo", "match": "eq", "value": "bar"}], "interval": "1h" }, "conditionResult": true } ``` **Number of Events** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Number of events in an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "event_frequency_count", "comparison": { "value": 100, "interval": "1h" }, "conditionResult": true } ``` **Percent of Events** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Number of events in an issue is `comparisonInterval` percent higher `value` compared to `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days - `comparisonInterval`: The time period to compare against. See `interval` for options. ```json { "type": "event_frequency_percent", "comparison": { "value": 100, "interval": "1h", "comparisonInterval": "1w" }, "conditionResult": true } ``` **Percentage of Sessions Affected Count** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Percentage of sessions affected by an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "percent_sessions_count", "comparison": { "value": 10, "interval": "1h" }, "conditionResult": true } ``` **Percentage of Sessions Affected Percent** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Percentage of sessions affected by an issue is `comparisonInterval` percent higher `value` compared to `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days - `comparisonInterval`: The time period to compare against. See `interval` for options. ```json { "type": "percent_sessions_percent", "comparison": { "value": 10, "interval": "1h" }, "conditionResult": true } ``` **Event Attribute** The event's `attribute` value `match` `value` - `attribute`: The event attribute to match on. Valid values are: `message`, `platform`, `environment`, `type`, `error.handled`, `error.unhandled`, `error.main_thread`, `exception.type`, `exception.value`, `user.id`, `user.email`, `user.username`, `user.ip_address`, `http.method`, `http.url`, `http.status_code`, `sdk.name`, `stacktrace.code`, `stacktrace.module`, `stacktrace.filename`, `stacktrace.abs_path`, `stacktrace.package`, `unreal.crash_type`, `app.in_foreground`. - `match`: The comparison operator - `co`: Contains - `nc`: Does not contain - `eq`: Equals - `ne`: Does not equal - `sw`: Starts with - `ew`: Ends with - `is`: Is set - `ns`: Is not set - `value`: A string. Not required when match is `is` or `ns`. ```json { "type": "event_attribute", "comparison": { "match": "co", "value": "bar", "attribute": "message" }, "conditionResult": true } ``` **Tagged Event** The event's tags `key` match `value` - `key`: The tag value - `match`: The comparison operator - `co`: Contains - `nc`: Does not contain - `eq`: Equals - `ne`: Does not equal - `sw`: Starts with - `ew`: Ends with - `is`: Is set - `ns`: Is not set - `value`: A string. Not required when match is `is` or `ns`. ```json { "type": "tagged_event", "comparison": { "key": "level", "match": "eq", "value": "error" }, "conditionResult": true } ``` **Latest Release** The event is from the latest release ```json { "type": "latest_release", "comparison": true, "conditionResult": true } ``` **Release Age** ```json { "type": "latest_adopted_release", "comparison": { "environment": "production", "ageComparison": "older", "releaseAgeType": "oldest" }, "conditionResult": true } ``` **Event Level** The event's level is `match` `level` - `match`: The comparison operator - `eq`: Equal - `gte`: Greater than or equal - `lte`: Less than or equal - `level`: The event level - `50`: Fatal - `40`: Error - `30`: Warning - `20`: Info - `10`: Debug - `0`: Sample ```json { "type": "level", "comparison": { "level": 50, "match": "eq" }, "conditionResult": true } ``` ## Actions A list of actions that take place when all required conditions and filters for the alert are met. See below for a list of possible actions. **Notify on Preferred Channel** - `data`: A dictionary with the fallthrough type option when choosing to notify Suggested Assignees. Leave empty if notifying a user or team. - `fallthroughType` - `ActiveMembers` - `AllMembers` - `NoOne` - `config`: A dictionary with the configuration options for notification. - `targetType`: The type of recipient to notify - `user`: User - `team`: Team - `issue_owners`: Suggested Assignees - `targetDisplay`: null - `targetIdentifier`: The id of the user or team to notify. Leave null for Suggested Assignees. ```json { "type":"email", "integrationId":null, "data":{}, "config":{ "targetType":"user", "targetDisplay":null, "targetIdentifier":"232692" }, "status":"active" }, { "type":"email", "integrationId":null, "data":{ "fallthroughType":"ActiveMembers" }, "config":{ "targetType":"issue_owners", "targetDisplay":null, "targetIdentifier":""} , "status":"active" } ``` **Notify on Slack** - `targetDisplay`: The name of the channel to notify in. `integrationId`: The stringified ID of the integration. ```json { "type":"slack", "config":{ "targetType":"specific", "targetIdentifier":"", "targetDisplay":"notify-errors" }, "integrationId":"1", "data":{}, "status":"active" } ``` **Notify on PagerDuty** - `targetDisplay`: The name of the service to create the ticket in. - `integrationId`: The stringified ID of the integration. - `data["priority"]`: The severity level for the notification. ```json { "type":"pagerduty", "config":{ "targetType":"specific", "targetIdentifier":"123456", "targetDisplay":"Error Service" }, "integrationId":"2345", "data":{ "priority":"default" }, "status":"active" } ``` **Notify on Discord** - `targetDisplay`: The name of the service to create the ticket in. - `integrationId`: The stringified ID of the integration. - `data["tags"]`: Comma separated list of tags to add to the notification. ```json { "type":"discord", "config":{ "targetType":"specific", "targetIdentifier":"12345", "targetDisplay":"", }, "integrationId":"1234", "data":{ "tags":"transaction,environment" }, "status":"active" } ``` **Notify on MSTeams** - `targetIdentifier` - The integration ID associated with the Microsoft Teams team. - `targetDisplay` - The name of the channel to send the notification to. - `integrationId`: The stringified ID of the integration. ```json { "type":"msteams", "config":{ "targetType":"specific", "targetIdentifier":"19:a4b3kghaghgkjah357y6847@thread.skype", "targetDisplay":"notify-errors" }, "integrationId":"1", "data":{}, "status":"active" } ``` **Notify on OpsGenie** - `targetDisplay`: The name of the Opsgenie team. - `targetIdentifier`: The ID of the Opsgenie team to send the notification to. - `integrationId`: The stringified ID of the integration. - `data["priority"]`: The priority level for the notification. ```json { "type":"opsgenie", "config":{ "targetType":"specific", "targetIdentifier":"123456-Error-Service", "targetDisplay":"Error Service" }, "integrationId":"2345", "data":{ "priority":"P3" }, "status":"active" } ``` **Notify on Azure DevOps** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"vsts", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a Jira ticket** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"jira", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a Jira Server ticket** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"jira_server", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a GitHub issue** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"github", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{ "additional_fields": { "assignee": "", "integration": "2345", "labels": [], "repo": "example-repo", }, "dynamic_form_fields": [ { "choices": [["YourOrg/example-repo", "example-repo"]], "default": "YourOrg/example-repo", "label": "GitHub Repository", "name": "repo", "required": true "type": "select", "updatesForm": true, "url": "/extensions/github/search/example-repo/1234567/", }, ], }, "status":"active" } ``` */
   action_filters?: CreateOrganizationWorkflowRequestActionFiltersList;
   /** The ID user or team who owns the monitor or alert prefaced by the string 'user' or 'team'. **User** ```json "user:123456" ``` **Team** ```json "team:456789" ``` */
   owner?: string | null;
@@ -5479,9 +6131,7 @@ export const CreateOrganizationWorkflowResponseActionFiltersList = /*@__PURE__*/
   CreateOrganizationWorkflowResponseActionFiltersItem,
 ) as any as S.Schema<CreateOrganizationWorkflowResponseActionFiltersList>;
 
-export type CreateOrganizationWorkflowResponseConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateOrganizationWorkflowResponseConfigMap = { [key: string]: unknown | undefined };
 export const CreateOrganizationWorkflowResponseConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -5578,6 +6228,254 @@ export const CreateOrUpdateAnExternalIssueResponse = /*@__PURE__*/ S.suspend(() 
   identifier: "CreateOrUpdateAnExternalIssueResponse",
 }) as any as S.Schema<CreateOrUpdateAnExternalIssueResponse>;
 
+export interface CreateProjectCodeOwnersRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
+  project_id_or_slug: string;
+  /** The raw contents of the CODEOWNERS file. */
+  raw: string;
+  /** The ID of the code mapping used to translate repository paths to stack trace paths. */
+  codeMappingId: string;
+}
+export const CreateProjectCodeOwnersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id_or_slug: S.String.pipe(T.Label()),
+    project_id_or_slug: S.String.pipe(T.Label()),
+    raw: S.String,
+    codeMappingId: S.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/0/projects/{organization_id_or_slug}/{project_id_or_slug}/codeowners/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateProjectCodeOwnersRequest",
+}) as any as S.Schema<CreateProjectCodeOwnersRequest>;
+
+export type CreateProjectCodeOwnersResponseCodeMappingProviderFeaturesList = Array<string>;
+export const CreateProjectCodeOwnersResponseCodeMappingProviderFeaturesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateProjectCodeOwnersResponseCodeMappingProviderFeaturesList>;
+
+export type CreateProjectCodeOwnersResponseCodeMappingProviderAspectsMap = {
+  [key: string]: unknown | undefined;
+};
+export const CreateProjectCodeOwnersResponseCodeMappingProviderAspectsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<CreateProjectCodeOwnersResponseCodeMappingProviderAspectsMap>;
+
+export interface CreateProjectCodeOwnersResponseCodeMappingProvider {
+  key: string;
+  slug: string;
+  name: string;
+  canAdd: boolean;
+  canDisable: boolean;
+  features: CreateProjectCodeOwnersResponseCodeMappingProviderFeaturesList;
+  aspects: CreateProjectCodeOwnersResponseCodeMappingProviderAspectsMap;
+}
+export const CreateProjectCodeOwnersResponseCodeMappingProvider = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    slug: S.String,
+    name: S.String,
+    canAdd: S.Boolean,
+    canDisable: S.Boolean,
+    features: CreateProjectCodeOwnersResponseCodeMappingProviderFeaturesList,
+    aspects: CreateProjectCodeOwnersResponseCodeMappingProviderAspectsMap,
+  }),
+).annotate({
+  identifier: "CreateProjectCodeOwnersResponseCodeMappingProvider",
+}) as any as S.Schema<CreateProjectCodeOwnersResponseCodeMappingProvider>;
+
+export interface CreateProjectCodeOwnersResponseCodeMapping {
+  id: string;
+  projectId: string;
+  projectSlug: string;
+  repoId: string;
+  repoName: string;
+  integrationId: string | null;
+  provider: CreateProjectCodeOwnersResponseCodeMappingProvider | null;
+  stackRoot: string;
+  sourceRoot: string;
+  defaultBranch: string | null;
+  automaticallyGenerated: boolean;
+  hasCodeOwner: boolean;
+}
+export const CreateProjectCodeOwnersResponseCodeMapping = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    projectId: S.String,
+    projectSlug: S.String,
+    repoId: S.String,
+    repoName: S.String,
+    integrationId: S.NullOr(S.String),
+    provider: S.NullOr(CreateProjectCodeOwnersResponseCodeMappingProvider),
+    stackRoot: S.String,
+    sourceRoot: S.String,
+    defaultBranch: S.NullOr(S.String),
+    automaticallyGenerated: S.Boolean,
+    hasCodeOwner: S.Boolean,
+  }),
+).annotate({
+  identifier: "CreateProjectCodeOwnersResponseCodeMapping",
+}) as any as S.Schema<CreateProjectCodeOwnersResponseCodeMapping>;
+
+export type CreateProjectCodeOwnersResponseErrorsMissingUserEmailsList = Array<string>;
+export const CreateProjectCodeOwnersResponseErrorsMissingUserEmailsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateProjectCodeOwnersResponseErrorsMissingUserEmailsList>;
+
+export type CreateProjectCodeOwnersResponseErrorsMissingExternalUsersList = Array<string>;
+export const CreateProjectCodeOwnersResponseErrorsMissingExternalUsersList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateProjectCodeOwnersResponseErrorsMissingExternalUsersList>;
+
+export type CreateProjectCodeOwnersResponseErrorsMissingExternalTeamsList = Array<string>;
+export const CreateProjectCodeOwnersResponseErrorsMissingExternalTeamsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateProjectCodeOwnersResponseErrorsMissingExternalTeamsList>;
+
+export type CreateProjectCodeOwnersResponseErrorsTeamsWithoutAccessList = Array<string>;
+export const CreateProjectCodeOwnersResponseErrorsTeamsWithoutAccessList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateProjectCodeOwnersResponseErrorsTeamsWithoutAccessList>;
+
+export type CreateProjectCodeOwnersResponseErrorsUsersWithoutAccessList = Array<string>;
+export const CreateProjectCodeOwnersResponseErrorsUsersWithoutAccessList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateProjectCodeOwnersResponseErrorsUsersWithoutAccessList>;
+
+export interface CreateProjectCodeOwnersResponseErrors {
+  missing_user_emails: CreateProjectCodeOwnersResponseErrorsMissingUserEmailsList;
+  missing_external_users: CreateProjectCodeOwnersResponseErrorsMissingExternalUsersList;
+  missing_external_teams: CreateProjectCodeOwnersResponseErrorsMissingExternalTeamsList;
+  teams_without_access: CreateProjectCodeOwnersResponseErrorsTeamsWithoutAccessList;
+  users_without_access: CreateProjectCodeOwnersResponseErrorsUsersWithoutAccessList;
+}
+export const CreateProjectCodeOwnersResponseErrors = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    missing_user_emails: CreateProjectCodeOwnersResponseErrorsMissingUserEmailsList,
+    missing_external_users: CreateProjectCodeOwnersResponseErrorsMissingExternalUsersList,
+    missing_external_teams: CreateProjectCodeOwnersResponseErrorsMissingExternalTeamsList,
+    teams_without_access: CreateProjectCodeOwnersResponseErrorsTeamsWithoutAccessList,
+    users_without_access: CreateProjectCodeOwnersResponseErrorsUsersWithoutAccessList,
+  }),
+).annotate({
+  identifier: "CreateProjectCodeOwnersResponseErrors",
+}) as any as S.Schema<CreateProjectCodeOwnersResponseErrors>;
+
+export interface CreateProjectCodeOwnersResponseSchemaCase0RulesItemMatcher {
+  type: string;
+  pattern: string;
+}
+export const CreateProjectCodeOwnersResponseSchemaCase0RulesItemMatcher = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      type: S.String,
+      pattern: S.String,
+    }),
+).annotate({
+  identifier: "CreateProjectCodeOwnersResponseSchemaCase0RulesItemMatcher",
+}) as any as S.Schema<CreateProjectCodeOwnersResponseSchemaCase0RulesItemMatcher>;
+
+/** Owner as it appears in the API response (after identifier->name rename). */
+export interface CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem {
+  type: string;
+  name: string;
+  id?: string;
+}
+export const CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: S.String,
+      name: S.String,
+      id: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem",
+  }) as any as S.Schema<CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem>;
+
+export type CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersList =
+  Array<CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem>;
+export const CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersList = /*@__PURE__*/ S.Array(
+  CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem,
+) as any as S.Schema<CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersList>;
+
+export interface CreateProjectCodeOwnersResponseSchemaCase0RulesItem {
+  matcher: CreateProjectCodeOwnersResponseSchemaCase0RulesItemMatcher;
+  owners: CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersList;
+}
+export const CreateProjectCodeOwnersResponseSchemaCase0RulesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    matcher: CreateProjectCodeOwnersResponseSchemaCase0RulesItemMatcher,
+    owners: CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersList,
+  }),
+).annotate({
+  identifier: "CreateProjectCodeOwnersResponseSchemaCase0RulesItem",
+}) as any as S.Schema<CreateProjectCodeOwnersResponseSchemaCase0RulesItem>;
+
+export type CreateProjectCodeOwnersResponseSchemaCase0RulesList =
+  Array<CreateProjectCodeOwnersResponseSchemaCase0RulesItem>;
+export const CreateProjectCodeOwnersResponseSchemaCase0RulesList = /*@__PURE__*/ S.Array(
+  CreateProjectCodeOwnersResponseSchemaCase0RulesItem,
+) as any as S.Schema<CreateProjectCodeOwnersResponseSchemaCase0RulesList>;
+
+export interface CreateProjectCodeOwnersResponseSchemaCase0 {
+  _version: number;
+  rules: CreateProjectCodeOwnersResponseSchemaCase0RulesList;
+}
+export const CreateProjectCodeOwnersResponseSchemaCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _version: S.Number.pipe(T.Body("$version")),
+    rules: CreateProjectCodeOwnersResponseSchemaCase0RulesList,
+  }),
+).annotate({
+  identifier: "CreateProjectCodeOwnersResponseSchemaCase0",
+}) as any as S.Schema<CreateProjectCodeOwnersResponseSchemaCase0>;
+
+export type CreateProjectCodeOwnersResponseSchema =
+  | CreateProjectCodeOwnersResponseSchemaCase0
+  | unknown;
+export const CreateProjectCodeOwnersResponseSchema =
+  S.Unknown as any as S.Schema<CreateProjectCodeOwnersResponseSchema>;
+
+export interface CreateProjectCodeOwnersResponse {
+  codeMapping?: CreateProjectCodeOwnersResponseCodeMapping;
+  ownershipSyntax?: string;
+  errors?: CreateProjectCodeOwnersResponseErrors;
+  schema?: CreateProjectCodeOwnersResponseSchema;
+  codeOwnersUrl?: string;
+  id: string;
+  raw: string;
+  dateCreated: string;
+  dateUpdated: string;
+  dateSynced: string | null;
+  codeMappingId: string;
+  provider: string;
+}
+export const CreateProjectCodeOwnersResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    codeMapping: S.optional(CreateProjectCodeOwnersResponseCodeMapping),
+    ownershipSyntax: S.optional(S.String),
+    errors: S.optional(CreateProjectCodeOwnersResponseErrors),
+    schema: S.optional(CreateProjectCodeOwnersResponseSchema),
+    codeOwnersUrl: S.optional(S.String),
+    id: S.String,
+    raw: S.String,
+    dateCreated: S.String,
+    dateUpdated: S.String,
+    dateSynced: S.NullOr(S.String),
+    codeMappingId: S.String,
+    provider: S.String,
+  }),
+).annotate({
+  identifier: "CreateProjectCodeOwnersResponse",
+}) as any as S.Schema<CreateProjectCodeOwnersResponse>;
+
 /** Applies a rate limit to cap the number of errors accepted during a given time window. To disable entirely set `rateLimit` to null. ```json { "rateLimit": { "window": 7200, // time in seconds "count": 1000 // error cap } } ``` */
 export interface CreateProjectKeyRequestRateLimit {
   count?: number | null;
@@ -5622,9 +6520,7 @@ export const CreateProjectKeyRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateProjectKeyRequest",
-}) as any as S.Schema<CreateProjectKeyRequest>;
+).annotate({ identifier: "CreateProjectKeyRequest" }) as any as S.Schema<CreateProjectKeyRequest>;
 
 export interface CreateProjectKeyResponseRateLimit {
   window: number;
@@ -5748,9 +6644,7 @@ export const CreateProjectKeyResponse = /*@__PURE__*/ S.suspend(() =>
     dynamicSdkLoaderOptions: CreateProjectKeyResponseDynamicSdkLoaderOptions,
     useCase: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateProjectKeyResponse",
-}) as any as S.Schema<CreateProjectKeyResponse>;
+).annotate({ identifier: "CreateProjectKeyResponse" }) as any as S.Schema<CreateProjectKeyResponse>;
 
 /** The repository integration provider. * `github` * `github_enterprise` */
 export type CreateProjectPreprodSizeAnalysisSkippedStatusCheckRequestProvider =
@@ -5927,7 +6821,7 @@ export const CreateProjectReplayDeletionJobResponse = /*@__PURE__*/ S.suspend(()
   identifier: "CreateProjectReplayDeletionJobResponse",
 }) as any as S.Schema<CreateProjectReplayDeletionJobResponse>;
 
-/** The provider of the external actor. * `github` * `github_enterprise` * `jira_server` * `slack` * `slack_staging` * `perforce` * `gitlab` * `msteams` * `custom_scm` */
+/** The provider of the external actor. * `github` * `github_enterprise` * `jira_server` * `slack` * `slack_staging` * `perforce` * `gitlab` * `cursor_origin` * `msteams` * `custom_scm` */
 export type CreateTeamExternalTeamRequestProvider =
   | "github"
   | "github_enterprise"
@@ -5936,6 +6830,7 @@ export type CreateTeamExternalTeamRequestProvider =
   | "slack_staging"
   | "perforce"
   | "gitlab"
+  | "cursor_origin"
   | "msteams"
   | "custom_scm";
 export const CreateTeamExternalTeamRequestProvider = S.String;
@@ -5945,9 +6840,11 @@ export interface CreateTeamExternalTeamRequest {
   organization_id_or_slug: string;
   /** The ID or slug of the team the resource belongs to. */
   team_id_or_slug: string;
+  /** ID of the Sentry team to link to the external team. */
+  team_id: number;
   /** The associated name for the provider. */
   external_name: string;
-  /** The provider of the external actor. * `github` * `github_enterprise` * `jira_server` * `slack` * `slack_staging` * `perforce` * `gitlab` * `msteams` * `custom_scm` */
+  /** The provider of the external actor. * `github` * `github_enterprise` * `jira_server` * `slack` * `slack_staging` * `perforce` * `gitlab` * `cursor_origin` * `msteams` * `custom_scm` */
   provider: CreateTeamExternalTeamRequestProvider | (string & {});
   /** The Integration ID. */
   integration_id: number;
@@ -5958,6 +6855,7 @@ export const CreateTeamExternalTeamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organization_id_or_slug: S.String.pipe(T.Label()),
     team_id_or_slug: S.String.pipe(T.Label()),
+    team_id: S.Number,
     external_name: S.String,
     provider: CreateTeamExternalTeamRequestProvider,
     integration_id: S.Number,
@@ -6025,13 +6923,9 @@ export const CreateTeamProjectRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateTeamProjectRequest",
-}) as any as S.Schema<CreateTeamProjectRequest>;
+).annotate({ identifier: "CreateTeamProjectRequest" }) as any as S.Schema<CreateTeamProjectRequest>;
 
-export type CreateTeamProjectResponseLatestDeploysValueMap = {
-  [key: string]: string | undefined;
-};
+export type CreateTeamProjectResponseLatestDeploysValueMap = { [key: string]: string | undefined };
 export const CreateTeamProjectResponseLatestDeploysValueMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6045,9 +6939,7 @@ export const CreateTeamProjectResponseLatestDeploysMap = /*@__PURE__*/ S.Record(
   CreateTeamProjectResponseLatestDeploysValueMap,
 ) as any as S.Schema<CreateTeamProjectResponseLatestDeploysMap>;
 
-export type CreateTeamProjectResponseOptionsMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateTeamProjectResponseOptionsMap = { [key: string]: unknown | undefined };
 export const CreateTeamProjectResponseOptionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -6182,6 +7074,37 @@ export const CreateTeamProjectResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateTeamProjectResponse",
 }) as any as S.Schema<CreateTeamProjectResponse>;
+
+export interface DeleteACustomInboundFilterRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
+  project_id_or_slug: string;
+  /** The ID of the custom inbound filter. */
+  filter_id: string;
+}
+export const DeleteACustomInboundFilterRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id_or_slug: S.String.pipe(T.Label()),
+    project_id_or_slug: S.String.pipe(T.Label()),
+    filter_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/api/0/projects/{organization_id_or_slug}/{project_id_or_slug}/custom-inbound-filters/{filter_id}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeleteACustomInboundFilterRequest",
+}) as any as S.Schema<DeleteACustomInboundFilterRequest>;
+
+export interface DeleteACustomInboundFilterResponse {}
+export const DeleteACustomInboundFilterResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteACustomInboundFilterResponse",
+}) as any as S.Schema<DeleteACustomInboundFilterResponse>;
 
 export interface DeleteAnExternalIssueRequest {
   /** The uuid of the integration platform integration. */
@@ -6452,10 +7375,39 @@ export const DeleteOrganizationIssueRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteOrganizationIssueResponse {}
 export const DeleteOrganizationIssueResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteOrganizationIssueResponse",
-  },
+  { identifier: "DeleteOrganizationIssueResponse" },
 ) as any as S.Schema<DeleteOrganizationIssueResponse>;
+
+export interface DeleteOrganizationIssueExternalIssueRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** The ID of the issue you'd like to query. */
+  issue_id: string;
+  /** The ID of the custom integration issue link to remove. */
+  external_issue_id: string;
+}
+export const DeleteOrganizationIssueExternalIssueRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id_or_slug: S.String.pipe(T.Label()),
+    issue_id: S.String.pipe(T.Label()),
+    external_issue_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/api/0/organizations/{organization_id_or_slug}/issues/{issue_id}/external-issues/{external_issue_id}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeleteOrganizationIssueExternalIssueRequest",
+}) as any as S.Schema<DeleteOrganizationIssueExternalIssueRequest>;
+
+export interface DeleteOrganizationIssueExternalIssueResponse {}
+export const DeleteOrganizationIssueExternalIssueResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteOrganizationIssueExternalIssueResponse",
+}) as any as S.Schema<DeleteOrganizationIssueExternalIssueResponse>;
 
 export type DeleteOrganizationIssuesRequestEnvironmentList = Array<string>;
 export const DeleteOrganizationIssuesRequestEnvironmentList = /*@__PURE__*/ S.Array(
@@ -6496,6 +7448,12 @@ export interface DeleteOrganizationIssuesRequest {
   project?: DeleteOrganizationIssuesRequestProjectList;
   /** The list of issue IDs to be removed. If not provided, it will attempt to remove the first 1000 issues. */
   id?: DeleteOrganizationIssuesRequestIdList;
+  /** The period of time for the query, will override the start & end parameters, a number followed by one of: - `d` for days - `h` for hours - `m` for minutes - `s` for seconds - `w` for weeks For example, `24h`, to mean query data starting from 24 hours ago to now. */
+  statsPeriod?: string;
+  /** The start of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
+  start?: string;
+  /** The end of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
+  end?: string;
   /** An optional search query for filtering issues. A default query will apply if no view/query is set. For all results use this parameter with an empty string. */
   query?: string;
   /** The ID of the view to use. If no query is present, the view's query and filters will be applied. */
@@ -6511,6 +7469,9 @@ export const DeleteOrganizationIssuesRequest = /*@__PURE__*/ S.suspend(() =>
     environment: S.optional(DeleteOrganizationIssuesRequestEnvironmentList.pipe(T.Query())),
     project: S.optional(DeleteOrganizationIssuesRequestProjectList.pipe(T.Query())),
     id: S.optional(DeleteOrganizationIssuesRequestIdList.pipe(T.Query())),
+    statsPeriod: S.optional(S.String.pipe(T.Query())),
+    start: S.optional(S.String.pipe(T.Query())),
+    end: S.optional(S.String.pipe(T.Query())),
     query: S.optional(S.String.pipe(T.Query())),
     viewId: S.optional(S.String.pipe(T.Query())),
     sort: S.optional(DeleteOrganizationIssuesRequestSort.pipe(T.Query())),
@@ -6585,9 +7546,7 @@ export const DeleteOrganizationMemberTeamRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteOrganizationMemberTeamRequest",
 }) as any as S.Schema<DeleteOrganizationMemberTeamRequest>;
 
-export type DeleteOrganizationMemberTeamResponseFlagsMap = {
-  [key: string]: unknown | undefined;
-};
+export type DeleteOrganizationMemberTeamResponseFlagsMap = { [key: string]: unknown | undefined };
 export const DeleteOrganizationMemberTeamResponseFlagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -6935,14 +7894,41 @@ export const DeleteProjectRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteProjectRequest",
-}) as any as S.Schema<DeleteProjectRequest>;
+).annotate({ identifier: "DeleteProjectRequest" }) as any as S.Schema<DeleteProjectRequest>;
 
 export interface DeleteProjectResponse {}
 export const DeleteProjectResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteProjectResponse",
 }) as any as S.Schema<DeleteProjectResponse>;
+
+export interface DeleteProjectCodeOwnersRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
+  project_id_or_slug: string;
+  /** The ID of the CODEOWNERS configuration. */
+  codeowners_id: string;
+}
+export const DeleteProjectCodeOwnersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id_or_slug: S.String.pipe(T.Label()),
+    project_id_or_slug: S.String.pipe(T.Label()),
+    codeowners_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/api/0/projects/{organization_id_or_slug}/{project_id_or_slug}/codeowners/{codeowners_id}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeleteProjectCodeOwnersRequest",
+}) as any as S.Schema<DeleteProjectCodeOwnersRequest>;
+
+export interface DeleteProjectCodeOwnersResponse {}
+export const DeleteProjectCodeOwnersResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
+  { identifier: "DeleteProjectCodeOwnersResponse" },
+) as any as S.Schema<DeleteProjectCodeOwnersResponse>;
 
 export interface DeleteProjectKeyRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -6964,9 +7950,7 @@ export const DeleteProjectKeyRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteProjectKeyRequest",
-}) as any as S.Schema<DeleteProjectKeyRequest>;
+).annotate({ identifier: "DeleteProjectKeyRequest" }) as any as S.Schema<DeleteProjectKeyRequest>;
 
 export interface DeleteProjectKeyResponse {}
 export const DeleteProjectKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7124,9 +8108,7 @@ export const DeleteProjectTeamRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteProjectTeamRequest",
-}) as any as S.Schema<DeleteProjectTeamRequest>;
+).annotate({ identifier: "DeleteProjectTeamRequest" }) as any as S.Schema<DeleteProjectTeamRequest>;
 
 export type DeleteProjectTeamResponseFeaturesList = Array<string>;
 export const DeleteProjectTeamResponseFeaturesList = /*@__PURE__*/ S.Array(
@@ -7253,15 +8235,9 @@ export const DeleteSentryAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sentry_app_id_or_slug: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/0/sentry-apps/{sentry_app_id_or_slug}/",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/0/sentry-apps/{sentry_app_id_or_slug}/", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteSentryAppRequest",
-}) as any as S.Schema<DeleteSentryAppRequest>;
+).annotate({ identifier: "DeleteSentryAppRequest" }) as any as S.Schema<DeleteSentryAppRequest>;
 
 export interface DeleteSentryAppResponse {}
 export const DeleteSentryAppResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7285,9 +8261,7 @@ export const DeleteTeamRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteTeamRequest",
-}) as any as S.Schema<DeleteTeamRequest>;
+).annotate({ identifier: "DeleteTeamRequest" }) as any as S.Schema<DeleteTeamRequest>;
 
 export interface DeleteTeamResponse {}
 export const DeleteTeamResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7387,6 +8361,155 @@ export const EnableSpikeProtectionResponse = /*@__PURE__*/ S.suspend(() => S.Str
   identifier: "EnableSpikeProtectionResponse",
 }) as any as S.Schema<EnableSpikeProtectionResponse>;
 
+/** The action to perform: `link` or `create`. */
+export type ExecuteSentryAppInstallationExternalIssueActionRequestAction = "link" | "create";
+export const ExecuteSentryAppInstallationExternalIssueActionRequestAction = S.String;
+
+export interface ExecuteSentryAppInstallationExternalIssueActionRequest {
+  /** The UUID of the Sentry App installation. */
+  uuid: string;
+  /** The exact canonical webUrl of the external issue to link. Only supported for action=link. An existing matching association is a no-op; a different association or callback URL returns 409 without replacing the link. */
+  expectedExternalIssueUrl?: string;
+  /** The numeric Sentry issue ID. */
+  groupId: string;
+  /** The action to perform: `link` or `create`. */
+  action: ExecuteSentryAppInstallationExternalIssueActionRequestAction | (string & {});
+  /** The relative callback URI from the app's issue-link form. */
+  uri: string;
+}
+export const ExecuteSentryAppInstallationExternalIssueActionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.String.pipe(T.Label()),
+    expectedExternalIssueUrl: S.optional(S.String.pipe(T.Query())),
+    groupId: S.String,
+    action: ExecuteSentryAppInstallationExternalIssueActionRequestAction,
+    uri: S.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/0/sentry-app-installations/{uuid}/external-issue-actions/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ExecuteSentryAppInstallationExternalIssueActionRequest",
+}) as any as S.Schema<ExecuteSentryAppInstallationExternalIssueActionRequest>;
+
+export interface ExecuteSentryAppInstallationExternalIssueActionResponse {
+  id: string;
+  issueId: string;
+  serviceType: string;
+  displayName: string;
+  webUrl: string;
+}
+export const ExecuteSentryAppInstallationExternalIssueActionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    issueId: S.String,
+    serviceType: S.String,
+    displayName: S.String,
+    webUrl: S.String,
+  }),
+).annotate({
+  identifier: "ExecuteSentryAppInstallationExternalIssueActionResponse",
+}) as any as S.Schema<ExecuteSentryAppInstallationExternalIssueActionResponse>;
+
+export interface GetACustomInboundFilterRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
+  project_id_or_slug: string;
+  /** The ID of the custom inbound filter. */
+  filter_id: string;
+}
+export const GetACustomInboundFilterRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id_or_slug: S.String.pipe(T.Label()),
+    project_id_or_slug: S.String.pipe(T.Label()),
+    filter_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/0/projects/{organization_id_or_slug}/{project_id_or_slug}/custom-inbound-filters/{filter_id}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetACustomInboundFilterRequest",
+}) as any as S.Schema<GetACustomInboundFilterRequest>;
+
+/** The data the filter matches against. `all` is the catch-all: it filters every data type Sentry ingests, including ones added later, and accepts only the conditions that every data type carries a field for. * `all` * `error` * `log` * `metric` * `span` */
+export type GetACustomInboundFilterResponseDataType = "all" | "error" | "log" | "metric" | "span";
+export const GetACustomInboundFilterResponseDataType = S.String;
+
+/** The field the condition matches against. Every `dataType` accepts `release` and `ip_address`. In addition, `error` accepts `error_type` and `error_message`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `ip_address` */
+export type GetACustomInboundFilterResponseConditionsItemType =
+  | "error_type"
+  | "error_message"
+  | "log_message"
+  | "metric_name"
+  | "release"
+  | "ip_address";
+export const GetACustomInboundFilterResponseConditionsItemType = S.String;
+
+/** Glob patterns the field is matched against. The condition matches when any pattern matches, so multiple values act as OR. */
+export type GetACustomInboundFilterResponseConditionsItemValueList = Array<string>;
+export const GetACustomInboundFilterResponseConditionsItemValueList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetACustomInboundFilterResponseConditionsItemValueList>;
+
+export interface GetACustomInboundFilterResponseConditionsItem {
+  /** The field the condition matches against. Every `dataType` accepts `release` and `ip_address`. In addition, `error` accepts `error_type` and `error_message`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `ip_address` */
+  type: GetACustomInboundFilterResponseConditionsItemType;
+  /** Glob patterns the field is matched against. The condition matches when any pattern matches, so multiple values act as OR. */
+  value: GetACustomInboundFilterResponseConditionsItemValueList;
+}
+export const GetACustomInboundFilterResponseConditionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: GetACustomInboundFilterResponseConditionsItemType,
+    value: GetACustomInboundFilterResponseConditionsItemValueList,
+  }),
+).annotate({
+  identifier: "GetACustomInboundFilterResponseConditionsItem",
+}) as any as S.Schema<GetACustomInboundFilterResponseConditionsItem>;
+
+/** Conditions are combined with AND: an event must match every condition to be filtered out. There is no OR between conditions, so e.g. two release conditions can express a range (`>2 AND <4`). To broaden matching, widen a condition's values or add separate filters. */
+export type GetACustomInboundFilterResponseConditionsList =
+  Array<GetACustomInboundFilterResponseConditionsItem>;
+export const GetACustomInboundFilterResponseConditionsList = /*@__PURE__*/ S.Array(
+  GetACustomInboundFilterResponseConditionsItem,
+) as any as S.Schema<GetACustomInboundFilterResponseConditionsList>;
+
+export interface GetACustomInboundFilterResponse {
+  /** The ID of the filter. */
+  id: string;
+  /** The data the filter matches against. `all` is the catch-all: it filters every data type Sentry ingests, including ones added later, and accepts only the conditions that every data type carries a field for. * `all` * `error` * `log` * `metric` * `span` */
+  dataType: GetACustomInboundFilterResponseDataType;
+  /** Conditions are combined with AND: an event must match every condition to be filtered out. There is no OR between conditions, so e.g. two release conditions can express a range (`>2 AND <4`). To broaden matching, widen a condition's values or add separate filters. */
+  conditions: GetACustomInboundFilterResponseConditionsList;
+  /** When the filter was created. */
+  dateCreated: string;
+  /** When the filter was last changed. */
+  dateUpdated: string;
+  /** A human-readable label for the filter. */
+  name?: string | null;
+  /** Whether the filter drops matching data. An inactive filter is kept but ignored. */
+  active?: boolean;
+}
+export const GetACustomInboundFilterResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    dataType: GetACustomInboundFilterResponseDataType,
+    conditions: GetACustomInboundFilterResponseConditionsList,
+    dateCreated: S.String,
+    dateUpdated: S.String,
+    name: S.optional(S.NullOr(S.String)),
+    active: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "GetACustomInboundFilterResponse",
+}) as any as S.Schema<GetACustomInboundFilterResponse>;
+
 export type GetAnIntegrationSIssueConfigForAnIssueRequestAction = "create" | "link";
 export const GetAnIntegrationSIssueConfigForAnIssueRequestAction = S.String;
 
@@ -7421,6 +8544,28 @@ export type GetAnIntegrationSIssueConfigForAnIssueResponseScopesList = Array<str
 export const GetAnIntegrationSIssueConfigForAnIssueResponseScopesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<GetAnIntegrationSIssueConfigForAnIssueResponseScopesList>;
+
+/** A feature the installation can no longer support, named by the permission tier it falls short of, so the update-permissions modal can list them. */
+export interface GetAnIntegrationSIssueConfigForAnIssueResponseMissingFeaturesItem {
+  key: string;
+  description: string;
+}
+export const GetAnIntegrationSIssueConfigForAnIssueResponseMissingFeaturesItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      key: S.String,
+      description: S.String,
+    }),
+  ).annotate({
+    identifier: "GetAnIntegrationSIssueConfigForAnIssueResponseMissingFeaturesItem",
+  }) as any as S.Schema<GetAnIntegrationSIssueConfigForAnIssueResponseMissingFeaturesItem>;
+
+export type GetAnIntegrationSIssueConfigForAnIssueResponseMissingFeaturesList =
+  Array<GetAnIntegrationSIssueConfigForAnIssueResponseMissingFeaturesItem>;
+export const GetAnIntegrationSIssueConfigForAnIssueResponseMissingFeaturesList =
+  /*@__PURE__*/ S.Array(
+    GetAnIntegrationSIssueConfigForAnIssueResponseMissingFeaturesItem,
+  ) as any as S.Schema<GetAnIntegrationSIssueConfigForAnIssueResponseMissingFeaturesList>;
 
 export type GetAnIntegrationSIssueConfigForAnIssueResponseProviderFeaturesList = Array<string>;
 export const GetAnIntegrationSIssueConfigForAnIssueResponseProviderFeaturesList =
@@ -7500,6 +8645,7 @@ export interface GetAnIntegrationSIssueConfigForAnIssueResponse {
   accountType: string | null;
   scopes: GetAnIntegrationSIssueConfigForAnIssueResponseScopesList | null;
   outOfDate: boolean | null;
+  missingFeatures: GetAnIntegrationSIssueConfigForAnIssueResponseMissingFeaturesList | null;
   status: string;
   provider: GetAnIntegrationSIssueConfigForAnIssueResponseProvider;
   linkIssueConfig?: GetAnIntegrationSIssueConfigForAnIssueResponseLinkIssueConfigList;
@@ -7514,6 +8660,7 @@ export const GetAnIntegrationSIssueConfigForAnIssueResponse = /*@__PURE__*/ S.su
     accountType: S.NullOr(S.String),
     scopes: S.NullOr(GetAnIntegrationSIssueConfigForAnIssueResponseScopesList),
     outOfDate: S.NullOr(S.Boolean),
+    missingFeatures: S.NullOr(GetAnIntegrationSIssueConfigForAnIssueResponseMissingFeaturesList),
     status: S.String,
     provider: GetAnIntegrationSIssueConfigForAnIssueResponseProvider,
     linkIssueConfig: S.optional(GetAnIntegrationSIssueConfigForAnIssueResponseLinkIssueConfigList),
@@ -7545,9 +8692,7 @@ export const GetAServiceHookRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetAServiceHookRequest",
-}) as any as S.Schema<GetAServiceHookRequest>;
+).annotate({ identifier: "GetAServiceHookRequest" }) as any as S.Schema<GetAServiceHookRequest>;
 
 export type GetAServiceHookResponseEventsList = Array<string>;
 export const GetAServiceHookResponseEventsList = /*@__PURE__*/ S.Array(
@@ -7571,9 +8716,7 @@ export const GetAServiceHookResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     url: S.String,
   }),
-).annotate({
-  identifier: "GetAServiceHookResponse",
-}) as any as S.Schema<GetAServiceHookResponse>;
+).annotate({ identifier: "GetAServiceHookResponse" }) as any as S.Schema<GetAServiceHookResponse>;
 
 export interface GetFilesChangedInAReleaseSCommitsRequest {
   /** The ID or slug of the organization the release belongs to. */
@@ -7614,24 +8757,16 @@ export const GetOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
     organization_id_or_slug: S.String.pipe(T.Label()),
     detailed: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/0/organizations/{organization_id_or_slug}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/0/organizations/{organization_id_or_slug}/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetOrganizationRequest",
-}) as any as S.Schema<GetOrganizationRequest>;
+).annotate({ identifier: "GetOrganizationRequest" }) as any as S.Schema<GetOrganizationRequest>;
 
 export type GetOrganizationResponseFeaturesList = Array<string>;
 export const GetOrganizationResponseFeaturesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<GetOrganizationResponseFeaturesList>;
 
-export type GetOrganizationResponseExtraOptionsValueMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetOrganizationResponseExtraOptionsValueMap = { [key: string]: unknown | undefined };
 export const GetOrganizationResponseExtraOptionsValueMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -7710,9 +8845,196 @@ export const GetOrganizationResponse = /*@__PURE__*/ S.suspend(() =>
     allowMemberProjectCreation: S.Boolean,
     allowSuperuserAccess: S.Boolean,
   }),
+).annotate({ identifier: "GetOrganizationResponse" }) as any as S.Schema<GetOrganizationResponse>;
+
+export type GetOrganizationAIConversationRequestProjectItem = number | string;
+export const GetOrganizationAIConversationRequestProjectItem =
+  S.Unknown as any as S.Schema<GetOrganizationAIConversationRequestProjectItem>;
+
+export type GetOrganizationAIConversationRequestProjectList =
+  Array<GetOrganizationAIConversationRequestProjectItem>;
+export const GetOrganizationAIConversationRequestProjectList = /*@__PURE__*/ S.Array(
+  GetOrganizationAIConversationRequestProjectItem,
+) as any as S.Schema<GetOrganizationAIConversationRequestProjectList>;
+
+export type GetOrganizationAIConversationRequestEnvironmentList = Array<string>;
+export const GetOrganizationAIConversationRequestEnvironmentList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetOrganizationAIConversationRequestEnvironmentList>;
+
+export interface GetOrganizationAIConversationRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** Conversation ID recorded in `gen_ai.conversation.id`. */
+  conversation_id: string;
+  /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
+  project?: GetOrganizationAIConversationRequestProjectList;
+  /** The name of environments to filter by. */
+  environment?: GetOrganizationAIConversationRequestEnvironmentList;
+  /** The period of time for the query, will override the start & end parameters, a number followed by one of: - `d` for days - `h` for hours - `m` for minutes - `s` for seconds - `w` for weeks For example, `24h`, to mean query data starting from 24 hours ago to now. */
+  statsPeriod?: string;
+  /** The start of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
+  start?: string;
+  /** The end of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
+  end?: string;
+  /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
+  cursor?: string;
+  /** Number of spans to return per page. Defaults to 100; maximum is 1,000. */
+  per_page?: number;
+}
+export const GetOrganizationAIConversationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id_or_slug: S.String.pipe(T.Label()),
+    conversation_id: S.String.pipe(T.Label()),
+    project: S.optional(GetOrganizationAIConversationRequestProjectList.pipe(T.Query())),
+    environment: S.optional(GetOrganizationAIConversationRequestEnvironmentList.pipe(T.Query())),
+    statsPeriod: S.optional(S.String.pipe(T.Query())),
+    start: S.optional(S.String.pipe(T.Query())),
+    end: S.optional(S.String.pipe(T.Query())),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/0/organizations/{organization_id_or_slug}/agents/conversations/{conversation_id}/",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "GetOrganizationResponse",
-}) as any as S.Schema<GetOrganizationResponse>;
+  identifier: "GetOrganizationAIConversationRequest",
+}) as any as S.Schema<GetOrganizationAIConversationRequest>;
+
+export interface GetOrganizationAIConversationResponseProjectsItem {
+  id: number;
+  name: string;
+  slug: string;
+}
+export const GetOrganizationAIConversationResponseProjectsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.Number,
+    name: S.String,
+    slug: S.String,
+  }),
+).annotate({
+  identifier: "GetOrganizationAIConversationResponseProjectsItem",
+}) as any as S.Schema<GetOrganizationAIConversationResponseProjectsItem>;
+
+export type GetOrganizationAIConversationResponseProjectsList =
+  Array<GetOrganizationAIConversationResponseProjectsItem>;
+export const GetOrganizationAIConversationResponseProjectsList = /*@__PURE__*/ S.Array(
+  GetOrganizationAIConversationResponseProjectsItem,
+) as any as S.Schema<GetOrganizationAIConversationResponseProjectsList>;
+
+export type GetOrganizationAIConversationResponseSpansItemMap = {
+  [key: string]: unknown | undefined;
+};
+export const GetOrganizationAIConversationResponseSpansItemMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<GetOrganizationAIConversationResponseSpansItemMap>;
+
+export type GetOrganizationAIConversationResponseSpansList =
+  Array<GetOrganizationAIConversationResponseSpansItemMap>;
+export const GetOrganizationAIConversationResponseSpansList = /*@__PURE__*/ S.Array(
+  GetOrganizationAIConversationResponseSpansItemMap,
+) as any as S.Schema<GetOrganizationAIConversationResponseSpansList>;
+
+export type GetOrganizationAIConversationResponseStatsToolNamesList = Array<string>;
+export const GetOrganizationAIConversationResponseStatsToolNamesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetOrganizationAIConversationResponseStatsToolNamesList>;
+
+export interface GetOrganizationAIConversationResponseStatsUsageByModelItem {
+  model: string | null;
+  llmCalls: number;
+  inputTokens: number;
+  outputTokens: number;
+  totalTokens: number;
+  cacheReadTokens: number;
+  cacheWriteTokens: number;
+  reasoningTokens: number;
+  inputCost: number;
+  outputCost: number;
+  totalCost: number;
+}
+export const GetOrganizationAIConversationResponseStatsUsageByModelItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      model: S.NullOr(S.String),
+      llmCalls: S.Number,
+      inputTokens: S.Number,
+      outputTokens: S.Number,
+      totalTokens: S.Number,
+      cacheReadTokens: S.Number,
+      cacheWriteTokens: S.Number,
+      reasoningTokens: S.Number,
+      inputCost: S.Number,
+      outputCost: S.Number,
+      totalCost: S.Number,
+    }),
+).annotate({
+  identifier: "GetOrganizationAIConversationResponseStatsUsageByModelItem",
+}) as any as S.Schema<GetOrganizationAIConversationResponseStatsUsageByModelItem>;
+
+export type GetOrganizationAIConversationResponseStatsUsageByModelList =
+  Array<GetOrganizationAIConversationResponseStatsUsageByModelItem>;
+export const GetOrganizationAIConversationResponseStatsUsageByModelList = /*@__PURE__*/ S.Array(
+  GetOrganizationAIConversationResponseStatsUsageByModelItem,
+) as any as S.Schema<GetOrganizationAIConversationResponseStatsUsageByModelList>;
+
+export interface GetOrganizationAIConversationResponseStats {
+  endTimestamp: number;
+  generationDuration: number;
+  inputTokens: number;
+  llmCalls: number;
+  outputTokens: number;
+  startTimestamp: number;
+  toolCalls: number;
+  toolErrors: number;
+  toolNames: GetOrganizationAIConversationResponseStatsToolNamesList;
+  totalCost: number;
+  totalTokens: number;
+  usageByModel: GetOrganizationAIConversationResponseStatsUsageByModelList;
+}
+export const GetOrganizationAIConversationResponseStats = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    endTimestamp: S.Number,
+    generationDuration: S.Number,
+    inputTokens: S.Number,
+    llmCalls: S.Number,
+    outputTokens: S.Number,
+    startTimestamp: S.Number,
+    toolCalls: S.Number,
+    toolErrors: S.Number,
+    toolNames: GetOrganizationAIConversationResponseStatsToolNamesList,
+    totalCost: S.Number,
+    totalTokens: S.Number,
+    usageByModel: GetOrganizationAIConversationResponseStatsUsageByModelList,
+  }),
+).annotate({
+  identifier: "GetOrganizationAIConversationResponseStats",
+}) as any as S.Schema<GetOrganizationAIConversationResponseStats>;
+
+export interface GetOrganizationAIConversationResponse {
+  conversationId: string;
+  title: string | null;
+  projects: GetOrganizationAIConversationResponseProjectsList;
+  webUrl: string;
+  spans: GetOrganizationAIConversationResponseSpansList;
+  stats: GetOrganizationAIConversationResponseStats;
+}
+export const GetOrganizationAIConversationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    conversationId: S.String,
+    title: S.NullOr(S.String),
+    projects: GetOrganizationAIConversationResponseProjectsList,
+    webUrl: S.String,
+    spans: GetOrganizationAIConversationResponseSpansList,
+    stats: GetOrganizationAIConversationResponseStats,
+  }),
+).annotate({
+  identifier: "GetOrganizationAIConversationResponse",
+}) as any as S.Schema<GetOrganizationAIConversationResponse>;
 
 export interface GetOrganizationConfigIntegrationsRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -7919,12 +9241,14 @@ export const GetOrganizationDashboardResponseWidgetsItemThresholdsMaxValuesMap =
 
 export interface GetOrganizationDashboardResponseWidgetsItemThresholds {
   preferredPolarity?: string;
+  timeWindow?: string;
   max_values: GetOrganizationDashboardResponseWidgetsItemThresholdsMaxValuesMap;
   unit: string;
 }
 export const GetOrganizationDashboardResponseWidgetsItemThresholds = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     preferredPolarity: S.optional(S.String),
+    timeWindow: S.optional(S.String),
     max_values: GetOrganizationDashboardResponseWidgetsItemThresholdsMaxValuesMap,
     unit: S.String,
   }),
@@ -8310,9 +9634,7 @@ export const GetOrganizationDetectorResponseOwner = /*@__PURE__*/ S.suspend(() =
   identifier: "GetOrganizationDetectorResponseOwner",
 }) as any as S.Schema<GetOrganizationDetectorResponseOwner>;
 
-export type GetOrganizationDetectorResponseLatestGroupMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetOrganizationDetectorResponseLatestGroupMap = { [key: string]: unknown | undefined };
 export const GetOrganizationDetectorResponseLatestGroupMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -8345,9 +9667,7 @@ export const GetOrganizationDetectorResponseConditionGroupMap = /*@__PURE__*/ S.
   S.Unknown,
 ) as any as S.Schema<GetOrganizationDetectorResponseConditionGroupMap>;
 
-export type GetOrganizationDetectorResponseConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetOrganizationDetectorResponseConfigMap = { [key: string]: unknown | undefined };
 export const GetOrganizationDetectorResponseConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -8579,6 +9899,9 @@ export interface GetOrganizationDiscoverSavedQueryResponse {
   topEvents?: number;
   interval?: string;
   exploreQuery?: GetOrganizationDiscoverSavedQueryResponseExploreQueryMap;
+  lastVisited?: string;
+  starred?: boolean;
+  position?: number | null;
   id: string;
   name: string;
   projects: GetOrganizationDiscoverSavedQueryResponseProjectsList;
@@ -8608,6 +9931,9 @@ export const GetOrganizationDiscoverSavedQueryResponse = /*@__PURE__*/ S.suspend
     topEvents: S.optional(S.Number),
     interval: S.optional(S.String),
     exploreQuery: S.optional(GetOrganizationDiscoverSavedQueryResponseExploreQueryMap),
+    lastVisited: S.optional(S.String),
+    starred: S.optional(S.Boolean),
+    position: S.optional(S.NullOr(S.Number)),
     id: S.String,
     name: S.String,
     projects: GetOrganizationDiscoverSavedQueryResponseProjectsList,
@@ -8649,6 +9975,18 @@ export const GetOrganizationIntegrationResponseScopesList = /*@__PURE__*/ S.Arra
   S.String,
 ) as any as S.Schema<GetOrganizationIntegrationResponseScopesList>;
 
+/** A feature the installation can no longer support, named by the permission tier it falls short of, so the update-permissions modal can list them. */
+export type GetOrganizationIntegrationResponseMissingFeaturesItem =
+  GetAnIntegrationSIssueConfigForAnIssueResponseMissingFeaturesItem;
+export const GetOrganizationIntegrationResponseMissingFeaturesItem =
+  GetAnIntegrationSIssueConfigForAnIssueResponseMissingFeaturesItem;
+
+export type GetOrganizationIntegrationResponseMissingFeaturesList =
+  Array<GetAnIntegrationSIssueConfigForAnIssueResponseMissingFeaturesItem>;
+export const GetOrganizationIntegrationResponseMissingFeaturesList = /*@__PURE__*/ S.Array(
+  GetAnIntegrationSIssueConfigForAnIssueResponseMissingFeaturesItem,
+) as any as S.Schema<GetOrganizationIntegrationResponseMissingFeaturesList>;
+
 export interface GetOrganizationIntegrationResponse {
   id: string;
   name: string;
@@ -8657,6 +9995,7 @@ export interface GetOrganizationIntegrationResponse {
   accountType: string | null;
   scopes: GetOrganizationIntegrationResponseScopesList | null;
   outOfDate: boolean | null;
+  missingFeatures: GetOrganizationIntegrationResponseMissingFeaturesList | null;
   status: string;
   provider: unknown;
   configOrganization: unknown;
@@ -8675,6 +10014,7 @@ export const GetOrganizationIntegrationResponse = /*@__PURE__*/ S.suspend(() =>
     accountType: S.NullOr(S.String),
     scopes: S.NullOr(GetOrganizationIntegrationResponseScopesList),
     outOfDate: S.NullOr(S.Boolean),
+    missingFeatures: S.NullOr(GetOrganizationIntegrationResponseMissingFeaturesList),
     status: S.String,
     provider: S.Unknown,
     configOrganization: S.Unknown,
@@ -8986,9 +10326,7 @@ export type GetOrganizationIssueResponseType =
   | "feedback";
 export const GetOrganizationIssueResponseType = S.String;
 
-export type GetOrganizationIssueResponseMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetOrganizationIssueResponseMetadataMap = { [key: string]: unknown | undefined };
 export const GetOrganizationIssueResponseMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -9046,25 +10384,19 @@ export const GetOrganizationIssueResponseAnnotationsList = /*@__PURE__*/ S.Array
   GetOrganizationIssueResponseAnnotationsItem,
 ) as any as S.Schema<GetOrganizationIssueResponseAnnotationsList>;
 
-export type GetOrganizationIssueResponseFirstReleaseMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetOrganizationIssueResponseFirstReleaseMap = { [key: string]: unknown | undefined };
 export const GetOrganizationIssueResponseFirstReleaseMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<GetOrganizationIssueResponseFirstReleaseMap>;
 
-export type GetOrganizationIssueResponseLastReleaseMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetOrganizationIssueResponseLastReleaseMap = { [key: string]: unknown | undefined };
 export const GetOrganizationIssueResponseLastReleaseMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<GetOrganizationIssueResponseLastReleaseMap>;
 
-export type GetOrganizationIssueResponseTagsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetOrganizationIssueResponseTagsItemMap = { [key: string]: unknown | undefined };
 export const GetOrganizationIssueResponseTagsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -9148,9 +10480,7 @@ export const GetOrganizationIssueResponseOwnersList = /*@__PURE__*/ S.Array(
   GetOrganizationIssueResponseOwnersItem,
 ) as any as S.Schema<GetOrganizationIssueResponseOwnersList>;
 
-export type GetOrganizationIssueResponseForecastMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetOrganizationIssueResponseForecastMap = { [key: string]: unknown | undefined };
 export const GetOrganizationIssueResponseForecastMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -9195,9 +10525,7 @@ export const GetOrganizationIssueResponseSentryAppIssuesList = /*@__PURE__*/ S.A
   GetOrganizationIssueResponseSentryAppIssuesItem,
 ) as any as S.Schema<GetOrganizationIssueResponseSentryAppIssuesList>;
 
-export type GetOrganizationIssueResponseActivityItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetOrganizationIssueResponseActivityItemMap = { [key: string]: unknown | undefined };
 export const GetOrganizationIssueResponseActivityItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -9209,9 +10537,7 @@ export const GetOrganizationIssueResponseActivityList = /*@__PURE__*/ S.Array(
   GetOrganizationIssueResponseActivityItemMap,
 ) as any as S.Schema<GetOrganizationIssueResponseActivityList>;
 
-export type GetOrganizationIssueResponseSeenByItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetOrganizationIssueResponseSeenByItemMap = { [key: string]: unknown | undefined };
 export const GetOrganizationIssueResponseSeenByItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -9346,7 +10672,7 @@ export const GetOrganizationIssueResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetOrganizationIssueResponse",
 }) as any as S.Schema<GetOrganizationIssueResponse>;
 
-export type GetOrganizationIssueAutofixStateRequestLlmFormat = "markdown" | "xml";
+export type GetOrganizationIssueAutofixStateRequestLlmFormat = "json" | "markdown" | "xml";
 export const GetOrganizationIssueAutofixStateRequestLlmFormat = S.String;
 
 export interface GetOrganizationIssueAutofixStateRequest {
@@ -9373,10 +10699,10 @@ export const GetOrganizationIssueAutofixStateRequest = /*@__PURE__*/ S.suspend((
   identifier: "GetOrganizationIssueAutofixStateRequest",
 }) as any as S.Schema<GetOrganizationIssueAutofixStateRequest>;
 
-export type GetOrganizationIssueAutofixStateResponseFormattedFormat = "markdown" | "xml";
+export type GetOrganizationIssueAutofixStateResponseFormattedFormat = "markdown" | "xml" | "json";
 export const GetOrganizationIssueAutofixStateResponseFormattedFormat = S.String;
 
-/** The ``formatted`` field the mixin adds to a response when ``?llmFormat`` is requested. */
+/** The ``formatted`` field the mixin adds to a response when ``?llmFormat`` is requested. ``content`` is text for the text formats and a serialized JSON object for ``json``, so the response shape is the same whichever format a caller asks for. */
 export interface GetOrganizationIssueAutofixStateResponseFormatted {
   format: GetOrganizationIssueAutofixStateResponseFormattedFormat;
   content: string;
@@ -9399,7 +10725,7 @@ export const GetOrganizationIssueAutofixStateResponseAutofixMap = /*@__PURE__*/ 
 ) as any as S.Schema<GetOrganizationIssueAutofixStateResponseAutofixMap>;
 
 export interface GetOrganizationIssueAutofixStateResponse {
-  /** The ``formatted`` field the mixin adds to a response when ``?llmFormat`` is requested. */
+  /** The ``formatted`` field the mixin adds to a response when ``?llmFormat`` is requested. ``content`` is text for the text formats and a serialized JSON object for ``json``, so the response shape is the same whichever format a caller asks for. */
   formatted?: GetOrganizationIssueAutofixStateResponseFormatted;
   autofix: GetOrganizationIssueAutofixStateResponseAutofixMap | null;
 }
@@ -9420,7 +10746,7 @@ export const GetOrganizationIssueEventRequestEnvironmentList = /*@__PURE__*/ S.A
   S.String,
 ) as any as S.Schema<GetOrganizationIssueEventRequestEnvironmentList>;
 
-export type GetOrganizationIssueEventRequestLlmFormat = "markdown" | "xml";
+export type GetOrganizationIssueEventRequestLlmFormat = "json" | "markdown" | "xml";
 export const GetOrganizationIssueEventRequestLlmFormat = S.String;
 
 export interface GetOrganizationIssueEventRequest {
@@ -9453,17 +10779,13 @@ export const GetOrganizationIssueEventRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetOrganizationIssueEventRequest",
 }) as any as S.Schema<GetOrganizationIssueEventRequest>;
 
-export type GetOrganizationIssueEventResponseUserGeoMap = {
-  [key: string]: string | undefined;
-};
+export type GetOrganizationIssueEventResponseUserGeoMap = { [key: string]: string | undefined };
 export const GetOrganizationIssueEventResponseUserGeoMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<GetOrganizationIssueEventResponseUserGeoMap>;
 
-export type GetOrganizationIssueEventResponseUserDataMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetOrganizationIssueEventResponseUserDataMap = { [key: string]: unknown | undefined };
 export const GetOrganizationIssueEventResponseUserDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -9513,9 +10835,7 @@ export const GetOrganizationIssueEventResponseTagsList = /*@__PURE__*/ S.Array(
   GetOrganizationIssueEventResponseTagsItem,
 ) as any as S.Schema<GetOrganizationIssueEventResponseTagsList>;
 
-export type GetOrganizationIssueEventResponseContextsMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetOrganizationIssueEventResponseContextsMap = { [key: string]: unknown | undefined };
 export const GetOrganizationIssueEventResponseContextsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -9539,17 +10859,13 @@ export const GetOrganizationIssueEventResponseSdk = /*@__PURE__*/ S.suspend(() =
   identifier: "GetOrganizationIssueEventResponseSdk",
 }) as any as S.Schema<GetOrganizationIssueEventResponseSdk>;
 
-export type GetOrganizationIssueEventResponseContextMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetOrganizationIssueEventResponseContextMap = { [key: string]: unknown | undefined };
 export const GetOrganizationIssueEventResponseContextMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<GetOrganizationIssueEventResponseContextMap>;
 
-export type GetOrganizationIssueEventResponsePackagesMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetOrganizationIssueEventResponsePackagesMap = { [key: string]: unknown | undefined };
 export const GetOrganizationIssueEventResponsePackagesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -9568,9 +10884,7 @@ export type GetOrganizationIssueEventResponseType =
   | "feedback";
 export const GetOrganizationIssueEventResponseType = S.String;
 
-export type GetOrganizationIssueEventResponseMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetOrganizationIssueEventResponseMetadataMap = { [key: string]: unknown | undefined };
 export const GetOrganizationIssueEventResponseMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -9679,9 +10993,7 @@ export const GetOrganizationIssueEventResponseOccurrence = /*@__PURE__*/ S.suspe
   identifier: "GetOrganizationIssueEventResponseOccurrence",
 }) as any as S.Schema<GetOrganizationIssueEventResponseOccurrence>;
 
-export type GetOrganizationIssueEventResponseMetaMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetOrganizationIssueEventResponseMetaMap = { [key: string]: unknown | undefined };
 export const GetOrganizationIssueEventResponseMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -9908,10 +11220,10 @@ export const GetOrganizationIssueEventResponseResolvedWithList = /*@__PURE__*/ S
   S.String,
 ) as any as S.Schema<GetOrganizationIssueEventResponseResolvedWithList>;
 
-export type GetOrganizationIssueEventResponseFormattedFormat = "markdown" | "xml";
+export type GetOrganizationIssueEventResponseFormattedFormat = "markdown" | "xml" | "json";
 export const GetOrganizationIssueEventResponseFormattedFormat = S.String;
 
-/** The ``formatted`` field the mixin adds to a response when ``?llmFormat`` is requested. */
+/** The ``formatted`` field the mixin adds to a response when ``?llmFormat`` is requested. ``content`` is text for the text formats and a serialized JSON object for ``json``, so the response shape is the same whichever format a caller asks for. */
 export interface GetOrganizationIssueEventResponseFormatted {
   format: GetOrganizationIssueEventResponseFormattedFormat;
   content: string;
@@ -9964,7 +11276,7 @@ export interface GetOrganizationIssueEventResponse {
   resolvedWith: GetOrganizationIssueEventResponseResolvedWithList;
   nextEventID: string | null;
   previousEventID: string | null;
-  /** The ``formatted`` field the mixin adds to a response when ``?llmFormat`` is requested. */
+  /** The ``formatted`` field the mixin adds to a response when ``?llmFormat`` is requested. ``content`` is text for the text formats and a serialized JSON object for ``json``, so the response shape is the same whichever format a caller asks for. */
   formatted?: GetOrganizationIssueEventResponseFormatted;
 }
 export const GetOrganizationIssueEventResponse = /*@__PURE__*/ S.suspend(() =>
@@ -12131,12 +13443,7 @@ export type GetOrganizationReleaseRequestHealthStatsPeriod =
   | "90d";
 export const GetOrganizationReleaseRequestHealthStatsPeriod = S.String;
 
-export type GetOrganizationReleaseRequestSort =
-  | "crash_free_sessions"
-  | "crash_free_users"
-  | "date"
-  | "sessions"
-  | "users";
+export type GetOrganizationReleaseRequestSort = "date";
 export const GetOrganizationReleaseRequestSort = S.String;
 
 export type GetOrganizationReleaseRequestStatus = "archived" | "open";
@@ -12190,17 +13497,13 @@ export const GetOrganizationReleaseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetOrganizationReleaseRequest",
 }) as any as S.Schema<GetOrganizationReleaseRequest>;
 
-export type GetOrganizationReleaseResponseOwnerMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetOrganizationReleaseResponseOwnerMap = { [key: string]: unknown | undefined };
 export const GetOrganizationReleaseResponseOwnerMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<GetOrganizationReleaseResponseOwnerMap>;
 
-export type GetOrganizationReleaseResponseLastCommitMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetOrganizationReleaseResponseLastCommitMap = { [key: string]: unknown | undefined };
 export const GetOrganizationReleaseResponseLastCommitMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -12250,9 +13553,7 @@ export const GetOrganizationReleaseResponseVersionInfo = /*@__PURE__*/ S.suspend
   identifier: "GetOrganizationReleaseResponseVersionInfo",
 }) as any as S.Schema<GetOrganizationReleaseResponseVersionInfo>;
 
-export type GetOrganizationReleaseResponseDataMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetOrganizationReleaseResponseDataMap = { [key: string]: unknown | undefined };
 export const GetOrganizationReleaseResponseDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -12552,9 +13853,7 @@ export const GetOrganizationReleaseFileRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetOrganizationReleaseFileRequest",
 }) as any as S.Schema<GetOrganizationReleaseFileRequest>;
 
-export type GetOrganizationReleaseFileResponseHeadersMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetOrganizationReleaseFileResponseHeadersMap = { [key: string]: unknown | undefined };
 export const GetOrganizationReleaseFileResponseHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -12842,9 +14141,7 @@ export const GetOrganizationReplayResponseDataSegmentNamesList = /*@__PURE__*/ S
   S.String,
 ) as any as S.Schema<GetOrganizationReplayResponseDataSegmentNamesList>;
 
-export type GetOrganizationReplayResponseDataClicksItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetOrganizationReplayResponseDataClicksItemMap = { [key: string]: unknown | undefined };
 export const GetOrganizationReplayResponseDataClicksItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -12945,7 +14242,7 @@ export const GetOrganizationReplayResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetOrganizationReplayResponse",
 }) as any as S.Schema<GetOrganizationReplayResponse>;
 
-export type GetOrganizationReplayCountRequestDataSource = "events" | "search_issues" | "spans";
+export type GetOrganizationReplayCountRequestDataSource = "errors" | "search_issues" | "spans";
 export const GetOrganizationReplayCountRequestDataSource = S.String;
 
 export type GetOrganizationReplayCountRequestEnvironmentList = Array<string>;
@@ -12971,7 +14268,9 @@ export const GetOrganizationReplayCountRequestProjectIdOrSlugList = /*@__PURE__*
 export interface GetOrganizationReplayCountRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
-  /** The data source to query replays from. */
+  /** Filters results by using [query syntax](/product/sentry-basics/search/). Example: `query=(transaction:foo AND release:abc) OR (transaction:[bar,baz] AND release:def)` */
+  query: string;
+  /** The data source to query replays from. * `errors` * `search_issues` * `spans` */
   data_source: GetOrganizationReplayCountRequestDataSource | (string & {});
   /** The name of environments to filter by. */
   environment?: GetOrganizationReplayCountRequestEnvironmentList;
@@ -12985,14 +14284,13 @@ export interface GetOrganizationReplayCountRequest {
   project?: GetOrganizationReplayCountRequestProjectList;
   /** The legacy project slug filter. Prefer `project`, which accepts project IDs or slugs. Use `$all` to include all available projects. For example, the following are valid parameters: - `/?projectSlug=$all` - `/?projectSlug=android&projectSlug=javascript-react` */
   project_id_or_slug?: GetOrganizationReplayCountRequestProjectIdOrSlugList;
-  /** Filters results by using [query syntax](/product/sentry-basics/search/). Example: `query=(transaction:foo AND release:abc) OR (transaction:[bar,baz] AND release:def)` */
-  query?: string;
   /** If true, return issue IDs rather than counts. */
   returnIds?: boolean;
 }
 export const GetOrganizationReplayCountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organization_id_or_slug: S.String.pipe(T.Label()),
+    query: S.String.pipe(T.Query()),
     data_source: GetOrganizationReplayCountRequestDataSource.pipe(T.Query()),
     environment: S.optional(GetOrganizationReplayCountRequestEnvironmentList.pipe(T.Query())),
     start: S.optional(S.String.pipe(T.Query())),
@@ -13002,7 +14300,6 @@ export const GetOrganizationReplayCountRequest = /*@__PURE__*/ S.suspend(() =>
     project_id_or_slug: S.optional(
       GetOrganizationReplayCountRequestProjectIdOrSlugList.pipe(T.Query()),
     ),
-    query: S.optional(S.String.pipe(T.Query())),
     returnIds: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -13015,9 +14312,7 @@ export const GetOrganizationReplayCountRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetOrganizationReplayCountRequest",
 }) as any as S.Schema<GetOrganizationReplayCountRequest>;
 
-export type GetOrganizationReplayCountResponseBodyMap = {
-  [key: string]: number | undefined;
-};
+export type GetOrganizationReplayCountResponseBodyMap = { [key: string]: number | undefined };
 export const GetOrganizationReplayCountResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -13104,6 +14399,273 @@ export const GetOrganizationScimV2GroupResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetOrganizationScimV2GroupResponse",
 }) as any as S.Schema<GetOrganizationScimV2GroupResponse>;
+
+export interface GetOrganizationScimV2ResourceTypeRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** The SCIM resource type name: `User` or `Group`. */
+  resource_type_name: string;
+}
+export const GetOrganizationScimV2ResourceTypeRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id_or_slug: S.String.pipe(T.Label()),
+    resource_type_name: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/0/organizations/{organization_id_or_slug}/scim/v2/ResourceTypes/{resource_type_name}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetOrganizationScimV2ResourceTypeRequest",
+}) as any as S.Schema<GetOrganizationScimV2ResourceTypeRequest>;
+
+export type GetOrganizationScimV2ResourceTypeResponseSchemasList = Array<string>;
+export const GetOrganizationScimV2ResourceTypeResponseSchemasList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetOrganizationScimV2ResourceTypeResponseSchemasList>;
+
+export interface GetOrganizationScimV2ResourceTypeResponseMeta {
+  resourceType: string;
+  location: string;
+}
+export const GetOrganizationScimV2ResourceTypeResponseMeta = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resourceType: S.String,
+    location: S.String,
+  }),
+).annotate({
+  identifier: "GetOrganizationScimV2ResourceTypeResponseMeta",
+}) as any as S.Schema<GetOrganizationScimV2ResourceTypeResponseMeta>;
+
+export interface GetOrganizationScimV2ResourceTypeResponse {
+  schemas: GetOrganizationScimV2ResourceTypeResponseSchemasList;
+  id: string;
+  name: string;
+  description: string;
+  endpoint: string;
+  schema: string;
+  meta: GetOrganizationScimV2ResourceTypeResponseMeta;
+}
+export const GetOrganizationScimV2ResourceTypeResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    schemas: GetOrganizationScimV2ResourceTypeResponseSchemasList,
+    id: S.String,
+    name: S.String,
+    description: S.String,
+    endpoint: S.String,
+    schema: S.String,
+    meta: GetOrganizationScimV2ResourceTypeResponseMeta,
+  }),
+).annotate({
+  identifier: "GetOrganizationScimV2ResourceTypeResponse",
+}) as any as S.Schema<GetOrganizationScimV2ResourceTypeResponse>;
+
+export interface GetOrganizationScimV2SchemaRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** The SCIM schema URI, e.g. `urn:ietf:params:scim:schemas:core:2.0:User`. */
+  schema_uri: string;
+}
+export const GetOrganizationScimV2SchemaRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id_or_slug: S.String.pipe(T.Label()),
+    schema_uri: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/0/organizations/{organization_id_or_slug}/scim/v2/Schemas/{schema_uri}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetOrganizationScimV2SchemaRequest",
+}) as any as S.Schema<GetOrganizationScimV2SchemaRequest>;
+
+export type GetOrganizationScimV2SchemaResponseSchemasList = Array<string>;
+export const GetOrganizationScimV2SchemaResponseSchemasList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetOrganizationScimV2SchemaResponseSchemasList>;
+
+export type GetOrganizationScimV2SchemaResponseAttributesItemMap = {
+  [key: string]: unknown | undefined;
+};
+export const GetOrganizationScimV2SchemaResponseAttributesItemMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<GetOrganizationScimV2SchemaResponseAttributesItemMap>;
+
+export type GetOrganizationScimV2SchemaResponseAttributesList =
+  Array<GetOrganizationScimV2SchemaResponseAttributesItemMap>;
+export const GetOrganizationScimV2SchemaResponseAttributesList = /*@__PURE__*/ S.Array(
+  GetOrganizationScimV2SchemaResponseAttributesItemMap,
+) as any as S.Schema<GetOrganizationScimV2SchemaResponseAttributesList>;
+
+export type GetOrganizationScimV2SchemaResponseMeta = GetOrganizationScimV2ResourceTypeResponseMeta;
+export const GetOrganizationScimV2SchemaResponseMeta =
+  GetOrganizationScimV2ResourceTypeResponseMeta;
+
+export interface GetOrganizationScimV2SchemaResponse {
+  schemas: GetOrganizationScimV2SchemaResponseSchemasList;
+  id: string;
+  name: string;
+  description: string;
+  attributes: GetOrganizationScimV2SchemaResponseAttributesList;
+  meta: GetOrganizationScimV2ResourceTypeResponseMeta;
+}
+export const GetOrganizationScimV2SchemaResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    schemas: GetOrganizationScimV2SchemaResponseSchemasList,
+    id: S.String,
+    name: S.String,
+    description: S.String,
+    attributes: GetOrganizationScimV2SchemaResponseAttributesList,
+    meta: GetOrganizationScimV2ResourceTypeResponseMeta,
+  }),
+).annotate({
+  identifier: "GetOrganizationScimV2SchemaResponse",
+}) as any as S.Schema<GetOrganizationScimV2SchemaResponse>;
+
+export interface GetOrganizationScimV2ServiceProviderConfigRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+}
+export const GetOrganizationScimV2ServiceProviderConfigRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id_or_slug: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/0/organizations/{organization_id_or_slug}/scim/v2/ServiceProviderConfig",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetOrganizationScimV2ServiceProviderConfigRequest",
+}) as any as S.Schema<GetOrganizationScimV2ServiceProviderConfigRequest>;
+
+export type GetOrganizationScimV2ServiceProviderConfigResponseSchemasList = Array<string>;
+export const GetOrganizationScimV2ServiceProviderConfigResponseSchemasList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetOrganizationScimV2ServiceProviderConfigResponseSchemasList>;
+
+export interface GetOrganizationScimV2ServiceProviderConfigResponsePatch {
+  supported: boolean;
+}
+export const GetOrganizationScimV2ServiceProviderConfigResponsePatch = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    supported: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetOrganizationScimV2ServiceProviderConfigResponsePatch",
+}) as any as S.Schema<GetOrganizationScimV2ServiceProviderConfigResponsePatch>;
+
+export interface GetOrganizationScimV2ServiceProviderConfigResponseBulk {
+  supported: boolean;
+  maxOperations: number;
+  maxPayloadSize: number;
+}
+export const GetOrganizationScimV2ServiceProviderConfigResponseBulk = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    supported: S.Boolean,
+    maxOperations: S.Number,
+    maxPayloadSize: S.Number,
+  }),
+).annotate({
+  identifier: "GetOrganizationScimV2ServiceProviderConfigResponseBulk",
+}) as any as S.Schema<GetOrganizationScimV2ServiceProviderConfigResponseBulk>;
+
+export interface GetOrganizationScimV2ServiceProviderConfigResponseFilter {
+  supported: boolean;
+  maxResults: number;
+}
+export const GetOrganizationScimV2ServiceProviderConfigResponseFilter = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      supported: S.Boolean,
+      maxResults: S.Number,
+    }),
+).annotate({
+  identifier: "GetOrganizationScimV2ServiceProviderConfigResponseFilter",
+}) as any as S.Schema<GetOrganizationScimV2ServiceProviderConfigResponseFilter>;
+
+export type GetOrganizationScimV2ServiceProviderConfigResponseChangePassword =
+  GetOrganizationScimV2ServiceProviderConfigResponsePatch;
+export const GetOrganizationScimV2ServiceProviderConfigResponseChangePassword =
+  GetOrganizationScimV2ServiceProviderConfigResponsePatch;
+
+export type GetOrganizationScimV2ServiceProviderConfigResponseSort =
+  GetOrganizationScimV2ServiceProviderConfigResponsePatch;
+export const GetOrganizationScimV2ServiceProviderConfigResponseSort =
+  GetOrganizationScimV2ServiceProviderConfigResponsePatch;
+
+export type GetOrganizationScimV2ServiceProviderConfigResponseEtag =
+  GetOrganizationScimV2ServiceProviderConfigResponsePatch;
+export const GetOrganizationScimV2ServiceProviderConfigResponseEtag =
+  GetOrganizationScimV2ServiceProviderConfigResponsePatch;
+
+export interface GetOrganizationScimV2ServiceProviderConfigResponseAuthenticationSchemesItem {
+  type: string;
+  name: string;
+  description: string;
+  specUri: string;
+  primary: boolean;
+}
+export const GetOrganizationScimV2ServiceProviderConfigResponseAuthenticationSchemesItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: S.String,
+      name: S.String,
+      description: S.String,
+      specUri: S.String,
+      primary: S.Boolean,
+    }),
+  ).annotate({
+    identifier: "GetOrganizationScimV2ServiceProviderConfigResponseAuthenticationSchemesItem",
+  }) as any as S.Schema<GetOrganizationScimV2ServiceProviderConfigResponseAuthenticationSchemesItem>;
+
+export type GetOrganizationScimV2ServiceProviderConfigResponseAuthenticationSchemesList =
+  Array<GetOrganizationScimV2ServiceProviderConfigResponseAuthenticationSchemesItem>;
+export const GetOrganizationScimV2ServiceProviderConfigResponseAuthenticationSchemesList =
+  /*@__PURE__*/ S.Array(
+    GetOrganizationScimV2ServiceProviderConfigResponseAuthenticationSchemesItem,
+  ) as any as S.Schema<GetOrganizationScimV2ServiceProviderConfigResponseAuthenticationSchemesList>;
+
+export type GetOrganizationScimV2ServiceProviderConfigResponseMeta =
+  GetOrganizationScimV2ResourceTypeResponseMeta;
+export const GetOrganizationScimV2ServiceProviderConfigResponseMeta =
+  GetOrganizationScimV2ResourceTypeResponseMeta;
+
+export interface GetOrganizationScimV2ServiceProviderConfigResponse {
+  schemas: GetOrganizationScimV2ServiceProviderConfigResponseSchemasList;
+  documentationUri: string;
+  patch: GetOrganizationScimV2ServiceProviderConfigResponsePatch;
+  bulk: GetOrganizationScimV2ServiceProviderConfigResponseBulk;
+  filter: GetOrganizationScimV2ServiceProviderConfigResponseFilter;
+  changePassword: GetOrganizationScimV2ServiceProviderConfigResponsePatch;
+  sort: GetOrganizationScimV2ServiceProviderConfigResponsePatch;
+  etag: GetOrganizationScimV2ServiceProviderConfigResponsePatch;
+  authenticationSchemes: GetOrganizationScimV2ServiceProviderConfigResponseAuthenticationSchemesList;
+  meta: GetOrganizationScimV2ResourceTypeResponseMeta;
+}
+export const GetOrganizationScimV2ServiceProviderConfigResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    schemas: GetOrganizationScimV2ServiceProviderConfigResponseSchemasList,
+    documentationUri: S.String,
+    patch: GetOrganizationScimV2ServiceProviderConfigResponsePatch,
+    bulk: GetOrganizationScimV2ServiceProviderConfigResponseBulk,
+    filter: GetOrganizationScimV2ServiceProviderConfigResponseFilter,
+    changePassword: GetOrganizationScimV2ServiceProviderConfigResponsePatch,
+    sort: GetOrganizationScimV2ServiceProviderConfigResponsePatch,
+    etag: GetOrganizationScimV2ServiceProviderConfigResponsePatch,
+    authenticationSchemes:
+      GetOrganizationScimV2ServiceProviderConfigResponseAuthenticationSchemesList,
+    meta: GetOrganizationScimV2ResourceTypeResponseMeta,
+  }),
+).annotate({
+  identifier: "GetOrganizationScimV2ServiceProviderConfigResponse",
+}) as any as S.Schema<GetOrganizationScimV2ServiceProviderConfigResponse>;
 
 export interface GetOrganizationScimV2UserRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -13297,9 +14859,9 @@ export const GetOrganizationSessionsResponseGroupsItemBy = /*@__PURE__*/ S.suspe
   identifier: "GetOrganizationSessionsResponseGroupsItemBy",
 }) as any as S.Schema<GetOrganizationSessionsResponseGroupsItemBy>;
 
-export type GetOrganizationSessionsResponseGroupsItemSeriesValueList = Array<number>;
+export type GetOrganizationSessionsResponseGroupsItemSeriesValueList = Array<number | null>;
 export const GetOrganizationSessionsResponseGroupsItemSeriesValueList = /*@__PURE__*/ S.Array(
-  S.Number,
+  S.NullOr(S.Number),
 ) as any as S.Schema<GetOrganizationSessionsResponseGroupsItemSeriesValueList>;
 
 export type GetOrganizationSessionsResponseGroupsItemSeriesMap = {
@@ -13311,11 +14873,11 @@ export const GetOrganizationSessionsResponseGroupsItemSeriesMap = /*@__PURE__*/ 
 ) as any as S.Schema<GetOrganizationSessionsResponseGroupsItemSeriesMap>;
 
 export type GetOrganizationSessionsResponseGroupsItemTotalsMap = {
-  [key: string]: number | undefined;
+  [key: string]: number | null | undefined;
 };
 export const GetOrganizationSessionsResponseGroupsItemTotalsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.Number,
+  S.NullOr(S.Number),
 ) as any as S.Schema<GetOrganizationSessionsResponseGroupsItemTotalsMap>;
 
 export interface GetOrganizationSessionsResponseGroupsItem {
@@ -14307,9 +15869,7 @@ export const GetOrganizationWorkflowResponseActionFiltersList = /*@__PURE__*/ S.
   GetOrganizationWorkflowResponseActionFiltersItem,
 ) as any as S.Schema<GetOrganizationWorkflowResponseActionFiltersList>;
 
-export type GetOrganizationWorkflowResponseConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetOrganizationWorkflowResponseConfigMap = { [key: string]: unknown | undefined };
 export const GetOrganizationWorkflowResponseConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -14374,9 +15934,7 @@ export const GetProjectRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetProjectRequest",
-}) as any as S.Schema<GetProjectRequest>;
+).annotate({ identifier: "GetProjectRequest" }) as any as S.Schema<GetProjectRequest>;
 
 export type GetProjectResponseFeaturesList = Array<string>;
 export const GetProjectResponseFeaturesList = /*@__PURE__*/ S.Array(
@@ -14405,9 +15963,7 @@ export const GetProjectResponseTeamsList = /*@__PURE__*/ S.Array(
 export type GetProjectResponseLatestRelease = CreateOrganizationProjectResponseLatestRelease;
 export const GetProjectResponseLatestRelease = CreateOrganizationProjectResponseLatestRelease;
 
-export type GetProjectResponseOptionsMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetProjectResponseOptionsMap = { [key: string]: unknown | undefined };
 export const GetProjectResponseOptionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -14433,9 +15989,7 @@ export const GetProjectResponseHighlightTagsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<GetProjectResponseHighlightTagsList>;
 
-export type GetProjectResponseHighlightContextMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetProjectResponseHighlightContextMap = { [key: string]: unknown | undefined };
 export const GetProjectResponseHighlightContextMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -14766,9 +16320,230 @@ export const GetProjectResponse = /*@__PURE__*/ S.suspend(() =>
     scmSourceContextEnabled: S.Boolean,
     debugFilesRole: S.NullOr(S.String),
   }),
+).annotate({ identifier: "GetProjectResponse" }) as any as S.Schema<GetProjectResponse>;
+
+export interface GetProjectCodeOwnersRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
+  project_id_or_slug: string;
+  /** The ID of the CODEOWNERS configuration. */
+  codeowners_id: string;
+}
+export const GetProjectCodeOwnersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id_or_slug: S.String.pipe(T.Label()),
+    project_id_or_slug: S.String.pipe(T.Label()),
+    codeowners_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/0/projects/{organization_id_or_slug}/{project_id_or_slug}/codeowners/{codeowners_id}/",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "GetProjectResponse",
-}) as any as S.Schema<GetProjectResponse>;
+  identifier: "GetProjectCodeOwnersRequest",
+}) as any as S.Schema<GetProjectCodeOwnersRequest>;
+
+export type GetProjectCodeOwnersResponseCodeMappingProviderFeaturesList = Array<string>;
+export const GetProjectCodeOwnersResponseCodeMappingProviderFeaturesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetProjectCodeOwnersResponseCodeMappingProviderFeaturesList>;
+
+export type GetProjectCodeOwnersResponseCodeMappingProviderAspectsMap = {
+  [key: string]: unknown | undefined;
+};
+export const GetProjectCodeOwnersResponseCodeMappingProviderAspectsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<GetProjectCodeOwnersResponseCodeMappingProviderAspectsMap>;
+
+export interface GetProjectCodeOwnersResponseCodeMappingProvider {
+  key: string;
+  slug: string;
+  name: string;
+  canAdd: boolean;
+  canDisable: boolean;
+  features: GetProjectCodeOwnersResponseCodeMappingProviderFeaturesList;
+  aspects: GetProjectCodeOwnersResponseCodeMappingProviderAspectsMap;
+}
+export const GetProjectCodeOwnersResponseCodeMappingProvider = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    slug: S.String,
+    name: S.String,
+    canAdd: S.Boolean,
+    canDisable: S.Boolean,
+    features: GetProjectCodeOwnersResponseCodeMappingProviderFeaturesList,
+    aspects: GetProjectCodeOwnersResponseCodeMappingProviderAspectsMap,
+  }),
+).annotate({
+  identifier: "GetProjectCodeOwnersResponseCodeMappingProvider",
+}) as any as S.Schema<GetProjectCodeOwnersResponseCodeMappingProvider>;
+
+export interface GetProjectCodeOwnersResponseCodeMapping {
+  id: string;
+  projectId: string;
+  projectSlug: string;
+  repoId: string;
+  repoName: string;
+  integrationId: string | null;
+  provider: GetProjectCodeOwnersResponseCodeMappingProvider | null;
+  stackRoot: string;
+  sourceRoot: string;
+  defaultBranch: string | null;
+  automaticallyGenerated: boolean;
+  hasCodeOwner: boolean;
+}
+export const GetProjectCodeOwnersResponseCodeMapping = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    projectId: S.String,
+    projectSlug: S.String,
+    repoId: S.String,
+    repoName: S.String,
+    integrationId: S.NullOr(S.String),
+    provider: S.NullOr(GetProjectCodeOwnersResponseCodeMappingProvider),
+    stackRoot: S.String,
+    sourceRoot: S.String,
+    defaultBranch: S.NullOr(S.String),
+    automaticallyGenerated: S.Boolean,
+    hasCodeOwner: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetProjectCodeOwnersResponseCodeMapping",
+}) as any as S.Schema<GetProjectCodeOwnersResponseCodeMapping>;
+
+export type GetProjectCodeOwnersResponseErrorsMissingUserEmailsList = Array<string>;
+export const GetProjectCodeOwnersResponseErrorsMissingUserEmailsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetProjectCodeOwnersResponseErrorsMissingUserEmailsList>;
+
+export type GetProjectCodeOwnersResponseErrorsMissingExternalUsersList = Array<string>;
+export const GetProjectCodeOwnersResponseErrorsMissingExternalUsersList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetProjectCodeOwnersResponseErrorsMissingExternalUsersList>;
+
+export type GetProjectCodeOwnersResponseErrorsMissingExternalTeamsList = Array<string>;
+export const GetProjectCodeOwnersResponseErrorsMissingExternalTeamsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetProjectCodeOwnersResponseErrorsMissingExternalTeamsList>;
+
+export type GetProjectCodeOwnersResponseErrorsTeamsWithoutAccessList = Array<string>;
+export const GetProjectCodeOwnersResponseErrorsTeamsWithoutAccessList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetProjectCodeOwnersResponseErrorsTeamsWithoutAccessList>;
+
+export type GetProjectCodeOwnersResponseErrorsUsersWithoutAccessList = Array<string>;
+export const GetProjectCodeOwnersResponseErrorsUsersWithoutAccessList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetProjectCodeOwnersResponseErrorsUsersWithoutAccessList>;
+
+export interface GetProjectCodeOwnersResponseErrors {
+  missing_user_emails: GetProjectCodeOwnersResponseErrorsMissingUserEmailsList;
+  missing_external_users: GetProjectCodeOwnersResponseErrorsMissingExternalUsersList;
+  missing_external_teams: GetProjectCodeOwnersResponseErrorsMissingExternalTeamsList;
+  teams_without_access: GetProjectCodeOwnersResponseErrorsTeamsWithoutAccessList;
+  users_without_access: GetProjectCodeOwnersResponseErrorsUsersWithoutAccessList;
+}
+export const GetProjectCodeOwnersResponseErrors = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    missing_user_emails: GetProjectCodeOwnersResponseErrorsMissingUserEmailsList,
+    missing_external_users: GetProjectCodeOwnersResponseErrorsMissingExternalUsersList,
+    missing_external_teams: GetProjectCodeOwnersResponseErrorsMissingExternalTeamsList,
+    teams_without_access: GetProjectCodeOwnersResponseErrorsTeamsWithoutAccessList,
+    users_without_access: GetProjectCodeOwnersResponseErrorsUsersWithoutAccessList,
+  }),
+).annotate({
+  identifier: "GetProjectCodeOwnersResponseErrors",
+}) as any as S.Schema<GetProjectCodeOwnersResponseErrors>;
+
+export type GetProjectCodeOwnersResponseSchemaCase0RulesItemMatcher =
+  CreateProjectCodeOwnersResponseSchemaCase0RulesItemMatcher;
+export const GetProjectCodeOwnersResponseSchemaCase0RulesItemMatcher =
+  CreateProjectCodeOwnersResponseSchemaCase0RulesItemMatcher;
+
+/** Owner as it appears in the API response (after identifier->name rename). */
+export type GetProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem =
+  CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem;
+export const GetProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem =
+  CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem;
+
+export type GetProjectCodeOwnersResponseSchemaCase0RulesItemOwnersList =
+  Array<CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem>;
+export const GetProjectCodeOwnersResponseSchemaCase0RulesItemOwnersList = /*@__PURE__*/ S.Array(
+  CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem,
+) as any as S.Schema<GetProjectCodeOwnersResponseSchemaCase0RulesItemOwnersList>;
+
+export interface GetProjectCodeOwnersResponseSchemaCase0RulesItem {
+  matcher: CreateProjectCodeOwnersResponseSchemaCase0RulesItemMatcher;
+  owners: GetProjectCodeOwnersResponseSchemaCase0RulesItemOwnersList;
+}
+export const GetProjectCodeOwnersResponseSchemaCase0RulesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    matcher: CreateProjectCodeOwnersResponseSchemaCase0RulesItemMatcher,
+    owners: GetProjectCodeOwnersResponseSchemaCase0RulesItemOwnersList,
+  }),
+).annotate({
+  identifier: "GetProjectCodeOwnersResponseSchemaCase0RulesItem",
+}) as any as S.Schema<GetProjectCodeOwnersResponseSchemaCase0RulesItem>;
+
+export type GetProjectCodeOwnersResponseSchemaCase0RulesList =
+  Array<GetProjectCodeOwnersResponseSchemaCase0RulesItem>;
+export const GetProjectCodeOwnersResponseSchemaCase0RulesList = /*@__PURE__*/ S.Array(
+  GetProjectCodeOwnersResponseSchemaCase0RulesItem,
+) as any as S.Schema<GetProjectCodeOwnersResponseSchemaCase0RulesList>;
+
+export interface GetProjectCodeOwnersResponseSchemaCase0 {
+  _version: number;
+  rules: GetProjectCodeOwnersResponseSchemaCase0RulesList;
+}
+export const GetProjectCodeOwnersResponseSchemaCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _version: S.Number.pipe(T.Body("$version")),
+    rules: GetProjectCodeOwnersResponseSchemaCase0RulesList,
+  }),
+).annotate({
+  identifier: "GetProjectCodeOwnersResponseSchemaCase0",
+}) as any as S.Schema<GetProjectCodeOwnersResponseSchemaCase0>;
+
+export type GetProjectCodeOwnersResponseSchema = GetProjectCodeOwnersResponseSchemaCase0 | unknown;
+export const GetProjectCodeOwnersResponseSchema =
+  S.Unknown as any as S.Schema<GetProjectCodeOwnersResponseSchema>;
+
+export interface GetProjectCodeOwnersResponse {
+  codeMapping?: GetProjectCodeOwnersResponseCodeMapping;
+  ownershipSyntax?: string;
+  errors?: GetProjectCodeOwnersResponseErrors;
+  schema?: GetProjectCodeOwnersResponseSchema;
+  codeOwnersUrl?: string;
+  id: string;
+  raw: string;
+  dateCreated: string;
+  dateUpdated: string;
+  dateSynced: string | null;
+  codeMappingId: string;
+  provider: string;
+}
+export const GetProjectCodeOwnersResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    codeMapping: S.optional(GetProjectCodeOwnersResponseCodeMapping),
+    ownershipSyntax: S.optional(S.String),
+    errors: S.optional(GetProjectCodeOwnersResponseErrors),
+    schema: S.optional(GetProjectCodeOwnersResponseSchema),
+    codeOwnersUrl: S.optional(S.String),
+    id: S.String,
+    raw: S.String,
+    dateCreated: S.String,
+    dateUpdated: S.String,
+    dateSynced: S.NullOr(S.String),
+    codeMappingId: S.String,
+    provider: S.String,
+  }),
+).annotate({
+  identifier: "GetProjectCodeOwnersResponse",
+}) as any as S.Schema<GetProjectCodeOwnersResponse>;
 
 export interface GetProjectEnvironmentRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -14837,21 +16612,15 @@ export const GetProjectEventRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetProjectEventRequest",
-}) as any as S.Schema<GetProjectEventRequest>;
+).annotate({ identifier: "GetProjectEventRequest" }) as any as S.Schema<GetProjectEventRequest>;
 
-export type GetProjectEventResponseUserGeoMap = {
-  [key: string]: string | undefined;
-};
+export type GetProjectEventResponseUserGeoMap = { [key: string]: string | undefined };
 export const GetProjectEventResponseUserGeoMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<GetProjectEventResponseUserGeoMap>;
 
-export type GetProjectEventResponseUserDataMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetProjectEventResponseUserDataMap = { [key: string]: unknown | undefined };
 export const GetProjectEventResponseUserDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -14888,9 +16657,7 @@ export const GetProjectEventResponseTagsList = /*@__PURE__*/ S.Array(
   GetOrganizationIssueEventResponseTagsItem,
 ) as any as S.Schema<GetProjectEventResponseTagsList>;
 
-export type GetProjectEventResponseContextsMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetProjectEventResponseContextsMap = { [key: string]: unknown | undefined };
 export const GetProjectEventResponseContextsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -14904,17 +16671,13 @@ export const GetProjectEventResponseEntriesList = /*@__PURE__*/ S.Array(
 export type GetProjectEventResponseSdk = GetOrganizationIssueEventResponseSdk;
 export const GetProjectEventResponseSdk = GetOrganizationIssueEventResponseSdk;
 
-export type GetProjectEventResponseContextMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetProjectEventResponseContextMap = { [key: string]: unknown | undefined };
 export const GetProjectEventResponseContextMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<GetProjectEventResponseContextMap>;
 
-export type GetProjectEventResponsePackagesMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetProjectEventResponsePackagesMap = { [key: string]: unknown | undefined };
 export const GetProjectEventResponsePackagesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -14933,17 +16696,13 @@ export type GetProjectEventResponseType =
   | "feedback";
 export const GetProjectEventResponseType = S.String;
 
-export type GetProjectEventResponseMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetProjectEventResponseMetadataMap = { [key: string]: unknown | undefined };
 export const GetProjectEventResponseMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<GetProjectEventResponseMetadataMap>;
 
-export type GetProjectEventResponseErrorsItemDataMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetProjectEventResponseErrorsItemDataMap = { [key: string]: unknown | undefined };
 export const GetProjectEventResponseErrorsItemDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -15032,9 +16791,7 @@ export const GetProjectEventResponseOccurrence = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetProjectEventResponseOccurrence",
 }) as any as S.Schema<GetProjectEventResponseOccurrence>;
 
-export type GetProjectEventResponseMetaMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetProjectEventResponseMetaMap = { [key: string]: unknown | undefined };
 export const GetProjectEventResponseMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -15083,17 +16840,13 @@ export const GetProjectEventResponseBreakdownsMap = /*@__PURE__*/ S.Record(
   GetProjectEventResponseBreakdownsValueMap,
 ) as any as S.Schema<GetProjectEventResponseBreakdownsMap>;
 
-export type GetProjectEventResponseReleaseDataMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetProjectEventResponseReleaseDataMap = { [key: string]: unknown | undefined };
 export const GetProjectEventResponseReleaseDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<GetProjectEventResponseReleaseDataMap>;
 
-export type GetProjectEventResponseReleaseLastCommitMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetProjectEventResponseReleaseLastCommitMap = { [key: string]: unknown | undefined };
 export const GetProjectEventResponseReleaseLastCommitMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -15176,9 +16929,7 @@ export const GetProjectEventResponseUserReportEvent =
 export type GetProjectEventResponseUserReport = GetOrganizationIssueEventResponseUserReport;
 export const GetProjectEventResponseUserReport = GetOrganizationIssueEventResponseUserReport;
 
-export type GetProjectEventResponseSdkUpdatesItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetProjectEventResponseSdkUpdatesItemMap = { [key: string]: unknown | undefined };
 export const GetProjectEventResponseSdkUpdatesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -15275,9 +17026,7 @@ export const GetProjectEventResponse = /*@__PURE__*/ S.suspend(() =>
     nextEventID: S.NullOr(S.String),
     previousEventID: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "GetProjectEventResponse",
-}) as any as S.Schema<GetProjectEventResponse>;
+).annotate({ identifier: "GetProjectEventResponse" }) as any as S.Schema<GetProjectEventResponse>;
 
 export interface GetProjectEventAttachmentRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -15310,11 +17059,11 @@ export const GetProjectEventAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetProjectEventAttachmentRequest>;
 
 export type GetProjectEventAttachmentResponseHeadersMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const GetProjectEventAttachmentResponseHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<GetProjectEventAttachmentResponseHeadersMap>;
 
 export interface GetProjectEventAttachmentResponse {
@@ -15912,9 +17661,7 @@ export const GetProjectKeyRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetProjectKeyRequest",
-}) as any as S.Schema<GetProjectKeyRequest>;
+).annotate({ identifier: "GetProjectKeyRequest" }) as any as S.Schema<GetProjectKeyRequest>;
 
 export type GetProjectKeyResponseRateLimit = CreateProjectKeyResponseRateLimit;
 export const GetProjectKeyResponseRateLimit = CreateProjectKeyResponseRateLimit;
@@ -15982,9 +17729,7 @@ export const GetProjectKeyResponse = /*@__PURE__*/ S.suspend(() =>
     dynamicSdkLoaderOptions: CreateProjectKeyResponseDynamicSdkLoaderOptions,
     useCase: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetProjectKeyResponse",
-}) as any as S.Schema<GetProjectKeyResponse>;
+).annotate({ identifier: "GetProjectKeyResponse" }) as any as S.Schema<GetProjectKeyResponse>;
 
 export interface GetProjectMonitorRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -16006,9 +17751,7 @@ export const GetProjectMonitorRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetProjectMonitorRequest",
-}) as any as S.Schema<GetProjectMonitorRequest>;
+).annotate({ identifier: "GetProjectMonitorRequest" }) as any as S.Schema<GetProjectMonitorRequest>;
 
 export type GetProjectMonitorResponseAlertRuleTargetsItem =
   CreateOrganizationMonitorResponseAlertRuleTargetsItem;
@@ -16262,48 +18005,30 @@ export const GetProjectOwnershipRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetProjectOwnershipRequest",
 }) as any as S.Schema<GetProjectOwnershipRequest>;
 
-export interface GetProjectOwnershipResponseSchemaRulesItemMatcher {
-  type: string;
-  pattern: string;
-}
-export const GetProjectOwnershipResponseSchemaRulesItemMatcher = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    pattern: S.String,
-  }),
-).annotate({
-  identifier: "GetProjectOwnershipResponseSchemaRulesItemMatcher",
-}) as any as S.Schema<GetProjectOwnershipResponseSchemaRulesItemMatcher>;
+export type GetProjectOwnershipResponseSchemaRulesItemMatcher =
+  CreateProjectCodeOwnersResponseSchemaCase0RulesItemMatcher;
+export const GetProjectOwnershipResponseSchemaRulesItemMatcher =
+  CreateProjectCodeOwnersResponseSchemaCase0RulesItemMatcher;
 
 /** Owner as it appears in the API response (after identifier->name rename). */
-export interface GetProjectOwnershipResponseSchemaRulesItemOwnersItem {
-  type: string;
-  name: string;
-  id?: string;
-}
-export const GetProjectOwnershipResponseSchemaRulesItemOwnersItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    name: S.String,
-    id: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetProjectOwnershipResponseSchemaRulesItemOwnersItem",
-}) as any as S.Schema<GetProjectOwnershipResponseSchemaRulesItemOwnersItem>;
+export type GetProjectOwnershipResponseSchemaRulesItemOwnersItem =
+  CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem;
+export const GetProjectOwnershipResponseSchemaRulesItemOwnersItem =
+  CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem;
 
 export type GetProjectOwnershipResponseSchemaRulesItemOwnersList =
-  Array<GetProjectOwnershipResponseSchemaRulesItemOwnersItem>;
+  Array<CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem>;
 export const GetProjectOwnershipResponseSchemaRulesItemOwnersList = /*@__PURE__*/ S.Array(
-  GetProjectOwnershipResponseSchemaRulesItemOwnersItem,
+  CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem,
 ) as any as S.Schema<GetProjectOwnershipResponseSchemaRulesItemOwnersList>;
 
 export interface GetProjectOwnershipResponseSchemaRulesItem {
-  matcher: GetProjectOwnershipResponseSchemaRulesItemMatcher;
+  matcher: CreateProjectCodeOwnersResponseSchemaCase0RulesItemMatcher;
   owners: GetProjectOwnershipResponseSchemaRulesItemOwnersList;
 }
 export const GetProjectOwnershipResponseSchemaRulesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    matcher: GetProjectOwnershipResponseSchemaRulesItemMatcher,
+    matcher: CreateProjectCodeOwnersResponseSchemaCase0RulesItemMatcher,
     owners: GetProjectOwnershipResponseSchemaRulesItemOwnersList,
   }),
 ).annotate({
@@ -16589,9 +18314,7 @@ export const GetProjectProfilingProfileRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetProjectProfilingProfileRequest",
 }) as any as S.Schema<GetProjectProfilingProfileRequest>;
 
-export type GetProjectProfilingProfileResponseBodyMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetProjectProfilingProfileResponseBodyMap = { [key: string]: unknown | undefined };
 export const GetProjectProfilingProfileResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -16634,9 +18357,7 @@ export const GetProjectReleaseFileRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetProjectReleaseFileRequest",
 }) as any as S.Schema<GetProjectReleaseFileRequest>;
 
-export type GetProjectReleaseFileResponseHeadersMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetProjectReleaseFileResponseHeadersMap = { [key: string]: unknown | undefined };
 export const GetProjectReleaseFileResponseHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -16794,16 +18515,8 @@ export interface GetSentryAppRequest {
 export const GetSentryAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sentry_app_id_or_slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/0/sentry-apps/{sentry_app_id_or_slug}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSentryAppRequest",
-}) as any as S.Schema<GetSentryAppRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/0/sentry-apps/{sentry_app_id_or_slug}/", code: 200 })),
+).annotate({ identifier: "GetSentryAppRequest" }) as any as S.Schema<GetSentryAppRequest>;
 
 export type GetSentryAppResponseAllowedOriginsList = Array<string>;
 export const GetSentryAppResponseAllowedOriginsList = /*@__PURE__*/ S.Array(
@@ -16927,9 +18640,63 @@ export const GetSentryAppResponse = /*@__PURE__*/ S.suspend(() =>
     clientId: S.optional(S.String),
     owner: S.optional(GetSentryAppResponseOwner),
   }),
+).annotate({ identifier: "GetSentryAppResponse" }) as any as S.Schema<GetSentryAppResponse>;
+
+export interface GetSentryAppInstallationExternalRequestOptionsRequest {
+  /** The UUID of the Sentry App installation. */
+  uuid: string;
+  /** The relative URI of the select field's options callback. */
+  uri: string;
+  /** The Sentry project ID to include in the options request. */
+  projectId?: number;
+  /** The search text for select options. */
+  query?: string;
+  /** A JSON-encoded object containing the values of fields this select depends on. */
+  dependentData?: string;
+}
+export const GetSentryAppInstallationExternalRequestOptionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.String.pipe(T.Label()),
+    uri: S.String.pipe(T.Query()),
+    projectId: S.optional(S.Number.pipe(T.Query())),
+    query: S.optional(S.String.pipe(T.Query())),
+    dependentData: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/0/sentry-app-installations/{uuid}/external-requests/",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "GetSentryAppResponse",
-}) as any as S.Schema<GetSentryAppResponse>;
+  identifier: "GetSentryAppInstallationExternalRequestOptionsRequest",
+}) as any as S.Schema<GetSentryAppInstallationExternalRequestOptionsRequest>;
+
+export type GetSentryAppInstallationExternalRequestOptionsResponseChoicesItemList = Array<string>;
+export const GetSentryAppInstallationExternalRequestOptionsResponseChoicesItemList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetSentryAppInstallationExternalRequestOptionsResponseChoicesItemList>;
+
+export type GetSentryAppInstallationExternalRequestOptionsResponseChoicesList =
+  Array<GetSentryAppInstallationExternalRequestOptionsResponseChoicesItemList>;
+export const GetSentryAppInstallationExternalRequestOptionsResponseChoicesList =
+  /*@__PURE__*/ S.Array(
+    GetSentryAppInstallationExternalRequestOptionsResponseChoicesItemList,
+  ) as any as S.Schema<GetSentryAppInstallationExternalRequestOptionsResponseChoicesList>;
+
+export interface GetSentryAppInstallationExternalRequestOptionsResponse {
+  choices: GetSentryAppInstallationExternalRequestOptionsResponseChoicesList;
+  defaultValue?: string;
+}
+export const GetSentryAppInstallationExternalRequestOptionsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    choices: GetSentryAppInstallationExternalRequestOptionsResponseChoicesList,
+    defaultValue: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetSentryAppInstallationExternalRequestOptionsResponse",
+}) as any as S.Schema<GetSentryAppInstallationExternalRequestOptionsResponse>;
 
 export interface GetTeamRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -17212,9 +18979,7 @@ export const GetTeamResponse = /*@__PURE__*/ S.suspend(() =>
     organization: S.optional(GetTeamResponseOrganization),
     projects: S.optional(GetTeamResponseProjectsList),
   }),
-).annotate({
-  identifier: "GetTeamResponse",
-}) as any as S.Schema<GetTeamResponse>;
+).annotate({ identifier: "GetTeamResponse" }) as any as S.Schema<GetTeamResponse>;
 
 export type GetTraceItemStatisticsRequestStatsTypeItem = "attributeDistributions";
 export const GetTraceItemStatisticsRequestStatsTypeItem = S.String;
@@ -17373,8 +19138,12 @@ export interface LinkAnExistingExternalIssueToAnIssueRequest {
   issue_id: string;
   /** The ID of the integration installed on the organization. */
   integration_id: string;
-  /** The identifier of the existing external issue to link, as understood by the provider (such as a Jira issue key). */
+  /** The identifier or full URL of the existing external issue to link. URL support depends on the selected integration. */
   externalIssue: string;
+  /** The repository containing the external issue, in owner/name format. Required by GitHub, GitHub Enterprise, and Bitbucket integrations. */
+  repo?: string;
+  /** An optional comment to post to the external issue when linking, if supported by the integration. */
+  comment?: string;
 }
 export const LinkAnExistingExternalIssueToAnIssueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -17382,6 +19151,8 @@ export const LinkAnExistingExternalIssueToAnIssueRequest = /*@__PURE__*/ S.suspe
     issue_id: S.String.pipe(T.Label()),
     integration_id: S.String.pipe(T.Label()),
     externalIssue: S.String,
+    repo: S.optional(S.String),
+    comment: S.optional(S.String),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -17538,6 +19309,122 @@ export const ListAnOrganizationSIntegrationPlatformInstallationsResponse = /*@__
 ).annotate({
   identifier: "ListAnOrganizationSIntegrationPlatformInstallationsResponse",
 }) as any as S.Schema<ListAnOrganizationSIntegrationPlatformInstallationsResponse>;
+
+export interface ListAProjectSCustomInboundFiltersRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
+  project_id_or_slug: string;
+}
+export const ListAProjectSCustomInboundFiltersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id_or_slug: S.String.pipe(T.Label()),
+    project_id_or_slug: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/0/projects/{organization_id_or_slug}/{project_id_or_slug}/custom-inbound-filters/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListAProjectSCustomInboundFiltersRequest",
+}) as any as S.Schema<ListAProjectSCustomInboundFiltersRequest>;
+
+/** The data the filter matches against. `all` is the catch-all: it filters every data type Sentry ingests, including ones added later, and accepts only the conditions that every data type carries a field for. * `all` * `error` * `log` * `metric` * `span` */
+export type ListAProjectSCustomInboundFiltersResponseBodyItemDataType =
+  | "all"
+  | "error"
+  | "log"
+  | "metric"
+  | "span";
+export const ListAProjectSCustomInboundFiltersResponseBodyItemDataType = S.String;
+
+/** The field the condition matches against. Every `dataType` accepts `release` and `ip_address`. In addition, `error` accepts `error_type` and `error_message`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `ip_address` */
+export type ListAProjectSCustomInboundFiltersResponseBodyItemConditionsItemType =
+  | "error_type"
+  | "error_message"
+  | "log_message"
+  | "metric_name"
+  | "release"
+  | "ip_address";
+export const ListAProjectSCustomInboundFiltersResponseBodyItemConditionsItemType = S.String;
+
+/** Glob patterns the field is matched against. The condition matches when any pattern matches, so multiple values act as OR. */
+export type ListAProjectSCustomInboundFiltersResponseBodyItemConditionsItemValueList =
+  Array<string>;
+export const ListAProjectSCustomInboundFiltersResponseBodyItemConditionsItemValueList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ListAProjectSCustomInboundFiltersResponseBodyItemConditionsItemValueList>;
+
+export interface ListAProjectSCustomInboundFiltersResponseBodyItemConditionsItem {
+  /** The field the condition matches against. Every `dataType` accepts `release` and `ip_address`. In addition, `error` accepts `error_type` and `error_message`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `ip_address` */
+  type: ListAProjectSCustomInboundFiltersResponseBodyItemConditionsItemType;
+  /** Glob patterns the field is matched against. The condition matches when any pattern matches, so multiple values act as OR. */
+  value: ListAProjectSCustomInboundFiltersResponseBodyItemConditionsItemValueList;
+}
+export const ListAProjectSCustomInboundFiltersResponseBodyItemConditionsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: ListAProjectSCustomInboundFiltersResponseBodyItemConditionsItemType,
+      value: ListAProjectSCustomInboundFiltersResponseBodyItemConditionsItemValueList,
+    }),
+  ).annotate({
+    identifier: "ListAProjectSCustomInboundFiltersResponseBodyItemConditionsItem",
+  }) as any as S.Schema<ListAProjectSCustomInboundFiltersResponseBodyItemConditionsItem>;
+
+/** Conditions are combined with AND: an event must match every condition to be filtered out. There is no OR between conditions, so e.g. two release conditions can express a range (`>2 AND <4`). To broaden matching, widen a condition's values or add separate filters. */
+export type ListAProjectSCustomInboundFiltersResponseBodyItemConditionsList =
+  Array<ListAProjectSCustomInboundFiltersResponseBodyItemConditionsItem>;
+export const ListAProjectSCustomInboundFiltersResponseBodyItemConditionsList =
+  /*@__PURE__*/ S.Array(
+    ListAProjectSCustomInboundFiltersResponseBodyItemConditionsItem,
+  ) as any as S.Schema<ListAProjectSCustomInboundFiltersResponseBodyItemConditionsList>;
+
+export interface ListAProjectSCustomInboundFiltersResponseBodyItem {
+  /** The ID of the filter. */
+  id: string;
+  /** The data the filter matches against. `all` is the catch-all: it filters every data type Sentry ingests, including ones added later, and accepts only the conditions that every data type carries a field for. * `all` * `error` * `log` * `metric` * `span` */
+  dataType: ListAProjectSCustomInboundFiltersResponseBodyItemDataType;
+  /** Conditions are combined with AND: an event must match every condition to be filtered out. There is no OR between conditions, so e.g. two release conditions can express a range (`>2 AND <4`). To broaden matching, widen a condition's values or add separate filters. */
+  conditions: ListAProjectSCustomInboundFiltersResponseBodyItemConditionsList;
+  /** When the filter was created. */
+  dateCreated: string;
+  /** When the filter was last changed. */
+  dateUpdated: string;
+  /** A human-readable label for the filter. */
+  name?: string | null;
+  /** Whether the filter drops matching data. An inactive filter is kept but ignored. */
+  active?: boolean;
+}
+export const ListAProjectSCustomInboundFiltersResponseBodyItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    dataType: ListAProjectSCustomInboundFiltersResponseBodyItemDataType,
+    conditions: ListAProjectSCustomInboundFiltersResponseBodyItemConditionsList,
+    dateCreated: S.String,
+    dateUpdated: S.String,
+    name: S.optional(S.NullOr(S.String)),
+    active: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "ListAProjectSCustomInboundFiltersResponseBodyItem",
+}) as any as S.Schema<ListAProjectSCustomInboundFiltersResponseBodyItem>;
+
+export type ListAProjectSCustomInboundFiltersResponseBodyList =
+  Array<ListAProjectSCustomInboundFiltersResponseBodyItem>;
+export const ListAProjectSCustomInboundFiltersResponseBodyList = /*@__PURE__*/ S.Array(
+  ListAProjectSCustomInboundFiltersResponseBodyItem,
+) as any as S.Schema<ListAProjectSCustomInboundFiltersResponseBodyList>;
+
+export type ListAProjectSCustomInboundFiltersResponse =
+  ListAProjectSCustomInboundFiltersResponseBodyList;
+export const ListAProjectSCustomInboundFiltersResponse = /*@__PURE__*/ S.suspend(() =>
+  ListAProjectSCustomInboundFiltersResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListAProjectSCustomInboundFiltersResponse",
+}) as any as S.Schema<ListAProjectSCustomInboundFiltersResponse>;
 
 export interface ListAProjectSServiceHooksRequest {
   /** The ID or slug of the organization the client keys belong to. */
@@ -17702,9 +19589,7 @@ export const ListATagSValuesRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListATagSValuesRequest",
-}) as any as S.Schema<ListATagSValuesRequest>;
+).annotate({ identifier: "ListATagSValuesRequest" }) as any as S.Schema<ListATagSValuesRequest>;
 
 export interface ListATagSValuesResponseBodyItem {
   name: string;
@@ -17725,9 +19610,176 @@ export const ListATagSValuesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListATagSValuesResponse = ListATagSValuesResponseBodyList;
 export const ListATagSValuesResponse = /*@__PURE__*/ S.suspend(() =>
   ListATagSValuesResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({ identifier: "ListATagSValuesResponse" }) as any as S.Schema<ListATagSValuesResponse>;
+
+export type ListOrganizationAIConversationsRequestProjectItem = number | string;
+export const ListOrganizationAIConversationsRequestProjectItem =
+  S.Unknown as any as S.Schema<ListOrganizationAIConversationsRequestProjectItem>;
+
+export type ListOrganizationAIConversationsRequestProjectList =
+  Array<ListOrganizationAIConversationsRequestProjectItem>;
+export const ListOrganizationAIConversationsRequestProjectList = /*@__PURE__*/ S.Array(
+  ListOrganizationAIConversationsRequestProjectItem,
+) as any as S.Schema<ListOrganizationAIConversationsRequestProjectList>;
+
+export type ListOrganizationAIConversationsRequestEnvironmentList = Array<string>;
+export const ListOrganizationAIConversationsRequestEnvironmentList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListOrganizationAIConversationsRequestEnvironmentList>;
+
+export interface ListOrganizationAIConversationsRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
+  project?: ListOrganizationAIConversationsRequestProjectList;
+  /** The name of environments to filter by. */
+  environment?: ListOrganizationAIConversationsRequestEnvironmentList;
+  /** The period of time for the query, will override the start & end parameters, a number followed by one of: - `d` for days - `h` for hours - `m` for minutes - `s` for seconds - `w` for weeks For example, `24h`, to mean query data starting from 24 hours ago to now. */
+  statsPeriod?: string;
+  /** The start of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
+  start?: string;
+  /** The end of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
+  end?: string;
+  /** Sentry search syntax matched against spans. A conversation is returned when any span in it matches. Summary fields include all spans in selected projects and time range, not only matching spans. */
+  query?: string;
+  /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
+  cursor?: string;
+  /** Number of conversations to return per page. Defaults to 10; maximum is 100. */
+  per_page?: number;
+}
+export const ListOrganizationAIConversationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id_or_slug: S.String.pipe(T.Label()),
+    project: S.optional(ListOrganizationAIConversationsRequestProjectList.pipe(T.Query())),
+    environment: S.optional(ListOrganizationAIConversationsRequestEnvironmentList.pipe(T.Query())),
+    statsPeriod: S.optional(S.String.pipe(T.Query())),
+    start: S.optional(S.String.pipe(T.Query())),
+    end: S.optional(S.String.pipe(T.Query())),
+    query: S.optional(S.String.pipe(T.Query())),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/0/organizations/{organization_id_or_slug}/agents/conversations/",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "ListATagSValuesResponse",
-}) as any as S.Schema<ListATagSValuesResponse>;
+  identifier: "ListOrganizationAIConversationsRequest",
+}) as any as S.Schema<ListOrganizationAIConversationsRequest>;
+
+export type ListOrganizationAIConversationsResponseBodyItemToolNamesList = Array<string>;
+export const ListOrganizationAIConversationsResponseBodyItemToolNamesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListOrganizationAIConversationsResponseBodyItemToolNamesList>;
+
+export type ListOrganizationAIConversationsResponseBodyItemFlowList = Array<string>;
+export const ListOrganizationAIConversationsResponseBodyItemFlowList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListOrganizationAIConversationsResponseBodyItemFlowList>;
+
+export type ListOrganizationAIConversationsResponseBodyItemTraceIdsList = Array<string>;
+export const ListOrganizationAIConversationsResponseBodyItemTraceIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListOrganizationAIConversationsResponseBodyItemTraceIdsList>;
+
+export interface ListOrganizationAIConversationsResponseBodyItemUser {
+  id: string | null;
+  email: string | null;
+  username: string | null;
+  ip_address: string | null;
+}
+export const ListOrganizationAIConversationsResponseBodyItemUser = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.NullOr(S.String),
+    email: S.NullOr(S.String),
+    username: S.NullOr(S.String),
+    ip_address: S.NullOr(S.String),
+  }),
+).annotate({
+  identifier: "ListOrganizationAIConversationsResponseBodyItemUser",
+}) as any as S.Schema<ListOrganizationAIConversationsResponseBodyItemUser>;
+
+export type ListOrganizationAIConversationsResponseBodyItemProjectsItem =
+  GetOrganizationAIConversationResponseProjectsItem;
+export const ListOrganizationAIConversationsResponseBodyItemProjectsItem =
+  GetOrganizationAIConversationResponseProjectsItem;
+
+export type ListOrganizationAIConversationsResponseBodyItemProjectsList =
+  Array<GetOrganizationAIConversationResponseProjectsItem>;
+export const ListOrganizationAIConversationsResponseBodyItemProjectsList = /*@__PURE__*/ S.Array(
+  GetOrganizationAIConversationResponseProjectsItem,
+) as any as S.Schema<ListOrganizationAIConversationsResponseBodyItemProjectsList>;
+
+export interface ListOrganizationAIConversationsResponseBodyItem {
+  endTimestamp: number;
+  generationDuration: number;
+  inputTokens: number;
+  llmCalls: number;
+  outputTokens: number;
+  startTimestamp: number;
+  toolCalls: number;
+  toolErrors: number;
+  toolNames: ListOrganizationAIConversationsResponseBodyItemToolNamesList;
+  totalCost: number;
+  totalTokens: number;
+  conversationId: string;
+  errors: number;
+  title: string | null;
+  projectId: number | null;
+  flow: ListOrganizationAIConversationsResponseBodyItemFlowList;
+  traceCount: number;
+  traceIds: ListOrganizationAIConversationsResponseBodyItemTraceIdsList;
+  firstInput: string | null;
+  lastOutput: string | null;
+  user: ListOrganizationAIConversationsResponseBodyItemUser | null;
+  projects: ListOrganizationAIConversationsResponseBodyItemProjectsList;
+  webUrl: string;
+}
+export const ListOrganizationAIConversationsResponseBodyItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    endTimestamp: S.Number,
+    generationDuration: S.Number,
+    inputTokens: S.Number,
+    llmCalls: S.Number,
+    outputTokens: S.Number,
+    startTimestamp: S.Number,
+    toolCalls: S.Number,
+    toolErrors: S.Number,
+    toolNames: ListOrganizationAIConversationsResponseBodyItemToolNamesList,
+    totalCost: S.Number,
+    totalTokens: S.Number,
+    conversationId: S.String,
+    errors: S.Number,
+    title: S.NullOr(S.String),
+    projectId: S.NullOr(S.Number),
+    flow: ListOrganizationAIConversationsResponseBodyItemFlowList,
+    traceCount: S.Number,
+    traceIds: ListOrganizationAIConversationsResponseBodyItemTraceIdsList,
+    firstInput: S.NullOr(S.String),
+    lastOutput: S.NullOr(S.String),
+    user: S.NullOr(ListOrganizationAIConversationsResponseBodyItemUser),
+    projects: ListOrganizationAIConversationsResponseBodyItemProjectsList,
+    webUrl: S.String,
+  }),
+).annotate({
+  identifier: "ListOrganizationAIConversationsResponseBodyItem",
+}) as any as S.Schema<ListOrganizationAIConversationsResponseBodyItem>;
+
+export type ListOrganizationAIConversationsResponseBodyList =
+  Array<ListOrganizationAIConversationsResponseBodyItem>;
+export const ListOrganizationAIConversationsResponseBodyList = /*@__PURE__*/ S.Array(
+  ListOrganizationAIConversationsResponseBodyItem,
+) as any as S.Schema<ListOrganizationAIConversationsResponseBodyList>;
+
+export type ListOrganizationAIConversationsResponse =
+  ListOrganizationAIConversationsResponseBodyList;
+export const ListOrganizationAIConversationsResponse = /*@__PURE__*/ S.suspend(() =>
+  ListOrganizationAIConversationsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListOrganizationAIConversationsResponse",
+}) as any as S.Schema<ListOrganizationAIConversationsResponse>;
 
 export type ListOrganizationDashboardsRequestFilterItem =
   | "excludeFavorites"
@@ -18046,6 +20098,11 @@ export const ListOrganizationDetectorsRequestIdList = /*@__PURE__*/ S.Array(
   S.Number,
 ) as any as S.Schema<ListOrganizationDetectorsRequestIdList>;
 
+export type ListOrganizationDetectorsRequestTypeList = Array<string>;
+export const ListOrganizationDetectorsRequestTypeList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListOrganizationDetectorsRequestTypeList>;
+
 export interface ListOrganizationDetectorsRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
@@ -18057,6 +20114,10 @@ export interface ListOrganizationDetectorsRequest {
   sortBy?: string;
   /** The ID of the monitor you'd like to query. */
   id?: ListOrganizationDetectorsRequestIdList;
+  /** Filter by monitor type(s). Can be specified multiple times. */
+  type?: ListOrganizationDetectorsRequestTypeList;
+  /** Filter by whether monitors are enabled. */
+  enabled?: boolean;
   /** Limit the number of rows to return in the result. Default and maximum allowed is 100. */
   per_page?: number;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
@@ -18069,6 +20130,8 @@ export const ListOrganizationDetectorsRequest = /*@__PURE__*/ S.suspend(() =>
     query: S.optional(S.String.pipe(T.Query())),
     sortBy: S.optional(S.String.pipe(T.Query())),
     id: S.optional(ListOrganizationDetectorsRequestIdList.pipe(T.Query())),
+    type: S.optional(ListOrganizationDetectorsRequestTypeList.pipe(T.Query())),
+    enabled: S.optional(S.Boolean.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
     cursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(
@@ -18403,6 +20466,9 @@ export interface ListOrganizationDiscoverSavedQueriesResponseBodyItem {
   topEvents?: number;
   interval?: string;
   exploreQuery?: ListOrganizationDiscoverSavedQueriesResponseBodyItemExploreQueryMap;
+  lastVisited?: string;
+  starred?: boolean;
+  position?: number | null;
   id: string;
   name: string;
   projects: ListOrganizationDiscoverSavedQueriesResponseBodyItemProjectsList;
@@ -18432,6 +20498,9 @@ export const ListOrganizationDiscoverSavedQueriesResponseBodyItem = /*@__PURE__*
     topEvents: S.optional(S.Number),
     interval: S.optional(S.String),
     exploreQuery: S.optional(ListOrganizationDiscoverSavedQueriesResponseBodyItemExploreQueryMap),
+    lastVisited: S.optional(S.String),
+    starred: S.optional(S.Boolean),
+    position: S.optional(S.NullOr(S.Number)),
     id: S.String,
     name: S.String,
     projects: ListOrganizationDiscoverSavedQueriesResponseBodyItemProjectsList,
@@ -18589,9 +20658,7 @@ export const ListOrganizationEventsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListOrganizationEventsRequest",
 }) as any as S.Schema<ListOrganizationEventsRequest>;
 
-export type ListOrganizationEventsResponseDataItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type ListOrganizationEventsResponseDataItemMap = { [key: string]: unknown | undefined };
 export const ListOrganizationEventsResponseDataItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -18603,29 +20670,41 @@ export const ListOrganizationEventsResponseDataList = /*@__PURE__*/ S.Array(
   ListOrganizationEventsResponseDataItemMap,
 ) as any as S.Schema<ListOrganizationEventsResponseDataList>;
 
-export type ListOrganizationEventsResponseMetaFieldsMap = {
-  [key: string]: string | undefined;
-};
+export type ListOrganizationEventsResponseMetaFieldsMap = { [key: string]: string | undefined };
 export const ListOrganizationEventsResponseMetaFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<ListOrganizationEventsResponseMetaFieldsMap>;
 
 export type ListOrganizationEventsResponseMetaUnitsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const ListOrganizationEventsResponseMetaUnitsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<ListOrganizationEventsResponseMetaUnitsMap>;
 
-export type ListOrganizationEventsResponseMetaTipsMap = {
-  [key: string]: string | undefined;
-};
+export type ListOrganizationEventsResponseMetaTipsMap = { [key: string]: string | undefined };
 export const ListOrganizationEventsResponseMetaTipsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<ListOrganizationEventsResponseMetaTipsMap>;
+
+/** Ingestion status for the data behind a response. */
+export interface ListOrganizationEventsResponseMetaIngestion {
+  status: string;
+  delaySeconds?: number;
+  completeThrough?: number;
+}
+export const ListOrganizationEventsResponseMetaIngestion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.String,
+    delaySeconds: S.optional(S.Number),
+    completeThrough: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ListOrganizationEventsResponseMetaIngestion",
+}) as any as S.Schema<ListOrganizationEventsResponseMetaIngestion>;
 
 /** Meta envelope emitted by `handle_results_with_meta` and the empty-projects short-circuit. Every key is optional because the path that emits it depends on flags (`standard_meta`, debug, dataset) — the no-projects path only carries `tips`, the standard path carries everything below. */
 export interface ListOrganizationEventsResponseMeta {
@@ -18639,7 +20718,10 @@ export interface ListOrganizationEventsResponseMeta {
   discoverSplitDecision?: unknown;
   dataScanned?: string;
   bytesScanned?: number;
+  routingHint?: string;
   debug_info?: unknown;
+  /** Ingestion status for the data behind a response. */
+  ingestion?: ListOrganizationEventsResponseMetaIngestion;
 }
 export const ListOrganizationEventsResponseMeta = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -18653,7 +20735,9 @@ export const ListOrganizationEventsResponseMeta = /*@__PURE__*/ S.suspend(() =>
     discoverSplitDecision: S.optional(S.Unknown),
     dataScanned: S.optional(S.String),
     bytesScanned: S.optional(S.Number),
+    routingHint: S.optional(S.String),
     debug_info: S.optional(S.Unknown),
+    ingestion: S.optional(ListOrganizationEventsResponseMetaIngestion),
   }),
 ).annotate({
   identifier: "ListOrganizationEventsResponseMeta",
@@ -18785,16 +20869,107 @@ export const ListOrganizationEventsTimeseriesRequest = /*@__PURE__*/ S.suspend((
   identifier: "ListOrganizationEventsTimeseriesRequest",
 }) as any as S.Schema<ListOrganizationEventsTimeseriesRequest>;
 
+export type ListOrganizationEventsTimeseriesResponseMetaDroppedAnnotationsItemType = "system";
+export const ListOrganizationEventsTimeseriesResponseMetaDroppedAnnotationsItemType = S.String;
+
+/** One time bucket's volume for a system data-fidelity annotation. */
+export interface ListOrganizationEventsTimeseriesResponseMetaDroppedAnnotationsItem {
+  type: ListOrganizationEventsTimeseriesResponseMetaDroppedAnnotationsItemType;
+  category: string;
+  outcome: string;
+  reason: string;
+  start: number;
+  end: number;
+  eventCount: number;
+  byteSize?: number;
+}
+export const ListOrganizationEventsTimeseriesResponseMetaDroppedAnnotationsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: ListOrganizationEventsTimeseriesResponseMetaDroppedAnnotationsItemType,
+      category: S.String,
+      outcome: S.String,
+      reason: S.String,
+      start: S.Number,
+      end: S.Number,
+      eventCount: S.Number,
+      byteSize: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "ListOrganizationEventsTimeseriesResponseMetaDroppedAnnotationsItem",
+  }) as any as S.Schema<ListOrganizationEventsTimeseriesResponseMetaDroppedAnnotationsItem>;
+
+export type ListOrganizationEventsTimeseriesResponseMetaDroppedAnnotationsList =
+  Array<ListOrganizationEventsTimeseriesResponseMetaDroppedAnnotationsItem>;
+export const ListOrganizationEventsTimeseriesResponseMetaDroppedAnnotationsList =
+  /*@__PURE__*/ S.Array(
+    ListOrganizationEventsTimeseriesResponseMetaDroppedAnnotationsItem,
+  ) as any as S.Schema<ListOrganizationEventsTimeseriesResponseMetaDroppedAnnotationsList>;
+
+export type ListOrganizationEventsTimeseriesResponseMetaAcceptedAnnotationsItemType = "system";
+export const ListOrganizationEventsTimeseriesResponseMetaAcceptedAnnotationsItemType = S.String;
+
+/** One time bucket's volume for a system data-fidelity annotation. */
+export interface ListOrganizationEventsTimeseriesResponseMetaAcceptedAnnotationsItem {
+  type: ListOrganizationEventsTimeseriesResponseMetaAcceptedAnnotationsItemType;
+  category: string;
+  outcome: string;
+  reason: string;
+  start: number;
+  end: number;
+  eventCount: number;
+  byteSize?: number;
+}
+export const ListOrganizationEventsTimeseriesResponseMetaAcceptedAnnotationsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      type: ListOrganizationEventsTimeseriesResponseMetaAcceptedAnnotationsItemType,
+      category: S.String,
+      outcome: S.String,
+      reason: S.String,
+      start: S.Number,
+      end: S.Number,
+      eventCount: S.Number,
+      byteSize: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "ListOrganizationEventsTimeseriesResponseMetaAcceptedAnnotationsItem",
+  }) as any as S.Schema<ListOrganizationEventsTimeseriesResponseMetaAcceptedAnnotationsItem>;
+
+export type ListOrganizationEventsTimeseriesResponseMetaAcceptedAnnotationsList =
+  Array<ListOrganizationEventsTimeseriesResponseMetaAcceptedAnnotationsItem>;
+export const ListOrganizationEventsTimeseriesResponseMetaAcceptedAnnotationsList =
+  /*@__PURE__*/ S.Array(
+    ListOrganizationEventsTimeseriesResponseMetaAcceptedAnnotationsItem,
+  ) as any as S.Schema<ListOrganizationEventsTimeseriesResponseMetaAcceptedAnnotationsList>;
+
+/** Ingestion status for the data behind a response. */
+export type ListOrganizationEventsTimeseriesResponseMetaIngestion =
+  ListOrganizationEventsResponseMetaIngestion;
+export const ListOrganizationEventsTimeseriesResponseMetaIngestion =
+  ListOrganizationEventsResponseMetaIngestion;
+
 export interface ListOrganizationEventsTimeseriesResponseMeta {
   dataset: string;
   start: number;
   end: number;
+  droppedAnnotations?: ListOrganizationEventsTimeseriesResponseMetaDroppedAnnotationsList;
+  acceptedAnnotations?: ListOrganizationEventsTimeseriesResponseMetaAcceptedAnnotationsList;
+  /** Ingestion status for the data behind a response. */
+  ingestion?: ListOrganizationEventsResponseMetaIngestion;
 }
 export const ListOrganizationEventsTimeseriesResponseMeta = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dataset: S.String,
     start: S.Number,
     end: S.Number,
+    droppedAnnotations: S.optional(
+      ListOrganizationEventsTimeseriesResponseMetaDroppedAnnotationsList,
+    ),
+    acceptedAnnotations: S.optional(
+      ListOrganizationEventsTimeseriesResponseMetaAcceptedAnnotationsList,
+    ),
+    ingestion: S.optional(ListOrganizationEventsResponseMetaIngestion),
   }),
 ).annotate({
   identifier: "ListOrganizationEventsTimeseriesResponseMeta",
@@ -19068,6 +21243,77 @@ export const ListOrganizationForwardingResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListOrganizationForwardingResponse",
 }) as any as S.Schema<ListOrganizationForwardingResponse>;
 
+export interface ListOrganizationIntegrationRepositoriesRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** The ID of the integration installed on the organization. */
+  integration_id: string;
+  /** Repository name to search for. */
+  search?: string;
+  /** Only return repositories that are not already installed in Sentry. */
+  installableOnly?: boolean;
+  /** Only search repositories accessible to the integration installation. */
+  accessibleOnly?: boolean;
+}
+export const ListOrganizationIntegrationRepositoriesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id_or_slug: S.String.pipe(T.Label()),
+    integration_id: S.String.pipe(T.Label()),
+    search: S.optional(S.String.pipe(T.Query())),
+    installableOnly: S.optional(S.Boolean.pipe(T.Query())),
+    accessibleOnly: S.optional(S.Boolean.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/0/organizations/{organization_id_or_slug}/integrations/{integration_id}/repos/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListOrganizationIntegrationRepositoriesRequest",
+}) as any as S.Schema<ListOrganizationIntegrationRepositoriesRequest>;
+
+export interface ListOrganizationIntegrationRepositoriesResponseReposItem {
+  name: string;
+  identifier: string;
+  isInstalled: boolean;
+  defaultBranch: string | null;
+  externalId: string;
+  url: string | null;
+}
+export const ListOrganizationIntegrationRepositoriesResponseReposItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String,
+      identifier: S.String,
+      isInstalled: S.Boolean,
+      defaultBranch: S.NullOr(S.String),
+      externalId: S.String,
+      url: S.NullOr(S.String),
+    }),
+).annotate({
+  identifier: "ListOrganizationIntegrationRepositoriesResponseReposItem",
+}) as any as S.Schema<ListOrganizationIntegrationRepositoriesResponseReposItem>;
+
+export type ListOrganizationIntegrationRepositoriesResponseReposList =
+  Array<ListOrganizationIntegrationRepositoriesResponseReposItem>;
+export const ListOrganizationIntegrationRepositoriesResponseReposList = /*@__PURE__*/ S.Array(
+  ListOrganizationIntegrationRepositoriesResponseReposItem,
+) as any as S.Schema<ListOrganizationIntegrationRepositoriesResponseReposList>;
+
+export interface ListOrganizationIntegrationRepositoriesResponse {
+  repos: ListOrganizationIntegrationRepositoriesResponseReposList;
+  searchable?: boolean;
+}
+export const ListOrganizationIntegrationRepositoriesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    repos: ListOrganizationIntegrationRepositoriesResponseReposList,
+    searchable: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "ListOrganizationIntegrationRepositoriesResponse",
+}) as any as S.Schema<ListOrganizationIntegrationRepositoriesResponse>;
+
 export type ListOrganizationIntegrationsRequestFeaturesList = Array<string>;
 export const ListOrganizationIntegrationsRequestFeaturesList = /*@__PURE__*/ S.Array(
   S.String,
@@ -19108,6 +21354,19 @@ export const ListOrganizationIntegrationsResponseBodyItemScopesList = /*@__PURE_
   S.String,
 ) as any as S.Schema<ListOrganizationIntegrationsResponseBodyItemScopesList>;
 
+/** A feature the installation can no longer support, named by the permission tier it falls short of, so the update-permissions modal can list them. */
+export type ListOrganizationIntegrationsResponseBodyItemMissingFeaturesItem =
+  GetAnIntegrationSIssueConfigForAnIssueResponseMissingFeaturesItem;
+export const ListOrganizationIntegrationsResponseBodyItemMissingFeaturesItem =
+  GetAnIntegrationSIssueConfigForAnIssueResponseMissingFeaturesItem;
+
+export type ListOrganizationIntegrationsResponseBodyItemMissingFeaturesList =
+  Array<GetAnIntegrationSIssueConfigForAnIssueResponseMissingFeaturesItem>;
+export const ListOrganizationIntegrationsResponseBodyItemMissingFeaturesList =
+  /*@__PURE__*/ S.Array(
+    GetAnIntegrationSIssueConfigForAnIssueResponseMissingFeaturesItem,
+  ) as any as S.Schema<ListOrganizationIntegrationsResponseBodyItemMissingFeaturesList>;
+
 export interface ListOrganizationIntegrationsResponseBodyItem {
   id: string;
   name: string;
@@ -19116,6 +21375,7 @@ export interface ListOrganizationIntegrationsResponseBodyItem {
   accountType: string | null;
   scopes: ListOrganizationIntegrationsResponseBodyItemScopesList | null;
   outOfDate: boolean | null;
+  missingFeatures: ListOrganizationIntegrationsResponseBodyItemMissingFeaturesList | null;
   status: string;
   provider: unknown;
   configOrganization: unknown;
@@ -19134,6 +21394,7 @@ export const ListOrganizationIntegrationsResponseBodyItem = /*@__PURE__*/ S.susp
     accountType: S.NullOr(S.String),
     scopes: S.NullOr(ListOrganizationIntegrationsResponseBodyItemScopesList),
     outOfDate: S.NullOr(S.Boolean),
+    missingFeatures: S.NullOr(ListOrganizationIntegrationsResponseBodyItemMissingFeaturesList),
     status: S.String,
     provider: S.Unknown,
     configOrganization: S.Unknown,
@@ -19178,7 +21439,7 @@ export interface ListOrganizationIssueEventsRequest {
   statsPeriod?: string;
   /** The name of environments to filter by. */
   environment?: ListOrganizationIssueEventsRequestEnvironmentList;
-  /** Specify true to include the full event body, including the stacktrace, in the event payload. */
+  /** Specify true to include the full event body, including the stacktrace, in the event payload. When true, the page size is capped at 10. */
   full?: boolean;
   /** Return events in pseudo-random order. This is deterministic so an identical query will always return the same events in the same order. */
   sample?: boolean;
@@ -19328,11 +21589,14 @@ export interface ListOrganizationIssueExternalIssuesRequest {
   organization_id_or_slug: string;
   /** The ID of the issue you'd like to query. */
   issue_id: string;
+  /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
+  cursor?: string;
 }
 export const ListOrganizationIssueExternalIssuesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organization_id_or_slug: S.String.pipe(T.Label()),
     issue_id: S.String.pipe(T.Label()),
+    cursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -19368,7 +21632,7 @@ export interface ListOrganizationIssueHashesRequest {
   organization_id_or_slug: string;
   /** The ID of the issue you'd like to query. */
   issue_id: string;
-  /** Specify true to include the full event body, including the stacktrace, in the event payload. */
+  /** Specify true to include the full event body, including the stacktrace, in the event payload. When true, the page size is capped at 10. */
   full?: boolean;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
   cursor?: string;
@@ -19895,6 +22159,164 @@ export const ListOrganizationIssueHashesResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListOrganizationIssueHashesResponse",
 }) as any as S.Schema<ListOrganizationIssueHashesResponse>;
 
+export interface ListOrganizationIssueIntegrationsRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** The ID of the issue you'd like to query. */
+  issue_id: string;
+  /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
+  cursor?: string;
+  /** The maximum number of integrations to return per page (1–100). */
+  per_page?: number;
+}
+export const ListOrganizationIssueIntegrationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id_or_slug: S.String.pipe(T.Label()),
+    issue_id: S.String.pipe(T.Label()),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/0/organizations/{organization_id_or_slug}/issues/{issue_id}/integrations/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListOrganizationIssueIntegrationsRequest",
+}) as any as S.Schema<ListOrganizationIssueIntegrationsRequest>;
+
+export type ListOrganizationIssueIntegrationsResponseBodyItemScopesList = Array<string>;
+export const ListOrganizationIssueIntegrationsResponseBodyItemScopesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListOrganizationIssueIntegrationsResponseBodyItemScopesList>;
+
+/** A feature the installation can no longer support, named by the permission tier it falls short of, so the update-permissions modal can list them. */
+export type ListOrganizationIssueIntegrationsResponseBodyItemMissingFeaturesItem =
+  GetAnIntegrationSIssueConfigForAnIssueResponseMissingFeaturesItem;
+export const ListOrganizationIssueIntegrationsResponseBodyItemMissingFeaturesItem =
+  GetAnIntegrationSIssueConfigForAnIssueResponseMissingFeaturesItem;
+
+export type ListOrganizationIssueIntegrationsResponseBodyItemMissingFeaturesList =
+  Array<GetAnIntegrationSIssueConfigForAnIssueResponseMissingFeaturesItem>;
+export const ListOrganizationIssueIntegrationsResponseBodyItemMissingFeaturesList =
+  /*@__PURE__*/ S.Array(
+    GetAnIntegrationSIssueConfigForAnIssueResponseMissingFeaturesItem,
+  ) as any as S.Schema<ListOrganizationIssueIntegrationsResponseBodyItemMissingFeaturesList>;
+
+export type ListOrganizationIssueIntegrationsResponseBodyItemProviderFeaturesList = Array<string>;
+export const ListOrganizationIssueIntegrationsResponseBodyItemProviderFeaturesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ListOrganizationIssueIntegrationsResponseBodyItemProviderFeaturesList>;
+
+export type ListOrganizationIssueIntegrationsResponseBodyItemProviderAspectsMap = {
+  [key: string]: unknown | undefined;
+};
+export const ListOrganizationIssueIntegrationsResponseBodyItemProviderAspectsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<ListOrganizationIssueIntegrationsResponseBodyItemProviderAspectsMap>;
+
+export interface ListOrganizationIssueIntegrationsResponseBodyItemProvider {
+  key: string;
+  slug: string;
+  name: string;
+  canAdd: boolean;
+  canDisable: boolean;
+  features: ListOrganizationIssueIntegrationsResponseBodyItemProviderFeaturesList;
+  aspects: ListOrganizationIssueIntegrationsResponseBodyItemProviderAspectsMap;
+}
+export const ListOrganizationIssueIntegrationsResponseBodyItemProvider = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      key: S.String,
+      slug: S.String,
+      name: S.String,
+      canAdd: S.Boolean,
+      canDisable: S.Boolean,
+      features: ListOrganizationIssueIntegrationsResponseBodyItemProviderFeaturesList,
+      aspects: ListOrganizationIssueIntegrationsResponseBodyItemProviderAspectsMap,
+    }),
+).annotate({
+  identifier: "ListOrganizationIssueIntegrationsResponseBodyItemProvider",
+}) as any as S.Schema<ListOrganizationIssueIntegrationsResponseBodyItemProvider>;
+
+export interface ListOrganizationIssueIntegrationsResponseBodyItemExternalIssuesItem {
+  id: string;
+  key: string;
+  url: string;
+  title: string | null;
+  description: string | null;
+  displayName: string;
+}
+export const ListOrganizationIssueIntegrationsResponseBodyItemExternalIssuesItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.String,
+      key: S.String,
+      url: S.String,
+      title: S.NullOr(S.String),
+      description: S.NullOr(S.String),
+      displayName: S.String,
+    }),
+  ).annotate({
+    identifier: "ListOrganizationIssueIntegrationsResponseBodyItemExternalIssuesItem",
+  }) as any as S.Schema<ListOrganizationIssueIntegrationsResponseBodyItemExternalIssuesItem>;
+
+export type ListOrganizationIssueIntegrationsResponseBodyItemExternalIssuesList =
+  Array<ListOrganizationIssueIntegrationsResponseBodyItemExternalIssuesItem>;
+export const ListOrganizationIssueIntegrationsResponseBodyItemExternalIssuesList =
+  /*@__PURE__*/ S.Array(
+    ListOrganizationIssueIntegrationsResponseBodyItemExternalIssuesItem,
+  ) as any as S.Schema<ListOrganizationIssueIntegrationsResponseBodyItemExternalIssuesList>;
+
+export interface ListOrganizationIssueIntegrationsResponseBodyItem {
+  id: string;
+  name: string;
+  icon: string | null;
+  domainName: string | null;
+  accountType: string | null;
+  scopes: ListOrganizationIssueIntegrationsResponseBodyItemScopesList | null;
+  outOfDate: boolean | null;
+  missingFeatures: ListOrganizationIssueIntegrationsResponseBodyItemMissingFeaturesList | null;
+  status: string;
+  provider: ListOrganizationIssueIntegrationsResponseBodyItemProvider;
+  externalIssues: ListOrganizationIssueIntegrationsResponseBodyItemExternalIssuesList;
+}
+export const ListOrganizationIssueIntegrationsResponseBodyItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+    icon: S.NullOr(S.String),
+    domainName: S.NullOr(S.String),
+    accountType: S.NullOr(S.String),
+    scopes: S.NullOr(ListOrganizationIssueIntegrationsResponseBodyItemScopesList),
+    outOfDate: S.NullOr(S.Boolean),
+    missingFeatures: S.NullOr(ListOrganizationIssueIntegrationsResponseBodyItemMissingFeaturesList),
+    status: S.String,
+    provider: ListOrganizationIssueIntegrationsResponseBodyItemProvider,
+    externalIssues: ListOrganizationIssueIntegrationsResponseBodyItemExternalIssuesList,
+  }),
+).annotate({
+  identifier: "ListOrganizationIssueIntegrationsResponseBodyItem",
+}) as any as S.Schema<ListOrganizationIssueIntegrationsResponseBodyItem>;
+
+export type ListOrganizationIssueIntegrationsResponseBodyList =
+  Array<ListOrganizationIssueIntegrationsResponseBodyItem>;
+export const ListOrganizationIssueIntegrationsResponseBodyList = /*@__PURE__*/ S.Array(
+  ListOrganizationIssueIntegrationsResponseBodyItem,
+) as any as S.Schema<ListOrganizationIssueIntegrationsResponseBodyList>;
+
+export type ListOrganizationIssueIntegrationsResponse =
+  ListOrganizationIssueIntegrationsResponseBodyList;
+export const ListOrganizationIssueIntegrationsResponse = /*@__PURE__*/ S.suspend(() =>
+  ListOrganizationIssueIntegrationsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListOrganizationIssueIntegrationsResponse",
+}) as any as S.Schema<ListOrganizationIssueIntegrationsResponse>;
+
 export type ListOrganizationIssuesRequestEnvironmentList = Array<string>;
 export const ListOrganizationIssuesRequestEnvironmentList = /*@__PURE__*/ S.Array(
   S.String,
@@ -20261,9 +22683,7 @@ export type ListOrganizationIssuesResponseBodyItemDerivedData =
 export const ListOrganizationIssuesResponseBodyItemDerivedData =
   GetOrganizationIssueResponseDerivedData;
 
-export type ListOrganizationIssuesResponseBodyItemStatsMap = {
-  [key: string]: unknown | undefined;
-};
+export type ListOrganizationIssuesResponseBodyItemStatsMap = { [key: string]: unknown | undefined };
 export const ListOrganizationIssuesResponseBodyItemStatsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -20474,7 +22894,7 @@ export interface ListOrganizationIssueTagValuesRequest {
   issue_id: string;
   /** The tag key to look the values up for. */
   key: string;
-  /** Sort order of the resulting tag values. Prefix with '-' for descending order. Default is '-id'. */
+  /** Sort order of the resulting tag values. Default is `id`. */
   sort?: ListOrganizationIssueTagValuesRequestSort | (string & {});
   /** The name of environments to filter by. */
   environment?: ListOrganizationIssueTagValuesRequestEnvironmentList;
@@ -20514,6 +22934,237 @@ export const ListOrganizationIssueTagValuesResponse = /*@__PURE__*/ S.suspend(()
 ).annotate({
   identifier: "ListOrganizationIssueTagValuesResponse",
 }) as any as S.Schema<ListOrganizationIssueTagValuesResponse>;
+
+export type ListOrganizationIssueViewsRequestCreatedBy = "me" | "others";
+export const ListOrganizationIssueViewsRequestCreatedBy = S.String;
+
+/** * `popularity` * `-popularity` * `visited` * `-visited` * `name` * `-name` * `created` * `-created` */
+export type ListOrganizationIssueViewsRequestSortItem =
+  | "popularity"
+  | "-popularity"
+  | "visited"
+  | "-visited"
+  | "name"
+  | "-name"
+  | "created"
+  | "-created";
+export const ListOrganizationIssueViewsRequestSortItem = S.String;
+
+export type ListOrganizationIssueViewsRequestSortList = Array<
+  ListOrganizationIssueViewsRequestSortItem | (string & {})
+>;
+export const ListOrganizationIssueViewsRequestSortList = /*@__PURE__*/ S.Array(
+  ListOrganizationIssueViewsRequestSortItem,
+) as any as S.Schema<ListOrganizationIssueViewsRequestSortList>;
+
+export interface ListOrganizationIssueViewsRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** Whether to return issue views created by the current user or other members. * `me` * `others` */
+  createdBy?: ListOrganizationIssueViewsRequestCreatedBy | (string & {});
+  /** The fields used to sort issue views, in order of precedence. */
+  sort?: ListOrganizationIssueViewsRequestSortList;
+  /** A case-insensitive search against issue view names and queries. */
+  query?: string;
+  /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
+  cursor?: string;
+}
+export const ListOrganizationIssueViewsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id_or_slug: S.String.pipe(T.Label()),
+    createdBy: S.optional(ListOrganizationIssueViewsRequestCreatedBy.pipe(T.Query())),
+    sort: S.optional(ListOrganizationIssueViewsRequestSortList.pipe(T.Query())),
+    query: S.optional(S.String.pipe(T.Query())),
+    cursor: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/0/organizations/{organization_id_or_slug}/group-search-views/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListOrganizationIssueViewsRequest",
+}) as any as S.Schema<ListOrganizationIssueViewsRequest>;
+
+export type ListOrganizationIssueViewsResponseBodyItemCreatedByIdentitiesItemOrganization =
+  AddOrganizationMemberResponseUserIdentitiesItemOrganization;
+export const ListOrganizationIssueViewsResponseBodyItemCreatedByIdentitiesItemOrganization =
+  AddOrganizationMemberResponseUserIdentitiesItemOrganization;
+
+export type ListOrganizationIssueViewsResponseBodyItemCreatedByIdentitiesItemProvider =
+  AddOrganizationMemberResponseUserIdentitiesItemProvider;
+export const ListOrganizationIssueViewsResponseBodyItemCreatedByIdentitiesItemProvider =
+  AddOrganizationMemberResponseUserIdentitiesItemProvider;
+
+export type ListOrganizationIssueViewsResponseBodyItemCreatedByIdentitiesItem =
+  AddOrganizationMemberResponseUserIdentitiesItem;
+export const ListOrganizationIssueViewsResponseBodyItemCreatedByIdentitiesItem =
+  AddOrganizationMemberResponseUserIdentitiesItem;
+
+export type ListOrganizationIssueViewsResponseBodyItemCreatedByIdentitiesList =
+  Array<AddOrganizationMemberResponseUserIdentitiesItem>;
+export const ListOrganizationIssueViewsResponseBodyItemCreatedByIdentitiesList =
+  /*@__PURE__*/ S.Array(
+    AddOrganizationMemberResponseUserIdentitiesItem,
+  ) as any as S.Schema<ListOrganizationIssueViewsResponseBodyItemCreatedByIdentitiesList>;
+
+export type ListOrganizationIssueViewsResponseBodyItemCreatedByAvatar =
+  AddOrganizationMemberResponseUserAvatar;
+export const ListOrganizationIssueViewsResponseBodyItemCreatedByAvatar =
+  AddOrganizationMemberResponseUserAvatar;
+
+export type ListOrganizationIssueViewsResponseBodyItemCreatedByAuthenticatorsList = Array<unknown>;
+export const ListOrganizationIssueViewsResponseBodyItemCreatedByAuthenticatorsList =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<ListOrganizationIssueViewsResponseBodyItemCreatedByAuthenticatorsList>;
+
+export type ListOrganizationIssueViewsResponseBodyItemCreatedByExperimentsMap = {
+  [key: string]: unknown | undefined;
+};
+export const ListOrganizationIssueViewsResponseBodyItemCreatedByExperimentsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<ListOrganizationIssueViewsResponseBodyItemCreatedByExperimentsMap>;
+
+export type ListOrganizationIssueViewsResponseBodyItemCreatedByEmailsItem =
+  AddOrganizationMemberResponseUserEmailsItem;
+export const ListOrganizationIssueViewsResponseBodyItemCreatedByEmailsItem =
+  AddOrganizationMemberResponseUserEmailsItem;
+
+export type ListOrganizationIssueViewsResponseBodyItemCreatedByEmailsList =
+  Array<AddOrganizationMemberResponseUserEmailsItem>;
+export const ListOrganizationIssueViewsResponseBodyItemCreatedByEmailsList = /*@__PURE__*/ S.Array(
+  AddOrganizationMemberResponseUserEmailsItem,
+) as any as S.Schema<ListOrganizationIssueViewsResponseBodyItemCreatedByEmailsList>;
+
+export interface ListOrganizationIssueViewsResponseBodyItemCreatedBy {
+  identities?: ListOrganizationIssueViewsResponseBodyItemCreatedByIdentitiesList;
+  avatar?: AddOrganizationMemberResponseUserAvatar;
+  authenticators?: ListOrganizationIssueViewsResponseBodyItemCreatedByAuthenticatorsList;
+  canReset2fa?: boolean;
+  id: string;
+  name: string;
+  username: string;
+  email: string;
+  avatarUrl: string;
+  isActive: boolean;
+  isSuspended: boolean;
+  hasPasswordAuth: boolean;
+  isManaged: boolean;
+  dateJoined: string;
+  lastLogin: string | null;
+  has2fa: boolean;
+  lastActive: string | null;
+  isSuperuser: boolean;
+  isStaff: boolean;
+  experiments: ListOrganizationIssueViewsResponseBodyItemCreatedByExperimentsMap;
+  emails: ListOrganizationIssueViewsResponseBodyItemCreatedByEmailsList;
+}
+export const ListOrganizationIssueViewsResponseBodyItemCreatedBy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    identities: S.optional(ListOrganizationIssueViewsResponseBodyItemCreatedByIdentitiesList),
+    avatar: S.optional(AddOrganizationMemberResponseUserAvatar),
+    authenticators: S.optional(
+      ListOrganizationIssueViewsResponseBodyItemCreatedByAuthenticatorsList,
+    ),
+    canReset2fa: S.optional(S.Boolean),
+    id: S.String,
+    name: S.String,
+    username: S.String,
+    email: S.String,
+    avatarUrl: S.String,
+    isActive: S.Boolean,
+    isSuspended: S.Boolean,
+    hasPasswordAuth: S.Boolean,
+    isManaged: S.Boolean,
+    dateJoined: S.String,
+    lastLogin: S.NullOr(S.String),
+    has2fa: S.Boolean,
+    lastActive: S.NullOr(S.String),
+    isSuperuser: S.Boolean,
+    isStaff: S.Boolean,
+    experiments: ListOrganizationIssueViewsResponseBodyItemCreatedByExperimentsMap,
+    emails: ListOrganizationIssueViewsResponseBodyItemCreatedByEmailsList,
+  }),
+).annotate({
+  identifier: "ListOrganizationIssueViewsResponseBodyItemCreatedBy",
+}) as any as S.Schema<ListOrganizationIssueViewsResponseBodyItemCreatedBy>;
+
+export type ListOrganizationIssueViewsResponseBodyItemQuerySort =
+  | "date"
+  | "new"
+  | "trends"
+  | "freq"
+  | "user"
+  | "inbox"
+  | "recommended";
+export const ListOrganizationIssueViewsResponseBodyItemQuerySort = S.String;
+
+export type ListOrganizationIssueViewsResponseBodyItemProjectsList = Array<number>;
+export const ListOrganizationIssueViewsResponseBodyItemProjectsList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<ListOrganizationIssueViewsResponseBodyItemProjectsList>;
+
+export type ListOrganizationIssueViewsResponseBodyItemEnvironmentsList = Array<string>;
+export const ListOrganizationIssueViewsResponseBodyItemEnvironmentsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListOrganizationIssueViewsResponseBodyItemEnvironmentsList>;
+
+export type ListOrganizationIssueViewsResponseBodyItemTimeFilters =
+  CreateOrganizationIssueViewResponseTimeFilters;
+export const ListOrganizationIssueViewsResponseBodyItemTimeFilters =
+  CreateOrganizationIssueViewResponseTimeFilters;
+
+export interface ListOrganizationIssueViewsResponseBodyItem {
+  id: string;
+  createdBy: ListOrganizationIssueViewsResponseBodyItemCreatedBy | null;
+  name: string;
+  query: string;
+  querySort: ListOrganizationIssueViewsResponseBodyItemQuerySort;
+  projects: ListOrganizationIssueViewsResponseBodyItemProjectsList;
+  environments: ListOrganizationIssueViewsResponseBodyItemEnvironmentsList;
+  timeFilters: CreateOrganizationIssueViewResponseTimeFilters;
+  lastVisited: string | null;
+  dateCreated: string;
+  dateUpdated: string;
+  starred: boolean;
+  stars: number;
+}
+export const ListOrganizationIssueViewsResponseBodyItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    createdBy: S.NullOr(ListOrganizationIssueViewsResponseBodyItemCreatedBy),
+    name: S.String,
+    query: S.String,
+    querySort: ListOrganizationIssueViewsResponseBodyItemQuerySort,
+    projects: ListOrganizationIssueViewsResponseBodyItemProjectsList,
+    environments: ListOrganizationIssueViewsResponseBodyItemEnvironmentsList,
+    timeFilters: CreateOrganizationIssueViewResponseTimeFilters,
+    lastVisited: S.NullOr(S.String),
+    dateCreated: S.String,
+    dateUpdated: S.String,
+    starred: S.Boolean,
+    stars: S.Number,
+  }),
+).annotate({
+  identifier: "ListOrganizationIssueViewsResponseBodyItem",
+}) as any as S.Schema<ListOrganizationIssueViewsResponseBodyItem>;
+
+export type ListOrganizationIssueViewsResponseBodyList =
+  Array<ListOrganizationIssueViewsResponseBodyItem>;
+export const ListOrganizationIssueViewsResponseBodyList = /*@__PURE__*/ S.Array(
+  ListOrganizationIssueViewsResponseBodyItem,
+) as any as S.Schema<ListOrganizationIssueViewsResponseBodyList>;
+
+export type ListOrganizationIssueViewsResponse = ListOrganizationIssueViewsResponseBodyList;
+export const ListOrganizationIssueViewsResponse = /*@__PURE__*/ S.suspend(() =>
+  ListOrganizationIssueViewsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListOrganizationIssueViewsResponse",
+}) as any as S.Schema<ListOrganizationIssueViewsResponse>;
 
 export interface ListOrganizationMembersRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -21225,9 +23876,7 @@ export const ListOrganizationProfilingChunksRequest = /*@__PURE__*/ S.suspend(()
   identifier: "ListOrganizationProfilingChunksRequest",
 }) as any as S.Schema<ListOrganizationProfilingChunksRequest>;
 
-export type ListOrganizationProfilingChunksResponseBodyMap = {
-  [key: string]: unknown | undefined;
-};
+export type ListOrganizationProfilingChunksResponseBodyMap = { [key: string]: unknown | undefined };
 export const ListOrganizationProfilingChunksResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -23770,6 +26419,8 @@ export interface ListOrganizationReposRequest {
   expand?: ListOrganizationReposRequestExpandList;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
   cursor?: string;
+  /** The maximum number of repositories to return per page (1–100). */
+  per_page?: number;
 }
 export const ListOrganizationReposRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -23779,6 +26430,7 @@ export const ListOrganizationReposRequest = /*@__PURE__*/ S.suspend(() =>
     integration_id: S.optional(S.String.pipe(T.Query())),
     expand: S.optional(ListOrganizationReposRequestExpandList.pipe(T.Query())),
     cursor: S.optional(S.String.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -23878,9 +26530,7 @@ export const ListOrganizationsRequest = /*@__PURE__*/ S.suspend(() =>
     sortBy: S.optional(S.String.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/0/organizations/", code: 200 })),
-).annotate({
-  identifier: "ListOrganizationsRequest",
-}) as any as S.Schema<ListOrganizationsRequest>;
+).annotate({ identifier: "ListOrganizationsRequest" }) as any as S.Schema<ListOrganizationsRequest>;
 
 export type ListOrganizationsResponseBodyItemFeaturesList = Array<string>;
 export const ListOrganizationsResponseBodyItemFeaturesList = /*@__PURE__*/ S.Array(
@@ -24094,6 +26744,89 @@ export const ListOrganizationScimV2GroupsResponse = /*@__PURE__*/ S.suspend(() =
   identifier: "ListOrganizationScimV2GroupsResponse",
 }) as any as S.Schema<ListOrganizationScimV2GroupsResponse>;
 
+export interface ListOrganizationScimV2ResourceTypesRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+}
+export const ListOrganizationScimV2ResourceTypesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id_or_slug: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/0/organizations/{organization_id_or_slug}/scim/v2/ResourceTypes",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListOrganizationScimV2ResourceTypesRequest",
+}) as any as S.Schema<ListOrganizationScimV2ResourceTypesRequest>;
+
+export type ListOrganizationScimV2ResourceTypesResponseSchemasList = Array<string>;
+export const ListOrganizationScimV2ResourceTypesResponseSchemasList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListOrganizationScimV2ResourceTypesResponseSchemasList>;
+
+export type ListOrganizationScimV2ResourceTypesResponseResourcesItemSchemasList = Array<string>;
+export const ListOrganizationScimV2ResourceTypesResponseResourcesItemSchemasList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ListOrganizationScimV2ResourceTypesResponseResourcesItemSchemasList>;
+
+export type ListOrganizationScimV2ResourceTypesResponseResourcesItemMeta =
+  GetOrganizationScimV2ResourceTypeResponseMeta;
+export const ListOrganizationScimV2ResourceTypesResponseResourcesItemMeta =
+  GetOrganizationScimV2ResourceTypeResponseMeta;
+
+export interface ListOrganizationScimV2ResourceTypesResponseResourcesItem {
+  schemas: ListOrganizationScimV2ResourceTypesResponseResourcesItemSchemasList;
+  id: string;
+  name: string;
+  description: string;
+  endpoint: string;
+  schema: string;
+  meta: GetOrganizationScimV2ResourceTypeResponseMeta;
+}
+export const ListOrganizationScimV2ResourceTypesResponseResourcesItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      schemas: ListOrganizationScimV2ResourceTypesResponseResourcesItemSchemasList,
+      id: S.String,
+      name: S.String,
+      description: S.String,
+      endpoint: S.String,
+      schema: S.String,
+      meta: GetOrganizationScimV2ResourceTypeResponseMeta,
+    }),
+).annotate({
+  identifier: "ListOrganizationScimV2ResourceTypesResponseResourcesItem",
+}) as any as S.Schema<ListOrganizationScimV2ResourceTypesResponseResourcesItem>;
+
+export type ListOrganizationScimV2ResourceTypesResponseResourcesList =
+  Array<ListOrganizationScimV2ResourceTypesResponseResourcesItem>;
+export const ListOrganizationScimV2ResourceTypesResponseResourcesList = /*@__PURE__*/ S.Array(
+  ListOrganizationScimV2ResourceTypesResponseResourcesItem,
+) as any as S.Schema<ListOrganizationScimV2ResourceTypesResponseResourcesList>;
+
+export interface ListOrganizationScimV2ResourceTypesResponse {
+  schemas: ListOrganizationScimV2ResourceTypesResponseSchemasList;
+  totalResults: number;
+  startIndex: number;
+  itemsPerPage: number;
+  Resources: ListOrganizationScimV2ResourceTypesResponseResourcesList;
+}
+export const ListOrganizationScimV2ResourceTypesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    schemas: ListOrganizationScimV2ResourceTypesResponseSchemasList,
+    totalResults: S.Number,
+    startIndex: S.Number,
+    itemsPerPage: S.Number,
+    Resources: ListOrganizationScimV2ResourceTypesResponseResourcesList,
+  }),
+).annotate({
+  identifier: "ListOrganizationScimV2ResourceTypesResponse",
+}) as any as S.Schema<ListOrganizationScimV2ResourceTypesResponse>;
+
 export type ListOrganizationScimV2UsersRequestExcludedAttributesList = Array<string>;
 export const ListOrganizationScimV2UsersRequestExcludedAttributesList = /*@__PURE__*/ S.Array(
   S.String,
@@ -24212,6 +26945,130 @@ export const ListOrganizationScimV2UsersResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListOrganizationScimV2UsersResponse",
 }) as any as S.Schema<ListOrganizationScimV2UsersResponse>;
+
+export interface ListOrganizationSentryAppComponentsRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
+  cursor?: string;
+  /** Filter components by type, such as `issue-link`. */
+  filter?: string;
+}
+export const ListOrganizationSentryAppComponentsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id_or_slug: S.String.pipe(T.Label()),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/0/organizations/{organization_id_or_slug}/sentry-app-components/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListOrganizationSentryAppComponentsRequest",
+}) as any as S.Schema<ListOrganizationSentryAppComponentsRequest>;
+
+export type ListOrganizationSentryAppComponentsResponseBodyItemSchemaMap = {
+  [key: string]: unknown | undefined;
+};
+export const ListOrganizationSentryAppComponentsResponseBodyItemSchemaMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<ListOrganizationSentryAppComponentsResponseBodyItemSchemaMap>;
+
+export type ListOrganizationSentryAppComponentsResponseBodyItemErrorCase1ContextMap = {
+  [key: string]: unknown | undefined;
+};
+export const ListOrganizationSentryAppComponentsResponseBodyItemErrorCase1ContextMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<ListOrganizationSentryAppComponentsResponseBodyItemErrorCase1ContextMap>;
+
+export interface ListOrganizationSentryAppComponentsResponseBodyItemErrorCase1 {
+  detail?: string;
+  context?: ListOrganizationSentryAppComponentsResponseBodyItemErrorCase1ContextMap;
+}
+export const ListOrganizationSentryAppComponentsResponseBodyItemErrorCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      detail: S.optional(S.String),
+      context: S.optional(ListOrganizationSentryAppComponentsResponseBodyItemErrorCase1ContextMap),
+    }),
+  ).annotate({
+    identifier: "ListOrganizationSentryAppComponentsResponseBodyItemErrorCase1",
+  }) as any as S.Schema<ListOrganizationSentryAppComponentsResponseBodyItemErrorCase1>;
+
+export type ListOrganizationSentryAppComponentsResponseBodyItemError =
+  | string
+  | ListOrganizationSentryAppComponentsResponseBodyItemErrorCase1;
+export const ListOrganizationSentryAppComponentsResponseBodyItemError =
+  S.Unknown as any as S.Schema<ListOrganizationSentryAppComponentsResponseBodyItemError>;
+
+export type ListOrganizationSentryAppComponentsResponseBodyItemSentryAppAvatarsItem =
+  GetSentryAppResponseAvatarsItem;
+export const ListOrganizationSentryAppComponentsResponseBodyItemSentryAppAvatarsItem =
+  GetSentryAppResponseAvatarsItem;
+
+export type ListOrganizationSentryAppComponentsResponseBodyItemSentryAppAvatarsList =
+  Array<GetSentryAppResponseAvatarsItem>;
+export const ListOrganizationSentryAppComponentsResponseBodyItemSentryAppAvatarsList =
+  /*@__PURE__*/ S.Array(
+    GetSentryAppResponseAvatarsItem,
+  ) as any as S.Schema<ListOrganizationSentryAppComponentsResponseBodyItemSentryAppAvatarsList>;
+
+export interface ListOrganizationSentryAppComponentsResponseBodyItemSentryApp {
+  uuid: string;
+  slug: string;
+  name: string;
+  avatars: ListOrganizationSentryAppComponentsResponseBodyItemSentryAppAvatarsList;
+}
+export const ListOrganizationSentryAppComponentsResponseBodyItemSentryApp = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      uuid: S.String,
+      slug: S.String,
+      name: S.String,
+      avatars: ListOrganizationSentryAppComponentsResponseBodyItemSentryAppAvatarsList,
+    }),
+).annotate({
+  identifier: "ListOrganizationSentryAppComponentsResponseBodyItemSentryApp",
+}) as any as S.Schema<ListOrganizationSentryAppComponentsResponseBodyItemSentryApp>;
+
+export interface ListOrganizationSentryAppComponentsResponseBodyItem {
+  uuid: string;
+  type: string;
+  schema: ListOrganizationSentryAppComponentsResponseBodyItemSchemaMap;
+  error: ListOrganizationSentryAppComponentsResponseBodyItemError;
+  sentryApp: ListOrganizationSentryAppComponentsResponseBodyItemSentryApp;
+}
+export const ListOrganizationSentryAppComponentsResponseBodyItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.String,
+    type: S.String,
+    schema: ListOrganizationSentryAppComponentsResponseBodyItemSchemaMap,
+    error: ListOrganizationSentryAppComponentsResponseBodyItemError,
+    sentryApp: ListOrganizationSentryAppComponentsResponseBodyItemSentryApp,
+  }),
+).annotate({
+  identifier: "ListOrganizationSentryAppComponentsResponseBodyItem",
+}) as any as S.Schema<ListOrganizationSentryAppComponentsResponseBodyItem>;
+
+export type ListOrganizationSentryAppComponentsResponseBodyList =
+  Array<ListOrganizationSentryAppComponentsResponseBodyItem>;
+export const ListOrganizationSentryAppComponentsResponseBodyList = /*@__PURE__*/ S.Array(
+  ListOrganizationSentryAppComponentsResponseBodyItem,
+) as any as S.Schema<ListOrganizationSentryAppComponentsResponseBodyList>;
+
+export type ListOrganizationSentryAppComponentsResponse =
+  ListOrganizationSentryAppComponentsResponseBodyList;
+export const ListOrganizationSentryAppComponentsResponse = /*@__PURE__*/ S.suspend(() =>
+  ListOrganizationSentryAppComponentsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListOrganizationSentryAppComponentsResponse",
+}) as any as S.Schema<ListOrganizationSentryAppComponentsResponse>;
 
 export interface ListOrganizationSentryAppsRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -24445,9 +27302,7 @@ export const ListOrganizationStatsV2ResponseIntervalsList = /*@__PURE__*/ S.Arra
   S.String,
 ) as any as S.Schema<ListOrganizationStatsV2ResponseIntervalsList>;
 
-export type ListOrganizationStatsV2ResponseGroupsItemByMap = {
-  [key: string]: unknown | undefined;
-};
+export type ListOrganizationStatsV2ResponseGroupsItemByMap = { [key: string]: unknown | undefined };
 export const ListOrganizationStatsV2ResponseGroupsItemByMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -24648,9 +27503,7 @@ export const ListOrganizationTeamsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListOrganizationTeamsRequest",
 }) as any as S.Schema<ListOrganizationTeamsRequest>;
 
-export type ListOrganizationTeamsResponseBodyItemFlagsMap = {
-  [key: string]: unknown | undefined;
-};
+export type ListOrganizationTeamsResponseBodyItemFlagsMap = { [key: string]: unknown | undefined };
 export const ListOrganizationTeamsResponseBodyItemFlagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -25103,6 +27956,144 @@ export const ListOrganizationTraceItemAttributesResponse = /*@__PURE__*/ S.suspe
 ).annotate({
   identifier: "ListOrganizationTraceItemAttributesResponse",
 }) as any as S.Schema<ListOrganizationTraceItemAttributesResponse>;
+
+export type ListOrganizationTraceMetricsRequestProjectItem = number | string;
+export const ListOrganizationTraceMetricsRequestProjectItem =
+  S.Unknown as any as S.Schema<ListOrganizationTraceMetricsRequestProjectItem>;
+
+export type ListOrganizationTraceMetricsRequestProjectList =
+  Array<ListOrganizationTraceMetricsRequestProjectItem>;
+export const ListOrganizationTraceMetricsRequestProjectList = /*@__PURE__*/ S.Array(
+  ListOrganizationTraceMetricsRequestProjectItem,
+) as any as S.Schema<ListOrganizationTraceMetricsRequestProjectList>;
+
+export type ListOrganizationTraceMetricsRequestEnvironmentList = Array<string>;
+export const ListOrganizationTraceMetricsRequestEnvironmentList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListOrganizationTraceMetricsRequestEnvironmentList>;
+
+export type ListOrganizationTraceMetricsRequestSort =
+  | "-count"
+  | "-lastSeen"
+  | "-name"
+  | "-type"
+  | "-unit"
+  | "count"
+  | "lastSeen"
+  | "name"
+  | "type"
+  | "unit";
+export const ListOrganizationTraceMetricsRequestSort = S.String;
+
+export type ListOrganizationTraceMetricsRequestExpandItem = "context";
+export const ListOrganizationTraceMetricsRequestExpandItem = S.String;
+
+export type ListOrganizationTraceMetricsRequestExpandList = Array<
+  ListOrganizationTraceMetricsRequestExpandItem | (string & {})
+>;
+export const ListOrganizationTraceMetricsRequestExpandList = /*@__PURE__*/ S.Array(
+  ListOrganizationTraceMetricsRequestExpandItem,
+) as any as S.Schema<ListOrganizationTraceMetricsRequestExpandList>;
+
+export interface ListOrganizationTraceMetricsRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** The IDs or slugs of projects to filter by. Project slugs are unique within each organization. Omit this parameter to include all accessible projects. `-1` is also accepted to include all accessible projects. For example, the following are valid parameters: - `/?project=1234&project=56789` - `/?project=android&project=javascript-react` - `/?project=-1` */
+  project?: ListOrganizationTraceMetricsRequestProjectList;
+  /** The name of environments to filter by. */
+  environment?: ListOrganizationTraceMetricsRequestEnvironmentList;
+  /** The period of time for the query, will override the start & end parameters, a number followed by one of: - `d` for days - `h` for hours - `m` for minutes - `s` for seconds - `w` for weeks For example, `24h`, to mean query data starting from 24 hours ago to now. */
+  statsPeriod?: string;
+  /** The start of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
+  start?: string;
+  /** The end of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
+  end?: string;
+  /** Search query to filter metrics, using the same syntax as the metrics dataset. */
+  query?: string;
+  /** Response field to sort by, prefixed with `-` for descending. Defaults to metric name ascending. */
+  sort?: ListOrganizationTraceMetricsRequestSort | (string & {});
+  /** Optional fields to expand. Pass `context` to include each metric's authored context (brief and details), which describes what the metric measures. Requires the `data-browsing-attribute-context` feature; without it the `context` field is omitted. */
+  expand?: ListOrganizationTraceMetricsRequestExpandList;
+  /** Return only metrics that have authored context, and include that context in the response. Use this to discover the metrics that are described well enough to query confidently. Requires the `data-browsing-attribute-context` feature; without it this is a no-op. */
+  contextOnly?: boolean;
+}
+export const ListOrganizationTraceMetricsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id_or_slug: S.String.pipe(T.Label()),
+    project: S.optional(ListOrganizationTraceMetricsRequestProjectList.pipe(T.Query())),
+    environment: S.optional(ListOrganizationTraceMetricsRequestEnvironmentList.pipe(T.Query())),
+    statsPeriod: S.optional(S.String.pipe(T.Query())),
+    start: S.optional(S.String.pipe(T.Query())),
+    end: S.optional(S.String.pipe(T.Query())),
+    query: S.optional(S.String.pipe(T.Query())),
+    sort: S.optional(ListOrganizationTraceMetricsRequestSort.pipe(T.Query())),
+    expand: S.optional(ListOrganizationTraceMetricsRequestExpandList.pipe(T.Query())),
+    contextOnly: S.optional(S.Boolean.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/0/organizations/{organization_id_or_slug}/trace-items/metrics/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListOrganizationTraceMetricsRequest",
+}) as any as S.Schema<ListOrganizationTraceMetricsRequest>;
+
+export type ListOrganizationTraceMetricsResponseBodyItemType = "counter" | "gauge" | "distribution";
+export const ListOrganizationTraceMetricsResponseBodyItemType = S.String;
+
+export type ListOrganizationTraceMetricsResponseBodyItemContextDetailsList = Array<string>;
+export const ListOrganizationTraceMetricsResponseBodyItemContextDetailsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListOrganizationTraceMetricsResponseBodyItemContextDetailsList>;
+
+export interface ListOrganizationTraceMetricsResponseBodyItemContext {
+  brief?: string;
+  details?: ListOrganizationTraceMetricsResponseBodyItemContextDetailsList;
+}
+export const ListOrganizationTraceMetricsResponseBodyItemContext = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    brief: S.optional(S.String),
+    details: S.optional(ListOrganizationTraceMetricsResponseBodyItemContextDetailsList),
+  }),
+).annotate({
+  identifier: "ListOrganizationTraceMetricsResponseBodyItemContext",
+}) as any as S.Schema<ListOrganizationTraceMetricsResponseBodyItemContext>;
+
+export interface ListOrganizationTraceMetricsResponseBodyItem {
+  name: string;
+  type: ListOrganizationTraceMetricsResponseBodyItemType;
+  unit: string | null;
+  count: number;
+  lastSeen: number | null;
+  context?: ListOrganizationTraceMetricsResponseBodyItemContext;
+}
+export const ListOrganizationTraceMetricsResponseBodyItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    type: ListOrganizationTraceMetricsResponseBodyItemType,
+    unit: S.NullOr(S.String),
+    count: S.Number,
+    lastSeen: S.NullOr(S.Number),
+    context: S.optional(ListOrganizationTraceMetricsResponseBodyItemContext),
+  }),
+).annotate({
+  identifier: "ListOrganizationTraceMetricsResponseBodyItem",
+}) as any as S.Schema<ListOrganizationTraceMetricsResponseBodyItem>;
+
+export type ListOrganizationTraceMetricsResponseBodyList =
+  Array<ListOrganizationTraceMetricsResponseBodyItem>;
+export const ListOrganizationTraceMetricsResponseBodyList = /*@__PURE__*/ S.Array(
+  ListOrganizationTraceMetricsResponseBodyItem,
+) as any as S.Schema<ListOrganizationTraceMetricsResponseBodyList>;
+
+export type ListOrganizationTraceMetricsResponse = ListOrganizationTraceMetricsResponseBodyList;
+export const ListOrganizationTraceMetricsResponse = /*@__PURE__*/ S.suspend(() =>
+  ListOrganizationTraceMetricsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListOrganizationTraceMetricsResponse",
+}) as any as S.Schema<ListOrganizationTraceMetricsResponse>;
 
 export interface ListOrganizationUserTeamsRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -25799,6 +28790,263 @@ export const ListOrganizationWorkflowsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListOrganizationWorkflowsResponse",
 }) as any as S.Schema<ListOrganizationWorkflowsResponse>;
 
+export type ListProjectCodeOwnersRequestExpandItem = "codeMapping" | "ownershipSyntax";
+export const ListProjectCodeOwnersRequestExpandItem = S.String;
+
+export type ListProjectCodeOwnersRequestExpandList = Array<
+  ListProjectCodeOwnersRequestExpandItem | (string & {})
+>;
+export const ListProjectCodeOwnersRequestExpandList = /*@__PURE__*/ S.Array(
+  ListProjectCodeOwnersRequestExpandItem,
+) as any as S.Schema<ListProjectCodeOwnersRequestExpandList>;
+
+export interface ListProjectCodeOwnersRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
+  project_id_or_slug: string;
+  /** Optional fields to expand. */
+  expand?: ListProjectCodeOwnersRequestExpandList;
+}
+export const ListProjectCodeOwnersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id_or_slug: S.String.pipe(T.Label()),
+    project_id_or_slug: S.String.pipe(T.Label()),
+    expand: S.optional(ListProjectCodeOwnersRequestExpandList.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/0/projects/{organization_id_or_slug}/{project_id_or_slug}/codeowners/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListProjectCodeOwnersRequest",
+}) as any as S.Schema<ListProjectCodeOwnersRequest>;
+
+export type ListProjectCodeOwnersResponseBodyItemCodeMappingProviderFeaturesList = Array<string>;
+export const ListProjectCodeOwnersResponseBodyItemCodeMappingProviderFeaturesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ListProjectCodeOwnersResponseBodyItemCodeMappingProviderFeaturesList>;
+
+export type ListProjectCodeOwnersResponseBodyItemCodeMappingProviderAspectsMap = {
+  [key: string]: unknown | undefined;
+};
+export const ListProjectCodeOwnersResponseBodyItemCodeMappingProviderAspectsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<ListProjectCodeOwnersResponseBodyItemCodeMappingProviderAspectsMap>;
+
+export interface ListProjectCodeOwnersResponseBodyItemCodeMappingProvider {
+  key: string;
+  slug: string;
+  name: string;
+  canAdd: boolean;
+  canDisable: boolean;
+  features: ListProjectCodeOwnersResponseBodyItemCodeMappingProviderFeaturesList;
+  aspects: ListProjectCodeOwnersResponseBodyItemCodeMappingProviderAspectsMap;
+}
+export const ListProjectCodeOwnersResponseBodyItemCodeMappingProvider = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      key: S.String,
+      slug: S.String,
+      name: S.String,
+      canAdd: S.Boolean,
+      canDisable: S.Boolean,
+      features: ListProjectCodeOwnersResponseBodyItemCodeMappingProviderFeaturesList,
+      aspects: ListProjectCodeOwnersResponseBodyItemCodeMappingProviderAspectsMap,
+    }),
+).annotate({
+  identifier: "ListProjectCodeOwnersResponseBodyItemCodeMappingProvider",
+}) as any as S.Schema<ListProjectCodeOwnersResponseBodyItemCodeMappingProvider>;
+
+export interface ListProjectCodeOwnersResponseBodyItemCodeMapping {
+  id: string;
+  projectId: string;
+  projectSlug: string;
+  repoId: string;
+  repoName: string;
+  integrationId: string | null;
+  provider: ListProjectCodeOwnersResponseBodyItemCodeMappingProvider | null;
+  stackRoot: string;
+  sourceRoot: string;
+  defaultBranch: string | null;
+  automaticallyGenerated: boolean;
+  hasCodeOwner: boolean;
+}
+export const ListProjectCodeOwnersResponseBodyItemCodeMapping = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    projectId: S.String,
+    projectSlug: S.String,
+    repoId: S.String,
+    repoName: S.String,
+    integrationId: S.NullOr(S.String),
+    provider: S.NullOr(ListProjectCodeOwnersResponseBodyItemCodeMappingProvider),
+    stackRoot: S.String,
+    sourceRoot: S.String,
+    defaultBranch: S.NullOr(S.String),
+    automaticallyGenerated: S.Boolean,
+    hasCodeOwner: S.Boolean,
+  }),
+).annotate({
+  identifier: "ListProjectCodeOwnersResponseBodyItemCodeMapping",
+}) as any as S.Schema<ListProjectCodeOwnersResponseBodyItemCodeMapping>;
+
+export type ListProjectCodeOwnersResponseBodyItemErrorsMissingUserEmailsList = Array<string>;
+export const ListProjectCodeOwnersResponseBodyItemErrorsMissingUserEmailsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ListProjectCodeOwnersResponseBodyItemErrorsMissingUserEmailsList>;
+
+export type ListProjectCodeOwnersResponseBodyItemErrorsMissingExternalUsersList = Array<string>;
+export const ListProjectCodeOwnersResponseBodyItemErrorsMissingExternalUsersList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ListProjectCodeOwnersResponseBodyItemErrorsMissingExternalUsersList>;
+
+export type ListProjectCodeOwnersResponseBodyItemErrorsMissingExternalTeamsList = Array<string>;
+export const ListProjectCodeOwnersResponseBodyItemErrorsMissingExternalTeamsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ListProjectCodeOwnersResponseBodyItemErrorsMissingExternalTeamsList>;
+
+export type ListProjectCodeOwnersResponseBodyItemErrorsTeamsWithoutAccessList = Array<string>;
+export const ListProjectCodeOwnersResponseBodyItemErrorsTeamsWithoutAccessList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ListProjectCodeOwnersResponseBodyItemErrorsTeamsWithoutAccessList>;
+
+export type ListProjectCodeOwnersResponseBodyItemErrorsUsersWithoutAccessList = Array<string>;
+export const ListProjectCodeOwnersResponseBodyItemErrorsUsersWithoutAccessList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ListProjectCodeOwnersResponseBodyItemErrorsUsersWithoutAccessList>;
+
+export interface ListProjectCodeOwnersResponseBodyItemErrors {
+  missing_user_emails: ListProjectCodeOwnersResponseBodyItemErrorsMissingUserEmailsList;
+  missing_external_users: ListProjectCodeOwnersResponseBodyItemErrorsMissingExternalUsersList;
+  missing_external_teams: ListProjectCodeOwnersResponseBodyItemErrorsMissingExternalTeamsList;
+  teams_without_access: ListProjectCodeOwnersResponseBodyItemErrorsTeamsWithoutAccessList;
+  users_without_access: ListProjectCodeOwnersResponseBodyItemErrorsUsersWithoutAccessList;
+}
+export const ListProjectCodeOwnersResponseBodyItemErrors = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    missing_user_emails: ListProjectCodeOwnersResponseBodyItemErrorsMissingUserEmailsList,
+    missing_external_users: ListProjectCodeOwnersResponseBodyItemErrorsMissingExternalUsersList,
+    missing_external_teams: ListProjectCodeOwnersResponseBodyItemErrorsMissingExternalTeamsList,
+    teams_without_access: ListProjectCodeOwnersResponseBodyItemErrorsTeamsWithoutAccessList,
+    users_without_access: ListProjectCodeOwnersResponseBodyItemErrorsUsersWithoutAccessList,
+  }),
+).annotate({
+  identifier: "ListProjectCodeOwnersResponseBodyItemErrors",
+}) as any as S.Schema<ListProjectCodeOwnersResponseBodyItemErrors>;
+
+export type ListProjectCodeOwnersResponseBodyItemSchemaCase0RulesItemMatcher =
+  CreateProjectCodeOwnersResponseSchemaCase0RulesItemMatcher;
+export const ListProjectCodeOwnersResponseBodyItemSchemaCase0RulesItemMatcher =
+  CreateProjectCodeOwnersResponseSchemaCase0RulesItemMatcher;
+
+/** Owner as it appears in the API response (after identifier->name rename). */
+export type ListProjectCodeOwnersResponseBodyItemSchemaCase0RulesItemOwnersItem =
+  CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem;
+export const ListProjectCodeOwnersResponseBodyItemSchemaCase0RulesItemOwnersItem =
+  CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem;
+
+export type ListProjectCodeOwnersResponseBodyItemSchemaCase0RulesItemOwnersList =
+  Array<CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem>;
+export const ListProjectCodeOwnersResponseBodyItemSchemaCase0RulesItemOwnersList =
+  /*@__PURE__*/ S.Array(
+    CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem,
+  ) as any as S.Schema<ListProjectCodeOwnersResponseBodyItemSchemaCase0RulesItemOwnersList>;
+
+export interface ListProjectCodeOwnersResponseBodyItemSchemaCase0RulesItem {
+  matcher: CreateProjectCodeOwnersResponseSchemaCase0RulesItemMatcher;
+  owners: ListProjectCodeOwnersResponseBodyItemSchemaCase0RulesItemOwnersList;
+}
+export const ListProjectCodeOwnersResponseBodyItemSchemaCase0RulesItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      matcher: CreateProjectCodeOwnersResponseSchemaCase0RulesItemMatcher,
+      owners: ListProjectCodeOwnersResponseBodyItemSchemaCase0RulesItemOwnersList,
+    }),
+).annotate({
+  identifier: "ListProjectCodeOwnersResponseBodyItemSchemaCase0RulesItem",
+}) as any as S.Schema<ListProjectCodeOwnersResponseBodyItemSchemaCase0RulesItem>;
+
+export type ListProjectCodeOwnersResponseBodyItemSchemaCase0RulesList =
+  Array<ListProjectCodeOwnersResponseBodyItemSchemaCase0RulesItem>;
+export const ListProjectCodeOwnersResponseBodyItemSchemaCase0RulesList = /*@__PURE__*/ S.Array(
+  ListProjectCodeOwnersResponseBodyItemSchemaCase0RulesItem,
+) as any as S.Schema<ListProjectCodeOwnersResponseBodyItemSchemaCase0RulesList>;
+
+export interface ListProjectCodeOwnersResponseBodyItemSchemaCase0 {
+  _version: number;
+  rules: ListProjectCodeOwnersResponseBodyItemSchemaCase0RulesList;
+}
+export const ListProjectCodeOwnersResponseBodyItemSchemaCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _version: S.Number.pipe(T.Body("$version")),
+    rules: ListProjectCodeOwnersResponseBodyItemSchemaCase0RulesList,
+  }),
+).annotate({
+  identifier: "ListProjectCodeOwnersResponseBodyItemSchemaCase0",
+}) as any as S.Schema<ListProjectCodeOwnersResponseBodyItemSchemaCase0>;
+
+export type ListProjectCodeOwnersResponseBodyItemSchema =
+  | ListProjectCodeOwnersResponseBodyItemSchemaCase0
+  | unknown;
+export const ListProjectCodeOwnersResponseBodyItemSchema =
+  S.Unknown as any as S.Schema<ListProjectCodeOwnersResponseBodyItemSchema>;
+
+export interface ListProjectCodeOwnersResponseBodyItem {
+  codeMapping?: ListProjectCodeOwnersResponseBodyItemCodeMapping;
+  ownershipSyntax?: string;
+  errors?: ListProjectCodeOwnersResponseBodyItemErrors;
+  schema?: ListProjectCodeOwnersResponseBodyItemSchema;
+  codeOwnersUrl?: string;
+  id: string;
+  raw: string;
+  dateCreated: string;
+  dateUpdated: string;
+  dateSynced: string | null;
+  codeMappingId: string;
+  provider: string;
+}
+export const ListProjectCodeOwnersResponseBodyItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    codeMapping: S.optional(ListProjectCodeOwnersResponseBodyItemCodeMapping),
+    ownershipSyntax: S.optional(S.String),
+    errors: S.optional(ListProjectCodeOwnersResponseBodyItemErrors),
+    schema: S.optional(ListProjectCodeOwnersResponseBodyItemSchema),
+    codeOwnersUrl: S.optional(S.String),
+    id: S.String,
+    raw: S.String,
+    dateCreated: S.String,
+    dateUpdated: S.String,
+    dateSynced: S.NullOr(S.String),
+    codeMappingId: S.String,
+    provider: S.String,
+  }),
+).annotate({
+  identifier: "ListProjectCodeOwnersResponseBodyItem",
+}) as any as S.Schema<ListProjectCodeOwnersResponseBodyItem>;
+
+export type ListProjectCodeOwnersResponseBodyList = Array<ListProjectCodeOwnersResponseBodyItem>;
+export const ListProjectCodeOwnersResponseBodyList = /*@__PURE__*/ S.Array(
+  ListProjectCodeOwnersResponseBodyItem,
+) as any as S.Schema<ListProjectCodeOwnersResponseBodyList>;
+
+export type ListProjectCodeOwnersResponse = ListProjectCodeOwnersResponseBodyList;
+export const ListProjectCodeOwnersResponse = /*@__PURE__*/ S.suspend(() =>
+  ListProjectCodeOwnersResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListProjectCodeOwnersResponse",
+}) as any as S.Schema<ListProjectCodeOwnersResponse>;
+
 export type ListProjectDebugFilesRequestFileFormatsList = Array<string>;
 export const ListProjectDebugFilesRequestFileFormatsList = /*@__PURE__*/ S.Array(
   S.String,
@@ -25840,17 +29088,13 @@ export const ListProjectDebugFilesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListProjectDebugFilesRequest",
 }) as any as S.Schema<ListProjectDebugFilesRequest>;
 
-export type ListProjectDebugFilesResponseBodyItemHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type ListProjectDebugFilesResponseBodyItemHeadersMap = { [key: string]: string | undefined };
 export const ListProjectDebugFilesResponseBodyItemHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<ListProjectDebugFilesResponseBodyItemHeadersMap>;
 
-export type ListProjectDebugFilesResponseBodyItemDataMap = {
-  [key: string]: unknown | undefined;
-};
+export type ListProjectDebugFilesResponseBodyItemDataMap = { [key: string]: unknown | undefined };
 export const ListProjectDebugFilesResponseBodyItemDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -25976,11 +29220,11 @@ export const ListProjectEventAttachmentsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListProjectEventAttachmentsRequest>;
 
 export type ListProjectEventAttachmentsResponseBodyItemHeadersMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const ListProjectEventAttachmentsResponseBodyItemHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<ListProjectEventAttachmentsResponseBodyItemHeadersMap>;
 
 export interface ListProjectEventAttachmentsResponseBodyItem {
@@ -26036,7 +29280,7 @@ export interface ListProjectEventsRequest {
   end?: string;
   /** A pointer to the last object fetched and its sort order; used to retrieve the next or previous results. */
   cursor?: string;
-  /** Specify true to include the full event body, including the stacktrace, in the event payload. */
+  /** Specify true to include the full event body, including the stacktrace, in the event payload. When true, the page size is capped at 10. */
   full?: boolean;
   /** Return events in pseudo-random order. This is deterministic so an identical query will always return the same events in the same order. */
   sample?: boolean;
@@ -26058,21 +29302,15 @@ export const ListProjectEventsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListProjectEventsRequest",
-}) as any as S.Schema<ListProjectEventsRequest>;
+).annotate({ identifier: "ListProjectEventsRequest" }) as any as S.Schema<ListProjectEventsRequest>;
 
-export type ListProjectEventsResponseBodyItemUserGeoMap = {
-  [key: string]: string | undefined;
-};
+export type ListProjectEventsResponseBodyItemUserGeoMap = { [key: string]: string | undefined };
 export const ListProjectEventsResponseBodyItemUserGeoMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<ListProjectEventsResponseBodyItemUserGeoMap>;
 
-export type ListProjectEventsResponseBodyItemUserDataMap = {
-  [key: string]: unknown | undefined;
-};
+export type ListProjectEventsResponseBodyItemUserDataMap = { [key: string]: unknown | undefined };
 export const ListProjectEventsResponseBodyItemUserDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -26110,9 +29348,7 @@ export const ListProjectEventsResponseBodyItemTagsList = /*@__PURE__*/ S.Array(
   GetOrganizationIssueEventResponseTagsItem,
 ) as any as S.Schema<ListProjectEventsResponseBodyItemTagsList>;
 
-export type ListProjectEventsResponseBodyItemMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type ListProjectEventsResponseBodyItemMetadataMap = { [key: string]: unknown | undefined };
 export const ListProjectEventsResponseBodyItemMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -26249,9 +29485,7 @@ export const ListProjectKeysRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListProjectKeysRequest",
-}) as any as S.Schema<ListProjectKeysRequest>;
+).annotate({ identifier: "ListProjectKeysRequest" }) as any as S.Schema<ListProjectKeysRequest>;
 
 export type ListProjectKeysResponseBodyItemRateLimit = CreateProjectKeyResponseRateLimit;
 export const ListProjectKeysResponseBodyItemRateLimit = CreateProjectKeyResponseRateLimit;
@@ -26332,9 +29566,7 @@ export const ListProjectKeysResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListProjectKeysResponse = ListProjectKeysResponseBodyList;
 export const ListProjectKeysResponse = /*@__PURE__*/ S.suspend(() =>
   ListProjectKeysResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListProjectKeysResponse",
-}) as any as S.Schema<ListProjectKeysResponse>;
+).annotate({ identifier: "ListProjectKeysResponse" }) as any as S.Schema<ListProjectKeysResponse>;
 
 export interface ListProjectMembersRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -27234,9 +30466,7 @@ export const ListProjectReleasesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListProjectReleasesRequest",
 }) as any as S.Schema<ListProjectReleasesRequest>;
 
-export type ListProjectReleasesResponseBodyItemOwnerMap = {
-  [key: string]: unknown | undefined;
-};
+export type ListProjectReleasesResponseBodyItemOwnerMap = { [key: string]: unknown | undefined };
 export const ListProjectReleasesResponseBodyItemOwnerMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -27296,9 +30526,7 @@ export const ListProjectReleasesResponseBodyItemVersionInfo = /*@__PURE__*/ S.su
   identifier: "ListProjectReleasesResponseBodyItemVersionInfo",
 }) as any as S.Schema<ListProjectReleasesResponseBodyItemVersionInfo>;
 
-export type ListProjectReleasesResponseBodyItemDataMap = {
-  [key: string]: unknown | undefined;
-};
+export type ListProjectReleasesResponseBodyItemDataMap = { [key: string]: unknown | undefined };
 export const ListProjectReleasesResponseBodyItemDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -27850,6 +31078,70 @@ export const ListProjectReplayViewedByResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListProjectReplayViewedByResponse",
 }) as any as S.Schema<ListProjectReplayViewedByResponse>;
 
+export interface ListProjectRepositoriesRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
+  project_id_or_slug: string;
+  /** When set to `1`, each row includes a `mappingCount` field with the number of code path mappings for that repository. Omitted by default to keep the response lightweight. */
+  includeMappingCount?: string;
+}
+export const ListProjectRepositoriesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id_or_slug: S.String.pipe(T.Label()),
+    project_id_or_slug: S.String.pipe(T.Label()),
+    includeMappingCount: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/0/projects/{organization_id_or_slug}/{project_id_or_slug}/repo/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListProjectRepositoriesRequest",
+}) as any as S.Schema<ListProjectRepositoriesRequest>;
+
+export interface ListProjectRepositoriesResponseBodyItem {
+  id: string;
+  integrationId: string | null;
+  externalId: string | null;
+  projectId: string;
+  repositoryId: string;
+  repoName: string;
+  source: string;
+  providerKey: string | null;
+  mappingCount?: number;
+}
+export const ListProjectRepositoriesResponseBodyItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    integrationId: S.NullOr(S.String),
+    externalId: S.NullOr(S.String),
+    projectId: S.String,
+    repositoryId: S.String,
+    repoName: S.String,
+    source: S.String,
+    providerKey: S.NullOr(S.String),
+    mappingCount: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ListProjectRepositoriesResponseBodyItem",
+}) as any as S.Schema<ListProjectRepositoriesResponseBodyItem>;
+
+export type ListProjectRepositoriesResponseBodyList =
+  Array<ListProjectRepositoriesResponseBodyItem>;
+export const ListProjectRepositoriesResponseBodyList = /*@__PURE__*/ S.Array(
+  ListProjectRepositoriesResponseBodyItem,
+) as any as S.Schema<ListProjectRepositoriesResponseBodyList>;
+
+export type ListProjectRepositoriesResponse = ListProjectRepositoriesResponseBodyList;
+export const ListProjectRepositoriesResponse = /*@__PURE__*/ S.suspend(() =>
+  ListProjectRepositoriesResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListProjectRepositoriesResponse",
+}) as any as S.Schema<ListProjectRepositoriesResponse>;
+
 export type ListProjectStatsRequestStat = "blacklisted" | "generated" | "received" | "rejected";
 export const ListProjectStatsRequestStat = S.String;
 
@@ -27885,9 +31177,7 @@ export const ListProjectStatsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListProjectStatsRequest",
-}) as any as S.Schema<ListProjectStatsRequest>;
+).annotate({ identifier: "ListProjectStatsRequest" }) as any as S.Schema<ListProjectStatsRequest>;
 
 export type ListProjectStatsResponseBodyItemList = Array<number>;
 export const ListProjectStatsResponseBodyItemList = /*@__PURE__*/ S.Array(
@@ -27902,9 +31192,7 @@ export const ListProjectStatsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListProjectStatsResponse = ListProjectStatsResponseBodyList;
 export const ListProjectStatsResponse = /*@__PURE__*/ S.suspend(() =>
   ListProjectStatsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListProjectStatsResponse",
-}) as any as S.Schema<ListProjectStatsResponse>;
+).annotate({ identifier: "ListProjectStatsResponse" }) as any as S.Schema<ListProjectStatsResponse>;
 
 export interface ListProjectSymbolSourcesRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -28296,11 +31584,137 @@ export const ListProjectSymbolSourcesResponseBodyItemCase2 = /*@__PURE__*/ S.sus
   identifier: "ListProjectSymbolSourcesResponseBodyItemCase2",
 }) as any as S.Schema<ListProjectSymbolSourcesResponseBodyItemCase2>;
 
-export type ListProjectSymbolSourcesResponseBodyItemCase3Type = "appStoreConnect";
+export type ListProjectSymbolSourcesResponseBodyItemCase3Type = "azure";
 export const ListProjectSymbolSourcesResponseBodyItemCase3Type = S.String;
+
+export type ListProjectSymbolSourcesResponseBodyItemCase3ClientSecret =
+  AddProjectSymbolSourceResponseBodyCase0Password;
+export const ListProjectSymbolSourcesResponseBodyItemCase3ClientSecret =
+  AddProjectSymbolSourceResponseBodyCase0Password;
+
+export type ListProjectSymbolSourcesResponseBodyItemCase3LayoutType =
+  | "native"
+  | "symstore"
+  | "symstore_index2"
+  | "ssqp"
+  | "unified"
+  | "debuginfod"
+  | "slashsymbols";
+export const ListProjectSymbolSourcesResponseBodyItemCase3LayoutType = S.String;
+
+export type ListProjectSymbolSourcesResponseBodyItemCase3LayoutCasing =
+  | "lowercase"
+  | "uppercase"
+  | "default";
+export const ListProjectSymbolSourcesResponseBodyItemCase3LayoutCasing = S.String;
+
+export interface ListProjectSymbolSourcesResponseBodyItemCase3Layout {
+  type: ListProjectSymbolSourcesResponseBodyItemCase3LayoutType;
+  casing?: ListProjectSymbolSourcesResponseBodyItemCase3LayoutCasing;
+}
+export const ListProjectSymbolSourcesResponseBodyItemCase3Layout = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: ListProjectSymbolSourcesResponseBodyItemCase3LayoutType,
+    casing: S.optional(ListProjectSymbolSourcesResponseBodyItemCase3LayoutCasing),
+  }),
+).annotate({
+  identifier: "ListProjectSymbolSourcesResponseBodyItemCase3Layout",
+}) as any as S.Schema<ListProjectSymbolSourcesResponseBodyItemCase3Layout>;
+
+export type ListProjectSymbolSourcesResponseBodyItemCase3FiltersFiletypesItem =
+  | "pe"
+  | "pdb"
+  | "portablepdb"
+  | "mach_debug"
+  | "mach_code"
+  | "elf_debug"
+  | "elf_code"
+  | "wasm_debug"
+  | "wasm_code"
+  | "breakpad"
+  | "sourcebundle"
+  | "uuidmap"
+  | "bcsymbolmap"
+  | "il2cpp"
+  | "proguard"
+  | "dartsymbolmap";
+export const ListProjectSymbolSourcesResponseBodyItemCase3FiltersFiletypesItem = S.String;
+
+export type ListProjectSymbolSourcesResponseBodyItemCase3FiltersFiletypesList =
+  Array<ListProjectSymbolSourcesResponseBodyItemCase3FiltersFiletypesItem>;
+export const ListProjectSymbolSourcesResponseBodyItemCase3FiltersFiletypesList =
+  /*@__PURE__*/ S.Array(
+    ListProjectSymbolSourcesResponseBodyItemCase3FiltersFiletypesItem,
+  ) as any as S.Schema<ListProjectSymbolSourcesResponseBodyItemCase3FiltersFiletypesList>;
+
+export type ListProjectSymbolSourcesResponseBodyItemCase3FiltersPathPatternsList = Array<string>;
+export const ListProjectSymbolSourcesResponseBodyItemCase3FiltersPathPatternsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ListProjectSymbolSourcesResponseBodyItemCase3FiltersPathPatternsList>;
+
+export interface ListProjectSymbolSourcesResponseBodyItemCase3Filters {
+  filetypes?: ListProjectSymbolSourcesResponseBodyItemCase3FiltersFiletypesList;
+  path_patterns?: ListProjectSymbolSourcesResponseBodyItemCase3FiltersPathPatternsList;
+  requires_checksum?: boolean;
+}
+export const ListProjectSymbolSourcesResponseBodyItemCase3Filters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    filetypes: S.optional(ListProjectSymbolSourcesResponseBodyItemCase3FiltersFiletypesList),
+    path_patterns: S.optional(ListProjectSymbolSourcesResponseBodyItemCase3FiltersPathPatternsList),
+    requires_checksum: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "ListProjectSymbolSourcesResponseBodyItemCase3Filters",
+}) as any as S.Schema<ListProjectSymbolSourcesResponseBodyItemCase3Filters>;
+
+export type ListProjectSymbolSourcesResponseBodyItemCase3PlatformsList = Array<string>;
+export const ListProjectSymbolSourcesResponseBodyItemCase3PlatformsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListProjectSymbolSourcesResponseBodyItemCase3PlatformsList>;
 
 export interface ListProjectSymbolSourcesResponseBodyItemCase3 {
   type: ListProjectSymbolSourcesResponseBodyItemCase3Type;
+  account: string;
+  container: string;
+  tenant_id: string;
+  client_id: string;
+  client_secret: AddProjectSymbolSourceResponseBodyCase0Password;
+  prefix?: string;
+  id: string;
+  name?: string;
+  layout: ListProjectSymbolSourcesResponseBodyItemCase3Layout;
+  filters?: ListProjectSymbolSourcesResponseBodyItemCase3Filters;
+  is_public?: boolean;
+  has_index?: boolean;
+  platforms?: ListProjectSymbolSourcesResponseBodyItemCase3PlatformsList;
+}
+export const ListProjectSymbolSourcesResponseBodyItemCase3 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: ListProjectSymbolSourcesResponseBodyItemCase3Type,
+    account: S.String,
+    container: S.String,
+    tenant_id: S.String,
+    client_id: S.String,
+    client_secret: AddProjectSymbolSourceResponseBodyCase0Password,
+    prefix: S.optional(S.String),
+    id: S.String,
+    name: S.optional(S.String),
+    layout: ListProjectSymbolSourcesResponseBodyItemCase3Layout,
+    filters: S.optional(ListProjectSymbolSourcesResponseBodyItemCase3Filters),
+    is_public: S.optional(S.Boolean),
+    has_index: S.optional(S.Boolean),
+    platforms: S.optional(ListProjectSymbolSourcesResponseBodyItemCase3PlatformsList),
+  }),
+).annotate({
+  identifier: "ListProjectSymbolSourcesResponseBodyItemCase3",
+}) as any as S.Schema<ListProjectSymbolSourcesResponseBodyItemCase3>;
+
+export type ListProjectSymbolSourcesResponseBodyItemCase4Type = "appStoreConnect";
+export const ListProjectSymbolSourcesResponseBodyItemCase4Type = S.String;
+
+export interface ListProjectSymbolSourcesResponseBodyItemCase4 {
+  type: ListProjectSymbolSourcesResponseBodyItemCase4Type;
   id: string;
   name: string;
   appconnectIssuer: string;
@@ -28310,9 +31724,9 @@ export interface ListProjectSymbolSourcesResponseBodyItemCase3 {
   appId: string;
   bundleId: string;
 }
-export const ListProjectSymbolSourcesResponseBodyItemCase3 = /*@__PURE__*/ S.suspend(() =>
+export const ListProjectSymbolSourcesResponseBodyItemCase4 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: ListProjectSymbolSourcesResponseBodyItemCase3Type,
+    type: ListProjectSymbolSourcesResponseBodyItemCase4Type,
     id: S.String,
     name: S.String,
     appconnectIssuer: S.String,
@@ -28323,14 +31737,15 @@ export const ListProjectSymbolSourcesResponseBodyItemCase3 = /*@__PURE__*/ S.sus
     bundleId: S.String,
   }),
 ).annotate({
-  identifier: "ListProjectSymbolSourcesResponseBodyItemCase3",
-}) as any as S.Schema<ListProjectSymbolSourcesResponseBodyItemCase3>;
+  identifier: "ListProjectSymbolSourcesResponseBodyItemCase4",
+}) as any as S.Schema<ListProjectSymbolSourcesResponseBodyItemCase4>;
 
 export type ListProjectSymbolSourcesResponseBodyItem =
   | ListProjectSymbolSourcesResponseBodyItemCase0
   | ListProjectSymbolSourcesResponseBodyItemCase1
   | ListProjectSymbolSourcesResponseBodyItemCase2
-  | ListProjectSymbolSourcesResponseBodyItemCase3;
+  | ListProjectSymbolSourcesResponseBodyItemCase3
+  | ListProjectSymbolSourcesResponseBodyItemCase4;
 export const ListProjectSymbolSourcesResponseBodyItem =
   S.Unknown as any as S.Schema<ListProjectSymbolSourcesResponseBodyItem>;
 
@@ -28367,13 +31782,9 @@ export const ListProjectTeamsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListProjectTeamsRequest",
-}) as any as S.Schema<ListProjectTeamsRequest>;
+).annotate({ identifier: "ListProjectTeamsRequest" }) as any as S.Schema<ListProjectTeamsRequest>;
 
-export type ListProjectTeamsResponseBodyItemFlagsMap = {
-  [key: string]: unknown | undefined;
-};
+export type ListProjectTeamsResponseBodyItemFlagsMap = { [key: string]: unknown | undefined };
 export const ListProjectTeamsResponseBodyItemFlagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -28428,9 +31839,7 @@ export const ListProjectTeamsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListProjectTeamsResponse = ListProjectTeamsResponseBodyList;
 export const ListProjectTeamsResponse = /*@__PURE__*/ S.suspend(() =>
   ListProjectTeamsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListProjectTeamsResponse",
-}) as any as S.Schema<ListProjectTeamsResponse>;
+).annotate({ identifier: "ListProjectTeamsResponse" }) as any as S.Schema<ListProjectTeamsResponse>;
 
 export interface ListProjectUsersRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -28455,9 +31864,7 @@ export const ListProjectUsersRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListProjectUsersRequest",
-}) as any as S.Schema<ListProjectUsersRequest>;
+).annotate({ identifier: "ListProjectUsersRequest" }) as any as S.Schema<ListProjectUsersRequest>;
 
 export interface ListProjectUsersResponseBodyItem {
   id: string | null;
@@ -28496,16 +31903,12 @@ export const ListProjectUsersResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListProjectUsersResponse = ListProjectUsersResponseBodyList;
 export const ListProjectUsersResponse = /*@__PURE__*/ S.suspend(() =>
   ListProjectUsersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListProjectUsersResponse",
-}) as any as S.Schema<ListProjectUsersResponse>;
+).annotate({ identifier: "ListProjectUsersResponse" }) as any as S.Schema<ListProjectUsersResponse>;
 
 export interface ListSeerModelsRequest {}
 export const ListSeerModelsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/0/seer/models/", code: 200 })),
-).annotate({
-  identifier: "ListSeerModelsRequest",
-}) as any as S.Schema<ListSeerModelsRequest>;
+).annotate({ identifier: "ListSeerModelsRequest" }) as any as S.Schema<ListSeerModelsRequest>;
 
 export type ListSeerModelsResponseModelsList = Array<string>;
 export const ListSeerModelsResponseModelsList = /*@__PURE__*/ S.Array(
@@ -28519,9 +31922,7 @@ export const ListSeerModelsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     models: ListSeerModelsResponseModelsList,
   }),
-).annotate({
-  identifier: "ListSeerModelsResponse",
-}) as any as S.Schema<ListSeerModelsResponse>;
+).annotate({ identifier: "ListSeerModelsResponse" }) as any as S.Schema<ListSeerModelsResponse>;
 
 export interface ListTeamMembersRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -28543,9 +31944,7 @@ export const ListTeamMembersRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListTeamMembersRequest",
-}) as any as S.Schema<ListTeamMembersRequest>;
+).annotate({ identifier: "ListTeamMembersRequest" }) as any as S.Schema<ListTeamMembersRequest>;
 
 export type ListTeamMembersResponseBodyItemExternalUsersItem =
   AddOrganizationMemberResponseExternalUsersItem;
@@ -28709,9 +32108,7 @@ export const ListTeamMembersResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListTeamMembersResponse = ListTeamMembersResponseBodyList;
 export const ListTeamMembersResponse = /*@__PURE__*/ S.suspend(() =>
   ListTeamMembersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListTeamMembersResponse",
-}) as any as S.Schema<ListTeamMembersResponse>;
+).annotate({ identifier: "ListTeamMembersResponse" }) as any as S.Schema<ListTeamMembersResponse>;
 
 export interface ListTeamProjectsRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -28733,9 +32130,7 @@ export const ListTeamProjectsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListTeamProjectsRequest",
-}) as any as S.Schema<ListTeamProjectsRequest>;
+).annotate({ identifier: "ListTeamProjectsRequest" }) as any as S.Schema<ListTeamProjectsRequest>;
 
 export type ListTeamProjectsResponseBodyItemLatestDeploysValueMap = {
   [key: string]: string | undefined;
@@ -28753,9 +32148,7 @@ export const ListTeamProjectsResponseBodyItemLatestDeploysMap = /*@__PURE__*/ S.
   ListTeamProjectsResponseBodyItemLatestDeploysValueMap,
 ) as any as S.Schema<ListTeamProjectsResponseBodyItemLatestDeploysMap>;
 
-export type ListTeamProjectsResponseBodyItemOptionsMap = {
-  [key: string]: unknown | undefined;
-};
+export type ListTeamProjectsResponseBodyItemOptionsMap = { [key: string]: unknown | undefined };
 export const ListTeamProjectsResponseBodyItemOptionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -28900,9 +32293,7 @@ export const ListTeamProjectsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListTeamProjectsResponse = ListTeamProjectsResponseBodyList;
 export const ListTeamProjectsResponse = /*@__PURE__*/ S.suspend(() =>
   ListTeamProjectsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListTeamProjectsResponse",
-}) as any as S.Schema<ListTeamProjectsResponse>;
+).annotate({ identifier: "ListTeamProjectsResponse" }) as any as S.Schema<ListTeamProjectsResponse>;
 
 export interface ProvisionOrganizationScimV2GroupRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -29349,9 +32740,7 @@ export const ResolveOrganizationEventIdResponseEventOccurrence = /*@__PURE__*/ S
   identifier: "ResolveOrganizationEventIdResponseEventOccurrence",
 }) as any as S.Schema<ResolveOrganizationEventIdResponseEventOccurrence>;
 
-export type ResolveOrganizationEventIdResponseEventMetaMap = {
-  [key: string]: unknown | undefined;
-};
+export type ResolveOrganizationEventIdResponseEventMetaMap = { [key: string]: unknown | undefined };
 export const ResolveOrganizationEventIdResponseEventMetaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -29920,7 +33309,7 @@ export interface StartOrganizationIssueAutofixRequest {
   /** Referrer identifying where the issue fix was triggered from. */
   referrer?: string;
   /** Override bash mode tools. */
-  enable_bash_tools?: boolean;
+  enable_bash_mode?: boolean;
 }
 export const StartOrganizationIssueAutofixRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -29936,7 +33325,7 @@ export const StartOrganizationIssueAutofixRequest = /*@__PURE__*/ S.suspend(() =
     repo_name: S.optional(S.String),
     insert_index: S.optional(S.Number),
     referrer: S.optional(S.String),
-    enable_bash_tools: S.optional(S.Boolean),
+    enable_bash_mode: S.optional(S.Boolean),
   }).pipe(
     T.Http({
       method: "POST",
@@ -29988,6 +33377,161 @@ export const UnlinkAnExternalIssueFromAnIssueResponse = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "UnlinkAnExternalIssueFromAnIssueResponse",
 }) as any as S.Schema<UnlinkAnExternalIssueFromAnIssueResponse>;
+
+/** The data the filter matches against. `all` is the catch-all: it filters every data type Sentry ingests, including ones added later, and accepts only the conditions that every data type carries a field for. * `all` * `error` * `log` * `metric` * `span` */
+export type UpdateACustomInboundFilterRequestDataType = "all" | "error" | "log" | "metric" | "span";
+export const UpdateACustomInboundFilterRequestDataType = S.String;
+
+/** The field the condition matches against. Every `dataType` accepts `release` and `ip_address`. In addition, `error` accepts `error_type` and `error_message`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `ip_address` */
+export type UpdateACustomInboundFilterRequestConditionsItemType =
+  | "error_type"
+  | "error_message"
+  | "log_message"
+  | "metric_name"
+  | "release"
+  | "ip_address";
+export const UpdateACustomInboundFilterRequestConditionsItemType = S.String;
+
+/** Glob patterns the field is matched against. The condition matches when any pattern matches, so multiple values act as OR. */
+export type UpdateACustomInboundFilterRequestConditionsItemValueList = Array<string>;
+export const UpdateACustomInboundFilterRequestConditionsItemValueList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateACustomInboundFilterRequestConditionsItemValueList>;
+
+export interface UpdateACustomInboundFilterRequestConditionsItem {
+  /** The field the condition matches against. Every `dataType` accepts `release` and `ip_address`. In addition, `error` accepts `error_type` and `error_message`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `ip_address` */
+  type: UpdateACustomInboundFilterRequestConditionsItemType | (string & {});
+  /** Glob patterns the field is matched against. The condition matches when any pattern matches, so multiple values act as OR. */
+  value: UpdateACustomInboundFilterRequestConditionsItemValueList;
+}
+export const UpdateACustomInboundFilterRequestConditionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: UpdateACustomInboundFilterRequestConditionsItemType,
+    value: UpdateACustomInboundFilterRequestConditionsItemValueList,
+  }),
+).annotate({
+  identifier: "UpdateACustomInboundFilterRequestConditionsItem",
+}) as any as S.Schema<UpdateACustomInboundFilterRequestConditionsItem>;
+
+/** Conditions are combined with AND: an event must match every condition to be filtered out. There is no OR between conditions, so e.g. two release conditions can express a range (`>2 AND <4`). To broaden matching, widen a condition's values or add separate filters. */
+export type UpdateACustomInboundFilterRequestConditionsList =
+  Array<UpdateACustomInboundFilterRequestConditionsItem>;
+export const UpdateACustomInboundFilterRequestConditionsList = /*@__PURE__*/ S.Array(
+  UpdateACustomInboundFilterRequestConditionsItem,
+) as any as S.Schema<UpdateACustomInboundFilterRequestConditionsList>;
+
+export interface UpdateACustomInboundFilterRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
+  project_id_or_slug: string;
+  /** The ID of the custom inbound filter. */
+  filter_id: string;
+  /** The data the filter matches against. `all` is the catch-all: it filters every data type Sentry ingests, including ones added later, and accepts only the conditions that every data type carries a field for. * `all` * `error` * `log` * `metric` * `span` */
+  dataType: UpdateACustomInboundFilterRequestDataType | (string & {});
+  /** Conditions are combined with AND: an event must match every condition to be filtered out. There is no OR between conditions, so e.g. two release conditions can express a range (`>2 AND <4`). To broaden matching, widen a condition's values or add separate filters. */
+  conditions: UpdateACustomInboundFilterRequestConditionsList;
+  /** A human-readable label for the filter. */
+  name?: string | null;
+  /** Whether the filter drops matching data. An inactive filter is kept but ignored. */
+  active?: boolean;
+}
+export const UpdateACustomInboundFilterRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id_or_slug: S.String.pipe(T.Label()),
+    project_id_or_slug: S.String.pipe(T.Label()),
+    filter_id: S.String.pipe(T.Label()),
+    dataType: UpdateACustomInboundFilterRequestDataType,
+    conditions: UpdateACustomInboundFilterRequestConditionsList,
+    name: S.optional(S.NullOr(S.String)),
+    active: S.optional(S.Boolean),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/api/0/projects/{organization_id_or_slug}/{project_id_or_slug}/custom-inbound-filters/{filter_id}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdateACustomInboundFilterRequest",
+}) as any as S.Schema<UpdateACustomInboundFilterRequest>;
+
+/** The data the filter matches against. `all` is the catch-all: it filters every data type Sentry ingests, including ones added later, and accepts only the conditions that every data type carries a field for. * `all` * `error` * `log` * `metric` * `span` */
+export type UpdateACustomInboundFilterResponseDataType =
+  | "all"
+  | "error"
+  | "log"
+  | "metric"
+  | "span";
+export const UpdateACustomInboundFilterResponseDataType = S.String;
+
+/** The field the condition matches against. Every `dataType` accepts `release` and `ip_address`. In addition, `error` accepts `error_type` and `error_message`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `ip_address` */
+export type UpdateACustomInboundFilterResponseConditionsItemType =
+  | "error_type"
+  | "error_message"
+  | "log_message"
+  | "metric_name"
+  | "release"
+  | "ip_address";
+export const UpdateACustomInboundFilterResponseConditionsItemType = S.String;
+
+/** Glob patterns the field is matched against. The condition matches when any pattern matches, so multiple values act as OR. */
+export type UpdateACustomInboundFilterResponseConditionsItemValueList = Array<string>;
+export const UpdateACustomInboundFilterResponseConditionsItemValueList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateACustomInboundFilterResponseConditionsItemValueList>;
+
+export interface UpdateACustomInboundFilterResponseConditionsItem {
+  /** The field the condition matches against. Every `dataType` accepts `release` and `ip_address`. In addition, `error` accepts `error_type` and `error_message`, `log` accepts `log_message`, and `metric` accepts `metric_name`. `span` and `all` accept no other types. * `error_type` * `error_message` * `log_message` * `metric_name` * `release` * `ip_address` */
+  type: UpdateACustomInboundFilterResponseConditionsItemType;
+  /** Glob patterns the field is matched against. The condition matches when any pattern matches, so multiple values act as OR. */
+  value: UpdateACustomInboundFilterResponseConditionsItemValueList;
+}
+export const UpdateACustomInboundFilterResponseConditionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: UpdateACustomInboundFilterResponseConditionsItemType,
+    value: UpdateACustomInboundFilterResponseConditionsItemValueList,
+  }),
+).annotate({
+  identifier: "UpdateACustomInboundFilterResponseConditionsItem",
+}) as any as S.Schema<UpdateACustomInboundFilterResponseConditionsItem>;
+
+/** Conditions are combined with AND: an event must match every condition to be filtered out. There is no OR between conditions, so e.g. two release conditions can express a range (`>2 AND <4`). To broaden matching, widen a condition's values or add separate filters. */
+export type UpdateACustomInboundFilterResponseConditionsList =
+  Array<UpdateACustomInboundFilterResponseConditionsItem>;
+export const UpdateACustomInboundFilterResponseConditionsList = /*@__PURE__*/ S.Array(
+  UpdateACustomInboundFilterResponseConditionsItem,
+) as any as S.Schema<UpdateACustomInboundFilterResponseConditionsList>;
+
+export interface UpdateACustomInboundFilterResponse {
+  /** The ID of the filter. */
+  id: string;
+  /** The data the filter matches against. `all` is the catch-all: it filters every data type Sentry ingests, including ones added later, and accepts only the conditions that every data type carries a field for. * `all` * `error` * `log` * `metric` * `span` */
+  dataType: UpdateACustomInboundFilterResponseDataType;
+  /** Conditions are combined with AND: an event must match every condition to be filtered out. There is no OR between conditions, so e.g. two release conditions can express a range (`>2 AND <4`). To broaden matching, widen a condition's values or add separate filters. */
+  conditions: UpdateACustomInboundFilterResponseConditionsList;
+  /** When the filter was created. */
+  dateCreated: string;
+  /** When the filter was last changed. */
+  dateUpdated: string;
+  /** A human-readable label for the filter. */
+  name?: string | null;
+  /** Whether the filter drops matching data. An inactive filter is kept but ignored. */
+  active?: boolean;
+}
+export const UpdateACustomInboundFilterResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    dataType: UpdateACustomInboundFilterResponseDataType,
+    conditions: UpdateACustomInboundFilterResponseConditionsList,
+    dateCreated: S.String,
+    dateUpdated: S.String,
+    name: S.optional(S.NullOr(S.String)),
+    active: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "UpdateACustomInboundFilterResponse",
+}) as any as S.Schema<UpdateACustomInboundFilterResponse>;
 
 /** The events to subscribe to. */
 export type UpdateAServiceHookRequestEventsList = Array<string>;
@@ -30089,9 +33633,7 @@ export const UpdateOrganizationRequestSafeFieldsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<UpdateOrganizationRequestSafeFieldsList>;
 
-export type UpdateOrganizationRequestTrustedRelaysItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateOrganizationRequestTrustedRelaysItemMap = { [key: string]: unknown | undefined };
 export const UpdateOrganizationRequestTrustedRelaysItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -30169,6 +33711,8 @@ export interface UpdateOrganizationRequest {
   metricAlertsThreadFlag?: boolean;
   /** Specify `true` to restore an organization that is pending deletion. */
   cancelDeletion?: boolean;
+  /** Deprecated. Response-time threshold in milliseconds previously used to compute Apdex. */
+  apdexThreshold?: number;
 }
 export const UpdateOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -30204,12 +33748,9 @@ export const UpdateOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
     issueAlertsThreadFlag: S.optional(S.Boolean),
     metricAlertsThreadFlag: S.optional(S.Boolean),
     cancelDeletion: S.optional(S.Boolean),
+    apdexThreshold: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/0/organizations/{organization_id_or_slug}/",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/0/organizations/{organization_id_or_slug}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateOrganizationRequest",
@@ -30220,9 +33761,7 @@ export const UpdateOrganizationResponseFeaturesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<UpdateOrganizationResponseFeaturesList>;
 
-export type UpdateOrganizationResponseExtraOptionsValueMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateOrganizationResponseExtraOptionsValueMap = { [key: string]: unknown | undefined };
 export const UpdateOrganizationResponseExtraOptionsValueMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -30263,9 +33802,7 @@ export const UpdateOrganizationResponseAvatar = AddOrganizationMemberResponseUse
 export type UpdateOrganizationResponseLinks = CreateOrganizationTeamResponseOrganizationLinks;
 export const UpdateOrganizationResponseLinks = CreateOrganizationTeamResponseOrganizationLinks;
 
-export type UpdateOrganizationResponseExperimentsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateOrganizationResponseExperimentsMap = { [key: string]: string | undefined };
 export const UpdateOrganizationResponseExperimentsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -30391,9 +33928,7 @@ export const UpdateOrganizationResponseDefaultCodeReviewTriggersList = /*@__PURE
   S.String,
 ) as any as S.Schema<UpdateOrganizationResponseDefaultCodeReviewTriggersList>;
 
-export type UpdateOrganizationResponseTeamsItemFlagsMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateOrganizationResponseTeamsItemFlagsMap = { [key: string]: unknown | undefined };
 export const UpdateOrganizationResponseTeamsItemFlagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -31194,9 +34729,7 @@ export const UpdateOrganizationDashboardRequestEnvironmentList = /*@__PURE__*/ S
 ) as any as S.Schema<UpdateOrganizationDashboardRequestEnvironmentList>;
 
 /** The saved filters for this dashboard. */
-export type UpdateOrganizationDashboardRequestFiltersMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateOrganizationDashboardRequestFiltersMap = { [key: string]: unknown | undefined };
 export const UpdateOrganizationDashboardRequestFiltersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -31398,6 +34931,7 @@ export const UpdateOrganizationDashboardResponseWidgetsItemThresholdsMaxValuesMa
 
 export interface UpdateOrganizationDashboardResponseWidgetsItemThresholds {
   preferredPolarity?: string;
+  timeWindow?: string;
   max_values: UpdateOrganizationDashboardResponseWidgetsItemThresholdsMaxValuesMap;
   unit: string;
 }
@@ -31405,6 +34939,7 @@ export const UpdateOrganizationDashboardResponseWidgetsItemThresholds = /*@__PUR
   () =>
     S.Struct({
       preferredPolarity: S.optional(S.String),
+      timeWindow: S.optional(S.String),
       max_values: UpdateOrganizationDashboardResponseWidgetsItemThresholdsMaxValuesMap,
       unit: S.String,
     }),
@@ -31766,9 +35301,7 @@ export const UpdateOrganizationDetectorRequestDataSourcesList = /*@__PURE__*/ S.
 ) as any as S.Schema<UpdateOrganizationDetectorRequestDataSourcesList>;
 
 /** The issue detection type configuration. - `detectionType` - `static`: Threshold based monitor - `percent`: Change based monitor - `dynamic`: Dynamic monitor - `comparisonDelta`: If selecting a **change** detection type, the comparison delta is the time period at which to compare against in minutes. For example, a value of 3600 compares the metric tracked against data 1 hour ago. - `300`: 5 minutes - `900`: 15 minutes - `3600`: 1 hour - `86400`: 1 day - `604800`: 1 week - `2592000`: 1 month **Threshold** ```json { "detectionType": "static", } ``` **Change** ```json { "detectionType": "percent", "comparisonDelta": 3600, } ``` **Dynamic** ```json { "detectionType": "dynamic", } ``` */
-export type UpdateOrganizationDetectorRequestConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateOrganizationDetectorRequestConfigMap = { [key: string]: unknown | undefined };
 export const UpdateOrganizationDetectorRequestConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -31907,9 +35440,7 @@ export const UpdateOrganizationDetectorResponseConditionGroupMap = /*@__PURE__*/
   S.Unknown,
 ) as any as S.Schema<UpdateOrganizationDetectorResponseConditionGroupMap>;
 
-export type UpdateOrganizationDetectorResponseConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateOrganizationDetectorResponseConfigMap = { [key: string]: unknown | undefined };
 export const UpdateOrganizationDetectorResponseConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -32133,11 +35664,48 @@ export const UpdateOrganizationDiscoverSavedQueryRequestFieldsList = /*@__PURE__
   S.String,
 ) as any as S.Schema<UpdateOrganizationDiscoverSavedQueryRequestFieldsList>;
 
+export type UpdateOrganizationDiscoverSavedQueryRequestAggregationsItemList = Array<unknown>;
+export const UpdateOrganizationDiscoverSavedQueryRequestAggregationsItemList =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<UpdateOrganizationDiscoverSavedQueryRequestAggregationsItemList>;
+
+/** Aggregate functions to apply, each as a `[function, column, alias]` triple. */
+export type UpdateOrganizationDiscoverSavedQueryRequestAggregationsList =
+  Array<UpdateOrganizationDiscoverSavedQueryRequestAggregationsItemList>;
+export const UpdateOrganizationDiscoverSavedQueryRequestAggregationsList = /*@__PURE__*/ S.Array(
+  UpdateOrganizationDiscoverSavedQueryRequestAggregationsItemList,
+) as any as S.Schema<UpdateOrganizationDiscoverSavedQueryRequestAggregationsList>;
+
+/** Columns to group results by. */
+export type UpdateOrganizationDiscoverSavedQueryRequestGroupbyList = Array<string>;
+export const UpdateOrganizationDiscoverSavedQueryRequestGroupbyList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateOrganizationDiscoverSavedQueryRequestGroupbyList>;
+
+export type UpdateOrganizationDiscoverSavedQueryRequestConditionsItemList = Array<unknown>;
+export const UpdateOrganizationDiscoverSavedQueryRequestConditionsItemList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<UpdateOrganizationDiscoverSavedQueryRequestConditionsItemList>;
+
+/** Filter conditions, each as a `[column, operator, value]` triple. */
+export type UpdateOrganizationDiscoverSavedQueryRequestConditionsList =
+  Array<UpdateOrganizationDiscoverSavedQueryRequestConditionsItemList>;
+export const UpdateOrganizationDiscoverSavedQueryRequestConditionsList = /*@__PURE__*/ S.Array(
+  UpdateOrganizationDiscoverSavedQueryRequestConditionsItemList,
+) as any as S.Schema<UpdateOrganizationDiscoverSavedQueryRequestConditionsList>;
+
 /** The name of environments to filter by. */
 export type UpdateOrganizationDiscoverSavedQueryRequestEnvironmentList = Array<string>;
 export const UpdateOrganizationDiscoverSavedQueryRequestEnvironmentList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<UpdateOrganizationDiscoverSavedQueryRequestEnvironmentList>;
+
+/** Rendered column widths, in the same order as the query's fields. */
+export type UpdateOrganizationDiscoverSavedQueryRequestWidthsList = Array<string>;
+export const UpdateOrganizationDiscoverSavedQueryRequestWidthsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateOrganizationDiscoverSavedQueryRequestWidthsList>;
 
 /** Aggregate functions to be plotted on the chart. */
 export type UpdateOrganizationDiscoverSavedQueryRequestYAxisList = Array<string>;
@@ -32166,10 +35734,24 @@ export interface UpdateOrganizationDiscoverSavedQueryRequest {
   fields?: UpdateOrganizationDiscoverSavedQueryRequestFieldsList | null;
   /** How to order the query results. Must be something in the `field` list, excluding equations. */
   orderby?: string | null;
+  /** Time-bucket granularity in seconds for the saved query. */
+  rollup?: number | null;
+  /** Aggregate functions to apply, each as a `[function, column, alias]` triple. */
+  aggregations?: UpdateOrganizationDiscoverSavedQueryRequestAggregationsList | null;
+  /** Columns to group results by. */
+  groupby?: UpdateOrganizationDiscoverSavedQueryRequestGroupbyList | null;
+  /** Filter conditions, each as a `[column, operator, value]` triple. */
+  conditions?: UpdateOrganizationDiscoverSavedQueryRequestConditionsList | null;
+  /** Maximum number of rows to return, from `0` to `1000`. */
+  limit?: number | null;
+  /** Saved query schema version. `1` for the legacy shape, `2` for the current one. */
+  version?: number | null;
   /** The name of environments to filter by. */
   environment?: UpdateOrganizationDiscoverSavedQueryRequestEnvironmentList | null;
   /** Filters results by using [query syntax](/product/sentry-basics/search/). */
   query?: string | null;
+  /** Rendered column widths, in the same order as the query's fields. */
+  widths?: UpdateOrganizationDiscoverSavedQueryRequestWidthsList | null;
   /** Aggregate functions to be plotted on the chart. */
   yAxis?: UpdateOrganizationDiscoverSavedQueryRequestYAxisList | null;
   /** Visualization type for saved query chart. Allowed values are: - default - previous - top5 - daily - dailytop5 - bar */
@@ -32191,8 +35773,15 @@ export const UpdateOrganizationDiscoverSavedQueryRequest = /*@__PURE__*/ S.suspe
     range: S.optional(S.NullOr(S.String)),
     fields: S.optional(S.NullOr(UpdateOrganizationDiscoverSavedQueryRequestFieldsList)),
     orderby: S.optional(S.NullOr(S.String)),
+    rollup: S.optional(S.NullOr(S.Number)),
+    aggregations: S.optional(S.NullOr(UpdateOrganizationDiscoverSavedQueryRequestAggregationsList)),
+    groupby: S.optional(S.NullOr(UpdateOrganizationDiscoverSavedQueryRequestGroupbyList)),
+    conditions: S.optional(S.NullOr(UpdateOrganizationDiscoverSavedQueryRequestConditionsList)),
+    limit: S.optional(S.NullOr(S.Number)),
+    version: S.optional(S.NullOr(S.Number)),
     environment: S.optional(S.NullOr(UpdateOrganizationDiscoverSavedQueryRequestEnvironmentList)),
     query: S.optional(S.NullOr(S.String)),
+    widths: S.optional(S.NullOr(UpdateOrganizationDiscoverSavedQueryRequestWidthsList)),
     yAxis: S.optional(S.NullOr(UpdateOrganizationDiscoverSavedQueryRequestYAxisList)),
     display: S.optional(S.NullOr(S.String)),
     topEvents: S.optional(S.NullOr(S.Number)),
@@ -32376,6 +35965,9 @@ export interface UpdateOrganizationDiscoverSavedQueryResponse {
   topEvents?: number;
   interval?: string;
   exploreQuery?: UpdateOrganizationDiscoverSavedQueryResponseExploreQueryMap;
+  lastVisited?: string;
+  starred?: boolean;
+  position?: number | null;
   id: string;
   name: string;
   projects: UpdateOrganizationDiscoverSavedQueryResponseProjectsList;
@@ -32405,6 +35997,9 @@ export const UpdateOrganizationDiscoverSavedQueryResponse = /*@__PURE__*/ S.susp
     topEvents: S.optional(S.Number),
     interval: S.optional(S.String),
     exploreQuery: S.optional(UpdateOrganizationDiscoverSavedQueryResponseExploreQueryMap),
+    lastVisited: S.optional(S.String),
+    starred: S.optional(S.Boolean),
+    position: S.optional(S.NullOr(S.Number)),
     id: S.String,
     name: S.String,
     projects: UpdateOrganizationDiscoverSavedQueryResponseProjectsList,
@@ -32420,7 +36015,7 @@ export const UpdateOrganizationDiscoverSavedQueryResponse = /*@__PURE__*/ S.susp
   identifier: "UpdateOrganizationDiscoverSavedQueryResponse",
 }) as any as S.Schema<UpdateOrganizationDiscoverSavedQueryResponse>;
 
-/** The provider of the external actor. * `github` * `github_enterprise` * `jira_server` * `slack` * `slack_staging` * `perforce` * `gitlab` * `msteams` * `custom_scm` */
+/** The provider of the external actor. * `github` * `github_enterprise` * `jira_server` * `slack` * `slack_staging` * `perforce` * `gitlab` * `cursor_origin` * `msteams` * `custom_scm` */
 export type UpdateOrganizationExternalUserRequestProvider =
   | "github"
   | "github_enterprise"
@@ -32429,6 +36024,7 @@ export type UpdateOrganizationExternalUserRequestProvider =
   | "slack_staging"
   | "perforce"
   | "gitlab"
+  | "cursor_origin"
   | "msteams"
   | "custom_scm";
 export const UpdateOrganizationExternalUserRequestProvider = S.String;
@@ -32442,7 +36038,7 @@ export interface UpdateOrganizationExternalUserRequest {
   user_id: number;
   /** The associated name for the provider. */
   external_name: string;
-  /** The provider of the external actor. * `github` * `github_enterprise` * `jira_server` * `slack` * `slack_staging` * `perforce` * `gitlab` * `msteams` * `custom_scm` */
+  /** The provider of the external actor. * `github` * `github_enterprise` * `jira_server` * `slack` * `slack_staging` * `perforce` * `gitlab` * `cursor_origin` * `msteams` * `custom_scm` */
   provider: UpdateOrganizationExternalUserRequestProvider | (string & {});
   /** The Integration ID. */
   integration_id: number;
@@ -32497,9 +36093,7 @@ export type UpdateOrganizationForwardingRequestProvider = "segment" | "sqs" | "s
 export const UpdateOrganizationForwardingRequestProvider = S.String;
 
 /** The configuration for the data forwarder, specific to the provider type. For a 'sqs' provider, the required keys are queue_url, region, access_key, secret_key. If using a FIFO queue, you must also provide a message_group_id, though s3_bucket is optional. For a 'segment' provider, the required keys are write_key. For a 'splunk' provider, the required keys are instance_url, index, source, token. */
-export type UpdateOrganizationForwardingRequestConfigMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateOrganizationForwardingRequestConfigMap = { [key: string]: string | undefined };
 export const UpdateOrganizationForwardingRequestConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -32561,9 +36155,7 @@ export const UpdateOrganizationForwardingResponseEnrolledProjectsList = /*@__PUR
   CreateOrganizationForwardingResponseEnrolledProjectsItem,
 ) as any as S.Schema<UpdateOrganizationForwardingResponseEnrolledProjectsList>;
 
-export type UpdateOrganizationForwardingResponseConfigMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateOrganizationForwardingResponseConfigMap = { [key: string]: string | undefined };
 export const UpdateOrganizationForwardingResponseConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -32753,6 +36345,18 @@ export interface UpdateOrganizationIssueRequest {
   assignedTo: string;
   /** The priority that should be set for the issues * `low` * `medium` * `high` */
   priority: UpdateOrganizationIssueRequestPriority | (string & {});
+  /** Ignore the issue for this many minutes. */
+  ignoreDuration: number;
+  /** Ignore the issue until it is seen this many more times. */
+  ignoreCount: number;
+  /** Window in minutes over which `ignoreCount` is measured. Maximum is 7 days. */
+  ignoreWindow: number;
+  /** Ignore the issue until it affects this many more users. */
+  ignoreUserCount: number;
+  /** Window in minutes over which `ignoreUserCount` is measured. Maximum is 7 days. */
+  ignoreUserWindow: number;
+  /** Snooze the issue for this many minutes. */
+  snoozeDuration: number | null;
 }
 export const UpdateOrganizationIssueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -32770,6 +36374,12 @@ export const UpdateOrganizationIssueRequest = /*@__PURE__*/ S.suspend(() =>
     discard: S.Boolean,
     assignedTo: S.String,
     priority: UpdateOrganizationIssueRequestPriority,
+    ignoreDuration: S.Number,
+    ignoreCount: S.Number,
+    ignoreWindow: S.Number,
+    ignoreUserCount: S.Number,
+    ignoreUserWindow: S.Number,
+    snoozeDuration: S.NullOr(S.Number),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -32972,9 +36582,7 @@ export type UpdateOrganizationIssueResponseType =
   | "feedback";
 export const UpdateOrganizationIssueResponseType = S.String;
 
-export type UpdateOrganizationIssueResponseMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateOrganizationIssueResponseMetadataMap = { [key: string]: unknown | undefined };
 export const UpdateOrganizationIssueResponseMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -33170,6 +36778,12 @@ export interface UpdateOrganizationIssuesRequest {
   project?: UpdateOrganizationIssuesRequestProjectList;
   /** The list of issue IDs to mutate. It is optional for status updates, in which an implicit `update all` is assumed. */
   id?: UpdateOrganizationIssuesRequestIdList;
+  /** The period of time for the query, will override the start & end parameters, a number followed by one of: - `d` for days - `h` for hours - `m` for minutes - `s` for seconds - `w` for weeks For example, `24h`, to mean query data starting from 24 hours ago to now. */
+  statsPeriod?: string;
+  /** The start of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
+  start?: string;
+  /** The end of the period of time for the query, expected in ISO-8601 format. For example, `2001-12-14T12:34:56.7890`. */
+  end?: string;
   /** An optional search query for filtering issues. A default query will apply if no view/query is set. For all results use this parameter with an empty string. */
   query?: string;
   /** The ID of the view to use. If no query is present, the view's query and filters will be applied. */
@@ -33202,6 +36816,18 @@ export interface UpdateOrganizationIssuesRequest {
   assignedTo: string;
   /** The priority that should be set for the issues * `low` * `medium` * `high` */
   priority: UpdateOrganizationIssuesRequestPriority | (string & {});
+  /** Ignore the issue for this many minutes. */
+  ignoreDuration: number;
+  /** Ignore the issue until it is seen this many more times. */
+  ignoreCount: number;
+  /** Window in minutes over which `ignoreCount` is measured. Maximum is 7 days. */
+  ignoreWindow: number;
+  /** Ignore the issue until it affects this many more users. */
+  ignoreUserCount: number;
+  /** Window in minutes over which `ignoreUserCount` is measured. Maximum is 7 days. */
+  ignoreUserWindow: number;
+  /** Snooze the issue for this many minutes. */
+  snoozeDuration: number | null;
 }
 export const UpdateOrganizationIssuesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -33209,6 +36835,9 @@ export const UpdateOrganizationIssuesRequest = /*@__PURE__*/ S.suspend(() =>
     environment: S.optional(UpdateOrganizationIssuesRequestEnvironmentList.pipe(T.Query())),
     project: S.optional(UpdateOrganizationIssuesRequestProjectList.pipe(T.Query())),
     id: S.optional(UpdateOrganizationIssuesRequestIdList.pipe(T.Query())),
+    statsPeriod: S.optional(S.String.pipe(T.Query())),
+    start: S.optional(S.String.pipe(T.Query())),
+    end: S.optional(S.String.pipe(T.Query())),
     query: S.optional(S.String.pipe(T.Query())),
     viewId: S.optional(S.String.pipe(T.Query())),
     sort: S.optional(UpdateOrganizationIssuesRequestSort.pipe(T.Query())),
@@ -33225,6 +36854,12 @@ export const UpdateOrganizationIssuesRequest = /*@__PURE__*/ S.suspend(() =>
     discard: S.Boolean,
     assignedTo: S.String,
     priority: UpdateOrganizationIssuesRequestPriority,
+    ignoreDuration: S.Number,
+    ignoreCount: S.Number,
+    ignoreWindow: S.Number,
+    ignoreUserCount: S.Number,
+    ignoreUserWindow: S.Number,
+    snoozeDuration: S.NullOr(S.Number),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -34324,7 +37959,7 @@ export interface UpdateOrganizationMonitorRequestConfig {
   schedule: unknown;
   /** How long (in minutes) after the expected checkin time will we wait until we consider the checkin to have been missed. */
   checkin_margin?: number | null;
-  /** How long (in minutes) is the checkin allowed to run for in CheckInStatus.IN_PROGRESS before it is considered failed. */
+  /** How long (in minutes) is the checkin allowed to run for in CheckInStatus.IN_PROGRESS before it is considered failed. Maximum 10080 (7 days). */
   max_runtime?: number | null;
   /** tz database style timezone string * `Africa/Abidjan` * `Africa/Accra` * `Africa/Addis_Ababa` * `Africa/Algiers` * `Africa/Asmara` * `Africa/Asmera` * `Africa/Bamako` * `Africa/Bangui` * `Africa/Banjul` * `Africa/Bissau` * `Africa/Blantyre` * `Africa/Brazzaville` * `Africa/Bujumbura` * `Africa/Cairo` * `Africa/Casablanca` * `Africa/Ceuta` * `Africa/Conakry` * `Africa/Dakar` * `Africa/Dar_es_Salaam` * `Africa/Djibouti` * `Africa/Douala` * `Africa/El_Aaiun` * `Africa/Freetown` * `Africa/Gaborone` * `Africa/Harare` * `Africa/Johannesburg` * `Africa/Juba` * `Africa/Kampala` * `Africa/Khartoum` * `Africa/Kigali` * `Africa/Kinshasa` * `Africa/Lagos` * `Africa/Libreville` * `Africa/Lome` * `Africa/Luanda` * `Africa/Lubumbashi` * `Africa/Lusaka` * `Africa/Malabo` * `Africa/Maputo` * `Africa/Maseru` * `Africa/Mbabane` * `Africa/Mogadishu` * `Africa/Monrovia` * `Africa/Nairobi` * `Africa/Ndjamena` * `Africa/Niamey` * `Africa/Nouakchott` * `Africa/Ouagadougou` * `Africa/Porto-Novo` * `Africa/Sao_Tome` * `Africa/Timbuktu` * `Africa/Tripoli` * `Africa/Tunis` * `Africa/Windhoek` * `America/Adak` * `America/Anchorage` * `America/Anguilla` * `America/Antigua` * `America/Araguaina` * `America/Argentina/Buenos_Aires` * `America/Argentina/Catamarca` * `America/Argentina/ComodRivadavia` * `America/Argentina/Cordoba` * `America/Argentina/Jujuy` * `America/Argentina/La_Rioja` * `America/Argentina/Mendoza` * `America/Argentina/Rio_Gallegos` * `America/Argentina/Salta` * `America/Argentina/San_Juan` * `America/Argentina/San_Luis` * `America/Argentina/Tucuman` * `America/Argentina/Ushuaia` * `America/Aruba` * `America/Asuncion` * `America/Atikokan` * `America/Atka` * `America/Bahia` * `America/Bahia_Banderas` * `America/Barbados` * `America/Belem` * `America/Belize` * `America/Blanc-Sablon` * `America/Boa_Vista` * `America/Bogota` * `America/Boise` * `America/Buenos_Aires` * `America/Cambridge_Bay` * `America/Campo_Grande` * `America/Cancun` * `America/Caracas` * `America/Catamarca` * `America/Cayenne` * `America/Cayman` * `America/Chicago` * `America/Chihuahua` * `America/Ciudad_Juarez` * `America/Coral_Harbour` * `America/Cordoba` * `America/Costa_Rica` * `America/Coyhaique` * `America/Creston` * `America/Cuiaba` * `America/Curacao` * `America/Danmarkshavn` * `America/Dawson` * `America/Dawson_Creek` * `America/Denver` * `America/Detroit` * `America/Dominica` * `America/Edmonton` * `America/Eirunepe` * `America/El_Salvador` * `America/Ensenada` * `America/Fort_Nelson` * `America/Fort_Wayne` * `America/Fortaleza` * `America/Glace_Bay` * `America/Godthab` * `America/Goose_Bay` * `America/Grand_Turk` * `America/Grenada` * `America/Guadeloupe` * `America/Guatemala` * `America/Guayaquil` * `America/Guyana` * `America/Halifax` * `America/Havana` * `America/Hermosillo` * `America/Indiana/Indianapolis` * `America/Indiana/Knox` * `America/Indiana/Marengo` * `America/Indiana/Petersburg` * `America/Indiana/Tell_City` * `America/Indiana/Vevay` * `America/Indiana/Vincennes` * `America/Indiana/Winamac` * `America/Indianapolis` * `America/Inuvik` * `America/Iqaluit` * `America/Jamaica` * `America/Jujuy` * `America/Juneau` * `America/Kentucky/Louisville` * `America/Kentucky/Monticello` * `America/Knox_IN` * `America/Kralendijk` * `America/La_Paz` * `America/Lima` * `America/Los_Angeles` * `America/Louisville` * `America/Lower_Princes` * `America/Maceio` * `America/Managua` * `America/Manaus` * `America/Marigot` * `America/Martinique` * `America/Matamoros` * `America/Mazatlan` * `America/Mendoza` * `America/Menominee` * `America/Merida` * `America/Metlakatla` * `America/Mexico_City` * `America/Miquelon` * `America/Moncton` * `America/Monterrey` * `America/Montevideo` * `America/Montreal` * `America/Montserrat` * `America/Nassau` * `America/New_York` * `America/Nipigon` * `America/Nome` * `America/Noronha` * `America/North_Dakota/Beulah` * `America/North_Dakota/Center` * `America/North_Dakota/New_Salem` * `America/Nuuk` * `America/Ojinaga` * `America/Panama` * `America/Pangnirtung` * `America/Paramaribo` * `America/Phoenix` * `America/Port-au-Prince` * `America/Port_of_Spain` * `America/Porto_Acre` * `America/Porto_Velho` * `America/Puerto_Rico` * `America/Punta_Arenas` * `America/Rainy_River` * `America/Rankin_Inlet` * `America/Recife` * `America/Regina` * `America/Resolute` * `America/Rio_Branco` * `America/Rosario` * `America/Santa_Isabel` * `America/Santarem` * `America/Santiago` * `America/Santo_Domingo` * `America/Sao_Paulo` * `America/Scoresbysund` * `America/Shiprock` * `America/Sitka` * `America/St_Barthelemy` * `America/St_Johns` * `America/St_Kitts` * `America/St_Lucia` * `America/St_Thomas` * `America/St_Vincent` * `America/Swift_Current` * `America/Tegucigalpa` * `America/Thule` * `America/Thunder_Bay` * `America/Tijuana` * `America/Toronto` * `America/Tortola` * `America/Vancouver` * `America/Virgin` * `America/Whitehorse` * `America/Winnipeg` * `America/Yakutat` * `America/Yellowknife` * `Antarctica/Casey` * `Antarctica/Davis` * `Antarctica/DumontDUrville` * `Antarctica/Macquarie` * `Antarctica/Mawson` * `Antarctica/McMurdo` * `Antarctica/Palmer` * `Antarctica/Rothera` * `Antarctica/South_Pole` * `Antarctica/Syowa` * `Antarctica/Troll` * `Antarctica/Vostok` * `Arctic/Longyearbyen` * `Asia/Aden` * `Asia/Almaty` * `Asia/Amman` * `Asia/Anadyr` * `Asia/Aqtau` * `Asia/Aqtobe` * `Asia/Ashgabat` * `Asia/Ashkhabad` * `Asia/Atyrau` * `Asia/Baghdad` * `Asia/Bahrain` * `Asia/Baku` * `Asia/Bangkok` * `Asia/Barnaul` * `Asia/Beirut` * `Asia/Bishkek` * `Asia/Brunei` * `Asia/Calcutta` * `Asia/Chita` * `Asia/Choibalsan` * `Asia/Chongqing` * `Asia/Chungking` * `Asia/Colombo` * `Asia/Dacca` * `Asia/Damascus` * `Asia/Dhaka` * `Asia/Dili` * `Asia/Dubai` * `Asia/Dushanbe` * `Asia/Famagusta` * `Asia/Gaza` * `Asia/Harbin` * `Asia/Hebron` * `Asia/Ho_Chi_Minh` * `Asia/Hong_Kong` * `Asia/Hovd` * `Asia/Irkutsk` * `Asia/Istanbul` * `Asia/Jakarta` * `Asia/Jayapura` * `Asia/Jerusalem` * `Asia/Kabul` * `Asia/Kamchatka` * `Asia/Karachi` * `Asia/Kashgar` * `Asia/Kathmandu` * `Asia/Katmandu` * `Asia/Khandyga` * `Asia/Kolkata` * `Asia/Krasnoyarsk` * `Asia/Kuala_Lumpur` * `Asia/Kuching` * `Asia/Kuwait` * `Asia/Macao` * `Asia/Macau` * `Asia/Magadan` * `Asia/Makassar` * `Asia/Manila` * `Asia/Muscat` * `Asia/Nicosia` * `Asia/Novokuznetsk` * `Asia/Novosibirsk` * `Asia/Omsk` * `Asia/Oral` * `Asia/Phnom_Penh` * `Asia/Pontianak` * `Asia/Pyongyang` * `Asia/Qatar` * `Asia/Qostanay` * `Asia/Qyzylorda` * `Asia/Rangoon` * `Asia/Riyadh` * `Asia/Saigon` * `Asia/Sakhalin` * `Asia/Samarkand` * `Asia/Seoul` * `Asia/Shanghai` * `Asia/Singapore` * `Asia/Srednekolymsk` * `Asia/Taipei` * `Asia/Tashkent` * `Asia/Tbilisi` * `Asia/Tehran` * `Asia/Tel_Aviv` * `Asia/Thimbu` * `Asia/Thimphu` * `Asia/Tokyo` * `Asia/Tomsk` * `Asia/Ujung_Pandang` * `Asia/Ulaanbaatar` * `Asia/Ulan_Bator` * `Asia/Urumqi` * `Asia/Ust-Nera` * `Asia/Vientiane` * `Asia/Vladivostok` * `Asia/Yakutsk` * `Asia/Yangon` * `Asia/Yekaterinburg` * `Asia/Yerevan` * `Atlantic/Azores` * `Atlantic/Bermuda` * `Atlantic/Canary` * `Atlantic/Cape_Verde` * `Atlantic/Faeroe` * `Atlantic/Faroe` * `Atlantic/Jan_Mayen` * `Atlantic/Madeira` * `Atlantic/Reykjavik` * `Atlantic/South_Georgia` * `Atlantic/St_Helena` * `Atlantic/Stanley` * `Australia/ACT` * `Australia/Adelaide` * `Australia/Brisbane` * `Australia/Broken_Hill` * `Australia/Canberra` * `Australia/Currie` * `Australia/Darwin` * `Australia/Eucla` * `Australia/Hobart` * `Australia/LHI` * `Australia/Lindeman` * `Australia/Lord_Howe` * `Australia/Melbourne` * `Australia/NSW` * `Australia/North` * `Australia/Perth` * `Australia/Queensland` * `Australia/South` * `Australia/Sydney` * `Australia/Tasmania` * `Australia/Victoria` * `Australia/West` * `Australia/Yancowinna` * `Brazil/Acre` * `Brazil/DeNoronha` * `Brazil/East` * `Brazil/West` * `CET` * `CST6CDT` * `Canada/Atlantic` * `Canada/Central` * `Canada/Eastern` * `Canada/Mountain` * `Canada/Newfoundland` * `Canada/Pacific` * `Canada/Saskatchewan` * `Canada/Yukon` * `Chile/Continental` * `Chile/EasterIsland` * `Cuba` * `EET` * `EST` * `EST5EDT` * `Egypt` * `Eire` * `Etc/GMT` * `Etc/GMT+0` * `Etc/GMT+1` * `Etc/GMT+10` * `Etc/GMT+11` * `Etc/GMT+12` * `Etc/GMT+2` * `Etc/GMT+3` * `Etc/GMT+4` * `Etc/GMT+5` * `Etc/GMT+6` * `Etc/GMT+7` * `Etc/GMT+8` * `Etc/GMT+9` * `Etc/GMT-0` * `Etc/GMT-1` * `Etc/GMT-10` * `Etc/GMT-11` * `Etc/GMT-12` * `Etc/GMT-13` * `Etc/GMT-14` * `Etc/GMT-2` * `Etc/GMT-3` * `Etc/GMT-4` * `Etc/GMT-5` * `Etc/GMT-6` * `Etc/GMT-7` * `Etc/GMT-8` * `Etc/GMT-9` * `Etc/GMT0` * `Etc/Greenwich` * `Etc/UCT` * `Etc/UTC` * `Etc/Universal` * `Etc/Zulu` * `Europe/Amsterdam` * `Europe/Andorra` * `Europe/Astrakhan` * `Europe/Athens` * `Europe/Belfast` * `Europe/Belgrade` * `Europe/Berlin` * `Europe/Bratislava` * `Europe/Brussels` * `Europe/Bucharest` * `Europe/Budapest` * `Europe/Busingen` * `Europe/Chisinau` * `Europe/Copenhagen` * `Europe/Dublin` * `Europe/Gibraltar` * `Europe/Guernsey` * `Europe/Helsinki` * `Europe/Isle_of_Man` * `Europe/Istanbul` * `Europe/Jersey` * `Europe/Kaliningrad` * `Europe/Kiev` * `Europe/Kirov` * `Europe/Kyiv` * `Europe/Lisbon` * `Europe/Ljubljana` * `Europe/London` * `Europe/Luxembourg` * `Europe/Madrid` * `Europe/Malta` * `Europe/Mariehamn` * `Europe/Minsk` * `Europe/Monaco` * `Europe/Moscow` * `Europe/Nicosia` * `Europe/Oslo` * `Europe/Paris` * `Europe/Podgorica` * `Europe/Prague` * `Europe/Riga` * `Europe/Rome` * `Europe/Samara` * `Europe/San_Marino` * `Europe/Sarajevo` * `Europe/Saratov` * `Europe/Simferopol` * `Europe/Skopje` * `Europe/Sofia` * `Europe/Stockholm` * `Europe/Tallinn` * `Europe/Tirane` * `Europe/Tiraspol` * `Europe/Ulyanovsk` * `Europe/Uzhgorod` * `Europe/Vaduz` * `Europe/Vatican` * `Europe/Vienna` * `Europe/Vilnius` * `Europe/Volgograd` * `Europe/Warsaw` * `Europe/Zagreb` * `Europe/Zaporozhye` * `Europe/Zurich` * `GB` * `GB-Eire` * `GMT` * `GMT+0` * `GMT-0` * `GMT0` * `Greenwich` * `HST` * `Hongkong` * `Iceland` * `Indian/Antananarivo` * `Indian/Chagos` * `Indian/Christmas` * `Indian/Cocos` * `Indian/Comoro` * `Indian/Kerguelen` * `Indian/Mahe` * `Indian/Maldives` * `Indian/Mauritius` * `Indian/Mayotte` * `Indian/Reunion` * `Iran` * `Israel` * `Jamaica` * `Japan` * `Kwajalein` * `Libya` * `MET` * `MST` * `MST7MDT` * `Mexico/BajaNorte` * `Mexico/BajaSur` * `Mexico/General` * `NZ` * `NZ-CHAT` * `Navajo` * `PRC` * `PST8PDT` * `Pacific/Apia` * `Pacific/Auckland` * `Pacific/Bougainville` * `Pacific/Chatham` * `Pacific/Chuuk` * `Pacific/Easter` * `Pacific/Efate` * `Pacific/Enderbury` * `Pacific/Fakaofo` * `Pacific/Fiji` * `Pacific/Funafuti` * `Pacific/Galapagos` * `Pacific/Gambier` * `Pacific/Guadalcanal` * `Pacific/Guam` * `Pacific/Honolulu` * `Pacific/Johnston` * `Pacific/Kanton` * `Pacific/Kiritimati` * `Pacific/Kosrae` * `Pacific/Kwajalein` * `Pacific/Majuro` * `Pacific/Marquesas` * `Pacific/Midway` * `Pacific/Nauru` * `Pacific/Niue` * `Pacific/Norfolk` * `Pacific/Noumea` * `Pacific/Pago_Pago` * `Pacific/Palau` * `Pacific/Pitcairn` * `Pacific/Pohnpei` * `Pacific/Ponape` * `Pacific/Port_Moresby` * `Pacific/Rarotonga` * `Pacific/Saipan` * `Pacific/Samoa` * `Pacific/Tahiti` * `Pacific/Tarawa` * `Pacific/Tongatapu` * `Pacific/Truk` * `Pacific/Wake` * `Pacific/Wallis` * `Pacific/Yap` * `Poland` * `Portugal` * `ROC` * `ROK` * `Singapore` * `Turkey` * `UCT` * `US/Alaska` * `US/Aleutian` * `US/Arizona` * `US/Central` * `US/East-Indiana` * `US/Eastern` * `US/Hawaii` * `US/Indiana-Starke` * `US/Michigan` * `US/Mountain` * `US/Pacific` * `US/Samoa` * `UTC` * `Universal` * `W-SU` * `WET` * `Zulu` * `localtime` */
   timezone?: UpdateOrganizationMonitorRequestConfigTimezone | (string & {});
@@ -34351,6 +37986,33 @@ export const UpdateOrganizationMonitorRequestConfig = /*@__PURE__*/ S.suspend(()
 export type UpdateOrganizationMonitorRequestStatus = "active" | "disabled";
 export const UpdateOrganizationMonitorRequestStatus = S.String;
 
+export type UpdateOrganizationMonitorRequestAlertRuleTargetsItem =
+  CreateOrganizationMonitorRequestAlertRuleTargetsItem;
+export const UpdateOrganizationMonitorRequestAlertRuleTargetsItem =
+  CreateOrganizationMonitorRequestAlertRuleTargetsItem;
+
+/** Array of dictionaries with information of the user or team to be notified */
+export type UpdateOrganizationMonitorRequestAlertRuleTargetsList =
+  Array<CreateOrganizationMonitorRequestAlertRuleTargetsItem>;
+export const UpdateOrganizationMonitorRequestAlertRuleTargetsList = /*@__PURE__*/ S.Array(
+  CreateOrganizationMonitorRequestAlertRuleTargetsItem,
+) as any as S.Schema<UpdateOrganizationMonitorRequestAlertRuleTargetsList>;
+
+export interface UpdateOrganizationMonitorRequestAlertRule {
+  /** Name of the environment */
+  environment?: string | null;
+  /** Array of dictionaries with information of the user or team to be notified */
+  targets: UpdateOrganizationMonitorRequestAlertRuleTargetsList;
+}
+export const UpdateOrganizationMonitorRequestAlertRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    environment: S.optional(S.NullOr(S.String)),
+    targets: UpdateOrganizationMonitorRequestAlertRuleTargetsList,
+  }),
+).annotate({
+  identifier: "UpdateOrganizationMonitorRequestAlertRule",
+}) as any as S.Schema<UpdateOrganizationMonitorRequestAlertRule>;
+
 export interface UpdateOrganizationMonitorRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
@@ -34370,6 +38032,8 @@ export interface UpdateOrganizationMonitorRequest {
   owner?: string | null;
   /** Disable creation of monitor incidents */
   is_muted?: boolean;
+  /** Alert rule configuration created alongside the monitor. */
+  alert_rule?: UpdateOrganizationMonitorRequestAlertRule;
 }
 export const UpdateOrganizationMonitorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -34382,6 +38046,7 @@ export const UpdateOrganizationMonitorRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(UpdateOrganizationMonitorRequestStatus),
     owner: S.optional(S.NullOr(S.String)),
     is_muted: S.optional(S.Boolean),
+    alert_rule: S.optional(UpdateOrganizationMonitorRequestAlertRule),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -34651,6 +38316,10 @@ export interface UpdateOrganizationNotificationsActionRequest {
   target_display?: string;
   /** List of project IDs or slugs that the Notification Action is created for. */
   projects?: UpdateOrganizationNotificationsActionRequestProjectsList;
+  /** ID of the custom integration to notify, when the target is a Sentry app. */
+  sentry_app_id?: number;
+  /** How the notification target is addressed. */
+  target_type?: string;
 }
 export const UpdateOrganizationNotificationsActionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -34662,6 +38331,8 @@ export const UpdateOrganizationNotificationsActionRequest = /*@__PURE__*/ S.susp
     target_identifier: S.optional(S.String),
     target_display: S.optional(S.String),
     projects: S.optional(UpdateOrganizationNotificationsActionRequestProjectsList),
+    sentry_app_id: S.optional(S.Number),
+    target_type: S.optional(S.String),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -34721,6 +38392,18 @@ export const UpdateOrganizationReleaseRequestCommitsList = /*@__PURE__*/ S.Array
   UpdateOrganizationReleaseRequestCommitsItem,
 ) as any as S.Schema<UpdateOrganizationReleaseRequestCommitsList>;
 
+export type UpdateOrganizationReleaseRequestHeadCommitsItem =
+  CreateOrganizationReleaseRequestHeadCommitsItem;
+export const UpdateOrganizationReleaseRequestHeadCommitsItem =
+  CreateOrganizationReleaseRequestHeadCommitsItem;
+
+/** Deprecated, use `commits`. Head commits to associate with the release. */
+export type UpdateOrganizationReleaseRequestHeadCommitsList =
+  Array<CreateOrganizationReleaseRequestHeadCommitsItem>;
+export const UpdateOrganizationReleaseRequestHeadCommitsList = /*@__PURE__*/ S.Array(
+  CreateOrganizationReleaseRequestHeadCommitsItem,
+) as any as S.Schema<UpdateOrganizationReleaseRequestHeadCommitsList>;
+
 export type UpdateOrganizationReleaseRequestRefsItem = CreateOrganizationReleaseRequestRefsItem;
 export const UpdateOrganizationReleaseRequestRefsItem = CreateOrganizationReleaseRequestRefsItem;
 
@@ -34744,6 +38427,10 @@ export interface UpdateOrganizationReleaseRequest {
   dateReleased?: string | null;
   /** An optional list of commit data to be associated. */
   commits?: UpdateOrganizationReleaseRequestCommitsList;
+  /** The status of the release. Can be `open` or `archived`. */
+  status?: string;
+  /** Deprecated, use `commits`. Head commits to associate with the release. */
+  headCommits?: UpdateOrganizationReleaseRequestHeadCommitsList;
   /** An optional way to indicate the start and end commits for each repository included in a release. Head commits must include parameters ``repository`` and ``commit`` (the HEAD SHA). For GitLab repositories, please use the Group name instead of the slug. They can optionally include ``previousCommit`` (the SHA of the HEAD of the previous release), which should be specified if this is the first time you've sent commit data. */
   refs?: UpdateOrganizationReleaseRequestRefsList;
 }
@@ -34755,6 +38442,8 @@ export const UpdateOrganizationReleaseRequest = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.NullOr(S.String)),
     dateReleased: S.optional(S.NullOr(S.String)),
     commits: S.optional(UpdateOrganizationReleaseRequestCommitsList),
+    status: S.optional(S.String),
+    headCommits: S.optional(UpdateOrganizationReleaseRequestHeadCommitsList),
     refs: S.optional(UpdateOrganizationReleaseRequestRefsList),
   }).pipe(
     T.Http({
@@ -34767,17 +38456,13 @@ export const UpdateOrganizationReleaseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateOrganizationReleaseRequest",
 }) as any as S.Schema<UpdateOrganizationReleaseRequest>;
 
-export type UpdateOrganizationReleaseResponseOwnerMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateOrganizationReleaseResponseOwnerMap = { [key: string]: unknown | undefined };
 export const UpdateOrganizationReleaseResponseOwnerMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<UpdateOrganizationReleaseResponseOwnerMap>;
 
-export type UpdateOrganizationReleaseResponseLastCommitMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateOrganizationReleaseResponseLastCommitMap = { [key: string]: unknown | undefined };
 export const UpdateOrganizationReleaseResponseLastCommitMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -34829,9 +38514,7 @@ export const UpdateOrganizationReleaseResponseVersionInfo = /*@__PURE__*/ S.susp
   identifier: "UpdateOrganizationReleaseResponseVersionInfo",
 }) as any as S.Schema<UpdateOrganizationReleaseResponseVersionInfo>;
 
-export type UpdateOrganizationReleaseResponseDataMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateOrganizationReleaseResponseDataMap = { [key: string]: unknown | undefined };
 export const UpdateOrganizationReleaseResponseDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -35167,6 +38850,12 @@ export const UpdateOrganizationReleaseFileResponse = /*@__PURE__*/ S.suspend(() 
   identifier: "UpdateOrganizationReleaseFileResponse",
 }) as any as S.Schema<UpdateOrganizationReleaseFileResponse>;
 
+/** SCIM schema URIs identifying the request format. Must be the PatchOp schema. */
+export type UpdateOrganizationScimV2GroupRequestSchemasList = Array<string>;
+export const UpdateOrganizationScimV2GroupRequestSchemasList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateOrganizationScimV2GroupRequestSchemasList>;
+
 export type UpdateOrganizationScimV2GroupRequestOperationsItemValueMap = {
   [key: string]: unknown | undefined;
 };
@@ -35202,6 +38891,8 @@ export interface UpdateOrganizationScimV2GroupRequest {
   organization_id_or_slug: string;
   /** The ID or slug of the team the resource belongs to. */
   team_id_or_slug: string;
+  /** SCIM schema URIs identifying the request format. Must be the PatchOp schema. */
+  schemas: UpdateOrganizationScimV2GroupRequestSchemasList;
   /** The list of operations to perform. Valid operations are: * Renaming a team: ```json { "Operations": [{ "op": "replace", "value": { "id": 23, "displayName": "newName" } }] } ``` * Adding a member to a team: ```json { "Operations": [{ "op": "add", "path": "members", "value": [ { "value": 23, "display": "testexample@example.com" } ] }] } ``` * Removing a member from a team: ```json { "Operations": [{ "op": "remove", "path": "members[value eq "23"]" }] } ``` * Replacing an entire member set of a team: ```json { "Operations": [{ "op": "replace", "path": "members", "value": [ { "value": 23, "display": "testexample2@sentry.io" }, { "value": 24, "display": "testexample3@sentry.io" } ] }] } ``` */
   Operations: UpdateOrganizationScimV2GroupRequestOperationsList;
 }
@@ -35209,6 +38900,7 @@ export const UpdateOrganizationScimV2GroupRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     organization_id_or_slug: S.String.pipe(T.Label()),
     team_id_or_slug: S.String.pipe(T.Label()),
+    schemas: UpdateOrganizationScimV2GroupRequestSchemasList,
     Operations: UpdateOrganizationScimV2GroupRequestOperationsList,
   }).pipe(
     T.Http({
@@ -35250,6 +38942,12 @@ export const UpdateOrganizationScimV2UserRequestOperationsList = /*@__PURE__*/ S
   UpdateOrganizationScimV2UserRequestOperationsItem,
 ) as any as S.Schema<UpdateOrganizationScimV2UserRequestOperationsList>;
 
+/** SCIM schema URIs identifying the request format. Must be the PatchOp schema. */
+export type UpdateOrganizationScimV2UserRequestSchemasList = Array<string>;
+export const UpdateOrganizationScimV2UserRequestSchemasList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateOrganizationScimV2UserRequestSchemasList>;
+
 export interface UpdateOrganizationScimV2UserRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
@@ -35257,12 +38955,15 @@ export interface UpdateOrganizationScimV2UserRequest {
   member_id: string;
   /** A list of operations to perform. Currently, the only valid operation is setting a member's `active` attribute to false, after which the member will be permanently deleted. ```json { "Operations": [{ "op": "replace", "path": "active", "value": False }] } ``` */
   Operations: UpdateOrganizationScimV2UserRequestOperationsList;
+  /** SCIM schema URIs identifying the request format. Must be the PatchOp schema. */
+  schemas?: UpdateOrganizationScimV2UserRequestSchemasList;
 }
 export const UpdateOrganizationScimV2UserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organization_id_or_slug: S.String.pipe(T.Label()),
     member_id: S.String.pipe(T.Label()),
     Operations: UpdateOrganizationScimV2UserRequestOperationsList,
+    schemas: S.optional(UpdateOrganizationScimV2UserRequestSchemasList),
   }).pipe(
     T.Http({
       method: "PATCH",
@@ -35288,9 +38989,7 @@ export const UpdateOrganizationWorkflowRequestDetectorIdsList = /*@__PURE__*/ S.
 ) as any as S.Schema<UpdateOrganizationWorkflowRequestDetectorIdsList>;
 
 /** Typically the frequency at which the alert will fire, in minutes. - `0`: 0 minutes - `5`: 5 minutes - `10`: 10 minutes - `30`: 30 minutes - `60`: 1 hour - `180`: 3 hours - `720`: 12 hours - `1440`: 24 hours ```json { "frequency":3600 } ``` */
-export type UpdateOrganizationWorkflowRequestConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateOrganizationWorkflowRequestConfigMap = { [key: string]: unknown | undefined };
 export const UpdateOrganizationWorkflowRequestConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -35374,7 +39073,7 @@ export const UpdateOrganizationWorkflowRequestActionFiltersItem = /*@__PURE__*/ 
   identifier: "UpdateOrganizationWorkflowRequestActionFiltersItem",
 }) as any as S.Schema<UpdateOrganizationWorkflowRequestActionFiltersItem>;
 
-/** The filters to run before the action will fire and the action(s) to fire. `logicType` can be one of `any-short`, `all`, or `none`. Below is a basic example. See below for all other options. ```json "actionFilters": [ { "logicType": "any", "conditions": [ { "type": "level", "comparison": { "level": 50, "match": "eq" }, "conditionResult": true } ], "actions": [ { "id": "123", "type": "email", "integrationId": null, "data": {}, "config": { "targetType": "user", "targetDisplay": null, "targetIdentifier": "56789" }, "status": "active" } ] } ] ``` ## Conditions **Issue Age** - `time`: One of `minute`, `hour`, `day`, or `week`. - `value`: A positive integer. - `comparisonType`: One of `older` or `newer`. ```json { "type": "age_comparison", "comparison": { "time": "minute", "value": 10, "comparisonType": "older" }, "conditionResult": true } ``` **Issue Assignment** - `targetType`: Who the issue is assigned to - `Unassigned`: Unassigned - `Member`: Assigned to a user - `Team`: Assigned to a team - `targetIdentifier`: The ID of the user or team from the `targetType`. Enter "" if `targetType` is `Unassigned`. ```json { "type": "assigned_to", "comparison": { "targetType": "Member", "targetIdentifier": 123456 }, "conditionResult": true } ``` **Issue Category** - `value`: The issue category to filter to. - `1`: Error issues - `6`: Feedback issues - `10`: Outage issues - `11`: Metric issues - `12`: DB Query issues - `13`: HTTP Client issues - `14`: Front end issues - `15`: Mobile issues ```json { "type": "issue_category", "comparison": { "value": 1 }, "conditionResult": true } ``` **Issue Frequency** - `value`: A positive integer representing how many times the issue has to happen before the alert will fire. ```json { "type": "issue_occurrences", "comparison": { "value": 10 }, "conditionResult": true } ``` **De-escalation** ```json { "type": "issue_priority_deescalating", "comparison": true, "conditionResult": true } ``` **Issue Priority** - `comparison`: The priority the issue must be for the alert to fire. - `75`: High priority - `50`: Medium priority - `25`: Low priority ```json { "type": "issue_priority_greater_or_equal", "comparison": 75, "conditionResult": true } ``` **Number of Users Affected** - `value`: A positive integer representing the number of users that must be affected before the alert will fire. - `filters`: A list of additional sub-filters to evaluate before the alert will fire. - `interval`: The time period in which to evaluate the value. e.g. Number of users affected by an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "event_unique_user_frequency_count", "comparison": { "value": 100, "filters": [{"key": "foo", "match": "eq", "value": "bar"}], "interval": "1h" }, "conditionResult": true } ``` **Number of Events** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Number of events in an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "event_frequency_count", "comparison": { "value": 100, "interval": "1h" }, "conditionResult": true } ``` **Percent of Events** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Number of events in an issue is `comparisonInterval` percent higher `value` compared to `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days - `comparisonInterval`: The time period to compare against. See `interval` for options. ```json { "type": "event_frequency_percent", "comparison": { "value": 100, "interval": "1h", "comparisonInterval": "1w" }, "conditionResult": true } ``` **Percentage of Sessions Affected Count** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Percentage of sessions affected by an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "percent_sessions_count", "comparison": { "value": 10, "interval": "1h" }, "conditionResult": true } ``` **Percentage of Sessions Affected Percent** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Percentage of sessions affected by an issue is `comparisonInterval` percent higher `value` compared to `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days - `comparisonInterval`: The time period to compare against. See `interval` for options. ```json { "type": "percent_sessions_percent", "comparison": { "value": 10, "interval": "1h" }, "conditionResult": true } ``` **Event Attribute** The event's `attribute` value `match` `value` - `attribute`: The event attribute to match on. Valid values are: `message`, `platform`, `environment`, `type`, `error.handled`, `error.unhandled`, `error.main_thread`, `exception.type`, `exception.value`, `user.id`, `user.email`, `user.username`, `user.ip_address`, `http.method`, `http.url`, `http.status_code`, `sdk.name`, `stacktrace.code`, `stacktrace.module`, `stacktrace.filename`, `stacktrace.abs_path`, `stacktrace.package`, `unreal.crash_type`, `app.in_foreground`. - `match`: The comparison operator - `co`: Contains - `nc`: Does not contain - `eq`: Equals - `ne`: Does not equal - `sw`: Starts with - `ew`: Ends with - `is`: Is set - `ns`: Is not set - `value`: A string. Not required when match is `is` or `ns`. ```json { "type": "event_attribute", "comparison": { "match": "co", "value": "bar", "attribute": "message" }, "conditionResult": true } ``` **Tagged Event** The event's tags `key` match `value` - `key`: The tag value - `match`: The comparison operator - `co`: Contains - `nc`: Does not contain - `eq`: Equals - `ne`: Does not equal - `sw`: Starts with - `ew`: Ends with - `is`: Is set - `ns`: Is not set - `value`: A string. Not required when match is `is` or `ns`. ```json { "type": "tagged_event", "comparison": { "key": "level", "match": "eq", "value": "error" }, "conditionResult": true } ``` **Latest Release** The event is from the latest release ```json { "type": "latest_release", "comparison": true, "conditionResult": true } ``` **Release Age** ```json { "type": "latest_adopted_release", "comparison": { "environment": "production", "ageComparison": "older", "releaseAgeType": "oldest" }, "conditionResult": true } ``` **Event Level** The event's level is `match` `level` - `match`: The comparison operator - `eq`: Equal - `gte`: Greater than or equal - `lte`: Less than or equal - `level`: The event level - `50`: Fatal - `40`: Error - `30`: Warning - `20`: Info - `10`: Debug - `0`: Sample ```json { "type": "level", "comparison": { "level": 50, "match": "eq" }, "conditionResult": true } ``` ## Actions A list of actions that take place when all required conditions and filters for the alert are met. See below for a list of possible actions. **Notify on Preferred Channel** - `data`: A dictionary with the fallthrough type option when choosing to notify Suggested Assignees. Leave empty if notifying a user or team. - `fallthroughType` - `ActiveMembers` - `AllMembers` - `NoOne` - `config`: A dictionary with the configuration options for notification. - `targetType`: The type of recipient to notify - `user`: User - `team`: Team - `issue_owners`: Suggested Assignees - `targetDisplay`: null - `targetIdentifier`: The id of the user or team to notify. Leave null for Suggested Assignees. ```json { "type":"email", "integrationId":null, "data":{}, "config":{ "targetType":"user", "targetDisplay":null, "targetIdentifier":"232692" }, "status":"active" }, { "type":"email", "integrationId":null, "data":{ "fallthroughType":"ActiveMembers" }, "config":{ "targetType":"issue_owners", "targetDisplay":null, "targetIdentifier":""} , "status":"active" } ``` **Notify on Slack** - `targetDisplay`: The name of the channel to notify in. `integrationId`: The stringified ID of the integration. ```json { "type":"slack", "config":{ "targetType":"specific", "targetIdentifier":"", "targetDisplay":"notify-errors" }, "integrationId":"1", "data":{}, "status":"active" } ``` **Notify on PagerDuty** - `targetDisplay`: The name of the service to create the ticket in. - `integrationId`: The stringified ID of the integration. - `data["priority"]`: The severity level for the notification. ```json { "type":"pagerduty", "config":{ "targetType":"specific", "targetIdentifier":"123456", "targetDisplay":"Error Service" }, "integrationId":"2345", "data":{ "priority":"default" }, "status":"active" } ``` **Notify on Discord** - `targetDisplay`: The name of the service to create the ticket in. - `integrationId`: The stringified ID of the integration. - `data["tags"]`: Comma separated list of tags to add to the notification. ```json { "type":"discord", "config":{ "targetType":"specific", "targetIdentifier":"12345", "targetDisplay":"", }, "integrationId":"1234", "data":{ "tags":"transaction,environment" }, "status":"active" } ``` **Notify on MSTeams** - `targetIdentifier` - The integration ID associated with the Microsoft Teams team. - `targetDisplay` - The name of the channel to send the notification to. - `integrationId`: The stringified ID of the integration. ```json { "type":"msteams", "config":{ "targetType":"specific", "targetIdentifier":"19:a4b3kghaghgkjah357y6847@thread.skype", "targetDisplay":"notify-errors" }, "integrationId":"1", "data":{}, "status":"active" } ``` **Notify on OpsGenie** - `targetDisplay`: The name of the Opsgenie team. - `targetIdentifier`: The ID of the Opsgenie team to send the notification to. - `integrationId`: The stringified ID of the integration. - `data["priority"]`: The priority level for the notification. ```json { "type":"opsgenie", "config":{ "targetType":"specific", "targetIdentifier":"123456-Error-Service", "targetDisplay":"Error Service" }, "integrationId":"2345", "data":{ "priority":"P3" }, "status":"active" } ``` **Notify on Azure DevOps** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"vsts", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a Jira ticket** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"jira", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a Jira Server ticket** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"jira_server", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a GitHub issue** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"github", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{ "additional_fields": { "assignee": "", "integration": "2345", "labels": [], "repo": "example-repo", }, "dynamic_form_fields": [ { "choices": [["YourOrg/example-repo", "example-repo"]], "default": "YourOrg/example-repo", "label": "GitHub Repository", "name": "repo", "required": true "type": "select", "updatesForm": true, "url": "/extensions/github/search/example-repo/1234567/", }, ], }, "status":"active" } ``` */
+/** The filters to run before the action will fire and the action(s) to fire. `logicType` can be one of `any-short`, `all`, or `none`. Below is a basic example. See below for all other options. ```json "actionFilters": [ { "logicType": "any", "conditions": [ { "type": "level", "comparison": { "level": 50, "match": "eq" }, "conditionResult": true } ], "actions": [ { "id": "123", "type": "email", "integrationId": null, "data": {}, "config": { "targetType": "user", "targetDisplay": null, "targetIdentifier": "56789" }, "status": "active" } ] } ] ``` ## Conditions **Issue Age** - `time`: One of `minute`, `hour`, `day`, or `week`. - `value`: A positive integer. - `comparisonType`: One of `older` or `newer`. ```json { "type": "age_comparison", "comparison": { "time": "minute", "value": 10, "comparisonType": "older" }, "conditionResult": true } ``` **Issue Assignment** - `targetType`: Who the issue is assigned to - `Unassigned`: Unassigned - `Member`: Assigned to a user - `Team`: Assigned to a team - `targetIdentifier`: The ID of the user or team from the `targetType`. Enter "" if `targetType` is `Unassigned`. ```json { "type": "assigned_to", "comparison": { "targetType": "Member", "targetIdentifier": 123456 }, "conditionResult": true } ``` **Issue Category** - `value`: The issue category to filter to. - `1`: Error issues - `6`: Feedback issues - `10`: Outage issues - `11`: Metric issues - `12`: DB Query issues - `13`: HTTP Client issues - `14`: Front end issues - `15`: Mobile issues - `17`: Preprod issues - `19`: Configuration issues ```json { "type": "issue_category", "comparison": { "value": 1 }, "conditionResult": true } ``` **Issue Frequency** - `value`: A positive integer representing how many times the issue has to happen before the alert will fire. ```json { "type": "issue_occurrences", "comparison": { "value": 10 }, "conditionResult": true } ``` **De-escalation** - `comparison`: The priority threshold the issue must de-escalate below. - `75`: High priority - `50`: Medium priority - `25`: Low priority ```json { "type": "issue_priority_deescalating", "comparison": 75, "conditionResult": true } ``` **Issue Priority** - `comparison`: The priority the issue must be for the alert to fire. - `75`: High priority - `50`: Medium priority - `25`: Low priority ```json { "type": "issue_priority_greater_or_equal", "comparison": 75, "conditionResult": true } ``` **Number of Users Affected** - `value`: A positive integer representing the number of users that must be affected before the alert will fire. - `filters`: A list of additional sub-filters to evaluate before the alert will fire. - `interval`: The time period in which to evaluate the value. e.g. Number of users affected by an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "event_unique_user_frequency_count", "comparison": { "value": 100, "filters": [{"key": "foo", "match": "eq", "value": "bar"}], "interval": "1h" }, "conditionResult": true } ``` **Number of Events** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Number of events in an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "event_frequency_count", "comparison": { "value": 100, "interval": "1h" }, "conditionResult": true } ``` **Percent of Events** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Number of events in an issue is `comparisonInterval` percent higher `value` compared to `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days - `comparisonInterval`: The time period to compare against. See `interval` for options. ```json { "type": "event_frequency_percent", "comparison": { "value": 100, "interval": "1h", "comparisonInterval": "1w" }, "conditionResult": true } ``` **Percentage of Sessions Affected Count** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Percentage of sessions affected by an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "percent_sessions_count", "comparison": { "value": 10, "interval": "1h" }, "conditionResult": true } ``` **Percentage of Sessions Affected Percent** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Percentage of sessions affected by an issue is `comparisonInterval` percent higher `value` compared to `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days - `comparisonInterval`: The time period to compare against. See `interval` for options. ```json { "type": "percent_sessions_percent", "comparison": { "value": 10, "interval": "1h" }, "conditionResult": true } ``` **Event Attribute** The event's `attribute` value `match` `value` - `attribute`: The event attribute to match on. Valid values are: `message`, `platform`, `environment`, `type`, `error.handled`, `error.unhandled`, `error.main_thread`, `exception.type`, `exception.value`, `user.id`, `user.email`, `user.username`, `user.ip_address`, `http.method`, `http.url`, `http.status_code`, `sdk.name`, `stacktrace.code`, `stacktrace.module`, `stacktrace.filename`, `stacktrace.abs_path`, `stacktrace.package`, `unreal.crash_type`, `app.in_foreground`. - `match`: The comparison operator - `co`: Contains - `nc`: Does not contain - `eq`: Equals - `ne`: Does not equal - `sw`: Starts with - `ew`: Ends with - `is`: Is set - `ns`: Is not set - `value`: A string. Not required when match is `is` or `ns`. ```json { "type": "event_attribute", "comparison": { "match": "co", "value": "bar", "attribute": "message" }, "conditionResult": true } ``` **Tagged Event** The event's tags `key` match `value` - `key`: The tag value - `match`: The comparison operator - `co`: Contains - `nc`: Does not contain - `eq`: Equals - `ne`: Does not equal - `sw`: Starts with - `ew`: Ends with - `is`: Is set - `ns`: Is not set - `value`: A string. Not required when match is `is` or `ns`. ```json { "type": "tagged_event", "comparison": { "key": "level", "match": "eq", "value": "error" }, "conditionResult": true } ``` **Latest Release** The event is from the latest release ```json { "type": "latest_release", "comparison": true, "conditionResult": true } ``` **Release Age** ```json { "type": "latest_adopted_release", "comparison": { "environment": "production", "ageComparison": "older", "releaseAgeType": "oldest" }, "conditionResult": true } ``` **Event Level** The event's level is `match` `level` - `match`: The comparison operator - `eq`: Equal - `gte`: Greater than or equal - `lte`: Less than or equal - `level`: The event level - `50`: Fatal - `40`: Error - `30`: Warning - `20`: Info - `10`: Debug - `0`: Sample ```json { "type": "level", "comparison": { "level": 50, "match": "eq" }, "conditionResult": true } ``` ## Actions A list of actions that take place when all required conditions and filters for the alert are met. See below for a list of possible actions. **Notify on Preferred Channel** - `data`: A dictionary with the fallthrough type option when choosing to notify Suggested Assignees. Leave empty if notifying a user or team. - `fallthroughType` - `ActiveMembers` - `AllMembers` - `NoOne` - `config`: A dictionary with the configuration options for notification. - `targetType`: The type of recipient to notify - `user`: User - `team`: Team - `issue_owners`: Suggested Assignees - `targetDisplay`: null - `targetIdentifier`: The id of the user or team to notify. Leave null for Suggested Assignees. ```json { "type":"email", "integrationId":null, "data":{}, "config":{ "targetType":"user", "targetDisplay":null, "targetIdentifier":"232692" }, "status":"active" }, { "type":"email", "integrationId":null, "data":{ "fallthroughType":"ActiveMembers" }, "config":{ "targetType":"issue_owners", "targetDisplay":null, "targetIdentifier":""} , "status":"active" } ``` **Notify on Slack** - `targetDisplay`: The name of the channel to notify in. `integrationId`: The stringified ID of the integration. ```json { "type":"slack", "config":{ "targetType":"specific", "targetIdentifier":"", "targetDisplay":"notify-errors" }, "integrationId":"1", "data":{}, "status":"active" } ``` **Notify on PagerDuty** - `targetDisplay`: The name of the service to create the ticket in. - `integrationId`: The stringified ID of the integration. - `data["priority"]`: The severity level for the notification. ```json { "type":"pagerduty", "config":{ "targetType":"specific", "targetIdentifier":"123456", "targetDisplay":"Error Service" }, "integrationId":"2345", "data":{ "priority":"default" }, "status":"active" } ``` **Notify on Discord** - `targetDisplay`: The name of the service to create the ticket in. - `integrationId`: The stringified ID of the integration. - `data["tags"]`: Comma separated list of tags to add to the notification. ```json { "type":"discord", "config":{ "targetType":"specific", "targetIdentifier":"12345", "targetDisplay":"", }, "integrationId":"1234", "data":{ "tags":"transaction,environment" }, "status":"active" } ``` **Notify on MSTeams** - `targetIdentifier` - The integration ID associated with the Microsoft Teams team. - `targetDisplay` - The name of the channel to send the notification to. - `integrationId`: The stringified ID of the integration. ```json { "type":"msteams", "config":{ "targetType":"specific", "targetIdentifier":"19:a4b3kghaghgkjah357y6847@thread.skype", "targetDisplay":"notify-errors" }, "integrationId":"1", "data":{}, "status":"active" } ``` **Notify on OpsGenie** - `targetDisplay`: The name of the Opsgenie team. - `targetIdentifier`: The ID of the Opsgenie team to send the notification to. - `integrationId`: The stringified ID of the integration. - `data["priority"]`: The priority level for the notification. ```json { "type":"opsgenie", "config":{ "targetType":"specific", "targetIdentifier":"123456-Error-Service", "targetDisplay":"Error Service" }, "integrationId":"2345", "data":{ "priority":"P3" }, "status":"active" } ``` **Notify on Azure DevOps** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"vsts", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a Jira ticket** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"jira", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a Jira Server ticket** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"jira_server", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a GitHub issue** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"github", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{ "additional_fields": { "assignee": "", "integration": "2345", "labels": [], "repo": "example-repo", }, "dynamic_form_fields": [ { "choices": [["YourOrg/example-repo", "example-repo"]], "default": "YourOrg/example-repo", "label": "GitHub Repository", "name": "repo", "required": true "type": "select", "updatesForm": true, "url": "/extensions/github/search/example-repo/1234567/", }, ], }, "status":"active" } ``` */
 export type UpdateOrganizationWorkflowRequestActionFiltersList =
   Array<UpdateOrganizationWorkflowRequestActionFiltersItem>;
 export const UpdateOrganizationWorkflowRequestActionFiltersList = /*@__PURE__*/ S.Array(
@@ -35400,7 +39099,7 @@ export interface UpdateOrganizationWorkflowRequest {
   environment?: string | null;
   /** The conditions on which the alert will trigger. See available options below. ```json "triggers": { "organizationId": "1", "logicType": "any-short", "conditions": [ { "type": "first_seen_event", "comparison": true, "conditionResult": true }, { "type": "issue_resolved_trigger", "comparison": true, "conditionResult": true }, { "type": "reappeared_event", "comparison": true, "conditionResult": true }, { "type": "regression_event", "comparison": true, "conditionResult": true }, { "type": "seer_activity_trigger", "comparison": [ "rca_completed", "solution_completed", "coding_completed", "pr_ready_for_review" ], "conditionResult": true } ], "actions": [] } ``` */
   triggers?: UpdateOrganizationWorkflowRequestTriggers;
-  /** The filters to run before the action will fire and the action(s) to fire. `logicType` can be one of `any-short`, `all`, or `none`. Below is a basic example. See below for all other options. ```json "actionFilters": [ { "logicType": "any", "conditions": [ { "type": "level", "comparison": { "level": 50, "match": "eq" }, "conditionResult": true } ], "actions": [ { "id": "123", "type": "email", "integrationId": null, "data": {}, "config": { "targetType": "user", "targetDisplay": null, "targetIdentifier": "56789" }, "status": "active" } ] } ] ``` ## Conditions **Issue Age** - `time`: One of `minute`, `hour`, `day`, or `week`. - `value`: A positive integer. - `comparisonType`: One of `older` or `newer`. ```json { "type": "age_comparison", "comparison": { "time": "minute", "value": 10, "comparisonType": "older" }, "conditionResult": true } ``` **Issue Assignment** - `targetType`: Who the issue is assigned to - `Unassigned`: Unassigned - `Member`: Assigned to a user - `Team`: Assigned to a team - `targetIdentifier`: The ID of the user or team from the `targetType`. Enter "" if `targetType` is `Unassigned`. ```json { "type": "assigned_to", "comparison": { "targetType": "Member", "targetIdentifier": 123456 }, "conditionResult": true } ``` **Issue Category** - `value`: The issue category to filter to. - `1`: Error issues - `6`: Feedback issues - `10`: Outage issues - `11`: Metric issues - `12`: DB Query issues - `13`: HTTP Client issues - `14`: Front end issues - `15`: Mobile issues ```json { "type": "issue_category", "comparison": { "value": 1 }, "conditionResult": true } ``` **Issue Frequency** - `value`: A positive integer representing how many times the issue has to happen before the alert will fire. ```json { "type": "issue_occurrences", "comparison": { "value": 10 }, "conditionResult": true } ``` **De-escalation** ```json { "type": "issue_priority_deescalating", "comparison": true, "conditionResult": true } ``` **Issue Priority** - `comparison`: The priority the issue must be for the alert to fire. - `75`: High priority - `50`: Medium priority - `25`: Low priority ```json { "type": "issue_priority_greater_or_equal", "comparison": 75, "conditionResult": true } ``` **Number of Users Affected** - `value`: A positive integer representing the number of users that must be affected before the alert will fire. - `filters`: A list of additional sub-filters to evaluate before the alert will fire. - `interval`: The time period in which to evaluate the value. e.g. Number of users affected by an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "event_unique_user_frequency_count", "comparison": { "value": 100, "filters": [{"key": "foo", "match": "eq", "value": "bar"}], "interval": "1h" }, "conditionResult": true } ``` **Number of Events** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Number of events in an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "event_frequency_count", "comparison": { "value": 100, "interval": "1h" }, "conditionResult": true } ``` **Percent of Events** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Number of events in an issue is `comparisonInterval` percent higher `value` compared to `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days - `comparisonInterval`: The time period to compare against. See `interval` for options. ```json { "type": "event_frequency_percent", "comparison": { "value": 100, "interval": "1h", "comparisonInterval": "1w" }, "conditionResult": true } ``` **Percentage of Sessions Affected Count** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Percentage of sessions affected by an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "percent_sessions_count", "comparison": { "value": 10, "interval": "1h" }, "conditionResult": true } ``` **Percentage of Sessions Affected Percent** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Percentage of sessions affected by an issue is `comparisonInterval` percent higher `value` compared to `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days - `comparisonInterval`: The time period to compare against. See `interval` for options. ```json { "type": "percent_sessions_percent", "comparison": { "value": 10, "interval": "1h" }, "conditionResult": true } ``` **Event Attribute** The event's `attribute` value `match` `value` - `attribute`: The event attribute to match on. Valid values are: `message`, `platform`, `environment`, `type`, `error.handled`, `error.unhandled`, `error.main_thread`, `exception.type`, `exception.value`, `user.id`, `user.email`, `user.username`, `user.ip_address`, `http.method`, `http.url`, `http.status_code`, `sdk.name`, `stacktrace.code`, `stacktrace.module`, `stacktrace.filename`, `stacktrace.abs_path`, `stacktrace.package`, `unreal.crash_type`, `app.in_foreground`. - `match`: The comparison operator - `co`: Contains - `nc`: Does not contain - `eq`: Equals - `ne`: Does not equal - `sw`: Starts with - `ew`: Ends with - `is`: Is set - `ns`: Is not set - `value`: A string. Not required when match is `is` or `ns`. ```json { "type": "event_attribute", "comparison": { "match": "co", "value": "bar", "attribute": "message" }, "conditionResult": true } ``` **Tagged Event** The event's tags `key` match `value` - `key`: The tag value - `match`: The comparison operator - `co`: Contains - `nc`: Does not contain - `eq`: Equals - `ne`: Does not equal - `sw`: Starts with - `ew`: Ends with - `is`: Is set - `ns`: Is not set - `value`: A string. Not required when match is `is` or `ns`. ```json { "type": "tagged_event", "comparison": { "key": "level", "match": "eq", "value": "error" }, "conditionResult": true } ``` **Latest Release** The event is from the latest release ```json { "type": "latest_release", "comparison": true, "conditionResult": true } ``` **Release Age** ```json { "type": "latest_adopted_release", "comparison": { "environment": "production", "ageComparison": "older", "releaseAgeType": "oldest" }, "conditionResult": true } ``` **Event Level** The event's level is `match` `level` - `match`: The comparison operator - `eq`: Equal - `gte`: Greater than or equal - `lte`: Less than or equal - `level`: The event level - `50`: Fatal - `40`: Error - `30`: Warning - `20`: Info - `10`: Debug - `0`: Sample ```json { "type": "level", "comparison": { "level": 50, "match": "eq" }, "conditionResult": true } ``` ## Actions A list of actions that take place when all required conditions and filters for the alert are met. See below for a list of possible actions. **Notify on Preferred Channel** - `data`: A dictionary with the fallthrough type option when choosing to notify Suggested Assignees. Leave empty if notifying a user or team. - `fallthroughType` - `ActiveMembers` - `AllMembers` - `NoOne` - `config`: A dictionary with the configuration options for notification. - `targetType`: The type of recipient to notify - `user`: User - `team`: Team - `issue_owners`: Suggested Assignees - `targetDisplay`: null - `targetIdentifier`: The id of the user or team to notify. Leave null for Suggested Assignees. ```json { "type":"email", "integrationId":null, "data":{}, "config":{ "targetType":"user", "targetDisplay":null, "targetIdentifier":"232692" }, "status":"active" }, { "type":"email", "integrationId":null, "data":{ "fallthroughType":"ActiveMembers" }, "config":{ "targetType":"issue_owners", "targetDisplay":null, "targetIdentifier":""} , "status":"active" } ``` **Notify on Slack** - `targetDisplay`: The name of the channel to notify in. `integrationId`: The stringified ID of the integration. ```json { "type":"slack", "config":{ "targetType":"specific", "targetIdentifier":"", "targetDisplay":"notify-errors" }, "integrationId":"1", "data":{}, "status":"active" } ``` **Notify on PagerDuty** - `targetDisplay`: The name of the service to create the ticket in. - `integrationId`: The stringified ID of the integration. - `data["priority"]`: The severity level for the notification. ```json { "type":"pagerduty", "config":{ "targetType":"specific", "targetIdentifier":"123456", "targetDisplay":"Error Service" }, "integrationId":"2345", "data":{ "priority":"default" }, "status":"active" } ``` **Notify on Discord** - `targetDisplay`: The name of the service to create the ticket in. - `integrationId`: The stringified ID of the integration. - `data["tags"]`: Comma separated list of tags to add to the notification. ```json { "type":"discord", "config":{ "targetType":"specific", "targetIdentifier":"12345", "targetDisplay":"", }, "integrationId":"1234", "data":{ "tags":"transaction,environment" }, "status":"active" } ``` **Notify on MSTeams** - `targetIdentifier` - The integration ID associated with the Microsoft Teams team. - `targetDisplay` - The name of the channel to send the notification to. - `integrationId`: The stringified ID of the integration. ```json { "type":"msteams", "config":{ "targetType":"specific", "targetIdentifier":"19:a4b3kghaghgkjah357y6847@thread.skype", "targetDisplay":"notify-errors" }, "integrationId":"1", "data":{}, "status":"active" } ``` **Notify on OpsGenie** - `targetDisplay`: The name of the Opsgenie team. - `targetIdentifier`: The ID of the Opsgenie team to send the notification to. - `integrationId`: The stringified ID of the integration. - `data["priority"]`: The priority level for the notification. ```json { "type":"opsgenie", "config":{ "targetType":"specific", "targetIdentifier":"123456-Error-Service", "targetDisplay":"Error Service" }, "integrationId":"2345", "data":{ "priority":"P3" }, "status":"active" } ``` **Notify on Azure DevOps** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"vsts", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a Jira ticket** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"jira", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a Jira Server ticket** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"jira_server", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a GitHub issue** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"github", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{ "additional_fields": { "assignee": "", "integration": "2345", "labels": [], "repo": "example-repo", }, "dynamic_form_fields": [ { "choices": [["YourOrg/example-repo", "example-repo"]], "default": "YourOrg/example-repo", "label": "GitHub Repository", "name": "repo", "required": true "type": "select", "updatesForm": true, "url": "/extensions/github/search/example-repo/1234567/", }, ], }, "status":"active" } ``` */
+  /** The filters to run before the action will fire and the action(s) to fire. `logicType` can be one of `any-short`, `all`, or `none`. Below is a basic example. See below for all other options. ```json "actionFilters": [ { "logicType": "any", "conditions": [ { "type": "level", "comparison": { "level": 50, "match": "eq" }, "conditionResult": true } ], "actions": [ { "id": "123", "type": "email", "integrationId": null, "data": {}, "config": { "targetType": "user", "targetDisplay": null, "targetIdentifier": "56789" }, "status": "active" } ] } ] ``` ## Conditions **Issue Age** - `time`: One of `minute`, `hour`, `day`, or `week`. - `value`: A positive integer. - `comparisonType`: One of `older` or `newer`. ```json { "type": "age_comparison", "comparison": { "time": "minute", "value": 10, "comparisonType": "older" }, "conditionResult": true } ``` **Issue Assignment** - `targetType`: Who the issue is assigned to - `Unassigned`: Unassigned - `Member`: Assigned to a user - `Team`: Assigned to a team - `targetIdentifier`: The ID of the user or team from the `targetType`. Enter "" if `targetType` is `Unassigned`. ```json { "type": "assigned_to", "comparison": { "targetType": "Member", "targetIdentifier": 123456 }, "conditionResult": true } ``` **Issue Category** - `value`: The issue category to filter to. - `1`: Error issues - `6`: Feedback issues - `10`: Outage issues - `11`: Metric issues - `12`: DB Query issues - `13`: HTTP Client issues - `14`: Front end issues - `15`: Mobile issues - `17`: Preprod issues - `19`: Configuration issues ```json { "type": "issue_category", "comparison": { "value": 1 }, "conditionResult": true } ``` **Issue Frequency** - `value`: A positive integer representing how many times the issue has to happen before the alert will fire. ```json { "type": "issue_occurrences", "comparison": { "value": 10 }, "conditionResult": true } ``` **De-escalation** - `comparison`: The priority threshold the issue must de-escalate below. - `75`: High priority - `50`: Medium priority - `25`: Low priority ```json { "type": "issue_priority_deescalating", "comparison": 75, "conditionResult": true } ``` **Issue Priority** - `comparison`: The priority the issue must be for the alert to fire. - `75`: High priority - `50`: Medium priority - `25`: Low priority ```json { "type": "issue_priority_greater_or_equal", "comparison": 75, "conditionResult": true } ``` **Number of Users Affected** - `value`: A positive integer representing the number of users that must be affected before the alert will fire. - `filters`: A list of additional sub-filters to evaluate before the alert will fire. - `interval`: The time period in which to evaluate the value. e.g. Number of users affected by an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "event_unique_user_frequency_count", "comparison": { "value": 100, "filters": [{"key": "foo", "match": "eq", "value": "bar"}], "interval": "1h" }, "conditionResult": true } ``` **Number of Events** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Number of events in an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "event_frequency_count", "comparison": { "value": 100, "interval": "1h" }, "conditionResult": true } ``` **Percent of Events** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Number of events in an issue is `comparisonInterval` percent higher `value` compared to `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days - `comparisonInterval`: The time period to compare against. See `interval` for options. ```json { "type": "event_frequency_percent", "comparison": { "value": 100, "interval": "1h", "comparisonInterval": "1w" }, "conditionResult": true } ``` **Percentage of Sessions Affected Count** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Percentage of sessions affected by an issue is more than `value` in `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days ```json { "type": "percent_sessions_count", "comparison": { "value": 10, "interval": "1h" }, "conditionResult": true } ``` **Percentage of Sessions Affected Percent** - `value`: A positive integer representing the number of events in an issue that must come in before the alert will fire - `interval`: The time period in which to evaluate the value. e.g. Percentage of sessions affected by an issue is `comparisonInterval` percent higher `value` compared to `interval`. - `1min`: 1 minute - `5min`: 5 minutes - `15min`: 15 minutes - `1hr`: 1 hour - `1d`: 1 day - `1w`: 1 week - `30d`: 30 days - `comparisonInterval`: The time period to compare against. See `interval` for options. ```json { "type": "percent_sessions_percent", "comparison": { "value": 10, "interval": "1h" }, "conditionResult": true } ``` **Event Attribute** The event's `attribute` value `match` `value` - `attribute`: The event attribute to match on. Valid values are: `message`, `platform`, `environment`, `type`, `error.handled`, `error.unhandled`, `error.main_thread`, `exception.type`, `exception.value`, `user.id`, `user.email`, `user.username`, `user.ip_address`, `http.method`, `http.url`, `http.status_code`, `sdk.name`, `stacktrace.code`, `stacktrace.module`, `stacktrace.filename`, `stacktrace.abs_path`, `stacktrace.package`, `unreal.crash_type`, `app.in_foreground`. - `match`: The comparison operator - `co`: Contains - `nc`: Does not contain - `eq`: Equals - `ne`: Does not equal - `sw`: Starts with - `ew`: Ends with - `is`: Is set - `ns`: Is not set - `value`: A string. Not required when match is `is` or `ns`. ```json { "type": "event_attribute", "comparison": { "match": "co", "value": "bar", "attribute": "message" }, "conditionResult": true } ``` **Tagged Event** The event's tags `key` match `value` - `key`: The tag value - `match`: The comparison operator - `co`: Contains - `nc`: Does not contain - `eq`: Equals - `ne`: Does not equal - `sw`: Starts with - `ew`: Ends with - `is`: Is set - `ns`: Is not set - `value`: A string. Not required when match is `is` or `ns`. ```json { "type": "tagged_event", "comparison": { "key": "level", "match": "eq", "value": "error" }, "conditionResult": true } ``` **Latest Release** The event is from the latest release ```json { "type": "latest_release", "comparison": true, "conditionResult": true } ``` **Release Age** ```json { "type": "latest_adopted_release", "comparison": { "environment": "production", "ageComparison": "older", "releaseAgeType": "oldest" }, "conditionResult": true } ``` **Event Level** The event's level is `match` `level` - `match`: The comparison operator - `eq`: Equal - `gte`: Greater than or equal - `lte`: Less than or equal - `level`: The event level - `50`: Fatal - `40`: Error - `30`: Warning - `20`: Info - `10`: Debug - `0`: Sample ```json { "type": "level", "comparison": { "level": 50, "match": "eq" }, "conditionResult": true } ``` ## Actions A list of actions that take place when all required conditions and filters for the alert are met. See below for a list of possible actions. **Notify on Preferred Channel** - `data`: A dictionary with the fallthrough type option when choosing to notify Suggested Assignees. Leave empty if notifying a user or team. - `fallthroughType` - `ActiveMembers` - `AllMembers` - `NoOne` - `config`: A dictionary with the configuration options for notification. - `targetType`: The type of recipient to notify - `user`: User - `team`: Team - `issue_owners`: Suggested Assignees - `targetDisplay`: null - `targetIdentifier`: The id of the user or team to notify. Leave null for Suggested Assignees. ```json { "type":"email", "integrationId":null, "data":{}, "config":{ "targetType":"user", "targetDisplay":null, "targetIdentifier":"232692" }, "status":"active" }, { "type":"email", "integrationId":null, "data":{ "fallthroughType":"ActiveMembers" }, "config":{ "targetType":"issue_owners", "targetDisplay":null, "targetIdentifier":""} , "status":"active" } ``` **Notify on Slack** - `targetDisplay`: The name of the channel to notify in. `integrationId`: The stringified ID of the integration. ```json { "type":"slack", "config":{ "targetType":"specific", "targetIdentifier":"", "targetDisplay":"notify-errors" }, "integrationId":"1", "data":{}, "status":"active" } ``` **Notify on PagerDuty** - `targetDisplay`: The name of the service to create the ticket in. - `integrationId`: The stringified ID of the integration. - `data["priority"]`: The severity level for the notification. ```json { "type":"pagerduty", "config":{ "targetType":"specific", "targetIdentifier":"123456", "targetDisplay":"Error Service" }, "integrationId":"2345", "data":{ "priority":"default" }, "status":"active" } ``` **Notify on Discord** - `targetDisplay`: The name of the service to create the ticket in. - `integrationId`: The stringified ID of the integration. - `data["tags"]`: Comma separated list of tags to add to the notification. ```json { "type":"discord", "config":{ "targetType":"specific", "targetIdentifier":"12345", "targetDisplay":"", }, "integrationId":"1234", "data":{ "tags":"transaction,environment" }, "status":"active" } ``` **Notify on MSTeams** - `targetIdentifier` - The integration ID associated with the Microsoft Teams team. - `targetDisplay` - The name of the channel to send the notification to. - `integrationId`: The stringified ID of the integration. ```json { "type":"msteams", "config":{ "targetType":"specific", "targetIdentifier":"19:a4b3kghaghgkjah357y6847@thread.skype", "targetDisplay":"notify-errors" }, "integrationId":"1", "data":{}, "status":"active" } ``` **Notify on OpsGenie** - `targetDisplay`: The name of the Opsgenie team. - `targetIdentifier`: The ID of the Opsgenie team to send the notification to. - `integrationId`: The stringified ID of the integration. - `data["priority"]`: The priority level for the notification. ```json { "type":"opsgenie", "config":{ "targetType":"specific", "targetIdentifier":"123456-Error-Service", "targetDisplay":"Error Service" }, "integrationId":"2345", "data":{ "priority":"P3" }, "status":"active" } ``` **Notify on Azure DevOps** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"vsts", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a Jira ticket** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"jira", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a Jira Server ticket** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"jira_server", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{...}, "status":"active" } ``` **Create a GitHub issue** - `integrationId`: The stringified ID of the integration. - `data` - A list of any fields you want to include in the ticket as objects. ```json { "type":"github", "config":{ "targetType":"specific", "targetIdentifier":", "targetDisplay":"" }, "integrationId":"2345", "data":{ "additional_fields": { "assignee": "", "integration": "2345", "labels": [], "repo": "example-repo", }, "dynamic_form_fields": [ { "choices": [["YourOrg/example-repo", "example-repo"]], "default": "YourOrg/example-repo", "label": "GitHub Repository", "name": "repo", "required": true "type": "select", "updatesForm": true, "url": "/extensions/github/search/example-repo/1234567/", }, ], }, "status":"active" } ``` */
   action_filters?: UpdateOrganizationWorkflowRequestActionFiltersList;
   /** The ID user or team who owns the monitor or alert prefaced by the string 'user' or 'team'. **User** ```json "user:123456" ``` **Team** ```json "team:456789" ``` */
   owner?: string | null;
@@ -35675,9 +39374,7 @@ export const UpdateOrganizationWorkflowResponseActionFiltersList = /*@__PURE__*/
   UpdateOrganizationWorkflowResponseActionFiltersItem,
 ) as any as S.Schema<UpdateOrganizationWorkflowResponseActionFiltersList>;
 
-export type UpdateOrganizationWorkflowResponseConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateOrganizationWorkflowResponseConfigMap = { [key: string]: unknown | undefined };
 export const UpdateOrganizationWorkflowResponseConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -36092,10 +39789,36 @@ export const UpdateOrganizationWorkflowsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateOrganizationWorkflowsResponse",
 }) as any as S.Schema<UpdateOrganizationWorkflowsResponse>;
 
-/** A JSON mapping of context types to lists of strings for their keys. E.g. `{'user': ['id', 'email']}` */
-export type UpdateProjectRequestHighlightContextMap = {
+/** How aggressively Seer runs Autofix on new issues. Can be updated with **`project:read`** permission. * `off` * `super_low` * `low` * `medium` * `high` * `always` */
+export type UpdateProjectRequestAutofixAutomationTuning =
+  | "off"
+  | "super_low"
+  | "low"
+  | "medium"
+  | "high"
+  | "always";
+export const UpdateProjectRequestAutofixAutomationTuning = S.String;
+
+/** Rules controlling when preprod size status checks fail. Can be updated with **`project:read`** permission. */
+export type UpdateProjectRequestPreprodSizeStatusChecksRulesMap = {
   [key: string]: unknown | undefined;
 };
+export const UpdateProjectRequestPreprodSizeStatusChecksRulesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<UpdateProjectRequestPreprodSizeStatusChecksRulesMap>;
+
+/** Rules controlling which preprod size changes are posted as PR comments. Can be updated with **`project:read`** permission. */
+export type UpdateProjectRequestPreprodSizePrCommentsRulesMap = {
+  [key: string]: unknown | undefined;
+};
+export const UpdateProjectRequestPreprodSizePrCommentsRulesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<UpdateProjectRequestPreprodSizePrCommentsRulesMap>;
+
+/** A JSON mapping of context types to lists of strings for their keys. E.g. `{'user': ['id', 'email']}` */
+export type UpdateProjectRequestHighlightContextMap = { [key: string]: unknown | undefined };
 export const UpdateProjectRequestHighlightContextMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -36107,13 +39830,124 @@ export const UpdateProjectRequestHighlightTagsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<UpdateProjectRequestHighlightTagsList>;
 
+/** Additional field names to scrub from events, beyond the defaults. */
+export type UpdateProjectRequestSensitiveFieldsList = Array<string>;
+export const UpdateProjectRequestSensitiveFieldsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateProjectRequestSensitiveFieldsList>;
+
+/** Field names to exempt from scrubbing, including the built-in defaults. */
+export type UpdateProjectRequestSafeFieldsList = Array<string>;
+export const UpdateProjectRequestSafeFieldsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateProjectRequestSafeFieldsList>;
+
+/** Identifiers of Sentry-hosted symbol sources to use when symbolicating events. */
+export type UpdateProjectRequestBuiltinSymbolSourcesList = Array<string>;
+export const UpdateProjectRequestBuiltinSymbolSourcesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateProjectRequestBuiltinSymbolSourcesList>;
+
+/** Origins permitted to send events to this project. Use `*` to allow any. */
+export type UpdateProjectRequestAllowedDomainsList = Array<string>;
+export const UpdateProjectRequestAllowedDomainsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateProjectRequestAllowedDomainsList>;
+
+/** * `boostEnvironments` * `boostKeyTransactions` * `boostLatestRelease` * `boostLowVolumeTransactions` * `boostReplayId` * `ignoreHealthChecks` * `minimumSampleRate` * `recalibrationRule` */
+export type UpdateProjectRequestDynamicSamplingBiasesItemId =
+  | "boostEnvironments"
+  | "boostKeyTransactions"
+  | "boostLatestRelease"
+  | "boostLowVolumeTransactions"
+  | "boostReplayId"
+  | "ignoreHealthChecks"
+  | "minimumSampleRate"
+  | "recalibrationRule";
+export const UpdateProjectRequestDynamicSamplingBiasesItemId = S.String;
+
+export interface UpdateProjectRequestDynamicSamplingBiasesItem {
+  /** * `boostEnvironments` * `boostKeyTransactions` * `boostLatestRelease` * `boostLowVolumeTransactions` * `boostReplayId` * `ignoreHealthChecks` * `minimumSampleRate` * `recalibrationRule` */
+  id: UpdateProjectRequestDynamicSamplingBiasesItemId | (string & {});
+  active?: boolean;
+}
+export const UpdateProjectRequestDynamicSamplingBiasesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: UpdateProjectRequestDynamicSamplingBiasesItemId,
+    active: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "UpdateProjectRequestDynamicSamplingBiasesItem",
+}) as any as S.Schema<UpdateProjectRequestDynamicSamplingBiasesItem>;
+
+/** Per-bias toggles adjusting which transactions dynamic sampling favors retaining. */
+export type UpdateProjectRequestDynamicSamplingBiasesList =
+  Array<UpdateProjectRequestDynamicSamplingBiasesItem>;
+export const UpdateProjectRequestDynamicSamplingBiasesList = /*@__PURE__*/ S.Array(
+  UpdateProjectRequestDynamicSamplingBiasesItem,
+) as any as S.Schema<UpdateProjectRequestDynamicSamplingBiasesList>;
+
+/** The role required to download debug information files, ProGuard mappings and source maps. If not set, inherits from organization setting. * `member` - Member * `admin` - Admin * `manager` - Manager * `owner` - Owner */
+export type UpdateProjectRequestDebugFilesRole = "member" | "admin" | "manager" | "owner";
+export const UpdateProjectRequestDebugFilesRole = S.String;
+
 export interface UpdateProjectRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
   /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
   project_id_or_slug: string;
+  /** Minimum time in seconds to wait before sending an issue digest email. */
+  digestsMinDelay: number;
+  /** Maximum time in seconds to wait before sending an issue digest email. */
+  digestsMaxDelay: number;
+  /** Token sent with security reports (CSP, Expect-CT, HPKP) so Sentry can verify their origin. */
+  securityToken: string;
+  /** Name of the header carrying the security token on inbound security reports. */
+  securityTokenHeader: string;
   /** Enables starring the project within the projects tab. Can be updated with **`project:read`** permission. */
   isBookmarked?: boolean;
+  /** How aggressively Seer runs Autofix on new issues. Can be updated with **`project:read`** permission. * `off` * `super_low` * `low` * `medium` * `high` * `always` */
+  autofixAutomationTuning?: UpdateProjectRequestAutofixAutomationTuning | (string & {});
+  /** Let Seer scan new issues automatically. Can be updated with **`project:read`** permission. */
+  seerScannerAutomation?: boolean;
+  /** Enable preprod size status checks. Can be updated with **`project:read`** permission. */
+  preprodSizeStatusChecksEnabled?: boolean;
+  /** Rules controlling when preprod size status checks fail. Can be updated with **`project:read`** permission. */
+  preprodSizeStatusChecksRules?: UpdateProjectRequestPreprodSizeStatusChecksRulesMap;
+  /** Enable preprod size PR comments. Can be updated with **`project:read`** permission. */
+  preprodSizePrCommentsEnabled?: boolean;
+  /** Rules controlling which preprod size changes are posted as PR comments. Can be updated with **`project:read`** permission. */
+  preprodSizePrCommentsRules?: UpdateProjectRequestPreprodSizePrCommentsRulesMap;
+  /** Enable preprod snapshot status checks. */
+  preprodSnapshotStatusChecksEnabled?: boolean;
+  /** Fail the preprod snapshot status check when snapshots are added. */
+  preprodSnapshotStatusChecksFailOnAdded?: boolean;
+  /** Fail the preprod snapshot status check when snapshots are removed. */
+  preprodSnapshotStatusChecksFailOnRemoved?: boolean;
+  /** Fail the preprod snapshot status check when snapshots change. */
+  preprodSnapshotStatusChecksFailOnChanged?: boolean;
+  /** Fail the preprod snapshot status check when snapshots are renamed. */
+  preprodSnapshotStatusChecksFailOnRenamed?: boolean;
+  /** Enable preprod size analysis. Can be updated with **`project:read`** permission. */
+  preprodSizeEnabledByCustomer?: boolean | null;
+  /** Enable preprod build distribution. Can be updated with **`project:read`** permission. */
+  preprodDistributionEnabledByCustomer?: boolean | null;
+  /** Post preprod distribution updates as PR comments. Can be updated with **`project:read`** permission. */
+  preprodDistributionPrCommentsEnabledByCustomer?: boolean | null;
+  /** Post preprod snapshot changes as PR comments. */
+  preprodSnapshotPrCommentsEnabled?: boolean | null;
+  /** Include added snapshots in preprod snapshot PR comments. */
+  preprodSnapshotPrCommentsPostOnAdded?: boolean | null;
+  /** Include removed snapshots in preprod snapshot PR comments. */
+  preprodSnapshotPrCommentsPostOnRemoved?: boolean | null;
+  /** Include changed snapshots in preprod snapshot PR comments. */
+  preprodSnapshotPrCommentsPostOnChanged?: boolean | null;
+  /** Include renamed snapshots in preprod snapshot PR comments. */
+  preprodSnapshotPrCommentsPostOnRenamed?: boolean | null;
+  /** Query selecting which preprod builds are size-analyzed. Can be updated with **`project:read`** permission. */
+  preprodSizeEnabledQuery?: string | null;
+  /** Query selecting which preprod builds are distributed. Can be updated with **`project:read`** permission. */
+  preprodDistributionEnabledQuery?: string | null;
   /** The name for the project */
   name?: string;
   /** Uniquely identifies a project and is used for the interface. */
@@ -36130,16 +39964,87 @@ export interface UpdateProjectRequest {
   highlightContext?: UpdateProjectRequestHighlightContextMap;
   /** A list of strings with tag keys to highlight on this project's issues. E.g. `['release', 'environment']` */
   highlightTags?: UpdateProjectRequestHighlightTagsList;
+  /** Verify SSL certificates when delivering outbound webhooks and service hooks. */
+  verifySSL?: boolean;
+  /** Environment selected by default when viewing this project. */
+  defaultEnvironment?: string | null;
+  /** Remove known sensitive values from events before storing them. */
+  dataScrubber?: boolean;
+  /** Also scrub Sentry's built-in list of sensitive field names. */
+  dataScrubberDefaults?: boolean;
+  /** Additional field names to scrub from events, beyond the defaults. */
+  sensitiveFields?: UpdateProjectRequestSensitiveFieldsList;
+  /** Field names to exempt from scrubbing, including the built-in defaults. */
+  safeFields?: UpdateProjectRequestSafeFieldsList;
+  /** Number of native crash report files to store per issue. Use `-1` for unlimited or `0` to store none. */
+  storeCrashReports?: number | null;
+  /** Advanced data scrubbing rules, as a JSON string, applied before events are stored. */
+  relayPiiConfig?: string | null;
+  /** Identifiers of Sentry-hosted symbol sources to use when symbolicating events. */
+  builtinSymbolSources?: UpdateProjectRequestBuiltinSymbolSourcesList;
+  /** Custom symbol sources, as a JSON string, to use when symbolicating events. */
+  symbolSources?: string | null;
+  /** Discard client IP addresses rather than storing them on events. */
+  scrubIPAddresses?: boolean;
+  /** Identifier of the grouping algorithm used to assign events to issues. */
+  groupingConfig?: string | null;
+  /** Grouping enhancement rules, as a newline-delimited config string, adjusting which stack frames contribute to an issue. */
+  groupingEnhancements?: string | null;
+  /** Fingerprinting rules, as a newline-delimited config string, controlling how events are grouped into issues. */
+  fingerprintingRules?: string | null;
+  /** Grouping algorithm run alongside the primary one during a grouping migration. */
+  secondaryGroupingConfig?: string | null;
+  /** Unix timestamp after which the secondary grouping algorithm stops running. */
+  secondaryGroupingExpiry?: number | null;
+  /** Allow Sentry to fetch source files and source maps from your servers. */
+  scrapeJavaScript?: boolean;
   /** Automatically create releases from ingested events. When disabled, releases must be created manually (e.g. via the Sentry CLI). */
   enableAutoReleaseCreation?: boolean;
+  /** Origins permitted to send events to this project. Use `*` to allow any. */
+  allowedDomains?: UpdateProjectRequestAllowedDomainsList;
+  /** ID of a project whose settings, teams, and keys should be copied into this one. */
+  copy_from_project?: number;
+  /** Target proportion of transactions to retain, from `0` to `1`. Requires manual dynamic sampling mode. */
+  targetSampleRate?: number;
+  /** Per-bias toggles adjusting which transactions dynamic sampling favors retaining. */
+  dynamicSamplingBiases?: UpdateProjectRequestDynamicSamplingBiasesList;
+  /** Fetch screenshots attached to console crash reports. Requires the Tempest feature. */
+  tempestFetchScreenshots?: boolean;
   /** Enable on-demand source context fetching from SCM integrations for stack traces. */
   scmSourceContextEnabled?: boolean;
+  /** The role required to download debug information files, ProGuard mappings and source maps. If not set, inherits from organization setting. * `member` - Member * `admin` - Admin * `manager` - Manager * `owner` - Owner */
+  debugFilesRole?: UpdateProjectRequestDebugFilesRole | (string & {}) | null;
 }
 export const UpdateProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organization_id_or_slug: S.String.pipe(T.Label()),
     project_id_or_slug: S.String.pipe(T.Label()),
+    digestsMinDelay: S.Number,
+    digestsMaxDelay: S.Number,
+    securityToken: S.String,
+    securityTokenHeader: S.String,
     isBookmarked: S.optional(S.Boolean),
+    autofixAutomationTuning: S.optional(UpdateProjectRequestAutofixAutomationTuning),
+    seerScannerAutomation: S.optional(S.Boolean),
+    preprodSizeStatusChecksEnabled: S.optional(S.Boolean),
+    preprodSizeStatusChecksRules: S.optional(UpdateProjectRequestPreprodSizeStatusChecksRulesMap),
+    preprodSizePrCommentsEnabled: S.optional(S.Boolean),
+    preprodSizePrCommentsRules: S.optional(UpdateProjectRequestPreprodSizePrCommentsRulesMap),
+    preprodSnapshotStatusChecksEnabled: S.optional(S.Boolean),
+    preprodSnapshotStatusChecksFailOnAdded: S.optional(S.Boolean),
+    preprodSnapshotStatusChecksFailOnRemoved: S.optional(S.Boolean),
+    preprodSnapshotStatusChecksFailOnChanged: S.optional(S.Boolean),
+    preprodSnapshotStatusChecksFailOnRenamed: S.optional(S.Boolean),
+    preprodSizeEnabledByCustomer: S.optional(S.NullOr(S.Boolean)),
+    preprodDistributionEnabledByCustomer: S.optional(S.NullOr(S.Boolean)),
+    preprodDistributionPrCommentsEnabledByCustomer: S.optional(S.NullOr(S.Boolean)),
+    preprodSnapshotPrCommentsEnabled: S.optional(S.NullOr(S.Boolean)),
+    preprodSnapshotPrCommentsPostOnAdded: S.optional(S.NullOr(S.Boolean)),
+    preprodSnapshotPrCommentsPostOnRemoved: S.optional(S.NullOr(S.Boolean)),
+    preprodSnapshotPrCommentsPostOnChanged: S.optional(S.NullOr(S.Boolean)),
+    preprodSnapshotPrCommentsPostOnRenamed: S.optional(S.NullOr(S.Boolean)),
+    preprodSizeEnabledQuery: S.optional(S.NullOr(S.String)),
+    preprodDistributionEnabledQuery: S.optional(S.NullOr(S.String)),
     name: S.optional(S.String),
     slug: S.optional(S.String),
     platform: S.optional(S.NullOr(S.String)),
@@ -36148,8 +40053,31 @@ export const UpdateProjectRequest = /*@__PURE__*/ S.suspend(() =>
     resolveAge: S.optional(S.NullOr(S.Number)),
     highlightContext: S.optional(UpdateProjectRequestHighlightContextMap),
     highlightTags: S.optional(UpdateProjectRequestHighlightTagsList),
+    verifySSL: S.optional(S.Boolean),
+    defaultEnvironment: S.optional(S.NullOr(S.String)),
+    dataScrubber: S.optional(S.Boolean),
+    dataScrubberDefaults: S.optional(S.Boolean),
+    sensitiveFields: S.optional(UpdateProjectRequestSensitiveFieldsList),
+    safeFields: S.optional(UpdateProjectRequestSafeFieldsList),
+    storeCrashReports: S.optional(S.NullOr(S.Number)),
+    relayPiiConfig: S.optional(S.NullOr(S.String)),
+    builtinSymbolSources: S.optional(UpdateProjectRequestBuiltinSymbolSourcesList),
+    symbolSources: S.optional(S.NullOr(S.String)),
+    scrubIPAddresses: S.optional(S.Boolean),
+    groupingConfig: S.optional(S.NullOr(S.String)),
+    groupingEnhancements: S.optional(S.NullOr(S.String)),
+    fingerprintingRules: S.optional(S.NullOr(S.String)),
+    secondaryGroupingConfig: S.optional(S.NullOr(S.String)),
+    secondaryGroupingExpiry: S.optional(S.NullOr(S.Number)),
+    scrapeJavaScript: S.optional(S.Boolean),
     enableAutoReleaseCreation: S.optional(S.Boolean),
+    allowedDomains: S.optional(UpdateProjectRequestAllowedDomainsList),
+    copy_from_project: S.optional(S.Number),
+    targetSampleRate: S.optional(S.Number),
+    dynamicSamplingBiases: S.optional(UpdateProjectRequestDynamicSamplingBiasesList),
+    tempestFetchScreenshots: S.optional(S.Boolean),
     scmSourceContextEnabled: S.optional(S.Boolean),
+    debugFilesRole: S.optional(S.NullOr(UpdateProjectRequestDebugFilesRole)),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -36157,9 +40085,7 @@ export const UpdateProjectRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateProjectRequest",
-}) as any as S.Schema<UpdateProjectRequest>;
+).annotate({ identifier: "UpdateProjectRequest" }) as any as S.Schema<UpdateProjectRequest>;
 
 export type UpdateProjectResponseFeaturesList = Array<string>;
 export const UpdateProjectResponseFeaturesList = /*@__PURE__*/ S.Array(
@@ -36188,9 +40114,7 @@ export const UpdateProjectResponseTeamsList = /*@__PURE__*/ S.Array(
 export type UpdateProjectResponseLatestRelease = CreateOrganizationProjectResponseLatestRelease;
 export const UpdateProjectResponseLatestRelease = CreateOrganizationProjectResponseLatestRelease;
 
-export type UpdateProjectResponseOptionsMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateProjectResponseOptionsMap = { [key: string]: unknown | undefined };
 export const UpdateProjectResponseOptionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -36216,9 +40140,7 @@ export const UpdateProjectResponseHighlightTagsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<UpdateProjectResponseHighlightTagsList>;
 
-export type UpdateProjectResponseHighlightContextMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateProjectResponseHighlightContextMap = { [key: string]: unknown | undefined };
 export const UpdateProjectResponseHighlightContextMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -36551,9 +40473,238 @@ export const UpdateProjectResponse = /*@__PURE__*/ S.suspend(() =>
     scmSourceContextEnabled: S.Boolean,
     debugFilesRole: S.NullOr(S.String),
   }),
+).annotate({ identifier: "UpdateProjectResponse" }) as any as S.Schema<UpdateProjectResponse>;
+
+export interface UpdateProjectCodeOwnersRequest {
+  /** The ID or slug of the organization the resource belongs to. */
+  organization_id_or_slug: string;
+  /** The ID or slug of the project the resource belongs to. Project slugs are unique within each organization. */
+  project_id_or_slug: string;
+  /** The ID of the CODEOWNERS configuration. */
+  codeowners_id: string;
+  /** The raw contents of the CODEOWNERS file. */
+  raw?: string;
+  /** The ID of the code mapping used to translate repository paths to stack trace paths. */
+  codeMappingId?: string;
+}
+export const UpdateProjectCodeOwnersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id_or_slug: S.String.pipe(T.Label()),
+    project_id_or_slug: S.String.pipe(T.Label()),
+    codeowners_id: S.String.pipe(T.Label()),
+    raw: S.optional(S.String),
+    codeMappingId: S.optional(S.String),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/api/0/projects/{organization_id_or_slug}/{project_id_or_slug}/codeowners/{codeowners_id}/",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "UpdateProjectResponse",
-}) as any as S.Schema<UpdateProjectResponse>;
+  identifier: "UpdateProjectCodeOwnersRequest",
+}) as any as S.Schema<UpdateProjectCodeOwnersRequest>;
+
+export type UpdateProjectCodeOwnersResponseCodeMappingProviderFeaturesList = Array<string>;
+export const UpdateProjectCodeOwnersResponseCodeMappingProviderFeaturesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateProjectCodeOwnersResponseCodeMappingProviderFeaturesList>;
+
+export type UpdateProjectCodeOwnersResponseCodeMappingProviderAspectsMap = {
+  [key: string]: unknown | undefined;
+};
+export const UpdateProjectCodeOwnersResponseCodeMappingProviderAspectsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<UpdateProjectCodeOwnersResponseCodeMappingProviderAspectsMap>;
+
+export interface UpdateProjectCodeOwnersResponseCodeMappingProvider {
+  key: string;
+  slug: string;
+  name: string;
+  canAdd: boolean;
+  canDisable: boolean;
+  features: UpdateProjectCodeOwnersResponseCodeMappingProviderFeaturesList;
+  aspects: UpdateProjectCodeOwnersResponseCodeMappingProviderAspectsMap;
+}
+export const UpdateProjectCodeOwnersResponseCodeMappingProvider = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    slug: S.String,
+    name: S.String,
+    canAdd: S.Boolean,
+    canDisable: S.Boolean,
+    features: UpdateProjectCodeOwnersResponseCodeMappingProviderFeaturesList,
+    aspects: UpdateProjectCodeOwnersResponseCodeMappingProviderAspectsMap,
+  }),
+).annotate({
+  identifier: "UpdateProjectCodeOwnersResponseCodeMappingProvider",
+}) as any as S.Schema<UpdateProjectCodeOwnersResponseCodeMappingProvider>;
+
+export interface UpdateProjectCodeOwnersResponseCodeMapping {
+  id: string;
+  projectId: string;
+  projectSlug: string;
+  repoId: string;
+  repoName: string;
+  integrationId: string | null;
+  provider: UpdateProjectCodeOwnersResponseCodeMappingProvider | null;
+  stackRoot: string;
+  sourceRoot: string;
+  defaultBranch: string | null;
+  automaticallyGenerated: boolean;
+  hasCodeOwner: boolean;
+}
+export const UpdateProjectCodeOwnersResponseCodeMapping = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    projectId: S.String,
+    projectSlug: S.String,
+    repoId: S.String,
+    repoName: S.String,
+    integrationId: S.NullOr(S.String),
+    provider: S.NullOr(UpdateProjectCodeOwnersResponseCodeMappingProvider),
+    stackRoot: S.String,
+    sourceRoot: S.String,
+    defaultBranch: S.NullOr(S.String),
+    automaticallyGenerated: S.Boolean,
+    hasCodeOwner: S.Boolean,
+  }),
+).annotate({
+  identifier: "UpdateProjectCodeOwnersResponseCodeMapping",
+}) as any as S.Schema<UpdateProjectCodeOwnersResponseCodeMapping>;
+
+export type UpdateProjectCodeOwnersResponseErrorsMissingUserEmailsList = Array<string>;
+export const UpdateProjectCodeOwnersResponseErrorsMissingUserEmailsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateProjectCodeOwnersResponseErrorsMissingUserEmailsList>;
+
+export type UpdateProjectCodeOwnersResponseErrorsMissingExternalUsersList = Array<string>;
+export const UpdateProjectCodeOwnersResponseErrorsMissingExternalUsersList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateProjectCodeOwnersResponseErrorsMissingExternalUsersList>;
+
+export type UpdateProjectCodeOwnersResponseErrorsMissingExternalTeamsList = Array<string>;
+export const UpdateProjectCodeOwnersResponseErrorsMissingExternalTeamsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateProjectCodeOwnersResponseErrorsMissingExternalTeamsList>;
+
+export type UpdateProjectCodeOwnersResponseErrorsTeamsWithoutAccessList = Array<string>;
+export const UpdateProjectCodeOwnersResponseErrorsTeamsWithoutAccessList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateProjectCodeOwnersResponseErrorsTeamsWithoutAccessList>;
+
+export type UpdateProjectCodeOwnersResponseErrorsUsersWithoutAccessList = Array<string>;
+export const UpdateProjectCodeOwnersResponseErrorsUsersWithoutAccessList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateProjectCodeOwnersResponseErrorsUsersWithoutAccessList>;
+
+export interface UpdateProjectCodeOwnersResponseErrors {
+  missing_user_emails: UpdateProjectCodeOwnersResponseErrorsMissingUserEmailsList;
+  missing_external_users: UpdateProjectCodeOwnersResponseErrorsMissingExternalUsersList;
+  missing_external_teams: UpdateProjectCodeOwnersResponseErrorsMissingExternalTeamsList;
+  teams_without_access: UpdateProjectCodeOwnersResponseErrorsTeamsWithoutAccessList;
+  users_without_access: UpdateProjectCodeOwnersResponseErrorsUsersWithoutAccessList;
+}
+export const UpdateProjectCodeOwnersResponseErrors = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    missing_user_emails: UpdateProjectCodeOwnersResponseErrorsMissingUserEmailsList,
+    missing_external_users: UpdateProjectCodeOwnersResponseErrorsMissingExternalUsersList,
+    missing_external_teams: UpdateProjectCodeOwnersResponseErrorsMissingExternalTeamsList,
+    teams_without_access: UpdateProjectCodeOwnersResponseErrorsTeamsWithoutAccessList,
+    users_without_access: UpdateProjectCodeOwnersResponseErrorsUsersWithoutAccessList,
+  }),
+).annotate({
+  identifier: "UpdateProjectCodeOwnersResponseErrors",
+}) as any as S.Schema<UpdateProjectCodeOwnersResponseErrors>;
+
+export type UpdateProjectCodeOwnersResponseSchemaCase0RulesItemMatcher =
+  CreateProjectCodeOwnersResponseSchemaCase0RulesItemMatcher;
+export const UpdateProjectCodeOwnersResponseSchemaCase0RulesItemMatcher =
+  CreateProjectCodeOwnersResponseSchemaCase0RulesItemMatcher;
+
+/** Owner as it appears in the API response (after identifier->name rename). */
+export type UpdateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem =
+  CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem;
+export const UpdateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem =
+  CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem;
+
+export type UpdateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersList =
+  Array<CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem>;
+export const UpdateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersList = /*@__PURE__*/ S.Array(
+  CreateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersItem,
+) as any as S.Schema<UpdateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersList>;
+
+export interface UpdateProjectCodeOwnersResponseSchemaCase0RulesItem {
+  matcher: CreateProjectCodeOwnersResponseSchemaCase0RulesItemMatcher;
+  owners: UpdateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersList;
+}
+export const UpdateProjectCodeOwnersResponseSchemaCase0RulesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    matcher: CreateProjectCodeOwnersResponseSchemaCase0RulesItemMatcher,
+    owners: UpdateProjectCodeOwnersResponseSchemaCase0RulesItemOwnersList,
+  }),
+).annotate({
+  identifier: "UpdateProjectCodeOwnersResponseSchemaCase0RulesItem",
+}) as any as S.Schema<UpdateProjectCodeOwnersResponseSchemaCase0RulesItem>;
+
+export type UpdateProjectCodeOwnersResponseSchemaCase0RulesList =
+  Array<UpdateProjectCodeOwnersResponseSchemaCase0RulesItem>;
+export const UpdateProjectCodeOwnersResponseSchemaCase0RulesList = /*@__PURE__*/ S.Array(
+  UpdateProjectCodeOwnersResponseSchemaCase0RulesItem,
+) as any as S.Schema<UpdateProjectCodeOwnersResponseSchemaCase0RulesList>;
+
+export interface UpdateProjectCodeOwnersResponseSchemaCase0 {
+  _version: number;
+  rules: UpdateProjectCodeOwnersResponseSchemaCase0RulesList;
+}
+export const UpdateProjectCodeOwnersResponseSchemaCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _version: S.Number.pipe(T.Body("$version")),
+    rules: UpdateProjectCodeOwnersResponseSchemaCase0RulesList,
+  }),
+).annotate({
+  identifier: "UpdateProjectCodeOwnersResponseSchemaCase0",
+}) as any as S.Schema<UpdateProjectCodeOwnersResponseSchemaCase0>;
+
+export type UpdateProjectCodeOwnersResponseSchema =
+  | UpdateProjectCodeOwnersResponseSchemaCase0
+  | unknown;
+export const UpdateProjectCodeOwnersResponseSchema =
+  S.Unknown as any as S.Schema<UpdateProjectCodeOwnersResponseSchema>;
+
+export interface UpdateProjectCodeOwnersResponse {
+  codeMapping?: UpdateProjectCodeOwnersResponseCodeMapping;
+  ownershipSyntax?: string;
+  errors?: UpdateProjectCodeOwnersResponseErrors;
+  schema?: UpdateProjectCodeOwnersResponseSchema;
+  codeOwnersUrl?: string;
+  id: string;
+  raw: string;
+  dateCreated: string;
+  dateUpdated: string;
+  dateSynced: string | null;
+  codeMappingId: string;
+  provider: string;
+}
+export const UpdateProjectCodeOwnersResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    codeMapping: S.optional(UpdateProjectCodeOwnersResponseCodeMapping),
+    ownershipSyntax: S.optional(S.String),
+    errors: S.optional(UpdateProjectCodeOwnersResponseErrors),
+    schema: S.optional(UpdateProjectCodeOwnersResponseSchema),
+    codeOwnersUrl: S.optional(S.String),
+    id: S.String,
+    raw: S.String,
+    dateCreated: S.String,
+    dateUpdated: S.String,
+    dateSynced: S.NullOr(S.String),
+    codeMappingId: S.String,
+    provider: S.String,
+  }),
+).annotate({
+  identifier: "UpdateProjectCodeOwnersResponse",
+}) as any as S.Schema<UpdateProjectCodeOwnersResponse>;
 
 export interface UpdateProjectEnvironmentRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -36724,9 +40875,7 @@ export const UpdateProjectKeyRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateProjectKeyRequest",
-}) as any as S.Schema<UpdateProjectKeyRequest>;
+).annotate({ identifier: "UpdateProjectKeyRequest" }) as any as S.Schema<UpdateProjectKeyRequest>;
 
 export type UpdateProjectKeyResponseRateLimit = CreateProjectKeyResponseRateLimit;
 export const UpdateProjectKeyResponseRateLimit = CreateProjectKeyResponseRateLimit;
@@ -36794,9 +40943,7 @@ export const UpdateProjectKeyResponse = /*@__PURE__*/ S.suspend(() =>
     dynamicSdkLoaderOptions: CreateProjectKeyResponseDynamicSdkLoaderOptions,
     useCase: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateProjectKeyResponse",
-}) as any as S.Schema<UpdateProjectKeyResponse>;
+).annotate({ identifier: "UpdateProjectKeyResponse" }) as any as S.Schema<UpdateProjectKeyResponse>;
 
 /** Currently supports "crontab" or "interval" * `crontab` * `interval` */
 export type UpdateProjectMonitorRequestConfigScheduleType = "crontab" | "interval";
@@ -37412,7 +41559,7 @@ export interface UpdateProjectMonitorRequestConfig {
   schedule: unknown;
   /** How long (in minutes) after the expected checkin time will we wait until we consider the checkin to have been missed. */
   checkin_margin?: number | null;
-  /** How long (in minutes) is the checkin allowed to run for in CheckInStatus.IN_PROGRESS before it is considered failed. */
+  /** How long (in minutes) is the checkin allowed to run for in CheckInStatus.IN_PROGRESS before it is considered failed. Maximum 10080 (7 days). */
   max_runtime?: number | null;
   /** tz database style timezone string * `Africa/Abidjan` * `Africa/Accra` * `Africa/Addis_Ababa` * `Africa/Algiers` * `Africa/Asmara` * `Africa/Asmera` * `Africa/Bamako` * `Africa/Bangui` * `Africa/Banjul` * `Africa/Bissau` * `Africa/Blantyre` * `Africa/Brazzaville` * `Africa/Bujumbura` * `Africa/Cairo` * `Africa/Casablanca` * `Africa/Ceuta` * `Africa/Conakry` * `Africa/Dakar` * `Africa/Dar_es_Salaam` * `Africa/Djibouti` * `Africa/Douala` * `Africa/El_Aaiun` * `Africa/Freetown` * `Africa/Gaborone` * `Africa/Harare` * `Africa/Johannesburg` * `Africa/Juba` * `Africa/Kampala` * `Africa/Khartoum` * `Africa/Kigali` * `Africa/Kinshasa` * `Africa/Lagos` * `Africa/Libreville` * `Africa/Lome` * `Africa/Luanda` * `Africa/Lubumbashi` * `Africa/Lusaka` * `Africa/Malabo` * `Africa/Maputo` * `Africa/Maseru` * `Africa/Mbabane` * `Africa/Mogadishu` * `Africa/Monrovia` * `Africa/Nairobi` * `Africa/Ndjamena` * `Africa/Niamey` * `Africa/Nouakchott` * `Africa/Ouagadougou` * `Africa/Porto-Novo` * `Africa/Sao_Tome` * `Africa/Timbuktu` * `Africa/Tripoli` * `Africa/Tunis` * `Africa/Windhoek` * `America/Adak` * `America/Anchorage` * `America/Anguilla` * `America/Antigua` * `America/Araguaina` * `America/Argentina/Buenos_Aires` * `America/Argentina/Catamarca` * `America/Argentina/ComodRivadavia` * `America/Argentina/Cordoba` * `America/Argentina/Jujuy` * `America/Argentina/La_Rioja` * `America/Argentina/Mendoza` * `America/Argentina/Rio_Gallegos` * `America/Argentina/Salta` * `America/Argentina/San_Juan` * `America/Argentina/San_Luis` * `America/Argentina/Tucuman` * `America/Argentina/Ushuaia` * `America/Aruba` * `America/Asuncion` * `America/Atikokan` * `America/Atka` * `America/Bahia` * `America/Bahia_Banderas` * `America/Barbados` * `America/Belem` * `America/Belize` * `America/Blanc-Sablon` * `America/Boa_Vista` * `America/Bogota` * `America/Boise` * `America/Buenos_Aires` * `America/Cambridge_Bay` * `America/Campo_Grande` * `America/Cancun` * `America/Caracas` * `America/Catamarca` * `America/Cayenne` * `America/Cayman` * `America/Chicago` * `America/Chihuahua` * `America/Ciudad_Juarez` * `America/Coral_Harbour` * `America/Cordoba` * `America/Costa_Rica` * `America/Coyhaique` * `America/Creston` * `America/Cuiaba` * `America/Curacao` * `America/Danmarkshavn` * `America/Dawson` * `America/Dawson_Creek` * `America/Denver` * `America/Detroit` * `America/Dominica` * `America/Edmonton` * `America/Eirunepe` * `America/El_Salvador` * `America/Ensenada` * `America/Fort_Nelson` * `America/Fort_Wayne` * `America/Fortaleza` * `America/Glace_Bay` * `America/Godthab` * `America/Goose_Bay` * `America/Grand_Turk` * `America/Grenada` * `America/Guadeloupe` * `America/Guatemala` * `America/Guayaquil` * `America/Guyana` * `America/Halifax` * `America/Havana` * `America/Hermosillo` * `America/Indiana/Indianapolis` * `America/Indiana/Knox` * `America/Indiana/Marengo` * `America/Indiana/Petersburg` * `America/Indiana/Tell_City` * `America/Indiana/Vevay` * `America/Indiana/Vincennes` * `America/Indiana/Winamac` * `America/Indianapolis` * `America/Inuvik` * `America/Iqaluit` * `America/Jamaica` * `America/Jujuy` * `America/Juneau` * `America/Kentucky/Louisville` * `America/Kentucky/Monticello` * `America/Knox_IN` * `America/Kralendijk` * `America/La_Paz` * `America/Lima` * `America/Los_Angeles` * `America/Louisville` * `America/Lower_Princes` * `America/Maceio` * `America/Managua` * `America/Manaus` * `America/Marigot` * `America/Martinique` * `America/Matamoros` * `America/Mazatlan` * `America/Mendoza` * `America/Menominee` * `America/Merida` * `America/Metlakatla` * `America/Mexico_City` * `America/Miquelon` * `America/Moncton` * `America/Monterrey` * `America/Montevideo` * `America/Montreal` * `America/Montserrat` * `America/Nassau` * `America/New_York` * `America/Nipigon` * `America/Nome` * `America/Noronha` * `America/North_Dakota/Beulah` * `America/North_Dakota/Center` * `America/North_Dakota/New_Salem` * `America/Nuuk` * `America/Ojinaga` * `America/Panama` * `America/Pangnirtung` * `America/Paramaribo` * `America/Phoenix` * `America/Port-au-Prince` * `America/Port_of_Spain` * `America/Porto_Acre` * `America/Porto_Velho` * `America/Puerto_Rico` * `America/Punta_Arenas` * `America/Rainy_River` * `America/Rankin_Inlet` * `America/Recife` * `America/Regina` * `America/Resolute` * `America/Rio_Branco` * `America/Rosario` * `America/Santa_Isabel` * `America/Santarem` * `America/Santiago` * `America/Santo_Domingo` * `America/Sao_Paulo` * `America/Scoresbysund` * `America/Shiprock` * `America/Sitka` * `America/St_Barthelemy` * `America/St_Johns` * `America/St_Kitts` * `America/St_Lucia` * `America/St_Thomas` * `America/St_Vincent` * `America/Swift_Current` * `America/Tegucigalpa` * `America/Thule` * `America/Thunder_Bay` * `America/Tijuana` * `America/Toronto` * `America/Tortola` * `America/Vancouver` * `America/Virgin` * `America/Whitehorse` * `America/Winnipeg` * `America/Yakutat` * `America/Yellowknife` * `Antarctica/Casey` * `Antarctica/Davis` * `Antarctica/DumontDUrville` * `Antarctica/Macquarie` * `Antarctica/Mawson` * `Antarctica/McMurdo` * `Antarctica/Palmer` * `Antarctica/Rothera` * `Antarctica/South_Pole` * `Antarctica/Syowa` * `Antarctica/Troll` * `Antarctica/Vostok` * `Arctic/Longyearbyen` * `Asia/Aden` * `Asia/Almaty` * `Asia/Amman` * `Asia/Anadyr` * `Asia/Aqtau` * `Asia/Aqtobe` * `Asia/Ashgabat` * `Asia/Ashkhabad` * `Asia/Atyrau` * `Asia/Baghdad` * `Asia/Bahrain` * `Asia/Baku` * `Asia/Bangkok` * `Asia/Barnaul` * `Asia/Beirut` * `Asia/Bishkek` * `Asia/Brunei` * `Asia/Calcutta` * `Asia/Chita` * `Asia/Choibalsan` * `Asia/Chongqing` * `Asia/Chungking` * `Asia/Colombo` * `Asia/Dacca` * `Asia/Damascus` * `Asia/Dhaka` * `Asia/Dili` * `Asia/Dubai` * `Asia/Dushanbe` * `Asia/Famagusta` * `Asia/Gaza` * `Asia/Harbin` * `Asia/Hebron` * `Asia/Ho_Chi_Minh` * `Asia/Hong_Kong` * `Asia/Hovd` * `Asia/Irkutsk` * `Asia/Istanbul` * `Asia/Jakarta` * `Asia/Jayapura` * `Asia/Jerusalem` * `Asia/Kabul` * `Asia/Kamchatka` * `Asia/Karachi` * `Asia/Kashgar` * `Asia/Kathmandu` * `Asia/Katmandu` * `Asia/Khandyga` * `Asia/Kolkata` * `Asia/Krasnoyarsk` * `Asia/Kuala_Lumpur` * `Asia/Kuching` * `Asia/Kuwait` * `Asia/Macao` * `Asia/Macau` * `Asia/Magadan` * `Asia/Makassar` * `Asia/Manila` * `Asia/Muscat` * `Asia/Nicosia` * `Asia/Novokuznetsk` * `Asia/Novosibirsk` * `Asia/Omsk` * `Asia/Oral` * `Asia/Phnom_Penh` * `Asia/Pontianak` * `Asia/Pyongyang` * `Asia/Qatar` * `Asia/Qostanay` * `Asia/Qyzylorda` * `Asia/Rangoon` * `Asia/Riyadh` * `Asia/Saigon` * `Asia/Sakhalin` * `Asia/Samarkand` * `Asia/Seoul` * `Asia/Shanghai` * `Asia/Singapore` * `Asia/Srednekolymsk` * `Asia/Taipei` * `Asia/Tashkent` * `Asia/Tbilisi` * `Asia/Tehran` * `Asia/Tel_Aviv` * `Asia/Thimbu` * `Asia/Thimphu` * `Asia/Tokyo` * `Asia/Tomsk` * `Asia/Ujung_Pandang` * `Asia/Ulaanbaatar` * `Asia/Ulan_Bator` * `Asia/Urumqi` * `Asia/Ust-Nera` * `Asia/Vientiane` * `Asia/Vladivostok` * `Asia/Yakutsk` * `Asia/Yangon` * `Asia/Yekaterinburg` * `Asia/Yerevan` * `Atlantic/Azores` * `Atlantic/Bermuda` * `Atlantic/Canary` * `Atlantic/Cape_Verde` * `Atlantic/Faeroe` * `Atlantic/Faroe` * `Atlantic/Jan_Mayen` * `Atlantic/Madeira` * `Atlantic/Reykjavik` * `Atlantic/South_Georgia` * `Atlantic/St_Helena` * `Atlantic/Stanley` * `Australia/ACT` * `Australia/Adelaide` * `Australia/Brisbane` * `Australia/Broken_Hill` * `Australia/Canberra` * `Australia/Currie` * `Australia/Darwin` * `Australia/Eucla` * `Australia/Hobart` * `Australia/LHI` * `Australia/Lindeman` * `Australia/Lord_Howe` * `Australia/Melbourne` * `Australia/NSW` * `Australia/North` * `Australia/Perth` * `Australia/Queensland` * `Australia/South` * `Australia/Sydney` * `Australia/Tasmania` * `Australia/Victoria` * `Australia/West` * `Australia/Yancowinna` * `Brazil/Acre` * `Brazil/DeNoronha` * `Brazil/East` * `Brazil/West` * `CET` * `CST6CDT` * `Canada/Atlantic` * `Canada/Central` * `Canada/Eastern` * `Canada/Mountain` * `Canada/Newfoundland` * `Canada/Pacific` * `Canada/Saskatchewan` * `Canada/Yukon` * `Chile/Continental` * `Chile/EasterIsland` * `Cuba` * `EET` * `EST` * `EST5EDT` * `Egypt` * `Eire` * `Etc/GMT` * `Etc/GMT+0` * `Etc/GMT+1` * `Etc/GMT+10` * `Etc/GMT+11` * `Etc/GMT+12` * `Etc/GMT+2` * `Etc/GMT+3` * `Etc/GMT+4` * `Etc/GMT+5` * `Etc/GMT+6` * `Etc/GMT+7` * `Etc/GMT+8` * `Etc/GMT+9` * `Etc/GMT-0` * `Etc/GMT-1` * `Etc/GMT-10` * `Etc/GMT-11` * `Etc/GMT-12` * `Etc/GMT-13` * `Etc/GMT-14` * `Etc/GMT-2` * `Etc/GMT-3` * `Etc/GMT-4` * `Etc/GMT-5` * `Etc/GMT-6` * `Etc/GMT-7` * `Etc/GMT-8` * `Etc/GMT-9` * `Etc/GMT0` * `Etc/Greenwich` * `Etc/UCT` * `Etc/UTC` * `Etc/Universal` * `Etc/Zulu` * `Europe/Amsterdam` * `Europe/Andorra` * `Europe/Astrakhan` * `Europe/Athens` * `Europe/Belfast` * `Europe/Belgrade` * `Europe/Berlin` * `Europe/Bratislava` * `Europe/Brussels` * `Europe/Bucharest` * `Europe/Budapest` * `Europe/Busingen` * `Europe/Chisinau` * `Europe/Copenhagen` * `Europe/Dublin` * `Europe/Gibraltar` * `Europe/Guernsey` * `Europe/Helsinki` * `Europe/Isle_of_Man` * `Europe/Istanbul` * `Europe/Jersey` * `Europe/Kaliningrad` * `Europe/Kiev` * `Europe/Kirov` * `Europe/Kyiv` * `Europe/Lisbon` * `Europe/Ljubljana` * `Europe/London` * `Europe/Luxembourg` * `Europe/Madrid` * `Europe/Malta` * `Europe/Mariehamn` * `Europe/Minsk` * `Europe/Monaco` * `Europe/Moscow` * `Europe/Nicosia` * `Europe/Oslo` * `Europe/Paris` * `Europe/Podgorica` * `Europe/Prague` * `Europe/Riga` * `Europe/Rome` * `Europe/Samara` * `Europe/San_Marino` * `Europe/Sarajevo` * `Europe/Saratov` * `Europe/Simferopol` * `Europe/Skopje` * `Europe/Sofia` * `Europe/Stockholm` * `Europe/Tallinn` * `Europe/Tirane` * `Europe/Tiraspol` * `Europe/Ulyanovsk` * `Europe/Uzhgorod` * `Europe/Vaduz` * `Europe/Vatican` * `Europe/Vienna` * `Europe/Vilnius` * `Europe/Volgograd` * `Europe/Warsaw` * `Europe/Zagreb` * `Europe/Zaporozhye` * `Europe/Zurich` * `GB` * `GB-Eire` * `GMT` * `GMT+0` * `GMT-0` * `GMT0` * `Greenwich` * `HST` * `Hongkong` * `Iceland` * `Indian/Antananarivo` * `Indian/Chagos` * `Indian/Christmas` * `Indian/Cocos` * `Indian/Comoro` * `Indian/Kerguelen` * `Indian/Mahe` * `Indian/Maldives` * `Indian/Mauritius` * `Indian/Mayotte` * `Indian/Reunion` * `Iran` * `Israel` * `Jamaica` * `Japan` * `Kwajalein` * `Libya` * `MET` * `MST` * `MST7MDT` * `Mexico/BajaNorte` * `Mexico/BajaSur` * `Mexico/General` * `NZ` * `NZ-CHAT` * `Navajo` * `PRC` * `PST8PDT` * `Pacific/Apia` * `Pacific/Auckland` * `Pacific/Bougainville` * `Pacific/Chatham` * `Pacific/Chuuk` * `Pacific/Easter` * `Pacific/Efate` * `Pacific/Enderbury` * `Pacific/Fakaofo` * `Pacific/Fiji` * `Pacific/Funafuti` * `Pacific/Galapagos` * `Pacific/Gambier` * `Pacific/Guadalcanal` * `Pacific/Guam` * `Pacific/Honolulu` * `Pacific/Johnston` * `Pacific/Kanton` * `Pacific/Kiritimati` * `Pacific/Kosrae` * `Pacific/Kwajalein` * `Pacific/Majuro` * `Pacific/Marquesas` * `Pacific/Midway` * `Pacific/Nauru` * `Pacific/Niue` * `Pacific/Norfolk` * `Pacific/Noumea` * `Pacific/Pago_Pago` * `Pacific/Palau` * `Pacific/Pitcairn` * `Pacific/Pohnpei` * `Pacific/Ponape` * `Pacific/Port_Moresby` * `Pacific/Rarotonga` * `Pacific/Saipan` * `Pacific/Samoa` * `Pacific/Tahiti` * `Pacific/Tarawa` * `Pacific/Tongatapu` * `Pacific/Truk` * `Pacific/Wake` * `Pacific/Wallis` * `Pacific/Yap` * `Poland` * `Portugal` * `ROC` * `ROK` * `Singapore` * `Turkey` * `UCT` * `US/Alaska` * `US/Aleutian` * `US/Arizona` * `US/Central` * `US/East-Indiana` * `US/Eastern` * `US/Hawaii` * `US/Indiana-Starke` * `US/Michigan` * `US/Mountain` * `US/Pacific` * `US/Samoa` * `UTC` * `Universal` * `W-SU` * `WET` * `Zulu` * `localtime` */
   timezone?: UpdateProjectMonitorRequestConfigTimezone | (string & {});
@@ -37439,6 +41586,33 @@ export const UpdateProjectMonitorRequestConfig = /*@__PURE__*/ S.suspend(() =>
 export type UpdateProjectMonitorRequestStatus = "active" | "disabled";
 export const UpdateProjectMonitorRequestStatus = S.String;
 
+export type UpdateProjectMonitorRequestAlertRuleTargetsItem =
+  CreateOrganizationMonitorRequestAlertRuleTargetsItem;
+export const UpdateProjectMonitorRequestAlertRuleTargetsItem =
+  CreateOrganizationMonitorRequestAlertRuleTargetsItem;
+
+/** Array of dictionaries with information of the user or team to be notified */
+export type UpdateProjectMonitorRequestAlertRuleTargetsList =
+  Array<CreateOrganizationMonitorRequestAlertRuleTargetsItem>;
+export const UpdateProjectMonitorRequestAlertRuleTargetsList = /*@__PURE__*/ S.Array(
+  CreateOrganizationMonitorRequestAlertRuleTargetsItem,
+) as any as S.Schema<UpdateProjectMonitorRequestAlertRuleTargetsList>;
+
+export interface UpdateProjectMonitorRequestAlertRule {
+  /** Name of the environment */
+  environment?: string | null;
+  /** Array of dictionaries with information of the user or team to be notified */
+  targets: UpdateProjectMonitorRequestAlertRuleTargetsList;
+}
+export const UpdateProjectMonitorRequestAlertRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    environment: S.optional(S.NullOr(S.String)),
+    targets: UpdateProjectMonitorRequestAlertRuleTargetsList,
+  }),
+).annotate({
+  identifier: "UpdateProjectMonitorRequestAlertRule",
+}) as any as S.Schema<UpdateProjectMonitorRequestAlertRule>;
+
 export interface UpdateProjectMonitorRequest {
   /** The ID or slug of the organization the resource belongs to. */
   organization_id_or_slug: string;
@@ -37460,6 +41634,8 @@ export interface UpdateProjectMonitorRequest {
   owner?: string | null;
   /** Disable creation of monitor incidents */
   is_muted?: boolean;
+  /** Alert rule configuration created alongside the monitor. */
+  alert_rule?: UpdateProjectMonitorRequestAlertRule;
 }
 export const UpdateProjectMonitorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -37473,6 +41649,7 @@ export const UpdateProjectMonitorRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(UpdateProjectMonitorRequestStatus),
     owner: S.optional(S.NullOr(S.String)),
     is_muted: S.optional(S.Boolean),
+    alert_rule: S.optional(UpdateProjectMonitorRequestAlertRule),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -37785,9 +41962,7 @@ export const UpdateProjectReleaseFileRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateProjectReleaseFileRequest",
 }) as any as S.Schema<UpdateProjectReleaseFileRequest>;
 
-export type UpdateProjectReleaseFileResponseHeadersMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateProjectReleaseFileResponseHeadersMap = { [key: string]: unknown | undefined };
 export const UpdateProjectReleaseFileResponseHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -37816,8 +41991,8 @@ export const UpdateProjectReleaseFileResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateProjectReleaseFileResponse",
 }) as any as S.Schema<UpdateProjectReleaseFileResponse>;
 
-/** The type of the source. * `http` - SymbolServer (HTTP) * `gcs` - Google Cloud Storage * `s3` - Amazon S3 */
-export type UpdateProjectSymbolSourceRequestType = "http" | "gcs" | "s3";
+/** The type of the source. * `http` - SymbolServer (HTTP) * `gcs` - Google Cloud Storage * `s3` - Amazon S3 * `azure` - Azure Blob Storage */
+export type UpdateProjectSymbolSourceRequestType = "http" | "gcs" | "s3" | "azure";
 export const UpdateProjectSymbolSourceRequestType = S.String;
 
 /** The source's layout type. * `native` * `symstore` * `symstore_index2` * `ssqp` * `unified` * `debuginfod` * `slashsymbols` */
@@ -37936,7 +42111,7 @@ export interface UpdateProjectSymbolSourceRequest {
   project_id_or_slug: string;
   /** The ID of the source to update. */
   id: string;
-  /** The type of the source. * `http` - SymbolServer (HTTP) * `gcs` - Google Cloud Storage * `s3` - Amazon S3 */
+  /** The type of the source. * `http` - SymbolServer (HTTP) * `gcs` - Google Cloud Storage * `s3` - Amazon S3 * `azure` - Azure Blob Storage */
   type: UpdateProjectSymbolSourceRequestType | (string & {});
   /** The human-readable name of the source. */
   name: string;
@@ -37958,12 +42133,22 @@ export interface UpdateProjectSymbolSourceRequest {
   access_key?: string;
   /** The [AWS Secret Access Key](https://docs.aws.amazon.com/IAM/latest/UserGuide/security-creds.html#access-keys-and-secret-access-keys).Required for S3 sources, invalid for all others. */
   secret_key?: string | Redacted.Redacted<string>;
-  /** The GCS or [S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html) prefix. Optional for GCS and S3 sourcse, invalid for HTTP. */
+  /** The GCS, Azure or [S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html) prefix. Optional for GCS, Azure and S3 sources, invalid for HTTP. */
   prefix?: string;
   /** The GCS email address for authentication. Required for GCS sources, invalid for all others. */
   client_email?: string;
   /** The GCS private key. Required for GCS sources if not using impersonated tokens. Invalid for all others. */
   private_key?: string | Redacted.Redacted<string>;
+  /** The Azure storage account name. Required for Azure sources, invalid for all others. */
+  account?: string;
+  /** The Azure blob container name. Required for Azure sources, invalid for all others. */
+  container?: string;
+  /** The Microsoft Entra tenant ID. Required for Azure sources, invalid for all others. */
+  tenant_id?: string;
+  /** The Microsoft Entra application (client) ID. Required for Azure sources, invalid for all others. */
+  client_id?: string;
+  /** The Microsoft Entra client secret. Required for Azure sources, invalid for all others. */
+  client_secret?: string | Redacted.Redacted<string>;
 }
 export const UpdateProjectSymbolSourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -37984,6 +42169,11 @@ export const UpdateProjectSymbolSourceRequest = /*@__PURE__*/ S.suspend(() =>
     prefix: S.optional(S.String),
     client_email: S.optional(S.String),
     private_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
+    account: S.optional(S.String),
+    container: S.optional(S.String),
+    tenant_id: S.optional(S.String),
+    client_id: S.optional(S.String),
+    client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -38358,11 +42548,136 @@ export const UpdateProjectSymbolSourceResponseBodyCase2 = /*@__PURE__*/ S.suspen
   identifier: "UpdateProjectSymbolSourceResponseBodyCase2",
 }) as any as S.Schema<UpdateProjectSymbolSourceResponseBodyCase2>;
 
-export type UpdateProjectSymbolSourceResponseBodyCase3Type = "appStoreConnect";
+export type UpdateProjectSymbolSourceResponseBodyCase3Type = "azure";
 export const UpdateProjectSymbolSourceResponseBodyCase3Type = S.String;
+
+export type UpdateProjectSymbolSourceResponseBodyCase3ClientSecret =
+  AddProjectSymbolSourceResponseBodyCase0Password;
+export const UpdateProjectSymbolSourceResponseBodyCase3ClientSecret =
+  AddProjectSymbolSourceResponseBodyCase0Password;
+
+export type UpdateProjectSymbolSourceResponseBodyCase3LayoutType =
+  | "native"
+  | "symstore"
+  | "symstore_index2"
+  | "ssqp"
+  | "unified"
+  | "debuginfod"
+  | "slashsymbols";
+export const UpdateProjectSymbolSourceResponseBodyCase3LayoutType = S.String;
+
+export type UpdateProjectSymbolSourceResponseBodyCase3LayoutCasing =
+  | "lowercase"
+  | "uppercase"
+  | "default";
+export const UpdateProjectSymbolSourceResponseBodyCase3LayoutCasing = S.String;
+
+export interface UpdateProjectSymbolSourceResponseBodyCase3Layout {
+  type: UpdateProjectSymbolSourceResponseBodyCase3LayoutType;
+  casing?: UpdateProjectSymbolSourceResponseBodyCase3LayoutCasing;
+}
+export const UpdateProjectSymbolSourceResponseBodyCase3Layout = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: UpdateProjectSymbolSourceResponseBodyCase3LayoutType,
+    casing: S.optional(UpdateProjectSymbolSourceResponseBodyCase3LayoutCasing),
+  }),
+).annotate({
+  identifier: "UpdateProjectSymbolSourceResponseBodyCase3Layout",
+}) as any as S.Schema<UpdateProjectSymbolSourceResponseBodyCase3Layout>;
+
+export type UpdateProjectSymbolSourceResponseBodyCase3FiltersFiletypesItem =
+  | "pe"
+  | "pdb"
+  | "portablepdb"
+  | "mach_debug"
+  | "mach_code"
+  | "elf_debug"
+  | "elf_code"
+  | "wasm_debug"
+  | "wasm_code"
+  | "breakpad"
+  | "sourcebundle"
+  | "uuidmap"
+  | "bcsymbolmap"
+  | "il2cpp"
+  | "proguard"
+  | "dartsymbolmap";
+export const UpdateProjectSymbolSourceResponseBodyCase3FiltersFiletypesItem = S.String;
+
+export type UpdateProjectSymbolSourceResponseBodyCase3FiltersFiletypesList =
+  Array<UpdateProjectSymbolSourceResponseBodyCase3FiltersFiletypesItem>;
+export const UpdateProjectSymbolSourceResponseBodyCase3FiltersFiletypesList = /*@__PURE__*/ S.Array(
+  UpdateProjectSymbolSourceResponseBodyCase3FiltersFiletypesItem,
+) as any as S.Schema<UpdateProjectSymbolSourceResponseBodyCase3FiltersFiletypesList>;
+
+export type UpdateProjectSymbolSourceResponseBodyCase3FiltersPathPatternsList = Array<string>;
+export const UpdateProjectSymbolSourceResponseBodyCase3FiltersPathPatternsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<UpdateProjectSymbolSourceResponseBodyCase3FiltersPathPatternsList>;
+
+export interface UpdateProjectSymbolSourceResponseBodyCase3Filters {
+  filetypes?: UpdateProjectSymbolSourceResponseBodyCase3FiltersFiletypesList;
+  path_patterns?: UpdateProjectSymbolSourceResponseBodyCase3FiltersPathPatternsList;
+  requires_checksum?: boolean;
+}
+export const UpdateProjectSymbolSourceResponseBodyCase3Filters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    filetypes: S.optional(UpdateProjectSymbolSourceResponseBodyCase3FiltersFiletypesList),
+    path_patterns: S.optional(UpdateProjectSymbolSourceResponseBodyCase3FiltersPathPatternsList),
+    requires_checksum: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "UpdateProjectSymbolSourceResponseBodyCase3Filters",
+}) as any as S.Schema<UpdateProjectSymbolSourceResponseBodyCase3Filters>;
+
+export type UpdateProjectSymbolSourceResponseBodyCase3PlatformsList = Array<string>;
+export const UpdateProjectSymbolSourceResponseBodyCase3PlatformsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateProjectSymbolSourceResponseBodyCase3PlatformsList>;
 
 export interface UpdateProjectSymbolSourceResponseBodyCase3 {
   type: UpdateProjectSymbolSourceResponseBodyCase3Type;
+  account: string;
+  container: string;
+  tenant_id: string;
+  client_id: string;
+  client_secret: AddProjectSymbolSourceResponseBodyCase0Password;
+  prefix?: string;
+  id: string;
+  name?: string;
+  layout: UpdateProjectSymbolSourceResponseBodyCase3Layout;
+  filters?: UpdateProjectSymbolSourceResponseBodyCase3Filters;
+  is_public?: boolean;
+  has_index?: boolean;
+  platforms?: UpdateProjectSymbolSourceResponseBodyCase3PlatformsList;
+}
+export const UpdateProjectSymbolSourceResponseBodyCase3 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: UpdateProjectSymbolSourceResponseBodyCase3Type,
+    account: S.String,
+    container: S.String,
+    tenant_id: S.String,
+    client_id: S.String,
+    client_secret: AddProjectSymbolSourceResponseBodyCase0Password,
+    prefix: S.optional(S.String),
+    id: S.String,
+    name: S.optional(S.String),
+    layout: UpdateProjectSymbolSourceResponseBodyCase3Layout,
+    filters: S.optional(UpdateProjectSymbolSourceResponseBodyCase3Filters),
+    is_public: S.optional(S.Boolean),
+    has_index: S.optional(S.Boolean),
+    platforms: S.optional(UpdateProjectSymbolSourceResponseBodyCase3PlatformsList),
+  }),
+).annotate({
+  identifier: "UpdateProjectSymbolSourceResponseBodyCase3",
+}) as any as S.Schema<UpdateProjectSymbolSourceResponseBodyCase3>;
+
+export type UpdateProjectSymbolSourceResponseBodyCase4Type = "appStoreConnect";
+export const UpdateProjectSymbolSourceResponseBodyCase4Type = S.String;
+
+export interface UpdateProjectSymbolSourceResponseBodyCase4 {
+  type: UpdateProjectSymbolSourceResponseBodyCase4Type;
   id: string;
   name: string;
   appconnectIssuer: string;
@@ -38372,9 +42687,9 @@ export interface UpdateProjectSymbolSourceResponseBodyCase3 {
   appId: string;
   bundleId: string;
 }
-export const UpdateProjectSymbolSourceResponseBodyCase3 = /*@__PURE__*/ S.suspend(() =>
+export const UpdateProjectSymbolSourceResponseBodyCase4 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: UpdateProjectSymbolSourceResponseBodyCase3Type,
+    type: UpdateProjectSymbolSourceResponseBodyCase4Type,
     id: S.String,
     name: S.String,
     appconnectIssuer: S.String,
@@ -38385,14 +42700,15 @@ export const UpdateProjectSymbolSourceResponseBodyCase3 = /*@__PURE__*/ S.suspen
     bundleId: S.String,
   }),
 ).annotate({
-  identifier: "UpdateProjectSymbolSourceResponseBodyCase3",
-}) as any as S.Schema<UpdateProjectSymbolSourceResponseBodyCase3>;
+  identifier: "UpdateProjectSymbolSourceResponseBodyCase4",
+}) as any as S.Schema<UpdateProjectSymbolSourceResponseBodyCase4>;
 
 export type UpdateProjectSymbolSourceResponseBody =
   | UpdateProjectSymbolSourceResponseBodyCase0
   | UpdateProjectSymbolSourceResponseBodyCase1
   | UpdateProjectSymbolSourceResponseBodyCase2
-  | UpdateProjectSymbolSourceResponseBodyCase3;
+  | UpdateProjectSymbolSourceResponseBodyCase3
+  | UpdateProjectSymbolSourceResponseBodyCase4;
 export const UpdateProjectSymbolSourceResponseBody =
   S.Unknown as any as S.Schema<UpdateProjectSymbolSourceResponseBody>;
 
@@ -38415,10 +42731,14 @@ export const UpdateSentryAppRequestEventsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<UpdateSentryAppRequestEventsList>;
 
+/** The list of features that the custom integration supports. */
+export type UpdateSentryAppRequestFeaturesList = Array<unknown>;
+export const UpdateSentryAppRequestFeaturesList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<UpdateSentryAppRequestFeaturesList>;
+
 /** The UI components schema, used to render the custom integration's configuration UI elements. See our [schema docs](https://docs.sentry.io/organization/integrations/integration-platform/ui-components/) for more information. */
-export type UpdateSentryAppRequestSchemaMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateSentryAppRequestSchemaMap = { [key: string]: unknown | undefined };
 export const UpdateSentryAppRequestSchemaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -38447,6 +42767,8 @@ export interface UpdateSentryAppRequest {
   author?: string | null;
   /** Webhook events the custom integration is subscribed to. */
   events?: UpdateSentryAppRequestEventsList | null;
+  /** The list of features that the custom integration supports. */
+  features?: UpdateSentryAppRequestFeaturesList | null;
   /** The UI components schema, used to render the custom integration's configuration UI elements. See our [schema docs](https://docs.sentry.io/organization/integrations/integration-platform/ui-components/) for more information. */
   schema?: UpdateSentryAppRequestSchemaMap | null;
   /** The webhook destination URL. */
@@ -38473,6 +42795,7 @@ export const UpdateSentryAppRequest = /*@__PURE__*/ S.suspend(() =>
     scopes: S.NullOr(UpdateSentryAppRequestScopesList),
     author: S.optional(S.NullOr(S.String)),
     events: S.optional(S.NullOr(UpdateSentryAppRequestEventsList)),
+    features: S.optional(S.NullOr(UpdateSentryAppRequestFeaturesList)),
     schema: S.optional(S.NullOr(UpdateSentryAppRequestSchemaMap)),
     webhookUrl: S.optional(S.NullOr(S.String)),
     redirectUrl: S.optional(S.NullOr(S.String)),
@@ -38482,16 +42805,8 @@ export const UpdateSentryAppRequest = /*@__PURE__*/ S.suspend(() =>
     verifyInstall: S.optional(S.Boolean),
     allowedOrigins: S.optional(UpdateSentryAppRequestAllowedOriginsList),
     webhookHeaders: S.optional(UpdateSentryAppRequestWebhookHeadersList),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/0/sentry-apps/{sentry_app_id_or_slug}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateSentryAppRequest",
-}) as any as S.Schema<UpdateSentryAppRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/0/sentry-apps/{sentry_app_id_or_slug}/", code: 200 })),
+).annotate({ identifier: "UpdateSentryAppRequest" }) as any as S.Schema<UpdateSentryAppRequest>;
 
 export type UpdateSentryAppResponseAllowedOriginsList = Array<string>;
 export const UpdateSentryAppResponseAllowedOriginsList = /*@__PURE__*/ S.Array(
@@ -38589,9 +42904,7 @@ export const UpdateSentryAppResponse = /*@__PURE__*/ S.suspend(() =>
     clientId: S.optional(S.String),
     owner: S.optional(GetSentryAppResponseOwner),
   }),
-).annotate({
-  identifier: "UpdateSentryAppResponse",
-}) as any as S.Schema<UpdateSentryAppResponse>;
+).annotate({ identifier: "UpdateSentryAppResponse" }) as any as S.Schema<UpdateSentryAppResponse>;
 
 export interface UpdateTeamRequest {
   /** The ID or slug of the organization the resource belongs to. */
@@ -38616,9 +42929,7 @@ export const UpdateTeamRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateTeamRequest",
-}) as any as S.Schema<UpdateTeamRequest>;
+).annotate({ identifier: "UpdateTeamRequest" }) as any as S.Schema<UpdateTeamRequest>;
 
 export type UpdateTeamResponseFlagsMap = { [key: string]: unknown | undefined };
 export const UpdateTeamResponseFlagsMap = /*@__PURE__*/ S.Record(
@@ -38876,11 +43187,9 @@ export const UpdateTeamResponse = /*@__PURE__*/ S.suspend(() =>
     organization: S.optional(UpdateTeamResponseOrganization),
     projects: S.optional(UpdateTeamResponseProjectsList),
   }),
-).annotate({
-  identifier: "UpdateTeamResponse",
-}) as any as S.Schema<UpdateTeamResponse>;
+).annotate({ identifier: "UpdateTeamResponse" }) as any as S.Schema<UpdateTeamResponse>;
 
-/** The provider of the external actor. * `github` * `github_enterprise` * `jira_server` * `slack` * `slack_staging` * `perforce` * `gitlab` * `msteams` * `custom_scm` */
+/** The provider of the external actor. * `github` * `github_enterprise` * `jira_server` * `slack` * `slack_staging` * `perforce` * `gitlab` * `cursor_origin` * `msteams` * `custom_scm` */
 export type UpdateTeamExternalTeamRequestProvider =
   | "github"
   | "github_enterprise"
@@ -38889,6 +43198,7 @@ export type UpdateTeamExternalTeamRequestProvider =
   | "slack_staging"
   | "perforce"
   | "gitlab"
+  | "cursor_origin"
   | "msteams"
   | "custom_scm";
 export const UpdateTeamExternalTeamRequestProvider = S.String;
@@ -38900,9 +43210,11 @@ export interface UpdateTeamExternalTeamRequest {
   team_id_or_slug: string;
   /** The ID of the external team object. This is returned when creating an external team. */
   external_team_id: number;
+  /** ID of the Sentry team to link to the external team. */
+  team_id: number;
   /** The associated name for the provider. */
   external_name: string;
-  /** The provider of the external actor. * `github` * `github_enterprise` * `jira_server` * `slack` * `slack_staging` * `perforce` * `gitlab` * `msteams` * `custom_scm` */
+  /** The provider of the external actor. * `github` * `github_enterprise` * `jira_server` * `slack` * `slack_staging` * `perforce` * `gitlab` * `cursor_origin` * `msteams` * `custom_scm` */
   provider: UpdateTeamExternalTeamRequestProvider | (string & {});
   /** The Integration ID. */
   integration_id: number;
@@ -38914,6 +43226,7 @@ export const UpdateTeamExternalTeamRequest = /*@__PURE__*/ S.suspend(() =>
     organization_id_or_slug: S.String.pipe(T.Label()),
     team_id_or_slug: S.String.pipe(T.Label()),
     external_team_id: S.Number.pipe(T.Label()),
+    team_id: S.Number,
     external_name: S.String,
     provider: UpdateTeamExternalTeamRequestProvider,
     integration_id: S.Number,
@@ -39104,9 +43417,7 @@ export const UploadProjectReleaseFileRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UploadProjectReleaseFileRequest",
 }) as any as S.Schema<UploadProjectReleaseFileRequest>;
 
-export type UploadProjectReleaseFileResponseHeadersMap = {
-  [key: string]: unknown | undefined;
-};
+export type UploadProjectReleaseFileResponseHeadersMap = { [key: string]: unknown | undefined };
 export const UploadProjectReleaseFileResponseHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -39240,6 +43551,21 @@ export const bulkUpdateProjectEnvironments: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateACustomInboundFilterError = BadRequest | Forbidden | NotFound | SentryOpError;
+/** **Experimental:** This API is under active development and may change. Create a custom inbound filter for a project. */
+export const createACustomInboundFilter: API.OperationMethod<
+  CreateACustomInboundFilterRequest,
+  CreateACustomInboundFilterResponse,
+  CreateACustomInboundFilterError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateACustomInboundFilterRequest,
+  output: CreateACustomInboundFilterResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateAnExternalIssueAndLinkItToAnIssueError = BadRequest | NotFound | SentryOpError;
 /** Create a new issue in the external provider (such as a Jira ticket or GitHub issue) and link it to the given Sentry issue. The accepted fields are integration-specific; fetch them from the `createIssueConfig` returned by the `GET` endpoint with `?action=create`. */
 export const createAnExternalIssueAndLinkItToAnIssue: API.OperationMethod<
@@ -39320,6 +43646,21 @@ export const createOrganizationForwarding: API.OperationMethod<
   input: CreateOrganizationForwardingRequest,
   output: CreateOrganizationForwardingResponse,
   errors: [BadRequest, Forbidden, UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateOrganizationIssueViewError = BadRequest | Forbidden | NotFound | SentryOpError;
+/** Create an Issue View Create a new custom view for the current organization member. */
+export const createOrganizationIssueView: API.OperationMethod<
+  CreateOrganizationIssueViewRequest,
+  CreateOrganizationIssueViewResponse,
+  CreateOrganizationIssueViewError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateOrganizationIssueViewRequest,
+  output: CreateOrganizationIssueViewResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
 }));
@@ -39468,6 +43809,21 @@ export const createOrUpdateAnExternalIssue: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateProjectCodeOwnersError = BadRequest | Forbidden | NotFound | SentryOpError;
+/** Create a CODEOWNERS Configuration for a Project Create a CODEOWNERS configuration for a project. */
+export const createProjectCodeOwners: API.OperationMethod<
+  CreateProjectCodeOwnersRequest,
+  CreateProjectCodeOwnersResponse,
+  CreateProjectCodeOwnersError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateProjectCodeOwnersRequest,
+  output: CreateProjectCodeOwnersResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateProjectKeyError = BadRequest | Forbidden | SentryOpError;
 /** Create a New Client Key Create a new client key bound to a project. The key's secret and public key are generated by the server. */
 export const createProjectKey: API.OperationMethod<
@@ -39552,7 +43908,7 @@ export const createTeamExternalTeam: API.OperationMethod<
 }));
 
 export type CreateTeamProjectError = BadRequest | Forbidden | NotFound | Conflict | SentryOpError;
-/** Create a New Project Create a new project bound to a team. Note: If your organization has disabled member project creation, the `org:write` or `team:admin` scope is required. */
+/** Create a New Project Create a new project bound to a team. Note: If your organization has disabled member project creation, the `org:write` scope or the Team Admin role on the team is required. */
 export const createTeamProject: API.OperationMethod<
   CreateTeamProjectRequest,
   CreateTeamProjectResponse,
@@ -39566,7 +43922,22 @@ export const createTeamProject: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteAnExternalIssueError = Forbidden | NotFound | SentryOpError;
+export type DeleteACustomInboundFilterError = BadRequest | Forbidden | NotFound | SentryOpError;
+/** **Experimental:** This API is under active development and may change. Delete a custom inbound filter. */
+export const deleteACustomInboundFilter: API.OperationMethod<
+  DeleteACustomInboundFilterRequest,
+  DeleteACustomInboundFilterResponse,
+  DeleteACustomInboundFilterError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteACustomInboundFilterRequest,
+  output: DeleteACustomInboundFilterResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteAnExternalIssueError = Forbidden | NotFound | Conflict | SentryOpError;
 /** Delete an external issue. */
 export const deleteAnExternalIssue: API.OperationMethod<
   DeleteAnExternalIssueRequest,
@@ -39576,7 +43947,7 @@ export const deleteAnExternalIssue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAnExternalIssueRequest,
   output: DeleteAnExternalIssueResponse,
-  errors: [Forbidden, NotFound, UnknownSentryError],
+  errors: [Forbidden, NotFound, Conflict, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
 }));
@@ -39697,6 +44068,25 @@ export const deleteOrganizationIssue: API.OperationMethod<
   input: DeleteOrganizationIssueRequest,
   output: DeleteOrganizationIssueResponse,
   errors: [Forbidden, NotFound, UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteOrganizationIssueExternalIssueError =
+  | Forbidden
+  | NotFound
+  | Conflict
+  | SentryOpError;
+/** Unlink a Custom Integration's External Issue **Experimental:** This API is under active development and may change. Remove a custom integration's association with a Sentry issue. The external issue is not deleted. */
+export const deleteOrganizationIssueExternalIssue: API.OperationMethod<
+  DeleteOrganizationIssueExternalIssueRequest,
+  DeleteOrganizationIssueExternalIssueResponse,
+  DeleteOrganizationIssueExternalIssueError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteOrganizationIssueExternalIssueRequest,
+  output: DeleteOrganizationIssueExternalIssueResponse,
+  errors: [Forbidden, NotFound, Conflict, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
 }));
@@ -39896,6 +44286,21 @@ export const deleteProject: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DeleteProjectCodeOwnersError = Forbidden | NotFound | SentryOpError;
+/** Delete a Project's CODEOWNERS Configuration Delete a CODEOWNERS configuration. */
+export const deleteProjectCodeOwners: API.OperationMethod<
+  DeleteProjectCodeOwnersRequest,
+  DeleteProjectCodeOwnersResponse,
+  DeleteProjectCodeOwnersError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteProjectCodeOwnersRequest,
+  output: DeleteProjectCodeOwnersResponse,
+  errors: [Forbidden, NotFound, UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeleteProjectKeyError = Forbidden | NotFound | SentryOpError;
 /** Delete a Client Key Delete a client key for a given project. */
 export const deleteProjectKey: API.OperationMethod<
@@ -40061,6 +44466,41 @@ export const enableSpikeProtection: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ExecuteSentryAppInstallationExternalIssueActionError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | SentryOpError;
+/** Create or Link an External Issue Through a Sentry App **Experimental:** This API is under active development and may change. Invoke the installed app's issue-link callback and store the returned association. Submit the app-specific form fields alongside `groupId`, `action`, and `uri`. For `action=link`, the optional `expectedExternalIssueUrl` query parameter requires an exact canonical `webUrl` match. An existing matching link is returned with HTTP 200 without calling the App; a different link returns 409. The callback must also return this URL before a new link is saved. Callback effects cannot be rolled back if its response conflicts. A new association returns HTTP 201. Omitting the parameter preserves the App's existing replacement behavior and HTTP 200 response. */
+export const executeSentryAppInstallationExternalIssueAction: API.OperationMethod<
+  ExecuteSentryAppInstallationExternalIssueActionRequest,
+  ExecuteSentryAppInstallationExternalIssueActionResponse,
+  ExecuteSentryAppInstallationExternalIssueActionError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ExecuteSentryAppInstallationExternalIssueActionRequest,
+  output: ExecuteSentryAppInstallationExternalIssueActionResponse,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetACustomInboundFilterError = BadRequest | Forbidden | NotFound | SentryOpError;
+/** **Experimental:** This API is under active development and may change. Retrieve a single custom inbound filter. */
+export const getACustomInboundFilter: API.OperationMethod<
+  GetACustomInboundFilterRequest,
+  GetACustomInboundFilterResponse,
+  GetACustomInboundFilterError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetACustomInboundFilterRequest,
+  output: GetACustomInboundFilterResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetAnIntegrationSIssueConfigForAnIssueError =
   | BadRequest
   | Forbidden
@@ -40121,6 +44561,21 @@ export const getOrganization: API.OperationMethod<
   input: GetOrganizationRequest,
   output: GetOrganizationResponse,
   errors: [Forbidden, NotFound, UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetOrganizationAIConversationError = BadRequest | Forbidden | NotFound | SentryOpError;
+/** Retrieve an Organization's AI Conversation **Experimental:** This API is under active development and may change. Return spans recorded for one AI conversation in start-time order. Message, tool, and response attributes contain their recorded string values. Without an explicit range, Sentry widens the search across available retention. A missing conversation returns an empty `spans` list. */
+export const getOrganizationAIConversation: API.OperationMethod<
+  GetOrganizationAIConversationRequest,
+  GetOrganizationAIConversationResponse,
+  GetOrganizationAIConversationError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetOrganizationAIConversationRequest,
+  output: GetOrganizationAIConversationResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
 }));
@@ -40216,7 +44671,7 @@ export const getOrganizationIssue: API.OperationMethod<
 }));
 
 export type GetOrganizationIssueAutofixStateError = Forbidden | NotFound | SentryOpError;
-/** Retrieve Seer Issue Fix State Retrieve the current detailed state of an issue fix process for a specific issue including: - Current status - Steps performed and their outcomes - Repository information and permissions - Root Cause Analysis - Proposed Solution - Generated code changes This endpoint although documented is still experimental and the payload may change in the future. */
+/** Retrieve Seer Issue Fix State **Experimental:** This API is under active development and may change. Retrieve the current detailed state of an issue fix process for a specific issue including: - Current status - Steps performed and their outcomes - Repository information and permissions - Root Cause Analysis - Proposed Solution - Generated code changes */
 export const getOrganizationIssueAutofixState: API.OperationMethod<
   GetOrganizationIssueAutofixStateRequest,
   GetOrganizationIssueAutofixStateResponse,
@@ -40481,6 +44936,51 @@ export const getOrganizationScimV2Group: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetOrganizationScimV2ResourceTypeError = Forbidden | NotFound | SentryOpError;
+/** Query an Individual SCIM Resource Type Return a single SCIM resource type by name (`User` or `Group`). */
+export const getOrganizationScimV2ResourceType: API.OperationMethod<
+  GetOrganizationScimV2ResourceTypeRequest,
+  GetOrganizationScimV2ResourceTypeResponse,
+  GetOrganizationScimV2ResourceTypeError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetOrganizationScimV2ResourceTypeRequest,
+  output: GetOrganizationScimV2ResourceTypeResponse,
+  errors: [Forbidden, NotFound, UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetOrganizationScimV2SchemaError = Forbidden | NotFound | SentryOpError;
+/** Query an Individual SCIM Schema Return a single SCIM schema definition by its URI. Sentry supports the core User and Group schemas. */
+export const getOrganizationScimV2Schema: API.OperationMethod<
+  GetOrganizationScimV2SchemaRequest,
+  GetOrganizationScimV2SchemaResponse,
+  GetOrganizationScimV2SchemaError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetOrganizationScimV2SchemaRequest,
+  output: GetOrganizationScimV2SchemaResponse,
+  errors: [Forbidden, NotFound, UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetOrganizationScimV2ServiceProviderConfigError = Forbidden | NotFound | SentryOpError;
+/** Retrieve the SCIM Service Provider Configuration Return the SCIM Service Provider Configuration, which describes the SCIM 2.0 protocol features Sentry supports (RFC 7643 section 5). */
+export const getOrganizationScimV2ServiceProviderConfig: API.OperationMethod<
+  GetOrganizationScimV2ServiceProviderConfigRequest,
+  GetOrganizationScimV2ServiceProviderConfigResponse,
+  GetOrganizationScimV2ServiceProviderConfigError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetOrganizationScimV2ServiceProviderConfigRequest,
+  output: GetOrganizationScimV2ServiceProviderConfigResponse,
+  errors: [Forbidden, NotFound, UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetOrganizationScimV2UserError = Forbidden | NotFound | SentryOpError;
 /** Query an Individual Organization Member Query an individual organization member with a SCIM User GET Request. - The `name` object will contain fields `firstName` and `lastName` with the values of `N/A`. Sentry's SCIM API does not currently support these fields but returns them for compatibility purposes. */
 export const getOrganizationScimV2User: API.OperationMethod<
@@ -40581,6 +45081,21 @@ export const getProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectRequest,
   output: GetProjectResponse,
+  errors: [Forbidden, NotFound, UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetProjectCodeOwnersError = Forbidden | NotFound | SentryOpError;
+/** Retrieve a Project's CODEOWNERS Configuration Return a single CODEOWNERS configuration. */
+export const getProjectCodeOwners: API.OperationMethod<
+  GetProjectCodeOwnersRequest,
+  GetProjectCodeOwnersResponse,
+  GetProjectCodeOwnersError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetProjectCodeOwnersRequest,
+  output: GetProjectCodeOwnersResponse,
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
@@ -40818,6 +45333,25 @@ export const getSentryApp: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetSentryAppInstallationExternalRequestOptionsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | SentryOpError;
+/** Retrieve a Sentry App's Select Field Options **Experimental:** This API is under active development and may change. Request select options from the installed app. Each choice contains its value followed by its label. */
+export const getSentryAppInstallationExternalRequestOptions: API.OperationMethod<
+  GetSentryAppInstallationExternalRequestOptionsRequest,
+  GetSentryAppInstallationExternalRequestOptionsResponse,
+  GetSentryAppInstallationExternalRequestOptionsError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetSentryAppInstallationExternalRequestOptionsRequest,
+  output: GetSentryAppInstallationExternalRequestOptionsResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetTeamError = Forbidden | NotFound | SentryOpError;
 /** Retrieve a Team Return details on an individual team. */
 export const getTeam: API.OperationMethod<
@@ -40848,8 +45382,12 @@ export const getTraceItemStatistics: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type LinkAnExistingExternalIssueToAnIssueError = BadRequest | NotFound | SentryOpError;
-/** Link an issue that already exists in the external provider (such as a Jira ticket or GitHub issue) to the given Sentry issue. Additional accepted fields are integration-specific; fetch them from the `linkIssueConfig` returned by the `GET` endpoint with `?action=link`. */
+export type LinkAnExistingExternalIssueToAnIssueError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | SentryOpError;
+/** Link an issue that already exists in the external provider (such as a Jira ticket or GitHub issue) to the given Sentry issue. Additional accepted fields are integration-specific; fetch them from the `linkIssueConfig` returned by the `GET` endpoint with `?action=link`. Linking the same issue again returns the existing link with HTTP 200, without repeating provider comments. A new link returns HTTP 201. */
 export const linkAnExistingExternalIssueToAnIssue: API.OperationMethod<
   LinkAnExistingExternalIssueToAnIssueRequest,
   LinkAnExistingExternalIssueToAnIssueResponse,
@@ -40858,7 +45396,7 @@ export const linkAnExistingExternalIssueToAnIssue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: LinkAnExistingExternalIssueToAnIssueRequest,
   output: LinkAnExistingExternalIssueToAnIssueResponse,
-  errors: [BadRequest, NotFound, UnknownSentryError],
+  errors: [BadRequest, NotFound, Conflict, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
 }));
@@ -40892,6 +45430,25 @@ export const listAnOrganizationSIntegrationPlatformInstallations: API.OperationM
   input: ListAnOrganizationSIntegrationPlatformInstallationsRequest,
   output: ListAnOrganizationSIntegrationPlatformInstallationsResponse,
   errors: [Forbidden, NotFound, UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListAProjectSCustomInboundFiltersError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | SentryOpError;
+/** **Experimental:** This API is under active development and may change. List the custom inbound filters configured for a project. */
+export const listAProjectSCustomInboundFilters: API.OperationMethod<
+  ListAProjectSCustomInboundFiltersRequest,
+  ListAProjectSCustomInboundFiltersResponse,
+  ListAProjectSCustomInboundFiltersError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListAProjectSCustomInboundFiltersRequest,
+  output: ListAProjectSCustomInboundFiltersResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
 }));
@@ -40937,6 +45494,25 @@ export const listATagSValues: API.OperationMethod<
   input: ListATagSValuesRequest,
   output: ListATagSValuesResponse,
   errors: [Forbidden, UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListOrganizationAIConversationsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | SentryOpError;
+/** List an Organization's AI Conversations **Experimental:** This API is under active development and may change. Return AI conversations ordered by latest span time. `query` uses Sentry search syntax. **Span filters** - Description: `"payment failed"`; status: `span.status:[error,internal_error]`. - Operation: `gen_ai.operation.type:tool`; tool: `gen_ai.tool.name:get_weather`. - Duration: `span.duration:>2s`; ID: `gen_ai.conversation.id:"session:123"` or `conversation.conversationId:"session:123"`. **Conversation filters** - Calls: `conversation.llmCalls` or `conversation.messages`, and `conversation.toolCalls`; failures: `conversation.errors` and `conversation.toolErrors`. - Usage: `conversation.inputTokens`, `conversation.outputTokens`, `conversation.totalTokens`, and `conversation.totalCost`. - Duration: `conversation.duration` sums AI spans; `conversation.generationDuration` sums LLM calls. Use numeric comparisons such as `conversation.toolCalls:>2`. Queries return conversations, not spans. Each `AND` condition may match a different span. Returned totals include all AI spans in selected project, environment, and time filters, not only matching spans. Negation means no span matches, including when an attribute is absent. Payloads are searchable only when recorded and not scrubbed. Payload failure text does not mark a span as failed; set `span.status:error` for reliable failure search. */
+export const listOrganizationAIConversations: API.OperationMethod<
+  ListOrganizationAIConversationsRequest,
+  ListOrganizationAIConversationsResponse,
+  ListOrganizationAIConversationsError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListOrganizationAIConversationsRequest,
+  output: ListOrganizationAIConversationsResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
 }));
@@ -41006,7 +45582,7 @@ export const listOrganizationEnvironments: API.OperationMethod<
 }));
 
 export type ListOrganizationEventsError = BadRequest | Forbidden | SentryOpError;
-/** Query Explore Events in Table Format Retrieves explore data for a given organization. **Note**: This endpoint is intended to get a table of results, and is not for doing a full export of data sent to Sentry. The `field` query parameter determines what fields will be selected in the `data` and `meta` keys of the endpoint response. - The `data` key contains a list of results row by row that match the `query` made - The `meta` key contains information about the response, including the unit or type of the fields requested */
+/** Query Explore Events in Table Format Retrieves explore data for a given organization. **Note**: This endpoint is intended to get a table of results, and is not for doing a full export of data sent to Sentry. The `field` query parameter determines what fields will be selected in the `data` and `meta` keys of the endpoint response. - The `data` key contains a list of results row by row that match the `query` made - The `meta` key contains information about the response, including the unit or type of the fields requested - EAP table results may include `meta.routingHint`. Pass this opaque value unchanged as `routing_hint` when fetching item details for a row in this response. It identifies how the table query was routed and is omitted when no hint is available. */
 export const listOrganizationEvents: API.OperationMethod<
   ListOrganizationEventsRequest,
   ListOrganizationEventsResponse,
@@ -41046,6 +45622,25 @@ export const listOrganizationForwarding: API.OperationMethod<
   input: ListOrganizationForwardingRequest,
   output: ListOrganizationForwardingResponse,
   errors: [UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListOrganizationIntegrationRepositoriesError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | SentryOpError;
+/** List Repositories Available to an Integration **Experimental:** This API is under active development and may change. Get the list of repositories available in an integration ```````````````````````````````````````````````````````` Gets all repositories that an integration makes available, and indicates whether or not you can search repositories by name. :qparam string search: Name fragment to search repositories by. :qparam bool installableOnly: If true, return only repositories that can be installed. If false or not provided, return all repositories. :qparam bool accessibleOnly: If true, only return repositories that the integration installation has access to, filtering locally instead of using the provider's search API which may return results beyond the installation's scope. */
+export const listOrganizationIntegrationRepositories: API.OperationMethod<
+  ListOrganizationIntegrationRepositoriesRequest,
+  ListOrganizationIntegrationRepositoriesResponse,
+  ListOrganizationIntegrationRepositoriesError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListOrganizationIntegrationRepositoriesRequest,
+  output: ListOrganizationIntegrationRepositoriesResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
 }));
@@ -41110,6 +45705,21 @@ export const listOrganizationIssueHashes: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListOrganizationIssueIntegrationsError = SentryOpError;
+/** List an Issue's Tracker Integrations and Links **Experimental:** This API is under active development and may change. List the organization's issue-tracker integrations and the external issues linked to this Sentry issue through each integration. The external issue's `id` is the Sentry link identifier used by the unlink endpoint. */
+export const listOrganizationIssueIntegrations: API.OperationMethod<
+  ListOrganizationIssueIntegrationsRequest,
+  ListOrganizationIssueIntegrationsResponse,
+  ListOrganizationIssueIntegrationsError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListOrganizationIssueIntegrationsRequest,
+  output: ListOrganizationIssueIntegrationsResponse,
+  errors: [UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListOrganizationIssuesError = BadRequest | Forbidden | NotFound | SentryOpError;
 /** List an Organization's Issues Return a list of issues for an organization. All parameters are supplied as query string parameters. A default query of `is:unresolved` is applied. To return all results, use an empty query value (i.e. ``?query=`). */
 export const listOrganizationIssues: API.OperationMethod<
@@ -41135,6 +45745,21 @@ export const listOrganizationIssueTagValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationIssueTagValuesRequest,
   output: ListOrganizationIssueTagValuesResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListOrganizationIssueViewsError = BadRequest | Forbidden | NotFound | SentryOpError;
+/** List Issue Views List the current organization member's custom views ````````````````````````````````````````` Retrieve a list of custom views for the current organization member. */
+export const listOrganizationIssueViews: API.OperationMethod<
+  ListOrganizationIssueViewsRequest,
+  ListOrganizationIssueViewsResponse,
+  ListOrganizationIssueViewsError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListOrganizationIssueViewsRequest,
+  output: ListOrganizationIssueViewsResponse,
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
@@ -41325,7 +45950,7 @@ export const listOrganizationReleases: API.OperationMethod<
 }));
 
 export type ListOrganizationReleaseThresholdStatusesError = BadRequest | SentryOpError;
-/** Retrieve Statuses of Release Thresholds (Alpha) **`[WARNING]`**: This API is an experimental Alpha feature and is subject to change! List all derived statuses of releases that fall within the provided start/end datetimes. Constructs a response key'd off \{`release_version`\}-\{`project_slug`\} that lists thresholds with their status for *specified* projects. Each returned enriched threshold will contain the full serialized `release_threshold` instance as well as it's derived health statuses. */
+/** Retrieve Statuses of Release Thresholds (Alpha) **Experimental:** This API is under active development and may change. List all derived statuses of releases that fall within the provided start/end datetimes. Constructs a response key'd off \{`release_version`\}-\{`project_slug`\} that lists thresholds with their status for *specified* projects. Each returned enriched threshold will contain the full serialized `release_threshold` instance as well as it's derived health statuses. */
 export const listOrganizationReleaseThresholdStatuses: API.OperationMethod<
   ListOrganizationReleaseThresholdStatusesRequest,
   ListOrganizationReleaseThresholdStatusesResponse,
@@ -41429,6 +46054,21 @@ export const listOrganizationScimV2Groups: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListOrganizationScimV2ResourceTypesError = Forbidden | NotFound | SentryOpError;
+/** List the SCIM Resource Types List the resource types available via SCIM: User (organization members) and Group (teams). Pagination parameters are ignored per RFC 7644 section 4; both resource types are always returned. */
+export const listOrganizationScimV2ResourceTypes: API.OperationMethod<
+  ListOrganizationScimV2ResourceTypesRequest,
+  ListOrganizationScimV2ResourceTypesResponse,
+  ListOrganizationScimV2ResourceTypesError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListOrganizationScimV2ResourceTypesRequest,
+  output: ListOrganizationScimV2ResourceTypesResponse,
+  errors: [Forbidden, NotFound, UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListOrganizationScimV2UsersError = Forbidden | NotFound | SentryOpError;
 /** List an Organization's SCIM Members Returns a paginated list of members bound to a organization with a SCIM Users GET Request. */
 export const listOrganizationScimV2Users: API.OperationMethod<
@@ -41439,6 +46079,21 @@ export const listOrganizationScimV2Users: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationScimV2UsersRequest,
   output: ListOrganizationScimV2UsersResponse,
+  errors: [Forbidden, NotFound, UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListOrganizationSentryAppComponentsError = Forbidden | NotFound | SentryOpError;
+/** List an Organization's Installed Sentry App Components **Experimental:** This API is under active development and may change. Retrieve prepared UI components for installed custom integrations, including issue-link forms. */
+export const listOrganizationSentryAppComponents: API.OperationMethod<
+  ListOrganizationSentryAppComponentsRequest,
+  ListOrganizationSentryAppComponentsResponse,
+  ListOrganizationSentryAppComponentsError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListOrganizationSentryAppComponentsRequest,
+  output: ListOrganizationSentryAppComponentsResponse,
   errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
@@ -41519,6 +46174,21 @@ export const listOrganizationTraceItemAttributes: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListOrganizationTraceMetricsError = BadRequest | Forbidden | NotFound | SentryOpError;
+/** List an Organization's Trace Metrics **Experimental:** This API is under active development and may change. List trace metrics (name, type, unit, count, last seen) with optional context. */
+export const listOrganizationTraceMetrics: API.OperationMethod<
+  ListOrganizationTraceMetricsRequest,
+  ListOrganizationTraceMetricsResponse,
+  ListOrganizationTraceMetricsError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListOrganizationTraceMetricsRequest,
+  output: ListOrganizationTraceMetricsResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListOrganizationUserTeamsError = BadRequest | Forbidden | SentryOpError;
 /** List a User's Teams for an Organization Returns a list of teams the user has access to in the specified organization. Note that this endpoint is restricted to [user auth tokens](https://docs.sentry.io/account/auth-tokens/#user-auth-tokens). */
 export const listOrganizationUserTeams: API.OperationMethod<
@@ -41545,6 +46215,21 @@ export const listOrganizationWorkflows: API.OperationMethod<
   input: ListOrganizationWorkflowsRequest,
   output: ListOrganizationWorkflowsResponse,
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListProjectCodeOwnersError = Forbidden | NotFound | SentryOpError;
+/** List a Project's CODEOWNERS Configurations Return the CODEOWNERS configurations for a project. */
+export const listProjectCodeOwners: API.OperationMethod<
+  ListProjectCodeOwnersRequest,
+  ListProjectCodeOwnersResponse,
+  ListProjectCodeOwnersError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListProjectCodeOwnersRequest,
+  output: ListProjectCodeOwnersResponse,
+  errors: [Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
 }));
@@ -41778,6 +46463,21 @@ export const listProjectReplayViewedBy: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListProjectRepositoriesError = SentryOpError;
+/** List Repositories Linked to a Project List all repositories linked to a project. Pass `?includeMappingCount=1` to include the number of code path mappings per repository. Omitting it keeps the query cheaper for callers that only need the list of connections. */
+export const listProjectRepositories: API.OperationMethod<
+  ListProjectRepositoriesRequest,
+  ListProjectRepositoriesResponse,
+  ListProjectRepositoriesError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListProjectRepositoriesRequest,
+  output: ListProjectRepositoriesResponse,
+  errors: [UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListProjectStatsError = Forbidden | NotFound | SentryOpError;
 /** Retrieve Event Counts for a Project Return a set of points representing a normalized timestamp and the number of events seen in the period. Query ranges are limited to Sentry's configured time-series resolutions. This endpoint may change in the future without notice. */
 export const listProjectStats: API.OperationMethod<
@@ -41992,8 +46692,9 @@ export type UnlinkAnExternalIssueFromAnIssueError =
   | BadRequest
   | Forbidden
   | NotFound
+  | Conflict
   | SentryOpError;
-/** Remove the link between a Sentry issue and an external issue. If no other Sentry issues reference the external issue, the link record is deleted entirely. This does not delete the issue in the external provider. */
+/** Remove the link between a Sentry issue and an external issue. If no other Sentry issues reference the external issue, the link record is deleted entirely. An absent link also returns 204. This does not delete the issue in the external provider. */
 export const unlinkAnExternalIssueFromAnIssue: API.OperationMethod<
   UnlinkAnExternalIssueFromAnIssueRequest,
   UnlinkAnExternalIssueFromAnIssueResponse,
@@ -42002,6 +46703,21 @@ export const unlinkAnExternalIssueFromAnIssue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UnlinkAnExternalIssueFromAnIssueRequest,
   output: UnlinkAnExternalIssueFromAnIssueResponse,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateACustomInboundFilterError = BadRequest | Forbidden | NotFound | SentryOpError;
+/** **Experimental:** This API is under active development and may change. Update a custom inbound filter's name, active state, or conditions. */
+export const updateACustomInboundFilter: API.OperationMethod<
+  UpdateACustomInboundFilterRequest,
+  UpdateACustomInboundFilterResponse,
+  UpdateACustomInboundFilterError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateACustomInboundFilterRequest,
+  output: UpdateACustomInboundFilterResponse,
   errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
@@ -42322,6 +47038,21 @@ export const updateProject: API.OperationMethod<
   input: UpdateProjectRequest,
   output: UpdateProjectResponse,
   errors: [Forbidden, NotFound, UnknownSentryError],
+  protocol: SentryProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateProjectCodeOwnersError = BadRequest | Forbidden | NotFound | SentryOpError;
+/** Update a Project's CODEOWNERS Configuration Update a CODEOWNERS configuration. */
+export const updateProjectCodeOwners: API.OperationMethod<
+  UpdateProjectCodeOwnersRequest,
+  UpdateProjectCodeOwnersResponse,
+  UpdateProjectCodeOwnersError,
+  SentryOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateProjectCodeOwnersRequest,
+  output: UpdateProjectCodeOwnersResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownSentryError],
   protocol: SentryProtocol,
   retry: Retry.Retry,
 }));
