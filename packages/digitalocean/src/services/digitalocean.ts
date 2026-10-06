@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema";
 import * as Redacted from "effect/Redacted";
 import { UnknownDigitalOceanError } from "../errors.ts";
+import { paginatePageNumber } from "../pagination.ts";
 import {
   DigitalOceanProtocol,
   type DigitalOceanOpError,
@@ -32,6 +33,16 @@ export class Conflict
     [{ status: 409 }],
   ) {}
 
+/** The firewall or one of its rule targets names a tag that does not exist (422 `tag <name> does not exist`). */
+export class FirewallTagNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<FirewallTagNotFound>()("FirewallTagNotFound", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 422, message: { matches: "^tag .+ does not exist" } }],
+  ) {}
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -48,6 +59,16 @@ export class NotFound
       message: S.String,
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
+  ) {}
+
+/** The public key is already registered on this team (422 `SSH Key is already in use on your account`). */
+export class SshKeyAlreadyRegistered
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SshKeyAlreadyRegistered>()("SshKeyAlreadyRegistered", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 422, message: { includes: "already in use" } }],
   ) {}
 
 export class UnprocessableEntity
@@ -27847,36 +27868,28 @@ export const GetInvoiceByUUIDResponseInvoiceItemsList = /*@__PURE__*/ S.Array(
   InvoiceItem,
 ) as any as S.Schema<GetInvoiceByUUIDResponseInvoiceItemsList>;
 
-export interface ForwardLinks {
-  /** URI of the last page of the results. */
-  last?: string;
-  /** URI of the next page of the results. */
-  next?: string;
-}
-export const ForwardLinks = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    last: S.optional(S.String),
-    next: S.optional(S.String),
-  }),
-).annotate({ identifier: "ForwardLinks" }) as any as S.Schema<ForwardLinks>;
-
-export interface BackwardLinks {
+/** Links to the first, previous, next and last pages of the results. Only the links that apply to the current page are present — the last page has no `next`, the first page has no `prev`. */
+export interface PageLinksPages {
   /** URI of the first page of the results. */
   first?: string;
   /** URI of the previous page of the results. */
   prev?: string;
+  /** URI of the next page of the results. */
+  next?: string;
+  /** URI of the last page of the results. */
+  last?: string;
 }
-export const BackwardLinks = /*@__PURE__*/ S.suspend(() =>
+export const PageLinksPages = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     first: S.optional(S.String),
     prev: S.optional(S.String),
+    next: S.optional(S.String),
+    last: S.optional(S.String),
   }),
-).annotate({ identifier: "BackwardLinks" }) as any as S.Schema<BackwardLinks>;
-
-export type PageLinksPages = ForwardLinks | BackwardLinks | unknown;
-export const PageLinksPages = S.Unknown as any as S.Schema<PageLinksPages>;
+).annotate({ identifier: "PageLinksPages" }) as any as S.Schema<PageLinksPages>;
 
 export interface PageLinks {
+  /** Links to the first, previous, next and last pages of the results. Only the links that apply to the current page are present — the last page has no `next`, the first page has no `prev`. */
   pages?: PageLinksPages;
 }
 export const PageLinks = /*@__PURE__*/ S.suspend(() =>
@@ -35320,13 +35333,13 @@ export type ListDropletsResponseMeta = GetInvoiceByUUIDResponseMeta;
 export const ListDropletsResponseMeta = GetInvoiceByUUIDResponseMeta;
 
 export interface ListDropletsResponse {
-  droplets?: ListDropletsResponseDropletsList;
+  droplets: ListDropletsResponseDropletsList;
   links?: PageLinks;
   meta: GetInvoiceByUUIDResponseMeta;
 }
 export const ListDropletsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    droplets: S.optional(ListDropletsResponseDropletsList),
+    droplets: ListDropletsResponseDropletsList,
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
@@ -35458,13 +35471,13 @@ export type ListFirewallsResponseMeta = GetInvoiceByUUIDResponseMeta;
 export const ListFirewallsResponseMeta = GetInvoiceByUUIDResponseMeta;
 
 export interface ListFirewallsResponse {
-  firewalls?: ListFirewallsResponseFirewallsList;
+  firewalls: ListFirewallsResponseFirewallsList;
   links?: PageLinks;
   meta: GetInvoiceByUUIDResponseMeta;
 }
 export const ListFirewallsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    firewalls: S.optional(ListFirewallsResponseFirewallsList),
+    firewalls: ListFirewallsResponseFirewallsList,
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
@@ -40380,13 +40393,13 @@ export type ListSshKeysResponseMeta = GetInvoiceByUUIDResponseMeta;
 export const ListSshKeysResponseMeta = GetInvoiceByUUIDResponseMeta;
 
 export interface ListSshKeysResponse {
-  ssh_keys?: ListSshKeysResponseSshKeysList;
+  ssh_keys: ListSshKeysResponseSshKeysList;
   links?: PageLinks;
   meta: GetInvoiceByUUIDResponseMeta;
 }
 export const ListSshKeysResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ssh_keys: S.optional(ListSshKeysResponseSshKeysList),
+    ssh_keys: ListSshKeysResponseSshKeysList,
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
@@ -40414,13 +40427,13 @@ export type ListTagsResponseMeta = GetInvoiceByUUIDResponseMeta;
 export const ListTagsResponseMeta = GetInvoiceByUUIDResponseMeta;
 
 export interface ListTagsResponse {
-  tags?: ListTagsResponseTagsList;
+  tags: ListTagsResponseTagsList;
   links?: PageLinks;
   meta: GetInvoiceByUUIDResponseMeta;
 }
 export const ListTagsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tags: S.optional(ListTagsResponseTagsList),
+    tags: ListTagsResponseTagsList,
     links: S.optional(PageLinks),
     meta: GetInvoiceByUUIDResponseMeta,
   }),
@@ -48374,7 +48387,11 @@ export const createDroplet: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateFirewallError = BadRequest | DigitalOceanOpError;
+export type CreateFirewallError =
+  | BadRequest
+  | UnprocessableEntity
+  | FirewallTagNotFound
+  | DigitalOceanOpError;
 /** Create a New Firewall To create a new firewall, send a POST request to `/v2/firewalls`. The request must contain at least one inbound or outbound access rule. */
 export const createFirewall: API.OperationMethod<
   CreateFirewallRequest,
@@ -48384,7 +48401,7 @@ export const createFirewall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateFirewallRequest,
   output: CreateFirewallResponse,
-  errors: [BadRequest, UnknownDigitalOceanError],
+  errors: [BadRequest, UnprocessableEntity, FirewallTagNotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
 }));
@@ -49235,7 +49252,7 @@ export const createSpacesKey: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateSshKeyError = UnprocessableEntity | DigitalOceanOpError;
+export type CreateSshKeyError = UnprocessableEntity | SshKeyAlreadyRegistered | DigitalOceanOpError;
 /** Create a New SSH Key To add a new SSH public key to your DigitalOcean account, send a POST request to `/v2/account/keys`. Set the `name` attribute to the name you wish to use and the `public_key` attribute to the full public key you are adding. */
 export const createSshKey: API.OperationMethod<
   CreateSshKeyRequest,
@@ -49245,7 +49262,7 @@ export const createSshKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateSshKeyRequest,
   output: CreateSshKeyResponse,
-  errors: [UnprocessableEntity, UnknownDigitalOceanError],
+  errors: [UnprocessableEntity, SshKeyAlreadyRegistered, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
 }));
@@ -55167,18 +55184,29 @@ export const listDropletNeighborsIds: API.OperationMethod<
 
 export type ListDropletsError = DigitalOceanOpError;
 /** List All Droplets To list all Droplets in your account, send a GET request to `/v2/droplets`. The response body will be a JSON object with a key of `droplets`. This will be set to an array containing objects each representing a Droplet. These will contain the standard Droplet attributes. ### Filtering Results by Tag It's possible to request filtered results by including certain query parameters. To only list Droplets assigned to a specific tag, include the `tag_name` query parameter set to the name of the tag in your GET request. For example, `/v2/droplets?tag_name=$TAG_NAME`. ### GPU Droplets By default, only non-GPU Droplets are returned. To list only GPU Droplets, set the `type` query parameter to `gpus`. For example, `/v2/droplets?type=gpus`. */
-export const listDroplets: API.OperationMethod<
+export const listDroplets: API.PaginatedOperationMethod<
   ListDropletsRequest,
   ListDropletsResponse,
   ListDropletsError,
-  DigitalOceanOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ListDropletsRequest,
-  output: ListDropletsResponse,
-  errors: [UnknownDigitalOceanError],
-  protocol: DigitalOceanProtocol,
-  retry: Retry.Retry,
-}));
+  DigitalOceanOpContext,
+  Droplet
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: ListDropletsRequest,
+    output: ListDropletsResponse,
+    errors: [UnknownDigitalOceanError],
+    protocol: DigitalOceanProtocol,
+    retry: Retry.Retry,
+    pagination: {
+      mode: "page",
+      inputToken: "page",
+      outputToken: "links.pages.next",
+      items: "droplets",
+      pageSize: "per_page",
+    } as const,
+  }),
+  paginatePageNumber,
+) as any;
 
 export type ListDropletSnapshotsError = NotFound | DigitalOceanOpError;
 /** List Snapshots for a Droplet To retrieve the snapshots that have been created from a Droplet, send a GET request to `/v2/droplets/$DROPLET_ID/snapshots`. You will get back a JSON object that has a `snapshots` key. This will be set to an array of snapshot objects, each of which contain the standard Droplet snapshot attributes. */
@@ -55212,18 +55240,29 @@ export const listDropletSupportedBackupPolicies: API.OperationMethod<
 
 export type ListFirewallsError = DigitalOceanOpError;
 /** List All Firewalls To list all of the firewalls available on your account, send a GET request to `/v2/firewalls`. */
-export const listFirewalls: API.OperationMethod<
+export const listFirewalls: API.PaginatedOperationMethod<
   ListFirewallsRequest,
   ListFirewallsResponse,
   ListFirewallsError,
-  DigitalOceanOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ListFirewallsRequest,
-  output: ListFirewallsResponse,
-  errors: [UnknownDigitalOceanError],
-  protocol: DigitalOceanProtocol,
-  retry: Retry.Retry,
-}));
+  DigitalOceanOpContext,
+  Firewall
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: ListFirewallsRequest,
+    output: ListFirewallsResponse,
+    errors: [UnknownDigitalOceanError],
+    protocol: DigitalOceanProtocol,
+    retry: Retry.Retry,
+    pagination: {
+      mode: "page",
+      inputToken: "page",
+      outputToken: "links.pages.next",
+      items: "firewalls",
+      pageSize: "per_page",
+    } as const,
+  }),
+  paginatePageNumber,
+) as any;
 
 export type ListFloatingIPsError = DigitalOceanOpError;
 /** List All Floating IPs To list all of the floating IPs available on your account, send a GET request to `/v2/floating_ips`. */
@@ -56517,33 +56556,55 @@ export const listSpacesKey: API.OperationMethod<
 
 export type ListSshKeysError = DigitalOceanOpError;
 /** List All SSH Keys To list all of the keys in your account, send a GET request to `/v2/account/keys`. The response will be a JSON object with a key set to `ssh_keys`. The value of this will be an array of ssh_key objects, each of which contains the standard ssh_key attributes. */
-export const listSshKeys: API.OperationMethod<
+export const listSshKeys: API.PaginatedOperationMethod<
   ListSshKeysRequest,
   ListSshKeysResponse,
   ListSshKeysError,
-  DigitalOceanOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ListSshKeysRequest,
-  output: ListSshKeysResponse,
-  errors: [UnknownDigitalOceanError],
-  protocol: DigitalOceanProtocol,
-  retry: Retry.Retry,
-}));
+  DigitalOceanOpContext,
+  SshKeys
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: ListSshKeysRequest,
+    output: ListSshKeysResponse,
+    errors: [UnknownDigitalOceanError],
+    protocol: DigitalOceanProtocol,
+    retry: Retry.Retry,
+    pagination: {
+      mode: "page",
+      inputToken: "page",
+      outputToken: "links.pages.next",
+      items: "ssh_keys",
+      pageSize: "per_page",
+    } as const,
+  }),
+  paginatePageNumber,
+) as any;
 
 export type ListTagsError = DigitalOceanOpError;
 /** List All Tags To list all of your tags, you can send a GET request to `/v2/tags`. This endpoint will only return tagged resources that you are authorized to see (e.g. Droplets will only be returned if you have `droplet:read`). */
-export const listTags: API.OperationMethod<
+export const listTags: API.PaginatedOperationMethod<
   ListTagsRequest,
   ListTagsResponse,
   ListTagsError,
-  DigitalOceanOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsRequest,
-  output: ListTagsResponse,
-  errors: [UnknownDigitalOceanError],
-  protocol: DigitalOceanProtocol,
-  retry: Retry.Retry,
-}));
+  DigitalOceanOpContext,
+  Tags
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: ListTagsRequest,
+    output: ListTagsResponse,
+    errors: [UnknownDigitalOceanError],
+    protocol: DigitalOceanProtocol,
+    retry: Retry.Retry,
+    pagination: {
+      mode: "page",
+      inputToken: "page",
+      outputToken: "links.pages.next",
+      items: "tags",
+      pageSize: "per_page",
+    } as const,
+  }),
+  paginatePageNumber,
+) as any;
 
 export type ListToolbeltProvidersError = BadRequest | NotFound | DigitalOceanOpError;
 /** List the Providers in a Toolbelt Returns the distinct providers of the toolbelt's members, each with its member count, sorted by provider ID. List one provider's members with `GET .../toolbelts/{name}/providers/{provider}/tools`. */
@@ -57932,7 +57993,12 @@ export const updateDomainRecord: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UpdateFirewallError = BadRequest | NotFound | DigitalOceanOpError;
+export type UpdateFirewallError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | FirewallTagNotFound
+  | DigitalOceanOpError;
 /** Update a Firewall To update the configuration of an existing firewall, send a PUT request to `/v2/firewalls/$FIREWALL_ID`. The request should contain a full representation of the firewall including existing attributes. **Note that any attributes that are not provided will be reset to their default values.** <br><br>You must have read access (e.g. `droplet:read`) to all resources attached to the firewall to successfully update the firewall. */
 export const updateFirewall: API.OperationMethod<
   UpdateFirewallRequest,
@@ -57942,7 +58008,13 @@ export const updateFirewall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateFirewallRequest,
   output: UpdateFirewallResponse,
-  errors: [BadRequest, NotFound, UnknownDigitalOceanError],
+  errors: [
+    BadRequest,
+    NotFound,
+    UnprocessableEntity,
+    FirewallTagNotFound,
+    UnknownDigitalOceanError,
+  ],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
 }));

@@ -6447,30 +6447,15 @@
       "type": "structure",
       "members": {
         "pages": {
-          "target": "com.digitalocean.api#PageLinksPages"
-        }
-      },
-      "traits": {}
-    },
-    "com.digitalocean.api#ForwardLinks": {
-      "type": "structure",
-      "members": {
-        "last": {
-          "target": "smithy.api#String",
+          "target": "com.digitalocean.api#PageLinksPages",
           "traits": {
-            "smithy.api#documentation": "URI of the last page of the results."
-          }
-        },
-        "next": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "URI of the next page of the results."
+            "smithy.api#documentation": "Links to the first, previous, next and last pages of the results. Only the links that apply to the current page are present — the last page has no `next`, the first page has no `prev`."
           }
         }
       },
       "traits": {}
     },
-    "com.digitalocean.api#BackwardLinks": {
+    "com.digitalocean.api#PageLinksPages": {
       "type": "structure",
       "members": {
         "first": {
@@ -6484,24 +6469,23 @@
           "traits": {
             "smithy.api#documentation": "URI of the previous page of the results."
           }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URI of the next page of the results."
+          }
+        },
+        "last": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URI of the last page of the results."
+          }
         }
       },
-      "traits": {}
-    },
-    "com.digitalocean.api#PageLinksPages": {
-      "type": "union",
-      "members": {
-        "ForwardLinks": {
-          "target": "com.digitalocean.api#ForwardLinks"
-        },
-        "BackwardLinks": {
-          "target": "com.digitalocean.api#BackwardLinks"
-        },
-        "Case2": {
-          "target": "smithy.api#Document"
-        }
-      },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Links to the first, previous, next and last pages of the results. Only the links that apply to the current page are present — the last page has no `next`, the first page has no `prev`."
+      }
     },
     "com.digitalocean.api#ListSshKeysResponseMeta": {
       "type": "structure",
@@ -6550,7 +6534,14 @@
           "uri": "/v2/account/keys",
           "code": 200
         },
-        "smithy.api#documentation": "List All SSH Keys\n\nTo list all of the keys in your account, send a GET request to `/v2/account/keys`. The response will be a JSON object with a key set to `ssh_keys`. The value of this will be an array of ssh_key objects, each of which contains the standard ssh_key attributes."
+        "smithy.api#documentation": "List All SSH Keys\n\nTo list all of the keys in your account, send a GET request to `/v2/account/keys`. The response will be a JSON object with a key set to `ssh_keys`. The value of this will be an array of ssh_key objects, each of which contains the standard ssh_key attributes.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "links.pages.next",
+          "items": "ssh_keys",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.digitalocean.api#CreateSshKeyRequest": {
@@ -6599,6 +6590,9 @@
       "errors": [
         {
           "target": "com.digitalocean.api#UnprocessableEntity"
+        },
+        {
+          "target": "com.digitalocean.api#SshKeyAlreadyRegistered"
         }
       ],
       "traits": {
@@ -32876,7 +32870,14 @@
           "uri": "/v2/droplets",
           "code": 200
         },
-        "smithy.api#documentation": "List All Droplets\n\nTo list all Droplets in your account, send a GET request to `/v2/droplets`.\n\nThe response body will be a JSON object with a key of `droplets`. This will be\nset to an array containing objects each representing a Droplet. These will\ncontain the standard Droplet attributes.\n\n### Filtering Results by Tag\n\nIt's possible to request filtered results by including certain query parameters.\nTo only list Droplets assigned to a specific tag, include the `tag_name` query\nparameter set to the name of the tag in your GET request. For example,\n`/v2/droplets?tag_name=$TAG_NAME`.\n\n### GPU Droplets\n\nBy default, only non-GPU Droplets are returned. To list only GPU Droplets, set\nthe `type` query parameter to `gpus`. For example, `/v2/droplets?type=gpus`."
+        "smithy.api#documentation": "List All Droplets\n\nTo list all Droplets in your account, send a GET request to `/v2/droplets`.\n\nThe response body will be a JSON object with a key of `droplets`. This will be\nset to an array containing objects each representing a Droplet. These will\ncontain the standard Droplet attributes.\n\n### Filtering Results by Tag\n\nIt's possible to request filtered results by including certain query parameters.\nTo only list Droplets assigned to a specific tag, include the `tag_name` query\nparameter set to the name of the tag in your GET request. For example,\n`/v2/droplets?tag_name=$TAG_NAME`.\n\n### GPU Droplets\n\nBy default, only non-GPU Droplets are returned. To list only GPU Droplets, set\nthe `type` query parameter to `gpus`. For example, `/v2/droplets?type=gpus`.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "links.pages.next",
+          "items": "droplets",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.digitalocean.api#DropletSingleCreateInput": {
@@ -38499,7 +38500,14 @@
           "uri": "/v2/firewalls",
           "code": 200
         },
-        "smithy.api#documentation": "List All Firewalls\n\nTo list all of the firewalls available on your account, send a GET request to `/v2/firewalls`."
+        "smithy.api#documentation": "List All Firewalls\n\nTo list all of the firewalls available on your account, send a GET request to `/v2/firewalls`.",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "links.pages.next",
+          "items": "firewalls",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.digitalocean.api#CreateFirewallRequestDropletIdsList": {
@@ -38920,6 +38928,12 @@
       "errors": [
         {
           "target": "com.digitalocean.api#BadRequest"
+        },
+        {
+          "target": "com.digitalocean.api#UnprocessableEntity"
+        },
+        {
+          "target": "com.digitalocean.api#FirewallTagNotFound"
         }
       ],
       "traits": {
@@ -39412,6 +39426,12 @@
         },
         {
           "target": "com.digitalocean.api#NotFound"
+        },
+        {
+          "target": "com.digitalocean.api#UnprocessableEntity"
+        },
+        {
+          "target": "com.digitalocean.api#FirewallTagNotFound"
         }
       ],
       "traits": {
@@ -68274,7 +68294,14 @@
           "uri": "/v2/tags",
           "code": 200
         },
-        "smithy.api#documentation": "List All Tags\n\nTo list all of your tags, you can send a GET request to `/v2/tags`.\n\nThis endpoint will only return tagged resources that you are authorized to see\n(e.g. Droplets will only be returned if you have `droplet:read`)."
+        "smithy.api#documentation": "List All Tags\n\nTo list all of your tags, you can send a GET request to `/v2/tags`.\n\nThis endpoint will only return tagged resources that you are authorized to see\n(e.g. Droplets will only be returned if you have `droplet:read`).",
+        "smithy.api#paginated": {
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "links.pages.next",
+          "items": "tags",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.digitalocean.api#CreateTagRequest": {
@@ -103216,6 +103243,40 @@
       ],
       "traits": {
         "smithy.api#title": "DigitalOcean API"
+      }
+    },
+    "com.digitalocean.api#FirewallTagNotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "smithy.api#documentation": "The firewall or one of its rule targets names a tag that does not exist (422 `tag <name> does not exist`).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422,
+            "message": {
+              "matches": "^tag .+ does not exist"
+            }
+          }
+        ]
+      }
+    },
+    "com.digitalocean.api#SshKeyAlreadyRegistered": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "smithy.api#documentation": "The public key is already registered on this team (422 `SSH Key is already in use on your account`).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422,
+            "message": {
+              "includes": "already in use"
+            }
+          }
+        ]
       }
     }
   }

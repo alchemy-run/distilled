@@ -1,0 +1,35 @@
+{
+  "description": "`page_links.pages` is `anyOf(forward_links, backward_links, {})`. The converter emits a type-level union whose runtime schema is S.Unknown, so `ForwardLinks | BackwardLinks | unknown` collapses to `unknown` and consumers cannot read `links.pages.next` (the pagination output token) without a cast. Replace it with one flat object of optional URL strings — the wire carries whichever of `first`/`prev`/`next`/`last` apply to the current page.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/components/schemas/page_links/properties/pages",
+      "value": {
+        "type": "object",
+        "description": "Links to the first, previous, next and last pages of the results. Only the links that apply to the current page are present — the last page has no `next`, the first page has no `prev`.",
+        "properties": {
+          "first": {
+            "type": "string",
+            "description": "URI of the first page of the results.",
+            "example": "https://api.digitalocean.com/v2/account/keys?page=1"
+          },
+          "prev": {
+            "type": "string",
+            "description": "URI of the previous page of the results.",
+            "example": "https://api.digitalocean.com/v2/account/keys?page=2"
+          },
+          "next": {
+            "type": "string",
+            "description": "URI of the next page of the results.",
+            "example": "https://api.digitalocean.com/v2/account/keys?page=4"
+          },
+          "last": {
+            "type": "string",
+            "description": "URI of the last page of the results.",
+            "example": "https://api.digitalocean.com/v2/account/keys?page=5"
+          }
+        }
+      }
+    }
+  ]
+}
