@@ -33,45 +33,28 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-/**
- * Build a {@link Config} from a raw token string. Always wraps with this
- * package's `Redacted` so protocol-side `Redacted.value` works even when
- * the caller lives in a different `effect` install.
- */
+/** Build a {@link Config} from a redacted token, filling in the defaults. */
 export const toConfig = (config: {
-  readonly token: string;
+  readonly token: Redacted.Redacted<string>;
   readonly tokenKind?: TokenKind;
   readonly apiBaseUrl?: string;
 }): Config => ({
-  token: Redacted.make(config.token),
+  token: config.token,
   tokenKind: config.tokenKind ?? "apiKey",
   apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
 });
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("LinearCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "LinearCredentials",
+) {}
 
 /** Build {@link Credentials} from an explicit token. */
 export const CredentialsFromToken = (config: {
-  readonly token: string | Redacted.Redacted<string>;
+  readonly token: Redacted.Redacted<string>;
   /** Defaults to `"apiKey"` (the bare `Authorization` header). */
   readonly tokenKind?: TokenKind;
   readonly apiBaseUrl?: string;
-}): Layer.Layer<Credentials> =>
-  Layer.succeed(
-    Credentials,
-    Effect.succeed(
-      toConfig({
-        token: Redacted.isRedacted(config.token)
-          ? Redacted.value(config.token)
-          : config.token,
-        tokenKind: config.tokenKind,
-        apiBaseUrl: config.apiBaseUrl,
-      }),
-    ),
-  );
+}): Layer.Layer<Credentials> => Layer.succeed(Credentials, Effect.succeed(toConfig(config)));
 
 const envConfig = EffectConfig.all({
   apiKey: EffectConfig.option(EffectConfig.String("LINEAR_API_KEY")),
@@ -81,8 +64,7 @@ const envConfig = EffectConfig.all({
   ),
 });
 
-const MISSING_TOKEN =
-  "LINEAR_API_KEY (or LINEAR_ACCESS_TOKEN) environment variable is required";
+const MISSING_TOKEN = "LINEAR_API_KEY (or LINEAR_ACCESS_TOKEN) environment variable is required";
 
 /**
  * Build {@link Credentials} from environment variables.

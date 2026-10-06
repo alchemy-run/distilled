@@ -56,8 +56,8 @@ program.pipe(Effect.provide(Live), Effect.runPromise);
   `Authorization: Bearer <token>`.
 - `LINEAR_API_URL` (optional) — the host, default `https://api.linear.app`.
 
-`CredentialsFromToken({ token, tokenKind: "apiKey" | "oauth" })` takes an
-explicit token instead.
+`CredentialsFromToken({ token: Redacted.make(key), tokenKind: "apiKey" | "oauth" })`
+takes an explicit token instead.
 
 ## How selection works
 

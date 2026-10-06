@@ -1,3 +1,9 @@
+import {
+  GqlTransport,
+  GraphQLTransportError,
+  type CompiledOperation,
+  type RawGraphQLError,
+} from "@distilled.cloud/core/graphql";
 /**
  * Linear {@link GqlTransport}: POST /graphql with an API key or OAuth token.
  *
@@ -6,16 +12,10 @@
  * never produce a GraphQL body are {@link GraphQLTransportError}.
  */
 import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import * as Redacted from "effect/Redacted";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
-import {
-  GqlTransport,
-  GraphQLTransportError,
-  type CompiledOperation,
-  type RawGraphQLError,
-} from "@distilled.cloud/core/graphql";
+import * as Layer from "effect/Layer";
+import * as Redacted from "effect/Redacted";
 import { Credentials } from "./credentials.ts";
 
 export type GraphQLRequirements = Credentials | HttpClient.HttpClient;
@@ -90,9 +90,7 @@ export const GraphQLLive = Layer.succeed(GqlTransport, {
         typeof body === "object" && body !== null
           ? (body as { data?: unknown; errors?: unknown })
           : {};
-      const errors = Array.isArray(envelope.errors)
-        ? (envelope.errors as RawGraphQLError[])
-        : [];
+      const errors = Array.isArray(envelope.errors) ? (envelope.errors as RawGraphQLError[]) : [];
       if (status >= 400 && errors.length === 0) {
         return yield* new GraphQLTransportError({
           message: `Linear HTTP ${status} returned no GraphQL errors`,

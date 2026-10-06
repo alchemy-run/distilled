@@ -811,14 +811,7 @@
     "AgentActivityType": {
       "kind": "ENUM",
       "description": "The type of an agent activity.",
-      "enumValues": [
-        "thought",
-        "action",
-        "response",
-        "elicitation",
-        "error",
-        "prompt"
-      ]
+      "enumValues": ["thought", "action", "response", "elicitation", "error", "prompt"]
     },
     "AgentAutomationRetryResolution": {
       "kind": "OBJECT",
@@ -1287,15 +1280,7 @@
     "AgentSessionStatus": {
       "kind": "ENUM",
       "description": "The status of an agent session.",
-      "enumValues": [
-        "pending",
-        "active",
-        "stopping",
-        "complete",
-        "awaitingInput",
-        "error",
-        "stale"
-      ]
+      "enumValues": ["pending", "active", "stopping", "complete", "awaitingInput", "error", "stale"]
     },
     "AgentSessionToPullRequest": {
       "kind": "OBJECT",
@@ -2465,12 +2450,7 @@
     "AiConversationElicitationKind": {
       "kind": "ENUM",
       "description": "The kind of input an AI conversation elicitation asks for.",
-      "enumValues": [
-        "multipleChoice",
-        "mcpServerConnection",
-        "confirmation",
-        "entitySelection"
-      ]
+      "enumValues": ["multipleChoice", "mcpServerConnection", "confirmation", "entitySelection"]
     },
     "AiConversationElicitationOption": {
       "kind": "OBJECT",
@@ -3543,12 +3523,7 @@
     "AiConversationMcpServerConnectionScopeType": {
       "kind": "ENUM",
       "description": "The owner scope for an MCP server connection requested in an AI conversation.",
-      "enumValues": [
-        "user",
-        "team",
-        "workflowDefinition",
-        "workflowDefinitionDraft"
-      ]
+      "enumValues": ["user", "team", "workflowDefinition", "workflowDefinitionDraft"]
     },
     "AiConversationMemoryToolCall": {
       "kind": "OBJECT",
@@ -5449,14 +5424,7 @@
     "AiConversationStatus": {
       "kind": "ENUM",
       "description": "The status of an AI conversation.",
-      "enumValues": [
-        "active",
-        "complete",
-        "awaitingInput",
-        "error",
-        "pending",
-        "waiting"
-      ]
+      "enumValues": ["active", "complete", "awaitingInput", "error", "pending", "waiting"]
     },
     "AiConversationSubscribeToEventToolCall": {
       "kind": "OBJECT",
@@ -8692,13 +8660,7 @@
     },
     "ContextViewType": {
       "kind": "ENUM",
-      "enumValues": [
-        "activeIssues",
-        "activeCycle",
-        "upcomingCycle",
-        "backlog",
-        "triage"
-      ]
+      "enumValues": ["activeIssues", "activeCycle", "upcomingCycle", "backlog", "triage"]
     },
     "CreateCsvExportReportPayload": {
       "kind": "OBJECT",
@@ -12469,15 +12431,7 @@
     "Day": {
       "kind": "ENUM",
       "description": "The day of the week.",
-      "enumValues": [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday"
-      ]
+      "enumValues": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     },
     "DelegateSort": {
       "kind": "INPUT_OBJECT",
@@ -26950,14 +26904,7 @@
     "IssueSuggestionType": {
       "kind": "ENUM",
       "description": "The type of an issue suggestion, indicating what kind of entity is being suggested (e.g., similar issue, assignee, label, team, project).",
-      "enumValues": [
-        "team",
-        "project",
-        "assignee",
-        "label",
-        "similarIssue",
-        "relatedIssue"
-      ]
+      "enumValues": ["team", "project", "assignee", "label", "similarIssue", "relatedIssue"]
     },
     "IssueTitleSuggestionFromCustomerRequestPayload": {
       "kind": "OBJECT",
@@ -38802,11 +38749,7 @@
     "PartnerOfferIneligibilityReason": {
       "kind": "ENUM",
       "description": "[Internal] Why a workspace cannot redeem a partner offer.",
-      "enumValues": [
-        "alreadySubscribed",
-        "alreadyRedeemed",
-        "otherOfferPending"
-      ]
+      "enumValues": ["alreadySubscribed", "alreadyRedeemed", "otherOfferPending"]
     },
     "PartnerOfferRedeemPayload": {
       "kind": "OBJECT",
@@ -44141,14 +44084,7 @@
     "ProjectStatusType": {
       "kind": "ENUM",
       "description": "A type of project status.",
-      "enumValues": [
-        "backlog",
-        "planned",
-        "started",
-        "paused",
-        "completed",
-        "canceled"
-      ]
+      "enumValues": ["backlog", "planned", "started", "paused", "completed", "canceled"]
     },
     "ProjectStatusUpdateInput": {
       "kind": "INPUT_OBJECT",
@@ -45481,14 +45417,7 @@
     "PullRequestStatus": {
       "kind": "ENUM",
       "description": "The status of a pull request.",
-      "enumValues": [
-        "draft",
-        "open",
-        "inReview",
-        "approved",
-        "merged",
-        "closed"
-      ]
+      "enumValues": ["draft", "open", "inReview", "approved", "merged", "closed"]
     },
     "PushSubscription": {
       "kind": "OBJECT",
@@ -49513,14 +49442,7 @@
     "ReleaseChannel": {
       "kind": "ENUM",
       "description": "Features release channel.",
-      "enumValues": [
-        "development",
-        "internal",
-        "privateBeta",
-        "beta",
-        "preRelease",
-        "public"
-      ]
+      "enumValues": ["development", "internal", "privateBeta", "beta", "preRelease", "public"]
     },
     "ReleaseCollectionFilter": {
       "kind": "INPUT_OBJECT",
@@ -52697,14 +52619,7 @@
     },
     "SlaStatus": {
       "kind": "ENUM",
-      "enumValues": [
-        "Breached",
-        "HighRisk",
-        "MediumRisk",
-        "LowRisk",
-        "Completed",
-        "Failed"
-      ]
+      "enumValues": ["Breached", "HighRisk", "MediumRisk", "LowRisk", "Completed", "Failed"]
     },
     "SlaStatusComparator": {
       "kind": "INPUT_OBJECT",
@@ -56726,12 +56641,7 @@
     "TriageRuleErrorType": {
       "kind": "ENUM",
       "description": "The type of error that occurred during triage rule execution.",
-      "enumValues": [
-        "cycle",
-        "default",
-        "labelGroupConflict",
-        "codingAgentQuotaExceeded"
-      ]
+      "enumValues": ["cycle", "default", "labelGroupConflict", "codingAgentQuotaExceeded"]
     },
     "UpdatedAtSort": {
       "kind": "INPUT_OBJECT",
@@ -58421,15 +58331,7 @@
     "UserSettingsThemePreset": {
       "kind": "ENUM",
       "description": "Theme preset options",
-      "enumValues": [
-        "system",
-        "light",
-        "pureLight",
-        "dark",
-        "magicBlue",
-        "classicDark",
-        "custom"
-      ]
+      "enumValues": ["system", "light", "pureLight", "dark", "magicBlue", "classicDark", "custom"]
     },
     "UserSettingsUpdateInput": {
       "kind": "INPUT_OBJECT",

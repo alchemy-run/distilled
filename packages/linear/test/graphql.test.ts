@@ -1,11 +1,3 @@
-/** Mock-transport regressions for the Linear Query SDK, using captured Linear error envelopes. */
-import { describe, expect, test } from "bun:test";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import * as Result from "effect/Result";
-import * as Stream from "effect/Stream";
-import * as HttpClient from "effect/http/HttpClient";
-import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import {
   GqlTransport,
   GraphQLFailure,
@@ -16,12 +8,16 @@ import {
   type RawGraphQLError,
 } from "@distilled.cloud/core/graphql";
 import { Query } from "@distilled.cloud/core/query";
-import {
-  CredentialsFromToken,
-  GraphQLLive,
-  Linear,
-  type TokenKind,
-} from "@distilled.cloud/linear";
+import { CredentialsFromToken, GraphQLLive, Linear, type TokenKind } from "@distilled.cloud/linear";
+import * as Effect from "effect/Effect";
+import * as HttpClient from "effect/http/HttpClient";
+import * as HttpClientResponse from "effect/http/HttpClientResponse";
+import * as Layer from "effect/Layer";
+import * as Redacted from "effect/Redacted";
+import * as Result from "effect/Result";
+import * as Stream from "effect/Stream";
+/** Mock-transport regressions for the Linear Query SDK, using captured Linear error envelopes. */
+import { describe, expect, test } from "vitest";
 
 /** Answers each request with the next response; the last one repeats. */
 const sequence = (...responses: GraphQLResponse[]) => {
@@ -36,18 +32,14 @@ const sequence = (...responses: GraphQLResponse[]) => {
   return { layer, requests };
 };
 
-const run = <A, E>(
-  effect: Effect.Effect<A, E, GqlTransport>,
-  layer: Layer.Layer<GqlTransport>,
-) => Effect.runPromise(effect.pipe(Effect.provide(layer)));
+const run = <A, E>(effect: Effect.Effect<A, E, GqlTransport>, layer: Layer.Layer<GqlTransport>) =>
+  Effect.runPromise(effect.pipe(Effect.provide(layer)));
 
 const failure = async <A, E>(
   effect: Effect.Effect<A, E, GqlTransport>,
   layer: Layer.Layer<GqlTransport>,
 ): Promise<E> => {
-  const result = await Effect.runPromise(
-    Effect.result(effect.pipe(Effect.provide(layer))),
-  );
+  const result = await Effect.runPromise(Effect.result(effect.pipe(Effect.provide(layer))));
   if (Result.isSuccess(result)) throw new Error("expected a failure");
   return result.failure;
 };
@@ -112,9 +104,7 @@ describe("Linear Query SDK", () => {
         return {
           success: payload.success,
           id: payload.issueLabel.id,
-          parentId: payload.issueLabel.parent.pipe(
-            Query.map((parent) => parent?.id),
-          ),
+          parentId: payload.issueLabel.parent.pipe(Query.map((parent) => parent?.id)),
         };
       })(),
       layer,
@@ -139,9 +129,7 @@ describe("Linear Query SDK", () => {
     expect(missing).toMatchObject({ code: "INPUT_ERROR" });
 
     const recovered = await run(
-      getTeam("missing").pipe(
-        Effect.catchTag("LinearNotFound", () => Effect.succeed(undefined)),
-      ),
+      getTeam("missing").pipe(Effect.catchTag("LinearNotFound", () => Effect.succeed(undefined))),
       sequence({ data: null, errors: [notFound("team", "Team")] }).layer,
     );
     expect(recovered).toBeUndefined();
@@ -203,9 +191,10 @@ describe("Linear Query SDK", () => {
       }).layer,
     );
     expect(error).toBeInstanceOf(GraphQLFailure);
-    expect((error as GraphQLFailure).errors.map((issue) => issue._tag)).toEqual(
-      ["LinearNotFound", "LinearInvalidInput"],
-    );
+    expect((error as GraphQLFailure).errors.map((issue) => issue._tag)).toEqual([
+      "LinearNotFound",
+      "LinearInvalidInput",
+    ]);
   });
 
   test("Query.items follows endCursor until hasNextPage is false", async () => {
@@ -225,11 +214,7 @@ describe("Linear Query SDK", () => {
     );
     const names = await run(
       Stream.runCollect(
-        Query.items(
-          Linear.issueLabels({ first: 2 }).pipe(
-            Query.map((label) => label.name),
-          ),
-        ),
+        Query.items(Linear.issueLabels({ first: 2 }).pipe(Query.map((label) => label.name))),
       ),
       layer,
     );
@@ -300,7 +285,7 @@ describe("Linear Query SDK", () => {
     const live = (tokenKind: TokenKind) =>
       GraphQLLive.pipe(
         Layer.provideMerge(http),
-        Layer.provideMerge(CredentialsFromToken({ token: "k", tokenKind })),
+        Layer.provideMerge(CredentialsFromToken({ token: Redacted.make("k"), tokenKind })),
       );
 
     const apiKey = await failure(getTeam("t1"), live("apiKey"));
@@ -319,10 +304,7 @@ describe("Linear Query SDK", () => {
       HttpClient.HttpClient,
       HttpClient.make((request) =>
         Effect.succeed(
-          HttpClientResponse.fromWeb(
-            request,
-            new Response("<html>", { status: 502 }),
-          ),
+          HttpClientResponse.fromWeb(request, new Response("<html>", { status: 502 })),
         ),
       ),
     );
@@ -331,7 +313,7 @@ describe("Linear Query SDK", () => {
       GraphQLLive.pipe(
         Layer.provideMerge(http),
         Layer.provideMerge(
-          CredentialsFromToken({ token: "k", tokenKind: "apiKey" }),
+          CredentialsFromToken({ token: Redacted.make("k"), tokenKind: "apiKey" }),
         ),
       ),
     );

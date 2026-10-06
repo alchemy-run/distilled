@@ -44,9 +44,7 @@
       "value": {
         "description": "An entity the operation references does not exist or is not visible to the token.",
         "category": "notFound",
-        "matchers": [
-          { "code": "INPUT_ERROR", "messageIncludes": "Entity not found" }
-        ]
+        "matchers": [{ "code": "INPUT_ERROR", "messageIncludes": "Entity not found" }]
       }
     },
     {

@@ -1,9 +1,9 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches the Linear GraphQL schema to ../specs/.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Linear serves introspection without authentication, so no token is sent.
  * Both an introspection JSON and an SDL file are written.
@@ -14,6 +14,7 @@
  */
 
 import { existsSync, mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 import {
   buildClientSchema,
   getIntrospectionQuery,
@@ -49,9 +50,7 @@ async function main() {
     errors?: unknown;
   };
   if (payload.errors || !payload.data) {
-    throw new Error(
-      `GraphQL introspection errors: ${JSON.stringify(payload.errors)}`,
-    );
+    throw new Error(`GraphQL introspection errors: ${JSON.stringify(payload.errors)}`);
   }
   const introspection = payload.data;
   const schema = buildClientSchema(introspection);
@@ -65,11 +64,11 @@ async function main() {
 
   const jsonPath = `${SPECS_DIR}/schema.json`;
   console.log(`Writing ${jsonPath}...`);
-  await Bun.write(jsonPath, JSON.stringify(introspection, null, 2) + "\n");
+  await writeFile(jsonPath, JSON.stringify(introspection, null, 2) + "\n");
 
   const sdlPath = `${SPECS_DIR}/schema.graphql`;
   console.log(`Writing ${sdlPath}...`);
-  await Bun.write(sdlPath, printSchema(schema) + "\n");
+  await writeFile(sdlPath, printSchema(schema) + "\n");
 
   console.log("Done!");
 }
